@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<!DOCTYPE hibernate-reverse-engineering         
+  SYSTEM "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >   
+<hibernate-reverse-engineering>       
+<!--<schema-selection match-schema="TMDCS"/>-->       
+<!-- <table-filter match-schema="cityhome"  match-name=".*"/> -->       
+<!-- 	<schema-selection match-schema="ORDER_CFG" match-table="OCC_BUSI_CMPT"/>   -->
+	<schema-selection match-schema="AIGA" match-table="AIGA_P2P_FUNCTION_POINT"/>  
+</hibernate-reverse-engineering>

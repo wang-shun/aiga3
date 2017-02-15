@@ -8,15 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.AigaP2pFunctionPointDao;
 import com.ai.aiga.domain.AigaP2pFunctionPoint;
+import com.ai.aiga.service.base.BaseService;
 
 @Service
 @Transactional
-public class AigaP2pFunctionPointService {
+public class AigaP2pFunctionPointService extends BaseService{
 
 	@Autowired
 	private AigaP2pFunctionPointDao aigaP2pFunctionPointDao;
 	
 	public List<AigaP2pFunctionPoint> getAll(){
+		
+		log.info("info-taoyf");
 		return aigaP2pFunctionPointDao.findAll();
 	}
 	

@@ -143,8 +143,6 @@
 			<version>${jackson.version}</version>
 		</dependency>
 		<!-- JSON end -->
-		
-		
 
 		<!-- 日志, -->
 		<!-- LOGGING begin -->
@@ -235,19 +233,19 @@
 			
 			
 			<!-- Hibernate生成实体配置 -->  
-<!-- -->            <plugin>  
+<!-- -->    <plugin>  
                 <groupId>org.codehaus.mojo</groupId>  
                 <artifactId>hibernate3-maven-plugin</artifactId>  
                 <version>2.2</version>  
   
-                <dependencies>  
+                <dependencies>
 					<dependency>
 						<groupId>com.asiainfo.jdbc</groupId>
 						<artifactId>ojdbc</artifactId>
 						<version>6.0</version>
 						<scope>system</scope>
 						<systemPath>${project.basedir}/src/lib/ojdbc-6.0.jar</systemPath>
-					</dependency> 
+					</dependency>
                     <dependency>  
                         <groupId>cglib</groupId>  
                         <artifactId>cglib</artifactId>  
@@ -266,8 +264,8 @@
                     </components>  
                     <componentProperties>  
                         <!-- Hibernate配置文件   -->
-                        <configurationfile>src/test/resources/hibernate.cfg2.xml</configurationfile>
-                        <revengfile>src/test/resources/hibernate.reveng2.xml</revengfile>  
+                        <configurationfile>src/test/resources/hibernate.cfg.xml</configurationfile>
+                        <revengfile>src/test/resources/hibernate.reveng.xml</revengfile>  
                           
                         <!-- 如果设为true将会生成JPA的元素注解
                         使用annotations from javax.persistence and org.hibernate.annotations

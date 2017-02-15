@@ -17,10 +17,12 @@
 	</appender>
 
 	<!-- project default level -->
-	<logger name="com.ai.saam" level="INFO" />
+	<logger name="com.ai.aiga" level="INFO" />
 
 	<!--log4jdbc -->
 	<logger name="jdbc.sqltiming" level="INFO"/>
+	<!--log4jdbc -->
+	<logger name="org.springframeword" level="INFO"/>
 
 	<root level="DEBUG">
 		<appender-ref ref="console" />

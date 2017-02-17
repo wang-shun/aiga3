@@ -6,18 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ai.aiga.service.AigaP2pFunctionPointService;
+import com.ai.aiga.service.RoleSv;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })
 public class AigaP2pFunctionPointServiceTest {
 	
 	@Autowired
-	private AigaP2pFunctionPointService service;
+	private RoleSv service;
 	
 	@Test
 	public void getAll(){
-		System.out.println(service.getAll());
+		System.out.println(service.findRoles());
 	}
 
 }

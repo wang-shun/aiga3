@@ -5,6 +5,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-1
+
+<form action="/aiga3/sys/role/save" method="post">
+	<input name="code" />
+	<input name="name" />
+	<input name="notes" />
+	<input type="submit" name="提交"/>
+</form>
+
 </body>
 </html>

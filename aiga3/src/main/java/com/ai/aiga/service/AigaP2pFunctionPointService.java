@@ -3,6 +3,7 @@ package com.ai.aiga.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,9 @@ public class AigaP2pFunctionPointService extends BaseService{
 	private AigaP2pFunctionPointDao aigaP2pFunctionPointDao;
 	
 	public List<AigaP2pFunctionPoint> getAll(){
+		
+		
+		
 		
 		log.info("info-taoyf");
 		return aigaP2pFunctionPointDao.findAll();

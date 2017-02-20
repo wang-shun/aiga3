@@ -99,9 +99,21 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/lib/ojdbc-6.0.jar</systemPath>
 		</dependency>
-
-
 		<!-- PERSISTENCE end -->
+
+		<!-- java动态相关 -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.2.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ma.glasnost.orika</groupId>
+			<artifactId>orika-core</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+		<!-- java动态相关 -->
 
 
 		<!-- GENERAL UTILS begin -->

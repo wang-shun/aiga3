@@ -26,7 +26,7 @@
                                 <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />  
                             </bean>  
                         </property>  
-                    </bean>  
+                    </bean>
                 </property>  
             </bean>  
         </mvc:message-converters>  

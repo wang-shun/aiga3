@@ -3,76 +3,70 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>模板样式</title>
+    <title>WebUI</title>
     <link rel="stylesheet" href="lib/webui/1.0.0/pc/css/webui.min.css">
     <link rel="stylesheet" href="lib/webui/1.0.0/pc/css/commonCSS.css">
 </head>
 
 <body>
     <div class="page-container">
-        <!-- 业务最外面一层-->
-        <div class="grid">
-            <!-- 业务第二层-->
-            <div class="ui-panel input-group" id="input_group">
-                <div>
-                    <span class="title">查询条件</span>
-                    <div class="input-group">
-                        <label class="ui-label">查询方式:</label>
-                        <input class="ui-input" id="query_type" type="text" defaultchars="" maxlength="15" value="" panelHeight="98" />
-                        <input class="ui-input" id="query_value" type="text" defaultchars="" maxlength="15" value="" required />
-                        <a class=" btn-grey qry-btn" id="query_btn">查询</a>
-                        <a class=" btn-grey qry-btn btn-disabled" id="reset_btn">重置</a>
+        <div class="page-container">
+            <div class="grid">
+                <span class="title">新增岗位 </span>
+                <div class="input-groups">
+                    <!--input-group-block的宽度和ui-input的宽度需要自行设定三列输入框宽度一般为122px-->
+                    <div class="left input-group-block">
+                        <p class="input-group-text">名称：
+                            <input type="text" class="ui-input ui-input-small " /> </p>
+                        <p class="input-group-text">编码：
+                            <input type="text" class="ui-input ui-input-small " /> </p>
+                        <p class="input-group-text">备注：
+                            <input type="text" class="ui-input ui-input-small " /> </p>
                     </div>
+                    <!--自行设定#button的margin-left控制按钮的左边距和padding-top上边距-->
+                    <p id="button" class="clear-float">
+                        <!--在不需要浮动的最后块级元素加clear-float类名清除浮动带来影响-->
+                        <a class="btn-grey ">查询 </a>
+                        <a class="btn-grey ">重置 </a>
+                    </p>
                 </div>
             </div>
         </div>
-    	<table id="dg1"></table>
+        <table id="dg1"></table>
     </div>
     <script src="lib/jquery/1.11.3/jquery.js"></script>
     <script src="lib/webui/1.0.0/pc/js/webui.min.js"></script>
     <script src="conf/config.js"></script>
     <script>
     $(function($) {
-        srvMap.add("getInfoList", "home/getInfoList.json", "GETINFOLIST");
+        // 初始化数据接口
+        srvMap.add("getRoleList", "home/getRoleList.json", "/sys/role/list");
+
+        // 配置组件
         $('#dg1').datagrid({
-            width: 700,
+            width: 500,
             height: 300,
-            url: srvMap.get('getInfoList'),
-            method: 'get',
+            url: srvMap.get('getRoleList'),
+            method: 'post',
+            queryParams: '', //入参
             rownumbers: true, //显示行号列
             pagination: true, //显示分页工具栏
             singleSelect: true, //只能单选行
             loadMsg: '请稍候，数据加载中...', //自定义等待消息
             columns: [
                 [{
-                    field: 'name',
-                    title: '姓名',
-                    width: 80
-                }, {
-                    field: 'mobile',
-                    title: '手机号',
+                    field: 'code',
+                    title: '代码',
                     width: 100,
                     sortable: true
                 }, {
-                    field: 'shortNum',
-                    title: '短号',
+                    field: 'name',
+                    title: '名称',
                     width: 80
                 }, {
-                    field: 'region',
-                    title: '地区',
+                    field: 'notes',
+                    title: '备注',
                     width: 80
-                }, {
-                    field: 'plan',
-                    title: '套餐',
-                    width: 150
-                }, {
-                    field: 'balance',
-                    title: '余额',
-                    width: 50
-                }, {
-                    field: 'status',
-                    title: '状态',
-                    align: 'right'
                 }]
             ]
         });

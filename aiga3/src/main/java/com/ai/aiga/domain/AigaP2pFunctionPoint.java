@@ -1,15 +1,12 @@
 package com.ai.aiga.domain;
-// Generated 2017-2-14 17:02:40 by Hibernate Tools 3.2.2.GA
+// Generated 2017-2-16 15:37:51 by Hibernate Tools 3.2.2.GA
 
 
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,10 +57,9 @@ public class AigaP2pFunctionPoint  implements java.io.Serializable {
        this.verifyStatus = verifyStatus;
        this.verifyResult = verifyResult;
     }
+   
+     @Id 
     
-    @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="AIGA_PRO_TEST_TASKSequence")
-    @SequenceGenerator(name = "AIGA_PRO_TEST_TASKSequence", sequenceName = "AIGA_PRO_TEST_TASK$SEQ", allocationSize=1)
     @Column(name="FUN_ID", unique=true, nullable=false, precision=20, scale=0)
     public BigDecimal getFunId() {
         return this.funId;
@@ -180,6 +176,16 @@ public class AigaP2pFunctionPoint  implements java.io.Serializable {
     public void setVerifyResult(String verifyResult) {
         this.verifyResult = verifyResult;
     }
+
+
+	@Override
+	public String toString() {
+		return "AigaP2pFunctionPoint [funId=" + funId + ", sysName=" + sysName + ", createTime=" + createTime
+				+ ", updateTime=" + updateTime + ", cause=" + cause + ", causeType=" + causeType + ", operatorId="
+				+ operatorId + ", operatorName=" + operatorName + ", creatorId=" + creatorId + ", creatorName="
+				+ creatorName + ", status=" + status + ", verifyStatus=" + verifyStatus + ", verifyResult="
+				+ verifyResult + "]";
+	}
 
 
 

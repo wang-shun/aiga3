@@ -24,7 +24,7 @@
 	<!--log4jdbc -->
 	<logger name="org.springframeword" level="INFO"/>
 
-	<root level="DEBUG">
+	<root level="INFO">
 		<appender-ref ref="console" />
 <!-- 		<appender-ref ref="rollingFile" /> -->
 	</root>

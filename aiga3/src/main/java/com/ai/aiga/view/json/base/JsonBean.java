@@ -10,6 +10,14 @@ public class JsonBean {
 	
 	private Object bean;
 
+	public JsonBean() {
+	}
+
+	public JsonBean(int code, String message) {
+		this.retCode = String.valueOf(code);
+		this.retMessage = message;
+	}
+
 
 	public String getRetCode() {
 		return retCode;

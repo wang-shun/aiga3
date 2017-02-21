@@ -9,130 +9,41 @@
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="lib/datatables/dataTables.bootstrap.css">
-    <!-- iCheck-->
-    <link rel="stylesheet" href="lib/iCheck/all.css">
-    <!-- Theme style -->
+    <link rel="stylesheet" href="lib/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- AdminLTE Theme skin-blue  -->
     <link rel="stylesheet" href="lib/AdminLTE/css/AdminLTE.css">
-    <link rel="stylesheet" href="lib/AdminLTE/css/skins/_all-skins.css">
 </head>
 
-<!-- <body class="skin-blue fixed sidebar-mini"> -->
-<body class="skin-blue fixed sidebar-collapse sidebar-mini">
+<!-- <body class="skin-blue fixed sidebar-mini fixed"> -->
+<body class="skin-blue sidebar-mini">
     <div class="wrapper">
-        <header class="main-header">
+        <!-- 导航栏 -->
+        <header class="main-header" >
             <!-- Logo -->
             <a href="index2.html" class="logo">
                 <span class="logo-mini"><b>A</b>iga</span>
-                <span class="logo-lg">测试管理平台系统</span>
+                <span class="logo-lg"><img src="style/image/cmcc_logo.png" style="vertical-align: middle;">测试管理平台系统</span>
             </a>
             <nav class="navbar navbar-static-top">
                 <!-- 收缩按钮-->
-                <a href="#" class="sidebar-toggle" id="JS_toggleMenu" data-toggle="offcanvas" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">切换导航</span>
                 </a>
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <!-- 用户信息 -->
-                        <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle">
-                                <img src="lib/AdminLTE/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">应剑捷</span>
-                            </a>
-                        </li>
-                        <!-- 版本信息 -->
-                        <li class="dropdown tasks-menu">
-                            <a href="#" title="版本信息">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-success">1</span>
-                            </a>
-                        </li>
-                        <!-- 退出系统 -->
-                        <li>
-                            <a href="#" title="退出系统" data-toggle="control-sidebar"><i class="fa fa-power-off"></i></a>
-                        </li>
-                    </ul>
+                <!--请求：用户信息-->
+                <div class="navbar-custom-menu" id="Mod_header">
+                  <i class="fa fa-refresh fa-spin"></i>
                 </div>
             </nav>
+
         </header>
-        <!-- 左侧边栏-->
-        <aside class="main-sidebar">
-            <section class="sidebar">
-                <!-- 侧边栏用户信息区 -->
-                <!-- <div class="user-panel">
-                    <div class="pull-left image">
-                        <img src="lib/AdminLTE/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                    </div>
-                    <div class="pull-left info">
-                        <p>应剑捷</p>
-                        <a href="#"><i class="fa fa-briefcase text-success"></i>AsiaInfo</a>
-                    </div>
-                </div> -->
-                <!-- 搜索区域-->
-                <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-                <!-- 菜单区 -->
-                <ul class="sidebar-menu">
-                    <!-- <li class="header">中国移动通信</li> -->
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-home"></i>
-                            <span>首页</span>
-                        </a>
-                    </li>
-                    <li class="treeview active">
-                      <a href="#">
-                        <i class="fa fa-files-o"></i>
-                        <span>系统管理</span>
-                        <span class="pull-right-container">
-                          <span class="label label-primary pull-right">5</span>
-                        </span>
-                      </a>
-                      <ul class="treeview-menu">
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-gears"></i>
-                                <span>功能模块管理</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-user-plus"></i>
-                                <span>员工管理</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-cubes"></i>
-                                <span>组织管理</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-users"></i>
-                                <span>角色管理</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-unlock"></i>
-                                <span>附权管理</span>
-                            </a>
-                        </li>
-                      </ul>
-                    </li>
-                </ul>
-            </section>
-            <!-- /.sidebar -->
+
+        <!-- 侧边菜单栏-->
+        <aside class="main-sidebar" id="Mod_sidebar">
+          <div style="min-height: 200px;">
+            <div class="overlay">
+              <i class="fa fa-refresh fa-spin"></i>
+            </div>
+          </div>
         </aside>
         <!-- 主内容包裹区 -->
         <div class="content-wrapper" style="min-height: 1011px;">
@@ -152,14 +63,14 @@
                     <div class="col-md-3">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                              <li><a href="#activity" data-toggle="tab">按组织</a></li>
-                              <li class="active"><a href="#timeline" data-toggle="tab">按条件</a></li>
+                              <li class="active"><a href="#activity" data-toggle="tab">按组织</a></li>
+                              <li><a href="#timeline" data-toggle="tab">按条件</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane" id="activity">
-                                    1
+                                <div class="active tab-pane" id="activity">
+                                    <ul id="treeDemo" class="ztree"></ul>
                                 </div>
-                                <div class="active tab-pane" id="timeline">
+                                <div class="tab-pane" id="timeline">
                                     <!-- 搜索表单 -->
                                     <div class="box-body">
                                         <div class="form-group">
@@ -204,8 +115,11 @@
                           </div>
                         </div>
                         <!-- /.box-header -->
-                        <div class="box-body" id="Page_getUserinfoList"></div>
-
+                        <div class="box-body" style="min-height: 100px;" id="Page_getUserinfoList">
+                        </div>
+                        <div class="overlay">
+                          <i class="fa fa-refresh fa-spin"></i>
+                        </div>
                         <!-- /.box-body -->
                       </div>
                       <!-- /.box -->
@@ -308,7 +222,7 @@
             <!-- /.col -->
           </div>
           <!-- /.row -->
-            </form>
+          </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
@@ -319,14 +233,8 @@
     </div>
     <script src="lib/jquery/2.2.3/jquery.min.js"></script>
     <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="lib/datatables/jquery.dataTables.min.js"></script>
-    <script src="lib/datatables/dataTables.bootstrap.min.js"></script>
-    <!-- iCheck 1.0.1 -->
-    <script src="lib/iCheck/icheck.min.js"></script>
     <script src="lib/seajs/sea.js"></script>
-    <script src="lib/seajs/seajs-preload.js"></script>
-    <script src="lib/seajs/seajs-text.js"></script>
-    <script src="lib/artDialog/4.1.7/artDialog.js"></script>
+    <script src="lib/seajs/sea-plugins.js"></script>
     <script src="conf/config.js"></script>
     <script>
     seajs.use("script/index", function(indexQuery) {

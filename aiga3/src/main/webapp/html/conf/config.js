@@ -43,16 +43,26 @@ seajs.config({
     ],
     base: "/html/",
     alias: {
-        /*'bootstrap':'lib/bootstrap/3.3.6/js/bootstrap.min.js',
-        'dataTables':'lib/datatables/jquery.dataTables.min.js',
-        'dataTablesBootstrap':'lib/datatables/dataTables.bootstrap.min.js',*/
+        'AdminLTE':'lib/AdminLTE/js/app.js',
+        'iCheckCSS':'lib/iCheck/all.css',
+        'iCheckJS':'lib/iCheck/icheck.min.js',
+        'zTreeCSS':'lib/ztree/3.5.28/css/zTreeStyle/zTreeStyle.css',
+        'zTreeJS':'lib/ztree/3.5.28/js/jquery.ztree.core.js',
+        'datatablesCSS':'lib/datatables/dataTables.bootstrap.css',
+        'datatablesJS':'lib/datatables/jquery.dataTables.min.js',
         'rose':'lib/rose/1.0.0/Rose.src.js',
         'json2':'lib/json2/1.0/json2.js',
         'handlebars':'lib/handlebars/3.0.3/handlebars.js',
         'artDialog':'lib/artDialog/4.1.7/artDialog.js'
     },
     preload: [
-        /*'bootstrap',*/
+        'AdminLTE',
+        'iCheckCSS',
+        'iCheckJS',
+        'datatablesCSS',
+        'datatablesJS',
+        'zTreeCSS',
+        'zTreeJS',
         'json2',
         'handlebars',
         'rose'

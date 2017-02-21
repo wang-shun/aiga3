@@ -5,7 +5,7 @@
         "sidebarMenuList": [{
             "menuName": "首页",
             "menuIcons": "fa fa-home",
-            "menuURL": "#",
+            "menuURL": "view/index.html",
             "hasChild": 0,
             "isActive": 0
         }, {

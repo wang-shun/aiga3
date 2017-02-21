@@ -23,15 +23,31 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-
+        	var self = this;
             // 请求：侧边栏菜单列表接口
 		    Rose.ajax.getJson(srvMap.get('getSidebarMenuList'), '', function(json, status) {
 		        if (status) {
 		            var template = Handlebars.compile(Tpl.sidebar);
 		            Mod.sidebar.html(template(json.data));
+		            self.convertURL();
 		        }
 		    });
         },
+        convertURL: function() {
+			var _Mod = {
+				menulist: $('#JS_MenuList'),
+				mainContent: $('#JS_MainContent')
+			}
+			_Mod.menulist.find("a").on('click', function(event) {
+				var _href = $(this).data('href');
+				if(_href != '#' && _href != '#nogo' && _href != ''){
+					Rose.ajax.loadHtml(_Mod.mainContent,_href)
+				}
+			});
+		},
+		setPath: function(){
+
+		}
     };
 	Query.init();
     // 暴露渲染对象

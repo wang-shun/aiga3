@@ -20,11 +20,11 @@
         </div>
     </form>
     <!-- 菜单区 -->
-    <ul class="sidebar-menu">
+    <ul class="sidebar-menu" id="JS_MenuList">
         <!-- <li class="header">中国移动通信</li> -->
         {{#each sidebarMenuList}}
         <li class="treeview {{#if isActive}}active{{/if}}">
-          <a href="{{menuURL}}">
+          <a href="javascript:;" data-href="{{menuURL}}">
             <i class="{{menuIcons}}"></i>
             <span>{{menuName}}</span>
             {{#if hasChild}}
@@ -37,7 +37,7 @@
           <ul class="treeview-menu">
             {{#each childMenuList}}
             <li>
-                <a href="{{menuURL}}">
+                <a href="javascript:;" data-href="{{menuURL}}">
                     <i class="fa fa-circle-o"></i>
                     <span>{{menuName}}</span>
                     {{#if hasChild}}
@@ -47,10 +47,10 @@
                     {{/if}}
                 </a>
                 {{#if hasChild}}
-                <ul class="treeview-menu">
+                <ul href="javascript:;" class="treeview-menu">
                     {{#each childMenuList}}
                     <li>
-                        <a href="{{menuURL}}">
+                        <a href="javascript:;" data-href="{{menuURL}}">
                             <i class="fa fa-circle-o"></i>
                             <span>{{menuName}}</span>
                         </a>

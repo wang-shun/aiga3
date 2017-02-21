@@ -58,16 +58,16 @@ seajs.config({
     },
     preload: [
         'AdminLTE',
+        'json2',
+        'handlebars',
+        'rose',
         'iCheckCSS',
         'iCheckJS',
         'datatablesCSS',
         'datatablesJS',
         'zTreeCSS',
         'zTreeJS',
-        'zTreeExcheckJS',
-        'json2',
-        'handlebars',
-        'rose'
+        'zTreeExcheckJS'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

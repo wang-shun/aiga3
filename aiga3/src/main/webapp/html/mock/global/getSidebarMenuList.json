@@ -17,18 +17,32 @@
             "childMenuList": [{
                 "menuName": "员工管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "功能模块管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "组织管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "角色管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "附权管理",
                 "menuURL": "#",
+                "hasChild": 1,
+                "childMenuList": [{
+                    "menuName": "员工角色权限管理",
+                    "menuURL": "#",
+                    "hasChild": 0,
+                },{
+                    "menuName": "角色菜单权限管理",
+                    "menuURL": "#",
+                    "hasChild": 0,
+                }]
             }]
         }, {
             "menuName": "自动化管理",
@@ -39,18 +53,23 @@
             "childMenuList": [{
                 "menuName": "自动化用例管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "自动化环境配置",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "自动化计划管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "自动化任务管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "自动化执行结果",
                 "menuURL": "#",
+                "hasChild": 0,
             }]
         }, {
             "menuName": "报告报表查询",
@@ -61,27 +80,35 @@
             "childMenuList": [{
                 "menuName": "知识库管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "标签管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "功能点管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "测试日报",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "测试日报统计查询",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "功能点所属系统管理",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "报表数据导入",
                 "menuURL": "#",
+                "hasChild": 0,
             },{
                 "menuName": "环节时间录入",
                 "menuURL": "#",
+                "hasChild": 0,
             }]
         }]
     }

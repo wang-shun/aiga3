@@ -40,7 +40,24 @@
                 <a href="{{menuURL}}">
                     <i class="fa fa-circle-o"></i>
                     <span>{{menuName}}</span>
+                    {{#if hasChild}}
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    {{/if}}
                 </a>
+                {{#if hasChild}}
+                <ul class="treeview-menu">
+                    {{#each childMenuList}}
+                    <li>
+                        <a href="{{menuURL}}">
+                            <i class="fa fa-circle-o"></i>
+                            <span>{{menuName}}</span>
+                        </a>
+                    </li>
+                    {{/each}}
+                </ul>
+                {{/if}}
             </li>
             {{/each}}
           </ul>

@@ -1,0 +1,14 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "userinfoList": [{
+            "id": "CHENGSJ111",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        }]
+    }
+}

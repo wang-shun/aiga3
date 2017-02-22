@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+    <title>首页</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="lib/datatables/dataTables.bootstrap.css">
+    <!-- iCheck-->
+    <link rel="stylesheet" href="lib/iCheck/all.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="lib/AdminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="lib/AdminLTE/css/skins/_all-skins.css">
+</head>
+
+<!-- <body class="skin-blue fixed sidebar-mini"> -->
+<body class="skin-blue fixed sidebar-collapse sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>iga</span>
+                <span class="logo-lg">测试管理平台系统</span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                <!-- 收缩按钮-->
+                <a href="#" class="sidebar-toggle" id="JS_toggleMenu" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">切换导航</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- 用户信息 -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle">
+                                <img src="lib/AdminLTE/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                                <span class="hidden-xs">应剑捷</span>
+                            </a>
+                        </li>
+                        <!-- 版本信息 -->
+                        <li class="dropdown tasks-menu">
+                            <a href="#" title="版本信息">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-success">1</span>
+                            </a>
+                        </li>
+                        <!-- 退出系统 -->
+                        <li>
+                            <a href="#" title="退出系统" data-toggle="control-sidebar"><i class="fa fa-power-off"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- 左侧边栏-->
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <!-- 侧边栏用户信息区 -->
+                <!-- <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="lib/AdminLTE/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>应剑捷</p>
+                        <a href="#"><i class="fa fa-briefcase text-success"></i>AsiaInfo</a>
+                    </div>
+                </div> -->
+                <!-- 搜索区域-->
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <!-- 菜单区 -->
+                <ul class="sidebar-menu">
+                    <!-- <li class="header">中国移动通信</li> -->
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-home"></i>
+                            <span>首页</span>
+                        </a>
+                    </li>
+                    <li class="treeview active">
+                      <a href="#">
+                        <i class="fa fa-files-o"></i>
+                        <span>系统管理</span>
+                        <span class="pull-right-container">
+                          <span class="label label-primary pull-right">5</span>
+                        </span>
+                      </a>
+                      <ul class="treeview-menu">
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-gears"></i>
+                                <span>功能模块管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-user-plus"></i>
+                                <span>员工管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-cubes"></i>
+                                <span>组织管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-users"></i>
+                                <span>角色管理</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-unlock"></i>
+                                <span>附权管理</span>
+                            </a>
+                        </li>
+                      </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- 主内容包裹区 -->
+        <div class="content-wrapper" style="min-height: 1011px;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+              <h1>
+                员工管理
+              </h1>
+              <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li class="active">员工管理</li>
+              </ol>
+            </section>
+            <!-- 主内容 -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                              <li><a href="#activity" data-toggle="tab">按组织</a></li>
+                              <li class="active"><a href="#timeline" data-toggle="tab">按条件</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="activity">
+                                    1
+                                </div>
+                                <div class="active tab-pane" id="timeline">
+                                    <!-- 搜索表单 -->
+                                    <form>
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                          <label for="exampleInputName">姓名</label>
+                                          <input type="text" class="form-control" id="exampleInputName" placeholder="请输入员工姓名">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="exampleInputNumber">工号</label>
+                                          <input type="text" class="form-control" id="exampleInputNumber" placeholder="请输入员工工号">
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="exampleInputTel">手机号</label>
+                                          <input type="tel" class="form-control" id="exampleInputTel" placeholder="请输入员工手机号">
+                                        </div>
+                                      </div>
+                                      <!-- /.box-body -->
+                                      <div class="box-footer">
+                                        <button type="reset" class="btn btn-default">重置</button>
+                                        <button type="submit" class="btn btn-info pull-right">查询</button>
+                                      </div>
+                                      <!-- /.box-footer -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                    <div class="box">
+                        <div class="box-header">
+                          <h3 class="box-title">员工列表</h3>
+                          <div class="box-tools">
+                             <div class="btn-group">
+                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">添加</button>
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                              </button>
+                              <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">修改</a></li>
+                                <li><a href="#">删除</a></li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table id="example1" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="iCheckbox" width="15"><input type="checkbox" class="minimal" ></th>
+                                        <th>工号</th>
+                                        <th>姓名</th>
+                                        <th>状态</th>
+                                        <th>组织编码</th>
+                                        <th>组织名称</th>
+                                        <th>组织编号</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="minimal" ></td>
+                                        <td>CHENGSJ</td>
+                                        <td>程素娟</td>
+                                        <td>有效</td>
+                                        <td>H</td>
+                                        <td>新炬</td>
+                                        <td>10003</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- /.box-body -->
+                      </div>
+                      <!-- /.box -->
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">添加员工</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+            <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>工号</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                  </div>
+                  <div class="form-group">
+                    <label>Minimal</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                  </div>
+                  <div class="form-group">
+                    <label>Disabled</label>
+                    <select class="form-control select2" disabled="disabled" style="width: 100%;">
+                      <option selected="selected">Alabama</option>
+                      <option>Alaska</option>
+                      <option>California</option>
+                      <option>Delaware</option>
+                      <option>Tennessee</option>
+                      <option>Texas</option>
+                      <option>Washington</option>
+                    </select>
+                  </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Multiple</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                  <option>Alabama</option>
+                  <option>Alaska</option>
+                  <option>California</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+              <div class="form-group">
+                <label>Disabled Result</label>
+                <select class="form-control select2" style="width: 100%;">
+                  <option selected="selected">Alabama</option>
+                  <option>Alaska</option>
+                  <option disabled="disabled">California (disabled)</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Multiple</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                  <option>Alabama</option>
+                  <option>Alaska</option>
+                  <option>California</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+              <div class="form-group">
+                <label>Disabled Result</label>
+                <select class="form-control select2" style="width: 100%;">
+                  <option selected="selected">Alabama</option>
+                  <option>Alaska</option>
+                  <option disabled="disabled">California (disabled)</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
+    <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="lib/datatables/jquery.dataTables.min.js"></script>
+    <script src="lib/datatables/dataTables.bootstrap.min.js"></script>
+    <!-- iCheck 1.0.1 -->
+    <script src="lib/iCheck/icheck.min.js"></script>
+    <script src="lib/seajs/sea.js"></script>
+    <script src="lib/seajs/seajs-preload.js"></script>
+    <script src="lib/seajs/seajs-text.js"></script>
+    <script src="lib/artDialog/4.1.7/artDialog.js"></script>
+    <script src="conf/config.js"></script>
+    <script>
+    seajs.use("script/index", function(indexQuery) {
+        indexQuery.init();
+    });
+    </script>
+</body>
+
+</html>

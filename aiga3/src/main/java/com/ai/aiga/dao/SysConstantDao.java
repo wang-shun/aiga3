@@ -9,6 +9,6 @@ import com.ai.aiga.domain.SysConstant;
 
 public interface SysConstantDao extends JpaRepository<SysConstant, BigDecimal>{
 	//查询常量
-	public  List<SysConstant>  findByCategory(String category);
+	public  List<SysConstant>  findByCategoryLike(String category);
 
 }

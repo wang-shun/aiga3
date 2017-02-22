@@ -456,7 +456,7 @@ public class AigaOrganize  implements java.io.Serializable {
         this.ext3 = ext3;
     }
     
-    @Column(name="S_LEAF", nullable=false, length=1)
+    @Column(name="S_LEAF",  length=1)
     public String getSLeaf() {
         return this.SLeaf;
     }

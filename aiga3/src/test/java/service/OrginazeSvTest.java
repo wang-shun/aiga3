@@ -7,17 +7,30 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ai.aiga.service.FunctionSv;
+import com.ai.aiga.service.OrganizeSv;
+import com.ai.aiga.view.json.OrginazeRequest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })
 public class OrginazeSvTest {
 	
 	@Autowired
-	private FunctionSv functionSv;
+	private OrganizeSv  sv;
 	
-	@Test
-	public void testSave(){
-		functionSv.save(null);
-	}
 
+	public void testSave(){
+		OrginazeRequest s = new OrginazeRequest();
+		s.setOrganizeId(5L);
+		s.setOrganizeName("亚信2");
+		s.setCode("CD");
+		sv.saveOrginaze(s);
+	}
+	
+	public void testDel(){
+		sv.deleteOrginaze(1L);
+	}
+	@Test
+	public void test(){
+		sv.findConstant("organizeType");
+	}
 }

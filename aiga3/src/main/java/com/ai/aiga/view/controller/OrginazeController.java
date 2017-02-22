@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.service.OrganizeSv;
 import com.ai.aiga.service.RoleSv;
+import com.ai.aiga.service.SysConatantSv;
 import com.ai.aiga.view.json.OrginazeRequest;
 import com.ai.aiga.view.json.RoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -18,9 +19,11 @@ public class OrginazeController {
 	
 	@Autowired
 	private OrganizeSv organizeSv;
+	private SysConatantSv sysConstantSv;
 	
 	@RequestMapping(path = "/sys/organize/list")
 	public @ResponseBody JsonBean list(String organizeName){
+		System.out.println("1"+organizeName);
 		JsonBean bean = new JsonBean();
 		bean.setBean(organizeSv.findOrganize(organizeName));
 		return bean;
@@ -33,13 +36,6 @@ public class OrginazeController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/sys/organize/constant")
-	public  @ResponseBody JsonBean  organizeType(String category){
-		JsonBean bean = new JsonBean();
-		bean.setBean(organizeSv.findConstant(category));
-		return bean;
-	}
-	
 	
 	@RequestMapping(path = "/sys/orginaze/save")
 	public  @ResponseBody JsonBean  save(OrginazeRequest orginazeRequest){
@@ -49,7 +45,7 @@ public class OrginazeController {
 	
 	@RequestMapping(path = "/sys/organize/update")
 	public  @ResponseBody JsonBean  update(OrginazeRequest orginazeRequest){
-        organizeSv.updateOrginaze(orginazeRequest);
+        organizeSv.saveOrginaze(orginazeRequest);
 		return JsonBean.success;
 	}
 	

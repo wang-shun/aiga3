@@ -38,7 +38,7 @@ public class OrganizeSv extends BaseService{
 	
 	//查询组织类型/证件类型
 	public List<SysConstant> findConstant(String category){
-		return  sysConstantDao.findByCategory(category);
+		return  sysConstantDao.findByCategoryLike(category);
 	}
 	
 	
@@ -48,6 +48,14 @@ public class OrganizeSv extends BaseService{
 		//对象不为空
 		if(orginazeRequest == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRequest");
+		}
+		if(!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrganizeId()))){
+			//修改
+			organize.setOrganizeId(orginazeRequest.getOrganizeId());
+			organize.setDoneDate(new Date());
+		}else{
+			//新增
+			   organize.setCreateDate(new  Date());
 		}
 		//组织名称
 		if(StringUtils.isBlank(orginazeRequest.getOrganizeName())){
@@ -63,7 +71,7 @@ public class OrganizeSv extends BaseService{
 			organize.setParentOrganizeId(orginazeRequest.getParentOrganizeId());
 		}
 		//编码
-		if(!StringUtils.isBlank(String.valueOf(orginazeRequest.getCode()))){
+		if(StringUtils.isBlank(orginazeRequest.getCode())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}else{
 			organize.setCode(orginazeRequest.getCode());
@@ -89,33 +97,29 @@ public class OrganizeSv extends BaseService{
 		if(!StringUtils.isBlank(orginazeRequest.getEnglishName())){
 			organize.setEnglishName(orginazeRequest.getEnglishName());
 		}
-		if(StringUtils.isBlank(orginazeRequest.getFaxId())){
+		if(!StringUtils.isBlank(orginazeRequest.getFaxId())){
 			organize.setFaxId(orginazeRequest.getFaxId());
 		}
-		if(StringUtils.isBlank(orginazeRequest.getIsLeaf())){
+		if(!StringUtils.isBlank(orginazeRequest.getIsLeaf())){
 			organize.setSLeaf(orginazeRequest.getIsLeaf());
 		}
-		if(StringUtils.isBlank(String.valueOf(orginazeRequest.getMemberNum()))){
+		if(!StringUtils.isBlank(String.valueOf(orginazeRequest.getMemberNum()))){
 			organize.setMemberNum(orginazeRequest.getMemberNum());
 		}
 		if(!StringUtils.isBlank(orginazeRequest.getPhoneId())){
 			organize.setPhoneId(orginazeRequest.getPhoneId());
 		}
-	   if(StringUtils.isBlank(orginazeRequest.getManagerName())){
+	   if(!StringUtils.isBlank(orginazeRequest.getManagerName())){
 			organize.setManagerName(orginazeRequest.getManagerName());
 	   }
-	   if(StringUtils.isBlank(String.valueOf(orginazeRequest.getOrgRoleTypeId()))){
+	   if(!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrgRoleTypeId()))){
 		   organize.setOrgRoleTypeId(orginazeRequest.getOrgRoleTypeId());
 	   }
-	   organize.setCreateDate(new  Date());
+
 	   organizeDao.save(organize);
 	}
 	
-	//更新组织信息
-	public void updateOrginaze(OrginazeRequest orginazeRequest) {
-		//根据
-      
-	}
+	
 
 	//根据组织编号删除
 	public void deleteOrginaze(Long orginazeId) {

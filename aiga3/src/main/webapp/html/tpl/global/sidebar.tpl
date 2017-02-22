@@ -36,8 +36,8 @@
           {{#if hasChild}}
           <ul class="treeview-menu">
             {{#each childMenuList}}
-            <li>
-                <a href="javascript:;" data-href="{{menuURL}}">
+            <li class="{{#if isActive}}active{{/if}}">
+                <a href="javascript:;" data-href="{{menuURL}} ">
                     <i class="fa fa-circle-o"></i>
                     <span>{{menuName}}</span>
                     {{#if hasChild}}
@@ -49,7 +49,7 @@
                 {{#if hasChild}}
                 <ul href="javascript:;" class="treeview-menu">
                     {{#each childMenuList}}
-                    <li>
+                    <li class="{{#if isActive}}active{{/if}}">
                         <a href="javascript:;" data-href="{{menuURL}}">
                             <i class="fa fa-circle-o"></i>
                             <span>{{menuName}}</span>

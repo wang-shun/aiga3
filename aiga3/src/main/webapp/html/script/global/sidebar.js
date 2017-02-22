@@ -21,6 +21,8 @@ define(function(require, exports, module) {
     var Query = {
         init: function(){
             this._render();
+            this.menulist = $('#JS_MenuList');
+            this.mainContent = $('#JS_MainContent');
         },
         _render: function() {
         	var self = this;
@@ -29,24 +31,54 @@ define(function(require, exports, module) {
 		        if (status) {
 		            var template = Handlebars.compile(Tpl.sidebar);
 		            Mod.sidebar.html(template(json.data));
+
+		            self.initLoadPage(json.data.sidebarMenuList);
 		            self.convertURL();
 		        }
 		    });
         },
         convertURL: function() {
-			var _Mod = {
-				menulist: $('#JS_MenuList'),
-				mainContent: $('#JS_MainContent')
-			}
-			_Mod.menulist.find("a").on('click', function(event) {
+        	var self = this;
+			$('#JS_MenuList').find("a").bind('click', function() {
 				var _href = $(this).data('href');
-				if(_href != '#' && _href != '#nogo' && _href != ''){
-					Rose.ajax.loadHtml(_Mod.mainContent,_href)
-				}
+				self.loadHtml(_href);
 			});
 		},
 		setPath: function(){
 
+		},
+		loadHtml: function(href){
+			if(href != '#' && href != '#nogo' && href != ''){
+				Rose.ajax.loadHtml($('#JS_MainContent'),href)
+			}
+		},
+		initLoadPage:function (data){
+			var _href = '#';
+			for (x in data){
+				var _thisData = data[x];
+				if(_thisData.isActive){
+					_href = _thisData.menuURL;
+				}
+				if(_thisData.hasChild){
+					var _thisArrayChild = _thisData.childMenuList;
+					for (i in _thisArrayChild){
+						var _thisDataChild = _thisArrayChild[i]
+						if(_thisDataChild.isActive){
+							_href = _thisDataChild.menuURL;
+						}
+						if(_thisDataChild.hasChild){
+							var _thisArrayThirdChild = _thisDataChild.childMenuList;
+							for (t in _thisArrayThirdChild){
+								var _thisDataThirdChild = _thisArrayThirdChild[t]
+								if(_thisDataThirdChild.isActive){
+									_href = _thisDataThirdChild.menuURL;
+								}
+							}
+						}
+					}
+				}
+			}
+			this.loadHtml(_href)
 		}
     };
 	Query.init();

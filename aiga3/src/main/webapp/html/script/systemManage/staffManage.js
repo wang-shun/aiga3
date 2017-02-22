@@ -37,6 +37,7 @@ define(function(require,exports,module){
     // 容器对象
     var Dom = {
         getUserinfoList: '#Page_getUserinfoList',
+        getUserinfo: '#JS_getUserinfo',
         startUserinfo: '#JS_startUserinfo',
         stopUserinfo: '#JS_stopUserinfo',
         updateUserinfo: '#JS_updateUserinfo',
@@ -45,37 +46,27 @@ define(function(require,exports,module){
         clearPower: '#JS_clearPower'
     };
 
+    var Data = {
+    	isOrganize: function(){
+    		return $("#isOrganize").hasClass('active') ? true : false;
+    	}
+    }
+
 	var Query = {
 		init: function(){
 			this._render();
 		},
 		_render: function() {
+			// 默认只加载组织结构及条件查询
 			this.getOrganizeList();
-			this.getUserinfoList();
-			this.startUserinfo();
-			this.stopUserinfo();
-			this.resetPassword();
-			this.clearPower();
-
-	  		$("#JS_queryUserinfoList").bind('click',function(){
-	  			var cmd = {
-	  				"name":$("#exampleInputName").val(),
-	  				"id":$("#exampleInputNumber").val(),
-	  				"tel":$("#exampleInputTel").val()
-	  			}
-	  			Rose.ajax.postJson(srvMap.get('queryUserinfoList'), cmd, function(json, status) {
-					if(status) {
-						var template = Handlebars.compile(Mtpl.getUserinfoList);
-						console.log(json.data)
-	            		$getUserinfoList.html(template(json.data));
-					}
-	  			});
-	  		})
+			this.getUserinfo();
 		},
+		// 组织结构
 		getOrganizeList: function(){
+			var self = this;
 			Rose.ajax.getJson(srvMap.get('getOrganizeList'), '', function(json, status) {
 				if(status) {
-					var setting = {
+					$.fn.zTree.init($("#Tree_getOrganizeList"), {
 						check: {
 							enable: true
 						},
@@ -91,24 +82,46 @@ define(function(require,exports,module){
 						},
 						callback:{
 							 onClick: function(event, treeId, treeNode){
-			           			alert(treeNode.organizeName);
-							 	alert(treeNode.organizeId);
-			           			alert(treeNode.parentOrganizeId);
+							 	var _organizeId = treeNode.organizeId;
+							 	var _data = "organizeId:"+_organizeId;
+							 	self.getUserinfoList(_data)
 							 }
 						}
-					};
-					$.fn.zTree.init($("#Tree_getOrganizeList"), setting, json.data.organizeList);
+					}, json.data.organizeList);
 				}
 	  		});
 		},
-		getUserinfoList: function (){
-			// XMS.msgbox.show('提交中，请稍候...', 'loading')
-			Rose.ajax.getJson(srvMap.get('getUserinfoList'), '', function(json, status) {
+		getUserinfo: function(){
+			var self = this;
+			$(Dom.getUserinfo).bind('click',function(){
+	  			var cmd = {
+	  				"staffId":$("#formStaffId").val(),
+	  				"name":$("#formName").val()
+	  			}
+	  			// type:single 是按条件查询
+	  			self.getUserinfoList(cmd);
+	  		})
+		},
+		// 员工列表
+		getUserinfoList: function (data){
+			var self = this;
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+			Rose.ajax.getJson(srvMap.get('getUserinfoList'), data, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getUserinfoList);
-					console.log(json.data)
+					console.log(json.data[0])
+					// 待删除：用于测试搜索数据
+					if(!Data.isOrganize()){
+			        	json.data.length = 1;
+			        }
             		$(Dom.getUserinfoList).html(template(json.data));
-            		// window.XMS.msgbox.hide()
+            		XMS.msgbox.hide()
+
+            		self.startUserinfo();
+					self.stopUserinfo();
+					self.resetPassword();
+					self.clearPower();
+
 				    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
 				      checkboxClass: 'icheckbox_square-blue',
 				      radioClass: 'iradio_square-blue'
@@ -129,9 +142,11 @@ define(function(require,exports,module){
 			        $('#Table_getUserinfoList').find("tr").bind('click', function(event) {
 			        	$(this).find('.minimal').iCheck('check');
 			        });
+
 				}
 	  		});
 		},
+		// 启用用户
 		startUserinfo:function(){
 			var self = this;
 			$(Dom.startUserinfo).bind('click', function() {
@@ -142,8 +157,10 @@ define(function(require,exports,module){
 						Rose.ajax.postJson(srvMap.get('startUserinfo'), 'stafId:'+_stafId, function(json, status) {
 							if(status) {
 								// 启用成功后，重新加载用户列表
-								self.getUserinfoList();
 								window.XMS.msgbox.show('员工启用成功！', 'success', 2000)
+								setTimeout(function(){
+									self.getUserinfoList();
+								},1000)
 							}
 			  			});
 					}else{
@@ -152,6 +169,7 @@ define(function(require,exports,module){
 				}
 			});
 		},
+		// 停用用户
 		stopUserinfo:function(){
 			var self = this;
 			$(Dom.stopUserinfo).bind('click', function() {
@@ -162,8 +180,10 @@ define(function(require,exports,module){
 						Rose.ajax.postJson(srvMap.get('stopUserinfo'), 'stafId:'+_stafId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
-								self.getUserinfoList();
 								window.XMS.msgbox.show('员工停用成功！', 'success', 2000)
+								setTimeout(function(){
+									self.getUserinfoList();
+								},1000)
 							}
 			  			});
 					}else{
@@ -172,6 +192,7 @@ define(function(require,exports,module){
 				}
 			});
 		},
+		// 重置密码
 		resetPassword:function(){
 			var self = this;
 			$(Dom.resetPassword).bind('click', function() {
@@ -187,6 +208,7 @@ define(function(require,exports,module){
 				}
 			});
 		},
+		// 清空授权
 		clearPower:function(){
 			var self = this;
 			$(Dom.clearPower).bind('click', function() {
@@ -197,8 +219,10 @@ define(function(require,exports,module){
                         Rose.ajax.postJson(srvMap.get('clearPower'), 'stafId:'+_stafId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
-								self.getUserinfoList();
 								window.XMS.msgbox.show('权限清除成功！', 'success', 2000)
+								setTimeout(function(){
+									self.getUserinfoList();
+								},1000)
 							}
 		  				});
                     }

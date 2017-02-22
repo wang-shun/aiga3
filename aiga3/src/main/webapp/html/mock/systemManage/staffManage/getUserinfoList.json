@@ -2,19 +2,19 @@
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
     "data": [{
-        "staffId": "10732",
-        "name": "董承浩",
-        "state": "有效",
-        "code": "H",
-        "organizeName": "新炬",
-        "organizeId":"1003"
-    },{
         "staffId": "16088",
         "name": "齐麦子",
         "state": "有效",
         "code": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
+    },{
+        "staffId": "10732",
+        "name": "董承浩",
+        "state": "有效",
+        "code": "H",
+        "organizeName": "新炬",
+        "organizeId":"1003"
     },{
         "staffId": "12033",
         "name": "蔡健雅",

@@ -66,8 +66,7 @@ seajs.config({
         'datatablesCSS',
         'datatablesJS',
         'zTreeCSS',
-        'zTreeJS',
-        'zTreeExcheckJS'
+        'zTreeJS'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

@@ -76,10 +76,25 @@ define(function(require,exports,module){
 			Rose.ajax.getJson(srvMap.get('getOrganizeList'), '', function(json, status) {
 				if(status) {
 					var setting = {
+						check: {
+							enable: true
+						},
 						data: {
+							key: {
+								name:"organizeName"
+							},
 							simpleData: {
-								enable: true
+								enable: true,
+								idKey:"organizeId",
+								pIdKey:"parentOrganizeId"
 							}
+						},
+						callback:{
+							 onClick: function(event, treeId, treeNode){
+			           			alert(treeNode.organizeName);
+							 	alert(treeNode.organizeId);
+			           			alert(treeNode.parentOrganizeId);
+							 }
 						}
 					};
 					$.fn.zTree.init($("#Tree_getOrganizeList"), setting, json.data.organizeList);

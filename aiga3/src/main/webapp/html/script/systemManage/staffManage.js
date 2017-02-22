@@ -71,13 +71,10 @@ define(function(require,exports,module){
 			$("#pn").bind("change", setCheck);
 			$("#sn").bind("change", setCheck);
 
-
-			alert(1);
 			Rose.ajax.getJson(srvMap.get('getUserinfoList'), '', function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getUserinfoList);
 					console.log(json.data)
-					alert(template(json.data));
             		$(Mod.getUserinfoList).html(template(json.data));
             		 //iCheck
 				    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({

@@ -1,0 +1,40 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": [{
+        "staffId": "10732",
+        "name": "董承浩",
+        "state": "有效",
+        "code": "H",
+        "organizeName": "新炬",
+        "organizeId":"1003"
+    },{
+        "staffId": "16088",
+        "name": "齐麦子",
+        "state": "有效",
+        "code": "H",
+        "organizeName": "亚信",
+        "organizeId":"1001"
+    },{
+        "staffId": "12033",
+        "name": "蔡健雅",
+        "state": "失效",
+        "code": "H",
+        "organizeName": "亚信",
+        "organizeId":"1001"
+    },{
+        "staffId": "19288",
+        "name": "赵雷",
+        "state": "有效",
+        "code": "H",
+        "organizeName": "亚信",
+        "organizeId":"1001"
+    },{
+        "staffId": "13900",
+        "name": "王洪祥",
+        "state": "失效",
+        "code": "H",
+        "organizeName": "亚信",
+        "organizeId":"1001"
+    }]
+}

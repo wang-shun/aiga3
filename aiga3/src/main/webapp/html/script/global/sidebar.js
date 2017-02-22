@@ -41,7 +41,7 @@ define(function(require, exports, module) {
         	var self = this;
 			$('#JS_MenuList').find("a").bind('click', function() {
 				var _href = $(this).data('href');
-				self.loadHtml(_href);
+				self.loadHtml(_href); 
 			});
 		},
 		setPath: function(){

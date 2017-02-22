@@ -51,6 +51,8 @@ seajs.config({
         'zTreeExcheckJS':'lib/ztree/3.5.28/js/jquery.ztree.excheck.js',
         'datatablesCSS':'lib/datatables/dataTables.bootstrap.css',
         'datatablesJS':'lib/datatables/jquery.dataTables.min.js',
+        'msgboxCSS':'lib/xsm-msgbox/0.2.0/css/xsm-msgbox.css',
+        'msgboxJS':'lib/xsm-msgbox/0.2.0/js/xsm-msgbox.min.js',
         'rose':'lib/rose/1.0.0/Rose.src.js',
         'json2':'lib/json2/1.0/json2.js',
         'handlebars':'lib/handlebars/3.0.3/handlebars.js',
@@ -65,6 +67,8 @@ seajs.config({
         'iCheckJS',
         'datatablesCSS',
         'datatablesJS',
+        'msgboxCSS',
+        'msgboxJS',
         'zTreeCSS',
         'zTreeJS'
     ],

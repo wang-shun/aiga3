@@ -1,7 +1,7 @@
-<table id="example1" class="table table-bordered table-hover">
+<table id="Table_getUserinfoList" class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th class="iCheckbox" width="15"><input type="checkbox" class="minimal" ></th>
+            <th class="iCheckbox" width="15"></th>
             <th>工号</th>
             <th>姓名</th>
             <th>状态</th>
@@ -11,15 +11,15 @@
         </tr>
     </thead>
     <tbody>
-        {{#each userinfoList}}
+        {{#each this}}
         <tr>
-            <td><input type="checkbox" class="minimal" ></td>
-            <td>{{id}}</td>
-            <td>{{name}}</td>
-            <td>{{state}}</td>
-            <td>{{zzbm}}</td>
-            <td>{{zzmc}}</td>
-            <td>{{zzbh}}</td>
+            <td><input type="radio" class="minimal" value="{{staffId}}" name="staffId"></td>
+            <td>{{staffId}}</td>
+            <td >{{name}}<input type="hidden"  value="{{name}}" name="staffName"></td>
+            <td>{{state}}<input type="hidden"  value="{{state}}" name="staffState"></td>
+            <td>{{code}}</td>
+            <td>{{organizeName}}</td>
+            <td>{{organizeId}}</td>
         </tr>
         {{/each}}
     </tbody>

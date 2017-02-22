@@ -7,7 +7,7 @@
             </ul>
             <div class="tab-content">
                 <div class="active tab-pane" id="activity">
-                    <ul id="treeDemo" class="ztree"></ul>
+                    <ul id="Tree_getOrganizeList" class="ztree"></ul>
                 </div>
                 <div class="tab-pane" id="timeline">
                     <!-- 搜索表单 -->
@@ -28,7 +28,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <button type="reset" class="btn btn-default">重置</button>
-                        <button type="submit" class="btn btn-info pull-right" id="JS_queryUserinfoList">查询</button>
+                        <button type="submit" class="btn btn-primary pull-right" id="JS_queryUserinfoList">查询</button>
                     </div>
                     <!-- /.box-footer -->
                 </div>
@@ -41,14 +41,18 @@
                 <h3 class="box-title">员工列表</h3>
                 <div class="box-tools">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">添加</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新增员工</button>
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">修改</a></li>
-                            <li><a href="#">删除</a></li>
+                            <li><a href="javascript:;" id="JS_startUserinfo">启动</a></li>
+                            <li><a href="javascript:;" id="JS_stopUserinfo">停用</a></li>
+                            <li><a href="javascript:;" id="JS_updateUserinfo">修改信息</a></li>
+                            <li><a href="javascript:;" id="JS_changePassword">修改密码</a></li>
+                            <li><a href="javascript:;" id="JS_resetPassword">重置密码</a></li>
+                            <li><a href="javascript:;" id="JS_clearPower">清空权限</a></li>
                         </ul>
                     </div>
                 </div>

@@ -12,8 +12,10 @@
 <!-- 	<table name="AIGA_PRO_TEST_TASK" schema="AIGA">
 		<primary-key>
 			<generator class="sequence"></generator>
-		</primary-key>
+		</primary-key>  
 	</table> -->
- 	<schema-selection match-schema="AIGA" match-table="AIGA_FUNCTION"/>
+ 	<!-- <schema-selection match-schema="AIGA" match-table="AIGA_FUNCTION"/>-->
+ 	<!--  <schema-selection match-schema="AIGA" match-table="AIGA_ORGANIZE" />-->
+ 	<schema-selection match-schema="AIGA" match-table="SYS_CONSTANT" />
 	
  </hibernate-reverse-engineering>

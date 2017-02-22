@@ -1,8 +1,5 @@
 define(function(require,exports,module){
 
-	//引入公用模块
-	require('global/header.js');
-	require('global/sidebar.js');
 	// 初始化列表
 	srvMap.add("getUserinfoList", "home/getUserinfoList.json", "/sys/role/list");
 	// 按条件查询
@@ -15,7 +12,7 @@ define(function(require,exports,module){
 
     // 容器对象
     var Mod = {
-        getUserinfoList: $('#Page_getUserinfoList')
+        getUserinfoList: '#Page_getUserinfoList'
     };
 
 	var Query = {
@@ -75,11 +72,13 @@ define(function(require,exports,module){
 			$("#sn").bind("change", setCheck);
 
 
+			alert(1);
 			Rose.ajax.getJson(srvMap.get('getUserinfoList'), '', function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getUserinfoList);
 					console.log(json.data)
-            		Mod.getUserinfoList.html(template(json.data));
+					alert(template(json.data));
+            		$(Mod.getUserinfoList).html(template(json.data));
             		 //iCheck
 				    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
 				      checkboxClass: 'icheckbox_minimal-blue',

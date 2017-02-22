@@ -18,12 +18,12 @@
                 "menuName": "员工管理",
                 "menuURL": "view/systemManage/staffManage.html",
                 "hasChild": 0,
-                "isActive": 1
+                "isActive": 0
             },{
                 "menuName": "功能模块管理",
-                "menuURL": "#",
+                "menuURL": "view/systemManage/menuManage.html",
                 "hasChild": 0,
-                 "isActive": 0
+                 "isActive": 1
             },{
                 "menuName": "组织管理",
                 "menuURL": "#",

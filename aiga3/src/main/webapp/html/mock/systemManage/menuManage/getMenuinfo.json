@@ -1,0 +1,16 @@
+{
+  "retCode": "200",
+  "retMessage": null ,
+  "data": {
+    "funcCode": "WF_TEST_HW",
+	"name": "系统管理",
+	"funcImg": "/aiga/workflow/img/pic.png",
+	"funcType": "BOSS模块",
+	"funcArg":"WFTESTHW",
+	"dllPath": "/sys/role/save",
+	"viewname":"/aiga/workflow/testPlan/TestPlanList.jsp?planFlag=1",
+	"notes": "备注"
+  }
+}
+
+

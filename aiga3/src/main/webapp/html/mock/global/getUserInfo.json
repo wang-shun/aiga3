@@ -1,0 +1,9 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "userId" : "10001",
+        "userName" : "齐麦子",
+        "token" : 1 // 0:失败 ，1:成功
+    }
+}

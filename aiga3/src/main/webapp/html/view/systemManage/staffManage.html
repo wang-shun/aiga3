@@ -56,9 +56,6 @@
             <!-- /.box-header -->
             <div class="box-body" style="min-height: 100px;" id="Page_getUserinfoList">
             </div>
-            <div class="overlay">
-                <i class="fa fa-refresh fa-spin"></i>
-            </div>
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
@@ -167,3 +164,8 @@
         </div>
     </div>
 </div>
+<script>
+seajs.use("script/systemManage/staffManage", function(Query) {
+    Query.init();
+});
+</script>

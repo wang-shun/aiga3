@@ -28,8 +28,9 @@
 	        <label>模块类型</label>
 	        <label style="color: red">*</label>
 	        <select  id="funcType" class="form-control select2" style="width: 100%;">
-	          <option id="Boss" selected="false">Boss模块</option>
-	          <option id="epty" selected="true"> </option>
+	          <option value="q"> </option>
+	          <option value="H">Boss模块</option>
+	          
 	        </select>
 	      </div>
 

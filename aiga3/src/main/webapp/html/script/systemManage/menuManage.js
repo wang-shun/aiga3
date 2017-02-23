@@ -53,12 +53,7 @@ define(function(require,exports,module){
 						var template = Handlebars.compile(Tpl.getMenuinfo);
 						console.log(json.data)
 			    		Mod.getMenuinfo.html(template(json.data));
-						if(json.data.funcType == "H"){
-			            	$("#Boss").attr("selected",true);
-			            	$("#epty").attr("selected",false);
-			        	};        	
-		    		
-			    		
+			            $("#funcType").val(json.data.funcType);
 					}
 				});
 			 }

@@ -27,8 +27,8 @@ public class OrganizeSv extends BaseService{
 	private SysConstantDao sysConstantDao;
 	
 	//根据组织名称查询所有信息
-	public List<AigaOrganize> findOrganize(String name) {
-		return organizeDao.findByOrganizeName(name);
+	public List<AigaOrganize> findOrganize(Long organizeId) {
+		return organizeDao.findByOrganizeId(organizeId);
 	}
 
 //查询组织树

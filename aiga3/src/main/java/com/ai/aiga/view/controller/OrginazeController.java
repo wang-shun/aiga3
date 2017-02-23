@@ -22,10 +22,9 @@ public class OrginazeController {
 	private SysConatantSv sysConstantSv;
 	
 	@RequestMapping(path = "/sys/organize/list")
-	public @ResponseBody JsonBean list(String organizeName){
-		System.out.println("1"+organizeName);
+	public @ResponseBody JsonBean list(Long organizeId){
 		JsonBean bean = new JsonBean();
-		bean.setBean(organizeSv.findOrganize(organizeName));
+		bean.setBean(organizeSv.findOrganize(organizeId));
 		return bean;
 	}
 	

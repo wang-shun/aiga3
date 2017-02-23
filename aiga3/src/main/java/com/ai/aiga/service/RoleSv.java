@@ -30,7 +30,7 @@ public class RoleSv extends BaseService{
 	}
 
 	public void saveRole(RoleRequest roleRequest) {
-		if(roleRequest == null){
+		if(roleRequest == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
 		

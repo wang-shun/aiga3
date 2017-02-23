@@ -19,7 +19,7 @@ define(function(require,exports,module){
 	srvMap.add("deleOrganize", "organize/deleOrganize.json", "/sys/organize/del");
 
 	//删除
-	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/del");
+	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constant");
 
 
 	// 按条件查询
@@ -75,14 +75,17 @@ define(function(require,exports,module){
 			        var cmd = {
 			        	"organizeId" : Data.organizeId
 			        }
+			        var cmd1 = {
+			        	"organizeType" : "organizeType"
+			        }
 			        var sflxDataArray = [];
-			        Rose.ajax.getJson(srvMap.get('constantOrganize'), '', function(json, status) {
+			        Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 			        	if (status) {
 			        		sflxDataArray = json.data;
 			        	}
 			        });
 			        
-			        Rose.ajax.getJson(srvMap.get('getOrganize'), 'cmd', function(json, status) {
+			        Rose.ajax.getJson(srvMap.get('getOrganize'), cmd, function(json, status) {
 						if(status) {
 							var template = Handlebars.compile(Tpl.getOrganize);
 							console.log(json.data)

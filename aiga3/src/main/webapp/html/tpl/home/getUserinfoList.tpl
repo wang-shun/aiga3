@@ -2,7 +2,7 @@
     <h3 class="box-title">员工列表</h3>
     <div class="box-tools">
         <div class="btn-group">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新增员工</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal"id="JS_addUserinfo"><i class="fa fa-plus"></i> 新增员工</button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
@@ -36,10 +36,10 @@
             {{#each this}}
             <tr>
                 <td><input type="radio" class="minimal" value="{{staffId}}" name="staffId"></td>
-                <td>{{staffId}}</td>
+                <td>{{code}}</td>
                 <td >{{name}}<input type="hidden"  value="{{name}}" name="staffName"></td>
                 <td>{{state}}<input type="hidden"  value="{{state}}" name="staffState"></td>
-                <td>{{code}}</td>
+                <td>{{organizeCode}}</td>
                 <td>{{organizeName}}</td>
                 <td>{{organizeId}}</td>
             </tr>
@@ -56,93 +56,128 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">添加员工</h4>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>工号</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+            <div class="modal-body" >
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#basicInfo" data-toggle="tab">操作员信息</a></li>
+                        <li><a href="#associatedOrganize" data-toggle="tab">关联组织</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="basicInfo">
+                            <div id="Scroll_addUserinfo">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>工号</label>
+                                                <input type="text" class="form-control" name="code">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>重复密码</label>
+                                                <input type="password" class="form-control" name="recentPassword">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>并行登录</label>
+                                                <input type="email" class="form-control" name="multiLoginFlag" >
+                                            </div>
+                                            <div class="form-group">
+                                                <label>IPMAC绑定</label>
+                                                <select class="form-control" name="bandType">
+                                                    <option>有效</option>
+                                                    <option>失效</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>所属项目编号</label>
+                                                <select class="form-control" name="ext2">
+                                                    <option>普通员工</option>
+                                                    <option>高级员工</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>锁定状态</label>
+                                                <input type="text" class="form-control" name="lockFlag">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>是否允许修改密码</label>
+                                                <input type="email" class="form-control" name="allowChangePassword">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>密码修改提醒天数</label>
+                                                <input type="text" class="form-control" name="chgPasswdAlarmDays">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>操作员级别</label>
+                                                <select class="form-control" name="oPLvl">
+                                                    <option>普通员工</option>
+                                                    <option>高级员工</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>扩展类型3</label>
+                                                <select class="form-control" name="ext3">
+                                                    <option>工号扩展3</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>尝试次数</label>
+                                                <input type="text" class="form-control" name="tryTimes">
+                            </div>
+                             <div class="form-group">
+                                <label>生效日期</label>
+                                <input type="text" class="form-control" name="acctEffectDate" >
                             </div>
                             <div class="form-group">
-                                <label>Minimal</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                <label>密码修改校验次数</label>
+                                <input type="text" class="form-control" name="recentPassTimes" >
                             </div>
                             <div class="form-group">
-                                <label>Disabled</label>
-                                <select class="form-control select2" disabled="disabled" style="width: 100%;">
-                                    <option selected="selected">Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
+                                <label>操作员类型</label>
+                                <select class="form-control" name="opType">
+                                    <option>BI工号</option>
+                                    <option>BOSS工号</option>
                                 </select>
                             </div>
-                            <!-- /.form-group -->
+                            <div class="form-group">
+                                <label>备注</label>
+                                <input type="text" class="form-control" name="notes">
+                            </div>
                         </div>
-                        <!-- /.col -->
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label>Multiple</label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                                    <option>Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
+                                <label>密码</label>
+                                <input type="password" class="form-control" name="password">
                             </div>
-                            <!-- /.form-group -->
                             <div class="form-group">
-                                <label>Disabled Result</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                    <option selected="selected">Alabama</option>
-                                    <option>Alaska</option>
-                                    <option disabled="disabled">California (disabled)</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
+                                <label>失效日期</label>
+                                <input type="text" class="form-control" name="acctEffectDate" >
                             </div>
-                            <!-- /.form-group -->
-                        </div>
-                        <div class="col-md-4">
                             <div class="form-group">
-                                <label>Multiple</label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                                    <option>Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
+                                <label>最小密码长度</label>
+                                <input type="email" class="form-control" name="minPasswdLength">
                             </div>
-                            <!-- /.form-group -->
                             <div class="form-group">
-                                <label>Disabled Result</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                    <option selected="selected">Alabama</option>
-                                    <option>Alaska</option>
-                                    <option disabled="disabled">California (disabled)</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
+                                <label>BOMC用户编号</label>
+                                <input type="text" class="form-control" name="ext1" >
                             </div>
-                            <!-- /.form-group -->
+
                         </div>
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
                 </form>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="associatedOrganize">
+                        </div>
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">重置</button>

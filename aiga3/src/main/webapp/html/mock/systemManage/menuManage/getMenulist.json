@@ -1,0 +1,35 @@
+{
+	"retCode": "200",
+	"retMessage": null,
+	"data":[
+			{
+				"funcId": "1",
+				"name": "系统管理",
+				"parentId": "0"
+			},{
+				"funcId": "11",
+				"name": "子菜单",
+				"parentId": "1"
+			},{
+				"funcId": "22",
+				"name": "子菜单",
+				"parentId": "1"
+			},{
+				"funcId": "33",
+				"name": "子子菜单",
+				"parentId": "22"
+			},{
+				"funcId": "44",
+				"name": "主菜单",
+				"parentId": "0"
+			},{
+				"funcId": "55",
+				"name": "子菜单",
+				"parentId": "44"
+			},{
+				"funcId": "6",
+				"name": "主菜单",
+				"parentId": "0"
+			}
+		]
+}

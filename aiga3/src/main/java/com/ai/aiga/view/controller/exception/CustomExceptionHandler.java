@@ -37,7 +37,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.parseMediaType(MediaTypes.JSON_UTF_8));
-		JsonBean result = new JsonBean(ex.errorCode.code, ex.getMessage());
+//		JsonBean result = new JsonBean(ex.errorCode.code, ex.getMessage());
+		JsonBean result = new JsonBean("400", ex.getMessage());//默认400为错误.
 		return new ResponseEntity<JsonBean>(result, headers, HttpStatus.OK);
 	}
 

@@ -1,76 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>WebUI</title>
-    <link rel="stylesheet" href="lib/webui/1.0.0/pc/css/webui.min.css">
-    <link rel="stylesheet" href="lib/webui/1.0.0/pc/css/commonCSS.css">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+    <title>首页</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="lib/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- AdminLTE Theme skin-blue  -->
+    <link rel="stylesheet" href="lib/AdminLTE/css/AdminLTE.css">
 </head>
 
-<body>
-    <div class="page-container">
-        <div class="page-container">
-            <div class="grid">
-                <span class="title">新增岗位 </span>
-                <div class="input-groups">
-                    <!--input-group-block的宽度和ui-input的宽度需要自行设定三列输入框宽度一般为122px-->
-                    <div class="left input-group-block">
-                        <p class="input-group-text">名称：
-                            <input type="text" class="ui-input ui-input-small " /> </p>
-                        <p class="input-group-text">编码：
-                            <input type="text" class="ui-input ui-input-small " /> </p>
-                        <p class="input-group-text">备注：
-                            <input type="text" class="ui-input ui-input-small " /> </p>
-                    </div>
-                    <!--自行设定#button的margin-left控制按钮的左边距和padding-top上边距-->
-                    <p id="button" class="clear-float">
-                        <!--在不需要浮动的最后块级元素加clear-float类名清除浮动带来影响-->
-                        <a class="btn-grey ">查询 </a>
-                        <a class="btn-grey ">重置 </a>
-                    </p>
+<!-- <body class="skin-blue fixed sidebar-mini fixed"> -->
+<body class="skin-blue sidebar-mini">
+    <div class="wrapper">
+        <!-- 导航栏 -->
+        <header class="main-header" >
+            <!-- Logo -->
+            <a href="index2.html" class="logo">
+                <span class="logo-mini"><b>A</b>iga</span>
+                <span class="logo-lg"><img src="style/image/cmcc_logo.png" style="vertical-align: middle;">测试管理平台系统</span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                <!-- 收缩按钮-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">切换导航</span>
+                </a>
+                <!--请求：用户信息-->
+                <div class="navbar-custom-menu" id="Mod_header">
+                  <i class="fa fa-refresh fa-spin"></i>
                 </div>
+            </nav>
+
+        </header>
+
+        <!-- 侧边菜单栏-->
+        <aside class="main-sidebar" id="Mod_sidebar">
+          <div style="min-height: 200px;">
+            <div class="overlay">
+              <i class="fa fa-refresh fa-spin"></i>
             </div>
+          </div>
+        </aside>
+        <!-- 主内容包裹区 -->
+        <div class="content-wrapper" style="min-height: 1011px;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+              <h1>
+                首页
+              </h1>
+              <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li class="active">员工管理</li>
+              </ol>
+            </section>
+            <!-- 主内容 -->
+            <section class="content" id="JS_MainContent"></section>
         </div>
-        <table id="dg1"></table>
     </div>
-    <script src="lib/jquery/1.11.3/jquery.js"></script>
-    <script src="lib/webui/1.0.0/pc/js/webui.min.js"></script>
+    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
+    <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="lib/seajs/sea.js"></script>
+    <script src="lib/seajs/sea-plugins.js"></script>
     <script src="conf/config.js"></script>
     <script>
-    $(function($) {
-        // 初始化数据接口
-        srvMap.add("getRoleList", "home/getRoleList.json", "/sys/role/list");
-
-        // 配置组件
-        $('#dg1').datagrid({
-            width: 500,
-            height: 300,
-            url: srvMap.get('getRoleList'),
-            method: 'post',
-            queryParams: '', //入参
-            rownumbers: true, //显示行号列
-            pagination: true, //显示分页工具栏
-            singleSelect: true, //只能单选行
-            loadMsg: '请稍候，数据加载中...', //自定义等待消息
-            columns: [
-                [{
-                    field: 'code',
-                    title: '代码',
-                    width: 100,
-                    sortable: true
-                }, {
-                    field: 'name',
-                    title: '名称',
-                    width: 80
-                }, {
-                    field: 'notes',
-                    title: '备注',
-                    width: 80
-                }]
-            ]
-        });
-    })
+    seajs.use("script/index");
     </script>
 </body>
 

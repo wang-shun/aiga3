@@ -8,7 +8,7 @@ public class JsonBean {
 	private String retCode  = "200";
 	private String retMessage;
 	
-	private Object bean;
+	private Object data;
 
 	public JsonBean() {
 	}
@@ -40,14 +40,19 @@ public class JsonBean {
 
 
 
-	public Object getBean() {
-		return bean;
+	
+	public Object getData() {
+		return data;
 	}
 
-	public void setBean(Object bean) {
-		this.bean = bean;
+	public void setData(Object data) {
+		this.data = data;
 	}
-	
+
+	public static JsonBean getSuccess() {
+		return success;
+	}
+
 	/**
 	 * 根据失败原因调用该方法
 	 * @param reason
@@ -55,7 +60,7 @@ public class JsonBean {
 	public void fail(String reason){
 		this.setRetCode("500");
 		this.setRetMessage(reason);
-		this.bean = null;
+		this.data = null;
 	}
 	
 	/**
@@ -73,13 +78,13 @@ public class JsonBean {
 	 */
 	public void fail4hasLogout(){
 		this.setRetCode("logout");
-		this.bean = null;
+		this.data = null;
 	}
 
 
 	@Override
 	public String toString() {
-		return "JsonBean [retCode=" + retCode + ", retMessage=" + retMessage + ", bean=" + bean + "]";
+		return "JsonBean [retCode=" + retCode + ", retMessage=" + retMessage + ", data=" + data + "]";
 	}
 	
 	

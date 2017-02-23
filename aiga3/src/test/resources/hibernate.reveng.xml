@@ -6,16 +6,6 @@
 <!-- <table-filter match-schema="cityhome"  match-name=".*"/> -->       
 <!-- 	<schema-selection match-schema="ORDER_CFG" match-table="OCC_BUSI_CMPT"/>   -->
 <!-- 		<schema-selection match-schema="AIGA" match-table="AIGA_P2P_FUNCTION_POINT"/> -->
-<!-- 		<schema-selection match-schema="AIGA" match-table="SYS_ROLE"/> -->
-<!-- 		<schema-selection match-schema="AIGA" match-table="SYS_ROLE_STATIONTYPE"/> -->
-<!-- 	<schema-selection match-schema="AIGA" match-table="AIGA_PRO_TEST_TASK"/>	项目任务表-->
-<!-- 	<table name="AIGA_PRO_TEST_TASK" schema="AIGA">
-		<primary-key>
-			<generator class="sequence"></generator>
-		</primary-key>  
-	</table> -->
- 	<!-- <schema-selection match-schema="AIGA" match-table="AIGA_FUNCTION"/>-->
- 	<!--  <schema-selection match-schema="AIGA" match-table="AIGA_ORGANIZE" />-->
- 	<schema-selection match-schema="AIGA" match-table="SYS_CONSTANT" />
+		<schema-selection match-schema="AIGA" match-table="AIGA_STAFF"/>
 	
  </hibernate-reverse-engineering>

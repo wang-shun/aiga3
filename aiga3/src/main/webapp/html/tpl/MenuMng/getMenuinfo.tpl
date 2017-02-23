@@ -1,19 +1,19 @@
-<form>
+
 	<div class="row">
 	    <div class="col-md-4">
 	      <div class="form-group">
 	        <label>功能编码</label>
 	        <label style="color: red">*</label>
-	        <input  class="form-control" id="funcCode" value="{{funcCode}}">
+	        <input  class="form-control" id="funcCode" name="funcCode" value="{{funcCode}}" required data-bv-notempty-message="功能编码不能为空！">
 	      </div>
 	      <div class="form-group">
 	        <label>图标路径</label>
-	        <input  class="form-control" id="funcImg" value="{{funcImg}}">
+	        <input  class="form-control" id="funcImg" name="funcImg" value="{{funcImg}}">
 	      </div>
 		 
 		  <div class="form-group">
 	        <label>模块参数</label>
-	        <input  class="form-control" id="funcArg" value="{{funcArg}}">
+	        <input  class="form-control" id="funcArg" name="funcArg" value="{{funcArg}}">
 	      </div>
 		  
 		</div>
@@ -22,13 +22,13 @@
 	      <div class="form-group">
 	        <label>功能名称</label>
 	        <label style="color: red">*</label>
-	        <input  class="form-control" id="name" value="{{name}}">
+	        <input  class="form-control" id="name" name="name" value="{{name}}" required data-bv-notempty-message="功能名称不能为空！">
 	      </div>
 	      <div class="form-group">
 	        <label>模块类型</label>
 	        <label style="color: red">*</label>
-	        <select  id="funcType" class="form-control select2" style="width: 100%;">
-	          <option value="q"> </option>
+	        <select  id="funcType" name="funcType" class="form-control select2" style="width: 100%;" required data-bv-notempty-message="模块类型不能为空！">
+	          <option value=""> </option>
 	          <option value="H">Boss模块</option>
 	          
 	        </select>
@@ -36,17 +36,16 @@
 
 		  <div class="form-group">
 	        <label>dll文件名</label>
-	        <input  class="form-control" id="dllPath" value="{{dllPath}}">
+	        <input id="dllPath" class="form-control" name="dllPath" value="{{dllPath}}">
 	      </div>
 		</div>
 	</div>
 		<div class="form-group">
 	        <label>链接地址</label>
-	        <input  class="form-control" id="viewname" value="{{viewname}}">
+	        <input  id="viewname" class="form-control" name="viewname" value="{{viewname}}">
 	      </div>
 		  <div class="form-group">
 	        <label>备注</label>
-	        <input  class="form-control" id="notes" value="{{notes}}">
-	      </div>								
-<!-- /.row -->
-</form>
+	        <input id="notes" class="form-control" name="notes" value="{{notes}}">
+	      </div>	
+	

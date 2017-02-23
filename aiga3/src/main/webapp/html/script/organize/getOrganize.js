@@ -38,8 +38,12 @@ define(function(require,exports,module){
 
     //操作状态
     var Operate_state = "update";
-    //当前菜单ID
-    var organizeId = null;
+
+    var Data = {
+    	"organizeId":null,
+    	getUserinfoForm: '#JS_getOrganizeForm'
+    }
+
 
 	var getOrganize = {
 		init: function(){
@@ -64,26 +68,26 @@ define(function(require,exports,module){
 			},
 			callback:{
 				 onClick: function(event, treeId, treeNode){
-					organizeId = treeNode.organizeId;
+					Data.organizeId = treeNode.organizeId;
 			        alert(treeNode.organizeName);
 					alert(treeNode.organizeId);
 			        alert(treeNode.parentOrganizeId);
 			        var cmd = {
-			        	"organizeId" = organizeId;
+			        	"organizeId" : Data.organizeId
 			        }
-			    //     var sflxDataArray = Rose.ajax.getJson(srvMap.get('constantOrganize'), '', function(json, status) {
-			    //     	if (status) {
-			    //     		var template = Handlebars.compile(Tpl.constantOrganize);
-							// console.log(json.data)
-       //      				Mod.organizeinfo.html(template(json.data));
-			    //     	}
-			    //     });
-			    //     alert(sflxDataArray);
+			        var sflxDataArray = [];
+			        Rose.ajax.getJson(srvMap.get('constantOrganize'), '', function(json, status) {
+			        	if (status) {
+			        		sflxDataArray = json.data;
+			        	}
+			        });
+			        
 			        Rose.ajax.getJson(srvMap.get('getOrganize'), 'cmd', function(json, status) {
 						if(status) {
 							var template = Handlebars.compile(Tpl.getOrganize);
 							console.log(json.data)
-							json.data["sflxType"] = sflxDataArray;
+							json.data["sflxDataArray"] = sflxDataArray;
+							console.log(json.data);
             				Mod.organizeinfo.html(template(json.data));
 				    		
 						}

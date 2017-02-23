@@ -21,7 +21,7 @@ public class FunctionController {
 	@RequestMapping(path = "/sys/menu/list" )
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
-		bean.setData(functionSv.findFunctions());
+		bean.setBean(functionSv.findFunctions());
 		return bean;
 	}
 	
@@ -48,7 +48,7 @@ public class FunctionController {
 	@RequestMapping(path = "/sys/menu/get")
 	public @ResponseBody JsonBean get(@RequestParam Long funcId){
 		JsonBean bean = new JsonBean();
-		bean.setData(functionSv.findOne(funcId));
+		bean.setBean(functionSv.findOne(funcId));
 		return bean;
 	}
 	

@@ -25,14 +25,14 @@ public class OrginazeController {
 	public @ResponseBody JsonBean list(String organizeName){
 		System.out.println("1"+organizeName);
 		JsonBean bean = new JsonBean();
-		bean.setData(organizeSv.findOrganize(organizeName));
+		bean.setBean(organizeSv.findOrganize(organizeName));
 		return bean;
 	}
 	
 	@RequestMapping(path = "/sys/organize/treeList")
 	public  @ResponseBody JsonBean  tressList(){
 		JsonBean bean = new JsonBean();
-		bean.setData(organizeSv.findOrginazeTree());
+		bean.setBean(organizeSv.findOrginazeTree());
 		return bean;
 	}
 	

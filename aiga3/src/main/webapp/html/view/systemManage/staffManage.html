@@ -2,170 +2,49 @@
     <div class="col-md-3">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#activity" data-toggle="tab">按组织</a></li>
-                <li><a href="#timeline" data-toggle="tab">按条件</a></li>
+                <li class="active"><a href="#isOrganize" data-toggle="tab">按组织</a></li>
+                <li><a href="#isIf" data-toggle="tab">按条件</a></li>
             </ul>
             <div class="tab-content">
-                <div class="active tab-pane" id="activity">
+                <div class="active tab-pane" id="isOrganize">
                     <ul id="Tree_getOrganizeList" class="ztree"></ul>
                 </div>
-                <div class="tab-pane" id="timeline">
+                <div class="tab-pane" id="isIf">
+                    <form id="Form_getUserinfo">
                     <!-- 搜索表单 -->
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="exampleInputName">姓名</label>
-                            <input type="text" class="form-control" id="exampleInputName" placeholder="请输入员工姓名">
+                            <label for="formName">姓名</label>
+                            <input type="text" class="form-control" name="name" placeholder="请输入员工姓名" required data-bv-notempty-message="姓名不能为空！">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputNumber">工号</label>
-                            <input type="text" class="form-control" id="exampleInputNumber" placeholder="请输入员工工号">
+                            <label for="formId">工号</label>
+                            <input type="text" class="form-control" name="code" placeholder="请输入员工工号" required data-bv-notempty-message="工号不能为空！">
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="exampleInputTel">手机号</label>
                             <input type="tel" class="form-control" id="exampleInputTel" placeholder="请输入员工手机号">
-                        </div>
+                        </div> -->
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <button type="reset" class="btn btn-default">重置</button>
-                        <button type="submit" class="btn btn-primary pull-right" id="JS_queryUserinfoList">查询</button>
+                        <button type="button" class="btn btn-primary pull-right" id="JS_getUserinfo">查询</button>
                     </div>
+                    </form>
                     <!-- /.box-footer -->
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-9">
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">员工列表</h3>
-                <div class="box-tools">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">新增员工</button>
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="javascript:;" id="JS_startUserinfo">启动</a></li>
-                            <li><a href="javascript:;" id="JS_stopUserinfo">停用</a></li>
-                            <li><a href="javascript:;" id="JS_updateUserinfo">修改信息</a></li>
-                            <li><a href="javascript:;" id="JS_changePassword">修改密码</a></li>
-                            <li><a href="javascript:;" id="JS_resetPassword">重置密码</a></li>
-                            <li><a href="javascript:;" id="JS_clearPower">清空权限</a></li>
-                        </ul>
-                    </div>
-                </div>
+    <div class="col-md-9" >
+        <div class="box" id="Page_getUserinfoList" style="min-height: 100px">
+            <div style="text-align: center; padding: 100px 0;">
+                <p style="font-size: 38px;"><i class="fa fa-warning text-yellow"></i></p>
+                <p style="color: #666;"><span>请先选择组织结构或按条件查询！</span></p>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="min-height: 100px;" id="Page_getUserinfoList">
-            </div>
-            <!-- /.box-body -->
         </div>
         <!-- /.box -->
-    </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">添加员工</h4>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>工号</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                            </div>
-                            <div class="form-group">
-                                <label>Minimal</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                            </div>
-                            <div class="form-group">
-                                <label>Disabled</label>
-                                <select class="form-control select2" disabled="disabled" style="width: 100%;">
-                                    <option selected="selected">Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
-                            </div>
-                            <!-- /.form-group -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Multiple</label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                                    <option>Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
-                            </div>
-                            <!-- /.form-group -->
-                            <div class="form-group">
-                                <label>Disabled Result</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                    <option selected="selected">Alabama</option>
-                                    <option>Alaska</option>
-                                    <option disabled="disabled">California (disabled)</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
-                            </div>
-                            <!-- /.form-group -->
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Multiple</label>
-                                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
-                                    <option>Alabama</option>
-                                    <option>Alaska</option>
-                                    <option>California</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
-                            </div>
-                            <!-- /.form-group -->
-                            <div class="form-group">
-                                <label>Disabled Result</label>
-                                <select class="form-control select2" style="width: 100%;">
-                                    <option selected="selected">Alabama</option>
-                                    <option>Alaska</option>
-                                    <option disabled="disabled">California (disabled)</option>
-                                    <option>Delaware</option>
-                                    <option>Tennessee</option>
-                                    <option>Texas</option>
-                                    <option>Washington</option>
-                                </select>
-                            </div>
-                            <!-- /.form-group -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">确认</button>
-            </div>
-        </div>
     </div>
 </div>
 <script>

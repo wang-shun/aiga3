@@ -20,7 +20,7 @@ public class RoleController {
 	@RequestMapping(path = "/sys/role/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
-		bean.setData(roleSv.findRoles());
+		bean.setBean(roleSv.findRoles());
 		return bean;
 	}
 	

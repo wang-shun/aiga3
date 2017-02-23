@@ -1,0 +1,25 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data":{
+        "organizeId":"001",
+        "parentOrganizeId": "1001",
+        "organizeName": "雅兴",
+        "code": "H",
+        "orgRoleTypeId":"1",
+        "districtId": "1",
+        "shortName": "呀",
+        "englishName":"ya",
+        "memberNum": "30",
+        "managerName": "李",
+        "email":"77777777@qq.com",
+        "phoneId": "1233456789111",
+        "faxId": "123456789",
+        "connectName":"张",
+        "connectCardType": "身份证",
+        "connectCardId": "123456543212345",
+        "connectBillId":"1234567898765",
+        "createDate": "20130506",
+        "isLeaf": "是"
+    }
+}

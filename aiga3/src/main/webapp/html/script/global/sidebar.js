@@ -49,7 +49,6 @@ define(function(require, exports, module) {
 		},
 		loadHtml: function(href){
 			if(href.indexOf('.html')>=0){
-				alert('load');
 				Rose.ajax.loadHtml($('#JS_MainContent'),href)
 			}
 		},

@@ -19,7 +19,7 @@ define(function(require,exports,module){
 	srvMap.add("deleOrganize", "organize/deleOrganize.json", "/sys/organize/del");
 
 	//删除
-	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/del");
+	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constant");
 
 
 	// 按条件查询

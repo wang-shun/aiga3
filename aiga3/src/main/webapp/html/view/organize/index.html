@@ -1,0 +1,63 @@
+
+<!-- 主内容包裹区 -->
+<!-- <div class="content-wrapper" style="min-height: 1011px;">
+    Content Header (Page header)
+    <section class="content-header">
+      <h1>
+        功能菜单管理
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">功能菜单管理</li>
+      </ol>
+    </section> -->
+    <!-- 主内容 -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a href="#activity" data-toggle="tab">组织选择</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="activity">
+                            <ul id="treeDemo" class="ztree"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+            <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">组织信息</h3>
+                  <div class="box-tools">
+                     <div class="btn-group">
+                      <button type="button" id="organizeAdd" class="btn btn-primary" data-toggle="modal" data-target="#myModal">添加</button>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="min-height: 100px;" id="organizeinfo">
+                                                 
+                </div>
+                <div style="width: 100%; height: 10%">
+                    <button type="button" id="organizeSave" class="btn btn-primary" data-toggle="modal" data-target="#myModal">保存</button>
+                    <button type="button" id="organizeMod" class="btn btn-primary" data-toggle="modal" data-target="#myModal">修改</button>   
+                    <button type="button" id="organizeDele" class="btn btn-primary" data-toggle="modal" data-target="#myModal">删除</button>
+
+                <!-- <div class="overlay">
+                  <i class="fa fa-refresh fa-spin"></i>
+                </div> -->
+                <!-- /.box-body -->
+                </div>
+              <!-- /.box -->
+            </div>
+        </div>
+    </section>
+    <script>
+      seajs.use("script/organize/getOrganize", function(getOrganize) {
+        getOrganize.init();
+      });    
+    </script>      
+<!-- </div> -->
+

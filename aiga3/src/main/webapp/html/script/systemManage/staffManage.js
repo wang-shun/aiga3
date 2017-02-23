@@ -37,7 +37,7 @@ define(function(require,exports,module){
     // 容器对象
     var Dom = {
         getUserinfoList: '#Page_getUserinfoList',
-        getUserinfo: '#JS_getUserinfo',
+        getUserinfoForm: '#JS_getUserinfoForm',
         addUserinfo: '#JS_addUserinfo',
         startUserinfo: '#JS_startUserinfo',
         stopUserinfo: '#JS_stopUserinfo',
@@ -48,6 +48,7 @@ define(function(require,exports,module){
     };
 
     var Data = {
+    	organizeId: null,
     	isOrganize: function(){
     		return $("#isOrganize").hasClass('active') ? true : false;
     	}
@@ -85,6 +86,8 @@ define(function(require,exports,module){
 							 onClick: function(event, treeId, treeNode){
 							 	var _organizeId = treeNode.organizeId;
 							 	var _data = "organizeId:"+_organizeId;
+							 	// 存储在全局变量
+							 	Data.organizeId = _organizeId;
 							 	self.getUserinfoList(_data)
 							 }
 						}
@@ -92,15 +95,22 @@ define(function(require,exports,module){
 				}
 	  		});
 		},
+		// 按条件查询用户
 		getUserinfo: function(){
 			var self = this;
-			$(Dom.getUserinfo).bind('click',function(){
+			var _form = $(Dom.getUserinfoForm);
+			// 表单提交
+			_form.find('button[name="submit"]').bind('click',function(){
 
 				// 表单校验：成功后调取接口
-				$('#Form_getUserinfo').bootstrapValidator('validate').on('success.form.bv', function(e) {
+				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 		            var cmd = $("#Form_getUserinfo").serialize();
 		  			self.getUserinfoList(cmd);
 	        	});
+	  		})
+	  		// 表单重置
+	  		_form.find('button[name="reset"]').bind('click',function(){
+	  			_form.data('bootstrapValidator').resetForm(true);
 	  		})
 		},
 		// 员工列表
@@ -151,7 +161,9 @@ define(function(require,exports,module){
 		// 新增用户
 		addUserinfo:function(){
 			$(Dom.addUserinfo).bind('click', function() {
-				if(!Data.isOrganize()){
+				console.log(Data.organizeId);
+				// 如果组织结构未选中或未显示都不行
+				if(!Data.isOrganize() || !Data.organizeId){
 					XMS.msgbox.show('请先选择一个组织结构！', 'error', 2000);
 					return false;
 		        }
@@ -244,6 +256,7 @@ define(function(require,exports,module){
 				}
 			});
 		},
+		// 获取当前选中行
 		getCheckedRow : function(){
 			var _obj = $('#Table_getUserinfoList').find("input[type='radio']:checked").parents("tr");
 			var _staffId = _obj.find("input[name='staffId']")

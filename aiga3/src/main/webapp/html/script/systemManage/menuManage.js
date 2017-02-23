@@ -110,11 +110,15 @@ define(function(require,exports,module){
 		  			Rose.ajax.postJson(srvMap.get('addMenu'), cmd, function(json, status) {
 						if(status) {
 							Operate_state = "update";
-							alert("保存成功！");
-							console.log(json.data)
-					        $.fn.zTree.init($("#treeDemo"), setting, json.data);							
+							alert("保存成功！");						
 						}
 	  				});
+					Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
+						if(status) {
+							console.log(json.data)
+		            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
+						}
+				  	});	  				
 		  		}
 		  		else{
 					var cmd = {
@@ -155,10 +159,16 @@ define(function(require,exports,module){
 			  				$("#viewname").val("");
 			  				$("#notes").val("");
 							console.log(json.data)
-					        $.fn.zTree.init($("#treeDemo"), setting, json.data);			  				
+					       			  				
 							  											
 						}
-	  				});		  							
+	  				});
+					Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
+						if(status) {
+							console.log(json.data)
+		            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
+						}
+				  	});	  						  							
 	  		})	  		
 
 

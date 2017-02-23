@@ -68,13 +68,7 @@ define(function(require,exports,module){
 		},
 		_render: function() {
 
-
-			
 			this.initMenuList();
-
-
-		  			  		
-
 			this.menuAdd();
 			this.menuSave();
 			this.menuDel();
@@ -115,10 +109,9 @@ define(function(require,exports,module){
 		
 
         menuSave: function(){
-				var _form = $(Dom.getMenuinfoForm);        	
-        		_form.find('button[name="save"]').bind('click',function(){
+			var _form = $(Dom.getMenuinfoForm);        	
+    		_form.find('button[name="save"]').bind('click',function(){
 				alert(1);
-								
 				// 表单校验：成功后调取接口
 				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {	
 					alert();	
@@ -128,7 +121,7 @@ define(function(require,exports,module){
 			  				"funcCode":$("#funcCode").val(),
 			  				"name":$("#name").val(),
 			  				"funcImg":$("#funcImg").val(),
-							"funcType":$("#funcType option:selected").text(),
+							"funcType":$("#funcType").val(),
 			  				"funcArg":$("#funcArg").val(),
 			  				"dllPath":$("#dllPath").val(),
 			  				"viewname":$("#viewname").val(),
@@ -155,7 +148,7 @@ define(function(require,exports,module){
 			  				"funcCode":$("#funcCode").val(),
 			  				"name":$("#name").val(),
 			  				"funcImg":$("#funcImg").val(),
-							"funcType":$("#funcType option:selected").text(),
+							"funcType":$("#funcType").val(),
 			  				"funcArg":$("#funcArg").val(),
 			  				"dllPath":$("#dllPath").val(),
 			  				"viewname":$("#viewname").val(),
@@ -170,7 +163,7 @@ define(function(require,exports,module){
 
 			  		}		         	   
 	        	});				
-	  			
+  			
 	  		});	
 		},		
 		menuDel: function(){

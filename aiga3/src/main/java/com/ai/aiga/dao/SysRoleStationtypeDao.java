@@ -9,5 +9,6 @@ import com.ai.aiga.domain.SysRoleStationtype;
 public interface SysRoleStationtypeDao extends JpaRepository<SysRoleStationtype, Long>{
 
 	List<SysRoleStationtype> findByRoleId(Long roleId);
+	
 
 }

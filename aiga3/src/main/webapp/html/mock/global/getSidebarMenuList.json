@@ -21,12 +21,12 @@
                 "isActive": 1
             },{
                 "menuName": "功能模块管理",
-                "menuURL": "#",
+                "menuURL": "view/systemManage/menuManage.html",
                 "hasChild": 0,
                  "isActive": 0
             },{
                 "menuName": "组织管理",
-                "menuURL": "#",
+                "menuURL": "view/organize/index.html",
                 "hasChild": 0,
                 "isActive": 0
             },{

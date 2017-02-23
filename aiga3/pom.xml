@@ -22,6 +22,7 @@
 		<guava.version>21.0</guava.version>
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.7.5</mockito.version>
+		<ehcache.version>2.10.3</ehcache.version>
 
 		<!-- Plugin的属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,13 +43,19 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.6.RELEASE</version>
+			<version>${spring.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
 					<groupId>commons-logging</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -100,6 +107,14 @@
 			<systemPath>${project.basedir}/src/lib/ojdbc-6.0.jar</systemPath>
 		</dependency>
 		<!-- PERSISTENCE end -->
+
+		<!-- java内存缓存 -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>${ehcache.version}</version>
+		</dependency>
+		<!-- java内存缓存 -->
 
 		<!-- java动态相关 -->
 		<dependency>

@@ -69,17 +69,18 @@ define(function(require, exports, module) {
 				var cmd = {
 					"organizeId": Dom.organizeId
 				}
+				console.log(cmd);
 				var cmd1 = {
 					"organizeType": "organizeType"
 				}
 				var sflxDataArray = [];
-				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
+				Rose.ajax.getJson(srvMap.get('constantOrganize'), 'cmd1', function(json, status) {
 					if (status) {
 						sflxDataArray = json.data;
 					}
 				});
 
-				Rose.ajax.getJson(srvMap.get('getOrganize'), cmd, function(json, status) {
+				Rose.ajax.getJson(srvMap.get('getOrganize'), 'cmd', function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
@@ -117,20 +118,16 @@ define(function(require, exports, module) {
 			var cmd1 = {
 				"organizeType": "organizeType"
 			}
-			var sflxDataArray = [];
-			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
-				if (status) {
-					sflxDataArray = json.data;
-				}
-			});
 
-			Rose.ajax.getJson(srvMap.get('getOrganize'), null, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('constantOrganize'),cmd1, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getOrganize);
 					console.log(json.data)
+					var sflxDataArray = json.data;
+					json.data = {};
 					json.data["sflxDataArray"] = sflxDataArray;
 					console.log(json.data)
-					$(Dom.getOrganize).html(template());
+					$(Dom.getOrganize).html(template(json.data));
 
 				}
 			});
@@ -163,6 +160,14 @@ define(function(require, exports, module) {
 
 		//保存
 		organizeSave: function() {
+			var _form = $(Dom.getUserinfoForm);
+			_form.find('button[name="organizeSave"]').bind('click',function(){
+				// 表单校验：成功后调取接口
+				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+		            var cmd = $("#Form_getUserinfo").serialize();
+	        	});
+
+			})
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new") {

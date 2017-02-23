@@ -1,4 +1,3 @@
-
 	<div class="row">
 	    <div class="col-md-4">
 	      <div class="form-group">
@@ -23,7 +22,7 @@
 	        <select id="connectCardType"  name="connectCardType" class="form-control select2" style="width: 100%;">
 	        	<option selected="true">{{connectCardType}}</option>
 	        	{{#each sflxDataArray}}
-	          <option value="{{value}}">{{show}}</option>
+	          <option value="{{value}}">{{show}}</option><!---->
 	          {{/each}}
 	        </select>
 	        

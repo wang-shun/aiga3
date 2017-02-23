@@ -3,7 +3,7 @@
     "retMessage": "系统异常，请稍后再试",
     "data": [{
     	"value":"001",
-    	"show":"亞信"
+    	"show":"身份证"
     },{
     	"value":"002",
     	"show":"移動"

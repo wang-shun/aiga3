@@ -114,9 +114,21 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
+			var cmd1 = {
+				"organizeType": "organizeType"
+			}
+			var sflxDataArray = [];
+			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
+				if (status) {
+					sflxDataArray = json.data;
+				}
+			});
+
 			Rose.ajax.getJson(srvMap.get('getOrganize'), null, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getOrganize);
+					console.log(json.data)
+					json.data["sflxDataArray"] = sflxDataArray;
 					console.log(json.data)
 					$(Dom.getOrganize).html(template());
 
@@ -150,7 +162,7 @@ define(function(require, exports, module) {
 		},
 
 		//保存
-			organizeSave: function() {
+		organizeSave: function() {
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new") {

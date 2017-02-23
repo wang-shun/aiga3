@@ -51,7 +51,10 @@ define(function(require,exports,module){
 			callback:{
 				 onClick: function(event, treeId, treeNode){
 				 	currentMenu = treeNode.funcId;
-				 	Rose.ajax.getJson(srvMap.get('getMenuinfo'), '', function(json, status) {
+					var cmd = {
+						"funcId":currentMenu
+					}			 	
+				 	Rose.ajax.getJson(srvMap.get('getMenuinfo'), 'cmd', function(json, status) {
 						if(status) {
 							var template = Handlebars.compile(Tpl.getMenuinfo);
 							console.log(json.data)
@@ -108,6 +111,8 @@ define(function(require,exports,module){
 						if(status) {
 							Operate_state = "update";
 							alert("保存成功！");
+							console.log(json.data)
+					        $.fn.zTree.init($("#treeDemo"), setting, json.data);							
 						}
 	  				});
 		  		}
@@ -140,7 +145,7 @@ define(function(require,exports,module){
 					Rose.ajax.postJson(srvMap.get('deleMenu'), cmd, function(json, status) {
 						if(status) {
 							alert("删除成功！");
-							
+
 							$("#funcCode").val("");
 			  				$("#name").val("");
 			  				$("#funcImg").val(""),
@@ -148,7 +153,10 @@ define(function(require,exports,module){
 			  				$("#funcArg").val("");
 			  				$("#dllPath").val("");
 			  				$("#viewname").val("");
-			  				$("#notes").val("");							
+			  				$("#notes").val("");
+							console.log(json.data)
+					        $.fn.zTree.init($("#treeDemo"), setting, json.data);			  				
+							  											
 						}
 	  				});		  							
 	  		})	  		

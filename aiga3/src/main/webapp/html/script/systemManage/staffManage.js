@@ -38,6 +38,7 @@ define(function(require,exports,module){
     var Dom = {
         getUserinfoList: '#Page_getUserinfoList',
         getUserinfo: '#JS_getUserinfo',
+        addUserinfo: '#JS_addUserinfo',
         startUserinfo: '#JS_startUserinfo',
         stopUserinfo: '#JS_stopUserinfo',
         updateUserinfo: '#JS_updateUserinfo',
@@ -94,12 +95,12 @@ define(function(require,exports,module){
 		getUserinfo: function(){
 			var self = this;
 			$(Dom.getUserinfo).bind('click',function(){
-	  			var cmd = {
-	  				"staffId":$("#formStaffId").val(),
-	  				"name":$("#formName").val()
-	  			}
-	  			// type:single 是按条件查询
-	  			self.getUserinfoList(cmd);
+
+				// 表单校验：成功后调取接口
+				$('#Form_getUserinfo').bootstrapValidator('validate').on('success.form.bv', function(e) {
+		            var cmd = $("#Form_getUserinfo").serialize();
+		  			self.getUserinfoList(cmd);
+	        	});
 	  		})
 		},
 		// 员工列表
@@ -117,6 +118,7 @@ define(function(require,exports,module){
             		$(Dom.getUserinfoList).html(template(json.data));
             		XMS.msgbox.hide()
 
+            		self.addUserinfo();
             		self.startUserinfo();
 					self.stopUserinfo();
 					self.resetPassword();
@@ -146,6 +148,19 @@ define(function(require,exports,module){
 				}
 	  		});
 		},
+		// 新增用户
+		addUserinfo:function(){
+			$(Dom.addUserinfo).bind('click', function() {
+				if(!Data.isOrganize()){
+					XMS.msgbox.show('请先选择一个组织结构！', 'error', 2000);
+					return false;
+		        }
+		        $('#Scroll_addUserinfo').slimScroll({
+			        "height": '350px'
+			    });
+				$('#myModal').modal('show');
+			})
+		},
 		// 启用用户
 		startUserinfo:function(){
 			var self = this;
@@ -164,7 +179,7 @@ define(function(require,exports,module){
 							}
 			  			});
 					}else{
-						window.XMS.msgbox.show('只允许操作失效员工！', 'error', 2000);
+						XMS.msgbox.show('只允许操作失效员工！', 'error', 2000);
 					}
 				}
 			});

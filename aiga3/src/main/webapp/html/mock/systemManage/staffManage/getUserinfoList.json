@@ -3,37 +3,42 @@
     "retMessage": "系统异常，请稍后再试",
     "data": [{
         "staffId": "16088",
+        "code": "QIJC",
         "name": "齐麦子",
         "state": "有效",
-        "code": "H",
+        "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
     },{
         "staffId": "10732",
+        "code": "DONGCH",
         "name": "董承浩",
         "state": "有效",
-        "code": "H",
+        "organizeCode": "H",
         "organizeName": "新炬",
         "organizeId":"1003"
     },{
         "staffId": "12033",
+        "code": "CAIJY",
         "name": "蔡健雅",
         "state": "失效",
-        "code": "H",
+        "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
     },{
         "staffId": "19288",
+        "code": "ZHAOLEI",
         "name": "赵雷",
         "state": "有效",
-        "code": "H",
+        "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
     },{
         "staffId": "13900",
+        "code": "WANGHX",
         "name": "王洪祥",
         "state": "失效",
-        "code": "H",
+        "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
     }]

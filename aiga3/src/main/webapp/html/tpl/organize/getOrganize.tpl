@@ -3,19 +3,21 @@
 	      <div class="form-group">
 	        <label>组织名称</label>
 	        <label style="color: red">*</label>
-	        <input  class="form-control" id="organizeName" name="organizeName" value="{{organizeName}}">
+	        <input type="text"  class="form-control" id="organizeName" name="organizeName"  value="{{organizeName}}">
+	        <input type="hidden"  class="form-control" id="parentOrganizeId" name="parentOrganizeId" value="{{parentOrganizeId}}">
+
 	      </div>
 	      <div class="form-group">
 	        <label>归属地区</label>
-	        <input  class="form-control" id="districtId" value="{{districtId}}">
+	        <input type="text" class="form-control" id="districtId" name="districtId" value="{{districtId}}">
 	      </div>
 	      <div class="form-group">
 	        <label>人数</label>
-	        <input  class="form-control" id="memberNum" value="{{memberNum}}">
+	        <input type="text" class="form-control" id="memberNum" name="memberNum" value="{{memberNum}}">
 	      </div>
 	      <div class="form-group">
 	        <label>联系电话</label>
-	        <input  class="form-control" id="phoneId" value="{{phoneId}}">
+	        <input type="text"  class="form-control" id="phoneId" value="{{phoneId}}">
 	      </div>
 	      <div class="form-group">
 	        <label>联系人证件类型</label>

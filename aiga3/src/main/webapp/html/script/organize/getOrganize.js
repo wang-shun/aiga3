@@ -42,7 +42,9 @@ define(function(require, exports, module) {
 	var Dom = {
 		organizeId: null,
 		getUserinfoForm: '#JS_getOrganizeForm',
-		getOrganize: '#organizeinfo'
+		getOrganize: '#organizeinfo',
+		sflxDataArray: [],
+		sflxOrganize:[]
 	}
 
 
@@ -69,17 +71,15 @@ define(function(require, exports, module) {
 				var cmd = "organizeId=" + Dom.organizeId;
 				var cmd1 = "category=certificateType"; //////////////
 				var cmd2 = "category=organizeType";
-				var sflxDataArray = [];
-				var sflxOrganize = [];
 				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 					if (status) {
-						sflxDataArray = json.data;
+						Dom.sflxDataArray = json.data;
 					}
 				});
 
 				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
 					if (status) {
-						sflxOrganize = json.data;
+						Dom.sflxOrganize = json.data;
 					}
 				});
 
@@ -87,9 +87,9 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
-						var aaa=json.data[0];
-						aaa["sflxDataArray"] = sflxDataArray;
-						aaa["sflxOrganize"] = sflxOrganize;
+						var aaa=json.data;
+						aaa["sflxDataArray"] = Dom.sflxDataArray;
+						aaa["sflxOrganize"] = Dom.sflxOrganize;
 						alert(aaa);
 						console.log(json.data)
 						$(Dom.getOrganize).html(template(aaa));
@@ -134,10 +134,10 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getOrganize);
 					console.log(json.data)
-					var sflxDataArray = json.data;
+					Dom.sflxDataArray = json.data;
 					json.data = {};
-					json.data["sflxDataArray"] = sflxDataArray;
-					json.data["sflxOrganize"] = sflxOrganize;
+					json.data["sflxDataArray"] = Dom.sflxDataArray;
+					json.data["sflxOrganize"] = Dom.sflxOrganize;
 					console.log(json.data)
 					$(Dom.getOrganize).html(template(json.data));
 
@@ -183,8 +183,15 @@ define(function(require, exports, module) {
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new" || Dom.organizeId == null) {
+					var _dom = $("#JS_getOrganizeForm").find("input[name='parentOrganizeId']");
+					if(Dom.organizeId == null){
+						_dom.val(-1);
+					}else{
+						_dom.val(Dom.organizeId);
+					}
 					var cmd = $("#JS_getOrganizeForm").serialize();
-					
+					alert($("#JS_getOrganizeForm").serialize())
+					console.log("12222222222222"+cmd);
 					Rose.ajax.getJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";

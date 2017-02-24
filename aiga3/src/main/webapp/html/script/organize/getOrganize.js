@@ -127,18 +127,25 @@ define(function(require, exports, module) {
 				});
 
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.getOrganize);
-					console.log(json.data)
-					Dom.sflxDataArray = json.data;
-					json.data = {};
-					json.data["sflxDataArray"] = Dom.sflxDataArray;
-					json.data["sflxOrganize"] = Dom.sflxOrganize;
-					console.log(json.data)
-					$(Dom.getOrganize).html(template(json.data));
+					if (status) {
+						Dom.sflxDataArray = json.data;
+					}
+				});
 
-				}
-			});
+			Rose.ajax.getJson(srvMap.get('getOrganize'), '', function(json, status) {
+					if (status) {
+						var template = Handlebars.compile(Tpl.getOrganize);
+						console.log(json.data)
+						var aaa=json.data;
+						aaa={};
+						aaa["sflxDataArray"] = Dom.sflxDataArray;
+						aaa["sflxOrganize"] = Dom.sflxOrganize;
+						alert(aaa);
+						console.log(json.data)
+						$(Dom.getOrganize).html(template(aaa));
+
+					}
+				});
 		},
 		//新增
 		organizeAdd: function() {

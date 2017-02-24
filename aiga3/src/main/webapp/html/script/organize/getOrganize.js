@@ -68,10 +68,18 @@ define(function(require, exports, module) {
 				alert(treeNode.parentOrganizeId);
 				var cmd = "organizeId=" + Dom.organizeId;
 				var cmd1 = "category=certificateType"; //////////////
+				var cmd2 = "category=organizeType";
 				var sflxDataArray = [];
+				var sflxOrganize = [];
 				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 					if (status) {
 						sflxDataArray = json.data;
+					}
+				});
+
+				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
+					if (status) {
+						sflxOrganize = json.data;
 					}
 				});
 
@@ -79,9 +87,12 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
-						json.data["sflxDataArray"] = sflxDataArray;
+						var aaa=json.data[0];
+						aaa["sflxDataArray"] = sflxDataArray;
+						aaa["sflxOrganize"] = sflxOrganize;
+						alert(aaa);
 						console.log(json.data)
-						$(Dom.getOrganize).html(template(json.data[0]));
+						$(Dom.getOrganize).html(template(aaa));
 
 					}
 				});
@@ -110,7 +121,14 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = "category=certificateType";
+			var cmd1 = "category=constantOrganize";
+			var cmd2 = "category=organizeType";
+			var sflxOrganize = [];
+			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
+					if (status) {
+						sflxOrganize = json.data;
+					}
+				});
 
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 				if (status) {
@@ -119,6 +137,7 @@ define(function(require, exports, module) {
 					var sflxDataArray = json.data;
 					json.data = {};
 					json.data["sflxDataArray"] = sflxDataArray;
+					json.data["sflxOrganize"] = sflxOrganize;
 					console.log(json.data)
 					$(Dom.getOrganize).html(template(json.data));
 
@@ -153,19 +172,19 @@ define(function(require, exports, module) {
 
 		//保存
 		organizeSave: function() {
-			var _form = $(Dom.getUserinfoForm);
-			_form.find('button[name="organizeSave"]').bind('click', function() {
-				// 表单校验：成功后调取接口
-				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-					var cmd = $("#Form_getUserinfo").serialize();
-				});
+			// var _form = $(Dom.getUserinfoForm);
+			// _form.find('button[name="organizeSave"]').bind('click', function() {
+			// 	// 表单校验：成功后调取接口
+			// 	_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+			// 		var cmd = $("#Form_getUserinfo").serialize();
+			// 	});
 
-			})
+			// })
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new" || Dom.organizeId == null) {
 					var cmd = {
-						"organizeId": Dom.organizeId,
+						"parentOrganizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),
@@ -197,7 +216,7 @@ define(function(require, exports, module) {
 					});
 				} else {
 					var cmd = {
-						"organizeId": Dom.organizeId,
+						"parentOrganizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),

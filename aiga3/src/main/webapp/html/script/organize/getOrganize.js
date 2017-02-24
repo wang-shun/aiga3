@@ -200,9 +200,9 @@ define(function(require, exports, module) {
 						"englishName": $("#englishName").val(),
 						"email": $("#email").val(),
 						"connectName": $("#connectName").val(),
-						"connectBillId": $("#connectBillId").val(),
+						"connectBillId": $("#connectBillId").val()
 					}
-					Rose.ajax.postJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";
 							alert("保存成功！");

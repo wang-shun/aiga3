@@ -5,7 +5,7 @@
 define(function(require, exports, module) {
 
     // 用户信息接口
-    srvMap.add("getUserinfo", "global/getUserinfo.json", "LOGININFO");
+    srvMap.add("getUserinfo", "global/getUserinfo.json", "html/mock/global/getUserinfo.json");
 
     // 模板对象
     var Tpl = {

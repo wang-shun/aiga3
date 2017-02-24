@@ -135,7 +135,7 @@ define(function(require,exports,module){
 							 }
 						}
 					};
-					$.fn.zTree.init($("#Tree_getRightTree"), setting, json.data.FuncList);
+					$.fn.zTree.init($("#Tree_getRightTree"), setting, json.data);
 
 
 	                

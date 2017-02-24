@@ -120,10 +120,9 @@ define(function(require, exports, module) {
 		initOrganize: function() {
 			var cmd1 = "category=constantOrganize";
 			var cmd2 = "category=organizeType";
-			var sflxOrganize = [];
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
 					if (status) {
-						sflxOrganize = json.data;
+						Dom.sflxOrganize = json.data;
 					}
 				});
 

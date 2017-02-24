@@ -27,7 +27,7 @@ public class SysConatantSv extends BaseService{
 	
 	//查询组织类型/证件类型
 	public List<SysConstant> findConstant(String category){
-		return  sysConstantDao.findByCategoryLike(category);
+		return  sysConstantDao.findByCategory(category);
 	}
 	
 	

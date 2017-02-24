@@ -1,0 +1,164 @@
+
+        <!-- 主内容包裹区 -->
+        <!-- <div class="content-wrapper" style="min-height: 1011px;"> -->
+            <!-- Content Header (Page header) -->
+<!--             <section class="content-header">
+              <h1>
+                员工角色权限管理
+              </h1>
+              <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li class="active">授权管理</li>
+                <li class="active">员工角色权限管理</li>
+              </ol>
+            </section> -->
+            <!-- 主内容 -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-6">
+                    <div class="box">
+                        <div class="box-header">
+                          <h3 class="box-title">员工列表</h3>
+                          <div class="box-tools">
+                          </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body" style="min-height: 100px;" id="Page_getUserinfoList">
+                        </div>
+                       <!--  <div class="overlay">
+                         <i class="fa fa-refresh fa-spin"></i>
+                       </div> -->
+                        <!-- /.box-body -->
+                      </div>
+                      <!-- /.box -->
+                    </div>
+                    <div class="col-md-6">
+                    <div class="box">
+                        <div class="box-header">
+                          <h3 class="box-title">岗位授权</h3>
+                          <div class="box-tools">
+                            <button id="JS_saveStaffRole" type="button" class="btn btn-primary" >保存</button>
+                          </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body" style="min-height: 100px;" id="Page_getStaffRoleList">
+                        </div>
+                       <!--  <div class="overlay">
+                         <i class="fa fa-refresh fa-spin"></i>
+                       </div> -->
+                        <!-- /.box-body -->
+                      </div>
+                      <!-- /.box -->
+                    </div>
+                </div>
+            </section>
+<!--         </div> -->
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">添加员工</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+            <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>工号</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                  </div>
+                  <div class="form-group">
+                    <label>Minimal</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                  </div>
+                  <div class="form-group">
+                    <label>Disabled</label>
+                    <select class="form-control select2" disabled="disabled" style="width: 100%;">
+                      <option selected="selected">Alabama</option>
+                      <option>Alaska</option>
+                      <option>California</option>
+                      <option>Delaware</option>
+                      <option>Tennessee</option>
+                      <option>Texas</option>
+                      <option>Washington</option>
+                    </select>
+                  </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Multiple</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                  <option>Alabama</option>
+                  <option>Alaska</option>
+                  <option>California</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+              <div class="form-group">
+                <label>Disabled Result</label>
+                <select class="form-control select2" style="width: 100%;">
+                  <option selected="selected">Alabama</option>
+                  <option>Alaska</option>
+                  <option disabled="disabled">California (disabled)</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Multiple</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State" style="width: 100%;">
+                  <option>Alabama</option>
+                  <option>Alaska</option>
+                  <option>California</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+              <div class="form-group">
+                <label>Disabled Result</label>
+                <select class="form-control select2" style="width: 100%;">
+                  <option selected="selected">Alabama</option>
+                  <option>Alaska</option>
+                  <option disabled="disabled">California (disabled)</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
+              <!-- /.form-group -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+          </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">确认</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    seajs.use("script/staffRole/staffRole.js", function(indexQuery) {
+        indexQuery.init();
+    });
+    </script>

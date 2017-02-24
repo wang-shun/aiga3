@@ -1,0 +1,91 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "userinfoList": [{
+            "staffid": "CHENGSJ111",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ222",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ333",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ444",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ555",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ666",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ777",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ888",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ999",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ000",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ1122",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        },{
+            "staffid": "CHENGSJ2233",
+            "name": "程素娟",
+            "state": "有效",
+            "zzbm": "H",
+            "zzmc": "新炬",
+            "zzbh": "10003"
+        }]
+    }
+}

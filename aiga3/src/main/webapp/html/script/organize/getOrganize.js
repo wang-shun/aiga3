@@ -19,7 +19,7 @@ define(function(require, exports, module) {
 	srvMap.add("deleOrganize", "organize/deleOrganize.json", "/sys/organize/del");
 
 	//删除
-	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constant");
+	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constants");
 
 
 	// 按条件查询
@@ -66,10 +66,10 @@ define(function(require, exports, module) {
 				alert(treeNode.organizeName);
 				alert(treeNode.organizeId);
 				alert(treeNode.parentOrganizeId);
-				var cmd = "organizeI="+Dom.organizeId;
-				var cmd1 = "organizeType=organizeType";
+				var cmd = "organizeId=" + Dom.organizeId;
+				var cmd1 = "category=certificateType"; //////////////
 				var sflxDataArray = [];
-				Rose.ajax.getJson(srvMap.get('constantOrganize'), 'cmd1', function(json, status) {
+				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 					if (status) {
 						sflxDataArray = json.data;
 					}
@@ -110,9 +110,9 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = "organizeType=organizeType";
+			var cmd1 = "category=certificateType";
 
-			Rose.ajax.getJson(srvMap.get('constantOrganize'),cmd1, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getOrganize);
 					console.log(json.data)
@@ -154,18 +154,18 @@ define(function(require, exports, module) {
 		//保存
 		organizeSave: function() {
 			var _form = $(Dom.getUserinfoForm);
-			_form.find('button[name="organizeSave"]').bind('click',function(){
+			_form.find('button[name="organizeSave"]').bind('click', function() {
 				// 表单校验：成功后调取接口
 				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-		            var cmd = $("#Form_getUserinfo").serialize();
-	        	});
+					var cmd = $("#Form_getUserinfo").serialize();
+				});
 
 			})
 			$("#organizeSave").bind('click', function() {
 
-				if (Operate_state == "new") {
+				if (Operate_state == "new" || Dom.organizeId == null) {
 					var cmd = {
-						"organizeId": organizeId,
+						"organizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),
@@ -187,11 +187,17 @@ define(function(require, exports, module) {
 						if (status) {
 							Operate_state = "update";
 							alert("保存成功！");
+							Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
+								if (status) {
+									console.log(json.data)
+									$.fn.zTree.init($("#treeDemo"), setting, json.data);
+								}
+							});
 						}
 					});
 				} else {
 					var cmd = {
-						"organizeId": organizeId,
+						"organizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),
@@ -212,6 +218,12 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('updateOrganize'), cmd, function(json, status) {
 						if (status) {
 							alert("保存成功！");
+							Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
+								if (status) {
+									console.log(json.data)
+									$.fn.zTree.init($("#treeDemo"), setting, json.data);
+								}
+							});
 						}
 					});
 				}
@@ -221,8 +233,8 @@ define(function(require, exports, module) {
 		organizeDele: function() {
 			//删除
 			$("#organizeDele").bind('click', function() {
-				var cmd = "organizeId="+organizeId;
-				Rose.ajax.postJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
+				var cmd = "organizeId=" + Dom.organizeId;
+				Rose.ajax.getJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
 					if (status) {
 						alert("删除成功！");
 
@@ -242,6 +254,13 @@ define(function(require, exports, module) {
 						$("#email").val("");
 						$("#connectName").val("");
 						$("#connectBillId").val("");
+
+						Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
+							if (status) {
+								console.log(json.data)
+								$.fn.zTree.init($("#treeDemo"), setting, json.data);
+							}
+						});
 					}
 				});
 			})

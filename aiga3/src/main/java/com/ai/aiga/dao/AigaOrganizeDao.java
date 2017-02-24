@@ -12,7 +12,6 @@ public interface AigaOrganizeDao extends JpaRepository<AigaOrganize, Long>{
 	public List<AigaOrganize> findByOrganizeId(Long organizeId);
 	
 	//查询所有组织,以及父子之间的关系
-	@Query("select parentOrganizeId,organizeName from AigaOrganize ")
 	public  List<AigaOrganize>  findAll();
 		
 	

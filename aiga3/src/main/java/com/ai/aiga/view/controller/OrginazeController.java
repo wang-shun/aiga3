@@ -19,7 +19,7 @@ public class OrginazeController {
 	
 	@Autowired
 	private OrganizeSv organizeSv;
-	private SysConatantSv sysConstantSv;
+
 	
 	@RequestMapping(path = "/sys/organize/list")
 	public @ResponseBody JsonBean list(Long organizeId){
@@ -38,6 +38,7 @@ public class OrginazeController {
 	
 	@RequestMapping(path = "/sys/orginaze/save")
 	public  @ResponseBody JsonBean  save(OrginazeRequest orginazeRequest){
+		System.out.println("111"+orginazeRequest.getOrganizeName());
         organizeSv.saveOrginaze(orginazeRequest);
 		return JsonBean.success;
 	}
@@ -50,8 +51,9 @@ public class OrginazeController {
 	
 	
 	@RequestMapping(path = "/sys/organize/del")
-	public  @ResponseBody JsonBean  delete(Long orginazeId){
-        organizeSv.deleteOrginaze(orginazeId);
+	public  @ResponseBody JsonBean  delete(Long organizeId){
+		System.out.println("organizeId"+organizeId);
+        organizeSv.deleteOrginaze(organizeId);
 		return JsonBean.success;
 	}
 }

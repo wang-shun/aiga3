@@ -1,0 +1,55 @@
+
+        <!-- 主内容包裹区 -->
+        <!-- <div class="content-wrapper" style="min-height: 1011px;"> -->
+            <!-- Content Header (Page header) -->
+            <!-- <section class="content-header">
+              <h1>
+                角色菜单权限管理
+              </h1>
+              <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+                <li class="active">附权管理</li>
+                <li class="active">角色菜单权限管理</li>
+              </ol>
+            </section> -->
+            <!-- 主内容 -->
+            <section class="content">
+                    <div class="col-md-6">
+                      <div class="box">
+                         <div class="box-header">
+                          <div class="box-title">岗位类型</div>
+                            <div class="box-body">
+                                <div class="active tab-pane" id="activity">
+                        <div class="box-body" style="min-height: 100px;" id="Page_getStaffRoleList"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                    <div class="col-md-6">
+                      <div class="box">
+                         <div class="box-header">
+                          <div class="box-title">关联权限</div>
+                            <div class="box-tools">
+                             <div class="btn-group">
+                              <button id="JS_rolefuncUpdate" type="button" name="update" onclick="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">更新</button>
+                            </div>
+                           </div>
+                            <div class="box-body">
+                                <div class="active tab-pane" id="activity">
+                                    <ul id="Tree_getRightTree" class="ztree"></ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                <!-- </div>
+ -->            </section>
+        </div>
+    </div>
+    <!-- Modal -->
+    <script>
+    seajs.use("script/roleFunc/roleFunc.js", function(indexQuery) {
+        indexQuery.init();
+    });
+    </script>

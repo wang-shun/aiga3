@@ -23,10 +23,10 @@ public class OrganizeTestDaoTest {
 //		System.out.println(dao.findByOrganizeName("2").size());
 //	}
 	
-	@Test
-	public void test3(){
-		System.out.println(dao1.findByCategoryLike("organizeType").size());
-	}
+//	@Test
+//	public void test3(){
+//		System.out.println(dao1.findByCategoryLike("organizeType").size());
+//	}
 
 //	public void test2(){
 //		System.out.println(dao.findAll().size());

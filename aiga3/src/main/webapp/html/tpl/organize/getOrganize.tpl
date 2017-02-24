@@ -20,7 +20,7 @@
 	      <div class="form-group">
 	        <label>联系人证件类型</label>
 	        <select id="connectCardType"  name="connectCardType" class="form-control select2" style="width: 100%;">
-	        	<option selected="true">{{connectCardType}}</option>
+	        	<!--<option selected="true">{{connectCardType}}</option>-->
 	        	{{#each sflxDataArray}}
 	          <option value="{{value}}">{{show}}</option><!---->
 	          {{/each}}
@@ -62,7 +62,7 @@
 	      <div class="form-group">
 	        <label>组织类型</label>
 	        <select  id="orgRoleTypeId" class="form-control select2" style="width: 100%;">
-	          <option selected="true">{{orgRoleTypeId}}</option>
+	          <!--<option selected="true">{{orgRoleTypeId}}</option>-->
 	          {{#each sflxOrganize}}
 	          <option value="{{value}}">{{show}}</option><!---->
 	          {{/each}}

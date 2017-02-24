@@ -1,3 +1,4 @@
+<div>
 <table id="JS_getStaffRoleListTable" class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -17,3 +18,4 @@
         {{/each}}
     </tbody>
 </table>
+</div>

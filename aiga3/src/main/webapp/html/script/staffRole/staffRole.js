@@ -77,8 +77,13 @@ define(function(require,exports,module){
 			        	self.getStaffRoleCheckedList(cmd)
 			        });
 
+			        // 滚动条
+			        $(Dom.getUserinfoListTable).parent().slimScroll({
+				        "height": '500px'
+				    });
+
 					// 表格分页
-					/*$('#example1').DataTable({
+					/*$(Dom.getUserinfoListTable).DataTable({
 			          "paging": true,
 			          "lengthChange": false,
 			          "searching": false,
@@ -92,9 +97,10 @@ define(function(require,exports,module){
 	  		});
         },
         getStaffRoleCheckedList :function(cmd){
+        	$("input[name='roleId']").iCheck('uncheck');
         	Rose.ajax.getJson(srvMap.get('getStaffRoleCheckedList'), cmd, function(json, status) {
 				if(status) {
-					var _array = json.data.StaffRoleList;
+					var _array = json.data;
 					console.log(_array);
 					/*$(Dom.getStaffRoleListTable).find('input[name="staffId"]').each(function(){
 						$(this).val(Data.staffId);	
@@ -123,18 +129,22 @@ define(function(require,exports,module){
 			        $('#JS_getStaffRoleListTable').find("tr").bind('click', function(event) {
 			        	$(this).find('.minimal').iCheck('check');
 			        	 //点击员工后，重新加载岗位列表
-						 self.getStaffRoleList();
+						 // self.getStaffRoleList();
 			        });
-/*					// 表格分页
-					$('#example2').DataTable({
+			        // 滚动条
+			        $('#JS_getStaffRoleListTable').parent().slimScroll({
+				        "height": '500px'
+				    });
+
+					// 表格分页
+					/*$('#JS_getStaffRoleListTable').DataTable({
 			          "paging": true,
 			          "lengthChange": false,
 			          "searching": false,
 			          "ordering": false,
 			          "info": true,
 			          "autoWidth": false
-			        });
-*/
+			        });*/
 				}
 	  		});
 		},

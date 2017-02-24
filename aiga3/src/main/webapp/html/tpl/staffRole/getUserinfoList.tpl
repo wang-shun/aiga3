@@ -1,3 +1,4 @@
+<div>
 <table id="JS_getUserinfoListTable" class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -16,3 +17,4 @@
         {{/each}}
     </tbody>
 </table>
+</div>

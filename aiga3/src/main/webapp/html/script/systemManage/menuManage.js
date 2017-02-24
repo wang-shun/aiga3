@@ -3,15 +3,15 @@ define(function(require,exports,module){
 	
 	
 	// 初始化菜单列表
-	srvMap.add("getMenulist", "systemManage/menuManage/getMenulist.json", "/sys/menu/list");
+	srvMap.add("getMenulist", "systemManage/menuManage/getMenulist.json", "sys/menu/list");
     // 获取菜单信息
-	srvMap.add("getMenuinfo", "systemManage/menuManage/getMenuinfo.json", "/sys/menu/get");	
+	srvMap.add("getMenuinfo", "systemManage/menuManage/getMenuinfo.json", "sys/menu/get");	
     //获取保存结果
-    srvMap.add("addMenu", "systemManage/menuManage/addMenu.json", "/sys/menu/save");
+    srvMap.add("addMenu", "systemManage/menuManage/addMenu.json", "sys/menu/save");
     //获取修改结果
-    srvMap.add("updateMenu", "systemManage/menuManage/updateMenu.json", "/sys/menu/update");	
+    srvMap.add("updateMenu", "systemManage/menuManage/updateMenu.json", "sys/menu/update");	
     //删除结果
-    srvMap.add("deleMenu", "systemManage/menuManage/deleMenu.json", "/sys/menu/del");	
+    srvMap.add("deleMenu", "systemManage/menuManage/deleMenu.json", "sys/menu/del");	
 
 	// 模板对象
     var Tpl = {
@@ -34,7 +34,7 @@ define(function(require,exports,module){
     
 	var setting = {
 		check: {
-			enable: true
+			enable: false
 		},
 		data: {
 			simpleData: {
@@ -47,16 +47,27 @@ define(function(require,exports,module){
 		callback:{
 			 onClick: function(event, treeId, treeNode){
 			 	currentMenu = treeNode.funcId;
-				var cmd = "funcId="+currentMenu;
-			 	Rose.ajax.getJson(srvMap.get('getMenuinfo') + "?" + cmd, '', function(json, status) {
-					if(status) {
-						OperateState = "update";
-						var template = Handlebars.compile(Tpl.getMenuinfo);
-						console.log(json.data)
-			    		$(Dom.getMenuinfo).html(template(json.data));
-			            $('#funcType').val(json.data.funcType);
-					}
-				});
+			 	if(!(currentMenu == 0)){
+					var cmd = "funcId="+currentMenu;
+				 	Rose.ajax.getJson(srvMap.get('getMenuinfo') + "?" + cmd, '', function(json, status) {
+						if(status) {
+							OperateState = "update";
+							var template = Handlebars.compile(Tpl.getMenuinfo);
+							console.log(json.data)
+				    		$(Dom.getMenuinfo).html(template(json.data));
+				            $('#funcType').val(json.data.funcType);
+						}
+					});
+			 	}else{
+					$("#funcCode").val("");
+					$("#name").val("");
+					$("#funcImg").val("");
+					$("#funcType").val("");
+					$("#funcArg").val("");
+					$("#dllPath").val("");
+					$("#viewname").val("");
+					$("#notes").val("");			 		
+			 	}
 			 }
 		}			
 	};    
@@ -128,12 +139,16 @@ define(function(require,exports,module){
 								Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
 									if(status) {
 										console.log(json.data)
+										json.data.push({
+											funcId : 0,
+											name: "功能菜单"
+										});										
 					            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
 									}
 						  		});
 								
 								Operate_state = "update";
-								alert("保存成功！");						
+								XMS.msgbox.show('添加菜单成功！', 'success', 3000)						
 							}
 		  				});
 			  		}
@@ -151,14 +166,24 @@ define(function(require,exports,module){
 			  			Rose.ajax.postJson(srvMap.get('updateMenu')+"?"+cmd, '', function(json, status) {
 							if(status) {
 								OperateState = "update";
-								alert("保存成功！");
+								Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
+									if(status) {
+										console.log(json.data)
+										json.data.push({
+											funcId : 0,
+											name: "功能菜单"
+										});										
+					            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
+									}
+						  		});								
+								XMS.msgbox.show('修改菜单成功！', 'success', 3000)
 							}
 		  				});	  			
 
 			  		}		         	   
-	        	});				
-  			
-	  		});	
+	        	});	
+	        });			
+  				
 		},
 		
 		menuDel: function(){
@@ -174,12 +199,16 @@ define(function(require,exports,module){
 						
 						Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
 							if(status) {
-								console.log(json.data)
+								console.log(json.data);
+								json.data.push({
+									funcId : 0,
+									name: "功能菜单"
+								});								
 			            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
 							}
 				  	});
 						OperateState = null;
-						alert("删除成功！");
+						XMS.msgbox.show('删除菜单成功！', 'success', 3000)
 						$("#funcCode").val("");
 						$("#name").val("");
 						$("#funcImg").val("");

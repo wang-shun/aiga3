@@ -17,17 +17,17 @@ define(function(require,exports,module){
 	// srvMap.add("queryUserinfoList", "home/queryUserinfoList.json", "/sys/role/query");
 
 	// 模板对象
-    var Tpl = {
-        getUserinfoList: require('tpl/home/getUserinfoList.tpl')
-    };
+    // var Tpl = {
+    //     getUserinfoList: require('tpl/home/getUserinfoList.tpl')
+    // };
     var Tpl2 = {
     	getStaffRoleList:require('tpl/roleFunc/getStaffRoleList.tpl')
     };
     // 容器对象
-    var Mod = {
-        getUserinfoList: '#Page_getUserinfoList'
-        // updateRoleFunc: $('#JS_updateRoleFunc')
-    };
+    // var Mod = {
+    //     getUserinfoList: '#Page_getUserinfoList'
+    //     // updateRoleFunc: $('#JS_updateRoleFunc')
+    // };
     var Mod2 = {
     	getStaffRoleList:'#Page_getStaffRoleList'
     };
@@ -72,6 +72,10 @@ define(function(require,exports,module){
 			        	console.log(cmd);
 			        	self.getRoleFuncCheckedList(cmd);
 			        });
+			        // 滚动条
+			        $(Dom.getRoleFuncTable).parent().slimScroll({
+				        "height": '500px'
+				    });
 
 					// 表格分页
 					// $('#example3').DataTable({
@@ -87,9 +91,11 @@ define(function(require,exports,module){
 	  		});
 		},
 		getRoleFuncCheckedList :function(cmd){
+        	var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTree");
+            treeObj.checkAllNodes(false);
         	Rose.ajax.getJson(srvMap.get('getRoleFuncCheckedList'), cmd, function(json, status) {
 				if(status) {
-					var _json = json.data.FuncList;
+					var _json = json.data;
 					console.log(_json);
 					var zTree_Menu = $.fn.zTree.getZTreeObj("Tree_getRightTree");  
 
@@ -125,15 +131,12 @@ define(function(require,exports,module){
 						},
 						callback:{
 							 onCheck: function(event, treeId, treeNode){
-			           			alert(treeNode.name);
-							 	alert(treeNode.funcId);
-			           			alert(treeNode.parentId);
                                 funcIdNum = treeNode.funcId;
                                 console.log(funcIdNum);
 							 }
 						}
 					};
-					$.fn.zTree.init($("#Tree_getRightTree"), setting, json.data.FuncList);
+					$.fn.zTree.init($("#Tree_getRightTree"), setting, json.data);
 
 
 	                

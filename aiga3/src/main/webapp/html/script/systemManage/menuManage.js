@@ -47,7 +47,7 @@ define(function(require,exports,module){
 		callback:{
 			 onClick: function(event, treeId, treeNode){
 			 	currentMenu = treeNode.funcId;
-			 	if(!(currentMenu == 0){
+			 	if(!(currentMenu == 0)){
 					var cmd = "funcId="+currentMenu;
 				 	Rose.ajax.getJson(srvMap.get('getMenuinfo') + "?" + cmd, '', function(json, status) {
 						if(status) {
@@ -157,6 +157,16 @@ define(function(require,exports,module){
 			  			Rose.ajax.postJson(srvMap.get('updateMenu')+"?"+cmd, '', function(json, status) {
 							if(status) {
 								OperateState = "update";
+								Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
+									if(status) {
+										console.log(json.data)
+										json.data.push({
+											funcId : 0,
+											name: "功能菜单"
+										});										
+					            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
+									}
+						  		});								
 								alert("保存成功！");
 							}
 		  				});	  			

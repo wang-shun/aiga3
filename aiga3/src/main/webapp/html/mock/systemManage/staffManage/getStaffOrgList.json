@@ -2,9 +2,9 @@
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
     "data": [{
-        "id": "10732",
-        "code": "33089",
-        "name": "董承浩",
-        "state": "有效"
+        "organizeId": "10732",
+        "organizeName": "新炬",
+        "isAdminStaff": "否",
+        "isBaseOrg": "是"
     }]
 }

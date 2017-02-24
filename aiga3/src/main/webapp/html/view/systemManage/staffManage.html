@@ -7,7 +7,7 @@
             </ul>
             <div class="tab-content">
                 <div class="active tab-pane" id="isOrganize">
-                    <ul id="Tree_getOrganizeList" class="ztree"></ul>
+                    <ul id="JS_getOrganizeListTree" class="ztree"></ul>
                 </div>
                 <div class="tab-pane" id="isIf">
                     <form id="JS_getUserinfoForm">
@@ -38,12 +38,15 @@
         </div>
     </div>
     <div class="col-md-9" >
-        <div class="box" id="Page_getUserinfoList" style="min-height: 100px">
+        <!--用户列表-->
+        <div id="JS_getUserinfoList" class="box"  style="min-height: 100px">
             <div style="text-align: center; padding: 100px 0;">
                 <p style="font-size: 38px;"><i class="fa fa-warning text-yellow"></i></p>
                 <p style="color: #666;"><span>请先选择组织结构或按条件查询！</span></p>
             </div>
         </div>
+        <!--关联组织-->
+        <div id="JS_getStaffOrgList" class="box hide" style="min-height: 100px"></div>
         <!-- /.box -->
     </div>
 </div>

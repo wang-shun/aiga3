@@ -5,7 +5,6 @@ public class StaffOrgRelatRequest {
     private Long staffId;
     private Character isAdminStaff;
     private Character isBaseOrg;
-    private String organizeName; 
 	public Long getOrganizeId() {
 		return organizeId;
 	}
@@ -30,23 +29,15 @@ public class StaffOrgRelatRequest {
 	public void setIsBaseOrg(Character isBaseOrg) {
 		this.isBaseOrg = isBaseOrg;
 	}
-	
-	public String getOrganizeName() {
-		return organizeName;
-	}
-	public void setOrganizeName(String organizeName) {
-		this.organizeName = organizeName;
-	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("StaffOrgRelatRequest [organizeId=").append(organizeId).append(", staffId=").append(staffId)
-				.append(", isAdminStaff=").append(isAdminStaff).append(", isBaseOrg=").append(isBaseOrg)
-				.append(", organizeName=").append(organizeName).append("]");
+				.append(", isAdminStaff=").append(isAdminStaff).append(", isBaseOrg=").append(isBaseOrg).append("]");
 		return builder.toString();
 	}
-	
-	
+
+
 	
      
 }

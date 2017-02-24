@@ -131,10 +131,9 @@ public class FunctionSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funcType");
 		}
 		
-		if(request.getState() == null || !(0 == request.getState() || 1 == request.getState())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid, "state");
-			
-		}
+//		if(request.getState() == null || !(0 == request.getState() || 1 == request.getState())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid, "state");
+//		}
 		
 		AigaFunction aigaFuction = aigaFunctionDao.findOne(request.getFuncId());
 		if(aigaFuction == null){
@@ -158,7 +157,7 @@ public class FunctionSv extends BaseService{
 		aigaFuction.setDllPath(request.getDllPath());
 		aigaFuction.setViewname(request.getViewname());
 		aigaFuction.setNotes(request.getNotes());
-		aigaFuction.setState(request.getState());
+		//aigaFuction.setState(request.getState());
 		
 		aigaFuction.setDoneDate(new Date(System.currentTimeMillis()));
 		

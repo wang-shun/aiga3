@@ -120,14 +120,14 @@ define(function(require,exports,module){
 							simpleData: {
 								enable: true,
 								idKey:"funcId",
-								pIdKey:"parentFuncId"
+								pIdKey:"parentId"
 							}
 						},
 						callback:{
 							 onCheck: function(event, treeId, treeNode){
 			           			alert(treeNode.name);
 							 	alert(treeNode.funcId);
-			           			alert(treeNode.parentFuncId);
+			           			alert(treeNode.parentId);
                                 funcIdNum = treeNode.funcId;
                                 console.log(funcIdNum);
 							 }

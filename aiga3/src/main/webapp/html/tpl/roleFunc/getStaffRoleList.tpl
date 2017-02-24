@@ -6,12 +6,12 @@
         </tr>
     </thead>
     <tbody>
-        {{#each StaffRoleList}}
+        {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" name="roleAuthorId" value="{{roleAuthorId}}" id="">
               <input type="hidden" value="{{roleId}}" name="roleId">
             </td>
-            <td>{{roleName}}1</td>
+            <td>{{name}}1</td>
         </tr>
         {{/each}}
     </tbody>

@@ -869,8 +869,8 @@ Rose.ajax = {
 			async : async,
 			timeout : thiz.TIME_OUT,
 			beforeSend : function(xhr) {
-				xhr.overrideMimeType("text/plain; charset=utf-8");
-				xhr.setRequestHeader("Content-Type","text/plain");
+				//xhr.overrideMimeType("text/plain; charset=utf-8");
+			//	xhr.setRequestHeader("Content-Type","text/plain");
 			},
 			success : function(data) {
 				if (!data) {

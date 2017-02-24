@@ -79,9 +79,9 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
-						json.data["sflxDataArray"] = sflxDataArray;
+						json.data[0]["sflxDataArray"] = sflxDataArray;
 						console.log(json.data)
-						$(Dom.getOrganize).html(template(json.data[0]));
+						$(Dom.getOrganize).html(template(json.data));
 
 					}
 				});
@@ -163,7 +163,7 @@ define(function(require, exports, module) {
 			})
 			$("#organizeSave").bind('click', function() {
 
-				if (Operate_state == "new") {
+				if (Operate_state == "new" || Dom.organizeId == null) {
 					var cmd = {
 						"organizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),

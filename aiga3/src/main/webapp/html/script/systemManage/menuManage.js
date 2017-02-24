@@ -148,7 +148,7 @@ define(function(require,exports,module){
 //			  	 			"notes="+$("#notes").val()  				
 						cmd = "funcId="+currentMenu+"&"+cmd;
 			  			console.log(cmd);
-			  			Rose.ajax.postJson(srvMap.get('updateMenu'), cmd, function(json, status) {
+			  			Rose.ajax.postJson(srvMap.get('updateMenu')+"?"+cmd, '', function(json, status) {
 							if(status) {
 								OperateState = "update";
 								alert("保存成功！");
@@ -169,7 +169,7 @@ define(function(require,exports,module){
 				var cmd = "funcId="+currentMenu;
 				console.log(cmd);
 	  			
-				Rose.ajax.postJson(srvMap.get('deleMenu'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('deleMenu')+"?"+cmd, '', function(json, status) {
 					if(status) {
 						
 						Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {

@@ -68,10 +68,18 @@ define(function(require, exports, module) {
 				alert(treeNode.parentOrganizeId);
 				var cmd = "organizeId=" + Dom.organizeId;
 				var cmd1 = "category=certificateType"; //////////////
+				var cmd2 = "category=organizeType";
 				var sflxDataArray = [];
+				var sflxOrganize = [];
 				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 					if (status) {
 						sflxDataArray = json.data;
+					}
+				});
+
+				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
+					if (status) {
+						sflxOrganize = json.data;
 					}
 				});
 
@@ -81,6 +89,7 @@ define(function(require, exports, module) {
 						console.log(json.data)
 						var aaa=json.data[0];
 						aaa["sflxDataArray"] = sflxDataArray;
+						aaa["sflxOrganize"] = sflxOrganize;
 						alert(aaa);
 						console.log(json.data)
 						$(Dom.getOrganize).html(template(aaa));
@@ -112,7 +121,14 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = "category=certificateType";
+			var cmd1 = "category=constantOrganize";
+			var cmd2 = "category=organizeType";
+			var sflxOrganize = [];
+			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
+					if (status) {
+						sflxOrganize = json.data;
+					}
+				});
 
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 				if (status) {
@@ -121,6 +137,7 @@ define(function(require, exports, module) {
 					var sflxDataArray = json.data;
 					json.data = {};
 					json.data["sflxDataArray"] = sflxDataArray;
+					json.data["sflxOrganize"] = sflxOrganize;
 					console.log(json.data)
 					$(Dom.getOrganize).html(template(json.data));
 

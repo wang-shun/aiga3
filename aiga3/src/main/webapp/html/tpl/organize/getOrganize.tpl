@@ -17,13 +17,14 @@
 	      </div>
 	      <div class="form-group">
 	        <label>联系电话</label>
-	        <input type="text"  class="form-control" id="phoneId" value="{{phoneId}}">
+	        <input type="text"  class="form-control" id="phoneId" name="phoneId" value="{{phoneId}}">
 	      </div>
 	      <div class="form-group">
 	        <label>联系人证件类型</label>
 	        <select id="connectCardType"  name="connectCardType" class="form-control select2" style="width: 100%;">
 	        	<!--<option selected="true">{{connectCardType}}</option>-->
 	        	{{#each sflxDataArray}}
+
 	          <option value="{{value}}">{{show}}</option><!---->
 	          {{/each}}
 	        </select>
@@ -31,7 +32,7 @@
 	      </div>
 	      <div class="form-group">
 	        <label>传真</label>
-	        <input  class="form-control" id="faxId" value="{{faxId}}">
+	        <input  class="form-control" id="faxId" name="faxId" value="{{faxId}}">
 	      </div>
 		</div>
 		<!--2222222222222222222222222222222222222222222 -->
@@ -43,20 +44,20 @@
 	      </div>
 	      <div class="form-group">
 	        <label>简称</label>
-	        <input  class="form-control" id="shortName" value="{{shortName}}">
+	        <input  class="form-control" id="shortName" name="shortName" value="{{shortName}}">
 	      </div>
 	      <div class="form-group">
 	        <label>负责人名称</label>
-	        <input  class="form-control" id="managerName" value="{{managerName}}">
+	        <input  class="form-control" id="managerName" name="managerName" value="{{managerName}}">
 	      </div>
 	      
 	      <div class="form-group">
 	        <label>联系人证件号码</label>
-	        <input  class="form-control" id="connectCardId" value="{{connectCardId}}">
+	        <input  class="form-control" id="connectCardId" name="connectCardId" value="{{connectCardId}}">
 	      </div>
 	      <div class="form-group">
 	        <label>是否叶子</label>
-	        <input  class="form-control" id="isLeaf" value="{{isLeaf}}">
+	        <input  class="form-control" id="isLeaf" name="isLeaf" value="{{isLeaf}}">
 	      </div>
 		</div>
 	<!-- /.col 333333333333333333333333333333333333333333333333333-->
@@ -72,21 +73,21 @@
 	      </div>
 	      <div class="form-group">
 	        <label>英文名称</label>
-	        <input  class="form-control" id="englishName" value="{{englishName}}">
+	        <input  class="form-control" id="englishName" name="englishName" value="{{englishName}}">
 	      </div>
 		  <div class="form-group">
 	        <label>email</label>
-	        <input  class="form-control" id="email" value="{{email}}">
+	        <input  class="form-control" id="email" name="email" value="{{email}}">
 	      </div>
 	      <div class="form-group">
 	        <label>联系人名称</label>
 	        <label style="color: red">*</label>
-	        <input  class="form-control" id="connectName" value="{{connectName}}">
+	        <input  class="form-control" id="connectName" name="connectName" value="{{connectName}}">
 	      </div>
 	      <div class="form-group">
 	        <label>联系人手机号</label>
-	        <input  class="form-control" id="connectBillId" value="{{connectBillId}}">
-	      </div>
+	        <input  class="form-control" id="connectBillId" name="connectBillId" value="{{connectBillId}}">
+	      </div>3
 		</div>
 	</div>							
 <!-- /.row -->

@@ -65,9 +65,6 @@ define(function(require, exports, module) {
 		callback: {
 			onClick: function(event, treeId, treeNode) {
 				Dom.organizeId = treeNode.organizeId;
-				alert(treeNode.organizeName);
-				alert(treeNode.organizeId);
-				alert(treeNode.parentOrganizeId);
 				var cmd = "organizeId=" + Dom.organizeId;
 				var cmd1 = "category=certificateType"; //////////////
 				var cmd2 = "category=organizeType";
@@ -189,13 +186,16 @@ define(function(require, exports, module) {
 					}else{
 						_dom.val(Dom.organizeId);
 					}
+					var q=$("#connectCardType option").map(function(){return $(this).text();}).get().join(", ");
+					console.log(q+"||||1111111111111111");
 					var cmd = $("#JS_getOrganizeForm").serialize();
-					alert($("#JS_getOrganizeForm").serialize())
-					console.log("12222222222222"+cmd);
+					
 					Rose.ajax.getJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";
 							alert("保存成功！");
+							var q=$("#connectCardType option").map(function(){return $(this).text();}).get().join(", ");
+							console.log(q+"||||2222222222222");
 							Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
 								if (status) {
 									console.log(json.data)
@@ -204,6 +204,7 @@ define(function(require, exports, module) {
 							});
 						}
 					});
+
 				} else {
 					var cmd = {
 						"parentOrganizeId": Dom.organizeId,

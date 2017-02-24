@@ -54,9 +54,7 @@
 	      </div>
 	      <div class="form-group">
 	        <label>是否叶子</label>
-	        <select  id="isLeaf" class="form-control select2" style="width: 100%;">
-	          <option selected="true">{{isLeaf}}</option>
-	        </select>
+	        <input  class="form-control" id="isLeaf" value="{{isLeaf}}">
 	      </div>
 		</div>
 	<!-- /.col 333333333333333333333333333333333333333333333333333-->

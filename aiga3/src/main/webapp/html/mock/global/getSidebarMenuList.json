@@ -41,12 +41,12 @@
                 "isActive": 0,
                 "childMenuList": [{
                     "menuName": "员工角色权限管理",
-                    "menuURL": "#",
+                    "menuURL": "view/staffRole/staffRole.html",
                     "hasChild": 0,
                     "isActive": 0
                 },{
                     "menuName": "角色菜单权限管理",
-                    "menuURL": "#",
+                    "menuURL": "view/roleFunc/roleFunc.html",
                     "hasChild": 0,
                     "isActive": 0
                 }]

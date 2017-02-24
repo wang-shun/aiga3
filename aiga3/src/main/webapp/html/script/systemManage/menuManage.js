@@ -47,9 +47,7 @@ define(function(require,exports,module){
 		callback:{
 			 onClick: function(event, treeId, treeNode){
 			 	currentMenu = treeNode.funcId;
-				var cmd = {
-					"funcId":currentMenu
-				};
+				var cmd = "funcId="+currentMenu;
 			 	Rose.ajax.getJson(srvMap.get('getMenuinfo'), cmd, function(json, status) {
 					if(status) {
 						var template = Handlebars.compile(Tpl.getMenuinfo);
@@ -92,7 +90,7 @@ define(function(require,exports,module){
 		menuAdd: function(){
 			
 			$("#menuAdd").bind('click',function(){
-				alert();
+
 				Operate_state = "update";
 				$("#funcCode").val("");
 				$("#name").val("");
@@ -111,22 +109,11 @@ define(function(require,exports,module){
         menuSave: function(){
 			var _form = $(Dom.getMenuinfoForm);        	
     		_form.find('button[name="save"]').bind('click',function(){
-				alert(1);
-				// 表单校验：成功后调取接口
+   				// 表单校验：成功后调取接口
+				var cmd = $("#JS_getMenuinfoForm").serialize();
 				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {	
-					alert();	
 					if(Operate_state == "new"){
-			  			var cmd = {
-							"parentId":currentMenu,
-			  				"funcCode":$("#funcCode").val(),
-			  				"name":$("#name").val(),
-			  				"funcImg":$("#funcImg").val(),
-							"funcType":$("#funcType").val(),
-			  				"funcArg":$("#funcArg").val(),
-			  				"dllPath":$("#dllPath").val(),
-			  				"viewname":$("#viewname").val(),
-			  				"notes":$("#notes").val()  				
-			  			}
+			  			cmd = "parentId="+currentMenu+"&"+cmd;
 			  			console.log(cmd);
 			  			Rose.ajax.postJson(srvMap.get('addMenu'), cmd, function(json, status) {
 							if(status) {
@@ -143,17 +130,15 @@ define(function(require,exports,module){
 							  				
 			  		}
 			  		else{
-						var cmd = {
-							"funcId":currentMenu,
-			  				"funcCode":$("#funcCode").val(),
-			  				"name":$("#name").val(),
-			  				"funcImg":$("#funcImg").val(),
-							"funcType":$("#funcType").val(),
-			  				"funcArg":$("#funcArg").val(),
-			  				"dllPath":$("#dllPath").val(),
-			  				"viewname":$("#viewname").val(),
-			  				"notes":$("#notes").val()  				
-			  			}
+						// var cmd = 
+						// 	"funcId="+currentMenu+"funcCode="+$("#funcCode").val()+
+			  	// 			"name="+$("#name").val()+"funcImg="+$("#funcImg").val()+
+						// 	"funcType="+$("#funcType").val()+
+			  	// 			"funcArg="+$("#funcArg").val()+
+			  	// 			"dllPath="+$("#dllPath").val()+
+			  	// 			"viewname="+$("#viewname").val()+
+			  	// 			"notes="+$("#notes").val()  				
+						cmd = "funcId="+currentMenu+"&"+cmd;
 			  			console.log(cmd);
 			  			Rose.ajax.postJson(srvMap.get('updateMenu'), cmd, function(json, status) {
 							if(status) {
@@ -170,9 +155,9 @@ define(function(require,exports,module){
 			var _form = $(Dom.getMenuinfoForm);
 
 			_form.find('button[name="del"]').bind('click',function(){
-				var cmd = {
-					"funcId":currentMenu
-	  			}
+				var cmd = "funcId="+currentMenu;
+				console.log(cmd);
+	  			
 				Rose.ajax.postJson(srvMap.get('deleMenu'), cmd, function(json, status) {
 					if(status) {
 						alert("删除成功！");

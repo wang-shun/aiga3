@@ -1,26 +1,24 @@
 {
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
-    "data": {
-        "FuncList":[
-        	{ "funcId":"1", "parentFuncId":"0", "name":"功能列表","chkDisabled":true},
-			{ "funcId":"11", "parentFuncId":"0", "name":"系统管理"},
-			{ "funcId":"111", "parentFuncId":"11", "name":"功能模块管理"},
-			{ "funcId":"112", "parentFuncId":"11", "name":"岗位角色管理"},
-			{ "funcId":"113", "parentFuncId":"11", "name":"员工管理"},
-			{ "funcId":"114", "parentFuncId":"11", "name":"组织管理"},
-			{ "funcId":"115", "parentFuncId":"11", "name":"岗位管理"},
-			{ "funcId":"121", "parentFuncId":"11", "name":"授权"},
-			{ "funcId":"122", "parentFuncId":"121", "name":"随意勾选 1-2-2"},
-			{ "funcId":"123", "parentFuncId":"121", "name":"随意勾选"},
-			{ "funcId":"2", "parentFuncId":"0", "name":"我的工作区"},
-			{ "funcId":"21", "parentFuncId":"2", "name":"随意勾选 2-1"},
-			{ "funcId":"22", "parentFuncId":"2", "name":"随意勾选 2-2"},
-			{ "funcId":"221", "parentFuncId":"22", "name":"随意勾选 2-2-1"},
-			{ "funcId":"222", "parentFuncId":"22", "name":"随意勾选 2-2-2"},
-			{ "funcId":"23", "parentFuncId":"2", "name":"随意勾选 2-3"},
-			{ "funcId":"3", "parentFuncId":"0", "name":"测试计划管理"},
-			{ "funcId":"4", "parentFuncId":"0", "name":"用例库"},
-			{ "funcId":"5", "parentFuncId":"0", "name":"测试执行"}
+    "data":[
+        	{ "funcId":"1", "parentId":"0", "name":"功能列表","chkDisabled":true},
+			{ "funcId":"11", "parentId":"0", "name":"系统管理"},
+			{ "funcId":"111", "parentId":"11", "name":"功能模块管理"},
+			{ "funcId":"112", "parentId":"11", "name":"岗位角色管理"},
+			{ "funcId":"113", "parentId":"11", "name":"员工管理"},
+			{ "funcId":"114", "parentId":"11", "name":"组织管理"},
+			{ "funcId":"115", "parentId":"11", "name":"岗位管理"},
+			{ "funcId":"121", "parentId":"11", "name":"授权"},
+			{ "funcId":"122", "parentId":"121", "name":"随意勾选 1-2-2"},
+			{ "funcId":"123", "parentId":"121", "name":"随意勾选"},
+			{ "funcId":"2", "parentId":"0", "name":"我的工作区"},
+			{ "funcId":"21", "parentId":"2", "name":"随意勾选 2-1"},
+			{ "funcId":"22", "parentId":"2", "name":"随意勾选 2-2"},
+			{ "funcId":"221", "parentId":"22", "name":"随意勾选 2-2-1"},
+			{ "funcId":"222", "parentId":"22", "name":"随意勾选 2-2-2"},
+			{ "funcId":"23", "parentId":"2", "name":"随意勾选 2-3"},
+			{ "funcId":"3", "parentId":"0", "name":"测试计划管理"},
+			{ "funcId":"4", "parentId":"0", "name":"用例库"},
+			{ "funcId":"5", "parentId":"0", "name":"测试执行"}
 		]}
-    }

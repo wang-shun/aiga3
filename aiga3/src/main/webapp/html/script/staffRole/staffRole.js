@@ -77,8 +77,13 @@ define(function(require,exports,module){
 			        	self.getStaffRoleCheckedList(cmd)
 			        });
 
+			        // 滚动条
+			        $(Dom.getUserinfoListTable).parent().slimScroll({
+				        "height": '500px'
+				    });
+
 					// 表格分页
-					/*$('#example1').DataTable({
+					/*$(Dom.getUserinfoListTable).DataTable({
 			          "paging": true,
 			          "lengthChange": false,
 			          "searching": false,
@@ -126,16 +131,20 @@ define(function(require,exports,module){
 			        	 //点击员工后，重新加载岗位列表
 						 // self.getStaffRoleList();
 			        });
-/*					// 表格分页
-					$('#example2').DataTable({
+			        // 滚动条
+			        $('#JS_getStaffRoleListTable').parent().slimScroll({
+				        "height": '500px'
+				    });
+
+					// 表格分页
+					/*$('#JS_getStaffRoleListTable').DataTable({
 			          "paging": true,
 			          "lengthChange": false,
 			          "searching": false,
 			          "ordering": false,
 			          "info": true,
 			          "autoWidth": false
-			        });
-*/
+			        });*/
 				}
 	  		});
 		},

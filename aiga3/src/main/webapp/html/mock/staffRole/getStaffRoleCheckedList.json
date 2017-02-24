@@ -1,8 +1,7 @@
 {
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
-    "data": {
-        "StaffRoleList": [{
+    "data": [{
             "roleAuthorId":"001",
             "roleId": "1001",
             "roleName": "测试组长"
@@ -23,5 +22,4 @@
             "roleId":"1005",
             "roleName": "功能点管理员"
         }]
-   }
 }

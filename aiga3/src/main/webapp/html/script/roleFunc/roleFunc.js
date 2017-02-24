@@ -72,6 +72,10 @@ define(function(require,exports,module){
 			        	console.log(cmd);
 			        	self.getRoleFuncCheckedList(cmd);
 			        });
+			        // 滚动条
+			        $(Dom.getRoleFuncTable).parent().slimScroll({
+				        "height": '500px'
+				    });
 
 					// 表格分页
 					// $('#example3').DataTable({

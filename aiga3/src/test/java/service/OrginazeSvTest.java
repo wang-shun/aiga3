@@ -29,8 +29,8 @@ public class OrginazeSvTest {
 	public void testDel(){
 		sv.deleteOrginaze(1L);
 	}
-	@Test
-	public void test(){
-		sv.findConstant("organizeType");
-	}
+//	@Test
+//	public void test(){
+//		sv.findConstant("organizeType");
+//	}
 }

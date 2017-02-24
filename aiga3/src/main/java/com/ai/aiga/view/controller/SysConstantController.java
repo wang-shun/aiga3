@@ -23,6 +23,7 @@ public class SysConstantController {
 	
 	@RequestMapping(path = "/sys/organize/constants")
 	public  @ResponseBody JsonBean  organizeType(String category){
+		System.out.println("*****"+category);
 		JsonBean bean = new JsonBean();
 		bean.setData(sysConstantSv.findConstant(category));
 		return bean;

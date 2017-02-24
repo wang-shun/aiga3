@@ -36,11 +36,7 @@ public class OrganizeSv extends BaseService{
 		return  organizeDao.findAll();
 	}
 	
-	//查询组织类型/证件类型
-	public List<SysConstant> findConstant(String category){
-		return  sysConstantDao.findByCategoryLike(category);
-	}
-	
+
 	
 	//新增
 	public void saveOrginaze(OrginazeRequest orginazeRequest) {  
@@ -122,12 +118,12 @@ public class OrganizeSv extends BaseService{
 	
 
 	//根据组织编号删除
-	public void deleteOrginaze(Long orginazeId) {
+	public void deleteOrginaze(Long organizeId) {
 		
-		if(orginazeId == null || orginazeId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "roleId");
+		if(organizeId == null || organizeId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");
 		}
-		organizeDao.delete(orginazeId);
+		organizeDao.delete(organizeId);
 	}
 
 	

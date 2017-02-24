@@ -24,7 +24,7 @@ public class OrganizeSv extends BaseService{
 	
 	@Autowired
 	private AigaOrganizeDao organizeDao;
-	private SysConstantDao sysConstantDao;
+
 	
 	//根据组织名称查询所有信息
 	public List<AigaOrganize> findOrganize(Long organizeId) {

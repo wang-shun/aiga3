@@ -1,0 +1,28 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "RoleList": [
+            { "roleId":"1", "parentRoleId":"0", "name":"岗位分类"},
+            { "roleId":"11", "parentRoleId":"1", "name":"部门岗位"},
+            { "roleId":"111", "parentRoleId":"11", "name":"项目测试人员"},
+            { "roleId":"112", "parentRoleId":"11", "name":"项目回归测试人员"},
+            { "roleId":"113", "parentRoleId":"11", "name":"回归用例维护"},
+            { "roleId":"114", "parentRoleId":"11", "name":"项目厂商测试组长"},
+            { "roleId":"115", "parentRoleId":"11", "name":"项目负责人"},
+            { "roleId":"116", "parentRoleId":"11", "name":"安全管理员"},
+            { "roleId":"117", "parentRoleId":"11", "name":"自动化测试组长"},
+            { "roleId":"118", "parentRoleId":"11", "name":"自动化主机管理员"},
+            { "roleId":"119", "parentRoleId":"11", "name":"用户体验管理员"},
+            { "roleId":"120", "parentRoleId":"11", "name":"开发内部人员"},
+            { "roleId":"121", "parentRoleId":"11", "name":"功能点管理员"},
+            { "roleId":"122", "parentRoleId":"11", "name":"测试任务管理"},
+            { "roleId":"111", "parentRoleId":"11", "name":"联调需求管理员"},
+            { "roleId":"111", "parentRoleId":"11", "name":"资源管理员"},
+            { "roleId":"111", "parentRoleId":"11", "name":"移动地市测试人员"},
+            { "roleId":"111", "parentRoleId":"11", "name":"集成商岗位"},
+            { "roleId":"111", "parentRoleId":"11", "name":"要素管理岗位"},
+            { "roleId":"111", "parentRoleId":"11", "name":"局方岗位"},
+            { "roleId":"111", "parentRoleId":"11", "name":"新业务测试管理员"}
+        ]}
+}

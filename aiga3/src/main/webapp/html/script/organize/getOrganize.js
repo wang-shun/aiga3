@@ -4,22 +4,22 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	require('global/sidebar.js');
 	// 初始化列表
-	srvMap.add("getOrganize", "organize/getOrganize.json", "/sys/organize/list");
+	srvMap.add("getOrganize", "organize/getOrganize.json", "sys/organize/list");
 
 	//树的现实
-	srvMap.add("organizeTree", "organize/organizeTree.json", "/sys/organize/treeList");
+	srvMap.add("organizeTree", "organize/organizeTree.json", "sys/organize/treeList");
 
 	//添加
-	srvMap.add("saveOrganize", "organize/saveOrganize.json", "/sys/organize/save");
+	srvMap.add("saveOrganize", "organize/saveOrganize.json", "sys/organize/save");
 
 	//修改
-	srvMap.add("updateOrganize", "organize/updateOrganize.json", "/sys/organize/update");
+	srvMap.add("updateOrganize", "organize/updateOrganize.json", "sys/organize/update");
 
 	//删除
-	srvMap.add("deleOrganize", "organize/deleOrganize.json", "/sys/organize/del");
+	srvMap.add("deleOrganize", "organize/deleOrganize.json", "sys/organize/del");
 
 	//删除
-	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constants");
+	srvMap.add("constantOrganize", "organize/constantOrganize.json", "sys/organize/constants");
 
 
 	// 按条件查询
@@ -68,10 +68,18 @@ define(function(require, exports, module) {
 				alert(treeNode.parentOrganizeId);
 				var cmd = "organizeId=" + Dom.organizeId;
 				var cmd1 = "category=certificateType"; //////////////
+				var cmd2 = "category=organizeType";
 				var sflxDataArray = [];
+				var sflxOrganize = [];
 				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 					if (status) {
 						sflxDataArray = json.data;
+					}
+				});
+
+				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
+					if (status) {
+						sflxOrganize = json.data;
 					}
 				});
 
@@ -79,9 +87,12 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
-						json.data["sflxDataArray"] = sflxDataArray;
+						var aaa=json.data[0];
+						aaa["sflxDataArray"] = sflxDataArray;
+						aaa["sflxOrganize"] = sflxOrganize;
+						alert(aaa);
 						console.log(json.data)
-						$(Dom.getOrganize).html(template(json.data[0]));
+						$(Dom.getOrganize).html(template(aaa));
 
 					}
 				});
@@ -110,7 +121,14 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = "category=certificateType";
+			var cmd1 = "category=constantOrganize";
+			var cmd2 = "category=organizeType";
+			var sflxOrganize = [];
+			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
+					if (status) {
+						sflxOrganize = json.data;
+					}
+				});
 
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 				if (status) {
@@ -119,6 +137,7 @@ define(function(require, exports, module) {
 					var sflxDataArray = json.data;
 					json.data = {};
 					json.data["sflxDataArray"] = sflxDataArray;
+					json.data["sflxOrganize"] = sflxOrganize;
 					console.log(json.data)
 					$(Dom.getOrganize).html(template(json.data));
 
@@ -153,37 +172,20 @@ define(function(require, exports, module) {
 
 		//保存
 		organizeSave: function() {
-			var _form = $(Dom.getUserinfoForm);
-			_form.find('button[name="organizeSave"]').bind('click', function() {
-				// 表单校验：成功后调取接口
-				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-					var cmd = $("#Form_getUserinfo").serialize();
-				});
+			// var _form = $(Dom.getUserinfoForm);
+			// _form.find('button[name="organizeSave"]').bind('click', function() {
+			// 	// 表单校验：成功后调取接口
+			// 	_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+			// 		var cmd = $("#Form_getUserinfo").serialize();
+			// 	});
 
-			})
+			// })
 			$("#organizeSave").bind('click', function() {
 
-				if (Operate_state == "new") {
-					var cmd = {
-						"organizeId": Dom.organizeId,
-						"organizeName": $("#organizeName").val(),
-						"districtId": $("#districtId").val(),
-						"memberNum": $("#memberNum").val(),
-						"phoneId": $("#phoneId").val(),
-						"connectCardType": $("#connectCardType option:selected").text(),
-						"faxId": $("#faxId").val(),
-						"code": $("#code").val(),
-						"shortName": $("#shortName").val(),
-						"managerName": $("#managerName").val(),
-						"connectCardId": $("#connectCardId").val(),
-						"isLeaf": $("#isLeaf option:selected").text(),
-						"orgRoleTypeId": $("#orgRoleTypeId option:selected").text(),
-						"englishName": $("#englishName").val(),
-						"email": $("#email").val(),
-						"connectName": $("#connectName").val(),
-						"connectBillId": $("#connectBillId").val(),
-					}
-					Rose.ajax.postJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
+				if (Operate_state == "new" || Dom.organizeId == null) {
+					var cmd = $("#JS_getOrganizeForm").serialize();
+					
+					Rose.ajax.getJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";
 							alert("保存成功！");
@@ -197,7 +199,7 @@ define(function(require, exports, module) {
 					});
 				} else {
 					var cmd = {
-						"organizeId": Dom.organizeId,
+						"parentOrganizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),

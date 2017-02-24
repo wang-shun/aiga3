@@ -28,7 +28,7 @@ define(function(require,exports,module){
 
 
     //操作状态
-    var Operate_state = "update";
+    var OperateState = "new";
     //当前菜单id
     var currentMenu = null;
     
@@ -48,8 +48,9 @@ define(function(require,exports,module){
 			 onClick: function(event, treeId, treeNode){
 			 	currentMenu = treeNode.funcId;
 				var cmd = "funcId="+currentMenu;
-			 	Rose.ajax.getJson(srvMap.get('getMenuinfo'), cmd, function(json, status) {
+			 	Rose.ajax.getJson(srvMap.get('getMenuinfo') + "?" + cmd, '', function(json, status) {
 					if(status) {
+						OperateState = "update";
 						var template = Handlebars.compile(Tpl.getMenuinfo);
 						console.log(json.data)
 			    		$(Dom.getMenuinfo).html(template(json.data));
@@ -81,7 +82,11 @@ define(function(require,exports,module){
 
 			Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
 					if(status) {
-						console.log(json.data)
+						console.log(json.data);
+//						json.data.push({
+//							funcId : 0,
+//							name: "功能菜单"
+//						});
 	            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
 					}
 		  	});
@@ -91,7 +96,7 @@ define(function(require,exports,module){
 			
 			$("#menuAdd").bind('click',function(){
 
-				Operate_state = "update";
+				OperateState = "new";
 				$("#funcCode").val("");
 				$("#name").val("");
 				$("#funcImg").val("");
@@ -103,45 +108,49 @@ define(function(require,exports,module){
 	  		})			
 		},
 
-
-		
-
         menuSave: function(){
 			var _form = $(Dom.getMenuinfoForm);        	
     		_form.find('button[name="save"]').bind('click',function(){
    				// 表单校验：成功后调取接口
 				var cmd = $("#JS_getMenuinfoForm").serialize();
 				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {	
-					if(Operate_state == "new"){
-			  			cmd = "parentId="+currentMenu+"&"+cmd;
+					if(OperateState == "new"){
+						if(currentMenu){
+							cmd = "parentId="+currentMenu+"&"+cmd;
+						}else{
+							cmd = "parentId=0&"+cmd;
+						}
+			  			
 			  			console.log(cmd);
-			  			Rose.ajax.postJson(srvMap.get('addMenu'), cmd, function(json, status) {
+			  			Rose.ajax.postJson(srvMap.get('addMenu') + "?" + cmd, "", function(json, status) {
 							if(status) {
+								OperateState = "update";
+								Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
+									if(status) {
+										console.log(json.data)
+					            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
+									}
+						  		});
+								
 								Operate_state = "update";
 								alert("保存成功！");						
 							}
 		  				});
-			  			Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
-							if(status) {
-								console.log(json.data)
-			            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
-							}
-				  		});	
-							  				
 			  		}
 			  		else{
-						// var cmd = 
-						// 	"funcId="+currentMenu+"funcCode="+$("#funcCode").val()+
-			  	// 			"name="+$("#name").val()+"funcImg="+$("#funcImg").val()+
-						// 	"funcType="+$("#funcType").val()+
-			  	// 			"funcArg="+$("#funcArg").val()+
-			  	// 			"dllPath="+$("#dllPath").val()+
-			  	// 			"viewname="+$("#viewname").val()+
-			  	// 			"notes="+$("#notes").val()  				
+//						 var cmd = 
+//						 	"funcId="+currentMenu+"funcCode="+$("#funcCode").val()+
+//			  				"name="+$("#name").val()+"funcImg="+$("#funcImg").val()+
+//						 	"funcType="+$("#funcType").val()+
+//			  	 			"funcArg="+$("#funcArg").val()+
+//			  	 			"dllPath="+$("#dllPath").val()+
+//			  	 			"viewname="+$("#viewname").val()+
+//			  	 			"notes="+$("#notes").val()  				
 						cmd = "funcId="+currentMenu+"&"+cmd;
 			  			console.log(cmd);
-			  			Rose.ajax.postJson(srvMap.get('updateMenu'), cmd, function(json, status) {
+			  			Rose.ajax.postJson(srvMap.get('updateMenu')+"?"+cmd, '', function(json, status) {
 							if(status) {
+								OperateState = "update";
 								alert("保存成功！");
 							}
 		  				});		  			
@@ -150,16 +159,26 @@ define(function(require,exports,module){
 	        	});				
   			
 	  		});	
-		},		
+		},
+		
 		menuDel: function(){
 			var _form = $(Dom.getMenuinfoForm);
 
 			_form.find('button[name="del"]').bind('click',function(){
+				
 				var cmd = "funcId="+currentMenu;
 				console.log(cmd);
 	  			
-				Rose.ajax.postJson(srvMap.get('deleMenu'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('deleMenu')+"?"+cmd, '', function(json, status) {
 					if(status) {
+						
+						Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
+							if(status) {
+								console.log(json.data)
+			            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
+							}
+				  	});
+						OperateState = null;
 						alert("删除成功！");
 						$("#funcCode").val("");
 						$("#name").val("");
@@ -172,12 +191,7 @@ define(function(require,exports,module){
 						console.log(json.data);
 					}
 				});
-				Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
-						if(status) {
-							console.log(json.data)
-		            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
-						}
-			  	});				
+								
 			})	  			
 		},
 

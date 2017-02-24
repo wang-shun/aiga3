@@ -20,7 +20,7 @@
 	      <div class="form-group">
 	        <label>联系人证件类型</label>
 	        <select id="connectCardType"  name="connectCardType" class="form-control select2" style="width: 100%;">
-	        	<option selected="true">{{connectCardType}}</option>
+	        	<!--<option selected="true">{{connectCardType}}</option>-->
 	        	{{#each sflxDataArray}}
 	          <option value="{{value}}">{{show}}</option><!---->
 	          {{/each}}
@@ -54,17 +54,18 @@
 	      </div>
 	      <div class="form-group">
 	        <label>是否叶子</label>
-	        <select  id="isLeaf" class="form-control select2" style="width: 100%;">
-	          <option selected="true">{{isLeaf}}</option>
-	        </select>
+	        <input  class="form-control" id="isLeaf" value="{{isLeaf}}">
 	      </div>
 		</div>
 	<!-- /.col 333333333333333333333333333333333333333333333333333-->
 	    <div class="col-md-4">
 	      <div class="form-group">
 	        <label>组织类型</label>
-	        <select  id="orgRoleTypeId" class="form-control select2" style="width: 100%;">
-	          <option selected="true">{{orgRoleTypeId}}</option>
+	        <select  name="orgRoleTypeId" id="orgRoleTypeId" class="form-control select2" style="width: 100%;">
+	          <!--<option selected="true">{{orgRoleTypeId}}</option>-->
+	          {{#each sflxOrganize}}
+	          <option value="{{value}}">{{show}}</option><!---->
+	          {{/each}}
 	        </select>
 	      </div>
 	      <div class="form-group">

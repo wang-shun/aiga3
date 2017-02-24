@@ -5,7 +5,7 @@
 define(function(require, exports, module) {
 
     // 侧边栏菜单列表接口
-    srvMap.add("getSidebarMenuList", "global/getSidebarMenuList.json", "global/getSidebarMenuList.json");
+    srvMap.add("getSidebarMenuList", "global/getSidebarMenuList.json", "html/mock/global/getSidebarMenuList.json");
 
     // 模板对象
     var Tpl = {

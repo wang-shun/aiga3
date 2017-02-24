@@ -848,14 +848,16 @@ Rose.ajax = {
 	 */
 	ajax : function(url, type, cmd, dataType, callback, sync) {
 		var param = "";
+		console.log("参数类型："+typeof (cmd));
 		if (typeof (cmd) == "object"){
-			param = JSON.stringify(cmd);
+			param = this.jsonToUrl(cmd);
+			// param = JSON.stringify(cmd);
 		}else if(typeof(cmd)=="string"){
 			param = cmd;
 		}
-		//cmd = this.jsonToUrl(cmd);
+		
 		async = sync ? false : true;
-		//Rose.log(cmd);
+		Rose.log("参数打印："+param);
 		var thiz = Rose.ajax;
 		var cache = (dataType == "html") ? true : false;
 		$.ajax({
@@ -867,8 +869,8 @@ Rose.ajax = {
 			async : async,
 			timeout : thiz.TIME_OUT,
 			beforeSend : function(xhr) {
-				xhr.overrideMimeType("text/plain; charset=utf-8");
-				xhr.setRequestHeader("Content-Type","text/plain");
+				//xhr.overrideMimeType("text/plain; charset=utf-8");
+			//	xhr.setRequestHeader("Content-Type","text/plain");
 			},
 			success : function(data) {
 				if (!data) {

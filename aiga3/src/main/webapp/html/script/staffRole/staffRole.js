@@ -95,7 +95,7 @@ define(function(require,exports,module){
         	$("input[name='roleId']").iCheck('uncheck');
         	Rose.ajax.getJson(srvMap.get('getStaffRoleCheckedList'), cmd, function(json, status) {
 				if(status) {
-					var _array = json.data.StaffRoleList;
+					var _array = json.data;
 					console.log(_array);
 					/*$(Dom.getStaffRoleListTable).find('input[name="staffId"]').each(function(){
 						$(this).val(Data.staffId);	

@@ -146,23 +146,23 @@ define(function(require, exports, module) {
 			$("#organizeAdd").bind('click', function() {
 
 				Operate_state = "new";
-
-				$("#organizeName").val("");
-				$("#districtId").val("");
-				$("#memberNum").val("");
-				$("#phoneId").val("");
-				$("#connectCardType option:selected").text("");
-				$("#faxId").val("");
-				$("#code").val("");
-				$("#shortName").val("");
-				$("#managerName").val("");
-				$("#connectCardId").val("");
-				$("#isLeaf option:selected").text("");
-				$("#orgRoleTypeId option:selected").text("");
-				$("#englishName").val("");
-				$("#email").val("");
-				$("#connectName").val("");
-				$("#connectBillId").val("");
+				$("#JS_getOrganizeForm").resetForm(true);
+				// $("#organizeName").val("");
+				// $("#districtId").val("");
+				// $("#memberNum").val("");
+				// $("#phoneId").val("");
+				// $("#connectCardType option:selected").text("");
+				// $("#faxId").val("");
+				// $("#code").val("");
+				// $("#shortName").val("");
+				// $("#managerName").val("");
+				// $("#connectCardId").val("");
+				// $("#isLeaf option:selected").text("");
+				// $("#orgRoleTypeId option:selected").text("");
+				// $("#englishName").val("");
+				// $("#email").val("");
+				// $("#connectName").val("");
+				// $("#connectBillId").val("");
 
 			});
 		},

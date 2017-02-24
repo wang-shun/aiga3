@@ -10,7 +10,7 @@ define(function(require,exports,module){
 	//获取所有功能菜单	
 	srvMap.add("getFuncList", "roleFunc/getFuncList.json", "/sys/menu/list");
 	//根据当前角色ID调取已选择的功能菜单funcIds
-	srvMap.add("getRoleFuncCheckedList","roleFunc/getStaffRoleCheckedList.json","/sys/rolefunc/list");
+	srvMap.add("getRoleFuncCheckedList","roleFunc/getRoleFuncCheckedList.json","/sys/rolefunc/list");
     //更新角色菜单
     srvMap.add("roleFuncUpdate",pathAlias + "retMessage.json","/sys/rolefunc/update");
 	// 按条件查询
@@ -37,7 +37,9 @@ define(function(require,exports,module){
     }
     var funcIdNum;
     var Data = {
-        roleId:null
+        roleId:null,
+        getFuncListTree:null
+
     }
 	var indexInfoQuery = {
 		init: function(){
@@ -68,6 +70,7 @@ define(function(require,exports,module){
 			        	var cmd = "roleId="+_roleId;
 			        	Data.roleId = _roleId;
 			        	console.log(cmd);
+			        	self.getRoleFuncCheckedList(cmd);
 			        });
 
 					// 表格分页
@@ -83,18 +86,21 @@ define(function(require,exports,module){
 				}
 	  		});
 		},
-		 getRoleFuncCheckedList :function(cmd){
+		getRoleFuncCheckedList :function(cmd){
         	Rose.ajax.getJson(srvMap.get('getRoleFuncCheckedList'), cmd, function(json, status) {
 				if(status) {
 					var _json = json.data.FuncList;
 					console.log(_json);
-					/*$(Dom.getStaffRoleListTable).find('input[name="staffId"]').each(function(){
-						$(this).val(Data.staffId);	
-					})*/
-					// for(x in _array){
-					// 	$("#JS_role_"+_array[x].roleId).iCheck('check');
+					var zTree_Menu = $.fn.zTree.getZTreeObj("Tree_getRightTree");  
+
+					for(i in _json){
+						var node = zTree_Menu.getNodeByParam('funcId',_json[i].funcId);  
+	                	zTree_Menu.checkNode(node,true);//指定选中ID的节点  
+	                	zTree_Menu.expandNode(node, true, false);//指定选中ID节点展开  
 					}
-				})
+	                
+				}
+			})
         },
 		getLeftTree:function(cmd){
 
@@ -128,6 +134,9 @@ define(function(require,exports,module){
 						}
 					};
 					$.fn.zTree.init($("#Tree_getRightTree"), setting, json.data.FuncList);
+
+
+	                
 				}
 	  		});
 
@@ -142,11 +151,11 @@ define(function(require,exports,module){
 						funcIds:_data.funcIds
 					};
 							console.log(cmd);					
-						Rose.ajax.postJson(srvMap.get('saveStaffRole'), 'cmd', function(json, status) {
+						Rose.ajax.getJson(srvMap.get('roleFuncUpdate'),cmd, function(json, status) {
 							if(status) {
 								// 启用成功后，重新加载用户列表
 								// self.getUserinfoList();
-								window.XMS.msgbox.show('角色修改成功！', 'success', 2000)
+								window.XMS.msgbox.show('功能菜单更新成功！', 'success', 2000)
 							}
 			  			});
 			});
@@ -191,7 +200,7 @@ define(function(require,exports,module){
 		// 		if(_data){
 		// 			var _stafId =_data.staffId;
 		// 			if(_data.state == '失效'){
-		// 				Rose.ajax.postJson(srvMap.get('startUserinfo'), 'stafId:'+_stafId, function(json, status) {
+		// 				Rose.ajax.getJson(srvMap.get('startUserinfo'), 'stafId:'+_stafId, function(json, status) {
 		// 					if(status) {
 		// 						// 启用成功后，重新加载用户列表
 		// 						self.getUserinfoList();

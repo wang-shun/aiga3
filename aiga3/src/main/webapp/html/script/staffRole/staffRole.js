@@ -12,7 +12,7 @@ define(function(require,exports,module){
 	//修改员工角色
     srvMap.add("saveStaffRole", pathAlias + "retMessage.json","/sys/staffrole/update");
     //删除员工角色
-    srvMap.add("delStaffRole", pathAlias + "retMessage.json","/sys/staffrole/del");
+    // srvMap.add("delStaffRole", pathAlias + "retMessage.json","/sys/staffrole/del");
 	// 按条件查询
 	// srvMap.add("queryUserinfoList", "home/queryUserinfoList.json", "/sys/role/query");
 
@@ -159,23 +159,23 @@ define(function(require,exports,module){
 	  			});
 			});
 		},
-		delStaffRole:function(){
-			var self = this;
-			$(Dom.delStaffRole).bind('click', function() {
-				var _data = self.getCheckedRole();
-				if(_data){
-					var _roleAuthId =_data.roleAuthorId;
-						Rose.ajax.postJson(srvMap.get('delStaffRole'), 'roleAuthorId'+_roleAuthId, function(json, status) {
-							console.log(_roleAuthId);
-							if(status) {
-								// 启用成功后，重新加载用户列表
-								self.getUserinfoList();
-								window.XMS.msgbox.show('角色删除成功！', 'success', 2000)
-							}
-			  			});
-				}
-			});
-		},
+		// delStaffRole:function(){
+		// 	var self = this;
+		// 	$(Dom.delStaffRole).bind('click', function() {
+		// 		var _data = self.getCheckedRole();
+		// 		if(_data){
+		// 			var _roleAuthId =_data.roleAuthorId;
+		// 				Rose.ajax.postJson(srvMap.get('delStaffRole'), 'roleAuthorId'+_roleAuthId, function(json, status) {
+		// 					console.log(_roleAuthId);
+		// 					if(status) {
+		// 						// 启用成功后，重新加载用户列表
+		// 						self.getUserinfoList();
+		// 						window.XMS.msgbox.show('角色删除成功！', 'success', 2000)
+		// 					}
+		// 	  			});
+		// 		}
+		// 	});
+		// },
 		getCheckedRole : function(){
 			var _obj = $(Dom.getUserinfoListTable).find("input[type='radio']:checked").parents("tr");
 				// var _obj1 = $('#Page_getStaffRoleList').find("input[type='checkbox']:checked").parents("tr");

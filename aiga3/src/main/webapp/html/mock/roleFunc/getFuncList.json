@@ -3,7 +3,7 @@
     "retMessage": "系统异常，请稍后再试",
     "data": {
         "FuncList":[
-        	{ "funcId":"1", "parentFuncId":"0", "name":"功能列表","chkDisabled":"true"},
+        	{ "funcId":"1", "parentFuncId":"0", "name":"功能列表","chkDisabled":true},
 			{ "funcId":"11", "parentFuncId":"0", "name":"系统管理"},
 			{ "funcId":"111", "parentFuncId":"11", "name":"功能模块管理"},
 			{ "funcId":"112", "parentFuncId":"11", "name":"岗位角色管理"},

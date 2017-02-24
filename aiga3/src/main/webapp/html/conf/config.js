@@ -5,6 +5,7 @@
 var conf = 1; //控制服务和tpl
 var srvMap = (function($){
     var srcPref = ["/html/mock/","/aiga3/"];
+
     var dataArray = [
          {
              //默认示例

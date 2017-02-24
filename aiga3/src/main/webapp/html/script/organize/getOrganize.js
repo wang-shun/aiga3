@@ -19,7 +19,7 @@ define(function(require, exports, module) {
 	srvMap.add("deleOrganize", "organize/deleOrganize.json", "/sys/organize/del");
 
 	//删除
-	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constant");
+	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constants");
 
 
 	// 按条件查询
@@ -66,10 +66,10 @@ define(function(require, exports, module) {
 				alert(treeNode.organizeName);
 				alert(treeNode.organizeId);
 				alert(treeNode.parentOrganizeId);
-				var cmd = "organizeI="+Dom.organizeId;
-				var cmd1 = "organizeType=organizeType";
+				var cmd = "organizeId="+Dom.organizeId;
+				var cmd1 = "category=certificateType";//////////////
 				var sflxDataArray = [];
-				Rose.ajax.getJson(srvMap.get('constantOrganize'), 'cmd1', function(json, status) {
+				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 					if (status) {
 						sflxDataArray = json.data;
 					}
@@ -110,7 +110,7 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = "organizeType=organizeType";
+			var cmd1 = "category=certificateType";
 
 			Rose.ajax.getJson(srvMap.get('constantOrganize'),cmd1, function(json, status) {
 				if (status) {
@@ -131,7 +131,7 @@ define(function(require, exports, module) {
 
 				Operate_state = "new";
 
-				$("#organizeName").val("");
+				$("#organizeName").val("");  
 				$("#districtId").val("");
 				$("#memberNum").val("");
 				$("#phoneId").val("");
@@ -165,7 +165,7 @@ define(function(require, exports, module) {
 
 				if (Operate_state == "new") {
 					var cmd = {
-						"organizeId": organizeId,
+						"organizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),
@@ -191,7 +191,7 @@ define(function(require, exports, module) {
 					});
 				} else {
 					var cmd = {
-						"organizeId": organizeId,
+						"organizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),
@@ -221,8 +221,8 @@ define(function(require, exports, module) {
 		organizeDele: function() {
 			//删除
 			$("#organizeDele").bind('click', function() {
-				var cmd = "organizeId="+organizeId;
-				Rose.ajax.postJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
+				var cmd = "organizeId="+Dom.organizeId;
+				Rose.ajax.getJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
 					if (status) {
 						alert("删除成功！");
 

@@ -92,6 +92,7 @@ define(function(require,exports,module){
 	  		});
         },
         getStaffRoleCheckedList :function(cmd){
+        	$("input[name='roleId']").iCheck('uncheck');
         	Rose.ajax.getJson(srvMap.get('getStaffRoleCheckedList'), cmd, function(json, status) {
 				if(status) {
 					var _array = json.data.StaffRoleList;
@@ -123,7 +124,7 @@ define(function(require,exports,module){
 			        $('#JS_getStaffRoleListTable').find("tr").bind('click', function(event) {
 			        	$(this).find('.minimal').iCheck('check');
 			        	 //点击员工后，重新加载岗位列表
-						 self.getStaffRoleList();
+						 // self.getStaffRoleList();
 			        });
 /*					// 表格分页
 					$('#example2').DataTable({

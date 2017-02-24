@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each userinfoList}}
+        {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" value="{{staffId}}" name="staffId"></td>
             <td>{{code}}</td>

@@ -61,7 +61,7 @@
 	    <div class="col-md-4">
 	      <div class="form-group">
 	        <label>组织类型</label>
-	        <select  id="orgRoleTypeId" class="form-control select2" style="width: 100%;">
+	        <select  name="orgRoleTypeId" id="orgRoleTypeId" class="form-control select2" style="width: 100%;">
 	          <!--<option selected="true">{{orgRoleTypeId}}</option>-->
 	          {{#each sflxOrganize}}
 	          <option value="{{value}}">{{show}}</option><!---->

@@ -1,8 +1,7 @@
 {
     "retCode":"200",
     "retMessage":"系统异常，请稍后再试",
-    "data":{
-        "organizeList":[
+    "data":[
             {
                 "organizeId":1,
                 "parentOrganizeId":0,
@@ -94,5 +93,4 @@
                 "organizeName":"诺恩"
             }
         ]
-    }
 }

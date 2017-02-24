@@ -4,8 +4,10 @@ define(function(require,exports,module){
 
 	// 组织结构列表查询
 	srvMap.add("getOrganizeList", pathAlias + "getOrganizeList.json", "sys/organize/treeList");
-	// 员工列表查询
-	srvMap.add("getUserinfoList", pathAlias + "getUserinfoList.json", "aiga/staff/listA");
+	// 员工列表按组织查询
+	srvMap.add("getUserinfoListA", pathAlias + "getUserinfoList.json", "aiga/staff/listA");
+	// 员工列表按条件查询
+	srvMap.add("getUserinfoListB", pathAlias + "getUserinfoList.json", "aiga/staff/listB");
 	// 新增员工
 	srvMap.add("addUserinfo", pathAlias + "retMessage.json", "aiga/staff/save");
 	// 修改员工
@@ -92,13 +94,13 @@ define(function(require,exports,module){
 						callback:{
 							 onClick: function(event, treeId, treeNode){
 							 	var _organizeId = treeNode.organizeId;
-							 	var _data = "organizeId:"+_organizeId;
+							 	var _data = "organizeId="+_organizeId;
 							 	// 存储在全局变量
 							 	Data.organizeId = _organizeId;
 							 	self.getUserinfoList(_data)
 							 }
 						}
-					}, json.data.organizeList);
+					}, json.data);
 				}
 	  		});
 		},
@@ -107,35 +109,40 @@ define(function(require,exports,module){
 			var self = this;
 			var _form = $(Dom.getUserinfoForm);
 			// 表单校验初始化
-			_form.bootstrapValidator('validate');
+			//_form.bootstrapValidator('validate');
 			// 表单提交
 			_form.find('button[name="submit"]').bind('click',function(){
 
 				// 表单校验：成功后调取接口
-				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-		            e.preventDefault();
-		            alert(1);
-		            var cmd = $("#Form_getUserinfo").serialize();
+				//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+		            // e.preventDefault();
+		            var cmd = $(Dom.getUserinfoForm).serialize();
 		  			self.getUserinfoList(cmd);
-	        	});
+	        	//});
 	  		})
 	  		// 表单重置
-	  		_form.find('button[name="reset"]').bind('click',function(){
+	  		/*_form.find('button[name="reset"]').bind('click',function(){
 	  			_form.data('bootstrapValidator').resetForm(true);
-	  		})
+	  		})*/
 		},
 		// 员工列表
 		getUserinfoList: function (data){
 			var self = this;
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-			Rose.ajax.getJson(srvMap.get('getUserinfoList'), data, function(json, status) {
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			var _url = '';
+			if(Data.isOrganize()){
+				_url = srvMap.get('getUserinfoListA')
+	        }else{
+	        	_url = srvMap.get('getUserinfoListB')
+	        }
+			Rose.ajax.getJson(_url, data, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getUserinfoList);
-					console.log(json.data[0])
+					console.log(json.data)
 					// 待删除：用于测试搜索数据
-					if(!Data.isOrganize()){
+					/*if(!Data.isOrganize()){
 			        	json.data.length = 1;
-			        }
+			        }*/
             		$(Dom.getUserinfoList).html(template(json.data));
             		XMS.msgbox.hide()
 
@@ -220,7 +227,7 @@ define(function(require,exports,module){
 				if(_data){
 					var _staffId =_data.staffId;
 					if(_data.state == '失效'){
-						Rose.ajax.postJson(srvMap.get('startUserinfo'), 'staffId:'+_staffId, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('startUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 启用成功后，重新加载用户列表
 								window.XMS.msgbox.show('员工启用成功！', 'success', 2000)
@@ -243,7 +250,7 @@ define(function(require,exports,module){
 				if(_data){
 					var _staffId =_data.staffId;
 					if(_data.state == '有效'){
-						Rose.ajax.postJson(srvMap.get('stopUserinfo'), 'staffId:'+_staffId, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('stopUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('员工停用成功！', 'success', 2000)
@@ -265,7 +272,7 @@ define(function(require,exports,module){
 				var _data = self.getCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
-					Rose.ajax.postJson(srvMap.get('resetPassword'), 'staffId:'+_staffId, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('resetPassword'), 'staffId='+_staffId, function(json, status) {
 						if(status) {
 							// self.getUserinfoList();
 							window.XMS.msgbox.show('密码重置成功！', 'success', 2000)
@@ -282,7 +289,7 @@ define(function(require,exports,module){
 				if(_data){
 					var _staffId =_data.staffId;
 					if (confirm('您确认要清除“' + _data.name + '”的权限吗？')) {
-                        Rose.ajax.postJson(srvMap.get('clearPower'), 'staffId:'+_staffId, function(json, status) {
+                        Rose.ajax.postJson(srvMap.get('clearPower'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('权限清除成功！', 'success', 2000)

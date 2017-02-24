@@ -127,9 +127,6 @@ define(function(require,exports,module){
 						},
 						callback:{
 							 onCheck: function(event, treeId, treeNode){
-			           			alert(treeNode.name);
-							 	alert(treeNode.funcId);
-			           			alert(treeNode.parentId);
                                 funcIdNum = treeNode.funcId;
                                 console.log(funcIdNum);
 							 }

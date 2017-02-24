@@ -2,9 +2,9 @@
  * 配置数据和 tpl
  * 0 为本地， 1 为远程
  */
-var conf = 0; //控制服务和tpl
+var conf = 1; //控制服务和tpl
 var srvMap = (function($){
-    var srcPref = ["/html/mock/","index/dst/"];
+    var srcPref = ["/html/mock/","/aiga3/"];
     var dataArray = [
          {
              //默认示例
@@ -41,7 +41,7 @@ seajs.config({
     'map': [
         [/^(.*\.(?:css|js))(.*)$/i, timeStamp]
     ],
-    base: "/html/",
+    base: "/aiga3/html/",
     alias: {
         'AdminLTE':'lib/AdminLTE/js/app.js',
         'iCheckCSS':'lib/iCheck/all.css',

@@ -12,7 +12,7 @@
                 <input type="hidden" value="{{staffId}}" name="staffId">
               <input type="hidden" value="{{roleAuthorId}}" name="roleAuthorId">
             </td>
-            <td>{{name}}</td>
+            <td>{{roleName}}</td>
         </tr>
         {{/each}}
     </tbody>

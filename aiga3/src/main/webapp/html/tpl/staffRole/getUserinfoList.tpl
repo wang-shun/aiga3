@@ -9,7 +9,7 @@
     <tbody>
         {{#each userinfoList}}
         <tr>
-            <td><input type="radio" class="minimal" value="{{staffId}}" name="staffId"></td>
+            <td><input type="radio" class="minimal" value="{{staffid}}" name="staffId"></td>
             <td>{{code}}</td>
             <td>{{name}}</td>
         </tr>

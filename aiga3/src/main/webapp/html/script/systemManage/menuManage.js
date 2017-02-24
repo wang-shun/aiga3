@@ -3,15 +3,15 @@ define(function(require,exports,module){
 	
 	
 	// 初始化菜单列表
-	srvMap.add("getMenulist", "systemManage/menuManage/getMenulist.json", "/sys/menu/list");
+	srvMap.add("getMenulist", "systemManage/menuManage/getMenulist.json", "sys/menu/list");
     // 获取菜单信息
-	srvMap.add("getMenuinfo", "systemManage/menuManage/getMenuinfo.json", "/sys/menu/get");	
+	srvMap.add("getMenuinfo", "systemManage/menuManage/getMenuinfo.json", "sys/menu/get");	
     //获取保存结果
-    srvMap.add("addMenu", "systemManage/menuManage/addMenu.json", "/sys/menu/save");
+    srvMap.add("addMenu", "systemManage/menuManage/addMenu.json", "sys/menu/save");
     //获取修改结果
-    srvMap.add("updateMenu", "systemManage/menuManage/updateMenu.json", "/sys/menu/update");	
+    srvMap.add("updateMenu", "systemManage/menuManage/updateMenu.json", "sys/menu/update");	
     //删除结果
-    srvMap.add("deleMenu", "systemManage/menuManage/deleMenu.json", "/sys/menu/del");	
+    srvMap.add("deleMenu", "systemManage/menuManage/deleMenu.json", "sys/menu/del");	
 
 	// 模板对象
     var Tpl = {
@@ -34,7 +34,7 @@ define(function(require,exports,module){
     
 	var setting = {
 		check: {
-			enable: true
+			enable: false
 		},
 		data: {
 			simpleData: {
@@ -47,16 +47,18 @@ define(function(require,exports,module){
 		callback:{
 			 onClick: function(event, treeId, treeNode){
 			 	currentMenu = treeNode.funcId;
-				var cmd = "funcId="+currentMenu;
-			 	Rose.ajax.getJson(srvMap.get('getMenuinfo') + "?" + cmd, '', function(json, status) {
-					if(status) {
-						OperateState = "update";
-						var template = Handlebars.compile(Tpl.getMenuinfo);
-						console.log(json.data)
-			    		$(Dom.getMenuinfo).html(template(json.data));
-			            $('#funcType').val(json.data.funcType);
-					}
-				});
+			 	if(!(currentMenu == 0){
+					var cmd = "funcId="+currentMenu;
+				 	Rose.ajax.getJson(srvMap.get('getMenuinfo') + "?" + cmd, '', function(json, status) {
+						if(status) {
+							OperateState = "update";
+							var template = Handlebars.compile(Tpl.getMenuinfo);
+							console.log(json.data)
+				    		$(Dom.getMenuinfo).html(template(json.data));
+				            $('#funcType').val(json.data.funcType);
+						}
+					});
+			 	}
 			 }
 		}			
 	};    
@@ -128,6 +130,10 @@ define(function(require,exports,module){
 								Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
 									if(status) {
 										console.log(json.data)
+										json.data.push({
+											funcId : 0,
+											name: "功能菜单"
+										});										
 					            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
 									}
 						  		});
@@ -174,7 +180,11 @@ define(function(require,exports,module){
 						
 						Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
 							if(status) {
-								console.log(json.data)
+								console.log(json.data);
+								json.data.push({
+									funcId : 0,
+									name: "功能菜单"
+								});								
 			            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
 							}
 				  	});

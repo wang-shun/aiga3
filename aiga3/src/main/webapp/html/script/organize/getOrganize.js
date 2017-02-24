@@ -79,9 +79,9 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
-						json.data[0]["sflxDataArray"] = sflxDataArray;
+						json.data["sflxDataArray"] = sflxDataArray;
 						console.log(json.data)
-						$(Dom.getOrganize).html(template(json.data));
+						$(Dom.getOrganize).html(template(json.data[0]));
 
 					}
 				});

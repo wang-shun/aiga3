@@ -108,7 +108,7 @@ define(function(require,exports,module){
         },
 		getStaffRoleList: function(cmd){
 			Rose.ajax.getJson(srvMap.get('getStaffRoleList') ,cmd, function(json, status) {
-
+                var self = this;
 				if(status) {
 					var template = Handlebars.compile(Tpl2.getStaffRoleList);
 					console.log(json.data)
@@ -122,6 +122,8 @@ define(function(require,exports,module){
 			        // 事件：双击选中当前行数据
 			        $('#example2').find("tr").bind('click', function(event) {
 			        	$(this).find('.minimal').iCheck('check');
+			        	 //点击员工后，重新加载岗位列表
+						 self.getStaffRoleList();
 			        });
 /*					// 表格分页
 					$('#example2').DataTable({

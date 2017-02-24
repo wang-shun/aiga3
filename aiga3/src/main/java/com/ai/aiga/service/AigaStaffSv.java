@@ -9,7 +9,6 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.AigaStaffOrgRelatDao;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.AigaStaffOrgRelat;
-import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;

@@ -38,7 +38,8 @@ public class OrginazeController {
 	
 	@RequestMapping(path = "/sys/orginaze/save")
 	public  @ResponseBody JsonBean  save(OrginazeRequest orginazeRequest){
-		System.out.println("111"+orginazeRequest.getOrganizeName());
+		
+		System.out.println("111");
         organizeSv.saveOrginaze(orginazeRequest);
 		return JsonBean.success;
 	}

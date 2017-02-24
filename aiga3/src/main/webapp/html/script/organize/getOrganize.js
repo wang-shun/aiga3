@@ -66,13 +66,8 @@ define(function(require, exports, module) {
 				alert(treeNode.organizeName);
 				alert(treeNode.organizeId);
 				alert(treeNode.parentOrganizeId);
-				var cmd = {
-					"organizeId": Dom.organizeId
-				}
-				console.log(cmd);
-				var cmd1 = {
-					"organizeType": "organizeType"
-				}
+				var cmd = "organizeI="+Dom.organizeId;
+				var cmd1 = "organizeType=organizeType";
 				var sflxDataArray = [];
 				Rose.ajax.getJson(srvMap.get('constantOrganize'), 'cmd1', function(json, status) {
 					if (status) {
@@ -80,13 +75,13 @@ define(function(require, exports, module) {
 					}
 				});
 
-				Rose.ajax.getJson(srvMap.get('getOrganize'), 'cmd', function(json, status) {
+				Rose.ajax.getJson(srvMap.get('getOrganize'), cmd, function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
 						json.data["sflxDataArray"] = sflxDataArray;
 						console.log(json.data)
-						$(Dom.getOrganize).html(template(json.data));
+						$(Dom.getOrganize).html(template(json.data[0]));
 
 					}
 				});
@@ -115,9 +110,7 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = {
-				"organizeType": "organizeType"
-			}
+			var cmd1 = "organizeType=organizeType";
 
 			Rose.ajax.getJson(srvMap.get('constantOrganize'),cmd1, function(json, status) {
 				if (status) {
@@ -228,9 +221,7 @@ define(function(require, exports, module) {
 		organizeDele: function() {
 			//删除
 			$("#organizeDele").bind('click', function() {
-				var cmd = {
-					"organizeId": organizeId,
-				}
+				var cmd = "organizeId="+organizeId;
 				Rose.ajax.postJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
 					if (status) {
 						alert("删除成功！");

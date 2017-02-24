@@ -83,10 +83,10 @@ define(function(require,exports,module){
 			Rose.ajax.getJson(srvMap.get('getMenulist'), '', function(json, status) {
 					if(status) {
 						console.log(json.data);
-//						json.data.push({
-//							funcId : 0,
-//							name: "功能菜单"
-//						});
+						json.data.push({
+							funcId : 0,
+							name: "功能菜单"
+						});
 	            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
 					}
 		  	});
@@ -153,7 +153,7 @@ define(function(require,exports,module){
 								OperateState = "update";
 								alert("保存成功！");
 							}
-		  				});		  			
+		  				});	  			
 
 			  		}		         	   
 	        	});				

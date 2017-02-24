@@ -120,7 +120,7 @@ define(function(require,exports,module){
 				    });
 
 			        // 事件：双击选中当前行数据
-			        $('#example2').find("tr").bind('click', function(event) {
+			        $('#JS_getStaffRoleListTable').find("tr").bind('click', function(event) {
 			        	$(this).find('.minimal').iCheck('check');
 			        	 //点击员工后，重新加载岗位列表
 						 self.getStaffRoleList();

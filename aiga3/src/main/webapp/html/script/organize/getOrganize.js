@@ -4,22 +4,22 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	require('global/sidebar.js');
 	// 初始化列表
-	srvMap.add("getOrganize", "organize/getOrganize.json", "/sys/organize/list");
+	srvMap.add("getOrganize", "organize/getOrganize.json", "sys/organize/list");
 
 	//树的现实
-	srvMap.add("organizeTree", "organize/organizeTree.json", "/sys/organize/treeList");
+	srvMap.add("organizeTree", "organize/organizeTree.json", "sys/organize/treeList");
 
 	//添加
-	srvMap.add("saveOrganize", "organize/saveOrganize.json", "/sys/organize/save");
+	srvMap.add("saveOrganize", "organize/saveOrganize.json", "sys/organize/save");
 
 	//修改
-	srvMap.add("updateOrganize", "organize/updateOrganize.json", "/sys/organize/update");
+	srvMap.add("updateOrganize", "organize/updateOrganize.json", "sys/organize/update");
 
 	//删除
-	srvMap.add("deleOrganize", "organize/deleOrganize.json", "/sys/organize/del");
+	srvMap.add("deleOrganize", "organize/deleOrganize.json", "sys/organize/del");
 
 	//删除
-	srvMap.add("constantOrganize", "organize/constantOrganize.json", "/sys/organize/constants");
+	srvMap.add("constantOrganize", "organize/constantOrganize.json", "sys/organize/constants");
 
 
 	// 按条件查询
@@ -183,25 +183,8 @@ define(function(require, exports, module) {
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new" || Dom.organizeId == null) {
-					var cmd = {
-						"parentOrganizeId": Dom.organizeId,
-						"organizeName": $("#organizeName").val(),
-						"districtId": $("#districtId").val(),
-						"memberNum": $("#memberNum").val(),
-						"phoneId": $("#phoneId").val(),
-						"connectCardType": $("#connectCardType option:selected").val(),
-						"faxId": $("#faxId").val(),
-						"code": $("#code").val(),
-						"shortName": $("#shortName").val(),
-						"managerName": $("#managerName").val(),
-						"connectCardId": $("#connectCardId").val(),
-						"isLeaf": $("#isLeaf option:selected").val(),
-						"orgRoleTypeId": $("#orgRoleTypeId option:selected").val(),
-						"englishName": $("#englishName").val(),
-						"email": $("#email").val(),
-						"connectName": $("#connectName").val(),
-						"connectBillId": $("#connectBillId").val()
-					}
+					var cmd = $("#JS_getOrganizeForm").serialize();
+					
 					Rose.ajax.getJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";

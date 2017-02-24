@@ -58,6 +58,15 @@ define(function(require,exports,module){
 				            $('#funcType').val(json.data.funcType);
 						}
 					});
+			 	}else{
+					$("#funcCode").val("");
+					$("#name").val("");
+					$("#funcImg").val("");
+					$("#funcType").val("");
+					$("#funcArg").val("");
+					$("#dllPath").val("");
+					$("#viewname").val("");
+					$("#notes").val("");			 		
 			 	}
 			 }
 		}			
@@ -139,7 +148,7 @@ define(function(require,exports,module){
 						  		});
 								
 								Operate_state = "update";
-								alert("保存成功！");						
+								XMS.msgbox.show('添加菜单成功！', 'success', 3000)						
 							}
 		  				});
 			  		}
@@ -167,14 +176,13 @@ define(function(require,exports,module){
 					            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
 									}
 						  		});								
-								alert("保存成功！");
+								XMS.msgbox.show('修改菜单成功！', 'success', 3000)
 							}
 		  				});	  			
 
 			  		}		         	   
 	        	});				
-  			
-	  		});	
+  				
 		},
 		
 		menuDel: function(){
@@ -199,7 +207,7 @@ define(function(require,exports,module){
 							}
 				  	});
 						OperateState = null;
-						alert("删除成功！");
+						XMS.msgbox.show('删除菜单成功！', 'success', 3000)
 						$("#funcCode").val("");
 						$("#name").val("");
 						$("#funcImg").val("");

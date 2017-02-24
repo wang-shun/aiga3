@@ -6,7 +6,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each StaffRoleList}}
+        {{#each this}}
         <tr>
             <td><input type="checkbox" class="minimal" value="{{roleId}}" name="roleId" id="JS_role_{{roleId}}">
                 <input type="hidden" value="{{staffId}}" name="staffId">

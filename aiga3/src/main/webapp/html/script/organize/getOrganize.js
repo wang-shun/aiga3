@@ -172,19 +172,19 @@ define(function(require, exports, module) {
 
 		//保存
 		organizeSave: function() {
-			var _form = $(Dom.getUserinfoForm);
-			_form.find('button[name="organizeSave"]').bind('click', function() {
-				// 表单校验：成功后调取接口
-				_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-					var cmd = $("#Form_getUserinfo").serialize();
-				});
+			// var _form = $(Dom.getUserinfoForm);
+			// _form.find('button[name="organizeSave"]').bind('click', function() {
+			// 	// 表单校验：成功后调取接口
+			// 	_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+			// 		var cmd = $("#Form_getUserinfo").serialize();
+			// 	});
 
-			})
+			// })
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new" || Dom.organizeId == null) {
 					var cmd = {
-						"organizeId": Dom.organizeId,
+						"parentOrganizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),
@@ -216,7 +216,7 @@ define(function(require, exports, module) {
 					});
 				} else {
 					var cmd = {
-						"organizeId": Dom.organizeId,
+						"parentOrganizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),

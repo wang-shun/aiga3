@@ -84,12 +84,11 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
-						var aaa = json.data;
-						aaa["sflxDataArray"] = Dom.sflxDataArray;
-						aaa["sflxOrganize"] = Dom.sflxOrganize;
-						alert(aaa);
+						var a = json.data[0];
+						a["sflxDataArray"] = Dom.sflxDataArray;
+						a["sflxOrganize"] = Dom.sflxOrganize;
 						console.log(json.data)
-						$(Dom.getOrganize).html(template(aaa));
+						$(Dom.getOrganize).html(template(a));
 
 					}
 				});
@@ -118,41 +117,29 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = "category=certificateType";
+			var cmd1 = "category=certificateType"; //////////////
 			var cmd2 = "category=organizeType";
-			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
-				if (status) {
-					Dom.sflxOrganize = json.data;
-				}
-			});
-
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
 				if (status) {
 					Dom.sflxDataArray = json.data;
 				}
 			});
 
+			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
+				if (status) {
+					Dom.sflxOrganize = json.data;
+				}
+			});
+
 			Rose.ajax.getJson(srvMap.get('getOrganize'), '', function(json, status) {
 				if (status) {
-					// var template = Handlebars.compile(Tpl.getOrganize);
-					// console.log(json.data)
-					// var aaa= {};
-					// aaa["sflxDataArray"] = Dom.sflxDataArray;
-					// aaa["sflxOrganize"] = Dom.sflxOrganize;
-					// alert(aaa);
-					// console.log(json.data)
-					// $(Dom.getOrganize).html(template(aaa));
-
-
 					var template = Handlebars.compile(Tpl.getOrganize);
 					console.log(json.data)
-					var aaa = json.data;
-					console.log(aaa + "||||init------------------------------");
-					aaa["sflxDataArray"] = Dom.sflxDataArray;
-					aaa["sflxOrganize"] = Dom.sflxOrganize;
-					alert(aaa);
+					var a = json.data[0];
+					a["sflxDataArray"] = Dom.sflxDataArray;
+					a["sflxOrganize"] = Dom.sflxOrganize;
 					console.log(json.data)
-					$(Dom.getOrganize).html(template(aaa));
+					$(Dom.getOrganize).html(template(a));
 
 				}
 			});

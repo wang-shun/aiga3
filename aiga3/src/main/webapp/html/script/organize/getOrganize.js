@@ -134,10 +134,20 @@ define(function(require, exports, module) {
 
 			Rose.ajax.getJson(srvMap.get('getOrganize'), '', function(json, status) {
 					if (status) {
+						// var template = Handlebars.compile(Tpl.getOrganize);
+						// console.log(json.data)
+						// var aaa= {};
+						// aaa["sflxDataArray"] = Dom.sflxDataArray;
+						// aaa["sflxOrganize"] = Dom.sflxOrganize;
+						// alert(aaa);
+						// console.log(json.data)
+						// $(Dom.getOrganize).html(template(aaa));
+
+
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
 						var aaa=json.data;
-						aaa={};
+						console.log(aaa+"||||init------------------------------");
 						aaa["sflxDataArray"] = Dom.sflxDataArray;
 						aaa["sflxOrganize"] = Dom.sflxOrganize;
 						alert(aaa);

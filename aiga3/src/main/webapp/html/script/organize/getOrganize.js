@@ -44,7 +44,7 @@ define(function(require, exports, module) {
 		getUserinfoForm: '#JS_getOrganizeForm',
 		getOrganize: '#organizeinfo',
 		sflxDataArray: [],
-		sflxOrganize:[]
+		sflxOrganize: []
 	}
 
 
@@ -84,7 +84,7 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 						console.log(json.data)
-						var aaa=json.data;
+						var aaa = json.data;
 						aaa["sflxDataArray"] = Dom.sflxDataArray;
 						aaa["sflxOrganize"] = Dom.sflxOrganize;
 						alert(aaa);
@@ -118,44 +118,44 @@ define(function(require, exports, module) {
 		},
 		//////////////////
 		initOrganize: function() {
-			var cmd1 = "category=constantOrganize";
+			var cmd1 = "category=certificateType";
 			var cmd2 = "category=organizeType";
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
-					if (status) {
-						Dom.sflxOrganize = json.data;
-					}
-				});
+				if (status) {
+					Dom.sflxOrganize = json.data;
+				}
+			});
 
 			Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
-					if (status) {
-						Dom.sflxDataArray = json.data;
-					}
-				});
+				if (status) {
+					Dom.sflxDataArray = json.data;
+				}
+			});
 
 			Rose.ajax.getJson(srvMap.get('getOrganize'), '', function(json, status) {
-					if (status) {
-						// var template = Handlebars.compile(Tpl.getOrganize);
-						// console.log(json.data)
-						// var aaa= {};
-						// aaa["sflxDataArray"] = Dom.sflxDataArray;
-						// aaa["sflxOrganize"] = Dom.sflxOrganize;
-						// alert(aaa);
-						// console.log(json.data)
-						// $(Dom.getOrganize).html(template(aaa));
+				if (status) {
+					// var template = Handlebars.compile(Tpl.getOrganize);
+					// console.log(json.data)
+					// var aaa= {};
+					// aaa["sflxDataArray"] = Dom.sflxDataArray;
+					// aaa["sflxOrganize"] = Dom.sflxOrganize;
+					// alert(aaa);
+					// console.log(json.data)
+					// $(Dom.getOrganize).html(template(aaa));
 
 
-						var template = Handlebars.compile(Tpl.getOrganize);
-						console.log(json.data)
-						var aaa=json.data;
-						console.log(aaa+"||||init------------------------------");
-						aaa["sflxDataArray"] = Dom.sflxDataArray;
-						aaa["sflxOrganize"] = Dom.sflxOrganize;
-						alert(aaa);
-						console.log(json.data)
-						$(Dom.getOrganize).html(template(aaa));
+					var template = Handlebars.compile(Tpl.getOrganize);
+					console.log(json.data)
+					var aaa = json.data;
+					console.log(aaa + "||||init------------------------------");
+					aaa["sflxDataArray"] = Dom.sflxDataArray;
+					aaa["sflxOrganize"] = Dom.sflxOrganize;
+					alert(aaa);
+					console.log(json.data)
+					$(Dom.getOrganize).html(template(aaa));
 
-					}
-				});
+				}
+			});
 		},
 		//新增
 		organizeAdd: function() {
@@ -197,21 +197,25 @@ define(function(require, exports, module) {
 
 				if (Operate_state == "new" || Dom.organizeId == null) {
 					var _dom = $("#JS_getOrganizeForm").find("input[name='parentOrganizeId']");
-					if(Dom.organizeId == null){
+					if (Dom.organizeId == null) {
 						_dom.val(-1);
-					}else{
+					} else {
 						_dom.val(Dom.organizeId);
 					}
-					var q=$("#connectCardType option").map(function(){return $(this).text();}).get().join(", ");
-					console.log(q+"||||1111111111111111");
+					var q = $("#connectCardType option").map(function() {
+						return $(this).text();
+					}).get().join(", ");
+					console.log(q + "||||1111111111111111");
 					var cmd = $("#JS_getOrganizeForm").serialize();
-					
+
 					Rose.ajax.getJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";
 							alert("保存成功！");
-							var q=$("#connectCardType option").map(function(){return $(this).text();}).get().join(", ");
-							console.log(q+"||||2222222222222");
+							var q = $("#connectCardType option").map(function() {
+								return $(this).text();
+							}).get().join(", ");
+							console.log(q + "||||2222222222222");
 							Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
 								if (status) {
 									console.log(json.data)
@@ -228,14 +232,14 @@ define(function(require, exports, module) {
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),
 						"phoneId": $("#phoneId").val(),
-						"connectCardType": $("#connectCardType option:selected").text(),
+						"connectCardType": $("#connectCardType option:selected").val(),
 						"faxId": $("#faxId").val(),
 						"code": $("#code").val(),
 						"shortName": $("#shortName").val(),
 						"managerName": $("#managerName").val(),
 						"connectCardId": $("#connectCardId").val(),
-						"isLeaf": $("#isLeaf option:selected").text(),
-						"orgRoleTypeId": $("#orgRoleTypeId option:selected").text(),
+						"isLeaf": $("#isLeaf").val(),
+						"orgRoleTypeId": $("#orgRoleTypeId option:selected").val(),
 						"englishName": $("#englishName").val(),
 						"email": $("#email").val(),
 						"connectName": $("#connectName").val(),
@@ -268,14 +272,14 @@ define(function(require, exports, module) {
 						$("#districtId").val("");
 						$("#memberNum").val("");
 						$("#phoneId").val("");
-						$("#connectCardType option:selected").text("");
+						$("#connectCardType").val("");
 						$("#faxId").val("");
 						$("#code").val("");
 						$("#shortName").val("");
 						$("#managerName").val("");
 						$("#connectCardId").val("");
-						$("#isLeaf option:selected").text("");
-						$("#orgRoleTypeId option:selected").text("");
+						$("#isLeaf").val("");
+						$("#orgRoleTypeId").val("");
 						$("#englishName").val("");
 						$("#email").val("");
 						$("#connectName").val("");

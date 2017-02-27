@@ -1,5 +1,7 @@
 package com.ai.aiga.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ import com.ai.aiga.domain.AigaStaffOrgRelat;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.StaffListResponse;
 import com.ai.aiga.view.json.StaffMsgRequest;
 import com.ai.aiga.view.json.StaffOrgRelatRequest;
 import com.ai.aiga.view.json.StaffRequest;
@@ -39,33 +42,54 @@ public class AigaStaffSv extends BaseService{
 	public List<AigaStaff>findStaffAll() {
 		return aigaStaffDao.findAll();
 	}
-	public Map[] findStaffByOrg(Long organizeId) {
-		String sql = "";
+//	public Map[] findStaffByOrg(Long organizeId) {
+//		String sql = "";
+//		if(organizeId == null || organizeId < 0){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");
+//		}
+//		sql = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organize_code"
+//				+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
+//				+ " and ar.organize_id = ao.organize_id and ar.organize_id = "+organizeId; 
+//		
+//		javax.persistence.Query query=em.createNativeQuery(sql);
+//		
+//		List<Object> list=query.getResultList();
+//		Map[] map = new Map[list.size()];
+//		for(int i=0;i<list.size();i++){
+//			map[i] = new HashMap();
+//			Object[] object =(Object[]) list.get(i);
+//			map[i].put("staffId", object[0]);
+//			map[i].put("code", object[1]);
+//			map[i].put("name", object[2]);
+//			map[i].put("state", object[3]);
+//			map[i].put("organizeId", object[4]);
+//			map[i].put("organizeName", object[5]);
+//			map[i].put("organizeCode", object[6]);
+//		}
+//		return map;
+//	}
+	public List<StaffListResponse>  findStaffByOrg(Long organizeId) {
 		if(organizeId == null || organizeId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");
+			
 		}
-		sql = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organize_code"
-				+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
-				+ " and ar.organize_id = ao.organize_id and ar.organize_id = "+organizeId; 
-		
-		javax.persistence.Query query=em.createNativeQuery(sql);
-		
-		List<Object> list=query.getResultList();
-		Map[] map = new Map[list.size()];
-		for(int i=0;i<list.size();i++){
-			map[i] = new HashMap();
+		List<Object[]> list = aigaStaffDao.findStaffByOrg(organizeId);
+		List<StaffListResponse> responses = new ArrayList<StaffListResponse>(list.size());
+		for(int i = 0; i < list.size(); i++){
+			StaffListResponse bean  = new StaffListResponse();
 			Object[] object =(Object[]) list.get(i);
-			map[i].put("staffId", object[0]);
-			map[i].put("code", object[1]);
-			map[i].put("name", object[2]);
-			map[i].put("state", object[3]);
-			map[i].put("organizeId", object[4]);
-			map[i].put("organizeName", object[5]);
-			map[i].put("organizeCode", object[6]);
+			bean.setStaffId(((BigDecimal)object[0]).longValue());
+			bean.setCode((String) object[1]);
+			bean.setName((String) object[2]);
+			bean.setState(((BigDecimal)object[0]).byteValue());
+			bean.setOrganizeId(((BigDecimal)object[4]).longValue());
+			bean.setOrganizeName((String) object[5]);
+			bean.setOrganizeCode((String) object[6]);
+			responses.add(bean);
 		}
-		return map;
+		
+		return responses;
 	}
-	
 	public Map[] findStaff(String code,String name){
 		String sql = "";
 		if(StringUtils.isNotBlank(code)&&StringUtils.isNotBlank(name)||StringUtils.isNotBlank(code)){
@@ -394,6 +418,10 @@ public class AigaStaffSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
 		aigaStaffOrgRelatDao.updateByStaffIdAndOrgId(sorRequest.getStaffId(),sorRequest.getOrganizeId(),sorRequest.getIsAdminStaff(),sorRequest.getIsBaseOrg());
+	}
+	public List<AigaStaff> ceshi() {
+		List<AigaStaff> list = aigaStaffDao.ceshi();
+		return list;
 	}
 
 	

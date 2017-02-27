@@ -66,25 +66,11 @@ define(function(require, exports, module) {
 			onClick: function(event, treeId, treeNode) {
 				Dom.organizeId = treeNode.organizeId;
 				var cmd = "organizeId=" + Dom.organizeId;
-				var cmd1 = "category=certificateType"; //////////////
-				var cmd2 = "category=organizeType";
-				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd1, function(json, status) {
-					if (status) {
-						Dom.sflxDataArray = json.data;
-					}
-				});
-
-				Rose.ajax.getJson(srvMap.get('constantOrganize'), cmd2, function(json, status) {
-					if (status) {
-						Dom.sflxOrganize = json.data;
-					}
-				});
-
+				
 				Rose.ajax.getJson(srvMap.get('getOrganize'), cmd, function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
-						console.log(json.data)
-						var a = json.data[0];
+						var a = json.data;
 						a["sflxDataArray"] = Dom.sflxDataArray;
 						a["sflxOrganize"] = Dom.sflxOrganize;
 						console.log(json.data)
@@ -135,7 +121,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getOrganize);
 					console.log(json.data)
-					var a = json.data[0];
+					var a = json.data;
 					a["sflxDataArray"] = Dom.sflxDataArray;
 					a["sflxOrganize"] = Dom.sflxOrganize;
 					console.log(json.data)
@@ -192,7 +178,6 @@ define(function(require, exports, module) {
 					var q = $("#connectCardType option").map(function() {
 						return $(this).text();
 					}).get().join(", ");
-					console.log(q + "||||1111111111111111");
 					var cmd = $("#JS_getOrganizeForm").serialize();
 
 					Rose.ajax.getJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
@@ -202,7 +187,6 @@ define(function(require, exports, module) {
 							var q = $("#connectCardType option").map(function() {
 								return $(this).text();
 							}).get().join(", ");
-							console.log(q + "||||2222222222222");
 							Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
 								if (status) {
 									console.log(json.data)
@@ -214,7 +198,8 @@ define(function(require, exports, module) {
 
 				} else {
 					var cmd = {
-						"parentOrganizeId": Dom.organizeId,
+						"parentOrganizeId": $("#parentOrganizeId").val(),
+						"organizeId": Dom.organizeId,
 						"organizeName": $("#organizeName").val(),
 						"districtId": $("#districtId").val(),
 						"memberNum": $("#memberNum").val(),

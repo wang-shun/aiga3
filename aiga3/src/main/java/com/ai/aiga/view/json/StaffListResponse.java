@@ -5,7 +5,7 @@ public class StaffListResponse {
 	private Long staffId;
 	private String code;
 	private String name;
-	private Byte state;
+	private Integer state;
 	private Long organizeId;
 	private String organizeName;
 	private String organizeCode;
@@ -28,10 +28,10 @@ public class StaffListResponse {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Byte getState() {
+	public Integer getState() {
 		return state;
 	}
-	public void setState(Byte state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 	public Long getOrganizeId() {

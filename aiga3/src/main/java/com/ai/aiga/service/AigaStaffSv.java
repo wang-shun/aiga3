@@ -27,6 +27,7 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.StaffListResponse;
 import com.ai.aiga.view.json.StaffMsgRequest;
 import com.ai.aiga.view.json.StaffOrgRelatRequest;
+import com.ai.aiga.view.json.StaffOrgRelatResponse;
 import com.ai.aiga.view.json.StaffRequest;
 
 @Service
@@ -42,32 +43,6 @@ public class AigaStaffSv extends BaseService{
 	public List<AigaStaff>findStaffAll() {
 		return aigaStaffDao.findAll();
 	}
-//	public Map[] findStaffByOrg(Long organizeId) {
-//		String sql = "";
-//		if(organizeId == null || organizeId < 0){
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");
-//		}
-//		sql = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organize_code"
-//				+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
-//				+ " and ar.organize_id = ao.organize_id and ar.organize_id = "+organizeId; 
-//		
-//		javax.persistence.Query query=em.createNativeQuery(sql);
-//		
-//		List<Object> list=query.getResultList();
-//		Map[] map = new Map[list.size()];
-//		for(int i=0;i<list.size();i++){
-//			map[i] = new HashMap();
-//			Object[] object =(Object[]) list.get(i);
-//			map[i].put("staffId", object[0]);
-//			map[i].put("code", object[1]);
-//			map[i].put("name", object[2]);
-//			map[i].put("state", object[3]);
-//			map[i].put("organizeId", object[4]);
-//			map[i].put("organizeName", object[5]);
-//			map[i].put("organizeCode", object[6]);
-//		}
-//		return map;
-//	}
 	public List<StaffListResponse>  findStaffByOrg(Long organizeId) {
 		if(organizeId == null || organizeId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");
@@ -81,7 +56,7 @@ public class AigaStaffSv extends BaseService{
 			bean.setStaffId(((BigDecimal)object[0]).longValue());
 			bean.setCode((String) object[1]);
 			bean.setName((String) object[2]);
-			bean.setState(((BigDecimal)object[0]).byteValue());
+			bean.setState(((BigDecimal)object[3]).intValue());
 			bean.setOrganizeId(((BigDecimal)object[4]).longValue());
 			bean.setOrganizeName((String) object[5]);
 			bean.setOrganizeCode((String) object[6]);
@@ -90,40 +65,34 @@ public class AigaStaffSv extends BaseService{
 		
 		return responses;
 	}
-	public Map[] findStaff(String code,String name){
-		String sql = "";
-		if(StringUtils.isNotBlank(code)&&StringUtils.isNotBlank(name)||StringUtils.isNotBlank(code)){
-			 sql = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organizeCode"
-				+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
-				+ " and ar.organize_id = ao.organize_id and af.code like '%"+code+"%'";
-					
-		}else if(StringUtils.isNotBlank(name)){
-			sql = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organizeCode "
-					+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
-					+ " and ar.organize_id = ao.organize_id and af.name like '%"+name+"%'";
+	public List<StaffListResponse>  findStaff(String code,String name) {
+		
+		if(StringUtils.isBlank(code) && StringUtils.isBlank(name)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		List<Object[]> list=null;
+		if((StringUtils.isNotBlank(code) && StringUtils.isNotBlank(name))||StringUtils.isNotBlank(code) ){
+			list = aigaStaffDao.findStaffByCode(code);
+		}else{
+			list = aigaStaffDao.findStaffByName(name);
 		}
 		
-		javax.persistence.Query query=em.createNativeQuery(sql);
-		List<Object> list=query.getResultList();
-		Map[] map = new Map[list.size()];
-		if(list !=null && list.size()>0){
-			for(int i=0;i<list.size();i++){
-				map[i] = new HashMap();
-				Object[] object =(Object[]) list.get(i);
-				System.out.println(object);
-				map[i].put("staffId", object[0]);
-				map[i].put("code", object[1]);
-				map[i].put("name", object[2]);
-				map[i].put("state", object[3]);
-				map[i].put("organizeId", object[4]);
-				map[i].put("organizeName", object[5]);
-				map[i].put("organizeCode", object[6]);
-			}
-			
+		List<StaffListResponse> responses = new ArrayList<StaffListResponse>(list.size());
+		for(int i = 0; i < list.size(); i++){
+			StaffListResponse bean  = new StaffListResponse();
+			Object[] object =(Object[]) list.get(i);
+			bean.setStaffId(((BigDecimal)object[0]).longValue());
+			bean.setCode((String) object[1]);
+			bean.setName((String) object[2]);
+			bean.setState(((BigDecimal)object[3]).intValue());
+			bean.setOrganizeId(((BigDecimal)object[4]).longValue());
+			bean.setOrganizeName((String) object[5]);
+			bean.setOrganizeCode((String) object[6]);
+			responses.add(bean);
 		}
 		
-		return map;
-	} 
+		return responses;
+	}
 	
 	public AigaStaff findByStaff(Long staffId){
 		if(staffId == null || staffId < 0){
@@ -230,7 +199,7 @@ public class AigaStaffSv extends BaseService{
 		aigastaff.setOpLvl(staffRequest.getOpLvl());
 		aigastaff.setBandType(staffRequest.getBandType());
 		aigastaff.setNotes(staffRequest.getNotes());
-		aigastaff.setState((byte)1);
+		aigastaff.setState(1);
 		AigaStaff aigaStaff= aigaStaffDao.save(aigastaff);
 		return aigaStaff;
 	}
@@ -245,7 +214,6 @@ public class AigaStaffSv extends BaseService{
 		}
 		
 		AigaStaff aigaStaff = aigaStaffDao.findOne(staffRequest.getStaffId());
-		System.out.println("*******"+aigaStaff.getStaffId());
 		if(aigaStaff == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid, "aigaStaff");
 		}
@@ -310,7 +278,7 @@ public class AigaStaffSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
 		}
 		AigaStaff aigaStaff = aigaStaffDao.findOne(staffId);
-		aigaStaff.setState((byte)1);
+		aigaStaff.setState(1);
 		aigaStaffDao.save(aigaStaff);
 	}
 	
@@ -320,7 +288,7 @@ public class AigaStaffSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
 		}
 		AigaStaff aigaStaff = aigaStaffDao.findOne(staffId);
-		aigaStaff.setState((byte)0);
+		aigaStaff.setState(0);
 		aigaStaffDao.save(aigaStaff);
 	}
 	/*
@@ -351,21 +319,25 @@ public class AigaStaffSv extends BaseService{
 	/*
 	 * 操作员关联组织查看
 	 * */
-	public Map staffOgrList(Long staffId){
-		String sql = "select ao.organize_id ,ao.organize_name,ar.is_admin_staff,ar.is_base_org from aiga_organize ao,aiga_staff_org_relat ar"
-				+ " where ao.organize_id = ar.organize_id and ar.staff_id ="+staffId;
+	public List<StaffOrgRelatResponse> staffOgrList(Long staffId){
+//		String sql = "select ao.organize_id ,ao.organize_name,ar.is_admin_staff,ar.is_base_org from aiga_organize ao,aiga_staff_org_relat ar"
+//				+ " where ao.organize_id = ar.organize_id and ar.staff_id ="+staffId;
 		if(staffId == null ||staffId<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
 		}
-		javax.persistence.Query query=em.createNativeQuery(sql);
-		List<Object> list=query.getResultList();
-		Map map = new HashMap();
-		Object[] object =(Object[]) list.get(0);
-		map.put("organizeId", object[0]);
-		map.put("organizeName", object[1]);
-		map.put("isAdminStaff", object[2]);
-		map.put("isBaseOrg", object[3]);
-		return map;
+		List<Object[]> list = aigaStaffOrgRelatDao.findStaffOrgRelatByOrg(staffId);
+		List<StaffOrgRelatResponse> responses = new ArrayList<StaffOrgRelatResponse>(list.size());
+		for(int i = 0; i < list.size(); i++){
+			StaffOrgRelatResponse bean  = new StaffOrgRelatResponse();
+			Object[] object =(Object[]) list.get(i);
+			bean.setOrganizeId(((BigDecimal)object[0]).longValue());
+			bean.setOrganizeName((String) object[1]);
+			bean.setIsAdminStaff((Character) object[2]);
+			bean.setIsBaseOrg((Character) object[3]);
+			responses.add(bean);
+		}
+		
+		return responses;
 	}
 	
 	public void staffOrgAdd(StaffOrgRelatRequest sorRequest){

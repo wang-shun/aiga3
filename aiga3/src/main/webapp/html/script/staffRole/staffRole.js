@@ -11,10 +11,6 @@ define(function(require,exports,module){
 	srvMap.add("getStaffRoleCheckedList","staffRole/getStaffRoleCheckedList.json","/sys/staffrole/list");
 	//修改员工角色
     srvMap.add("saveStaffRole", pathAlias + "retMessage.json","/sys/staffrole/update");
-    //删除员工角色
-    // srvMap.add("delStaffRole", pathAlias + "retMessage.json","/sys/staffrole/del");
-	// 按条件查询
-	// srvMap.add("queryUserinfoList", "home/queryUserinfoList.json", "/sys/role/query");
 
 	// 模板对象
     var Tpl1 = {
@@ -82,17 +78,6 @@ define(function(require,exports,module){
 				        "height": '500px'
 				    });
 
-					// 表格分页
-					/*$(Dom.getUserinfoListTable).DataTable({
-			          "paging": true,
-			          "lengthChange": false,
-			          "searching": false,
-			          "ordering": false,
-			          "info": true,
-			          "autoWidth": false
-			        });*/
-			        // 事件：双击选中当前行数据
-
 				}
 	  		});
         },
@@ -102,9 +87,6 @@ define(function(require,exports,module){
 				if(status) {
 					var _array = json.data;
 					console.log(_array);
-					/*$(Dom.getStaffRoleListTable).find('input[name="staffId"]').each(function(){
-						$(this).val(Data.staffId);	
-					})*/
 					for(x in _array){
 						$("#JS_role_"+_array[x].roleId).iCheck('check');
 					}
@@ -128,23 +110,11 @@ define(function(require,exports,module){
 			        // 事件：双击选中当前行数据
 			        $('#JS_getStaffRoleListTable').find("tr").bind('click', function(event) {
 			        	$(this).find('.minimal').iCheck('check');
-			        	 //点击员工后，重新加载岗位列表
-						 // self.getStaffRoleList();
 			        });
 			        // 滚动条
 			        $('#JS_getStaffRoleListTable').parent().slimScroll({
 				        "height": '500px'
 				    });
-
-					// 表格分页
-					/*$('#JS_getStaffRoleListTable').DataTable({
-			          "paging": true,
-			          "lengthChange": false,
-			          "searching": false,
-			          "ordering": false,
-			          "info": true,
-			          "autoWidth": false
-			        });*/
 				}
 	  		});
 		},
@@ -164,36 +134,13 @@ define(function(require,exports,module){
 			
 				Rose.ajax.postJson(srvMap.get('saveStaffRole'), cmd, function(json, status) {
 					if(status) {
-						// 启用成功后，重新加载用户列表
-						// self.getUserinfoList();
 						window.XMS.msgbox.show('保存成功！', 'success', 2000)
 					}
 	  			});
 			});
 		},
-		// delStaffRole:function(){
-		// 	var self = this;
-		// 	$(Dom.delStaffRole).bind('click', function() {
-		// 		var _data = self.getCheckedRole();
-		// 		if(_data){
-		// 			var _roleAuthId =_data.roleAuthorId;
-		// 				Rose.ajax.postJson(srvMap.get('delStaffRole'), 'roleAuthorId'+_roleAuthId, function(json, status) {
-		// 					console.log(_roleAuthId);
-		// 					if(status) {
-		// 						// 启用成功后，重新加载用户列表
-		// 						self.getUserinfoList();
-		// 						window.XMS.msgbox.show('角色删除成功！', 'success', 2000)
-		// 					}
-		// 	  			});
-		// 		}
-		// 	});
-		// },
 		getCheckedRole : function(){
 			var _obj = $(Dom.getUserinfoListTable).find("input[type='radio']:checked").parents("tr");
-				// var _obj1 = $('#Page_getStaffRoleList').find("input[type='checkbox']:checked").parents("tr");
-		        // var _roleAuthorId = _obj1.find("input[name='roleAuthorId']")		
-		       //  var _roleId = _obj1.find("input[name='roleId']")		
-				// console.log(_roleAuthorId);
 			var _staffId = _obj.find("input[name='staffId']")
 		    if(_staffId.length==0){
 		    	window.XMS.msgbox.show('请先选择一个员工！', 'error', 2000);
@@ -204,58 +151,10 @@ define(function(require,exports,module){
 			        staffId: "",
 			        roleId: ""
 			    }
-		    	/*data.roleAuthorId = _roleAuthorId.each(function(){
-                   data.roleAuthorId+=this.value +　',';
-		    	});*/
-		    	// console.log(data.roleAuthorId);
 		    	data.staffId = _staffId.val();
-		    	// data.roleId = _roleId.val();
 		    }
 		    return data;
 		}
 	};
 	module.exports = indexInfoQuery;
 });
-
-
-
-	  	// 	$("#JS_queryUserinfoList").bind('click',function(){
-	  	// 		var cmd = {
-	  	// 			"name":$("#exampleInputName").val(),
-	  	// 			"id":$("#exampleInputNumber").val(),
-	  	// 			"tel":$("#exampleInputTel").val()
-	  	// 		}
-	  	// 		Rose.ajax.postJson(srvMap.get('queryUserinfoList'), cmd, function(json, status) {
-				// if(status) {
-				// 	var template = Handlebars.compile(Mtpl.getUserinfoList);
-				// 	console.log(json.data)
-    //         		$getUserinfoList.html(template(json.data));
-				// }
-	  	// 	});
-	  	// 	})
-
-
-			/*// 首页菜单折叠
-		    $("#JS_toggleMenu").on('click', function () {
-		      if (!$('body').hasClass('sidebar-collapse')){
-		      	$('body').addClass("sidebar-collapse")
-		      }else{
-		      	$('body').removeClass("sidebar-collapse")
-		      }
-		    });
-*/
-		    
-
-			/*Rose.ajax.getJson(srvMap.get('myLinks'), '', function(json, status) {
-				if(status) {
-					var template = Handlebars.compile(Mtpl.myLinks);
-            		$myLinks.html(template(json.data));
-				}
-	  		});
-
-	  		Rose.ajax.getJson(srvMap.get('myMenus'), '', function(json, status) {
-				if(status) {
-					var template = Handlebars.compile(Mtpl.myMenus);
-            		$myMenus.html(template(json.data));
-				}
-	  		});*/

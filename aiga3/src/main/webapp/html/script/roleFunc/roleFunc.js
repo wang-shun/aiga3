@@ -13,21 +13,9 @@ define(function(require,exports,module){
 	srvMap.add("getRoleFuncCheckedList","roleFunc/getRoleFuncCheckedList.json","/sys/rolefunc/list");
     //更新角色菜单
     srvMap.add("roleFuncUpdate",pathAlias + "retMessage.json","/sys/rolefunc/update");
-	// 按条件查询
-	// srvMap.add("queryUserinfoList", "home/queryUserinfoList.json", "/sys/role/query");
-
-	// 模板对象
-    // var Tpl = {
-    //     getUserinfoList: require('tpl/home/getUserinfoList.tpl')
-    // };
     var Tpl2 = {
     	getStaffRoleList:require('tpl/roleFunc/getStaffRoleList.tpl')
     };
-    // 容器对象
-    // var Mod = {
-    //     getUserinfoList: '#Page_getUserinfoList'
-    //     // updateRoleFunc: $('#JS_updateRoleFunc')
-    // };
     var Mod2 = {
     	getStaffRoleList:'#Page_getStaffRoleList'
     };
@@ -76,17 +64,6 @@ define(function(require,exports,module){
 			        $(Dom.getRoleFuncTable).parent().slimScroll({
 				        "height": '500px'
 				    });
-
-					// 表格分页
-					// $('#example3').DataTable({
-			  //         "paging": true,
-			  //         "lengthChange": false,
-			  //         "searching": false,
-			  //         "ordering": false,
-			  //         "info": true,
-			  //         "autoWidth": false
-			  //       });
-
 				}
 	  		});
 		},
@@ -156,8 +133,6 @@ define(function(require,exports,module){
 							console.log(cmd);					
 						Rose.ajax.getJson(srvMap.get('roleFuncUpdate'),cmd, function(json, status) {
 							if(status) {
-								// 启用成功后，重新加载用户列表
-								// self.getUserinfoList();
 								window.XMS.msgbox.show('功能菜单更新成功！', 'success', 2000)
 							}
 			  			});
@@ -178,11 +153,8 @@ define(function(require,exports,module){
   					funcIds+=','+nodes[i].funcId;
   				}
   			}
-  			console.log(funcIds);
-	  //       var _roleAuthorId = _obj1.find("input[name='roleAuthorId']")		
+  			console.log(funcIds);	
             var _roleId = _obj.find("input[name='roleId']")		
-			// console.log(_roleAuthorId);
-			// var _roleId = _obj.find("input[name='roleId']")
 			var data = {
 				roleId: "",
 		        funcIds: ""
@@ -196,26 +168,6 @@ define(function(require,exports,module){
 		    }
 		    return data;
 		}
-		// updateRoleFunc:function(){
-		// 	var self = this;
-		// 	$(Mod.updateRoleFunc).bind('click', function() {
-		// 		var _data = self.getCheckedRow();
-		// 		if(_data){
-		// 			var _stafId =_data.staffId;
-		// 			if(_data.state == '失效'){
-		// 				Rose.ajax.getJson(srvMap.get('startUserinfo'), 'stafId:'+_stafId, function(json, status) {
-		// 					if(status) {
-		// 						// 启用成功后，重新加载用户列表
-		// 						self.getUserinfoList();
-		// 						window.XMS.msgbox.show('员工启用成功！', 'success', 2000)
-		// 					}
-		// 	  			});
-		// 			}else{
-		// 				window.XMS.msgbox.show('只允许操作失效员工！', 'error', 2000);
-		// 			}
-		// 		}
-		// 	});
-		// }
 	};
 	module.exports = indexInfoQuery;
 });

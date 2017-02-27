@@ -1,16 +1,14 @@
 {
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
-    "data": {
-        "FuncList":[
-			{ "funcId":"113", "parentFuncId":"11", "name":"员工管理"},
-			{ "funcId":"114", "parentFuncId":"11", "name":"组织管理"},
-			{ "funcId":"115", "parentFuncId":"11", "name":"岗位管理"},
-			{ "funcId":"121", "parentFuncId":"11", "name":"授权"},
-			{ "funcId":"2", "parentFuncId":"0", "name":"我的工作区"},
-			{ "funcId":"23", "parentFuncId":"2", "name":"随意勾选 2-3"},
-			{ "funcId":"3", "parentFuncId":"0", "name":"测试计划管理"},
-			{ "funcId":"4", "parentFuncId":"0", "name":"用例库"},
-			{ "funcId":"5", "parentFuncId":"0", "name":"测试执行"}
+    "data":[
+			{ "funcId":"113", "parentId":"11", "name":"员工管理"},
+			{ "funcId":"114", "parentId":"11", "name":"组织管理"},
+			{ "funcId":"115", "parentId":"11", "name":"岗位管理"},
+			{ "funcId":"121", "parentId":"11", "name":"授权"},
+			{ "funcId":"2", "parentId":"0", "name":"我的工作区"},
+			{ "funcId":"23", "parentId":"2", "name":"随意勾选 2-3"},
+			{ "funcId":"3", "parentId":"0", "name":"测试计划管理"},
+			{ "funcId":"4", "parentId":"0", "name":"用例库"},
+			{ "funcId":"5", "parentId":"0", "name":"测试执行"}
 		]}
-    }

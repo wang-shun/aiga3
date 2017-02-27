@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +17,9 @@ public class StaffController {
 	
 	@Autowired
 	private AigaStaffSv aigaStaffSv;
-	
+	/*
+	 * 员工角色复权菜单员工列表调用
+	 * */
 	@RequestMapping(path = "/aiga/staff/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
@@ -138,5 +141,12 @@ public class StaffController {
 	public @ResponseBody JsonBean clear(Long staffId){
 		aigaStaffSv.clear(staffId);
 		return JsonBean.success;
+	}
+	/***********************/
+	@RequestMapping(path = "/aiga/staff/ceshi")
+	public @ResponseBody JsonBean ceshi(){
+		JsonBean bean = new JsonBean();
+		bean.setData(aigaStaffSv.ceshi());
+		return bean;
 	}
 }

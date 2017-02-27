@@ -78,9 +78,6 @@ define(function(require,exports,module){
 			Rose.ajax.getJson(srvMap.get('getOrganizeList'), '', function(json, status) {
 				if(status) {
 					$.fn.zTree.init($(Dom.getOrganizeListTree), {
-						check: {
-							enable: true
-						},
 						data: {
 							key: {
 								name:"organizeName"
@@ -199,7 +196,7 @@ define(function(require,exports,module){
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
 			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-			  			Rose.ajax.postJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
+			  			Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加用户成功！', 'success', 2000)
@@ -226,8 +223,8 @@ define(function(require,exports,module){
 				var _data = self.getCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
-					if(_data.state == '失效'){
-						Rose.ajax.postJson(srvMap.get('startUserinfo'), 'staffId='+_staffId, function(json, status) {
+					if(_data.state == '0'){
+						Rose.ajax.getJson(srvMap.get('startUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 启用成功后，重新加载用户列表
 								window.XMS.msgbox.show('员工启用成功！', 'success', 2000)
@@ -249,8 +246,8 @@ define(function(require,exports,module){
 				var _data = self.getCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
-					if(_data.state == '有效'){
-						Rose.ajax.postJson(srvMap.get('stopUserinfo'), 'staffId='+_staffId, function(json, status) {
+					if(_data.state == '1'){
+						Rose.ajax.getJson(srvMap.get('stopUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('员工停用成功！', 'success', 2000)
@@ -272,7 +269,7 @@ define(function(require,exports,module){
 				var _data = self.getCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
-					Rose.ajax.postJson(srvMap.get('resetPassword'), 'staffId='+_staffId, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('resetPassword'), 'staffId='+_staffId, function(json, status) {
 						if(status) {
 							// self.getUserinfoList();
 							window.XMS.msgbox.show('密码重置成功！', 'success', 2000)
@@ -289,7 +286,7 @@ define(function(require,exports,module){
 				if(_data){
 					var _staffId =_data.staffId;
 					if (confirm('您确认要清除“' + _data.name + '”的权限吗？')) {
-                        Rose.ajax.postJson(srvMap.get('clearPower'), 'staffId='+_staffId, function(json, status) {
+                        Rose.ajax.getJson(srvMap.get('clearPower'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('权限清除成功！', 'success', 2000)
@@ -304,7 +301,7 @@ define(function(require,exports,module){
 		},
 		getStaffOrgList: function(){
 			var _data = this.getCheckedRow();
-			Rose.ajax.postJson(srvMap.get('getStaffOrgList'), 'staffId:'+_data.staffId, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getStaffOrgList'), 'staffId:'+_data.staffId, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getStaffOrgList);
 					$(Dom.getStaffOrgList).removeClass('hide');

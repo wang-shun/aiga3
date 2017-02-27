@@ -16,7 +16,9 @@ public class StaffController {
 	
 	@Autowired
 	private AigaStaffSv aigaStaffSv;
-	
+	/*
+	 * 员工角色复权菜单员工列表调用
+	 * */
 	@RequestMapping(path = "/aiga/staff/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();

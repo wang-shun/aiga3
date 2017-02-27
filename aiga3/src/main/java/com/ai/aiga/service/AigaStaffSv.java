@@ -35,8 +35,6 @@ public class AigaStaffSv extends BaseService{
 	private AigaStaffDao aigaStaffDao;
 	@Autowired
 	private AigaStaffOrgRelatDao aigaStaffOrgRelatDao;
-	@Autowired
-	private AigaAuthorDao aigaAuthorDao ;
 	
 	public List<AigaStaff>findStaffAll() {
 		return aigaStaffDao.findAll();
@@ -51,8 +49,6 @@ public class AigaStaffSv extends BaseService{
 				+ " and ar.organize_id = ao.organize_id and ar.organize_id = "+organizeId; 
 		
 		javax.persistence.Query query=em.createNativeQuery(sql);
-		
-		System.out.println(query.getSingleResult());
 		
 		List<Object> list=query.getResultList();
 		Map[] map = new Map[list.size()];
@@ -85,21 +81,21 @@ public class AigaStaffSv extends BaseService{
 		
 		javax.persistence.Query query=em.createNativeQuery(sql);
 		List<Object> list=query.getResultList();
-		
-		System.out.println(list);
-		//HashMap<Object,Object>[] map ;
 		Map[] map = new Map[list.size()];
-		for(int i=0;i<list.size();i++){
-			map[i] = new HashMap();
-			Object[] object =(Object[]) list.get(i);
-			System.out.println(object);
-			map[i].put("staffId", object[0]);
-			map[i].put("code", object[1]);
-			map[i].put("name", object[2]);
-			map[i].put("state", object[3]);
-			map[i].put("organizeId", object[4]);
-			map[i].put("organizeName", object[5]);
-			map[i].put("organizeCode", object[6]);
+		if(list !=null && list.size()>0){
+			for(int i=0;i<list.size();i++){
+				map[i] = new HashMap();
+				Object[] object =(Object[]) list.get(i);
+				System.out.println(object);
+				map[i].put("staffId", object[0]);
+				map[i].put("code", object[1]);
+				map[i].put("name", object[2]);
+				map[i].put("state", object[3]);
+				map[i].put("organizeId", object[4]);
+				map[i].put("organizeName", object[5]);
+				map[i].put("organizeCode", object[6]);
+			}
+			
 		}
 		
 		return map;
@@ -389,7 +385,7 @@ public class AigaStaffSv extends BaseService{
 	 * 清空权限
 	 * */
 	public void clear(Long staffId){
-		aigaAuthorDao.delete(staffId);
+		aigaStaffDao.deleteByStaffId(staffId);
 	}
 
 	public void ogrUpdate(StaffOrgRelatRequest sorRequest) {

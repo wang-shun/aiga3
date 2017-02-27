@@ -1,8 +1,14 @@
 /*
  * 配置数据和 tpl
  * 0 为本地， 1 为远程
+ * 本地接口为：8888，当接口为8888时自动调用本地数据
  */
 var conf = 1; //控制服务和tpl
+var _url = window.location.href;
+
+if(_url.indexOf("8888")>=0){
+    conf= 0
+}
 var srvMap = (function($){
     var srcPref = ["/html/mock/","/aiga3/"];
 
@@ -38,11 +44,12 @@ var srvMap = (function($){
  *
  */
 var timeStamp = '$1?ver=' + new Date().getTime();
+var basePref = ["/html/","/aiga3/html/"];
 seajs.config({
     'map': [
         [/^(.*\.(?:css|js))(.*)$/i, timeStamp]
     ],
-    base: "/aiga3/html/",
+    base: basePref[conf],
     alias: {
         'AdminLTE':'lib/AdminLTE/js/app.js',
         'iCheckCSS':'lib/iCheck/all.css',
@@ -63,7 +70,6 @@ seajs.config({
         'artDialog':'lib/artDialog/4.1.7/artDialog.js'
     },
     preload: [
-        'AdminLTE',
         'json2',
         'handlebars',
         'rose',
@@ -77,7 +83,8 @@ seajs.config({
         'bootValidatorCSS',
         'bootValidatorJS',
         'zTreeCSS',
-        'zTreeJS'
+        'zTreeJS',
+        'AdminLTE'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js
@@ -88,6 +95,7 @@ seajs.config({
         'page' : 'script/page'
     },
 });
+
 
 
 // 加载helpers

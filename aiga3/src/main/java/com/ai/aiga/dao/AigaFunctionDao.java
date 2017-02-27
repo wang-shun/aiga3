@@ -11,6 +11,9 @@ public interface AigaFunctionDao extends JpaRepository<AigaFunction, Long>{
 
 	@Query("select count(o.funcId) from AigaFunction o where o.parentId = ?1")
 	int getCountByParentId(long parentId);
+	
+	@Query("select max(o.funSeq) from AigaFunction o where o.parentId = ?1")
+	int getMaxFunseqByParentId(long parentId);
 
 	
 	List<AigaFunction> getByParentIdAndName(long parentId, String name);

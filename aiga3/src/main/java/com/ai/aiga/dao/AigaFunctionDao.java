@@ -13,7 +13,7 @@ public interface AigaFunctionDao extends JpaRepository<AigaFunction, Long>{
 	int getCountByParentId(long parentId);
 	
 	@Query("select max(o.funSeq) from AigaFunction o where o.parentId = ?1")
-	int getMaxFunseqByParentId(long parentId);
+	Short getMaxFunseqByParentId(long parentId);
 
 	
 	List<AigaFunction> getByParentIdAndName(long parentId, String name);

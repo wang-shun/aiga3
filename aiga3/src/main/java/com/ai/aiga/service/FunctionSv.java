@@ -97,7 +97,12 @@ public class FunctionSv extends BaseService{
 		aigaFuction.setFuncLevel(funcLevel);
 		aigaFuction.setFuncType(request.getFuncType());
 		
-		int funSeq = aigaFunctionDao.getMaxFunseqByParentId(parentId) + 1;
+		Short max = aigaFunctionDao.getMaxFunseqByParentId(parentId);
+		int funSeq = 1;
+		if(max != null){
+			funSeq = max + 1;
+		}
+		
 		aigaFuction.setFunSeq((short)funSeq);
 		
 		aigaFuction.setName(request.getName());

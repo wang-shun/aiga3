@@ -11,17 +11,12 @@ Handlebars.registerHelper('getUserState', function(value, fn) {
 		return "失效";
 	}
 });
-Handlebars.registerHelper('orderString', function(value, fn) {
-
-	if (value == "1") {
-		return "正在处理";
-
+Handlebars.registerHelper('getYorN', function(value, fn) {
+	if (value == "Y") {
+		return "是";
 	}
-	if (value == "2") {
-		return "交易成功";
-
-	} else if (value == "3") {
-		return "交易失败";
+	if (value == "N") {
+		return "否";
 	}
 });
 Handlebars.registerHelper('remainDaysBla', function(value, days, fn) {

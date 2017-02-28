@@ -64,6 +64,7 @@ seajs.config({
         'slimScroll':'lib/slimScroll/jquery.slimscroll.min.js',
         'bootValidatorCSS':'lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css',
         'bootValidatorJS':'lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js',
+        'My97DatePicker':'lib/My97DatePicker/WdatePicker.js',
         'rose':'lib/rose/1.0.0/Rose.src.js',
         'json2':'lib/json2/1.0/json2.js',
         'handlebars':'lib/handlebars/3.0.3/handlebars.js',
@@ -82,6 +83,7 @@ seajs.config({
         'slimScroll',
         'bootValidatorCSS',
         'bootValidatorJS',
+        'My97DatePicker',
         'zTreeCSS',
         'zTreeJS',
         'AdminLTE'

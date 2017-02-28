@@ -26,7 +26,7 @@ public interface AigaStaffDao extends JpaRepository<AigaStaff,Long>{
 	
 	@Query(value = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organize_code"
 			+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
-			+ " and ar.organize_id = ao.organize_id and af.code like '%?1%' ",nativeQuery= true)
+			+ " and ar.organize_id = ao.organize_id and af.code like ?1 ",nativeQuery= true)
 	List<Object[]> findStaffByCode(String code);
 	
 	@Query(value = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organize_code"

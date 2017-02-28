@@ -2,21 +2,20 @@ package com.ai.aiga.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
+
 import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ai.aiga.dao.AigaAuthorDao;
+
 import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.AigaStaffOrgRelatDao;
 import com.ai.aiga.domain.AigaStaff;
@@ -25,7 +24,7 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.StaffListResponse;
-import com.ai.aiga.view.json.StaffMsgRequest;
+
 import com.ai.aiga.view.json.StaffOrgRelatRequest;
 import com.ai.aiga.view.json.StaffOrgRelatResponse;
 import com.ai.aiga.view.json.StaffRequest;

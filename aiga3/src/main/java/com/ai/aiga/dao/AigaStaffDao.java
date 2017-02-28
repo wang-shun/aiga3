@@ -16,8 +16,7 @@ public interface AigaStaffDao extends JpaRepository<AigaStaff,Long>{
 	@Query("delete from AigaAuthor a where a.staffId = ?1")
 	void deleteByStaffId(Long staffId);
 	
-	@Query(value ="select * from aiga_staff ",nativeQuery=true)
-	List<AigaStaff> ceshi();
+	
 	
 	@Query(value = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organize_code"
 			+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"

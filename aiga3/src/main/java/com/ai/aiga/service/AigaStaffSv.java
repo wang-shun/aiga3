@@ -390,10 +390,6 @@ public class AigaStaffSv extends BaseService{
 		}
 		aigaStaffOrgRelatDao.updateByStaffIdAndOrgId(sorRequest.getStaffId(),sorRequest.getOrganizeId(),sorRequest.getIsAdminStaff(),sorRequest.getIsBaseOrg());
 	}
-	public List<AigaStaff> ceshi() {
-		List<AigaStaff> list = aigaStaffDao.ceshi();
-		return list;
-	}
 
 	
 }

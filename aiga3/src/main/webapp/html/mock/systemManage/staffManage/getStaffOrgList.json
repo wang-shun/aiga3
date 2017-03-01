@@ -4,7 +4,7 @@
     "data": [{
         "organizeId": "10732",
         "organizeName": "新炬",
-        "isAdminStaff": "否",
-        "isBaseOrg": "是"
+        "isAdminStaff": "N",
+        "isBaseOrg": "Y"
     }]
 }

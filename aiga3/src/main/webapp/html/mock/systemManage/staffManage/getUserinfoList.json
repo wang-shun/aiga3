@@ -5,7 +5,7 @@
         "staffId": "16088",
         "code": "QIJC",
         "name": "齐麦子",
-        "state": "0",
+        "state": 0,
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
@@ -13,7 +13,7 @@
         "staffId": "10732",
         "code": "DONGCH",
         "name": "董承浩",
-        "state": "0",
+        "state": 0,
         "organizeCode": "H",
         "organizeName": "新炬",
         "organizeId":"1003"
@@ -21,7 +21,7 @@
         "staffId": "12033",
         "code": "CAIJY",
         "name": "蔡健雅",
-        "state": "1",
+        "state": 1,
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
@@ -29,7 +29,7 @@
         "staffId": "19288",
         "code": "ZHAOLEI",
         "name": "赵雷",
-        "state": "1",
+        "state": 1,
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"

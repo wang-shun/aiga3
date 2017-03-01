@@ -1,0 +1,30 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "code":"ZHOUJL",
+        "name":"周杰伦",
+        "billId":"13812711288",
+        "email":"zhoujl@asiainfo.com",
+        "password":"12345678",
+        "recentPassword":"12345678",
+        "cardTypeId":"0",
+        "cardNo":"412701231231233333",
+        "lockFlag":"N",
+        "tryTimes":"3",
+        "acctEffectDate":"2017-03-01",
+        "acctExpireDate":"2099-12-31",
+        "bandType":"1",
+        "allowChangePassword":"Y",
+        "multiLoginFlag":"Y",
+        "minPasswdLength":"6",
+        "ext2":"工号扩展2",
+        "chgPasswdAlarmDays":"30",
+        "recentPassTimes":"3",
+        "ext1":"bh89757",
+        "oPLvl":"1",
+        "ext3":"工号扩展3",
+        "opType":"1",
+        "notes":"新员工入职"
+    }
+}

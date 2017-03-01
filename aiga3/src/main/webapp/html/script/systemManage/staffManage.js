@@ -7,8 +7,10 @@ define(function(require,exports,module){
 	// 员工列表按组织查询
 	srvMap.add("getUserinfoListA", pathAlias + "getUserinfoList.json", "aiga/staff/listA");
 	// 员工列表按条件查询
-	srvMap.add("getUserinfoListB", pathAlias + "getUserinfoList.json", "aiga/staff/listB");
-	// 新增员工
+	srvMap.add("getUserinfoListB", pathAlias + "getUserinfoListB.json", "aiga/staff/listB");
+	// 查询员工信息
+	srvMap.add("getUserinfo", pathAlias + "getUserinfo.json", "aiga/staff/select");
+	// 添加员工
 	srvMap.add("addUserinfo", pathAlias + "retMessage.json", "aiga/staff/save");
 	// 修改员工
 	srvMap.add("updateUserinfo", pathAlias + "retMessage.json", "aiga/staff/update");
@@ -24,7 +26,7 @@ define(function(require,exports,module){
 	srvMap.add("clearPower", pathAlias + "retMessage.json", "aiga/staff/clearPower");
 	// 操作员关联组织列表
 	srvMap.add("getStaffOrgList", pathAlias + "getStaffOrgList.json", "aiga/staff/staffOrgList");
-	// 操作员关联组织新增
+	// 操作员关联组织添加
 	srvMap.add("addStaffOrg", pathAlias + "retMessage.json", "aiga/staff/staffOrgAdd");
 	// 操作员关联组织删除
 	srvMap.add("delStaffOrg", pathAlias + "retMessage.json", "aiga/staff/staffOrgDel");
@@ -34,6 +36,7 @@ define(function(require,exports,module){
 	// 模板对象
     var Tpl = {
         getUserinfoList: require('tpl/systemManage/staffManage/getUserinfoList.tpl'),
+        getUserinfo: require('tpl/systemManage/staffManage/getUserinfo.tpl'),
         getStaffOrgList: require('tpl/systemManage/staffManage/getStaffOrgList.tpl')
     };
 
@@ -54,8 +57,12 @@ define(function(require,exports,module){
         startUserinfo: '#JS_startUserinfo',
         stopUserinfo: '#JS_stopUserinfo',
         updateUserinfo: '#JS_updateUserinfo',
-        changePassword: '#JS_changePassword',
         resetPassword: '#JS_resetPassword',
+        changePassword: '#JS_changePassword',
+        changePasswordForm: '#JS_changePasswordForm',
+        changePasswordModal: '#JS_changePasswordModal',
+        changePasswordSubmit: '#JS_changePasswordSubmit',
+        changePassword: '#JS_changePassword',
         clearPower: '#JS_clearPower',
         addStaffOrg: '#JS_addStaffOrg',
         addStaffOrgTree: '#JS_addStaffOrgTree',
@@ -82,7 +89,7 @@ define(function(require,exports,module){
 		_render: function() {
 			// 默认只加载组织结构及条件查询
 			this.getOrganizeList();
-			this.getUserinfo();
+			this.getUserinfoListB();
 		},
 		// 组织结构
 		getOrganizeList: function(){
@@ -106,7 +113,10 @@ define(function(require,exports,module){
 							 	var _data = "organizeId="+_organizeId;
 							 	// 存储在全局变量
 							 	Data.organizeId = _organizeId;
+							 	// 隐藏关联组织
+							 	$(Dom.getStaffOrgList).addClass('hide');
 							 	self.getUserinfoList(_data)
+
 							 }
 						}
 					}, json.data);
@@ -114,7 +124,7 @@ define(function(require,exports,module){
 	  		});
 		},
 		// 按条件查询用户
-		getUserinfo: function(){
+		getUserinfoListB: function(){
 			var self = this;
 			var _form = $(Dom.getUserinfoForm);
 			// 表单校验初始化
@@ -160,11 +170,12 @@ define(function(require,exports,module){
             		self.addUserinfo();
             		self.startUserinfo();
 					self.stopUserinfo();
+					self.changePassword();
 					self.resetPassword();
 					self.clearPower();
 
-					// 绑定双击当前行事件
-				    self.eventDclickChecked($(Dom.getUserinfoList),function(){
+					// 绑定单机当前行事件
+				    self.eventClickChecked($(Dom.getUserinfoList),function(){
 				    	// 请求：关联组织
 			        	self.getStaffOrgList();
 				    })
@@ -181,16 +192,21 @@ define(function(require,exports,module){
 				}
 	  		});
 		},
-		// 新增用户
+		// 添加用户
 		addUserinfo:function(){
 			var self = this;
 			$(Dom.addUserinfo).bind('click', function() {
-				console.log(Data.organizeId);
+
 				// 如果组织结构未选中或未显示都不行
 				if(!Data.isOrganize() || !Data.organizeId){
-					XMS.msgbox.show('请先选择一个组织结构！', 'error', 2000);
+					XMS.msgbox.show('请先选择一个组织结构！', 'info', 2000);
 					return false;
 		        }
+		        // 表单校验初始化
+		        var _form = $(Dom.addUserinfoForm);
+		        var template = Handlebars.compile(Tpl.getUserinfo);
+            	_form.html(template({}));
+
 		        // 滚动条
 		        $(Dom.addUserinfoScroll).slimScroll({
 			        "height": '420px'
@@ -198,14 +214,33 @@ define(function(require,exports,module){
 			    // 弹出层
 				$(Dom.addUserinfoModal).modal('show');
 
-		        // 表单校验初始化
-		        var _form = $(Dom.addUserinfoForm);
-				_form.bootstrapValidator('validate');
+		        // 锁定状态：否
+		        _form.find("[name='lockFlag']").find("option[value='N']").attr("selected",true).end().attr("readonly",true);
+		        // 尝试次数：3
+		        _form.find("[name='tryTimes']").val("3").attr("readonly",true);
+		        // 是否允许修改密码：是
+		        _form.find("[name='allowChangePassword']").find("option[value='Y']").attr("selected",true).end().attr("readonly",true);
+		        // 生效日期：当天
+		        _form.find("[name='acctEffectDate']").val(Rose.date.getDate()).attr("readonly",true);
+		        // 失效日期：2099-12-31
+		        _form.find("[name='acctExpireDate']").val("2099-12-31").attr("readonly",true);
+				// 并行登录：是
+		        _form.find("[name='multiLoginFlag']").find("option[value='Y']").attr("selected",true).end().attr("readonly",true);
+		        // 密码修改提醒天数：30
+		        _form.find("[name='chgPasswdAlarmDays']").val("30").attr("readonly",true);
+		        // 密码修改校验次数：3
+		        _form.find("[name='recentPassTimes']").val("3").attr("readonly",true);
+		        // 最小密码长度：6
+		        _form.find("[name='minPasswdLength']").val("6").attr("readonly",true);
+
+
+
+				// _form.bootstrapValidator('validate');
 				// 表单提交
 				$(Dom.addUserinfoSubmit).bind('click',function(){
 
 					// 表单校验：成功后调取接口
-					_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 			            var cmd = _form.serialize();
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
@@ -221,7 +256,7 @@ define(function(require,exports,module){
 								},1000)
 							}
 			  			});
-		        	});
+		        	//});
 		  		})
 		  		// 表单重置
 		  		$(Dom.addUserinfoReset).bind('click',function(){
@@ -276,6 +311,33 @@ define(function(require,exports,module){
 				}
 			});
 		},
+		// 修改密码
+		changePassword:function(){
+			var self = this;
+			$(Dom.changePassword).bind('click', function() {
+				var _data = self.getUserCheckedRow();
+				if(_data){
+					// 弹出层
+					$(Dom.changePasswordModal).modal('show');
+					// 设置staffId
+					$(Dom.changePasswordForm).find("input[name='staffId']").val(Data.staffId);
+					// 表单提交
+					$(Dom.changePasswordSubmit).bind('click',function(){
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						var cmd = $(Dom.changePasswordForm).serialize();
+						Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json, status) {
+							if(status) {
+								window.XMS.msgbox.show('员工密码重置成功！', 'success', 2000)
+								$(Dom.changePasswordModal).modal('hide')
+								setTimeout(function(){
+									self.getUserinfoList();
+								},1000)
+							}
+			  			});
+			  		})
+				}
+			});
+		},
 		// 重置密码
 		resetPassword:function(){
 			var self = this;
@@ -313,26 +375,27 @@ define(function(require,exports,module){
 				}
 			});
 		},
+		// 请求组织结构列表
 		getStaffOrgList: function(data){
 			var self = this;
 			var _data = self.getUserCheckedRow();
 			Data.staffId = _data.staffId;
-			Rose.ajax.getJson(srvMap.get('getStaffOrgList'), 'staffId:'+ _data.staffId, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getStaffOrgList'), 'staffId='+ _data.staffId, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getStaffOrgList);
 					$(Dom.getStaffOrgList).removeClass('hide');
             		$(Dom.getStaffOrgList).html(template(json.data));
 
-            		// 接口：新增组织
+            		// 接口：添加组织
 			        self.addStaffOrg();
             		// 接口：删除组织
 			        self.delStaffOrg();
-            		// 绑定双击当前行事件
-				    self.eventDclickChecked($(Dom.getStaffOrgList))
+            		// 绑定单机当前行事件
+				    self.eventClickChecked($(Dom.getStaffOrgList))
 				}
   			});
 		},
-		// 新增组织结构
+		// 添加组织结构
 		addStaffOrg: function(){
 			var self = this;
 			$(Dom.addStaffOrg).bind('click', function() {
@@ -372,7 +435,7 @@ define(function(require,exports,module){
 					 var cmd = $(Dom.addStaffOrgForm).serialize();
 					 Rose.ajax.getJson(srvMap.get('addStaffOrg'), cmd, function(json, status) {
 						if(status) {
-							window.XMS.msgbox.show('关联组织新增成功！', 'success', 2000)
+							window.XMS.msgbox.show('添加成功！', 'success', 2000)
 							$(Dom.addStaffOrgModal).modal('hide')
 							setTimeout(function(){
 								self.getStaffOrgList();
@@ -389,9 +452,10 @@ define(function(require,exports,module){
 				var _data = self.getStaffOrgCheckedRow();
 				if(_data){
 					var cmd = 'staffId='+Data.staffId +'&organizeId='+_data.organizeId;
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delStaffOrg'), cmd, function(json, status) {
 						if(status) {
-							window.XMS.msgbox.show('关联组织删除成功！', 'success', 2000)
+							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function(){
 								self.getStaffOrgList();
 							},1000)
@@ -415,7 +479,7 @@ define(function(require,exports,module){
 		        organizeId:""
 		    }
 		    if(_staffId.length==0){
-		    	window.XMS.msgbox.show('请先选择一个用户！', 'error', 2000);
+		    	window.XMS.msgbox.show('请先选择一个用户！', 'info', 2000);
 		    	return;
 		    }else{
 		    	data.staffId = _staffId.val();
@@ -434,19 +498,27 @@ define(function(require,exports,module){
 		        organizeId:_organizeId.val()
 		    }
 		    if(_organizeId.length==0){
-		    	window.XMS.msgbox.show('请先选择一个组织结构！', 'error', 2000);
+		    	window.XMS.msgbox.show('请先选择一个组织结构！', 'info', 2000);
 		    	return;
 		    }
 		    return data;
 		},
-		// 事件：双击选中当前行
-		eventDclickChecked:function(obj,callback){
+		// 事件：单机选中当前行
+		eventClickChecked:function(obj,callback){
 			obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
 			      checkboxClass: 'icheckbox_square-blue',
 			      radioClass: 'iradio_square-blue'
 			});
 			obj.find("tr").bind('click', function(event) {
-		        	$(this).find('.minimal').iCheck('check');
+		        $(this).find('.minimal').iCheck('check');
+	        	if (callback) {
+					callback();
+				}
+		    });
+		},
+		// 事件：双击绑定事件
+		eventDClickCallback:function(obj,callback){
+			obj.find("tr").bind('dblclick ', function(event) {
 		        	if (callback) {
 						callback();
 					}

@@ -2,7 +2,7 @@
     <h3 class="box-title">关联组织</h3>
     <div class="box-tools">
          <div class="btn-group">
-            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_addStaffOrg"><i class="fa fa-plus"></i> 新增</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_addStaffOrg"><i class="fa fa-plus"></i> 添加</button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>

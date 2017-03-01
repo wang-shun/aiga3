@@ -168,6 +168,7 @@ define(function(require,exports,module){
             		XMS.msgbox.hide()
 
             		self.addUserinfo();
+            		self.updateUserinfo();
             		self.startUserinfo();
 					self.stopUserinfo();
 					self.changePassword();
@@ -178,6 +179,12 @@ define(function(require,exports,module){
 				    self.eventClickChecked($(Dom.getUserinfoList),function(){
 				    	// 请求：关联组织
 			        	self.getStaffOrgList();
+				    })
+
+				    // 绑定双击当前行事件
+				    self.eventDClickCallback($(Dom.getUserinfoList),function(){
+				    	// 请求：用户基本信息
+			        	self.getUserinfo();
 				    })
 
 					// 表格分页
@@ -259,11 +266,62 @@ define(function(require,exports,module){
 		        	//});
 		  		})
 		  		// 表单重置
-		  		$(Dom.addUserinfoReset).bind('click',function(){
+		  		/*$(Dom.addUserinfoReset).bind('click',function(){
 		  			_form.data('bootstrapValidator').resetForm(true);
-		  		})
+		  		})*/
 
 			})
+		},
+		getUserinfo:function(){
+			var self = this;
+			Rose.ajax.getJson(srvMap.get('getUserinfo'), '', function(json, status) {
+				if(status) {
+					// 表单校验初始化
+			        var _form = $(Dom.addUserinfoForm);
+			        var template = Handlebars.compile(Tpl.getUserinfo);
+	            	_form.html(template(json.data));
+
+			        // 滚动条
+			        $(Dom.addUserinfoScroll).slimScroll({
+				        "height": '420px'
+				    });
+				    // 弹出层
+					$(Dom.addUserinfoModal).modal('show');
+
+					// 提交
+					$(Dom.addUserinfoSubmit).bind('click',function(){
+
+					// 表单校验：成功后调取接口
+					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+			            var cmd = _form.serialize();
+			            console.log(cmd);
+			  			// self.getUserinfoList(cmd);
+			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+			  			Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
+							if(status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('添加用户成功！', 'success', 2000)
+								// 关闭弹出层
+								$(Dom.addUserinfoModal).modal('hide')
+								setTimeout(function(){
+									self.getUserinfoList();
+								},1000)
+							}
+			  			});
+		        	//});
+		  		})
+				}
+  			});
+		},
+		// 修改用户信息事件
+		updateUserinfo:function(){
+			var self = this;
+			$(Dom.updateUserinfo).bind('click', function() {
+				var _data = self.getUserCheckedRow();
+				if(_data){
+					self.getUserinfo();
+				}
+			});
 		},
 		// 启用用户
 		startUserinfo:function(){

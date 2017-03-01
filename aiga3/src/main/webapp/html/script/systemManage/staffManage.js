@@ -40,10 +40,14 @@ define(function(require,exports,module){
     // 容器对象
     var Dom = {
         getUserinfoList: '#JS_getUserinfoList',
+      	getUserinfoListTable: '#JS_getUserinfoListTable',
         getOrganizeListTree: '#JS_getOrganizeListTree',
         getStaffOrgList: '#JS_getStaffOrgList',
+        getStaffOrgListTable: '#JS_getStaffOrgListTable',
         getUserinfoForm: '#JS_getUserinfoForm',
         addUserinfo: '#JS_addUserinfo',
+        addUserinfoModal:'#JS_addUserinfoModal',
+        addUserinfoScroll:'#JS_addUserinfoScroll',
         addUserinfoForm:'#JS_addUserinfoForm',
         addUserinfoReset:'#JS_addUserinfoReset',
         addUserinfoSubmit:'#JS_addUserinfoSubmit',
@@ -52,11 +56,19 @@ define(function(require,exports,module){
         updateUserinfo: '#JS_updateUserinfo',
         changePassword: '#JS_changePassword',
         resetPassword: '#JS_resetPassword',
-        clearPower: '#JS_clearPower'
+        clearPower: '#JS_clearPower',
+        addStaffOrg: '#JS_addStaffOrg',
+        addStaffOrgTree: '#JS_addStaffOrgTree',
+        addStaffOrgModal: '#JS_addStaffOrgModal',
+        addStaffOrgScroll:'#JS_addStaffOrgScroll',
+        addStaffOrgForm:'#JS_addStaffOrgForm',
+        addStaffOrgSubmit:'#JS_addStaffOrgSubmit',
+        delStaffOrg: '#JS_delStaffOrg'
     };
 
     var Data = {
     	organizeId: null,
+    	addOrganizeId: null, // 添加关联组织ID
     	staffId: null,
     	isOrganize: function(){
     		return $("#isOrganize").hasClass('active') ? true : false;
@@ -113,6 +125,8 @@ define(function(require,exports,module){
 				// 表单校验：成功后调取接口
 				//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 		            // e.preventDefault();
+		            // 隐藏关联组织
+		            $(Dom.getStaffOrgList).addClass('hide');
 		            var cmd = $(Dom.getUserinfoForm).serialize();
 		  			self.getUserinfoList(cmd);
 	        	//});
@@ -156,7 +170,7 @@ define(function(require,exports,module){
 				    })
 
 					// 表格分页
-					$('#Table_getUserinfoList').DataTable({
+					$(Dom.getUserinfoListTable).DataTable({
 			          "paging": true,
 			          "lengthChange": false,
 			          "searching": false,
@@ -178,11 +192,11 @@ define(function(require,exports,module){
 					return false;
 		        }
 		        // 滚动条
-		        $('#Scroll_addUserinfo').slimScroll({
+		        $(Dom.addUserinfoScroll).slimScroll({
 			        "height": '420px'
 			    });
 			    // 弹出层
-				$('#myModal').modal('show');
+				$(Dom.addUserinfoModal).modal('show');
 
 		        // 表单校验初始化
 		        var _form = $(Dom.addUserinfoForm);
@@ -201,7 +215,7 @@ define(function(require,exports,module){
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加用户成功！', 'success', 2000)
 								// 关闭弹出层
-								$('#myModal').modal('hide')
+								$(Dom.addUserinfoModal).modal('hide')
 								setTimeout(function(){
 									self.getUserinfoList();
 								},1000)
@@ -220,7 +234,7 @@ define(function(require,exports,module){
 		startUserinfo:function(){
 			var self = this;
 			$(Dom.startUserinfo).bind('click', function() {
-				var _data = self.getCheckedRow();
+				var _data = self.getUserCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
 					if(_data.state == '0'){
@@ -243,7 +257,7 @@ define(function(require,exports,module){
 		stopUserinfo:function(){
 			var self = this;
 			$(Dom.stopUserinfo).bind('click', function() {
-				var _data = self.getCheckedRow();
+				var _data = self.getUserCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
 					if(_data.state == '1'){
@@ -266,7 +280,7 @@ define(function(require,exports,module){
 		resetPassword:function(){
 			var self = this;
 			$(Dom.resetPassword).bind('click', function() {
-				var _data = self.getCheckedRow();
+				var _data = self.getUserCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
 					Rose.ajax.getJson(srvMap.get('resetPassword'), 'staffId='+_staffId, function(json, status) {
@@ -282,7 +296,7 @@ define(function(require,exports,module){
 		clearPower:function(){
 			var self = this;
 			$(Dom.clearPower).bind('click', function() {
-				var _data = self.getCheckedRow();
+				var _data = self.getUserCheckedRow();
 				if(_data){
 					var _staffId =_data.staffId;
 					if (confirm('您确认要清除“' + _data.name + '”的权限吗？')) {
@@ -299,25 +313,96 @@ define(function(require,exports,module){
 				}
 			});
 		},
-		getStaffOrgList: function(){
-			var _data = this.getCheckedRow();
-			Rose.ajax.getJson(srvMap.get('getStaffOrgList'), 'staffId:'+_data.staffId, function(json, status) {
+		getStaffOrgList: function(data){
+			var self = this;
+			var _data = self.getUserCheckedRow();
+			Data.staffId = _data.staffId;
+			Rose.ajax.getJson(srvMap.get('getStaffOrgList'), 'staffId:'+ _data.staffId, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getStaffOrgList);
 					$(Dom.getStaffOrgList).removeClass('hide');
             		$(Dom.getStaffOrgList).html(template(json.data));
 
-            		// 美化复选框
-            		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-				      checkboxClass: 'icheckbox_square-blue',
-				      radioClass: 'iradio_square-blue'
-				    });
+            		// 接口：新增组织
+			        self.addStaffOrg();
+            		// 接口：删除组织
+			        self.delStaffOrg();
+            		// 绑定双击当前行事件
+				    self.eventDclickChecked($(Dom.getStaffOrgList))
 				}
   			});
 		},
-		// 获取当前选中行
-		getCheckedRow : function(){
-			var _obj = $('#Table_getUserinfoList').find("input[type='radio']:checked").parents("tr");
+		// 新增组织结构
+		addStaffOrg: function(){
+			var self = this;
+			$(Dom.addStaffOrg).bind('click', function() {
+			    // 弹出层
+				$(Dom.addStaffOrgModal).modal('show');
+				// 滚动条
+		        $(Dom.addStaffOrgScroll).slimScroll({
+			        "height": '320px'
+			    });
+		        // 请求关联组织树
+			    Rose.ajax.getJson(srvMap.get('getOrganizeList'), '', function(json, status) {
+					if(status) {
+						$.fn.zTree.init($(Dom.addStaffOrgTree), {
+							data: {
+								key: {
+									name:"organizeName"
+								},
+								simpleData: {
+									enable: true,
+									idKey:"organizeId",
+									pIdKey:"parentOrganizeId"
+								}
+							},
+							callback:{
+								 onClick: function(event, treeId, treeNode){
+								 	var _organizeId = treeNode.organizeId;
+								 	var _dom = $(Dom.addStaffOrgForm);
+								 	_dom.find("input[name='staffId']").val(Data.staffId);
+								 	_dom.find("input[name='organizeId']").val(_organizeId);
+								 }
+							}
+						}, json.data);
+					}
+		  		});
+		  		// 表单提交
+				$(Dom.addStaffOrgSubmit).bind('click',function(){
+					 var cmd = $(Dom.addStaffOrgForm).serialize();
+					 Rose.ajax.getJson(srvMap.get('addStaffOrg'), cmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.show('关联组织新增成功！', 'success', 2000)
+							$(Dom.addStaffOrgModal).modal('hide')
+							setTimeout(function(){
+								self.getStaffOrgList();
+							},1000)
+						}
+		  			});
+		  		})
+			})
+		},
+		// 删除组织结构
+		delStaffOrg: function(){
+			var self = this;
+			$(Dom.delStaffOrg).bind('click', function() {
+				var _data = self.getStaffOrgCheckedRow();
+				if(_data){
+					var cmd = 'staffId='+Data.staffId +'&organizeId='+_data.organizeId;
+					Rose.ajax.getJson(srvMap.get('delStaffOrg'), cmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.show('关联组织删除成功！', 'success', 2000)
+							setTimeout(function(){
+								self.getStaffOrgList();
+							},1000)
+						}
+		  			});
+				}
+			});
+		},
+		// 获取员工列表当前选中行
+		getUserCheckedRow : function(){
+			var _obj = $(Dom.getUserinfoListTable).find("input[type='radio']:checked").parents("tr");
 			var _staffId = _obj.find("input[name='staffId']")
 			var _name = _obj.find("input[name='staffName']")
 			var _state = _obj.find("input[name='staffState']")
@@ -336,6 +421,21 @@ define(function(require,exports,module){
 		    	data.staffId = _staffId.val();
 		    	data.name = _name.val();
 		    	data.state = _state.val();
+		    }
+		    return data;
+		},
+		// 获取组织列表当前选中行
+		getStaffOrgCheckedRow : function(){
+			var _obj = $(Dom.getStaffOrgListTable).find("input[type='radio']:checked").parents("tr");
+			var _organizeId = _obj.find("input[name='organizeId']")
+			var _organizeName= _obj.find("input[name='organizeName']")
+			var data = {
+		        organizeName: _organizeName.val(),
+		        organizeId:_organizeId.val()
+		    }
+		    if(_organizeId.length==0){
+		    	window.XMS.msgbox.show('请先选择一个组织结构！', 'error', 2000);
+		    	return;
 		    }
 		    return data;
 		},

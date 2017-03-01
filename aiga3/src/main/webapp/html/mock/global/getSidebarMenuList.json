@@ -82,6 +82,11 @@
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
+            },{
+                "menuName": "用例模板管理",
+                "menuURL": "view/caseTempMng/caseTempMng.html",
+                "hasChild": 0,
+                "isActive": 0
             }]
         }, {
             "menuName": "报告报表查询",

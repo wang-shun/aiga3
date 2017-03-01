@@ -114,7 +114,7 @@ public class NaCaseTemplate  implements java.io.Serializable {
     }
     
 	@Lob
-	@Basic(fetch = FetchType.EAGER)
+	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "PRE_COND", columnDefinition="CLOB")
 	public String getPreCond() {
 		return this.preCond;
@@ -125,7 +125,7 @@ public class NaCaseTemplate  implements java.io.Serializable {
 	}
 
 	@Lob
-	@Basic(fetch = FetchType.EAGER)
+	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "OPERATE_DESC", columnDefinition="CLOB")
 	public String getOperateDesc() {
 		return this.operateDesc;

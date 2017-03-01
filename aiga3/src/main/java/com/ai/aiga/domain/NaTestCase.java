@@ -123,7 +123,7 @@ public class NaTestCase implements java.io.Serializable {
 	}
 
 	@Lob
-	@Basic(fetch = FetchType.EAGER)
+	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "TEST_DESC")
 	public String getTestDesc() {
 		return this.testDesc;
@@ -134,7 +134,7 @@ public class NaTestCase implements java.io.Serializable {
 	}
 
 	@Lob
-	@Basic(fetch = FetchType.EAGER)
+	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "PRE_RESULT")
 	public String getPreResult() {
 		return this.preResult;

@@ -20,7 +20,7 @@
 </div>
 <!-- /.box-header -->
 <div class="box-body" style="min-height: 100px;" >
-    <table id="Table_getUserinfoList" class="table table-bordered table-hover">
+    <table id="JS_getUserinfoListTable" class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>
@@ -49,7 +49,7 @@
     <!-- /.box-body -->
 </div>
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="JS_addUserinfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -57,7 +57,7 @@
                 <h4 class="modal-title" id="myModalLabel">添加员工</h4>
             </div>
             <div class="modal-body">
-                <div id="Scroll_addUserinfo" style="padding-right: 15px;">
+                <div id="JS_addUserinfoScroll" style="padding-right: 15px;">
                     <form id="JS_addUserinfoForm">
                         <div class="row">
                             <div class="col-md-3">

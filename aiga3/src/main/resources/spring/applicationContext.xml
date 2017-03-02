@@ -72,7 +72,7 @@
 	<!-- 在 Spring 配置文件中启用扫描并自动创建代理的功能 -->
 	<!-- 需要在 <beans> 标签中增加对 jpa 命名空间的引用 -->
 	<jpa:repositories base-package="com.ai.aiga.dao" transaction-manager-ref="transactionManager"
-		entity-manager-factory-ref="entityManagerFactory" />
+		entity-manager-factory-ref="entityManagerFactory" base-class="com.ai.aiga.dao.jpa.SearchAndPageRepositoryImpl"/>
 
 	<!-- Jpa 事务配置 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">

@@ -106,7 +106,7 @@ public class AigaStaffSv extends BaseService{
 		if(aigaStaff == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-		if(aigaStaff.getStaffId()<0){ 
+		if(aigaStaff.getStaffId()<0 || aigaStaff.getStaffId() ==null)  { 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
 		}
 		if(organizeId == null || organizeId<0){

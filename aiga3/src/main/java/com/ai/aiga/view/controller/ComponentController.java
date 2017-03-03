@@ -46,11 +46,9 @@ public class ComponentController {
 	public @ResponseBody JsonBean listByParam(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			String  createTime1,
-			String  createTime2,
-			NaUiComponent condition) throws ParseException{
-		System.out.println("****"+createTime1);
-		System.out.println("****"+createTime2);
+			Date  createTime1,
+			Date  createTime2,
+			NaUiComponent condition) {
 		JsonBean bean = new JsonBean();
 		bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));
 		return bean;

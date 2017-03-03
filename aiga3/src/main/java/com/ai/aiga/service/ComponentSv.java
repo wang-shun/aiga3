@@ -212,7 +212,7 @@ public class ComponentSv {
 	}
 
 	
-	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize) throws ParseException {
+	public Object listByParam(Date  createTime1, Date  createTime2, NaUiComponent condition, int pageNumber, int pageSize)  {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		if(condition != null){
@@ -225,12 +225,10 @@ public class ComponentSv {
 			}
 			
 			if(createTime1 != null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
-				cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
+				cons.add(new Condition("createTime", createTime1, Condition.Type.GT));
 			}
 			if(createTime2 != null){
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
-				cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
+				cons.add(new Condition("createTime", createTime2, Condition.Type.LT));
 			}
 		}
 		System.out.println("*****"+cons.get(0).toString());

@@ -5,7 +5,7 @@ define(function(require,exports,module){
 	// 角色管理接口查询
 	srvMap.add("getRoleinfoList", pathAlias + "getRoleinfoList.json", "sys/role/list");
 	// 获取单个角色信息
-	srvMap.add("getRoleinfo", pathAlias + "getRoleinfo.json", "sys/role/listA");
+	srvMap.add("getRoleinfo", pathAlias + "getRoleinfo.json", "sys/role/findone");
 	// 新增角色
 	srvMap.add("addRoleinfo", pathAlias + "retMessage.json", "sys/role/save");
 	// 修改角色
@@ -97,6 +97,8 @@ define(function(require,exports,module){
 				var json = Data.setPageType("添加角色")
 		        var template = Handlebars.compile(Tpl.getRoleinfo);
             	$(Dom.manageRoleinfo).html(template(json.data))
+            	// 添加时移除roleId
+				$(Dom.manageRoleinfo).find("[name='roleId']").remove();
             	// 提交保存
             	self.updateRoleinfo();
 			});

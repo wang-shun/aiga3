@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.SysRoleDao;
 import com.ai.aiga.dao.SysRoleStationtypeDao;
+import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.domain.SysRoleStationtype;
 import com.ai.aiga.exception.BusinessException;
@@ -99,7 +100,13 @@ public class RoleSv extends BaseService{
 		
 		sysRoleDao.delete(roleId);
 	}
-
+	public SysRole findOne(Long roleId) {
+		if(roleId == null || roleId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "roleId");
+		}
+		
+		return sysRoleDao.findOne(roleId);
+	}
 	
 
 }

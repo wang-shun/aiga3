@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.service.AigaRoleSv;
 import com.ai.aiga.service.RoleSv;
 import com.ai.aiga.view.json.RoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -41,6 +42,13 @@ public class RoleController {
 				@RequestParam Long roleId){
 		roleSv.deleteRole(roleId);
 		return JsonBean.success;
+	}
+	@RequestMapping(path = "/sys/role/findone")
+	public @ResponseBody JsonBean findone(
+				@RequestParam Long roleId){
+		JsonBean bean = new JsonBean();
+		bean.setData(roleSv.findOne(roleId));
+		return bean;
 	}
 	
 	

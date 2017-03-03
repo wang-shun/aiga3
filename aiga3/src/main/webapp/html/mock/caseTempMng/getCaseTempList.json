@@ -1,7 +1,9 @@
 {
   "retCode":"200",
   "retMessage":null,
-  "data":[{
+  "data":{
+  	"content":
+  	[{
     "caseId": "10101",
     "caseName":"用例模板1",
 	"caseType": "UI类",
@@ -82,4 +84,5 @@
 	"updateTime":"2017-2-02 08:00:00",
 	"important": "三级用例"
   }]
+}
 }

@@ -20,6 +20,9 @@ define(function(require, exports, module) {
 		getSysList: require('tpl/caseTempMng/getSysList.tpl'),
 		getSubSysList: require('tpl/caseTempMng/getSubSysList.tpl'),
 		getFunList: require('tpl/caseTempMng/getFunList.tpl'),
+		getCaseTempForm: require('tpl/caseTempMng/getCaseTempForm.tpl'),
+		getFactory: require('tpl/caseTempMng/getFactory.tpl'),
+
 	};
 
 	// 容器对象
@@ -34,10 +37,10 @@ define(function(require, exports, module) {
 	    deleCaseTemp:'#JS_deleCaseTemp',//删除
 	    viewCaseTemp:'#JS_viewCaseTemp',//查看与编辑
 	    createAutoTestTemp:'#JS_createAutoTestTemp',//自动化模板生成
-	    createTest:'#JS_createTest'//用例生成
+	    createTest:'#JS_createTest',//用例生成
 
 	    //modal
-	    modalCaseTempForm:'#modal_CaseTempForm';
+	    modalCaseTempForm:'#modal_CaseTempForm',
 
 	};
 
@@ -55,7 +58,7 @@ define(function(require, exports, module) {
 			this.getSysList();
 			this.sysSelected();
 			this.subsysSelected();
-			
+			this.addCaseTemp();
 
 					
 		},
@@ -128,7 +131,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getCaseTempList);
 					console.log(json.data)
-					$(Dom.getCaseTempList).html(template(json.data));
+					$(Dom.getCaseTempList).html(template(json.data.content));
 					self.deleCaseTemp();
 					self.eventClickChecked($("#JS_getUserinfoListTable"), function() {
 
@@ -155,53 +158,8 @@ define(function(require, exports, module) {
 					_form.data('bootstrapValidator').resetForm(true);
 				})*/
 		},
-		// 员工列表
-		getUserinfoList: function(data) {
-			var self = this;
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			var _url = '';
-			if (Data.isOrganize()) {
-				_url = srvMap.get('getUserinfoListA')
-			} else {
-				_url = srvMap.get('getUserinfoListB')
-			}
-			Rose.ajax.getJson(_url, data, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.getUserinfoList);
-					console.log(json.data)
-						// 待删除：用于测试搜索数据
-						/*if(!Data.isOrganize()){
-			        	json.data.length = 1;
-			        }*/
-					$(Dom.getUserinfoList).html(template(json.data));
-					XMS.msgbox.hide()
-
-					self.addUserinfo();
-					self.startUserinfo();
-					self.stopUserinfo();
-					self.resetPassword();
-					self.clearPower();
-
-					// 绑定双击当前行事件
-					self.eventDclickChecked($(Dom.getUserinfoList), function() {
-						// 请求：关联组织
-						self.getStaffOrgList();
-					})
-
-					// 表格分页
-					$(Dom.getUserinfoListTable).DataTable({
-						"paging": true,
-						"lengthChange": false,
-						"searching": false,
-						"ordering": false,
-						"info": true,
-						"autoWidth": false
-					});
-				}
-			});
-		},
-
 		
+
 		// 新增模板
 		addCaseTemp: function() {
 			var self = this;
@@ -213,14 +171,23 @@ define(function(require, exports, module) {
 				// 弹出层
 				$(Dom.modalCaseTempForm).modal('show');
 
+				//j加载form表单
+				Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
+					if (status) {
+						var template = Handlebars.compile(Tpl.getCaseTempForm);
+						console.log(json.data)
+						$(Dom.getCaseTempList).html(template(json.data));
+						
+					}
+				});				
 				// 表单校验初始化
-				var _form = $(Dom.addUserinfoForm);
-				_form.bootstrapValidator('validate');
+				//var _form = $(Dom.addUserinfoForm);
+				//_form.bootstrapValidator('validate');
 				// 表单提交
 				$(Dom.addUserinfoSubmit).bind('click', function() {
 
 						// 表单校验：成功后调取接口
-						_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+						//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 							var cmd = _form.serialize();
 							console.log(cmd);
 							// self.getUserinfoList(cmd);
@@ -236,7 +203,7 @@ define(function(require, exports, module) {
 									}, 1000)
 								}
 							});
-						});
+						// });
 					})
 					// 表单重置
 				$(Dom.addUserinfoReset).bind('click', function() {

@@ -32,19 +32,22 @@ public class RoleSv extends BaseService{
 
 	public void saveRole(RoleRequest roleRequest) {
 		if(roleRequest == null){ 
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		
+		if(StringUtils.isBlank(roleRequest.getRoleId().toString())){ 
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null,"roleId");
+		}
 		if(StringUtils.isBlank(roleRequest.getCode())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
 		
 		if(StringUtils.isBlank(roleRequest.getName())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "name");
 		}
 		
 		
 		SysRole sysRole = new SysRole();
+		sysRole.setRoleId(roleRequest.getRoleId());
 		sysRole.setCode(roleRequest.getCode());
 		sysRole.setName(roleRequest.getName());
 		sysRole.setNotes(roleRequest.getNotes());

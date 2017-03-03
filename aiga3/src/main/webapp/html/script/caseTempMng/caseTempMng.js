@@ -41,6 +41,9 @@ define(function(require, exports, module) {
 
 	    //modal
 	    modalCaseTempForm:'#modal_CaseTempForm',
+	    caseTempForm:'#JS_CaseTempForm',
+
+	    queryCaseTempForm:'#JS_queryCaseTempForm',
 
 	};
 
@@ -55,21 +58,22 @@ define(function(require, exports, module) {
 		_render: function() {
 			// 默认只加载组织结构及条件查询
 			this.getCaseTempList();
-			this.getSysList();
+			this.getSysList(Dom.getSysList);
 			this.sysSelected();
 			this.subsysSelected();
 			this.addCaseTemp();
+			this.queryCaseTemp();
 
 					
 		},
 
 		//系统大类下拉框
-		getSysList: function() {
+		getSysList: function(select) {
 			Rose.ajax.getJson(srvMap.get('getSysList'), '', function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSysList);
-					$(Dom.getSysList).html(template(json.data));
-					$("#add_sysId").html(template(json.data));
+					$(select).html(template(json.data));
+					
 					console.log(json.data)
 				}
 			});
@@ -125,9 +129,10 @@ define(function(require, exports, module) {
 		},
 
 		// 用例模板列表
-		getCaseTempList: function() {
+		getCaseTempList: function(cmd) {
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getCaseTempList'), 'currentPage', function(json, status) {
+			cmd = cmd+'&pageNum='+currentPage;
+			Rose.ajax.getJson(srvMap.get('getCaseTempList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getCaseTempList);
 					console.log(json.data)
@@ -141,18 +146,18 @@ define(function(require, exports, module) {
 			});
 		},
 		// 按条件查询模板
-		getUserinfo: function() {
+		queryCaseTemp: function() {
 			var self = this;
-			var _form = $(Dom.getUserinfoForm);
+			var _form = $(Dom.queryCaseTempForm);
 			// 表单校验初始化
 			//_form.bootstrapValidator('validate');
 			// 表单提交
 			_form.find('button[name="submit"]').bind('click', function() {
 					
-					var cmd = $(Dom.getUserinfoForm).serialize();
+					var cmd = $(Dom.queryCaseTempForm).serialize();
 					self.getUserinfoList(cmd);
 					//});
-				})
+			})
 				// 表单重置
 				/*_form.find('button[name="reset"]').bind('click',function(){
 					_form.data('bootstrapValidator').resetForm(true);
@@ -172,14 +177,11 @@ define(function(require, exports, module) {
 				$(Dom.modalCaseTempForm).modal('show');
 
 				//j加载form表单
-				Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
-					if (status) {
-						var template = Handlebars.compile(Tpl.getCaseTempForm);
-						console.log(json.data)
-						$(Dom.getCaseTempList).html(template(json.data));
-						
-					}
-				});				
+			
+				var template = Handlebars.compile(Tpl.getCaseTempForm);
+				$(Dom.caseTempForm).html(template());
+				self.getSysList("#add_sysId");
+				
 				// 表单校验初始化
 				//var _form = $(Dom.addUserinfoForm);
 				//_form.bootstrapValidator('validate');

@@ -22,7 +22,7 @@ public interface NaUiControlDao extends JpaRepository<NaUiControl, Long>,SearchA
 	@Query(value="select * from NA_UI_CONTROL where  Ctrl_name=?1 and  Creator_id=?2 and  Create_time=?3",nativeQuery = true)
 	public NaUiControl findByName(String Ctrl_name,Long creatorId,Date createTime);
 	@Modifying
-    @Query(value="insert into Na_Ui_Control_Back select * from NA_UI_CONTROL where ctrl_id=?1",nativeQuery = true)
+    @Query(value="insert into Na_UI_Control_DEL select * from NA_UI_CONTROL where ctrl_id=?1",nativeQuery = true)
 	int backControl(Long Ctrl_id);
 	
 	@Query(value="select * from NA_AUTOTEST_CONTROL_TYPE  where CTRL_TYPE=?1",nativeQuery = true)

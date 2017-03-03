@@ -83,7 +83,7 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.getRoleinfo);
             		$(Dom.manageRoleinfo).html(template(json.data))
             		// 提交保存
-            		self.updateRoleinfo();
+            		self.updateRoleinfo('update');
 				}
   			});
 
@@ -100,18 +100,20 @@ define(function(require,exports,module){
             	// 添加时移除roleId
 				$(Dom.manageRoleinfo).find("[name='roleId']").remove();
             	// 提交保存
-            	self.updateRoleinfo();
+            	self.updateRoleinfo('save');
 			});
 
 		},
 		// 保存角色
-		updateRoleinfo:function(){
+		updateRoleinfo:function(type){
 			var self = this;
+			var _srvMap = type == "save" ? 'addRoleinfo' : 'updateRoleinfo';
     		var _domSave = $(Dom.manageRoleinfo).find("[name='save']");
     		_domSave.bind('click', function() {
 				var cmd = $(this).parents("form").serialize();
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.getJson(srvMap.get('updateRoleinfo'), cmd, function(json, status) {
+
+				Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.show('保存成功！', 'success', 2000)
 						setTimeout(function(){

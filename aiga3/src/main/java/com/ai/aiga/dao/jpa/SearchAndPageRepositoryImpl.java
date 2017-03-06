@@ -1,10 +1,7 @@
 package com.ai.aiga.dao.jpa;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -289,5 +286,37 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 		Session session=getHibernateSession();
 		SQLQuery sqlQuery=	session.createSQLQuery(sql);
 		return sqlQuery.list();
+	}
+
+	/**
+	 * 根据原生SQL分页查询数据，并根据keyList的属性封装成键值对数据
+	 * @param nativeSQL
+	 * @param pageable
+	 * @param keyList
+	 * @return
+	 */
+	@Override
+	public Page<T> searchByNativeSQL(String nativeSQL, Pageable pageable, List<String> keyList) {
+		if (StringUtils.isBlank(nativeSQL)){
+			return new PageImpl<T>(new ArrayList<T>());
+		}
+		Query query=entityManager.createNativeQuery(nativeSQL);
+		Long total=(long)query.getMaxResults();//获取总数据行数
+		query.setFirstResult(pageable.getOffset());//设置起始行
+		query.setMaxResults(pageable.getPageSize());//设置最大查询结果数
+		List reList=new ArrayList();//存放封装后的数据
+		List<Object> content=total>pageable.getOffset()?query.getResultList():reList;
+		//根据keyList键值封装数据，keyList键值必须与SQL里数量和顺序一致
+		if (content != null&&content.size()>0) {
+			for (Object obj:content) {
+				Object[] ary=(Object[])obj;
+				Map<String,String> map=new HashMap<String,String>();
+				for (int i = 0; i <keyList.size() ; i++) {
+					map.put(keyList.get(i),ary[i]!=null?ary[i].toString():"");
+				}
+				reList.add(map);
+			}
+		}
+		return new PageImpl<T>(reList,pageable,total);
 	}
 }

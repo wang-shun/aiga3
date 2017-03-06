@@ -319,8 +319,7 @@ public class AigaStaffSv extends BaseService{
 	 * 操作员关联组织查看
 	 * */
 	public List<StaffOrgRelatResponse> staffOgrList(Long staffId){
-//		String sql = "select ao.organize_id ,ao.organize_name,ar.is_admin_staff,ar.is_base_org from aiga_organize ao,aiga_staff_org_relat ar"
-//				+ " where ao.organize_id = ar.organize_id and ar.staff_id ="+staffId;
+
 		if(staffId == null ||staffId<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
 		}

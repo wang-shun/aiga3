@@ -97,7 +97,7 @@ define(function(require,exports,module){
                                 console.log(_funId);
                                 //存储在全局变量中
                                 Data.funId = _funId;
-                                var cmd = _funId;
+                                var cmd = "funId=" + Data.funId;
                                 self.getCompByFunId(cmd);
                                 //self.addComp(cmd1);
 							 }
@@ -187,7 +187,7 @@ define(function(require,exports,module){
 								 	var _data = self.getScript(json.data,_compCtrId);
 								 	var _dom = $(Dom.addCompInfoForm);
 								 	 _dom.find("textarea[name='compScript']").append(_data.compScript+"\r\n");
-								 	// _dom.find("input[name='organizeId']").val(_organizeId);
+								 	Rose.ajax
 								 }
 							}
 						}, json.data);

@@ -3,6 +3,7 @@ package com.ai.aiga.view.controller;
 import java.text.ParseException;
 import java.util.Date;
 
+import org.hibernate.validator.internal.xml.GetterType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +35,11 @@ public class ComponentController {
 	/*
 	 * 按功能点查询组件接口*/
 	@RequestMapping(path = "/sys/component/listByFun")
-	public @ResponseBody JsonBean listByFun(Long id){
+	public @ResponseBody JsonBean listByFun(Long funId){
+		System.out.println("****"+funId);
+		System.out.println(funId.getClass().toString());
 		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.listByFun(id));
+		bean.setData(componentSv.listByFun(funId));
 		return bean;
 	}
 	/*

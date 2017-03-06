@@ -5,7 +5,7 @@
         "staffId": "16088",
         "code": "QIJC",
         "name": "齐麦子",
-        "state": "有效",
+        "state": 0,
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
@@ -13,7 +13,7 @@
         "staffId": "10732",
         "code": "DONGCH",
         "name": "董承浩",
-        "state": "有效",
+        "state": 0,
         "organizeCode": "H",
         "organizeName": "新炬",
         "organizeId":"1003"
@@ -21,7 +21,7 @@
         "staffId": "12033",
         "code": "CAIJY",
         "name": "蔡健雅",
-        "state": "失效",
+        "state": 1,
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
@@ -29,7 +29,7 @@
         "staffId": "19288",
         "code": "ZHAOLEI",
         "name": "赵雷",
-        "state": "有效",
+        "state": 1,
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
@@ -37,7 +37,7 @@
         "staffId": "13900",
         "code": "WANGHX",
         "name": "王洪祥",
-        "state": "失效",
+        "state": "1",
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1001"
@@ -45,7 +45,7 @@
         "staffId": "13312",
         "code": "LIURY",
         "name": "刘若英",
-        "state": "失效",
+        "state": "0",
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"1231"
@@ -53,7 +53,7 @@
         "staffId": "32532",
         "code": "ZANGZY",
         "name": "章子怡",
-        "state": "失效",
+        "state": "0",
         "organizeCode": "H",
         "organizeName": "亚信",
         "organizeId":"333"
@@ -61,7 +61,7 @@
         "staffId": "4633",
         "code": "WANGFENG",
         "name": "汪峰",
-        "state": "失效",
+        "state": "1",
         "organizeCode": "H",
         "organizeName": "移动",
         "organizeId":"232"
@@ -69,7 +69,7 @@
         "staffId": "2344",
         "code": "ZHOUJL",
         "name": "周杰伦",
-        "state": "失效",
+        "state": "0",
         "organizeCode": "H",
         "organizeName": "移动",
         "organizeId":"111"
@@ -77,7 +77,7 @@
         "staffId": "324",
         "code": "NANQMM",
         "name": "南拳妈妈",
-        "state": "失效",
+        "state": "1",
         "organizeCode": "H",
         "organizeName": "移动",
         "organizeId":"111"
@@ -85,7 +85,7 @@
         "staffId": "324",
         "code": "WUYZ",
         "name": "吴彦祖",
-        "state": "失效",
+        "state": "0",
         "organizeCode": "H",
         "organizeName": "移动",
         "organizeId":"111"
@@ -93,7 +93,7 @@
         "staffId": "51332",
         "code": "JIANL",
         "name": "贾乃亮了",
-        "state": "失效",
+        "state": "0",
         "organizeCode": "H",
         "organizeName": "移动",
         "organizeId":"111"
@@ -101,7 +101,7 @@
         "staffId": "1233",
         "code": "LIXL",
         "name": "李小璐",
-        "state": "失效",
+        "state": "0",
         "organizeCode": "H",
         "organizeName": "移动",
         "organizeId":"111"

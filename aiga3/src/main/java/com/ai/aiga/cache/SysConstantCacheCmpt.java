@@ -16,7 +16,7 @@ public class SysConstantCacheCmpt extends AbstractCache {
 	private SysConstantDao sysConstantDao;
 
 	@Override
-	protected void load() {
+	protected Map load() {
 		List<SysConstant> list = sysConstantDao.findAll();
 
 		Map map = this.getAll();
@@ -28,6 +28,8 @@ public class SysConstantCacheCmpt extends AbstractCache {
 				
 			}
 		}
+		
+		return map;
 		
 	}
 

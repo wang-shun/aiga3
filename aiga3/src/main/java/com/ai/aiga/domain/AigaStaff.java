@@ -28,24 +28,24 @@ public class AigaStaff  implements java.io.Serializable {
      private String name;
      private String password;
      private String billId;
-     private Byte cardTypeId;
+     private Integer cardTypeId;
      private String cardNo;
      private String email;
      private String recentPassword;
-     private Byte recentPassTimes;
-     private Byte minPasswdLength;
+     private Integer recentPassTimes;
+     private Integer minPasswdLength;
      private Character allowChangePassword;
      private Date acctEffectDate;
      private Date acctExpireDate;
      private Character multiLoginFlag;
      private Long lastLoginLogId;
-     private Short tryTimes;
+     private Integer tryTimes;
      private Character lockFlag;
      private Character isLogin;
      private Character isSuperUser;
      private String notes;
      private Long passwdValidDays;
-     private Short cancelDays;
+     private Integer cancelDays;
      private Date passwordValidDate;
      private Long chgPasswdAlarmDays;
      private Long doneCode;
@@ -55,14 +55,14 @@ public class AigaStaff  implements java.io.Serializable {
      private Date expireDate;
      private Long orgId;
      private Long opId;
-     private Byte state;
+     private Integer state;
      private String oldCode;
-     private Short opType;
+     private Integer opType;
      private String ext1;
      private String ext2;
      private String ext3;
-     private Short opLvl;
-     private Short bandType;
+     private Integer opLvl;
+     private Integer bandType;
 
     public AigaStaff() {
     }
@@ -71,50 +71,61 @@ public class AigaStaff  implements java.io.Serializable {
     public AigaStaff(Long staffId) {
         this.staffId = staffId;
     }
-    public AigaStaff(Long staffId, String code, String name, String password, String billId, Byte cardTypeId, String cardNo, String email, String recentPassword, Byte recentPassTimes, Byte minPasswdLength, Character allowChangePassword, Date acctEffectDate, Date acctExpireDate, Character multiLoginFlag, Long lastLoginLogId, Short tryTimes, Character lockFlag, Character isLogin, Character isSuperUser, String notes, Long passwdValidDays, Short cancelDays, Date passwordValidDate, Long chgPasswdAlarmDays, Long doneCode, Date createDate, Date doneDate, Date validDate, Date expireDate, Long orgId, Long opId, Byte state, String oldCode, Short opType, String ext1, String ext2, String ext3, Short opLvl, Short bandType) {
-       this.staffId = staffId;
-       this.code = code;
-       this.name = name;
-       this.password = password;
-       this.billId = billId;
-       this.cardTypeId = cardTypeId;
-       this.cardNo = cardNo;
-       this.email = email;
-       this.recentPassword = recentPassword;
-       this.recentPassTimes = recentPassTimes;
-       this.minPasswdLength = minPasswdLength;
-       this.allowChangePassword = allowChangePassword;
-       this.acctEffectDate = acctEffectDate;
-       this.acctExpireDate = acctExpireDate;
-       this.multiLoginFlag = multiLoginFlag;
-       this.lastLoginLogId = lastLoginLogId;
-       this.tryTimes = tryTimes;
-       this.lockFlag = lockFlag;
-       this.isLogin = isLogin;
-       this.isSuperUser = isSuperUser;
-       this.notes = notes;
-       this.passwdValidDays = passwdValidDays;
-       this.cancelDays = cancelDays;
-       this.passwordValidDate = passwordValidDate;
-       this.chgPasswdAlarmDays = chgPasswdAlarmDays;
-       this.doneCode = doneCode;
-       this.createDate = createDate;
-       this.doneDate = doneDate;
-       this.validDate = validDate;
-       this.expireDate = expireDate;
-       this.orgId = orgId;
-       this.opId = opId;
-       this.state = state;
-       this.oldCode = oldCode;
-       this.opType = opType;
-       this.ext1 = ext1;
-       this.ext2 = ext2;
-       this.ext3 = ext3;
-       this.opLvl = opLvl;
-       this.bandType = bandType;
-    }
+    
    
-    @Id 
+    public AigaStaff(Long staffId, String code, String name, String password, String billId, Integer cardTypeId,
+			String cardNo, String email, String recentPassword, Integer recentPassTimes, Integer minPasswdLength,
+			Character allowChangePassword, Date acctEffectDate, Date acctExpireDate, Character multiLoginFlag,
+			Long lastLoginLogId, Integer tryTimes, Character lockFlag, Character isLogin, Character isSuperUser,
+			String notes, Long passwdValidDays, Integer cancelDays, Date passwordValidDate, Long chgPasswdAlarmDays,
+			Long doneCode, Date createDate, Date doneDate, Date validDate, Date expireDate, Long orgId, Long opId,
+			Integer state, String oldCode, Integer opType, String ext1, String ext2, String ext3, Integer opLvl,
+			Integer bandType) {
+		super();
+		this.staffId = staffId;
+		this.code = code;
+		this.name = name;
+		this.password = password;
+		this.billId = billId;
+		this.cardTypeId = cardTypeId;
+		this.cardNo = cardNo;
+		this.email = email;
+		this.recentPassword = recentPassword;
+		this.recentPassTimes = recentPassTimes;
+		this.minPasswdLength = minPasswdLength;
+		this.allowChangePassword = allowChangePassword;
+		this.acctEffectDate = acctEffectDate;
+		this.acctExpireDate = acctExpireDate;
+		this.multiLoginFlag = multiLoginFlag;
+		this.lastLoginLogId = lastLoginLogId;
+		this.tryTimes = tryTimes;
+		this.lockFlag = lockFlag;
+		this.isLogin = isLogin;
+		this.isSuperUser = isSuperUser;
+		this.notes = notes;
+		this.passwdValidDays = passwdValidDays;
+		this.cancelDays = cancelDays;
+		this.passwordValidDate = passwordValidDate;
+		this.chgPasswdAlarmDays = chgPasswdAlarmDays;
+		this.doneCode = doneCode;
+		this.createDate = createDate;
+		this.doneDate = doneDate;
+		this.validDate = validDate;
+		this.expireDate = expireDate;
+		this.orgId = orgId;
+		this.opId = opId;
+		this.state = state;
+		this.oldCode = oldCode;
+		this.opType = opType;
+		this.ext1 = ext1;
+		this.ext2 = ext2;
+		this.ext3 = ext3;
+		this.opLvl = opLvl;
+		this.bandType = bandType;
+	}
+
+
+	@Id 
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="AIGA_STAFF$SEQ")
     @SequenceGenerator(name="AIGA_STAFF$SEQ",sequenceName="AIGA_STAFF$SEQ",allocationSize=1)
     @Column(name="STAFF_ID", unique=true, nullable=false, precision=12, scale=0)
@@ -163,11 +174,11 @@ public class AigaStaff  implements java.io.Serializable {
     }
     
     @Column(name="CARD_TYPE_ID", precision=2, scale=0)
-    public Byte getCardTypeId() {
+    public Integer getCardTypeId() {
         return this.cardTypeId;
     }
     
-    public void setCardTypeId(Byte cardTypeId) {
+    public void setCardTypeId(Integer cardTypeId) {
         this.cardTypeId = cardTypeId;
     }
     
@@ -199,20 +210,20 @@ public class AigaStaff  implements java.io.Serializable {
     }
     
     @Column(name="RECENT_PASS_TIMES", precision=2, scale=0)
-    public Byte getRecentPassTimes() {
+    public Integer getRecentPassTimes() {
         return this.recentPassTimes;
     }
     
-    public void setRecentPassTimes(Byte recentPassTimes) {
+    public void setRecentPassTimes(Integer recentPassTimes) {
         this.recentPassTimes = recentPassTimes;
     }
     
     @Column(name="MIN_PASSWD_LENGTH", precision=2, scale=0)
-    public Byte getMinPasswdLength() {
+    public Integer getMinPasswdLength() {
         return this.minPasswdLength;
     }
     
-    public void setMinPasswdLength(Byte minPasswdLength) {
+    public void setMinPasswdLength(Integer minPasswdLength) {
         this.minPasswdLength = minPasswdLength;
     }
     
@@ -262,11 +273,11 @@ public class AigaStaff  implements java.io.Serializable {
     }
     
     @Column(name="TRY_TIMES", precision=3, scale=0)
-    public Short getTryTimes() {
+    public Integer getTryTimes() {
         return this.tryTimes;
     }
     
-    public void setTryTimes(Short tryTimes) {
+    public void setTryTimes(Integer tryTimes) {
         this.tryTimes = tryTimes;
     }
     
@@ -316,11 +327,11 @@ public class AigaStaff  implements java.io.Serializable {
     }
     
     @Column(name="CANCEL_DAYS", precision=3, scale=0)
-    public Short getCancelDays() {
+    public Integer getCancelDays() {
         return this.cancelDays;
     }
     
-    public void setCancelDays(Short cancelDays) {
+    public void setCancelDays(Integer cancelDays) {
         this.cancelDays = cancelDays;
     }
     @Temporal(TemporalType.TIMESTAMP)
@@ -406,11 +417,11 @@ public class AigaStaff  implements java.io.Serializable {
     }
     
     @Column(name="STATE", precision=2, scale=0)
-    public Byte getState() {
+    public Integer getState() {
         return this.state;
     }
     
-    public void setState(Byte state) {
+    public void setState(Integer state) {
         this.state = state;
     }
     
@@ -424,11 +435,11 @@ public class AigaStaff  implements java.io.Serializable {
     }
     
     @Column(name="OP_TYPE", precision=3, scale=0)
-    public Short getOpType() {
+    public Integer getOpType() {
         return this.opType;
     }
     
-    public void setOpType(Short opType) {
+    public void setOpType(Integer opType) {
         this.opType = opType;
     }
     
@@ -460,20 +471,20 @@ public class AigaStaff  implements java.io.Serializable {
     }
     
     @Column(name="OP_LVL", precision=3, scale=0)
-    public Short getOpLvl() {
+    public Integer getOpLvl() {
         return this.opLvl;
     }
     
-    public void setOpLvl(Short opLvl) {
+    public void setOpLvl(Integer opLvl) {
         this.opLvl = opLvl;
     }
     
     @Column(name="BAND_TYPE", precision=3, scale=0)
-    public Short getBandType() {
+    public Integer getBandType() {
         return this.bandType;
     }
     
-    public void setBandType(Short bandType) {
+    public void setBandType(Integer bandType) {
         this.bandType = bandType;
     }
 

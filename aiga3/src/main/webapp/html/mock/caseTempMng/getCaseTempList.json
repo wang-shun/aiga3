@@ -1,0 +1,88 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":{
+  	"content":
+  	[{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  },{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+	"caseType": "UI类",
+	"creator": "创建人",
+	"update": "修改人",
+	"updateTime":"2017-2-02 08:00:00",
+	"important": "三级用例"
+  }]
+}
+}

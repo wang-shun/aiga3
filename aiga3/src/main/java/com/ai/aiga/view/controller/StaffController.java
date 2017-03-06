@@ -142,11 +142,5 @@ public class StaffController {
 		aigaStaffSv.clear(staffId);
 		return JsonBean.success;
 	}
-	/***********************/
-	@RequestMapping(path = "/aiga/staff/ceshi")
-	public @ResponseBody JsonBean ceshi(){
-		JsonBean bean = new JsonBean();
-		bean.setData(aigaStaffSv.ceshi());
-		return bean;
-	}
+
 }

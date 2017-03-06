@@ -38,17 +38,17 @@
                 "menuName": "附权管理",
                 "menuURL": "#",
                 "hasChild": 1,
-                "isActive": 1,
+                "isActive": 0,
                 "childMenuList": [{
                     "menuName": "员工角色权限管理",
                     "menuURL": "view/staffRole/staffRole.html",
                     "hasChild": 0,
-                    "isActive": 1
+                    "isActive": 0
                 },{
                     "menuName": "角色菜单权限管理",
                     "menuURL": "view/roleFunc/roleFunc.html",
                     "hasChild": 0,
-                    "isActive": 1
+                    "isActive": 0
                 }]
             }]
         }, {
@@ -80,6 +80,11 @@
             },{
                 "menuName": "自动化执行结果",
                 "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            },{
+                "menuName": "用例模板管理",
+                "menuURL": "view/caseTempMng/caseTempMng.html",
                 "hasChild": 0,
                 "isActive": 0
             }]
@@ -127,6 +132,18 @@
             },{
                 "menuName": "环节时间录入",
                 "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            }]
+        }, {
+            "menuName": "通用组件演示",
+            "menuIcons": "fa fa-desktop",
+            "menuURL": "#",
+            "hasChild": 1,
+            "isActive": 0,
+            "childMenuList": [{
+                "menuName": "日期控件",
+                "menuURL": "view/docs/My97DatePicker.html",
                 "hasChild": 0,
                 "isActive": 0
             }]

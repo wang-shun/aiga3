@@ -2,35 +2,39 @@ package com.ai.aiga.view.json;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class StaffRequest {
 	private Long staffId;
     private String code;
     private String name;
     private String password;
     private String billId;
-    private Byte cardTypeId;
+    private Integer cardTypeId;
     private String cardNo;
     private String email;
-    private Byte recentPassTimes;
-    private Byte minPasswdLength;
+    private Integer recentPassTimes;
+    private Integer minPasswdLength;
     private Character allowChangePassword;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date acctEffectDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date acctExpireDate;
     private Character multiLoginFlag;
-    private Short tryTimes;
+    private Integer tryTimes;
     private Character lockFlag;
     private String notes;
     private Long chgPasswdAlarmDays;
-    private Short opType;
+    private Integer opType;
     private String ext1;
     private String ext2;
     private String ext3;
-    private Short opLvl;
-    private Short bandType;
-    public Long getStaffId() {
+    private Integer opLvl;
+    private Integer bandType;
+	public Long getStaffId() {
 		return staffId;
 	}
-	public void setStaffId(long staffId) {
+	public void setStaffId(Long staffId) {
 		this.staffId = staffId;
 	}
 	public String getCode() {
@@ -57,10 +61,10 @@ public class StaffRequest {
 	public void setBillId(String billId) {
 		this.billId = billId;
 	}
-	public Byte getCardTypeId() {
+	public Integer getCardTypeId() {
 		return cardTypeId;
 	}
-	public void setCardTypeId(Byte cardTypeId) {
+	public void setCardTypeId(Integer cardTypeId) {
 		this.cardTypeId = cardTypeId;
 	}
 	public String getCardNo() {
@@ -75,16 +79,16 @@ public class StaffRequest {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Byte getRecentPassTimes() {
+	public Integer getRecentPassTimes() {
 		return recentPassTimes;
 	}
-	public void setRecentPassTimes(Byte recentPassTimes) {
+	public void setRecentPassTimes(Integer recentPassTimes) {
 		this.recentPassTimes = recentPassTimes;
 	}
-	public Byte getMinPasswdLength() {
+	public Integer getMinPasswdLength() {
 		return minPasswdLength;
 	}
-	public void setMinPasswdLength(Byte minPasswdLength) {
+	public void setMinPasswdLength(Integer minPasswdLength) {
 		this.minPasswdLength = minPasswdLength;
 	}
 	public Character getAllowChangePassword() {
@@ -111,10 +115,10 @@ public class StaffRequest {
 	public void setMultiLoginFlag(Character multiLoginFlag) {
 		this.multiLoginFlag = multiLoginFlag;
 	}
-	public Short getTryTimes() {
+	public Integer getTryTimes() {
 		return tryTimes;
 	}
-	public void setTryTimes(Short tryTimes) {
+	public void setTryTimes(Integer tryTimes) {
 		this.tryTimes = tryTimes;
 	}
 	public Character getLockFlag() {
@@ -135,10 +139,10 @@ public class StaffRequest {
 	public void setChgPasswdAlarmDays(Long chgPasswdAlarmDays) {
 		this.chgPasswdAlarmDays = chgPasswdAlarmDays;
 	}
-	public Short getOpType() {
+	public Integer getOpType() {
 		return opType;
 	}
-	public void setOpType(Short opType) {
+	public void setOpType(Integer opType) {
 		this.opType = opType;
 	}
 	public String getExt1() {
@@ -159,16 +163,16 @@ public class StaffRequest {
 	public void setExt3(String ext3) {
 		this.ext3 = ext3;
 	}
-	public Short getOpLvl() {
+	public Integer getOpLvl() {
 		return opLvl;
 	}
-	public void setOpLvl(Short opLvl) {
+	public void setOpLvl(Integer opLvl) {
 		this.opLvl = opLvl;
 	}
-	public Short getBandType() {
+	public Integer getBandType() {
 		return bandType;
 	}
-	public void setBandType(Short bandType) {
+	public void setBandType(Integer bandType) {
 		this.bandType = bandType;
 	}
 	@Override

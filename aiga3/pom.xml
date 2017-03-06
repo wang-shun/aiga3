@@ -36,6 +36,12 @@
 		</snapshots> </repository> </repositories> -->
 
 	<dependencies>
+	
+	<dependency>
+    <groupId>commons-net</groupId>
+    <artifactId>commons-net</artifactId>
+    <version>3.4</version>
+</dependency>
 
 		<!-- spring -->
 		<!-- web 层, 使用spring mvc, 使用spring作为ioc容器.这个大基础不变 -->
@@ -107,6 +113,13 @@
 			<systemPath>${project.basedir}/src/lib/ojdbc-6.0.jar</systemPath>
 		</dependency>
 		<!-- PERSISTENCE end -->
+		
+		<!-- JSR303 BeanValidator java验证规则  -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>4.3.2.Final</version>
+		</dependency>
 
 		<!-- java内存缓存 -->
 		<dependency>

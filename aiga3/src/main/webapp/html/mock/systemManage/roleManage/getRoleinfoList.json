@@ -1,72 +1,73 @@
 {
-    "total": 18,
-    "rows": [{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": [{
         "roleId":"1001",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1002",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1003",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1004",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1005",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1006",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1007",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1008",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"1009",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"10010",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"10011",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"10012",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"10012",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"
     },{
-        "roleId":"1001",
+        "roleId":"10014",
         "code": "WF_TEST_HW",
         "name": "手工人员",
         "notes": "自动化"

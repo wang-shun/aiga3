@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="row">
+          <div class="col-md-8">
+            <div id="JS_getRoleinfoList" class="box">
+                <div style="text-align: center; padding: 100px 0;">
+                    <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                    <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div id="JS_manageRoleinfo" class="box" style="min-height: 100px">
+                <div style="text-align: center; padding: 100px 0;">
+                    <p style="font-size: 38px;"><i class="fa fa-warning text-yellow"></i></p>
+                    <p style="color: #666;"><span>请先选择角色或添加角色操作！</span></p>
+                </div>
+            </div>
+          </div>
+        </div>
+        <!--用户列表-->
+        <!--关联组织-->
+        <!-- /.box -->
+    </div>
+</div>
+<script>
+seajs.use("script/systemManage/roleManage", function(Query) {
+    Query.init();
+});
+</script>

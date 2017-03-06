@@ -13,7 +13,7 @@ define(function(require,exports,module){
 	// 添加员工
 	srvMap.add("addUserinfo", pathAlias + "retMessage.json", "aiga/staff/save");
 	// 修改员工
-	srvMap.add("updateUserinfo", pathAlias + "retMessage.json", "aiga/staff/update");
+	srvMap.add("updateUserinfo", pathAlias + "retMessage.json", "aiga/staff/updat");
 	// 启用员工
 	srvMap.add("startUserinfo", pathAlias + "retMessage.json", "aiga/staff/start");
 	// 停员员工
@@ -28,6 +28,8 @@ define(function(require,exports,module){
 	srvMap.add("getStaffOrgList", pathAlias + "getStaffOrgList.json", "aiga/staff/staffOrgList");
 	// 操作员关联组织添加
 	srvMap.add("addStaffOrg", pathAlias + "retMessage.json", "aiga/staff/staffOrgAdd");
+	// 操作员关联组织修改
+	srvMap.add("updateStaffOrg", pathAlias + "retMessage.json", "aiga/staff/ogrUpdate");
 	// 操作员关联组织删除
 	srvMap.add("delStaffOrg", pathAlias + "retMessage.json", "aiga/staff/staffOrgDel");
 	// 员工管理查询接口
@@ -37,7 +39,8 @@ define(function(require,exports,module){
     var Tpl = {
         getUserinfoList: require('tpl/systemManage/staffManage/getUserinfoList.tpl'),
         getUserinfo: require('tpl/systemManage/staffManage/getUserinfo.tpl'),
-        getStaffOrgList: require('tpl/systemManage/staffManage/getStaffOrgList.tpl')
+        getStaffOrgList: require('tpl/systemManage/staffManage/getStaffOrgList.tpl'),
+        getStaffOrg: require('tpl/systemManage/staffManage/getStaffOrg.tpl')
     };
 
     // 容器对象
@@ -79,6 +82,13 @@ define(function(require,exports,module){
     	staffId: null,
     	isOrganize: function(){
     		return $("#isOrganize").hasClass('active') ? true : false;
+    	},
+    	setPageType:function(type){
+    		return {
+    			"data":{
+    				"pageType":type
+    			}
+    		}
     	}
     }
 
@@ -240,10 +250,15 @@ define(function(require,exports,module){
 		        // 最小密码长度：6
 		        _form.find("[name='minPasswdLength']").val("6").attr("readonly",true);
 
+		        // 设置组织ID
+		        _form.find("input[name='staffId']").remove();
+		        _form.find("input[name='organizeId']").val(Data.organizeId);
+				
 
 
 				// _form.bootstrapValidator('validate');
 				// 表单提交
+		        $(Dom.addUserinfoSubmit).unbind('click');
 				$(Dom.addUserinfoSubmit).bind('click',function(){
 
 					// 表单校验：成功后调取接口
@@ -255,11 +270,12 @@ define(function(require,exports,module){
 			  			Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('添加用户成功！', 'success', 2000)
+								XMS.msgbox.show('保存成功！', 'success', 2000)
 								// 关闭弹出层
-								$(Dom.addUserinfoModal).modal('hide')
+								$(Dom.addUserinfoModal).modal('hide');
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
+									
 								},1000)
 							}
 			  			});
@@ -274,42 +290,69 @@ define(function(require,exports,module){
 		},
 		getUserinfo:function(){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getUserinfo'), '', function(json, status) {
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			var _data = self.getUserCheckedRow();
+			var cmd = 'staffId='+_data.staffId;
+			console.log(cmd);
+			Rose.ajax.getJson(srvMap.get('getUserinfo'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化
 			        var _form = $(Dom.addUserinfoForm);
 			        var template = Handlebars.compile(Tpl.getUserinfo);
 	            	_form.html(template(json.data));
-
+	            	XMS.msgbox.hide();
+	            	// 设置下拉框选中
+					self.setSelected(_form);
+					// 生效日期
+			        _form.find("[name='acctEffectDate']").click(function(event) {
+			        	WdatePicker();
+			        });
+			        // 失效日期
+			        _form.find("[name='acctExpireDate']").click(function(event) {
+			        	WdatePicker();
+			        });
 			        // 滚动条
 			        $(Dom.addUserinfoScroll).slimScroll({
 				        "height": '420px'
 				    });
 				    // 弹出层
 					$(Dom.addUserinfoModal).modal('show');
+					
+					// 设置组织ID
+					_form.find("input[name='organizeId']").val(Data.organizeId);
 
 					// 提交
-					$(Dom.addUserinfoSubmit).bind('click',function(){
+					// $(Dom.addUserinfoSubmit).bind('click',function(){
 
 					// 表单校验：成功后调取接口
 					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-			            var cmd = _form.serialize();
-			            console.log(cmd);
-			  			// self.getUserinfoList(cmd);
-			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-			  			Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
-							if(status) {
-								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('添加用户成功！', 'success', 2000)
-								// 关闭弹出层
-								$(Dom.addUserinfoModal).modal('hide')
-								setTimeout(function(){
-									self.getUserinfoList();
-								},1000)
-							}
-			  			});
+		          
+		  			// self.getUserinfoList(cmd);
+		            $(Dom.addUserinfoSubmit).unbind('click');
+					$(Dom.addUserinfoSubmit).bind('click',function(){
+
+						// 表单校验：成功后调取接口
+						// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+				            var cmd = _form.serialize();
+				            console.log(cmd);
+				  			// self.getUserinfoList(cmd);
+				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+				  			Rose.ajax.getJson(srvMap.get('updateUserinfo'), cmd, function(json, status) {
+								if(status) {
+									// 添加用户成功后，刷新用户列表页
+									XMS.msgbox.show('保存成功！', 'success', 2000)
+									// 关闭弹出层
+									$(Dom.addUserinfoModal).modal('hide');
+									setTimeout(function(){
+										self.getUserinfoList("organizeId="+Data.organizeId);
+									},1000)
+								}
+				  			});
+			        	//});
+			  		//})
+		  			
 		        	//});
-		  		})
+					})
 				}
   			});
 		},
@@ -334,9 +377,9 @@ define(function(require,exports,module){
 						Rose.ajax.getJson(srvMap.get('startUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 启用成功后，重新加载用户列表
-								window.XMS.msgbox.show('员工启用成功！', 'success', 2000)
+								window.XMS.msgbox.show('启用成功！', 'success', 2000);
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 			  			});
@@ -357,9 +400,9 @@ define(function(require,exports,module){
 						Rose.ajax.getJson(srvMap.get('stopUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
-								window.XMS.msgbox.show('员工停用成功！', 'success', 2000)
+								window.XMS.msgbox.show('停用成功！', 'success', 2000);
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 			  			});
@@ -385,10 +428,10 @@ define(function(require,exports,module){
 						var cmd = $(Dom.changePasswordForm).serialize();
 						Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json, status) {
 							if(status) {
-								window.XMS.msgbox.show('员工密码重置成功！', 'success', 2000)
+								window.XMS.msgbox.show('密码修改成功！', 'success', 2000)
 								$(Dom.changePasswordModal).modal('hide')
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 			  			});
@@ -425,7 +468,7 @@ define(function(require,exports,module){
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('权限清除成功！', 'success', 2000)
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 		  				});
@@ -450,6 +493,10 @@ define(function(require,exports,module){
 			        self.delStaffOrg();
             		// 绑定单机当前行事件
 				    self.eventClickChecked($(Dom.getStaffOrgList))
+				    self.eventDClickCallback($(Dom.getStaffOrgList),function(){
+				    	// 双击修改组织信息
+				    	self.updateStaffOrg();
+				    })
 				}
   			});
 		},
@@ -457,6 +504,11 @@ define(function(require,exports,module){
 		addStaffOrg: function(){
 			var self = this;
 			$(Dom.addStaffOrg).bind('click', function() {
+
+				var json = Data.setPageType("添加组织")
+				json.data["pageState"] = 1;
+		        var template = Handlebars.compile(Tpl.getStaffOrg);
+		        $(Dom.addStaffOrgForm).html(template(json.data))
 			    // 弹出层
 				$(Dom.addStaffOrgModal).modal('show');
 				// 滚动条
@@ -488,20 +540,45 @@ define(function(require,exports,module){
 						}, json.data);
 					}
 		  		});
+		  		// 提交保存
+		  		self.saveStaffOrg('add');
 		  		// 表单提交
-				$(Dom.addStaffOrgSubmit).bind('click',function(){
-					 var cmd = $(Dom.addStaffOrgForm).serialize();
-					 Rose.ajax.getJson(srvMap.get('addStaffOrg'), cmd, function(json, status) {
-						if(status) {
-							window.XMS.msgbox.show('添加成功！', 'success', 2000)
-							$(Dom.addStaffOrgModal).modal('hide')
-							setTimeout(function(){
-								self.getStaffOrgList();
-							},1000)
-						}
-		  			});
-		  		})
 			})
+		},
+		updateStaffOrg:function(){
+			var self = this;
+			var json = {};
+			json["data"] = self.getStaffOrgCheckedRow();
+			json.data["pageType"] = "修改组织";
+			json.data["pageState"] = 0;
+		    var _dom = $(Dom.addStaffOrgForm);
+    		var template = Handlebars.compile(Tpl.getStaffOrg);
+		    _dom.html(template(json.data))
+			_dom.find("input[name='staffId']").val(Data.staffId);
+		    // 弹出层
+			$(Dom.addStaffOrgModal).modal('show');
+			// 设置下拉框
+			self.setSelected(_dom);
+    		// 提交保存
+    		self.saveStaffOrg('update');
+		},
+		saveStaffOrg:function(type){
+			var self = this;
+			var _srvMap = type == "add" ? 'addStaffOrg' : 'updateStaffOrg';
+			$(Dom.addStaffOrgSubmit).unbind();
+			$(Dom.addStaffOrgSubmit).bind('click',function(){
+				var cmd = $(Dom.addStaffOrgForm).serialize();
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.show('保存成功！', 'success', 2000)
+						$(Dom.addStaffOrgModal).modal('hide')
+						setTimeout(function(){
+							self.getStaffOrgList();
+						},1000)
+					}
+	  			});
+  			})
 		},
 		// 删除组织结构
 		delStaffOrg: function(){
@@ -549,11 +626,15 @@ define(function(require,exports,module){
 		// 获取组织列表当前选中行
 		getStaffOrgCheckedRow : function(){
 			var _obj = $(Dom.getStaffOrgListTable).find("input[type='radio']:checked").parents("tr");
-			var _organizeId = _obj.find("input[name='organizeId']")
-			var _organizeName= _obj.find("input[name='organizeName']")
+			var _organizeId = _obj.find("input[name='organizeId']");
+			var _organizeName= _obj.find("input[name='organizeName']");
+			var _isAdminStaff= _obj.find("input[name='isAdminStaff']");
+			var _isBaseOrg= _obj.find("input[name='isBaseOrg']");
 			var data = {
 		        organizeName: _organizeName.val(),
-		        organizeId:_organizeId.val()
+		        organizeId:_organizeId.val(),
+		        isAdminStaff:_isAdminStaff.val(),
+		        isBaseOrg:_isBaseOrg.val()
 		    }
 		    if(_organizeId.length==0){
 		    	window.XMS.msgbox.show('请先选择一个组织结构！', 'info', 2000);
@@ -581,6 +662,13 @@ define(function(require,exports,module){
 						callback();
 					}
 		    });
+		},
+		// 设置下拉框选中
+		setSelected:function(obj){
+			obj.find("select").each(function(index) {
+				var _data = $(this).data("selected");
+				$(this).find("option[value='"+_data+"']").attr("selected",true)
+			});
 		}
 	};
 	module.exports = Query;

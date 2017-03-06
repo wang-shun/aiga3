@@ -2,6 +2,8 @@ package com.ai.aiga.view.json;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class StaffRequest {
 	private Long staffId;
     private String code;
@@ -14,7 +16,9 @@ public class StaffRequest {
     private Integer recentPassTimes;
     private Integer minPasswdLength;
     private Character allowChangePassword;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date acctEffectDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date acctExpireDate;
     private Character multiLoginFlag;
     private Integer tryTimes;

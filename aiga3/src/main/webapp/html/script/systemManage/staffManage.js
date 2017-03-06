@@ -13,7 +13,7 @@ define(function(require,exports,module){
 	// 添加员工
 	srvMap.add("addUserinfo", pathAlias + "retMessage.json", "aiga/staff/save");
 	// 修改员工
-	srvMap.add("updateUserinfo", pathAlias + "retMessage.json", "aiga/staff/update");
+	srvMap.add("updateUserinfo", pathAlias + "retMessage.json", "aiga/staff/updat");
 	// 启用员工
 	srvMap.add("startUserinfo", pathAlias + "retMessage.json", "aiga/staff/start");
 	// 停员员工
@@ -250,10 +250,15 @@ define(function(require,exports,module){
 		        // 最小密码长度：6
 		        _form.find("[name='minPasswdLength']").val("6").attr("readonly",true);
 
+		        // 设置组织ID
+		        _form.find("input[name='staffId']").remove();
+		        _form.find("input[name='organizeId']").val(Data.organizeId);
+				
 
 
 				// _form.bootstrapValidator('validate');
 				// 表单提交
+		        $(Dom.addUserinfoSubmit).unbind('click');
 				$(Dom.addUserinfoSubmit).bind('click',function(){
 
 					// 表单校验：成功后调取接口
@@ -265,11 +270,12 @@ define(function(require,exports,module){
 			  			Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('添加用户成功！', 'success', 2000)
+								XMS.msgbox.show('保存成功！', 'success', 2000)
 								// 关闭弹出层
-								$(Dom.addUserinfoModal).modal('hide')
+								$(Dom.addUserinfoModal).modal('hide');
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
+									
 								},1000)
 							}
 			  			});
@@ -284,8 +290,11 @@ define(function(require,exports,module){
 		},
 		getUserinfo:function(){
 			var self = this;
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-			Rose.ajax.getJson(srvMap.get('getUserinfo'), '', function(json, status) {
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			var _data = self.getUserCheckedRow();
+			var cmd = 'staffId='+_data.staffId;
+			console.log(cmd);
+			Rose.ajax.getJson(srvMap.get('getUserinfo'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化
 			        var _form = $(Dom.addUserinfoForm);
@@ -308,29 +317,42 @@ define(function(require,exports,module){
 				    });
 				    // 弹出层
 					$(Dom.addUserinfoModal).modal('show');
+					
+					// 设置组织ID
+					_form.find("input[name='organizeId']").val(Data.organizeId);
 
 					// 提交
-					$(Dom.addUserinfoSubmit).bind('click',function(){
+					// $(Dom.addUserinfoSubmit).bind('click',function(){
 
 					// 表单校验：成功后调取接口
 					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-		            var cmd = _form.serialize();
-		            console.log(cmd);
+		          
 		  			// self.getUserinfoList(cmd);
-		  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-		  			Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
-						if(status) {
-							// 添加用户成功后，刷新用户列表页
-							XMS.msgbox.show('添加用户成功！', 'success', 2000)
-							// 关闭弹出层
-							$(Dom.addUserinfoModal).modal('hide')
-							setTimeout(function(){
-								self.getUserinfoList();
-							},1000)
-						}
-		  			});
+		            $(Dom.addUserinfoSubmit).unbind('click');
+					$(Dom.addUserinfoSubmit).bind('click',function(){
+
+						// 表单校验：成功后调取接口
+						// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+				            var cmd = _form.serialize();
+				            console.log(cmd);
+				  			// self.getUserinfoList(cmd);
+				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+				  			Rose.ajax.getJson(srvMap.get('updateUserinfo'), cmd, function(json, status) {
+								if(status) {
+									// 添加用户成功后，刷新用户列表页
+									XMS.msgbox.show('保存成功！', 'success', 2000)
+									// 关闭弹出层
+									$(Dom.addUserinfoModal).modal('hide');
+									setTimeout(function(){
+										self.getUserinfoList("organizeId="+Data.organizeId);
+									},1000)
+								}
+				  			});
+			        	//});
+			  		//})
+		  			
 		        	//});
-		  		})
+					})
 				}
   			});
 		},
@@ -355,9 +377,9 @@ define(function(require,exports,module){
 						Rose.ajax.getJson(srvMap.get('startUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 启用成功后，重新加载用户列表
-								window.XMS.msgbox.show('员工启用成功！', 'success', 2000)
+								window.XMS.msgbox.show('启用成功！', 'success', 2000);
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 			  			});
@@ -378,9 +400,9 @@ define(function(require,exports,module){
 						Rose.ajax.getJson(srvMap.get('stopUserinfo'), 'staffId='+_staffId, function(json, status) {
 							if(status) {
 								// 停用成功后，重新加载用户列表
-								window.XMS.msgbox.show('员工停用成功！', 'success', 2000)
+								window.XMS.msgbox.show('停用成功！', 'success', 2000);
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 			  			});
@@ -406,10 +428,10 @@ define(function(require,exports,module){
 						var cmd = $(Dom.changePasswordForm).serialize();
 						Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json, status) {
 							if(status) {
-								window.XMS.msgbox.show('员工密码重置成功！', 'success', 2000)
+								window.XMS.msgbox.show('密码修改成功！', 'success', 2000)
 								$(Dom.changePasswordModal).modal('hide')
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 			  			});
@@ -446,7 +468,7 @@ define(function(require,exports,module){
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('权限清除成功！', 'success', 2000)
 								setTimeout(function(){
-									self.getUserinfoList();
+									self.getUserinfoList("organizeId="+Data.organizeId);
 								},1000)
 							}
 		  				});

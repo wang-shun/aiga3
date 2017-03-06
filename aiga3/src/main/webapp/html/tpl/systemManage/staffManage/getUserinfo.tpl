@@ -1,4 +1,7 @@
 <div id="JS_addUserinfoScroll" style="padding-right: 15px;">
+
+<input type="hidden" name="staffId" value="{{staffId}}" >
+<input type="hidden" name="organizeId"  >
     <div class="row">
         <div class="col-md-3">
             <div class="form-group input-group-sm">
@@ -42,7 +45,7 @@
             <div class="form-group input-group-sm">
                 <label>证件类型<i class="text-red">*</i></label>
                 <select class="form-control" name="cardTypeId" data-selected="{{cardTypeId}}" required>
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="0">身份证</option>
                     <option value="1">军官证</option>
                     <option value="2">其他</option>
@@ -61,7 +64,7 @@
             <div class="form-group input-group-sm">
                 <label>锁定状态<i class="text-red">*</i></label>
                 <select class="form-control" name="lockFlag" data-selected="{{lockFlag}}" required>
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="Y">是</option>
                     <option value="N">否</option>
                 </select>
@@ -91,7 +94,7 @@
             <div class="form-group input-group-sm">
                 <label>IPMAC绑定</label>
                 <select class="form-control" name="bandType" data-selected="{{bandType}}" required>
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="1">有效</option>
                     <option value="0">无效</option>
                 </select>
@@ -101,7 +104,7 @@
             <div class="form-group input-group-sm">
                 <label>是否允许修改密码<i class="text-red">*</i></label>
                 <select class="form-control" name="allowChangePassword" data-selected="{{allowChangePassword}}" required>
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="Y">是</option>
                     <option value="N">否</option>
                 </select>
@@ -111,7 +114,7 @@
             <div class="form-group input-group-sm">
                 <label>并行登录<i class="text-red">*</i></label>
                 <select class="form-control" name="multiLoginFlag" data-selected="{{multiLoginFlag}}" required>
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="Y">是</option>
                     <option value="N">否</option>
                 </select>
@@ -129,7 +132,7 @@
             <div class="form-group input-group-sm">
                 <label>所属项目编号</label>
                 <select class="form-control" name="ext2" data-selected="{{ext2}}">
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="工号扩展2">工号扩展2</option>
                 </select>
             </div>
@@ -158,7 +161,7 @@
             <div class="form-group input-group-sm">
                 <label>操作员级别</label>
                 <select class="form-control" name="oPLvl"  data-selected="{{oPLvl}}">
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="1">高级员工</option>
                     <option value="0">普通员工</option>
                 </select>
@@ -168,7 +171,7 @@
             <div class="form-group input-group-sm">
                 <label>扩展类型3</label>
                 <select class="form-control" name="ext3" data-selected="{{ext3}}">
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="工号扩展3">工号扩展3</option>
                 </select>
             </div>
@@ -177,7 +180,7 @@
             <div class="form-group input-group-sm">
                 <label>操作员类型</label>
                 <select class="form-control" name="opType" data-selected="{{opType}}">
-                    <option>请选择</option>
+                    <option value="">请选择</option>
                     <option value="1">BOSS工号</option>
                     <option value="0">BI工号</option>
                 </select>

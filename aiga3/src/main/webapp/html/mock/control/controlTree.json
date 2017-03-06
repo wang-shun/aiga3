@@ -1,0 +1,25 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data":[{
+        "organizeId":"1",
+        "parentOrganizeId": "0",
+        "organizeName": "主页"
+    },{
+        "organizeId":"2",
+        "parentOrganizeId": "1",
+        "organizeName": "子页1"
+    },{
+        "organizeId":"3",
+        "parentOrganizeId": "2",
+        "organizeName": "子页2"
+    },{
+        "organizeId":"4",
+        "parentOrganizeId": "0",
+        "organizeName": "主页2"
+    },{
+        "organizeId":"5",
+        "parentOrganizeId": "2",
+        "organizeName": "子页3"
+    }]
+}

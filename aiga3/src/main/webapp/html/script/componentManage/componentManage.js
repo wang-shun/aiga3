@@ -151,6 +151,8 @@ define(function(require,exports,module){
             	_form1.html(template({}));
             	self.getParamInfo();
             	self.addParamInfo();
+            	self.delParamInfo();
+            	self.updateParamInfo();
 		        // 滚动条
 		     //    $(Dom.addUserinfoScroll).slimScroll({
 			    //     "height": '420px'
@@ -262,7 +264,7 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.addParameterForm);
             		$(Dom.addParameterForm).html(template(json.data))
             		// 提交保存
-            		// self.updateRoleinfo('update');
+            		 self.updateParamInfo('update');
 				}
   			});
 
@@ -281,7 +283,7 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.addParameterForm);
             		$(Dom.addParameterForm).html(template(json.data))
             		// 提交保存
-            		// self.updateRoleinfo('update');
+            		self.updateParamInfo('update');
 				}
   			});
 
@@ -298,12 +300,12 @@ define(function(require,exports,module){
             	// 添加时移除roleId
 				$(Dom.addParameterForm).find("[name='ParamId']").remove();
             	// 提交保存
-            	self.updateRoleinfo('save');
+            	self.updateParamInfo('save');
 			});
 
 		},
 		//保存参数
-		updateRoleInfo:function(type){
+		updateParamInfo:function(type){
 			var self = this;
 			var _srvMap = type == "save" ? 'addParamInfo' : 'updateParamInfo';
     		var _domSave = $(Dom.addParameterForm).find("[name='save']");

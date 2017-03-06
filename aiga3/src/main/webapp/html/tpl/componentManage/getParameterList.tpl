@@ -8,7 +8,7 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="javascript:;" name="delParam">删除</a></li>
+                <li><a href="javascript:;" name="del">删除</a></li>
             </ul>
         </div>
     </div>

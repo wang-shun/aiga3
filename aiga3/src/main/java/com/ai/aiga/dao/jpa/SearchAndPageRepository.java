@@ -39,5 +39,14 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	Page<T> searchBySql(String sql, Class<T> domainClass, Pageable pageable);
 	
 	List searchformSQL(String sql);
+
+	/**
+	 * 根据原生SQL按照分页查询
+	 * @param nativeSQL
+	 * @param pageable
+	 * @param keyList
+	 * @return
+	 */
+	Page<T> searchByNativeSQL(String nativeSQL,Pageable pageable,List<String> keyList);
 	
 }

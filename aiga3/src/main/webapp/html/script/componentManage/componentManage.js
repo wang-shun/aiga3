@@ -4,28 +4,28 @@ define(function(require,exports,module){
     //路径重命名
     var pathAlias = "componentManage/";
 	//获取所有功能菜单	
-	srvMap.add("getFuncList", "componentManage/getFunList.json", "");
+	srvMap.add("getFuncList", "componentManage/getFunList.json", "sys/component/compTree");
 	//根据当前功能点ID调取组件
-	srvMap.add("getCompList","componentManage/getCompList.json","");
+	srvMap.add("getCompList","componentManage/getCompList.json","sys/component/listByFun");
 	// 查询组件信息
 	srvMap.add("getCompinfo", pathAlias + "getCompinfo.json", "");
 	// 添加组件
-	srvMap.add("addComp", pathAlias + "retMessage.json", "");
+	srvMap.add("addComp", pathAlias + "retMessage.json", "sys/component/save");
 	//修改组件
-	srvMap.add("updateComp", pathAlias + "retMessage.json","");
+	srvMap.add("updateComp", pathAlias + "retMessage.json","sys/component/update");
 	//删除选中组件
-	srvMap.add("delComp", pathAlias + "retMessage.json","");
+	srvMap.add("delComp", pathAlias + "retMessage.json","sys/component/delete");
     // 组件列表按条件查询
-	srvMap.add("queryCompInfo", pathAlias + "queryCompInfo.json", "");
+	srvMap.add("queryCompInfo", pathAlias + "queryCompInfo.json", "sys/component/listByParam");
 	//请求控件树
-	srvMap.add("getCompCtrTree", pathAlias + "getCompCtrTree.json", "");
+	srvMap.add("getCompCtrTree", pathAlias + "getCompCtrTree.json", "sys/control/list");
 	//请求参数列表
-	srvMap.add("getParameterList",pathAlias + "getParameterList.json","");
+	srvMap.add("getParameterList",pathAlias + "getParameterList.json","sys/component/listByComp");
 	//根据参数ID获取参数信息
 	srvMap.add("getParamInfo",pathAlias + "getParamInfo.json","");
 	//添加参数
 	srvMap.add("addParamInfo",pathAlias + "retMessage.json","");
-	//保存参数
+	//修改参数
 	srvMap.add("updateParamInfo",pathAlias + "retMessage.json","");
 	//删除参数
 	srvMap.add("delParamInfo",pathAlias + "retMessage.json","");

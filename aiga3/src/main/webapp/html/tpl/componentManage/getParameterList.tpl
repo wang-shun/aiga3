@@ -2,7 +2,7 @@
     <h3 class="box-title">参数列表</h3>
     <div class="box-tools">
          <div class="btn-group">
-            <button type="button" class="btn btn-primary" data-toggle="modal" name="addParam"><i class="fa fa-plus"></i> 添加</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" name="add"><i class="fa fa-plus"></i> 添加</button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
                 <span class="sr-only">Toggle Dropdown</span>
@@ -29,7 +29,7 @@
         <tbody>
             {{#each this}}
             <tr>
-                <td><input type="checkbox" class="minimal" value="{{paramId}}" name="paramId"></td>
+                <td><input type="radio" class="minimal" value="{{paramId}}" name="paramId"></td>
                 <td>{{paramName}}</td>
                 <td >{{paramValue}}</td>
                 <td>{{paramDesc}}</td>

@@ -5,18 +5,25 @@ import java.util.Date;
 
 public class NaUiComponentRequest {
 	private Long compId;
+	private Long parentId;
 	private String compName;
 	private Long creatorId;
 	private Date createTime;
 	private Long updateId;
 	private String compDesc;
-	private Clob compScript;
+	//private Clob compScript;
 	
 	public Long getCompId() {
 		return compId;
 	}
 	public void setCompId(Long compId) {
 		this.compId = compId;
+	}
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
 	}
 	public String getCompName() {
 		return compName;
@@ -48,12 +55,12 @@ public class NaUiComponentRequest {
 	public void setCompDesc(String compDesc) {
 		this.compDesc = compDesc;
 	}
-	public Clob getCompScript() {
-		return compScript;
-	}
-	public void setCompScript(Clob compScript) {
-		this.compScript = compScript;
-	}
+//	public Clob getCompScript() {
+//		return compScript;
+//	}
+//	public void setCompScript(Clob compScript) {
+//		this.compScript = compScript;
+//	}
 	
 		
 	

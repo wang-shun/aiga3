@@ -1,0 +1,163 @@
+    <section class="content">
+            <div class="col-md-3">
+              <div class="box">
+                 <div class="box-header">
+                  <div class="box-title">选择功能点</div>
+                    <div class="box-tools">
+                     <div class="btn-group">
+                      <!-- <button id="JS_rolefuncUpdate" type="button" name="update" onclick="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">更新</button> -->
+                    </div>
+                   </div>
+                    <div class="box-body">
+                        <div class="active tab-pane" id="activity">
+                            <ul id="Tree_getRightTree" class="ztree"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+            <div class="col-md-9">
+              <div class="box">
+                <div class="box-header">
+                  <div class="box-title">条件查询</div>
+                  <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                </div>
+                </div>
+                <div class="box-body">
+                    <form id="JS_getCompInfoForm">
+                    <div class="row">
+                      <div class="col-md-3">
+                          <div class="form-group input-group-sm">
+                              <label>组件名称<i class="text-red">*</i></label>
+                              <input type="text" class="form-control" name="compName" value="" required="">
+                          <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></div>
+                      </div>
+                      <div class="col-md-3">
+                          <div class="form-group input-group-sm">
+                              <label>创建人<i class="text-red">*</i></label>
+                              <input type="text" class="form-control" name="creatorName" value="" required="">
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group input-group-sm ">
+                              <label>创建时间<i class="text-red">*</i></label>
+                              <div class="form-inline">
+                              <input type="text" class="form-control input-sm " name="createTime" id="datepicker" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                              至:
+                              <input type="text" class="form-control input-sm " name="updateTime" id="datepicker" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                    <!-- <div class="form-group">
+                      <label class="col-md-2 control-label">控件名称:</label>
+                        <div class="col-md-5">
+                          <input  class="form-control input-sm pull-left" id="funcCode" name="funcCode" value="" required data-bv-notempty-message="功能编码不能为空！">
+                        </div>
+                      <label class="col-md-2 control-label">创建人:</label>
+                        <div class="col-md-2">
+                          <input  class="form-control input-sm" id="funcImg" name="funcImg" value="">
+                        </div>
+                    </div>
+                                              <div class="form-group form-inline">
+                    <label class="col-md-2 control-label">创建时间:</label>
+                      <div class="col-md-5">
+                        <input type="text" class="form-control input-sm " id="datepicker" onClick="WdatePicker()">
+                        <label class="control-label">至:</label>
+                        <input type="text" class="form-control input-sm " id="datepicker" onClick="WdatePicker()">
+                      </div>
+                    </div>-->
+                  <div class="box-footer">
+                    <div class="text-center">
+                      <button type="reset" class="btn btn-default" >重置</button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <button type="button" class="btn btn-primary" data-toggle="modal" name="submit" id="JS_queryComp">查询</button>
+                    </div>
+                  </div>
+                </form> 
+                </div>
+              </div>
+              <div class="box">
+                <div class="box-header">
+                  <div class="box-title">组件列表</div>
+                    <div class="box-tools">
+                      <div class="btn-group">
+                          <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_addComp"><i class="fa fa-plus"></i> 添加组件</button>
+                          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              <span class="caret"></span>
+                              <span class="sr-only">Toggle Dropdown</span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                              <li><a href="javascript:;" id="JS_updateComp">修改</a></li>
+                              <li><a href="javascript:;" id="JS_delComp">删除</a></li>
+                          </ul>
+                      </div>
+                  </div>
+                </div>
+                <div class="box-body" style="min-height: 100px;" id="Page_queryInfo"></div>
+                </div>
+              </div>
+          </div>
+    </section>
+    <!-- Modal -->
+    <div class="modal fade" id="JS_addCompModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加组件</h4>
+                </div>
+                <div class="modal-body" style="padding-bottom: 0">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                      <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">脚本编辑</a><iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></li>
+                      <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">参数设置</a></li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="tab_1">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div id="JS_addCompCtrScroll">
+                              <ul id="JS_addCompCtrTree" class="ztree"></ul>
+                            </div>
+                          </div>
+                          <div class="col-md-9">
+                            <form id="JS_addCompInfoForm">
+                            </form>
+                          </div>
+                            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary pull-right" id="JS_addCompSubmit">确认</button>
+                        </div>
+                      </div>
+                      <!-- /.tab-pane -->
+                      <div class="tab-pane" id="tab_2">
+                        <div class="row">
+                          <div class="col-md-9">
+                            <div id="JS_getParameterList" class="box">
+                                <div style="text-align: center; padding: 100px 0;">
+                                    <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                    <p style="color: #333;"><span>请添加参数</span></p>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div id="JS_addParameterForm" class="box" style="min-height: 100px">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                  </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <script>
+    seajs.use("script/componentManage/componentManage.js", function(indexQuery) {
+        indexQuery.init();
+    });
+    </script>

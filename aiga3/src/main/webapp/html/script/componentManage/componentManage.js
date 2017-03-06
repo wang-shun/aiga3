@@ -448,13 +448,10 @@ define(function(require,exports,module){
   				$(Dom.delComp).bind('click', function() {
 					var _data = self.getCheckedComp();
 						if(_data){
-							var cmd = {
-								compId:""
-							}
-							cmd.compId = _data.compId;
+							var cmd = "compId=" + _data.compId;
 							XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 							console.log(cmd);
-							Rose.ajax.getJson(srvMap.get('delComp'), 'cmd', function(json, status) {
+							Rose.ajax.getJson(srvMap.get('delComp'), cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.show('删除成功！', 'success', 2000)
 									setTimeout(function(){

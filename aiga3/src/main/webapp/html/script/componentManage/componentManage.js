@@ -394,7 +394,7 @@ define(function(require,exports,module){
 			$(Dom.updateComp).unbind('click');
 			$(Dom.updateComp).bind('click', function() {
 				var _data = self.getCheckedComp();
-				var cmd = _data.compId;
+				var cmd = "compId=" + _data.compId;
 				if(cmd){
 					self.getCompinfo(cmd);
 				}

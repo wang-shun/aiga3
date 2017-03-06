@@ -6,10 +6,12 @@
 </head>
 <body>
 
-<form action="/aiga3/sys/role/save" method="post">
-	<input name="code" />
-	<input name="name" />
-	<input name="notes" />
+<form action="/aiga3/case/template/save" method="post">
+	<input name="caseName" />
+	<input name="factorName" />
+	<input name="factorName" />
+	<input name="factorName" />
+	<input name="factorName" />
 	<input type="submit" name="提交"/>
 </form>
 

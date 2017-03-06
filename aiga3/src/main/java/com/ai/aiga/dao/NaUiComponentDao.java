@@ -11,13 +11,13 @@ import com.ai.aiga.domain.NaUiComponent;
 
 public interface NaUiComponentDao extends SearchAndPageRepository<NaUiComponent, Long> , JpaRepository<NaUiComponent, Long>{
 	
-	@Query(value = "select * from (select sys_id as id, 0 as p_id, sys_name as name, 'N' as if_leaf"
+	@Query(value = "select sys_id as id, 0 as p_id, sys_name as name, 'N' as if_leaf"
 			+ "  from aiga_system_folder where is_invalid=0 and is_invalid is not null"
 			+ " union all "
 			+ "select subsys_id as id, sys_id as p_id, sys_name as name, 'N' as if_leaf"
 			+ " from aiga_sub_sys_folder union all "
 			+ "select fun_id as id, sub_sys_id as p_id, sys_name as name, 'Y' as if_leaf"
-			+ "  from aiga_fun_folder where is_invalid=0 and is_invalid is not null) where rownum < 6",nativeQuery = true)
+			+ "  from aiga_fun_folder where is_invalid=0 and is_invalid is not null",nativeQuery = true)
 	List<Object[]> compTree();
 	
 	@Query(value = "select a.comp_id, a.comp_name, a.creator_id, b.name as creatorName, a.update_id, a.create_time, a.update_time"

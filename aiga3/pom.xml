@@ -17,7 +17,7 @@
 		<logback.version>1.1.10</logback.version>
 		<hibernate.version>4.3.11.Final</hibernate.version>
 		<spring-data-jpa.version>1.11.0.RELEASE</spring-data-jpa.version>
-		<tomcat-jdbc.version>8.5.9</tomcat-jdbc.version>
+		<tomcat-jdbc.version>7.0.75</tomcat-jdbc.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<guava.version>21.0</guava.version>
 		<junit.version>4.12</junit.version>
@@ -247,10 +247,27 @@
 	</dependencies>
 
 
+
 	<build>
 		<finalName>aiga3</finalName>
 
 		<plugins>
+			<plugin>
+			    <groupId>org.apache.tomcat.maven</groupId>
+			    <artifactId>tomcat7-maven-plugin</artifactId>
+			    <version>2.2</version>
+			    <configuration>
+			    	<port>8080</port>
+                 	<path>/aiga3</path>
+
+            		<!-- 写上你服务器ip地址和tomcat端口-->  
+               		<url>http://20.26.17.182:8080/manager/text</url>
+                	<username>tomcat</username>
+                	<password>tomcat</password>
+                	<update>true</update> 
+			    </configuration>
+			</plugin>
+		
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -261,6 +278,23 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+ 				<artifactId>maven-war-plugin</artifactId>
+ 				<version>3.0.0</version>
+ 				<configuration>
+ 					<webResources>
+                    <resource>
+                        <directory>${project.basedir}/src/lib/</directory>
+                        <targetPath>WEB-INF/lib</targetPath>
+                        <includes>
+                            <include>**/*.jar</include>
+                        </includes>
+                    </resource>
+                </webResources>
+ 				</configuration>
+ 			</plugin>
 
 
 			<!-- Hibernate生成实体配置 -->

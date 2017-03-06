@@ -92,16 +92,18 @@ public class ComponentSv {
 		if(naUiComponentRequest == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-		
+		if(StringUtils.isBlank(naUiComponentRequest.getParentId().toString())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
 		if(StringUtils.isBlank(naUiComponentRequest.getCompName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
 		if(StringUtils.isBlank(naUiComponentRequest.getCompDesc())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-		if(StringUtils.isBlank(naUiComponentRequest.getCompScript().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
+//		if(StringUtils.isBlank(naUiComponentRequest.getCompScript().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+//		}
 		if(StringUtils.isBlank(naUiComponentRequest.getCreatorId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
@@ -113,10 +115,11 @@ public class ComponentSv {
 		}
 		
 		NaUiComponent naUiComponent = new NaUiComponent();
+		naUiComponent.setParentId(naUiComponentRequest.getParentId());
 		naUiComponent.setCompName(naUiComponentRequest.getCompName());
 		naUiComponent.setCompDesc(naUiComponentRequest.getCompDesc());
 		naUiComponent.setCreateTime(naUiComponentRequest.getCreateTime());
-		naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
+		//naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
 		
 		naUiComponent.setCreatorId(naUiComponentRequest.getCreatorId());
 		naUiComponent.setUpdateId(naUiComponentRequest.getUpdateId());
@@ -163,9 +166,9 @@ public class ComponentSv {
 			if(StringUtils.isNotBlank(naUiComponentRequest.getCompDesc())){
 				naUiComponent.setCompDesc(naUiComponentRequest.getCompDesc());
 			}
-			if(StringUtils.isNotBlank(naUiComponentRequest.getCompScript().toString())){
-				naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
-			}
+//			if(StringUtils.isNotBlank(naUiComponentRequest.getCompScript().toString())){
+//				naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
+//			}
 			if(StringUtils.isNotBlank(naUiComponentRequest.getCreateTime().toString())){
 				naUiComponent.setCreateTime(naUiComponentRequest.getCreateTime());
 			}
@@ -175,6 +178,7 @@ public class ComponentSv {
 			if(StringUtils.isNotBlank(naUiComponentRequest.getUpdateId().toString())){
 				naUiComponent.setUpdateId(naUiComponentRequest.getUpdateId());
 			}
+			naUiComponent.setUpdateTime(new Date(System.currentTimeMillis()));
 			naUiComponentDao.save(naUiComponent);
 		}
 	}

@@ -21,7 +21,14 @@ define(function(require,exports,module){
 	srvMap.add("getCompCtrTree", pathAlias + "getCompCtrTree.json", "");
 	//请求参数列表
 	srvMap.add("getParameterList",pathAlias + "getParameterList.json","");
-	//
+	//根据参数ID获取参数信息
+	srvMap.add("getParamInfo",pathAlias + "getParamInfo.json","");
+	//添加参数
+	srvMap.add("addParamInfo",pathAlias + "retMessage.json","");
+	//保存参数
+	srvMap.add("updateParamInfo",pathAlias + "retMessage.json","");
+	//删除参数
+	srvMap.add("delParamInfo",pathAlias + "retMessage.json","");
     var Tpl = {
     	getQueryInfo:require('tpl/componentManage/getQueryInfo.tpl'),
     	getCompInfoForm: require('tpl/componentManage/getCompInfoForm.tpl'),
@@ -45,7 +52,14 @@ define(function(require,exports,module){
     	getParameterList:"#JS_getParameterList"
     }
     var Data = {
-        funId:null
+        funId:null,
+        setPageType:function(type){
+    		return {
+    			"data":{
+    				"type":type
+    			}
+    		}
+    	}
     }
 	var indexInfoQuery = {
 		init: function(){
@@ -59,53 +73,6 @@ define(function(require,exports,module){
 			this.updateComp();
 			//展示表单
 		},
-		// getStaffRoleList: function(){
-		// 	    var self = this;
-		// 	    Rose.ajax.getJson(srvMap.get('getStaffRoleList'), '', function(json, status) {                    
-		// 		if(status) {
-		// 			var template = Handlebars.compile(Tpl2.getStaffRoleList);
-		// 			console.log(json.data)
-  //           		$(Mod2.getStaffRoleList).html(template(json.data));
-  //           		 //iCheck
-		// 		    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-		// 		      checkboxClass: 'icheckbox_minimal-blue',
-		// 		      radioClass: 'iradio_minimal-blue'
-		// 		    });
-		// 	        // 事件：双击选中当前行数据
-		// 	        $(Dom.getRoleFuncTable).find("tr").bind('click', function(event) {			        	
-		// 	        	$(this).find('.minimal').iCheck('check');
-		// 	        	var _data = self.getCheckedRole();
-		// 	        	var _roleId =_data.roleId;
-		// 	        	var cmd = "roleId="+_roleId;
-		// 	        	Data.roleId = _roleId;
-		// 	        	console.log(cmd);
-		// 	        	self.getRoleFuncCheckedList(cmd);
-		// 	        });
-		// 	        // 滚动条
-		// 	        $(Dom.getRoleFuncTable).parent().slimScroll({
-		// 		        "height": '500px'
-		// 		    });
-		// 		}
-	 //  		});
-		// },
-		// getRoleFuncCheckedList :function(cmd){
-  //       	var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTree");
-  //           treeObj.checkAllNodes(false);
-  //       	Rose.ajax.getJson(srvMap.get('getRoleFuncCheckedList'), cmd, function(json, status) {
-		// 		if(status) {
-		// 			var _json = json.data;
-		// 			console.log(_json);
-		// 			var zTree_Menu = $.fn.zTree.getZTreeObj("Tree_getRightTree");  
-
-		// 			for(i in _json){
-		// 				var node = zTree_Menu.getNodeByParam('funcId',_json[i].funcId);  
-	 //                	zTree_Menu.checkNode(node,true);//指定选中ID的节点  
-	 //                	zTree_Menu.expandNode(node, true, false);//指定选中ID节点展开  
-		// 			}
-	                
-		// 		}
-		// 	})
-  //       },
   		//获取左侧组件树
 		getLeftTree:function(){
 			var self = this
@@ -123,7 +90,7 @@ define(function(require,exports,module){
 						},
 						callback:{
 							 beforeClick: function(treeId, treeNode, clickFlag) {
-                                return (treeNode.ifleaf !== "N");
+                                return (treeNode.ifLeaf !== "N");
                              }, 
 							 onClick: function(event, treeId, treeNode){
                                 var _funId = treeNode.id;
@@ -147,7 +114,7 @@ define(function(require,exports,module){
 		//通过功能点获取右侧组件表格数据
 		getCompByFunId:function(cmd){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getCompList'), 'cmd', function(json, status) {                    
+			Rose.ajax.getJson(srvMap.get('getCompList'), cmd, function(json, status) {                    
 				if(status) {
 					var template = Handlebars.compile(Tpl.getQueryInfo);
 					console.log(json.data)
@@ -182,6 +149,8 @@ define(function(require,exports,module){
             	var _form1 = $(Dom.addParameterForm);
             	var template = Handlebars.compile(Tpl.addParameterForm);
             	_form1.html(template({}));
+            	self.getParamInfo();
+            	self.addParamInfo();
 		        // 滚动条
 		     //    $(Dom.addUserinfoScroll).slimScroll({
 			    //     "height": '420px'
@@ -215,8 +184,7 @@ define(function(require,exports,module){
 								 	var _compCtrId = treeNode.id;
 								 	var _data = self.getScript(json.data,_compCtrId);
 								 	var _dom = $(Dom.addCompInfoForm);
-								 	alert(_data.script);
-								 	 _dom.find("textarea[name='compScript']").append(_data.script+"\r\n");
+								 	 _dom.find("textarea[name='compScript']").append(_data.compScript+"\r\n");
 								 	// _dom.find("input[name='organizeId']").val(_organizeId);
 								 }
 							}
@@ -254,26 +222,26 @@ define(function(require,exports,module){
 		 //  		})*/
 
 			// })
-		})
+		})			
 		},
-		//获取参数列表
-		getParameterList: function(){
+		//获取参数列表(根据组件ID)
+		getParameterListById: function(cmd){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getParameterList'), '', function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getParameterList'), cmd, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getParameterList);
             		$(Dom.getParameterList).html(template(json.data));
 
             		// 添加、删除
-            		// self.addRoleinfo();
-            		// self.delRoleinfo();
+            		self.addParamInfo();
+            		self.delParamInfo();
 
             		// 点击选中行
 				    self.eventClickChecked($(Dom.getParameterList));
 
 				    // 绑定双击当前行事件
 				    self.eventDClickCallback($(Dom.getParameterList),function(){
-			        	// self.getRoleinfo();
+			        	 self.getParamInfoByID();
 				    })
 
 				    //设置分页
@@ -282,10 +250,102 @@ define(function(require,exports,module){
 				}
 	  		});
 		},
-		//获取组件信息
-		getCompinfo:function(){
+		// 获取参数信息
+		getParamInfo: function(){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getCompinfo'), '', function(json, status) {
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			Rose.ajax.getJson(srvMap.get('getParamInfo'), '', function(json, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+					$(Dom.addParameterForm).removeClass('hide');
+					json.data["type"]="新增角色";
+					var template = Handlebars.compile(Tpl.addParameterForm);
+            		$(Dom.addParameterForm).html(template(json.data))
+            		// 提交保存
+            		// self.updateRoleinfo('update');
+				}
+  			});
+
+		},
+		// 获取参数信息(根据参数ID)
+		getParamInfoByID: function(){
+			var self = this;
+			var _data = self.getCheckedParamRow();
+			var cmd = 'paramId='+_data.paramId;
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			Rose.ajax.getJson(srvMap.get('getParamInfo'), cmd, function(json, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+					$(Dom.addParameterForm).removeClass('hide');
+					json.data["type"]="修改参数";
+					var template = Handlebars.compile(Tpl.addParameterForm);
+            		$(Dom.addParameterForm).html(template(json.data))
+            		// 提交保存
+            		// self.updateRoleinfo('update');
+				}
+  			});
+
+		},
+		// 添加参数
+		addParamInfo: function(){
+			var self = this;
+			var _domAdd = $(Dom.getParameterList).find("[name='add']");
+			_domAdd.bind('click', function() {
+				$(Dom.addParameterForm).removeClass('hide');
+				var json = Data.setPageType("添加参数")
+		        var template = Handlebars.compile(Tpl.addParameterForm);
+            	$(Dom.addParameterForm).html(template(json.data))
+            	// 添加时移除roleId
+				$(Dom.addParameterForm).find("[name='ParamId']").remove();
+            	// 提交保存
+            	self.updateRoleinfo('save');
+			});
+
+		},
+		//保存参数
+		updateRoleInfo:function(type){
+			var self = this;
+			var _srvMap = type == "save" ? 'addParamInfo' : 'updateParamInfo';
+    		var _domSave = $(Dom.addParameterForm).find("[name='save']");
+    		_domSave.bind('click', function() {
+				var cmd = $(this).parents("form").serialize();
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+
+				Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.show('保存成功！', 'success', 2000)
+						setTimeout(function(){
+							self.getParameterListById();
+						},1000)
+					}
+	  			});
+  			});
+		},
+		// 删除角色
+		delParamInfo: function(){
+			var self = this;
+			var _domDel = $(Dom.getParameterList).find("[name='del']");
+			_domDel.bind('click', function() {
+				var _data = self.getCheckedParamRow();
+				if(_data){
+					var cmd = 'ParamId='+_data.ParamId;
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+					Rose.ajax.getJson(srvMap.get('delParamInfo'), cmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.show('删除成功！', 'success', 2000)
+							setTimeout(function(){
+								self.getParameterListById();
+								$(Dom.addParameterForm).addClass('hide');
+							},1000)
+						}
+		  			});
+				}
+			});
+		},
+		//获取组件信息(根据组件ID)
+		getCompinfo:function(cmd){
+			var self = this;
+			Rose.ajax.getJson(srvMap.get('getCompinfo'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化
 			        var _form = $(Dom.addCompInfoForm);
@@ -293,7 +353,7 @@ define(function(require,exports,module){
 			        console.log(json.data);
 	            	_form.html(template(json.data));
 	            	$("#compScript").val(json.data.compScript)
-	            	self.getParameterList();
+	            	self.getParameterListById(cmd);
 			        // 滚动条
 			     //    $(Dom.addUserinfoScroll).slimScroll({
 				    //     "height": '420px'
@@ -329,10 +389,12 @@ define(function(require,exports,module){
 		//修改组件
 		updateComp:function(){
 			var self = this;
+			$(Dom.updateComp).unbind('click');
 			$(Dom.updateComp).bind('click', function() {
 				var _data = self.getCheckedComp();
-				if(_data){
-					self.getCompinfo();
+				var cmd = _data.compId;
+				if(cmd){
+					self.getCompinfo(cmd);
 				}
 			});
 		},
@@ -361,7 +423,7 @@ define(function(require,exports,module){
 		//搜索组件
 		getCompByQuery:function(cmd){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('queryCompInfo'), 'cmd', function(json, status) {                    
+			Rose.ajax.getJson(srvMap.get('queryCompInfo'), cmd, function(json, status) {                    
 				if(status) {
 					var template = Handlebars.compile(Tpl.getQueryInfo);
 					console.log(json.data)
@@ -422,6 +484,19 @@ define(function(require,exports,module){
 					compId: ""
 			    }
 		    	data.compId = _compId.val();
+		    }
+		    return data;
+		},
+		// 获取参数列表当前选中参数ID
+		getCheckedParamRow : function(){
+			var _obj = $(Dom.getParameterList).find("input[type='radio']:checked").parents("tr");
+			var _id = _obj.find("input[name='paramId']")
+			var data = {
+		        paramId: _id.val()
+		    }
+		    if(_id.length==0){
+		    	window.XMS.msgbox.show('请先选择一个组织结构！', 'info', 2000);
+		    	return;
 		    }
 		    return data;
 		},

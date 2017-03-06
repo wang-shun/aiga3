@@ -4,22 +4,22 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	require('global/sidebar.js');
 	// 初始化列表
-	srvMap.add("getControlShow", "control/getControl.json", "sys/control/showList");
+	srvMap.add("getControlShow", "control/getControl.json", "sys/ctrl/showList");
 
 	//树的现实
-	srvMap.add("controlTree", "control/controlTree.json", "sys/control/treeList");
+	srvMap.add("controlTree", "control/controlTree.json", "sys/component/compTree");
 
 	//查询
-	srvMap.add("getControlList", "control/getControlList.json", "sys/control/list");
+	srvMap.add("getControlList", "control/getControlList.json", "sys/ctrl/list");
 
 	//新增
-	srvMap.add("addcontrol", "control/saveControl.json", "sys/control/list");
+	srvMap.add("addcontrol", "control/saveControl.json", "sys/ctrl/save");
 
 	//删除
 	srvMap.add("deleControl", "control/deleControl.json", "/sys/ctrl/del");
 
 	//修改
-	srvMap.add("updateControl", "control/updateControl.json", "/sys/ctrl/del");
+	srvMap.add("updateControl", "control/updateControl.json", "sys/ctrl/update");
 
 
 	// 模板对象
@@ -41,45 +41,71 @@ define(function(require, exports, module) {
 		getControlinfoListTable:'#JS_getControlinfoListTable',
 		deleControl:'#JS_deleControlinfo'
 	}
+	var Data = {
+        funId:null,
+        setPageType:function(type){
+    		return {
+    			"data":{
+    				"type":type
+    			}
+    		}
+    	}
+    }
 
-
-	var setting = {
-		check: {
-			enable: true
-		},
-		data: {
-			key: {
-				name: "organizeName"
-			},
-			simpleData: {
-				enable: true,
-				idKey: "organizeId",
-				pIdKey: "parentOrganizeId"
-			}
-		},
-		callback: {
-		}
-
-	};
 
 	var getContral = {
 		init: function() {
 			this._render();
 		},
 		_render: function() {
-			this.initOrganize();
+			// this.initOrganize();
 			this.queriesControl();
-			
+			this.Tree();
+
+		},
+
+		Tree:function(){
+			var self = this;
 			Rose.ajax.getJson(srvMap.get('controlTree'), '', function(json, status) {
 				if (status) {
+					var setting = {
+						check: {
+							enable: true
+						},
+						data: {
+							key: {
+								name: "name"
+							},
+							simpleData: {
+								enable: true,
+								idKey: "id",
+								pIdKey: "pId"
+							}
+						},
+						callback: {
+							 beforeClick: function(treeId, treeNode, clickFlag) {
+						        return (treeNode.ifLeaf !== "N");
+						     }, 
+							 onClick: function(event, treeId, treeNode){
+						        var _funId = treeNode.id;
+						        console.log(_funId);
+						        //存储在全局变量中
+						        Data.funId = _funId;
+						        var cmd = _funId;
+						        self.initOrganize(cmd);
+						        //self.addComp(cmd1);
+							 }
+						}
+
+						};
 					$.fn.zTree.init($("#treeDemo"), setting, json.data);
 				}
 			});
 		},
-		///////初始化///////////
-		initOrganize: function() {
+				///////初始化///////////
+		initOrganize: function(cmd) {
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getControlShow'), '', function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getControlShow'), cmd, function(json, status) {
 				
 				if (status) {
 					var template = Handlebars.compile(Tpl.getContral);
@@ -235,7 +261,7 @@ define(function(require, exports, module) {
 							// dele成功后，重新加载模板列表
 							window.XMS.msgbox.show('模板删除成功！', 'success', 2000)
 							setTimeout(function() {
-								self.initOrganize();
+								self.initOrganize(Data.funId);
 							}, 1000)
 						}
 					});

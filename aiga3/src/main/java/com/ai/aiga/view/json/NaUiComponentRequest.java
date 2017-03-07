@@ -10,7 +10,7 @@ public class NaUiComponentRequest {
 	private Long parentId;
 	private String compName;
 	private Long creatorId;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 	private Long updateId;
 	private String compDesc;

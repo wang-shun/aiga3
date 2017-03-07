@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var pathAlias = "caseTempMng/";
 
 	// 用例模板列表显示
-	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "/sys/template/list");
+	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "sys/template/list");
 	//系统大类下拉框显示
 	srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
 	//系统子类下拉框
@@ -11,18 +11,18 @@ define(function(require, exports, module) {
 	//功能点下拉框
 	srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
 	//删除模板
-	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "/sys/template/del");
+	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "sys/template/del");
 	//新增用例模板
-	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "/sys/template/add");
-	srvMap.add("viewCaseTemp", pathAlias + "getCaseTempList.json", "/sys/template/view");
+	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "sys/template/add");
+	srvMap.add("viewCaseTemp", pathAlias + "getCaseTempList.json", "sys/template/view");
 	//获取模板因子
-	srvMap.add("getTempFactory", pathAlias + "getFactoryList.json", "/sys/template/factoryList");
+	srvMap.add("getTempFactory", pathAlias + "getFactoryList.json", "sys/template/factoryList");
     //获取组件树
-	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "/sys/template/compTree");
+	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "sys/template/compTree");
     //获取组件信息
-    srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "");
+    srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "sys/component/findone");
 	//保存组件信息
-    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "/sys/caseTemplat/addAutoTestTemp");    
+    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "sys/caseTemplat/addAutoTestTemp");    
 
 	// 模板对象
 	var Tpl = {

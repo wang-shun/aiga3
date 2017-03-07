@@ -3,15 +3,18 @@ package com.ai.aiga.view.json;
 import java.sql.Clob;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class NaUiComponentRequest {
 	private Long compId;
 	private Long parentId;
 	private String compName;
 	private Long creatorId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createTime;
 	private Long updateId;
 	private String compDesc;
-	//private Clob compScript;
+	private String compScript;
 	
 	public Long getCompId() {
 		return compId;
@@ -55,12 +58,12 @@ public class NaUiComponentRequest {
 	public void setCompDesc(String compDesc) {
 		this.compDesc = compDesc;
 	}
-//	public Clob getCompScript() {
-//		return compScript;
-//	}
-//	public void setCompScript(Clob compScript) {
-//		this.compScript = compScript;
-//	}
+	public String getCompScript() {
+		return compScript;
+	}
+	public void setCompScript(String compScript) {
+		this.compScript = compScript;
+	}
 	
 		
 	

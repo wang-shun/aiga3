@@ -4,11 +4,15 @@ package com.ai.aiga.domain;
 
 import java.sql.Clob;
 import java.util.Date;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,7 +35,7 @@ public class NaUiComponent  implements java.io.Serializable {
      private String ifLeaf;
      private String compName;
      private String compDesc;
-     private Clob compScript;
+     private String compScript;
      private Long sysId;
      private Long sysSubId;
      private Long funId;
@@ -49,7 +53,7 @@ public class NaUiComponent  implements java.io.Serializable {
     public NaUiComponent(Long compId) {
         this.compId = compId;
     }
-    public NaUiComponent(Long compId, Long parentId, String ifLeaf, String compName, String compDesc, Clob compScript, Long sysId, Long sysSubId, Long funId, Long creatorId, Date createTime, Long updateId, Date updateTime) {
+    public NaUiComponent(Long compId, Long parentId, String ifLeaf, String compName, String compDesc, String compScript, Long sysId, Long sysSubId, Long funId, Long creatorId, Date createTime, Long updateId, Date updateTime) {
        this.compId = compId;
        this.parentId = parentId;
        this.ifLeaf = ifLeaf;
@@ -112,13 +116,14 @@ public class NaUiComponent  implements java.io.Serializable {
     public void setCompDesc(String compDesc) {
         this.compDesc = compDesc;
     }
-    
-    @Column(name="COMP_SCRIPT")
-    public Clob getCompScript() {
+    @Lob
+	@Basic(fetch = FetchType.LAZY)
+    @Column(name="COMP_SCRIPT", columnDefinition = "CLOB")
+    public String getCompScript() {
         return this.compScript;
     }
     
-    public void setCompScript(Clob compScript) {
+    public void setCompScript(String compScript) {
         this.compScript = compScript;
     }
     

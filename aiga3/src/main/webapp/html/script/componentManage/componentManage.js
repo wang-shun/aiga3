@@ -53,6 +53,8 @@ define(function(require,exports,module){
     }
     var Data = {
         funId:null,
+        ctrlId:null,
+        compId:null,
         setPageType:function(type){
     		return {
     			"data":{
@@ -163,9 +165,9 @@ define(function(require,exports,module){
 				//创建时间锁定
 				_form.find("[name='createTime']").val("2017-03-03 15:29:30").attr("readonly",true);
 				//最后修改人锁定
-				_form.find("[name='updateName']").val("张三").attr("readonly",true);
+				_form.find("[name='updateId']").val("111").attr("readonly",true);
 				//组件创建人锁定
-				_form.find("[name='creator']").val("张三").attr("readonly",true);
+				_form.find("[name='creatorId']").val("111").attr("readonly",true);
 				//请求控件树
 			    Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
 					if(status) {
@@ -180,9 +182,11 @@ define(function(require,exports,module){
 							},
 							callback:{
 								beforeClick: function(treeId, treeNode, clickFlag) {
-                                	return (treeNode.ifleaf !== "N");
+                                	return (treeNode.ifLeaf !== "N");
                              }, 
 								onClick: function(event, treeId, treeNode){
+								 	var _ctrlId = treeNode.id;
+								 	Data.ctrlId = _ctrlId;
 								 	var _compCtrId = treeNode.id;
 								 	var _data = self.getScript(json.data,_compCtrId);
 								 	var _dom = $(Dom.addCompInfoForm);
@@ -200,7 +204,9 @@ define(function(require,exports,module){
 
 					// 表单校验：成功后调取接口
 					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-			            var cmd = _form.serialize();
+			            var _cmd1 = "&ctrlId="+Data.ctrlId;
+			            var _cmd = "&parentId="+Data.funId;
+			            var cmd = _form.serialize() + _cmd + _cmd1;
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
 			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
@@ -367,16 +373,18 @@ define(function(require,exports,module){
 
 					// 表单校验：成功后调取接口
 					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-			            var cmd = _form.serialize();
+						var _cmd1 = "&ctrlId="+Data.ctrlId;
+			            var _cmd = "&compId="+Data.compId;
+			            var cmd = _form.serialize() + _cmd + _cmd1;
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
 			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-			  			Rose.ajax.getJson(srvMap.get('addComp'), cmd, function(json, status) {
+			  			Rose.ajax.getJson(srvMap.get('updateComp'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('修改组件成功！', 'success', 2000)
 								// 关闭弹出层
-								$(Dom.addUserinfoModal).modal('hide')
+								$(Dom.addCompModal).modal('hide')
 								setTimeout(function(){
 									self.getCompByFunId();
 								},1000)
@@ -393,6 +401,7 @@ define(function(require,exports,module){
 			$(Dom.updateComp).unbind('click');
 			$(Dom.updateComp).bind('click', function() {
 				var _data = self.getCheckedComp();
+				Data.compId = _data.compId;
 				var cmd = "compId=" + _data.compId;
 				if(cmd){
 					self.getCompinfo(cmd);

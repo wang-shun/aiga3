@@ -117,7 +117,7 @@ public class ComponentSv {
 		naUiComponent.setCompName(naUiComponentRequest.getCompName());
 		naUiComponent.setCompDesc(naUiComponentRequest.getCompDesc());
 		naUiComponent.setCreateTime(naUiComponentRequest.getCreateTime());
-		//naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
+		naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
 		
 		naUiComponent.setCreatorId(naUiComponentRequest.getCreatorId());
 		naUiComponent.setUpdateId(naUiComponentRequest.getUpdateId());
@@ -370,7 +370,7 @@ public class ComponentSv {
 				bean.setpId(((BigDecimal)object[1]).longValue());
 				bean.setName(object[2].toString());
 				bean.setIfLeaf((Character) object[3]);
-				bean.setScript((Clob) object[4]);
+				bean.setScript(object[4].toString());
 				responses.add(bean);
 			}
 		}

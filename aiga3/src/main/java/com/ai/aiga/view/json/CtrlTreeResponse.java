@@ -7,7 +7,7 @@ public class CtrlTreeResponse {
 	private Long pId;
 	private String name;
 	private Character ifLeaf;
-	private Clob script;
+	private String script;
 	public Long getId() {
 		return id;
 	}
@@ -32,10 +32,10 @@ public class CtrlTreeResponse {
 	public void setIfLeaf(Character ifLeaf) {
 		this.ifLeaf = ifLeaf;
 	}
-	public Clob getScript() {
+	public String getScript() {
 		return script;
 	}
-	public void setScript(Clob script) {
+	public void setScript(String script) {
 		this.script = script;
 	}
 	

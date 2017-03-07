@@ -42,7 +42,7 @@ define(function(require, exports, module) {
 		deleControl:'#JS_deleControlinfo'
 	}
 	var Data = {
-        funId:null,
+        funId:"",
         setPageType:function(type){
     		return {
     			"data":{
@@ -92,7 +92,6 @@ define(function(require, exports, module) {
 						        //存储在全局变量中
 						        Data.funId = _funId;
 						        var cmd = "funId="+_funId;
-						        alert(cmd);
 						        self.initOrganize(cmd);
 						        //self.addComp(cmd1);
 							 }
@@ -103,6 +102,7 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+
 				///////初始化///////////
 		initOrganize: function(cmd) {
 			var self = this;
@@ -142,7 +142,7 @@ define(function(require, exports, module) {
 					"time2": $("#time2").val()
 				}
 				self.initOrganize(cmd);
-				// Data.funId = "";
+				Data.funId = "";
 				// Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
 				// 	if (status) {
 				// 		var template = Handlebars.compile(Tpl.getContral);
@@ -157,8 +157,12 @@ define(function(require, exports, module) {
 		},
 		//添加控件
 		addControl:function(){
+			var self = this;
 			$(Dom.addControlinfo).bind('click', function() {
-				
+				if (Data.funId == "") {
+					alert("请选择一个功能点！");
+					return null;
+				} 
 				var _form = $(Dom.addControlinfoForm);
 
 				// 弹出层
@@ -168,6 +172,8 @@ define(function(require, exports, module) {
             	_form.html(template({}));
 
             	$(Dom.addControlinfoSubmit).bind('click',function(){
+            		var _dom = $("#JS_addControlinfoForm").find("input[name='funId']");
+					_dom.val(Data.funId);
 
 					// 表单校验：成功后调取接口
 					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
@@ -181,7 +187,8 @@ define(function(require, exports, module) {
 								// 关闭弹出层
 								$(Dom.addControlinfoModal).modal('hide')
 								setTimeout(function(){
-									//self.initOrganize();
+									var cmd = "funId="+Data.funId;
+									self.initOrganize(cmd);
 								},1000)
 							}
 			  			});
@@ -192,7 +199,7 @@ define(function(require, exports, module) {
 		//获取组件信息
 		getControlinfo:function(){
 			var self = this;
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+//			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			var _data = self.getControlRow();
 			var _ctrlId = _data.ctrlId;
 			// var cmd = 'caseId='+_data.caseId;
@@ -206,12 +213,12 @@ define(function(require, exports, module) {
 			}
 			alert(cmd);
 			console.log(cmd);
-			Rose.ajax.getJson(srvMap.get('updateControl'), cmd, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getControlShow'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化
 			        var _form = $(Dom.addControlinfoForm);
 			        var template = Handlebars.compile(Tpl.getControlinfo);
-	            	_form.html(template(json.data));
+	            	_form.html(template(json.data.content[0]));
 	            	XMS.msgbox.hide();
 
 				    // 弹出层
@@ -222,7 +229,9 @@ define(function(require, exports, module) {
 
 						// 表单校验：成功后调取接口
 						// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-				            var cmd = _form.serialize();
+				            
+				            var cm = "&ctrlId="+_ctrlId;
+				            var cmd = _form.serialize()+cm;
 
 				            console.log(cmd);
 				  			// self.getUserinfoList(cmd);
@@ -234,6 +243,9 @@ define(function(require, exports, module) {
 									// 关闭弹出层
 									$(Dom.addControlinfoModal).modal('hide')
 									setTimeout(function(){
+										var cmd = "funId="+Data.funId;
+								        alert(cmd);
+										self.initOrganize(cmd);
 									},1000)
 								}
 				  			});

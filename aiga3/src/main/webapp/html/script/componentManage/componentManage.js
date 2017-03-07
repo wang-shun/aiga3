@@ -4,13 +4,13 @@ define(function(require,exports,module){
     //路径重命名
     var pathAlias = "componentManage/";
 	//获取所有功能菜单	
-	srvMap.add("getFuncList", "componentManage/getFunList.json", "sys/component/compTree");
+	srvMap.add("getFuncList", pathAlias + "getFunList.json", "sys/component/compTree");
 	//根据当前功能点ID调取组件
-	srvMap.add("getCompList","componentManage/getCompList.json","sys/component/listByFun");
+	srvMap.add("getCompList", pathAlias + "getCompList.json","sys/component/listByFun");
 	// 查询组件信息
 	srvMap.add("getCompinfo", pathAlias + "getCompinfo.json", "sys/component/findone");
 	// 添加组件
-	srvMap.add("addComp", pathAlias + "retMessage.json", "sys/component/save");
+	srvMap.add("addComp", pathAlias + "addComp.json", "sys/component/save");
 	//修改组件
 	srvMap.add("updateComp", pathAlias + "retMessage.json","sys/component/update");
 	//删除选中组件
@@ -55,6 +55,7 @@ define(function(require,exports,module){
         funId:null,
         ctrlId:null,
         compId:null,
+        addCompId:null,
         setPageType:function(type){
     		return {
     			"data":{
@@ -154,7 +155,7 @@ define(function(require,exports,module){
             	self.getParamInfo();
             	self.addParamInfo();
             	self.delParamInfo();
-            	self.updateParamInfo();
+            	// self.updateParamInfo();
 		        // 滚动条
 		     //    $(Dom.addUserinfoScroll).slimScroll({
 			    //     "height": '420px'
@@ -212,10 +213,12 @@ define(function(require,exports,module){
 			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
 			  			Rose.ajax.getJson(srvMap.get('addComp'), cmd, function(json, status) {
 							if(status) {
+								Data.addCompId = json.data.compId;
+								alert(Data.addCompId);
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加组件成功！', 'success', 2000)
-								// 关闭弹出层
-								$(Dom.addCompModal).modal('hide')
+								// // 关闭弹出层
+								// $(Dom.addCompModal).modal('hide')
 								setTimeout(function(){
 									self.getCompByFunId();
 								},1000)
@@ -269,7 +272,7 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.addParameterForm);
             		$(Dom.addParameterForm).html(template(json.data))
             		// 提交保存
-            		 self.updateParamInfo('update');
+            		self.updateParamInfo('update');
 				}
   			});
 
@@ -313,9 +316,13 @@ define(function(require,exports,module){
 		updateParamInfo:function(type){
 			var self = this;
 			var _srvMap = type == "save" ? 'addParamInfo' : 'updateParamInfo';
+			//var _compId = type == "save" ? Data.addCompId : Data.compId;
+			alert(Data.addCompId);
     		var _domSave = $(Dom.addParameterForm).find("[name='save']");
     		_domSave.bind('click', function() {
 				var cmd = $(this).parents("form").serialize();
+				//cmd =  cmd + "&compId="+_compId;
+				alert(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
 				Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {

@@ -53,6 +53,9 @@ public class ControlSv extends BaseService{
 			if(condition.getCreatorId()!= null){
 				cons.add(new Condition("creatorId", condition.getCreatorId(), Condition.Type.EQ));
 			}
+			if(condition.getFunId()!= null){
+				cons.add(new Condition("funId", condition.getFunId(), Condition.Type.EQ));
+			}
 			
 			if(createTime1 != null){
 				//SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");

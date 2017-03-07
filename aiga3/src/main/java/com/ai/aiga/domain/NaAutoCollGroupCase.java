@@ -1,7 +1,9 @@
 package com.ai.aiga.domain;
 
+import java.util.Date;
+
 import javax.persistence.*;
-import java.sql.Date;
+
 
 /**
  * @author defaultekey
@@ -10,9 +12,9 @@ import java.sql.Date;
 @Entity
 @Table(name = "NA_AUTO_COLL_GROUP_CASE")
 public class NaAutoCollGroupCase {
-    private Long relaId;
+    private Long relaId;  
     private Long collectId;
-    private Long elementType;
+    private Long elementType;  //用例、用例组
     private Long elementId;
     private Long creatorId;
     private Date updateTime;

@@ -312,13 +312,13 @@ define(function(require,exports,module){
 		updateParamInfo:function(type){
 			var self = this;
 			var _srvMap = type == "save" ? 'addParamInfo' : 'updateParamInfo';
-			//var _compId = type == "save" ? Data.addCompId : Data.compId;
-			//alert(Data.addCompId);
+			var _compId = type == "save" ? Data.addCompId : Data.compId;
+			alert(Data.addCompId);
     		var _domSave = $(Dom.addParameterForm).find("[name='save']");
     		_domSave.unbind('click');
     		_domSave.bind('click', function() {
 				var cmd = $(this).parents("form").serialize();
-				//cmd =  cmd + "&compId="+_compId;
+				cmd =  cmd + "&parentId="+_compId;
 				alert(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 

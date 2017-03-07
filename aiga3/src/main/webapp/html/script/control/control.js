@@ -133,6 +133,7 @@ define(function(require, exports, module) {
 
 		////条件查询、
 		queriesControl: function() {
+			var self = this;
 			$("#queriesControl").bind('click', function() {
 				var cmd = {
 					"ctrlName": $("#ctrlName").val(),
@@ -140,15 +141,17 @@ define(function(require, exports, module) {
 					"time1": $("#time1").val(),
 					"time2": $("#time2").val()
 				}
-				Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
-					if (status) {
-						var template = Handlebars.compile(Tpl.getContral);
-						console.log("1111111");
-						console.log("1111111"+json.data);
-						$(Dom.getControlList).html(template(json.data));
+				self.initOrganize(cmd);
+				// Data.funId = "";
+				// Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
+				// 	if (status) {
+				// 		var template = Handlebars.compile(Tpl.getContral);
+				// 		console.log("1111111");
+				// 		console.log("1111111"+json.data);
+				// 		$(Dom.getControlList).html(template(json.data));
 
-					}
-				});
+				// 	}
+				// });
 			});
 
 		},
@@ -265,7 +268,9 @@ define(function(require, exports, module) {
 							// dele成功后，重新加载模板列表
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
-								self.initOrganize(Data.funId);
+								var cmd = "funId="+Data.funId;
+						        alert(cmd);
+								self.initOrganize(cmd);
 							}, 1000)
 						}
 					});

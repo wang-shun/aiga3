@@ -11,7 +11,7 @@
             	</tr>
         	</thead>
         	<tbody>
-        		{{#each this}}
+        		{{#each content}}
             	<tr>
 	                <td>
 	                 	<input type="radio" class="minimal" name="compId" value="{{compId}}">

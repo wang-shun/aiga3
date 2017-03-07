@@ -28,6 +28,7 @@ import com.ai.aiga.domain.NaUiParam;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.view.json.CompTreeResponse;
+import com.ai.aiga.view.json.CtrlTreeResponse;
 import com.ai.aiga.view.json.NaUiComponentRequest;
 import com.ai.aiga.view.json.NaUiComponentResponse;
 import com.ai.aiga.view.json.NaUiParamRequest;
@@ -235,7 +236,7 @@ public class ComponentSv {
 				cons.add(new Condition("createTime", createTime2, Condition.Type.LT));
 			}
 		}
-		System.out.println("*****"+cons.get(0).toString());
+		
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
@@ -311,6 +312,73 @@ public class ComponentSv {
 	public void compParamDel(Long compId, Long paramId) {
 		
 		naUiParamDao.compParamDel(compId, paramId);
+		
+	}
+
+	public NaUiComponent findOne(Long compId) {
+		
+		if(compId ==null || compId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
+		}
+		NaUiComponent  naUiComponent = naUiComponentDao.findOne(compId);
+		return naUiComponent;
+	}
+
+	public NaUiParam paramFindOne(Long paramId) {
+		
+		if(paramId == null || paramId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "paramId");
+		}
+		NaUiParam naUiParam = naUiParamDao.findOne(paramId);
+		return naUiParam;
+	}
+
+	public void compParamUpdate(NaUiParamRequest naUiParamRequest) {
+		
+		if(naUiParamRequest == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		if(naUiParamRequest.getParamId() == null || naUiParamRequest.getParamId() < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		NaUiParam naUiParam = naUiParamDao.findOne(naUiParamRequest.getParamId());
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamDesc())){
+			naUiParam.setParamDesc(naUiParamRequest.getParamDesc());
+		}
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamName())){
+			naUiParam.setParamName(naUiParamRequest.getParamName());
+		}
+		if(StringUtils.isNoneBlank(naUiParamRequest.getParamExpect())){
+			naUiParam.setParamExpect(naUiParamRequest.getParamExpect());
+		}
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamSql())){
+			naUiParam.setParamSql(naUiParamRequest.getParamSql());
+		}
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamValue().toString())){
+			naUiParam.setParamValue(naUiParamRequest.getParamValue());
+		}
+		naUiParamDao.save(naUiParam);
+		
+	}
+
+	public List<CtrlTreeResponse> ctrlTree() {
+		
+		List<Object[]> list = naUiComponentDao.ctrlTree();
+		List<CtrlTreeResponse> responses = new ArrayList<CtrlTreeResponse>(list.size());
+		if(list != null && list.size() > 0){
+			for(int i = 0;i < list.size();i++){
+				CtrlTreeResponse bean = new CtrlTreeResponse();
+				Object[] object =(Object[]) list.get(i);
+				bean.setId(((BigDecimal)object[0]).longValue());
+				bean.setpId(((BigDecimal)object[1]).longValue());
+				bean.setName(object[2].toString());
+				bean.setIfLeaf((Character) object[3]);
+				bean.setScript((Clob) object[4]);
+				responses.add(bean);
+			}
+		}
+		
+		return responses;
 		
 	}
 }

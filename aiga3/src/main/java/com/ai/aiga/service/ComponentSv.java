@@ -64,28 +64,25 @@ public class ComponentSv {
 		return responses;
 	}
 
-	public List<NaUiComponentResponse> listByFun(Long parentId) {
+	public Object listByFun(NaUiComponent condition,int pageNumber,int pageSize) {
 		
-		List<Object[]> list = naUiComponentDao.listByFun(parentId);
-		List<NaUiComponentResponse> responses = new ArrayList<NaUiComponentResponse>(list.size());
-		if(list != null && list.size() > 0){
-			for(int i = 0;i < list.size();i++){
-				NaUiComponentResponse bean = new NaUiComponentResponse();
-				Object[] objects =(Object[]) list.get(i);
-				String updateName = naUiComponentDao.updateName(((BigDecimal)objects[4]).longValue());
-				bean.setCompId(((BigDecimal)objects[0]).longValue());
-				bean.setCompName(objects[1].toString());
-				bean.setCreatorId(((BigDecimal)objects[2]).longValue());
-				bean.setCreatorName(objects[3].toString());
-				bean.setUpdateId(((BigDecimal)objects[4]).longValue());
-				bean.setUpdateName(updateName);
-				bean.setCreateTime((Date) objects[5]);
-				bean.setUpdateTime((Date) objects[6]);
-				responses.add(bean);
+		List<Condition> cons = new ArrayList<Condition>();
+		if(condition != null){
+			
+			if(condition.getParentId() != null){
+				cons.add(new Condition("parentId", condition.getParentId(), Condition.Type.EQ));
 			}
 		}
-
-		return responses;
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naUiComponentDao.search(cons, pageable);
 	}
 
 	public NaUiComponent save(NaUiComponentRequest naUiComponentRequest) {

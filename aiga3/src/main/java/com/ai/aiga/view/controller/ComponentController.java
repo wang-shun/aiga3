@@ -44,11 +44,12 @@ public class ComponentController {
 	/*
 	 * 按功能点查询组件接口*/
 	@RequestMapping(path = "/sys/component/listByFun")
-	public @ResponseBody JsonBean listByFun(Long funId){
-		System.out.println("****"+funId);
-		System.out.println(funId.getClass().toString());
+	public @ResponseBody JsonBean listByFun(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaUiComponent condition){
 		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.listByFun(funId));
+		bean.setData(componentSv.listByFun(condition,pageNumber,pageSize));
 		return bean;
 	}
 	/*

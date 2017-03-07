@@ -356,6 +356,7 @@ define(function(require,exports,module){
 		//获取组件信息(根据组件ID)
 		getCompinfo:function(cmd){
 			var self = this;
+			var cmd = "compId=" + Data.compId;
 			Rose.ajax.getJson(srvMap.get('getCompinfo'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化

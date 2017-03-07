@@ -19,7 +19,7 @@
                 <td>{{paramName}}</td>
                 <td >{{paramValue}}</td>
                 <td>{{paramDesc}}</td>
-                <td>{{paramSQL}}</td>
+                <td>{{paramSql}}</td>
                 <td>{{paramExpect}}</td>
             </tr>
             {{/each}}

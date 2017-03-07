@@ -8,7 +8,7 @@ define(function(require,exports,module){
 	//根据当前功能点ID调取组件
 	srvMap.add("getCompList","componentManage/getCompList.json","sys/component/listByFun");
 	// 查询组件信息
-	srvMap.add("getCompinfo", pathAlias + "getCompinfo.json", "");
+	srvMap.add("getCompinfo", pathAlias + "getCompinfo.json", "sys/component/findone");
 	// 添加组件
 	srvMap.add("addComp", pathAlias + "retMessage.json", "sys/component/save");
 	//修改组件
@@ -18,17 +18,17 @@ define(function(require,exports,module){
     // 组件列表按条件查询
 	srvMap.add("queryCompInfo", pathAlias + "queryCompInfo.json", "sys/component/listByParam");
 	//请求控件树
-	srvMap.add("getCompCtrTree", pathAlias + "getCompCtrTree.json", "sys/control/list");
+	srvMap.add("getCompCtrTree", pathAlias + "getCompCtrTree.json", "sys/component/ctrlTree");
 	//请求参数列表
 	srvMap.add("getParameterList",pathAlias + "getParameterList.json","sys/component/listByComp");
 	//根据参数ID获取参数信息
-	srvMap.add("getParamInfo",pathAlias + "getParamInfo.json","");
+	srvMap.add("getParamInfo",pathAlias + "getParamInfo.json","sys/component/compParamList");
 	//添加参数
-	srvMap.add("addParamInfo",pathAlias + "retMessage.json","");
+	srvMap.add("addParamInfo",pathAlias + "retMessage.json","sys/component/compParamSave");
 	//修改参数
-	srvMap.add("updateParamInfo",pathAlias + "retMessage.json","");
+	srvMap.add("updateParamInfo",pathAlias + "retMessage.json","sys/component/compParamUpdate");
 	//删除参数
-	srvMap.add("delParamInfo",pathAlias + "retMessage.json","");
+	srvMap.add("delParamInfo",pathAlias + "retMessage.json","sys/component/compParamDel");
     var Tpl = {
     	getQueryInfo:require('tpl/componentManage/getQueryInfo.tpl'),
     	getCompInfoForm: require('tpl/componentManage/getCompInfoForm.tpl'),
@@ -97,7 +97,7 @@ define(function(require,exports,module){
                                 console.log(_funId);
                                 //存储在全局变量中
                                 Data.funId = _funId;
-                                var cmd = "funId=" + Data.funId;
+                                var cmd = "parentId=" + Data.funId;
                                 self.getCompByFunId(cmd);
                                 //self.addComp(cmd1);
 							 }

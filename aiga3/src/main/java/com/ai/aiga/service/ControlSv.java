@@ -91,36 +91,29 @@ public class ControlSv extends BaseService{
 		return nauicontroldao.backControl(Ctrl_id);
 		
 	}
-	public List<NaUiControl> showList(Long funId){
-		if(funId == null || funId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+	public Object  showList(Long funId,NaUiControl condition,int pageNumber, int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(condition != null){
+			if(funId!= null){
+				cons.add(new Condition("funId", funId, Condition.Type.EQ));
+			}
 		}
-		List<Object[]> list = nauicontroldao.findByFun(funId);
 		
 		
-		List<NaUiControl> responses = new ArrayList<NaUiControl>(list.size());
-		for(int i = 0; i < list.size(); i++){
-			NaUiControl bean  = new NaUiControl();
-			Object[] object =(Object[]) list.get(i);
-		 
-		   bean.setCtrlId(((BigDecimal)object[0]).longValue());
-			bean.setParentId(((BigDecimal)object[1]).longValue());
-			bean.setIfLeaf(((String) object[2]));
-			bean.setCtrlName((String) object[3]);
-			bean.setCtrlType((String) object[4]);
-			bean.setCtrlXpath((String) object[5]);
-			bean.setCtrlDesc((String) object[6]);
-			bean.setSysId(((BigDecimal)object[7]).longValue());
-			bean.setSysSubId(((BigDecimal)object[8]).longValue());
-			bean.setFunId(((BigDecimal)object[9]).longValue());
-			bean.setCreatorId(((BigDecimal)object[10]).longValue());
-			bean.setCreateTime((Date)object[11]);
-			bean.setUpdateId(((BigDecimal)object[12]).longValue());
-			bean.setUpdateTime((Date)object[13]);
-			
-			responses.add(bean);
+		if(pageNumber < 0){
+			pageNumber = 0;
 		}
-		return responses;
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return nauicontroldao.search(cons, pageable);
+		
+		
+		//return responses;
 	}
 	public void saveControl(ControlRequest controlRequest) {
 		if(controlRequest == null){ 

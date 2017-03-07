@@ -53,9 +53,14 @@ public class ControlController {
 		return bean;
 	}
 	@RequestMapping(path = "/sys/ctrl/showList")
-	public @ResponseBody JsonBean showList(@RequestParam Long funId){
+	public @ResponseBody JsonBean showList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long funId,
+			NaUiControl condition
+			){
 		JsonBean bean = new JsonBean();
-		bean.setData(controlSv.showList(funId));
+		bean.setData(controlSv.showList(funId,condition,pageNumber,pageSize));
 		return bean;
 	}
 	/*@RequestMapping(path = "/sys/ctrl/constant")

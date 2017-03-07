@@ -36,7 +36,9 @@ define(function(require,exports,module){
     	addParameterForm: require('tpl/componentManage/addParameterForm.tpl')
     };
     var Mod = {
-    	getQueryInfo:'#Page_queryInfo'
+    	getQueryInfo:'#JS_getQueryInfo',
+    	getQueryInfoWrap:'#JS_getQueryInfoWrap'
+
     };
     var Dom = {
     	getCompInfoForm:"#JS_getCompInfoForm",
@@ -49,7 +51,8 @@ define(function(require,exports,module){
     	addCompSubmit:"#JS_addCompSubmit",
     	updateComp:"#JS_updateComp",
     	addParameterForm:"#JS_addParameterForm",
-    	getParameterList:"#JS_getParameterList"
+    	getParameterList:"#JS_getParameterList",
+    	getParameterWrap:"#JS_getParameterWrap"
     }
     var Data = {
         funId:null,
@@ -67,13 +70,10 @@ define(function(require,exports,module){
 	var indexInfoQuery = {
 		init: function(){
 			this._render();
-		},     
+		},
 		_render: function() {
 			this.getLeftTree();
 			this.queryCompInfo();
-			this.delComp();
-			this.addComp();
-			this.updateComp();
 			//展示表单
 		},
   		//获取左侧组件树
@@ -94,7 +94,7 @@ define(function(require,exports,module){
 						callback:{
 							 beforeClick: function(treeId, treeNode, clickFlag) {
                                 return (treeNode.ifLeaf !== "N");
-                             }, 
+                             },
 							 onClick: function(event, treeId, treeNode){
                                 var _funId = treeNode.id;
                                 console.log(_funId);
@@ -107,9 +107,6 @@ define(function(require,exports,module){
 						}
 					};
 					$.fn.zTree.init($("#Tree_getRightTree"), setting, json.data);
-
-
-	                
 				}
 	  		});
 
@@ -119,18 +116,18 @@ define(function(require,exports,module){
 			var self = this;
 			Rose.ajax.getJson(srvMap.get('getCompList'), cmd, function(json, status) {                    
 				if(status) {
+					// alert(1);
+					$(Mod.getQueryInfoWrap).removeClass("hide");
 					var template = Handlebars.compile(Tpl.getQueryInfo);
-					console.log(json.data)
             		$(Mod.getQueryInfo).html(template(json.data));
- 					//icheck
-            		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-				      checkboxClass: 'icheckbox_minimal-blue',
-				      radioClass: 'iradio_minimal-blue'
-				    });
-				    // 事件：双击选中当前行数据
-			        $('#JS_getQueryInfo').find("tr").bind('click', function(event) {
-			        	$(this).find('.minimal').iCheck('check');
-			        });
+			        self.eventClickChecked($(Mod.getQueryInfo));
+			        self.eventDClickCallback($(Mod.getQueryInfo),function(){
+			        	self.getCompinfo();
+			        })
+
+			        self.addComp();
+					self.delComp();
+					// self.updateComp();
   			}
   		});
 		},
@@ -144,33 +141,11 @@ define(function(require,exports,module){
 					XMS.msgbox.show('请先选择一个功能点！', 'info', 2000);
 					return;
 		        }
-		        //组件表单校验初始化
-		        var _form = $(Dom.addCompInfoForm);
-		        var template = Handlebars.compile(Tpl.getCompInfoForm);
-            	_form.html(template({}));
-            	//参数表单校验初始化
-            	var _form1 = $(Dom.addParameterForm);
-            	var template = Handlebars.compile(Tpl.addParameterForm);
-            	_form1.html(template({}));
-            	self.getParamInfo();
-            	self.addParamInfo();
-            	self.delParamInfo();
-            	// self.updateParamInfo();
-		        // 滚动条
-		     //    $(Dom.addUserinfoScroll).slimScroll({
-			    //     "height": '420px'
-			    // });
-			    // 弹出层
-				$(Dom.addCompModal).modal('show');
+		        // 弹出层
+		        $(Dom.addCompModal).modal('show');
 
-				//创建时间锁定
-				_form.find("[name='createTime']").val("2017-03-03 15:29:30").attr("readonly",true);
-				//最后修改人锁定
-				_form.find("[name='updateId']").val("111").attr("readonly",true);
-				//组件创建人锁定
-				_form.find("[name='creatorId']").val("111").attr("readonly",true);
-				//请求控件树
-			    Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
+		        //加载控件结构树
+		        Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
 					if(status) {
 						$.fn.zTree.init($(Dom.addCompCtrTree), {
 							data: {
@@ -184,55 +159,76 @@ define(function(require,exports,module){
 							callback:{
 								beforeClick: function(treeId, treeNode, clickFlag) {
                                 	return (treeNode.ifLeaf !== "N");
-                             }, 
+                             },
 								onClick: function(event, treeId, treeNode){
 								 	var _ctrlId = treeNode.id;
 								 	Data.ctrlId = _ctrlId;
 								 	var _compCtrId = treeNode.id;
-								 	var _data = self.getScript(json.data,_compCtrId);
-								 	var _dom = $(Dom.addCompInfoForm);
-								 	 _dom.find("textarea[name='compScript']").append(_data+"\r\n");
+								 	var _script = self.getScript(json.data,_compCtrId);
+								 	$(Dom.addCompInfoForm).find("textarea[name='compScript']").append(_script+"\r\n");
 								 }
 							}
 						}, json.data);
 					}
 		  		});
 
+		        //组件表单校验初始化
+		        var _form = $(Dom.addCompInfoForm);
+		        var template = Handlebars.compile(Tpl.getCompInfoForm);
+            	_form.html(template({}));
+            	//创建时间锁定
+				_form.find("[name='createTime']").val("2017-03-03 15:29:30").attr("readonly",true);
+				//最后修改人锁定
+				_form.find("[name='updateId']").val("111").attr("readonly",true);
+				//组件创建人锁定
+				_form.find("[name='creatorId']").val("111").attr("readonly",true);
+
+
+            	//参数表单校验初始化
+            	//var _form1 = $(Dom.addParameterForm);
+            	//var template = Handlebars.compile(Tpl.addParameterForm);
+            	//_form1.html(template({}));
+            	//self.getParamInfo();
+            	self.addParamInfo();
+            	self.delParamInfo();
+            	// self.updateParamInfo();
+		        // 滚动条
+		     //    $(Dom.addUserinfoScroll).slimScroll({
+			    //     "height": '420px'
+			    // });
 
 				// _form.bootstrapValidator('validate');
 				// 表单提交
-				$(Dom.addCompSubmit).bind('click',function(){
-
-					// 表单校验：成功后调取接口
-					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-			            var _cmd1 = "&ctrlId="+Data.ctrlId;
-			            var _cmd = "&parentId="+Data.funId;
-			            var cmd = _form.serialize() + _cmd + _cmd1;
-			            console.log(cmd);
-			  			// self.getUserinfoList(cmd);
-			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-			  			Rose.ajax.getJson(srvMap.get('addComp'), cmd, function(json, status) {
-							if(status) {
-								Data.addCompId = json.data.compId;
-								alert(Data.addCompId);
-								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('添加组件成功！', 'success', 2000)
-								// // 关闭弹出层
-								// $(Dom.addCompModal).modal('hide')
-								setTimeout(function(){
-									self.getCompByFunId();
-								},1000)
-							}
-			  			});
-		        	//});
-		  		})
-		 //  		// 表单重置
-		 //  		/*$(Dom.addUserinfoReset).bind('click',function(){
-		 //  			_form.data('bootstrapValidator').resetForm(true);
-		 //  		})*/
-
-			// })
-		})			
+				self.addCompSubmit();
+			})
+		},
+		// 提交按钮
+		addCompSubmit: function(){
+			var self = this;
+			$(Dom.addCompSubmit).unbind('click');
+			$(Dom.addCompSubmit).bind('click',function(){
+				var _form = $(Dom.addCompInfoForm);
+				// 表单校验：成功后调取接口
+	            var cmd = _form.serialize();
+	            var addCmd = "&ctrlId="+Data.ctrlId+"&parentId="+Data.funId;
+	            cmd = cmd+addCmd;
+	            console.log(cmd);
+	  			// self.getUserinfoList(cmd);
+	  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+	  			Rose.ajax.getJson(srvMap.get('addComp'), cmd, function(json, status) {
+					if(status) {
+						Data.addCompId = json.data.compId;
+						alert(Data.addCompId);
+						// 添加用户成功后，刷新用户列表页
+						XMS.msgbox.show('添加组件成功！', 'success', 2000)
+						// // 关闭弹出层
+						// $(Dom.addCompModal).modal('hide')
+						setTimeout(function(){
+							self.getCompByFunId();
+						},1000)
+					}
+	  			});
+	  		})
 		},
 		//获取参数列表(根据组件ID)
 		getParameterListById: function(cmd){
@@ -299,7 +295,7 @@ define(function(require,exports,module){
 		// 添加参数
 		addParamInfo: function(){
 			var self = this;
-			var _domAdd = $(Dom.getParameterList).find("[name='add']");
+			var _domAdd = $(Dom.getParameterWrap).find("[name='add']");
 			_domAdd.bind('click', function() {
 				$(Dom.addParameterForm).removeClass('hide');
 				var json = Data.setPageType("添加参数")
@@ -317,8 +313,9 @@ define(function(require,exports,module){
 			var self = this;
 			var _srvMap = type == "save" ? 'addParamInfo' : 'updateParamInfo';
 			//var _compId = type == "save" ? Data.addCompId : Data.compId;
-			alert(Data.addCompId);
+			//alert(Data.addCompId);
     		var _domSave = $(Dom.addParameterForm).find("[name='save']");
+    		_domSave.unbind('click');
     		_domSave.bind('click', function() {
 				var cmd = $(this).parents("form").serialize();
 				//cmd =  cmd + "&compId="+_compId;
@@ -338,7 +335,7 @@ define(function(require,exports,module){
 		// 删除参数
 		delParamInfo: function(){
 			var self = this;
-			var _domDel = $(Dom.getParameterList).find("[name='del']");
+			var _domDel = $(Dom.getParameterWrap).find("[name='del']");
 			_domDel.bind('click', function() {
 				var _data = self.getCheckedParamRow();
 				if(_data){
@@ -376,6 +373,7 @@ define(function(require,exports,module){
 					$(Dom.addCompModal).modal('show');
 
 					// 提交
+					$(Dom.addCompSubmit).unbind('click');
 					$(Dom.addCompSubmit).bind('click',function(){
 
 					// 表单校验：成功后调取接口
@@ -391,7 +389,7 @@ define(function(require,exports,module){
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('修改组件成功！', 'success', 2000)
 								// 关闭弹出层
-								$(Dom.addCompModal).modal('hide')
+								//$(Dom.addCompModal).modal('hide')
 								setTimeout(function(){
 									self.getCompByFunId();
 								},1000)

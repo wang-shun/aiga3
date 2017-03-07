@@ -200,7 +200,7 @@ define(function(require,exports,module){
 
 					// 表单校验：成功后调取接口
 					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-			            var _cmd = "&funId="+Data.funId;
+			            var _cmd = "&parentId="+Data.funId;
 			            var cmd = _form.serialize() + _cmd;
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);

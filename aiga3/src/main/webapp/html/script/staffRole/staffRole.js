@@ -51,7 +51,7 @@ define(function(require,exports,module){
       },
       getUserinfoList: function(){
       	 	var self = this;
-　　　　　　Rose.ajax.getJson(srvMap.get('getUserinfoList'), '', function(json, status) {
+Rose.ajax.getJson(srvMap.get('getUserinfoList'), '', function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl1.getUserinfoList);
 					console.log(json.data)

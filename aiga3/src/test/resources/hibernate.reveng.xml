@@ -6,6 +6,7 @@
 <!-- <table-filter match-schema="cityhome"  match-name=".*"/> -->       
 <!-- 	<schema-selection match-schema="ORDER_CFG" match-table="OCC_BUSI_CMPT"/>   -->
 <!-- 		<schema-selection match-schema="AIGA" match-table="AIGA_P2P_FUNCTION_POINT"/> -->
-		<schema-selection match-schema="AIGA" match-table="AIGA_STAFF"/>
+		<!--  <schema-selection match-schema="AIGA" match-table="AIGA_STAFF"/>-->
+		  <schema-selection match-schema="AIGA" match-table="AIGA_ONLINE_CASE_COLLECTION"/>
 	
  </hibernate-reverse-engineering>

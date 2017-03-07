@@ -16,7 +16,7 @@ public interface NaUiComponentDao extends SearchAndPageRepository<NaUiComponent,
 			+ " union all "
 			+ "select subsys_id as id, sys_id as p_id, sys_name as name, 'N' as if_leaf"
 			+ " from aiga_sub_sys_folder union all "
-			+ "select fun_id as id, sub_sys_id as p_id, sys_name as name, 'N' as if_leaf"
+			+ "select fun_id as id, sub_sys_id as p_id, sys_name as name, 'Y' as if_leaf"
 			+ "  from aiga_fun_folder where is_invalid=0 and is_invalid is not null",nativeQuery = true)
 	List<Object[]> compTree();
 	
@@ -31,16 +31,16 @@ public interface NaUiComponentDao extends SearchAndPageRepository<NaUiComponent,
 	@Query(value = "insert into na_ui_component_del select * from na_ui_component where comp_id = ?1", nativeQuery = true)
 	void backUps(Long compId);
 	
-	@Query(value = "select sys_id as id, 0 as p_id, sys_name as name, 'N' as if_leaf,'' as script"
+	@Query(value = "select sys_id as id, 0 as p_id, sys_name as name, 'N' as if_leaf,'0' as script"
 			+ "  from aiga_system_folder where is_invalid=0 and is_invalid is not null"
 			+ " union all "
-			+ "select subsys_id as id, sys_id as p_id, sys_name as name, 'N' as if_leaf, '' as script"
-			+ " from aiga_sub_sys_folder union all "
-			+ "select fun_id as id, sub_sys_id as p_id, sys_name as name, 'N' as if_leaf, '' as script"
+			+ "select subsys_id as id, sys_id as p_id, sys_name as name, 'N' as if_leaf, '0' as script"
+			+ "  from aiga_sub_sys_folder union all "
+			+ "select fun_id as id, sub_sys_id as p_id, sys_name as name, 'N' as if_leaf, '0' as script"
 			+ "  from aiga_fun_folder where is_invalid=0 and is_invalid is not null"
 			+ " union all"
-			+ " select b.ctrl_id as id,b.parent_id as p_id, b.ctrl_name as name,'Y' as if_leaf"
-			+ " a.ctrl_template as script from na_autotest_control_type a, na_ui_control b where a.ctrl_type = b.ctrl_type",nativeQuery = true)
+			+ "  select b.ctrl_id as id,b.parent_id as p_id, b.ctrl_name as name,'Y' as if_leaf,"
+			+ "  to_char(a.ctrl_template) as script  from  aiga_autotest_control_type a, na_ui_control b where a.ctrl_type = b.ctrl_type",nativeQuery = true)
 	List<Object[]> ctrlTree();
 
 }

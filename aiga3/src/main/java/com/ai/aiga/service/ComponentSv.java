@@ -370,7 +370,7 @@ public class ComponentSv {
 				bean.setpId(((BigDecimal)object[1]).longValue());
 				bean.setName(object[2].toString());
 				bean.setIfLeaf((Character) object[3]);
-				bean.setScript((Clob) object[4]);
+				bean.setScript(object[4].toString());
 				responses.add(bean);
 			}
 		}

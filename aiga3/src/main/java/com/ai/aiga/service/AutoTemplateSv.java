@@ -16,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * &#x81ea;&#x52a8;&#x5316;&#x7528;&#x4f8b;&#x6a21;&#x677f;
@@ -93,7 +95,7 @@ public class AutoTemplateSv {
         }
         //判断该名字是否已有自动化用例模板存在
         NaAutoTemplate autoTemplate=autoTemplateDao.findByTempName(autoTemplateRequest.getTempName());
-        if(autoTemplate != null&&autoTemplate.getTempId()!=autoTemplateRequest.getTempId()){
+        if(autoTemplate != null&& !autoTemplate.getTempId().equals(autoTemplateRequest.getTempId())){
             BusinessException.throwBusinessException("autoTemplate Name already  existing! please change......");
         }
         autoTemplate=autoTemplateDao.findOne(autoTemplateRequest.getTempId());
@@ -166,7 +168,7 @@ public class AutoTemplateSv {
      * @param pageSize
      * @return
      */
-    public Object listTemplate(NaAutoTemplate condition, int pageNumber, int pageSize) {
+    public Object listTemplate(AutoTemplateRequest condition, int pageNumber, int pageSize) {
 
         List<Condition> cons = new ArrayList<Condition>();
 
@@ -221,7 +223,7 @@ public class AutoTemplateSv {
      * @param pageSize
      * @return
      */
-    public Object listbyNativeSQL(NaAutoTemplate condition, int pageNumber, int pageSize){
+    public Object listbyNativeSQL(AutoTemplateRequest condition, int pageNumber, int pageSize){
         StringBuilder nativeSql=new StringBuilder("select a.temp_Id,a.case_Id,e.case_Name,a.case_Type,a.test_Type,\n" +
                 "a.temp_Name,a.sys_Id,b.sys_Name sysName,a.sys_sub_id ,c.sys_name sysSubName,\n" +
                 "a.busi_id,a.sc_id,a.fun_id,d.sys_name funName,a.important,a.creator_id,\n" +

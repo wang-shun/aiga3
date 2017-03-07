@@ -1,7 +1,6 @@
 package com.ai.aiga.view.controller;
 
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.service.AutoTemplateSv;
 import com.ai.aiga.view.json.AutoTemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  * 自动化用例模板控制类
@@ -82,7 +79,7 @@ public class AutoTemplateController {
     public @ResponseBody JsonBean listInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            @RequestParam(required = false) NaAutoTemplate condition){
+            @RequestParam(required = false) AutoTemplateRequest condition){
         JsonBean bean = new JsonBean();
         bean.setData(autoTemplateSv.listbyNativeSQL(condition, pageNumber, pageSize));
         return bean;
@@ -99,7 +96,7 @@ public class AutoTemplateController {
     public @ResponseBody JsonBean list(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            @RequestParam(required = false) NaAutoTemplate condition){
+            @RequestParam(required = false) AutoTemplateRequest condition){
         JsonBean bean = new JsonBean();
         bean.setData(autoTemplateSv.listTemplate(condition, pageNumber, pageSize));
         return bean;

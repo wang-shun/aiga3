@@ -2,12 +2,16 @@ package com.ai.aiga.view.json;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class NaUiComponentResponse {
 	private Long compId;
 	private String compName;
 	private Long creatorId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createTime;
     private Long updateId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updateTime;
     private String creatorName;
     private String updateName;

@@ -59,9 +59,10 @@ public class ComponentController {
 	public @ResponseBody JsonBean listByParam(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			Date  createTime1,
-			Date  createTime2,
-			NaUiComponent condition) {
+			String  createTime1,
+			String  createTime2,
+			NaUiComponent condition) throws ParseException {
+		System.out.println("****"+createTime1);
 		JsonBean bean = new JsonBean();
 		bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));
 		return bean;
@@ -78,8 +79,9 @@ public class ComponentController {
 	 * 组件新增接口*/
 	@RequestMapping(path = "/sys/component/save")
 	public @ResponseBody JsonBean save(NaUiComponentRequest naUiComponentRequest,Long ctrlId){
-		componentSv.saveCompCtrl(naUiComponentRequest,ctrlId);
-		return JsonBean.success;
+		JsonBean bean = new JsonBean();
+		bean.setData(componentSv.saveCompCtrl(naUiComponentRequest,ctrlId));
+		return bean;
 		
 	}
 	/*
@@ -129,7 +131,7 @@ public class ComponentController {
 	/*
 	 * 参数新增接口*/
 	@RequestMapping(path = "/sys/component/compParamSave")
-	public @ResponseBody JsonBean compParamSave(NaUiParamRequest naUiParamRequest){
+	public @ResponseBody JsonBean compParamSave(NaUiParamRequest naUiParamRequest ){
 		componentSv.compParamSave(naUiParamRequest);
 		return JsonBean.success;
 	}

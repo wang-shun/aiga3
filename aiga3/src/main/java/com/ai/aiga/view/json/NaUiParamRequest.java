@@ -6,7 +6,7 @@ public class NaUiParamRequest {
 	private Long compId;
 	private Long paramId;
 	private String paramName;
-	private Clob paramValue;
+	private String paramValue;
 	private String paramDesc;
 	private String paramSql;
 	private String paramExpect;
@@ -29,10 +29,10 @@ public class NaUiParamRequest {
 	public void setParamName(String paramName) {
 		this.paramName = paramName;
 	}
-	public Clob getParamValue() {
+	public String getParamValue() {
 		return paramValue;
 	}
-	public void setParamValue(Clob paramValue) {
+	public void setParamValue(String paramValue) {
 		this.paramValue = paramValue;
 	}
 	public String getParamDesc() {

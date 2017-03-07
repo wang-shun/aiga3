@@ -40,10 +40,10 @@ public class NaUiComponent  implements java.io.Serializable {
      private Long sysSubId;
      private Long funId;
      private Long creatorId;
-     @DateTimeFormat(pattern = "yyyy-MM-dd")
+     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      private Date createTime;
      private Long updateId;
-     @DateTimeFormat(pattern = "yyyy-MM-dd")
+     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      private Date updateTime;
 
     public NaUiComponent() {

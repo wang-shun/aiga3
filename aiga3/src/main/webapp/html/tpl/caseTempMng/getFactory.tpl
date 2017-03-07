@@ -1,10 +1,15 @@
-{{#each this}}
-<div class="col-sm-6 form-group">	                                
-    <div class="col-sm-8 col-sm-offset-1">
-       <input type="text" class="form-control input-sm" name="factoryName" value="{{remark}}">
-    </div>
+<div class="row">
+	{{#each this}}
+	<div class="col-sm-4 form-group">	                                
+	    <div class="col-sm-10 col-sm-offset-1">
+	       <input type="text" class="form-control input-sm" name="factoryName" value="{{factoryName}}">
+	    </div>
+	</div>
+	<div class="col-sm-6 form-group">
+	    <input type="text" class="form-control input-sm" name="remark" value="{{remark}}">
+	</div>
+	<div class="col-sm-2">
+	    <button type="button" class="btn btn-block btn-danger btn-sm" onclick="">删除</button>
+	</div>	
+	{{/each}}
 </div>
-<div class="col-sm-6 form-group">
-    <input type="text" class="form-control input-sm" name="remark" value="{{remark}}">
-</div>
-{{/each}}

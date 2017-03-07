@@ -126,9 +126,9 @@ public class ControlSv extends BaseService{
 		if(controlRequest == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		if(controlRequest.getCtrlId()<0||StringUtils.isBlank(controlRequest.getCtrlId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
-		}
+//		if(controlRequest.getCtrlId()<0||StringUtils.isBlank(controlRequest.getCtrlId().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
+//		}
 		//nauicontroldao.backControl(controlRequest.getCtrlId());
 		if(controlRequest.getParentId()<0||StringUtils.isBlank(controlRequest.getParentId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "parentId");
@@ -137,9 +137,9 @@ public class ControlSv extends BaseService{
 		if(StringUtils.isBlank(controlRequest.getCtrlName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
 		}
-		if(StringUtils.isBlank(controlRequest.getIfLeaf())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ifLeaf");
-		}
+//		if(StringUtils.isBlank(controlRequest.getIfLeaf())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ifLeaf");
+//		}
 		if(StringUtils.isBlank(controlRequest.getCtrlXpath())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlXpath");
 		}
@@ -150,18 +150,11 @@ public class ControlSv extends BaseService{
 		if(StringUtils.isBlank(controlRequest.getCtrlType())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlType");
 		}
-		if(controlRequest.getCreateTime()==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "createTime");
-		}
+
 		if(controlRequest.getUpdateId()==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "updateId");
 		}
-		if(controlRequest.getUpdateTime()==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "updateTime");
-		}
-		if(controlRequest.getCreatorId()==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "creatorId");
-		}
+
 		if(StringUtils.isBlank(controlRequest.getSysId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sysId");
 		}
@@ -174,14 +167,13 @@ public class ControlSv extends BaseService{
 		NaUiControl nauicontrol=new NaUiControl();
 		nauicontrol.setCtrlId(controlRequest.getCtrlId());
 		nauicontrol.setCreatorId(controlRequest.getCreatorId());
-		nauicontrol.setCreateTime(controlRequest.getCreateTime());
+		nauicontrol.setCreateTime(new Date());
 		nauicontrol.setUpdateId(controlRequest.getUpdateId());
-		nauicontrol.setUpdateTime(controlRequest.getUpdateTime());
 		nauicontrol.setCtrlDesc(controlRequest.getCtrlDesc());
 		nauicontrol.setCtrlName(controlRequest.getCtrlName());
 		nauicontrol.setCtrlType(controlRequest.getCtrlType());
 		nauicontrol.setCtrlXpath(controlRequest.getCtrlXpath());
-		nauicontrol.setIfLeaf(controlRequest.getIfLeaf());
+		nauicontrol.setIfLeaf("Y");
 		nauicontrol.setParentId(controlRequest.getParentId());
 		nauicontrol.setFunId(controlRequest.getFunId());
 		nauicontrol.setSysId(controlRequest.getSysId());
@@ -227,15 +219,10 @@ public void updateControl(ControlRequest controlRequest) {
 			if(StringUtils.isNotBlank(controlRequest.getIfLeaf())){
 				nauicontrol.setIfLeaf(controlRequest.getIfLeaf());
 			}
-			if(StringUtils.isNotBlank(controlRequest.getCreateTime().toString())){
-				nauicontrol.setCreateTime(controlRequest.getCreateTime());
-			}
 			if(StringUtils.isNotBlank(controlRequest.getUpdateId().toString())){
 				nauicontrol.setUpdateId(controlRequest.getUpdateId());
 			}
-			if(StringUtils.isNotBlank(controlRequest.getUpdateTime().toString())){
-				nauicontrol.setUpdateTime(controlRequest.getUpdateTime());
-			}
+			nauicontrol.setUpdateTime(new Date());
 			if(StringUtils.isNotBlank(controlRequest.getParentId().toString())){
 				nauicontrol.setParentId(controlRequest.getParentId());
 				System.out.println("*****"+controlRequest.getParentId());

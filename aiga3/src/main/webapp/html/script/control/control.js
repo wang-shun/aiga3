@@ -91,7 +91,8 @@ define(function(require, exports, module) {
 						        console.log(_funId);
 						        //存储在全局变量中
 						        Data.funId = _funId;
-						        var cmd = _funId;
+						        var cmd = "funId="+_funId;
+						        alert(cmd);
 						        self.initOrganize(cmd);
 						        //self.addComp(cmd1);
 							 }
@@ -142,7 +143,8 @@ define(function(require, exports, module) {
 				Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getContral);
-						console.log(json.data);
+						console.log("1111111"+json.data);
+						console.log("1111111"+json.data);
 						$(Dom.getControlList).html(template(json.data));
 
 					}
@@ -169,7 +171,7 @@ define(function(require, exports, module) {
 			            var cmd = _form.serialize();
 			            console.log(cmd);
 
-			  			Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
+			  			Rose.ajax.getJson(srvMap.get('addcontrol'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加用户成功！', 'success', 2000)

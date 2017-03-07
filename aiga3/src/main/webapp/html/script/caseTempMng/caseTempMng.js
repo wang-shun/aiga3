@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 	var pathAlias = "caseTempMng/";
 
 	// 用例模板列表显示
-	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "sys/template/list");
+	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "/case/template/list");
 	//系统大类下拉框显示
 	srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
 	//系统子类下拉框
@@ -11,7 +11,7 @@ define(function(require, exports, module) {
 	//功能点下拉框
 	srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
 	//删除模板
-	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "sys/template/del");
+	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "/case/template/del");
 	//新增用例模板
 	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "sys/template/add");
 	srvMap.add("viewCaseTemp", pathAlias + "getCaseTempList.json", "sys/template/view");

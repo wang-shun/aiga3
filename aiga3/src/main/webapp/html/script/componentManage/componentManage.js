@@ -163,9 +163,9 @@ define(function(require,exports,module){
 				//创建时间锁定
 				_form.find("[name='createTime']").val("2017-03-03 15:29:30").attr("readonly",true);
 				//最后修改人锁定
-				_form.find("[name='updateName']").val("张三").attr("readonly",true);
+				_form.find("[name='updateId']").val("111").attr("readonly",true);
 				//组件创建人锁定
-				_form.find("[name='creator']").val("张三").attr("readonly",true);
+				_form.find("[name='creatorId']").val("111").attr("readonly",true);
 				//请求控件树
 			    Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
 					if(status) {

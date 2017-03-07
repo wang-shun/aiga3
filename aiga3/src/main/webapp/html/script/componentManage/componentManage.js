@@ -440,9 +440,13 @@ define(function(require,exports,module){
 			var self = this;
 			Rose.ajax.getJson(srvMap.get('queryCompInfo'), cmd, function(json, status) {                    
 				if(status) {
+					$(Mod.getQueryInfoWrap).removeClass("hide");
 					var template = Handlebars.compile(Tpl.getQueryInfo);
-					console.log(json.data)
             		$(Mod.getQueryInfo).html(template(json.data));
+			        self.eventClickChecked($(Mod.getQueryInfo));
+			        self.eventDClickCallback($(Mod.getQueryInfo),function(){
+			        	self.getCompinfo();
+			        })
  					//icheck
             		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
 				      checkboxClass: 'icheckbox_minimal-blue',

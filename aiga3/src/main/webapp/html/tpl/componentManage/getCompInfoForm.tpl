@@ -17,13 +17,13 @@
         <div class="col-md-3">
             <div class="form-group input-group-sm">
                 <label>最后修改人<i class="text-red">*</i></label>
-                <input type="text" class="form-control" name="updateName" value="{{updateName}}" required>
+                <input type="text" class="form-control" name="updateId" value="{{updateId}}" required>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group input-group-sm">
                 <label>组件创建人<i class="text-red">*</i></label>
-                <input type="text" class="form-control" name="creator" value="{{creator}}" required>
+                <input type="text" class="form-control" name="creatorId" value="{{creatorId}}" required>
             </div>
         </div>
         </div>
@@ -32,6 +32,12 @@
             <div class="form-group input-group-sm">
                 <label>组件描述<i class="text-red">*</i></label>
                 <input type="text" class="form-control" name="compDesc" value="{{compDesc}}"  required>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group input-group-sm">
+                <label>等待时间<i class="text-red">*</i></label>
+                <input type="text" class="form-control" name="waitTime" value="8" required>
             </div>
         </div>
     </div>

@@ -52,12 +52,17 @@ public class ControlController {
 		bean.setData(controlSv.findControlreeList());
 		return bean;
 	}
-	@RequestMapping(path = "/sys/ctrl/showList")
-	public @ResponseBody JsonBean showList(@RequestParam Long funId){
-		JsonBean bean = new JsonBean();
-		bean.setData(controlSv.showList(funId));
-		return bean;
-	}
+//	@RequestMapping(path = "/sys/ctrl/showList")
+//	public @ResponseBody JsonBean showList(
+//			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+//			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+//			Long funId,
+//			NaUiControl condition
+//			){
+//		JsonBean bean = new JsonBean();
+//		bean.setData(controlSv.showList(funId,condition,pageNumber,pageSize));
+//		return bean;
+//	}
 	/*@RequestMapping(path = "/sys/ctrl/constant")
 	public @ResponseBody JsonBean constant(@RequestParam String ctrlType){
 		JsonBean bean = new JsonBean();
@@ -72,9 +77,10 @@ public class ControlController {
 			Date  createTime1,
 			Date  createTime2,
 			NaUiControl condition) {
-		
+		System.out.println("*******"+condition.getFunId());
 		JsonBean bean = new JsonBean();
 		bean.setData(controlSv.listControl(createTime1, createTime2, condition, pageNumber, pageSize));
+		System.out.println("bean"+bean);
 		return bean;
 	}
 }

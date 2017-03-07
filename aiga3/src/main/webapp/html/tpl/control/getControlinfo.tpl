@@ -1,11 +1,12 @@
-
 <!--///////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <div id="JS_addCompInfoScroll" style="padding-right: 15px;">
+
     <div class="row">
         <div class="col-md-5">
             <div class="form-group input-group-sm">
                 <label>控件名称：<i class="text-red">*</i></label>
                 <input type="text" class="form-control" name="ctrlName" value="{{ctrlName}}" required>
+                <input type="hidden"  class="form-control" id="funId" name="funId" value="{{funId}}">
             </div>
         </div>
         <div class="col-md-5">

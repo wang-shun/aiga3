@@ -28,8 +28,9 @@ import com.ai.aiga.domain.NaUiParam;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.view.json.CompTreeResponse;
+import com.ai.aiga.view.json.CtrlTreeResponse;
 import com.ai.aiga.view.json.NaUiComponentRequest;
-import com.ai.aiga.view.json.NaUiComponentResponse;
+
 import com.ai.aiga.view.json.NaUiParamRequest;
 import com.ai.aiga.view.json.StaffListResponse;
 
@@ -63,28 +64,25 @@ public class ComponentSv {
 		return responses;
 	}
 
-	public List<NaUiComponentResponse> listByFun(Long parentId) {
+	public Object listByFun(NaUiComponent condition,int pageNumber,int pageSize) {
 		
-		List<Object[]> list = naUiComponentDao.listByFun(parentId);
-		List<NaUiComponentResponse> responses = new ArrayList<NaUiComponentResponse>(list.size());
-		if(list != null && list.size() > 0){
-			for(int i = 0;i < list.size();i++){
-				NaUiComponentResponse bean = new NaUiComponentResponse();
-				Object[] objects =(Object[]) list.get(i);
-				String updateName = naUiComponentDao.updateName(((BigDecimal)objects[4]).longValue());
-				bean.setCompId(((BigDecimal)objects[0]).longValue());
-				bean.setCompName(objects[1].toString());
-				bean.setCreatorId(((BigDecimal)objects[2]).longValue());
-				bean.setCreatorName(objects[3].toString());
-				bean.setUpdateId(((BigDecimal)objects[4]).longValue());
-				bean.setUpdateName(updateName);
-				bean.setCreateTime((Date) objects[5]);
-				bean.setUpdateTime((Date) objects[6]);
-				responses.add(bean);
+		List<Condition> cons = new ArrayList<Condition>();
+		if(condition != null){
+			
+			if(condition.getParentId() != null){
+				cons.add(new Condition("parentId", condition.getParentId(), Condition.Type.EQ));
 			}
 		}
-
-		return responses;
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naUiComponentDao.search(cons, pageable);
 	}
 
 	public NaUiComponent save(NaUiComponentRequest naUiComponentRequest) {
@@ -101,9 +99,9 @@ public class ComponentSv {
 		if(StringUtils.isBlank(naUiComponentRequest.getCompDesc())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-//		if(StringUtils.isBlank(naUiComponentRequest.getCompScript().toString())){
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-//		}
+		if(StringUtils.isBlank(naUiComponentRequest.getCompScript().toString())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
 		if(StringUtils.isBlank(naUiComponentRequest.getCreatorId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
@@ -119,7 +117,7 @@ public class ComponentSv {
 		naUiComponent.setCompName(naUiComponentRequest.getCompName());
 		naUiComponent.setCompDesc(naUiComponentRequest.getCompDesc());
 		naUiComponent.setCreateTime(naUiComponentRequest.getCreateTime());
-		//naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
+		naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
 		
 		naUiComponent.setCreatorId(naUiComponentRequest.getCreatorId());
 		naUiComponent.setUpdateId(naUiComponentRequest.getUpdateId());
@@ -127,7 +125,7 @@ public class ComponentSv {
 		naUiComponentDao.save(naUiComponent);
 		return naUiComponent;
 	}
-	public void saveCompCtrl(NaUiComponentRequest naUiComponentRequest,Long ctrlId){
+	public Long saveCompCtrl(NaUiComponentRequest naUiComponentRequest,Long ctrlId){
 		
 		NaUiComponent naUiComponent = save(naUiComponentRequest);
 		if(naUiComponent == null){
@@ -144,6 +142,8 @@ public class ComponentSv {
 		naUiCompCtrl.setCompId(naUiComponent.getCompId());
 		naUiCompCtrl.setCtrlId(ctrlId);
 		naUiCompCtrlDao.save(naUiCompCtrl);
+		Long compId = naUiComponent.getCompId();
+		return compId;
 	}
 
 	public void update(NaUiComponentRequest naUiComponentRequest) {
@@ -166,9 +166,9 @@ public class ComponentSv {
 			if(StringUtils.isNotBlank(naUiComponentRequest.getCompDesc())){
 				naUiComponent.setCompDesc(naUiComponentRequest.getCompDesc());
 			}
-//			if(StringUtils.isNotBlank(naUiComponentRequest.getCompScript().toString())){
-//				naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
-//			}
+			if(StringUtils.isNotBlank(naUiComponentRequest.getCompScript().toString())){
+				naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
+			}
 			if(StringUtils.isNotBlank(naUiComponentRequest.getCreateTime().toString())){
 				naUiComponent.setCreateTime(naUiComponentRequest.getCreateTime());
 			}
@@ -216,7 +216,7 @@ public class ComponentSv {
 	}
 
 	
-	public Object listByParam(Date  createTime1, Date  createTime2, NaUiComponent condition, int pageNumber, int pageSize)  {
+	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize) throws ParseException  {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		if(condition != null){
@@ -229,13 +229,16 @@ public class ComponentSv {
 			}
 			
 			if(createTime1 != null){
-				cons.add(new Condition("createTime", createTime1, Condition.Type.GT));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
+				
 			}
 			if(createTime2 != null){
-				cons.add(new Condition("createTime", createTime2, Condition.Type.LT));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
 			}
 		}
-		System.out.println("*****"+cons.get(0).toString());
+		
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
@@ -259,7 +262,7 @@ public class ComponentSv {
 				Object[] objects = (Object[]) list.get(i);
 				bean.setParamId(((BigDecimal)objects[0]).longValue());
 				bean.setParamName(objects[1].toString());
-				bean.setParamValue((Clob) objects[2]);
+				bean.setParamValue( objects[2].toString());
 				bean.setParamDesc(objects[3].toString());
 				bean.setParamSql(objects[4].toString());
 				bean.setParamExpect(objects[5].toString());
@@ -299,7 +302,7 @@ public class ComponentSv {
 		NaUiParam NaUiParam = new NaUiParam();
 		NaUiParam.setCompId(naUiParamRequest.getCompId());
 		NaUiParam.setParamName(naUiParamRequest.getParamName());
-		NaUiParam.setParamValue(naUiParamRequest.getParamValue());
+		NaUiParam.setParamValue(naUiParamRequest.getParamValue().toString());
 		NaUiParam.setParamDesc(naUiParamRequest.getParamDesc());
 		NaUiParam.setParamSql(naUiParamRequest.getParamSql());
 		NaUiParam.setParamExpect(naUiParamRequest.getParamExpect());
@@ -311,6 +314,73 @@ public class ComponentSv {
 	public void compParamDel(Long compId, Long paramId) {
 		
 		naUiParamDao.compParamDel(compId, paramId);
+		
+	}
+
+	public NaUiComponent findOne(Long compId) {
+		
+		if(compId ==null || compId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
+		}
+		NaUiComponent  naUiComponent = naUiComponentDao.findOne(compId);
+		return naUiComponent;
+	}
+
+	public NaUiParam paramFindOne(Long paramId) {
+		
+		if(paramId == null || paramId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "paramId");
+		}
+		NaUiParam naUiParam = naUiParamDao.findOne(paramId);
+		return naUiParam;
+	}
+
+	public void compParamUpdate(NaUiParamRequest naUiParamRequest) {
+		
+		if(naUiParamRequest == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		if(naUiParamRequest.getParamId() == null || naUiParamRequest.getParamId() < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		NaUiParam naUiParam = naUiParamDao.findOne(naUiParamRequest.getParamId());
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamDesc())){
+			naUiParam.setParamDesc(naUiParamRequest.getParamDesc());
+		}
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamName())){
+			naUiParam.setParamName(naUiParamRequest.getParamName());
+		}
+		if(StringUtils.isNoneBlank(naUiParamRequest.getParamExpect())){
+			naUiParam.setParamExpect(naUiParamRequest.getParamExpect());
+		}
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamSql())){
+			naUiParam.setParamSql(naUiParamRequest.getParamSql());
+		}
+		if(StringUtils.isNotBlank(naUiParamRequest.getParamValue().toString())){
+			naUiParam.setParamValue(naUiParamRequest.getParamValue().toString());
+		}
+		naUiParamDao.save(naUiParam);
+		
+	}
+
+	public List<CtrlTreeResponse> ctrlTree() {
+		
+		List<Object[]> list = naUiComponentDao.ctrlTree();
+		List<CtrlTreeResponse> responses = new ArrayList<CtrlTreeResponse>(list.size());
+		if(list != null && list.size() > 0){
+			for(int i = 0;i < list.size();i++){
+				CtrlTreeResponse bean = new CtrlTreeResponse();
+				Object[] object =(Object[]) list.get(i);
+				bean.setId(((BigDecimal)object[0]).longValue());
+				bean.setpId(((BigDecimal)object[1]).longValue());
+				bean.setName(object[2].toString());
+				bean.setIfLeaf((Character) object[3]);
+				bean.setScript(object[4].toString());
+				responses.add(bean);
+			}
+		}
+		
+		return responses;
 		
 	}
 }

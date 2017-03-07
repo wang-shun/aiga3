@@ -2,7 +2,7 @@
     <div class="col-sm-6 form-group">
         <label for="queryCaseName" class="col-sm-4 control-label"><i class="text-red">* </i>模板名称：</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control input-sm" name="caseName">
+            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
         </div> 
     </div>
 
@@ -70,27 +70,28 @@
 
 </div>                           
 <div class="row">
-    <div class="col-sm-6 form-group">
-        <label class="col-sm-4 control-label">因子名称&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        <div class="col-sm-8">
-           
-        </div>
+    <div class="col-sm-4 form-group">
+        <label class="col-sm-6 control-label">因子名称&nbsp;&nbsp;&nbsp;</label>
+        
     </div>
     <div class="col-sm-6 form-group">
         <label class="control-label">因子描述</label>
     </div>
 </div>
-<div class="row" id="Form_factory">
-    <div class="col-sm-6 form-group">
-        
-        <div class="col-sm-8 col-sm-offset-1">
-           <input type="text" class="form-control input-sm" name="factoryName">
-        </div>
-    </div>
-    <div class="col-sm-6 form-group">
-        <input type="text" class="form-control input-sm" name="remark">
-    </div>
- </div>
+
+<div id="Form_factory">
+									<!-- <div class="row">
+									    <div class="col-sm-6 form-group">
+									        
+									        <div class="col-sm-8 col-sm-offset-1">
+									           <input type="text" class="form-control input-sm" name="factoryName">
+									        </div>
+									    </div>
+									    <div class="col-sm-6 form-group">
+									        <input type="text" class="form-control input-sm" name="remark">
+									    </div>
+									 </div> -->
+</div>
 <div class="row">
     <div class="col-sm-6 form-group">
         
@@ -98,4 +99,4 @@
            <button id="addFactory" type="button" class="btn btn-block btn-primary btn-sm">添加因子</button>
         </div>
     </div>
-</div>
+</div> 

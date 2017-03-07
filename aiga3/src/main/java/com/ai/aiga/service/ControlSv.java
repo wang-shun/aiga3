@@ -53,6 +53,9 @@ public class ControlSv extends BaseService{
 			if(condition.getCreatorId()!= null){
 				cons.add(new Condition("creatorId", condition.getCreatorId(), Condition.Type.EQ));
 			}
+			if(condition.getFunId()!= null){
+				cons.add(new Condition("funId", condition.getFunId(), Condition.Type.EQ));
+			}
 			
 			if(createTime1 != null){
 				//SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
@@ -91,44 +94,37 @@ public class ControlSv extends BaseService{
 		return nauicontroldao.backControl(Ctrl_id);
 		
 	}
-	public List<NaUiControl> showList(Long funId){
-		if(funId == null || funId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+	public Object  showList(Long funId,NaUiControl condition,int pageNumber, int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(condition != null){
+			if(funId!= null){
+				cons.add(new Condition("funId", funId, Condition.Type.EQ));
+			}
 		}
-		List<Object[]> list = nauicontroldao.findByFun(funId);
 		
 		
-		List<NaUiControl> responses = new ArrayList<NaUiControl>(list.size());
-		for(int i = 0; i < list.size(); i++){
-			NaUiControl bean  = new NaUiControl();
-			Object[] object =(Object[]) list.get(i);
-		 
-		   bean.setCtrlId(((BigDecimal)object[0]).longValue());
-			bean.setParentId(((BigDecimal)object[1]).longValue());
-			bean.setIfLeaf(((String) object[2]));
-			bean.setCtrlName((String) object[3]);
-			bean.setCtrlType((String) object[4]);
-			bean.setCtrlXpath((String) object[5]);
-			bean.setCtrlDesc((String) object[6]);
-			bean.setSysId(((BigDecimal)object[7]).longValue());
-			bean.setSysSubId(((BigDecimal)object[8]).longValue());
-			bean.setFunId(((BigDecimal)object[9]).longValue());
-			bean.setCreatorId(((BigDecimal)object[10]).longValue());
-			bean.setCreateTime((Date)object[11]);
-			bean.setUpdateId(((BigDecimal)object[12]).longValue());
-			bean.setUpdateTime((Date)object[13]);
-			
-			responses.add(bean);
+		if(pageNumber < 0){
+			pageNumber = 0;
 		}
-		return responses;
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return nauicontroldao.search(cons, pageable);
+		
+		
+		//return responses;
 	}
 	public void saveControl(ControlRequest controlRequest) {
 		if(controlRequest == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		if(controlRequest.getCtrlId()<0||StringUtils.isBlank(controlRequest.getCtrlId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
-		}
+//		if(controlRequest.getCtrlId()<0||StringUtils.isBlank(controlRequest.getCtrlId().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
+//		}
 		//nauicontroldao.backControl(controlRequest.getCtrlId());
 		if(controlRequest.getParentId()<0||StringUtils.isBlank(controlRequest.getParentId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "parentId");
@@ -137,9 +133,9 @@ public class ControlSv extends BaseService{
 		if(StringUtils.isBlank(controlRequest.getCtrlName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
 		}
-		if(StringUtils.isBlank(controlRequest.getIfLeaf())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ifLeaf");
-		}
+//		if(StringUtils.isBlank(controlRequest.getIfLeaf())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ifLeaf");
+//		}
 		if(StringUtils.isBlank(controlRequest.getCtrlXpath())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlXpath");
 		}
@@ -150,18 +146,11 @@ public class ControlSv extends BaseService{
 		if(StringUtils.isBlank(controlRequest.getCtrlType())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlType");
 		}
-		if(controlRequest.getCreateTime()==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "createTime");
-		}
+
 		if(controlRequest.getUpdateId()==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "updateId");
 		}
-		if(controlRequest.getUpdateTime()==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "updateTime");
-		}
-		if(controlRequest.getCreatorId()==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "creatorId");
-		}
+
 		if(StringUtils.isBlank(controlRequest.getSysId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sysId");
 		}
@@ -174,14 +163,13 @@ public class ControlSv extends BaseService{
 		NaUiControl nauicontrol=new NaUiControl();
 		nauicontrol.setCtrlId(controlRequest.getCtrlId());
 		nauicontrol.setCreatorId(controlRequest.getCreatorId());
-		nauicontrol.setCreateTime(controlRequest.getCreateTime());
+		nauicontrol.setCreateTime(new Date());
 		nauicontrol.setUpdateId(controlRequest.getUpdateId());
-		nauicontrol.setUpdateTime(controlRequest.getUpdateTime());
 		nauicontrol.setCtrlDesc(controlRequest.getCtrlDesc());
 		nauicontrol.setCtrlName(controlRequest.getCtrlName());
 		nauicontrol.setCtrlType(controlRequest.getCtrlType());
 		nauicontrol.setCtrlXpath(controlRequest.getCtrlXpath());
-		nauicontrol.setIfLeaf(controlRequest.getIfLeaf());
+		nauicontrol.setIfLeaf("Y");
 		nauicontrol.setParentId(controlRequest.getParentId());
 		nauicontrol.setFunId(controlRequest.getFunId());
 		nauicontrol.setSysId(controlRequest.getSysId());
@@ -227,15 +215,10 @@ public void updateControl(ControlRequest controlRequest) {
 			if(StringUtils.isNotBlank(controlRequest.getIfLeaf())){
 				nauicontrol.setIfLeaf(controlRequest.getIfLeaf());
 			}
-			if(StringUtils.isNotBlank(controlRequest.getCreateTime().toString())){
-				nauicontrol.setCreateTime(controlRequest.getCreateTime());
-			}
 			if(StringUtils.isNotBlank(controlRequest.getUpdateId().toString())){
 				nauicontrol.setUpdateId(controlRequest.getUpdateId());
 			}
-			if(StringUtils.isNotBlank(controlRequest.getUpdateTime().toString())){
-				nauicontrol.setUpdateTime(controlRequest.getUpdateTime());
-			}
+			nauicontrol.setUpdateTime(new Date());
 			if(StringUtils.isNotBlank(controlRequest.getParentId().toString())){
 				nauicontrol.setParentId(controlRequest.getParentId());
 				System.out.println("*****"+controlRequest.getParentId());

@@ -4,11 +4,15 @@ package com.ai.aiga.domain;
 
 import java.sql.Clob;
 import java.util.Date;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,7 +32,7 @@ public class NaUiParam  implements java.io.Serializable {
      private Long parentId;
      private String ifLeaf;
      private String paramName;
-     private Clob paramValue;
+     private String paramValue;
      private String paramDesc;
      private String paramSql;
      private String paramExpect;
@@ -43,7 +47,7 @@ public class NaUiParam  implements java.io.Serializable {
     public NaUiParam(Long paramId) {
         this.paramId = paramId;
     }
-    public NaUiParam(Long paramId, Long parentId, String ifLeaf, String paramName, Clob paramValue, String paramDesc, String paramSql, String paramExpect, Long compId, Long creatorId, Date createTime) {
+    public NaUiParam(Long paramId, Long parentId, String ifLeaf, String paramName, String paramValue, String paramDesc, String paramSql, String paramExpect, Long compId, Long creatorId, Date createTime) {
        this.paramId = paramId;
        this.parentId = parentId;
        this.ifLeaf = ifLeaf;
@@ -95,13 +99,14 @@ public class NaUiParam  implements java.io.Serializable {
     public void setParamName(String paramName) {
         this.paramName = paramName;
     }
-    
-    @Column(name="PARAM_VALUE")
-    public Clob getParamValue() {
+    @Lob
+	@Basic(fetch = FetchType.LAZY)
+    @Column(name="PARAM_VALUE", columnDefinition = "CLOB")
+    public String getParamValue() {
         return this.paramValue;
     }
     
-    public void setParamValue(Clob paramValue) {
+    public void setParamValue(String paramValue) {
         this.paramValue = paramValue;
     }
     

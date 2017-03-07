@@ -3,16 +3,26 @@ define(function(require, exports, module) {
 	var pathAlias = "caseTempMng/";
 
 	// 用例模板列表显示
-	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "/sys/caseTemplate/list");
+	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "/case/template/list");
 	//系统大类下拉框显示
 	srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
 	//系统子类下拉框
 	srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
 	//功能点下拉框
 	srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
-
 	//删除模板
-	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "/sys/caseTemplate/del");
+	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "/case/template/del");
+	//新增用例模板
+	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "sys/template/add");
+	srvMap.add("viewCaseTemp", pathAlias + "getCaseTempList.json", "sys/template/view");
+	//获取模板因子
+	srvMap.add("getTempFactory", pathAlias + "getFactoryList.json", "sys/template/factoryList");
+    //获取组件树
+	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "sys/template/compTree");
+    //获取组件信息
+    srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "sys/component/findone");
+	//保存组件信息
+    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "sys/caseTemplat/addAutoTestTemp");    
 
 	// 模板对象
 	var Tpl = {
@@ -22,7 +32,7 @@ define(function(require, exports, module) {
 		getFunList: require('tpl/caseTempMng/getFunList.tpl'),
 		getCaseTempForm: require('tpl/caseTempMng/getCaseTempForm.tpl'),
 		getFactory: require('tpl/caseTempMng/getFactory.tpl'),
-
+		newAutoCaseTemp: require('tpl/caseTempMng/newAutoCaseTemp.tpl'),
 	};
 
 	// 容器对象
@@ -41,13 +51,22 @@ define(function(require, exports, module) {
 
 	    //modal
 	    modalCaseTempForm:'#modal_CaseTempForm',
+	    modalAutoTempForm:'#modal_AutoCaseTempForm',
+	    modaltestCaseForm:'#modal_testCaseForm',
 	    caseTempForm:'#JS_CaseTempForm',
+	    tempFormInner:'#JS_TempFormInner',
+
 
 	    queryCaseTempForm:'#JS_queryCaseTempForm',
+	    //组件树
+	    compTree:'#compTree',
+
+
+
 
 	};
 
-
+	
 
 	var currentPage = 1;
 
@@ -63,7 +82,9 @@ define(function(require, exports, module) {
 			this.subsysSelected();
 			this.addCaseTemp();
 			this.queryCaseTemp();
-
+			this.editCaseTemp();
+			this.newAutoCaseTemp();
+			this.newTestCase();
 					
 		},
 
@@ -138,7 +159,7 @@ define(function(require, exports, module) {
 					console.log(json.data)
 					$(Dom.getCaseTempList).html(template(json.data.content));
 					self.deleCaseTemp();
-					self.eventClickChecked($("#JS_getUserinfoListTable"), function() {
+					self.eventClickChecked($(Dom.getCaseTempList), function() {
 
 					})
 
@@ -155,7 +176,7 @@ define(function(require, exports, module) {
 			_form.find('button[name="submit"]').bind('click', function() {
 					
 					var cmd = $(Dom.queryCaseTempForm).serialize();
-					self.getUserinfoList(cmd);
+					self.getCaseTempList(cmd);
 					//});
 			})
 				// 表单重置
@@ -175,31 +196,194 @@ define(function(require, exports, module) {
 				});
 				// 弹出层
 				$(Dom.modalCaseTempForm).modal('show');
-
-				//j加载form表单
-			
+				$("#myModalLabel").html("新增模板");
+				//加载form表单
 				var template = Handlebars.compile(Tpl.getCaseTempForm);
-				$(Dom.caseTempForm).html(template());
+				$(Dom.tempFormInner).html(template());
 				self.getSysList("#add_sysId");
-				
-				// 表单校验初始化
-				//var _form = $(Dom.addUserinfoForm);
+				self.sysSelected();
+				self.subsysSelected();				
+
+				//加载因子
+				var empty={'data':''};
+				var template1 = Handlebars.compile(Tpl.getFactory);
+				$("#Form_factory").html(template1(empty));
+				$("#addFactory").bind('click', function() {
+					$("#Form_factory").append(template1(empty));
+					$("#Form_factory:last-child").find("button").bind('click',function(){
+						this.parent().parent().remove();
+					})
+				})				
+
+
+				var _form = $(Dom.caseTempForm);
 				//_form.bootstrapValidator('validate');
 				// 表单提交
-				$(Dom.addUserinfoSubmit).bind('click', function() {
+				$("#JS_addAndSaveCaseTemp").bind('click', function() {
 
 						// 表单校验：成功后调取接口
 						//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 							var cmd = _form.serialize();
 							console.log(cmd);
 							// self.getUserinfoList(cmd);
-							XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-							Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
+							Rose.ajax.getJson(srvMap.get('addCaseTemp'), cmd, function(json, status) {
 								if (status) {
 									// 添加用户成功后，刷新用户列表页
-									XMS.msgbox.show('添加用户成功！', 'success', 2000)
+									XMS.msgbox.show('添加模板成功！', 'success', 2000)
 										// 关闭弹出层
-									$(Dom.addUserinfoModal).modal('hide')
+									$(Dom.modalCaseTempForm).modal('hide')
+									setTimeout(function() {
+										self.getCaseTempList();
+									}, 1000)
+								}
+							});
+						// });
+					})
+
+				$(Dom.addUserinfoReset).bind('click', function() {
+					_form.data('bootstrapValidator').resetForm(true);
+				})
+
+				
+
+			})
+		},
+
+		//生成自动化模板
+		newAutoCaseTemp: function() {
+			var self = this;
+			var cmd;
+			$(Dom.createAutoTestTemp).bind('click', function() {
+
+				// $(Dom.addUserinfoScroll).slimScroll({
+				// 	"height": '420px'
+				// });
+				
+				var _data = self.getCheckedRow(Dom.getCaseTempList);
+				if (_data) {
+					cmd = "caseId="+_data.caseId;
+					$('#tempName1').val(_data.caseName+'_');
+					$(Dom.modalAutoTempForm).modal('show');
+					self.getCompTree();
+					$('#messageAddComp').show();
+					$('#compThead').hide();	
+					$('#compBody').empty();		
+				};
+
+				
+			});
+
+			//删除组件
+			$("#deleComp").bind('click', function() {
+				var _data = self.getCompCheckedRow("#compBody");
+				if(_data) {
+					_data.obj.remove();
+				};
+			});
+
+			//保存自动化模板
+			$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
+				cmd = cmd+"&tempName="+$('#tempName1').val()+$('#tempName2').val();
+				$("#compBody").find("tr").each(function(){
+				    var tdArr = $(this).children();
+				    cmd = cmd+"&compId="+tdArr.eq(0).find("input").val();//compId
+				    cmd = cmd+"&compOrder="+tdArr.eq(3).find("input").val();//compOrder
+				 });
+				console.log(cmd+"addauto");
+				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
+					if (status) {
+						// 添加用户成功后，刷新用户列表页
+						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
+						// 关闭弹出层
+						$(Dom.modalAutoTempForm).modal('hide')
+						
+					}
+				});				
+			});
+			$(Dom.modalAutoTempForm).find("button[name='cancel']").bind('click', function() {
+				$(Dom.modalAutoTempForm).modal('hide')
+				alert();
+			});
+		},	
+
+        newTestCase: function() {
+			var self = this;
+			$(Dom.createTest).bind('click', function() {
+
+				// $(Dom.addUserinfoScroll).slimScroll({
+				// 	"height": '420px'
+				// });
+			var _data = self.getCheckedRow(Dom.getCaseTempList);
+			if (_data) {
+				$(Dom.modaltestCaseForm).modal('show');
+			};
+				//加载form表单
+				
+
+			})
+		},					
+
+		// 查看与编辑模板
+		editCaseTemp: function() {
+			var self = this;
+			$(Dom.viewCaseTemp).bind('click', function() {
+
+				
+				//加载form表单
+				var _data = self.getCheckedRow(Dom.getCaseTempList);
+				if (_data) {
+					$(Dom.addUserinfoScroll).slimScroll({
+						"height": '420px'
+					});
+					// 弹出层
+					$(Dom.modalCaseTempForm).modal('show');
+					$("#myModalLabel").html("查看与编辑");					
+					var _caseId = _data.caseId;
+					alert(_caseId);
+					Rose.ajax.getJson(srvMap.get('viewCaseTemp'), 'caseId=' + _caseId, function(json, status) {
+						if (status) {
+							var template = Handlebars.compile(Tpl.getCaseTempForm);
+							self.getSysList("#add_sysId");
+							self.sysSelected();
+							self.subsysSelected();
+							$(Dom.tempFormInner).html(template(json.data));
+							$("#add_important").val(json.data.important);
+							$("#add_sysId").val(json.data.sysId);
+							$("#add_subSysId").val(json.data.subSysId);
+							$("#add_funId").val(json.data.funId);
+							$("#add_busiId").val(json.data.busiId);
+							
+						}
+					});
+					//加载因子列表
+					Rose.ajax.getJson(srvMap.get('viewCaseTemp'), 'caseId=' + _caseId, function(json, status) {
+						if (status) {
+							var template1 = Handlebars.compile(Tpl.getFactory);
+							$("#Form_factory").html(template1(json.data));
+							var empty={'data':''};
+							$("#addFactory").bind('click', function() {
+								$("#Form_factory").append(template1(empty));
+							})	
+						}
+					});					
+				}				
+				
+				var _form = $(Dom.caseTempForm);
+				//_form.bootstrapValidator('validate');
+				// 表单提交
+				$("#JS_addAndSaveCaseTemp").bind('click', function() {
+
+						// 表单校验：成功后调取接口
+						//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+							var cmd = _form.serialize();
+							console.log(cmd);
+							// self.getUserinfoList(cmd);
+							Rose.ajax.getJson(srvMap.get('addCaseTemp'), cmd, function(json, status) {
+								if (status) {
+									
+									XMS.msgbox.show('修改模板成功！', 'success', 2000)
+										// 关闭弹出层
+									$(Dom.modalCaseTempForm).modal('hide')
 									setTimeout(function() {
 										self.getUserinfoList();
 									}, 1000)
@@ -207,19 +391,21 @@ define(function(require, exports, module) {
 							});
 						// });
 					})
-					// 表单重置
+
 				$(Dom.addUserinfoReset).bind('click', function() {
 					_form.data('bootstrapValidator').resetForm(true);
 				})
 
+				
+
 			})
-		},
+		},		
 		// 删除模板
 		deleCaseTemp: function() {
 			var self = this;
 
 			$(Dom.deleCaseTemp).bind('click', function() {
-				var _data = self.getTempCheckedRow();
+				var _data = self.getCheckedRow(Dom.getCaseTempList);
 				if (_data) {
 					var _caseId = _data.caseId;
 					alert(_caseId);
@@ -236,139 +422,61 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		// 停用用户
-		stopUserinfo: function() {
-			var self = this;
-			$(Dom.stopUserinfo).bind('click', function() {
-				var _data = self.getUserCheckedRow();
-				if (_data) {
-					var _caseId = _data.staffId;
-					if (_data.state == '1') {
-						Rose.ajax.getJson(srvMap.get('stopUserinfo'), 'staffId=' + _caseId, function(json, status) {
-							if (status) {
-								// 停用成功后，重新加载用户列表
-								window.XMS.msgbox.show('员工停用成功！', 'success', 2000)
-								setTimeout(function() {
-									self.getUserinfoList();
-								}, 1000)
-							}
-						});
-					} else {
-						window.XMS.msgbox.show('只允许操作有效员工！', 'error', 2000);
-					}
-				}
-			});
-		},
-		// 重置密码
-		resetPassword: function() {
-			var self = this;
-			$(Dom.resetPassword).bind('click', function() {
-				var _data = self.getUserCheckedRow();
-				if (_data) {
-					var _caseId = _data.staffId;
-					Rose.ajax.getJson(srvMap.get('resetPassword'), 'staffId=' + _caseId, function(json, status) {
-						if (status) {
-							// self.getUserinfoList();
-							window.XMS.msgbox.show('密码重置成功！', 'success', 2000)
-						}
-					});
-				}
-			});
-		},
-		// 清空授权
-		clearPower: function() {
-			var self = this;
-			$(Dom.clearPower).bind('click', function() {
-				var _data = self.getUserCheckedRow();
-				if (_data) {
-					var _caseId = _data.staffId;
-					if (confirm('您确认要清除“' + _data.name + '”的权限吗？')) {
-						Rose.ajax.getJson(srvMap.get('clearPower'), 'staffId=' + _caseId, function(json, status) {
-							if (status) {
-								// 停用成功后，重新加载用户列表
-								window.XMS.msgbox.show('权限清除成功！', 'success', 2000)
-								setTimeout(function() {
-									self.getUserinfoList();
-								}, 1000)
-							}
-						});
-					}
-				}
-			});
-		},
-		getStaffOrgList: function(data) {
-			var self = this;
-			var _data = self.getUserCheckedRow();
-			Data.staffId = _data.staffId;
-			Rose.ajax.getJson(srvMap.get('getStaffOrgList'), 'staffId:' + _data.staffId, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.getStaffOrgList);
-					$(Dom.getStaffOrgList).removeClass('hide');
-					$(Dom.getStaffOrgList).html(template(json.data));
-
-					// 接口：新增组织
-					self.addStaffOrg();
-					// 接口：删除组织
-					self.delStaffOrg();
-					// 绑定双击当前行事件
-					self.eventDclickChecked($(Dom.getStaffOrgList))
-				}
-			});
-		},
-		// 新增组织结构
-		addStaffOrg: function() {
-			var self = this;
-			$(Dom.addStaffOrg).bind('click', function() {
-				// 弹出层
-				$(Dom.addStaffOrgModal).modal('show');
-				// 滚动条
-				$(Dom.addStaffOrgScroll).slimScroll({
-					"height": '320px'
-				});
-				// 请求关联组织树
-				Rose.ajax.getJson(srvMap.get('getOrganizeList'), '', function(json, status) {
-					if (status) {
-						$.fn.zTree.init($(Dom.addStaffOrgTree), {
-							data: {
-								key: {
-									name: "organizeName"
-								},
-								simpleData: {
-									enable: true,
-									idKey: "organizeId",
-									pIdKey: "parentOrganizeId"
-								}
-							},
-							callback: {
-								onClick: function(event, treeId, treeNode) {
-									var _organizeId = treeNode.organizeId;
-									var _dom = $(Dom.addStaffOrgForm);
-									_dom.find("input[name='staffId']").val(Data.staffId);
-									_dom.find("input[name='organizeId']").val(_organizeId);
-								}
-							}
-						}, json.data);
-					}
-				});
-				// 表单提交
-				$(Dom.addStaffOrgSubmit).bind('click', function() {
-					var cmd = $(Dom.addStaffOrgForm).serialize();
-					Rose.ajax.getJson(srvMap.get('addStaffOrg'), cmd, function(json, status) {
-						if (status) {
-							window.XMS.msgbox.show('关联组织新增成功！', 'success', 2000)
-							$(Dom.addStaffOrgModal).modal('hide')
-							setTimeout(function() {
-								self.getStaffOrgList();
-							}, 1000)
-						}
-					});
-				})
-			})
-		},
 		
-		// 获取模板列表当前选中行
-		getTempCheckedRow: function() {
-			var _obj = $("#JS_getUserinfoListTable").find("input[type='radio']:checked").parents("tr");
+        //获取组件信息
+		getCompinfo:function(cmd){
+			var self = this;
+			Rose.ajax.getJson(srvMap.get('getCompinfo'), cmd, function(json, status) {
+					if(status) {
+						$('#messageAddComp').hide();
+						$('#compThead').show();
+	            		var template = Handlebars.compile(Tpl.newAutoCaseTemp);
+	            		$("#compBody").append(template(json.data));
+						self.eventClickChecked($("#compBody"), function() {
+
+						})	            		
+					}
+		  	});			
+		},
+
+		getCompTree:function(){
+			var self = this;
+			var setting = {
+				check: {
+					enable: false
+				},
+				data: {
+					simpleData: {
+						enable: true,
+						idKey: "id",
+		                pIdKey: "pid"		
+					}
+				},
+					
+				callback:{
+					 beforeClick: function(treeId, treeNode, clickFlag) {
+                        return (!treeNode.isParent);
+                     }, 
+					 onClick: function(event, treeId, treeNode){
+                        console.log(treeNode);
+                        var cmd = "compId=" + treeNode.id;
+                        self.getCompinfo(cmd);
+                        //self.addComp(cmd1);
+					 }
+				}			
+			};				
+
+			Rose.ajax.getJson(srvMap.get('getCompTree'), '', function(json, status) {
+					if(status) {
+	            		$.fn.zTree.init($(Dom.compTree), setting, json.data);
+					}
+		  	});
+		},
+
+
+		// 获取列表当前选中行
+		getCheckedRow: function(obj) {
+			var _obj = $(obj).find("input[type='radio']:checked").parents("tr");
 			var _caseId = _obj.find("input[name='caseId']")
 			
 			var _name = _obj.find("input[name='caseName']")
@@ -385,6 +493,28 @@ define(function(require, exports, module) {
 			}
 			return data;
 		},
+
+		//获取选中组件
+		getCompCheckedRow: function() {
+			var _obj = $("#compBody").find("input[type='radio']:checked").parents("tr");
+			var _Id = _obj.find("input[name='compId']")
+			
+			var _name = _obj.find("input[name='compName']")
+			var data = {
+				obj:"",
+				compId: "",
+				compName: "",
+			}
+			if (_Id.length == 0) {
+				window.XMS.msgbox.show('请先选择一个组件！', 'error', 2000);
+				return;
+			} else {
+				data.compId = _Id.val();
+				data.compName = _name.val();
+				data.obj=_obj;
+			}
+			return data;
+		},		
 		
 
 		eventClickChecked: function(obj, callback) {

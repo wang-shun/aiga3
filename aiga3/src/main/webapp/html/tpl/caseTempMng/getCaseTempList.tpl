@@ -1,5 +1,5 @@
 
-    <table id="JS_getUserinfoListTable" class="table table-bordered table-hover">
+    <table id="Tab_getCaseTemp" class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>

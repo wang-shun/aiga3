@@ -117,7 +117,7 @@ public class ComponentSv {
 		naUiComponent.setCompName(naUiComponentRequest.getCompName());
 		naUiComponent.setCompDesc(naUiComponentRequest.getCompDesc());
 		naUiComponent.setCreateTime(naUiComponentRequest.getCreateTime());
-		//naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
+		naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
 		
 		naUiComponent.setCreatorId(naUiComponentRequest.getCreatorId());
 		naUiComponent.setUpdateId(naUiComponentRequest.getUpdateId());

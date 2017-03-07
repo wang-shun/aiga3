@@ -14,7 +14,7 @@ public class NaUiComponentRequest {
 	private Date createTime;
 	private Long updateId;
 	private String compDesc;
-	private Clob compScript;
+	private String compScript;
 	
 	public Long getCompId() {
 		return compId;
@@ -58,10 +58,10 @@ public class NaUiComponentRequest {
 	public void setCompDesc(String compDesc) {
 		this.compDesc = compDesc;
 	}
-	public Clob getCompScript() {
+	public String getCompScript() {
 		return compScript;
 	}
-	public void setCompScript(Clob compScript) {
+	public void setCompScript(String compScript) {
 		this.compScript = compScript;
 	}
 	

@@ -180,7 +180,7 @@ define(function(require,exports,module){
 							},
 							callback:{
 								beforeClick: function(treeId, treeNode, clickFlag) {
-                                	return (treeNode.ifleaf !== "N");
+                                	return (treeNode.ifLeaf !== "N");
                              }, 
 								onClick: function(event, treeId, treeNode){
 								 	var _compCtrId = treeNode.id;

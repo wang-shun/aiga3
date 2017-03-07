@@ -10,6 +10,7 @@
             <ul class="dropdown-menu" role="menu">
                 <li><a href="javascript:;" id="JS_updateControlinfo">修改信息</a></li>
                 <li><a href="javascript:;" id="JS_deleControlinfo">删除信息</a></li>
+
             </ul>
         </div>
     </div>
@@ -28,7 +29,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each this}}
+            {{#each content}}
             <tr>
                 <td><input type="radio" class="minimal" value="{{ctrlId}}" name="ctrlId"></td>
                 <td>{{ctrlName}}</td>

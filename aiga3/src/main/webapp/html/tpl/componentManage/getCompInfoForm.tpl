@@ -34,6 +34,12 @@
                 <input type="text" class="form-control" name="compDesc" value="{{compDesc}}"  required>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="form-group input-group-sm">
+                <label>等待时间<i class="text-red">*</i></label>
+                <input type="text" class="form-control" name="waitTime" value="8" required>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-10">

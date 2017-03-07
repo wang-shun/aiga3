@@ -186,8 +186,7 @@ define(function(require,exports,module){
 								 	var _compCtrId = treeNode.id;
 								 	var _data = self.getScript(json.data,_compCtrId);
 								 	var _dom = $(Dom.addCompInfoForm);
-								 	 _dom.find("textarea[name='compScript']").append(_data.compScript+"\r\n");
-								 	Rose.ajax
+								 	 _dom.find("textarea[name='compScript']").append(_data+"\r\n");
 								 }
 							}
 						}, json.data);
@@ -260,7 +259,7 @@ define(function(require,exports,module){
 				if(status) {
 					window.XMS.msgbox.hide();
 					$(Dom.addParameterForm).removeClass('hide');
-					json.data["type"]="新增角色";
+					json.data["type"]="新增参数";
 					var template = Handlebars.compile(Tpl.addParameterForm);
             		$(Dom.addParameterForm).html(template(json.data))
             		// 提交保存
@@ -323,7 +322,7 @@ define(function(require,exports,module){
 	  			});
   			});
 		},
-		// 删除角色
+		// 删除参数
 		delParamInfo: function(){
 			var self = this;
 			var _domDel = $(Dom.getParameterList).find("[name='del']");
@@ -469,7 +468,14 @@ define(function(require,exports,module){
 					data = arrayData[i];
 				}
 			}
-			return data;
+			var strObj = data.script;
+			var waitTime = $(Dom.addCompInfoForm).find("input[name='waitTime']").val();
+			strObj = strObj.replaceAll('element'+'\\('+'\\)','element('+data.name+')');
+			strObj = strObj.replaceAll('控件名',data.name);
+			strObj = strObj.replaceAll('try'+'\\('+'\\)','try('+waitTime+')');
+			return Rose.string.js_beautify(strObj);
+
+
 		},
 		//获取选中组件
 		getCheckedComp : function(){

@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	require('global/sidebar.js');
 	// 初始化列表
-	srvMap.add("getControlShow", "control/getControl.json", "sys/ctrl/showList");
+	srvMap.add("getControlShow", "control/getControl.json", "sys/ctrl/list");
 
 	//树的现实
 	srvMap.add("controlTree", "control/controlTree.json", "sys/component/compTree");
@@ -143,7 +143,7 @@ define(function(require, exports, module) {
 				Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getContral);
-						console.log("1111111"+json.data);
+						console.log("1111111");
 						console.log("1111111"+json.data);
 						$(Dom.getControlList).html(template(json.data));
 
@@ -174,7 +174,7 @@ define(function(require, exports, module) {
 			  			Rose.ajax.getJson(srvMap.get('addcontrol'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('添加用户成功！', 'success', 2000)
+								XMS.msgbox.show('添加成功！', 'success', 2000)
 								// 关闭弹出层
 								$(Dom.addControlinfoModal).modal('hide')
 								setTimeout(function(){
@@ -254,14 +254,16 @@ define(function(require, exports, module) {
 		deleControl:function(){
 			var self = this;
 			$(Dom.deleControl).bind('click', function() {
+				alert(1);
 				var _data = self.getControlRow();
 				if (_data) {
 					var _ctrlId = _data.ctrlId;
 					alert(_data.ctrlId);
 					Rose.ajax.getJson(srvMap.get('deleControl'), 'ctrlId=' + _ctrlId, function(json, status) {
+						alert(status);
 						if (status) {
 							// dele成功后，重新加载模板列表
-							window.XMS.msgbox.show('模板删除成功！', 'success', 2000)
+							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
 								self.initOrganize(Data.funId);
 							}, 1000)

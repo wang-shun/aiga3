@@ -384,7 +384,7 @@ define(function(require,exports,module){
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('修改组件成功！', 'success', 2000)
 								// 关闭弹出层
-								$(Dom.addUserinfoModal).modal('hide')
+								$(Dom.addCompModal).modal('hide')
 								setTimeout(function(){
 									self.getCompByFunId();
 								},1000)

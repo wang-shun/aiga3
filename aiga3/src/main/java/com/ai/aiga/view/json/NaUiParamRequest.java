@@ -4,6 +4,7 @@ import java.sql.Clob;
 
 public class NaUiParamRequest {
 	private Long compId;
+	private Long paramId;
 	private String paramName;
 	private Clob paramValue;
 	private String paramDesc;
@@ -15,6 +16,12 @@ public class NaUiParamRequest {
 	}
 	public void setCompId(Long compId) {
 		this.compId = compId;
+	}
+	public Long getParamId() {
+		return paramId;
+	}
+	public void setParamId(Long paramId) {
+		this.paramId = paramId;
 	}
 	public String getParamName() {
 		return paramName;

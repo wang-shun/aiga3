@@ -5,7 +5,10 @@ package com.ai.aiga.domain;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,7 +18,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="NA_UI_CONTROL"
-    ,schema="AIGA"
 )
 public class NaUiControl  implements java.io.Serializable {
 
@@ -60,7 +62,8 @@ public class NaUiControl  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_UI_CONTROL$SEQ")
+     @SequenceGenerator(name="NA_UI_CONTROL$SEQ",sequenceName="NA_UI_CONTROL$SEQ",allocationSize=1)
     @Column(name="CTRL_ID", unique=true, nullable=false, precision=12, scale=0)
     public long getCtrlId() {
         return this.ctrlId;

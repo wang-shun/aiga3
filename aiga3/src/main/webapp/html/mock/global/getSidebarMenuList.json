@@ -67,7 +67,12 @@
                     "menuURL": "view/autoManage/funcTest/componentManage.html",
                     "hasChild": 0,
                     "isActive": 1,
-                }]
+                },{
+                "menuName": "控件管理",
+                "menuURL": "view/control/control.html",
+                "hasChild": 0,
+                "isActive": 0
+            }]
             },{
                 "menuName": "自动化用例管理",
                 "menuURL": "#",

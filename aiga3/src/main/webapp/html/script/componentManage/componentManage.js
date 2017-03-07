@@ -318,7 +318,7 @@ define(function(require,exports,module){
     		_domSave.unbind('click');
     		_domSave.bind('click', function() {
 				var cmd = $(this).parents("form").serialize();
-				cmd =  cmd + "&parentId="+_compId;
+				cmd =  cmd + "&compId="+_compId;
 				alert(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 

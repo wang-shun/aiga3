@@ -53,6 +53,7 @@ define(function(require,exports,module){
     }
     var Data = {
         funId:null,
+        ctrlId:null,
         setPageType:function(type){
     		return {
     			"data":{
@@ -183,6 +184,8 @@ define(function(require,exports,module){
                                 	return (treeNode.ifLeaf !== "N");
                              }, 
 								onClick: function(event, treeId, treeNode){
+								 	var _ctrlId = treeNode.id;
+								 	Data.ctrlId = _ctrlId;
 								 	var _compCtrId = treeNode.id;
 								 	var _data = self.getScript(json.data,_compCtrId);
 								 	var _dom = $(Dom.addCompInfoForm);
@@ -200,8 +203,9 @@ define(function(require,exports,module){
 
 					// 表单校验：成功后调取接口
 					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+			            var _cmd1 = "&ctrlId="+Data.ctrlId;
 			            var _cmd = "&parentId="+Data.funId;
-			            var cmd = _form.serialize() + _cmd;
+			            var cmd = _form.serialize() + _cmd + _cmd1;
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
 			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')

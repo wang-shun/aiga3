@@ -1,6 +1,4 @@
 define(function(require,exports,module){
-
-	//引入公用模块
     //路径重命名
     var pathAlias = "componentManage/";
 	//获取所有功能菜单	
@@ -105,7 +103,6 @@ define(function(require,exports,module){
                                 Data.funId = _funId;
                                 var cmd = "parentId=" + Data.funId;
                                 self.getCompByFunId(cmd);
-                                //self.addComp(cmd1);
 							 }
 						}
 					};
@@ -173,17 +170,9 @@ define(function(require,exports,module){
 				//组件创建人锁定
 				_form.find("[name='creatorId']").val("111").attr("readonly",true);
 
-
-            	//参数表单校验初始化
-            	//var _form1 = $(Dom.addParameterForm);
-            	//var template = Handlebars.compile(Tpl.addParameterForm);
-            	//_form1.html(template({}));
-            	//self.getParamInfo();
             	self.addParamInfo();
             	self.delParamInfo();
-            	// self.updateParamInfo();
 
-				// _form.bootstrapValidator('validate');
 				// 表单提交
 				self.addCompSubmit();
 			})
@@ -229,7 +218,6 @@ define(function(require,exports,module){
 	            var addCmd = "&ctrlId="+Data.ctrlId+"&parentId="+Data.funId;
 	            cmd = cmd+addCmd;
 	            console.log(cmd);
-	  			// self.getUserinfoList(cmd);
 	  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
 	  			Rose.ajax.getJson(srvMap.get('addComp'), cmd, function(json, status) {
 					if(status) {
@@ -388,12 +376,8 @@ define(function(require,exports,module){
 			        var template = Handlebars.compile(Tpl.getCompInfoForm);
 			        console.log(json.data);
 	            	_form.html(template(json.data));
-	            	$("#compScript").val(json.data.compScript)
+	            	// $("#compScript").val(json.data.compScript)
 	            	self.getParameterListById(cmd);
-			        // 滚动条
-			     //    $(Dom.addUserinfoScroll).slimScroll({
-				    //     "height": '420px'
-				    // });
 				    // 弹出层
 					$(Dom.addCompModal).modal('show');
 
@@ -401,8 +385,6 @@ define(function(require,exports,module){
 					$(Dom.addCompSubmit).unbind('click');
 					$(Dom.addCompSubmit).bind('click',function(){
 
-					// 表单校验：成功后调取接口
-					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 						var _cmd1 = "&ctrlId="+Data.ctrlId;
 			            var _cmd = "&compId="+Data.compId;
 			            var cmd = _form.serialize() + _cmd + _cmd1;
@@ -442,23 +424,13 @@ define(function(require,exports,module){
 		queryCompInfo: function(){
 			var self = this;
 			var _form = $(Dom.getCompInfoForm);
-			// 表单校验初始化
-			//_form.bootstrapValidator('validate');
 			// 表单提交
 			_form.find('button[name="submit"]').bind('click',function(){
 
-				// 表单校验：成功后调取接口
-				//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-		            // e.preventDefault();
 		            var cmd = $(Dom.getCompInfoForm).serialize();
 		            console.log(cmd);
 		  			self.getCompByQuery(cmd);
-	        	//});
 	  		})
-	  		// 表单重置
-	  		/*_form.find('button[name="reset"]').bind('click',function(){
-	  			_form.data('bootstrapValidator').resetForm(true);
-	  		})*/
 		},
 		//搜索组件
 		getCompByQuery:function(cmd){
@@ -472,17 +444,10 @@ define(function(require,exports,module){
 			        self.eventDClickCallback($(Mod.getQueryInfo),function(){
 			        	self.getCompinfo();
 			        })
- 					//icheck
-            		$('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-				      checkboxClass: 'icheckbox_minimal-blue',
-				      radioClass: 'iradio_minimal-blue'
-				    });
-				    // 事件：双击选中当前行数据
-			        $('#Table_getQueryInfo').find("tr").bind('click', function(event) {
-			        	$(this).find('.minimal').iCheck('check');
-			        });
-  			}
-  		});
+			        self.delComp();
+					self.updateComp();
+  				}
+  			});
 		},
 		//删除组件
 		delComp:function(){
@@ -543,7 +508,7 @@ define(function(require,exports,module){
 		        paramId: _id.val()
 		    }
 		    if(_id.length==0){
-		    	window.XMS.msgbox.show('请先选择一个组织结构！', 'info', 2000);
+		    	window.XMS.msgbox.show('请先选择一个参数！', 'info', 2000);
 		    	return;
 		    }
 		    return data;

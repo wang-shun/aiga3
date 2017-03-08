@@ -117,9 +117,9 @@ public class ComponentController {
 	/*
 	 * 参数查看接口*/
 	@RequestMapping(path = "/sys/component/compParamList")
-	public @ResponseBody JsonBean compParamList(Long parentId){
+	public @ResponseBody JsonBean compParamList(Long compId){
 		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.compParamList( parentId));
+		bean.setData(componentSv.compParamList(compId));
 		return bean;	
 	}
 	@RequestMapping(path = "/sys/component/paramFindOne")

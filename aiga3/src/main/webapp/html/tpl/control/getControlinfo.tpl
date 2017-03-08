@@ -18,8 +18,8 @@
                     <option value="2">TAB</option>
                     <option value="3">SELECT</option>
                     <option value="4">CHECKBOX</option>
-                    <option value="4">RADIOBUTTON</option>
-                    <option value="4">INPUT</option>
+                    <option value="5">RADIOBUTTON</option>
+                    <option value="6">INPUT</option>
                 </select>
             </div> 
         </div>

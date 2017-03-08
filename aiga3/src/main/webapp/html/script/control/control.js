@@ -199,7 +199,6 @@ define(function(require, exports, module) {
 				"time1": $("#time1").val(),
 				"time2": $("#time2").val()
 			}
-			alert(cmd);
 			console.log(cmd);
 			Rose.ajax.getJson(srvMap.get('getControlShow'), cmd, function(json, status) {
 				if(status) {
@@ -247,7 +246,6 @@ define(function(require, exports, module) {
 		updateControl:function(){
 			var self = this;
 			$(Dom.updateControlinfo).bind('click', function() {
-				alert(1);
 				var _data = self.getControlRow();
 				if(_data){
 					self.getControlinfo();
@@ -258,19 +256,15 @@ define(function(require, exports, module) {
 		deleControl:function(){
 			var self = this;
 			$(Dom.deleControl).bind('click', function() {
-				alert(1);
 				var _data = self.getControlRow();
 				if (_data) {
 					var _ctrlId = _data.ctrlId;
-					alert(_data.ctrlId);
 					Rose.ajax.getJson(srvMap.get('deleControl'), 'ctrlId=' + _ctrlId, function(json, status) {
-						alert(status);
 						if (status) {
 							// dele成功后，重新加载模板列表
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
 								var cmd = "funId="+Data.funId;
-						        alert(cmd);
 								self.initOrganize(cmd);
 							}, 1000)
 						}

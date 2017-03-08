@@ -123,7 +123,6 @@ define(function(require,exports,module){
 			var self = this;
 			Rose.ajax.getJson(srvMap.get('getCompList'), cmd, function(json, status) {                    
 				if(status) {
-					// alert(1);
 					$(Mod.getQueryInfoWrap).removeClass("hide");
 					var template = Handlebars.compile(Tpl.getQueryInfo);
             		$(Mod.getQueryInfo).html(template(json.data));
@@ -235,7 +234,6 @@ define(function(require,exports,module){
 	  			Rose.ajax.getJson(srvMap.get('addComp'), cmd, function(json, status) {
 					if(status) {
 						Data.addCompId = json.data.compId;
-						alert(Data.addCompId);
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('添加组件成功！', 'success', 2000)
 						// // 关闭弹出层
@@ -331,17 +329,12 @@ define(function(require,exports,module){
 		updateParamInfo:function(type){
 			var self = this;
 			var _srvMap = type == "save" ? 'addParamInfo' : 'updateParamInfo';
-			//var _compId = type == "save" ? Data.addCompId : Data.compId;
-			//alert(type);
-			//alert(_srvMap);
     		var _domSave = $(Dom.addParameterForm).find("[name='save']");
     		_domSave.unbind('click');
     		_domSave.bind('click', function() {
 				var cmd = $(this).parents("form").serialize();
 				var _compId = Data.isAdd == true ? Data.addCompId : Data.compId;
-				alert(_compId);
 				cmd =  cmd + "&compId="+_compId;
-				alert(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
 				Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {
@@ -380,12 +373,14 @@ define(function(require,exports,module){
 		//获取组件信息(根据组件ID)
 		getCompinfo:function(cmd){
 			var self = this;
-			alert(cmd);
 			//设置修改标志
 			Data.isAdd = false;
-			// var cmd = "compId=" + Data.compId;
 			// 加载控件树
 		    self.getCompCtrTree();
+			 //滚动条
+		     $(Dom.addCompCtrScroll).slimScroll({
+			 "height": '420px'
+			});
 			Rose.ajax.getJson(srvMap.get('getCompinfo'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化

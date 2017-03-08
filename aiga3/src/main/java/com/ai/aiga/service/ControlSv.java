@@ -41,11 +41,14 @@ public class ControlSv extends BaseService{
 		return naUiControl;
 	}*/
 	
-   public Object listControl(Date createTime1, Date createTime2,NaUiControl condition, int pageNumber, int pageSize) {
+   public Object listControl(int pageNumber, int pageSize,String time1, String time2,NaUiControl condition ) throws ParseException {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
 		if(condition != null){
+			if(condition.getCtrlId()!=null){
+				cons.add(new Condition("ctrlId", condition.getCtrlId(), Condition.Type.EQ));
+			}
 			if(StringUtils.isNotBlank(condition.getCtrlName())){
 				cons.add(new Condition("ctrlName", "%".concat(condition.getCtrlName()).concat("%"), Condition.Type.LIKE));
 			}
@@ -53,19 +56,23 @@ public class ControlSv extends BaseService{
 			if(condition.getCreatorId()!= null){
 				cons.add(new Condition("creatorId", condition.getCreatorId(), Condition.Type.EQ));
 			}
+			System.out.println("condition.getFunId"+condition.getFunId());
 			if(condition.getFunId()!= null){
 				cons.add(new Condition("funId", condition.getFunId(), Condition.Type.EQ));
 			}
 			
-			if(createTime1 != null){
-				//SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
-				cons.add(new Condition("createTime", createTime1, Condition.Type.GT));
-			}
-			if(createTime2 != null){
-				//SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd");
-				cons.add(new Condition("createTime", createTime2, Condition.Type.LT));
+			if(time1 != null && !time1.equals("")){
+			
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+				cons.add(new Condition("createTime", sdf.parse(time1), Condition.Type.GT));
+				
 			}
 			
+			if(time2 != null && !time2.equals("")){
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				cons.add(new Condition("createTime", sdf.parse(time2),Condition.Type.LT));
+			}
 			
 		}
 		
@@ -118,7 +125,7 @@ public class ControlSv extends BaseService{
 		
 		//return responses;
 	}
-	public void saveControl(ControlRequest controlRequest) {
+	public NaUiControl saveControl(ControlRequest controlRequest) {
 		if(controlRequest == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -126,10 +133,10 @@ public class ControlSv extends BaseService{
 //			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
 //		}
 		//nauicontroldao.backControl(controlRequest.getCtrlId());
-		if(controlRequest.getParentId()<0||StringUtils.isBlank(controlRequest.getParentId().toString())){
+		/*if(controlRequest.getParentId()<0||StringUtils.isBlank(controlRequest.getParentId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "parentId");
 		}
-	
+	*/
 		if(StringUtils.isBlank(controlRequest.getCtrlName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
 		}
@@ -147,43 +154,29 @@ public class ControlSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlType");
 		}
 
-		if(controlRequest.getUpdateId()==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "updateId");
-		}
+	
 
-		if(StringUtils.isBlank(controlRequest.getSysId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sysId");
-		}
-		if(StringUtils.isBlank(controlRequest.getSysSubId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sysSubId");
-		}
-		if(StringUtils.isBlank(controlRequest.getFunId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
-		}
+	
 		NaUiControl nauicontrol=new NaUiControl();
-		nauicontrol.setCtrlId(controlRequest.getCtrlId());
+		//nauicontrol.setCtrlId(controlRequest.getCtrlId());
 		nauicontrol.setCreatorId(controlRequest.getCreatorId());
-		nauicontrol.setCreateTime(new Date());
+		nauicontrol.setCreateTime(controlRequest.getCreateTime());
+		nauicontrol.setUpdateTime(controlRequest.getUpdateTime());
 		nauicontrol.setUpdateId(controlRequest.getUpdateId());
 		nauicontrol.setCtrlDesc(controlRequest.getCtrlDesc());
 		nauicontrol.setCtrlName(controlRequest.getCtrlName());
 		nauicontrol.setCtrlType(controlRequest.getCtrlType());
 		nauicontrol.setCtrlXpath(controlRequest.getCtrlXpath());
 		nauicontrol.setIfLeaf("Y");
-		nauicontrol.setParentId(controlRequest.getParentId());
+/*		nauicontrol.setParentId(controlRequest.getParentId());*/
 		nauicontrol.setFunId(controlRequest.getFunId());
-		nauicontrol.setSysId(controlRequest.getSysId());
-		nauicontrol.setSysSubId(controlRequest.getSysSubId());
 		nauicontroldao.save(nauicontrol);
+		return nauicontrol;
 }
 public void updateControl(ControlRequest controlRequest) {
 		
 		if(controlRequest == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		
-		if( controlRequest.getCtrlId() < 0||StringUtils.isBlank(controlRequest.getCtrlId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
 		}
 		
 		NaUiControl nauicontrol=nauicontroldao.findOne(controlRequest.getCtrlId());
@@ -209,30 +202,21 @@ public void updateControl(ControlRequest controlRequest) {
 			if(StringUtils.isNotBlank(controlRequest.getCtrlXpath())){
 				nauicontrol.setCtrlXpath(controlRequest.getCtrlXpath());
 			}
-			if(StringUtils.isNotBlank(controlRequest.getCreatorId().toString())){
+			
 				nauicontrol.setCreatorId(controlRequest.getCreatorId());
-			}
-			if(StringUtils.isNotBlank(controlRequest.getIfLeaf())){
+			
+		
 				nauicontrol.setIfLeaf(controlRequest.getIfLeaf());
-			}
-			if(StringUtils.isNotBlank(controlRequest.getUpdateId().toString())){
+			
+			
 				nauicontrol.setUpdateId(controlRequest.getUpdateId());
-			}
+			
 			nauicontrol.setUpdateTime(new Date());
-			if(StringUtils.isNotBlank(controlRequest.getParentId().toString())){
-				nauicontrol.setParentId(controlRequest.getParentId());
-				System.out.println("*****"+controlRequest.getParentId());
-				System.out.println("11111"+nauicontrol.getParentId());
-			}
+			
 			if(StringUtils.isNotBlank(controlRequest.getFunId().toString())){
 				nauicontrol.setFunId(controlRequest.getFunId());
 			}
-			if(StringUtils.isNotBlank(controlRequest.getSysId().toString())){
-				nauicontrol.setSysId(controlRequest.getSysId());
-			}
-			if(StringUtils.isNotBlank(controlRequest.getSysSubId().toString())){
-				nauicontrol.setSysSubId(controlRequest.getSysSubId());
-			}
+			
 			nauicontroldao.save(nauicontrol);
 		}
 	}

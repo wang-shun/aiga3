@@ -216,7 +216,7 @@ public class ComponentSv {
 	}
 
 	
-	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize) throws ParseException  {
+	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize)   {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		if(condition != null){
@@ -230,12 +230,20 @@ public class ComponentSv {
 			
 			if(createTime1 != null){
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
+				try {
+					cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
+				} catch (ParseException e) {
+					
+				}
 				
 			}
 			if(createTime2 != null){
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
+				try {
+					cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
+				} catch (ParseException e) {
+					
+				}
 			}
 		}
 		
@@ -296,9 +304,9 @@ public class ComponentSv {
 		if(StringUtils.isBlank(naUiParamRequest.getParamExpect())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-		if(StringUtils.isBlank(naUiParamRequest.getCreatorId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
+//		if(StringUtils.isBlank(naUiParamRequest.getCreatorId().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+//		}
 		NaUiParam NaUiParam = new NaUiParam();
 		NaUiParam.setCompId(naUiParamRequest.getCompId());
 		NaUiParam.setParamName(naUiParamRequest.getParamName());
@@ -306,14 +314,14 @@ public class ComponentSv {
 		NaUiParam.setParamDesc(naUiParamRequest.getParamDesc());
 		NaUiParam.setParamSql(naUiParamRequest.getParamSql());
 		NaUiParam.setParamExpect(naUiParamRequest.getParamExpect());
-		NaUiParam.setCreatorId(naUiParamRequest.getCreatorId());
+		//NaUiParam.setCreatorId(naUiParamRequest.getCreatorId());
 		NaUiParam.setCreateTime(new Date(System.currentTimeMillis()));
 		naUiParamDao.save(NaUiParam);
 	}
 
-	public void compParamDel(Long compId, Long paramId) {
+	public void compParamDel(Long paramId) {
 		
-		naUiParamDao.compParamDel(compId, paramId);
+		naUiParamDao.compParamDel(paramId);
 		
 	}
 

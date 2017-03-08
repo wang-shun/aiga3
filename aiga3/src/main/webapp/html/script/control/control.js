@@ -58,7 +58,6 @@ define(function(require, exports, module) {
 			this._render();
 		},
 		_render: function() {
-			// this.initOrganize();
 			this.queriesControl();
 			this.Tree();
 
@@ -93,7 +92,6 @@ define(function(require, exports, module) {
 						        Data.funId = _funId;
 						        var cmd = "funId="+_funId;
 						        self.initOrganize(cmd);
-						        //self.addComp(cmd1);
 							 }
 						}
 
@@ -143,15 +141,6 @@ define(function(require, exports, module) {
 				}
 				self.initOrganize(cmd);
 				Data.funId = "";
-				// Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
-				// 	if (status) {
-				// 		var template = Handlebars.compile(Tpl.getContral);
-				// 		console.log("1111111");
-				// 		console.log("1111111"+json.data);
-				// 		$(Dom.getControlList).html(template(json.data));
-
-				// 	}
-				// });
 			});
 
 		},
@@ -202,7 +191,6 @@ define(function(require, exports, module) {
 //			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			var _data = self.getControlRow();
 			var _ctrlId = _data.ctrlId;
-			// var cmd = 'caseId='+_data.caseId;
 			alert(_ctrlId+"11111111");
 			var cmd = {
 				"ctrlId": _ctrlId,
@@ -211,14 +199,15 @@ define(function(require, exports, module) {
 				"time1": $("#time1").val(),
 				"time2": $("#time2").val()
 			}
-			alert(cmd);
 			console.log(cmd);
 			Rose.ajax.getJson(srvMap.get('getControlShow'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化
 			        var _form = $(Dom.addControlinfoForm);
 			        var template = Handlebars.compile(Tpl.getControlinfo);
+			        var a = json.data.content[0]["ctrlType"];
 	            	_form.html(template(json.data.content[0]));
+		        	$("#ctrlType").val(a);
 	            	XMS.msgbox.hide();
 
 				    // 弹出层
@@ -234,7 +223,6 @@ define(function(require, exports, module) {
 				            var cmd = _form.serialize()+cm;
 
 				            console.log(cmd);
-				  			// self.getUserinfoList(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
 				  			Rose.ajax.getJson(srvMap.get('updateControl'), cmd, function(json, status) {
 								if(status) {
@@ -258,7 +246,6 @@ define(function(require, exports, module) {
 		updateControl:function(){
 			var self = this;
 			$(Dom.updateControlinfo).bind('click', function() {
-				alert(1);
 				var _data = self.getControlRow();
 				if(_data){
 					self.getControlinfo();
@@ -269,19 +256,15 @@ define(function(require, exports, module) {
 		deleControl:function(){
 			var self = this;
 			$(Dom.deleControl).bind('click', function() {
-				alert(1);
 				var _data = self.getControlRow();
 				if (_data) {
 					var _ctrlId = _data.ctrlId;
-					alert(_data.ctrlId);
 					Rose.ajax.getJson(srvMap.get('deleControl'), 'ctrlId=' + _ctrlId, function(json, status) {
-						alert(status);
 						if (status) {
 							// dele成功后，重新加载模板列表
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
 								var cmd = "funId="+Data.funId;
-						        alert(cmd);
 								self.initOrganize(cmd);
 							}, 1000)
 						}

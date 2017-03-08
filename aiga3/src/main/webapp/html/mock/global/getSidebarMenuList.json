@@ -13,28 +13,28 @@
             "menuIcons": "fa fa-cogs",
             "menuURL": "#",
             "hasChild": 1,
-            "isActive": 1,
+            "isActive": 0,
             "childMenuList": [{
                 "menuName": "员工管理",
                 "menuURL": "view/systemManage/staffManage.html",
                 "hasChild": 0,
                 "isActive": 1
-            },{
+            }, {
                 "menuName": "功能模块管理",
                 "menuURL": "view/systemManage/menuManage.html",
                 "hasChild": 0,
-                 "isActive": 0
-            },{
+                "isActive": 0
+            }, {
                 "menuName": "组织管理",
                 "menuURL": "view/organize/index.html",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "角色管理",
                 "menuURL": "view/systemManage/roleManage.html",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "附权管理",
                 "menuURL": "#",
                 "hasChild": 1,
@@ -44,7 +44,7 @@
                     "menuURL": "view/staffRole/staffRole.html",
                     "hasChild": 0,
                     "isActive": 0
-                },{
+                }, {
                     "menuName": "角色菜单权限管理",
                     "menuURL": "view/roleFunc/roleFunc.html",
                     "hasChild": 0,
@@ -56,56 +56,56 @@
             "menuIcons": "fa fa-clock-o",
             "menuURL": "#",
             "hasChild": 1,
-            "isActive": 0,
+            "isActive": 1,
             "childMenuList": [{
                 "menuName": "功能测试",
                 "menuURL": "#",
                 "hasChild": 1,
                 "isActive": 1,
                 "childMenuList": [{
-                "menuName": "控件管理",
-                "menuURL": "view/control/control.html",
-                "hasChild": 0,
-                "isActive": 0
-            },{
+                    "menuName": "控件管理",
+                    "menuURL": "view/control/control.html",
+                    "hasChild": 0,
+                    "isActive": 0
+                }, {
                     "menuName": "组件管理",
                     "menuURL": "view/autoManage/funcTest/componentManage.html",
                     "hasChild": 0,
                     "isActive": 1,
-                },{
-                "menuName": "控件管理",
-                "menuURL": "view/control/control.html",
+                }]
+            }, {
+                "menuName": "用例组管理",
+                "menuURL": "view/autoManage/funcTest/caseGroup.html",
                 "hasChild": 0,
-                "isActive": 0
-            }]
-            },{
-                "menuName": "自动化用例管理",
-                "menuURL": "#",
-                "hasChild": 0,
-                "isActive": 0
-            },{
+                "isActive": 1
+            }, {
                 "menuName": "自动化环境配置",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "自动化计划管理",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "自动化任务管理",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "自动化执行结果",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "用例模板管理",
                 "menuURL": "view/caseTempMng/caseTempMng.html",
+                "hasChild": 0,
+                "isActive": 0
+            }, {
+                "menuName": "测试用例管理",
+                "menuURL": "view/caseInstanceMng/caseInstanceMng.html",
                 "hasChild": 0,
                 "isActive": 0
             }]
@@ -120,37 +120,37 @@
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "标签管理",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "功能点管理",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "测试日报",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "测试日报统计查询",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "功能点所属系统管理",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "报表数据导入",
                 "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "环节时间录入",
                 "menuURL": "#",
                 "hasChild": 0,

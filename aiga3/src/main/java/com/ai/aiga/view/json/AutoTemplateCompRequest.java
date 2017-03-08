@@ -1,5 +1,7 @@
 package com.ai.aiga.view.json;
 
+import java.sql.Clob;
+
 /**
  * 自动化用例模板与组件关系请求参数
  *
@@ -8,20 +10,16 @@ package com.ai.aiga.view.json;
  */
 public class AutoTemplateCompRequest {
     private Long relaId;//主键
-    private Long tempId;//自动化模板ID
-    private Long caseId;//用例模板ID
-    private String tempName;//自动化用例模板名称
+    private Long tempId;//模板ID
     private Long compId;//组件ID
     private String compName;//组件名称
     private String compDesc;//组件描述
-    private String compScript;//组件脚本
+    private Clob compScript;//组件脚本
     private Long compOrder;//组件顺序
 
-    public AutoTemplateCompRequest(Long relaId, Long tempId, Long caseId, String tempName, Long compId, String compName, String compDesc, String compScript, Long compOrder) {
+    public AutoTemplateCompRequest(Long relaId, Long tempId, Long compId, String compName, String compDesc, Clob compScript, Long compOrder) {
         this.relaId = relaId;
         this.tempId = tempId;
-        this.caseId = caseId;
-        this.tempName = tempName;
         this.compId = compId;
         this.compName = compName;
         this.compDesc = compDesc;
@@ -30,22 +28,6 @@ public class AutoTemplateCompRequest {
     }
 
     public AutoTemplateCompRequest() {
-    }
-
-    public Long getCaseId() {
-        return caseId;
-    }
-
-    public void setCaseId(Long caseId) {
-        this.caseId = caseId;
-    }
-
-    public String getTempName() {
-        return tempName;
-    }
-
-    public void setTempName(String tempName) {
-        this.tempName = tempName;
     }
 
     public String getCompName() {
@@ -64,11 +46,11 @@ public class AutoTemplateCompRequest {
         this.compDesc = compDesc;
     }
 
-    public String getCompScript() {
+    public Clob getCompScript() {
         return compScript;
     }
 
-    public void setCompScript(String compScript) {
+    public void setCompScript(Clob compScript) {
         this.compScript = compScript;
     }
 

@@ -6,7 +6,7 @@
         "paramName": "WF_TEST_HW",
         "paramValue": "手工人员",
         "paramDesc": "自动化",
-        "paramSQL":"select * from",
+        "paramSql":"select * from",
         "paramExpect":"无预期"
     }
 }

@@ -67,8 +67,6 @@ public class ComponentController {
 		try {
 			bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));
 		} catch (Exception e) {
-			
-			e.printStackTrace();
 		}
 		return bean;
 	}

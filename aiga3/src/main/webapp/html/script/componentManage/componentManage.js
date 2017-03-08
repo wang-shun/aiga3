@@ -127,7 +127,7 @@ define(function(require,exports,module){
 
 			        self.addComp();
 					self.delComp();
-					// self.updateComp();
+					self.updateComp();
   			}
   		});
 		},

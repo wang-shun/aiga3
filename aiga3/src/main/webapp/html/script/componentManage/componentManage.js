@@ -235,7 +235,8 @@ define(function(require,exports,module){
 						// // 关闭弹出层
 						// $(Dom.addCompModal).modal('hide')
 						setTimeout(function(){
-							self.getCompByFunId();
+							var cmd = "parentId=" + Data.funId;
+							self.getCompByFunId(cmd);
 						},1000)
 					}
 	  			});

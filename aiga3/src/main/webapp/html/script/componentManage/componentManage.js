@@ -362,7 +362,9 @@ define(function(require,exports,module){
 						if(status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function(){
-								self.getParameterListById();
+								var _compId = Data.isAdd == true ? Data.addCompId : Data.compId;
+								cmd =  cmd + "&compId="+_compId;
+								self.getParameterListById(cmd);
 								$(Dom.addParameterForm).addClass('hide');
 							},1000)
 						}

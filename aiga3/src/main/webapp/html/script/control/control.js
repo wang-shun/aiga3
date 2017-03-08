@@ -218,7 +218,9 @@ define(function(require, exports, module) {
 					// 表单校验初始化
 			        var _form = $(Dom.addControlinfoForm);
 			        var template = Handlebars.compile(Tpl.getControlinfo);
+			        var a = json.data.content[0]["ctrlType"];
 	            	_form.html(template(json.data.content[0]));
+		        	$("#ctrlType").val(a);
 	            	XMS.msgbox.hide();
 
 				    // 弹出层

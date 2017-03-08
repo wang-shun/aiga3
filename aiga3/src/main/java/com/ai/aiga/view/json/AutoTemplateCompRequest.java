@@ -11,20 +11,40 @@ import java.sql.Clob;
 public class AutoTemplateCompRequest {
     private Long relaId;//主键
     private Long tempId;//模板ID
+    private String tempName;//自动化用例模板名称
+    private Long caseId;//用例模板名称
     private Long compId;//组件ID
     private String compName;//组件名称
     private String compDesc;//组件描述
-    private Clob compScript;//组件脚本
+    private String compScript;//组件脚本
     private Long compOrder;//组件顺序
 
-    public AutoTemplateCompRequest(Long relaId, Long tempId, Long compId, String compName, String compDesc, Clob compScript, Long compOrder) {
+    public AutoTemplateCompRequest(Long relaId, Long tempId, String tempName, Long caseId, Long compId, String compName, String compDesc, String compScript, Long compOrder) {
         this.relaId = relaId;
         this.tempId = tempId;
+        this.tempName = tempName;
+        this.caseId = caseId;
         this.compId = compId;
         this.compName = compName;
         this.compDesc = compDesc;
         this.compScript = compScript;
         this.compOrder = compOrder;
+    }
+
+    public String getTempName() {
+        return tempName;
+    }
+
+    public void setTempName(String tempName) {
+        this.tempName = tempName;
+    }
+
+    public Long getCaseId() {
+        return caseId;
+    }
+
+    public void setCaseId(Long caseId) {
+        this.caseId = caseId;
     }
 
     public AutoTemplateCompRequest() {
@@ -46,11 +66,11 @@ public class AutoTemplateCompRequest {
         this.compDesc = compDesc;
     }
 
-    public Clob getCompScript() {
+    public String getCompScript() {
         return compScript;
     }
 
-    public void setCompScript(Clob compScript) {
+    public void setCompScript(String compScript) {
         this.compScript = compScript;
     }
 

@@ -185,6 +185,7 @@ define(function(require,exports,module){
 			})
 		},
 		getCompCtrTree:function(){
+			var self = this;
 			 //加载控件结构树
 	        Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
 				if(status) {

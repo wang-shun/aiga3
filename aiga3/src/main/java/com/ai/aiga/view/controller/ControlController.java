@@ -74,12 +74,12 @@ public class ControlController {
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			Date  createTime1,
-			Date  createTime2,
-			NaUiControl condition) {
-		System.out.println("*******"+condition.getFunId());
-		JsonBean bean = new JsonBean();
-		bean.setData(controlSv.listControl(createTime1, createTime2, condition, pageNumber, pageSize));
+			String  time1,
+			String  time2,
+			NaUiControl condition) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(controlSv.listControl(pageNumber, pageSize, time1, time2, condition));
 		System.out.println("bean"+bean);
 		return bean;
 	}

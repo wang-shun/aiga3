@@ -61,10 +61,15 @@ public class ComponentController {
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			String  createTime1,
 			String  createTime2,
-			NaUiComponent condition) throws Exception {
+			NaUiComponent condition){
 		System.out.println("****"+createTime1);
 		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));
+		try {
+			bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 		return bean;
 	}
 	@RequestMapping(path = "/sys/component/findone")
@@ -146,8 +151,8 @@ public class ComponentController {
 	/*
 	 * 参数删除接口*/
 	@RequestMapping(path = "/sys/component/compParamDel")
-	public @ResponseBody JsonBean compParamDel(Long compId, Long paramId){
-		componentSv.compParamDel(compId, paramId);
+	public @ResponseBody JsonBean compParamDel(Long paramId){
+		componentSv.compParamDel(paramId);
 		return JsonBean.success;
 	}
 }

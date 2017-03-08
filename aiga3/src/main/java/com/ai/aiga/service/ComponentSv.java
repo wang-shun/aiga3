@@ -216,7 +216,7 @@ public class ComponentSv {
 	}
 
 	
-	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize) throws Exception  {
+	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize)   {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		if(condition != null){
@@ -230,12 +230,22 @@ public class ComponentSv {
 			
 			if(createTime1 != null){
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
+				try {
+					cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 			}
 			if(createTime2 != null){
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
+				try {
+					cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -311,9 +321,9 @@ public class ComponentSv {
 		naUiParamDao.save(NaUiParam);
 	}
 
-	public void compParamDel(Long compId, Long paramId) {
+	public void compParamDel(Long paramId) {
 		
-		naUiParamDao.compParamDel(compId, paramId);
+		naUiParamDao.compParamDel(paramId);
 		
 	}
 

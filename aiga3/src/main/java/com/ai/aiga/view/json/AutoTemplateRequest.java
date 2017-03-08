@@ -13,7 +13,7 @@ public class AutoTemplateRequest {
     private Long tempId;//主键
     private Long caseId;//用例模板ID
     private String caseName;//用例模板名称
-    private Long caseType;//用例类型
+    private byte caseType;//用例类型
     private String caseTypeDesc;//用例类型描述
     private String testType;//测试类型
     private String testTypeDesc;//测试类型描述
@@ -28,14 +28,14 @@ public class AutoTemplateRequest {
     private String scName;//场景名称
     private Long funId;//功能ID
     private String funName;//功能点名称
-    private Byte important;//重要等级
+    private Short important;//重要等级
     private String importantDesc;//重要等级描述
     private String operateDesc;//操作描述
     public AutoTemplateRequest() {
     }
 
 
-    public AutoTemplateRequest(Long tempId, Long caseId, String caseName, Long caseType, String caseTypeDesc, String testType, String testTypeDesc, String tempName, Long sysId, String sysName, Long sysSubId, String sysSubName, Long busiId, String busiName, Long scId, String scName, Long funId, String funName, Byte important, String importantDesc, String operateDesc) {
+    public AutoTemplateRequest(Long tempId, Long caseId, String caseName, byte caseType, String caseTypeDesc, String testType, String testTypeDesc, String tempName, Long sysId, String sysName, Long sysSubId, String sysSubName, Long busiId, String busiName, Long scId, String scName, Long funId, String funName, Short important, String importantDesc, String operateDesc) {
         this.tempId = tempId;
         this.caseId = caseId;
         this.caseName = caseName;
@@ -75,11 +75,11 @@ public class AutoTemplateRequest {
         this.caseId = caseId;
     }
 
-    public Long getCaseType() {
+    public byte getCaseType() {
         return caseType;
     }
 
-    public void setCaseType(Long caseType) {
+    public void setCaseType(byte caseType) {
         this.caseType = caseType;
     }
 
@@ -195,11 +195,11 @@ public class AutoTemplateRequest {
         this.funName = funName;
     }
 
-    public Byte getImportant() {
+    public Short getImportant() {
         return important;
     }
 
-    public void setImportant(Byte important) {
+    public void setImportant(Short important) {
         this.important = important;
     }
 

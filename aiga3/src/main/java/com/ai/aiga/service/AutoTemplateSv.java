@@ -46,9 +46,6 @@ public class AutoTemplateSv {
         if (autoTemplateRequest.getCaseId() == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
         }
-        if (autoTemplateRequest.getCaseType() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseType");
-        }
         if (!StringUtils.isNoneBlank(autoTemplateRequest.getTempName())) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempName");
         }
@@ -83,9 +80,6 @@ public class AutoTemplateSv {
         }
         if (autoTemplateRequest.getCaseId() == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
-        }
-        if (autoTemplateRequest.getCaseType() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseType");
         }
         if (!StringUtils.isNoneBlank(autoTemplateRequest.getTempName())) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempName");
@@ -314,6 +308,36 @@ public class AutoTemplateSv {
         autoTemplateDao.delete(autoTemplate.getTempId());
         //将自动化用例模板数据复制到删除记录表中
 
+    }
+
+    /**
+     * 根据用例模板ID复制数据
+     * @param caseId
+     * @return
+     */
+    public NaAutoTemplate copyCaseToAuto(Long caseId){
+        if (caseId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+        }
+        //校验用例模板数据是否存在
+        NaCaseTemplate caseTemplate=caseTemplateDao.findOne(caseId);
+        if (caseTemplate == null) {
+            BusinessException.throwBusinessException(" can not found caseTemplate! please make sure the caseId :"+caseId);
+        }
+        NaAutoTemplate autoTemplate=new NaAutoTemplate();
+//        autoTemplate.setCreatorId();
+//        autoTemplate.setUpdateId();
+        autoTemplate.setFunId(caseTemplate.getFunId());
+        autoTemplate.setSysSubId(caseTemplate.getSysSubId());
+        autoTemplate.setSysId(caseTemplate.getSysId());
+        autoTemplate.setTestType(caseTemplate.getTestType());
+        autoTemplate.setBusiId(caseTemplate.getBusiId());
+        autoTemplate.setCaseId(caseTemplate.getCaseId());
+        autoTemplate.setCaseType(caseTemplate.getCaseType());
+        autoTemplate.setImportant(caseTemplate.getImportant());
+        autoTemplate.setScId(caseTemplate.getScId());
+        autoTemplate.setUpdateTime(Calendar.getInstance().getTime());
+        return autoTemplateDao.save(autoTemplate);
     }
     
 }

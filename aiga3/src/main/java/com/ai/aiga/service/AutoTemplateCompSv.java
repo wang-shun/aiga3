@@ -1,7 +1,9 @@
 package com.ai.aiga.service;
 
 import com.ai.aiga.dao.NaAutoTemplateCompDao;
+import com.ai.aiga.dao.NaCaseTemplateDao;
 import com.ai.aiga.dao.NaUiComponentDao;
+import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.domain.NaAutoTemplateComp;
 import com.ai.aiga.domain.NaUiComponent;
 import com.ai.aiga.exception.BusinessException;
@@ -31,6 +33,12 @@ public class AutoTemplateCompSv {
 
     @Autowired
     private NaUiComponentDao componentDao;
+
+    @Autowired
+    private NaCaseTemplateDao caseTemplateDao;
+
+    @Autowired
+    private AutoTemplateSv templateSv;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -119,31 +127,60 @@ public class AutoTemplateCompSv {
      * @param requestList
      */
     public void saveList(List<AutoTemplateCompRequest> requestList){
-        if (requestList == null) {
+        if (requestList == null&&requestList.size()==0) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (requestList.size()>0){
-            //校验数据是否正确
-            for (AutoTemplateCompRequest request:requestList){
-                if (request.getTempId() == null) {
-                    BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
-                }
-                if (request.getCompId()== null) {
-                    BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
-                }
+        //校验数据是否正确
+        for (AutoTemplateCompRequest request:requestList) {
+            if (request.getTempId() == null) {
+                BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
             }
-            //根据tempId删除旧关联关系在批量保存
-            templateCompDao.deleteByTempId(requestList.get(0).getTempId());
-            for (AutoTemplateCompRequest request:requestList){
-                NaAutoTemplateComp comp=new NaAutoTemplateComp();
-                comp.setCompId(request.getCompId());
-                comp.setCompOrder(request.getCompOrder());
-                comp.setTempId(request.getTempId());
-                entityManager.persist(comp);
+            if (request.getCompId() == null) {
+                BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
             }
-            entityManager.flush();
-            entityManager.clear();
         }
+        //根据tempId删除旧关联关系在批量保存
+        templateCompDao.deleteByTempId(requestList.get(0).getTempId());
+        for (AutoTemplateCompRequest request:requestList){
+            NaAutoTemplateComp comp=new NaAutoTemplateComp();
+            comp.setCompId(request.getCompId());
+            comp.setCompOrder(request.getCompOrder());
+            comp.setTempId(request.getTempId());
+            entityManager.persist(comp);
+        }
+        entityManager.flush();
+        entityManager.clear();
+    }
+
+    /**
+     * 根据用例模板ID保存自动化用例模板以及批量保存自动化用例模板与组件关系
+     * @param requestList
+     */
+    public void saveListByCaseId(List<AutoTemplateCompRequest> requestList){
+        if (requestList == null&&requestList.size()==0) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        //校验数据是否正确
+        for (AutoTemplateCompRequest request:requestList) {
+            if (request.getCaseId() == null) {
+                BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+            }
+            if (request.getCompId() == null) {
+                BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
+            }
+        }
+        //根据用例模板ID查询数据并生成对应的自动化用例模板数据
+        NaAutoTemplate autoTemplate=templateSv.copyCaseToAuto(requestList.get(0).getCaseId());
+        //保存模板与组件关系
+        for (AutoTemplateCompRequest request:requestList){
+            NaAutoTemplateComp comp=new NaAutoTemplateComp();
+            comp.setCompId(request.getCompId());
+            comp.setCompOrder(request.getCompOrder());
+            comp.setTempId(autoTemplate.getTempId());
+            entityManager.persist(comp);
+        }
+        entityManager.flush();
+        entityManager.clear();
     }
 
     /**

@@ -20,9 +20,9 @@ define(function(require,exports,module){
 	//请求控件树
 	srvMap.add("getCompCtrTree", pathAlias + "getCompCtrTree.json", "sys/component/ctrlTree");
 	//请求参数列表
-	srvMap.add("getParameterList",pathAlias + "getParameterList.json","sys/component/listByComp");
-	//根据参数ID获取参数信息
-	srvMap.add("getParamInfo",pathAlias + "getParamInfo.json","sys/component/compParamList");
+	srvMap.add("getParameterList",pathAlias + "getParameterList.json","sys/component/compParamList");
+	//根据ID获取参数信息
+	srvMap.add("getParamInfo",pathAlias + "getParamInfo.json","sys/component/paramFindOne");
 	//添加参数
 	srvMap.add("addParamInfo",pathAlias + "retMessage.json","sys/component/compParamSave");
 	//修改参数

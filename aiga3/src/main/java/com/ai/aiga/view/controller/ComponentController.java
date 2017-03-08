@@ -61,7 +61,7 @@ public class ComponentController {
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			String  createTime1,
 			String  createTime2,
-			NaUiComponent condition) throws ParseException {
+			NaUiComponent condition) throws Exception {
 		System.out.println("****"+createTime1);
 		JsonBean bean = new JsonBean();
 		bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));

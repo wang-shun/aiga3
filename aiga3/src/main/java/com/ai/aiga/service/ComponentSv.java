@@ -216,7 +216,7 @@ public class ComponentSv {
 	}
 
 	
-	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize) throws ParseException  {
+	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize) throws Exception  {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		if(condition != null){

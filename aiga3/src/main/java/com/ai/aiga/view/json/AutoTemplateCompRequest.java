@@ -14,10 +14,10 @@ public class AutoTemplateCompRequest {
     private Long compId;//组件ID
     private String compName;//组件名称
     private String compDesc;//组件描述
-    private Clob compScript;//组件脚本
+    private String compScript;//组件脚本
     private Long compOrder;//组件顺序
 
-    public AutoTemplateCompRequest(Long relaId, Long tempId, Long compId, String compName, String compDesc, Clob compScript, Long compOrder) {
+    public AutoTemplateCompRequest(Long relaId, Long tempId, Long compId, String compName, String compDesc, String compScript, Long compOrder) {
         this.relaId = relaId;
         this.tempId = tempId;
         this.compId = compId;
@@ -46,11 +46,11 @@ public class AutoTemplateCompRequest {
         this.compDesc = compDesc;
     }
 
-    public Clob getCompScript() {
+    public String getCompScript() {
         return compScript;
     }
 
-    public void setCompScript(Clob compScript) {
+    public void setCompScript(String compScript) {
         this.compScript = compScript;
     }
 

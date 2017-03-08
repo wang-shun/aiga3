@@ -52,7 +52,9 @@ define(function(require,exports,module){
     	updateComp:"#JS_updateComp",
     	addParameterForm:"#JS_addParameterForm",
     	getParameterList:"#JS_getParameterList",
-    	getParameterWrap:"#JS_getParameterWrap"
+    	getParameterWrap:"#JS_getParameterWrap",
+    	compTreeScorll:"#JS_compTreeScorll",
+    	addCompCtrScroll:"#JS_addCompCtrScroll"
     }
     var Data = {
         funId:null,
@@ -109,6 +111,10 @@ define(function(require,exports,module){
 					};
 					$.fn.zTree.init($("#Tree_getRightTree"), setting, json.data);
 				}
+				//滚动条
+		        $(Dom.compTreeScorll).slimScroll({
+			    "height": '420px'
+			    });
 	  		});
 
 		},
@@ -153,7 +159,10 @@ define(function(require,exports,module){
 		        // 控件树
 		        self.getCompCtrTree();
 		       
-
+		        //滚动条
+		        $(Dom.addCompCtrScroll).slimScroll({
+			    "height": '420px'
+			    });
 		        //组件表单校验初始化
 		        var _form = $(Dom.addCompInfoForm);
 		        var template = Handlebars.compile(Tpl.getCompInfoForm);
@@ -174,10 +183,6 @@ define(function(require,exports,module){
             	self.addParamInfo();
             	self.delParamInfo();
             	// self.updateParamInfo();
-		        // 滚动条
-		     //    $(Dom.addUserinfoScroll).slimScroll({
-			    //     "height": '420px'
-			    // });
 
 				// _form.bootstrapValidator('validate');
 				// 表单提交

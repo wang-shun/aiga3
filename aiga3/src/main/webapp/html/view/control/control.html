@@ -1,29 +1,17 @@
-
-<section class="content-header">
-  <h1>
-    员工管理
-  </h1>
-  <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-    <li class="active">员工管理</li>
-  </ol>
-</section>
-<!-- 主内容 -->
-<section class="content">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#activity" data-toggle="tab">组织选择</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="active tab-pane" id="activity">
-                        <ul id="treeDemo" class="ztree"></ul>
-                    </div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#activity" data-toggle="tab">组织选择</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
+                    <ul id="treeDemo" class="ztree"></ul>
                 </div>
             </div>
-
         </div>
+
+    </div>
 
     <div class="col-md-9">
     <div class="box">
@@ -63,40 +51,11 @@
                 </form> 
                 </div>
                 </div>
-        <!-- <div class="box-body">
-            <form class="form-horizontal">
-              <div class="row">
-                <div class="col-md-3">
-                  <label for="ctrlName" class="col-sm-2 control-label">控件名称：</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control" id="ctrlName">
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <label for="cearteName" class="col-sm-2 control-label">创建人：</label>
-
-                  <div class="col-sm-5">
-                    <input type="text" class="form-control" id="cearteName">
-                  </div>
-                </div>
-             
-                <div class="col-md-6">
-                    <input id="time1" class="Wdate" type="text" onFocus="var time2=$dp.$('time2');WdatePicker({onpicked:function(){time2.focus();},maxDate:'#F{$dp.$D(\'time2\')}'})"/>至
-                    <input id="time2" class="Wdate" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'time1\')}'})"/>
-                </div>
-
-             </div>
-                <button type="button" id="queriesControl" class="btn btn-default">Cancel</button>
-                <button type="button" class="btn btn-info pull-right">Sign in</button>
-            </form>
-        </div> -->
-
 
         <div id="JS_getControlList" class="box" style="min-height: 100px"></div>
 <!-- /.box -->
         </div>
-    </div>
-</section>
+</div>
 <script>
     seajs.use("script/control/control.js", function(getContral) {
         getContral.init();

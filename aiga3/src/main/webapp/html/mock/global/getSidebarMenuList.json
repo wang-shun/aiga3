@@ -108,6 +108,11 @@
                 "menuURL": "view/caseTempMng/caseTempMng.html",
                 "hasChild": 0,
                 "isActive": 0
+            },{
+                "menuName": "测试用例管理",
+                "menuURL": "view/caseInstanceMng/caseInstanceMng.html",
+                "hasChild": 0,
+                "isActive": 0
             }]
         }, {
             "menuName": "报告报表查询",

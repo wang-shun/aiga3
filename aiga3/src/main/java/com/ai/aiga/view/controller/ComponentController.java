@@ -61,10 +61,13 @@ public class ComponentController {
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			String  createTime1,
 			String  createTime2,
-			NaUiComponent condition) throws ParseException {
+			NaUiComponent condition){
 		System.out.println("****"+createTime1);
 		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));
+		try {
+			bean.setData(componentSv.listByParam(createTime1,createTime2,condition,pageNumber,pageSize));
+		} catch (Exception e) {
+		}
 		return bean;
 	}
 	@RequestMapping(path = "/sys/component/findone")
@@ -117,9 +120,9 @@ public class ComponentController {
 	/*
 	 * 参数查看接口*/
 	@RequestMapping(path = "/sys/component/compParamList")
-	public @ResponseBody JsonBean compParamList(Long parentId){
+	public @ResponseBody JsonBean compParamList(Long compId){
 		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.compParamList( parentId));
+		bean.setData(componentSv.compParamList(compId));
 		return bean;	
 	}
 	@RequestMapping(path = "/sys/component/paramFindOne")
@@ -146,8 +149,8 @@ public class ComponentController {
 	/*
 	 * 参数删除接口*/
 	@RequestMapping(path = "/sys/component/compParamDel")
-	public @ResponseBody JsonBean compParamDel(Long compId, Long paramId){
-		componentSv.compParamDel(compId, paramId);
+	public @ResponseBody JsonBean compParamDel(Long paramId){
+		componentSv.compParamDel(paramId);
 		return JsonBean.success;
 	}
 }

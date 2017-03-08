@@ -59,6 +59,7 @@ define(function(require,exports,module){
         ctrlId:null,
         compId:null,
         addCompId:null,
+        isAdd:false,
         setPageType:function(type){
     		return {
     			"data":{
@@ -122,7 +123,10 @@ define(function(require,exports,module){
             		$(Mod.getQueryInfo).html(template(json.data));
 			        self.eventClickChecked($(Mod.getQueryInfo));
 			        self.eventDClickCallback($(Mod.getQueryInfo),function(){
-			        	self.getCompinfo();
+			        	var _data = self.getCheckedComp();
+						Data.compId = _data.compId;
+						var cmd = "compId=" + _data.compId;
+			        	self.getCompinfo(cmd);
 			        })
 
 			        self.addComp();
@@ -141,36 +145,14 @@ define(function(require,exports,module){
 					XMS.msgbox.show('请先选择一个功能点！', 'info', 2000);
 					return;
 		        }
+		        // 设置添加标识
+		        Data.isAdd = true;
 		        // 弹出层
 		        $(Dom.addCompModal).modal('show');
 
-		        //加载控件结构树
-		        Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
-					if(status) {
-						$.fn.zTree.init($(Dom.addCompCtrTree), {
-							data: {
-								key: {
-									name:"name"
-								},
-								simpleData: {
-									enable: true,
-								}
-							},
-							callback:{
-								beforeClick: function(treeId, treeNode, clickFlag) {
-                                	return (treeNode.ifLeaf !== "N");
-                             },
-								onClick: function(event, treeId, treeNode){
-								 	var _ctrlId = treeNode.id;
-								 	Data.ctrlId = _ctrlId;
-								 	var _compCtrId = treeNode.id;
-								 	var _script = self.getScript(json.data,_compCtrId);
-								 	$(Dom.addCompInfoForm).find("textarea[name='compScript']").append(_script+"\r\n");
-								 }
-							}
-						}, json.data);
-					}
-		  		});
+		        // 控件树
+		        self.getCompCtrTree();
+		       
 
 		        //组件表单校验初始化
 		        var _form = $(Dom.addCompInfoForm);
@@ -202,6 +184,35 @@ define(function(require,exports,module){
 				self.addCompSubmit();
 			})
 		},
+		getCompCtrTree:function(){
+			 //加载控件结构树
+	        Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
+				if(status) {
+					$.fn.zTree.init($(Dom.addCompCtrTree), {
+						data: {
+							key: {
+								name:"name"
+							},
+							simpleData: {
+								enable: true,
+							}
+						},
+						callback:{
+							beforeClick: function(treeId, treeNode, clickFlag) {
+                            	return (treeNode.ifLeaf !== "N");
+                         },
+							onClick: function(event, treeId, treeNode){
+							 	var _ctrlId = treeNode.id;
+							 	Data.ctrlId = _ctrlId;
+							 	var _compCtrId = treeNode.id;
+							 	var _script = self.getScript(json.data,_compCtrId);
+							 	$(Dom.addCompInfoForm).find("textarea[name='compScript']").append(_script+"\r\n");
+							 }
+						}
+					}, json.data);
+				}
+	  		});
+		},
 		// 提交按钮
 		addCompSubmit: function(){
 			var self = this;
@@ -224,7 +235,8 @@ define(function(require,exports,module){
 						// // 关闭弹出层
 						// $(Dom.addCompModal).modal('hide')
 						setTimeout(function(){
-							self.getCompByFunId();
+							var cmd = "parentId=" + Data.funId;
+							self.getCompByFunId(cmd);
 						},1000)
 					}
 	  			});
@@ -296,6 +308,7 @@ define(function(require,exports,module){
 		addParamInfo: function(){
 			var self = this;
 			var _domAdd = $(Dom.getParameterWrap).find("[name='add']");
+			_domAdd.unbind('click');
 			_domAdd.bind('click', function() {
 				$(Dom.addParameterForm).removeClass('hide');
 				var json = Data.setPageType("添加参数")
@@ -312,12 +325,15 @@ define(function(require,exports,module){
 		updateParamInfo:function(type){
 			var self = this;
 			var _srvMap = type == "save" ? 'addParamInfo' : 'updateParamInfo';
-			var _compId = type == "save" ? Data.addCompId : Data.compId;
-			alert(Data.addCompId);
+			//var _compId = type == "save" ? Data.addCompId : Data.compId;
+			//alert(type);
+			//alert(_srvMap);
     		var _domSave = $(Dom.addParameterForm).find("[name='save']");
     		_domSave.unbind('click');
     		_domSave.bind('click', function() {
 				var cmd = $(this).parents("form").serialize();
+				var _compId = Data.isAdd == true ? Data.addCompId : Data.compId;
+				alert(_compId);
 				cmd =  cmd + "&compId="+_compId;
 				alert(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -326,7 +342,7 @@ define(function(require,exports,module){
 					if(status) {
 						window.XMS.msgbox.show('保存成功！', 'success', 2000)
 						setTimeout(function(){
-							self.getParameterListById();
+							self.getParameterListById("compId="+_compId);
 						},1000)
 					}
 	  			});
@@ -356,7 +372,12 @@ define(function(require,exports,module){
 		//获取组件信息(根据组件ID)
 		getCompinfo:function(cmd){
 			var self = this;
-			var cmd = "compId=" + Data.compId;
+			alert(cmd);
+			//设置修改标志
+			Data.isAdd = false;
+			// var cmd = "compId=" + Data.compId;
+			// 加载控件树
+		    self.getCompCtrTree();
 			Rose.ajax.getJson(srvMap.get('getCompinfo'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化

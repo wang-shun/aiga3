@@ -58,7 +58,6 @@ define(function(require, exports, module) {
 			this._render();
 		},
 		_render: function() {
-			// this.initOrganize();
 			this.queriesControl();
 			this.Tree();
 
@@ -93,7 +92,6 @@ define(function(require, exports, module) {
 						        Data.funId = _funId;
 						        var cmd = "funId="+_funId;
 						        self.initOrganize(cmd);
-						        //self.addComp(cmd1);
 							 }
 						}
 
@@ -143,15 +141,6 @@ define(function(require, exports, module) {
 				}
 				self.initOrganize(cmd);
 				Data.funId = "";
-				// Rose.ajax.getJson(srvMap.get('getControlList'), cmd, function(json, status) {
-				// 	if (status) {
-				// 		var template = Handlebars.compile(Tpl.getContral);
-				// 		console.log("1111111");
-				// 		console.log("1111111"+json.data);
-				// 		$(Dom.getControlList).html(template(json.data));
-
-				// 	}
-				// });
 			});
 
 		},
@@ -202,7 +191,6 @@ define(function(require, exports, module) {
 //			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			var _data = self.getControlRow();
 			var _ctrlId = _data.ctrlId;
-			// var cmd = 'caseId='+_data.caseId;
 			alert(_ctrlId+"11111111");
 			var cmd = {
 				"ctrlId": _ctrlId,
@@ -234,7 +222,6 @@ define(function(require, exports, module) {
 				            var cmd = _form.serialize()+cm;
 
 				            console.log(cmd);
-				  			// self.getUserinfoList(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
 				  			Rose.ajax.getJson(srvMap.get('updateControl'), cmd, function(json, status) {
 								if(status) {

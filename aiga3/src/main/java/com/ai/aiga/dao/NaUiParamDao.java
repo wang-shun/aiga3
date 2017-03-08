@@ -10,7 +10,7 @@ import com.ai.aiga.domain.NaUiParam;
 
 public interface NaUiParamDao extends JpaRepository<NaUiParam, Long>{
 
-	@Query(value = "select param_id, param_name,param_value, param_desc,param_sql,param_expext"
+	@Query(value = "select param_id, param_name,param_value, param_desc,param_sql,param_expect"
 			+ " from na_ui_param where comp_id = ?1", nativeQuery = true)
 	List<Object[]> compParamList(Long compId);
 	

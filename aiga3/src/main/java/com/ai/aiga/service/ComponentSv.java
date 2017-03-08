@@ -296,9 +296,9 @@ public class ComponentSv {
 		if(StringUtils.isBlank(naUiParamRequest.getParamExpect())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-		if(StringUtils.isBlank(naUiParamRequest.getCreatorId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
+//		if(StringUtils.isBlank(naUiParamRequest.getCreatorId().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+//		}
 		NaUiParam NaUiParam = new NaUiParam();
 		NaUiParam.setCompId(naUiParamRequest.getCompId());
 		NaUiParam.setParamName(naUiParamRequest.getParamName());
@@ -306,7 +306,7 @@ public class ComponentSv {
 		NaUiParam.setParamDesc(naUiParamRequest.getParamDesc());
 		NaUiParam.setParamSql(naUiParamRequest.getParamSql());
 		NaUiParam.setParamExpect(naUiParamRequest.getParamExpect());
-		NaUiParam.setCreatorId(naUiParamRequest.getCreatorId());
+		//NaUiParam.setCreatorId(naUiParamRequest.getCreatorId());
 		NaUiParam.setCreateTime(new Date(System.currentTimeMillis()));
 		naUiParamDao.save(NaUiParam);
 	}

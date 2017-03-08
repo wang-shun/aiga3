@@ -356,7 +356,7 @@ define(function(require,exports,module){
 			_domDel.bind('click', function() {
 				var _data = self.getCheckedParamRow();
 				if(_data){
-					var cmd = 'ParamId='+_data.ParamId;
+					var cmd = 'paramId='+_data.paramId;
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delParamInfo'), cmd, function(json, status) {
 						if(status) {

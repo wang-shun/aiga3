@@ -233,8 +233,7 @@ public class ComponentSv {
 				try {
 					cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					
 				}
 				
 			}
@@ -243,8 +242,7 @@ public class ComponentSv {
 				try {
 					cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					
 				}
 			}
 		}

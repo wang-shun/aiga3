@@ -14,14 +14,14 @@ public class NaAutoCase {
     private Long testId;
     private Long tempId;
     private String testType;
-    private Long caseType;
+    private byte caseType;
     private String autoName;
     private Long sysId;
     private Long sysSubId;
     private Long busiId;
     private Long funId;
     private Long scId;
-    private Long important;
+    private Short important;
     private Long environmentType;
     private Long status;
     private Long hasAuto;
@@ -75,11 +75,11 @@ public class NaAutoCase {
 
     @Basic
     @Column(name = "CASE_TYPE")
-    public Long getCaseType() {
+    public byte getCaseType() {
         return caseType;
     }
 
-    public void setCaseType(Long caseType) {
+    public void setCaseType(byte caseType) {
         this.caseType = caseType;
     }
 
@@ -145,11 +145,11 @@ public class NaAutoCase {
 
     @Basic
     @Column(name = "IMPORTANT")
-    public Long getImportant() {
+    public Short getImportant() {
         return important;
     }
 
-    public void setImportant(Long important) {
+    public void setImportant(Short important) {
         this.important = important;
     }
 

@@ -321,7 +321,7 @@ public class ComponentSv {
 
 	public void compParamDel(Long paramId) {
 		
-		naUiParamDao.compParamDel(paramId);
+		naUiParamDao.delete(paramId);
 		
 	}
 
@@ -352,6 +352,9 @@ public class ComponentSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
 		NaUiParam naUiParam = naUiParamDao.findOne(naUiParamRequest.getParamId());
+		if(naUiParam == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
 		if(StringUtils.isNotBlank(naUiParamRequest.getParamDesc())){
 			naUiParam.setParamDesc(naUiParamRequest.getParamDesc());
 		}
@@ -365,7 +368,7 @@ public class ComponentSv {
 			naUiParam.setParamSql(naUiParamRequest.getParamSql());
 		}
 		if(StringUtils.isNotBlank(naUiParamRequest.getParamValue().toString())){
-			naUiParam.setParamValue(naUiParamRequest.getParamValue().toString());
+			naUiParam.setParamValue(naUiParamRequest.getParamValue());
 		}
 		naUiParamDao.save(naUiParam);
 		

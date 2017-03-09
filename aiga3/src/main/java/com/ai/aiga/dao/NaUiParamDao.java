@@ -14,8 +14,6 @@ public interface NaUiParamDao extends JpaRepository<NaUiParam, Long>{
 			+ " from na_ui_param where comp_id = ?1", nativeQuery = true)
 	List<Object[]> compParamList(Long compId);
 	
-	@Modifying
-	@Query(value = "delete from na_ui_param where  param_id = ?1", nativeQuery = true)
-	void compParamDel(Long paramId);
+	
 
 }

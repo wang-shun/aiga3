@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.AigaSystemFolderDao;
-import com.ai.aiga.domain.AigaRole;
+
 import com.ai.aiga.domain.AigaSystemFolder;
 
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.AigaSystemFolderRequest;
-import com.ai.aiga.view.json.RoleRequest;
+
 
 @Service
 @Transactional

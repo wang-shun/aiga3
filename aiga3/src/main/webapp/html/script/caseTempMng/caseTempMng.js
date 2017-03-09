@@ -59,7 +59,7 @@ define(function(require, exports, module) {
 	    //modal
 	    modalCaseTempForm:'#modal_CaseTempForm',
 	    modalAutoTempForm:'#modal_AutoCaseTempForm',
-	    modaltestCaseForm:'#modal_testCaseForm',
+	    modalTestCaseForm:'#modal_testCaseForm',
 	    caseTempForm:'#JS_CaseTempForm',
 	    testForm:'#JS_TestForm',
 
@@ -212,7 +212,8 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Tpl.getCaseTempForm);
 				$(Dom.caseTempForm).html(template());
 				$("#JS_messageAddFactor").show();
-				$('#factorThead').hide();				
+				$('#factorThead').hide();
+				$(Dom.factorList).empty();				
 				//加载下拉框
 				self.getSysList("#add_sysId");
 				self.sysSelected();
@@ -264,7 +265,7 @@ define(function(require, exports, module) {
 					$("#myModalLabel").html("查看编辑模板");
 					//加载form表单
 					self.getCaseTempInfo(_data.caseId);
-
+					
 					//加载下拉框
 					self.getSysList("#add_sysId");
 					self.sysSelected();
@@ -377,7 +378,7 @@ define(function(require, exports, module) {
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
 					cmd = 'caseId'+_data.caseId;
-					$(Dom.modaltestCaseForm).modal('show');
+					$(Dom.modalTestCaseForm).modal('show');
 					$('#testName1').val(_data.caseName+'_');
 					Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), _data.caseId, function(json, status) {
 						if(status) {
@@ -395,9 +396,10 @@ define(function(require, exports, module) {
 			//保存测试用例
 			$(Dom.testForm).find("button[name='save']").bind('click', function() {
 				cmd = cmd+"&testName="+$('#testName1').val()+$('#testName2').val();
-				$(Dom.factorList).find("tr").each(function(){
+				$(Dom.testFactorList).find("tr").each(function(){
 				    var tdArr = $(this).children();
-				    if(tdArr.eq(0).find("input").checked){
+				    if(tdArr.eq(0).find("input").is(':checked')){
+
 					    cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
 					    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
 					    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
@@ -411,17 +413,17 @@ define(function(require, exports, module) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('测试用例生成成功！', 'success', 2000)
 						// 关闭弹出层
-						$(Dom.modalAutoTempForm).modal('hide')
+						$(Dom.modalTestCaseForm).modal('hide')
 						
 					}
 				});				
 			});
 			$(Dom.testForm).find("button[name='cancel']").bind('click', function() {
-				$(Dom.modaltestCaseForm).modal('hide');
+				$(Dom.modalTestCaseForm).modal('hide');
 			});			
 		},					
 
-		// 查看与编辑模板
+
 			
 		// 删除模板
 		deleCaseTemp: function() {
@@ -456,7 +458,7 @@ define(function(require, exports, module) {
 						$("#JS_messageAddFactor").hide();
 						$('#factorThead').show();
 						$(Dom.caseTempForm).html(caseTemp_template(json.data));
-						$(Dom.factorList).append(factor_template(json.data.factors));
+						$(Dom.factorList).html(factor_template(json.data.factors));
 						self.eventClickChecked($(Dom.factorList), function() {
 						})
 					}

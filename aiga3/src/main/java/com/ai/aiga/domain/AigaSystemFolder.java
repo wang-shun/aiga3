@@ -5,7 +5,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +51,8 @@ public class AigaSystemFolder implements java.io.Serializable {
 	}
 
 	@Id
-
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="AIGA_SYSTEM_FOLDER$SEQ")
+	@SequenceGenerator(name="AIGA_SYSTEM_FOLDER$SEQ",sequenceName="AIGA_SYSTEM_FOLDER$SEQ",allocationSize=1)
 	@Column(name = "SYS_ID", unique = true, nullable = false, precision = 20, scale = 0)
 	public BigDecimal getSysId() {
 		return this.sysId;

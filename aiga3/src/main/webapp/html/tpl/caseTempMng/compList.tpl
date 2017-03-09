@@ -1,7 +1,4 @@
 
-
-
-
 <tr>
     <td><input type="radio" class="minimal" value="{{compId}}" name="compId"></td>
     <td>{{compName}}<input type="hidden"  value="{{compName}}" name="compName"></td>

@@ -1,0 +1,26 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+    "caseType": "UI类",
+    "creator": "创建人",
+    "update": "修改人",
+    "updateTime":"2017-2-02 08:00:00",
+    "important": "三级用例", 
+    "factors":[{
+      "factorId":"11",
+      "factorName":"因子1",
+      "remark":"因子描述"
+    },{
+      "factorId":"11",
+      "factorName":"因子1",
+      "remark":"影子在描述"
+    },{
+  	  "factorId":"11",
+      "factorName":"因子1",
+      "remark":"因子描述"
+    }]
+  }
+}

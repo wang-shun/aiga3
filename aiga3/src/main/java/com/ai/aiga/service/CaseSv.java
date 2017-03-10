@@ -19,6 +19,7 @@ import com.ai.aiga.domain.NaTestCase;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.CaseTestResponse;
 
 @Service
 @Transactional
@@ -71,6 +72,17 @@ public class CaseSv extends BaseService{
 		testCaseDao.deleteByTestIdIn(caseIds);
 		testCaseParamDao.deleteByTestIdIn(caseIds);
 		
+	}
+
+
+	public CaseTestResponse getCaseTest(Long testId) {
+		
+		if(testId == null || testId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
+		}
+		
+		
+		return null;
 	}
 
 }

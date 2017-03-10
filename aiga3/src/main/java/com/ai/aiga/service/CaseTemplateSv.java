@@ -14,6 +14,7 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaCaseFactorDao;
 import com.ai.aiga.dao.NaCaseTemplateDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.domain.NaCaseFactor;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.exception.BusinessException;
@@ -140,9 +141,6 @@ public class CaseTemplateSv extends BaseService{
 			//caseFactorDao.deleteByCaseId(caseId);
 		}
 		
-		
-		
-		
 	}
 
 
@@ -165,6 +163,37 @@ public class CaseTemplateSv extends BaseService{
 		response.setFactors(facs);
 		
 		return response;
+	}
+
+
+	public void updateTmeplate(TemplateRequest request) {
+		
+		if(request == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+		}
+		
+		if(request.getCaseId() == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+		}
+		
+		NaCaseTemplate template = caseTemplateDao.findOne(request.getCaseId());
+		
+		if(template == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid, "caseId");
+		}
+		
+		template.setCaseName(request.getCaseName());
+		template.setImportant(request.getImportant());
+		template.setSysId(request.getSysId());
+		template.setSysSubId(request.getSysSubId());
+		template.setFunId(request.getFunId());
+		template.setBusiId(request.getBusiId());
+		
+		caseTemplateDao.save(template);
+		//保存因子
+//		List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
+//		caseFactorDao.save(factorList);
+		
 	}
 
 }

@@ -66,9 +66,9 @@ public class CaseInstanceController {
 	}
 	
 	@RequestMapping(path = "/case/instance/get" )
-	public @ResponseBody JsonBean get(Long caseId){
+	public @ResponseBody JsonBean get(Long testId){
 		JsonBean bean = new JsonBean();
-		bean.setData(caseTemplateSv.getTmeplate(caseId));
+		bean.setData(caseSv.getCaseTest(testId));
 		return bean;
 	}
 	

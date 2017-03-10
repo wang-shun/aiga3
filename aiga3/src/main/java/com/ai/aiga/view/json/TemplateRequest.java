@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Range;
 
 public class TemplateRequest {
 	
-	private long caseId;
+	private Long caseId;
 	
 	@NotBlank(message = "用例模板名称不能为空!")
 	private String caseName;
@@ -27,14 +27,15 @@ public class TemplateRequest {
 	private Long scId;
 	private Long busiId;
 	
+	private List<Long> factorId;
 	private List<String> factorName;
 	private List<String> remark;
 
-	public long getCaseId() {
+	public Long getCaseId() {
 		return caseId;
 	}
 
-	public void setCaseId(long caseId) {
+	public void setCaseId(Long caseId) {
 		this.caseId = caseId;
 	}
 
@@ -140,6 +141,14 @@ public class TemplateRequest {
 
 	public void setRemark(List<String> remark) {
 		this.remark = remark;
+	}
+
+	public List<Long> getFactorId() {
+		return factorId;
+	}
+
+	public void setFactorId(List<Long> factorId) {
+		this.factorId = factorId;
 	}
 
 }

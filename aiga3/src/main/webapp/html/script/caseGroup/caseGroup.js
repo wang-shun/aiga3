@@ -405,11 +405,12 @@ define(function(require, exports, module) {
             var self = this;
             $(Dom.getSysList).change(function() {
                 var id = $(Dom.getSysList).val();
-                self.getSubSysList(id);
+                var cmd = "sysid="+id;
+                self.getSubSysList(cmd);
             });
             $('#JS_sysId').on("change", function() {
                 var id = $('#JS_sysId').val();
-                var cmd = "sysId="+id;
+                var cmd = "sysid="+id;
                 self.getSubSysList(cmd);
             });
 
@@ -420,11 +421,12 @@ define(function(require, exports, module) {
             var self = this;
             $(Dom.getSubsysList).change(function() {
                 var id = $(Dom.getSubsysList).val();
-                self.getFunList(id);
+                var cmd = "subysId=" + id;
+                self.getFunList(cmd);
             });
             $("#JS_subSysId").change(function() {
                 var id = $("#JS_subSysId").val();
-                var cmd = "subSysId=" + id;
+                var cmd = "subsysid=" + id;
                 self.getFunList(cmd);
             });
         },

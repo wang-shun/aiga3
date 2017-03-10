@@ -132,8 +132,7 @@ define(function(require, exports, module) {
                 _form.html(template({}));
                 // 表单提交
                 $("#JS_addCaseGroupSubmit").bind('click', function() {
-                    var _cmd = "&creatorId=1";
-                    var cmd = _form.serialize() + _cmd;
+                    var cmd = _form.serialize();
                     console.log(cmd);
                     Rose.ajax.getJson(srvMap.get('addCaseGroup'), cmd, function(json, status) {
                         if (status) {

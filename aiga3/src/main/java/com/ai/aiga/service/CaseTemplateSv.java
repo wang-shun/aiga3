@@ -67,6 +67,8 @@ public class CaseTemplateSv extends BaseService{
 			}
 		}
 		
+		cons.add(new Condition("states", 1, Condition.Type.EQ));
+		
 		
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -90,6 +92,7 @@ public class CaseTemplateSv extends BaseService{
 
 		long start = System.currentTimeMillis();
 		NaCaseTemplate template = BeanMapper.map(request, NaCaseTemplate.class);
+		template.setStates((byte) 1);
 		System.out.println("花费时间:" + (System.currentTimeMillis() - start));
 		
 		caseTemplateDao.save(template);

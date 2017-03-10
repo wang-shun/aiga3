@@ -62,7 +62,7 @@ define(function(require, exports, module) {
         //查询用例组
         queryCaseGroup: '#JS_queryCaseGroup' //抓取表单搜索用例组
     };
-    var dropChoice1 {
+    var dropChoice1 = {
         getSysList: '#JS_sysId',
         getSubsysList: '#JS_subSysId',
         getFunList: '#JS_funId',

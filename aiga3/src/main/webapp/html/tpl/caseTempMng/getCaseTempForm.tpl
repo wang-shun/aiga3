@@ -44,12 +44,9 @@
 <div class="row">
     <div class="col-sm-6 form-group">
         <label class="col-sm-4 control-label">功&nbsp;&nbsp;能&nbsp;&nbsp;点：</label>
-        <div id="add_caseType" class="col-sm-8 pull-left">
-            <select  name="caseType" class="form-control select2 input-sm" >
-                <option> </option>
-                <option value="1">UI类</option>
-                <option value="2">接口类</option>
-                <option value="3">后台进程类</option>           
+        <div id="add_funId" class="col-sm-8 pull-left">
+            <select  name="funId" class="form-control select2 input-sm" >
+                         
             </select>            
         </div>
     </div>
@@ -65,9 +62,12 @@
 <div class="row">
     <div class="col-sm-6 form-group">
         <label class="col-sm-4 control-label">用例类型：</label>
-        <div id="add_funId" class="col-sm-8 pull-left">
-            <select  name="funId" class="form-control select2 input-sm" >
-                
+        <div id="add_caseType" class="col-sm-8 pull-left">
+            <select  name="caseType" class="form-control select2 input-sm" >
+                <option> </option>
+                <option value="1">UI类</option>
+                <option value="2">接口类</option>
+                <option value="3">后台进程类</option>                  
             </select>            
         </div>
     </div>                                                   

@@ -23,9 +23,9 @@ define(function(require, exports, module) {
     //获取组件信息
     srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "sys/component/findone");
 	//保存自动化模板
-    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "/auto/templateComp/saveListByCaseId");
+    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "auto/templateComp/saveListByCaseId");
 	//保存测试用例
-    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "sys/caseTemplat/addTestCase");    
+    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/template/addTestCase");    
     
 
 	// 模板对象
@@ -268,7 +268,11 @@ define(function(require, exports, module) {
 							});
 						// });
 					})
-			})
+			});
+		$(Dom.modalCaseTempForm).find("button[name='cancel']").unbind('click');
+			$(Dom.modalCaseTempForm).find("button[name='cancel']").bind('click', function() {
+				$(Dom.modalCaseTempForm).modal('hide');
+			});				
 		},
 		//查看与编辑
 		editCaseTemp: function() {
@@ -289,6 +293,7 @@ define(function(require, exports, module) {
 					var _form = $(Dom.caseTempForm);
 					//_form.bootstrapValidator('validate');
 					// 表单提交
+					$("#JS_SaveCaseTemp").unbind('click')
 					$("#JS_SaveCaseTemp").bind('click', function() {
 
 							// 表单校验：成功后调取接口
@@ -320,11 +325,14 @@ define(function(require, exports, module) {
 
 				
 			});
+			$(Dom.modalCaseTempForm).find("button[name='cancel']").unbind('click');
+			$(Dom.modalCaseTempForm).find("button[name='cancel']").bind('click', function() {
+				$(Dom.modalCaseTempForm).modal('hide');
+			});			
 		},	
 		//生成自动化模板
 		newAutoCaseTemp: function() {
 			var self = this;
-			var cmd = [];
 			var caseId;
 			$(Dom.createAutoTestTemp).bind('click', function() {
 
@@ -332,7 +340,6 @@ define(function(require, exports, module) {
 				// 	"height": '420px'
 				// });
 				//获取当前选中模板
-				cmd = [];
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
 					caseId = _data.caseId;
@@ -357,7 +364,7 @@ define(function(require, exports, module) {
 
 			//保存自动化模板
 			$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
-				
+				var cmd = [];
 				var name = $('#tempName1').val()+$('#tempName2').val();
 				$("#compBody").find("tr").each(function(){
 				    var tdArr = $(this).children();
@@ -472,10 +479,7 @@ define(function(require, exports, module) {
 						//self.getSysList("#add_sysId");
 						self.getSysList(dropChoice2,function(){
 							$(Dom.caseTempForm).find("select[name='important']").val(json.data.important);
-							$(Dom.caseTempForm).find("select[name='sysId']").val(11);
-							
-							alert($(Dom.caseTempForm).find("select[name='sysId']").val());
-							alert(json.data.sysId);
+							$(Dom.caseTempForm).find("select[name='sysId']").val(json.data.sysId);
 							$(Dom.caseTempForm).find("select[name='subSysId']").val(json.data.subSysId);
 							$(Dom.caseTempForm).find("select[name='funId']").val(json.data.funId);
 							$(Dom.caseTempForm).find("select[name='busiId']").val(json.data.busiId);

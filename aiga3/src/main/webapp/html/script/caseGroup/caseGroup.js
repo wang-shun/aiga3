@@ -405,11 +405,13 @@ define(function(require, exports, module) {
             var self = this;
             $(Dom.getSysList).change(function() {
                 var id = $(Dom.getSysList).val();
-                self.getSubSysList(id);
+                var cmd = "sysid="+id;
+                self.getSubSysList(cmd);
             });
             $('#JS_sysId').on("change", function() {
                 var id = $('#JS_sysId').val();
-                self.getSubSysList(id);
+                var cmd = "sysid="+id;
+                self.getSubSysList(cmd);
             });
 
         },
@@ -419,16 +421,18 @@ define(function(require, exports, module) {
             var self = this;
             $(Dom.getSubsysList).change(function() {
                 var id = $(Dom.getSubsysList).val();
-                self.getFunList(id);
+                var cmd = "subysId=" + id;
+                self.getFunList(cmd);
             });
             $("#JS_subSysId").change(function() {
                 var id = $("#JS_subSysId").val();
-                self.getFunList(id);
+                var cmd = "subsysid=" + id;
+                self.getFunList(cmd);
             });
         },
         //系统子类下拉框
-        getSubSysList: function(id) {
-            Rose.ajax.getJson(srvMap.get('getSubsysList'), id, function(json, status) {
+        getSubSysList: function(cmd) {
+            Rose.ajax.getJson(srvMap.get('getSubsysList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getSubSysList);
                     $(Dom.getSubsysList).html(template(json.data));
@@ -438,8 +442,8 @@ define(function(require, exports, module) {
             });
         },
         //功能点下拉框
-        getFunList: function(id) {
-            Rose.ajax.getJson(srvMap.get('getFunList'), id, function(json, status) {
+        getFunList: function(cmd) {
+            Rose.ajax.getJson(srvMap.get('getFunList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getFunList);
                     $(Dom.getFunList).html(template(json.data));

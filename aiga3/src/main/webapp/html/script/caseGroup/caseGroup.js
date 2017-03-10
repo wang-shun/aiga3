@@ -139,7 +139,8 @@ define(function(require, exports, module) {
                 _form.html(template({}));
                 // 表单提交
                 $("#JS_addCaseGroupSubmit").bind('click', function() {
-                    var cmd = _form.serialize();
+                    var _cmd = "&creatorId=1";
+                    var cmd = _form.serialize() + _cmd;
                     console.log(cmd);
                     Rose.ajax.getJson(srvMap.get('addCaseGroup'), cmd, function(json, status) {
                         if (status) {
@@ -306,7 +307,7 @@ define(function(require, exports, module) {
                     })
                     var _cmd = "groupId=" + _groupId;
                     var _cmd1 = "&autoIds=" + _autoIdsArray.join(",");
-                    var cmd = _cmd + _cmd1;
+                    var cmd = _cmd + _cmd1 + "&creatorId=1";
                     console.log(cmd);
                     Rose.ajax.getJson(srvMap.get('addRelaCase'), cmd, function(json, status) {
                         if (status) {

@@ -67,6 +67,8 @@ public class CaseTemplateSv extends BaseService{
 			}
 		}
 		
+		cons.add(new Condition("states", 1, Condition.Type.EQ));
+		
 		
 		if(pageNumber < 0){
 			pageNumber = 0;

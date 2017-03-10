@@ -326,7 +326,7 @@ define(function(require, exports, module) {
 								    cmd.push({"caseName":caseName,"caseId":caseId,"important":important,"sysId":sysId,"subsysId":subsysId,"funId":funId,"busiId":busiId,"caseType":caseType,"operateDesc":operateDesc,"factorId":id,"factorName":name,"remark":remark});
 								 });	
 								console.log(cmd);						
-								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
+								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), JSON.stringify(cmd), function(json, status) {
 									if (status) {
 										// 添加用户成功后，刷新用户列表页
 										XMS.msgbox.show('添加模板成功！', 'success', 2000)

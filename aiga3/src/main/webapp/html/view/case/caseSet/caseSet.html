@@ -1,0 +1,79 @@
+
+<div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">条件查询</h3>
+      </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+      <form id="JS_queryCaseSetForm" class="form-horizontal" role = "form">
+          
+      </form>
+</div>
+
+
+<div class="content">
+  <div class="row">
+         
+    <div class="box"  style="min-height: 100px">
+        <div class="box-header">
+          <h3 class="box-title">用例集列表</h3>
+          <div class="box-tools">
+              <div class="btn-group">
+                  <button type="button" class="btn btn-primary" data-toggle="modal"  id="JS_addCaseSet"><i class="fa fa-plus"></i> 新增用例集</button>
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                      <span class="caret"></span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                      <li><a href="javascript:;" id="JS_deleCaseSet">删除模板</a></li>
+                      <li><a href="javascript:;" id="JS_viewCaseSet">查看编辑</a></li>
+                      <li><a href="javascript:;" id="JS_createTest">ddd</a></li>
+                      <li><a href="javascript:;" id="JS_connectCaseCollection">关联用例集</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div id="JS_getCaseSetList"  class="box-body" style="min-height: 100px;" >
+        
+      </div>
+    </div>
+  </div>    
+</div>
+
+<!-- 弹框，新增 -->
+<div class="modal fade" id="JS_addCaseSetinfoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">添加用例集</h4>
+            </div>
+            <div class="modal-body">
+                <form id="JS_addCaseSetinfoForm">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-default pull-left" id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="JS_addCaseSetinfoSubmit">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 弹框，关联 -->
+<div class="modal fade" id="JS_connectCaseSetinfoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id="JS_connectCaseSetinfo">
+      
+        </div>
+    </div>
+</div>
+<!-- -->
+
+<script>
+    seajs.use("script/case/caseSet/getCaseSet", function(init) {
+        init.init();
+    });     
+</script>

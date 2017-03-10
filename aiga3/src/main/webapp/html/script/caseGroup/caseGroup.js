@@ -218,7 +218,7 @@ define(function(require, exports, module) {
                     $(Dom.updateCaseGroupSubmit).bind('click', function() {
 
                         // var _cmd = "&groupId=" + Data.groupId;
-                        var cmd = _form.serialize();
+                        var cmd = _form.serialize() + "&updateId=1";
                         console.log(cmd);
                         XMS.msgbox.show('数据加载中，请稍候...', 'loading')
                         Rose.ajax.getJson(srvMap.get('updateCaseGroup'), cmd, function(json, status) {

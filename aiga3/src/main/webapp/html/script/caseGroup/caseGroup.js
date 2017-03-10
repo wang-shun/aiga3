@@ -46,13 +46,8 @@ define(function(require, exports, module) {
         addCaseGroupInfo: '#JS_addCaseGroupInfo', //获取添加用例组的表单数据
         updateCaseGroupInfo: '#JS_updateCaseGroupInfo', // 编辑用例组获取用例组的名称 
         updateCaseGroupModal: '#JS_updateCaseGroupModal', //弹出编辑用例组界面
-        getSysList: '#JS_sysId',
-        getSubsysList: '#JS_subSysId',
-        getFunList: '#JS_funId',
         getCaseList: '#JS_getCaseList', //获取用例列表
         getRelaCaseList: '#JS_getRelaCaseList', //获取已关联的用例列表
-
-
         //功能按钮
         addCaseGroup: '#JS_addCaseGroup', //新增用例组
         delCaseGroup: '#JS_delCaseGroup', //删除用例组
@@ -60,19 +55,17 @@ define(function(require, exports, module) {
         updateCaseGroupSubmit: '#JS_updateCaseGroupSubmit', //修改用例组名称
         relaCase: '#JS_relaCase', //关联用例
         getRelaCaseWrap: '#JS_getRelaCaseWrap', //用于抓取tab2上两个按钮
-
         //modal
         addCaseGroupModal: '#JS_addCaseGroupModal',
-
-
         //查询用例
         queryCaseList: '#JS_queryCaseList', //获取用例列表(搜索)
         //查询用例组
         queryCaseGroup: '#JS_queryCaseGroup' //抓取表单搜索用例组
-
-
-
-
+    };
+    var dropChoice1 = {
+        getSysList: '#JS_sysId',
+        getSubsysList: '#JS_subSysId',
+        getFunList: '#JS_funId',
     };
 
     var Data = {
@@ -201,9 +194,7 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.addCaseGroupInfo);
                     console.log(json.data);
                     _form.html(template(json.data));
-                    self.getSysList(Dom.getSysList);
-                    self.sysSelected();
-                    self.subsysSelected();
+                    self.getSysList(dropChoice1)
                     self.getCaseList();
                     self.queryCaseList();
                     self.getRelaCaseList();
@@ -226,7 +217,7 @@ define(function(require, exports, module) {
                                 // 添加用户成功后，刷新用户列表页
                                 XMS.msgbox.show('修改用例组成功！', 'success', 2000)
                                     // 关闭弹出层
-                                     $(Dom.updateCaseGroupModal).modal('hide')
+                                $(Dom.updateCaseGroupModal).modal('hide')
                                 setTimeout(function() {
                                     self.getCaseGroupList();
                                 }, 1000)
@@ -388,66 +379,61 @@ define(function(require, exports, module) {
             });
         },
         //系统大类下拉框
-        getSysList: function(select) {
+        getSysList: function(obj, callback) {
+            var self = this;
             Rose.ajax.getJson(srvMap.get('getSysList'), '', function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getSysList);
-                    $(select).html(template(json.data));
+                    $(obj.getSysList).html(template(json.data));
+                    if (callback) {
+                        callback();
 
+                    }
                     console.log(json.data)
                 }
+                self.sysSelected(obj);
+
+
             });
         },
 
-
         //系统大类下拉框选择事件
-        sysSelected: function() {
+        sysSelected: function(obj) {
             var self = this;
-            $(Dom.getSysList).change(function() {
-                var id = $(Dom.getSysList).val();
-                var cmd = "sysid="+id;
-                self.getSubSysList(cmd);
-            });
-            $('#JS_sysId').on("change", function() {
-                var id = $('#JS_sysId').val();
-                var cmd = "sysid="+id;
-                self.getSubSysList(cmd);
+            $(obj.getSysList).find("select").change(function() {
+                var id = $(obj.getSysList).find("select").val();
+                console.log(id);
+                self.getSubSysList(id, obj);
             });
 
         },
 
         //系统子类下拉框选择事件
-        subsysSelected: function() {
+        subsysSelected: function(obj) {
             var self = this;
-            $(Dom.getSubsysList).change(function() {
-                var id = $(Dom.getSubsysList).val();
-                var cmd = "subysId=" + id;
-                self.getFunList(cmd);
-            });
-            $("#JS_subSysId").change(function() {
-                var id = $("#JS_subSysId").val();
-                var cmd = "subsysid=" + id;
-                self.getFunList(cmd);
+            $(obj.getSubsysList).find("select").change(function() {
+                var id = $(obj.getSubsysList).find("select").val();
+                self.getFunList(id, obj);
             });
         },
         //系统子类下拉框
-        getSubSysList: function(cmd) {
-            Rose.ajax.getJson(srvMap.get('getSubsysList'), cmd, function(json, status) {
+        getSubSysList: function(id, obj) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysid=' + id, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getSubSysList);
-                    $(Dom.getSubsysList).html(template(json.data));
-                    $("#JS_subSysId").html(template(json.data));
+                    $(obj.getSubsysList).html(template(json.data));
                     console.log(json.data)
+                    self.subsysSelected(obj);
                 }
             });
         },
         //功能点下拉框
-        getFunList: function(cmd) {
-            Rose.ajax.getJson(srvMap.get('getFunList'), cmd, function(json, status) {
+        getFunList: function(id, obj) {
+            Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysid=' + id, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getFunList);
-                    $(Dom.getFunList).html(template(json.data));
-                    $("#JS_funId").html(template(json.data));
+                    $(obj.getFunList).html(template(json.data));
                     console.log(json.data)
                 }
             });

@@ -15,8 +15,8 @@
 	                 	<input type="radio" class="minimal" name="groupId" value="{{groupId}}">
 	                </td>
 	                <td>{{groupName}}</td>
-	                <td>{{creatorId}}</td>
-	                <td>{{updateId}}</td>
+	                <td>{{creatorName}}</td>
+	                <td>{{updateName}}</td>
 	                <td>{{updateTime}}</td>
             	</tr>
             	{{/each}}

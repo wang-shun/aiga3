@@ -227,17 +227,14 @@ define(function(require, exports, module) {
 			})
 			var cmd = "collectId=" +_collectId;
 			Rose.ajax.getJson(srvMap.get('getCaseById'), cmd, function(json, status) {
-				alert(JSON.stringify(json.data));
+				alert();
 				alert(status);
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.addCaseSetinfo);
-					var a = json.data.content[0]["caseType"];
-					var b = json.data.content[0]["repairsId"];
-					console.log(json.data.content[0]);
-					var c = json.data.content[0];
-
-
+					var a = JSON.stringify(json.data.caseType);
+					var b = JSON.stringify(json.data.repairsId);
+					var c = json.data;
 					c["caseType"]=Dom.caseType;
 					c["repairsId"]=Dom.repairsId;
 					_form.html(template(c));

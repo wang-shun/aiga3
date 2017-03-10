@@ -194,7 +194,7 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.addCaseGroupInfo);
                     console.log(json.data);
                     _form.html(template(json.data));
-                    this.getSysList(dropChoice1)
+                    self.getSysList(dropChoice1)
                     self.getCaseList();
                     self.queryCaseList();
                     self.getRelaCaseList();

@@ -204,9 +204,9 @@ define(function(require, exports, module) {
 		updateCaseinfo:function(){
 			var self = this;
 			var _data = self.getCaseSetRow();
-			var _collectlId = _data.collectlId;
+			var _collectId = _data.collectId;
 			var cmd = {
-				"collectlId": _collectlId
+				"collectId": _collectId
 			}
 			Rose.ajax.getJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
 				if (status) {
@@ -314,8 +314,8 @@ define(function(require, exports, module) {
 		connectCaseCollection : function(){
 			var self = this;
 			var _data = self.getCaseSetRow();
-			var _collectlId = _data.collectlId;
-			var cmd = "collectlId="+_collectlId+"&collectIds=";
+			var _collectId = _data.collectId;
+			var cmd = "collectId="+_collectId+"&collectIds=";
 			Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
 				if (status) {
 					// var _form = $(Dom.addCaseSetinfoForm);
@@ -370,8 +370,8 @@ define(function(require, exports, module) {
 		connectCaseList : function(){
 			var self = this;
 			var _data = self.getCaseSetRow();
-			var _collectlId = _data.collectlId;
-			// var cmd = "collectlId="+_collectlId+"&collectIds=";
+			var _collectId = _data.collectId;
+			// var cmd = "collectId="+_collectId+"&collectIds=";
 			// Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
 			// 	if (status) {
 					// var _form = $(Dom.addCaseSetinfoForm);

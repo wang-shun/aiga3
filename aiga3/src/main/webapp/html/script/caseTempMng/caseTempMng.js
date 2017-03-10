@@ -14,18 +14,18 @@ define(function(require, exports, module) {
 	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "case/template/del");
 	//获取模板信息 ok
     srvMap.add("getCaseTempInfo", pathAlias +"getCaseTempInfo.json", "case/template/get"); 	
-	//新增用例模板 
+	//新增用例模板 Ok
 	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "case/template/save");
 	//修改用例模板 
 	srvMap.add("updateCaseTemp", pathAlias + "getCaseTempList.json", "case/template/update");
-    //获取组件树
+    //获取组件树 
 	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "sys/cache/commenCompTree");
-    //获取组件信息
+    //获取组件信息 OK
     srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "sys/component/findone");
 	//保存自动化模板
     srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "auto/templateComp/saveListByCaseId");
 	//保存测试用例
-    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/template/addTestCase");    
+    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/template/addTestCase"); 
     
 
 	// 模板对象
@@ -372,7 +372,7 @@ define(function(require, exports, module) {
 				    cmd.push({"tempName":name,"caseId":caseId,"compId":tdArr.eq(0).find("input").val(),"compOrder":tdArr.eq(3).find("input").val()});
 				 });
 				console.log(JSON.stringify(cmd));
-				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), JSON.stringify(cmd), function(json, status) {
+				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), JSON.stringify(cmd), function(json, status) {
 					if (status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)

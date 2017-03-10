@@ -30,6 +30,6 @@ public interface NaAutoCollectionDao extends SearchAndPageRepository<NaAutoColle
 		 * @param collectId 用例集编号
 		 */
 		@Modifying
-		@Query(value="update na_auto_collection t set t.case_num= ?1 where t.collect_id= ?2 ",nativeQuery=true)
-		public void  updateCaseNum(Integer caseNum,Long collectId);
+		@Query(value="update na_auto_collection t set t.case_num= (select count(*) from  na_auto_coll_group_case where collect_id =?1 and element_type in(1,2)) where collect_id=?1 " ,nativeQuery=true)
+		public int  updateCaseNum(Long collectId);
 }

@@ -3,7 +3,7 @@
           <h3 class="box-title">用例集列表</h3>
           <div class="box-tools">
               <div class="btn-group">
-                  <button type="button" class="btn btn-primary" data-toggle="modal"  id="JS_addCaseSet"><i class="fa fa-plus"></i> 关联用例集</button>
+                  <button type="button" class="btn btn-primary" data-toggle="modal"  id="JS_connectCaseCollectionButton"><i class="fa fa-plus"></i> 关联用例集</button>
               </div>
           </div>
 </div>

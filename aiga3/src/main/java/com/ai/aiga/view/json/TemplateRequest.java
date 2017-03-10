@@ -11,10 +11,10 @@ public class TemplateRequest {
 	
 	private long caseId;
 	
-	@NotBlank(message = "用例模板不能为空!")
+	@NotBlank(message = "用例模板名称不能为空!")
 	private String caseName;
 	
-	@Range(min=1, max=3, message = "模板类型不符合要求!")
+	@Range(min=1, max=3, message = "模板用例类型不符合要求!")
 	private byte caseType;
 	
 	private String testType;
@@ -28,7 +28,7 @@ public class TemplateRequest {
 	private Long busiId;
 	
 	private List<String> factorName;
-	private List<String> factordesc;
+	private List<String> remark;
 
 	public long getCaseId() {
 		return caseId;
@@ -134,13 +134,12 @@ public class TemplateRequest {
 		this.factorName = factorName;
 	}
 
-	public List<String> getFactordesc() {
-		return factordesc;
+	public List<String> getRemark() {
+		return remark;
 	}
 
-	public void setFactordesc(List<String> factordesc) {
-		this.factordesc = factordesc;
+	public void setRemark(List<String> remark) {
+		this.remark = remark;
 	}
-	
 
 }

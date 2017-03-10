@@ -93,7 +93,33 @@ public class CaseTemplateSv extends BaseService{
 		System.out.println("花费时间:" + (System.currentTimeMillis() - start));
 		
 		caseTemplateDao.save(template);
+		//保存因子
+		List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
+		caseFactorDao.save(factorList);
 		
+	}
+
+
+	private List<NaCaseFactor> structureCaseFactor(long caseId, List<String> factorName, List<String> remark) {
+		List<NaCaseFactor> list = new ArrayList<NaCaseFactor>();
+		if(factorName != null){
+			for(int i = 0; i < factorName.size(); i++){
+				
+				if(StringUtils.isNoneBlank(factorName.get(i))){
+					NaCaseFactor cf = new NaCaseFactor();
+					cf.setCaseId(caseId);
+					cf.setFactorName(factorName.get(i));
+					
+					if(remark != null && remark.size() >= (i + 1)){
+						cf.setRemark(remark.get(i));
+					}
+					
+					list.add(cf);
+				}
+				
+			}
+		}
+		return list;
 	}
 
 

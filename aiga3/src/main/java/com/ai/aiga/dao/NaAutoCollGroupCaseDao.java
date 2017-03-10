@@ -16,8 +16,8 @@ public interface NaAutoCollGroupCaseDao extends JpaRepository<NaAutoCollGroupCas
 	 * @param collectId  用例集信息
 	 * @return  NaAutoCollection
 	 */
-	@Query(value="select * from na_auto_coll_group_case where collect_id in (?1) ",nativeQuery = true)
-		public List<NaAutoCollGroupCase> findByCollectId(String collectId);
+	@Query(value="select * from na_auto_coll_group_case where collect_id = ?1 ",nativeQuery = true)
+		public List<NaAutoCollGroupCase> findByCollectId(Long collectId);
 	
 	@Modifying
 	@	Query(value="delete from na_auto_coll_group_case t where t.collect_id =  ?1 " , nativeQuery=true)

@@ -2,7 +2,9 @@ package com.ai.aiga.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -63,8 +65,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		/**
 		 * 如果用例集编号不存在，则新增。默认关联用例数量默认0 如果用例集编号存在，则修改
 		 */
-		System.out.println("********************88" + caseCollection.getCollectId());
-		if (StringUtils.isBlank(String.valueOf(caseCollection.getCollectId()))) {
+		if (caseCollection.getCollectId()==null) {
 			caseConnections.setCaseNum(0L);
 		} else {
 			caseConnections.setCollectId(caseCollection.getCollectId());
@@ -92,7 +93,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		}
 		String[] collectIds = collectId.split(",");
 		for (int i = 0; i < collectIds.length; i++) {
-			System.out.println("*******************" + collectIds[i]);
      	try {
 				// 删除用例集信息
 				caseDao.delete(Long.parseLong(collectIds[i]));
@@ -124,13 +124,16 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 */
 	public void connectCaseCollection(Long collectId, String collectIds) {
 		// 需要关联的用例集Id查询出需要关联的用例/用例组信息
-		List<NaAutoCollGroupCase> list = dao.findByCollectId(collectIds);
-		if (list != null && list.size() > 0) {
-			for (int i = 0; i < list.size(); i++) {
-				NaAutoCollGroupCase collGroupCase = list.get(i);
-				//查询当前用例是否已经关联
-				List lists = dao.findByCollectIdAndElementIdAndElementType(collectId, collGroupCase.getElementId(), collGroupCase.getElementType());
-					if(lists==null||lists.size()==0){
+		String[] ids = collectIds.split(",");
+		for (int i = 0; i < ids.length; i++) {
+			List<NaAutoCollGroupCase> list = dao.findByCollectId(Long.parseLong(ids[i]));
+			if (list != null && list.size() > 0) {
+				for (int j = 0; j < list.size(); j++) {
+					NaAutoCollGroupCase collGroupCase = list.get(j);
+					// 查询当前用例是否已经关联
+					List lists = dao.findByCollectIdAndElementIdAndElementType(collectId, collGroupCase.getElementId(),
+							collGroupCase.getElementType());
+					if (lists == null || lists.size() == 0) {
 						NaAutoCollGroupCase collGroupCaseNew = new NaAutoCollGroupCase();
 						collGroupCaseNew.setCollectId(collectId);
 						collGroupCaseNew.setElementId(collGroupCase.getElementId());
@@ -138,9 +141,10 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 						collGroupCaseNew.setCreatorId(collGroupCase.getCreatorId());
 						collGroupCaseNew.setUpdateTime(new Date());
 						dao.save(collGroupCaseNew);
-					}else{
+					} else {
 						System.out.println("当前用例已经被关联过");
 					}
+				}
 			}
 		}
 		// 更新用例集表里面的关联用例数量
@@ -188,7 +192,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			if (caseCollection.getCaseType()!=null) {
 			   sql += " and case_type ="+caseCollection.getCaseType();
 			}
-			sql +=" order by create_date decs ";
+			sql +=" order by create_date desc ";
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -219,7 +223,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		for (int i = 0; i < caseId.length; i++) {
 			//查询当前用例是否已经关联
 			List list = dao.findByCollectIdAndElementIdAndElementType(collectId, Long.parseLong(caseId[i]), isGroup);
-			System.out.println("11111111111111111111"+list.size());
 				if(list==null||list.size()==0){
 					NaAutoCollGroupCase autoCollGroupCase = new NaAutoCollGroupCase();
 					autoCollGroupCase.setCollectId(collectId);
@@ -421,7 +424,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		if (pageSize <= 0) {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
-		System.out.println("111111"+sql);
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return groupDao.searchByNativeSQL(sql, pageable, resultList);
 	}
@@ -626,6 +628,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	}
 	
 	public Object repairMan(){
+		 List  repaireLists = new  ArrayList<Map>();
 		String sql = "select distinct staff.staff_id, emp.employee_name, staff.code\n" +
 								      "  from sys_staff        staff,\n" + 
 								      "       sys_employee     emp,\n" + 
@@ -637,7 +640,18 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 								      "   and author.station_id = station.station_id\n" + 
 								      "   and staff.staff_id = author.staff_id\n" +
 								      " and author.state = 1 \n" ;
-	  return 	groupDao.searchformSQL(sql);
+	    List  repaireList = 	groupDao.searchformSQL(sql);
+	    if(repaireList!=null&&repaireList.size()>0){
+		    	for(int i=0;i<repaireList.size();i++){
+		    		Object[] obj =(Object[])repaireList.get(i);
+		    		Map map = new HashMap<String, String>();
+		    		map.put("value", obj[0]==null?"":obj[0]);
+		    		map.put("show", obj[1]==null?"":obj[1]);
+		    		map.put("code", obj[2]==null?"":obj[2]);
+		    		repaireLists.add(map);
+		    	}
+	    }
+	    return  repaireLists;
 	}
 
 }

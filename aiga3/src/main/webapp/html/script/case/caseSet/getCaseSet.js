@@ -6,6 +6,9 @@ define(function(require, exports, module) {
 	// 显示用例集列表
 	srvMap.add("getCaseSetList", "case/caseSet/getCaseSetList.json", "sys/case/queryCase");
 
+	// 根据Id查询用例集
+	srvMap.add("getCaseById", "case/caseSet/getCaseSetList.json", "sys/case/queryCaseById");
+	
 	//新增用列集
 	srvMap.add("addCaseSetinfo", "case/caseSet/addCaseSetinfo.json", "sys/case/addCase");
 
@@ -30,7 +33,7 @@ define(function(require, exports, module) {
 		addCaseSetinfo: require('tpl/case/caseSet/addCaseSetinfo.tpl'),
 		queryCaseSetForm: require('tpl/case/caseSet/queryCaseSetForm.tpl'),
 		connectCaseCollectionList: require('tpl/case/caseSet/connectCaseCollectionList.tpl'),
-		connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl')
+		// connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl'),
 	};
 
 
@@ -43,7 +46,7 @@ define(function(require, exports, module) {
 		deleCaseSet:"#JS_deleCaseSet",
 		buttonCaseCollection:"#JS_connectCaseCollection",
 		caseType:[],
-		repairsName:[]
+		repairsId:[]
 	}
 
 	var Data = {
@@ -63,7 +66,7 @@ define(function(require, exports, module) {
 		},
 		_render: function() {
 			this.getCaseTypeSelect();
-			this.getRepairsNameSelect();
+			this.getrepairsIdSelect();
 			this.initOrganize();
 			// this.getCaseSetList();
 			this.buttonReset();
@@ -88,9 +91,12 @@ define(function(require, exports, module) {
 
 					//关联用例集
 					self.buttonCaseCollection();
-
+                    
+					// 重置按钮
+					self.buttonReset();
+					
 					//关联用例
-					self.connectCase();
+					//self.connectCase();
 
 					// 绑定单机当前行事件
 				    self.eventClickChecked($(Dom.getCaseSetinfoListTable),function(){
@@ -117,33 +123,32 @@ define(function(require, exports, module) {
 
 			$("#queryBtn").bind('click', function() {
 				var cmd = _form.serialize();
-				alert(cmd)
 				self.initOrganize(cmd);
 			});
 		},
 		//条件查询重置
 		buttonReset : function(){
-			$("#reset").bind('click', function() {  alert(1111);
+			$("#reset").bind('click', function() { 
 				$("#collectName").val("");
 				$("#querycaseType").val("");
 			});
 		},
 		// 获取组织列表当前选中行
-		getControlRow : function(){
-			var _obj = $(Dom.getControlinfoListTable).find("input[type='checkbox']:checked").parents("tr");
-			var _collectId = _obj.find("input[name='collectId']");
-			alert(_obj.length);
-			var data = {
-				collectId: "",
-		    }
-		    if(_collectId.length==0){
-		    	window.XMS.msgbox.show('请先选择用例集！', 'error', 2000);
-		    	return;
-		    }else{
-		    	data.collectId = _collectId.val();
-		    }
-		    return data;
-		},
+//		getControlRow : function(){
+//			var _obj = $(Dom.getControlinfoListTable).find("input[type='checkbox']:checked").parents("tr");
+//			var _collectId = _obj.find("input[name='collectId']");
+//			alert(_obj.length);
+//			var data = {
+//				collectId: "",
+//		    }
+//		    if(_collectId.length==0){
+//		    	window.XMS.msgbox.show('请先选择用例集！', 'error', 2000);
+//		    	return;
+//		    }else{
+//		    	data.collectId = _collectId.val();
+//		    }
+//		    return data;
+//		},
 ///*******************************************///界面2/新增用列集///*******************************************/////
 		addCaseSetinfo : function(cmd){
 			var self = this;
@@ -153,12 +158,13 @@ define(function(require, exports, module) {
 
 				var template = Handlebars.compile(Tpl.addCaseSetinfo);
 
-				_form.html(template({"caseType":Dom.caseType,"repairsName":Dom.repairsName}));
+				_form.html(template({"caseType":Dom.caseType,"repairsId":Dom.repairsId}));
 				$("#caseType").val("");
-				$("#repairsName").val("");
+				$("#repairsId").val("");
+				$("#caseNum").val("");
 				//弹出层
 				$(Dom.addCaseSetinfoModal).modal('show');
-
+				$("#JS_addCaseSetinfoSubmit").unbind('click');
 				//点击保存
 				$("#JS_addCaseSetinfoSubmit").bind('click',function(){
 					var cmd = _form.serialize();
@@ -192,39 +198,51 @@ define(function(require, exports, module) {
 		},
 
 		//获取维护人
-		getRepairsNameSelect:function(){
+		getrepairsIdSelect:function(){
 			Rose.ajax.getJson(srvMap.get('getRepairManSelect'), 'repairMan', function(json, status) {
 				if (status) {
-					Dom.repairsName = json.data;
+					Dom.repairsId = json.data;
 				}
 			});
 		},
 		///////****************///修改//修改//********************////////
 		//修改
 		updateCaseinfo:function(){
-			var self = this;
-			var _data = self.getCaseSetRow();
-			var _collectId = _data.collectId;
-			var cmd = {
-				"collectId": _collectId
-			}
-			Rose.ajax.getJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
+		var self = this;
+		   var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
+		   if(_checkObj.length==0){
+			   alert("请选择要修改的用例集!");
+			   return false;
+		   }
+		   if(_checkObj.length>1){
+			   alert("请选择一条记录修改!");
+			   return false;
+		   }
+			var _collectId ="";
+			_checkObj.each(function (){
+				_collectId = 	$(this).val();
+			})
+			var cmd = "collectId=" +_collectId;
+			Rose.ajax.getJson(srvMap.get('getCaseById'), cmd, function(json, status) {
+				alert(JSON.stringify(json.data));
+				alert(status);
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.addCaseSetinfo);
 					var a = json.data.content[0]["caseType"];
-					var b = json.data.content[0]["repairsName"];
+					var b = json.data.content[0]["repairsId"];
 					console.log(json.data.content[0]);
 					var c = json.data.content[0];
 
 					c["caseType"]=Dom.caseType;
-					c["repairsName"]=Dom.repairsName;
+					c["repairsId"]=Dom.repairsId;
 					_form.html(template(c));
 					$("#caseType").val(a);
-					$("#repairsName").val(b);
+					$("#repairsId").val(b);
 					// //弹出层
 					$(Dom.addCaseSetinfoModal).modal('show');
-
+					$("#formName").html("修改用例集");
+					$("#JS_addCaseSetinfoSubmit").unbind('click');
 					//点击保存
 					$("#JS_addCaseSetinfoSubmit").bind('click',function(){
 					var cmd = _form.serialize();
@@ -249,18 +267,17 @@ define(function(require, exports, module) {
 		//点击修改用例集按钮
 		updateCaseinfoButton : function(){
 			var self = this;
+			$("#JS_viewCaseSet").unbind('click');
 			$("#JS_viewCaseSet").bind('click',function(){
-				var _data = self.getCaseSetRow();
-				if(_data){
 					self.updateCaseinfo();
-				}
 			});
 		},
 		//删除
 		deleCaseSet : function(){
 			var self = this;
-			var  collectId="";
+			var  collectIds="";
 			var num =0 ;
+			$(Dom.deleCaseSet).unbind('click');
 			$(Dom.deleCaseSet).bind('click', function() {
 			   var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
 			   if(_checkObj.length==0){
@@ -269,17 +286,19 @@ define(function(require, exports, module) {
 			   }
 			   _checkObj.each(function (){
 				   if(num!=(_checkObj.length-1)){
-					   collectId += $(this).val()+",";		
+					   collectIds += $(this).val()+",";		
 				   }else{
-					   collectId += $(this).val();		
+					   collectIds += $(this).val();		
 				   }
 				   num ++;
 				});
-				 Rose.ajax.getJson(srvMap.get('deleCaseSet'), 'collectId=' + collectId, function(json, status) {
+				 Rose.ajax.getJson(srvMap.get('deleCaseSet'), 'collectId=' + collectIds, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
 							  self.initOrganize();
+							
+
 							}, 1000)
 						}
 					});
@@ -313,14 +332,27 @@ define(function(require, exports, module) {
 		//关联用例集
 		connectCaseCollection : function(){
 			var self = this;
-			var _data = self.getCaseSetRow();
-			var _collectId = _data.collectId;
+			   var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
+			   if(_checkObj.length==0){
+				   alert("请选择要修改的用例集!");
+				   return false;
+			   }
+			   if(_checkObj.length>1){
+				   alert("请选择一条记录修改!");
+				   return false;
+			   }
+				var _collectId =""
+				_checkObj.each(function (){
+					_collectId = 	$(this).val();
+				})
+				var cmd = {
+					"collectId": _collectId
+					}
 			var cmd = "collectId="+_collectId+"&collectIds=";
 			Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
 				if (status) {
-					// var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.connectCaseCollectionList);
-					console.log(json.data);
+					console.log("11"+json.data);
 					$("#JS_connectCaseSetinfo").html(template(json.data));
 
 					// //弹出层
@@ -338,6 +370,7 @@ define(function(require, exports, module) {
 						    	console.log(cmd);
 							}
 					 	});
+				    	
 				    	Rose.ajax.getJson(srvMap.get('connectCaseCollection'), cmd, function(json, status) {
 				    		if (status) {
 				    			// 添加用户成功后，刷新用户列表页
@@ -358,46 +391,44 @@ define(function(require, exports, module) {
 		//关联用例集按钮
 		buttonCaseCollection : function(){
 			var self = this;
+			$(Dom.buttonCaseCollection).unbind('click');
 			$(Dom.buttonCaseCollection).bind('click',function(){
-				var _data = self.getCaseSetRow();
-				if(_data){
 					self.connectCaseCollection();
-				}
 			});
 		},
 
 ////////*******************************************//关联用例//*******************************************////////
-		connectCaseList : function(){
-			var self = this;
-			var _data = self.getCaseSetRow();
-			var _collectId = _data.collectId;
+//		connectCaseList : function(){
+//			var self = this;
+//			var _data = self.getCaseSetRow();
+//			var _collectId = _data.collectId;
 			// var cmd = "collectId="+_collectId+"&collectIds=";
 			// Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
 			// 	if (status) {
 					// var _form = $(Dom.addCaseSetinfoForm);
-					var template = Handlebars.compile(Tpl.connectCaseList);
-					// console.log(json.data);
-					$("#JS_connectCaseSetinfo").html(template({}));
-
-					// //弹出层
-					$("#JS_connectCaseSetinfoModal").modal('show');
+//					var template = Handlebars.compile(Tpl.connectCaseList);
+//					// console.log(json.data);
+//					$("#JS_connectCaseSetinfo").html(template({}));
+//
+//					// //弹出层
+//					$("#JS_connectCaseSetinfoModal").modal('show');
 
 					// 绑定单机当前行事件
 				    // self.eventClickChecked($("#JS_connectCaseCollectionList"),function(){
 
 				    // })
 				// }
-				// });
-		},
-		connectCase : function(){
-			var self = this;
-			$("#JS_connectCase").bind('click',function(){
-				var _data = self.getCaseSetRow();
-				if(_data){
-					self.connectCaseList();
-				}
-			});
-		},
+//				// });
+//		},
+//		connectCase : function(){
+//			var self = this;
+//			$("#JS_connectCase").bind('click',function(){
+//				var _data = self.getCaseSetRow();
+//				if(_data){
+//					self.connectCaseList();
+//				}
+//			});
+//		},
 
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行

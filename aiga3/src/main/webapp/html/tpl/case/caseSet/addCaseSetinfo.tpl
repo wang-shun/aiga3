@@ -6,7 +6,8 @@
             <label for="collectName" class="col-sm-4 control-label">用例集名称：</label>
             <div class="col-sm-8">
               <input type="text" class="form-control input-sm" id="collectName" name="collectName" value="{{collectName}}">
-              <input type="hidden"  class="form-control" id="funId" name="funId" value="{{collectlId}}">
+              <input type="hidden"  class="form-control" id="collectId" name="collectId" value="{{collectId}}">
+                <input type="hidden"  class="form-control" id="caseNum" name="caseNum" value="{{caseNum}}">
             </div> 
         </div>
     </div>
@@ -28,8 +29,8 @@
         <div class="col-sm-6 form-group">
             <label for="repairsName" class="col-sm-4 control-label">维护人：</label>
             <div class="col-sm-8">
-              <select id="repairsName" name="repairsName" class="form-control input-sm"  >
-                {{#each repairsName}}
+              <select id="repairsId" name="repairsId" class="form-control input-sm"  >
+                {{#each repairsId}}
                 <option value="{{value}}">{{show}}</option>
                 {{/each}}
               </select>

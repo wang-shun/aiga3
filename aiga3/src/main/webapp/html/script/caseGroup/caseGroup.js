@@ -131,6 +131,7 @@ define(function(require, exports, module) {
                 var template = Handlebars.compile(Tpl.addCaseGroupInfo);
                 _form.html(template({}));
                 // 表单提交
+                $("#JS_addCaseGroupSubmit").unbind('click');
                 $("#JS_addCaseGroupSubmit").bind('click', function() {
                     var cmd = _form.serialize();
                     console.log(cmd);

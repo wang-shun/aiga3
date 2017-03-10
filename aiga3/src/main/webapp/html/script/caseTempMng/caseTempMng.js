@@ -285,7 +285,7 @@ define(function(require, exports, module) {
 					$(Dom.modalCaseTempForm).modal('show');
 					$("#myModalLabel").html("查看编辑模板");
 					//加载form表单
-					self.getCaseTempInfo("caseId ="+_data.caseId);
+					self.getCaseTempInfo("caseId="+_data.caseId);
 					self.addFactor();
 					self.deleFactor();			
 					

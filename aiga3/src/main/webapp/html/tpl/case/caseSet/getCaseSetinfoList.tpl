@@ -12,14 +12,14 @@
             </tr>
         </thead>
         <tbody>
-            {{#each this}}
+            {{#each content}}
             <tr>
-                <td><input type="radio" class="minimal" value="{{collectlId}}" name="collectlId"></td>
+                <td><input type="checkbox" class="minimal" value="{{collectId}}" name="collectId"  id="collectId"></td>
                 <td>{{collectName}}</td>
                 <td>{{caseType}}</td>
                 <td>{{caseNum}}</td>
-                <td>{{opName}}</td>
-                <td>{{createTime}}</td>
+                <td>{{operator}}</td>
+                <td>{{createDate}}</td>
             </tr>
             {{/each}}
         </tbody>

@@ -10,7 +10,7 @@ define(function(require, exports, module) {
 	srvMap.add("addCaseSetinfo", "case/caseSet/addCaseSetinfo.json", "sys/case/addCase");
 
 	//用例类型
-	srvMap.add("getCaseTypeSelect", "case/caseSet/getCaseTypeSelect.json", "sys/case/collectType");
+	srvMap.add("getCaseTypeSelect", "case/caseSet/getCaseTypeSelect.json", "/sys/organize/constants");
 
 	//用例类型
 	srvMap.add("getRepairManSelect", "case/caseSet/getCaseTypeSelect.json", "sys/case/repairMan");
@@ -119,22 +119,24 @@ define(function(require, exports, module) {
 		},
 		//条件查询重置
 		buttonReset : function(){
-			$("#reset").bind('click', function() {
-				$("#collectName").val("")
+			$("#reset").bind('click', function() {  alert(1111);
+				$("#collectName").val("");
+				$("#querycaseType").val("");
 			});
 		},
 		// 获取组织列表当前选中行
 		getControlRow : function(){
-			var _obj = $(Dom.getControlinfoListTable).find("input[type='radio']:checked").parents("tr");
-			var _ctrlId = _obj.find("input[name='ctrlId']")
+			var _obj = $(Dom.getControlinfoListTable).find("input[type='checkbox']:checked").parents("tr");
+			var _collectId = _obj.find("input[name='collectId']");
+			alert(_obj.length);
 			var data = {
-		        ctrlId: "",
+				collectId: "",
 		    }
-		    if(_ctrlId.length==0){
-		    	window.XMS.msgbox.show('请先选择一个控件！', 'error', 2000);
+		    if(_collectId.length==0){
+		    	window.XMS.msgbox.show('请先选择用例集！', 'error', 2000);
 		    	return;
 		    }else{
-		    	data.ctrlId = _ctrlId.val();
+		    	data.collectId = _collectId.val();
 		    }
 		    return data;
 		},
@@ -175,7 +177,8 @@ define(function(require, exports, module) {
 		//获取用例集类型
 		getCaseTypeSelect:function(){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getCaseTypeSelect'), 'collectType', function(json, status) {
+			var cmd="category=collectType";
+			Rose.ajax.getJson(srvMap.get('getCaseTypeSelect'), cmd, function(json, status) {
 				if (status) {
 					Dom.caseType = json.data;
 					console.log(Dom.caseType);
@@ -205,10 +208,10 @@ define(function(require, exports, module) {
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.addCaseSetinfo);
-					var a = json.data[0]["caseType"];
-					var b = json.data[0]["repairsName"];
-					console.log(json.data[0]);
-					var c = json.data[0];
+					var a = json.data.content[0]["caseType"];
+					var b = json.data.content[0]["repairsName"];
+					console.log(json.data.content[0]);
+					var c = json.data.content[0];
 
 					c["caseType"]=Dom.caseType;
 					c["repairsName"]=Dom.repairsName;
@@ -252,21 +255,30 @@ define(function(require, exports, module) {
 		//删除
 		deleCaseSet : function(){
 			var self = this;
+			var  collectId="";
+			var num =0 ;
 			$(Dom.deleCaseSet).bind('click', function() {
-				var _data = self.getCaseSetRow();
-				if (_data) {
-					var _collectlId = _data.collectlId;
-					Rose.ajax.getJson(srvMap.get('deleCaseSet'), 'collectlId=' + _collectlId, function(json, status) {
+			   var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
+			   if(_checkObj.length==0){
+				   alert("请选择要删除的用例集!");
+				   return false;
+			   }
+			   _checkObj.each(function (){
+				   if(num!=(_checkObj.length-1)){
+					   collectId += $(this).val()+",";		
+				   }else{
+					   collectId += $(this).val();		
+				   }
+				   num ++;
+				});
+				 Rose.ajax.getJson(srvMap.get('deleCaseSet'), 'collectId=' + collectId, function(json, status) {
 						if (status) {
-							// dele成功后，重新加载模板列表
-							// window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
-								self.initOrganize();
+							  self.initOrganize();
 							}, 1000)
 						}
 					});
-				}
 			});
 		},
 
@@ -344,15 +356,15 @@ define(function(require, exports, module) {
 		// 获取用例集列表当前选中行
 		getCaseSetRow : function(){
 			var _obj = $(Dom.getCaseSetinfoListTable).find("input[type='radio']:checked").parents("tr");
-			var _collectlId = _obj.find("input[name='collectlId']")
+			var _collectId = _obj.find("input[name='collectId']")
 			var data = {
-		        collectlId: "",
+				collectId: "",
 		    }
-		    if(_collectlId.length==0){
+		    if(_collectId.length==0){
 		    	window.XMS.msgbox.show('请先选择一个用例集！', 'error', 2000);
 		    	return;
 		    }else{
-		    	data.collectlId = _collectlId.val();
+		    	data.collectId= _collectId.val();
 		    }
 		    return data;
 		},

@@ -46,7 +46,7 @@ public class AigaOnlineCaseCollectionController {
 		return JsonBean.success;
 	}
 	
-	
+
 
 	/**
 	 * 修改用例集信息
@@ -171,8 +171,8 @@ public class AigaOnlineCaseCollectionController {
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
 		JsonBean json = new JsonBean();
-		//json.setData(caseCollectionSv.unconnectGroupList(collectId, groupName, page, pageSize));
-		return JsonBean.success;
+		json.setData(caseCollectionSv.unconnectGroupList(collectId, groupName, page, pageSize));
+		return json;
 	}
 
 	
@@ -193,10 +193,20 @@ public class AigaOnlineCaseCollectionController {
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
 		JsonBean json = new JsonBean();
-		//json.setData(caseCollectionSv.connectGroupList(collectId, groupName, page, pageSize));
-		return JsonBean.success;
+	   json.setData(caseCollectionSv.connectGroupList(collectId, groupName, page, pageSize));
+		return json;
 	}
 	
+	/**
+	 *  用例集维护人
+	 * @return
+	 */
+	@RequestMapping(path = "repairMan")
+	public @ResponseBody JsonBean repairMan() {
+		JsonBean json = new JsonBean();
+	   json.setData(caseCollectionSv.repairMan());
+		return json;
+	}
 	
 	
 
@@ -215,8 +225,8 @@ public class AigaOnlineCaseCollectionController {
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
 		JsonBean json = new JsonBean();
-		//json.setData(caseCollectionSv.connecCaseList(request, page, pageSize));
-		return JsonBean.success;
+		json.setData(caseCollectionSv.connecCaseList(request, page, pageSize));
+		return json;
 	}
 
 	

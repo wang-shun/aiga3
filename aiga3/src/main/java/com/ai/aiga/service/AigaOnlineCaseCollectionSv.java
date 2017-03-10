@@ -130,7 +130,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 				NaAutoCollGroupCase collGroupCase = list.get(i);
 				//查询当前用例是否已经关联
 				List lists = dao.findByCollectIdAndElementIdAndElementType(collectId, collGroupCase.getElementId(), collGroupCase.getElementType());
-				System.out.println("11111111111111111111"+list.size());
 					if(lists==null||lists.size()==0){
 						NaAutoCollGroupCase collGroupCaseNew = new NaAutoCollGroupCase();
 						collGroupCaseNew.setCollectId(collectId);
@@ -156,20 +155,40 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 * @return
 	 */
 	public Object CaseCollectionList(CaseCollectionRequest caseCollection, int pageNumber, int pageSize) {
-
-		List<Condition> cons = new ArrayList<Condition>();
-		if (caseCollection != null) {
+		List resultList = new ArrayList<String>();
+		resultList.add("collectId");
+		resultList.add("collectName");
+		resultList.add("operator");
+		resultList.add("createDate");
+		resultList.add("caseNum");
+		resultList.add("caseType");
+		resultList.add("repairId");
+		String sql = "select collect_ID, \n"
+							     +"  collect_Name, \n"
+							      +"     (select employee_name \n"
+							         +"     from sys_staff aa, sys_employee bb \n"
+							          +"      where aa.employee_id = bb.employee_id \n"
+							          +"     and aa.staff_id = a.op_id) as operator, \n"
+							       +"    create_date, \n"
+							       +"    case_num, \n"
+							        +"   (select show \n"
+							        +"      from sys_constant cc \n"
+							        +"     where cc.category = 'collectType' \n"
+							        +"       and cc.value = a.case_type) as case_type, \n"
+							        +"   (select employee_name \n"
+							        +"      from sys_staff aa, sys_employee bb \n"
+							        +"     where aa.employee_id = bb.employee_id \n"
+							         +"      and aa.staff_id = a.repairs_id) as repair_id \n"
+							   +"   from na_auto_collection a  where 1=1";
 			// 用例集名称
 			if (StringUtils.isNotBlank(caseCollection.getCollectName())) {
-				cons.add(new Condition("collectName", "%".concat(caseCollection.getCollectName()).concat("%"),
-						Condition.Type.LIKE));
+				sql += " and collect_name like '%"+caseCollection.getCollectName()+"%' ";
 			}
 			// 用例集类型
-			if (StringUtils.isNotBlank(caseCollection.getCollectName())) {
-				cons.add(new Condition("caseType", String.valueOf(caseCollection.getCaseType()), Condition.Type.EQ));
+			if (caseCollection.getCaseType()!=null) {
+			   sql += " and case_type ="+caseCollection.getCaseType();
 			}
-		}
-
+			sql +=" order by create_date decs ";
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -178,7 +197,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return caseDao.search(cons, pageable);
+		return caseDao.searchByNativeSQL(sql, pageable, resultList);
 	}
 
 	/**
@@ -230,7 +249,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 * @param pageSize
 	 * @return 未关联的用例组
 	 */
-	public void unconnectGroupList(Long collectId, String groupName, int pageNumber, int pageSize) {
+	public Object  unconnectGroupList(Long collectId, String groupName, int pageNumber, int pageSize) {
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -243,13 +262,22 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		resultList.add("creatorId");
 		resultList.add("updateId");
 		resultList.add("updateTime");
-		String sql = "select  group_id,group_name,creator_id,update_id,update_time  from na_auto_group a where a.group_id not in (select element_id from na_auto_coll_group_case where collect_id ="
+		String sql = "select  group_id,group_name,"
+								 +"  (select employee_name \n"
+						         +"     from sys_staff aa, sys_employee bb \n"
+						          +"      where aa.employee_id = bb.employee_id \n"
+						          +"     and aa.staff_id = a.creator_id) as operator, \n"
+						          +"  (select employee_name \n"
+							         +"     from sys_staff aa, sys_employee bb \n"
+							          +"      where aa.employee_id = bb.employee_id \n"
+							          +"     and aa.staff_id = a.update_id) as updater, \n"
+				+ " update_time  from na_auto_group a where a.group_id not in (select element_id from na_auto_coll_group_case where collect_id ="
 				+ collectId + " and element_type=0)";
 		if (StringUtils.isNotBlank(groupName)) {
 			sql = sql + " and a.group_Name like '%" + groupName + "'%";
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		groupDao.searchByNativeSQL(sql, pageable, resultList);
+		return groupDao.searchByNativeSQL(sql, pageable, resultList);
 	}
 	
 	/**
@@ -263,7 +291,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 * @param pageSize
 	 * @return 已关联的用例组
 	 */
-	public void  connectGroupList(Long collectId, String groupName, int pageNumber, int pageSize) {
+	public Object  connectGroupList(Long collectId, String groupName, int pageNumber, int pageSize) {
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -276,13 +304,23 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		resultList.add("creatorId");
 		resultList.add("updateId");
 		resultList.add("updateTime");
-		String sql = "select group_id,group_name,creator_id,update_id,update_time from na_auto_group a where a.group_id in (select element_id from na_auto_coll_group_case where collect_id ="
+		String sql = "select group_id,group_name,"
+				 +"  (select employee_name \n"
+		         +"     from sys_staff aa, sys_employee bb \n"
+		          +"      where aa.employee_id = bb.employee_id \n"
+		          +"     and aa.staff_id = a.creator_id) as operator, \n"
+		          +"  (select employee_name \n"
+			         +"     from sys_staff aa, sys_employee bb \n"
+			          +"      where aa.employee_id = bb.employee_id \n"
+			          +"     and aa.staff_id = a.update_id) as updater, \n"
+				+ "update_time from na_auto_group a where a.group_id in (select element_id from na_auto_coll_group_case where collect_id ="
 				+ collectId+" and element_type=0)";
 		if (StringUtils.isNotBlank(groupName)) {
 			sql = sql + " and a.group_Name like '%" + groupName + "'%";
 		}
+		System.out.println("ssssss"+sql);
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		 groupDao.searchByNativeSQL(sql, pageable, resultList);
+		return  groupDao.searchByNativeSQL(sql, pageable, resultList);
 	}
 	
 	
@@ -291,8 +329,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 * @param request 查询条件
 	 * @return 已关联的手工用例/自动化用例
 	 */
-	public  void connecCaseList(QueryUnconnectCaseRequest  request,int pageNumber, int pageSize){
-		StringBuilder s = new StringBuilder();
+	public  Object connecCaseList(QueryUnconnectCaseRequest  request,int pageNumber, int pageSize){
 		String sql = "";
 		List  resultList = new ArrayList<String>();
 		resultList.add("caseId");
@@ -314,18 +351,42 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		}
 		// 如果没有指定类型。默认查询自动化用例
 		if (StringUtils.isBlank(String.valueOf(request.getTypes())) || String.valueOf(request.getTypes()).equals("2")) {
-				sql = "select a.Auto_id,    a.auto_name,     a.Case_type,      a.important,  \n"
-											+ "    b.sys_name,  c.sys_name,    d.sys_name,     a.Sc_id,    a.Busi_id, \n "
-											+ "     a.Test_type,    a.status,     a.Environment_type,   a.Has_auto, "
-											+ "     a.Param_level,    a.Auto_desc   from na_auto_case a,   aiga_system_folder b, \n"
-											+ "       aiga_sub_sys_folder c,    aiga_fun_folder d \n"
-											+ " 	 where a.Auto_id in (select element_id   from na_auto_coll_group_case  \n"
-											+ "               where collect_id = " + request.getCollectId() + "     and element_type = 2) \n"
-											+ "    and a.sys_id = b.sys_id      and a.Sys_sub_id = c.subsys_id \n"
-											+ "      and a. Fun_id = d.fun_id     and b.is_invalid=0   \n"
-											+ "      and b.is_invalid is not null   and d.is_invalid=0   and d.is_invalid is not null \n";
-		if (!StringUtils.isBlank(String.valueOf(request.getCaseName()))) {
-				sql += " and  test_name like '%"+request.getCaseName()+"'%" ;
+				sql = "select a.Auto_id, \n"
+						    +" a.auto_name, \n"
+						    +"       (select show \n"
+						    +"          from sys_constant bb \n"
+						    +"         where bb.category = 'caseType' \n"
+						    +"           and a.case_type = bb.value) as case_Type, \n"
+						       +"    a.important, \n"
+						      +"     b.sys_name as sys_name,\n"
+						    +"       c.sys_name as sub_sys_name,\n"
+						   +"        d.sys_name as fun_name,\n"
+						       +"    a.Sc_id,\n"
+						     +"      a.Busi_id,\n"
+						     +"        a. Auto_desc  , \n"
+						    +"        (select show \n"
+						     +"         from sys_constant bb \n"
+						       +"      where bb.category = 'caseStatus' \n"
+						       +"        and a.case_type = bb.value) status, \n"
+						      +"     a.Environment_type, \n"
+						     +"     (select show \n"
+						      +"        from sys_constant bb \n"
+						        +"     where bb.category = 'hasAuto' \n"
+						        +"       and a.case_type = bb.value) Has_auto, \n"
+						         +"  a.Param_level \n"
+					   +" 	  from na_auto_case a \n"
+					   +" 	  left join aiga_system_folder b \n"
+					   +" 	    on a.sys_id = b.sys_id \n"
+					   +" 	  left join aiga_sub_sys_folder c \n"
+					   +" 	    on a.Sys_sub_id = c.subsys_id \n"
+					   +" 	  left join aiga_fun_folder d \n"
+					   +" 	    on a. Fun_id = d.fun_id \n"
+					   +" 	 where a.Auto_id in (select element_id \n"
+						   +"                        from na_auto_coll_group_case \n"
+						   +"                       where collect_id ="+request.getCollectId()+" \n"
+						   +"                         and element_type = 2)"; 
+		if (!StringUtils.isBlank(request.getCaseName())) {
+				sql += " and  auto_name like '%"+request.getCaseName()+"%'" ;
 		}
 			resultList.add("status");
 			resultList.add("environmentType");
@@ -334,35 +395,23 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		}
 		// 手工用例sql
 		if (String.valueOf(request.getTypes()).equals("1")) {
-                                 sql = "select a.Test_id,  \n"
-											+"  a.Test_desc,  \n"
-											+"   a.test_name,  \n"
-											+"   a.Case_type, \n"
-											+"   a.Pre_result, \n"
-											+"   a.important, \n"
-											+"   b.sys_name, \n"
-											+"   c.sys_name, \n"
-											+"   d.sys_name, \n"
-											+"    a.Sc_id, \n"
-											+"    a.Busi_id, \n"
-											+"    a.Test_type \n"
-											+"  from na_test_case        a, \n"
-											+"       aiga_system_folder  b, \n"
-											+"    aiga_sub_sys_folder c, \n"
-											+"    aiga_fun_folder     d \n"
-											+"  where a.Test_id in (select element_id \n"
-											         +"          from na_auto_coll_group_case \n"
-											     +"             where collect_id = "+request.getCollectId()+" \n"
-											     +"               and element_type = 1) \n"
-											+" and a.sys_id = b.sys_id \n"
-											+"     and a.Sys_sub_id = c.subsys_id \n"
-												+" 	   and a. Fun_id = d.fun_id \n"
-											+" 	   and b.is_invalid = 0 \n"
-											+"    and b.is_invalid is not null \n"
-											+"    and d.is_invalid = 0 \n"
-											+" 	   and d.is_invalid is not null"; 
-			if (!StringUtils.isBlank(String.valueOf(request.getCaseName()))) {
-				sql += " and  test_name like '%"+request.getCaseName()+"'%"  ;
+                                 sql = "select a.Test_id,a.test_name, E.SHOW ,  a.important, b.sys_name  sys_name,c.sys_name sub_sys_name,d.sys_name fun_name,a.Sc_id, a.Busi_id, test_type,a.Test_desc,a.Pre_result"
+													+"  from na_test_case a  \n"
+													+"    left join aiga_system_folder b \n"
+													+"     on a.sys_id = b.sys_id \n"
+													+"    left join aiga_sub_sys_folder c \n"
+													+"      on a.Sys_sub_id = c.subsys_id \n"
+													+"    left join aiga_fun_folder d \n"
+													+"      on a. Fun_id = d.fun_id \n"
+													 +"      left join sys_constant  e \n"
+													 +"     on a. case_type = E.value \n"
+													+"   where a.Test_id in (select element_id \n"
+													  +"                      from na_auto_coll_group_case \n"
+													  +"                    where collect_id = "+request.getCollectId()+" \n"
+													   +"                      and element_type = 1) \n"
+													     +"           and e.category = 'caseType' ";
+			if (!StringUtils.isBlank(request.getCaseName())) {
+				sql += " and  test_name like '%"+request.getCaseName()+"%'"  ;
 			}
 			resultList.add("preResult");
 		  }
@@ -372,8 +421,9 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		if (pageSize <= 0) {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
+		System.out.println("111111"+sql);
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		groupDao.searchByNativeSQL(s.toString(), pageable, resultList);
+		return groupDao.searchByNativeSQL(sql, pageable, resultList);
 	}
 
 	
@@ -573,6 +623,21 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 	
 		groupDao.searchByNativeSQL(s.toString(), pageable, resultList);
+	}
+	
+	public Object repairMan(){
+		String sql = "select distinct staff.staff_id, emp.employee_name, staff.code\n" +
+								      "  from sys_staff        staff,\n" + 
+								      "       sys_employee     emp,\n" + 
+								      "       sys_author       author,\n" + 
+								      "       sys_station      station,\n" + 
+								      "       sys_station_type type\n" + 
+								      " where type.station_type_id = station.station_type_id\n" + 
+								      "   and emp.employee_id = staff.employee_id\n" + 
+								      "   and author.station_id = station.station_id\n" + 
+								      "   and staff.staff_id = author.staff_id\n" +
+								      " and author.state = 1 \n" ;
+	  return 	groupDao.searchformSQL(sql);
 	}
 
 }

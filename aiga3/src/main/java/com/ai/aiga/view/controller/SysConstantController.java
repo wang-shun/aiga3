@@ -30,16 +30,5 @@ public class SysConstantController  extends SysConstantCacheCmpt{
 	}
 	
 
-	/**
-	 * 查询用例集类型下拉框
-	 * @param category collectType
-	 * @return  用例集
-	 */
-	@RequestMapping(path = "/sys/case/collectType")
-	public  @ResponseBody JsonBean  collectType(String category){
-		JsonBean bean = new JsonBean();
-		bean.setData(super.load());
-		return bean;
-	}
 	
 }

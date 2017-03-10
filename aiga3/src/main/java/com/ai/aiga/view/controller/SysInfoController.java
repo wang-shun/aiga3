@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.cache.AigaFunFolderCacheCmpt;
 import com.ai.aiga.cache.AigaSubSysFolderCacheCmpt;
 import com.ai.aiga.cache.AigaSystemFolderCacheCmpt;
+import com.ai.aiga.cache.CommomCompTreeCacheCmpt;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -22,6 +23,9 @@ public class SysInfoController {
 	
 	@Autowired
 	private AigaFunFolderCacheCmpt aigaFunFolderCacheCmpt;
+	
+	@Autowired
+	private CommomCompTreeCacheCmpt commomCompTreeCacheCmpt;
 	
 	
 	@RequestMapping(path = "/sys/cache/listSysid" )
@@ -48,5 +52,11 @@ public class SysInfoController {
 		}
 		return bean;
 	}
-
+	
+	@RequestMapping(path = "/sys/cache/commenCompTree")
+	public @ResponseBody JsonBean commenCompTree(){
+		JsonBean bean = new JsonBean();
+		bean.setData(commomCompTreeCacheCmpt.getCompList());
+		return bean;
+	}
 }

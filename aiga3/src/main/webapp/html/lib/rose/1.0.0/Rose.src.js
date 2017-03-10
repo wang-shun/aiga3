@@ -1294,6 +1294,9 @@ Rose.ajax = {
 		if (arguments.length !== 3)
 			callback = cmd, cmd = '';
 		dataType = this.dataType.TEXT;
+		if(typeof(cmd)=="object"){
+			dataType = this.dataType.JSON;
+		}
 //		if(window.parent && window.parent.Rose){
 //			url = window.parent.Rose.ajax.transferUrl(url);
 //		}

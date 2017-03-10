@@ -76,7 +76,7 @@
                     "menuName": "组件管理",
                     "menuURL": "view/autoManage/funcTest/componentManage.html",
                     "hasChild": 0,
-                    "isActive": 1,
+                    "isActive": 1
                 }]
             }, {
                 "menuName": "用例组管理",

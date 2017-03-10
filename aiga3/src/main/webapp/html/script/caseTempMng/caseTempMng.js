@@ -2,30 +2,30 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "caseTempMng/";
 
-	// 用例模板列表显示
-	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "/case/template/list");
-	//系统大类下拉框显示
+	// 用例模板列表显示 ok
+	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "case/template/list");
+	//系统大类下拉框显示 OK
 	srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
-	//系统子类下拉框
+	//系统子类下拉框 OK
 	srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
-	//功能点下拉框
+	//功能点下拉框 OK
 	srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
-	//删除模板
-	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "/case/template/del");
-	//获取模板信息
-    srvMap.add("getCaseTempInfo", pathAlias +"getCaseTempInfo.json", "/case/template/get"); 	
-	//新增用例模板
-	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "/case/template/add");
-	//修改用例模板
-	srvMap.add("updateCaseTemp", pathAlias + "getCaseTempList.json", "/case/template/update");
-    //获取组件树
-	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "sys/template/compTree");
-    //获取组件信息
+	//删除模板 
+	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "case/template/del");
+	//获取模板信息 ok
+    srvMap.add("getCaseTempInfo", pathAlias +"getCaseTempInfo.json", "case/template/get"); 	
+	//新增用例模板 Ok
+	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "case/template/save");
+	//修改用例模板 
+	srvMap.add("updateCaseTemp", pathAlias + "getCaseTempList.json", "case/template/update");
+    //获取组件树 
+	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "sys/cache/commenCompTree");
+    //获取组件信息 OK
     srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "sys/component/findone");
 	//保存自动化模板
-    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "/auto/templateComp/saveListByCaseId");
+    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "auto/templateComp/saveListByCaseId");
 	//保存测试用例
-    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "sys/caseTemplat/addTestCase");    
+    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/template/addTestCase"); 
     
 
 	// 模板对象
@@ -243,6 +243,7 @@ define(function(require, exports, module) {
 				var _form = $(Dom.caseTempForm);
 				//_form.bootstrapValidator('validate');
 				// 表单提交
+				$("#JS_SaveCaseTemp").unbind('click');
 				$("#JS_SaveCaseTemp").bind('click', function() {
 
 						// 表单校验：成功后调取接口
@@ -268,7 +269,11 @@ define(function(require, exports, module) {
 							});
 						// });
 					})
-			})
+			});
+		$(Dom.modalCaseTempForm).find("button[name='cancel']").unbind('click');
+			$(Dom.modalCaseTempForm).find("button[name='cancel']").bind('click', function() {
+				$(Dom.modalCaseTempForm).modal('hide');
+			});				
 		},
 		//查看与编辑
 		editCaseTemp: function() {
@@ -289,6 +294,7 @@ define(function(require, exports, module) {
 					var _form = $(Dom.caseTempForm);
 					//_form.bootstrapValidator('validate');
 					// 表单提交
+					$("#JS_SaveCaseTemp").unbind('click')
 					$("#JS_SaveCaseTemp").bind('click', function() {
 
 							// 表单校验：成功后调取接口
@@ -320,11 +326,14 @@ define(function(require, exports, module) {
 
 				
 			});
+			$(Dom.modalCaseTempForm).find("button[name='cancel']").unbind('click');
+			$(Dom.modalCaseTempForm).find("button[name='cancel']").bind('click', function() {
+				$(Dom.modalCaseTempForm).modal('hide');
+			});			
 		},	
 		//生成自动化模板
 		newAutoCaseTemp: function() {
 			var self = this;
-			var cmd = [];
 			var caseId;
 			$(Dom.createAutoTestTemp).bind('click', function() {
 
@@ -332,7 +341,6 @@ define(function(require, exports, module) {
 				// 	"height": '420px'
 				// });
 				//获取当前选中模板
-				cmd = [];
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
 					caseId = _data.caseId;
@@ -357,14 +365,14 @@ define(function(require, exports, module) {
 
 			//保存自动化模板
 			$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
-				
+				var cmd = [];
 				var name = $('#tempName1').val()+$('#tempName2').val();
 				$("#compBody").find("tr").each(function(){
 				    var tdArr = $(this).children();
 				    cmd.push({"tempName":name,"caseId":caseId,"compId":tdArr.eq(0).find("input").val(),"compOrder":tdArr.eq(3).find("input").val()});
 				 });
-				console.log(cmd);
-				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
+				console.log(JSON.stringify(cmd));
+				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), JSON.stringify(cmd), function(json, status) {
 					if (status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
@@ -387,10 +395,10 @@ define(function(require, exports, module) {
 			$(Dom.createTest).bind('click', function() {
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
-					cmd = 'caseId'+_data.caseId;
+					cmd = 'caseId='+_data.caseId;
 					$(Dom.modalTestCaseForm).modal('show');
 					$('#testName1').val(_data.caseName+'_');
-					Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), _data.caseId, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
 						if(status) {
 							var factor_template = Handlebars.compile(Tpl.getTestFactorList);
 							$(Dom.testFactorList).html(factor_template(json.data.factors));
@@ -438,13 +446,13 @@ define(function(require, exports, module) {
 		// 删除模板
 		deleCaseTemp: function() {
 			var self = this;
-
+			$(Dom.deleCaseTemp).unbind('click');
 			$(Dom.deleCaseTemp).bind('click', function() {
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
-					var _caseId = _data.caseId;
-					alert(_caseId);
-					Rose.ajax.getJson(srvMap.get('delCaseTemp'), 'caseId=' + _caseId, function(json, status) {
+					var _caseId = "caseId="+_data.caseId;
+					console.log(_caseId);
+					Rose.ajax.getJson(srvMap.get('delCaseTemp'),_caseId, function(json, status) {
 						if (status) {
 							// dele成功后，重新加载模板列表
 							window.XMS.msgbox.show('模板删除成功！', 'success', 2000)
@@ -472,13 +480,11 @@ define(function(require, exports, module) {
 						//self.getSysList("#add_sysId");
 						self.getSysList(dropChoice2,function(){
 							$(Dom.caseTempForm).find("select[name='important']").val(json.data.important);
-							$(Dom.caseTempForm).find("select[name='sysId']").val(11);
-							
-							alert($(Dom.caseTempForm).find("select[name='sysId']").val());
-							alert(json.data.sysId);
+							$(Dom.caseTempForm).find("select[name='sysId']").val(json.data.sysId);
 							$(Dom.caseTempForm).find("select[name='subSysId']").val(json.data.subSysId);
 							$(Dom.caseTempForm).find("select[name='funId']").val(json.data.funId);
 							$(Dom.caseTempForm).find("select[name='busiId']").val(json.data.busiId);
+							$(Dom.caseTempForm).find("select[name='caseType']").val(json.data.caseType);
 							$(Dom.caseTempForm).find("textarea[name='operateDesc']").val(json.data.operateDesc);								
 						});
 						$(Dom.factorList).html(factor_template(json.data.factors));

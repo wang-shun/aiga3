@@ -27,13 +27,16 @@ define(function(require, exports, module) {
 	//关联用例集
 	srvMap.add("connectCaseCollection", "case/caseSet/getCaseSetList.json", "sys/case/connectCaseCollection");
 
+
 	// 模板对象
 	var Tpl = {
 		getCaseSetList: require('tpl/case/caseSet/getCaseSetinfoList.tpl'),
 		addCaseSetinfo: require('tpl/case/caseSet/addCaseSetinfo.tpl'),
 		queryCaseSetForm: require('tpl/case/caseSet/queryCaseSetForm.tpl'),
 		connectCaseCollectionList: require('tpl/case/caseSet/connectCaseCollectionList.tpl'),
-		// connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl'),
+	// connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl'),
+		connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl'),
+
 	};
 
 
@@ -101,7 +104,7 @@ define(function(require, exports, module) {
 					// 绑定单机当前行事件
 				    self.eventClickChecked($(Dom.getCaseSetinfoListTable),function(){
 
-				    })
+				    });
 				    // 绑定双击当前行事件
 				    self.eventDClickCallback($(Dom.getCaseSetinfoListTable),function(){
 				    	// 请求：用户基本信息
@@ -174,7 +177,7 @@ define(function(require, exports, module) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
 								// 关闭弹出层
-								$(Dom.addCaseSetinfoModal).modal('hide')
+								$(Dom.addCaseSetinfoModal).modal('hide');
 								setTimeout(function(){
 									self.initOrganize();
 								},1000)
@@ -234,6 +237,7 @@ define(function(require, exports, module) {
 					console.log(json.data.content[0]);
 					var c = json.data.content[0];
 
+
 					c["caseType"]=Dom.caseType;
 					c["repairsId"]=Dom.repairsId;
 					_form.html(template(c));
@@ -252,7 +256,7 @@ define(function(require, exports, module) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('修改成功！', 'success', 2000)
 								// 关闭弹出层
-								$(Dom.addCaseSetinfoModal).modal('hide')
+								$(Dom.addCaseSetinfoModal).modal('hide');
 								setTimeout(function(){
 									self.initOrganize();
 								},1000)
@@ -294,7 +298,7 @@ define(function(require, exports, module) {
 				});
 				 Rose.ajax.getJson(srvMap.get('deleCaseSet'), 'collectId=' + collectIds, function(json, status) {
 						if (status) {
-							XMS.msgbox.show('删除成功！', 'success', 2000)
+							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
 							  self.initOrganize();
 							
@@ -307,28 +311,6 @@ define(function(require, exports, module) {
 
 
 ////////*******************************************//关联用例集/关联用例集////*******************************************////////
-		//关联用例集初始化
-		// connectCaseCollectioninit : function(cmd){
-		// 	var self = this;
-		// 	Rose.ajax.getJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
-				
-		// 		if (status) {
-		// 			var _form = $(Dom.addCaseSetinfoForm);
-		// 			var template = Handlebars.compile(Tpl.connectCaseCollectionLis);
-		// 			console.log(json.data);
-		// 			_form.html(template(json.data));
-
-		// 			// //弹出层
-		// 			$(Dom.addCaseSetinfoModal).modal('show');
-
-		// 			// 绑定单机当前行事件
-		// 		    self.eventClickChecked($(Dom.getCaseSetinfoListTable),function(){
-
-		// 		    })
-				    
-		// 		}
-		// 	});
-		// },
 		//关联用例集
 		connectCaseCollection : function(){
 			var self = this;
@@ -376,7 +358,7 @@ define(function(require, exports, module) {
 				    			// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('关联成功！', 'success', 2000)
 								// 关闭弹出层
-								$("#JS_connectCaseSetinfoModal").modal('hide')
+								$("#JS_connectCaseSetinfoModal").modal('hide');
 								setTimeout(function(){
 									self.initOrganize();
 								},1000)
@@ -397,7 +379,7 @@ define(function(require, exports, module) {
 			});
 		},
 
-////////*******************************************//关联用例//*******************************************////////
+
 //		connectCaseList : function(){
 //			var self = this;
 //			var _data = self.getCaseSetRow();
@@ -412,6 +394,21 @@ define(function(require, exports, module) {
 //
 //					// //弹出层
 //					$("#JS_connectCaseSetinfoModal").modal('show');
+//		connectCaseList : function(){
+//			var self = this;
+//			var _data = self.getCaseSetRow();
+//			var _collectId = _data.collectId;
+//			var cmd = "collectId="+_collectId;
+//			Rose.ajax.getJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
+//				if (status) {
+//					var _form = $("#JS_connectCaseSetForm");
+//					var template = Handlebars.compile(Tpl.connectCaseList);
+//					console.log(json.data[0]);
+//					_form.html(template(json.data[0]));
+//
+//					// //弹出层
+//					$("#JS_connectCaseSetinfoModal").modal('show');
+
 
 					// 绑定单机当前行事件
 				    // self.eventClickChecked($("#JS_connectCaseCollectionList"),function(){
@@ -430,11 +427,27 @@ define(function(require, exports, module) {
 //			});
 //		},
 
+//				}
+//				});
+//		},
+		connectCase : function(){
+			var self = this;
+			$("#JS_connectCase").bind('click',function(){
+				// var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
+				var _data = self.getCaseSetRow();
+				if(_data){
+					self.connectCaseList();
+				}
+			});
+		},
+
+
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行
 		getCaseSetRow : function(){
-			var _obj = $(Dom.getCaseSetinfoListTable).find("input[type='radio']:checked").parents("tr");
-			var _collectId = _obj.find("input[name='collectId']")
+			var _obj = $(Dom.getCaseSetinfoListTable).find("input[type='checkbox']:checked").parents("tr");
+			var _collectId = _obj.find("input[name='collectId']");
+			console.log(_collectId)
 			var data = {
 				collectId: "",
 		    }
@@ -444,6 +457,7 @@ define(function(require, exports, module) {
 		    }else{
 		    	data.collectId= _collectId.val();
 		    }
+		    console.log(data.collectId)
 		    return data;
 		},
 		// 事件：单机选中当前行

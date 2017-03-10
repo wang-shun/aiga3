@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each content}}
+            {{#each this}}<!-- content -->
             <tr>
                 <td><input type="checkbox" class="minimal" value="{{collectId}}" name="collectId"  id="collectId"></td>
                 <td>{{collectName}}</td>

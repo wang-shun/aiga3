@@ -49,7 +49,7 @@ public class CaseTemplateController {
 		if(result.hasErrors()){
 			return WebValidUtil.errorInfo(result);
 		}
-		//caseTemplateSv.saveTmeplate(request);
+		caseTemplateSv.updateTmeplate(request);
 		return JsonBean.success;
 	}
 	

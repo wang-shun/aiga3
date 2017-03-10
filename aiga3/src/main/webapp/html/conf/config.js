@@ -68,7 +68,11 @@ seajs.config({
         'rose':'lib/rose/1.0.0/Rose.src.js',
         'json2':'lib/json2/1.0/json2.js',
         'handlebars':'lib/handlebars/3.0.3/handlebars.js',
-        'artDialog':'lib/artDialog/4.1.7/artDialog.js'
+        'artDialog':'lib/artDialog/4.1.7/artDialog.js',
+        'jquery.serializejson':'lib/jquery.serializejson/jquery.serializejson.js',
+        'btable-css':'lib/bootstrap-table/bootstrap-table.css',
+        'btable':'lib/bootstrap-table/bootstrap-table.js',
+        'btable-locale':'lib/bootstrap-table/locale/bootstrap-table-zh-CN.js'
     },
     preload: [
         'json2',
@@ -86,7 +90,11 @@ seajs.config({
         'My97DatePicker',
         'zTreeCSS',
         'zTreeJS',
-        'AdminLTE'
+        'AdminLTE',
+        'jquery.serializejson',
+        'btable-css',
+        'btable',
+        'btable-locale'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js
@@ -95,7 +103,8 @@ seajs.config({
         'tpl':'tpl',
         'global': 'script/global',
         'page' : 'script/page'
-    },
+    }
+
 });
 
 

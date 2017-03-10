@@ -243,6 +243,7 @@ define(function(require, exports, module) {
 				var _form = $(Dom.caseTempForm);
 				//_form.bootstrapValidator('validate');
 				// 表单提交
+				$("#JS_SaveCaseTemp").unbind('click');
 				$("#JS_SaveCaseTemp").bind('click', function() {
 
 						// 表单校验：成功后调取接口
@@ -370,8 +371,8 @@ define(function(require, exports, module) {
 				    var tdArr = $(this).children();
 				    cmd.push({"tempName":name,"caseId":caseId,"compId":tdArr.eq(0).find("input").val(),"compOrder":tdArr.eq(3).find("input").val()});
 				 });
-				console.log(cmd);
-				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
+				console.log(JSON.stringify(cmd));
+				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), JSON.stringify(cmd), function(json, status) {
 					if (status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
@@ -394,10 +395,10 @@ define(function(require, exports, module) {
 			$(Dom.createTest).bind('click', function() {
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
-					cmd = 'caseId'+_data.caseId;
+					cmd = 'caseId='+_data.caseId;
 					$(Dom.modalTestCaseForm).modal('show');
 					$('#testName1').val(_data.caseName+'_');
-					Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), _data.caseId, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
 						if(status) {
 							var factor_template = Handlebars.compile(Tpl.getTestFactorList);
 							$(Dom.testFactorList).html(factor_template(json.data.factors));

@@ -445,7 +445,7 @@ define(function(require, exports, module) {
 		// 删除模板
 		deleCaseTemp: function() {
 			var self = this;
-			$(Dom.deleCaseTemp).ubind('click');
+			$(Dom.deleCaseTemp).unbind('click');
 			$(Dom.deleCaseTemp).bind('click', function() {
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {

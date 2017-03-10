@@ -8,11 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaUiComponent;
+import com.ai.aiga.view.json.CommonCompTreeResponse;
 
 public interface NaUiComponentDao extends SearchAndPageRepository<NaUiComponent, Long> , JpaRepository<NaUiComponent, Long>{
 	
 	@Query(value = "select sys_id as id, 0 as p_id, sys_name as name, 'N' as if_leaf"
-			+ "  from aiga_system_folder where is_invalid=0 and is_invalid is not null"
+			+ "  from aiga_system_folder where isselect sys_id as id, 0_invalid=0 and is_invalid is not null"
 			+ " union all "
 			+ "select subsys_id as id, sys_id as p_id, sys_name as name, 'N' as if_leaf"
 			+ " from aiga_sub_sys_folder union all "
@@ -42,5 +43,11 @@ public interface NaUiComponentDao extends SearchAndPageRepository<NaUiComponent,
 			+ "  select b.ctrl_id as id,b.parent_id as p_id, b.ctrl_name as name,'Y' as if_leaf,"
 			+ "  to_char(a.ctrl_template) as script  from  aiga_autotest_control_type a, na_ui_control b where a.ctrl_type = b.ctrl_type",nativeQuery = true)
 	List<Object[]> ctrlTree();
+
+	@Query(value = "select sys_id as id, 0 as pid, sys_name as name from aiga_system_folder where is_invalid=0 and is_invalid is not null"
+			+ " union all select subsys_id as id, sys_id as pid, sys_name as name from aiga_sub_sys_folder "
+			+ " union all select fun_id as id, sub_sys_id as pid, sys_name as name from aiga_fun_folder where is_invalid=0 and is_invalid is not null"
+			+ " union all select comp_id as id, parent_id as pid, comp_name as name from na_ui_component", nativeQuery = true)
+	List<Object[]> commenCompTree();
 
 }

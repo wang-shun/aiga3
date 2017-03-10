@@ -255,7 +255,7 @@ define(function(require, exports, module) {
 							    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
 							 });	
 							console.log(cmd);						
-							Rose.ajax.getJson(srvMap.get('addCaseTemp'), cmd, function(json, status) {
+							Rose.ajax.postJson(srvMap.get('addCaseTemp'), cmd, function(json, status) {
 								if (status) {
 									// 添加用户成功后，刷新用户列表页
 									XMS.msgbox.show('添加模板成功！', 'success', 2000)
@@ -303,7 +303,7 @@ define(function(require, exports, module) {
 								    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
 								 });	
 								console.log(cmd);						
-								Rose.ajax.getJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
+								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
 									if (status) {
 										// 添加用户成功后，刷新用户列表页
 										XMS.msgbox.show('添加模板成功！', 'success', 2000)
@@ -362,7 +362,7 @@ define(function(require, exports, module) {
 				    cmd = cmd+"&compOrder="+tdArr.eq(3).find("input").val();//compOrder
 				 });
 				console.log(cmd);
-				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
 					if (status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
@@ -416,7 +416,7 @@ define(function(require, exports, module) {
 					}
 				 });
 				console.log(cmd);
-				Rose.ajax.getJson(srvMap.get('addTestCase'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('addTestCase'), cmd, function(json, status) {
 					if (status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('测试用例生成成功！', 'success', 2000)

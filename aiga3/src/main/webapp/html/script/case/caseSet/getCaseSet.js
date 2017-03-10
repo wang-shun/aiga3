@@ -29,7 +29,8 @@ define(function(require, exports, module) {
 		getCaseSetList: require('tpl/case/caseSet/getCaseSetinfoList.tpl'),
 		addCaseSetinfo: require('tpl/case/caseSet/addCaseSetinfo.tpl'),
 		queryCaseSetForm: require('tpl/case/caseSet/queryCaseSetForm.tpl'),
-		connectCaseCollectionList: require('tpl/case/caseSet/connectCaseCollectionList.tpl')
+		connectCaseCollectionList: require('tpl/case/caseSet/connectCaseCollectionList.tpl'),
+		connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl')
 	};
 
 
@@ -87,6 +88,9 @@ define(function(require, exports, module) {
 
 					//关联用例集
 					self.buttonCaseCollection();
+
+					//关联用例
+					self.connectCase();
 
 					// 绑定单机当前行事件
 				    self.eventClickChecked($(Dom.getCaseSetinfoListTable),function(){
@@ -299,7 +303,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var _data = self.getCaseSetRow();
 			var _collectlId = _data.collectlId;
-			var cmd = "collectlId="+_collectlId+"collectIds=";
+			var cmd = "collectlId="+_collectlId+"&collectIds=";
 			Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
 				if (status) {
 					// var _form = $(Dom.addCaseSetinfoForm);
@@ -314,15 +318,26 @@ define(function(require, exports, module) {
 				    self.eventClickChecked($("#JS_connectCaseCollectionList"),function(){
 
 				    })
-
-				    $("#JS_connectCaseCollectionList").find("tr").each(function(){
-				    	var tdArr = $(this).children();
-				    	if(tdArr.eq(0).find("input").is(':checked')){
-					    	cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
-						}
-				 	});
-
-
+				    $("#JS_connectCaseCollectionButton").bind('click',function(){
+				    	$("#JS_connectCaseCollectionList").find("tr").each(function(){
+					    	var tdArr = $(this).children();
+					    	if(tdArr.eq(0).find("input").is(':checked')){
+						    	cmd = cmd+tdArr.eq(0).find("input").val()+",";
+						    	console.log(cmd);
+							}
+					 	});
+				    	Rose.ajax.getJson(srvMap.get('connectCaseCollection'), cmd, function(json, status) {
+				    		if (status) {
+				    			// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('关联成功！', 'success', 2000)
+								// 关闭弹出层
+								$("#JS_connectCaseSetinfoModal").modal('hide')
+								setTimeout(function(){
+									self.initOrganize();
+								},1000)
+				    		}
+				    	});
+				    });  
 				}
 			});
 
@@ -339,6 +354,38 @@ define(function(require, exports, module) {
 			});
 		},
 
+////////*******************************************//关联用例//*******************************************////////
+		connectCaseList : function(){
+			var self = this;
+			var _data = self.getCaseSetRow();
+			var _collectlId = _data.collectlId;
+			// var cmd = "collectlId="+_collectlId+"&collectIds=";
+			// Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
+			// 	if (status) {
+					// var _form = $(Dom.addCaseSetinfoForm);
+					var template = Handlebars.compile(Tpl.connectCaseList);
+					// console.log(json.data);
+					$("#JS_connectCaseSetinfo").html(template({}));
+
+					// //弹出层
+					$("#JS_connectCaseSetinfoModal").modal('show');
+
+					// 绑定单机当前行事件
+				    // self.eventClickChecked($("#JS_connectCaseCollectionList"),function(){
+
+				    // })
+				// }
+				// });
+		},
+		connectCase : function(){
+			var self = this;
+			$("#JS_connectCase").bind('click',function(){
+				var _data = self.getCaseSetRow();
+				if(_data){
+					self.connectCaseList();
+				}
+			});
+		},
 
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行

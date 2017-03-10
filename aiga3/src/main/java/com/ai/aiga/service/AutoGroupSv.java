@@ -40,17 +40,21 @@ public class AutoGroupSv {
 	private NaAutoCaseDao naAutoCaseDao;
 	public Object fingGroups(NaAutoGroup condition, int pageNumber, int pageSize) {
 		
-		List<Condition> cons = new ArrayList<Condition>();
+		String sql = "select a.group_id, a.group_name, b.name as creator_name,"
+				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.update_time "
+				+ " from aiga_staff b, na_auto_group a where a.creator_id = b.staff_id";
 		if(condition != null){
 			
 			if(condition.getGroupName() != null){
-				cons.add(new Condition("groupName", "%".concat(condition.getGroupName()).concat("%"), Condition.Type.LIKE));
-			}
-			if(condition.getCreatorId() != null){
-				cons.add(new Condition("creatorId", condition.getCreatorId(), Condition.Type.EQ));
+				sql+=" and a.group_name like '%"+condition.getGroupName()+"%'";
 			}
 		}
-		
+		List<String> list = new ArrayList<String>();
+		list.add("groupId");
+		list.add("groupName");
+		list.add("creatorName");
+		list.add("updateName");
+		list.add("updateTime");
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
@@ -59,7 +63,7 @@ public class AutoGroupSv {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return naAutoGroupDao.search(cons, pageable);
+	    return naAutoCaseDao.searchByNativeSQL(sql, pageable, list);
 		
 	}
 
@@ -75,14 +79,14 @@ public class AutoGroupSv {
 		if(StringUtils.isBlank(autoGroupRequest.getCreatorId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-//		if(StringUtils.isBlank(autoGroupRequest.getUpdateId().toString())){
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-//		}
-//		
+		if(StringUtils.isBlank(autoGroupRequest.getUpdateId().toString())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		
 		NaAutoGroup naAutoGroup = new NaAutoGroup();
 		naAutoGroup.setGroupName(autoGroupRequest.getGroupName());
 		naAutoGroup.setCreatorId(autoGroupRequest.getCreatorId());
-		naAutoGroup.setUpdateId(autoGroupRequest.getCreatorId());
+		naAutoGroup.setUpdateId(autoGroupRequest.getUpdateId());
 		naAutoGroup.setUpdateTime(new Date(System.currentTimeMillis()));
 		
 		naAutoGroupDao.save(naAutoGroup);

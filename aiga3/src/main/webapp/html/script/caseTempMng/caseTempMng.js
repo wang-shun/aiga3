@@ -158,7 +158,7 @@ define(function(require, exports, module) {
 		//系统子类下拉框
 		getSubSysList: function(id,obj) {
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysId='+id, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysid='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSubSysList);
 					$(obj.getSubsysList).html(template(json.data));
@@ -169,7 +169,7 @@ define(function(require, exports, module) {
 		},
 		//功能点下拉框
 		getFunList: function(id,obj) {
-			Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysId='+id, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysid='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getFunList);
 					$(obj.getFunList).html(template(json.data));

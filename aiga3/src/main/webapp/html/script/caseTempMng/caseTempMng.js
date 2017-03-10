@@ -2,24 +2,24 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "caseTempMng/";
 
-	// 用例模板列表显示
+	// 用例模板列表显示 ok
 	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "/case/template/list");
-	//系统大类下拉框显示
+	//系统大类下拉框显示 OK
 	srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
-	//系统子类下拉框
+	//系统子类下拉框 OK
 	srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
-	//功能点下拉框
+	//功能点下拉框 OK
 	srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
-	//删除模板
+	//删除模板 
 	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "/case/template/del");
-	//获取模板信息
+	//获取模板信息 ok
     srvMap.add("getCaseTempInfo", pathAlias +"getCaseTempInfo.json", "/case/template/get"); 	
-	//新增用例模板
-	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "/case/template/add");
-	//修改用例模板
+	//新增用例模板 
+	srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "case/template/save");
+	//修改用例模板 
 	srvMap.add("updateCaseTemp", pathAlias + "getCaseTempList.json", "/case/template/update");
     //获取组件树
-	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "sys/template/compTree");
+	srvMap.add("getCompTree", pathAlias + "getCompTree.json", "/sys/cache/commenCompTree");
     //获取组件信息
     srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "sys/component/findone");
 	//保存自动化模板
@@ -445,12 +445,11 @@ define(function(require, exports, module) {
 		// 删除模板
 		deleCaseTemp: function() {
 			var self = this;
-
+			$(Dom.deleCaseTemp).ubind('click');
 			$(Dom.deleCaseTemp).bind('click', function() {
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
 					var _caseId = _data.caseId;
-					alert(_caseId);
 					Rose.ajax.getJson(srvMap.get('delCaseTemp'), 'caseId=' + _caseId, function(json, status) {
 						if (status) {
 							// dele成功后，重新加载模板列表
@@ -483,6 +482,7 @@ define(function(require, exports, module) {
 							$(Dom.caseTempForm).find("select[name='subSysId']").val(json.data.subSysId);
 							$(Dom.caseTempForm).find("select[name='funId']").val(json.data.funId);
 							$(Dom.caseTempForm).find("select[name='busiId']").val(json.data.busiId);
+							$(Dom.caseTempForm).find("select[name='caseType']").val(json.data.caseType);
 							$(Dom.caseTempForm).find("textarea[name='operateDesc']").val(json.data.operateDesc);								
 						});
 						$(Dom.factorList).html(factor_template(json.data.factors));

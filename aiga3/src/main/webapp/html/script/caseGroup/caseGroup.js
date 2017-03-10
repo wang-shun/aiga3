@@ -27,7 +27,7 @@ define(function(require, exports, module) {
     //删除用例组用例关联
     srvMap.add('delRelaCase', pathAlias + "retMessage.json", "sys/autoGroup/caseRelatGroupDel");
     //保存执行顺序
-    srvMap.get('saveGroupOrder', pathAlias + "retMessage.json", "sys/autoGroup/groupOrderUpdate");
+    srvMap.add('saveGroupOrder', pathAlias + "retMessage.json", "sys/autoGroup/groupOrderUpdate");
 
     // 模板对象
     var Tpl = {

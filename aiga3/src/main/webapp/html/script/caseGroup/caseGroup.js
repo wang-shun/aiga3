@@ -260,6 +260,8 @@ define(function(require, exports, module) {
         // 已关联用例列表
         getRelaCaseList: function(cmd) {
             var self = this;
+            var cmd = "groupId=" + Data.groupId;
+            console.log(cmd);
             Rose.ajax.getJson(srvMap.get('getRelaCaseList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getRelaCaseList);

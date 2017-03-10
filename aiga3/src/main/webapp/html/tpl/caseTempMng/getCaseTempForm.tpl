@@ -44,7 +44,7 @@
 <div class="row">
     <div class="col-sm-6 form-group">
         <label class="col-sm-4 control-label">功&nbsp;&nbsp;能&nbsp;&nbsp;点：</label>
-        <div id="add_funId" class="col-sm-8 pull-left">
+        <div id="add_caseType" class="col-sm-8 pull-left">
             <select  name="caseType" class="form-control select2 input-sm" >
                 <option> </option>
                 <option value="1">UI类</option>

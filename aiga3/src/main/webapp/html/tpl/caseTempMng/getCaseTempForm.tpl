@@ -2,7 +2,7 @@
     <div class="col-sm-6 form-group">
         <label for="queryCaseName" class="col-sm-4 control-label"><i class="text-red">* </i>模板名称：</label>
         <div class="col-sm-8">
-            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
+            <input type="text" class="form-control input-sm" name="caseName" id="add_caseName" value="{{caseName}}">
         </div> 
     </div>
 
@@ -77,7 +77,7 @@
     <div class="form-group">
         <label class="control-label col-sm-2"><i class="text-red">* </i>模板应用：</label>
         <div class="col-sm-9">
-            <textarea type="text" class="form-control input-sm" name="operateDesc" style="resize: none;height: 100px"></textarea>
+            <textarea type="text" class="form-control input-sm" id="JS_add_operateDesc" name="operateDesc" style="resize: none;height: 100px"></textarea>
         </div>                            
     </div>
 

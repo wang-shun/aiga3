@@ -10,7 +10,7 @@ define(function(require, exports, module) {
 	srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
 	//功能点下拉框 OK
 	srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
-	//删除模板 
+	//删除模板 ok
 	srvMap.add("delCaseTemp", pathAlias + "getFunList.json", "case/template/del");
 	//获取模板信息 ok
     srvMap.add("getCaseTempInfo", pathAlias +"getCaseTempInfo.json", "case/template/get"); 	
@@ -285,7 +285,7 @@ define(function(require, exports, module) {
 					$(Dom.modalCaseTempForm).modal('show');
 					$("#myModalLabel").html("查看编辑模板");
 					//加载form表单
-					self.getCaseTempInfo("caseId="+_data.caseId);
+					self.getCaseTempInfo("caseId ="+_data.caseId);
 					self.addFactor();
 					self.deleFactor();			
 					
@@ -299,14 +299,31 @@ define(function(require, exports, module) {
 
 							// 表单校验：成功后调取接口
 							//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-								var cmd = _form.serialize()+"&caseId="+_data.caseId;
-								
+								var cmd = [];
+								// var cmd = _form.serialize()+"&caseId="+_data.caseId;
+								var caseId = _data.caseId;
+								var caseName = $("#add_caseName").val();
+								var important = $("#add_important").val();
+								var sysId = $("#add_sysId").find("select").val();
+								var subsysId = $("#add_subSysId").find("select").val();
+								var funId = $("#add_funId").find("select").val();
+								var busiId = $("#add_busiId").val();
+								var caseType = $("#add_caseType").find("select").val();
+								var operateDesc = $("#JS_add_operateDesc").val();
+								var id;
+								var name;
+								var remark;
 								// self.getUserinfoList(cmd);
 								$(Dom.factorList).find("tr").each(function(){
 								    var tdArr = $(this).children();
-								    cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
-								    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-								    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
+								    // cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
+								    // cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
+								    // cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
+									id = tdArr.eq(0).find("input").val();
+								    name = tdArr.eq(1).find("input").val();
+								    remark = tdArr.eq(2).find("input").val();
+								    // 
+								    cmd.push({"caseName":caseName,"caseId":caseId,"important":important,"sysId":sysId,"subsysId":subsysId,"funId":funId,"busiId":busiId,"caseType":caseType,"operateDesc":operateDesc,"factorId":id,"factorName":name,"remark":remark});
 								 });	
 								console.log(cmd);						
 								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {

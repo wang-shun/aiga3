@@ -23,7 +23,7 @@ define(function(require, exports, module) {
     //获取组件信息
     srvMap.add("getCompinfo", "componentManage/getCompinfo.json", "sys/component/findone");
 	//保存自动化模板
-    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "sys/caseTemplat/addAutoTestTemp");
+    srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "/auto/templateComp/saveListByCaseId");
 	//保存测试用例
     srvMap.add("addTestCase", "componentManage/getCompinfo.json", "sys/caseTemplat/addTestCase");    
     
@@ -280,7 +280,7 @@ define(function(require, exports, module) {
 					$(Dom.modalCaseTempForm).modal('show');
 					$("#myModalLabel").html("查看编辑模板");
 					//加载form表单
-					self.getCaseTempInfo(_data.caseId);
+					self.getCaseTempInfo("caseId="+_data.caseId);
 					self.addFactor();
 					self.deleFactor();			
 					
@@ -324,16 +324,18 @@ define(function(require, exports, module) {
 		//生成自动化模板
 		newAutoCaseTemp: function() {
 			var self = this;
-			var cmd;
+			var cmd = [];
+			var caseId;
 			$(Dom.createAutoTestTemp).bind('click', function() {
 
 				// $(Dom.addUserinfoScroll).slimScroll({
 				// 	"height": '420px'
 				// });
 				//获取当前选中模板
+				cmd = [];
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
 				if (_data) {
-					cmd = "caseId="+_data.caseId;
+					caseId = _data.caseId;
 					$('#tempName1').val(_data.caseName+'_');
 					$(Dom.modalAutoTempForm).modal('show');
 					self.getCompTree();
@@ -355,11 +357,11 @@ define(function(require, exports, module) {
 
 			//保存自动化模板
 			$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
-				cmd = cmd+"&tempName="+$('#tempName1').val()+$('#tempName2').val();
+				
+				var name = $('#tempName1').val()+$('#tempName2').val();
 				$("#compBody").find("tr").each(function(){
 				    var tdArr = $(this).children();
-				    cmd = cmd+"&compId="+tdArr.eq(0).find("input").val();//compId
-				    cmd = cmd+"&compOrder="+tdArr.eq(3).find("input").val();//compOrder
+				    cmd.push({"tempName":name,"caseId":caseId,"compId":tdArr.eq(0).find("input").val(),"compOrder":tdArr.eq(3).find("input").val()});
 				 });
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
@@ -491,10 +493,6 @@ define(function(require, exports, module) {
 			var self = this;
 			$("#JS_addFactor").unbind('click');
 			$("#JS_addFactor").bind('click',function(){
-				// var factor_template = Handlebars.compile(Tpl.getFactorForm);
-				// $(Dom.factorForm).html(factor_template(""));					
-				// $("#JS_facorFormTitle").html("添加因子");
-				// newFactoryButton
 				
 				var factor_template = Handlebars.compile(Tpl.getFactorList);
 				var empty={'data':''};
@@ -507,7 +505,7 @@ define(function(require, exports, module) {
 		},
 		//删除因子
 		deleFactor:function(cmd){
-//dellButton
+
 			var self = this;
 			$('#JS_delFactor').unbind('click');
 			$('#JS_delFactor').bind('click',function(){

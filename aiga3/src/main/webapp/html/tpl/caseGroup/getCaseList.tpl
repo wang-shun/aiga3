@@ -21,10 +21,10 @@
 	                </td>
 	                <td>{{autoName}}</td>
 	                <td>{{autoDesc}}</td>
-	                <td>{{creatorId}}</td>
-	                <td>{{sysId}}</td>
-	                <td>{{sysSubId}}</td>
-	                <td>{{funId}}</td>
+	                <td>{{creatorName}}</td>
+	                <td>{{sysName}}</td>
+	                <td>{{sysSubName}}</td>
+	                <td>{{funName}}</td>
 	                <td>{{important}}</td>
 	                <td>{{hasAuto}}</td>
 	                <td>{{status}}</td>

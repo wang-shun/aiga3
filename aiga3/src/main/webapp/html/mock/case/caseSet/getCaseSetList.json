@@ -2,7 +2,7 @@
     "retCode": "200",
     "retMessage": null,
     "data":[{
-        "collectlId":"001",
+        "collectId":"001",
         "collectName": "1001",
         "caseType": "001",
         "caseNum": "H",
@@ -10,7 +10,7 @@
         "createTime": "呀",
         "repairsName": "002"
     },{
-        "collectlId":"002",
+        "collectId":"002",
         "collectName": "1001",
         "caseType": "查",
         "caseNum": "H",
@@ -18,7 +18,7 @@
         "createTime": "呀",
         "repairsName": "呀"
     },{
-        "collectlId":"003",
+        "collectId":"003",
         "collectName": "1001",
         "caseType": "查",
         "caseNum": "H",
@@ -26,7 +26,7 @@
         "createTime": "呀",
         "repairsName": "呀"
     },{
-        "collectlId":"004",
+        "collectId":"004",
         "collectName": "1001",
         "caseType": "查",
         "caseNum": "H",
@@ -34,7 +34,7 @@
         "createTime": "呀",
         "repairsName": "呀"
     },{
-        "collectlId":"005",
+        "collectId":"005",
         "collectName": "1001",
         "caseType": "查",
         "caseNum": "H",

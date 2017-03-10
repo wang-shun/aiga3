@@ -24,13 +24,15 @@ define(function(require, exports, module) {
 	//关联用例集
 	srvMap.add("connectCaseCollection", "case/caseSet/getCaseSetList.json", "sys/case/connectCaseCollection");
 
+
 	// 模板对象
 	var Tpl = {
 		getCaseSetList: require('tpl/case/caseSet/getCaseSetinfoList.tpl'),
 		addCaseSetinfo: require('tpl/case/caseSet/addCaseSetinfo.tpl'),
 		queryCaseSetForm: require('tpl/case/caseSet/queryCaseSetForm.tpl'),
 		connectCaseCollectionList: require('tpl/case/caseSet/connectCaseCollectionList.tpl'),
-		connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl')
+		connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl'),
+		// connectCaseSetForm:require('tpl/case/caseSet/connectCaseList.tpl'),
 	};
 
 
@@ -212,10 +214,10 @@ define(function(require, exports, module) {
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.addCaseSetinfo);
-					var a = json.data.content[0]["caseType"];
-					var b = json.data.content[0]["repairsName"];
-					console.log(json.data.content[0]);
-					var c = json.data.content[0];
+					var a = json.data[0]["caseType"];
+					var b = json.data[0]["repairsName"];
+					console.log(json.data[0]);
+					var c = json.data[0];
 
 					c["caseType"]=Dom.caseType;
 					c["repairsName"]=Dom.repairsName;
@@ -288,28 +290,6 @@ define(function(require, exports, module) {
 
 
 ////////*******************************************//关联用例集/关联用例集////*******************************************////////
-		//关联用例集初始化
-		// connectCaseCollectioninit : function(cmd){
-		// 	var self = this;
-		// 	Rose.ajax.getJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
-				
-		// 		if (status) {
-		// 			var _form = $(Dom.addCaseSetinfoForm);
-		// 			var template = Handlebars.compile(Tpl.connectCaseCollectionLis);
-		// 			console.log(json.data);
-		// 			_form.html(template(json.data));
-
-		// 			// //弹出层
-		// 			$(Dom.addCaseSetinfoModal).modal('show');
-
-		// 			// 绑定单机当前行事件
-		// 		    self.eventClickChecked($(Dom.getCaseSetinfoListTable),function(){
-
-		// 		    })
-				    
-		// 		}
-		// 	});
-		// },
 		//关联用例集
 		connectCaseCollection : function(){
 			var self = this;
@@ -371,13 +351,13 @@ define(function(require, exports, module) {
 			var self = this;
 			var _data = self.getCaseSetRow();
 			var _collectId = _data.collectId;
-			// var cmd = "collectId="+_collectId+"&collectIds=";
-			// Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
-			// 	if (status) {
-					// var _form = $(Dom.addCaseSetinfoForm);
+			var cmd = "collectId="+_collectId;
+			Rose.ajax.getJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
+				if (status) {
+					var _form = $("#JS_connectCaseSetForm");
 					var template = Handlebars.compile(Tpl.connectCaseList);
-					// console.log(json.data);
-					$("#JS_connectCaseSetinfo").html(template({}));
+					console.log(json.data[0]);
+					_form.html(template(json.data[0]));
 
 					// //弹出层
 					$("#JS_connectCaseSetinfoModal").modal('show');
@@ -386,12 +366,13 @@ define(function(require, exports, module) {
 				    // self.eventClickChecked($("#JS_connectCaseCollectionList"),function(){
 
 				    // })
-				// }
-				// });
+				}
+				});
 		},
 		connectCase : function(){
 			var self = this;
 			$("#JS_connectCase").bind('click',function(){
+				// var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
 				var _data = self.getCaseSetRow();
 				if(_data){
 					self.connectCaseList();
@@ -402,8 +383,9 @@ define(function(require, exports, module) {
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行
 		getCaseSetRow : function(){
-			var _obj = $(Dom.getCaseSetinfoListTable).find("input[type='radio']:checked").parents("tr");
-			var _collectId = _obj.find("input[name='collectId']")
+			var _obj = $(Dom.getCaseSetinfoListTable).find("input[type='checkbox']:checked").parents("tr");
+			var _collectId = _obj.find("input[name='collectId']");
+			console.log(_collectId)
 			var data = {
 				collectId: "",
 		    }
@@ -413,6 +395,7 @@ define(function(require, exports, module) {
 		    }else{
 		    	data.collectId= _collectId.val();
 		    }
+		    console.log(data.collectId)
 		    return data;
 		},
 		// 事件：单机选中当前行

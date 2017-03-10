@@ -92,6 +92,7 @@ public class CaseTemplateSv extends BaseService{
 
 		long start = System.currentTimeMillis();
 		NaCaseTemplate template = BeanMapper.map(request, NaCaseTemplate.class);
+		template.setStates((byte) 1);
 		System.out.println("花费时间:" + (System.currentTimeMillis() - start));
 		
 		caseTemplateDao.save(template);

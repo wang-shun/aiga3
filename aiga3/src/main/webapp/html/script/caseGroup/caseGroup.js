@@ -3,13 +3,13 @@ define(function(require, exports, module) {
     var pathAlias = "caseGroup/";
 
     //显示用例组列表
-    srvMap.add("getCaseGroupList", pathAlias + "getCaseGroupList.json", "");
+    srvMap.add("getCaseGroupList", pathAlias + "getCaseGroupList.json", "sys/autoGroup/list");
     //新增用例组
-    srvMap.add("addCaseGroup", pathAlias + "retMessage.json", "");
+    srvMap.add("addCaseGroup", pathAlias + "retMessage.json", "sys/autoGroup/save");
     //删除用例组
-    srvMap.add("delCaseGroup", pathAlias + "retMessage.json", "");
+    srvMap.add("delCaseGroup", pathAlias + "retMessage.json", "sys/autoGroup/delete");
     //修改用例组(名称)
-    srvMap.add('updateCaseGroup', pathAlias + "retMessage.json", "");
+    srvMap.add('updateCaseGroup', pathAlias + "retMessage.json", "sys/autoGroup/update");
     //系统大类下拉框显示
     srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
     //系统子类下拉框
@@ -17,17 +17,17 @@ define(function(require, exports, module) {
     //功能点下拉框
     srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
     //获取要修改的用例组的信息
-    srvMap.add("getCaseGroupInfo", pathAlias + "getCaseGroupInfo.json", "");
+    srvMap.add("getCaseGroupInfo", pathAlias + "getCaseGroupInfo.json", "sys/autoGroup/findOne");
     //获取用例列表
-    srvMap.add("getCaseList", pathAlias + "getCaseList.json", "");
+    srvMap.add("getCaseList", pathAlias + "getCaseList.json", "sys/autoGroup/caseList");
     //获取已关联的用例列表
-    srvMap.add('getRelaCaseList', pathAlias + "getRelaCaseList.json", "");
+    srvMap.add('getRelaCaseList', pathAlias + "getRelaCaseList.json", "sys/autoGroup/caseRelatGroupList");
     //新增用例组用例关联
-    srvMap.add('addRelaCase', pathAlias + "retMessage.json", "");
+    srvMap.add('addRelaCase', pathAlias + "retMessage.json", "sys/autoGroup/caseRelatGroupSave");
     //删除用例组用例关联
-    srvMap.add('delRelaCase', pathAlias + "retMessage.json", "");
+    srvMap.add('delRelaCase', pathAlias + "retMessage.json", "sys/autoGroup/caseRelatGroupDel");
     //保存执行顺序
-    srvMap.get('saveGroupOrder', pathAlias + "retMessage.json", "");
+    srvMap.get('saveGroupOrder', pathAlias + "retMessage.json", "sys/autoGroup/groupOrderUpdate");
 
     // 模板对象
     var Tpl = {

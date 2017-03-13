@@ -68,7 +68,7 @@ define(function(require, exports, module) {
 						a["sflxOrganize"] = Dom.sflxOrganize;
 
 						console.log(json.data)
-						$(Dom.getOrganize).html(template(aaa));
+						$(Dom.getOrganize).html(template(a));
 
 					}
 				});

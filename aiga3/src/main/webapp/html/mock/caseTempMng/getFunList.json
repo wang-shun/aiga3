@@ -3,48 +3,48 @@
   "retMessage":null,
   "data":[{
     "funId": "11",
-    "funName":"功能点",
+    "sysName":"功能点",
   },{
     "funId": "22",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
   },{
     "funId": "33",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
   },{
     "funId": "44",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
 	
   },{
     "funId": "55",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
 	
   },{
     "funId": "66",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
 	
   },{
     "funId": "77",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
 	
   },{
     "funId": "00",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
 	
   },{
     "funId": "88",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
 	
   },{
     "funId": "99",
-    "funName":"功能点",
+    "sysName":"功能点",
 	
 	
   }]

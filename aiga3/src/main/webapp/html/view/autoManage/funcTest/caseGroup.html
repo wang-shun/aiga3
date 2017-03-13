@@ -1,0 +1,212 @@
+<!-- 条件查询表单 -->
+<div class="box">
+    <div class="box-header">
+        <div class="box-title">条件查询</div>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="box-body">
+        <form id="JS_queryCaseGroup">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group input-group-sm">
+                        <label>用例组名称<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="groupName" value="" required="">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group input-group-sm">
+                        <label>创建人<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="creatorId" value="" required="">
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <div class="text-center">
+                    <button type="reset" class="btn btn-default">重置</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary" data-toggle="modal" name="submit" id="JS_queryCaseGroup">查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- 用例组表格 -->
+<div class="box" id="">
+    <div class="box-header">
+        <div class="box-title">用例组列表</div>
+        <div class="box-tools">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_addCaseGroup"><i class="fa fa-plus"></i> 添加用例组</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="javascript:;" id="JS_updateCaseGroup">修改</a></li>
+                    <li><a href="javascript:;" id="JS_delCaseGroup">删除</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="box-body" style="min-height: 100px;" id="JS_getCaseGroupList"></div>
+</div>
+<!-- 增加用例组Modal -->
+<div class="modal fade" id="JS_addCaseGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加用例组</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <form id="JS_addCaseGroupInfo">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" id="JS_addCaseGroupSubmit">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<!-- 编辑用例组Modal -->
+<div class="modal fade" id="JS_updateCaseGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑用例组</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">用例列表</a>
+                        </li>
+                        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">已关联用例列表</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- tab页签1 -->
+                        <div class="tab-pane active" id="tab_1">
+                            <div class="row">
+                                <form id="JS_updateCaseGroupInfo">
+                                </form>
+                            </div>
+                            <div class="row">
+                                <div class="box">
+                                    <div class="box-header with-border">
+                                        <h3 class="box-title">查询用例</h3>
+                                    </div>
+                                    <form id="JS_queryCaseList" class="form-horizontal" role="form">
+                                        <div class="box-body">
+                                            <!-- 搜索表单 -->
+                                            <div class="row">
+                                                <div class="col-sm-4 form-group">
+                                                    <label class="col-sm-4 control-label">用例名称：</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" class="form-control input-sm" id="autoName" name="autoName">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <label class="col-sm-4 control-label">重要程度：</label>
+                                                    <div class="col-sm-8">
+                                                        <select id="JS_important" name="important" class="form-control input-sm">
+                                                            <option> </option>
+                                                            <option value="1">一级用例</option>
+                                                            <option value="2">二级用例</option>
+                                                            <option value="3">三级用例</option>
+                                                            <option value="4">四级用例</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4 form-group">
+                                                    <label class="col-sm-4 control-label">系统大类：</label>
+                                                    <div class="col-sm-8" id="JS_sysId">
+                                                        <select name="sysId" class="form-control select2 input-sm">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <label class="col-sm-4 control-label">系统子类：</label>
+                                                    <div class="col-sm-8" id="JS_subSysId">
+                                                        <select name="subSysId" class="form-control select2 input-sm">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <label class="col-sm-4 control-label">功能点：</label>
+                                                    <div class="col-sm-8" id="JS_funId">
+                                                        <select name="funId" class="form-control select2 input-sm">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class=" text-center">
+                                                <button type="reset" class="btn btn-default">重置</button>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="submit" id="JS_queryCase">查询</button>
+                                            </div>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- 用例表格 -->
+                                <div class="box" id="">
+                                    <div class="box-header">
+                                        <div class="box-title">用例列表</div>
+                                        <div class="box-tools">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_relaCase"><i class="fa fa-plus"></i> 关联用例</button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body" style="min-height: 100px;" id="JS_getCaseList"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tab页签2 -->
+                        <div class="tab-pane" id="tab_2">
+                            <div class="row">
+                                <div class="box" id="JS_getRelaCaseWrap">
+                                    <div class="box-header">
+                                        <h3 class="box-title">已关联用例列表</h3>
+                                        <div class="box-tools">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="del"><i class="fa fa-plus"></i> 删除关联</button>
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                    <span class="caret"></span>
+                                                    <span class="sr-only">Toggle Dropdown</span>
+                                                </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="javascript:;" name="save">保存执行顺序</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body" id="JS_getRelaCaseList"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.tab-pane -->
+                    </div>
+                    <!-- /.tab-content -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" id="JS_updateCaseGroupSubmit">保存</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <!-- 引用js -->
+    <script>
+    seajs.use("script/caseGroup/caseGroup.js", function(indexQuery) {
+        indexQuery.init();
+    });
+    </script>

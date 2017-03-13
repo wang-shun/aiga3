@@ -14,6 +14,7 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaCaseFactorDao;
 import com.ai.aiga.dao.NaCaseTemplateDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.domain.NaCaseFactor;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.exception.BusinessException;
@@ -67,6 +68,8 @@ public class CaseTemplateSv extends BaseService{
 			}
 		}
 		
+		cons.add(new Condition("states", 1, Condition.Type.EQ));
+		
 		
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -90,10 +93,37 @@ public class CaseTemplateSv extends BaseService{
 
 		long start = System.currentTimeMillis();
 		NaCaseTemplate template = BeanMapper.map(request, NaCaseTemplate.class);
+		template.setStates((byte) 1);
 		System.out.println("花费时间:" + (System.currentTimeMillis() - start));
 		
 		caseTemplateDao.save(template);
+		//保存因子
+		List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
+		caseFactorDao.save(factorList);
 		
+	}
+
+
+	private List<NaCaseFactor> structureCaseFactor(long caseId, List<String> factorName, List<String> remark) {
+		List<NaCaseFactor> list = new ArrayList<NaCaseFactor>();
+		if(factorName != null){
+			for(int i = 0; i < factorName.size(); i++){
+				
+				if(StringUtils.isNoneBlank(factorName.get(i))){
+					NaCaseFactor cf = new NaCaseFactor();
+					cf.setCaseId(caseId);
+					cf.setFactorName(factorName.get(i));
+					
+					if(remark != null && remark.size() >= (i + 1)){
+						cf.setRemark(remark.get(i));
+					}
+					
+					list.add(cf);
+				}
+				
+			}
+		}
+		return list;
 	}
 
 
@@ -110,9 +140,6 @@ public class CaseTemplateSv extends BaseService{
 			//caseTemplateDao.delete(caseId);
 			//caseFactorDao.deleteByCaseId(caseId);
 		}
-		
-		
-		
 		
 	}
 
@@ -136,6 +163,37 @@ public class CaseTemplateSv extends BaseService{
 		response.setFactors(facs);
 		
 		return response;
+	}
+
+
+	public void updateTmeplate(TemplateRequest request) {
+		
+		if(request == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+		}
+		
+		if(request.getCaseId() == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+		}
+		
+		NaCaseTemplate template = caseTemplateDao.findOne(request.getCaseId());
+		
+		if(template == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid, "caseId");
+		}
+		
+		template.setCaseName(request.getCaseName());
+		template.setImportant(request.getImportant());
+		template.setSysId(request.getSysId());
+		template.setSysSubId(request.getSysSubId());
+		template.setFunId(request.getFunId());
+		template.setBusiId(request.getBusiId());
+		
+		caseTemplateDao.save(template);
+		//保存因子
+//		List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
+//		caseFactorDao.save(factorList);
+		
 	}
 
 }

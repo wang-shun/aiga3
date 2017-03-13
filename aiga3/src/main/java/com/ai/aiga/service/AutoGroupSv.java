@@ -42,7 +42,7 @@ public class AutoGroupSv {
 		
 		String sql = "select a.group_id, a.group_name, b.name as creator_name,"
 				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.update_time "
-				+ " from aiga_staff b, na_auto_group a where a.creator_id = b.staff_id";
+				+ " from aiga_staff b, na_auto_group a where a.creator_id = b.staff_id order by a.update_time desc";
 		if(condition != null){
 			
 			if(condition.getGroupName() != null){

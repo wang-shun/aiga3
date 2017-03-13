@@ -1,7 +1,7 @@
 package com.ai.aiga.domain;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * @author defaultekey

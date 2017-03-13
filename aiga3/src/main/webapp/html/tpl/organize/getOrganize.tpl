@@ -87,7 +87,7 @@
 	      <div class="form-group">
 	        <label>联系人手机号</label>
 	        <input  class="form-control" id="connectBillId" name="connectBillId" value="{{connectBillId}}">
-	      </div>3
+	      </div>
 		</div>
 	</div>							
 <!-- /.row -->

@@ -1,14 +1,15 @@
 package com.ai.aiga.service;
 
 import com.ai.aiga.dao.NaAutoTemplateCompDao;
-import com.ai.aiga.dao.NaCaseTemplateDao;
 import com.ai.aiga.dao.NaUiComponentDao;
 import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.domain.NaAutoTemplateComp;
 import com.ai.aiga.domain.NaUiComponent;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.AutoTemplateCompRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +35,6 @@ public class AutoTemplateCompSv {
     @Autowired
     private NaUiComponentDao componentDao;
 
-    @Autowired
-    private NaCaseTemplateDao caseTemplateDao;
-
-    @Autowired
-    private AutoTemplateSv templateSv;
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -52,10 +47,19 @@ public class AutoTemplateCompSv {
         if (templateCompRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (templateCompRequest.getTempId() == null) {
+        return this.findByTempId(templateCompRequest.getTempId());
+    }
+
+    /**
+     * 根据模板ID查询出所有关联组件信息(只包含组件ID)
+     * @param tempId
+     * @return
+     */
+    public List<NaAutoTemplateComp> findByTempId(Long tempId){
+        if (tempId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
-        return templateCompDao.findByTempId(templateCompRequest.getTempId());
+        return templateCompDao.findByTempId(tempId);
     }
 
     /**
@@ -67,18 +71,23 @@ public class AutoTemplateCompSv {
         if (templateCompRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (templateCompRequest.getTempId() == null) {
+        return this.findByTempIdInfo(templateCompRequest.getTempId());
+    }
+
+    /***
+     * 根据模板ID查询出所有关联组件信息(包含组件详细描述)
+     * @param tempId
+     * @return
+     */
+    public List<AutoTemplateCompRequest> findByTempIdInfo(Long tempId){
+        if (tempId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
-        List<NaAutoTemplateComp> compList=templateCompDao.findByTempId(templateCompRequest.getTempId());
+        List<NaAutoTemplateComp> compList=templateCompDao.findByTempId(tempId);
         List<AutoTemplateCompRequest> requestList=new ArrayList<AutoTemplateCompRequest>();
         if(compList != null && compList.size()>0){
             for(NaAutoTemplateComp comp:compList){
-                AutoTemplateCompRequest request=new AutoTemplateCompRequest();
-                request.setTempId(comp.getTempId());
-                request.setCompOrder(comp.getCompOrder());
-                request.setCompId(comp.getCompId());
-                request.setRelaId(comp.getRelaId());
+                AutoTemplateCompRequest request=BeanMapper.map(comp,AutoTemplateCompRequest.class);
                 //填充组件具体信息
                 NaUiComponent component=componentDao.findOne(comp.getCompId());
                 if(component!=null){
@@ -108,75 +117,33 @@ public class AutoTemplateCompSv {
         if (compRequest.getCompId() == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
         }
-        NaAutoTemplateComp comp;
-        //如果没有主键，则新增；如果有主键，则修改。
-        if (compRequest.getRelaId() == null) {
-            comp =new NaAutoTemplateComp();
-        }else{
-            comp=templateCompDao.findOne(compRequest.getRelaId());
-        }
-        comp.setCompId(compRequest.getCompId());
-        comp.setTempId(compRequest.getTempId());
-        comp.setCompOrder(compRequest.getCompOrder());
+        NaAutoTemplateComp comp= BeanMapper.map(compRequest,NaAutoTemplateComp.class);
         comp=templateCompDao.save(comp);
         return comp;
     }
 
-    /**
-     * 保存模板与组件关系(批量保存)
-     * @param requestList
-     */
-    public void saveList(List<AutoTemplateCompRequest> requestList){
-        if (requestList == null&&requestList.size()==0) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
-        //校验数据是否正确
-        for (AutoTemplateCompRequest request:requestList) {
-            if (request.getTempId() == null) {
-                BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
-            }
-            if (request.getCompId() == null) {
-                BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
-            }
-        }
-        //根据tempId删除旧关联关系在批量保存
-        templateCompDao.deleteByTempId(requestList.get(0).getTempId());
-        for (AutoTemplateCompRequest request:requestList){
-            NaAutoTemplateComp comp=new NaAutoTemplateComp();
-            comp.setCompId(request.getCompId());
-            comp.setCompOrder(request.getCompOrder());
-            comp.setTempId(request.getTempId());
-            entityManager.persist(comp);
-        }
-        entityManager.flush();
-        entityManager.clear();
-    }
 
     /**
-     * 根据用例模板ID保存自动化用例模板以及批量保存自动化用例模板与组件关系
+     * 批量保存自动化用例模板与组件关系
      * @param requestList
+     * @param tempId
      */
-    public void saveListByCaseId(List<AutoTemplateCompRequest> requestList){
-        if (requestList == null&&requestList.size()==0) {
+    public void saveList(List<AutoTemplateCompRequest> requestList,Long tempId){
+        if (requestList == null||requestList.size()==0) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
         //校验数据是否正确
         for (AutoTemplateCompRequest request:requestList) {
-            if (request.getCaseId() == null) {
-                BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
-            }
             if (request.getCompId() == null) {
                 BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
             }
         }
-        //根据用例模板ID查询数据并生成对应的自动化用例模板数据
-        NaAutoTemplate autoTemplate=templateSv.copyCaseToAuto(requestList.get(0).getCaseId());
-        //保存模板与组件关系
+        //根据tempId删除旧关联关系
+        this.deleteByTempId(tempId);
+        //批量保存新的组件关系
         for (AutoTemplateCompRequest request:requestList){
-            NaAutoTemplateComp comp=new NaAutoTemplateComp();
-            comp.setCompId(request.getCompId());
-            comp.setCompOrder(request.getCompOrder());
-            comp.setTempId(autoTemplate.getTempId());
+            NaAutoTemplateComp comp=BeanMapper.map(request,NaAutoTemplateComp.class);
+            comp.setTempId(tempId);
             entityManager.persist(comp);
         }
         entityManager.flush();
@@ -191,23 +158,28 @@ public class AutoTemplateCompSv {
         if (request == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (request.getRelaId() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "relaId");
-        }
-        templateCompDao.delete(request.getRelaId());
+        this.delete(request.getRelaId());
     }
 
     /**
-     * 根据自动化用例模板主键删除
-     * @param request
+     * 根据主键删除(唯一删除入口)
+     * @param relaId
      */
-    public  void deleteByTempId(AutoTemplateCompRequest request){
-        if (request == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+    public void delete(Long relaId){
+        if (relaId== null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "relaId");
         }
-        if (request.getTempId() == null) {
+        templateCompDao.delete(relaId);
+    }
+
+    /**
+     * 根据自动化用例模板主键删除（唯一批量删除入口）
+     * @param tempId
+     */
+    public  void deleteByTempId(Long tempId){
+        if (tempId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
-        templateCompDao.deleteByTempId(request.getTempId());
+        templateCompDao.deleteByTempId(tempId);
     }
 }

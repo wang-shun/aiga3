@@ -1,6 +1,7 @@
 package com.ai.aiga.view.json;
 
 import java.sql.Time;
+import java.util.List;
 
 /**
  * 自动化用例模板交互参数
@@ -31,11 +32,11 @@ public class AutoTemplateRequest {
     private Short important;//重要等级
     private String importantDesc;//重要等级描述
     private String operateDesc;//操作描述
+    private List<AutoTemplateCompRequest> compRequestList;//组件参数集合
     public AutoTemplateRequest() {
     }
 
-
-    public AutoTemplateRequest(Long tempId, Long caseId, String caseName, byte caseType, String caseTypeDesc, String testType, String testTypeDesc, String tempName, Long sysId, String sysName, Long sysSubId, String sysSubName, Long busiId, String busiName, Long scId, String scName, Long funId, String funName, Short important, String importantDesc, String operateDesc) {
+    public AutoTemplateRequest(Long tempId, Long caseId, String caseName, byte caseType, String caseTypeDesc, String testType, String testTypeDesc, String tempName, Long sysId, String sysName, Long sysSubId, String sysSubName, Long busiId, String busiName, Long scId, String scName, Long funId, String funName, Short important, String importantDesc, String operateDesc, List<AutoTemplateCompRequest> compRequestList) {
         this.tempId = tempId;
         this.caseId = caseId;
         this.caseName = caseName;
@@ -57,14 +58,15 @@ public class AutoTemplateRequest {
         this.important = important;
         this.importantDesc = importantDesc;
         this.operateDesc = operateDesc;
+        this.compRequestList = compRequestList;
     }
 
-    public String getCaseName() {
-        return caseName;
+    public Long getTempId() {
+        return tempId;
     }
 
-    public void setCaseName(String caseName) {
-        this.caseName = caseName;
+    public void setTempId(Long tempId) {
+        this.tempId = tempId;
     }
 
     public Long getCaseId() {
@@ -73,6 +75,14 @@ public class AutoTemplateRequest {
 
     public void setCaseId(Long caseId) {
         this.caseId = caseId;
+    }
+
+    public String getCaseName() {
+        return caseName;
+    }
+
+    public void setCaseName(String caseName) {
+        this.caseName = caseName;
     }
 
     public byte getCaseType() {
@@ -211,19 +221,19 @@ public class AutoTemplateRequest {
         this.importantDesc = importantDesc;
     }
 
-    public Long getTempId() {
-        return tempId;
-    }
-
-    public void setTempId(Long tempId) {
-        this.tempId = tempId;
-    }
-
     public String getOperateDesc() {
         return operateDesc;
     }
 
     public void setOperateDesc(String operateDesc) {
         this.operateDesc = operateDesc;
+    }
+
+    public List<AutoTemplateCompRequest> getCompRequestList() {
+        return compRequestList;
+    }
+
+    public void setCompRequestList(List<AutoTemplateCompRequest> compRequestList) {
+        this.compRequestList = compRequestList;
     }
 }

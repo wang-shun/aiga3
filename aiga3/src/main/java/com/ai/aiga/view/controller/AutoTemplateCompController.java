@@ -74,25 +74,5 @@ public class AutoTemplateCompController {
         return new JsonBean();
     }
 
-    /**
-     * 保存模板与组件关系(批量)
-     * @return
-     */
-    @RequestMapping(path="/auto/templateComp/saveList")
-    public @ResponseBody JsonBean saveList(@RequestBody List<AutoTemplateCompRequest> compRequestList){
-        autoTemplateCompSv.saveList(compRequestList);
-        return new JsonBean();
-    }
-
-    /**
-     * 根据用例模板ID先保存模板，在保存模板与组件关系(批量)
-     * @param compRequestList
-     * @return
-     */
-    @RequestMapping(path="/auto/templateComp/saveListByCaseId")
-    public @ResponseBody JsonBean saveListByCaseId(@RequestBody List<AutoTemplateCompRequest> compRequestList){
-        autoTemplateCompSv.saveListByCaseId(compRequestList);
-        return new JsonBean();
-    }
 
 }

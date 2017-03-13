@@ -27,7 +27,6 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.CaseCollectionRequest;
 import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 
-import net.bytebuddy.utility.privilege.GetSystemPropertyAction;
 
 @Service
 @Transactional

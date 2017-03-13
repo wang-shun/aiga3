@@ -63,12 +63,14 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.getOrganize);
 
-						var a = json.data;
+						var a = json.data[0];
 						a["sflxDataArray"] = Dom.sflxDataArray;
 						a["sflxOrganize"] = Dom.sflxOrganize;
-
-						console.log(json.data)
+                       var orginazeType =  JSON.stringify(json.data[0].orgRoleTypeId);
+                       var certificateType  =  JSON.stringify(json.data[0].contactCardType);
 						$(Dom.getOrganize).html(template(a));
+				        $("#connectCardType").val(certificateType);
+	                    $("#orgRoleTypeId").val(orginazeType);
 
 					}
 				});

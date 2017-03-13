@@ -81,7 +81,6 @@
 	      </div>
 	      <div class="form-group">
 	        <label>联系人名称</label>
-	        <label style="color: red">*</label>
 	        <input  class="form-control" id="connectName" name="connectName" value="{{connectName}}">
 	      </div>
 	      <div class="form-group">

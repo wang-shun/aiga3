@@ -1,11 +1,13 @@
 package com.ai.aiga.view.controller;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.service.AutoTemplateSv;
 import com.ai.aiga.view.json.AutoTemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,19 +43,7 @@ public class AutoTemplateController {
     @RequestMapping(path="/auto/template/save")
     public @ResponseBody JsonBean save(AutoTemplateRequest autoTemplateRequest){
         JsonBean jsonBean=new JsonBean();
-        jsonBean.setData(autoTemplateSv.save(autoTemplateRequest));
-        return jsonBean;
-    }
-
-    /**
-     * 修改自动化用例模板信息
-     * @param autoTemplateRequest
-     * @return
-     */
-    @RequestMapping(path="/auto/template/update")
-    public @ResponseBody JsonBean update(AutoTemplateRequest autoTemplateRequest){
-        JsonBean jsonBean=new JsonBean();
-        jsonBean.setData(autoTemplateSv.update(autoTemplateRequest));
+        jsonBean.setData(autoTemplateSv.saveOrUpdate(autoTemplateRequest));
         return jsonBean;
     }
 
@@ -102,5 +92,17 @@ public class AutoTemplateController {
         return bean;
     }
 
+    /**
+     * 根据用例模板ID生成自动化用例模板以及组件关系
+     * @param request
+     * @return
+     */
+    @RequestMapping(path = "/auto/template/saveListByCaseId" )
+    public @ResponseBody JsonBean saveListByCaseId(@RequestBody AutoTemplateRequest request){
+                NaAutoTemplate autoTemplate=autoTemplateSv.saveListByCaseId(request);
+                JsonBean jsonBean=new JsonBean();
+                jsonBean.setData(autoTemplate);
+                return jsonBean;
+    }
 
 }

@@ -8,6 +8,7 @@ import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.AutoTemplateRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * &#x81ea;&#x52a8;&#x5316;&#x7528;&#x4f8b;&#x6a21;&#x677f;
+ * 自动化用例模板
  *
  * @author defaultekey
  * @date 2017/3/3
@@ -34,77 +35,47 @@ public class AutoTemplateSv {
 
     @Autowired
     private NaCaseTemplateDao caseTemplateDao;
-    /**
-     * 保存自动化用例模板信息
-     * @param autoTemplateRequest
-     * @return
-     */
-    public NaAutoTemplate save(AutoTemplateRequest autoTemplateRequest){
-        if (autoTemplateRequest == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
-        if (autoTemplateRequest.getCaseId() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
-        }
-        if (!StringUtils.isNoneBlank(autoTemplateRequest.getTempName())) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempName");
-        }
-        //判断该名字是否已有自动化用例模板存在
-        if(autoTemplateDao.findByTempName(autoTemplateRequest.getTempName()) != null){
-            BusinessException.throwBusinessException("autoTemplate Name already  existing! please change......");
-        }
-        NaAutoTemplate autoTemplate=new NaAutoTemplate();
-        autoTemplate.setFunId(autoTemplateRequest.getFunId());
-        autoTemplate.setBusiId(autoTemplateRequest.getBusiId());
-        autoTemplate.setCaseId(autoTemplateRequest.getCaseId());
-        autoTemplate.setCaseType(autoTemplateRequest.getCaseType());
-        autoTemplate.setImportant(autoTemplateRequest.getImportant());
-        autoTemplate.setScId(autoTemplateRequest.getScId());
-        autoTemplate.setSysId(autoTemplateRequest.getSysId());
-        autoTemplate.setSysSubId(autoTemplateRequest.getSysSubId());
-        autoTemplate.setUpdateTime(Calendar.getInstance().getTime());
-        autoTemplate.setTestType(autoTemplateRequest.getTestType());
-//        autoTemplate.setCreatorId();
-//        autoTemplate.setUpdateId();
-        return autoTemplateDao.save(autoTemplate);
-    }
+
+    @Autowired
+    private AutoTemplateCompSv autoTemplateCompSv;
 
     /**
-     * 修改自动化用例模板信息
+     * 保存操作（唯一入口）
+     * @param autoTemplate
+     * @return
+     */
+    public NaAutoTemplate save(NaAutoTemplate autoTemplate){
+        if (autoTemplate == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        if (autoTemplate.getCaseId() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+        }
+        if (StringUtils.isBlank(autoTemplate.getTempName())) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempName");
+        }
+        String tempName=autoTemplate.getTempName();//模板名称
+        Long tempId=autoTemplate.getTempId();//主键
+        //校验是否存在名称一样的自动化用例模板
+        if (tempId != null ? (isExisting(tempName,tempId))  :  (autoTemplateDao.findByTempName(tempName)!=null)) {
+            BusinessException.throwBusinessException("autoTemplate Name already  existing! please change......");
+        }
+//        if(tempId==null)autoTemplate.setCreatorId();
+//        autoTemplate.setUpdateId();
+        autoTemplate.setUpdateTime(Calendar.getInstance().getTime());
+        return autoTemplateDao.save(autoTemplate);
+    }
+    
+    /**
+     * 通过请求参数保存自动化用例模板信息
      * @param autoTemplateRequest
      * @return
      */
-    public NaAutoTemplate update(AutoTemplateRequest autoTemplateRequest){
+    public NaAutoTemplate saveOrUpdate(AutoTemplateRequest autoTemplateRequest){
         if (autoTemplateRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (autoTemplateRequest.getCaseId() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
-        }
-        if (!StringUtils.isNoneBlank(autoTemplateRequest.getTempName())) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempName");
-        }
-        if (autoTemplateRequest.getTempId() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
-        }
-        //判断该名字是否已有自动化用例模板存在
-        NaAutoTemplate autoTemplate=autoTemplateDao.findByTempName(autoTemplateRequest.getTempName());
-        if(autoTemplate != null&& !autoTemplate.getTempId().equals(autoTemplateRequest.getTempId())){
-            BusinessException.throwBusinessException("autoTemplate Name already  existing! please change......");
-        }
-        autoTemplate=autoTemplateDao.findOne(autoTemplateRequest.getTempId());
-        autoTemplate.setFunId(autoTemplateRequest.getFunId());
-        autoTemplate.setBusiId(autoTemplateRequest.getBusiId());
-        autoTemplate.setCaseId(autoTemplateRequest.getCaseId());
-        autoTemplate.setCaseType(autoTemplateRequest.getCaseType());
-        autoTemplate.setImportant(autoTemplateRequest.getImportant());
-        autoTemplate.setScId(autoTemplateRequest.getScId());
-        autoTemplate.setSysId(autoTemplateRequest.getSysId());
-        autoTemplate.setSysSubId(autoTemplateRequest.getSysSubId());
-        autoTemplate.setUpdateTime(Calendar.getInstance().getTime());
-        autoTemplate.setTestType(autoTemplateRequest.getTestType());
-//        autoTemplate.setUpdateId();
-        return autoTemplateDao.save(autoTemplate);
+        return this.save(BeanMapper.map(autoTemplateRequest,NaAutoTemplate.class));
     }
 
     /**
@@ -116,39 +87,32 @@ public class AutoTemplateSv {
         if (autoTemplateRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (autoTemplateRequest.getTempId() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
-        }
-        NaAutoTemplate autoTemplate= this.autoTemplateDao.findOne(autoTemplateRequest.getTempId());
+        //查询自动化用例模板
+        NaAutoTemplate autoTemplate= this.findById(autoTemplateRequest.getTempId());
+        autoTemplateRequest= BeanMapper.map(autoTemplate,AutoTemplateRequest.class);
+        //查询用例模板名称
         NaCaseTemplate caseTemplate=this.caseTemplateDao.findOne(autoTemplate.getCaseId());
         if(caseTemplate !=null){
             autoTemplateRequest.setOperateDesc(caseTemplate.getOperateDesc());
         }
-        autoTemplateRequest.setSysSubId(autoTemplate.getSysSubId());
-        autoTemplateRequest.setSysSubName("");
-        autoTemplateRequest.setTestType(autoTemplate.getTestType());
-        autoTemplateRequest.setTestTypeDesc("");
-        autoTemplateRequest.setSysId(autoTemplate.getSysId());
-        autoTemplateRequest.setSysName("");
-        autoTemplateRequest.setScId(autoTemplate.getScId());
-        autoTemplateRequest.setScName("");
-        autoTemplateRequest.setBusiId(autoTemplate.getBusiId());
-        autoTemplateRequest.setBusiName("");
-        autoTemplateRequest.setCaseId(autoTemplate.getCaseId());
-        autoTemplateRequest.setCaseName("");
-        autoTemplateRequest.setFunId(autoTemplate.getFunId());
-        autoTemplateRequest.setFunName("");
-        autoTemplateRequest.setCaseType(autoTemplate.getCaseType());
-        autoTemplateRequest.setCaseTypeDesc("");
-        autoTemplateRequest.setImportant(autoTemplate.getImportant());
-        autoTemplateRequest.setImportantDesc("");
-        autoTemplateRequest.setTempName(autoTemplate.getTempName());
-
+        //查询自动化用例模板关联的组件
         return autoTemplateRequest;
     }
 
     /**
-     * 查询所有自动化用例模板信息
+     * 根据主键查询自动化用例模板信息（唯一入口）
+     * @param tempId
+     * @return
+     */
+    public NaAutoTemplate findById(Long tempId){
+        if (tempId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
+        }
+        return autoTemplateDao.findOne(tempId);
+    }
+
+    /**
+     * 查询所有自动化用例模板信息（唯一入口）
      * @return
      */
     public List<NaAutoTemplate> list(){
@@ -289,55 +253,83 @@ public class AutoTemplateSv {
     }
 
     /**
-     * 先复制数据到删除记录表，再执行删除操作
+     * 通过请求参数先复制数据到删除记录表，再执行删除操作
      * @param request
      */
     public void delete(AutoTemplateRequest request){
         if (request == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (request.getTempId() == null) {
+        this.delete(request.getTempId());
+    }
+
+    /**
+     * 根据主键先复制数据到删除记录表，再执行删除操作（唯一入口）
+     * @param tempId
+     */
+    public void delete(Long tempId){
+        if (tempId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
-        NaAutoTemplate autoTemplate=autoTemplateDao.findOne(request.getTempId());
+        NaAutoTemplate autoTemplate=autoTemplateDao.findOne(tempId);
         if(autoTemplate==null){
             BusinessException.throwBusinessException("can not found autoTemplate !please make sure the tempId is valid......");
         }
         //先复制数据到删除记录表，再执行删除操作
         autoTemplateDao.copyDataToDel(autoTemplate.getTempId());
         autoTemplateDao.delete(autoTemplate.getTempId());
-        //将自动化用例模板数据复制到删除记录表中
-
     }
 
     /**
-     * 根据用例模板ID复制数据
+     * 根据用例模板ID和自动化用例模板名称复制数据
      * @param caseId
+     * @param tempName
      * @return
      */
-    public NaAutoTemplate copyCaseToAuto(Long caseId){
-        if (caseId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
-        }
+    private NaAutoTemplate copyCaseToAuto(Long caseId,String tempName){
         //校验用例模板数据是否存在
         NaCaseTemplate caseTemplate=caseTemplateDao.findOne(caseId);
         if (caseTemplate == null) {
             BusinessException.throwBusinessException(" can not found caseTemplate! please make sure the caseId :"+caseId);
         }
-        NaAutoTemplate autoTemplate=new NaAutoTemplate();
-//        autoTemplate.setCreatorId();
-//        autoTemplate.setUpdateId();
-        autoTemplate.setFunId(caseTemplate.getFunId());
-        autoTemplate.setSysSubId(caseTemplate.getSysSubId());
-        autoTemplate.setSysId(caseTemplate.getSysId());
-        autoTemplate.setTestType(caseTemplate.getTestType());
-        autoTemplate.setBusiId(caseTemplate.getBusiId());
-        autoTemplate.setCaseId(caseTemplate.getCaseId());
-        autoTemplate.setCaseType(caseTemplate.getCaseType());
-        autoTemplate.setImportant(caseTemplate.getImportant());
-        autoTemplate.setScId(caseTemplate.getScId());
-        autoTemplate.setUpdateTime(Calendar.getInstance().getTime());
-        return autoTemplateDao.save(autoTemplate);
+        NaAutoTemplate autoTemplate=BeanMapper.map(caseTemplate,NaAutoTemplate.class);
+        autoTemplate.setTempName(tempName);
+        return this.save(autoTemplate);
     }
-    
+
+    /**
+     * 保存自动化用例模板与组件关系
+     * @param templateRequest
+     * @return
+     */
+    public NaAutoTemplate saveListByCaseId(AutoTemplateRequest templateRequest){
+        if (templateRequest == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        if (StringUtils.isBlank(templateRequest.getTempName())) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempName");
+        }
+        if (templateRequest.getCaseId() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+        }
+        //生成自动化用例模板
+        NaAutoTemplate autoTemplate=this.copyCaseToAuto(templateRequest.getCaseId(),templateRequest.getTempName());
+        //保存组件
+        if(templateRequest.getCompRequestList()!=null) {
+            autoTemplateCompSv.saveList(templateRequest.getCompRequestList(), autoTemplate.getTempId());
+        }
+        return autoTemplate;
+    }
+
+
+    /**
+     * 判断是否存在重复名称的自动化用例模板(存在返回true，不存在false)
+     * @param tempName
+     * @param tempId
+     * @return
+     */
+    public boolean isExisting(String tempName,Long tempId){
+        NaAutoTemplate template=autoTemplateDao.findByTempName(tempName);
+        return template!=null ? !template.getTempId().equals(tempId) : false;
+    }
 }

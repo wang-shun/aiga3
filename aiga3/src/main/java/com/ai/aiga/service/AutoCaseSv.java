@@ -1,5 +1,6 @@
 package com.ai.aiga.service;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoCaseDao;
 import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
@@ -9,11 +10,14 @@ import com.ai.aiga.view.json.AutoCaseRequest;
 import com.ai.aiga.view.json.AutoUiCompRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -251,6 +255,95 @@ public class AutoCaseSv {
         //填入组件
         response.setCompList(this.autoUiCompSv.findByAutoIdRequest(autoCaseRequest.getAutoId()));
         return response;
+    }
+
+    /**
+     * 根据原生SQL分页查询自动化用例信息(包括属性ID的描述信息)
+     * @param condition
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    public Object listbyNativeSQL(AutoCaseRequest condition,int pageNumber, int pageSize){
+        StringBuilder nativeSql=new StringBuilder("select a.auto_id,a.test_id,a.temp_id,a.test_type,a.case_type,a.auto_name,\n" +
+                "a.sys_id,a.sys_sub_id,a.busi_id,a.fun_id,a.sc_id,a.important,a.environment_type,\n" +
+                "a.status,a.has_auto,a.auto_desc,a.param_level,a.creator_id,a.update_id,a.update_time,\n" +
+                "b.temp_name,c.test_name,d.sys_name,e.sys_name as sysSubName,f.sys_name as funName,g.name\n" +
+                " from na_auto_case a\n" +
+                " left join Na_Auto_Template b on a.temp_id=b.temp_id\n" +
+                " left join na_test_case c on a.test_id=c.test_id\n" +
+                " left join Aiga_System_Folder d on a.sys_Id=d.sys_Id\n" +
+                " left join Aiga_Sub_Sys_Folder e on a.sys_Sub_Id=e.subsys_Id\n" +
+                " left join Aiga_Fun_Folder f on a.fun_Id=f.fun_Id\n" +
+                " left join Aiga_Staff g on a.update_id=g.staff_Id where 1=1 ");
+        List<String> keyList=new ArrayList<String>();
+        keyList.add("autoId");
+        keyList.add("testId");
+        keyList.add("tempId");
+        keyList.add("testType");
+        keyList.add("caseType");
+        keyList.add("autoName");
+        keyList.add("sysId");
+        keyList.add("sysSubId");
+        keyList.add("busiId");
+        keyList.add("funId");
+        keyList.add("scId");
+        keyList.add("important");
+        keyList.add("environmentType");
+        keyList.add("status");
+        keyList.add("hasAuto");
+        keyList.add("autoDesc");
+        keyList.add("paramLevel");
+        keyList.add("creatorId");
+        keyList.add("updateId");
+        keyList.add("updateTime");
+        keyList.add("tempName");
+        keyList.add("testName");
+        keyList.add("sysName");
+        keyList.add("sysSubName");
+        keyList.add("funName");
+        keyList.add("staffName");
+        if(condition != null){
+            if(StringUtils.isNotBlank(condition.getAutoName())){
+                nativeSql.append(" and a.auto_name like '%").append(condition.getAutoName()).append("%'");
+            }
+
+            if(condition.getSysId() != null){
+                nativeSql.append(" and a.sys_id=").append(condition.getSysId());
+            }
+
+            if(condition.getSysSubId() != null){
+                nativeSql.append(" and a.sys_sub_id=").append(condition.getSysSubId());
+            }
+
+            if(condition.getFunId() != null){
+                nativeSql.append(" and a.fun_id=").append(condition.getFunId());
+            }
+
+            if(condition.getBusiId() != null){
+                nativeSql.append(" and a.busi_id=").append(condition.getBusiId());
+            }
+
+            if(condition.getScId() != null){
+                nativeSql.append(" and a.sc_id=").append(condition.getScId());
+            }
+
+            if(condition.getImportant() != null){
+                nativeSql.append(" and a.important=").append(condition.getImportant());
+            }
+            if (condition.getStatus() != null) {
+                nativeSql.append(" and a.status=").append(condition.getStatus());
+            }
+        }
+        if(pageNumber < 0){
+            pageNumber = 0;
+        }
+
+        if(pageSize <= 0){
+            pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+        }
+        Pageable pageable = new PageRequest(pageNumber, pageSize);
+        return autoCaseDao.searchByNativeSQL(nativeSql.toString(),pageable,keyList);
     }
 
     /**

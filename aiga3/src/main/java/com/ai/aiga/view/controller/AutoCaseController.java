@@ -71,7 +71,7 @@ public class AutoCaseController {
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
             @RequestBody(required = false) AutoCaseRequest autoCaseRequest){
-        Object autoCaseList=caseSv.findById(autoCaseRequest);
+        Object autoCaseList=caseSv.listbyNativeSQL(autoCaseRequest,pageNumber,pageSize);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(autoCaseList);
         return jsonBean;

@@ -35,11 +35,10 @@ define(function(require, exports, module) {
 	srvMap.add("connectAllCase", pathAlias+"addCaseSetinfo.json", "sys/case/connectAllCase");
 	//查看已关联用例sys/case/connectAllCase
 	srvMap.add("queryConnectCawseById", pathAlias+"useCaseList.json", "sys/case/queryConnectCaseById");
-
 	//删除已关联用例sys/case/connectAllCase
 	srvMap.add("deleteConnectCase", pathAlias+"addCaseSetinfo.json", "sys/case/deleteConnectCase");
-	//查询关联
-
+	//查询未关联用例组
+	srvMap.add("queryUnconnectCaseGroup", pathAlias+"connectCaseList.json", "sys/case/queryUnconnectCaseGroup");
 
 
 	// 模板对象
@@ -119,7 +118,7 @@ define(function(require, exports, module) {
 		getSysList: function(obj,callback) {
 			var self = this;
 			// alert("111")
-			Rose.ajax.getJson(srvMap.get('getSysList'), '', function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
 
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSysList);
@@ -158,7 +157,7 @@ define(function(require, exports, module) {
 		//系统子类下拉框
 		getSubSysList: function(id,obj) {
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysid='+id, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getSubsysList'), 'sysid='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSubSysList);
 					$(obj.getSubsysList).html(template(json.data));
@@ -169,7 +168,7 @@ define(function(require, exports, module) {
 		},
 		//功能点下拉框
 		getFunList: function(id,obj) {
-			Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysid='+id, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getFunList'), 'subsysid='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getFunList);
 					$(obj.getFunList).html(template(json.data));
@@ -183,7 +182,7 @@ define(function(require, exports, module) {
         ///////初始化///////////
 		initOrganize: function(cmd) {
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseSetList'), cmd, function(json, status) {
 				
 				if (status) {
 					var template = Handlebars.compile(Tpl.getCaseSetList);
@@ -262,7 +261,7 @@ define(function(require, exports, module) {
 				$("#JS_addCaseSetinfoSubmit").bind('click',function(){
 					var cmd = _form.serialize();
 					console.log(cmd);
-					Rose.ajax.getJson(srvMap.get('addCaseSetinfo'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('addCaseSetinfo'), cmd, function(json, status) {
 						if(status) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
@@ -281,7 +280,7 @@ define(function(require, exports, module) {
 		getCaseTypeSelect:function(){
 			var self = this;
 			var cmd="category=collectType";
-			Rose.ajax.getJson(srvMap.get('getCaseTypeSelect'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseTypeSelect'), cmd, function(json, status) {
 				if (status) {
 					Dom.caseType = json.data;
 					console.log(Dom.caseType);
@@ -292,7 +291,7 @@ define(function(require, exports, module) {
 
 		//获取维护人
 		getrepairsIdSelect:function(){
-			Rose.ajax.getJson(srvMap.get('getRepairManSelect'), 'repairMan', function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getRepairManSelect'), 'repairMan', function(json, status) {
 				if (status) {
 					Dom.repairsId = json.data;
 				}
@@ -316,7 +315,7 @@ define(function(require, exports, module) {
 				_collectId = 	$(this).val();
 			})
 			var cmd = "collectId=" +_collectId;
-			Rose.ajax.getJson(srvMap.get('getCaseById'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseById'), cmd, function(json, status) {
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.addCaseSetinfo);
@@ -336,7 +335,7 @@ define(function(require, exports, module) {
 					$("#JS_addCaseSetinfoSubmit").bind('click',function(){
 					var cmd = _form.serialize();
 					console.log(cmd);
-					Rose.ajax.getJson(srvMap.get('addCaseSetinfo'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('addCaseSetinfo'), cmd, function(json, status) {
 						if(status) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('修改成功！', 'success', 2000)
@@ -381,7 +380,7 @@ define(function(require, exports, module) {
 				   }
 				   num ++;
 				});
-				 Rose.ajax.getJson(srvMap.get('deleCaseSet'), 'collectId=' + collectIds, function(json, status) {
+				 Rose.ajax.postJson(srvMap.get('deleCaseSet'), 'collectId=' + collectIds, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
@@ -416,7 +415,7 @@ define(function(require, exports, module) {
 					"collectId": _collectId
 					}
 			var cmd = "collectId="+_collectId+"&collectIds=";
-			Rose.ajax.getJson(srvMap.get('getCaseSetList'), '', function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseSetList'), '', function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.connectCaseCollectionList);
 					console.log("11"+json.data);
@@ -438,7 +437,7 @@ define(function(require, exports, module) {
 							}
 					 	});
 				    	
-				    	Rose.ajax.getJson(srvMap.get('connectCaseCollection'), cmd, function(json, status) {
+				    	Rose.ajax.postJson(srvMap.get('connectCaseCollection'), cmd, function(json, status) {
 				    		if (status) {
 				    			// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('关联成功！', 'success', 2000)
@@ -470,7 +469,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var _data = self.getCaseSetRow();
 			var _collectId = _data.collectId;
-			Rose.ajax.getJson(srvMap.get('getCaseById'), "collectId"+_collectId, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseById'), "collectId"+_collectId, function(json, status) {
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.connectCaseList);
@@ -502,6 +501,7 @@ define(function(require, exports, module) {
 
 					//Table1
 					self.casetable1(_collectId);
+					self.casetable2(_collectId);
 				}
 
 			});
@@ -518,13 +518,14 @@ define(function(require, exports, module) {
 			});
 		},
 		//关联用例组按钮Table2
-		casetable2 : function(){
+		casetable2 : function(collectId){
+			$("#collectId3").val(collectId)
 			var self = this;
 			$("#JS_casetable2").unbind('click');
 			$("#JS_casetable2").bind('click',function(){
 				// var template = Handlebars.compile(Tpl.queryCaseGroupForm);
 				// $("#Js_queryCaseGroupForm").html(template({}));
-				self.queryConnectCaseById($("#collectId1").val(),0);
+				self.queryUnconnectCaseGroup(collectId);
 			});
 		},
 		
@@ -546,7 +547,7 @@ define(function(require, exports, module) {
 			var _form = $("#JS_queryUnconnectCaseForm");
 			var cmd = _form.serialize();
 			var cm = "#collectId"+md+"&caseIds=";
-			Rose.ajax.getJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
 				if (status) {
 
 					for (var i = json.data.length - 1; i >= 0; i--) {
@@ -619,7 +620,7 @@ define(function(require, exports, module) {
 			 	cmd = cmd+"&types="+a;
 			 	console.log("7777777");
 			 	console.log(cmd);
-				Rose.ajax.getJson(srvMap.get('relCaseBtn'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('relCaseBtn'), cmd, function(json, status) {
 					if (status) {
 						XMS.msgbox.show('关联成功！', 'success', 2000)
 						$("#collectId1").val(collectId);
@@ -641,7 +642,7 @@ define(function(require, exports, module) {
 			$("#relCaseAllBtn").bind('click',function(){
 				$("#collectId1").val(collectId);
 				var cmd = $("#JS_queryUnconnectCaseForm").serialize();
-				Rose.ajax.getJson(srvMap.get('connectAllCase'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('connectAllCase'), cmd, function(json, status) {
 					if (status) {
 						var a = $("#types").val();
 						XMS.msgbox.show('关联成功！', 'success', 2000)
@@ -659,7 +660,7 @@ define(function(require, exports, module) {
 			$("#collectId2").val(cmd);
 			$("#types1").val(a);
 			var cmd = $("#Js_queryCaseGroupForm").serialize();
-			Rose.ajax.getJson(srvMap.get('queryConnectCawseById'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('queryConnectCawseById'), cmd, function(json, status) {
 				if (status) {
 					if (a=="1") {
 						var template = Handlebars.compile(Tpl.queryCaseGroupList);
@@ -713,7 +714,7 @@ define(function(require, exports, module) {
 			   var a=$("#types1").val();
 			   cmd=cmd+ids+"&types="+a;
 			   console.log(cmd);
-				 Rose.ajax.getJson(srvMap.get('deleCaseSet'), cmd, function(json, status) {
+				 Rose.ajax.postJson(srvMap.get('deleCaseSet'), cmd, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
@@ -723,6 +724,21 @@ define(function(require, exports, module) {
 					});
 			});
 		},
+
+ 		//未关联用例组显示
+ 		queryUnconnectCaseGroup : function(collectId){
+ 			var self = this;
+ 			$("#collectId3").val(collectId);
+ 			var cmd = $("#Js_queryUnconnectCaseGroupForm").serialize();
+ 			Rose.ajax.postJson(srvMap.get('queryUnconnectCaseGroup'), cmd, function(json, status) {
+ 				var template = Handlebars.compile(Tpl.queryUnconnectCaseGroupList);
+ 				console.log(json.data)
+ 				$("#Js_queryUnconnectCaseGroupList").html(template(json.data));
+ 				// 绑定单机当前行事件
+				self.eventClickChecked($("#JS_connectCaseList"),function(){
+			    });
+ 			});
+ 		},
 
 
 ////////*******************************************/////公用//*******************************************////////

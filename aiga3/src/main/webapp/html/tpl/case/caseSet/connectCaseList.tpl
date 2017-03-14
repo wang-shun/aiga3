@@ -146,7 +146,7 @@
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <button type="button" class="btn btn-primary" id="connectCaseGroupBtn" name="submit">查询</button>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button type="button" class="btn btn-primary" id="relCaseGroupBtn" name="submit">关联用例</button>
+                                    <button type="button" class="btn btn-primary" id="relCaseGroupBtn" name="submit">关联用例组</button>
                                 </div>
                             </form>
                             <div id="Js_queryUnconnectCaseGroupList" class="box-body" style="min-height: 100px;" ></div>
@@ -160,22 +160,20 @@
                        <thead>
                             <tr>
                                 <th class="iCheckbox" width="15"></th>
-                                <th>用例集名称</th>
-                                <th>关联用例集类型</th>
-                                <th>关联用例集数量</th>
+                                <th>用例组名称</th>
                                 <th>创建人</th>
-                                <th>创建时间</th>
+                                 <th>更新人</th>
+                                <th>更新时间</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each this}}
+                            {{#each content}}
                             <tr>
-                                <td><input type="checkbox" class="minimal" value="{{collectId}}" name="collectId"></td>
-                                <td>{{collectName}}</td>
-                                <td>{{caseType}}</td>
-                                <td>{{caseNum}}</td>
-                                <td>{{opName}}</td>
-                                <td>{{createTime}}</td>
+                                <td><input type="checkbox" class="minimal" value="{{groupId}}" name="groupId"></td>
+                                <td>{{groupName}}</td>
+                                <td>{{creatorId}}</td>
+                                <td>{{updateId}}</td>
+                                <td>{{updateTime}}</td>
                             </tr>
                             {{/each}}
                         </tbody>

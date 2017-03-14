@@ -2,17 +2,17 @@
     <thead>
          <tr>
         <th class="iCheckbox" width="15"></th>
-        <th>用例集名称</th>
-        <th>关联用例集类型</th>
-        <th>关联用例集数量</th>
-        <th>创建人</th>
-        <th>创建时间</th>
-        <th>创建时间</th>
-        <th>用例集名称</th>
-        <th>关联用例集类型</th>
-        <th>关联用例集数量</th>
-        <th>创建人</th>
-        <th>创建时间</th>
+        <th>用例名称</th>
+        <th>用例类型</th>
+        <th>重要程度</th>
+        <th>系统大类</th>
+        <th>系统子类</th>
+        <th>功能点</th>
+        <th>场景</th>
+        <th>业务类型</th>
+        <th>测试类型</th>
+        <th>测试用例描述</th>
+        <th>预期值</th>
     </tr>
 </thead>
 <tbody>
@@ -29,7 +29,7 @@
         <td>{{busiId}}</td>
         <td>{{testType}}</td>
         <td>{{desc}}</td>
-        <td>{{paramLevel}}</td>
+        <td>{{preResult}}</td>
     </tr>
         {{/each}}
     </tbody>

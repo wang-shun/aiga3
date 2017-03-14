@@ -477,7 +477,7 @@ define(function(require, exports, module) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.connectCaseList);
 					// console.log(json.data);
-
+					
 					$("#collectId").val(_collectId);
 					var cmd = $("#JS_queryUnconnectCaseForm").serialize();//"collectId="+_collectId;_form.serialize();
 
@@ -550,6 +550,7 @@ define(function(require, exports, module) {
 			var _form = $("#JS_queryUnconnectCaseForm");
 			var cmd = _form.serialize();
 			alert(cmd);
+			
 			var cm = "collectId="+md+"&caseIds=";
 			Rose.ajax.getJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
 

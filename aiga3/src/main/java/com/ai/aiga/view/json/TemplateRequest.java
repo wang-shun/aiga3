@@ -27,9 +27,7 @@ public class TemplateRequest {
 	private Long scId;
 	private Long busiId;
 	
-	private List<Long> factorId;
-	private List<String> factorName;
-	private List<String> remark;
+	private String factors;
 
 	public Long getCaseId() {
 		return caseId;
@@ -127,28 +125,12 @@ public class TemplateRequest {
 		this.busiId = busiId;
 	}
 
-	public List<String> getFactorName() {
-		return factorName;
+	public String getFactors() {
+		return factors;
 	}
 
-	public void setFactorName(List<String> factorName) {
-		this.factorName = factorName;
-	}
-
-	public List<String> getRemark() {
-		return remark;
-	}
-
-	public void setRemark(List<String> remark) {
-		this.remark = remark;
-	}
-
-	public List<Long> getFactorId() {
-		return factorId;
-	}
-
-	public void setFactorId(List<Long> factorId) {
-		this.factorId = factorId;
+	public void setFactors(String factors) {
+		this.factors = factors;
 	}
 
 }

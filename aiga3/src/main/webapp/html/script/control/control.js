@@ -65,12 +65,12 @@ define(function(require, exports, module) {
 
 		Tree:function(){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('controlTree'), '', function(json, status) {
+			Rose.ajax.postJson(srvMap.get('controlTree'), '', function(json, status) {
 				if (status) {
 					var setting = {
-						check: {
-							enable: true
-						},
+						// check: {
+						// 	enable: true
+						// },
 						data: {
 							key: {
 								name: "name"
@@ -98,13 +98,17 @@ define(function(require, exports, module) {
 						};
 					$.fn.zTree.init($("#treeDemo"), setting, json.data);
 				}
+				//滚动条
+				$("#controlTree").slimScroll({
+                    "height": '420px'
+                });
 			});
 		},
 
 				///////初始化///////////
 		initOrganize: function(cmd) {
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getControlShow'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getControlShow'), cmd, function(json, status) {
 				
 				if (status) {
 					var template = Handlebars.compile(Tpl.getContral);
@@ -132,6 +136,7 @@ define(function(require, exports, module) {
 		////条件查询、
 		queriesControl: function() {
 			var self = this;
+			$("#queriesControl").unbind('click');
 			$("#queriesControl").bind('click', function() {
 				var cmd = {
 					"ctrlName": $("#ctrlName").val(),
@@ -169,7 +174,7 @@ define(function(require, exports, module) {
 			            var cmd = _form.serialize();
 			            console.log(cmd);
 
-			  			Rose.ajax.getJson(srvMap.get('addcontrol'), cmd, function(json, status) {
+			  			Rose.ajax.postJson(srvMap.get('addcontrol'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
@@ -200,7 +205,7 @@ define(function(require, exports, module) {
 				"time2": $("#time2").val()
 			}
 			console.log(cmd);
-			Rose.ajax.getJson(srvMap.get('getControlShow'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getControlShow'), cmd, function(json, status) {
 				if(status) {
 					// 表单校验初始化
 			        var _form = $(Dom.addControlinfoForm);
@@ -224,7 +229,7 @@ define(function(require, exports, module) {
 
 				            console.log(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-				  			Rose.ajax.getJson(srvMap.get('updateControl'), cmd, function(json, status) {
+				  			Rose.ajax.postJson(srvMap.get('updateControl'), cmd, function(json, status) {
 								if(status) {
 									// 添加用户成功后，刷新用户列表页
 									XMS.msgbox.show('保存成功！', 'success', 2000)
@@ -245,6 +250,7 @@ define(function(require, exports, module) {
 		//修改
 		updateControl:function(){
 			var self = this;
+			$(Dom.updateControlinfo).unbind('click');
 			$(Dom.updateControlinfo).bind('click', function() {
 				var _data = self.getControlRow();
 				if(_data){
@@ -255,11 +261,12 @@ define(function(require, exports, module) {
 		//删除
 		deleControl:function(){
 			var self = this;
+			$(Dom.deleControl).unbind('click');
 			$(Dom.deleControl).bind('click', function() {
 				var _data = self.getControlRow();
 				if (_data) {
 					var _ctrlId = _data.ctrlId;
-					Rose.ajax.getJson(srvMap.get('deleControl'), 'ctrlId=' + _ctrlId, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('deleControl'), 'ctrlId=' + _ctrlId, function(json, status) {
 						if (status) {
 							// dele成功后，重新加载模板列表
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)

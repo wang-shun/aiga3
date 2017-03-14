@@ -34,7 +34,7 @@
                             <div class="form-group">
                               <label>系统大类</label>
                               <select name="sysId" class="form-control input-sm" data-url="getSysList" data-subname="sysSubId">
-                                    <option>请选择</option>
+                                    <option value="">请选择</option>
                                 </select>
                             </div>
                         </div>
@@ -101,10 +101,11 @@
                                 <div class="box-body" >
                                     <div class="form-inline">
                                       <div class="form-group">
-                                        <label >自动化用例模板名称：</label>
+                                        <label >自动化用例模板名称：
+                                        <i class="text-red">*</i></label>
                                         <div class="input-group">
                                           <div class="input-group-addon">用例模板_</div>
-                                          <input type="text" class="form-control" name="autoName">
+                                          <input type="text" class="form-control" name="tempName">
                                         </div>
                                       </div>
                                     </div>
@@ -157,14 +158,31 @@
                         <form>
                             <div class="box">
                                 <div class="box-body" >
-                                    <div class="form-inline">
-                                      <div class="form-group">
-                                        <label >自动化用例模板名称：</label>
-                                        <div class="input-group">
-                                          <div class="input-group-addon">用例模板_</div>
-                                          <input type="text" class="form-control" name="autoName" value="">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label >自动化用例模板名称：
+                                                <i class="text-red">*</i></label>
+                                                <div class="input-group">
+                                                  <div class="input-group-addon">用例模板_</div>
+                                                  <input type="text" class="form-control" name="autoName" value="">
+                                                </div>
+                                            </div>
                                         </div>
-                                      </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label >环境类型
+                                                <i class="text-red">*</i></label>
+                                                <select class="form-control" name="environmentType">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">验收环境</option>
+                                                    <option value="2">准发布环境
+</option>
+                                                    <option value="3">生产环境
+</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

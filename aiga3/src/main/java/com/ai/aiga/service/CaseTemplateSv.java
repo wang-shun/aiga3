@@ -14,14 +14,16 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaCaseFactorDao;
 import com.ai.aiga.dao.NaCaseTemplateDao;
 import com.ai.aiga.dao.jpa.Condition;
-import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.domain.NaCaseFactor;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.util.mapper.JsonMapper;
+import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.CaseTmeplateResponse;
+import com.ai.aiga.view.json.Factor;
 import com.ai.aiga.view.json.TemplateRequest;
 
 @Service
@@ -91,15 +93,23 @@ public class CaseTemplateSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
 		}
 
-		long start = System.currentTimeMillis();
 		NaCaseTemplate template = BeanMapper.map(request, NaCaseTemplate.class);
 		template.setStates((byte) 1);
-		System.out.println("花费时间:" + (System.currentTimeMillis() - start));
 		
 		caseTemplateDao.save(template);
 		//保存因子
-		List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
-		caseFactorDao.save(factorList);
+		//List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
+		//caseFactorDao.save(factorList);
+		
+		List<Factor> factorList = structureCaseFactor(request.getFactors());
+		if(factorList != null && factorList.size() > 0){
+			List<NaCaseFactor> list = BeanMapper.mapList(factorList, Factor.class, NaCaseFactor.class);
+			for(NaCaseFactor one : list){
+				one.setCaseId(template.getCaseId());
+			}
+			
+			caseFactorDao.save(list);
+		}
 		
 	}
 
@@ -191,9 +201,32 @@ public class CaseTemplateSv extends BaseService{
 		
 		caseTemplateDao.save(template);
 		//保存因子
-//		List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
-//		caseFactorDao.save(factorList);
+		List<Factor> factorList = structureCaseFactor(request.getFactors());
 		
+		if(factorList != null && factorList.size() > 0){
+			List<NaCaseFactor> list = BeanMapper.mapList(factorList, Factor.class, NaCaseFactor.class);
+			for(NaCaseFactor one : list){
+				one.setCaseId(template.getCaseId());
+			}
+			caseFactorDao.save(list);
+		}
+		
+		
+		
+	}
+
+
+	private List<Factor> structureCaseFactor(String factors) {
+		
+		List<Factor> list = new ArrayList<Factor>();
+		
+		if(factors != null){
+			
+			list = JsonUtil.jsonToList(factors, Factor.class);
+			
+		}
+		
+		return list;
 	}
 
 }

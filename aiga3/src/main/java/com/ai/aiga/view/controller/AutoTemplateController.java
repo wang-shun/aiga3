@@ -97,9 +97,9 @@ public class AutoTemplateController {
      * @param request
      * @return
      */
-    @RequestMapping(path = "/auto/template/saveListByCaseId" )
+    @RequestMapping(path = "/auto/template/saveList" )
     public @ResponseBody JsonBean saveListByCaseId(@RequestBody AutoTemplateRequest request){
-                NaAutoTemplate autoTemplate=autoTemplateSv.saveListByCaseId(request);
+                NaAutoTemplate autoTemplate=autoTemplateSv.saveList(request);
                 JsonBean jsonBean=new JsonBean();
                 jsonBean.setData(autoTemplate);
                 return jsonBean;

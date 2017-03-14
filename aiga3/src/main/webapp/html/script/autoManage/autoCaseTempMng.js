@@ -26,7 +26,7 @@ define(function(require,exports,module){
 	// 根据模板ID获取组件列表
 	srvMap.add("getTempCompList", pathAlias + "getTempCompList.json", "auto/templateComp/listInfo");
 	// 保存模板与组件关系(批量)
-	srvMap.add("saveTempCompList", pathAlias + "getTempCompList.json", "auto/templateComp/saveList");
+	srvMap.add("saveTempCompList", pathAlias + "getTempCompList.json", "auto/template/saveList");
 	//获取组件信息
     srvMap.add("getTempCompInfo", pathAlias + "getTempCompInfo.json", "sys/component/findone");
 	// 获取组件树
@@ -90,6 +90,9 @@ define(function(require,exports,module){
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getCaseTempList);
             		$(Dom.getCaseTempList).html(template(json.data.content))
+            		//PageCount是总条目数，为必选参数，其它参数都是可选
+					
+
             		// 编辑模板
             		self.updateCaseTempInfo();
             		// 生成用例
@@ -145,29 +148,29 @@ define(function(require,exports,module){
 			        // 获取模板基本信息
 			        self.getCaseTempInfo('caseId='+data.caseId);
 			        // 保存编辑模板
-			        self.saveTempCompList(data.tempId);
+			        self.saveTempCompList(data.caseId);
 		    	}
 			});
 		},
 		//保存模板
-		saveTempCompList:function(_tempId){
+		saveTempCompList:function(_caseId){
 			var self = this;
 			var _dom = $(Dom.updateCaseTempInfoModal);
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
 				var _table = $(Dom.getTempCompList).find("table");
-				var _autoName = _dom.find("[name='autoName']").val();
-				if(_autoName==''){
+				var _tempName = _dom.find("[name='tempName']").val();
+				if(_tempName==''){
 					XMS.msgbox.show('用例模板名称不能为空！', 'error',2000);
 					return;
 				}
 				var cmd = {};
-				cmd["tempId"] = _tempId;
-				cmd["autoName"] = _autoName;
+				cmd["caseId"] = _caseId;
+				cmd["tempName"] = _tempName;
 				var hasData = Utils.getTableDataRows(_table);
 				if(hasData){
-					cmd["compList"] = hasData;
+					cmd["compRequestList"] = hasData;
 					console.log(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('saveTempCompList'), cmd, function(json, status) {
@@ -196,7 +199,7 @@ define(function(require,exports,module){
 					var _modal = $(Dom.generateCaseInfoModal);
 			        _modal.modal('show');
 			        // 获取组件列表
-			        self.getSideTempCompList('caseId='+data.caseId);
+			        self.getSideTempCompList('tempId='+data.tempId);
 			        //保存组件
 			        self.saveAutoCompParam(cmd);
 		    	}

@@ -93,10 +93,8 @@ public class CaseTemplateSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
 		}
 
-		long start = System.currentTimeMillis();
 		NaCaseTemplate template = BeanMapper.map(request, NaCaseTemplate.class);
 		template.setStates((byte) 1);
-		System.out.println("花费时间:" + (System.currentTimeMillis() - start));
 		
 		caseTemplateDao.save(template);
 		//保存因子

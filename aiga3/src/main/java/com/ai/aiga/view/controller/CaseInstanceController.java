@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.CaseSv;
 import com.ai.aiga.service.CaseTemplateSv;
+import com.ai.aiga.view.json.CaseInstanceRequest;
 import com.ai.aiga.view.json.TemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.MediaTypes;
@@ -21,9 +22,6 @@ import com.ai.aiga.view.util.WebValidUtil;
 
 @Controller
 public class CaseInstanceController {
-	
-	@Autowired
-	private CaseTemplateSv caseTemplateSv;
 	
 	@Autowired
 	private CaseSv caseSv;
@@ -42,20 +40,20 @@ public class CaseInstanceController {
 	}
 	
 	@RequestMapping(path = "/case/instance/save" )
-	public @ResponseBody JsonBean save(@Valid TemplateRequest request, BindingResult result){
+	public @ResponseBody JsonBean save(@Valid CaseInstanceRequest request, BindingResult result){
 		if(result.hasErrors()){
 			return WebValidUtil.errorInfo(result);
 		}
-		caseTemplateSv.saveTmeplate(request);
+		caseSv.saveTest(request);
 		return JsonBean.success;
 	}
 	
 	@RequestMapping(path = "/case/instance/update" )
-	public @ResponseBody JsonBean update(@Valid TemplateRequest request, BindingResult result){
+	public @ResponseBody JsonBean update(@Valid CaseInstanceRequest request, BindingResult result){
 		if(result.hasErrors()){
 			return WebValidUtil.errorInfo(result);
 		}
-		//caseTemplateSv.saveTmeplate(request);
+		caseSv.updateTest(request);
 		return JsonBean.success;
 	}
 	

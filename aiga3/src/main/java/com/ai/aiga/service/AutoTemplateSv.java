@@ -302,7 +302,7 @@ public class AutoTemplateSv {
      * @param templateRequest
      * @return
      */
-    public NaAutoTemplate saveListByCaseId(AutoTemplateRequest templateRequest){
+    public NaAutoTemplate saveList(AutoTemplateRequest templateRequest){
         if (templateRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
@@ -312,8 +312,18 @@ public class AutoTemplateSv {
         if (templateRequest.getCaseId() == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
         }
-        //生成自动化用例模板
-        NaAutoTemplate autoTemplate=this.copyCaseToAuto(templateRequest.getCaseId(),templateRequest.getTempName());
+        NaAutoTemplate autoTemplate;
+        if(templateRequest.getTempId()==null) {
+            //生成自动化用例模板
+            autoTemplate = this.copyCaseToAuto(templateRequest.getCaseId(), templateRequest.getTempName());
+        }else{
+            autoTemplate=this.findById(templateRequest.getTempId());
+            autoTemplate.setTempName(templateRequest.getTempName());
+            //更新自动化用例模板
+            this.save(autoTemplate);
+            //删除组件关系
+            autoTemplateCompSv.deleteByTempId(templateRequest.getTempId());
+        }
         //保存组件
         if(templateRequest.getCompRequestList()!=null) {
             autoTemplateCompSv.saveList(templateRequest.getCompRequestList(), autoTemplate.getTempId());

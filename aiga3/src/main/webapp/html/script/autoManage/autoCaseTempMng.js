@@ -90,8 +90,6 @@ define(function(require,exports,module){
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getCaseTempList);
             		$(Dom.getCaseTempList).html(template(json.data.content))
-            		//PageCount是总条目数，为必选参数，其它参数都是可选
-					
 
             		// 编辑模板
             		self.updateCaseTempInfo();
@@ -114,7 +112,6 @@ define(function(require,exports,module){
 				var data = Utils.getRadioCheckedRow(_dom);
 				if(data){
 					console.log(data);
-					alert(data.tempId)
 					var cmd = 'tempId='+data.tempId;
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delCaseTempInfo'), cmd, function(json, status) {
@@ -137,7 +134,6 @@ define(function(require,exports,module){
 			_edit.bind('click', function() {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if(data){
-					alert(data.tempId)
 					var cmd = 'tempId='+data.tempId;
 					var _modal = $(Dom.updateCaseTempInfoModal);
 			        _modal.modal('show');
@@ -194,7 +190,6 @@ define(function(require,exports,module){
 			_edit.bind('click', function() {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if(data){
-					alert(data.tempId)
 					var cmd = 'tempId='+data.tempId;
 					var _modal = $(Dom.generateCaseInfoModal);
 			        _modal.modal('show');
@@ -202,14 +197,14 @@ define(function(require,exports,module){
 			        self.getSideTempCompList('tempId='+data.tempId);
 			        //保存组件
 			        self.saveAutoCompParam(data.tempId);
-			        // 先清空参数列表
+			        // 先清空
 			        $(Dom.getParameterList).find("tbody").remove();
 		    	}
 			});
 		},
 		// 获取侧边组件列表
 		getSideTempCompList:function(cmd){
-			alert('获取侧边组件列表'+cmd);
+			// alert('获取侧边组件列表'+cmd);
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.getJson(srvMap.get('getTempCompList'), cmd, function(json, status) {
@@ -237,7 +232,7 @@ define(function(require,exports,module){
 		},
 		// 获取参数列表
 		getParameterList:function(cmd,compId){
-			alert('参数列表'+cmd);
+			// alert('参数列表'+cmd);
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.getJson(srvMap.get('getParameterList'), cmd, function(json, status) {
@@ -312,7 +307,6 @@ define(function(require,exports,module){
 		},
 		// 模板基本信息
 		getCaseTempInfo:function(cmd){
-			alert(cmd);
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {

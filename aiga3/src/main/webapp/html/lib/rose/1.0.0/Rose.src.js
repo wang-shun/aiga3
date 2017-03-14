@@ -1477,7 +1477,7 @@ Rose.ajax = {
 						return;
 					}
 				} catch (e) {
-					alert("JSON Format Error:" + e.toString());
+					// alert("JSON Format Error:" + e.toString());
 				}
 				var isSuc = thiz.printReqInfo(data);
 				if (callback && data) {

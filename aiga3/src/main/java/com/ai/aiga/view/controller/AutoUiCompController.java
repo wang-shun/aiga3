@@ -31,7 +31,7 @@ public class AutoUiCompController {
      */
     @RequestMapping(path="/auto/comp/delete")
     public @ResponseBody
-    JsonBean delete(@RequestBody AutoUiCompRequest request){
+    JsonBean delete(AutoUiCompRequest request){
         compSv.delete(request);
         return new JsonBean();
     }
@@ -43,7 +43,7 @@ public class AutoUiCompController {
      */
     @RequestMapping(path="/auto/comp/findByAutoId")
     public @ResponseBody
-    JsonBean findByAutoId(@RequestBody AutoUiCompRequest request){
+    JsonBean findByAutoId(AutoUiCompRequest request){
         List<AutoUiCompRequest> compRequestList=compSv.findByAutoIdRequest(request);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(compRequestList);

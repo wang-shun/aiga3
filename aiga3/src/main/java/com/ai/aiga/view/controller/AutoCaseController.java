@@ -43,7 +43,7 @@ public class AutoCaseController {
      * @return
      */
     @RequestMapping(path="/auto/case/delete")
-    public @ResponseBody JsonBean delete(@RequestBody AutoCaseRequest autoCaseRequest){
+    public @ResponseBody JsonBean delete(AutoCaseRequest autoCaseRequest){
         caseSv.delete(autoCaseRequest);
         return new JsonBean();
     }
@@ -54,7 +54,7 @@ public class AutoCaseController {
      * @return
      */
     @RequestMapping(path="/auto/case/info")
-    public @ResponseBody JsonBean info(@RequestBody AutoCaseRequest autoCaseRequest){
+    public @ResponseBody JsonBean info(AutoCaseRequest autoCaseRequest){
         autoCaseRequest=caseSv.findById(autoCaseRequest);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(autoCaseRequest);
@@ -70,7 +70,7 @@ public class AutoCaseController {
     public @ResponseBody JsonBean listInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            @RequestBody(required = false) AutoCaseRequest autoCaseRequest){
+            @RequestParam(required = false) AutoCaseRequest autoCaseRequest){
         Object autoCaseList=caseSv.listbyNativeSQL(autoCaseRequest,pageNumber,pageSize);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(autoCaseList);

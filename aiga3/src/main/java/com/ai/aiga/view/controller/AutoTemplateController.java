@@ -29,7 +29,7 @@ public class AutoTemplateController {
      * @return
      */
     @RequestMapping(path = "/auto/template/info")
-    public @ResponseBody JsonBean findById(@RequestBody(required = false)AutoTemplateRequest autoTemplateRequest){
+    public @ResponseBody JsonBean findById(AutoTemplateRequest autoTemplateRequest){
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData( autoTemplateSv.findById(autoTemplateRequest));
         return jsonBean;
@@ -41,7 +41,7 @@ public class AutoTemplateController {
      * @return
      */
     @RequestMapping(path="/auto/template/save")
-    public @ResponseBody JsonBean save(@RequestBody(required = false)AutoTemplateRequest autoTemplateRequest){
+    public @ResponseBody JsonBean save(AutoTemplateRequest autoTemplateRequest){
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(autoTemplateSv.saveOrUpdate(autoTemplateRequest));
         return jsonBean;
@@ -53,7 +53,7 @@ public class AutoTemplateController {
      * @return
      */
     @RequestMapping(path="/auto/template/delete")
-    public @ResponseBody JsonBean delete(@RequestBody(required = false)AutoTemplateRequest autoTemplateRequest){
+    public @ResponseBody JsonBean delete(AutoTemplateRequest autoTemplateRequest){
         autoTemplateSv.delete(autoTemplateRequest);
         return new JsonBean();
     }
@@ -69,7 +69,7 @@ public class AutoTemplateController {
     public @ResponseBody JsonBean listInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-             @RequestBody(required = false) AutoTemplateRequest condition){
+             @RequestParam(required = false) AutoTemplateRequest condition){
         JsonBean bean = new JsonBean();
         bean.setData(autoTemplateSv.listbyNativeSQL(condition, pageNumber, pageSize));
         return bean;
@@ -86,7 +86,7 @@ public class AutoTemplateController {
     public @ResponseBody JsonBean list(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            @RequestBody(required = false) AutoTemplateRequest condition){
+            @RequestParam(required = false) AutoTemplateRequest condition){
         JsonBean bean = new JsonBean();
         bean.setData(autoTemplateSv.listTemplate(condition, pageNumber, pageSize));
         return bean;

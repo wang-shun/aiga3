@@ -31,7 +31,7 @@ public class AutoUiParamController {
      */
     @RequestMapping(path="/auto/param/delete")
     public @ResponseBody
-    JsonBean delete(@RequestBody AutoUiParamRequest request){
+    JsonBean delete(AutoUiParamRequest request){
         paramSv.delete(request);
         return new JsonBean();
     }
@@ -43,7 +43,7 @@ public class AutoUiParamController {
      */
     @RequestMapping(path="/auto/param/findByAutoComp")
     public @ResponseBody
-    JsonBean findByAutoComp(@RequestBody AutoUiParamRequest request){
+    JsonBean findByAutoComp(AutoUiParamRequest request){
         JsonBean jsonBean=new JsonBean();
         List<NaAutoUiParam> paramList=paramSv.findByAutoComp(request);
         jsonBean.setData(paramList);

@@ -31,7 +31,7 @@ public class AutoTemplateCompController {
      */
     @RequestMapping(path="/auto/templateComp/list")
     public @ResponseBody
-    JsonBean list(@RequestBody(required = false)AutoTemplateCompRequest templateCompRequest){
+    JsonBean list(AutoTemplateCompRequest templateCompRequest){
         List<NaAutoTemplateComp> compList=autoTemplateCompSv.findByTempId(templateCompRequest);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(compList);
@@ -45,7 +45,7 @@ public class AutoTemplateCompController {
      */
     @RequestMapping(path="/auto/templateComp/listInfo")
     public @ResponseBody
-    JsonBean listInfo(@RequestBody(required = false) AutoTemplateCompRequest templateCompRequest){
+    JsonBean listInfo(AutoTemplateCompRequest templateCompRequest){
         List<AutoTemplateCompRequest> compList=autoTemplateCompSv.findByTempIdInfo(templateCompRequest);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(compList);
@@ -58,7 +58,7 @@ public class AutoTemplateCompController {
      * @return
      */
     @RequestMapping(path="/auto/templateComp/save")
-    public @ResponseBody JsonBean save(@RequestBody AutoTemplateCompRequest compRequest){
+    public @ResponseBody JsonBean save(AutoTemplateCompRequest compRequest){
         autoTemplateCompSv.save(compRequest);
         return new JsonBean();
     }
@@ -69,7 +69,7 @@ public class AutoTemplateCompController {
      * @return
      */
     @RequestMapping(path="/auto/templateComp/delete")
-    public @ResponseBody JsonBean delete(@RequestBody AutoTemplateCompRequest request){
+    public @ResponseBody JsonBean delete(AutoTemplateCompRequest request){
         autoTemplateCompSv.delete(request);
         return new JsonBean();
     }

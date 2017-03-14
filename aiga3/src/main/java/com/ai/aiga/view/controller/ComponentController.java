@@ -69,17 +69,17 @@ public class ComponentController {
 	/*
 	 * 组件新增接口*/
 	@RequestMapping(path = "/sys/component/save")
-	public @ResponseBody JsonBean save(NaUiComponentRequest naUiComponentRequest,Long ctrlId){
+	public @ResponseBody JsonBean save(NaUiComponentRequest naUiComponentRequest,String ctrlIds){
 		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.saveCompCtrl(naUiComponentRequest,ctrlId));
+		bean.setData(componentSv.saveCompCtrl(naUiComponentRequest,ctrlIds));
 		return bean;
 		
 	}
 	/*
 	 * 组件修改接口*/
 	@RequestMapping(path = "/sys/component/update" )
-	public @ResponseBody JsonBean update(NaUiComponentRequest naUiComponentRequest){
-		componentSv.update(naUiComponentRequest);
+	public @ResponseBody JsonBean update(NaUiComponentRequest naUiComponentRequest, String ctrlIds){
+		componentSv.update(naUiComponentRequest, ctrlIds);
 		return JsonBean.success;
 	}
 	/*
@@ -96,15 +96,7 @@ public class ComponentController {
 		componentSv.delete(compId);
 		return JsonBean.success;
 	}
-	/*
-	 *组件新增或修改时，关联控件，返回控件脚本信息接口
-	 **/
-	@RequestMapping(path = "/sys/component/ctrlScript")
-	public @ResponseBody JsonBean ctrlScript(Long ctrlId){
-		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.ctrlScript(ctrlId));
-		return bean;
-	}
+	
 	/*
 	 * 参数查看接口*/
 	@RequestMapping(path = "/sys/component/compParamList")

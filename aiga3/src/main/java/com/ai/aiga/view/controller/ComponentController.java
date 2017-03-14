@@ -39,19 +39,7 @@ public class ComponentController {
 		bean.setData(componentSv.ctrlTree());
 		return bean;
 	}
-	/*
-	 * */
-	/*
-	 * 按功能点查询组件接口*/
-	@RequestMapping(path = "/sys/component/listByFun")
-	public @ResponseBody JsonBean listByFun(
-			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			NaUiComponent condition){
-		JsonBean bean = new JsonBean();
-		bean.setData(componentSv.listByFun(condition,pageNumber,pageSize));
-		return bean;
-	}
+	
 	/*
 	 * 按条件查询组件接口
 	 * */

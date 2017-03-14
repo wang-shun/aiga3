@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     //获取所有功能菜单	
     srvMap.add("getFuncList", pathAlias + "getFunList.json", "sys/component/compTree");
     //根据当前功能点ID调取组件
-    srvMap.add("getCompList", pathAlias + "getCompList.json", "sys/component/listByFun");
+    srvMap.add("getCompList", pathAlias + "getCompList.json", "sys/component/listByParam");
     // 查询组件信息
     srvMap.add("getCompinfo", pathAlias + "getCompinfo.json", "sys/component/findone");
     // 添加组件
@@ -376,7 +376,7 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.getCompInfoForm);
                     console.log(json.data);
                     _form.html(template(json.data));
-                    $("#compScript").html(json.data.script)
+                    $("#compScript").html(json.data.compScript)
                     //组件创建人锁定
                     _form.find("[name='creatorId']").val("111").attr("readonly", true);
                     self.getParameterListById(cmd);

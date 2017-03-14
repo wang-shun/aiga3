@@ -34,6 +34,8 @@ import com.ai.aiga.view.json.NaUiComponentRequest;
 import com.ai.aiga.view.json.NaUiParamRequest;
 import com.ai.aiga.view.json.StaffListResponse;
 
+import net.sf.ehcache.search.expression.And;
+
 @Service
 @Transactional
 public class ComponentSv {
@@ -62,27 +64,6 @@ public class ComponentSv {
 		}
 		
 		return responses;
-	}
-
-	public Object listByFun(NaUiComponent condition,int pageNumber,int pageSize) {
-		
-		List<Condition> cons = new ArrayList<Condition>();
-		if(condition != null){
-			
-			if(condition.getParentId() != null){
-				cons.add(new Condition("parentId", condition.getParentId(), Condition.Type.EQ));
-			}
-		}
-		
-		if(pageNumber < 0){
-			pageNumber = 0;
-		}
-		
-		if(pageSize <= 0){
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
-		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return naUiComponentDao.search(cons, pageable);
 	}
 
 	public NaUiComponent save(NaUiComponentRequest naUiComponentRequest) {
@@ -118,14 +99,14 @@ public class ComponentSv {
 		naUiComponent.setCompDesc(naUiComponentRequest.getCompDesc());
 		naUiComponent.setCreateTime(naUiComponentRequest.getCreateTime());
 		naUiComponent.setCompScript(naUiComponentRequest.getCompScript());
-		
+		naUiComponent.setUpdateTime(naUiComponentRequest.getCreateTime());
 		naUiComponent.setCreatorId(naUiComponentRequest.getCreatorId());
 		naUiComponent.setUpdateId(naUiComponentRequest.getUpdateId());
 		
 		naUiComponentDao.save(naUiComponent);
 		return naUiComponent;
 	}
-	public Long saveCompCtrl(NaUiComponentRequest naUiComponentRequest,Long ctrlId){
+	public NaUiComponent saveCompCtrl (NaUiComponentRequest naUiComponentRequest,Long ctrlId){
 		
 		NaUiComponent naUiComponent = save(naUiComponentRequest);
 		if(naUiComponent == null){
@@ -142,8 +123,7 @@ public class ComponentSv {
 		naUiCompCtrl.setCompId(naUiComponent.getCompId());
 		naUiCompCtrl.setCtrlId(ctrlId);
 		naUiCompCtrlDao.save(naUiCompCtrl);
-		Long compId = naUiComponent.getCompId();
-		return compId;
+		return naUiComponent;
 	}
 
 	public void update(NaUiComponentRequest naUiComponentRequest) {
@@ -216,36 +196,31 @@ public class ComponentSv {
 	}
 
 	
+	
 	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize)   {
 		
-		List<Condition> cons = new ArrayList<Condition>();
-		if(condition != null){
-			if(StringUtils.isNotBlank(condition.getCompName())){
-				cons.add(new Condition("compName", "%".concat(condition.getCompName()).concat("%"), Condition.Type.LIKE));
-			}
-			
-			if(condition.getCreatorId() != null){
-				cons.add(new Condition("creatorId", condition.getCreatorId(), Condition.Type.EQ));
-			}
-			
-			if(createTime1 != null){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				try {
-					cons.add(new Condition("createTime", sdf.parse(createTime1), Condition.Type.GT));
-				} catch (ParseException e) {
-					
-				}
-				
-			}
-			if(createTime2 != null){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				try {
-					cons.add(new Condition("createTime", sdf.parse(createTime2), Condition.Type.LT));
-				} catch (ParseException e) {
-					
-				}
-			}
+		String sql = "select a.comp_id, a.comp_name, b.name as creator_name,"
+				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.create_time,"
+				+ " a.update_time from na_ui_component a, aiga_staff b where a.creator_id = b.staff_id";
+		if(condition.getCompName() != null && !condition.getCompName().equals("")){
+			sql += " and a.comp_name like '%"+condition.getCompName()+"%'";
 		}
+		if(condition.getParentId() != null){
+			sql += " and a.parent_id = "+condition.getParentId();
+		}
+		if(createTime1 != null && !createTime1.equals("")){
+			sql += " and a.create_time > to_date('"+createTime1+"','YYYY-MM-DD HH24:MI:SS')";	
+		}
+		if(createTime2 != null && !createTime2.equals("")){
+			sql += " and a.create_time < to_date('"+createTime2+"','YYYY-MM-DD HH24:MI:SS')";
+		}
+		List<String> list = new ArrayList<String>();
+		list.add("compId");
+		list.add("compName");
+		list.add("creatorName");
+		list.add("updateName");
+		list.add("createTime");
+		list.add("updateTime");
 		
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -255,7 +230,7 @@ public class ComponentSv {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return naUiComponentDao.search(cons, pageable);
+		return naUiComponentDao.searchByNativeSQL(sql, pageable, list);
 	}
 
 	public List<NaUiParam> compParamList(Long compId) {

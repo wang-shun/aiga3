@@ -32,7 +32,7 @@ public class RoleFuncController {
      * @return
      */
     @RequestMapping(path = "/sys/rolefunc/list" )
-    public @ResponseBody  JsonBean listByRoleId(@RequestBody(required = false) RoleFuncRequest roleFuncRequest){
+    public @ResponseBody  JsonBean listByRoleId(RoleFuncRequest roleFuncRequest){
         List<AigaRoleFunc> roleFuncList=roleFuncSv.findByRoleId(roleFuncRequest);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(roleFuncList);
@@ -45,7 +45,7 @@ public class RoleFuncController {
      * @return
      */
     @RequestMapping(path = "/sys/rolefunc/update" )
-    public @ResponseBody JsonBean beforeDelAfterSave(@RequestBody RoleFuncRequest roleFuncRequest){
+    public @ResponseBody JsonBean beforeDelAfterSave(RoleFuncRequest roleFuncRequest){
         roleFuncSv.beforeDelAfterSave(roleFuncRequest);
         return new JsonBean();
     }

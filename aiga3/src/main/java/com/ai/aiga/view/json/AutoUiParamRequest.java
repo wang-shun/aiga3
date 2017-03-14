@@ -1,7 +1,5 @@
 package com.ai.aiga.view.json;
 
-import java.util.Date;
-
 /**
  * 自动化用例参数请求类
  *

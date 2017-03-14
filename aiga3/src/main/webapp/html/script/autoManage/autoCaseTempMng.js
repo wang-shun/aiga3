@@ -173,7 +173,7 @@ define(function(require,exports,module){
 					cmd["compRequestList"] = hasData;
 					console.log(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('saveTempCompList'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('saveTempCompList'), cmd, function(json, status) {
 						if(status) {
 							window.XMS.msgbox.show('保存成功！', 'success', 2000)
 							_dom.modal('hide');
@@ -289,7 +289,7 @@ define(function(require,exports,module){
 		            console.log("参数测试")
 		            console.log(cmd)
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('saveAutoCompParam'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('saveAutoCompParam'), cmd, function(json, status) {
 						if(status) {
 							window.XMS.msgbox.show('保存成功！', 'success', 2000)
 							_dom.modal('hide');
@@ -346,14 +346,16 @@ define(function(require,exports,module){
 					var _dom = $(Dom.getTempCompList);
 					var template = Handlebars.compile(Tpl.getTempCompList);
 					var dataArray = Utils.getTableDataRows(_dom);
-					json.data["compOrder"] = dataArray.length+1;
-					dataArray.push(json.data);
-					console.log(dataArray);
-            		$(Dom.getTempCompList).html(template(dataArray))
-					// 设置滚动条
-            		self.setCompListScroll();
-            		self.delTempCompInfo();
-            		Utils.eventTrClickCallback($(Dom.getTempCompList));
+					if(dataArray){
+						json.data["compOrder"] = dataArray.length+1;
+						dataArray.push(json.data);
+						console.log(dataArray);
+	            		$(Dom.getTempCompList).html(template(dataArray))
+						// 设置滚动条
+	            		self.setCompListScroll();
+	            		self.delTempCompInfo();
+	            		Utils.eventTrClickCallback($(Dom.getTempCompList));
+					}
 				}
   			});
 		},

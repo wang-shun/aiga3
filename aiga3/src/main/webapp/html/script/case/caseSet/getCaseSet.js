@@ -39,6 +39,10 @@ define(function(require, exports, module) {
 	srvMap.add("deleteConnectCase", pathAlias+"addCaseSetinfo.json", "sys/case/deleteConnectCase");
 	//查询未关联用例组
 	srvMap.add("queryUnconnectCaseGroup", pathAlias+"connectCaseList.json", "sys/case/queryUnconnectCaseGroup");
+	//sys/case/queryConnectCaseGroup查询已关联用例组
+	srvMap.add("queryConnectCaseGroup", pathAlias+"connectCaseList.json", "sys/case/queryConnectCaseGroup");
+	//sys/case/deleteConnectCaseGroup
+	srvMap.add("deleteConnectCaseGroup", pathAlias+"addCaseSetinfo.json", "sys/case/deleteConnectCaseGroup");
 
 
 	// 模板对象
@@ -58,6 +62,7 @@ define(function(require, exports, module) {
 		queryCaseGroupsList: require('tpl/case/caseSet/queryCaseGroupsList.tpl'),
 		queryCaseGroupForm: require('tpl/case/caseSet/queryCaseGroupForm.tpl'),
 		queryUnconnectCaseGroupList: require('tpl/case/caseSet/queryUnconnectCaseGroupList.tpl'),
+		queryConnectCaseGroup:require('tpl/case/caseSet/queryConnectCaseGroup.tpl'),
 	};
 
 
@@ -479,7 +484,7 @@ define(function(require, exports, module) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.connectCaseList);
 					// console.log(json.data);
-					
+
 					$("#collectId").val(_collectId);
 					var cmd = $("#JS_queryUnconnectCaseForm").serialize();//"collectId="+_collectId;_form.serialize();
 
@@ -535,6 +540,10 @@ define(function(require, exports, module) {
 				self.relCaseGroupBtn(collectId);
 				//查询点击事件
 				self.connectCaseGroupBtn(collectId);
+
+				//已关联用例组显示
+				self.queryConnectCaseGroup(collectId);
+
 			});
 		},
 		
@@ -556,7 +565,6 @@ define(function(require, exports, module) {
 			var _form = $("#JS_queryUnconnectCaseForm");
 			var cmd = _form.serialize();
 			alert(cmd);
-			
 			var cm = "collectId="+md+"&caseIds=";
 			Rose.ajax.getJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
 
@@ -791,6 +799,72 @@ define(function(require, exports, module) {
 				});
 			});
  		},
+
+ 		//
+ 		//显示关联的用例Js_queryCaseGroupForm
+		queryConnectCaseGroup:function(collectId){
+			var self = this;
+			$("#collectId4").val(collectId);
+			var cmd = $("#Js_queryCaseGroupForm").serialize();
+			Rose.ajax.postJson(srvMap.get('queryConnectCaseGroup'), cmd, function(json, status) {
+					var template = Handlebars.compile(Tpl.queryConnectCaseGroup);
+					console.log(json.data);
+					$("#Js_queryCaseGroupForm").html(template(json.data));
+					//已关联用例组查询
+					self.groupBtn(collectId);
+					//已关联用例组删除
+					self.deleteConnectCaseGroup(collectId);
+
+					self.eventClickChecked($("#JS_conCaseList"),function(){
+				    });
+			});
+		},
+
+		//已关联用例查询
+		groupBtn: function(collectId){    //a表示用例类型
+			var self = this;
+			$("#JS_groupBtn").unbind('click');
+			$("#JS_groupBtn").bind('click',function(){
+				alert("666");
+				self.queryConnectCaseGroup(collectId);
+			});
+		},
+
+		//删除已关联用例组
+		deleteConnectCaseGroup : function(collectId){
+			var self = this;
+			$("#JS_groupCase").unbind('click');
+			alert("333");
+			$("#JS_groupCase").bind('click',function(){
+				var ids="";
+				var  cmd="collectId="+collectId+"&groupIds=";
+				var num =0 ;
+				var _checkObj =	$('#JS_conCaseList').find("input[type='checkbox']:checked");
+			   if(_checkObj.length==0){
+				   alert("请选择要删除的用例!");
+				   return false;
+			   }
+			   _checkObj.each(function (){
+				   if(num!=(_checkObj.length-1)){
+					   ids += $(this).val()+",";		
+				   }else{
+					   ids += $(this).val();		
+				   }
+				   num ++;
+				});
+			   console.log("555555")
+			   cmd=cmd+ids;
+			   console.log(cmd);
+				 Rose.ajax.postJson(srvMap.get('deleteConnectCaseGroup'), cmd, function(json, status) {
+						if (status) {
+							XMS.msgbox.show('删除成功！', 'success', 2000);
+							setTimeout(function() {
+							  self.queryConnectCaseGroup(collectId);
+							}, 1000)
+						}
+					});
+			});
+		},
 
 
 ////////*******************************************/////公用//*******************************************////////

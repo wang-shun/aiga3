@@ -202,6 +202,8 @@ define(function(require,exports,module){
 			        self.getSideTempCompList('tempId='+data.tempId);
 			        //保存组件
 			        self.saveAutoCompParam(data.tempId);
+			        // 先清空参数列表
+			        $(Dom.getParameterList).find("tbody").remove();
 		    	}
 			});
 		},

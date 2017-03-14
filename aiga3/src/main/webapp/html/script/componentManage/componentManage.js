@@ -376,7 +376,7 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.getCompInfoForm);
                     console.log(json.data);
                     _form.html(template(json.data));
-                    $("#compScript").html(json.data.script)
+                    $("#compScript").html(json.data.compScript)
                     //组件创建人锁定
                     _form.find("[name='creatorId']").val("111").attr("readonly", true);
                     self.getParameterListById(cmd);

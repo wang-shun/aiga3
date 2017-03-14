@@ -19,7 +19,7 @@
     </tr>
 </thead>
 <tbody>
-    {{#each this}}
+    {{#each content}}
     <tr>
         <td><input type="checkbox" class="minimal" value="{{caseId}}" name="caseId"></td>
         <td>{{caseName}}</td>

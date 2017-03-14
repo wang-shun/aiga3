@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each this}}
+        {{#each content}}
         <tr>
             <td><input type="checkbox" class="minimal" value="{{collectId}}" name="collectId"></td>
             <td>{{collectName}}</td>

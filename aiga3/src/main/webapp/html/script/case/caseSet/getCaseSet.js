@@ -12,7 +12,7 @@ define(function(require, exports, module) {
 	//新增用列集
 	srvMap.add("addCaseSetinfo", pathAlias+"addCaseSetinfo.json", "sys/case/addCase");
 	//用例类型
-	srvMap.add("getCaseTypeSelect", pathAlias+"getCaseTypeSelect.json", "/sys/organize/constants");
+	srvMap.add("getCaseTypeSelect", pathAlias+"getCaseTypeSelect.json", "sys/organize/constants");
 	//用例类型
 	srvMap.add("getRepairManSelect", pathAlias+"getCaseTypeSelect.json", "sys/case/repairMan");
 	//修改用例集
@@ -22,7 +22,7 @@ define(function(require, exports, module) {
 	//关联用例集
 	srvMap.add("connectCaseCollection", pathAlias+"getCaseSetList.json", "sys/case/connectCaseCollection");
 	//关联用例（查询未显示用例）
-	srvMap.add("queryUnconnectCase", pathAlias+"useCaseList.json", "sys/case/sys/case/queryUnconnectCase");
+	srvMap.add("queryUnconnectCase", pathAlias+"useCaseList.json", "sys/case/queryUnconnectCase");
 	//系统大类下拉框显示 OK
 	srvMap.add("getSysList", "caseTempMng/getSysList.json", "sys/cache/listSysid");
 	//系统子类下拉框 OK
@@ -469,7 +469,10 @@ define(function(require, exports, module) {
 			var self = this;
 			var _data = self.getCaseSetRow();
 			var _collectId = _data.collectId;
-			Rose.ajax.postJson(srvMap.get('getCaseById'), "collectId"+_collectId, function(json, status) {
+
+			Rose.ajax.getJson(srvMap.get('getCaseById'), "collectId="+_collectId, function(json, status) {
+
+
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.connectCaseList);
@@ -546,8 +549,10 @@ define(function(require, exports, module) {
 			$("#collectId1").val(md);
 			var _form = $("#JS_queryUnconnectCaseForm");
 			var cmd = _form.serialize();
-			var cm = "#collectId"+md+"&caseIds=";
-			Rose.ajax.postJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
+			alert(cmd);
+			var cm = "collectId="+md+"&caseIds=";
+			Rose.ajax.getJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
+
 				if (status) {
 
 					for (var i = json.data.length - 1; i >= 0; i--) {
@@ -555,7 +560,7 @@ define(function(require, exports, module) {
 					}
 					cm = cm+"&types="+a;
 					Dom.caseAllId=cm;
-					alert(Dom.caseAllId);
+					alert(cm);
 					if (a=="1") {
 						var template = Handlebars.compile(Tpl.useCaseList);
 
@@ -606,9 +611,10 @@ define(function(require, exports, module) {
 		relCaseBtn : function(collectId){
 			var self = this;
 			
-			var cmd="collectId="+collectId+"&caseIds=";
+			
 			$("#relCaseBtn").unbind('click');
 			$("#relCaseBtn").bind('click',function(){
+				var cmd="collectId="+collectId+"&caseIds=";
 				var a = $("#types").val();
 				$("#JS_useConnectCaseList").find("tr").each(function(){
 			    	var tdArr = $(this).children();

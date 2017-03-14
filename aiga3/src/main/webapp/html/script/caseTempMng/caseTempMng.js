@@ -25,7 +25,7 @@ define(function(require, exports, module) {
 	//保存自动化模板
     srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "auto/template/saveList");
 	//保存测试用例
-    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/template/addTestCase"); 
+    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/instance/save"); 
     
 
 	// 模板对象
@@ -39,7 +39,7 @@ define(function(require, exports, module) {
 		compList: require('tpl/caseTempMng/compList.tpl'),
 		getFactorForm: require('tpl/caseTempMng/getFactorForm.tpl'),
 		getTestFactorList: require('tpl/caseTempMng/getTestFactorList.tpl'),
-		getCaseTempInfo:require('tpl/autoManage/autoCaseTempMng/getCaseTempInfo.tpl'),
+
 	};
 
 	// 容器对象
@@ -371,7 +371,7 @@ define(function(require, exports, module) {
 								 });
 								cmd["factors"] = JSON.stringify(factors);	
 								console.log(cmd);						
-								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), JSON.stringify(cmd), function(json, status) {
+								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
 									if (status) {
 										XMS.msgbox.show('修改模板成功！', 'success', 2000)
 										// 关闭弹出层
@@ -487,17 +487,31 @@ define(function(require, exports, module) {
 			//保存测试用例
 			$(Dom.testForm).find("button[name='save']").bind('click', function() {
 				cmd = cmd+"&testName="+$('#testName1').val()+$('#testName2').val();
+				
+				var factors = [];
+				
 				$(Dom.testFactorList).find("tr").each(function(){
 				    var tdArr = $(this).children();
 				    if(tdArr.eq(0).find("input").is(':checked')){
 
-					    cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
-					    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-					    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
-					    cmd = cmd+"&factorValue="+tdArr.eq(3).find("input").val();
-					    cmd = cmd+"&factorOrder="+tdArr.eq(4).find("input").val();
+//					    cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
+//					    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
+//					    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
+//					    cmd = cmd+"&factorValue="+tdArr.eq(3).find("input").val();
+//					    cmd = cmd+"&factorOrder="+tdArr.eq(4).find("input").val();
+					    
+					    factors.push({
+					    	"factorId":tdArr.eq(0).find("input").val(),
+					    	"factorName":tdArr.eq(1).find("input").val(),
+					    	//"remark":tdArr.eq(2).find("input").val(),
+					    	"factorValue":tdArr.eq(3).find("input").val(),
+					    	"factorOrder":tdArr.eq(4).find("input").val()
+					    });
 					}
 				 });
+				
+				cmd += "&factors="+JSON.stringify(factors);
+				
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('addTestCase'), cmd, function(json, status) {
 					if (status) {

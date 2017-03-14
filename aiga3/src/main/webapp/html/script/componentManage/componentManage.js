@@ -80,7 +80,7 @@ define(function(require, exports, module) {
         //获取左侧组件树
         getLeftTree: function() {
             var self = this
-            Rose.ajax.getJson(srvMap.get('getFuncList'), '', function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getFuncList'), '', function(json, status) {
                 if (status) {
                     console.log(json.data)
                     var setting = {
@@ -118,7 +118,7 @@ define(function(require, exports, module) {
         //通过功能点获取右侧组件表格数据
         getCompByFunId: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getCompList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getCompList'), cmd, function(json, status) {
                 if (status) {
                     $(Mod.getQueryInfoWrap).removeClass("hide");
                     var template = Handlebars.compile(Tpl.getQueryInfo);
@@ -180,7 +180,7 @@ define(function(require, exports, module) {
         getCompCtrTree: function() {
             var self = this;
             //加载控件结构树
-            Rose.ajax.getJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getCompCtrTree'), '', function(json, status) {
                 if (status) {
                     $.fn.zTree.init($(Dom.addCompCtrTree), {
                         data: {
@@ -219,7 +219,7 @@ define(function(require, exports, module) {
                 cmd = cmd + addCmd;
                 console.log(cmd);
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-                Rose.ajax.getJson(srvMap.get('addComp'), cmd, function(json, status) {
+                Rose.ajax.postJson(srvMap.get('addComp'), cmd, function(json, status) {
                     if (status) {
                         Data.addCompId = json.data.compId;
                         // 添加用户成功后，刷新用户列表页
@@ -237,7 +237,7 @@ define(function(require, exports, module) {
         //获取参数列表(根据组件ID)
         getParameterListById: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getParameterList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getParameterList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getParameterList);
                     $(Dom.getParameterList).html(template(json.data));
@@ -264,7 +264,7 @@ define(function(require, exports, module) {
         getParamInfo: function() {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.getJson(srvMap.get('getParamInfo'), '', function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getParamInfo'), '', function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
                     $(Dom.addParameterForm).removeClass('hide');
@@ -283,7 +283,7 @@ define(function(require, exports, module) {
             var _data = self.getCheckedParamRow();
             var cmd = 'paramId=' + _data.paramId;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.getJson(srvMap.get('getParamInfo'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getParamInfo'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
                     $(Dom.addParameterForm).removeClass('hide');
@@ -325,7 +325,7 @@ define(function(require, exports, module) {
                 cmd = cmd + "&compId=" + _compId;
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
-                Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {
+                Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {
                     if (status) {
                         window.XMS.msgbox.show('保存成功！', 'success', 2000)
                         setTimeout(function() {
@@ -344,7 +344,7 @@ define(function(require, exports, module) {
                 if (_data) {
                     var cmd = 'paramId=' + _data.paramId;
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.getJson(srvMap.get('delParamInfo'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('delParamInfo'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功！', 'success', 2000)
                             setTimeout(function() {
@@ -369,7 +369,7 @@ define(function(require, exports, module) {
             $(Dom.addCompCtrScroll).slimScroll({
                 "height": '420px'
             });
-            Rose.ajax.getJson(srvMap.get('getCompinfo'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getCompinfo'), cmd, function(json, status) {
                 if (status) {
                     // 表单校验初始化
                     var _form = $(Dom.addCompInfoForm);
@@ -393,7 +393,7 @@ define(function(require, exports, module) {
                         console.log(cmd);
                         // self.getUserinfoList(cmd);
                         XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-                        Rose.ajax.getJson(srvMap.get('updateComp'), cmd, function(json, status) {
+                        Rose.ajax.postJson(srvMap.get('updateComp'), cmd, function(json, status) {
                             if (status) {
                                 // 添加用户成功后，刷新用户列表页
                                 XMS.msgbox.show('修改组件成功！', 'success', 2000)
@@ -437,7 +437,7 @@ define(function(require, exports, module) {
         //搜索组件
         getCompByQuery: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('queryCompInfo'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('queryCompInfo'), cmd, function(json, status) {
                 if (status) {
                     $(Mod.getQueryInfoWrap).removeClass("hide");
                     var template = Handlebars.compile(Tpl.getQueryInfo);
@@ -463,7 +463,7 @@ define(function(require, exports, module) {
                     var cmd = "compId=" + _data.compId;
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     console.log(cmd);
-                    Rose.ajax.getJson(srvMap.get('delComp'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('delComp'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功！', 'success', 2000)
                             setTimeout(function() {

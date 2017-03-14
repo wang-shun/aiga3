@@ -53,7 +53,7 @@ define(function(require, exports, module) {
         },
         getUserinfoList: function() {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getUserinfoList'), '', function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getUserinfoList'), '', function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl1.getUserinfoList);
                     console.log(json.data)
@@ -85,7 +85,7 @@ define(function(require, exports, module) {
         },
         getStaffRoleCheckedList: function(cmd) {
             $("input[name='roleId']").iCheck('uncheck');
-            Rose.ajax.getJson(srvMap.get('getStaffRoleCheckedList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getStaffRoleCheckedList'), cmd, function(json, status) {
                 if (status) {
                     var _array = json.data;
                     console.log(_array);
@@ -97,7 +97,7 @@ define(function(require, exports, module) {
 
         },
         getStaffRoleList: function(cmd) {
-            Rose.ajax.getJson(srvMap.get('getStaffRoleList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getStaffRoleList'), cmd, function(json, status) {
                 var self = this;
                 if (status) {
                     var template = Handlebars.compile(Tpl2.getStaffRoleList);

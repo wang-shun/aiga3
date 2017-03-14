@@ -89,7 +89,7 @@ define(function(require, exports, module) {
         // 用例组列表
         getCaseGroupList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getCaseGroupList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getCaseGroupList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getCaseGroupList);
                     console.log(json.data)
@@ -135,7 +135,7 @@ define(function(require, exports, module) {
                 $("#JS_addCaseGroupSubmit").bind('click', function() {
                     var cmd = _form.serialize();
                     console.log(cmd);
-                    Rose.ajax.getJson(srvMap.get('addCaseGroup'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('addCaseGroup'), cmd, function(json, status) {
                         if (status) {
                             // 添加用户成功后，刷新用户列表页
                             XMS.msgbox.show('添加用例组成功！', 'success', 2000)
@@ -158,7 +158,7 @@ define(function(require, exports, module) {
                 if (_data) {
                     var cmd = "groupId=" + _data.groupId;
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.getJson(srvMap.get('delCaseGroup'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('delCaseGroup'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功！', 'success', 2000)
                             setTimeout(function() {
@@ -187,7 +187,7 @@ define(function(require, exports, module) {
         //获取用例组信息 编辑用例组（弹窗）
         getCaseGroupInfo: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getCaseGroupInfo'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getCaseGroupInfo'), cmd, function(json, status) {
                 if (status) {
                     // 表单校验初始化
                     var _form = $(Dom.updateCaseGroupInfo);
@@ -212,7 +212,7 @@ define(function(require, exports, module) {
                         var cmd = _form.serialize() + "&updateId=1";
                         console.log(cmd);
                         XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-                        Rose.ajax.getJson(srvMap.get('updateCaseGroup'), cmd, function(json, status) {
+                        Rose.ajax.postJson(srvMap.get('updateCaseGroup'), cmd, function(json, status) {
                             if (status) {
                                 // 添加用户成功后，刷新用户列表页
                                 XMS.msgbox.show('修改用例组成功！', 'success', 2000)
@@ -231,7 +231,7 @@ define(function(require, exports, module) {
         // 用例列表
         getCaseList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getCaseList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getCaseList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getCaseList);
                     console.log(json.data)
@@ -254,7 +254,7 @@ define(function(require, exports, module) {
             var self = this;
             var cmd = "groupId=" + Data.groupId;
             console.log(cmd);
-            Rose.ajax.getJson(srvMap.get('getRelaCaseList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getRelaCaseList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getRelaCaseList);
                     console.log(json.data)
@@ -300,7 +300,7 @@ define(function(require, exports, module) {
                     var _cmd1 = "&autoIds=" + _autoIdsArray.join(",");
                     var cmd = _cmd + _cmd1 + "&creatorId=1";
                     console.log(cmd);
-                    Rose.ajax.getJson(srvMap.get('addRelaCase'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('addRelaCase'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('关联用例成功！', 'success', 2000)
                             setTimeout(function() {
@@ -331,7 +331,7 @@ define(function(require, exports, module) {
                     var cmd = _cmd + _cmd1;
                     console.log(cmd);
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.getJson(srvMap.get('delRelaCase'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('delRelaCase'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除已关联用例成功！', 'success', 2000)
                             setTimeout(function() {
@@ -367,7 +367,7 @@ define(function(require, exports, module) {
                     var cmd = _cmd + _cmd1 + _cmd2;
                     console.log(cmd);
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.getJson(srvMap.get('saveGroupOrder'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('saveGroupOrder'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('保存执行顺序成功！', 'success', 2000)
                             setTimeout(function() {
@@ -381,7 +381,7 @@ define(function(require, exports, module) {
         //系统大类下拉框
         getSysList: function(obj, callback) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getSysList'), '', function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getSysList);
                     $(obj.getSysList).html(template(json.data));
@@ -419,7 +419,7 @@ define(function(require, exports, module) {
         //系统子类下拉框
         getSubSysList: function(id, obj) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysid=' + id, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getSubsysList'), 'sysid=' + id, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getSubSysList);
                     $(obj.getSubsysList).html(template(json.data));
@@ -430,7 +430,7 @@ define(function(require, exports, module) {
         },
         //功能点下拉框
         getFunList: function(id, obj) {
-            Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysid=' + id, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getFunList'), 'subsysid=' + id, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getFunList);
                     $(obj.getFunList).html(template(json.data));

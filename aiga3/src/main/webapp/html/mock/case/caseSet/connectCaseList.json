@@ -1,0 +1,35 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data":[{
+        "groupId":"001",
+        "groupName": "1001",
+        "creatorId": "001",
+        "updateId": "H",
+        "updateTime":"1"
+    },{
+        "groupId":"001",
+        "groupName": "1001",
+        "creatorId": "001",
+        "updateId": "H",
+        "updateTime":"1"
+    },{
+        "groupId":"001",
+        "groupName": "1001",
+        "creatorId": "001",
+        "updateId": "H",
+        "updateTime":"1"
+    },{
+        "groupId":"001",
+        "groupName": "1001",
+        "creatorId": "001",
+        "updateId": "H",
+        "updateTime":"1"
+    },{
+        "groupId":"001",
+        "groupName": "1001",
+        "creatorId": "001",
+        "updateId": "H",
+        "updateTime":"1"
+    }]
+}

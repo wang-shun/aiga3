@@ -16,9 +16,11 @@ import com.ai.aiga.dao.NaTestCaseDao;
 import com.ai.aiga.dao.NaTestCaseParamDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaTestCase;
+import com.ai.aiga.domain.NaTestCaseParam;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.CaseTestResponse;
 
 @Service
@@ -81,8 +83,13 @@ public class CaseSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
 		}
 		
+		NaTestCase testCase = testCaseDao.findOne(testId);
+		CaseTestResponse response = BeanMapper.map(testCase, CaseTestResponse.class);
 		
-		return null;
+		List<NaTestCaseParam> list = testCaseParamDao.findByTestId(testId);
+		response.setFactors(list);
+		
+		return response;
 	}
 
 }

@@ -11,4 +11,6 @@ public interface NaTestCaseParamDao extends JpaRepository<NaTestCaseParam,Long>{
 
 	void deleteByTestIdIn(List<Long> caseIds);
 
+	List<NaTestCaseParam> findByTestId(Long testId);
+
 }

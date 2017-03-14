@@ -1337,6 +1337,9 @@ Rose.ajax = {
 	 */
 	postJson : function(url, cmd, callback) {
 		dataType = this.dataType.TEXT;
+		if(typeof(cmd)=="object"){
+			dataType = this.dataType.JSON;
+		}
 //		if(window.parent && window.parent.Rose){
 //			url = window.parent.Rose.ajax.transferUrl(url);
 //		}
@@ -1432,22 +1435,24 @@ Rose.ajax = {
 		var param = "";
 		console.log("参数类型："+typeof (cmd));
 		if (typeof (cmd) == "object"){
-			param = this.jsonToUrl(cmd);
+			param = cmd;
+			//param = this.jsonToUrl(cmd);
 			// param = JSON.stringify(cmd);
 		}else if(typeof(cmd)=="string"){
 			param = cmd;
 		}
-		
 		async = sync ? false : true;
 		Rose.log("参数打印："+param);
 		var thiz = Rose.ajax;
 		var cache = (dataType == "html") ? true : false;
+		var contentType = (dataType == "json") ? "application/json" : 'application/x-www-form-urlencoded';
 		$.ajax({
 			url : url,
 			type : type,
 			data : param,
 			cache : cache,
 			dataType : dataType,
+			contentType:contentType,
 			async : async,
 			timeout : thiz.TIME_OUT,
 			beforeSend : function(xhr) {

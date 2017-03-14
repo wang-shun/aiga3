@@ -314,7 +314,7 @@ define(function(require, exports, module) {
 					//加载form表单
 					self.getCaseTempInfo("caseId="+_data.caseId);
 					self.addFactor();
-					self.deleFactor();			
+					self.deleFactor();
 					
 
 					$("#JS_factoryBody").slimScroll({
@@ -328,31 +328,32 @@ define(function(require, exports, module) {
 
 							// 表单校验：成功后调取接口
 							//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+								var cmd = _form.serialize()+"&caseId="+_data.caseId;
 								var cmd = {};
-								// var cmd = _form.serialize()+"&caseId="+_data.caseId;
-								var caseId = _data.caseId;
-								var caseName = $("#add_caseName").val();
-								var important = $("#add_important").val();
-								var sysId = $("#add_sysId").find("select").val();
-								var subsysId = $("#add_subSysId").find("select").val();
-								var funId = $("#add_funId").find("select").val();
-								var busiId = $("#add_busiId").val();
-								var caseType = $("#add_caseType").find("select").val();
-								var operateDesc = $("#JS_add_operateDesc").val();
+								
+								// var caseId = _data.caseId;
+								// var caseName = $("#add_caseName").val();
+								// var important = $("#add_important").val();
+								// var sysId = $("#add_sysId").find("select").val();
+								// var subsysId = $("#add_subSysId").find("select").val();
+								// var funId = $("#add_funId").find("select").val();
+								// var busiId = $("#add_busiId").val();
+								// var caseType = $("#add_caseType").find("select").val();
+								// var operateDesc = $("#JS_add_operateDesc").val();
 								var id;
 								var name;
 								var remark;
 								// self.getUserinfoList(cmd);
-								cmd = {"caseName":caseName,
-										"caseId":caseId,
-										"important":important,
-										"sysId":sysId,
-										"subsysId":subsysId,
-										"funId":funId ? funId : "",
-										"busiId":busiId ? busiId: "",
-										"caseType":caseType,
-										"operateDesc":operateDesc
-										};
+								// cmd = {"caseName":caseName,
+								// 		"caseId":caseId,
+								// 		"important":important,
+								// 		"sysId":sysId,
+								// 		"subsysId":subsysId,
+								// 		"funId":funId ? funId : "",
+								// 		"busiId":busiId ? busiId: "",
+								// 		"caseType":caseType,
+								// 		"operateDesc":operateDesc
+								// 		};
 								var factors = [];
 								$(Dom.factorList).find("tr").each(function(){
 								    var tdArr = $(this).children();
@@ -369,7 +370,7 @@ define(function(require, exports, module) {
 								    	"remark":remark
 								    });
 								 });
-								cmd["factors"] = JSON.stringify(factors);	
+								cmd += "&factors="+JSON.stringify(factors);
 								console.log(cmd);						
 								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
 									if (status) {

@@ -40,7 +40,7 @@ define(function(require,exports,module){
 		},
 		getStaffRoleList: function(){
 			    var self = this;
-			    Rose.ajax.postJson(srvMap.get('getStaffRoleList'), '', function(json, status) {                    
+			    Rose.ajax.getJson(srvMap.get('getStaffRoleList'), '', function(json, status) {                    
 				if(status) {
 					var template = Handlebars.compile(Tpl2.getStaffRoleList);
 					console.log(json.data)
@@ -70,7 +70,7 @@ define(function(require,exports,module){
 		getRoleFuncCheckedList :function(cmd){
         	var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTree");
             treeObj.checkAllNodes(false);
-        	Rose.ajax.postJson(srvMap.get('getRoleFuncCheckedList'), cmd, function(json, status) {
+        	Rose.ajax.getJson(srvMap.get('getRoleFuncCheckedList'), cmd, function(json, status) {
 				if(status) {
 					var _json = json.data;
 					console.log(_json);
@@ -87,7 +87,7 @@ define(function(require,exports,module){
         },
 		getLeftTree:function(cmd){
 
-				Rose.ajax.postJson(srvMap.get('getFuncList'), 'cmd', function(json, status) {
+				Rose.ajax.getJson(srvMap.get('getFuncList'), 'cmd', function(json, status) {
 				if(status) {
 					console.log(json.data)
 					require('zTreeExcheckJS');
@@ -131,7 +131,7 @@ define(function(require,exports,module){
 						funcIds:_data.funcIds
 					};
 							console.log(cmd);					
-						Rose.ajax.postJson(srvMap.get('roleFuncUpdate'),cmd, function(json, status) {
+						Rose.ajax.getJson(srvMap.get('roleFuncUpdate'),cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.show('功能菜单更新成功！', 'success', 2000)
 							}

@@ -432,14 +432,16 @@ define(function(require, exports, module) {
 				var cmd = {
 					'caseId':caseId,
 					'tempName':name,
-					'compRequestList':[],
-				};				
+				};
+				var compRequestList = [];
 				$("#compBody").find("tr").each(function(){
 				    var tdArr = $(this).children();
 				    var compId = tdArr.eq(0).find("input").val();
 				    var compOrder = tdArr.eq(3).find("input").val();
-				    cmd.comp.push({'compId':compId,'compOrder':compOrder});
+				    compRequestList.push({'compId':compId,'compOrder':compOrder});
 				 });
+				cmd["compRequestList"] = compRequestList;
+
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
 					if (status) {

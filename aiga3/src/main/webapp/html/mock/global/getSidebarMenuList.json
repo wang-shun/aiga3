@@ -83,6 +83,11 @@
                 "menuURL": "view/autoManage/funcTest/caseGroup.html",
                 "hasChild": 0,
                 "isActive": 1
+            },{
+                "menuName": "自动化用例模板管理",
+                "menuURL": "view/autoManage/autoCaseTempMng.html",
+                "hasChild": 0,
+                "isActive": 1
             }, {
                 "menuName": "自动化环境配置",
                 "menuURL": "#",

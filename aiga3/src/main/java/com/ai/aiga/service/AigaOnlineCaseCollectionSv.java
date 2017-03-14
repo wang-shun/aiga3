@@ -363,8 +363,8 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 						      +"     b.sys_name as sys_name,\n"
 						    +"       c.sys_name as sub_sys_name,\n"
 						   +"        d.sys_name as fun_name,\n"
-						       +"    a.Sc_id,\n"
-						     +"      a.Busi_id,\n"
+						       +"    a.sc_id,\n"
+						     +"      e.busi_name,\n"
 						     +"        a. Auto_desc  , \n"
 						    +"        (select show \n"
 						     +"         from sys_constant bb \n"
@@ -383,6 +383,8 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 					   +" 	    on a.Sys_sub_id = c.subsys_id \n"
 					   +" 	  left join aiga_fun_folder d \n"
 					   +" 	    on a. Fun_id = d.fun_id \n"
+					   +" 	  left join na_business  e \n"
+					   +" 	    on a. busi_id = e.busi_id \n"
 					   +" 	 where a.Auto_id in (select element_id \n"
 						   +"                        from na_auto_coll_group_case \n"
 						   +"                       where collect_id ="+request.getCollectId()+" \n"
@@ -397,7 +399,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		}
 		// 手工用例sql
 		if (String.valueOf(request.getTypes()).equals("1")) {
-                                 sql = "select a.Test_id,a.test_name, E.SHOW ,  a.important, b.sys_name  sys_name,c.sys_name sub_sys_name,d.sys_name fun_name,a.Sc_id, a.Busi_id, test_type,a.Test_desc,a.Pre_result"
+                                 sql = "select a.Test_id,a.test_name, E.SHOW ,  a.important, b.sys_name  sys_name,c.sys_name sub_sys_name,d.sys_name fun_name,a.Sc_id, f.Busi_name, test_type,a.Test_desc,a.Pre_result"
 													+"  from na_test_case a  \n"
 													+"    left join aiga_system_folder b \n"
 													+"     on a.sys_id = b.sys_id \n"
@@ -406,7 +408,8 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 													+"    left join aiga_fun_folder d \n"
 													+"      on a. Fun_id = d.fun_id \n"
 													 +"      left join sys_constant  e \n"
-													 +"     on a. case_type = E.value \n"
+													 +"     on a. case_type = E.value \n" 
+													   +" 	  left join na_business  f \n"
 													+"   where a.Test_id in (select element_id \n"
 													  +"                      from na_auto_coll_group_case \n"
 													  +"                    where collect_id = "+request.getCollectId()+" \n"
@@ -572,7 +575,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		// 如果没有指定类型。默认查询自动化用例
 		if (StringUtils.isBlank(String.valueOf(request.getTypes())) || String.valueOf(request.getTypes()).equals("2")) {
 			s.append(
-					"select  a.Auto_id,  a.auto_name, a.Case_type, a.important, b.sys_name, c.sys_name as sub_sys_name , d.sys_name as func_name, a.Sc_id, a.Busi_id, a.Test_type,a.Auto_desc, a.status, a.Environment_type, a.Has_auto, a.Param_level   from na_auto_case a  left join aiga_system_folder b 	on a.sys_id = b.sys_id 	  left join aiga_sub_sys_folder c    on a.Sys_sub_id = c.subsys_id  left join aiga_fun_folder d 	 on a. Fun_id = d.fun_id   where not exists  (select element_id   from na_auto_coll_group_case aa   where collect_id = "
+					"select  a.Auto_id,  a.auto_name, a.Case_type, a.important, b.sys_name, c.sys_name as sub_sys_name , d.sys_name as func_name, a.Sc_id, e.Busi_name, a.Test_type,a.Auto_desc, a.status, a.Environment_type, a.Has_auto, a.Param_level   from na_auto_case a  left join aiga_system_folder b 	on a.sys_id = b.sys_id 	  left join aiga_sub_sys_folder c    on a.Sys_sub_id = c.subsys_id  left join aiga_fun_folder d 	 on a. Fun_id = d.fun_id   left join na_business  e 	 on a. busi_id = e.busi_id    where not exists  (select element_id   from na_auto_coll_group_case aa   where collect_id = "
 							+ request.getCollectId()
 							+ " and element_type = 2 and  a.Auto_id = aa.element_id) ");
 			if (request.getSysId()!=null&&!"".equals(request.getSysId())) {
@@ -600,7 +603,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		// 手工用例sql
 		if (String.valueOf(request.getTypes()).equals("1")) {
 			s.append(
-					"select  a.Test_id, a.test_name ,a.Case_type,a.important, b.sys_name, c.sys_name as sub_sys_name , d.sys_name as func_name, a.Sc_id,a.Busi_id,a.Test_type ,a.Test_desc,a.Pre_result     from na_test_case  a   left join aiga_system_folder b 	on a.sys_id = b.sys_id 	  left join aiga_sub_sys_folder c    on a.Sys_sub_id = c.subsys_id  left join aiga_fun_folder d 	 on a. Fun_id = d.fun_id   where not exists  (select element_id   from na_auto_coll_group_case aa where aa.collect_id = "
+					"select  a.Test_id, a.test_name ,a.Case_type,a.important, b.sys_name, c.sys_name as sub_sys_name , d.sys_name as func_name, a.Sc_id,f.Busi_name,a.Test_type ,a.Test_desc,a.Pre_result     from na_test_case  a   left join aiga_system_folder b 	on a.sys_id = b.sys_id 	  left join aiga_sub_sys_folder c    on a.Sys_sub_id = c.subsys_id  left join aiga_fun_folder d 	 on a. Fun_id = d.fun_id   left join na_business  f 	 on a. busi_id = f.busi_id   where not exists  (select element_id   from na_auto_coll_group_case aa where aa.collect_id = "
 							+ request.getCollectId() + " and element_type = 1 and  a.Test_id = aa.element_id)");
 			if (request.getSysId()!=null&&!"".equals(request.getSysId())) {
 				s.append(" and a.sys_id=" + request.getSysId());

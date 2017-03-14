@@ -329,7 +329,7 @@ define(function(require, exports, module) {
 							// 表单校验：成功后调取接口
 							//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 								var cmd = _form.serialize()+"&caseId="+_data.caseId;
-								var cmd = {};
+								//var cmd = {};
 								
 								// var caseId = _data.caseId;
 								// var caseName = $("#add_caseName").val();

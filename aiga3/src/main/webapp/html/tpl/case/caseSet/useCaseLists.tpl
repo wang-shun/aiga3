@@ -2,20 +2,20 @@
 <thead>
     <tr>
         <th class="iCheckbox" width="15"></th>
-        <th>用例集名称</th>
-        <th>关联用例集类型</th>
-        <th>关联用例集数量</th>
-        <th>创建人</th>
-        <th>创建时间</th>
-        <th>创建时间</th>
-        <th>用例集名称</th>
-        <th>关联用例集类型</th>
-        <th>关联用例集数量</th>
-        <th>创建人</th>
-        <th>创建时间</th>
-        <th>创建时间</th>
-        <th>创建时间</th>
-        <th>创建时间</th>
+        <th>用例名称</th>
+        <th>用例类型</th>
+        <th>重要等级</th>
+        <th>系统大类</th>
+        <th>系统子类</th>
+        <th>功能点</th>
+        <th>场景</th>
+        <th>业务</th>
+        <th>测试类型</th>
+        <th>描述</th>
+        <th>用例状态</th>
+        <th>环境</th>
+        <th>是否实现自动化</th>
+        <th>参数等级</th>
     </tr>
 </thead>
 <tbody>

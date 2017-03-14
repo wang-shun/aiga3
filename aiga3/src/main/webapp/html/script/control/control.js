@@ -68,9 +68,9 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('controlTree'), '', function(json, status) {
 				if (status) {
 					var setting = {
-						check: {
-							enable: true
-						},
+						// check: {
+						// 	enable: true
+						// },
 						data: {
 							key: {
 								name: "name"
@@ -98,6 +98,10 @@ define(function(require, exports, module) {
 						};
 					$.fn.zTree.init($("#treeDemo"), setting, json.data);
 				}
+				//滚动条
+				$("#controlTree").slimScroll({
+                    "height": '420px'
+                });
 			});
 		},
 
@@ -132,6 +136,7 @@ define(function(require, exports, module) {
 		////条件查询、
 		queriesControl: function() {
 			var self = this;
+			$("#queriesControl").unbind('click');
 			$("#queriesControl").bind('click', function() {
 				var cmd = {
 					"ctrlName": $("#ctrlName").val(),
@@ -245,6 +250,7 @@ define(function(require, exports, module) {
 		//修改
 		updateControl:function(){
 			var self = this;
+			$(Dom.updateControlinfo).unbind('click');
 			$(Dom.updateControlinfo).bind('click', function() {
 				var _data = self.getControlRow();
 				if(_data){
@@ -255,6 +261,7 @@ define(function(require, exports, module) {
 		//删除
 		deleControl:function(){
 			var self = this;
+			$(Dom.deleControl).unbind('click');
 			$(Dom.deleControl).bind('click', function() {
 				var _data = self.getControlRow();
 				if (_data) {

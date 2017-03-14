@@ -6,6 +6,7 @@
 <div class="modal-body">
         <div class="box box-primary">
                 <div class="box-header with-border">
+                    <h3 class="box-title">条件查询</h3>
                 </div>             
                 <form id="JS_connectCaseSetForm" class="form-horizontal" role = "form">
                     <div class="box-body">  
@@ -14,25 +15,25 @@
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>用例集名称：</label>
-                                    <input type="text" class="form-control input-sm" value="{{collectName}}" id="collectName" name="collectName">
+                                    <input type="text" class="form-control input-sm" value="{{collectName}}" name="collectName">
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>关联用例集类型：</label>
-                                    <input type="text" class="form-control input-sm" value="{{caseType}}" id ="caseType" name="caseType">
+                                    <input type="text" class="form-control input-sm" value="{{caseType}}" name="caseType">
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
-                                    <label>关联用例数量：</label>
-                                    <input type="text" class="form-control input-sm" value="{{caseNum}}" id="caseNum" name="caseNum">
+                                    <label>关联用例集数量：</label>
+                                    <input type="text" class="form-control input-sm" value="{{caseNum}}" name="caseNum">
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>创建时间：</label>
-                                    <input type="text" class="form-control input-sm" value="{{createDate}}" id="createDate" name="createDate">
+                                    <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate">
                                 </div>
                             </div>
                         </div>
@@ -112,9 +113,8 @@
                                     <label class="col-sm-5 control-label">用例类型：</label>
                                     <div class="col-sm-7">
                                         <select  id="types" name="types" class="form-control select2 input-sm" >
-                                         <option value="2">自动化用例</option>
                                             <option value="1">手工用例</option>
-                                           
+                                            <option value="2">自动化用例</option>
                                         </select>       
                                     </div>
                                 </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -138,15 +138,14 @@
                                     <div class="col-sm-6 form-group">
                                         <label class="col-sm-5 control-label">用例组名称：</label>
                                         <div class="col-sm-7">
-                                            <input type="hidden"  class="form-control" id="collectId1" name="collectId" value="{{collectId}}">
-                                            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
-                                        
+                                            <input type="hidden"  class="form-control" id="collectId3" name="collectId" value="{{collectId}}">
+                                            <input type="text" class="form-control input-sm" name="collectName" value="{{collectName}}">
                                          </div> 
                                     </div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <button type="button" class="btn btn-primary" id="connectCaseGroupBtn" name="submit">查询</button>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button type="button" class="btn btn-primary" id="relCaseGroupBtn" name="submit">关联用例</button>
+                                    <button type="button" class="btn btn-primary" id="relCaseGroupBtn" name="submit">关联用例组</button>
                                 </div>
                             </form>
                             <div id="Js_queryUnconnectCaseGroupList" class="box-body" style="min-height: 100px;" ></div>
@@ -155,33 +154,7 @@
                     </div>
                     <!-- /.tab-content -->
                 </div>
-                     <!--<div class="box-body" style="min-height: 100px;" >
-                    <table id="JS_connectCaseList" class="table table-bordered table-hover">
-                       <thead>
-                            <tr>
-                                <th class="iCheckbox" width="15"></th>
-                                <th>用例集名称</th>
-                                <th>关联用例集类型</th>
-                                <th>关联用例集数量</th>
-                                <th>创建人</th>
-                                <th>创建时间</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{#each this}}
-                            <tr>
-                                <td><input type="checkbox" class="minimal" value="{{collectId}}" name="collectId"></td>
-                                <td>{{collectName}}</td>
-                                <td>{{caseType}}</td>
-                                <td>{{caseNum}}</td>
-                                <td>{{opName}}</td>
-                                <td>{{createTime}}</td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </div>
-                </div>-->
+
             </div>
         </div>    
     </div> 

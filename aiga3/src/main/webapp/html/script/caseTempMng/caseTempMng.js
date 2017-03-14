@@ -25,7 +25,7 @@ define(function(require, exports, module) {
 	//保存自动化模板
     srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "auto/template/saveList");
 	//保存测试用例
-    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/template/addTestCase"); 
+    srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/instance/save"); 
     
 
 	// 模板对象
@@ -39,7 +39,7 @@ define(function(require, exports, module) {
 		compList: require('tpl/caseTempMng/compList.tpl'),
 		getFactorForm: require('tpl/caseTempMng/getFactorForm.tpl'),
 		getTestFactorList: require('tpl/caseTempMng/getTestFactorList.tpl'),
-		getCaseTempInfo:require('tpl/autoManage/autoCaseTempMng/getCaseTempInfo.tpl'),
+
 	};
 
 	// 容器对象
@@ -314,7 +314,7 @@ define(function(require, exports, module) {
 					//加载form表单
 					self.getCaseTempInfo("caseId="+_data.caseId);
 					self.addFactor();
-					self.deleFactor();			
+					self.deleFactor();
 					
 
 					$("#JS_factoryBody").slimScroll({
@@ -328,31 +328,32 @@ define(function(require, exports, module) {
 
 							// 表单校验：成功后调取接口
 							//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-								var cmd = {};
-								// var cmd = _form.serialize()+"&caseId="+_data.caseId;
-								var caseId = _data.caseId;
-								var caseName = $("#add_caseName").val();
-								var important = $("#add_important").val();
-								var sysId = $("#add_sysId").find("select").val();
-								var subsysId = $("#add_subSysId").find("select").val();
-								var funId = $("#add_funId").find("select").val();
-								var busiId = $("#add_busiId").val();
-								var caseType = $("#add_caseType").find("select").val();
-								var operateDesc = $("#JS_add_operateDesc").val();
+								var cmd = _form.serialize()+"&caseId="+_data.caseId;
+								//var cmd = {};
+								
+								// var caseId = _data.caseId;
+								// var caseName = $("#add_caseName").val();
+								// var important = $("#add_important").val();
+								// var sysId = $("#add_sysId").find("select").val();
+								// var subsysId = $("#add_subSysId").find("select").val();
+								// var funId = $("#add_funId").find("select").val();
+								// var busiId = $("#add_busiId").val();
+								// var caseType = $("#add_caseType").find("select").val();
+								// var operateDesc = $("#JS_add_operateDesc").val();
 								var id;
 								var name;
 								var remark;
 								// self.getUserinfoList(cmd);
-								cmd = {"caseName":caseName,
-										"caseId":caseId,
-										"important":important,
-										"sysId":sysId,
-										"subsysId":subsysId,
-										"funId":funId ? funId : "",
-										"busiId":busiId ? busiId: "",
-										"caseType":caseType,
-										"operateDesc":operateDesc
-										};
+								// cmd = {"caseName":caseName,
+								// 		"caseId":caseId,
+								// 		"important":important,
+								// 		"sysId":sysId,
+								// 		"subsysId":subsysId,
+								// 		"funId":funId ? funId : "",
+								// 		"busiId":busiId ? busiId: "",
+								// 		"caseType":caseType,
+								// 		"operateDesc":operateDesc
+								// 		};
 								var factors = [];
 								$(Dom.factorList).find("tr").each(function(){
 								    var tdArr = $(this).children();
@@ -369,9 +370,9 @@ define(function(require, exports, module) {
 								    	"remark":remark
 								    });
 								 });
-								cmd["factors"] = JSON.stringify(factors);	
+								cmd += "&factors="+JSON.stringify(factors);
 								console.log(cmd);						
-								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), JSON.stringify(cmd), function(json, status) {
+								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
 									if (status) {
 										XMS.msgbox.show('修改模板成功！', 'success', 2000)
 										// 关闭弹出层
@@ -432,14 +433,16 @@ define(function(require, exports, module) {
 				var cmd = {
 					'caseId':caseId,
 					'tempName':name,
-					'compRequestList':[],
-				};				
+				};
+				var compRequestList = [];
 				$("#compBody").find("tr").each(function(){
 				    var tdArr = $(this).children();
 				    var compId = tdArr.eq(0).find("input").val();
 				    var compOrder = tdArr.eq(3).find("input").val();
-				    cmd.comp.push({'compId':compId,'compOrder':compOrder});
+				    compRequestList.push({'compId':compId,'compOrder':compOrder});
 				 });
+				cmd["compRequestList"] = compRequestList;
+
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
 					if (status) {
@@ -485,17 +488,31 @@ define(function(require, exports, module) {
 			//保存测试用例
 			$(Dom.testForm).find("button[name='save']").bind('click', function() {
 				cmd = cmd+"&testName="+$('#testName1').val()+$('#testName2').val();
+				
+				var factors = [];
+				
 				$(Dom.testFactorList).find("tr").each(function(){
 				    var tdArr = $(this).children();
 				    if(tdArr.eq(0).find("input").is(':checked')){
 
-					    cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
-					    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-					    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
-					    cmd = cmd+"&factorValue="+tdArr.eq(3).find("input").val();
-					    cmd = cmd+"&factorOrder="+tdArr.eq(4).find("input").val();
+//					    cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
+//					    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
+//					    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
+//					    cmd = cmd+"&factorValue="+tdArr.eq(3).find("input").val();
+//					    cmd = cmd+"&factorOrder="+tdArr.eq(4).find("input").val();
+					    
+					    factors.push({
+					    	"factorId":tdArr.eq(0).find("input").val(),
+					    	"factorName":tdArr.eq(1).find("input").val(),
+					    	//"remark":tdArr.eq(2).find("input").val(),
+					    	"factorValue":tdArr.eq(3).find("input").val(),
+					    	"factorOrder":tdArr.eq(4).find("input").val()
+					    });
 					}
 				 });
+				
+				cmd += "&factors="+JSON.stringify(factors);
+				
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('addTestCase'), cmd, function(json, status) {
 					if (status) {

@@ -6,13 +6,13 @@ define(function(require,exports,module){
 	// 初始化列表
 	// srvMap.add("getUserinfoList", "home/getUserinfoList.json", "/sys/role/list");
     //获取所有角色
-	srvMap.add("getStaffRoleList","staffRole/getStaffRoleList.json","/sys/role/list");
+	srvMap.add("getStaffRoleList","staffRole/getStaffRoleList.json","sys/role/list");
 	//获取所有功能菜单	
-	srvMap.add("getFuncList", "roleFunc/getFuncList.json", "/sys/menu/list");
+	srvMap.add("getFuncList", "roleFunc/getFuncList.json", "sys/menu/list");
 	//根据当前角色ID调取已选择的功能菜单funcIds
-	srvMap.add("getRoleFuncCheckedList","roleFunc/getRoleFuncCheckedList.json","/sys/rolefunc/list");
+	srvMap.add("getRoleFuncCheckedList","roleFunc/getRoleFuncCheckedList.json","sys/rolefunc/list");
     //更新角色菜单
-    srvMap.add("roleFuncUpdate",pathAlias + "retMessage.json","/sys/rolefunc/update");
+    srvMap.add("roleFuncUpdate",pathAlias + "retMessage.json","sys/rolefunc/update");
     var Tpl2 = {
     	getStaffRoleList:require('tpl/roleFunc/getStaffRoleList.tpl')
     };

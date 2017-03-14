@@ -635,12 +635,12 @@ define(function(require, exports, module) {
 
 		},
 		//删除组件
-		deleComp:function(cmd){
+		deleComp:function(){
 
 			var self = this;
 			$('#deleComp').unbind('click');
 			$('#deleComp').bind('click',function(){
-				var comp = self.getCheckedRow("#compTable");
+				var comp = self.getCheckedRow("#compBody");
 				if(comp.find("input[name='compId']").length==0){
 					window.XMS.msgbox.show('请先选择一个组件！', 'error', 2000);
 					return;						

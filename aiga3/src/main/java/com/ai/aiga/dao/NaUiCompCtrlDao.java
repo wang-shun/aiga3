@@ -1,6 +1,5 @@
 package com.ai.aiga.dao;
 
-import java.sql.Clob;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

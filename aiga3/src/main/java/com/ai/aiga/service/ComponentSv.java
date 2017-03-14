@@ -116,7 +116,7 @@ public class ComponentSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
 		}
 		if(ctrlIds != null && !ctrlIds.equals("")){
-			String[] ctrlId = ctrlIds.split(",");
+			String[] ctrlId = ctrlIds.substring(0,ctrlIds.length()-1).split(",");
 			for(int i = 0; i < ctrlId.length; i++){
 				NaUiCompCtrl naUiCompCtrl = new NaUiCompCtrl();
 				naUiCompCtrl.setCompId(naUiComponent.getCompId());

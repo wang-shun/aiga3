@@ -201,7 +201,7 @@ define(function(require,exports,module){
 			        // 获取组件列表
 			        self.getSideTempCompList('tempId='+data.tempId);
 			        //保存组件
-			        self.saveAutoCompParam(cmd);
+			        self.saveAutoCompParam(data.tempId);
 		    	}
 			});
 		},
@@ -252,7 +252,7 @@ define(function(require,exports,module){
   			});
 		},
 		// 保存生成用例
-		saveAutoCompParam:function(cmd){
+		saveAutoCompParam:function(_tempId){
 			var self = this;
 			var _dom = $(Dom.generateCaseInfoModal);
 			var _table = $(Dom.getParameterList);
@@ -260,14 +260,21 @@ define(function(require,exports,module){
 			_save.unbind('click');
 			_save.bind('click', function() {
 				var _autoName = _dom.find("[name='autoName']").val();
+				var _environmentType = _dom.find("[name='environmentType']").val();
 				if(_autoName==''){
 					XMS.msgbox.show('用例模板名称不能为空！', 'error',2000);
+					return;
+				}
+				if(_environmentType==''){
+					XMS.msgbox.show('请选择环境类型！', 'error',2000);
 					return;
 				}
 				var hasData = Utils.getCheckboxCheckedRow($(Dom.getSideTempCompList));
 				if(hasData){
 					var cmd = {
+						"tempId":_tempId,
 						"autoName":_autoName,
+						"environmentType":_environmentType,
 						"compList":[]
 					};
 					// 抓取参数列表

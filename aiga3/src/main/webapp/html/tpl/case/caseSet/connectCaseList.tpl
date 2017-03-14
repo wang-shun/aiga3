@@ -139,7 +139,7 @@
                                         <label class="col-sm-5 control-label">用例组名称：</label>
                                         <div class="col-sm-7">
                                             <input type="hidden"  class="form-control" id="collectId3" name="collectId" value="{{collectId}}">
-                                            <input type="text" class="form-control input-sm" name="collectName" value="{{collectName}}">
+                                            <input type="text" class="form-control input-sm" name="groupName" value="{{groupName}}">
                                          </div> 
                                     </div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

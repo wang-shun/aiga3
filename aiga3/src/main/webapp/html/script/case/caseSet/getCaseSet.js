@@ -740,6 +740,7 @@ define(function(require, exports, module) {
  			var self = this;
  			$("#collectId3").val(collectId);
  			var cmd = $("#Js_queryUnconnectCaseGroupForm").serialize();
+ 			alert(cmd);
  			Rose.ajax.postJson(srvMap.get('queryUnconnectCaseGroup'), cmd, function(json, status) {
  				var template = Handlebars.compile(Tpl.queryUnconnectCaseGroupList);
  				console.log(json.data)

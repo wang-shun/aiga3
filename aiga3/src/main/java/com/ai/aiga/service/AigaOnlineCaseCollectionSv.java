@@ -276,7 +276,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 				+ " update_time  from na_auto_group a where a.group_id not in (select element_id from na_auto_coll_group_case where collect_id ="
 				+ collectId + " and element_type=0)";
 		if (StringUtils.isNotBlank(groupName)) {
-			sql = sql + " and a.group_Name like '%" + groupName + "'%";
+			sql = sql + " and a.group_Name like '%" + groupName + "%'";
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return groupDao.searchByNativeSQL(sql, pageable, resultList);

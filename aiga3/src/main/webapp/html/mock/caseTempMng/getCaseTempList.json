@@ -6,83 +6,83 @@
   	[{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "1"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "2"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "3"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "4"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "1"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "1"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "1"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "1"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "1"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
-	"caseType": "UI类",
+	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "三级用例"
+	"important": "1"
   }]
 }
 }

@@ -96,9 +96,9 @@ define(function(require, exports, module) {
 			this._render();
 		},
 		_render: function() {
-			// 默认只加载组织结构及条件查询
+
 			this.getCaseTempList();
-			this.getSysList(dropChoice1);//下拉框
+			this.getSysList(dropChoice1);
 			this.addCaseTemp();
 			this.queryCaseTemp();
 			this.editCaseTemp();
@@ -114,6 +114,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSysList);
 					$(obj.getSysList).html(template(json.data));
+					self.sysSelected(obj);
 					if(callback){
 						callback();
 
@@ -121,18 +122,6 @@ define(function(require, exports, module) {
 					console.log(json.data)
 				}
 				
-				//显示其他下拉框
-				// var empty={'data':''};
-				// var template1 = Handlebars.compile(Tpl.getSubSysList);
-				// $(obj.getSubsysList).html(template(empty));
-				
-				// var template2 = Handlebars.compile(Tpl.getFunList);
-				// $(obj.getFunList).html(template(empty));
-				// $('#add_funId').html(template(empty));
-
-				self.sysSelected(obj);
-								
-
 			});
 		},
 
@@ -182,6 +171,26 @@ define(function(require, exports, module) {
 		getCaseTempList: function(cmd) {
 			var self = this;
 			cmd = cmd+'&pageNum='+currentPage;
+			Handlebars.registerHelper("transformatImp",function(value){
+          		if(value==1){
+            		return "一级用例";
+          		}else if(value==2){
+           		 	return "二级用例";
+         		}else if(value==3){
+           		 	return "三级用例";
+         		}else if(value==4){
+           		 	return "四级用例";
+         		}
+        	});
+			Handlebars.registerHelper("transformatType",function(value){
+          		if(value==1){
+            		return "UI类";
+          		}else if(value==2){
+           		 	return "接口类";
+         		}else if(value==3){
+           		 	return "后台进程类";
+         		}
+        	});        	
 			Rose.ajax.getJson(srvMap.get('getCaseTempList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getCaseTempList);
@@ -209,9 +218,14 @@ define(function(require, exports, module) {
 					//});
 			})
 				// 表单重置
-				/*_form.find('button[name="reset"]').bind('click',function(){
-					_form.data('bootstrapValidator').resetForm(true);
-				})*/
+				_form.find('button[name="reset"]').bind('click',function(){
+					$("#queryCaseName").val('');
+					$("#query_important").val('');
+					$("#query_busi").val('');
+					$("#query_sysId").find('select').val('');
+					$("#query_subSysId").find('select').val('');
+					$("#query_funId").find('select').val('');
+				});
 		},
 		
 
@@ -220,9 +234,6 @@ define(function(require, exports, module) {
 			var self = this;
 			$(Dom.addCaseTemp).bind('click', function() {
 
-				// $(Dom.addUserinfoScroll).slimScroll({
-				// 	"height": '420px'
-				// });
 			    // 弹出层
 				$(Dom.modalCaseTempForm).modal('show');
 				$("#myModalLabel").html("新增模板");
@@ -231,6 +242,7 @@ define(function(require, exports, module) {
 				$(Dom.caseTempForm).html(template());
 				$("#JS_messageAddFactor").show();
 				$('#factorThead').hide();
+				$('#JS_factorList').hide();
 				$(Dom.factorList).empty();				
 				//加载下拉框
 				self.getSysList(dropChoice2)
@@ -328,8 +340,7 @@ define(function(require, exports, module) {
 								console.log(cmd);						
 								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), JSON.stringify(cmd), function(json, status) {
 									if (status) {
-										// 添加用户成功后，刷新用户列表页
-										XMS.msgbox.show('添加模板成功！', 'success', 2000)
+										XMS.msgbox.show('修改模板成功！', 'success', 2000)
 										// 关闭弹出层
 										$(Dom.modalCaseTempForm).modal('hide')
 										setTimeout(function() {
@@ -381,21 +392,28 @@ define(function(require, exports, module) {
 			});
 
 			//保存自动化模板
+			$(Dom.modalAutoTempForm).find("button[name='save']").unbind();
 			$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
-				var cmd = [];
+
+
 				var name = $('#tempName1').val()+$('#tempName2').val();
+				
+				var cmd = {
+					'caseId':caseId,
+					'tempName':name,
+					'comp':[],
+				};				
 				$("#compBody").find("tr").each(function(){
 				    var tdArr = $(this).children();
-				    cmd.push({"tempName":name,"caseId":caseId,"compId":tdArr.eq(0).find("input").val(),"compOrder":tdArr.eq(3).find("input").val()});
+				    cmd.comp.push({'compId':tdArr.eq(0).find("input").val(),'compOrder':tdArr.eq(3).find("input").val()});
 				 });
-				console.log(JSON.stringify(cmd));
-				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), JSON.stringify(cmd), function(json, status) {
+				console.log(cmd);
+				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
 					if (status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
 						// 关闭弹出层
 						$(Dom.modalAutoTempForm).modal('hide')
-						
 					}
 				});				
 			});
@@ -498,7 +516,9 @@ define(function(require, exports, module) {
 						self.getSysList(dropChoice2,function(){
 							$(Dom.caseTempForm).find("select[name='important']").val(json.data.important);
 							$(Dom.caseTempForm).find("select[name='sysId']").val(json.data.sysId);
+							$(Dom.caseTempForm).find("select[name='sysId']").change();
 							$(Dom.caseTempForm).find("select[name='subSysId']").val(json.data.subSysId);
+							$(Dom.caseTempForm).find("select[name='subSysId']").change();
 							$(Dom.caseTempForm).find("select[name='funId']").val(json.data.funId);
 							$(Dom.caseTempForm).find("select[name='busiId']").val(json.data.busiId);
 							$(Dom.caseTempForm).find("select[name='caseType']").val(json.data.caseType);
@@ -521,9 +541,14 @@ define(function(require, exports, module) {
 				var empty={'data':''};
 				$("#JS_messageAddFactor").hide();
 				$('#factorThead').show();
+				$('#JS_factorList').show();
 				$(Dom.factorList).append(factor_template(empty));
 				self.eventClickChecked($(Dom.factorList), function() {
 				})
+				// $("#compTable").slimScroll({
+				// 	"height": '300px',
+				// 	alwaysVisible: true,
+				// });				
 			});
 		},
 		//删除因子
@@ -541,7 +566,8 @@ define(function(require, exports, module) {
 				}
 				if($(Dom.factorList+" tr").length == 0){
 					$("#JS_messageAddFactor").show();
-					$('#factorThead').hide();							
+					$('#factorThead').hide();
+					$('#JS_factorList').hide();							
 				};
 			});
 

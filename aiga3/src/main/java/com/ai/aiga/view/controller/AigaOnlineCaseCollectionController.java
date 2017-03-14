@@ -17,7 +17,7 @@ import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 /**
- * 
+ * 用例集管理controller
  * @author liuxx
  * @version 1.0
  * @date 2017-03-06

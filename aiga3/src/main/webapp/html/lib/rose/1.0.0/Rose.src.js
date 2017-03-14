@@ -1337,6 +1337,9 @@ Rose.ajax = {
 	 */
 	postJson : function(url, cmd, callback) {
 		dataType = this.dataType.TEXT;
+		if(typeof(cmd)=="object"){
+			dataType = this.dataType.JSON;
+		}
 //		if(window.parent && window.parent.Rose){
 //			url = window.parent.Rose.ajax.transferUrl(url);
 //		}

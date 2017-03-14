@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group input-group-sm">
-                    <label>备注<i class="text-red">*</i></label>
+                    <label>备注</label>
                     <input type="text" class="form-control" name="notes" value="{{notes}}" required>
                 </div>
             </div>

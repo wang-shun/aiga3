@@ -106,7 +106,7 @@ public class ComponentSv {
 		naUiComponentDao.save(naUiComponent);
 		return naUiComponent;
 	}
-	public NaUiComponent saveCompCtrl (NaUiComponentRequest naUiComponentRequest,Long ctrlId){
+	public NaUiComponent saveCompCtrl (NaUiComponentRequest naUiComponentRequest,String ctrlIds){
 		
 		NaUiComponent naUiComponent = save(naUiComponentRequest);
 		if(naUiComponent == null){
@@ -115,18 +115,20 @@ public class ComponentSv {
 		if(naUiComponent.getCompId() <0 || naUiComponent.getCompId() ==null)  { 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
 		}
-		if(ctrlId == null || ctrlId<0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
+		if(ctrlIds != null && !ctrlIds.equals("")){
+			String[] ctrlId = ctrlIds.split(",");
+			for(int i = 0; i < ctrlId.length; i++){
+				NaUiCompCtrl naUiCompCtrl = new NaUiCompCtrl();
+				naUiCompCtrl.setCompId(naUiComponent.getCompId());
+				naUiCompCtrl.setCtrlId(Long.valueOf(ctrlId[i]).longValue());
+				naUiCompCtrlDao.save(naUiCompCtrl);
+			}
 		}
-		System.out.println("***8"+naUiComponent.getCompId());
-		NaUiCompCtrl naUiCompCtrl = new NaUiCompCtrl();
-		naUiCompCtrl.setCompId(naUiComponent.getCompId());
-		naUiCompCtrl.setCtrlId(ctrlId);
-		naUiCompCtrlDao.save(naUiCompCtrl);
+		
 		return naUiComponent;
 	}
 
-	public void update(NaUiComponentRequest naUiComponentRequest) {
+	public void update(NaUiComponentRequest naUiComponentRequest, String ctrlIds) {
 		
 		if(naUiComponentRequest == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -161,6 +163,16 @@ public class ComponentSv {
 			naUiComponent.setUpdateTime(new Date(System.currentTimeMillis()));
 			naUiComponentDao.save(naUiComponent);
 		}
+		if(ctrlIds != null && !ctrlIds.equals("")){
+			String[] ctrlId = ctrlIds.substring(0,ctrlIds.length()-1).split(",");
+			for(int i = 0; i < ctrlId.length; i++){
+				NaUiCompCtrl naUiCompCtrl = new NaUiCompCtrl();
+				naUiCompCtrl.setCompId(naUiComponent.getCompId());
+				naUiCompCtrl.setCtrlId(Long.valueOf(ctrlId[i]).longValue());
+				naUiCompCtrlDao.save(naUiCompCtrl);
+			}
+		}
+		
 	}
 
 	public void addCompCtrl(Long compId, Long ctrlId) {
@@ -181,21 +193,12 @@ public class ComponentSv {
 		if(compId == null || compId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
 		}
-		System.out.println("***8"+compId);
+		
 		naUiComponentDao.backUps(compId);
 		naUiComponentDao.delete(compId);
+		naUiCompCtrlDao.deleteByCompId(compId);
 	}
 
-	public Clob ctrlScript(Long ctrlId) {
-		if(ctrlId == null || ctrlId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlId");
-		}
-		Clob ctrlscript = naUiCompCtrlDao.ctrlScript(ctrlId);
-		return ctrlscript;
-		
-	}
-
-	
 	
 	public Object listByParam(String  createTime1, String  createTime2, NaUiComponent condition, int pageNumber, int pageSize)   {
 		

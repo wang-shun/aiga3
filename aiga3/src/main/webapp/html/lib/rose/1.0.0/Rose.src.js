@@ -1440,17 +1440,18 @@ Rose.ajax = {
 		}else if(typeof(cmd)=="string"){
 			param = cmd;
 		}
-		
 		async = sync ? false : true;
 		Rose.log("参数打印："+param);
 		var thiz = Rose.ajax;
 		var cache = (dataType == "html") ? true : false;
+		var contentType = (dataType == "json") ? "application/json" : 'application/x-www-form-urlencoded';
 		$.ajax({
 			url : url,
 			type : type,
 			data : param,
 			cache : cache,
 			dataType : dataType,
+			contentType:contentType,
 			async : async,
 			timeout : thiz.TIME_OUT,
 			beforeSend : function(xhr) {

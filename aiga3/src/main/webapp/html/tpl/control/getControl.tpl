@@ -1,5 +1,5 @@
 <div class="box-header">
-    <h3 class="box-title">员工列表</h3>
+    <h3 class="box-title">控件列表</h3>
     <div class="box-tools">
         <div class="btn-group">
             <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_addControlinfo"><i class="fa fa-plus"></i> 添加</button>

@@ -6,6 +6,7 @@ import com.ai.aiga.view.json.RoleFuncRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -31,7 +32,7 @@ public class RoleFuncController {
      * @return
      */
     @RequestMapping(path = "/sys/rolefunc/list" )
-    public @ResponseBody  JsonBean listByRoleId(RoleFuncRequest roleFuncRequest){
+    public @ResponseBody  JsonBean listByRoleId(@RequestBody(required = false) RoleFuncRequest roleFuncRequest){
         List<AigaRoleFunc> roleFuncList=roleFuncSv.findByRoleId(roleFuncRequest);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(roleFuncList);
@@ -44,7 +45,7 @@ public class RoleFuncController {
      * @return
      */
     @RequestMapping(path = "/sys/rolefunc/update" )
-    public @ResponseBody JsonBean beforeDelAfterSave(RoleFuncRequest roleFuncRequest){
+    public @ResponseBody JsonBean beforeDelAfterSave(@RequestBody RoleFuncRequest roleFuncRequest){
         roleFuncSv.beforeDelAfterSave(roleFuncRequest);
         return new JsonBean();
     }

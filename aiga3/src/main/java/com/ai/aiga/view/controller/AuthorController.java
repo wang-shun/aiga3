@@ -7,6 +7,7 @@ import com.ai.aiga.view.json.AuthorRoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,7 +31,7 @@ public class AuthorController {
      * @return
      */
     @RequestMapping(path="/sys/staffrole/list")
-    public @ResponseBody JsonBean listByStaffId(AuthorRoleRequest authorRoleRequest){
+    public @ResponseBody JsonBean listByStaffId(@RequestBody(required = false) AuthorRoleRequest authorRoleRequest){
         List<AigaAuthor> authors=authorSv.findByStaffId(authorRoleRequest);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(authors);
@@ -43,7 +44,7 @@ public class AuthorController {
      * @return
      */
     @RequestMapping(value="/sys/staffrole/update")
-    public @ResponseBody JsonBean beforeDelAfterSave(AuthorRoleRequest authorRoleRequest){
+    public @ResponseBody JsonBean beforeDelAfterSave(@RequestBody(required = false)  AuthorRoleRequest authorRoleRequest){
         authorSv.beforeDelAfterSave(authorRoleRequest);
         return new JsonBean();
     }

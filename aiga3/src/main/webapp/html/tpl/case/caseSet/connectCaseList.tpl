@@ -15,25 +15,25 @@
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>用例集名称：</label>
-                                    <input type="text" class="form-control input-sm" value="collectName" name="collectName">
+                                    <input type="text" class="form-control input-sm" value="{{collectName}}" name="collectName">
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>关联用例集类型：</label>
-                                    <input type="text" class="form-control input-sm" value="caseType" name="caseType">
+                                    <input type="text" class="form-control input-sm" value="{{caseType}}" name="caseType">
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
-                                    <label>创建人：</label>
-                                    <input type="text" class="form-control input-sm" value="opName" name="opName">
+                                    <label>关联用例集数量：</label>
+                                    <input type="text" class="form-control input-sm" value="{{caseNum}}" name="caseNum">
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>创建时间：</label>
-                                    <input type="text" class="form-control input-sm" value="createTime" name="createTime">
+                                    <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate">
                                 </div>
                             </div>
                         </div>
@@ -118,8 +118,6 @@
                                         </select>       
                                     </div>
                                 </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button type="button" class="btn btn-default" id="connectCasereset" name="reset">重置</button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="btn btn-primary" id="connectCaseBtn" name="submit">查询</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="btn btn-primary" id="relCaseBtn" name="submit">关联用例</button>
@@ -141,12 +139,10 @@
                                         <label class="col-sm-5 control-label">用例组名称：</label>
                                         <div class="col-sm-7">
                                             <input type="hidden"  class="form-control" id="collectId3" name="collectId" value="{{collectId}}">
-                                            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
+                                            <input type="text" class="form-control input-sm" name="collectName" value="{{collectName}}">
                                          </div> 
                                     </div>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button type="button" class="btn btn-default" id="connectCaseGroupreset" name="reset">重置</button>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;
                                     <button type="button" class="btn btn-primary" id="connectCaseGroupBtn" name="submit">查询</button>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <button type="button" class="btn btn-primary" id="relCaseGroupBtn" name="submit">关联用例组</button>

@@ -17,8 +17,6 @@
         </div>
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-default" id="JS_connectReset" name="reset">重置</button>
-    &nbsp;&nbsp;&nbsp;&nbsp;
     <button type="button" class="btn btn-primary" id="JS_connectBtn" name="submit">查询</button>
     &nbsp;&nbsp;&nbsp;&nbsp;
     <button type="button" class="btn btn-primary" id="JS_deleteConnectCase" name="submit">删除</button>

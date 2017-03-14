@@ -572,19 +572,22 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		// 如果没有指定类型。默认查询自动化用例
 		if (StringUtils.isBlank(String.valueOf(request.getTypes())) || String.valueOf(request.getTypes()).equals("2")) {
 			s.append(
-					"select  a.Auto_id,  a.auto_name, a.Case_type, a.important, b.sys_name, c.sys_name, d.sys_name, a.Sc_id, a.Busi_id, a.Test_type,a.Auto_desc, a.status, a.Environment_type, a.Has_auto, a.Param_level   from na_auto_case a ,aiga_system_folder  b, aiga_sub_sys_folder c,  aiga_fun_folder  d   where exists  (select element_id   from na_auto_coll_group_case aa where collect_id = "
+					"select  a.Auto_id,  a.auto_name, a.Case_type, a.important, b.sys_name, c.sys_name as sub_sys_name , d.sys_name as func_name, a.Sc_id, a.Busi_id, a.Test_type,a.Auto_desc, a.status, a.Environment_type, a.Has_auto, a.Param_level   from na_auto_case a  left join aiga_system_folder b 	on a.sys_id = b.sys_id 	  left join aiga_sub_sys_folder c    on a.Sys_sub_id = c.subsys_id  left join aiga_fun_folder d 	 on a. Fun_id = d.fun_id   where not exists  (select element_id   from na_auto_coll_group_case aa   where collect_id = "
 							+ request.getCollectId()
-							+ " and element_type = 2 and  a.Auto_id = aa.element_id)  and a.sys_id = b.sys_id   and a.Sys_sub_id = c.subsys_id  and a. Fun_id = d.fun_id  and b.is_invalid = 0   and b.is_invalid is not null and d.is_invalid = 0   and d.is_invalid is not null");
-			if (StringUtils.isBlank(String.valueOf(request.getSysId()))) {
+							+ " and element_type = 2 and  a.Auto_id = aa.element_id) ");
+			if (request.getSysId()!=null&&!"".equals(request.getSysId())) {
 				s.append(" and a.sys_id=" + request.getSysId());
 			}
-			if (StringUtils.isBlank(String.valueOf(request.getFunId()))) {
+			if (request.getSysSubId()!=null&&!"".equals(request.getSysSubId())) {
+				s.append(" and a.sub_sys_id=" + request.getSysSubId());
+			}
+			if (request.getFunId()!=null&&!"".equals(request.getFunId())) {
 				s.append(" and a.fun_id=" + request.getFunId());
 			}
-			if (StringUtils.isBlank(String.valueOf(request.getServiceId()))) {
+			if (request.getServiceId()!=null&&!"".equals(request.getServiceId())) {
 				s.append(" and a.Busi_id=" + request.getServiceId());
 			}
-			if (StringUtils.isBlank(request.getTempleteName())) {
+			if (!StringUtils.isBlank(request.getTempleteName())) {
 				s.append(
 						" and exists (select bb.temp_id  from  na_auto_template  bb where bb.temp_id=a.Temp_id and bb.Temp_name like '%")
 						.append(request.getTempleteName()).append("'%)");
@@ -597,21 +600,24 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		// 手工用例sql
 		if (String.valueOf(request.getTypes()).equals("1")) {
 			s.append(
-					"select  a.Test_id, a.test_name a.Case_typ,a.important, b.sys_name, c.sys_name,d.sys_name, a.Sc_id,a.Busi_id,a.Test_type ,a.Test_desc,a.Pre_result   from na_test_case where exists  (select element_id   from na_auto_coll_group_case aa where collect_id = "
+					"select  a.Test_id, a.test_name ,a.Case_type,a.important, b.sys_name, c.sys_name as sub_sys_name , d.sys_name as func_name, a.Sc_id,a.Busi_id,a.Test_type ,a.Test_desc,a.Pre_result     from na_test_case  a   left join aiga_system_folder b 	on a.sys_id = b.sys_id 	  left join aiga_sub_sys_folder c    on a.Sys_sub_id = c.subsys_id  left join aiga_fun_folder d 	 on a. Fun_id = d.fun_id   where not exists  (select element_id   from na_auto_coll_group_case aa where aa.collect_id = "
 							+ request.getCollectId() + " and element_type = 1 and  a.Test_id = aa.element_id)");
-			if (StringUtils.isBlank(String.valueOf(request.getSysId()))) {
+			if (request.getSysId()!=null&&!"".equals(request.getSysId())) {
 				s.append(" and a.sys_id=" + request.getSysId());
 			}
-			if (StringUtils.isBlank(String.valueOf(request.getFunId()))) {
+			if (request.getSysSubId()!=null&&!"".equals(request.getSysSubId())) {
+				s.append(" and a.sub_sys_id=" + request.getSysSubId());
+			}
+			if (request.getFunId()!=null&&!"".equals(request.getFunId())) {
 				s.append(" and a.fun_id=" + request.getFunId());
 			}
-			if (StringUtils.isBlank(String.valueOf(request.getServiceId()))) {
+			if (request.getServiceId()!=null&&!"".equals(request.getServiceId())) {
 				s.append(" and a.Busi_id=" + request.getServiceId());
 			}
-			if (StringUtils.isBlank(request.getTempleteName())) {
+			if (!StringUtils.isBlank(request.getTempleteName())) {
 				s.append(
 						" and exists (select bb.Case_id  from  na_case_template  bb where bb.Case_id=a.Case_id and bb.Case_name like '%")
-						.append(request.getTempleteName()).append("'%)");
+						.append(request.getTempleteName()).append("%')");
 			}
 			resultList.add("preResult");
 		}
@@ -622,7 +628,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-	
+	 System.out.println("s.toString()"+s.toString());
 		groupDao.searchByNativeSQL(s.toString(), pageable, resultList);
 	}
 	

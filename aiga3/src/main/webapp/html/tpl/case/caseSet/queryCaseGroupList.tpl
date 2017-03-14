@@ -10,14 +10,14 @@
         </tr>
     </thead>
     <tbody>
-        {{#each this}}
+        {{#each content}}
         <tr>
             <td><input type="checkbox" class="minimal" value="{{caseId}}" name="caseId"></td>
             <td>{{caseName}}</td>
             <td>{{caseType}}</td>
             <td>{{caseNum}}</td>
-            <td>{{opName}}</td>
-            <td>{{createTime}}</td>
+            <td>{{opId}}</td>
+            <td>{{createDate}}</td>
         </tr>
         {{/each}}
     </tbody>

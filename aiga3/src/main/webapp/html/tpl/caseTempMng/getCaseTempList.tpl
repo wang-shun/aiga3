@@ -18,12 +18,12 @@
             <tr>
                 <td><input type="radio" class="minimal" value="{{caseId}}" name="caseId"></td>
                 <td>{{caseName}}<input type="hidden"  value="{{caseName}}" name="caseName"></td>
-                <td >{{caseType}}</td>
+                <td >{{transformatType caseType}}</td>
                 <td style="display:none;"></td>
                 <td>{{creator}}</td>
                 <td>{{updateTime}}</td>
                 <td>{{update}}</td>
-                <td>{{important}}</td>
+                <td>{{transformatImp important}}</td>
             </tr>
             {{/each}}
         </tbody>

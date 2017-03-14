@@ -4,6 +4,7 @@ define(function(require, exports, module) {
 
 	srvMap.add("list", pathAlias + "getCaseTempList.json", "case/instance/list");
 	srvMap.add("delete", pathAlias + "getCaseTempList.json", "case/instance/del");
+	srvMap.add("get", pathAlias + "getCaseTempList.json", "case/instance/get");
 	srvMap.add("funcList", "componentManage/getFunList.json", "sys/component/compTree");
 
 	// 模板对象
@@ -15,8 +16,10 @@ define(function(require, exports, module) {
 	// 容器对象
 	var Dom = {
 		queryForm : "#JS_queryCaseInstanceForm",
+		editForm: "#JS_TestForm",
 		table: "#caseInstanceTable",
-		delBtn: "#JS_delCaseInstance"
+		delBtn: "#JS_delCaseInstance",
+		editTable: "#JS_testCaseFactorList"
 	};
 
 	var fundId = null;
@@ -91,8 +94,6 @@ define(function(require, exports, module) {
 		            return row.testId;
 		        })
 		        
-		        console.log(ids);
-		        
 		        var date = {
 					caseIds : ids
 				}
@@ -124,6 +125,21 @@ define(function(require, exports, module) {
 //				
 //			});
 						
+		},
+		
+		showEdit : function(row){
+			var date = {
+				testId : row.testId
+			}
+			$(Dom.editForm)[0].reset();
+			$(Dom.editTable).find("tbody").html("");
+			Rose.ajax.postJson(srvMap.get('get'), date, function(json, status) {
+				if(status){
+					console.log(json);
+					$(Dom.editForm).val(json);
+				}
+			});
+			$('#modal_testCaseForm').modal();
 		},
 		
 		// 用例模板列表
@@ -200,13 +216,7 @@ define(function(require, exports, module) {
 		        	           	 console.log(index);
 		        	        },
 		        	        'click .operation-edit': function (e, value, row, index) {
-		        	        	console.log(e);
-		        	           	 console.log(value);
-		        	           	 console.log(row);
-		        	           	 console.log(index);
-		        	           	console.log("a.operation-edit");
-		        				console.log($(Dom.table).bootstrapTable('getSelections'));
-		        				$('#modal_testCaseForm').modal();
+		        	        	self.showEdit(row);
 		        	        },
 		        	        'click .operation-copy': function (e, value, row, index) {
 		        	        	console.log(e);

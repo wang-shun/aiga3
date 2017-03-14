@@ -262,11 +262,18 @@ define(function(require, exports, module) {
 						//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 							var cmd = _form.serialize();
 
+							var factors = [];
 							$(Dom.factorList).find("tr").each(function(){
 							    var tdArr = $(this).children();
-							    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-							    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
-							 });	
+//							    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
+//							    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
+							    
+							    factors.push({
+							    	"factorName":tdArr.eq(1).find("input").val(),
+							    	"remark":tdArr.eq(2).find("input").val()
+							    });
+							});
+							cmd += "&factors="+JSON.stringify(factors);
 							console.log(cmd);						
 							Rose.ajax.postJson(srvMap.get('addCaseTemp'), cmd, function(json, status) {
 								if (status) {
@@ -311,7 +318,7 @@ define(function(require, exports, module) {
 
 							// 表单校验：成功后调取接口
 							//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-								var cmd = [];
+								var cmd = {};
 								// var cmd = _form.serialize()+"&caseId="+_data.caseId;
 								var caseId = _data.caseId;
 								var caseName = $("#add_caseName").val();
@@ -326,6 +333,17 @@ define(function(require, exports, module) {
 								var name;
 								var remark;
 								// self.getUserinfoList(cmd);
+								cmd = {"caseName":caseName,
+										"caseId":caseId,
+										"important":important,
+										"sysId":sysId,
+										"subsysId":subsysId,
+										"funId":funId ? funId : "",
+										"busiId":busiId ? busiId: "",
+										"caseType":caseType,
+										"operateDesc":operateDesc
+										};
+								var factors = [];
 								$(Dom.factorList).find("tr").each(function(){
 								    var tdArr = $(this).children();
 								    // cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
@@ -334,11 +352,17 @@ define(function(require, exports, module) {
 									id = tdArr.eq(0).find("input").val();
 								    name = tdArr.eq(1).find("input").val();
 								    remark = tdArr.eq(2).find("input").val();
-								    // 
-								    cmd.push({"caseName":caseName,"caseId":caseId,"important":important,"sysId":sysId,"subsysId":subsysId,"funId":funId,"busiId":busiId,"caseType":caseType,"operateDesc":operateDesc,"factorId":id,"factorName":name,"remark":remark});
-								 });	
+								    
+								    factors.push({
+								    	"factorId":id,
+								    	"factorName":name,
+								    	"remark":remark
+								    });
+								 });
+								cmd["factors"] = JSON.stringify(factors);
+					
 								console.log(cmd);						
-								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), JSON.stringify(cmd), function(json, status) {
+								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
 									if (status) {
 										XMS.msgbox.show('修改模板成功！', 'success', 2000)
 										// 关闭弹出层

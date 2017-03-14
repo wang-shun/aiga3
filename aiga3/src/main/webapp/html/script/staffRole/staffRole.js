@@ -36,9 +36,11 @@ define(function(require, exports, module) {
         stafId: null
     }
 
+
     var indexInfoQuery = {
         init: function() {
             this._render();
+
         },
         _render: function() {
             // 查询所有员工

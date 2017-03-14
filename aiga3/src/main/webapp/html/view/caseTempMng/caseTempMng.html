@@ -158,28 +158,28 @@
 											            </ul>											            
 											        </div>
 											    </div>
-											</div>			                            	
-			                                <table id="compTable" class="table table-bordered table-hover">
-									            <div id="JS_messageAddFactor" style="text-align: center; padding: 100px 0;">
-									                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-									                <p style="color: #333;"><span>请添加因子</span></p>
-									            </div>
-									            <thead id="factorThead">
-									                <tr>
-									                    <th class="iCheckbox" width="15"></th>
-									                    <th>因子名称</th>
-									                    <th>因子描述</th>
-									                </tr>
-									            </thead>
-									            <tbody id="JS_factorList">
-									            </tbody> 
-									        </table>
+											</div>
+											<div id="JS_factoryBody" class="box-body">		     
+				                                <table id="compTable" class="table table-bordered table-hover">
+										            <div id="JS_messageAddFactor" style="text-align: center; padding: 100px 0;">
+										                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+										                <p style="color: #333;"><span>请添加因子</span></p>
+										            </div>
+										            <thead id="factorThead">
+										                <tr>
+										                    <th class="iCheckbox" width="15"></th>
+										                    <th>因子名称</th>
+										                    <th>因子描述</th>
+										                </tr>
+										            </thead>
+										            <tbody id="JS_factorList">
+										            </tbody> 
+										        </table>
+									        </div>	
 			                            </div>
 			                          </div>
 			                          <div class="col-md-3">
-			                            <div class="box" style="min-height: 100px">
-											<form id="JS_factorForm"></form>
-			                            </div>
+			                            
 			                          </div>
 			                        </div>
 			                    </div>
@@ -202,7 +202,7 @@
 		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		                <h4 class="modal-title" id="myModalLabel">生成自动化模板</h4>
 		            </div>
-		            <form id="JS_AutoCaseTempForm" class="form-horizontal">
+		            <form id="JS_AutoCaseTempForm">
 			            <div class="modal-body">
 			                <div id="JS_AutoTempFormInner" style="padding-right: 15px;">
 								<div class="row">
@@ -222,10 +222,8 @@
 						                    <ul class="nav nav-tabs">
 						                      <li class="active"><a href="#activity" data-toggle="tab">选择添加组件</a></li>
 						                    </ul>
-						                    <div class="tab-content">
-						                        <div class="active tab-pane" id="activity">
+						                    <div id="JS_compTree" class="tab-content"> 
 						                            <ul id="compTree" class="ztree"></ul>
-						                        </div>
 						                    </div>										
 										</div>
 									</div>
@@ -242,7 +240,7 @@
 											</div>
 											
 											
-												<div class="box-body" style="min-height: 100px;" >
+												<div id="JS_compBody" class="box-body" style="min-height: 100px;" >
 													<table id="compTable" class="table table-bordered table-hover">
 														<div id="messageAddComp" style="text-align: center; padding: 100px 0;">
                                     						<p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
@@ -263,7 +261,10 @@
 											
 
 
-										</div>										
+										</div>
+										<div class="box" id="JS_getCaseTempInfo">
+											
+										</div>
 									</div>
 								</div>
 			                </div>
@@ -309,7 +310,7 @@
 											</div>
 											
 
-												<div class="box-body" style="min-height: 100px;" >
+												<div id="JS_bodyFactor" class="box-body" style="min-height: 100px;" >
 													<table id="" class="table table-bordered table-hover">
 												        <thead>
 												            <tr>

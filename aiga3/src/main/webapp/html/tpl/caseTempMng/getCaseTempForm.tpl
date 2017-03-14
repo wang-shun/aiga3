@@ -82,31 +82,3 @@
     </div>
 
 </div>           
-
-
-<!-- <div id=""  class="box-body" style="min-height: 100px;">
-    <div class="box-body" style="min-height: 100px;" >
-        
-    </div>
-</div>     -->            
-<!-- <div class="row">
-    <div class="col-sm-4 form-group">
-        <label class="col-sm-6 control-label">因子名称&nbsp;&nbsp;&nbsp;</label>
-        
-    </div>
-    <div class="col-sm-6 form-group">
-        <label class="control-label">因子描述</label>
-    </div>
-</div> -->
-
-<!-- <div id="Form_factory"> -->
-<!-- 因子内容 -->
-<!-- </div> -->
-<!-- <div class="row">
-    <div class="col-sm-6 form-group">
-        
-        <div class="col-sm-4 col-sm-offset-1">
-           <button id="addFactory" type="button" class="btn btn-block btn-primary btn-sm">添加因子</button>
-        </div>
-    </div>
-</div>  -->

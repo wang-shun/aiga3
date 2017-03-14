@@ -1435,7 +1435,8 @@ Rose.ajax = {
 		var param = "";
 		console.log("参数类型："+typeof (cmd));
 		if (typeof (cmd) == "object"){
-			param = this.jsonToUrl(cmd);
+			param = cmd;
+			//param = this.jsonToUrl(cmd);
 			// param = JSON.stringify(cmd);
 		}else if(typeof(cmd)=="string"){
 			param = cmd;

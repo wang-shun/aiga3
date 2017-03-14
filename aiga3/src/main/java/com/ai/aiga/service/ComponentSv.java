@@ -162,8 +162,17 @@ public class ComponentSv {
 			}
 			naUiComponent.setUpdateTime(new Date(System.currentTimeMillis()));
 			naUiComponentDao.save(naUiComponent);
-			
 		}
+		if(ctrlIds != null && !ctrlIds.equals("")){
+			String[] ctrlId = ctrlIds.substring(0,ctrlIds.length()-1).split(",");
+			for(int i = 0; i < ctrlId.length; i++){
+				NaUiCompCtrl naUiCompCtrl = new NaUiCompCtrl();
+				naUiCompCtrl.setCompId(naUiComponent.getCompId());
+				naUiCompCtrl.setCtrlId(Long.valueOf(ctrlId[i]).longValue());
+				naUiCompCtrlDao.save(naUiCompCtrl);
+			}
+		}
+		
 	}
 
 	public void addCompCtrl(Long compId, Long ctrlId) {
@@ -187,6 +196,7 @@ public class ComponentSv {
 		
 		naUiComponentDao.backUps(compId);
 		naUiComponentDao.delete(compId);
+		naUiCompCtrlDao.deleteByCompId(compId);
 	}
 
 	

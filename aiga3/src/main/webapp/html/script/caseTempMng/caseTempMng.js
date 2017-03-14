@@ -96,9 +96,9 @@ define(function(require, exports, module) {
 			this._render();
 		},
 		_render: function() {
-			// 默认只加载组织结构及条件查询
+
 			this.getCaseTempList();
-			this.getSysList(dropChoice1);//下拉框
+			this.getSysList(dropChoice1);
 			this.addCaseTemp();
 			this.queryCaseTemp();
 			this.editCaseTemp();
@@ -114,13 +114,14 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSysList);
 					$(obj.getSysList).html(template(json.data));
+					self.sysSelected(obj);
 					if(callback){
 						callback();
 
 					}
 					console.log(json.data)
 				}
-				self.sysSelected(obj);
+				
 			});
 		},
 
@@ -339,8 +340,7 @@ define(function(require, exports, module) {
 								console.log(cmd);						
 								Rose.ajax.postJson(srvMap.get('updateCaseTemp'), JSON.stringify(cmd), function(json, status) {
 									if (status) {
-										// 添加用户成功后，刷新用户列表页
-										XMS.msgbox.show('添加模板成功！', 'success', 2000)
+										XMS.msgbox.show('修改模板成功！', 'success', 2000)
 										// 关闭弹出层
 										$(Dom.modalCaseTempForm).modal('hide')
 										setTimeout(function() {
@@ -392,21 +392,28 @@ define(function(require, exports, module) {
 			});
 
 			//保存自动化模板
+			$(Dom.modalAutoTempForm).find("button[name='save']").unbind();
 			$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
-				var cmd = [];
+
+
 				var name = $('#tempName1').val()+$('#tempName2').val();
+				
+				var cmd = {
+					'caseId':caseId,
+					'tempName':name,
+					'comp':[],
+				};				
 				$("#compBody").find("tr").each(function(){
 				    var tdArr = $(this).children();
-				    cmd.push({"tempName":name,"caseId":caseId,"compId":tdArr.eq(0).find("input").val(),"compOrder":tdArr.eq(3).find("input").val()});
+				    cmd.comp.push({'compId':tdArr.eq(0).find("input").val(),'compOrder':tdArr.eq(3).find("input").val()});
 				 });
-				console.log(JSON.stringify(cmd));
-				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), JSON.stringify(cmd), function(json, status) {
+				console.log(cmd);
+				Rose.ajax.getJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
 					if (status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
 						// 关闭弹出层
 						$(Dom.modalAutoTempForm).modal('hide')
-						
 					}
 				});				
 			});
@@ -509,7 +516,9 @@ define(function(require, exports, module) {
 						self.getSysList(dropChoice2,function(){
 							$(Dom.caseTempForm).find("select[name='important']").val(json.data.important);
 							$(Dom.caseTempForm).find("select[name='sysId']").val(json.data.sysId);
+							$(Dom.caseTempForm).find("select[name='sysId']").change();
 							$(Dom.caseTempForm).find("select[name='subSysId']").val(json.data.subSysId);
+							$(Dom.caseTempForm).find("select[name='subSysId']").change();
 							$(Dom.caseTempForm).find("select[name='funId']").val(json.data.funId);
 							$(Dom.caseTempForm).find("select[name='busiId']").val(json.data.busiId);
 							$(Dom.caseTempForm).find("select[name='caseType']").val(json.data.caseType);

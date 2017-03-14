@@ -57,6 +57,7 @@ define(function(require, exports, module) {
     var Data = {
         funId: null,
         ctrlId: null,
+        ctrlIds:'',
         compId: null,
         addCompId: null,
         isAdd: false,
@@ -198,6 +199,8 @@ define(function(require, exports, module) {
                             onClick: function(event, treeId, treeNode) {
                                 var _ctrlId = treeNode.id;
                                 Data.ctrlId = _ctrlId;
+                                Data.ctrlIds += _ctrlId + ',';
+                                console.log(Data.ctrlIds); 
                                 var _compCtrId = treeNode.id;
                                 var _script = self.getScript(json.data, _compCtrId);
                                 $(Dom.addCompInfoForm).find("textarea[name='compScript']").append(_script + "\r\n");
@@ -215,7 +218,7 @@ define(function(require, exports, module) {
                 var _form = $(Dom.addCompInfoForm);
                 // 表单校验：成功后调取接口
                 var cmd = _form.serialize();
-                var addCmd = "&ctrlId=" + Data.ctrlId + "&parentId=" + Data.funId;
+                var addCmd = "&ctrlIds=" + Data.ctrlIds + "&parentId=" + Data.funId;
                 cmd = cmd + addCmd;
                 console.log(cmd);
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading')
@@ -224,6 +227,7 @@ define(function(require, exports, module) {
                         Data.addCompId = json.data.compId;
                         // 添加用户成功后，刷新用户列表页
                         XMS.msgbox.show('添加组件成功！', 'success', 2000)
+                        Data.ctrlIds = '';
                             // // 关闭弹出层
                             // $(Dom.addCompModal).modal('hide')
                         setTimeout(function() {
@@ -387,7 +391,7 @@ define(function(require, exports, module) {
                     $(Dom.addCompSubmit).unbind('click');
                     $(Dom.addCompSubmit).bind('click', function() {
 
-                        var _cmd1 = "&ctrlId=" + Data.ctrlId;
+                        var _cmd1 = "&ctrlIds=" + Data.ctrlIds;
                         var _cmd = "&compId=" + Data.compId;
                         var cmd = _form.serialize() + _cmd + _cmd1;
                         console.log(cmd);
@@ -397,6 +401,7 @@ define(function(require, exports, module) {
                             if (status) {
                                 // 添加用户成功后，刷新用户列表页
                                 XMS.msgbox.show('修改组件成功！', 'success', 2000)
+                                Data.ctrlIds = '';
                                     // 关闭弹出层
                                     //$(Dom.addCompModal).modal('hide')
                                 setTimeout(function() {

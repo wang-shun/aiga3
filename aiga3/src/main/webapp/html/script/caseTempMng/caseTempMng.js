@@ -474,7 +474,7 @@ define(function(require, exports, module) {
 						"height": '300px'
 					});					
 					$('#testName1').val(_data.caseName+'_');
-					Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
 						if(status) {
 							var factor_template = Handlebars.compile(Tpl.getTestFactorList);
 							$(Dom.testFactorList).html(factor_template(json.data.factors));
@@ -542,7 +542,7 @@ define(function(require, exports, module) {
 				if (_data) {
 					var _caseId = "caseId="+_data.caseId;
 					console.log(_caseId);
-					Rose.ajax.getJson(srvMap.get('delCaseTemp'),_caseId, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('delCaseTemp'),_caseId, function(json, status) {
 						if (status) {
 							// dele成功后，重新加载模板列表
 							window.XMS.msgbox.show('模板删除成功！', 'success', 2000)

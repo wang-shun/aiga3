@@ -685,8 +685,12 @@ define(function(require, exports, module) {
 					}
 					console.log(json.data);
 					$("#Js_queryCaseGroupList").html(template(json.data));
-					self.eventClickChecked($("#JS_queryCaseGroupListTable"),function(){
+					// 绑定单机当前行事件
+					self.eventClickChecked($("#JS_useCaseListTable"),function(){
 				    });
+				    
+					self.eventClickChecked($("#JS_useCaseListsTable"),function(){
+			   		 });
 				}
 			});
 		},

@@ -203,26 +203,8 @@ define(function(require, exports, module) {
 					});
 
 				} else {
-					var cmd = {
-						"parentOrganizeId": $("#parentOrganizeId").val(),
-						"organizeId": Dom.organizeId,
-						"organizeName": $("#organizeName").val(),
-						"districtId": $("#districtId").val(),
-						"memberNum": $("#memberNum").val(),
-						"phoneId": $("#phoneId").val(),
-						"connectCardType": $("#connectCardType option:selected").val(),
-						"faxId": $("#faxId").val(),
-						"code": $("#code").val(),
-						"shortName": $("#shortName").val(),
-						"managerName": $("#managerName").val(),
-						"connectCardId": $("#connectCardId").val(),
-						"isLeaf": $("#isLeaf").val(),
-						"orgRoleTypeId": $("#orgRoleTypeId option:selected").val(),
-						"englishName": $("#englishName").val(),
-						"email": $("#email").val(),
-						"connectName": $("#connectName").val(),
-						"connectBillId": $("#connectBillId").val()
-					}
+					var cmd = "organizeId="+Dom.organizeId;
+					cmd = cmd+"&"+$("#JS_getOrganizeForm").serialize();
 					Rose.ajax.postJson(srvMap.get('updateOrganize'), cmd, function(json, status) {
 						if (status) {
 							alert("保存成功！");

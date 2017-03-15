@@ -29,26 +29,26 @@ public class SysInfoController {
 	
 	
 	@RequestMapping(path = "/sys/cache/listSysid" )
-	public @ResponseBody JsonBean listSysid(){
+	public @ResponseBody JsonBean listSysId(){
 		JsonBean bean = new JsonBean();
 		bean.setData(aigaSystemFolderCacheCmpt.getSysList());
 		return bean;
 	}
 	
 	@RequestMapping(path = "/sys/cache/listSubsysid" )
-	public @ResponseBody JsonBean listSubsysid(@RequestParam Long sysid){
+	public @ResponseBody JsonBean listSubsysid(@RequestParam Long sysId){
 		JsonBean bean = new JsonBean();
-		if(sysid != null){
-			bean.setData(aigaSubSysFolderCacheCmpt.getSubSysList(sysid));
+		if(sysId != null){
+			bean.setData(aigaSubSysFolderCacheCmpt.getSubSysList(sysId));
 		}
 		return bean;
 	}
 	
 	@RequestMapping(path = "/sys/cache/listFun" )
-	public @ResponseBody JsonBean listFun(@RequestParam Long subsysid){
+	public @ResponseBody JsonBean listFun(@RequestParam Long subsysId){
 		JsonBean bean = new JsonBean();
-		if(subsysid != null){
-			bean.setData(aigaFunFolderCacheCmpt.getFunsBySubsysid(subsysid));
+		if(subsysId != null){
+			bean.setData(aigaFunFolderCacheCmpt.getFunsBySubsysid(subsysId));
 		}
 		return bean;
 	}

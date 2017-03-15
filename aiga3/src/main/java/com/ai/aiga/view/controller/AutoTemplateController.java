@@ -69,7 +69,7 @@ public class AutoTemplateController {
     public @ResponseBody JsonBean listInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-             AutoTemplateRequest condition){
+            AutoTemplateRequest condition){
         JsonBean bean = new JsonBean();
         bean.setData(autoTemplateSv.listbyNativeSQL(condition, pageNumber, pageSize));
         return bean;

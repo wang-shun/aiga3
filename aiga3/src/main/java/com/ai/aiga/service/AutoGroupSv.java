@@ -42,13 +42,14 @@ public class AutoGroupSv {
 		
 		String sql = "select a.group_id, a.group_name, b.name as creator_name,"
 				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.update_time "
-				+ " from aiga_staff b, na_auto_group a where a.creator_id = b.staff_id order by a.update_time desc";
+				+ " from aiga_staff b, na_auto_group a where a.creator_id = b.staff_id ";
 		if(condition != null){
 			
 			if(condition.getGroupName() != null){
 				sql+=" and a.group_name like '%"+condition.getGroupName()+"%'";
 			}
 		}
+		sql += " order by a.update_time desc";
 		List<String> list = new ArrayList<String>();
 		list.add("groupId");
 		list.add("groupName");

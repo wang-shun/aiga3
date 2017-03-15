@@ -8,13 +8,13 @@
             <input type="hidden" name="roleId" value="{{roleId}}" >
             <div class="col-md-12">
                 <div class="form-group input-group-sm">
-                    <label>名称<i class="text-red">*</i></label>
+                    <label>代码<i class="text-red">*</i></label>
                     <input type="text" class="form-control" name="code" value="{{code}}" required>
                 </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group input-group-sm">
-                    <label>编码<i class="text-red">*</i></label>
+                    <label>名称<i class="text-red">*</i></label>
                     <input type="text" class="form-control" name="name" value="{{name}}" required>
                 </div>
             </div>

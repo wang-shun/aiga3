@@ -166,7 +166,7 @@ define(function(require,exports,module){
 	        }else{
 	        	_url = srvMap.get('getUserinfoListB')
 	        }
-			Rose.ajax.getJson(_url, data, function(json, status) {
+			Rose.ajax.postJson(_url, data, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getUserinfoList);
 					console.log(json.data)
@@ -267,7 +267,7 @@ define(function(require,exports,module){
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
 			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-			  			Rose.ajax.getJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
+			  			Rose.ajax.postJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('保存成功！', 'success', 2000)
@@ -337,7 +337,7 @@ define(function(require,exports,module){
 				            console.log(cmd);
 				  			// self.getUserinfoList(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-				  			Rose.ajax.getJson(srvMap.get('updateUserinfo'), cmd, function(json, status) {
+				  			Rose.ajax.postJson(srvMap.get('updateUserinfo'), cmd, function(json, status) {
 								if(status) {
 									// 添加用户成功后，刷新用户列表页
 									XMS.msgbox.show('保存成功！', 'success', 2000)
@@ -569,7 +569,7 @@ define(function(require,exports,module){
 			$(Dom.addStaffOrgSubmit).bind('click',function(){
 				var cmd = $(Dom.addStaffOrgForm).serialize();
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.show('保存成功！', 'success', 2000)
 						$(Dom.addStaffOrgModal).modal('hide')

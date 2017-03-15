@@ -1427,7 +1427,7 @@ Rose.ajax = {
 	 */
 	ajax : function(url, type, cmd, dataType, callback, sync) {
 		var param = "";
-		var contentType = "";
+		var contentType = "application/x-www-form-urlencoded";
 		console.log("参数类型："+typeof (cmd));
 		if (typeof (cmd) == "object" && type=="POST"){
 			// param = this.jsonToUrl(cmd);

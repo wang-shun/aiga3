@@ -85,7 +85,7 @@ define(function(require,exports,module){
 			Data.queryListCmd = _cmd;
 			//alert(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.getJson(srvMap.get('getCaseTempList'), _cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseTempList'), _cmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getCaseTempList);
@@ -136,6 +136,9 @@ define(function(require,exports,module){
 				if(data){
 					var cmd = 'tempId='+data.tempId;
 					var _modal = $(Dom.updateCaseTempInfoModal);
+					// 赋值模板名称
+					_modal.find("[name='tempName']").val(data.tempName);
+					// 显示弹框
 			        _modal.modal('show');
 			        // 获取组件树
 			        self.getCompTree(_modal);

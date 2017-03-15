@@ -161,7 +161,7 @@ define(function(require, exports, module) {
                         var _thisSub = $("select[name="+_subname+"]");
                         var _url = _thisSub.data("suburl");
                         obj.change(function(){
-                            var _cmd = obj.attr("name")+":"+$(this).val();
+                            var _cmd = obj.attr("name")+"="+$(this).val();
                             self.setSelectHtml(_thisSub,_url,_cmd);
                         });
                     }

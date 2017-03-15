@@ -26,7 +26,7 @@
             <tr>
                 <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId">
                 <input type="hidden" value="{{caseId}}" name="caseId"></td>
-                <td>{{tempName}}</td>
+                <td>{{tempName}}<input type="hidden" value="{{tempName}}" name="tempName"></td>
                 <td>{{sysName}}</td>
                 <td>{{sysSubName}}</td>
                 <td>{{funName}}</td>

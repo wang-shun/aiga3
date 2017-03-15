@@ -221,7 +221,7 @@ define(function(require, exports, module) {
 						"englishName": $("#englishName").val(),
 						"email": $("#email").val(),
 						"connectName": $("#connectName").val(),
-						"connectBillId": $("#connectBillId").val(),
+						"connectBillId": $("#connectBillId").val()
 					}
 					Rose.ajax.postJson(srvMap.get('updateOrganize'), cmd, function(json, status) {
 						if (status) {

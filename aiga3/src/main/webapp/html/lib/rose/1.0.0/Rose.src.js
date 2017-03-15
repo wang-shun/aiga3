@@ -1344,7 +1344,7 @@ Rose.ajax = {
 	},
 	/**
 	 * loadHtml是对Ajax load的封装,为载入远程 HTML 文件代码并插入至 DOM 中
-	 * 
+	 *
 	 * @method loadHtml
 	 * @param {Object}
 	 *            obj Dom对象
@@ -1427,10 +1427,12 @@ Rose.ajax = {
 	 */
 	ajax : function(url, type, cmd, dataType, callback, sync) {
 		var param = "";
+		var contentType = "";
 		console.log("参数类型："+typeof (cmd));
-		if (typeof (cmd) == "object"){
-			param = this.jsonToUrl(cmd);
-			// param = JSON.stringify(cmd);
+		if (typeof (cmd) == "object" && type=="POST"){
+			// param = this.jsonToUrl(cmd);
+			param = JSON.stringify(cmd);
+			contentType = "application/json";
 		}else if(typeof(cmd)=="string"){
 			param = cmd;
 		}
@@ -1444,6 +1446,7 @@ Rose.ajax = {
 			data : param,
 			cache : cache,
 			dataType : dataType,
+			contentType : contentType,
 			async : async,
 			timeout : thiz.TIME_OUT,
 			beforeSend : function(xhr) {
@@ -1460,7 +1463,7 @@ Rose.ajax = {
 				}
 				try {
 					// data = $.parseJSON(data);
-					data = eval('(' + data + ')');
+					data = eval("(" + data + ")");
 					if (data.retCode=='PAGEFRAME-9527') {
 						alert("登陆凭证过期，请重新登陆");
 						window.parent.location.reload();

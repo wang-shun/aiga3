@@ -167,7 +167,7 @@ define(function(require,exports,module){
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('deleMenu')+"?"+cmd, '', function(json, status) {
 					if(status) {
-						if(json.retCode==200){
+						
 							self.initMenuList();
 							OperateState = null;
 							currentMenu = 0;
@@ -185,9 +185,8 @@ define(function(require,exports,module){
 							_form.find('button[name="save"]').attr({"disabled":"disabled"});
 							// _form.find('button[name="save"]').removeAttr("disabled");//将按钮可用
 							// _form.find('button[name="del"]').removeAttr("disabled");//将按钮可用
-						}else{
-							XMS.msgbox.show(json.retMessage, 'error', 3000)
-						}
+					}else{
+							XMS.msgbox.show(json.retMessage, 'error', 3000)		
 					}
 				});
 								

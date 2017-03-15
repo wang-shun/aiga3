@@ -69,7 +69,7 @@ public class AutoTemplateController {
     public @ResponseBody JsonBean listInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-             @RequestParam(required = false) AutoTemplateRequest condition){
+             AutoTemplateRequest condition){
         JsonBean bean = new JsonBean();
         bean.setData(autoTemplateSv.listbyNativeSQL(condition, pageNumber, pageSize));
         return bean;
@@ -86,8 +86,9 @@ public class AutoTemplateController {
     public @ResponseBody JsonBean list(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            @RequestParam(required = false) AutoTemplateRequest condition){
-        JsonBean bean = new JsonBean();
+             AutoTemplateRequest condition){
+        JsonBean jsonBean = new JsonBean();
+        JsonBean bean = jsonBean;
         bean.setData(autoTemplateSv.listTemplate(condition, pageNumber, pageSize));
         return bean;
     }

@@ -137,7 +137,7 @@ define(function(require, exports, module) {
                     window.XMS.msgbox.show('请先选择一个授权权限点！', 'error', 2000);
                     return;
                 } else {
-                    Rose.ajax.postJson(srvMap.get('saveStaffRole'), cmd, function(json, status) {
+                    Rose.ajax.getJson(srvMap.get('saveStaffRole'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('保存成功！', 'success', 2000)
                         }

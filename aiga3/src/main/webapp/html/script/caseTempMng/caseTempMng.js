@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "caseTempMng/";
+	var Utils = require("global/utils.js");
 
 	// 用例模板列表显示 ok
 	srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "case/template/list");
@@ -661,8 +662,12 @@ define(function(require, exports, module) {
 					if(status) {
 						$('#messageAddComp').hide();
 						$('#compThead').show();
+						var _dom = $("#compTable");
+						var dataArray = Utils.getTableDataRows(_dom);
+						json.data["compOrder"] = dataArray.length+1;
 	            		var template = Handlebars.compile(Tpl.compList);
 	            		$("#compBody").append(template(json.data));
+
 						self.eventClickChecked($("#compBody"), function() {
 
 						})	            		

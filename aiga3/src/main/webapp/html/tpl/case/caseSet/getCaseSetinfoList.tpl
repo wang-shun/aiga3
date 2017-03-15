@@ -13,9 +13,9 @@
             </tr>
         </thead>
         <tbody>
-            {{#each content}}<!-- content -->
+            {{#each content}}
             <tr>
-                <td><input type="checkbox" class="minimal" value="{{collectId}}" name="collectId"  id="collectId"></td>
+                <td><input type="checkbox" class="minimal" value="{{collectId}}" name="collectId"></td>
                 <td>{{collectName}}</td>
                 <td>{{caseType}}</td>
                 <td>{{caseNum}}</td>

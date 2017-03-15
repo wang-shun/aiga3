@@ -154,7 +154,7 @@ define(function(require, exports, module) {
 			var self = this;
 			$(Dom.addControlinfo).bind('click', function() {
 				if (Data.funId == "") {
-					alert("请选择一个功能点！");
+					window.XMS.msgbox.show('请选择一个功能点！', 'error', 2000);
 					return null;
 				} 
 				var _form = $(Dom.addControlinfoForm);
@@ -196,7 +196,6 @@ define(function(require, exports, module) {
 //			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			var _data = self.getControlRow();
 			var _ctrlId = _data.ctrlId;
-			alert(_ctrlId+"11111111");
 			var cmd = {
 				"ctrlId": _ctrlId,
 				"ctrlName": $("#ctrlName").val(),
@@ -237,7 +236,6 @@ define(function(require, exports, module) {
 									$(Dom.addControlinfoModal).modal('hide')
 									setTimeout(function(){
 										var cmd = "funId="+Data.funId;
-								        alert(cmd);
 										self.initOrganize(cmd);
 									},1000)
 								}

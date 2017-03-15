@@ -87,8 +87,6 @@ define(function(require, exports, module) {
 			this.organizeSave();
 			this.organizeDele();
 			this.organizeAdd();
-
-			// this.organizeSave();
 			Rose.ajax.postJson(srvMap.get('organizeTree'), '', function(json, status) {
 				if (status) {
 					$.fn.zTree.init($("#treeDemo"), setting, json.data);
@@ -116,18 +114,7 @@ define(function(require, exports, module) {
 
 			Rose.ajax.postJson(srvMap.get('getOrganize'), '', function(json, status) {
 				if (status) {
-					// var template = Handlebars.compile(Tpl.getOrganize);
-					// console.log(json.data)
-					// var aaa= {};
-					// aaa["sflxDataArray"] = Dom.sflxDataArray;
-					// aaa["sflxOrganize"] = Dom.sflxOrganize;
-					// alert(aaa);
-					// console.log(json.data)
-					// $(Dom.getOrganize).html(template(aaa));
-
-
 					var template = Handlebars.compile(Tpl.getOrganize);
-
 					var a = json.data;
 					a["sflxDataArray"] = Dom.sflxDataArray;
 					a["sflxOrganize"] = Dom.sflxOrganize;
@@ -142,7 +129,6 @@ define(function(require, exports, module) {
 			$("#organizeAdd").bind('click', function() {
 
 				Operate_state = "new";
-				// $("#JS_getOrganizeForm").resetForm(true);
 				$("#organizeName").val("");
 				$("#districtId").val("");
 				$("#memberNum").val("");
@@ -165,14 +151,6 @@ define(function(require, exports, module) {
 
 		//保存
 		organizeSave: function() {
-			// var _form = $(Dom.getUserinfoForm);
-			// _form.find('button[name="organizeSave"]').bind('click', function() {
-			// 	// 表单校验：成功后调取接口
-			// 	_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-			// 		var cmd = $("#Form_getUserinfo").serialize();
-			// 	});
-
-			// })
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new" || Dom.organizeId == null) {
@@ -190,7 +168,7 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";
-							alert("保存成功！");
+							XMS.msgbox.show('保存成功！', 'success', 2000)
 							var q = $("#connectCardType option").map(function() {
 								return $(this).text();
 							}).get().join(", ");
@@ -207,7 +185,7 @@ define(function(require, exports, module) {
 					cmd = cmd+"&"+$("#JS_getOrganizeForm").serialize();
 					Rose.ajax.postJson(srvMap.get('updateOrganize'), cmd, function(json, status) {
 						if (status) {
-							alert("保存成功！");
+							XMS.msgbox.show('保存成功！', 'success', 2000)
 							Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
 								if (status) {
 									$.fn.zTree.init($("#treeDemo"), setting, json.data);
@@ -225,7 +203,7 @@ define(function(require, exports, module) {
 				var cmd = "organizeId=" + Dom.organizeId;
 				Rose.ajax.postJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
 					if (status) {
-						alert("删除成功！");
+						window.XMS.msgbox.show('删除成功！', 'error', 2000);
 
 						$("#organizeName").val("");
 						$("#districtId").val("");

@@ -385,7 +385,6 @@ define(function(require, exports, module) {
 				   }
 				   num ++;
 				});
-			   alert(collectIds);
 				 Rose.ajax.postJson(srvMap.get('deleCaseSet'), 'collectId=' + collectIds, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
@@ -679,18 +678,19 @@ define(function(require, exports, module) {
 				if (status) {
 					if (a=="1") {
 						var template = Handlebars.compile(Tpl.useCaseList);
+						
 					}
 					else if (a=="2") {
 						var template = Handlebars.compile(Tpl.useCaseLists);
+						
 					}
 					console.log(json.data);
 					$("#Js_queryCaseGroupList").html(template(json.data));
 					// 绑定单机当前行事件
-					self.eventClickChecked($("#JS_useCaseListTable"),function(){
-				    });
-				    
-					self.eventClickChecked($("#JS_useCaseListsTable"),function(){
+					
+				    self.eventClickChecked($("#Js_queryCaseGroupList"),function(){
 			   		 });
+					
 				}
 			});
 		},
@@ -831,7 +831,6 @@ define(function(require, exports, module) {
 		deleteConnectCaseGroup : function(collectId){
 			var self = this;
 			$("#JS_groupCase").unbind('click');
-			alert("333");
 			$("#JS_groupCase").bind('click',function(){
 				var ids="";
 				var  cmd="collectId="+collectId+"&groupIds=";

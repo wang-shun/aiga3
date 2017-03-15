@@ -33,7 +33,7 @@
     <div class="col-sm-6 form-group">
         <label class="col-sm-4 control-label">系统子类：</label>
         <div id="add_subSysId" class="col-sm-8">
-            <select  name="sysSubId" class="form-control select2 input-sm" >                    
+            <select  name="subSysId" class="form-control select2 input-sm" >                    
                                 
              </select>                
         </div>

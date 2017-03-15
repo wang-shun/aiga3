@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each this}}
+            {{#each content}}
             <tr>
                 <td><input type="checkbox" class="minimal" value="{{groupId}}" name="groupId"></td>
                 <td>{{groupName}}</td>

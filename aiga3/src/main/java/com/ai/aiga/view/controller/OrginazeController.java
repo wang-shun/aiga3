@@ -42,7 +42,7 @@ public class OrginazeController {
 		return JsonBean.success;
 	}
 	
-	@RequestMapping(path = "/sys/organize/update")
+	@RequestMapping(path = "/sys/organize/update" )
 	public  @ResponseBody JsonBean  update(OrginazeRequest orginazeRequest){
         organizeSv.saveOrginaze(orginazeRequest);
 		return JsonBean.success;

@@ -6,7 +6,7 @@
 <div class="modal-body">
         <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">条件查询</h3>
+                
                 </div>             
                 <form id="JS_connectCaseSetForm" class="form-horizontal" role = "form">
                     <div class="box-body">  
@@ -15,25 +15,26 @@
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>用例集名称：</label>
-                                    <input type="text" class="form-control input-sm" value="{{collectName}}" name="collectName">
+                                    <input type="text" class="form-control input-sm" value="{{collectName}}" name="collectName"  readonly="true" >
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>关联用例集类型：</label>
-                                    <input type="text" class="form-control input-sm" value="{{caseType}}" name="caseType">
+             							<input type="text" class="form-control input-sm" value="{{caseType}}" name="caseTypes" id="caseTypes"  readonly="true" >
+                                    
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>关联用例集数量：</label>
-                                    <input type="text" class="form-control input-sm" value="{{caseNum}}" name="caseNum">
+                                    <input type="text" class="form-control input-sm" value="{{caseNum}}" name="caseNum"  readonly="true" >
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="col-sm-10">
                                     <label>创建时间：</label>
-                                    <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate">
+                                    <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate"  readonly="true">
                                 </div>
                             </div>
                         </div>
@@ -164,7 +165,7 @@
         <div class="modal-body">
             <div class="box"  style="min-height: 100px">
                 <div class="box-header">
-                  <h3 class="box-title">已关联用例信息</h3>
+                  <h3 class="box-title" id="infos">已关联用例信息</h3>
                 </div>
                     <div class="box-body" style="min-height: 100px;" >
                         <form id="Js_queryCaseGroupForm">

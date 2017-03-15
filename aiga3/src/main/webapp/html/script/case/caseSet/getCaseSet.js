@@ -112,7 +112,6 @@ define(function(require, exports, module) {
 			this.getCaseTypeSelect();
 			this.getrepairsIdSelect();
 			this.initOrganize();
-			// this.getCaseSetList();
 			this.buttonReset();
 			this.addCaseSetinfo();
 		},
@@ -122,7 +121,6 @@ define(function(require, exports, module) {
 		//系统大类下拉框
 		getSysList: function(obj,callback) {
 			var self = this;
-			// alert("111")
 			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
 
 				if (status) {
@@ -254,7 +252,7 @@ define(function(require, exports, module) {
 				var _form = $(Dom.addCaseSetinfoForm);
 
 				var template = Handlebars.compile(Tpl.addCaseSetinfo);
-
+				$("#formName").html("添加用例集");
 				_form.html(template({"caseType":Dom.caseType,"repairsId":Dom.repairsId}));
 				$("#caseType").val("");
 				$("#repairsId").val("");
@@ -308,11 +306,11 @@ define(function(require, exports, module) {
 		var self = this;
 		   var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
 		   if(_checkObj.length==0){
-			   alert("请选择要修改的用例集!");
+			   window.XMS.msgbox.show('请选择要修改的用例集！', 'error', 2000);
 			   return false;
 		   }
 		   if(_checkObj.length>1){
-			   alert("请选择一条记录修改!");
+			   window.XMS.msgbox.show('请选择一条记录修改！', 'error', 2000);
 			   return false;
 		   }
 			var _collectId ="";
@@ -376,7 +374,7 @@ define(function(require, exports, module) {
 				var num =0 ;
 			   var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
 			   if(_checkObj.length==0){
-				   alert("请选择要删除的用例集!");
+				   window.XMS.msgbox.show('请选择要删除的用例集！', 'error', 2000);
 				   return false;
 			   }
 			   _checkObj.each(function (){
@@ -387,6 +385,7 @@ define(function(require, exports, module) {
 				   }
 				   num ++;
 				});
+			   alert(collectIds);
 				 Rose.ajax.postJson(srvMap.get('deleCaseSet'), 'collectId=' + collectIds, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
@@ -407,11 +406,11 @@ define(function(require, exports, module) {
 			var self = this;
 			   var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
 			   if(_checkObj.length==0){
-				   alert("请选择要修改的用例集!");
+				   window.XMS.msgbox.show('请选择要关联的用例集！', 'error', 2000);
 				   return false;
 			   }
 			   if(_checkObj.length>1){
-				   alert("请选择一条记录修改!");
+				   window.XMS.msgbox.show('请选择一条记录关联！', 'error', 2000);
 				   return false;
 			   }
 				var _collectId =""
@@ -425,7 +424,6 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('getCaseSetList'), '', function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.connectCaseCollectionList);
-					console.log("11"+json.data);
 					$("#JS_connectCaseSetinfo").html(template(json.data));
 
 					// //弹出层
@@ -474,24 +472,33 @@ define(function(require, exports, module) {
 		//关联用例
 		connectCaseList : function(){
 			var self = this;
+			  var _checkObj =	$('#JS_getCaseSetinfoListTable').find("input[type='checkbox']:checked");
+			   if(_checkObj.length==0){
+				   window.XMS.msgbox.show('请选择要关联的用例集！', 'error', 2000);
+				   return false;
+			   }
+			   if(_checkObj.length>1){
+				   window.XMS.msgbox.show('请选择一条记录关联！', 'error', 2000);
+				   return false;
+			   }
 			var _data = self.getCaseSetRow();
 			var _collectId = _data.collectId;
-
 			Rose.ajax.getJson(srvMap.get('getCaseById'), "collectId="+_collectId, function(json, status) {
-
-
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.connectCaseList);
-					// console.log(json.data);
-
+                  var caseTypes = JSON.stringify(json.data.caseType);
 					$("#collectId").val(_collectId);
-					var cmd = $("#JS_queryUnconnectCaseForm").serialize();//"collectId="+_collectId;_form.serialize();
-
+					var cmd = $("#JS_queryUnconnectCaseForm").serialize();
 					$("#JS_connectCaseSetinfo").html(template(json.data));
-
 					var template = Handlebars.compile(Tpl.queryCaseGroupForm);
 					$("#Js_queryCaseGroupForm").html(template({}));
+					for(var i=0;i<Dom.caseType.length;i++){
+						if(Dom.caseType[i].value==caseTypes) {
+						    $('#caseTypes').val(Dom.caseType[i].show);
+						}
+					}
+                  
 					// //弹出层
 					$("#JS_connectCaseSetinfoModal").modal('show');
 
@@ -522,6 +529,7 @@ define(function(require, exports, module) {
 			var self = this;
 			$("#JS_casetable1").unbind('click');
 			$("#JS_casetable1").bind('click',function(){
+				$('#infos').html('已经关联用例');
 				var template = Handlebars.compile(Tpl.queryCaseGroupForm);
 				$("#Js_queryCaseGroupForm").html(template({}));
 				self.queryConnectCaseById($("#collectId1").val(),$("#types").val());
@@ -533,8 +541,7 @@ define(function(require, exports, module) {
 			var self = this;
 			$("#JS_casetable2").unbind('click');
 			$("#JS_casetable2").bind('click',function(){
-				// var template = Handlebars.compile(Tpl.queryCaseGroupForm);
-				// $("#Js_queryCaseGroupForm").html(template({}));
+				$('#infos').html('已经关联用例组');
 				self.queryUnconnectCaseGroup(collectId);
 				//关联用例组
 				self.relCaseGroupBtn(collectId);
@@ -558,24 +565,14 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		//未关联用例组显示
-		queryUnconnectCase : function(md,a){//sys/case/queryUnconnectCase
+		//未关联用例显示
+		queryUnconnectCase : function(md,a){
 			var self = this;
 			$("#collectId1").val(md);
 			var _form = $("#JS_queryUnconnectCaseForm");
 			var cmd = _form.serialize();
-			alert(cmd);
-			var cm = "collectId="+md+"&caseIds=";
 			Rose.ajax.getJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
-
 				if (status) {
-
-					for (var i = json.data.length - 1; i >= 0; i--) {
-							cm = cm+json.data[i].caseId+","
-					}
-					cm = cm+"&types="+a;
-					Dom.caseAllId=cm;
-					alert(cm);
 					if (a=="1") {
 						var template = Handlebars.compile(Tpl.useCaseList);
 
@@ -616,7 +613,7 @@ define(function(require, exports, module) {
 			$("#connectCaseBtn").unbind('click');
 			$("#connectCaseBtn").bind('click',function(){
 				var a = $("#types").val();
-				self.queryUnconnectCase(cmd,a);
+				self.queryUnconnectCase(md,a);
 			});
 
 		},
@@ -627,6 +624,7 @@ define(function(require, exports, module) {
 			var self = this;
 			$("#relCaseBtn").unbind('click');
 			$("#relCaseBtn").bind('click',function(){
+				
 				var cmd="collectId="+collectId+"&caseIds=";
 				var a = $("#types").val();
 				$("#JS_useConnectCaseList").find("tr").each(function(){
@@ -637,16 +635,14 @@ define(function(require, exports, module) {
 					}
 			 	});
 			 	cmd = cmd+"&types="+a;
-			 	console.log("7777777");
 			 	console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('relCaseBtn'), cmd, function(json, status) {
 					if (status) {
 						XMS.msgbox.show('关联成功！', 'success', 2000)
 						$("#collectId1").val(collectId);
 						var _form = $("#JS_queryUnconnectCaseForm");
-						var cm = _form.serialize();
 						setTimeout(function(){
-							self.queryUnconnectCase(cm,a);
+							self.queryUnconnectCase(collectId,a);
 							self.queryConnectCaseById(collectId,a);
 						},1000)
 					}
@@ -666,7 +662,7 @@ define(function(require, exports, module) {
 						var a = $("#types").val();
 						XMS.msgbox.show('关联成功！', 'success', 2000)
 						setTimeout(function(){
-							self.queryUnconnectCase(cmd,a);
+							self.queryUnconnectCase(collectId,a);
 							self.queryConnectCaseById(collectId,a);
 						},1000)
 					}
@@ -676,18 +672,17 @@ define(function(require, exports, module) {
 		//显示关联的用例
 		queryConnectCaseById:function(collectId,a){
 			var self = this;
-			$("#collectId2").val(cmd);
+			$("#collectId2").val(collectId);
 			$("#types1").val(a);
 			var cmd = $("#Js_queryCaseGroupForm").serialize();
 			Rose.ajax.postJson(srvMap.get('queryConnectCawseById'), cmd, function(json, status) {
 				if (status) {
 					if (a=="1") {
-						var template = Handlebars.compile(Tpl.queryCaseGroupList);
+						var template = Handlebars.compile(Tpl.useCaseList);
 					}
 					else if (a=="2") {
-						var template = Handlebars.compile(Tpl.queryCaseGroupsList);
+						var template = Handlebars.compile(Tpl.useCaseLists);
 					}
-					
 					console.log(json.data);
 					$("#Js_queryCaseGroupList").html(template(json.data));
 					self.eventClickChecked($("#JS_queryCaseGroupListTable"),function(){
@@ -716,7 +711,7 @@ define(function(require, exports, module) {
 				var num =0 ;
 				var _checkObj =	$('#Js_queryCaseGroupList').find("input[type='checkbox']:checked");
 			   if(_checkObj.length==0){
-				   alert("请选择要删除的用例!");
+					window.XMS.msgbox.show('请选择要删除的用例！', 'error', 2000);
 				   return false;
 			   }
 			   _checkObj.each(function (){
@@ -732,11 +727,11 @@ define(function(require, exports, module) {
 			   var a=$("#types1").val();
 			   cmd=cmd+ids+"&types="+a;
 			   console.log(cmd);
-				 Rose.ajax.postJson(srvMap.get('deleCaseSet'), cmd, function(json, status) {
+				 Rose.ajax.postJson(srvMap.get('deleteConnectCase'), cmd, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
-							  self.queryConnectCaseById(collectId,a);
+							  self.queryUnconnectCase(collectId,a);
 							}, 1000)
 						}
 					});
@@ -748,11 +743,11 @@ define(function(require, exports, module) {
  			var self = this;
  			$("#collectId3").val(collectId);
  			var cmd = $("#Js_queryUnconnectCaseGroupForm").serialize();
- 			alert(cmd);
  			Rose.ajax.postJson(srvMap.get('queryUnconnectCaseGroup'), cmd, function(json, status) {
  				var template = Handlebars.compile(Tpl.queryUnconnectCaseGroupList);
  				console.log(json.data)
  				$("#Js_queryUnconnectCaseGroupList").html(template(json.data));
+ 				self.queryConnectCaseGroup(collectId);
  				// 绑定单机当前行事件
 				self.eventClickChecked($("#JS_connectCaseList"),function(){
 			    });
@@ -782,12 +777,9 @@ define(function(require, exports, module) {
 			    	var tdArr = $(this).children();
 			    	if(tdArr.eq(0).find("input").is(':checked')){
 				    	cmd = cmd+tdArr.eq(0).find("input").val()+",";
-				    	console.log(cmd);
 					}
 			 	});
-			 	console.log(cmd);
 			 	cmd = cmd+"&types="+"0";
-			 	console.log("7777777");
 			 	console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('relCaseBtn'), cmd, function(json, status) {
 					if (status) {
@@ -795,6 +787,7 @@ define(function(require, exports, module) {
 						$("#collectId1").val(collectId);
 						setTimeout(function(){
 							self.queryUnconnectCaseGroup(collectId);
+							
 						},1000)
 					}
 				});
@@ -802,7 +795,7 @@ define(function(require, exports, module) {
  		},
 
  		//
- 		//显示关联的用例Js_queryCaseGroupForm
+ 		//显示已关联用例组Js_queryCaseGroupForm
 		queryConnectCaseGroup:function(collectId){
 			var self = this;
 			$("#collectId4").val(collectId);
@@ -826,7 +819,6 @@ define(function(require, exports, module) {
 			var self = this;
 			$("#JS_groupBtn").unbind('click');
 			$("#JS_groupBtn").bind('click',function(){
-				alert("666");
 				self.queryConnectCaseGroup(collectId);
 			});
 		},
@@ -842,7 +834,7 @@ define(function(require, exports, module) {
 				var num =0 ;
 				var _checkObj =	$('#JS_conCaseList').find("input[type='checkbox']:checked");
 			   if(_checkObj.length==0){
-				   alert("请选择要删除的用例!");
+				   	window.XMS.msgbox.show('请选择要删除的用例！', 'error', 2000);
 				   return false;
 			   }
 			   _checkObj.each(function (){
@@ -860,7 +852,7 @@ define(function(require, exports, module) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
-							  self.queryConnectCaseGroup(collectId);
+							  self.queryUnconnectCaseGroup(collectId);
 							}, 1000)
 						}
 					});

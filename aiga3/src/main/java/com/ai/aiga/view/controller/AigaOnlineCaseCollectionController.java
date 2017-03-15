@@ -279,7 +279,7 @@ public class AigaOnlineCaseCollectionController {
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
 		JsonBean json = new JsonBean();
-		caseCollectionSv.queryUnconnectCase(request, page, pageSize);
+		json.setData(caseCollectionSv.queryUnconnectCase(request, page, pageSize));
 		return json;
 	}
 	

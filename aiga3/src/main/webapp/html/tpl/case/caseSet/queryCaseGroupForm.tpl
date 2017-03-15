@@ -11,8 +11,9 @@
         <label class="col-sm-5 control-label">用例类型：</label>
         <div class="col-sm-7">
             <select  id="types1" name="types" class="form-control select2 input-sm" >
-                <option value="1">手工用例</option>
                 <option value="2">自动化用例</option>
+                <option value="1">手工用例</option>
+                
             </select>       
         </div>
     </div>

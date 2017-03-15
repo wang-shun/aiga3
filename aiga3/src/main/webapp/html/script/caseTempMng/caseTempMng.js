@@ -306,6 +306,7 @@ define(function(require, exports, module) {
 		//查看与编辑
 		editCaseTemp: function() {
 			var self = this;
+			$(Dom.viewCaseTemp).unbind();
 			$(Dom.viewCaseTemp).bind('click', function() {
 
 				var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
@@ -415,44 +416,45 @@ define(function(require, exports, module) {
 					self.getCompTree();
 					$('#messageAddComp').show();
 					$('#compThead').hide();
-					$('#compBody').empty();		
-				};
+					$('#compBody').empty();
 
+					//删除组件comp
+					this.deleComp();
+					this.getInfoForAuto();
+					//保存自动化模板
+					$(Dom.modalAutoTempForm).find("button[name='save']").unbind();
+					$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
+
+
+						var name = $('#tempName1').val()+$('#tempName2').val();
+						
+						var cmd = {
+							'caseId':caseId,
+							'tempName':name,
+						};
+						var compRequestList = [];
+						$("#compBody").find("tr").each(function(){
+						    var tdArr = $(this).children();
+						    var compId = tdArr.eq(0).find("input").val();
+						    var compOrder = tdArr.eq(3).find("input").val();
+						    compRequestList.push({'compId':compId,'compOrder':compOrder});
+						 });
+						cmd["compRequestList"] = compRequestList;
+						console.log(cmd);
+						Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
+							if (status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
+								// 关闭弹出层
+								$(Dom.modalAutoTempForm).modal('hide')
+							}
+						});				
+					});					
+				};
 				
 			});
 
-			//删除组件comp
-			this.deleComp();
-			this.getInfoForAuto();
-			//保存自动化模板
-			$(Dom.modalAutoTempForm).find("button[name='save']").unbind();
-			$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
-
-
-				var name = $('#tempName1').val()+$('#tempName2').val();
-				
-				var cmd = {
-					'caseId':caseId,
-					'tempName':name,
-				};
-				var compRequestList = [];
-				$("#compBody").find("tr").each(function(){
-				    var tdArr = $(this).children();
-				    var compId = tdArr.eq(0).find("input").val();
-				    var compOrder = tdArr.eq(3).find("input").val();
-				    compRequestList.push({'compId':compId,'compOrder':compOrder});
-				 });
-				cmd["compRequestList"] = compRequestList;
-				console.log(cmd);
-				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
-					if (status) {
-						// 添加用户成功后，刷新用户列表页
-						XMS.msgbox.show('自动化模板生成成功！', 'success', 2000)
-						// 关闭弹出层
-						$(Dom.modalAutoTempForm).modal('hide')
-					}
-				});				
-			});
+			
 			$(Dom.modalAutoTempForm).find("button[name='cancel']").bind('click', function() {
 				$(Dom.modalAutoTempForm).modal('hide');
 			});
@@ -557,7 +559,7 @@ define(function(require, exports, module) {
 //获取模板信息
 		getCaseTempInfo:function(cmd){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
 					if(status) {
 						var factor_template = Handlebars.compile(Tpl.getFactorList);
 						var caseTemp_template = Handlebars.compile(Tpl.getCaseTempForm);
@@ -585,7 +587,7 @@ define(function(require, exports, module) {
 		},
 		getInfoForAuto:function(cmd){
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getCaseTempInfo);
 					$("#JS_getCaseTempInfo").html(template(json.data));

@@ -442,7 +442,6 @@ define(function(require, exports, module) {
 				    compRequestList.push({'compId':compId,'compOrder':compOrder});
 				 });
 				cmd["compRequestList"] = compRequestList;
-
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('addAutoTestTemp'), cmd, function(json, status) {
 					if (status) {

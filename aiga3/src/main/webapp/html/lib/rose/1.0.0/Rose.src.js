@@ -1294,9 +1294,6 @@ Rose.ajax = {
 		if (arguments.length !== 3)
 			callback = cmd, cmd = '';
 		dataType = this.dataType.TEXT;
-		if(typeof(cmd)=="object"){
-			dataType = this.dataType.JSON;
-		}
 //		if(window.parent && window.parent.Rose){
 //			url = window.parent.Rose.ajax.transferUrl(url);
 //		}
@@ -1337,9 +1334,6 @@ Rose.ajax = {
 	 */
 	postJson : function(url, cmd, callback) {
 		dataType = this.dataType.TEXT;
-		if(typeof(cmd)=="object"){
-			dataType = this.dataType.JSON;
-		}
 //		if(window.parent && window.parent.Rose){
 //			url = window.parent.Rose.ajax.transferUrl(url);
 //		}
@@ -1435,10 +1429,8 @@ Rose.ajax = {
 		var param = "";
 		console.log("参数类型："+typeof (cmd));
 		if (typeof (cmd) == "object"){
-			//param = cmd;
-			//param = cmd;
-			//param = this.jsonToUrl(cmd);
-			param = JSON.stringify(cmd);
+			param = this.jsonToUrl(cmd);
+			// param = JSON.stringify(cmd);
 		}else if(typeof(cmd)=="string"){
 			param = cmd;
 		}
@@ -1446,14 +1438,12 @@ Rose.ajax = {
 		Rose.log("参数打印："+param);
 		var thiz = Rose.ajax;
 		var cache = (dataType == "html") ? true : false;
-		var contentType = (dataType == "json") ? "application/json" : 'application/x-www-form-urlencoded';
 		$.ajax({
 			url : url,
 			type : type,
 			data : param,
 			cache : cache,
 			dataType : dataType,
-			contentType:contentType,
 			async : async,
 			timeout : thiz.TIME_OUT,
 			beforeSend : function(xhr) {
@@ -1477,7 +1467,7 @@ Rose.ajax = {
 						return;
 					}
 				} catch (e) {
-					// alert("JSON Format Error:" + e.toString());
+					alert("JSON Format Error:" + e.toString());
 				}
 				var isSuc = thiz.printReqInfo(data);
 				if (callback && data) {

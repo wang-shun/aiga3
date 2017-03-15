@@ -365,7 +365,8 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 						   +"        d.sys_name as fun_name,\n"
 						       +"    a.sc_id,\n"
 						     +"      e.busi_name,\n"
-						     +"        a. Auto_desc  , \n"
+						     +"        a. test_type  , \n"
+						     +"  a.Auto_desc ,  \n"
 						    +"        (select show \n"
 						     +"         from sys_constant bb \n"
 						       +"      where bb.category = 'caseStatus' \n"
@@ -409,14 +410,14 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 													+"      on a. Fun_id = d.fun_id \n"
 													 +"      left join sys_constant  e \n"
 													 +"     on a. case_type = E.value \n" 
-													   +" 	  left join na_business  f \n"
+													   +" 	  left join na_business  f   on a.busi_id = f.busi_id  \n"
 													+"   where a.Test_id in (select element_id \n"
 													  +"                      from na_auto_coll_group_case \n"
 													  +"                    where collect_id = "+request.getCollectId()+" \n"
 													   +"                      and element_type = 1) \n"
 													     +"           and e.category = 'caseType' ";
 			if (!StringUtils.isBlank(request.getCaseName())) {
-				sql += " and  test_name like '%"+request.getCaseName()+"%'"  ;
+				sql += " and  a.test_name like '%"+request.getCaseName()+"%'"  ;
 			}
 			resultList.add("preResult");
 		  }
@@ -452,7 +453,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		try {
 				String groupId[] = groupIds.split(",");
 				for (int i=0;i<groupId.length;i++){
-					dao.deleteConnectGroups(types,collectId, Long.parseLong(groupIds));
+					dao.deleteConnectGroups(types,collectId, Long.parseLong(groupId[i]));
 				}
 				// 更新用例集表里面的关联用例数量
 				caseDao.updateCaseNum(collectId);
@@ -552,7 +553,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 * @param request 查询条件
 	 * @return 未关联的用例
 	 */
-	public  void queryUnconnectCase(QueryUnconnectCaseRequest  request,int pageNumber, int pageSize){
+	public  Object  queryUnconnectCase(QueryUnconnectCaseRequest  request,int pageNumber, int pageSize){
 		StringBuilder s = new StringBuilder();
 		List  resultList = new ArrayList<String>();
 		resultList.add("caseId");
@@ -587,6 +588,9 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			if (request.getFunId()!=null&&!"".equals(request.getFunId())) {
 				s.append(" and a.fun_id=" + request.getFunId());
 			}
+			if (request.getCaseName()!=null&&!"".equals(request.getCaseName())) {
+				s.append(" and a.auto_name  like '%" + request.getCaseName()).append("%'");
+			}
 			if (request.getServiceId()!=null&&!"".equals(request.getServiceId())) {
 				s.append(" and a.Busi_id=" + request.getServiceId());
 			}
@@ -617,6 +621,9 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			if (request.getServiceId()!=null&&!"".equals(request.getServiceId())) {
 				s.append(" and a.Busi_id=" + request.getServiceId());
 			}
+			if (request.getCaseName()!=null&&!"".equals(request.getCaseName())) {
+				s.append(" and a.test_name  like '%" + request.getCaseName()).append("%'");
+			}
 			if (!StringUtils.isBlank(request.getTempleteName())) {
 				s.append(
 						" and exists (select bb.Case_id  from  na_case_template  bb where bb.Case_id=a.Case_id and bb.Case_name like '%")
@@ -632,7 +639,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 	 System.out.println("s.toString()"+s.toString());
-		groupDao.searchByNativeSQL(s.toString(), pageable, resultList);
+		return groupDao.searchByNativeSQL(s.toString(), pageable, resultList);
 	}
 	
 	public Object repairMan(){

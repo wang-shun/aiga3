@@ -687,7 +687,6 @@ define(function(require, exports, module) {
 					console.log(json.data);
 					$("#Js_queryCaseGroupList").html(template(json.data));
 					// 绑定单机当前行事件
-					
 				    self.eventClickChecked($("#Js_queryCaseGroupList"),function(){
 			   		 });
 					
@@ -768,7 +767,6 @@ define(function(require, exports, module) {
  		},
 
  		//关联用例组
-
  		relCaseGroupBtn : function(collectId){
  			var self = this;
 			

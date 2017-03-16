@@ -8,26 +8,14 @@
         </div>
     </div>
     <div class="box-body">
-        <form id="JS_queryCaseGroup">
+        <form id="JS_queryCaseGroup" class="form-inline">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group input-group-sm">
-                        <label>用例组名称<i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="groupName" value="" required="">
-                    </div>
-                </div>
-<!--                 <div class="col-md-3">
-                    <div class="form-group input-group-sm">
-                        <label>创建人<i class="text-red">*</i></label>
-                        <input type="text" class="form-control" name="creatorId" value="" required="">
-                    </div>
-                </div> -->
-            </div>
-            <div class="box-footer">
-                <div class="text-center">
-                    <button type="reset" class="btn btn-default">重置</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-md-6 form-group">
+                    <label>用例组名称 <i class="text-red">*</i></label>
+                    <input type="text" class="form-control" size="36" name="groupName" value="" required=""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="button" class="btn btn-primary" data-toggle="modal" name="submit" id="JS_queryCaseGroup">查询</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="reset" class="btn btn-default">重置</button>
                 </div>
             </div>
         </form>
@@ -62,7 +50,7 @@
                 <h4 class="modal-title" id="myModalLabel">添加用例组</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
-                <form id="JS_addCaseGroupInfo">
+                <form id="JS_addCaseGroupInfo" class="form-inline">
                 </form>
             </div>
             <div class="modal-footer">
@@ -92,12 +80,12 @@
                         <!-- tab页签1 -->
                         <div class="tab-pane active" id="tab_1">
                             <div class="row">
-                                <form id="JS_updateCaseGroupInfo">
+                                <form id="JS_updateCaseGroupInfo" class="form-inline">
                                 </form>
                             </div>
                             <div class="row">
                                 <div class="box">
-                                    <div class="box-header with-border">
+                                    <div class="box-header">
                                         <h3 class="box-title">查询用例</h3>
                                     </div>
                                     <form id="JS_queryCaseList" class="form-horizontal" role="form">

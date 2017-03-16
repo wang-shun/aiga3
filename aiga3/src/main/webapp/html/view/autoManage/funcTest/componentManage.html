@@ -4,7 +4,7 @@
             <div class="box-header">
                 <div class="box-title">选择功能点</div>
                 <div class="box-body" id="JS_compTreeScorll">
-                  <ul id="Tree_getRightTree" class="ztree"></ul>
+                    <ul id="Tree_getRightTree" class="ztree"></ul>
                 </div>
             </div>
         </div>
@@ -45,9 +45,9 @@
                     </div>
                     <div class="box-footer">
                         <div class="text-center">
-                            <button type="reset" class="btn btn-default">重置</button>
+                            <button type="reset" class="btn btn-default btn-flat">重置</button>
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-primary" data-toggle="modal" name="submit" id="JS_queryComp">查询</button>
+                            <button type="button" class="btn btn-primary btn-flat" name="submit" id="JS_queryComp">查询</button>
                         </div>
                     </div>
                 </form>
@@ -73,7 +73,7 @@
             <div class="box-body" style="min-height: 100px;" id="JS_getQueryInfo"></div>
         </div>
     </div>
-    </div>
+</div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="JS_addCompModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -84,70 +84,72 @@
                 <h4 class="modal-title" id="myModalLabel">编辑组件</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
-                <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">脚本编辑</a>
-                            <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe>
-                        </li>
-                        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">参数设置</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div id="JS_addCompCtrScroll">
-                                        <ul id="JS_addCompCtrTree" class="ztree"></ul>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <form id="JS_addCompInfoForm">
-                                    </form>
-                                </div>
-                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
-                                <button type="button" class="btn btn-primary pull-right" id="JS_addCompSubmit">保存</button>
-                            </div>
-                        </div>
-                        <!-- /.tab-pane -->
-                        <div class="tab-pane" id="tab_2">
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="box" id="JS_getParameterWrap">
-                                        <div class="box-header">
-                                            <h3 class="box-title">参数列表</h3>
-                                            <div class="box-tools">
-                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-primary" data-toggle="modal" name="add"><i class="fa fa-plus"></i> 添加</button>
-                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="caret"></span>
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="javascript:;" name="del">删除</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="box-body" id="JS_getParameterList">
-                                            <div style="text-align: center; padding: 100px 0;">
-                                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-                                                <p style="color: #333;"><span>请添加参数</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div id="JS_addParameterForm" class="box hide" style="min-height: 100px">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.tab-pane -->
-                    </div>
-                    <!-- /.tab-content -->
-                </div>
             </div>
         </div>
     </div>
+    <script id="JS_addCompTemp" type="text/x-handlebars-template">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">脚本编辑</a>
+                    <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe>
+                </li>
+                <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">参数设置</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div id="JS_addCompCtrScroll">
+                                <ul id="JS_addCompCtrTree" class="ztree"></ul>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <form id="JS_addCompInfoForm">
+                            </form>
+                        </div>
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary pull-right" id="JS_addCompSubmit">保存</button>
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_2">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="box" id="JS_getParameterWrap">
+                                <div class="box-header">
+                                    <h3 class="box-title">参数列表</h3>
+                                    <div class="box-tools">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" name="add"><i class="fa fa-plus"></i> 添加</button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="javascript:;" name="del">删除</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body" id="JS_getParameterList">
+                                    <div style="text-align: center; padding: 100px 0;">
+                                        <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                        <p style="color: #333;"><span>请添加参数</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div id="JS_addParameterForm" class="box hide" style="min-height: 100px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+    </script>
     <!-- Modal -->
     <script>
     seajs.use("script/componentManage/componentManage.js", function(indexQuery) {

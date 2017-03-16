@@ -71,8 +71,7 @@ seajs.config({
         'artDialog':'lib/artDialog/4.1.7/artDialog.js',
         'jquery.serializejson':'lib/jquery.serializejson/jquery.serializejson.js',
         'btable-css':'lib/bootstrap-table/bootstrap-table.css',
-        'btable':'lib/bootstrap-table/bootstrap-table.js',
-        'btable-locale':'lib/bootstrap-table/locale/bootstrap-table-zh-CN.js'
+        'btable':'lib/bootstrap-table/bootstrap-table.js'
     },
     preload: [
         'json2',
@@ -93,8 +92,8 @@ seajs.config({
         'AdminLTE',
         'jquery.serializejson',
         'btable-css',
-        'btable',
-        'btable-locale'
+        'btable'
+        
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

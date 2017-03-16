@@ -1,47 +1,7 @@
 <!-- /.box-header -->   
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">当前用例集信息</h4>
 </div>
-<div class="modal-body">
-        <div class="box box-primary">
-                <div class="box-header with-border">
-                
-                </div>             
-                <form id="JS_connectCaseSetForm" class="form-horizontal" role = "form">
-                    <div class="box-body">  
-                      <!-- 搜索表单 -->
-                         <div class="row">  
-                            <div class="col-sm-3 form-group">
-                                <div class="col-sm-10">
-                                    <label>用例集名称：</label>
-                                    <input type="text" class="form-control input-sm" value="{{collectName}}" name="collectName"  readonly="true" >
-                                </div>
-                            </div>
-                            <div class="col-sm-3 form-group">
-                                <div class="col-sm-10">
-                                    <label>关联用例集类型：</label>
-             							<input type="text" class="form-control input-sm" value="{{caseType}}" name="caseTypes" id="caseTypes"  readonly="true" >
-                                    
-                                </div>
-                            </div>
-                            <div class="col-sm-3 form-group">
-                                <div class="col-sm-10">
-                                    <label>关联用例集数量：</label>
-                                    <input type="text" class="form-control input-sm" value="{{caseNum}}" name="caseNum"  readonly="true" >
-                                </div>
-                            </div>
-                            <div class="col-sm-3 form-group">
-                                <div class="col-sm-10">
-                                    <label>创建时间：</label>
-                                    <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate"  readonly="true">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-        </div>
-</div> 
 <div class="content">
     <div class="row">
         <div class="modal-body">
@@ -76,7 +36,6 @@
                                     <label class="col-sm-5 control-label">业&nbsp;&nbsp;&nbsp;&nbsp;务：</label>
                                     <div class="col-sm-7">
                                         <select  id="queryCase_busi" name="serviceId" class="form-control select2 input-sm" >
-
                                         </select>       
                                     </div>
                                 </div>
@@ -155,7 +114,6 @@
                     </div>
                     <!-- /.tab-content -->
                 </div>
-
             </div>
         </div>    
     </div> 
@@ -171,14 +129,11 @@
                         <form id="Js_queryCaseGroupForm">
                             
                         </form>
-                        
-
                     <!---->
                 </div>
             </div>
         </div> 
     </div>    
 </div>
-
 <div class="modal-footer">
 </div>

@@ -123,6 +123,7 @@ define(function(require, exports, module) {
 		},
 		//新增
 		organizeAdd: function() {
+			$("#organizeAdd").unbind('click');
 			$("#organizeAdd").bind('click', function() {
 
 				Operate_state = "new";
@@ -148,6 +149,7 @@ define(function(require, exports, module) {
 
 		//保存
 		organizeSave: function() {
+			$("#organizeSave").unbind('click');
 			$("#organizeSave").bind('click', function() {
 
 				if (Operate_state == "new" || Dom.organizeId == null) {
@@ -196,11 +198,12 @@ define(function(require, exports, module) {
 		},
 		organizeDele: function() {
 			//删除
+			$("#organizeDele").unbind('click');
 			$("#organizeDele").bind('click', function() {
 				var cmd = "organizeId=" + Dom.organizeId;
 				Rose.ajax.postJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
 					if (status) {
-						window.XMS.msgbox.show('删除成功！', 'error', 2000);
+						window.XMS.msgbox.show('删除成功！', 'success', 2000);
 
 						$("#organizeName").val("");
 						$("#districtId").val("");

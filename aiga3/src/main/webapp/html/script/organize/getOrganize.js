@@ -41,9 +41,6 @@ define(function(require, exports, module) {
 
 
 	var setting = {
-		check: {
-			enable: true
-		},
 		data: {
 			key: {
 				name: "organizeName"

@@ -148,7 +148,7 @@ public class CaseTemplateSv extends BaseService{
 			caseTemplateDao.save(temp);
 			
 			//caseTemplateDao.delete(caseId);
-			//caseFactorDao.deleteByCaseId(caseId);
+			caseFactorDao.deleteByCaseId(caseId);
 		}
 		
 	}
@@ -200,6 +200,7 @@ public class CaseTemplateSv extends BaseService{
 		template.setBusiId(request.getBusiId());
 		
 		caseTemplateDao.save(template);
+		caseFactorDao.deleteByCaseId(template.getCaseId());
 		//保存因子
 		List<Factor> factorList = structureCaseFactor(request.getFactors());
 		

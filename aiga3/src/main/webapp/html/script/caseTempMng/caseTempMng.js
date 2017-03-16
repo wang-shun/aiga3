@@ -27,6 +27,8 @@ define(function(require, exports, module) {
     srvMap.add("addAutoTestTemp", "componentManage/getCompinfo.json", "auto/template/saveList");
 	//保存测试用例
     srvMap.add("addTestCase", "componentManage/getCompinfo.json", "case/instance/save"); 
+	//业务接口 
+	srvMap.add("getBusiList", pathAlias + "getBusiList.json", "sys/cache/busi");   
     
 
 	// 模板对象
@@ -34,12 +36,14 @@ define(function(require, exports, module) {
 		getCaseTempList: require('tpl/caseTempMng/getCaseTempList.tpl'),
 		getSysList: require('tpl/caseTempMng/getSysList.tpl'),
 		getSubSysList: require('tpl/caseTempMng/getSubSysList.tpl'),
+		getBusiList: require('tpl/caseTempMng/getBusiList.tpl'),
 		getFunList: require('tpl/caseTempMng/getFunList.tpl'),
 		getCaseTempForm: require('tpl/caseTempMng/getCaseTempForm.tpl'),
 		getFactorList: require('tpl/caseTempMng/getFactorList.tpl'),
 		compList: require('tpl/caseTempMng/compList.tpl'),
 		getFactorForm: require('tpl/caseTempMng/getFactorForm.tpl'),
 		getTestFactorList: require('tpl/caseTempMng/getTestFactorList.tpl'),
+		getCaseTempInfo: require('tpl/autoManage/autoCaseTempMng/getCaseTempInfo.tpl'),
 
 	};
 
@@ -79,13 +83,16 @@ define(function(require, exports, module) {
 		
 		getSysList: '#query_sysId',
 		getSubsysList: '#query_subSysId',
-		getFunList: '#query_funId',		
+		getFunList: '#query_funId',	
+		getBusiList:'#query_busi',
 	};
 	var dropChoice2 = {
 		
 		getSysList: '#add_sysId',
 		getSubsysList: '#add_subSysId',
-		getFunList: '#add_funId',			
+		getFunList: '#add_funId',
+		getBusiList:'#add_busiId',	
+		
 	}	
 
 	
@@ -104,10 +111,23 @@ define(function(require, exports, module) {
 			this.queryCaseTemp();
 			this.editCaseTemp();
 			this.newAutoCaseTemp();
-			this.newTestCase();
+			this.newTestCase();		
 					
 		},
 
+		getBusiList:function(obj,callback){
+			Rose.ajax.getJson(srvMap.get('getBusiList'), '', function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.getBusiList);
+					$(obj.getBusiList).html(template(json.data));
+					if(callback){
+						callback();
+					}
+					console.log(json.data)
+				}
+				
+			});			
+		},
 		//系统大类下拉框
 		getSysList: function(obj,callback) {
 			var self = this;
@@ -116,6 +136,7 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.getSysList);
 					$(obj.getSysList).html(template(json.data));
 					self.sysSelected(obj);
+					self.getBusiList(obj);
 					if(callback){
 						callback();
 
@@ -134,7 +155,6 @@ define(function(require, exports, module) {
 				console.log(id);
 				self.getSubSysList(id,obj);
 			});
-			
 		},
 
 		//系统子类下拉框选择事件
@@ -148,7 +168,7 @@ define(function(require, exports, module) {
 		//系统子类下拉框
 		getSubSysList: function(id,obj) {
 			var self = this;
-			Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysid='+id, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysId='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSubSysList);
 					$(obj.getSubsysList).html(template(json.data));
@@ -191,7 +211,19 @@ define(function(require, exports, module) {
          		}else if(value==3){
            		 	return "后台进程类";
          		}
-        	});        	
+        	});   
+			Handlebars.registerHelper("transformatSysId",function(value){
+				var _val = value;
+				Rose.ajax.getJson(srvMap.get('getSysList'), '', function(json, status) {
+					if (status) {
+						$.each(json.data,function(n,value) {
+							if(_val==value.sysId){
+								return value.sysName;
+							}
+						});
+					}
+				});
+        	});
 			Rose.ajax.getJson(srvMap.get('getCaseTempList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getCaseTempList);
@@ -199,7 +231,6 @@ define(function(require, exports, module) {
 					$(Dom.getCaseTempList).html(template(json.data.content));
 					self.deleCaseTemp();
 					self.eventClickChecked($(Dom.getCaseTempList), function() {
-
 					})
 
 				}
@@ -236,7 +267,7 @@ define(function(require, exports, module) {
 			$(Dom.addCaseTemp).bind('click', function() {
 
 				$("#JS_factoryBody").slimScroll({
-					"height": '300px'
+					"height": '280px'
 				});				
 			    // 弹出层
 				$(Dom.modalCaseTempForm).modal('show');
@@ -244,21 +275,25 @@ define(function(require, exports, module) {
 				//加载form表单
 				var template = Handlebars.compile(Tpl.getCaseTempForm);
 				$(Dom.caseTempForm).html(template());
-				$("#JS_messageAddFactor").show();
-				$('#factorThead').hide();
-				$('#JS_factorList').hide();
-				$(Dom.factorList).empty();				
+				$(Dom.factorList).empty();
 				//加载下拉框
 				self.getSysList(dropChoice2)
 				
 				self.addFactor();		
 				self.deleFactor();
-
-
+				//加载三个因子选项供填写
+				var factor_template = Handlebars.compile(Tpl.getFactorList);
+				var empty={'data':''};
+				$("#JS_messageAddFactor").hide();
+				$('#factorThead').show();
+				$('#JS_factorList').show();
+				$(Dom.factorList).append(factor_template(empty));
+				$(Dom.factorList).append(factor_template(empty));
+				$(Dom.factorList).append(factor_template(empty));
+				self.eventClickChecked($(Dom.factorList), function() {
+				})				
 
 				var _form = $(Dom.caseTempForm);
-				//_form.bootstrapValidator('validate');
-				// 表单提交
 				$("#JS_SaveCaseTemp").unbind('click');
 				$("#JS_SaveCaseTemp").bind('click', function() {
 
@@ -419,13 +454,11 @@ define(function(require, exports, module) {
 					$('#compBody').empty();
 
 					//删除组件comp
-					this.deleComp();
-					this.getInfoForAuto();
+					self.deleComp();
+					self.getInfoForAuto();
 					//保存自动化模板
 					$(Dom.modalAutoTempForm).find("button[name='save']").unbind();
 					$(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
-
-
 						var name = $('#tempName1').val()+$('#tempName2').val();
 						
 						var cmd = {
@@ -676,7 +709,7 @@ define(function(require, exports, module) {
 					}
 		  	});			
 		},
-
+		//组件树
 		getCompTree:function(){
 			var self = this;
 			var setting = {
@@ -707,6 +740,7 @@ define(function(require, exports, module) {
 			Rose.ajax.getJson(srvMap.get('getCompTree'), '', function(json, status) {
 					if(status) {
 	            		$.fn.zTree.init($(Dom.compTree), setting, json.data);
+
 					}
 		  	});
 		},

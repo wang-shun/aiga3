@@ -98,6 +98,13 @@ define(function(require,exports,module){
 							name: "功能菜单"
 						});
 	            		$.fn.zTree.init($("#treeDemo"), setting, json.data);
+						var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+						console.log(treeObj);
+						var nodes = treeObj.getNodesByParam("funcId", "0", null);
+						console.log(nodes);
+						
+						treeObj.expandNode(nodes[0], true);
+            		
 					}
 		  	});
 		},

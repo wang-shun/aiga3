@@ -1,5 +1,5 @@
 
-    <table id="Tab_getCaseTemp" class="table table-bordered table-hover">
+    <table id="Tab_getCaseTemp" class="table table-bordered table-condensed table-hover">
         <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>
@@ -10,7 +10,11 @@
                 <th>更新时间</th>
                 <th>最后修改人</th>
                 <th>重要等级</th>
-
+                <th>系统大类</th>
+                <th>系统子类</th>                
+                <th>功能点</th>
+                <th>业务</th>
+                
             </tr>
         </thead>
         <tbody>

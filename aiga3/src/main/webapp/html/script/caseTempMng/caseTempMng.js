@@ -179,7 +179,7 @@ define(function(require, exports, module) {
 		},
 		//功能点下拉框
 		getFunList: function(id,obj) {
-			Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysid='+id, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysId='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getFunList);
 					$(obj.getFunList).html(template(json.data));

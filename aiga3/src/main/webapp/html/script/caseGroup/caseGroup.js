@@ -301,15 +301,18 @@ define(function(require, exports, module) {
                     var cmd = _cmd + _cmd1 + "&creatorId=1";
                     console.log(cmd);
                     Rose.ajax.postJson(srvMap.get('addRelaCase'), cmd, function(json, status) {
-                        if (json.flag == "false") {
-                            window.XMS.msgbox.show('不能重复关联已关联用例！', 'error', 2000);
-                            return;
-                        }else if (status) {
-                            window.XMS.msgbox.show('关联用例成功！', 'success', 2000)
-                            setTimeout(function() {
-                                self.getRelaCaseList("groupId=" + _groupId);
-                                self.getCaseList("groupId=" + _groupId);
-                            }, 1000)
+                        if (status) {
+                            if (json.flag == "false") {
+                                window.XMS.msgbox.show('不能重复关联已关联用例！', 'error', 2000);
+                                return;
+                            } else {
+                                window.XMS.msgbox.show('关联用例成功！', 'success', 2000)
+                                setTimeout(function() {
+                                    self.getRelaCaseList("groupId=" + _groupId);
+                                    self.getCaseList("groupId=" + _groupId);
+                                }, 1000)
+                            }
+
                         }
                     });
                 }

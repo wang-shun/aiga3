@@ -302,7 +302,7 @@ define(function(require, exports, module) {
                     console.log(cmd);
                     Rose.ajax.postJson(srvMap.get('addRelaCase'), cmd, function(json, status) {
                         if (status) {
-                            if (json.flag == 'false') {
+                            if (json.data.flag == 'false') {
                                 window.XMS.msgbox.show('不能重复关联已关联用例！', 'error', 2000);
                                 return;
                             } else {

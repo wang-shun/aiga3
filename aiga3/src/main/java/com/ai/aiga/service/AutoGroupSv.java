@@ -132,7 +132,7 @@ public class AutoGroupSv {
 	}
 
 
-	public Map caseRelatGroupSave(AutoGroupCaseRequest autoGroupCaseRequest, String autoIds) {
+	public Map<String, String> caseRelatGroupSave(AutoGroupCaseRequest autoGroupCaseRequest, String autoIds) {
 		
 		if(StringUtils.isBlank(autoGroupCaseRequest.getGroupId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -149,10 +149,10 @@ public class AutoGroupSv {
 			list.add(Long.valueOf(autoId[i]).longValue());
 		}
 		int count = naAutoGroupCaseDao.findCaseByGroupId(autoGroupCaseRequest.getGroupId(),list);
+		Map<String, String> map = new HashMap<String, String>();
 		if(count > 0){
-			Map map = new HashMap();
+			map.put("flag", "false");
 			map.put("message", "不能重复关联已关联过的用例！");
-			return map;
 		}else{
 			 Long groupOrder = naAutoGroupCaseDao.findMaxOrder(autoGroupCaseRequest.getGroupId());
 			 long j = 1;
@@ -169,9 +169,10 @@ public class AutoGroupSv {
 				naAutoGroupCaseDao.save(naAutoGroupCase);
 				j++;
 			}
-			return null;
+			map.put("flag", "true");
+			map.put("message", "用例关联成功！");
 		}
-		
+		return map;
 	}
 
 

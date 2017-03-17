@@ -42,12 +42,12 @@ public class CaseSv extends BaseService{
 	@Autowired
 	private CaseTemplateSv caseTemplateSv;
 
-	public Page<NaTestCase> listCase(int functionId, String caseName, int important, int pageNumber, int pageSize) {
+	public Page<NaTestCase> listCase(int functionId, String testName, int important, int pageNumber, int pageSize) {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
-		if(StringUtils.isNoneBlank(caseName)){
-			cons.add(new Condition("testName", "%".concat(caseName).concat("%"), Condition.Type.LIKE));
+		if(StringUtils.isNoneBlank(testName)){
+			cons.add(new Condition("testName", "%".concat(testName).concat("%"), Condition.Type.LIKE));
 		}
 		
 		if(functionId > 0){

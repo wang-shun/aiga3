@@ -1,4 +1,4 @@
-package com.eastelsoft.etos2.em.base.util;
+package com.ai.aiga.util;
 
 import java.sql.Timestamp;
 import java.text.ParseException;

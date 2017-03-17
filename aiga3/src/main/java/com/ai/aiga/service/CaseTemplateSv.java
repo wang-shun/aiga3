@@ -20,7 +20,6 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.util.mapper.BeanMapper;
-import com.ai.aiga.util.mapper.JsonMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.CaseTmeplateResponse;
 import com.ai.aiga.view.json.Factor;
@@ -95,6 +94,7 @@ public class CaseTemplateSv extends BaseService{
 
 		NaCaseTemplate template = BeanMapper.map(request, NaCaseTemplate.class);
 		template.setStates((byte) 1);
+		template.setSysSubId(request.getSubSysId());
 		
 		caseTemplateDao.save(template);
 		//保存因子
@@ -104,11 +104,15 @@ public class CaseTemplateSv extends BaseService{
 		List<Factor> factorList = structureCaseFactor(request.getFactors());
 		if(factorList != null && factorList.size() > 0){
 			List<NaCaseFactor> list = BeanMapper.mapList(factorList, Factor.class, NaCaseFactor.class);
+			List<NaCaseFactor> saveList = new ArrayList<NaCaseFactor>();
 			for(NaCaseFactor one : list){
-				one.setCaseId(template.getCaseId());
+				if(StringUtils.isNotBlank(one.getFactorName())){
+					one.setCaseId(template.getCaseId());
+					saveList.add(one);
+				}
 			}
 			
-			caseFactorDao.save(list);
+			caseFactorDao.save(saveList);
 		}
 		
 	}
@@ -195,7 +199,7 @@ public class CaseTemplateSv extends BaseService{
 		template.setCaseName(request.getCaseName());
 		template.setImportant(request.getImportant());
 		template.setSysId(request.getSysId());
-		template.setSysSubId(request.getSysSubId());
+		template.setSysSubId(request.getSubSysId());
 		template.setFunId(request.getFunId());
 		template.setBusiId(request.getBusiId());
 		

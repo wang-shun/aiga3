@@ -1433,6 +1433,9 @@ Rose.ajax = {
 			// param = this.jsonToUrl(cmd);
 			param = JSON.stringify(cmd);
 			contentType = "application/json";
+		}else if (typeof (cmd) == "object" && type=="GET"){
+			param = this.jsonToUrl(cmd);
+			// param = JSON.stringify(cmd);
 		}else if(typeof(cmd)=="string"){
 			param = cmd;
 		}

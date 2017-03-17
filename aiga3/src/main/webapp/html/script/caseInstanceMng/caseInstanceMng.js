@@ -5,7 +5,15 @@ define(function(require, exports, module) {
 	srvMap.add("list", pathAlias + "getCaseTempList.json", "case/instance/list");
 	srvMap.add("delete", pathAlias + "getCaseTempList.json", "case/instance/del");
 	srvMap.add("get", pathAlias + "getCaseTempList.json", "case/instance/get");
-	srvMap.add("funcList", "componentManage/getFunList.json", "sys/component/compTree");
+	//srvMap.add("funcList", "componentManage/getFunList.json", "sys/component/compTree");
+	
+	//系统大类下拉框显示
+	srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
+	//系统子类下拉框
+	srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
+	//功能点下拉框
+	srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
+
 
 	// 模板对象
 	var Tpl = {
@@ -31,7 +39,7 @@ define(function(require, exports, module) {
 		_render: function() {
 			//加载功能树
 			
-			this.initFunctionTree();
+			//this.initFunctionTree();
 			
 			this.getCaseInstanceList();
 			
@@ -76,6 +84,8 @@ define(function(require, exports, module) {
 		addQueryFormListener: function() {
 			var _form = $(Dom.queryForm);
 			
+			Utils.setSelectData(_form);
+			
 			_form.submit(function(e){
 				$(Dom.table).bootstrapTable('refresh');
 				return false;
@@ -98,7 +108,7 @@ define(function(require, exports, module) {
 					caseIds : ids
 				}
 		        
-		        Rose.ajax.postJson(srvMap.get('delete'), date, function(json, status) {
+		        Rose.ajax.getJson(srvMap.get('delete'), date, function(json, status) {
 					if(status) {
 						$(Dom.table).bootstrapTable('refresh');
 					}
@@ -152,7 +162,6 @@ define(function(require, exports, module) {
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				queryParams : function(params){
 					jQuery.extend(params, $(Dom.queryForm).serializeJSON());
-					params["fundId"] = fundId
 					return params;
 				},
 				responseHandler : function(data){
@@ -167,6 +176,10 @@ define(function(require, exports, module) {
 		        pageSize: 10,
 		        pageList: [10, 25, 50, 100],
 		        idField: "testId",
+		        clickToSelect: true,
+		        buttonsClass: "xs",
+		        smartDisplay: false,
+		        paginationLoop: false,
 		        columns :[
 		        	{
                         checkbox: true
@@ -202,7 +215,7 @@ define(function(require, exports, module) {
 		        	            '</a>  ',
 		        	            '<a class="operation-edit" href="javascript:void(0)" title="">',
 		        	            '编辑',
-		        	            '</a>',
+		        	            '</a>  ',
 		        	            '<a class="operation-copy" href="javascript:void(0)" title="">',
 		        	            '复制',
 		        	            '</a>'

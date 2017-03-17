@@ -58,11 +58,13 @@ define(function(require, exports, module) {
 		getSysList: require('tpl/caseTempMng/getSysList.tpl'),
 		getSubSysList: require('tpl/caseTempMng/getSubSysList.tpl'),
 		getFunList: require('tpl/caseTempMng/getFunList.tpl'),
-		queryCaseGroupList: require('tpl/case/caseSet/queryCaseGroupList.tpl'),
-		queryCaseGroupsList: require('tpl/case/caseSet/queryCaseGroupsList.tpl'),
+		// queryCaseGroupList: require('tpl/case/caseSet/queryCaseGroupList.tpl'),
+		// queryCaseGroupsList: require('tpl/case/caseSet/queryCaseGroupsList.tpl'),
 		queryCaseGroupForm: require('tpl/case/caseSet/queryCaseGroupForm.tpl'),
 		queryUnconnectCaseGroupList: require('tpl/case/caseSet/queryUnconnectCaseGroupList.tpl'),
 		queryConnectCaseGroup:require('tpl/case/caseSet/queryConnectCaseGroup.tpl'),
+		seeCase:require('tpl/case/caseSet/seeCase.tpl'),
+		seeCaseGroupTable:require('tpl/case/caseSet/seeCaseGroupTable.tpl'),
 	};
 
 
@@ -215,7 +217,7 @@ define(function(require, exports, module) {
 				    // 绑定双击当前行事件
 				    self.eventDClickCallback($(Dom.getCaseSetinfoListTable),function(){
 				    	// 请求：用户基本信息
-						// self.getControlinfo();
+						self.seeCase();
 				    })
 				    
 				}
@@ -243,7 +245,82 @@ define(function(require, exports, module) {
 				$("#querycaseType").val("");
 			});
 		},
-		
+///--------------------------------------------显示关联用例情况-------------------------------------------------////
+		seeCase : function(){
+			var self = this;
+			var _data = self.getCaseSetRow();
+			var _collectId = _data.collectId;
+			var template = Handlebars.compile(Tpl.seeCase);
+			$("#JS_connectCaseSetinfo").html(template({}));
+			//弹出层
+			$("#JS_connectCaseSetinfoModal").modal('show');
+			var a=$("#types5").val();
+			alert("a="+a)
+			self.queryConnectCaseById2(_collectId,a);
+			self.seeCaseBtn(_collectId);
+			self.queryConnectCaseGroup1(_collectId);
+			self.seeGroupBtn(_collectId);
+		},
+
+		//显示关联的用例
+		queryConnectCaseById2:function(collectId,a){
+			var self = this;
+			$("#collectId5").val(collectId);
+			$("#types5").val(a);
+			var cmd = $("#JS_seeCaseForm").serialize();
+			Rose.ajax.postJson(srvMap.get('queryConnectCawseById'), cmd, function(json, status) {
+				if (status) {
+					if (a=="1") {
+						var template = Handlebars.compile(Tpl.useCaseList);
+						
+					}
+					else if (a=="2") {
+						var template = Handlebars.compile(Tpl.useCaseLists);
+						
+					}
+					console.log(json.data);
+					$("#Js_querySeeCaseGroupList").html(template(json.data));
+					// 绑定单机当前行事件
+				    self.eventClickChecked($("#Js_querySeeCaseGroupList"),function(){
+			   		 });
+					
+				}
+			});
+		},
+		//查询事件
+		seeCaseBtn:function(collectId){
+			var self = this;
+			$("#JS_seeCaseBtn").unbind('click');
+			$("#JS_seeCaseBtn").bind('click',function(){
+				var a=$("#types5").val();
+				self.queryConnectCaseById2(collectId,a);
+			});
+		},
+
+		//显示已关联用例组Js_queryCaseGroupForm（查看）
+		queryConnectCaseGroup1:function(collectId){
+			var self = this;
+			$("#collectId6").val(collectId);
+			var cmd = $("#JS_seeCaseGroupForm").serialize();
+			Rose.ajax.postJson(srvMap.get('queryConnectCaseGroup'), cmd, function(json, status) {
+					var template = Handlebars.compile(Tpl.seeCaseGroupTable);
+					console.log(json.data);
+					$("#JS_seeCaseGroupTable").html(template(json.data));
+					self.eventClickChecked($("#JS_seeCaseGroupTable"),function(){//ppp
+				    });
+			});
+		},
+
+		//显示已关联用例组查询事件JS_seeGroupBtn
+		seeGroupBtn:function(collectId){
+			var self = this;
+			$("#JS_seeGroupBtn").unbind('click');
+			$("#JS_seeGroupBtn").bind('click',function(){
+				self.queryConnectCaseGroup1(collectId);
+			});
+		},
+
+
 ///*******************************************///界面2/新增用列集///*******************************************/////
 		addCaseSetinfo : function(cmd){
 			var self = this;
@@ -810,12 +887,10 @@ define(function(require, exports, module) {
 					self.groupBtn(collectId);
 					//已关联用例组删除
 					self.deleteConnectCaseGroup(collectId);
-
-					self.eventClickChecked($("#JS_conCaseList"),function(){
+					self.eventClickChecked($("#Js_queryCaseGroupForm"),function(){//ppp
 				    });
 			});
 		},
-
 		//已关联用例查询
 		groupBtn: function(collectId){    //a表示用例类型
 			var self = this;
@@ -833,7 +908,7 @@ define(function(require, exports, module) {
 				var ids="";
 				var  cmd="collectId="+collectId+"&groupIds=";
 				var num =0 ;
-				var _checkObj =	$('#JS_conCaseList').find("input[type='checkbox']:checked");
+				var _checkObj =	$('#Js_queryCaseGroupForm').find("input[type='checkbox']:checked");//ppp
 			   if(_checkObj.length==0){
 				   	window.XMS.msgbox.show('请选择要删除的用例！', 'error', 2000);
 				   return false;
@@ -859,8 +934,6 @@ define(function(require, exports, module) {
 					});
 			});
 		},
-
-
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行
 		getCaseSetRow : function(){

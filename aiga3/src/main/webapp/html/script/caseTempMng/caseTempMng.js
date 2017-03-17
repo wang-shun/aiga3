@@ -115,13 +115,13 @@ define(function(require, exports, module) {
 					
 		},
 
-		getBusiList:function(obj,callback){
+		getBusiList:function(obj,data){
 			Rose.ajax.getJson(srvMap.get('getBusiList'), '', function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getBusiList);
 					$(obj.getBusiList).html(template(json.data));
-					if(callback){
-						callback();
+					if(data){
+						$(obj.getBusiList).find("select").val(data.busiId);
 					}
 					console.log(json.data)
 				}
@@ -129,61 +129,87 @@ define(function(require, exports, module) {
 			});			
 		},
 		//系统大类下拉框
-		getSysList: function(obj,callback) {
+		getSysList: function(obj,data) {
 			var self = this;
 			Rose.ajax.getJson(srvMap.get('getSysList'), '', function(json, status) {
 				if (status) {
-					var template = Handlebars.compile(Tpl.getSysList);
-					$(obj.getSysList).html(template(json.data));
-					self.sysSelected(obj);
-					self.getBusiList(obj);
-					if(callback){
-						callback();
+					if(data){
+						var template = Handlebars.compile(Tpl.getSysList);
+						$(obj.getSysList).html(template(json.data));					
+						self.sysSelected(obj,data);
+						self.getBusiList(obj,data);	
+						$(obj.getSysList).find("select").val(data.sysId);
+						$(obj.getSysList).find("select").change();
+					}else{
+						var template = Handlebars.compile(Tpl.getSysList);
+						$(obj.getSysList).html(template(json.data));
+						self.sysSelected(obj);
+						self.getBusiList(obj);
+						console.log(json.data)					
 
 					}
-					console.log(json.data)
 				}
 				
 			});
 		},
 
 		//系统大类下拉框选择事件
-		sysSelected: function(obj) {
+		sysSelected: function(obj,data) {
 			var self = this;
 			$(obj.getSysList).find("select").change(function() {
 				var id = $(obj.getSysList).find("select").val();
 				console.log(id);
-				self.getSubSysList(id,obj);
+				if(data){
+					self.getSubSysList(id,obj,data);
+				}else{
+					self.getSubSysList(id,obj);
+				}
 			});
 		},
 
 		//系统子类下拉框选择事件
-		subsysSelected: function(obj) {
+		subsysSelected: function(obj,data) {
 			var self = this;
 			$(obj.getSubsysList).find("select").change(function() {
 				var id = $(obj.getSubsysList).find("select").val();
-				self.getFunList(id,obj);
+				if(data){
+					self.getFunList(id,obj,data);
+				}else{
+					self.getFunList(id,obj);
+				}				
 			});		
 		},
 		//系统子类下拉框
-		getSubSysList: function(id,obj) {
+		getSubSysList: function(id,obj,data) {
 			var self = this;
 			Rose.ajax.getJson(srvMap.get('getSubsysList'), 'sysId='+id, function(json, status) {
 				if (status) {
-					var template = Handlebars.compile(Tpl.getSubSysList);
-					$(obj.getSubsysList).html(template(json.data));
-					console.log(json.data)
-					self.subsysSelected(obj);
+					if(data){
+						var template = Handlebars.compile(Tpl.getSubSysList);
+						$(obj.getSubsysList).html(template(json.data));
+						console.log(json.data)
+						self.subsysSelected(obj,data);
+						$(obj.getSubsysList).find("select").val(data.sysSubId);
+						$(obj.getSubsysList).find("select").change();
+					}else{
+						var template = Handlebars.compile(Tpl.getSubSysList);
+						$(obj.getSubsysList).html(template(json.data));
+						console.log(json.data)
+						self.subsysSelected(obj);						
+					}
 				}
 			});
 		},
 		//功能点下拉框
-		getFunList: function(id,obj) {
+		getFunList: function(id,obj,data) {
 			Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysId='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getFunList);
 					$(obj.getFunList).html(template(json.data));
 					console.log(json.data)
+					if(data){
+						$(obj.getFunList).find("select").val(data.funId);
+					}					
 				}
 			});
 		},
@@ -192,6 +218,8 @@ define(function(require, exports, module) {
 		getCaseTempList: function(cmd) {
 			var self = this;
 			cmd = cmd+'&pageNum='+currentPage;
+			var cur_sysId;
+			var cur_subsysId;
 			Handlebars.registerHelper("transformatImp",function(value){
           		if(value==1){
             		return "一级用例";
@@ -212,18 +240,7 @@ define(function(require, exports, module) {
            		 	return "后台进程类";
          		}
         	});   
-			Handlebars.registerHelper("transformatSysId",function(value){
-				var _val = value;
-				Rose.ajax.getJson(srvMap.get('getSysList'), '', function(json, status) {
-					if (status) {
-						$.each(json.data,function(n,value) {
-							if(_val==value.sysId){
-								return value.sysName;
-							}
-						});
-					}
-				});
-        	});
+			        	       	
 			Rose.ajax.getJson(srvMap.get('getCaseTempList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getCaseTempList);
@@ -231,6 +248,9 @@ define(function(require, exports, module) {
 					$(Dom.getCaseTempList).html(template(json.data.content));
 					self.deleCaseTemp();
 					self.eventClickChecked($(Dom.getCaseTempList), function() {
+					});
+					self.eventDClickCallback($(Dom.getCaseTempList),function(){
+						$(Dom.viewCaseTemp).click();
 					})
 
 				}
@@ -601,17 +621,7 @@ define(function(require, exports, module) {
 						$(Dom.caseTempForm).html(caseTemp_template(json.data));
 						//加载下拉框
 						//self.getSysList("#add_sysId");
-						self.getSysList(dropChoice2,function(){
-							$(Dom.caseTempForm).find("select[name='important']").val(json.data.important);
-							$(Dom.caseTempForm).find("select[name='sysId']").val(json.data.sysId);
-							$(Dom.caseTempForm).find("select[name='sysId']").change();
-							$(Dom.caseTempForm).find("select[name='subSysId']").val(json.data.subSysId);
-							$(Dom.caseTempForm).find("select[name='subSysId']").change();
-							$(Dom.caseTempForm).find("select[name='funId']").val(json.data.funId);
-							$(Dom.caseTempForm).find("select[name='busiId']").val(json.data.busiId);
-							$(Dom.caseTempForm).find("select[name='caseType']").val(json.data.caseType);
-							$(Dom.caseTempForm).find("textarea[name='operateDesc']").val(json.data.operateDesc);								
-						});
+						self.getSysList(dropChoice2,json.data);
 						$(Dom.factorList).html(factor_template(json.data.factors));
 							self.eventClickChecked($(Dom.factorList), function() {
 						})

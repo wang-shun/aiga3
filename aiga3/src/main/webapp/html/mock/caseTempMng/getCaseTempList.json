@@ -10,7 +10,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "1"
+	"important": "1",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -18,7 +22,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "2"
+	"important": "2",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -26,7 +34,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "3"
+	"important": "3",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -34,7 +46,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "4"
+	"important": "4",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -42,7 +58,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "1"
+	"important": "1",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -50,7 +70,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "1"
+	"important": "1",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -58,7 +82,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "1"
+	"important": "1",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -66,7 +94,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "1"
+	"important": "1",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -74,7 +106,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "1"
+	"important": "1",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   },{
     "caseId": "10101",
     "caseName":"用例模板1",
@@ -82,7 +118,11 @@
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",
-	"important": "1"
+	"important": "1",
+	"sysId":"11",
+	"subsysId":"11",
+	"funId":"11",
+	"busiId":"11"
   }]
 }
 }

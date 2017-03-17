@@ -10,6 +10,9 @@
     "update": "修改人",
     "updateTime":"2017-2-02 08:00:00",
     "important": "2", 
+    "busiId":"11",
+    "sysSubId":"11",
+    "funId":"11",
     "factors":[{
       "factorId":"11",
       "factorName":"因子1",

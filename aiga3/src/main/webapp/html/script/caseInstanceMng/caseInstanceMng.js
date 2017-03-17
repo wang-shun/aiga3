@@ -51,6 +51,7 @@ define(function(require, exports, module) {
 			this.addBtnListener();
 			
 			// 默认只加载组织结构及条件查询
+			this.addEditModelListener();
 		},
 		
 		initFunctionTree: function(){
@@ -148,7 +149,7 @@ define(function(require, exports, module) {
 			}
 			$(Dom.editForm)[0].reset();
 			$(Dom.editTable).find("tbody").html("");
-			Rose.ajax.postJson(srvMap.get('get'), date, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('get'), date, function(json, status) {
 				if(status){
 					console.log(json);
 					$(Dom.editForm).val(json);
@@ -246,6 +247,10 @@ define(function(require, exports, module) {
 		        	}
 		        ]
 			});
+			
+		},
+		
+		addEditModelListener: function(){
 			
 		}
 

@@ -16,7 +16,8 @@ public class AigaSystemFolderCacheCmpt extends AbstractCache {
 	@Autowired
 	private AigaSystemFolderDao dao;
 	
-	public static final String ALL_LIST = "ASF_ALL_LIST";
+	public static final String ALL_LIST = "ALL_LIST";
+	public static final String ALL_MAP = "ALL_MAP";
 
 	@Override
 	protected Map load() {
@@ -24,6 +25,12 @@ public class AigaSystemFolderCacheCmpt extends AbstractCache {
 		
 		List<AigaSystemFolder> list = dao.findAllByInvalid();
 		cache.put(ALL_LIST, list);
+		
+		Map idCache = new HashMap();
+		for(AigaSystemFolder sysFold : list){
+			idCache.put(sysFold.getSysId().longValue(), sysFold);
+		}
+		cache.put(ALL_MAP, idCache);
 
 		return cache;
 
@@ -31,6 +38,11 @@ public class AigaSystemFolderCacheCmpt extends AbstractCache {
 	
 	public List<AigaSystemFolder> getSysList(){
 		return (List<AigaSystemFolder>) this.getValue(ALL_LIST);
+	}
+	
+	public AigaSystemFolder getSysFolder(long sysId){
+		Map idCache = (Map) this.getValue(ALL_MAP);
+		return (AigaSystemFolder) idCache.get(sysId);
 	}
 
 }

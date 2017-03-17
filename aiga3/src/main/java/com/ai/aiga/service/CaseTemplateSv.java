@@ -5,17 +5,26 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.cache.AigaFunFolderCacheCmpt;
+import com.ai.aiga.cache.AigaSubSysFolderCacheCmpt;
+import com.ai.aiga.cache.AigaSystemFolderCacheCmpt;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaCaseFactorDao;
 import com.ai.aiga.dao.NaCaseTemplateDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.AigaFunFolder;
+import com.ai.aiga.domain.AigaSubSysFolder;
+import com.ai.aiga.domain.AigaSystemFolder;
 import com.ai.aiga.domain.NaCaseFactor;
 import com.ai.aiga.domain.NaCaseTemplate;
+import com.ai.aiga.domain.NaTestCase;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
@@ -23,6 +32,8 @@ import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.CaseTmeplateResponse;
 import com.ai.aiga.view.json.Factor;
+import com.ai.aiga.view.json.NaCaseTemplateResponse;
+import com.ai.aiga.view.json.NaTestCaseResponse;
 import com.ai.aiga.view.json.TemplateRequest;
 
 @Service
@@ -34,7 +45,14 @@ public class CaseTemplateSv extends BaseService{
 	@Autowired
 	private NaCaseFactorDao caseFactorDao;
 	
-	public Object listTmeplate(NaCaseTemplate condition, int pageNumber, int pageSize) {
+	@Autowired
+	private AigaSystemFolderCacheCmpt sysCache;
+	@Autowired
+	private AigaSubSysFolderCacheCmpt subSysCache;
+	@Autowired
+	private AigaFunFolderCacheCmpt funSysCache;
+	
+	public Page<NaCaseTemplateResponse> listTmeplate(NaCaseTemplate condition, int pageNumber, int pageSize) {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
@@ -82,7 +100,36 @@ public class CaseTemplateSv extends BaseService{
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		
-		return caseTemplateDao.search(cons, pageable);
+		
+		
+		Page<NaCaseTemplate> result = caseTemplateDao.search(cons, pageable);
+		List<NaCaseTemplate> content = result.getContent();
+		
+		List<NaCaseTemplateResponse> list = new ArrayList<NaCaseTemplateResponse>();
+		if(content != null){
+			for(NaCaseTemplate one : content){
+				NaCaseTemplateResponse rep = BeanMapper.map(one, NaCaseTemplateResponse.class);
+				if(one.getSysId() != null){
+					AigaSystemFolder asf = sysCache.getSysFolder(one.getSysId());
+					rep.setSysName(asf.getSysName());
+				}
+				
+				if(one.getSysSubId() != null){
+					AigaSubSysFolder assf = subSysCache.getSubSys(one.getSysSubId());
+					rep.setSysSubName(assf.getSysName());
+				}
+				
+				if(one.getFunId() != null){
+					AigaFunFolder fun = funSysCache.getFunsByFunid(one.getFunId());
+					rep.setFunName(fun.getBusiLabel());
+				}
+				
+				list.add(rep);
+			}
+		}
+		
+		
+		return new PageImpl<NaCaseTemplateResponse>(list, pageable, result.getTotalElements());
 	}
 	
 

@@ -1,12 +1,12 @@
 
 <div class="row">
-	<div class="col-md-3">
+<!-- 	<div class="col-md-3">
 		<div class="box">
 			<div class="box-header">
 				<div class="box-title">选择功能点</div>
 				<div class="box-tools">
 					<div class="btn-group">
-						<!-- <button id="JS_rolefuncUpdate" type="button" name="update" onclick="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">更新</button> -->
+						<button id="JS_rolefuncUpdate" type="button" name="update" onclick="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">更新</button>
 					</div>
 				</div>
 				<div class="box-body">
@@ -16,41 +16,66 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="col-md-9">
+	</div> -->
+	<div class="col-md-12">
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title">条件查询</h3>
+				<div class="box-tools pull-right">
+            		<button type="button" class="btn btn-box-tool" data-widget="collapse">
+            		<i class="fa fa-minus"></i>
+            		</button>
+          	  	</div>
 			</div>
 			<!-- /.box-header -->
 			<!-- form start -->
-			<form id="JS_queryCaseInstanceForm" class="form-horizontal"
-				role="form">
-
+			<form id="JS_queryCaseInstanceForm" role="form">
 				<div class="box-body">
 					<!-- 搜索表单 -->
 					<div class="row">
-						<div class="col-sm-6 form-group">
-							<label for="caseName" class="col-sm-4 control-label">模板名称：</label>
-							<div class="col-sm-8">
-								<input type="text" class="form-control input-sm" id="caseName"
-									name="caseName">
+						<div class="col-sm-4">
+							<div class="form-group">
+							<label for="testName" class="control-label">测试用例名称：</label>
+							<input type="text" class="form-control input-sm" id="testName" name="testName">
 							</div>
 						</div>
 
-						<div class="col-sm-6 form-group">
-							<label class="col-sm-4 control-label">重要程度：</label>
-							<div class="col-sm-8">
-								<select id="important" name="important"
-									class="form-control input-sm">
-									<option></option>
-									<option value="1">一级用例</option>
-									<option value="2">二级用例</option>
-									<option value="3">三级用例</option>
-									<option value="4">四级用例</option>
-								</select>
+						<div class="col-sm-2">
+							<div class="form-group">
+							<label class="control-label">重要程度：</label>
+							<select id="important" name="important" class="form-control input-sm">
+								<option>请选择</option>
+								<option value="1">一级用例</option>
+								<option value="2">二级用例</option>
+								<option value="3">三级用例</option>
+								<option value="4">四级用例</option>
+							</select>
 							</div>
 						</div>
+						 <div class="col-md-2">
+                            <div class="form-group">
+                              <label>系统大类</label>
+                              <select name="sysId" class="form-control input-sm" data-url="getSysList" data-subname="sysSubId">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                              <label>系统子类</label>
+                              <select name="sysSubId" class="form-control input-sm" data-suburl="getSubsysList" data-subname="funId">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                              <label>功能点</label>
+                              <select name="funId" class="form-control input-sm" data-suburl="getFunList">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
 					</div>
 				</div>
 				<!-- /.box-body -->

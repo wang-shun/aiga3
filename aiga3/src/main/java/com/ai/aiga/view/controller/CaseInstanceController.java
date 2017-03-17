@@ -31,11 +31,11 @@ public class CaseInstanceController {
 			@RequestParam(value = "pageNumber", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			@RequestParam(value = "functionId", defaultValue = "0") int functionId,
-			@RequestParam(value = "caseName", defaultValue = "") String caseName,
+			@RequestParam(value = "testName", defaultValue = "") String testName,
 			@RequestParam(value = "important", defaultValue = "0") int important
 			){
 		JsonBean bean = new JsonBean();
-		bean.setData(caseSv.listCase(functionId, caseName, important, pageNumber, pageSize));
+		bean.setData(caseSv.listCase(functionId, testName, important, pageNumber, pageSize));
 		return bean;
 	}
 	

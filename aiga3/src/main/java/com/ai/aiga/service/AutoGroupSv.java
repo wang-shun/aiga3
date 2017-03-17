@@ -40,6 +40,7 @@ public class AutoGroupSv {
 
 	@Autowired
 	private NaAutoCaseDao naAutoCaseDao;
+	
 	public Object fingGroups(NaAutoGroup condition, int pageNumber, int pageSize) {
 		
 		String sql = "select a.group_id, a.group_name, b.name as creator_name,"

@@ -28,6 +28,10 @@
                 <td>{{updateTime}}</td>
                 <td>{{update}}</td>
                 <td>{{transformatImp important}}</td>
+                <td>{{sysName}}</td>
+                <td>{{subsysName}}</td>
+                <td>{{funName}}</td>
+                <td>{{busiName}}</td>
             </tr>
             {{/each}}
         </tbody>

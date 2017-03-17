@@ -61,7 +61,7 @@
 </div>
 <div class="row">
     <div class="col-sm-6 form-group">
-        <label class="col-sm-4 control-label">用例类型：</label>
+        <label class="col-sm-4 control-label"><i class="text-red">* </i>用例类型：</label>
         <div id="add_caseType" class="col-sm-8 pull-left">
             <select  name="caseType" class="form-control select2 input-sm" >
                 <option> </option>

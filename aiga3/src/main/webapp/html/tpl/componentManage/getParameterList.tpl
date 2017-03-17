@@ -1,7 +1,4 @@
-
-<!-- /.box-header -->
-<div class="box-body" style="min-height: 100px;" >
-    <table name="table" class="table table-bordered table-hover">
+<table name="table" class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>
@@ -25,6 +22,4 @@
             {{/each}}
         </tbody>
     </table>
-    <!-- /.box-body -->
-</div>
-<!-- Modal -->
+

@@ -33,7 +33,7 @@ define(function(require, exports, module) {
         getStaffRoleListTable: '#JS_getStaffRoleListTable'
     };
     var Data = {
-        stafId: null
+        staffId: null
     }
 
 

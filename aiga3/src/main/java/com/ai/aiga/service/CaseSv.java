@@ -41,8 +41,9 @@ public class CaseSv extends BaseService{
 	
 	@Autowired
 	private CaseTemplateSv caseTemplateSv;
-
-	public Page<NaTestCase> listCase(int functionId, String testName, int important, int pageNumber, int pageSize) {
+	
+	public Page<NaTestCase> listCase(int sysId, int sysSubId, int funId, 
+			String testName, int important, int pageNumber, int pageSize) {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
@@ -50,8 +51,16 @@ public class CaseSv extends BaseService{
 			cons.add(new Condition("testName", "%".concat(testName).concat("%"), Condition.Type.LIKE));
 		}
 		
-		if(functionId > 0){
-			cons.add(new Condition("funId", functionId, Condition.Type.EQ));
+		if(sysId > 0){
+			cons.add(new Condition("sysId", sysId, Condition.Type.EQ));
+		}
+		
+		if(sysSubId > 0){
+			cons.add(new Condition("sysSubId", sysSubId, Condition.Type.EQ));
+		}
+		
+		if(funId > 0){
+			cons.add(new Condition("funId", funId, Condition.Type.EQ));
 		}
 		
 		if(important > 0){
@@ -72,6 +81,37 @@ public class CaseSv extends BaseService{
 		
 		return testCaseDao.search(cons, pageable);
 	}
+
+//	public Page<NaTestCase> listCase(int functionId, String testName, int important, int pageNumber, int pageSize) {
+//		
+//		List<Condition> cons = new ArrayList<Condition>();
+//		
+//		if(StringUtils.isNoneBlank(testName)){
+//			cons.add(new Condition("testName", "%".concat(testName).concat("%"), Condition.Type.LIKE));
+//		}
+//		
+//		if(functionId > 0){
+//			cons.add(new Condition("funId", functionId, Condition.Type.EQ));
+//		}
+//		
+//		if(important > 0){
+//			cons.add(new Condition("important", important, Condition.Type.EQ));
+//		}
+//		
+//		if(pageNumber <= 0){
+//			pageNumber = 0;
+//		}else{
+//			pageNumber--;
+//		}
+//		
+//		if(pageSize <= 0){
+//			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+//		}
+//
+//		Pageable pageable = new PageRequest(pageNumber, pageSize);
+//		
+//		return testCaseDao.search(cons, pageable);
+//	}
 
 	
 	public void delCase(List<Long> caseIds) {
@@ -149,5 +189,8 @@ public class CaseSv extends BaseService{
 		
 		return list;
 	}
+
+
+
 
 }

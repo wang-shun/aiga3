@@ -30,12 +30,14 @@ public class CaseInstanceController {
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "pageNumber", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			@RequestParam(value = "functionId", defaultValue = "0") int functionId,
+			@RequestParam(value = "funId", defaultValue = "0") int funId,
+			@RequestParam(value = "sysId", defaultValue = "0") int sysId,
+			@RequestParam(value = "sysSubId", defaultValue = "0") int sysSubId,
 			@RequestParam(value = "testName", defaultValue = "") String testName,
 			@RequestParam(value = "important", defaultValue = "0") int important
 			){
 		JsonBean bean = new JsonBean();
-		bean.setData(caseSv.listCase(functionId, testName, important, pageNumber, pageSize));
+		bean.setData(caseSv.listCase(sysId, sysSubId, funId, testName, important, pageNumber, pageSize));
 		return bean;
 	}
 	

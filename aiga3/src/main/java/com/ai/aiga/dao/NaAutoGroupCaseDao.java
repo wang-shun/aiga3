@@ -19,5 +19,8 @@ public interface NaAutoGroupCaseDao extends JpaRepository<NaAutoGroupCase, Long>
 
 	@Query(value = "select * from na_auto_group_case where group_id = ?1 and auto_id = ?2", nativeQuery = true)
 	NaAutoGroupCase findByGroupIdAndOrder(Long groupId, Long autoId);
+	
+	@Query(value = "select count(auto_id) from na_auto_group_case where group_id = ?1 and auto_id in (?2)", nativeQuery = true)
+	int findCaseByGroupId(Long groupId, List<Long> list);
 
 }

@@ -41,8 +41,8 @@
 				    </div>
 					<div class="col-sm-4 form-group">
 				        <label class="col-sm-5 control-label">业&nbsp;&nbsp;&nbsp;&nbsp;务：</label>
-						<div class="col-sm-7">
-							<select  id="query_busi" name="busiId" class="form-control select2 input-sm" >
+						<div id="query_busi" class="col-sm-7">
+							<select  name="busiId" class="form-control select2 input-sm" >
 
 				    		</select>		
 						</div>
@@ -86,28 +86,27 @@
 			    </div>
               </div>
             </form>
-          </div>
+</div>
 
 
-<div class="content">
-	<div class="row">
+
 	       
 		<div class="box"  style="min-height: 100px">
 		    <div class="box-header">
 			    <h3 class="box-title">模板列表</h3>
 			    <div class="box-tools">
 			        <div class="btn-group">
-			            <button type="button" class="btn btn-primary" data-toggle="modal"  id="JS_addCaseTemp"><i class="fa fa-plus"></i> 新增模板</button>
-			            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<button type="button" class="btn btn-success" id="JS_createTest"><i class="fa fa-share-alt"></i> 生成测试用例</button>
+			          	<button type="button" class="btn btn-info" id="JS_createAutoTestTemp"><i class="fa fa-external-link"></i> 生成自动化模板</button>
+			          	<button type="button" class="btn btn-primary" data-toggle="modal"  id="JS_addCaseTemp"><i class="fa fa-plus"></i> 新增模板</button>
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			                <span class="caret"></span>
 			                <span class="sr-only">Toggle Dropdown</span>
 			            </button>
-			            <ul class="dropdown-menu" role="menu">
+						<ul class="dropdown-menu pull-right" role="menu">
 			                <li><a href="javascript:;" id="JS_deleCaseTemp">删除模板</a></li>
 			                <li><a href="javascript:;" id="JS_viewCaseTemp">查看编辑</a></li>
-			                <li><a href="javascript:;" id="JS_createTest">生成测试用例</a></li>
-			                <li><a href="javascript:;" id="JS_createAutoTestTemp">生成自动化模板</a></li>
-			            </ul>
+			            </ul>				            
 			        </div>
 			    </div>
 			</div>
@@ -142,7 +141,7 @@
 						      </div>
 								<div class="tab-pane" id="tab_2">
 			                        <div class="row">
-			                          <div class="col-md-9">
+			                          <div class="col-md-12">
 			                            <div id="JS_getParameterList" class="box">
 											<div class="box-header">
 											    <h4 class="box-title">因子列表</h4>
@@ -205,30 +204,35 @@
 		            <form id="JS_AutoCaseTempForm">
 			            <div class="modal-body">
 			                <div id="JS_AutoTempFormInner" style="padding-right: 15px;">
-								<div class="row">
-									<div class="form-group">
-								        <label for="queryCaseName" class="col-sm-2 control-label"><i class="text-red"> * </i>自动化模板名称：</label>
-								        <div class="col-sm-8 form-inline ">
-								            <input type="text" class="form-control input-sm" id="tempName1" name="caseName" readonly="true">
-								            <input type="text" class="form-control input-sm" id="tempName2" name="caseName" value="">
-								        </div>  
-									</div>
-								</div>
 
 								<div class="row">
 								<!-- 组件树 -->
 									<div class="col-sm-3"> 
-										<div class="nav-tabs-custom">
-						                    <ul class="nav nav-tabs">
-						                      <li class="active"><a href="#activity" data-toggle="tab">选择添加组件</a></li>
-						                    </ul>
-						                    <div id="JS_compTree" class="tab-content"> 
+										<div class="box box-info">
+						                    <div class="box-header with-border">
+						                        <h3 class="box-title">选择添加组件</h3>
+						                    </div>
+						                    <div class="box-body" >
+						                        <div id="JS_compTree" name="scroll">
 						                            <ul id="compTree" class="ztree"></ul>
-						                    </div>										
-										</div>
+						                        </div>
+						                    </div>
+						                </div> 										
 									</div>
 									<!-- 组件列表 -->
 									<div class="col-sm-9">
+										
+										        
+							<div class="box">
+                                <div class="box-body" >
+                                    <label for="queryCaseName" class="col-sm-3"><i class="text-red"> * </i>自动化模板名称：</label>
+							        <div class="col-sm-8 form-inline ">
+							            <input type="text" class="form-control input-sm" id="tempName1" name="caseName" readonly="true">
+							            <input type="text" class="form-control input-sm" id="tempName2" name="caseName" value="">
+							        </div> 
+                                </div>
+                            </div>										         
+																		
 										<div class="box"  style="min-height: 100px">
 										    <div class="box-header">
 											    <h4 class="box-title">组件列表</h4>
@@ -303,7 +307,7 @@
 								<div class="row">
 								
 									<!-- 组件列表 -->
-									<div class="col-sm-9">
+									<div class="col-sm-12">
 										<div class="box"  style="min-height: 100px">
 										    <div class="box-header">
 											    <h3 class="box-title">因子列表</h3>
@@ -311,7 +315,7 @@
 											
 
 												<div id="JS_bodyFactor" class="box-body" style="min-height: 100px;" >
-													<table id="" class="table table-bordered table-hover">
+													<table id="" class="table table-hover">
 												        <thead>
 												            <tr>
 												                <th class="iCheckbox" width="15"></th>
@@ -347,8 +351,7 @@
 
 
 
-	</div>    
-</div>
+
 
 <script>
     seajs.use("script/caseTempMng/caseTempMng", function(init) {

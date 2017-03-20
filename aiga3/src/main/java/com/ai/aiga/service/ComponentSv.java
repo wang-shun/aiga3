@@ -240,22 +240,7 @@ public class ComponentSv {
 		if(compId == null || compId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
 		}
-		List<Object[]> list = naUiParamDao.compParamList(compId);
-		List<NaUiParam> responses = new ArrayList<NaUiParam>(list.size());
-		if(list !=null && list.size() > 0){
-			for(int i = 0; i < list.size(); i++){
-				NaUiParam bean = new NaUiParam();
-				Object[] objects = (Object[]) list.get(i);
-				bean.setParamId(((BigDecimal)objects[0]).longValue());
-				bean.setParamName(objects[1].toString());
-				bean.setParamValue( objects[2].toString());
-				bean.setParamDesc(objects[3].toString());
-				bean.setParamSql(objects[4].toString());
-				bean.setParamExpect(objects[5].toString());
-				responses.add(bean);
-			}
-			
-		}
+		List<NaUiParam> responses = naUiParamDao.findByCompId(compId);
 		return responses;
 	}
 

@@ -148,6 +148,8 @@ define(function(require, exports, module) {
                     XMS.msgbox.show('请先选择一个功能点！', 'info', 2000);
                     return;
                 }
+                //输入模板
+		    	$(Dom.addCompModal).find(".modal-body").html(Handlebars.compile($("#JS_addCompTemp").html()));
                 // 设置添加标识
                 Data.isAdd = true;
                 // 弹出层
@@ -367,6 +369,8 @@ define(function(require, exports, module) {
             var self = this;
             //设置修改标志
             Data.isAdd = false;
+		    //输入模板
+		    $(Dom.addCompModal).find(".modal-body").html(Handlebars.compile($("#JS_addCompTemp").html()));
             // 加载控件树
             self.getCompCtrTree();
             //滚动条
@@ -454,6 +458,7 @@ define(function(require, exports, module) {
                         var cmd = "compId=" + _data.compId;
                         self.getCompinfo(cmd);
                     })
+                    self.addComp();
                     self.delComp();
                     self.updateComp();
                 }

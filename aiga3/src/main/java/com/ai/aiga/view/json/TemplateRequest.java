@@ -22,7 +22,7 @@ public class TemplateRequest {
 	private String operateDesc;
 	private Short important;
 	private Long sysId;
-	private Long sysSubId;
+	private Long subSysId;
 	private Long funId;
 	private Long scId;
 	private Long busiId;
@@ -93,12 +93,14 @@ public class TemplateRequest {
 		this.sysId = sysId;
 	}
 
-	public Long getSysSubId() {
-		return sysSubId;
+
+
+	public Long getSubSysId() {
+		return subSysId;
 	}
 
-	public void setSysSubId(Long sysSubId) {
-		this.sysSubId = sysSubId;
+	public void setSubSysId(Long subSysId) {
+		this.subSysId = subSysId;
 	}
 
 	public Long getFunId() {

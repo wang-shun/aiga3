@@ -1,6 +1,6 @@
 package com.ai.aiga.view.json;
 
-import java.sql.Clob;
+
 
 public class NaUiParamRequest {
 	private Long compId;

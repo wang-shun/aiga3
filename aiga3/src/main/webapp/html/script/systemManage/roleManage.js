@@ -113,7 +113,7 @@ define(function(require,exports,module){
 				var cmd = $(this).parents("form").serialize();
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
-				Rose.ajax.getJson(srvMap.get(_srvMap), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.show('保存成功！', 'success', 2000)
 						setTimeout(function(){

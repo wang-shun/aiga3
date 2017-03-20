@@ -67,8 +67,9 @@ public class AutoGroupController {
 	 * 用例用例组关联关系新增*/
 	@RequestMapping(path = "/sys/autoGroup/caseRelatGroupSave")
 	public @ResponseBody JsonBean caseRelatGroupSave(AutoGroupCaseRequest autoGroupCaseRequest, String autoIds){
-		autoGroupSv.caseRelatGroupSave(autoGroupCaseRequest,autoIds);
-		return JsonBean.success;
+		JsonBean bean = new JsonBean();
+		bean.setData(autoGroupSv.caseRelatGroupSave(autoGroupCaseRequest,autoIds));
+		return bean;
 	}
 	/**
 	 * 用例用例組关联关系删除*/

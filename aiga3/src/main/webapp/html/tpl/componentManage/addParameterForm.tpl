@@ -2,7 +2,6 @@
     <div class="box-header">
         <h3 class="box-title">{{type}}</h3>
     </div>
-    <!-- /.box-header -->
     <div class="box-body" style="min-height: 100px;" >
         <div class="row">
             <input type="hidden" name="paramId" value="{{paramId}}" >
@@ -37,7 +36,6 @@
                 </div>
             </div>
         </div>
-        <!-- /.box-body -->
     </div>
     <div class="box-footer">
         <button type="reset" class="btn btn-default" name="reset">重置</button>

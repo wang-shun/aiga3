@@ -3,7 +3,9 @@ package com.ai.aiga.service;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,7 @@ public class AutoGroupSv {
 
 	@Autowired
 	private NaAutoCaseDao naAutoCaseDao;
+	
 	public Object fingGroups(NaAutoGroup condition, int pageNumber, int pageSize) {
 		
 		String sql = "select a.group_id, a.group_name, b.name as creator_name,"
@@ -130,7 +133,7 @@ public class AutoGroupSv {
 	}
 
 
-	public void caseRelatGroupSave(AutoGroupCaseRequest autoGroupCaseRequest, String autoIds) {
+	public Map<String, String> caseRelatGroupSave(AutoGroupCaseRequest autoGroupCaseRequest, String autoIds) {
 		
 		if(StringUtils.isBlank(autoGroupCaseRequest.getGroupId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -141,22 +144,36 @@ public class AutoGroupSv {
 		if(StringUtils.isBlank(autoIds)){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoIds");
 		}
-		 Long groupOrder = naAutoGroupCaseDao.findMaxOrder(autoGroupCaseRequest.getGroupId());
-		 long j = 1;
-		 if(groupOrder != null && groupOrder > 0){
-			 j = j+groupOrder;
-		 }
-		String [] autoId = autoIds.split(",");
-		for(int i =0; i < autoId.length; i++){
-			NaAutoGroupCase naAutoGroupCase = new NaAutoGroupCase();
-			naAutoGroupCase.setGroupId(autoGroupCaseRequest.getGroupId());
-			naAutoGroupCase.setAutoId(Long.valueOf(autoId[i]).longValue());
-			naAutoGroupCase.setGroupOrder(j);
-			naAutoGroupCase.setCreatorId(autoGroupCaseRequest.getCreatorId());
-			naAutoGroupCase.setUpdateTime(new Date(System.currentTimeMillis()));
-			naAutoGroupCaseDao.save(naAutoGroupCase);
-			j++;
+		String[] autoId = autoIds.split(",");
+		List<Long> list = new ArrayList<Long>();
+		for(int i = 0; i < autoId.length; i++){
+			list.add(Long.valueOf(autoId[i]).longValue());
 		}
+		int count = naAutoGroupCaseDao.findCaseByGroupId(autoGroupCaseRequest.getGroupId(),list);
+		Map<String, String> map = new HashMap<String, String>();
+		if(count > 0){
+			map.put("flag", "false");
+			map.put("message", "不能重复关联已关联过的用例！");
+		}else{
+			 Long groupOrder = naAutoGroupCaseDao.findMaxOrder(autoGroupCaseRequest.getGroupId());
+			 long j = 1;
+			 if(groupOrder != null && groupOrder > 0){
+				 j = j+groupOrder;
+			 }
+			for(int i =0; i < autoId.length; i++){
+				NaAutoGroupCase naAutoGroupCase = new NaAutoGroupCase();
+				naAutoGroupCase.setGroupId(autoGroupCaseRequest.getGroupId());
+				naAutoGroupCase.setAutoId(Long.valueOf(autoId[i]).longValue());
+				naAutoGroupCase.setGroupOrder(j);
+				naAutoGroupCase.setCreatorId(autoGroupCaseRequest.getCreatorId());
+				naAutoGroupCase.setUpdateTime(new Date(System.currentTimeMillis()));
+				naAutoGroupCaseDao.save(naAutoGroupCase);
+				j++;
+			}
+			map.put("flag", "true");
+			map.put("message", "用例关联成功！");
+		}
+		return map;
 	}
 
 

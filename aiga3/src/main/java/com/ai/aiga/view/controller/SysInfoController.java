@@ -10,6 +10,7 @@ import com.ai.aiga.cache.AigaFunFolderCacheCmpt;
 import com.ai.aiga.cache.AigaSubSysFolderCacheCmpt;
 import com.ai.aiga.cache.AigaSystemFolderCacheCmpt;
 import com.ai.aiga.cache.CommomCompTreeCacheCmpt;
+import com.ai.aiga.cache.NaBusinessCacheCmpt;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -27,6 +28,8 @@ public class SysInfoController {
 	@Autowired
 	private CommomCompTreeCacheCmpt commomCompTreeCacheCmpt;
 	
+	@Autowired
+	private NaBusinessCacheCmpt naBusinessCacheCmpt;
 	
 	@RequestMapping(path = "/sys/cache/listSysid" )
 	public @ResponseBody JsonBean listSysId(){
@@ -57,6 +60,13 @@ public class SysInfoController {
 	public @ResponseBody JsonBean commenCompTree(){
 		JsonBean bean = new JsonBean();
 		bean.setData(commomCompTreeCacheCmpt.getCompList());
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/cache/busi")
+	public @ResponseBody JsonBean busi(){
+		JsonBean bean = new JsonBean();
+		bean.setData(naBusinessCacheCmpt.getBusiList());
 		return bean;
 	}
 }

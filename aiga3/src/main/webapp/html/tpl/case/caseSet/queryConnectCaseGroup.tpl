@@ -3,8 +3,7 @@
         <label class="col-sm-5 control-label">用例组名称：</label>
         <div class="col-sm-7">
             <input type="hidden"  class="form-control" id="collectId4" name="collectId" value="{{collectId}}">
-            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
-        
+            <input type="text" class="form-control input-sm" name="groupName" value="{{groupName}}">
          </div> 
     </div>
     &nbsp;&nbsp;&nbsp;&nbsp;
@@ -12,15 +11,15 @@
     &nbsp;&nbsp;&nbsp;&nbsp;
     <button type="button" class="btn btn-primary" id="JS_groupCase" name="submit">删除</button>
 </div>
-<div id="Js_queryConCaseGroupList" class="box-body" style="min-height: 100px;" >
-    <table id="JS_conCaseList" class="table table-bordered table-hover">
+<div class="box-body" style="min-height: 100px;" >
+    <table  class="table table-bordered table-hover"><!--id="JS_conCaseList"-->
        <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>
-                <th>用例集名称</th>
-                <th>关联用例集数量</th>
+                <th>用例组名称</th>
                 <th>创建人</th>
-                <th>创建时间</th>
+                <th>更新人</th>
+                <th>更新时间</th>
             </tr>
         </thead>
         <tbody>

@@ -27,20 +27,20 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group input-group-sm">
-                <label>创建时间：<i class="text-red">*</i></label>
-                <input type="text" class="form-control" name="createTime" value="{{createTime}}" required>
+                <!-- <label>创建时间：<i class="text-red">*</i></label> -->
+                <input type="hidden" class="form-control" name="createTime" value="{{createTime}}" required>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group input-group-sm">
-                <label>最后修改人：<i class="text-red">*</i></label>
-                <input type="text" class="form-control" name="updateName" value="{{updateName}}" required>
+                <!-- <label>最后修改人：<i class="text-red">*</i></label> -->
+                <input type="hidden" class="form-control" name="updateName" value="{{updateName}}" required>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group input-group-sm">
-                <label>控件创建人：<i class="text-red">*</i></label>
-                <input type="text" class="form-control" name="createName" value="{{createName}}" required>
+                <!-- <label>控件创建人：<i class="text-red">*</i></label> -->
+                <input type="hidden" class="form-control" name="createName" value="{{createName}}" required>
             </div>
         </div>
         </div>

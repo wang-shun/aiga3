@@ -271,7 +271,7 @@ public class AutoTemplateSv {
         if (tempId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
-        NaAutoTemplate autoTemplate=autoTemplateDao.findOne(tempId);
+        NaAutoTemplate autoTemplate=this.findById(tempId);
         if(autoTemplate==null){
             BusinessException.throwBusinessException("can not found autoTemplate !please make sure the tempId is valid......");
         }

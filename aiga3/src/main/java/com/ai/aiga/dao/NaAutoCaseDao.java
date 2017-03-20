@@ -18,5 +18,6 @@ public interface NaAutoCaseDao extends SearchAndPageRepository<NaAutoCase,Long> 
     @Modifying
     @Query(value="insert into na_auto_case_del select  * from na_auto_case where auto_id=?1 ",nativeQuery = true)
     int copyDataToDel(Long autoId);
-
+   
+    NaAutoCase findByAutoId(Long autoId);
 }

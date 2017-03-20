@@ -9,6 +9,7 @@ define(function(require, exports, module) {
 	srvMap.add("list", pathAlias + "getCaseTempList.json", "case/instance/list");
 	srvMap.add("delete", pathAlias + "getCaseTempList.json", "case/instance/del");
 	srvMap.add("get", pathAlias + "getCaseTempList.json", "case/instance/get");
+	srvMap.add("update", pathAlias + "getCaseTempList.json", "case/instance/update");
 	//srvMap.add("funcList", "componentManage/getFunList.json", "sys/component/compTree");
 	
 	//系统大类下拉框显示
@@ -21,7 +22,7 @@ define(function(require, exports, module) {
 
 	// 模板对象
 	var Tpl = {
-
+		//getFactorList: $("#tpl_getFactorList"),
 	};
 	
 
@@ -152,7 +153,14 @@ define(function(require, exports, module) {
 			Rose.ajax.getJson(srvMap.get('get'), date, function(json, status) {
 				if(status){
 					console.log(json);
-					$(Dom.editForm).val(json);
+					var data = json["data"];
+					//$(Dom.editForm).val(json);
+					$(Dom.editForm).find("input[name='testId']").val(data["testId"]);
+					$(Dom.editForm).find("input[name='testName']").val(data["testName"]);
+					$(Dom.editForm).find("textarea[name='preResult']").val(data["preResult"]);
+					
+					var factor_template = Handlebars.compile($("#tpl_getFactorList").html());
+					$(Dom.editTable).find("tbody").html(factor_template(data.factors));
 				}
 			});
 			$('#modal_testCaseForm').modal();
@@ -182,7 +190,7 @@ define(function(require, exports, module) {
 		        pageSize: 10,
 		        pageList: [10, 25, 50, 100],
 		        idField: "testId",
-		        clickToSelect: true,
+//		        clickToSelect: true,
 		        buttonsClass: "xs",
 		        smartDisplay: false,
 		        paginationLoop: false,
@@ -251,7 +259,35 @@ define(function(require, exports, module) {
 		},
 		
 		addEditModelListener: function(){
-			
+			$(Dom.editForm).find("button[name='save']").click(function(){
+				
+				var cmd = "testId=" + $(Dom.editForm).find("input[name='testId']").val();
+				cmd += "&testName=" + $(Dom.editForm).find("input[name='testName']").val();
+				cmd += "&preResult=" + $(Dom.editForm).find("textarea[name='preResult']").val();
+
+				var factors = [];
+				$(Dom.editTable).find("tbody").find("tr").each(function(){
+				    var tdArr = $(this).children();
+				    
+				    factors.push({
+				    	"paramId":$(this).attr("data-paramId"),
+				    	"factorName":tdArr.eq(0).find("input").val(),
+				    	"factorValue":tdArr.eq(1).find("input").val(),
+				    	"remark":tdArr.eq(2).find("input").val(),
+				    	"factorOrder":tdArr.eq(3).find("input").val()
+				    });
+				});
+				cmd += "&factors="+JSON.stringify(factors);
+				
+				Rose.ajax.postJson(srvMap.get('update'), cmd, function(json, status) {
+					if (status) {
+						// 添加用户成功后，刷新用户列表页
+						XMS.msgbox.show('修改测试用例成功！', 'success', 2000)
+						// 关闭弹出层
+						$('#modal_testCaseForm').modal('hide');
+					}
+				});
+			});
 		}
 
 	};

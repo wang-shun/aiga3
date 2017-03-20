@@ -163,9 +163,10 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">生成测试用例</h4>
+				<h4 class="modal-title">编辑测试用例</h4>
 			</div>
 			<form id="JS_TestForm" class="form-horizontal">
+				<input type="hidden" class="form-control" name="testId">
 				<div class="modal-body">
 					<div style="padding-right: 15px;">
 						<div class="row">
@@ -203,15 +204,14 @@
 										<table id="JS_testCaseFactorList" class="table table-bordered table-hover">
 											<thead>
 												<tr>
-													<th class="iCheckbox" width="15"></th>
 													<th>因子名称</th>
-													<th>因子描述</th>
 													<th>参数</th>
+													<th>因子描述</th>
 													<th>因子顺序</th>
 												</tr>
 											</thead>
 											<tbody>
-
+												
 											</tbody>
 										</table>
 									</div>
@@ -229,6 +229,17 @@
 	</div>
 </div>
 
+<<script type="text/x-handlebars-template" id="tpl_getFactorList">
+{{#each this}}
+<tr data-paramId="{{paramId}}">
+    <td><input name="factorName" value="{{factorName}}" class="form-control" disabled></td>
+	<td><input name="factorValue" value="{{factorValue}}"  class="form-control"></td>
+    <td><input name="remark" value="{{remark}}"  class="form-control" style="width:300px"></td>
+    <td><input name="factorOrder" value="{{factorOrder}}"  class="form-control"></td>
+</tr>
+{{/each}}
+
+</script>
 
 <script>
 	seajs.use("script/caseInstanceMng/caseInstanceMng", function(init) {

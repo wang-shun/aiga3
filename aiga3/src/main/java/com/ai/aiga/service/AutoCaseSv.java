@@ -58,6 +58,24 @@ public class AutoCaseSv {
         if (StringUtils.isBlank(autoCase.getAutoName())) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoName");
         }
+        if (autoCase.getEnvironmentType() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "EnvironmentType");
+        }
+        if (autoCase.getCaseType() == 0) {
+            autoCase.setCaseType((byte) 1);//默认ui类
+        }
+        if (autoCase.getImportant()==null){
+            autoCase.setImportant((short) 4);//默认为4级
+        }
+        if (autoCase.getStatus() == null) {
+            autoCase.setStatus(1L);//默认可用
+        }
+        if (autoCase.getHasAuto() == null) {
+            autoCase.setHasAuto(0L);//默认未实现自动化
+        }
+        if (autoCase.getParamLevel() == null) {
+            autoCase.setParamLevel(1L);//默认为1级
+        }
         //校验是否存在名称一样的用例
         if (autoCase.getAutoId() != null ? (this.isExisting(autoCase.getAutoName(),autoCase.getAutoId()))  :  (autoCaseDao.findByAutoName(autoCase.getAutoName())!=null)){
             BusinessException.throwBusinessException("autoName already existing! please change......");

@@ -1,7 +1,6 @@
 package com.ai.aiga.view.json;
 
 
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -12,6 +11,8 @@ public class CaseInstanceRequest {
 	
 	@NotBlank(message = "用例名称不能为空!")
 	private String testName;
+	
+	private String preResult;
 	
 	private Long caseId;
 	
@@ -47,6 +48,14 @@ public class CaseInstanceRequest {
 
 	public void setFactors(String factors) {
 		this.factors = factors;
+	}
+
+	public String getPreResult() {
+		return preResult;
+	}
+
+	public void setPreResult(String preResult) {
+		this.preResult = preResult;
 	}
 	
 

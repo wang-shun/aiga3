@@ -213,6 +213,44 @@ public class CaseSv extends BaseService{
 
 	public void updateTest(CaseInstanceRequest request) {
 		
+		if(request == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+		}
+		
+		if(request.getTestId() == null || request.getTestId() < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
+		}
+		
+		NaTestCase testCase = testCaseDao.getOne(request.getTestId());
+		
+		if(testCase == null){
+			BusinessException.throwBusinessException(ErrorCode.BAD_REQUEST, "testId");
+		}
+		
+		if(request.getPreResult() != null){
+			testCase.setPreResult(request.getPreResult());
+		}
+		
+		
+		testCaseDao.save(testCase);
+		
+		List<NaTestCaseParam> params = structureCaseFactor(request.getFactors());
+		if(params != null){
+			List<NaTestCaseParam> saved = new ArrayList<NaTestCaseParam>(); 
+			for(NaTestCaseParam one : params){
+				NaTestCaseParam realOne = testCaseParamDao.getOne(one.getParamId());
+				if(one.getRemark() != null){
+					realOne.setRemark(one.getRemark());
+				}
+				
+				realOne.setFactorValue(one.getFactorValue());
+				realOne.setFactorOrder(one.getFactorOrder());
+				
+				saved.add(realOne);
+			}
+			testCaseParamDao.save(saved);
+		}
+		
 	}
 	
 	

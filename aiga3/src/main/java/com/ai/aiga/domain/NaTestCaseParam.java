@@ -25,6 +25,7 @@ public class NaTestCaseParam implements java.io.Serializable {
 	private String factorName;
 	private String factorValue;
 	private short factorOrder;
+	private String remark;
 	private Long creatorId;
 	private Date createTime;
 	private Long updateId;
@@ -149,5 +150,16 @@ public class NaTestCaseParam implements java.io.Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
+
+	@Column(name = "REMARK", length = 400)
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
+	
 
 }

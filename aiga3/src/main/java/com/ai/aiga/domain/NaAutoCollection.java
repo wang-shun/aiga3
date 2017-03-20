@@ -74,7 +74,7 @@ public class NaAutoCollection {
 	    public void setOpId(Long opId) {
 	        this.opId = opId;
 	    }
-	    @Temporal(TemporalType.TIMESTAMP)
+
 	    @Column(name="CREATE_DATE", length=7)
 	    public Date getCreateDate() {
 	        return this.createDate;

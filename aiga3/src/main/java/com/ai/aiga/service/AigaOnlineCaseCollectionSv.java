@@ -172,7 +172,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 							         +"     from sys_staff aa, sys_employee bb \n"
 							          +"      where aa.employee_id = bb.employee_id \n"
 							          +"     and aa.staff_id = a.op_id) as operator, \n"
-							       +"    create_date, \n"
+							       +"    to_char(create_date,'yyyy-mm-dd hh24:mi:ss'),  \n"
 							       +"    case_num, \n"
 							        +"   (select show \n"
 							        +"      from sys_constant cc \n"
@@ -320,7 +320,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		if (StringUtils.isNotBlank(groupName)) {
 			sql = sql + " and a.group_Name like '%" + groupName + "'%";
 		}
-		System.out.println("ssssss"+sql);
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return  groupDao.searchByNativeSQL(sql, pageable, resultList);
 	}
@@ -526,7 +525,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 						.append(request.getTempleteName()).append("'%)");
 			}
 		}
-		System.out.println("************查询sql***********" + s.toString());
 		// 根据查询条件查询所有的用例id
 		List caseIdlist = groupDao.searchformSQL(s.toString());
 		// 保存所有的关联关系
@@ -638,7 +636,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-	 System.out.println("s.toString()"+s.toString());
 		return groupDao.searchByNativeSQL(s.toString(), pageable, resultList);
 	}
 	

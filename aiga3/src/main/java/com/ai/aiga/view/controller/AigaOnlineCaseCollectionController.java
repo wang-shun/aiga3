@@ -240,7 +240,6 @@ public class AigaOnlineCaseCollectionController {
 	 */
 	@RequestMapping(path = "deleteConnectCaseGroup")
 	public @ResponseBody JsonBean deleteConnectCaseGroup(Long collectId, String groupIds) {
-		System.out.println("********删除关联的用例组***********" + groupIds);
 		caseCollectionSv.deleteAutoCollGroups(0l, collectId, groupIds);
 		return JsonBean.success;
 	}

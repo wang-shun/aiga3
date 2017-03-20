@@ -34,7 +34,8 @@
                 <td>{{caseNum}}</td>
                 <td>{{operator}}</td>
                  <td>{{repairId}}</td>
-                <td>{{caseType}}</td>
+                <td>{{createDate
+                }}</td>
             </tr>
             {{/each}}
         </tbody>

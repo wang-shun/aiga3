@@ -43,9 +43,6 @@ public class AutoCaseSv {
     @Autowired
     private  AutoUiParamSv autoUiParamSv;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     /**
      * 保存操作(唯一入口)
      * @param autoCase
@@ -200,7 +197,7 @@ public class AutoCaseSv {
             //生成自动化用例
             autoCase=this.createAutoCaseByTemp(tempId,autoName,environmentType);
         }else{
-            autoCase=autoCaseDao.findOne(autoCaseRequest.getAutoId());
+            autoCase=this.findById(autoCaseRequest.getAutoId());
             if (autoCase == null) {
                 BusinessException.throwBusinessException("can not found autoCase !please make sure the autoId is valid......");
             }

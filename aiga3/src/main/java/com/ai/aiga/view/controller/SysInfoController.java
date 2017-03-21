@@ -48,10 +48,10 @@ public class SysInfoController {
 	}
 	
 	@RequestMapping(path = "/sys/cache/listFun" )
-	public @ResponseBody JsonBean listFun(@RequestParam Long subsysId){
+	public @ResponseBody JsonBean listFun(@RequestParam Long sysSubId){
 		JsonBean bean = new JsonBean();
-		if(subsysId != null){
-			bean.setData(aigaFunFolderCacheCmpt.getFunsBySubsysid(subsysId));
+		if(sysSubId != null){
+			bean.setData(aigaFunFolderCacheCmpt.getFunsBySubsysid(sysSubId));
 		}
 		return bean;
 	}

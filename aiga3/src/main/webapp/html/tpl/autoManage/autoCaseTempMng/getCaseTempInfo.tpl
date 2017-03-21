@@ -8,16 +8,10 @@
 </div>
 <div class="box-body" style="display: none;">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
               <label>模板名称：</label>
               <input type="text" class="form-control input-sm" value="{{caseName}}" readonly="readonly">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-               <label>前置条件：</label>
-               <input type="text" class="form-control input-sm" value="{{preCond}}" readonly="readonly">
             </div>
         </div>
     </div>
@@ -25,7 +19,13 @@
         {{#each factors}}
         <div class="col-md-6">
             <div class="form-group">
-              <label>{{factorName}}</label>
+              <label>因子名称：</label>
+              <input type="text" class="form-control input-sm" readonly="readonly" value="{{factorName}}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+              <label>因子描述：</label>
               <input type="text" class="form-control input-sm" readonly="readonly" value="{{remark}}">
             </div>
         </div>

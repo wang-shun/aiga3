@@ -37,7 +37,7 @@ define(function(require,exports,module){
 	srvMap.add("saveAutoCompParam",pathAlias + "retMessage.json","auto/case/saveAutoCompParam");
 	// 模板对象
     var Tpl = {
-        getCaseTempList: require('tpl/autoManage/autoCaseTempMng/getCaseTempList.tpl'),
+        getCaseTempList: require('tpl/autoManage/autoCaseTempMng/getCaseTempInfoList.tpl'),
         getTempCompList: require('tpl/autoManage/autoCaseTempMng/getTempCompList.tpl'),
         getSideTempCompList: require('tpl/autoManage/autoCaseTempMng/getSideTempCompList.tpl'),
         getCaseTempInfo: require('tpl/autoManage/autoCaseTempMng/getCaseTempInfo.tpl'),
@@ -126,6 +126,7 @@ define(function(require,exports,module){
 			});
 
 		},
+		// 变价模板
 		updateCaseTempInfo:function(){
 			var self = this;
 			var _dom = $(Dom.getCaseTempList);
@@ -147,12 +148,12 @@ define(function(require,exports,module){
 			        // 获取模板基本信息
 			        self.getCaseTempInfo('caseId='+data.caseId);
 			        // 保存编辑模板
-			        self.saveTempCompList(data.caseId);
+			        self.saveTempCompList(data.caseId,data.tempId);
 		    	}
 			});
 		},
 		//保存模板
-		saveTempCompList:function(_caseId){
+		saveTempCompList:function(_caseId,_tempId){
 			var self = this;
 			var _dom = $(Dom.updateCaseTempInfoModal);
 			var _save = _dom.find("[name='save']");
@@ -166,6 +167,7 @@ define(function(require,exports,module){
 				}
 				var cmd = {};
 				cmd["caseId"] = _caseId;
+				cmd["tempId"] = _tempId;
 				cmd["tempName"] = _tempName;
 				var hasData = Utils.getTableDataRows(_table);
 				if(hasData){
@@ -196,6 +198,7 @@ define(function(require,exports,module){
 					var cmd = 'tempId='+data.tempId;
 					var _modal = $(Dom.generateCaseInfoModal);
 			        _modal.modal('show');
+			        _modal.find("[name='autoName']").val('');
 			        // 获取组件列表
 			        self.getSideTempCompList('tempId='+data.tempId);
 			        //保存组件

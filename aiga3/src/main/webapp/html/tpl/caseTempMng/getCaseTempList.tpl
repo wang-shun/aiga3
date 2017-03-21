@@ -29,9 +29,9 @@
                 <td>{{update}}</td>
                 <td>{{transformatImp important}}</td>
                 <td>{{sysName}}</td>
-                <td>{{subsysName}}</td>
+                <td>{{sysSubName}}</td>
                 <td>{{funName}}</td>
-                <td>{{busiName}}</td>
+                <td>{{transformatBusi busiId}}</td>
             </tr>
             {{/each}}
         </tbody>

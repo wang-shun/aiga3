@@ -20,4 +20,6 @@ public interface NaAutoCaseDao extends SearchAndPageRepository<NaAutoCase,Long> 
     int copyDataToDel(Long autoId);
    
     NaAutoCase findByAutoId(Long autoId);
+    
+   
 }

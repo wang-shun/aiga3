@@ -18,7 +18,7 @@ import com.ai.aiga.view.json.NaAutoRunPlanRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
-public class NaAutoRunPlanController {
+public class AutoRunPlanController {
 	
 	@Autowired
 	private NaAutoRunPlanSv  naAutoRunPlanSv;
@@ -48,8 +48,8 @@ public class NaAutoRunPlanController {
 	 * @param pageSize
 	 * @return
 	 */
-		@RequestMapping(value="/sys/autoPlan/query")
-		public @ResponseBody  JsonBean   query(NaAutoRunPlanRequest condition,
+		@RequestMapping(value="/sys/autoPlan/queryList")
+		public @ResponseBody  JsonBean   queryList(NaAutoRunPlanRequest condition,
 				@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 				@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize
 				){
@@ -141,7 +141,7 @@ public class NaAutoRunPlanController {
  * @param pageSize
  * @return
  */
-		@RequestMapping(value="/sys/autoPlan/queryConnectCase")
+		@RequestMapping(value="/sys/autoPlan/queryUnconnectCase")
 		public @ResponseBody  JsonBean   queryUnconnectCase(AutoCaseRequest condition,
 				@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 				@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize

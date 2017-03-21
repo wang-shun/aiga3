@@ -148,7 +148,7 @@ public class NaAutoRunPlanSv extends BaseService{
 				List caseInfos = naAutoRunPlanCaseDao.searchformSQL(sql);
 				if(caseInfos!=null&&caseInfos.size()>0){
 					//查询当前计划下组顺序
-				Long count = (Long)naAutoRunPlanCaseDao.findCountByPlanIdAndGroup(planId, Long.parseLong(id));
+				Long count = (Long)naAutoRunPlanCaseDao.findCountByPlanIdAndGroupId(planId, Long.parseLong(id));
 					for (int i=0;i<caseInfos.size();i++) {
 						Object[] caseInfo = (Object[])caseInfos.get(i);
 						NaAutoRunPlanCase  naAutoRunPlanCase = new NaAutoRunPlanCase();

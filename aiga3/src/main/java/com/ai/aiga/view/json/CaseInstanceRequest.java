@@ -14,6 +14,8 @@ public class CaseInstanceRequest {
 	
 	private String preResult;
 	
+	private String testDesc;
+	
 	private Long caseId;
 	
 	private String factors;
@@ -56,6 +58,14 @@ public class CaseInstanceRequest {
 
 	public void setPreResult(String preResult) {
 		this.preResult = preResult;
+	}
+
+	public String getTestDesc() {
+		return testDesc;
+	}
+
+	public void setTestDesc(String testDesc) {
+		this.testDesc = testDesc;
 	}
 	
 

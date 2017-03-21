@@ -198,9 +198,29 @@ public class CaseSv extends BaseService{
 		
 		NaTestCase testcase = BeanMapper.map(resopnse, NaTestCase.class);
 		testcase.setTestName(request.getTestName());
-		testCaseDao.save(testcase);
 		
 		List<NaTestCaseParam> params = structureCaseFactor(request.getFactors());
+		
+		StringBuilder testdesc = new StringBuilder();
+		if(params != null){
+			testdesc.append("根据因子:");
+			for(int i = 0; i < params.size(); i++){
+				NaTestCaseParam one = params.get(i);
+				testdesc.append("[");
+				testdesc.append(one.getFactorName());
+				testdesc.append("=");
+				testdesc.append(one.getFactorValue());
+				testdesc.append("]");
+				
+				if(i < params.size() - 1){
+					testdesc.append(",");
+				}
+			}
+			testdesc.append("进行测试...");
+		}
+		testcase.setTestDesc(testdesc.toString());
+		testCaseDao.save(testcase);
+		
 		if(params != null){
 			for(NaTestCaseParam one : params){
 				one.setTestId(testcase.getTestId());
@@ -229,6 +249,10 @@ public class CaseSv extends BaseService{
 		
 		if(request.getPreResult() != null){
 			testCase.setPreResult(request.getPreResult());
+		}
+		
+		if(request.getTestDesc() != null){
+			testCase.setTestDesc(request.getTestDesc());
 		}
 		
 		

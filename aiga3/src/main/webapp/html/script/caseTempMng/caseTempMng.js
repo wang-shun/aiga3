@@ -96,7 +96,7 @@ define(function(require, exports, module) {
 	}	
 
 	
-
+	var busiData = null;
 	var currentPage = 1;
 
 	var Init = {
@@ -105,6 +105,7 @@ define(function(require, exports, module) {
 		},
 		_render: function() {
 
+			this.getBusiList(dropChoice1);
 			this.getCaseTempList();
 			this.getSysList(dropChoice1);
 			this.addCaseTemp();
@@ -118,6 +119,7 @@ define(function(require, exports, module) {
 		getBusiList:function(obj,data){
 			Rose.ajax.getJson(srvMap.get('getBusiList'), '', function(json, status) {
 				if (status) {
+					busiData = json.data;
 					var template = Handlebars.compile(Tpl.getBusiList);
 					$(obj.getBusiList).html(template(json.data));
 					if(data){
@@ -239,7 +241,19 @@ define(function(require, exports, module) {
          		}else if(value==3){
            		 	return "后台进程类";
          		}
-        	});   
+        	});
+			Handlebars.registerHelper("transformatBusi",function(value){
+				var _val = value;
+				var name;			
+				$.each(busiData,function(n,value) {
+					if(_val==value.busiId){
+						name = value.busiName;
+						alert(name);
+					}
+				});
+				return name;
+				
+        	});       	   
 			        	       	
 			Rose.ajax.getJson(srvMap.get('getCaseTempList'), cmd, function(json, status) {
 				if (status) {
@@ -316,22 +330,12 @@ define(function(require, exports, module) {
 				var _form = $(Dom.caseTempForm);
 				$("#JS_SaveCaseTemp").unbind('click');
 				$("#JS_SaveCaseTemp").bind('click', function() {
-
-						// 表单校验：成功后调取接口
-						//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 							var cmd = _form.serialize();
-
-							// $(Dom.factorList).find("tr").each(function(){
-							//     var tdArr = $(this).children();
-							//     cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-							//     cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
-							//  });	
 							var factors = [];
 							$(Dom.factorList).find("tr").each(function(){
 							    var tdArr = $(this).children();
 //							    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-//							    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
-							    
+//							    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();							    
 							    factors.push({
 							    	"factorName":tdArr.eq(1).find("input").val(),
 							    	"remark":tdArr.eq(2).find("input").val()

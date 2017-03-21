@@ -8,11 +8,11 @@ define(function(require, exports, module) {
 	// 显示用例集列表
 	srvMap.add("getTaskList", pathAlias+"getTaskList.json", "auto/task/listInfo");
 	// 删除
-	srvMap.add("parTask", pathAlias+"parTask.json", "/auto/task/delete");
+	srvMap.add("parTask", pathAlias+"parTask.json", "auto/task/delete");
 	//重跑
-	srvMap.add("taskRestart", pathAlias+"parTask.json", "/auto/task/restart");
+	srvMap.add("taskRestart", pathAlias+"parTask.json", "auto/task/restart");
 	//终止
-	srvMap.add("taskTermination", pathAlias+"parTask.json", "/auto/task/stop");	
+	srvMap.add("taskTermination", pathAlias+"parTask.json", "auto/task/stop");	
 
 	// 模板对象
 	var Tpl = {

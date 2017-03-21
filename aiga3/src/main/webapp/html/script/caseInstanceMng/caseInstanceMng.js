@@ -158,6 +158,7 @@ define(function(require, exports, module) {
 					$(Dom.editForm).find("input[name='testId']").val(data["testId"]);
 					$(Dom.editForm).find("input[name='testName']").val(data["testName"]);
 					$(Dom.editForm).find("textarea[name='preResult']").val(data["preResult"]);
+					$(Dom.editForm).find("textarea[name='testDesc']").val(data["testDesc"]);
 					
 					var factor_template = Handlebars.compile($("#tpl_getFactorList").html());
 					$(Dom.editTable).find("tbody").html(factor_template(data.factors));
@@ -204,11 +205,27 @@ define(function(require, exports, module) {
 		        	},
 		        	{
 		        		title: '操作说明',
-		        		field: 'testDesc'
+		        		field: 'testDesc',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(typeof "abc" === 'string' && value && value.length > 20){
+		                	   return value.substring(0, 20);
+		                   }
+		                   
+		                   return value;
+		                }
 		        	},
 		        	{
 		        		title: '预期结果',
-		        		field: 'preResult'
+		        		field: 'preResult',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(typeof "abc" === 'string' && value && value.length > 20){
+		                	   return value.substring(0, 20);
+		                   }
+		                   
+		                   return value;
+		                }
 		        	},
 		        	{
 		        		title: '用例类型',
@@ -258,33 +275,33 @@ define(function(require, exports, module) {
 		        		title: '操作',
 		        		formatter : function(){
 		        			return [
-		        	            '<a class="operation-run" href="javascript:void(0)" title="">',
-		        	            '运行',
-		        	            '</a>  ',
-		        	            '<a class="operation-edit" href="javascript:void(0)" title="">',
+		        	            '<a class="operation-edit" href="javascript:void(0)" title="编辑测试用例">',
 		        	            '编辑',
-		        	            '</a>  '
-//		        	            '<a class="operation-copy" href="javascript:void(0)" title="">',
-//		        	            '复制',
-//		        	            '</a>'
+		        	            '</a>  ',
+		        	            '<a class="operation-copy" href="javascript:void(0)" title="复制测试用例">',
+		        	            '复制',
+		        	            '</a> ',
+		        	            '<a class="operation-genauto" href="javascript:void(0)" title="生成自动化用例">',
+		        	            '生成',
+		        	            '</a>  ',
 		        	        ].join('');
 		        		},
 		        		events: {
+		        			'click .operation-edit': function (e, value, row, index) {
+		        	        	self.showEdit(row);
+		        	        },
 		        	        'click .operation-run': function (e, value, row, index) {
 		        	           	 console.log(e);
 		        	           	 console.log(value);
 		        	           	 console.log(row);
 		        	           	 console.log(index);
 		        	        },
-		        	        'click .operation-edit': function (e, value, row, index) {
-		        	        	self.showEdit(row);
+		        	        'click .operation-genauto': function (e, value, row, index) {
+		        	        	console.log(e);
+		        	           	 console.log(value);
+		        	           	 console.log(row);
+		        	           	 console.log(index);
 		        	        }
-//		        	        'click .operation-copy': function (e, value, row, index) {
-//		        	        	console.log(e);
-//		        	           	 console.log(value);
-//		        	           	 console.log(row);
-//		        	           	 console.log(index);
-//		        	        }
 		        		}
 		        	}
 		        ]
@@ -298,6 +315,7 @@ define(function(require, exports, module) {
 				var cmd = "testId=" + $(Dom.editForm).find("input[name='testId']").val();
 				cmd += "&testName=" + $(Dom.editForm).find("input[name='testName']").val();
 				cmd += "&preResult=" + $(Dom.editForm).find("textarea[name='preResult']").val();
+				cmd += "&testDesc=" + $(Dom.editForm).find("textarea[name='testDesc']").val();
 
 				var factors = [];
 				$(Dom.editTable).find("tbody").find("tr").each(function(){

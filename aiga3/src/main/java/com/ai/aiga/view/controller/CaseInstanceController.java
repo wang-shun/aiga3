@@ -26,7 +26,13 @@ public class CaseInstanceController {
 	@Autowired
 	private CaseSv caseSv;
 	
-	@RequestMapping(path = "/case/instance/list", produces=MediaTypes.JSON)
+	@RequestMapping(path = "/case/instance/test2")
+	public String goToEdit(){
+		return "caseInstanceMng/caseInstanceToAutoCase";
+	}
+	
+	
+	@RequestMapping(path = "/case/instance/list")
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "pageNumber", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,

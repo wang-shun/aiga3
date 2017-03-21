@@ -211,13 +211,47 @@ define(function(require, exports, module) {
 		        		field: 'preResult'
 		        	},
 		        	{
-		        		title: '是否实现自动化'
+		        		title: '用例类型',
+		        		field: 'caseType',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(value == 1){
+		                	   return "UI类";
+		                   }else if(value == 2){
+		                	   return "接口类";
+		                   }else if(value == 3){
+		                	   return "后台进程类";
+		                   }else{
+		                	   return "其他类型";
+		                   }
+		                }
 		        	},
 		        	{
-		        		title: '可实现自动化'
-		        	},
-		        	{
-		        		title: '已实现自动化'
+		        		title: '重要程度',
+		        		field: 'important',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(value == 1){
+		                	   return "一级";
+		                   }else if(value == 2){
+		                	   return "二级";
+		                   }else if(value == 3){
+		                	   return "三级";
+		                   }else if(value == 4){
+		                	   return "四级";
+		                   }else{
+		                	   return "其他";
+		                   }
+		                }
+		        	},{
+		        		title: '系统',
+		        		field: 'sysName'
+		        	},{
+		        		title: '子系统',
+		        		field: 'sysSubName'
+		        	},{
+		        		title: '功能',
+		        		field: 'funName'
 		        	},
 		        	{
 		        		field: 'operate',
@@ -229,10 +263,10 @@ define(function(require, exports, module) {
 		        	            '</a>  ',
 		        	            '<a class="operation-edit" href="javascript:void(0)" title="">',
 		        	            '编辑',
-		        	            '</a>  ',
-		        	            '<a class="operation-copy" href="javascript:void(0)" title="">',
-		        	            '复制',
-		        	            '</a>'
+		        	            '</a>  '
+//		        	            '<a class="operation-copy" href="javascript:void(0)" title="">',
+//		        	            '复制',
+//		        	            '</a>'
 		        	        ].join('');
 		        		},
 		        		events: {
@@ -244,13 +278,13 @@ define(function(require, exports, module) {
 		        	        },
 		        	        'click .operation-edit': function (e, value, row, index) {
 		        	        	self.showEdit(row);
-		        	        },
-		        	        'click .operation-copy': function (e, value, row, index) {
-		        	        	console.log(e);
-		        	           	 console.log(value);
-		        	           	 console.log(row);
-		        	           	 console.log(index);
 		        	        }
+//		        	        'click .operation-copy': function (e, value, row, index) {
+//		        	        	console.log(e);
+//		        	           	 console.log(value);
+//		        	           	 console.log(row);
+//		        	           	 console.log(index);
+//		        	        }
 		        		}
 		        	}
 		        ]

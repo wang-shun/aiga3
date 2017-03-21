@@ -2,7 +2,10 @@ package com.ai.aiga.service;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoCaseDao;
-import com.ai.aiga.domain.*;
+import com.ai.aiga.dao.NaTestCaseDao;
+import com.ai.aiga.domain.NaAutoCase;
+import com.ai.aiga.domain.NaAutoTemplate;
+import com.ai.aiga.domain.NaTestCase;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.util.mapper.BeanMapper;
@@ -15,8 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +43,9 @@ public class AutoCaseSv {
 
     @Autowired
     private  AutoUiParamSv autoUiParamSv;
+
+    @Autowired
+    private NaTestCaseDao testCaseDao;
 
     /**
      * 保存操作(唯一入口)
@@ -90,18 +94,15 @@ public class AutoCaseSv {
      */
     private NaAutoCase copyCaseByTempId(Long tempId){
         if (tempId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
         NaAutoTemplate autoTemplate=autoTemplateSv.findById(tempId);
         if (autoTemplate == null) {
             BusinessException.throwBusinessException("can not found the autoTemplate! please make sure the tempId:"+tempId);
         }
         NaAutoCase autoCase= BeanMapper.map(autoTemplate,NaAutoCase.class);
-        autoCase.setAutoName(autoTemplate.getTempName());//根据模板名称生成填充名字，需由后续调用方法者覆盖
-//        autoCase.setEnvironmentType();//根据模板ID生成不填充环境，由后续调用方法者实现
-        autoCase.setHasAuto(0L);//是否实现自动化：默认为0，未实现
-        autoCase.setParamLevel(1L);//参数等级：默认为1，
-        autoCase.setStatus(1L);//用例状态：默认为1，可用
+        autoCase.setAutoName(autoTemplate.getTempName());//默认根据模板名称填充，需由后续调用方法者覆盖
+        autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
         //保存操作
         return this.save(autoCase);
     }
@@ -112,7 +113,7 @@ public class AutoCaseSv {
      */
     private NaAutoCase copyCaseCompByTempId(Long tempId){
         if (tempId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
         //先复制用例
         NaAutoCase autoCase=this.copyCaseByTempId(tempId);
@@ -122,61 +123,23 @@ public class AutoCaseSv {
     }
 
     /**
-     *根据自动化用例模板ID复制数据生成自动化用例，根据类型判断是只生成用例基础信息还是包含组件参数
-     * @param tempId 自动化用例模板ID
-     * @param autoName 自动化用例名称
-     * @param environmentType 环境类型
-     * @param type  0 : 只复制用例基础信息 1:复制用例以及组件参数信息
+     * 通过测试用例主键复制数据生成自动化用例基础信息
+     * @param testId
      * @return
      */
-    private NaAutoCase createDataByTemp(Long tempId,String autoName,Long environmentType,int type){
-        if (tempId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
+    private NaAutoCase copyCaseByTestId(Long testId){
+        if (testId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
         }
-        if (StringUtils.isBlank(autoName)) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoName");
+        NaTestCase testCase=testCaseDao.findOne(testId);
+        if (testCase == null) {
+            BusinessException.throwBusinessException("can not found the testCase! please make sure the testId:"+testId);
         }
-        if (environmentType == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "environmentType");
-        }
-        //判断是否存在名称一样的用例
-        NaAutoCase autoCase=new NaAutoCase();
-        //根据类型判断 0 : 只复制用例基础信息 1:复制用例以及组件参数信息
-        if(type==0) {
-            autoCase = this.copyCaseByTempId(tempId);
-        }else
-        if(type==1){
-            autoCase=this.copyCaseCompByTempId(tempId);
-        }else{
-            BusinessException.throwBusinessException("type is do not match! you are illegal access......");
-        }
-        //填充用例名称和环境属性
-        autoCase.setAutoName(autoName);
-        autoCase.setEnvironmentType(environmentType);
+        NaAutoCase autoCase=BeanMapper.map(testCase,NaAutoCase.class);
+        autoCase.setAutoName(testCase.getTestName());//默认根据测试用例名称填充，需由后续调用方法者覆盖
+        autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
         //保存操作
         return this.save(autoCase);
-    }
-
-    /**
-     * 根据自动化用例模板ID复制数据生成自动化用例基础信息并填充属性(不包括组件参数)
-     * @param tempId 自动化用例模板ID
-     * @param autoName 自动化用例名称
-     * @param environmentType 环境类型
-     * @return
-     */
-    private NaAutoCase createAutoCaseByTemp(Long tempId,String autoName,Long environmentType){
-        return this.createDataByTemp(tempId,autoName,environmentType,0);
-    }
-
-    /**
-     * 根据自动化用例模板ID复制数据生成自动化用例基础信息并填充属性（包括组件参数）
-     * @param tempId 自动化用例模板ID
-     * @param autoName  自动化用例名称
-     * @param environmentType 环境类型
-     * @return
-     */
-    private NaAutoCase createAutoCaseCompByTemp(Long tempId,String autoName,Long environmentType){
-        return  this.createDataByTemp(tempId,autoName,environmentType,1);
     }
 
     /**
@@ -188,28 +151,37 @@ public class AutoCaseSv {
         if (autoCaseRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        NaAutoCase autoCase;
+        if (autoCaseRequest.getAutoName() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoName");
+        }
+        if (autoCaseRequest.getEnvironmentType() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "environmentType");
+        }
+        NaAutoCase autoCase=null;
         //判断是否带有autoId(是：修改操作   否：新增操作)
         if (autoCaseRequest.getAutoId()==null){
-            Long tempId=autoCaseRequest.getTempId();//自动化用例模板主键
-            String autoName=autoCaseRequest.getAutoName();//自动化用例名称
-            Long environmentType=autoCaseRequest.getEnvironmentType();//环境类型
-            //生成自动化用例
-            autoCase=this.createAutoCaseByTemp(tempId,autoName,environmentType);
+            if(autoCaseRequest.getTempId()!=null) {
+                //根据自动化用例模板ID生成自动化用例
+                autoCase = this.copyCaseByTempId(autoCaseRequest.getTempId());
+            }else if(autoCaseRequest.getTestId()!=null){
+                //根据测试用例ID生成自动化用例
+                autoCase = this.copyCaseByTestId(autoCaseRequest.getTestId());
+            }else {
+                BusinessException.throwBusinessException("could not found testId or tempId! please sure......");
+            }
         }else{
             autoCase=this.findById(autoCaseRequest.getAutoId());
             if (autoCase == null) {
                 BusinessException.throwBusinessException("can not found autoCase !please make sure the autoId is valid......");
             }
-//            autoCase.setCreatorId();
-            autoCase.setEnvironmentType(autoCaseRequest.getEnvironmentType());
-            autoCase.setUpdateTime(Calendar.getInstance().getTime());
-            autoCase.setAutoName(autoCaseRequest.getAutoName());
-            autoCase=this.save(autoCase);
             //删除现有组件和参数关系
             autoUiCompSv.deleteByAutoId(autoCase.getAutoId());
             autoUiParamSv.deleteByAutoId(autoCase.getAutoId());
         }
+        //填充自动化用例名称与环境属性
+        autoCase.setEnvironmentType(autoCaseRequest.getEnvironmentType());
+        autoCase.setAutoName(autoCaseRequest.getAutoName());
+        autoCase=this.save(autoCase);
 
         List<AutoUiCompRequest> compRequestList=autoCaseRequest.getCompList();
         //如果带有组件信息则保存组件

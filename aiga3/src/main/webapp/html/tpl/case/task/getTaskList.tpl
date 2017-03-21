@@ -1,0 +1,56 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th class="iCheckbox" width="15"></th>
+            <th>用例集名称</th>
+            <th>关联用例集类型</th>
+            <th>关联用例集数量</th>
+            <th>创建人</th>
+            <th>维护人</th>
+            <th>创建时间</th>
+            <th>用例集名称</th>
+            <th>关联用例集类型</th>
+            <th>关联用例集数量</th>
+            <th>创建人</th>
+            <th>维护人</th>
+            <th>创建时间</th>
+            <th>用例集名称</th>
+            <th>关联用例集类型</th>
+            <th>关联用例集数量</th>
+            <th>创建人</th>
+            <th>维护人</th>
+            <th>创建时间</th>
+            <th>创建人</th>
+            <th>维护人</th>
+            <th>创建时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each content}}
+        <tr>
+            <td><input type="radio" class="minimal" value="{{taskId}}" name="taskId"></td>
+            <td>{{planId}}</td>
+            <td>{{taskTag}}</td>
+            <td>{{taskName}}</td>
+            <td>{{taskType}}</td>   
+            <td>{{cycleType}}</td>
+            <td>{{runType}}</td>
+            <td>{{taskResult}}</td>
+            <td>{{beginRunTime}}</td>
+            <td>{{endRnTime}}</td>
+            <td>{{spendTime}}</td>   
+            <td>{{runTimes}}</td>
+            <td>{{intervalTime}}</td>
+            <td>{{endTimes}}</td>
+            <td>{{machineIp}}</td>
+            <td>{{stopFlag}}</td>
+            <td>{{smsType}}</td>   
+            <td>{{mailType}}</td>
+            <td>{{parallelType}}</td>
+            <td>{{creatorId}}</td>
+            <td>{{lastRunner}}</td>
+            <td>{{createTime}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

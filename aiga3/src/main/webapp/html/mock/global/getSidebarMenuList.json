@@ -100,12 +100,12 @@
                 "isActive": 0
             }, {
                 "menuName": "自动化任务管理",
-                "menuURL": "#",
+                "menuURL": "view/case/task/task.html",
                 "hasChild": 0,
                 "isActive": 0
             }, {
                 "menuName": "自动化执行结果",
-                "menuURL": "#",
+                "menuURL": "view/autoManage/autoResult.html",
                 "hasChild": 0,
                 "isActive": 0
             }, {

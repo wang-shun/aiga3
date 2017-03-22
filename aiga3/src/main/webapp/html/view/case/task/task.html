@@ -13,69 +13,42 @@
 				<div class="box-body">
 					<!-- 搜索表单 -->
 					<div class="row">
-							<div class="col-sm-3 form-group">
-								<label  class="col-sm-5 control-label">任务名称：</label>
-								<div class="col-sm-7">
-								<input type="text" class="form-control input-sm" name="testName">
-								</div>
+							<div class="col-sm-2 form-group">
+								<label>任务名称：</label>
+								<input type="text" class="form-control input-sm" name="taskName">
 							</div>
-							<div class="col-sm-3 form-group">
-								
-								<label class="col-sm-5 control-label">执行类型：</label>
-								<div class="col-sm-7">
-								<select id="JS_impType" name="important" class="form-control input-sm">
+							<div class="col-sm-2 form-group">
+								<label>任务ID：</label>
+								<input type="text" class="form-control input-sm" name="taskId">
+							</div>
+							<div class="col-sm-2 form-group">
+								<label>执行类型：</label>
+								<select id="JS_impType" name="runType" class="form-control input-sm">
 									
 								</select>
-								</div>
 							</div>
-							<div class="col-sm-3 form-group">
-								
-								<label  class="col-sm-5 control-label">执行结果：</label>
-								<div class="col-sm-7">
-								<select id="JS_impResult" name="important" class="form-control input-sm">
+							<div class="col-sm-2 form-group">
+								<label>执行结果：</label>
+								<select id="JS_impResult" name="taskResult" class="form-control input-sm">
 									
 								</select>
-								</div>
 							</div>
-							<div class="col-md-3 form-group">
-	                              <label class="col-sm-5 control-label">任务创建人</label>
-	                              <div class="col-sm-7">
-	                              <select name="sysSubId" class="form-control input-sm" data-suburl="getSubsysList" data-subname="funId">
-	                                    <option value="">请选择</option>
-	                                </select>
+							<div class="col-md-2 form-group">
+	                              <label>任务创建人:</label>
+	                              <input type="text" class="form-control input-sm" name="creatorId">
 	                            </div>
-	                        </div> 
-					</div>
-					<div class="row">
-	                        <div class="col-md-6 form-group">
-	                              	<label class="col-sm-2 control-label">创建时间：</label>
-	                              	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                              	<div class="col-sm-9 form-inline">
-                              			<input type="text" class="form-control input-sm " name="time1" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-                              			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                              			<input type="text" class="form-control input-sm " name="time2" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-                              		</div>
+	                        <div class="col-md-2 form-group">
+	                              <label>执行主机IP:</label>
+	                              <input type="text" class="form-control input-sm" name="machineIp">
 	                        </div>
-	                        <div class="col-md-3 form-group">
-	                            
-	                              <label class="col-sm-5 control-label">执行主机IP</label>
-	                              <div class="col-sm-7">
-	                              <select name="funId" class="form-control input-sm" data-suburl="getFunList">
-	                                    <option value="">请选择</option>
-	                                </select>
-	                            </div>
-	                        </div>
-						<button type="reset" class="btn btn-default" id="JS_resetTask" name="reset">重置</button>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" class="btn btn-primary" id="JS_queryTask"
-							name="submit">查询</button>
 					</div>
 				</div>
-				<div class="box-footer">
-                    <div class="text-center">
-                    	
-                    </div>
-                </div>
+					<div class="box-footer">
+	                    <div class="text-center">
+	                    	<button type="reset" class="btn btn-default" id="JS_resetTask" name="reset">重置</button>
+							<button type="button" class="btn btn-primary" id="JS_queryTask" name="submit">查询</button>
+	                    </div>
+	                </div>
 			</form>
 		</div>
 		

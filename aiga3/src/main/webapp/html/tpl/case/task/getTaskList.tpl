@@ -2,26 +2,26 @@
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
-            <th>用例集名称</th>
-            <th>关联用例集类型</th>
-            <th>关联用例集数量</th>
+            <th>计划ID</th>
+            <th>任务编号</th>
+            <th>任务名称</th>
+            <th>任务类型</th>
+            <th>轮循方式</th>
+            <th>执行方法</th>
+            <th>任务执行结果</th>
+            <th>开始执行时间</th>
+            <th>结束执行时间</th>
+            <th>总共耗费时间</th>
+            <th>轮循执行次数</th>
+            <th>轮循执行间隔时间</th>
+            <th>轮循执行结束次数</th>
+            <th>执行机器IP</th>
+            <th>任务停止</th>
+            <th>短信通知</th>
+            <th>邮件通知</th>
+            <th>并行数</th>
             <th>创建人</th>
-            <th>维护人</th>
-            <th>创建时间</th>
-            <th>用例集名称</th>
-            <th>关联用例集类型</th>
-            <th>关联用例集数量</th>
-            <th>创建人</th>
-            <th>维护人</th>
-            <th>创建时间</th>
-            <th>用例集名称</th>
-            <th>关联用例集类型</th>
-            <th>关联用例集数量</th>
-            <th>创建人</th>
-            <th>维护人</th>
-            <th>创建时间</th>
-            <th>创建人</th>
-            <th>维护人</th>
+            <th>最后执行人</th>
             <th>创建时间</th>
         </tr>
     </thead>

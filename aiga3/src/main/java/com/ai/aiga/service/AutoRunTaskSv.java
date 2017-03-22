@@ -207,7 +207,7 @@ public class AutoRunTaskSv {
      */
     public Object listbyNativeSQL(AutoRunTaskRequest condition,int pageNumber, int pageSize){
         StringBuilder nativeSql=new StringBuilder(
-                "select a.task_id,a.plan_id,task_tag,task_name,Task_type,cycle_type,Run_type,\n" +
+                "select a.task_id,a.plan_id,task_tag,task_name,Task_type,a.cycle_type,a.Run_type,\n" +
                 "Task_result,Begin_run_time,End_run_time,Spend_time,run_Times,interval_Time,\n" +
                 "End_times,Stop_flag,Sms_type,Mail_type,Parallel_num,Last_runner,\n" +
                 "(select name from aiga_staff where staff_id=a.creator_id) creator_id,\n" +

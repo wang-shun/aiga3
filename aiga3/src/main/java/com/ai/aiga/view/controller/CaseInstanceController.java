@@ -26,7 +26,7 @@ public class CaseInstanceController {
 	@Autowired
 	private CaseSv caseSv;
 	
-	@RequestMapping(path = "/case/instance/test2")
+	@RequestMapping(path = "/case/instance/toAutoCaseGenerate")
 	public String goToEdit(){
 		return "caseInstanceMng/caseInstanceToAutoCase";
 	}
@@ -62,6 +62,12 @@ public class CaseInstanceController {
 			return WebValidUtil.errorInfo(result);
 		}
 		caseSv.updateTest(request);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/case/instance/copy" )
+	public @ResponseBody JsonBean copy(Long testId, String testName){
+		caseSv.copyTest(testId, testName);
 		return JsonBean.success;
 	}
 	

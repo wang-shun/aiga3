@@ -11,6 +11,8 @@ import com.ai.aiga.domain.NaTestCase;
 public interface NaTestCaseDao extends SearchAndPageRepository<NaTestCase,Long>{
 
 	void deleteByTestIdIn(List<Long> caseIds);
+
+	boolean existsByTestName(String testName);
 	
 	
 

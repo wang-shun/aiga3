@@ -10,7 +10,6 @@ define(function(require, exports, module) {
 	srvMap.add("delete", pathAlias + "getCaseTempList.json", "case/instance/del");
 	srvMap.add("get", pathAlias + "getCaseTempList.json", "case/instance/get");
 	srvMap.add("update", pathAlias + "getCaseTempList.json", "case/instance/update");
-	srvMap.add("copy", pathAlias + "getCaseTempList.json", "case/instance/copy");
 	srvMap.add("goToAutoEdit", pathAlias + "getCaseTempList.json", "case/instance/toAutoCaseGenerate");
 	//srvMap.add("funcList", "componentManage/getFunList.json", "sys/component/compTree");
 	
@@ -34,8 +33,7 @@ define(function(require, exports, module) {
 		editForm: "#JS_TestForm",
 		table: "#caseInstanceTable",
 		delBtn: "#JS_delCaseInstance",
-		editTable: "#JS_testCaseFactorList",
-		copyDiv: "#modal_testCaseCopyForm"
+		editTable: "#JS_testCaseFactorList"
 	};
 
 	var fundId = null;
@@ -55,7 +53,7 @@ define(function(require, exports, module) {
 			this.addBtnListener();
 			
 			// 默认只加载组织结构及条件查询
-			this.addModelListener();
+			this.addEditModelListener();
 		},
 		
 		initFunctionTree: function(){
@@ -168,31 +166,6 @@ define(function(require, exports, module) {
 				}
 			});
 			$('#modal_testCaseForm').modal();
-		},
-		
-		showCopy: function(row){
-			var date = {
-					testId : row.testId
-				}
-			$(Dom.copyDiv).find("form")[0].reset();
-			$(Dom.copyDiv).find("form").find("tbody").html("");
-			$(Dom.copyDiv).find("form").find("span[name='caseName']").html("");
-			Rose.ajax.getJson(srvMap.get('get'), date, function(json, status) {
-				if(status){
-					console.log(json);
-					var data = json["data"];
-					//$(Dom.editForm).val(json);
-					$(Dom.copyDiv).find("form").find("input[name='testId']").val(data["testId"]);
-					$(Dom.copyDiv).find("form").find("span[name='caseName']").html(data["caseName"]);
-					//$(copyDiv).find("form").find("input[name='simplTestName']").val(data["simplTestName"]);
-					$(Dom.copyDiv).find("form").find("textarea[name='preResult']").val(data["preResult"]);
-					$(Dom.copyDiv).find("form").find("textarea[name='testDesc']").val(data["testDesc"]);
-					
-					var factor_template = Handlebars.compile($("#tpl_getLabelFactorList").html());
-					$(Dom.copyDiv).find("table").find("tbody").html(factor_template(data.factors));
-				}
-			});
-			$(Dom.copyDiv).modal();
 		},
 		
 		// 用例模板列表
@@ -319,7 +292,10 @@ define(function(require, exports, module) {
 		        	        	self.showEdit(row);
 		        	        },
 		        	        'click .operation-copy': function (e, value, row, index) {
-		        	        	self.showCopy(row);
+		        	           	 console.log(e);
+		        	           	 console.log(value);
+		        	           	 console.log(row);
+		        	           	 console.log(index);
 		        	        },
 		        	        'click .operation-genauto': function (e, value, row, index) {
 		        	        	Rose.ajax.loadHtml($('#JS_MainContent'), srvMap.get("goToAutoEdit"));
@@ -331,7 +307,7 @@ define(function(require, exports, module) {
 			
 		},
 		
-		addModelListener: function(){
+		addEditModelListener: function(){
 			$(Dom.editForm).find("button[name='save']").click(function(){
 				
 				var cmd = "testId=" + $(Dom.editForm).find("input[name='testId']").val();
@@ -359,25 +335,6 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('修改测试用例成功！', 'success', 2000)
 						// 关闭弹出层
 						$('#modal_testCaseForm').modal('hide');
-					}
-				});
-			});
-			
-			$(Dom.copyDiv).find("button[name='save']").click(function(){
-				
-				var formv = $(Dom.copyDiv).find("form");
-				
-				var cmd = "testId=" + formv.find("input[name='testId']").val();
-				cmd += "&testName=" + (formv.find("span[name='caseName']").html() + formv.find("input[name='testNameSuffix']").val());
-				
-				Rose.ajax.postJson(srvMap.get('copy'), cmd, function(json, status) {
-					if (status) {
-						// 添加用户成功后，刷新用户列表页
-						XMS.msgbox.show('复制测试用例成功！', 'success', 2000)
-						// 关闭弹出层
-						$(Dom.copyDiv).modal('hide');
-						
-						$(Dom.table).bootstrapTable('refresh');
 					}
 				});
 			});

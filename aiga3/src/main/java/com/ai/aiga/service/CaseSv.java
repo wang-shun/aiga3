@@ -22,6 +22,7 @@ import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.AigaFunFolder;
 import com.ai.aiga.domain.AigaSubSysFolder;
 import com.ai.aiga.domain.AigaSystemFolder;
+import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.domain.NaTestCase;
 import com.ai.aiga.domain.NaTestCaseParam;
 import com.ai.aiga.exception.BusinessException;
@@ -174,6 +175,12 @@ public class CaseSv extends BaseService{
 		NaTestCase testCase = testCaseDao.findOne(testId);
 		CaseTestResponse response = BeanMapper.map(testCase, CaseTestResponse.class);
 		
+		String[] names = StringUtils.split(testCase.getTestName(), "_");
+		if(names.length == 2){
+			response.setCaseName(names[0] + "_");
+			response.setSimpleTestName(names[1]);
+		}
+		
 		List<NaTestCaseParam> list = testCaseParamDao.findByTestId(testId);
 		response.setFactors(list);
 		
@@ -190,6 +197,11 @@ public class CaseSv extends BaseService{
 		if(request.getCaseId() == null || request.getCaseId() < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
 		}
+		
+		if(testCaseDao.existsByTestName(request.getTestName())){
+			BusinessException.throwBusinessException("测试用例的名字已经存在.");
+		}
+		
 		
 		CaseTmeplateResponse resopnse = caseTemplateSv.getTmeplate(request.getCaseId());
 		if(resopnse == null){
@@ -289,6 +301,63 @@ public class CaseSv extends BaseService{
 		}
 		
 		return list;
+	}
+
+	public void copyTest(Long testId, String testName) {
+		
+		
+		if(testId == null || testId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
+		}
+		
+		if(StringUtils.isBlank(testName)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testName");
+		}
+		
+		NaTestCase testCase = testCaseDao.getOne(testId);
+		if(testCase == null){
+			BusinessException.throwBusinessException(ErrorCode.BAD_REQUEST, "testId");
+		}
+		
+		if(testCaseDao.existsByTestName(testName)){
+			BusinessException.throwBusinessException("测试用例的名字已经存在.");
+		}
+		
+		
+		NaTestCase newtestCase = new NaTestCase();
+		newtestCase.setBusiId(testCase.getBusiId());
+		newtestCase.setCaseId(testCase.getCaseId());
+		newtestCase.setCaseType(testCase.isCaseType());
+		newtestCase.setFunId(testCase.getFunId());
+		newtestCase.setImportant(testCase.getImportant());
+		newtestCase.setPreResult(testCase.getPreResult());
+		newtestCase.setScId(testCase.getScId());
+		newtestCase.setSysId(testCase.getSysId());
+		newtestCase.setSysSubId(testCase.getSysSubId());
+		newtestCase.setTestDesc(testCase.getTestDesc());
+		newtestCase.setTestType(testCase.getTestType());
+		
+		
+		newtestCase.setTestName(testName);
+		
+		testCaseDao.save(newtestCase);
+		
+		List<NaTestCaseParam> list = testCaseParamDao.findByTestId(testId);
+		List<NaTestCaseParam> newlist = BeanMapper.mapList(list, NaTestCaseParam.class, NaTestCaseParam.class);
+		
+		if(newlist != null){
+			for(NaTestCaseParam param : newlist){
+				param.setTestId(newtestCase.getTestId());
+			}
+		}
+		testCaseParamDao.save(newlist);
+	
+				
+//		testCase.setTestId(0);
+//		testCase.setTestName(testName);
+//		
+//		testCaseDao.save(testCase);
+		
 	}
 
 }

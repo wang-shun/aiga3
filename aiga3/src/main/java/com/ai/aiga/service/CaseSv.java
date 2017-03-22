@@ -348,6 +348,7 @@ public class CaseSv extends BaseService{
 		if(newlist != null){
 			for(NaTestCaseParam param : newlist){
 				param.setTestId(newtestCase.getTestId());
+				param.setParamId(0);
 			}
 		}
 		testCaseParamDao.save(newlist);

@@ -1,7 +1,5 @@
 define(function(require, exports, module) {
 	
-	// 通用工具模块
-	var Utils = require("global/utils.js");
 	
 	// 路径重命名
 	var pathAlias = "caseInstanceMng/";

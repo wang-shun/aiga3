@@ -33,6 +33,9 @@ public class AutoRunTaskSv {
 
     @Autowired
     private  AutoRunTaskCaseSv autoRunTaskCaseSv;
+
+    @Autowired
+    private AutoRunResultSv autoRunResultSv;
     /**
      * 保存操作(唯一入口)
      * @param autoRunTask
@@ -130,18 +133,26 @@ public class AutoRunTaskSv {
         if (taskRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        //如果没有任务ID，则启动；有任务ID，则重跑
+        NaAutoRunTask autoRunTask;
+        //如果没有任务ID，则执行启动新任务的初始化操作；有任务ID，则执行重跑的初始化操作
         if (taskRequest.getTaskId() == null) {
             //生成任务信息
-            NaAutoRunTask autoRunTask=this.createTask(taskRequest);
+            autoRunTask=this.createTask(taskRequest);
             //生成预执行结果信息
-
-            /**
-             * 此代码部分为调用云桌面代理程序接口接口
-             */
+            autoRunResultSv.createResultByTaskId(autoRunTask.getTaskId());
         }else{
-
+            autoRunTask=this.findById(taskRequest.getTaskId());
+            if (autoRunTask == null) {
+                BusinessException.throwBusinessException("could not found the task! please make sure the taskId:"+taskRequest.getTaskId());
+            }
+            //初始化执行结果信息
+            autoRunResultSv.initResultToExecFail(taskRequest.getTaskId());
         }
+
+        /**
+         * 此代码部分为调用云桌面代理程序接口，需后续开发者实现
+         */
+
     }
 
     /**
@@ -156,6 +167,7 @@ public class AutoRunTaskSv {
         //删除任务与用例的关联关系
         autoRunTaskCaseSv.deleteByTaskId(taskId);
         //删除任务结果信息
+        autoRunResultSv.deleteByTaskId(taskId);
     }
 
     public void delete(AutoRunTaskRequest request){
@@ -234,7 +246,7 @@ public class AutoRunTaskSv {
             if(condition.getTaskResult() !=null){
                 nativeSql.append(" and a.task_result="+condition.getTaskResult());
             }
-            if(condition.getMachineIp() !=null){
+            if (StringUtils.isNoneBlank(condition.getMachineIp())) {
                 nativeSql.append(" and a.machine_ip ='").append(condition.getMachineIp()).append("'");
             }
         }

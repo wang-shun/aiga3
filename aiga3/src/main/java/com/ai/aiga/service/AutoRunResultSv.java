@@ -379,9 +379,6 @@ public class AutoRunResultSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runType");
 		}
 		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskIdAndRunType(taskId,runType);
-		if (resultList == null || resultList.size()==0) {
-			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and runType:"+runType);
-		}
 		return resultList;
 	}
 
@@ -412,18 +409,20 @@ public class AutoRunResultSv {
 	 * @param resultList
 	 */
 	private void initResult(List<NaAutoRunResult> resultList){
-		for (NaAutoRunResult result:resultList){
-			result.setResultType((byte)2);//默认未执行
-			result.setRunType((byte)1);//默认未执行
-			result.setBeginTime(null);
-			result.setEndTime(null);
-			result.setFailReason(null);
-			result.setRunInfo(null);
-			result.setRunLog(null);
-			entityManager.persist(result);
+		if(resultList!=null&&resultList.size()>0) {
+			for (NaAutoRunResult result : resultList) {
+				result.setResultType((byte) 2);//默认未执行
+				result.setRunType((byte) 1);//默认未执行
+				result.setBeginTime(null);
+				result.setEndTime(null);
+				result.setFailReason(null);
+				result.setRunInfo(null);
+				result.setRunLog(null);
+				entityManager.persist(result);
+			}
+			entityManager.flush();
+			entityManager.clear();
 		}
-		entityManager.flush();
-		entityManager.clear();;
 	}
 
 	/**

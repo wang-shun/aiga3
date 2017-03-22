@@ -248,7 +248,6 @@ define(function(require, exports, module) {
 				$.each(busiData,function(n,value) {
 					if(_val==value.busiId){
 						name = value.busiName;
-						alert(name);
 					}
 				});
 				return name;

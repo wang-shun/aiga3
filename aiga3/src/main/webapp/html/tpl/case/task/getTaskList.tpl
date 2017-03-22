@@ -26,7 +26,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each content}}
+        {{#each this.content}}
         <tr>
             <td><input type="radio" class="minimal" value="{{taskId}}" name="taskId"></td>
             <td>{{planId}}</td>

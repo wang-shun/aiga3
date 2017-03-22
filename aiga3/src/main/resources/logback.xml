@@ -17,10 +17,12 @@
 	</appender>
 
 	<!-- project default level -->
-	<logger name="com.ai.aiga" level="INFO" />
+	<logger name="com.ai.aiga" level="DEBUG" />
 
 	<!--log4jdbc -->
 	<logger name="jdbc.sqltiming" level="INFO"/>
+	<logger name="jdbc.resultset" level="ERROR"/>
+	<logger name="jdbc.audit" level="ERROR"/>
 	<!--log4jdbc -->
 	<logger name="org.springframeword" level="INFO"/>
 

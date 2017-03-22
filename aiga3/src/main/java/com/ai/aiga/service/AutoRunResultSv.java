@@ -61,60 +61,10 @@ public class AutoRunResultSv {
 		if(StringUtils.isBlank(naAutoRunResult.getAutoId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
 		}
-		if(StringUtils.isBlank(naAutoRunResult.getGroupId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "groupId");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getCollectId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "collectId");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getResultType().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultType");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getRunType().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runType");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getSortNumber().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sortNumber");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getSortGroup().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sortGroup");
-		}
 		if(StringUtils.isBlank(naAutoRunResult.getEnvironmentType().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "environmenttType");
 		}
-		if(StringUtils.isBlank(naAutoRunResult.getBeginTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "beginTime");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getEndTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "endTime");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getRunInfo())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runInfo");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getRunLog())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runLog");
-		}
-		if(StringUtils.isBlank(naAutoRunResult.getFailReason())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "failReason");
-		}
-		
-		NaAutoRunResult result = new NaAutoRunResult();
-		result.setTaskId(naAutoRunResult.getTaskId());
-		result.setAutoId(naAutoRunResult.getTaskId());
-		result.setGroupId(naAutoRunResult.getGroupId());
-		result.setCollectId(naAutoRunResult.getCollectId());
-		result.setResultType(naAutoRunResult.getResultType());
-		result.setRunType(naAutoRunResult.getRunType());
-		result.setSortNumber(naAutoRunResult.getSortNumber());
-		result.setSortGroup(naAutoRunResult.getSortGroup());
-		result.setEnvironmentType(naAutoRunResult.getEnvironmentType());
-		result.setBeginTime(naAutoRunResult.getBeginTime());
-		result.setEndTime(naAutoRunResult.getEndTime());
-		result.setRunInfo(naAutoRunResult.getRunInfo());
-		result.setRunLog(naAutoRunResult.getRunLog());
-		result.setFailReason(naAutoRunResult.getFailReason());
-		
-		naAutoRunResultDao.save(result);
+		naAutoRunResultDao.save(naAutoRunResult);
 	}
 
 	public Object caseByTaskList(AutoRunResultRequest condition,int pageNumber,int pageSize) {
@@ -124,9 +74,9 @@ public class AutoRunResultSv {
 		if(condition.getTaskId() == null || condition.getTaskId() < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultId");
 		}
-		String sql = "select a.auto_id, b.auto_name, a.sort_number, a.sort_group, a.result_type,"
+		String sql = "select a.result_id, a.auto_id, b.auto_name, a.sort_number, a.sort_group, a.result_type,"
 				+ " a.fail_reason from na_auto_run_result a, na_auto_case b where a.auto_id = b.auto_id "
-				+ "and a.result_id = "+condition.getTaskId();
+				+ "and a.task_id = "+condition.getTaskId();
 		if(StringUtils.isNoneBlank(condition.getAutoName())){
 			sql += " and auto_name like '%"+condition.getAutoName()+"%'";
 		}
@@ -134,6 +84,7 @@ public class AutoRunResultSv {
 			sql += " and a.result_type = "+condition.getResultType() ;
 		}
 		List<String> list = new ArrayList<String>();
+		list.add("resultId");
 		list.add("autoId");
 		list.add("autoName");
 		list.add("sortNumber");
@@ -152,19 +103,19 @@ public class AutoRunResultSv {
 		
 	}
 
-	public Map<String, String> runInfo(Long resultId, Long autoId) {
+	public Map<String, String> runInfo(Long resultId) {
 		if(resultId == null || resultId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultId");
 
 		}
-		if(autoId == null || autoId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
-
-		}
+		NaAutoRunResult result = naAutoRunResultDao.findOne(resultId);
 		Map<String, String> map = new HashMap<String, String>();
-		String runInfo = naAutoRunResultDao.runInfo(resultId, autoId);
-		map.put("runInfo", runInfo);
+		if(result != null){
+			String runInfo = result.getRunInfo();
+			map.put("runInfo", runInfo);	
+		}
 		return map;
+		
 	}
 
 	public Object list(TaskRunResultRequest condition, int pageNumber, int pageSize) {
@@ -345,18 +296,17 @@ public class AutoRunResultSv {
 		
 	}
 
-	public Map<String , String>  runLog(Long resultId, Long autoId) {
+	public Map<String , String>  runLog(Long resultId) {
 		if(resultId == null || resultId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultId");
 
 		}
-		if(autoId == null || autoId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
-
-		}
 		Map<String, String> map = new HashMap<String, String>();
-		String runLog = naAutoRunResultDao.runLog(resultId, autoId);
-		map.put("runLog", runLog);
+		NaAutoRunResult result = naAutoRunResultDao.findOne(resultId);
+		if(result != null){
+			String runLog = result.getRunLog();
+			map.put("runLog", runLog);
+		}
 		return map;
 	}
 

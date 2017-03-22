@@ -45,18 +45,19 @@ public class AutoRunResultController {
 	}
 	
 	/**
-	 * 根据resultId和用例Id 获取用例执行信息*/
+	 * 根据resultId 获取用例执行信息*/
 	@RequestMapping(path = "/auto/autoRunResult/runInfo")
-	public @ResponseBody JsonBean runInfo(Long resultId, Long autoId){
+	public @ResponseBody JsonBean runInfo(Long resultId){
 		JsonBean bean = new JsonBean();
-		bean.setData(autoRunResultSv.runInfo(resultId, autoId));
+		bean.setData(autoRunResultSv.runInfo(resultId));
 		return bean;
 	}
 	/**
-	 * 根据resultId和用例Id 获取执行日志*/
-	public @ResponseBody JsonBean runLog(Long resultId, Long autoId){
+	 * 根据resultId 获取执行日志*/
+	@RequestMapping(path = "/auto/autoRunResult/runLog")
+	public @ResponseBody JsonBean runLog(Long resultId){
 		JsonBean bean = new JsonBean();
-		bean.setData(autoRunResultSv.runLog(resultId, autoId));
+		bean.setData(autoRunResultSv.runLog(resultId));
 		return bean;
 	}
 	/**

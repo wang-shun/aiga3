@@ -62,26 +62,26 @@ public class NaAutoRunPlanSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null,"planName");
 		}
 		//计划轮询方式
-		if(naAutoRunPlan.getCycleType()!=null){
+		if(naAutoRunPlan.getCycleType()==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null,"cycleType");
 		}
 		//计划默认执行机
-		if(naAutoRunPlan.getMachineIp()!=null){
+		if(StringUtils.isBlank(naAutoRunPlan.getMachineIp())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null,"machineIp");
 		}
 		//执行方式
-		if(naAutoRunPlan.getRunType()!=null){
+		if(naAutoRunPlan.getRunType()==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null,"runType");
 		}
 		NaAutoRunPlan naAutoRunPlans = new NaAutoRunPlan();
-		naAutoRunPlans.setMachineIp(naAutoRunPlans.getMachineIp());
-		naAutoRunPlans.setPlanTag(naAutoRunPlans.getPlanTag());
-		naAutoRunPlans.setRunType(naAutoRunPlans.getRunType());
-		naAutoRunPlans.setPlanName(naAutoRunPlans.getPlanName());
-		naAutoRunPlans.setCycleType(naAutoRunPlans.getCycleType());
+		naAutoRunPlans.setMachineIp(naAutoRunPlan.getMachineIp());
+		naAutoRunPlans.setPlanTag(naAutoRunPlan.getPlanTag());
+		naAutoRunPlans.setRunType(naAutoRunPlan.getRunType());
+		naAutoRunPlans.setPlanName(naAutoRunPlan.getPlanName());
+		naAutoRunPlans.setCycleType(naAutoRunPlan.getCycleType());
 		//如果planId存在就是修改，否则就是新增
 		if(naAutoRunPlan.getPlanId()!=null){
-			naAutoRunPlan.setPlanId(naAutoRunPlan.getPlanId());
+			naAutoRunPlans.setPlanId(naAutoRunPlan.getPlanId());
 			naAutoRunPlans.setUpdateTime(new Date());
 			naAutoRunPlans.setCreateTime(new SimpleDateFormat().parse(naAutoRunPlan.getCreateTime()));
 			naAutoRunPlan.setCreatorId(naAutoRunPlan.getCreatorId());
@@ -199,6 +199,20 @@ public class NaAutoRunPlanSv extends BaseService{
 	
 	
 	
+
+/**
+ * 
+ * @param planId 当前计划id
+ * @return
+ */
+		public NaAutoRunPlan queryByPlanId(Long planId ){
+	    if(planId==null){
+	    	BusinessException.throwBusinessException(ErrorCode.Parameter_null,"planId");
+	    }
+			return   naAutoRunPlanDao.findByPlanId(planId);
+		}
+		
+	
 	/**
 	 * 查询自动化自计划
 	 * @param condition 查询条件
@@ -215,10 +229,10 @@ public class NaAutoRunPlanSv extends BaseService{
 			sql += " and a.run_type = "+condition.getRunType();
 		}
 		if(!StringUtils.isBlank(condition.getCreateTime())){
-			sql += " and to_char(a.create_time,'yyyy-mm-dd') > "+condition.getCreateTime();
+			sql += " and to_char(a.create_time,'yyyy-mm-dd') > '"+condition.getCreateTime()+"'";
 		}
 		if(!StringUtils.isBlank(condition.getUpdateTime())){
-			sql += " and to_char(a.create_time,'yyyy-mm-dd') < "+condition.getUpdateTime();
+			sql += " and to_char(a.create_time,'yyyy-mm-dd') < '"+condition.getUpdateTime()+"'";
 		}
 		System.out.println("查询自动化计划sql"+sql);
 		List results = new ArrayList<String>();

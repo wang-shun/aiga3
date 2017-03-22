@@ -142,9 +142,14 @@ define(function(require, exports, module) {
         },
         //保存计划
         saveAutoPlan: function(cmd) {
+        	var self = this;
             Rose.ajax.getJson(srvMap.get('saveAutoPlan'), cmd, function(json, status) {
                 if (status) {
-                    window.XMS.msgbox.show('计划保存成功！', 'success', 2000)
+                    window.XMS.msgbox.show('计划保存成功！', 'success', 2000);
+	                 $(Dom.modalPlanForm).find("[name='planName']").val('');
+	                $(Dom.modalPlanForm).find("[name='cycleType']").val('');
+	                $(Dom.modalPlanForm).find("[name='runType']").val('');
+	                $(Dom.modalPlanForm).find("[name='machineIp']").val('');
                     setTimeout(function() {
                         self.getPlanList();
                     }, 1000)

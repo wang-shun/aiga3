@@ -146,7 +146,7 @@ public class AutoRunTaskSv {
                 BusinessException.throwBusinessException("could not found the task! please make sure the taskId:"+taskRequest.getTaskId());
             }
             //初始化执行结果信息
-            autoRunResultSv.initResultToExecFail(taskRequest.getTaskId());
+            autoRunResultSv.initResultByFail(taskRequest.getTaskId());
         }
 
         /**
@@ -197,10 +197,8 @@ public class AutoRunTaskSv {
         autoRunTask.setStopFlag(1L);
         autoRunTask.setTaskResult(4L);
         this.save(autoRunTask);
-
-        /**
-         * 此部分代码调用任务执行结果明细表接口，将正在执行的用例全部置为未执行，需后续开发者继续实现
-         */
+        //将未执行的用例全部初始化
+        autoRunResultSv.initResultByExec(autoRunTask.getTaskId());
     }
 
     public void stop(AutoRunTaskRequest request){

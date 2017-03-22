@@ -12,7 +12,10 @@ import java.util.List;
 public interface NaAutoRunResultDao extends JpaRepository<NaAutoRunResult, Long>, SearchAndPageRepository<NaAutoRunResult, Long>{
 
 	List<NaAutoRunResult> findByTaskId(Long taskId);
+
 	List<NaAutoRunResult> findByTaskIdAndResultTypeNot(Long taskId,Byte resultType);
+
+	List<NaAutoRunResult> findByTaskIdAndResultType(Long taskId,Byte resultType);
 
 	@Modifying
 	@Query(value = "delete from na_auto_run_result where task_id=?1",nativeQuery = true)

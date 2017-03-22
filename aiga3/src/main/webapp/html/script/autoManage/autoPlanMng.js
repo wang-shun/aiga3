@@ -70,10 +70,10 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-
             this.getPlanList();
             this.queryAutoPlan();
             this.addAutoPlan();
+            this.deleAutoPlan();
         },
         getPlanList: function(cmd) {
             var self = this;
@@ -81,7 +81,7 @@ define(function(require, exports, module) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getAutoPlanList);
                     console.log(json.data)
-                    $(Dom.getAutoPlanList).html(template(json.data));
+                    $(Dom.getAutoPlanList).html(template(json.data.content));
                     self.eventClickChecked($(Dom.getAutoPlanList));
                     Utils.eventDClickCallback($(Dom.getAutoPlanList), function() {
                         self.editAutoPlan();
@@ -157,15 +157,34 @@ define(function(require, exports, module) {
             });
         },
         //删除计划
-        deleAutoPlan: function(cmd) {
-            Rose.ajax.getJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
-                if (status) {
-                    window.XMS.msgbox.show('计划删除成功！', 'success', 2000)
-                    setTimeout(function() {
-                        self.getPlanList();
-                    }, 1000)
+        deleAutoPlan: function() {
+            $("#JS_delePlan").bind('click', function() {
+                var cmd = 'planId=';
+                var  id;
+                $(Dom.getAutoPlanList).find("tr").each(function() {
+                    var tdArr = $(this).children();
+                    if (tdArr.eq(0).find("input").is(':checked')) {
+                        id = tdArr.eq(0).find("input").val();
+                        cmd += id+',';
+                    }
+                });
+                cmd=cmd.substring(0,cmd.Length-1);
+                if (id) {
+                    Rose.ajax.getJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
+                        if (status) {
+                            window.XMS.msgbox.show('计划删除成功！', 'success', 2000)
+                            setTimeout(function() {
+                                self.getPlanList();
+                            }, 1000)
+                        }
+                    });
+                } else {
+                    window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
                 }
+
             });
+
+
         },
 
         //获取选中当前计划数据

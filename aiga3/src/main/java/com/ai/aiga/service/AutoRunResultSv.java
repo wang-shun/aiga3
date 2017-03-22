@@ -403,5 +403,15 @@ public class AutoRunResultSv {
 		this.initResultToExec(resultList);
 	}
 
+	/**
+	 * 根据任务ID删除
+	 * @param taskId
+	 */
+	public int deleteByTaskId(Long taskId){
+		if (taskId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		return naAutoRunResultDao.deleteByTaskId(taskId);
+	}
 
 }

@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     var planTag; //计划编号
 
     // 计划列表显示
-    srvMap.add("getAutoPlanList", pathAlias + "autoPlanList.json", "sys/autoPlan/query");
+    srvMap.add("getAutoPlanList", pathAlias + "autoPlanList.json", "sys/autoPlan/queryList");
     //计划保存接口
     srvMap.add("saveAutoPlan", pathAlias + "autoPlanList.json", "sys/autoPlan/save");
     //删除计划接口
@@ -103,7 +103,7 @@ define(function(require, exports, module) {
                 // 表单重置
             _form.find('button[name="reset"]').bind('click', function() {
                 $("#queryPlanName").val('');
-                $("#query_cycleType").val('');
+                $("#query_runType").val('');
                 $("#createTime").val('');
                 $("#updateTime").val('');
             });

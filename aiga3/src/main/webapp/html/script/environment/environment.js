@@ -3,17 +3,18 @@ define(function(require,exports,module){
 	//引入公用模块
 	require('global/header.js');
 	require('global/sidebar.js');
+	var Utils = require('global/utils.js')
 
 	//显示环境列表
-	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","");
+	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","/sys/environment/findall");
 	//根据Id查询环境
-	srvMap.add("getEnvironmentInfo","environment/getEnvironmentInfo.json","");
+	srvMap.add("getEnvironmentInfo","environment/getEnvironmentInfo.json","/sys/environment/findone");
 	//增加环境
-	srvMap.add("addEnvironmentInfo","environment/addEnvironmentInfo.json","");
+	srvMap.add("addEnvironmentInfo","environment/addEnvironmentInfo.json","/sys/environment/save");
 	//删除环境
-	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","");
+	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","/sys/environment/del");
 	//修改环境
-	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","");
+	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","/sys/environment/update");
 
 	//模板对象
 	var Tpl={
@@ -53,17 +54,8 @@ define(function(require,exports,module){
     	},
     	initForm:function(){
 	    		var self=this;
-	    		/*Rose.ajax.postJson(srvMap.get('getEnvironmentList'),cmd,function(json,status){
-	    			if(status){
-	    				var template=Handlerbars.compile(Tpl.queryEnvironmentForm);
-	    			}
-	    		});*/
 	    		var template=Handlebars.compile(Tpl.queryEnvironmentForm);
 	    		$(Dom.queryEnvironmentForm).html(template());
-				//修改按钮
-				self.updateEnvironmentInfo();
-				//删除按钮
-				self.deleteEnvironment();
     	},
 		getEnvironmentList: function(cmd) {
 			var self = this;
@@ -72,9 +64,44 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.getEnvironmentList);
 					console.log(json.data)
 					$(Dom.getEnvironmentList).html(template(json.data.content));
-					/*self.deleCaseTemp();
-					self.eventClickChecked($(Dom.getCaseTempList), function() {
-					})*/
+					//删除按钮
+					self.deleteEnvironment();
+					//引入单选框样式
+					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
+							var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+							var _envId ="";
+							_checkObj.each(function (){
+								_envId = 	$(this).val();
+							})
+							var cmd = "envId=" +_envId;
+							Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
+								if (status) {
+									var _form = $(Dom.addEnviromentInfoForm);
+									var template = Handlebars.compile(Tpl.addEnvironmentInfo);
+									var c = json.data;
+									_form.html(template(c));
+									// //弹出层
+									$(Dom.addEnvironmentInfoModal).modal('show');
+									$("#formName").html("修改环境");
+									$("#JS_addEnvironmentInfoSubmit").unbind('click');
+									//点击保存
+									$("#JS_addEnvironmentInfoSubmit").bind('click',function(){
+									var cmd = _form.serialize();
+									Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
+										if(status) {
+												// 添加用户成功后，刷新用户列表页
+												XMS.msgbox.show('修改成功！', 'success', 2000)
+												// 关闭弹出层
+												$(Dom.addEnvironmentInfoModal).modal('hide');
+												setTimeout(function(){
+													self.getEnvironmentList();
+												},1000)
+										}
+												});
+									});
+								}
+							});
+					})
 				}
 			});
 		},
@@ -112,9 +139,6 @@ define(function(require,exports,module){
 				var template = Handlebars.compile(Tpl.addEnvironmentInfo);
 				$("#formName").html("新增环境");
 				_form.html(template());
-				/*$("#caseType").val("");
-				$("#repairsId").val("");
-				$("#caseNum").val("");*/
 				//弹出层
 				$(Dom.addEnvironmentInfoModal).modal('show');
 				$("#JS_addEnvironmentInfoSubmit").unbind('click');
@@ -139,11 +163,11 @@ define(function(require,exports,module){
 		//删除
 		deleteEnvironment : function(){
 			var self = this;
-			var  sysId="";
+			var  envId="";
 			var num =0 ;
 			$("#JS_deleteEnvironment").unbind('click');
 			$("#JS_deleteEnvironment").bind('click', function() {
-				var  sysId="";
+				var  envId="";
 				var num =0 ;
 			   var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
 			   if(_checkObj.length==0){
@@ -152,13 +176,13 @@ define(function(require,exports,module){
 			   }
 			   _checkObj.each(function (){
 				   if(num!=(_checkObj.length-1)){
-					   sysId += $(this).val()+",";
+					   envId += $(this).val()+",";
 				   }else{
-					   sysId += $(this).val();
+					   envId += $(this).val();
 				   }
 				   num ++;
 				});
-				Rose.ajax.postJson(srvMap.get('deleteEnvironment'), 'sysId=' + sysId, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('deleteEnvironment'), 'envId=' + envId, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
@@ -168,73 +192,6 @@ define(function(require,exports,module){
 				});
 			});
 		},
-		//修改
-		updateEnvironmentInfo:function(){
-			var self = this;
-			$("#JS_updateEnvironmentInfo").unbind('click');
-			$("#JS_updateEnvironmentInfo").bind('click',function(){
-				var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
-		   		if(_checkObj.length==0){
-			   	    window.XMS.msgbox.show('请选择要修改的环境！', 'error', 2000);
-			        return false;
-			    }
-				var _sysId ="";
-				_checkObj.each(function (){
-					_sysId = 	$(this).val();
-				})
-				var cmd = "sysId=" +_sysId;
-				Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
-					if (status) {
-						var _form = $(Dom.addEnviromentInfoForm);
-						var template = Handlebars.compile(Tpl.addEnvironmentInfo);
-						/*var a = JSON.stringify(json.data.sysId);
-						var b = JSON.stringify(json.data.repairsId);*/
-						var c = json.data;
-						/*c["caseType"]=Dom.caseType;
-						c["repairsId"]=Dom.repairsId;*/
-						_form.html(template(c));
-						/*$("#caseType").val(a);
-						$("#repairsId").val(b);*/
-						// //弹出层
-						$(Dom.addEnvironmentInfoModal).modal('show');
-						$("#formName").html("修改环境");
-						$("#JS_addEnvironmentInfoSubmit").unbind('click');
-						//点击保存
-						$("#JS_addEnvironmentInfoSubmit").bind('click',function(){
-						var cmd = _form.serialize();
-						console.log(cmd);
-						Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
-							if(status) {
-									// 添加用户成功后，刷新用户列表页
-									XMS.msgbox.show('修改成功！', 'success', 2000)
-									// 关闭弹出层
-									$(Dom.addEnvironmentInfoModal).modal('hide');
-									setTimeout(function(){
-										self.getEnvironmentList();
-									},1000)
-							}
-									});
-						});
-					}
-				});
-			});
-		},
-		getCaseSetRow : function(){
-			var _obj = $(Dom.getCaseSetinfoListTable).find("input[type='checkbox']:checked").parents("tr");
-			var _collectId = _obj.find("input[name='collectId']");
-			console.log(_collectId)
-			var data = {
-				collectId: "",
-		    }
-		    if(_collectId.length==0){
-		    	window.XMS.msgbox.show('请先选择一个用例集！', 'error', 2000);
-		    	return;
-		    }else{
-		    	data.collectId= _collectId.val();
-		    }
-		    console.log(data.collectId)
-		    return data;
-		}
     };
 
 	module.exports=environment;

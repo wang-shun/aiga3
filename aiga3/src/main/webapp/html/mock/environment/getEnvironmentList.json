@@ -4,6 +4,7 @@
   "data":{
   	"content":
   	[{
+  	"envId":"1",
     "sysId": "10102",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -18,10 +19,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"2",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -36,10 +38,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"3",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -54,10 +57,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"4",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -72,10 +76,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"5",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -90,10 +95,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"6",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -108,10 +114,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"7",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -126,10 +133,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"8",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -144,10 +152,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"9",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -162,10 +171,11 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   },{
+  	"envId":"10",
     "sysId": "10101",
     "envName":"环境名称1",
 	"envUrl": "环境地址1",
@@ -180,7 +190,7 @@
 	"sysPassword":"登录密码1",
 	"svnUrl":"SVN地址1",
 	"svnAccount":"SVN账号1",
-	"synPassword":"SVN密码1",
+	"svnPassword":"SVN密码1",
 	"dbAccount":"数据库账号1",
 	"dbPassword":"数据库密码1"
   }]

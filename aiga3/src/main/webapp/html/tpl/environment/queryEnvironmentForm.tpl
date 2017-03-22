@@ -55,7 +55,7 @@
             <label for="runEnv" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->执行环境：</label>
             <div class="col-sm-7">
             	<select id="query_runEnv" name="runEnv" class="form-control select2 input-sm" >
-                    <option> </option>
+                    <option value="">请选择</option>
                     <option value="1">验收环境</option>
                     <option value="2">准发布环境</option>
                     <option value="3">生产环境</option>

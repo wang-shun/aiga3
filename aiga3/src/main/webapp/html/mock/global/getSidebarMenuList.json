@@ -90,7 +90,7 @@
                 "isActive": 1
             }, {
                 "menuName": "自动化环境配置",
-                "menuURL": "#",
+                "menuURL": "view/environment/environment.html",
                 "hasChild": 0,
                 "isActive": 0
             }, {

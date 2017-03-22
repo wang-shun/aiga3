@@ -10,7 +10,9 @@ public class CaseTestResponse {
 	
 	private long testId;
 	private String testName;
+	private String simpleTestName;
 	private long caseId;
+	private String caseName;
 	private String testType;
 	private byte caseType;
 	private String testDesc;
@@ -170,6 +172,23 @@ public class CaseTestResponse {
 
 	public void setFactors(List<NaTestCaseParam> factors) {
 		this.factors = factors;
+	}
+	
+	public String getCaseName() {
+		return caseName;
+	}
+
+	public void setCaseName(String caseName) {
+		this.caseName = caseName;
+	}
+	
+
+	public String getSimpleTestName() {
+		return simpleTestName;
+	}
+
+	public void setSimpleTestName(String simpleTestName) {
+		this.simpleTestName = simpleTestName;
 	}
 
 	@Override

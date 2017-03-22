@@ -2,6 +2,7 @@ package com.ai.aiga.service;
 
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,9 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoCaseDao;
+import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoRunPlanCaseDao;
 import com.ai.aiga.dao.NaAutoRunPlanDao;
 import com.ai.aiga.domain.NaAutoCase;
+import com.ai.aiga.domain.NaAutoCollGroupCase;
 import com.ai.aiga.domain.NaAutoRunPlan;
 import com.ai.aiga.domain.NaAutoRunPlanCase;
 import com.ai.aiga.exception.BusinessException;
@@ -38,12 +41,15 @@ public class NaAutoRunPlanSv extends BaseService{
 	private NaAutoRunPlanCaseDao naAutoRunPlanCaseDao;
 	@Autowired
 	private NaAutoCaseDao naAutoCaseDao;
+	@Autowired
+	private NaAutoCollGroupCaseDao naAutoCollGroupCaseDao;
 
 	/**
 	 * 保存自动化计划
 	 * @param naAutoRunPlan
+	 * @throws Exception 
 	 */
-	public void save(NaAutoRunPlanRequest  naAutoRunPlan){
+	public void save(NaAutoRunPlanRequest  naAutoRunPlan) throws Exception{
 		if(naAutoRunPlan==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null,"NaAutoRunPlanRequest");
 		}
@@ -77,7 +83,7 @@ public class NaAutoRunPlanSv extends BaseService{
 		if(naAutoRunPlan.getPlanId()!=null){
 			naAutoRunPlan.setPlanId(naAutoRunPlan.getPlanId());
 			naAutoRunPlans.setUpdateTime(new Date());
-			naAutoRunPlans.setCreateTime(naAutoRunPlan.getCreateTime());
+			naAutoRunPlans.setCreateTime(new SimpleDateFormat().parse(naAutoRunPlan.getCreateTime()));
 			naAutoRunPlan.setCreatorId(naAutoRunPlan.getCreatorId());
 		}else{
 			naAutoRunPlans.setCreateTime(new Date());
@@ -129,39 +135,40 @@ public class NaAutoRunPlanSv extends BaseService{
 	
 	/**
 	 * 关联自动化用组
-	 * @param planId
-	 * @param caseIds
+	 * @param planId当前计划id
+	 * @param groupIds 要关联的用例组id
 	 */
 	public void connectGroup(Long planId ,String groupIds){
 		String[] groupId = groupIds.split(",");
 		for (String id : groupId) {
-				//查询当前计划是否已经关联该用例
-			List<NaAutoRunPlanCase>  naAutoRunPlanCases= naAutoRunPlanCaseDao.findByPlanIdAndAutoId(planId, Long.parseLong(id));
-			if(naAutoRunPlanCases!=null&&naAutoRunPlanCases.size()>0){
-				System.out.println("当前计划已经关联过该用例组，无需再次关联");
-			}else{
-				//查询当前用例组包含的用例的信息
-				String sql = "Select a.auto_id, a. Environment_type,b. Group_order \n"
-									+" 	From na_auto_group_case a , na_auto_case b \n"
-									+" 	Where a.auto_id = b.auto_id \n"
-									+" 	And a.group_id= "+Long.parseLong(id);
-				List caseInfos = naAutoRunPlanCaseDao.searchformSQL(sql);
-				if(caseInfos!=null&&caseInfos.size()>0){
-					//查询当前计划下组顺序
-				Long count = (Long)naAutoRunPlanCaseDao.findCountByPlanIdAndGroupId(planId, Long.parseLong(id));
-					for (int i=0;i<caseInfos.size();i++) {
-						Object[] caseInfo = (Object[])caseInfos.get(i);
-						NaAutoRunPlanCase  naAutoRunPlanCase = new NaAutoRunPlanCase();
-						naAutoRunPlanCase.setAutoId(Long.parseLong(caseInfo[0].toString()));
-						naAutoRunPlanCase.setPlanId(planId);
-						naAutoRunPlanCase.setEnvironmentType(Long.parseLong(caseInfo[1].toString()));
-						naAutoRunPlanCase.setGroupId(Long.parseLong(id));
-						naAutoRunPlanCase.setSortGroup(Long.parseLong(caseInfo[2].toString()));
-						naAutoRunPlanCase.setSortNumber(count+i+1);
-						naAutoRunPlanCaseDao.save(naAutoRunPlanCase);
+					//查询当前计划是否已经关联用例组
+				List<NaAutoRunPlanCase>  naAutoRunPlanCases= naAutoRunPlanCaseDao.findByPlanIdAndGroupId(planId, Long.parseLong(id));
+				if(naAutoRunPlanCases!=null&&naAutoRunPlanCases.size()>0){
+					System.out.println("当前计划已经关联过该用例组，无需再次关联");
+				}else{
+					//查询当前用例组包含的用例的信息
+					String sql = "    select b.auto_id, b.Environment_type,a.Group_order  \n"
+										+" 	From na_auto_group_case a , na_auto_case b \n"
+										+" 	 Where a.auto_id = b.auto_id(+)  \n"
+										+" 	And a.group_id= "+Long.parseLong(id);
+					System.out.println("查询用例信息"+sql);
+					List caseInfos = naAutoRunPlanCaseDao.searchformSQL(sql);
+					if(caseInfos!=null&&caseInfos.size()>0){
+						//查询当前计划下组顺序
+					Object count = naAutoRunPlanCaseDao.findCountByPlanIdAndGroupId(planId, Long.parseLong(id));
+						for (int i=0;i<caseInfos.size();i++) {
+							Object[] caseInfo = (Object[])caseInfos.get(i);
+							NaAutoRunPlanCase  naAutoRunPlanCase = new NaAutoRunPlanCase();
+							naAutoRunPlanCase.setAutoId(Long.parseLong(caseInfo[0].toString()));
+							naAutoRunPlanCase.setPlanId(planId);
+							naAutoRunPlanCase.setEnvironmentType(Long.parseLong(caseInfo[1].toString()));
+							naAutoRunPlanCase.setGroupId(Long.parseLong(id));
+							naAutoRunPlanCase.setSortGroup(Long.parseLong(caseInfo[2].toString()));
+							naAutoRunPlanCase.setSortNumber(Long.parseLong(count.toString())+i+1);
+							naAutoRunPlanCaseDao.save(naAutoRunPlanCase);
+						}	
 					}	
-				}	
-			}
+				}
 		}		
 	}
 	
@@ -176,8 +183,18 @@ public class NaAutoRunPlanSv extends BaseService{
 		String[] collectId = collectIds.split(",");
 	   for (String id : collectId) {
 		//查询当前用例集里面的自动化用例信息和用例集信息
-   	 }
-	
+		   List<NaAutoCollGroupCase> listCollectInfo =  naAutoCollGroupCaseDao.findByCollectId(Long.parseLong(id));
+		   for (NaAutoCollGroupCase naAutoCollGroupCase : listCollectInfo) {
+			   //如果是自动化用例(手工用例不做处理)
+			if(naAutoCollGroupCase.getElementType()==2){
+				connectCase(planId,String.valueOf(naAutoCollGroupCase.getElementId()));
+			}
+			//如果是用例组
+			else if(naAutoCollGroupCase.getElementType()==0){
+				connectGroup(planId,String.valueOf(naAutoCollGroupCase.getElementId()));
+			}
+		}
+   	 }	
 	}
 	
 	
@@ -190,18 +207,18 @@ public class NaAutoRunPlanSv extends BaseService{
 	 * @return
 	 */
 		public Object query(NaAutoRunPlanRequest condition ,int page,int pageSize){
-		String sql = "select  a.plan_id,a.plan_tag,a.plan_name,b.name,a.create_time ,a.update_time,a.cycle_type,a.machine_ip,a.run_type from na_auto_run_plan a ,aiga_staff where a.creator_id = b.staff_id(+) ";
+		String sql = "select  a.plan_id,a.plan_tag,a.plan_name,b.name,to_char(a.create_time,'yyyy-mm-dd hh24:mi:ss') ,to_char(a.update_time,'yyyy-mm-dd hh24:mi:ss'),a.cycle_type,a.machine_ip,a.run_type from na_auto_run_plan a ,aiga_staff b where a.creator_id = b.staff_id(+) ";
 		if(!StringUtils.isBlank(condition.getPlanName())){
-			sql += " and a.auto_name like '%"+condition.getPlanName()+"%'";
+			sql += " and a.plan_name like '%"+condition.getPlanName()+"%'";
 		}
-		if(!StringUtils.isBlank(String.valueOf(condition.getRunType()))){
+		if(condition.getRunType()!=null){
 			sql += " and a.run_type = "+condition.getRunType();
 		}
-		if(condition.getCreateTime()!=null){
-			sql += " and to_char(a.create_time,'yyyy-mm-dd') > "+new SimpleDateFormat("yyyy-MM-dd").format(condition.getCreateTime());
+		if(!StringUtils.isBlank(condition.getCreateTime())){
+			sql += " and to_char(a.create_time,'yyyy-mm-dd') > "+condition.getCreateTime();
 		}
-		if(condition.getUpdateTime()!=null){
-			sql += " and to_char(a.create_time,'yyyy-mm-dd') < "+new SimpleDateFormat("yyyy-MM-dd").format(condition.getUpdateTime());
+		if(!StringUtils.isBlank(condition.getUpdateTime())){
+			sql += " and to_char(a.create_time,'yyyy-mm-dd') < "+condition.getUpdateTime();
 		}
 		System.out.println("查询自动化计划sql"+sql);
 		List results = new ArrayList<String>();
@@ -241,21 +258,19 @@ public class NaAutoRunPlanSv extends BaseService{
 		s.append("   b.sys_name         as sys_id, \n");
 		s.append("   c.sys_name         as sub_sys_id,\n");
 		s.append("    d.sys_name           as func_id,\n");
-		s.append("    d.sys_name           as func_id,\n");
-		s.append("     e.busi_name        as func_id,\n");
-		s.append(" e.busi_name        as func_id,\n");
-		s.append("	       a.important,\n");
-		s.append("	       a.Environment_type \n");
-		s.append(" From na_auto_case a \n");
+		s.append("    e.busi_name        as busi_id,\n");
+		s.append("	    a.important,\n");
+		s.append("	    a.Environment_type \n");
+		s.append("  From na_auto_case a \n");
 		s.append("  left join aiga_system_folder b\n");
 		s.append(" on a.sys_id = b.sys_id\n");
 		s.append("  left join aiga_sub_sys_folder c \n");
 		s.append("  on a.Sys_sub_id = c.subsys_id \n ");
 		s.append("  left join aiga_fun_folder d\n ");
 		s.append("  on a. Fun_id = d.fun_id\n ");
-		s.append("left join na_business e\n ");
+		s.append("  left join na_business e\n ");
 		s.append("    on a. busi_id = e.busi_id\n ");
-		s.append("Where exists\n ");
+		s.append(" Where exists\n ");
 		s.append(" (select * from na_auto_run_plan_case f where a.auto_id = f.auto_id and f.plan_id="+planId+") \n ");
 		s.append("   and a.Has_auto = 1\n ");
 		s.append("   and a.status = 1   ");
@@ -387,13 +402,10 @@ public class NaAutoRunPlanSv extends BaseService{
  * @param groupName 用例组名称
  * @return
  */
-	public Object  queryUnconnectGroup(Long  planId , String groupName,int page,int pageSize){
-		if(StringUtils.isBlank(String.valueOf(planId))){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null,"planId");
-		}
-		String sql = "select a.group_id,a.group_name,a.creator_id,a.update_id,a.update_time from na_auto_group a where not  exists (select * from  na_auto_run_plan_case b where a.group_id = b.group_id)";
+	public Object  queryConnectGroup( Long planId,String groupName,int page,int pageSize){
+		String sql = "select a.group_id,a.group_name,a.creator_id,a.update_id,a.update_time from na_auto_group a where   exists (select * from  na_auto_run_plan_case b where a.group_id = b.group_id)";
 		if(!StringUtils.isBlank(groupName)){
-			sql += " and a.group_name like '%"+groupName+"&'";
+			sql += " and a.group_name like '%"+groupName+"%'";
 		}
 		List result = new ArrayList<String>();
 		result.add("groupId");
@@ -430,16 +442,16 @@ public class NaAutoRunPlanSv extends BaseService{
 	
 	
 	/**
-	 * 查询当前计划未关联的用例集信息
+	 * 查询当前计划已关联的用例集信息
 	 * @param planId 当前计划id
 	 * @param groupName 用例集名称
 	 * @return
 	 */
-		public Object  queryUnconnectCollect(Long  planId , String collectName,int page,int pageSize){
+		public Object  queryConnectCollect(Long  planId , String collectName,int page,int pageSize){
 			if(StringUtils.isBlank(String.valueOf(planId))){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null,"planId");
 			}
-			String sql = "select a.COLLECT_ID,a.COLLECT_NAME,a.OP_ID,a.CREATE_DATE,a.REPAIRS_ID, CASE_TYPE from na_auto_collection  a where not  exists (select * from  na_auto_run_plan_case b where a.collect_id = b.collect_id)";
+			String sql = "select a.COLLECT_ID,a.COLLECT_NAME,a.OP_ID,a.CREATE_DATE,a.REPAIRS_ID, CASE_TYPE from na_auto_collection  a where  exists (select * from  na_auto_run_plan_case b where a.collect_id = b.collect_id)";
 			if(!StringUtils.isBlank(collectName)){
 				sql += " and a.collect_name like '%"+collectName+"%'";
 			}

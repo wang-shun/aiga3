@@ -18,8 +18,8 @@ public class NaAutoRunPlanRequest {
 	private String machineIp;// 默认执行机
 	private Long runType;// 执行方式 1立即执行2定时执行3分布式执行
 	private Long creatorId;//创建人
-	private Date createTime;//创建时间
-	private Date updateTime;//更新时间
+	private String createTime;//创建时间
+	private String updateTime;//更新时间
 
 	public NaAutoRunPlanRequest() {
 	}
@@ -47,19 +47,19 @@ public class NaAutoRunPlanRequest {
 		this.creatorId = creatorId;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
-	public Date getUpdateTime() {
+	public String getUpdateTime() {
 		return updateTime;
 	}
 
-	public void setUpdateTime(Date updateTime) {
+	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
 	}
 

@@ -74,7 +74,6 @@ define(function(require, exports, module) {
             this.getPlanList();
             this.queryAutoPlan();
             this.addAutoPlan();
-            this.getDate();
         },
         getPlanList: function(cmd) {
             var self = this;
@@ -111,9 +110,14 @@ define(function(require, exports, module) {
         //新增计划
         addAutoPlan: function() {
             var self = this;
+            $(Dom.addPlan).bind('click', function() {
+                var time = self.getDate();
+                $(Dom.modalPlanForm).find("[name='planTag']").val(time.planTag);
+            });
             $(Dom.modalPlanForm).find("button[name='submit']").bind('click', function() {
                 var cmd = $(Dom.planInfoForm).serialize();
                 self.saveAutoPlan(cmd);
+                $(Dom.modalPlanForm).modal('hide');
             });
             $(Dom.modalPlanForm).find("button[name='cancel']").bind('click', function() {
                 $(Dom.modalPlanForm).find("[name='planName']").val('');
@@ -137,16 +141,24 @@ define(function(require, exports, module) {
         saveAutoPlan: function(cmd) {
             Rose.ajax.getJson(srvMap.get('saveAutoPlan'), cmd, function(json, status) {
                 if (status) {
-                    var template = Handlebars.compile(Tpl.getAutoPlanList);
-                    console.log(json.data)
-                    $(Dom.getAutoPlanList).html(template(json.data));
-                    Utils.eventTrClickCallback($(Dom.getAutoPlanList));
-                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
+                    window.XMS.msgbox.show('计划保存成功！', 'success', 2000)
+                    setTimeout(function() {
+                        self.getPlanList();
+                    }, 1000)
                 }
             });
         },
         //删除计划
-
+        deleAutoPlan: function(cmd) {
+            Rose.ajax.getJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
+                if (status) {
+                    window.XMS.msgbox.show('计划删除成功！', 'success', 2000)
+                    setTimeout(function() {
+                        self.getPlanList();
+                    }, 1000)
+                }
+            });
+        },
 
         //获取选中当前计划数据
         getPlanInfo: function() {
@@ -210,8 +222,27 @@ define(function(require, exports, module) {
             var h = myDate.getHours(); //获取当前小时数(0-23)
             var m = myDate.getMinutes(); //获取当前分钟数(0-59)
             var s = myDate.getSeconds();
-            var planTag = 'AP'+year + month + date + h + m + s;
-        }
+            var ms = myDate.getMilliseconds(); //获取当前毫秒数(0-999)
+
+            var MM = this.prefixInteger(month, 2);
+            var DD = this.prefixInteger(date, 2);
+            var hh = this.prefixInteger(h, 2);
+            var mm = this.prefixInteger(m, 2);
+            var ss = this.prefixInteger(s, 2);
+            var mms = this.prefixInteger(ms, 3);
+
+            var planTag = 'AP' + year + MM + DD + hh + mm + ss + mms;
+            var nowTime = year + '-' + MM + "-" + DD + " " + hh + ':' + mm + ":" + ss + ":" + mms;
+            var timeData = {
+                planTag: planTag,
+                nowTime: nowTime,
+            };
+            return timeData;
+
+        },
+        prefixInteger: function(num, length) {
+            return ("0000000000000000" + num).substr(-length);
+        },
 
     };
     module.exports = Init;

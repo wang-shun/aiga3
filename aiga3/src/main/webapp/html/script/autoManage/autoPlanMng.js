@@ -129,13 +129,16 @@ define(function(require, exports, module) {
         },
         //查看修改计划
         editAutoPlan: function() {
-            $(Dom.modalPlanForm).modal('show');
             var data = this.getPlanInfo();
-            $(Dom.modalPlanForm).find("[name='planTag']").val(data.planTag);
-            $(Dom.modalPlanForm).find("[name='planName']").val(data.planName);
-            $(Dom.modalPlanForm).find("[name='cycleType']").val(data.cycleType);
-            $(Dom.modalPlanForm).find("[name='runType']").val(data.runType);
-            $(Dom.modalPlanForm).find("[name='machineIp']").val(data.machineIp);
+            if (data) {
+                $(Dom.modalPlanForm).modal('show');
+
+                $(Dom.modalPlanForm).find("[name='planTag']").val(data.planTag);
+                $(Dom.modalPlanForm).find("[name='planName']").val(data.planName);
+                $(Dom.modalPlanForm).find("[name='cycleType']").val(data.cycleType);
+                $(Dom.modalPlanForm).find("[name='runType']").val(data.runType);
+                $(Dom.modalPlanForm).find("[name='machineIp']").val(data.machineIp);
+            }
         },
         //保存计划
         saveAutoPlan: function(cmd) {

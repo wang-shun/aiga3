@@ -225,6 +225,21 @@ public class CaseTemplateSv extends BaseService{
 		
 		return response;
 	}
+	
+//	public NaCaseTemplate getSimpleTmeplate(Long caseId) {
+//		
+//		if(caseId == null || caseId < 0){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+//		}
+//		
+//		NaCaseTemplate temp = caseTemplateDao.findOne(caseId);
+//		
+//		if(temp == null){
+//			BusinessException.throwBusinessException(ErrorCode.BAD_REQUEST, "caseId");
+//		}
+//		
+//		return temp;
+//	}
 
 
 	public void updateTmeplate(TemplateRequest request) {

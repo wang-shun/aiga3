@@ -327,11 +327,11 @@ public class AutoRunResultSv {
 	}
 
 	/**
-	 * 根据任务ID查询结果信息(结果状态为未成功)
+	 * 根据任务ID和结果类型查询结果信息 (结果类型按 not 查询)
 	 * @param taskId
 	 * @return
 	 */
-	public List<NaAutoRunResult> getListByTaskIdFail(Long taskId,Byte resultType){
+	public List<NaAutoRunResult> getListByTaskIdResultTypeNot(Long taskId,Byte resultType){
 		if (taskId == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
@@ -339,6 +339,26 @@ public class AutoRunResultSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultType");
 		}
 		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskIdAndResultTypeNot(taskId,resultType);
+		if (resultList == null || resultList.size()==0) {
+			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and resultType:"+resultType);
+		}
+		return resultList;
+	}
+
+	/**
+	 *根据任务ID和结果类型查询结果信息
+	 * @param taskId
+	 * @param resultType
+	 * @return
+	 */
+	public List<NaAutoRunResult> getListByTaskIdResultType(Long taskId,Byte resultType){
+		if (taskId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		if (resultType==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultType");
+		}
+		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskIdAndResultType(taskId,resultType);
 		if (resultList == null || resultList.size()==0) {
 			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and resultType:"+resultType);
 		}
@@ -368,10 +388,10 @@ public class AutoRunResultSv {
 	}
 
 	/**
-	 * 初始化结果表数据(重新执行)
+	 * 初始化结果表数据
 	 * @param resultList
 	 */
-	private void initResultToExec(List<NaAutoRunResult> resultList){
+	private void initResult(List<NaAutoRunResult> resultList){
 		for (NaAutoRunResult result:resultList){
 			result.setResultType((byte)2);//默认未执行
 			result.setRunType((byte)1);//默认未执行
@@ -390,17 +410,25 @@ public class AutoRunResultSv {
 	 * 根据任务ID初始化结果表数据（任务下所有数据）
 	 * @param taskId
 	 */
-	public void initResultToExecAll(Long taskId){
+	public void initResultAll(Long taskId){
 		List<NaAutoRunResult> resultList=this.getListByTaskId(taskId);
-		this.initResultToExec(resultList);
+		this.initResult(resultList);
 	}
 
 	/**
 	 * 根据任务ID初始化结果表数据（初始化条件：结果状态为未成功）
 	 */
-	public void initResultToExecFail(Long taskId){
-		List<NaAutoRunResult> resultList=this.getListByTaskIdFail(taskId,(byte)0);
-		this.initResultToExec(resultList);
+	public void initResultByFail(Long taskId){
+		List<NaAutoRunResult> resultList=this.getListByTaskIdResultTypeNot(taskId,(byte)0);
+		this.initResult(resultList);
+	}
+
+	/**
+	 * 根据任务ID初始化结果表数据（初始化条件：结果状态为未执行）
+	 */
+	public void initResultByExec(Long taskId){
+		List<NaAutoRunResult> resultList=this.getListByTaskIdResultType(taskId,(byte)2);
+		this.initResult(resultList);
 	}
 
 	/**

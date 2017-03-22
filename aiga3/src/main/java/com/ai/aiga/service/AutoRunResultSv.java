@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ai.aiga.domain.NaAutoRunTaskCase;
+import com.ai.aiga.util.mapper.BeanMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +29,8 @@ import com.ai.aiga.view.json.NaAutoRunTaskReportResponse;
 import com.ai.aiga.view.json.NaAutoTaskReportDetailRequest;
 import com.ai.aiga.view.json.TaskRunResultRequest;
 
+import javax.persistence.EntityManager;
+
 @Service
 @Transactional
 public class AutoRunResultSv {
@@ -39,6 +43,12 @@ public class AutoRunResultSv {
 	
 	@Autowired
 	private NaAutoTaskReportDetailDao naAutoTaskReportDetailDao;
+
+	@Autowired
+	private AutoRunTaskCaseSv autoRunTaskCaseSv;
+	
+	@Autowired
+	private EntityManager entityManager;
 
 	public void save(NaAutoRunResult naAutoRunResult) {
 		
@@ -349,5 +359,99 @@ public class AutoRunResultSv {
 		map.put("runLog", runLog);
 		return map;
 	}
+
+	/**
+	 * 根据任务ID查询结果信息
+	 * @param taskId
+	 * @return
+	 */
+	public List<NaAutoRunResult> getListByTaskId(Long taskId){
+		if (taskId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskId(taskId);
+		if (resultList == null || resultList.size()==0) {
+			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId);
+		}
+		return resultList;
+	}
+
+	/**
+	 * 根据任务ID查询结果信息(结果状态为未成功)
+	 * @param taskId
+	 * @return
+	 */
+	public List<NaAutoRunResult> getListByTaskIdFail(Long taskId,Byte resultType){
+		if (taskId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		if (resultType==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultType");
+		}
+		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findbyTaskIdAndResultTypeNot(taskId,resultType);
+		if (resultList == null || resultList.size()==0) {
+			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and resultType:"+resultType);
+		}
+		return resultList;
+	}
+
+	/**
+	 * 根据任务ID预生成执行结果
+	 * @param taskId
+	 */
+	public void createResultByTaskId(Long taskId){
+		if (taskId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		List<NaAutoRunTaskCase> caseList=autoRunTaskCaseSv.getListByTaskId(taskId);
+		if (caseList == null || caseList.size()==0) {
+			BusinessException.throwBusinessException("could not found the taskCase! please sure......");
+		}
+		for (NaAutoRunTaskCase taskCase:caseList) {
+			NaAutoRunResult result= BeanMapper.map(taskCase,NaAutoRunResult.class);
+			result.setResultType((byte)2);//默认未执行
+			result.setRunType((byte)1);//默认未执行
+			entityManager.persist(result);
+		}
+		entityManager.flush();
+		entityManager.clear();
+	}
+
+	/**
+	 * 初始化结果表数据(重新执行)
+	 * @param resultList
+	 */
+	private void initResultToExec(List<NaAutoRunResult> resultList){
+		for (NaAutoRunResult result:resultList){
+			result.setResultType((byte)2);//默认未执行
+			result.setRunType((byte)1);//默认未执行
+			result.setBeginTime(null);
+			result.setEndTime(null);
+			result.setFailReason(null);
+			result.setRunInfo(null);
+			result.setRunLog(null);
+			entityManager.persist(result);
+		}
+		entityManager.flush();
+		entityManager.clear();;
+	}
+
+	/**
+	 * 根据任务ID初始化结果表数据（任务下所有数据）
+	 * @param taskId
+	 */
+	public void initResultToExecAll(Long taskId){
+		List<NaAutoRunResult> resultList=this.getListByTaskId(taskId);
+		this.initResultToExec(resultList);
+	}
+
+	/**
+	 * 根据任务ID初始化结果表数据（初始化条件：结果状态为未成功）
+	 */
+	public void initResultToExecFail(Long taskId){
+		List<NaAutoRunResult> resultList=this.getListByTaskIdFail(taskId,(byte)0);
+		this.initResultToExec(resultList);
+	}
+
 
 }

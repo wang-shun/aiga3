@@ -114,8 +114,8 @@ public class AutoRunResultSv {
 		if(condition.getTaskId() == null || condition.getTaskId() < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultId");
 		}
-		String sql = "select a.auto_id, b.auto_name, a.sort_number, a.sort_group, a.result_type, a.run_log"
-				+ ", a.fail_reason from na_auto_run_result a, na_auto_case b where a.auto_id = b.auto_id "
+		String sql = "select a.auto_id, b.auto_name, a.sort_number, a.sort_group, a.result_type,"
+				+ " a.fail_reason from na_auto_run_result a, na_auto_case b where a.auto_id = b.auto_id "
 				+ "and a.result_id = "+condition.getTaskId();
 		if(StringUtils.isNoneBlank(condition.getAutoName())){
 			sql += " and auto_name like '%"+condition.getAutoName()+"%'";
@@ -129,7 +129,6 @@ public class AutoRunResultSv {
 		list.add("sortNumber");
 		list.add("sortGroup");
 		list.add("resultType");
-		list.add("runLog");
 		list.add("failReason");
 		if(pageNumber < 0){
 			pageNumber = 0;

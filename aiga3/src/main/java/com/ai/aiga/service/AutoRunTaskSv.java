@@ -211,7 +211,7 @@ public class AutoRunTaskSv {
                 "Task_result,Begin_run_time,End_run_time,Spend_time,run_Times,interval_Time,\n" +
                 "End_times,Stop_flag,Sms_type,Mail_type,Parallel_num,Last_runner,\n" +
                 "(select name from aiga_staff where staff_id=a.creator_id) creator_id,\n" +
-                "(select name from aiga_staff where staff_id=a.last_runner) last_runner,\n" +
+                "(select name from aiga_staff where staff_id=a.last_runner) lastRunnerName,\n" +
                 "b.plan_name,b.plan_tag,c.machine_name,a.Machine_ip\n" +
                 "from na_auto_run_task a \n" +
                 "left join na_auto_run_plan b on a.plan_id=b.plan_id \n" +

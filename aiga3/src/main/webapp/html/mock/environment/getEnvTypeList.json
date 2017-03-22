@@ -1,0 +1,11 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":[{
+    "envTypeId": "11",
+    "envTypeName":"业务1",
+  },{
+    "envTypeId": "22",
+    "envTypeName":"业务1",
+  }]
+}

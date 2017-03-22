@@ -1,0 +1,67 @@
+<div class="box box-primary">
+      <div class="box-header with-border">
+        <h5></h5>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+        </div>
+      </div>
+      <div class="box-body">
+	      <form id="JS_queryEnvironmentForm" class="form-horizontal" role = "form">
+
+	      </form>
+      </div>
+</div>
+
+<div class="content">
+  <div class="row">
+    <div class="box"  style="min-height: 100px">
+        <div class="box-header">
+          <h3 class="box-title">环境列表</h3>
+          <div class="box-tools">
+              <div class="btn-group">
+                  <button type="button" class="btn btn-primary" data-toggle="modal"  id="JS_addEnvironment"><i class="fa fa-plus"></i> 新增环境</button>
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                      <span class="caret"></span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                      <li><a href="javascript:;" id="JS_deleteEnvironment">删除环境</a></li>
+                      <li><a href="javascript:;" id="JS_updateEnvironmentInfo">修改环境</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      <div id="JS_getEnvironmentList"  class="box-body" style="min-height: 100px;" >
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 弹框，新增 -->
+<div class="modal fade" id="JS_addEnvironmentInfoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 id="formName" class="modal-title">新增环境</h4>
+            </div>
+            <div class="modal-body">
+                <form id="JS_addEnvironmentInfoForm">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-default pull-left" id="JS_addEnvironmentInfoReset" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="JS_addEnvironmentInfoSubmit">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    seajs.use("script/environment/environment", function(environment) {
+        environment.init();
+    });
+</script>

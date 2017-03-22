@@ -1,0 +1,23 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data":{
+	    "sysId": "10102",
+	    "envName":"环境名称1",
+		"envUrl": "环境地址1",
+		"database": "数据库1",
+		"regionId": "地市1",
+		"soId":"所处中心1",
+		"envType": "个人环境配置",
+		"runEnv":"验收环境",
+		"creatorId":"创建人1",
+		"updateTime":"2017-2-02 08:00:00",
+		"sysAccount":"登录账号1",
+		"sysPassword":"登录密码1",
+		"svnUrl":"SVN地址1",
+		"svnAccount":"SVN账号1",
+		"synPassword":"SVN密码1",
+		"dbAccount":"数据库账号1",
+		"dbPassword":"数据库密码1"
+  	}
+}

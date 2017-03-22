@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each content}}
+            {{#each this}}
             <tr>
                 <td><input type="checkbox" class="minimal" value="{{planId}}" name="planId"></td>
                 <td><input type="hidden"  name="planTag" value="{{planTag}}">{{planTag}}</td>

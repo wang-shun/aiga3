@@ -62,7 +62,21 @@ public class AutoRunPlanController {
 			return json;
 		}
 		
-		
+		/**
+		 *根据计划编号查询自动化计划
+		 * @param condition
+		 * @param page
+		 * @param pageSize
+		 * @return
+		 */
+			@RequestMapping(value="/sys/autoPlan/queryByPlanId")
+			public @ResponseBody  JsonBean   queryByPlanId(Long planId
+					){
+				JsonBean json = new JsonBean();
+				json.setData(naAutoRunPlanSv.queryByPlanId(planId));
+				return json;
+			}
+			
 	
 	/**
 	 *根据编号 删除自动化计划

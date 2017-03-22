@@ -388,7 +388,7 @@ public class AutoRunResultSv {
 		if (resultType==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultType");
 		}
-		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findbyTaskIdAndResultTypeNot(taskId,resultType);
+		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskIdAndResultTypeNot(taskId,resultType);
 		if (resultList == null || resultList.size()==0) {
 			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and resultType:"+resultType);
 		}

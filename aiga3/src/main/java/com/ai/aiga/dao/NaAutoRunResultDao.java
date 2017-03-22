@@ -17,5 +17,5 @@ public interface NaAutoRunResultDao extends JpaRepository<NaAutoRunResult, Long>
 	String runLog(Long resultId, Long autoId);
 
 	List<NaAutoRunResult> findByTaskId(Long taskId);
-	List<NaAutoRunResult> findbyTaskIdAndResultTypeNot(Long taskId,Byte resultType);
+	List<NaAutoRunResult> findByTaskIdAndResultTypeNot(Long taskId,Byte resultType);
 }

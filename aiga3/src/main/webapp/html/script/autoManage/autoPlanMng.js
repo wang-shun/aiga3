@@ -113,6 +113,11 @@ define(function(require, exports, module) {
             $(Dom.addPlan).bind('click', function() {
                 var time = self.getDate();
                 $(Dom.modalPlanForm).find("[name='planTag']").val(time.planTag);
+                $(Dom.modalPlanForm).find("[name='planId']").val('');
+                $(Dom.modalPlanForm).find("[name='planName']").val('');
+                $(Dom.modalPlanForm).find("[name='cycleType']").val('');
+                $(Dom.modalPlanForm).find("[name='runType']").val('');
+                $(Dom.modalPlanForm).find("[name='machineIp']").val('');                
             });
             $(Dom.modalPlanForm).find("button[name='submit']").bind('click', function() {
                 var cmd = $(Dom.planInfoForm).serialize();
@@ -120,10 +125,6 @@ define(function(require, exports, module) {
                 $(Dom.modalPlanForm).modal('hide');
             });
             $(Dom.modalPlanForm).find("button[name='cancel']").bind('click', function() {
-                $(Dom.modalPlanForm).find("[name='planName']").val('');
-                $(Dom.modalPlanForm).find("[name='cycleType']").val('');
-                $(Dom.modalPlanForm).find("[name='runType']").val('');
-                $(Dom.modalPlanForm).find("[name='machineIp']").val('');
                 $(Dom.modalPlanForm).modal('hide');
             });
         },
@@ -132,7 +133,7 @@ define(function(require, exports, module) {
             var data = this.getPlanInfo();
             if (data) {
                 $(Dom.modalPlanForm).modal('show');
-
+                $(Dom.modalPlanForm).find("[name='planId']").val(data.planId);
                 $(Dom.modalPlanForm).find("[name='planTag']").val(data.planTag);
                 $(Dom.modalPlanForm).find("[name='planName']").val(data.planName);
                 $(Dom.modalPlanForm).find("[name='cycleType']").val(data.cycleType);
@@ -146,10 +147,6 @@ define(function(require, exports, module) {
             Rose.ajax.getJson(srvMap.get('saveAutoPlan'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.show('计划保存成功！', 'success', 2000);
-	                 $(Dom.modalPlanForm).find("[name='planName']").val('');
-	                $(Dom.modalPlanForm).find("[name='cycleType']").val('');
-	                $(Dom.modalPlanForm).find("[name='runType']").val('');
-	                $(Dom.modalPlanForm).find("[name='machineIp']").val('');
                     setTimeout(function() {
                         self.getPlanList();
                     }, 1000)
@@ -158,6 +155,7 @@ define(function(require, exports, module) {
         },
         //删除计划
         deleAutoPlan: function() {
+            var self = this;
             $("#JS_delePlan").bind('click', function() {
                 var cmd = 'planId=';
                 var  id;

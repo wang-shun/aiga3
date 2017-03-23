@@ -30,9 +30,9 @@
                 <input type="hidden" value="{{autoId}}" name="autoId">
                 <input type="hidden" value="{{resultId}}" name="resultId">
                 <input type="hidden" value="{{creatorId}}" name="creatorId">
-                <td><input type="hidden" value="{{taskName}}" name="taskName">{{taskName}}</td>
-                <td><input type="hidden" value="{{autoName}}" name="autoName">{{autoName}}</td>
-                <td><input type="hidden" value="{{creatorName}}" name="creatorName">{{creatorName}}</td>
+                <td>{{taskName}}</td>
+                <td>{{autoName}}</td>
+                <td>{{creatorName}}</td>
                 <td><input type="hidden" value="{{isSuccess}}" name="isSuccess">{{getYorN isSuccess}}</td>
                 <td><input type="text" id="failReason" name="failReason" {{checkedState isSuccess}} value="{{failReason}}"></td>
                 <td><select size="1" id="isBug" name="isBug" {{checkedState isSuccess}}>

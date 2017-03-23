@@ -138,12 +138,7 @@ define(function(require, exports, module) {
 			var self = this;
 			$("#queriesControl").unbind('click');
 			$("#queriesControl").bind('click', function() {
-				var cmd = {
-					"ctrlName": $("#ctrlName").val(),
-					"cearteName": $("#cearteName").val(),
-					"time1": $("#time1").val(),
-					"time2": $("#time2").val()
-				}
+				var cmd = $("#JS_getCompInfoForm").serialize();
 				self.initOrganize(cmd);
 				Data.funId = "";
 			});
@@ -199,7 +194,7 @@ define(function(require, exports, module) {
 			var cmd = {
 				"ctrlId": _ctrlId,
 				"ctrlName": $("#ctrlName").val(),
-				"cearteName": $("#cearteName").val(),
+				"cearteId": $("#cearteName").val(),
 				"time1": $("#time1").val(),
 				"time2": $("#time2").val()
 			}

@@ -5,16 +5,18 @@ define(function(require,exports,module){
 	require('global/sidebar.js');
 	var Utils = require('global/utils.js')
 
-	//显示环境列表
-	srvMap.add("getMachineList","machine/getMachineList.json","");
+	//显示机器列表
+	srvMap.add("getMachineList","machine/getMachineList.json","sys/machine/findall");
+	//查询机器
+	srvMap.add("getMachine","machine/getMachineList.json","sys/machine/list");
 	//根据Id查询机器
-	srvMap.add("getMachineInfo","machine/getMachineInfo.json","");
+	srvMap.add("getMachineInfo","machine/getMachineInfo.json","sys/machine/findone");
 	//增加机器
-	srvMap.add("addMachineInfo","machine/addMachineInfo.json","");
+	srvMap.add("addMachineInfo","machine/addMachineInfo.json","sys/machine/save");
 	//删除机器
-	srvMap.add("deleteMachine","machine/deleteMachine.json","");
+	srvMap.add("deleteMachine","machine/deleteMachine.json","sys/machine/del");
 	//修改机器
-	srvMap.add("updateMachineInfo","machine/updateMachineInfo.json","");
+	srvMap.add("updateMachineInfo","machine/updateMachineInfo.json","sys/machine/update");
 
 	//模板对象
 	var Tpl={
@@ -26,7 +28,7 @@ define(function(require,exports,module){
 	var Dom={
 		queryMachineForm:'#JS_queryMachineForm',
 		getMachineList:'#JS_getMachineList',
-		addMachineInfoForm:"#JS_addMachineInfoForm",
+		addMachineInfoForm:"#JS_addMachinenfoForm",
 		addMachineInfoModal:"#JS_addMachineInfoModal",
 		caseType:[],
 		repairsId:[]
@@ -63,48 +65,37 @@ define(function(require,exports,module){
 				if (status) {
 					var template = Handlebars.compile(Tpl.getMachineList);
 					console.log(json.data)
+					$(Dom.getMachineList).html(template(json.data));
+					//删除按钮
+					self.deleteMachine();
+					//引入单选框样式
+					Utils.eventTrClickCallback($(Dom.getMachineList), function() {
+						self.updateMachineInfo();
+					})
+					// 分页
+					self.initPaging($(Dom.getMachineList),10);
+				}
+			});
+		},
+		getMachine: function(cmd) {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('getMachine'), cmd, function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.getMachineList);
+					console.log(json.data)
 					$(Dom.getMachineList).html(template(json.data.content));
 					//删除按钮
 					self.deleteMachine();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getMachineList), function() {
-							var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
-							var _envId ="";
-							_checkObj.each(function (){
-								_envId = 	$(this).val();
-							})
-							var cmd = "envId=" +_envId;
-							Rose.ajax.postJson(srvMap.get('updateMachineInfo'), cmd, function(json, status) {
-								if (status) {
-									var _form = $(Dom.addMachineInfoForm);
-									var template = Handlebars.compile(Tpl.addMachineInfo);
-									var c = json.data;
-									_form.html(template(c));
-									// //弹出层
-									$(Dom.addMachineInfoModal).modal('show');
-									$("#formName").html("修改机器");
-									$("#JS_addMachineInfoSubmit").unbind('click');
-									//点击保存
-									$("#JS_addMachineInfoSubmit").bind('click',function(){
-									var cmd1 = _form.serialize();
-									Rose.ajax.postJson(srvMap.get('updateMachineInfo'), cmd+cmd1, function(json, status) {
-										if(status) {
-												// 添加用户成功后，刷新用户列表页
-												XMS.msgbox.show('修改成功！', 'success', 2000)
-												// 关闭弹出层
-												$(Dom.addMachineInfoModal).modal('hide');
-												setTimeout(function(){
-													self.getMachineList();
-												},1000)
-										}
-												});
-									});
-								}
-							});
+						self.updateMachineInfo();
 					})
+					// 分页
+					self.initPaging($(Dom.getMachineList),10);
 				}
 			});
 		},
+
 		// 按条件查询
 		queryMachine: function() {
 			var self = this;
@@ -114,22 +105,13 @@ define(function(require,exports,module){
 			// 表单提交
 			_form.find('button[name="submit"]').bind('click', function() {
 					var cmd = $(Dom.queryMachineForm).serialize();
-					/*self.getEnvironmentList(cmd);*/
-					self.getMachineList(cmd);
+					self.getMachine(cmd);
 					//});
 			})
 			// 表单重置
 			_form.find('button[name="reset"]').bind('click',function(){
-				$("#sysId").val('');
-				$("#envName").val('');
-				$("#envUrl").val('');
-				$("#database").val('');
-				$("#regionId").val('');
-				$("#soId").val('');
-				$("#query_envType").val('');
-				$("#query_runEnv").val('');
-				$("#creatorId").val('');
-				$("#updateTime").val('');
+				$("#machineIp").val('');
+				$("#machineName").val('');
 			});
 		},
 		addMachineInfo : function(cmd){
@@ -163,11 +145,11 @@ define(function(require,exports,module){
 		//删除
 		deleteMachine : function(){
 			var self = this;
-			var  envId="";
+			var  machineId="";
 			var num =0 ;
 			$("#JS_deleteMachine").unbind('click');
 			$("#JS_deleteMachine").bind('click', function() {
-				var  envId="";
+				var  machineId="";
 				var num =0 ;
 			   var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
 			   if(_checkObj.length==0){
@@ -176,13 +158,13 @@ define(function(require,exports,module){
 			   }
 			   _checkObj.each(function (){
 				   if(num!=(_checkObj.length-1)){
-					   envId += $(this).val()+",";
+					   machineId += $(this).val()+",";
 				   }else{
-					   envId += $(this).val();
+					   machineId += $(this).val();
 				   }
 				   num ++;
 				});
-				Rose.ajax.postJson(srvMap.get('deleteMachine'), 'envId=' + envId, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('deleteMachine'), 'machineId=' + machineId, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
@@ -192,6 +174,56 @@ define(function(require,exports,module){
 				});
 			});
 		},
+		updateMachineInfo:function(){
+			var self = this;
+			var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
+			var _machineId ="";
+			_checkObj.each(function (){
+				_machineId = $(this).val();
+			})
+			Rose.ajax.postJson(srvMap.get('getMachineInfo'), 'machineId='+_machineId, function(json, status) {
+				if (status) {
+					var _form = $(Dom.addMachineInfoForm);
+					var template = Handlebars.compile(Tpl.addMachineInfo);
+					var c = json.data;
+					_form.html(template(c));
+					// 设置下拉框选中值
+					Utils.setSelected(_form);
+					// //弹出层
+					$(Dom.addMachineInfoModal).modal('show');
+					$("#formName").html("修改机器");
+					$("#JS_addMachineInfoSubmit").unbind('click');
+					//点击保存
+					$("#JS_addMachineInfoSubmit").bind('click',function(){
+					var cmd = _form.serialize();
+					cmd = cmd + "&machineId=" +_machineId;
+					Rose.ajax.postJson(srvMap.get('updateMachineInfo'), cmd, function(json, status) {
+						if(status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('修改成功！', 'success', 2000)
+								// 关闭弹出层
+								$(Dom.addMachineInfoModal).modal('hide');
+								setTimeout(function(){
+									self.getMachineList();
+								},1000)
+						}
+								});
+					});
+				}
+			});
+		},
+		// 事件：分页
+        initPaging: function(obj, length) {
+            obj.find("table").DataTable({
+                "iDisplayLength": length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false
+            });
+        }
     };
 
 	module.exports=machine;

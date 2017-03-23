@@ -83,6 +83,8 @@ define(function(require, exports, module) {
                     console.log(json.data)
                     $(Dom.getAutoPlanList).html(template(json.data.content));
                     self.eventClickChecked($(Dom.getAutoPlanList));
+
+               
                     Utils.eventDClickCallback($(Dom.getAutoPlanList), function() {
                         self.editAutoPlan();
                     });
@@ -158,8 +160,9 @@ define(function(require, exports, module) {
         },
         //删除计划
         deleAutoPlan: function() {
+        	var self = this;
             $("#JS_delePlan").bind('click', function() {
-                var cmd = 'planId=';
+                var cmd = 'planIds=';
                 var  id;
                 $(Dom.getAutoPlanList).find("tr").each(function() {
                     var tdArr = $(this).children();
@@ -168,7 +171,7 @@ define(function(require, exports, module) {
                         cmd += id+',';
                     }
                 });
-                cmd=cmd.substring(0,cmd.Length-1);
+                	cmd=cmd.substring(0,cmd.length-1);
                 if (id) {
                     Rose.ajax.getJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
                         if (status) {

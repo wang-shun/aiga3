@@ -43,7 +43,7 @@
         <div class="col-sm-4 form-group">
             <label for="envType" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->环境类型：</label>
             <div class="col-sm-7">
-                <select  id="query_envType" name="envType" class="form-control select2 input-sm" value="{{envType}}">
+                <select  id="query_envType" name="envType" class="form-control select2 input-sm" data-selected="{{envType}}">
                     <option> </option>
                     <option value="1">个人环境配置</option>
                     <option value="2">公共环境配置</option>
@@ -53,7 +53,7 @@
         <div class="col-sm-4 form-group">
             <label for="runEnv" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->执行环境：</label>
             <div class="col-sm-7">
-                <select id="query_runEnv" name="runEnv" class="form-control select2 input-sm" value="{{runEnv}}">
+                <select id="query_runEnv" name="runEnv" class="form-control select2 input-sm" data-selected="{{runEnv}}">
                     <option> </option>
                     <option value="1">验收环境</option>
                     <option value="2">准发布环境</option>

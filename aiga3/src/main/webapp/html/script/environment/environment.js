@@ -6,15 +6,15 @@ define(function(require,exports,module){
 	var Utils = require('global/utils.js')
 
 	//显示环境列表
-	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","/sys/environment/findall");
+	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
 	//根据Id查询环境
-	srvMap.add("getEnvironmentInfo","environment/getEnvironmentInfo.json","/sys/environment/findone");
+	srvMap.add("getEnvironmentInfo","environment/getEnvironmentInfo.json","sys/environment/findone");
 	//增加环境
-	srvMap.add("addEnvironmentInfo","environment/addEnvironmentInfo.json","/sys/environment/save");
+	srvMap.add("addEnvironmentInfo","environment/addEnvironmentInfo.json","sys/environment/save");
 	//删除环境
-	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","/sys/environment/del");
+	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","sys/environment/del");
 	//修改环境
-	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","/sys/environment/update");
+	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
 
 	//模板对象
 	var Tpl={
@@ -63,45 +63,15 @@ define(function(require,exports,module){
 				if (status) {
 					var template = Handlebars.compile(Tpl.getEnvironmentList);
 					console.log(json.data)
-					$(Dom.getEnvironmentList).html(template(json.data.content));
+					$(Dom.getEnvironmentList).html(template(json.data));
 					//删除按钮
 					self.deleteEnvironment();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
-							var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
-							var _envId ="";
-							_checkObj.each(function (){
-								_envId = 	$(this).val();
-							})
-							var cmd = "envId=" +_envId;
-							Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
-								if (status) {
-									var _form = $(Dom.addEnviromentInfoForm);
-									var template = Handlebars.compile(Tpl.addEnvironmentInfo);
-									var c = json.data;
-									_form.html(template(c));
-									// //弹出层
-									$(Dom.addEnvironmentInfoModal).modal('show');
-									$("#formName").html("修改环境");
-									$("#JS_addEnvironmentInfoSubmit").unbind('click');
-									//点击保存
-									$("#JS_addEnvironmentInfoSubmit").bind('click',function(){
-									var cmd = _form.serialize();
-									Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
-										if(status) {
-												// 添加用户成功后，刷新用户列表页
-												XMS.msgbox.show('修改成功！', 'success', 2000)
-												// 关闭弹出层
-												$(Dom.addEnvironmentInfoModal).modal('hide');
-												setTimeout(function(){
-													self.getEnvironmentList();
-												},1000)
-										}
-												});
-									});
-								}
-							});
+						self.updateEnvironmentInfo();
 					})
+					// 分页
+					self.initPaging($(Dom.getEnvironmentList),10);
 				}
 			});
 		},
@@ -192,6 +162,57 @@ define(function(require,exports,module){
 				});
 			});
 		},
+		updateEnvironmentInfo:function(){
+			var self = this;
+			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+			var _envId ="";
+			_checkObj.each(function (){
+				_envId = $(this).val();
+			})
+			Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
+				if (status) {
+					var _form = $(Dom.addEnviromentInfoForm);
+					var template = Handlebars.compile(Tpl.addEnvironmentInfo);
+					var c = json.data;
+					_form.html(template(c));
+					// 设置下拉框选中值
+					Utils.setSelected(_form);
+					// //弹出层
+					$(Dom.addEnvironmentInfoModal).modal('show');
+					$("#formName").html("修改环境");
+					$("#JS_addEnvironmentInfoSubmit").unbind('click');
+					//点击保存
+					$("#JS_addEnvironmentInfoSubmit").bind('click',function(){
+					var cmd = _form.serialize();
+					cmd = cmd + "&envId=" +_envId;
+					Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
+						if(status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('修改成功！', 'success', 2000)
+								// 关闭弹出层
+								$(Dom.addEnvironmentInfoModal).modal('hide');
+								setTimeout(function(){
+									self.getEnvironmentList();
+								},1000)
+						}
+								});
+					});
+				}
+			});
+			
+		},
+		// 事件：分页
+        initPaging: function(obj, length) {
+            obj.find("table").DataTable({
+                "iDisplayLength": length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false
+            });
+        }
     };
 
 	module.exports=environment;

@@ -213,9 +213,18 @@ public class NaAutoEnvironmentSv extends BaseService{
 			if(condition.getEnvName()!= null){
 				cons.add(new Condition("envName","%".concat( condition.getEnvName()).concat("%"), Condition.Type.LIKE));
 			}
-			
-			
-			
+			if(condition.getSysId()!= null){
+				cons.add(new Condition("sysId", condition.getSysId(), Condition.Type.EQ));
+			}
+			if(condition.getDatabase()!= null){
+				cons.add(new Condition("database", condition.getDatabase(), Condition.Type.EQ));
+			}
+			if(condition.getDbAccount()!= null){
+				cons.add(new Condition("dbAccount", condition.getDbAccount(), Condition.Type.EQ));
+			}
+			if(condition.getRegionId()!= null){
+				cons.add(new Condition("regionId", condition.getRegionId(), Condition.Type.EQ));
+			}
 		}
 		
 		

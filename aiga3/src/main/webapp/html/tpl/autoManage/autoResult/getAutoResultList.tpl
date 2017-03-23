@@ -35,7 +35,7 @@
                 <td><input type="radio" class="minimal" value="{{taskId}}" name="taskId"></td>
                 <td>{{taskTag}}11</td>
                 <td>{{taskName}}</td>
-                <td>{{getResultType resultType}}</td>
+                <td>{{getTaskType taskResult}}</td>
                 <td>{{machineIp}}</td>
                 <td>{{machineName}}</td>
                 <td>{{creatorName}}</td>

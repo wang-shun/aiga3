@@ -20,7 +20,7 @@ Handlebars.registerHelper('getYorN', function(value, fn) {
     }
 });
 /*
- * 根据状态码获取任务执行状态
+ * 根据状态码获取任务执行结果
  */
 Handlebars.registerHelper('getResultType', function(value, fn) {
     if (value == "0") {
@@ -34,6 +34,23 @@ Handlebars.registerHelper('getResultType', function(value, fn) {
     }
     if (value == "3") {
         return "中断";
+    }
+});
+/*
+ * 根据状态码获取任务执行状态
+ */
+Handlebars.registerHelper('getTaskType', function(value, fn) {
+    if (value == "1") {
+        return "未执行";
+    }
+    if (value == "2") {
+        return "执行中";
+    }
+    if (value == "3") {
+        return "执行完成";
+    }
+    if (value == "4") {
+        return "执行失败";
     }
 });
 

@@ -241,14 +241,15 @@ public class AutoRunResultSv {
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		String sql = "select b.report_id, a.task_id, a.auto_id, a.result_id, c.auto_name, c.creator_id, d.name as creator_name,"
-				+ " (case when (a.result_type = 0) then '0' end) as is_success"
-				+ " from na_auto_run_result a, na_auto_run_task_report b, na_auto_case c, aiga_staff d"
-				+ " where a.task_id = b.task_id and a.auto_id = c.auto_id and c.creator_id = d.staff_id"
+		String sql = "select b.report_id, a.task_id, e.task_name, a.auto_id, a.result_id, c.auto_name, c.creator_id, d.name as creator_name,"
+				+ " (case when (a.result_type = 0) then 'Y' end) as is_success"
+				+ " from na_auto_run_result a, na_auto_run_task_report b, na_auto_case c, aiga_staff d, na_auto_run_task e"
+				+ " where a.task_id = b.task_id and a.auto_id = c.auto_id and c.creator_id = d.staff_id and a.task_id = e.task_id"
 				+ " and a.task_id = "+taskId;
 		List<String> list = new ArrayList<String>();
 		list.add("reportId");
 		list.add("taskId");
+		list.add("taskName");
 		list.add("autoId");
 		list.add("resultId");
 		list.add("autoName");
@@ -459,6 +460,15 @@ public class AutoRunResultSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
 		return naAutoRunResultDao.deleteByTaskId(taskId);
+	}
+
+	public List<NaAutoTaskReportDetail> reportDetailList(Long taskId) {
+		if(taskId == null || taskId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		List<NaAutoTaskReportDetail> list = naAutoTaskReportDetailDao.findByTaskId(taskId);
+		
+		return list;
 	}
 
 }

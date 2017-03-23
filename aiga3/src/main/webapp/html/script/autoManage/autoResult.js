@@ -20,7 +20,7 @@ define(function(require, exports, module) {
     //保存报告
     srvMap.add("saveReport", pathAlias + "retMessage.json", "auto/autoRunResult/reportSave");
     //保存明细
-    srvMap.add("saveDetail", pathAlias + "retMessage.json", "auto/autoRunResult/detailSave");
+    srvMap.add("saveDetail", pathAlias + "retMessage.json", "auto/autoRunResult/reportDetailSave");
 
     // 模板对象
     var Tpl = {

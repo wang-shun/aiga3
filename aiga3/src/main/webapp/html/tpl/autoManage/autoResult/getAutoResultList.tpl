@@ -33,7 +33,7 @@
             {{#each content}}
             <tr>
                 <td><input type="radio" class="minimal" value="{{taskId}}" name="taskId"></td>
-                <td>{{taskTag}}11</td>
+                <td>{{taskTag}}</td>
                 <td>{{taskName}}</td>
                 <td>{{getTaskType taskResult}}</td>
                 <td>{{machineIp}}</td>

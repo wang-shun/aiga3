@@ -110,9 +110,7 @@ define(function(require, exports, module) {
                 if (value == 1) {
                     return "不轮循";
                 } else if (value == 2) {
-                    return "查询类轮循";
-                } else if (value == 3) {
-                    return "受理类轮循";
+                    return "轮循";
                 }
             });
             Handlebars.registerHelper("transformatStatus", function(value) {
@@ -267,21 +265,21 @@ define(function(require, exports, module) {
                     //三个关联按钮
                     $("#JS_queryUnlinkCaseForm").find("button[name='link']").bind('click', function() {
                         var cmd = "planId=" + data.planId + "&caseIds=";
-                        var ids = self.getcCheckedRowId("#JS_unLinkCaseList", cmd, "请先选择一个用例！");
+                        var ids = self.getCheckedRowId("#JS_unLinkCaseList", cmd, "请先选择一个用例！");
                         if (ids) {
                             self.linkCasees(ids);
                         }
                     });
                     $("#Js_queryUnlinkCaseGroupForm").find("button[name='link']").bind('click', function() {
                         var cmd = "planId=" + data.planId + "&groupIds=";
-                        var ids = self.getcCheckedRowId("#Js_unlinkCaseGroupList", cmd, "请先选择一个用例组！");
+                        var ids = self.getCheckedRowId("#Js_unlinkCaseGroupList", cmd, "请先选择一个用例组！");
                         if (ids) {
                             self.linkCaseGroup(ids);
                         }
                     });
                     $("#Js_queryUnlinkCaseCollectForm").find("button[name='link']").bind('click', function() {
                         var cmd = "planId=" + data.planId + "&collectIds=";
-                        var ids = self.getcCheckedRowId("#Js_unlinkCaseCollectList", cmd, "请先选择一个用例集！");
+                        var ids = self.getCheckedRowId("#Js_unlinkCaseCollectList", cmd, "请先选择一个用例集！");
                         if (ids) {
                             self.linkCaseCollect(ids);
                         }
@@ -442,7 +440,7 @@ define(function(require, exports, module) {
                 if (status) {
                     console.log(json.data);
                     var template = Handlebars.compile(Tpl.machineList);
-                    $(Dom.modalNewTaskForm).find("tbody").append(template(json.data));
+                    $(Dom.modalNewTaskForm).find("tbody").append(template(json.data.content));
                     Utils.eventClickChecked($(Dom.modalNewTaskForm).find("tbody"));
                 }
             });

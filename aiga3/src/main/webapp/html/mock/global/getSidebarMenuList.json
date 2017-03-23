@@ -93,7 +93,12 @@
                 "menuURL": "view/environment/environment.html",
                 "hasChild": 0,
                 "isActive": 0
-            }, {
+            },{
+                "menuName": "自动化机器配置",
+                "menuURL": "view/machine/machine.html",
+                "hasChild": 0,
+                "isActive": 1
+            },{
                 "menuName": "自动化计划管理",
                 "menuURL": "view/autoManage/autoPlanMng.html",
                 "hasChild": 0,

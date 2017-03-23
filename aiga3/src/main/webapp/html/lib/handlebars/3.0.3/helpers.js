@@ -19,6 +19,18 @@ Handlebars.registerHelper('getYorN', function(value, fn) {
 		return "否";
 	}
 });
+
+/*
+ * 根据是否成功让input框变化
+ */
+Handlebars.registerHelper('checkedState', function(value, fn) {
+	if (value == "Y") {
+		return "class=hide";
+	}
+	if (value == "N") {
+		return "";
+	}
+});
 Handlebars.registerHelper('remainDaysBla', function(value, days, fn) {
 	if (value == "true") {
 		if (days != null && days != undefined && days != "") {

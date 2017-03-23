@@ -3,11 +3,14 @@ package com.ai.aiga.view.json;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class NaAutoMachineEnvRequest {
 	 private BigDecimal relaId;
      private BigDecimal machineId;
      private BigDecimal envId;
      private BigDecimal creatorId;
+     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date updateTime;
 	public BigDecimal getRelaId() {
 		return relaId;

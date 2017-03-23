@@ -3,6 +3,8 @@ package com.ai.aiga.view.json;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class NaAutoMachineRequest {
 	 private BigDecimal machineId;
      private String machineIp;
@@ -10,6 +12,7 @@ public class NaAutoMachineRequest {
      private BigDecimal status;
      private String machineAccount;
      private String machinePassword;
+     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date requestTime;
      private BigDecimal taskId;
 	public BigDecimal getMachineId() {

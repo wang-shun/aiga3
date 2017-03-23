@@ -15,7 +15,7 @@
         <div class="col-sm-4 form-group">
             <label for="status" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->机器状态：</label>
             <div class="col-sm-7">
-                <select id="query_status" name="status" class="form-control select2 input-sm" value="{{status}}">
+                <select id="query_status" name="status" class="form-control select2 input-sm" data-selected="{{status}}">
                     <option value="">请选择</option>
                     <option value="1">离线</option>
                     <option value="2">空闲</option>

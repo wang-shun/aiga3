@@ -28,7 +28,7 @@ define(function(require,exports,module){
 	var Dom={
 		queryMachineForm:'#JS_queryMachineForm',
 		getMachineList:'#JS_getMachineList',
-		addMachineInfoForm:"#JS_addMachinenfoForm",
+		addMachineInfoForm:"#JS_addMachineInfoForm",
 		addMachineInfoModal:"#JS_addMachineInfoModal",
 		caseType:[],
 		repairsId:[]

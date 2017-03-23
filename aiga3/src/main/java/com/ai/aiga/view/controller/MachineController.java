@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoEnvironment;
+import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.service.NaAutoMachineSv;
 import com.ai.aiga.view.json.NaAutoEnvironmentRequest;
 import com.ai.aiga.view.json.NaAutoMachineEnvRequest;
@@ -113,5 +114,17 @@ public class MachineController {
 	  naAutoMachineSv.saveMachineEnv(machineId, envId);
 		return JsonBean.success;
 		
+	}
+	@RequestMapping(path = "/sys/machine/list")
+	public @ResponseBody JsonBean list(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			
+			NaAutoMachine condition) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(naAutoMachineSv.listMachine(pageNumber, pageSize, condition));
+		
+		return bean;
 	}
 }

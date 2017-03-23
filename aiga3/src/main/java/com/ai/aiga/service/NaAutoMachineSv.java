@@ -1,18 +1,24 @@
 package com.ai.aiga.service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoEnvironmentDao;
 import com.ai.aiga.dao.NaAutoMachineDao;
 import com.ai.aiga.dao.NaAutoMachineEnvDao;
+import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaAutoMachineEnv;
@@ -230,7 +236,36 @@ public class NaAutoMachineSv extends BaseService {
 
 	   
    }
-   
+   public Object listMachine(int pageNumber, int pageSize ,NaAutoMachine condition ) throws ParseException {
+		
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		if(condition != null){
+			
+			if(condition.getMachineName()!= null&&!condition.getMachineName().equals("")){
+				cons.add(new Condition("machineName","%".concat( condition.getMachineName()).concat("%"), Condition.Type.LIKE));
+			}
+			if(condition.getMachineIp()!= null&&!condition.getMachineIp().equals("")){
+				cons.add(new Condition("machineIp", condition.getMachineIp(), Condition.Type.EQ));
+			}
+			
+			
+		}
+		
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naAutoMachineDao.search(cons, pageable);
+	}
+  
   
 
 }

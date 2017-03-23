@@ -70,6 +70,7 @@ define(function(require, exports, module) {
 				    	// 请求：用户基本信息
 						//self.seeCase();
 				    })
+				    self.initPaging($(Dom.getTaskList),8)
 				    
 				}
 			});
@@ -189,7 +190,21 @@ define(function(require, exports, module) {
 						callback();
 					}
 		    });
-		}
+		},
+		// 事件：分页
+        initPaging: function(obj, length) {
+            obj.find("table").DataTable({
+                "iDisplayLength": length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false,
+                "scrollX": true,
+                "scrollY": false
+            });
+        }
 	};
 	module.exports = init;
 });

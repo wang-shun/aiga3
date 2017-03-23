@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" style="width: 2300px;">
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>

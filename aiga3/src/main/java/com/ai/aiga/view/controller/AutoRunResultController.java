@@ -106,4 +106,12 @@ public class AutoRunResultController {
 		autoRunResultSv.reportDetailSave(list);
 		return JsonBean.success;
 	}
+	/**
+	 * 报告明细查询*/
+	@RequestMapping(path = "/auto/autoRunResult/reportDetailList")
+	public @ResponseBody JsonBean reportDetailList(Long taskId){
+		JsonBean bean = new JsonBean();
+		bean.setData(autoRunResultSv.reportDetailList(taskId));
+		return bean;
+	}
 }

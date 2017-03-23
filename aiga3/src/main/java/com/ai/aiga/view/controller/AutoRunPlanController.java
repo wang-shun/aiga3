@@ -89,12 +89,7 @@ public class AutoRunPlanController {
 		return JsonBean.success;
 	}
 	
-	
-	@RequestMapping(value="/sys/autoPlan/query")
-	public @ResponseBody  JsonBean   query(String planIds){
-	
-		return JsonBean.success;
-	}
+
 	
 
 	/**

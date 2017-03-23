@@ -3,6 +3,7 @@ define(function(require, exports, module) {
     var pathAlias = "autoManage/autoPlanMng/";
     var Utils = require("global/utils.js");
     var planTag; //计划编号
+    var nowPlanId;
 
     // 计划列表显示
     srvMap.add("getAutoPlanList", pathAlias + "autoPlanList.json", "sys/autoPlan/queryList");
@@ -58,10 +59,19 @@ define(function(require, exports, module) {
     var Dom = {
         getAutoPlanList: '#JS_getAutoPlanList', //table对象
         queryPlanForm: '#JS_queryPlanForm', //查询表单
-        addPlan: '#JS_addPlan',
+
         planInfoForm: '#Js_planInfoForm',
         modalPlanForm: '#modal_autoPlanForm',
+        //modal
 
+        modalLinkTestCase: '#modal_linkTestCase',
+
+
+        //按钮组
+        addPlan: '#JS_addPlan',
+        btnLinkCase: '#JS_linkCase',
+        btnRunPlan: '#JS_runPlan',
+        btnNewTask: '#JS_newTask',
     };
 
 
@@ -74,15 +84,38 @@ define(function(require, exports, module) {
             this.queryAutoPlan();
             this.addAutoPlan();
             this.deleAutoPlan();
+            this.linkCase();
         },
         getPlanList: function(cmd) {
             var self = this;
+
+            Handlebars.registerHelper("transformatRunType",function(value){
+                if(value==1){
+                    return "立即执行";
+                }else if(value==2){
+                    return "定时执行";
+                }else if(value==3){
+                    return "分布式执行";
+                }
+            });
+            Handlebars.registerHelper("transformatCycleType",function(value){
+                if(value==1){
+                    return "不轮循";
+                }else if(value==2){
+                    return "查询类轮循";
+                }else if(value==3){
+                    return "受理类轮循";
+                }
+            });
+
             Rose.ajax.getJson(srvMap.get('getAutoPlanList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getAutoPlanList);
                     console.log(json.data)
                     $(Dom.getAutoPlanList).html(template(json.data.content));
                     self.eventClickChecked($(Dom.getAutoPlanList));
+
+               
                     Utils.eventDClickCallback($(Dom.getAutoPlanList), function() {
                         self.editAutoPlan();
                     });
@@ -117,7 +150,7 @@ define(function(require, exports, module) {
                 $(Dom.modalPlanForm).find("[name='planName']").val('');
                 $(Dom.modalPlanForm).find("[name='cycleType']").val('');
                 $(Dom.modalPlanForm).find("[name='runType']").val('');
-                $(Dom.modalPlanForm).find("[name='machineIp']").val('');                
+                $(Dom.modalPlanForm).find("[name='machineIp']").val('');
             });
             $(Dom.modalPlanForm).find("button[name='submit']").bind('click', function() {
                 var cmd = $(Dom.planInfoForm).serialize();
@@ -143,7 +176,7 @@ define(function(require, exports, module) {
         },
         //保存计划
         saveAutoPlan: function(cmd) {
-        	var self = this;
+            var self = this;
             Rose.ajax.getJson(srvMap.get('saveAutoPlan'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.show('计划保存成功！', 'success', 2000);
@@ -155,22 +188,22 @@ define(function(require, exports, module) {
         },
         //删除计划
         deleAutoPlan: function() {
-            var self = this;
+        	var self = this;
             $("#JS_delePlan").bind('click', function() {
-                var cmd = 'planId=';
+                var cmd = 'planIds=';
                 var  id;
                 $(Dom.getAutoPlanList).find("tr").each(function() {
                     var tdArr = $(this).children();
                     if (tdArr.eq(0).find("input").is(':checked')) {
                         id = tdArr.eq(0).find("input").val();
-                        cmd += id+',';
+                        cmd += id + ',';
                     }
                 });
-                cmd=cmd.substring(0,cmd.Length-1);
+                	cmd=cmd.substring(0,cmd.length-1);
                 if (id) {
                     Rose.ajax.getJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
                         if (status) {
-                            window.XMS.msgbox.show('计划删除成功！', 'success', 2000)
+                            window.XMS.msgbox.show('计划删除成功！', 'success', 2000);
                             setTimeout(function() {
                                 self.getPlanList();
                             }, 1000)
@@ -181,8 +214,254 @@ define(function(require, exports, module) {
                 }
 
             });
+        },
+        //关联用例
+        linkCase: function() {
+            var self = this;
+            var states = 1;
+            $(Dom.btnLinkCase).bind('click', function() {
+                var data = self.getPlanInfo();
+                if (data) {
+                    nowPlanId = data.planId;
+                    $(Dom.modalLinkTestCase).modal('show');
+                    var template = Handlebars.compile(Tpl.modalLinkCase);
+                    var id = {
+                        planId: data.planId
+                    }
+                    $(Dom.modalLinkTestCase).find(".modal-content").html(template(id));
+                    self.getUnLinkCaseList("planId=" + data.planId);
+                    $("#JS_casetable1").bind('click', function() {
+                        states = 1;
+                        self.getUnLinkCaseList("planId=" + data.planId);
+                    });
+                    $("#JS_casetable2").bind('click', function() {
+                        states = 2;
+                        self.getUnLinkGroupList("planId=" + data.planId);
+                    });
+                    $("#JS_casetable3").bind('click', function() {
+                        states = 3;
+                        self.getUnLinkCollectList("planId=" + data.planId);
+                    });
+
+                    //三个关联按钮
+                    $("#JS_queryUnlinkCaseForm").find("button[name='link']").bind('click', function() {
+                        var cmd = "planId=" + data.planId + "&caseId=";
+                        var ids = self.getcCheckedRowId("#JS_unLinkCaseList", cmd, "请先选择一个用例！");
+                        if (ids) {
+                            self.linkCasees(ids);
+                        }
+                    });
+                    $("#Js_queryUnlinkCaseGroupForm").find("button[name='link']").bind('click', function() {
+                        var cmd = "planId=" + data.planId + "&caseGroupId=";
+                        var ids = self.getcCheckedRowId("#Js_unlinkCaseGroupList", cmd, "请先选择一个用例组！");
+                        if (ids) {
+                            self.linkCaseGroup(ids);
+                        }
+                    });
+                    $("#Js_queryUnlinkCaseCollectForm").find("button[name='link']").bind('click', function() {
+                        var cmd = "planId=" + data.planId + "&caseCollectId=";
+                        var ids = self.getcCheckedRowId("#Js_unlinkCaseCollectList", cmd, "请先选择一个用例集！");
+                        if (ids) {
+                            self.linkCaseCollect(ids);
+                        }
+                    });
+
+                    //三个取消关联
+                    $("#delLinked").bind('click', function() {
+                        var cmd='';
+                        var ids = self.getcCheckedRowId("#Js_linked", cmd, "请选择已关联项！");
+                        console.log(ids);
+                        if (ids) {
+                            self.deleLinked(ids,states);
+                        }
+                    });
 
 
+                    //三个查询
+                    $("#JS_queryUnlinkCaseForm").find("button[name='submit']").bind('click', function() {
+                        var cmd = $("#JS_queryUnlinkCaseForm").serialize;
+                        self.getUnLinkCaseList(cmd);
+                    });
+                    $("#Js_queryUnlinkCaseGroupForm").find("button[name='submit']").bind('click', function() {
+                        var cmd = $("#Js_queryUnlinkCaseGroupForm").serialize;
+                        self.getUnLinkGroupList(cmd);
+                    });
+                    $("#Js_queryUnlinkCaseCollectForm").find("button[name='submit']").bind('click', function() {
+                        var cmd = $("#Js_queryUnlinkCaseCollectForm").serialize;
+                        self.getUnLinkCollectList(cmd);
+                    });
+
+                }
+            });
+        },
+        //获取选中行id
+        getcCheckedRowId: function(obj, cmd, message) {
+            var _obj = this.getCheckedRow(obj);
+            if (_obj.length) {
+                _obj.each(function() {
+                    var tdArr = $(this).children();
+                    id = tdArr.eq(0).find("input").val();
+                    cmd += id + ',';
+                });
+                cmd = cmd.substring(0, cmd.length - 1);
+                return cmd;
+            } else {
+                window.XMS.msgbox.show(message, 'error', 2000);
+                return;
+            }
+        },
+        //删除关联
+        deleLinked: function(cmd, state) {
+            var self = this;
+            if (state == 1) {
+                cmd = "planId=" + nowPlanId + "&caseId="+cmd;
+                Rose.ajax.getJson(srvMap.get('deleLinkCase'), cmd, function(json, status) {
+                    if (status) {
+                        
+                        setTimeout(function() {
+                            self.getUnLinkCaseList("planId=" + nowPlanId);
+                        }, 1000)
+                    }
+                });
+            } else if (state == 2) {
+                cmd = "planId=" + nowPlanId + "&groupId="+cmd;
+                Rose.ajax.getJson(srvMap.get('deleLinkCaseGroup'), cmd, function(json, status) {
+                    if (status) {
+                        setTimeout(function() {
+                            self.getUnLinkGroupList("planId=" + nowPlanId);
+                        }, 1000)
+                    }
+                });
+            } else if (state == 3) {
+                cmd = "planId=" + nowPlanId + "&collectId="+cmd;
+                Rose.ajax.getJson(srvMap.get('deleLinkCaseCollect'), cmd, function(json, status) {
+                    if (status) {
+                        setTimeout(function() {
+                            self.getUnLinkCollectList("planId=" + nowPlanId);
+                        }, 1000)
+                    }
+                });
+            }
+            window.XMS.msgbox.show('取消关联成功！', 'success', 2000)
+
+        },
+        //关联用例
+        linkCasees: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('linkCase'), cmd, function(json, status) {
+                if (status) {
+                    self.getUnLinkCaseList("planId=" + nowPlanId);
+                }
+            });
+
+        },
+        //关联用例组
+        linkCaseGroup: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('linkCaseGroup'), cmd, function(json, status) {
+                if (status) {
+                    self.getUnLinkGroupList("planId=" + nowPlanId);
+                }
+            });
+
+        },
+        //关联用例集
+        linkCaseCollect: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('linkCaseCollect'), cmd, function(json, status) {
+                if (status) {
+                    self.getUnLinkCollectList("planId=" + nowPlanId);
+                }
+            });
+
+        },
+
+        //未关联用例列表
+        getUnLinkCaseList: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('unLinkCaseList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.autoCaseList);
+                    console.log(json.data)
+                    var list = $("#JS_unLinkCaseList");
+                    list.html(template(json.data.content));
+                    Utils.eventClickChecked(list);
+                }
+            });
+            self.getLinkCaseList(cmd);
+
+        },
+        //关联用例列表
+        getLinkCaseList: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('linkCaseList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.autoCaseList);
+                    console.log(json.data)
+                    var list = $("#Js_linked");
+                    list.html(template(json.data.content));
+                    Utils.eventClickChecked(list);
+                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
+                }
+            });
+        },
+        //未关联用例组列表
+        getUnLinkGroupList: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('unLinkCaseGroupList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.caseGroupList);
+                    console.log(json.data)
+                    var list = $("#Js_unlinkCaseGroupList");
+                    list.html(template(json.data.content));
+                    Utils.eventClickChecked(list);
+                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
+                }
+            });
+            self.getLinkGroupList(cmd);
+        },
+        //关联用例组列表
+        getLinkGroupList: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('linkCaseGroupList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.caseGroupList);
+                    console.log(json.data)
+                    var list = $("#Js_linked");
+                    list.html(template(json.data.content));
+                    Utils.eventClickChecked(list);
+                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
+                }
+            });
+        },
+        //未关联用例集列表
+        getUnLinkCollectList: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('unLinkCaseCollectList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.caseCollectList);
+                    console.log(json.data)
+                    var list = $("#Js_unlinkCaseCollectList");
+                    list.html(template(json.data.content));
+                    Utils.eventClickChecked(list);
+                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
+                }
+            });
+            self.getLinkCollectList(cmd);
+        },
+        //关联用例集列表
+        getLinkCollectList: function(cmd) {
+            var self = this;
+            Rose.ajax.getJson(srvMap.get('linkCaseCollectList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.caseCollectList);
+                    console.log(json.data)
+                    var list = $("#Js_linked");
+                    list.html(template(json.data.content));
+                    Utils.eventClickChecked(list);
+                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
+                }
+            });
         },
 
         //获取选中当前计划数据

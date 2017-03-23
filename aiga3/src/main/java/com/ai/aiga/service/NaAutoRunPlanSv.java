@@ -234,6 +234,7 @@ public class NaAutoRunPlanSv extends BaseService{
 		if(!StringUtils.isBlank(condition.getUpdateTime())){
 			sql += " and to_char(a.create_time,'yyyy-mm-dd') < '"+condition.getUpdateTime()+"'";
 		}
+		sql += " order by create_time desc";
 		System.out.println("查询自动化计划sql"+sql);
 		List results = new ArrayList<String>();
 		results.add("planId");

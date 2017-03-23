@@ -340,7 +340,7 @@ public class AutoRunResultSv {
 		}
 		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskIdAndResultTypeNot(taskId,resultType);
 		if (resultList == null || resultList.size()==0) {
-			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and resultType:"+resultType);
+			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and resultType not :"+resultType);
 		}
 		return resultList;
 	}
@@ -362,6 +362,23 @@ public class AutoRunResultSv {
 		if (resultList == null || resultList.size()==0) {
 			BusinessException.throwBusinessException("could not found the task result! please make sure the taskId:"+taskId +"and resultType:"+resultType);
 		}
+		return resultList;
+	}
+
+	/**
+	 * 根据任务ID和执行状态查询结果信息
+	 * @param taskId
+	 * @param runType
+	 * @return
+	 */
+	public List<NaAutoRunResult> getListByTaskIdRunType(Long taskId,Byte runType){
+		if (taskId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		if (runType==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runType");
+		}
+		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskIdAndRunType(taskId,runType);
 		return resultList;
 	}
 
@@ -392,18 +409,20 @@ public class AutoRunResultSv {
 	 * @param resultList
 	 */
 	private void initResult(List<NaAutoRunResult> resultList){
-		for (NaAutoRunResult result:resultList){
-			result.setResultType((byte)2);//默认未执行
-			result.setRunType((byte)1);//默认未执行
-			result.setBeginTime(null);
-			result.setEndTime(null);
-			result.setFailReason(null);
-			result.setRunInfo(null);
-			result.setRunLog(null);
-			entityManager.persist(result);
+		if(resultList!=null&&resultList.size()>0) {
+			for (NaAutoRunResult result : resultList) {
+				result.setResultType((byte) 2);//默认未执行
+				result.setRunType((byte) 1);//默认未执行
+				result.setBeginTime(null);
+				result.setEndTime(null);
+				result.setFailReason(null);
+				result.setRunInfo(null);
+				result.setRunLog(null);
+				entityManager.persist(result);
+			}
+			entityManager.flush();
+			entityManager.clear();
 		}
-		entityManager.flush();
-		entityManager.clear();;
 	}
 
 	/**
@@ -424,10 +443,10 @@ public class AutoRunResultSv {
 	}
 
 	/**
-	 * 根据任务ID初始化结果表数据（初始化条件：结果状态为未执行）
+	 * 根据任务ID初始化结果表数据（初始化条件：执行状态为执行中）
 	 */
 	public void initResultByExec(Long taskId){
-		List<NaAutoRunResult> resultList=this.getListByTaskIdResultType(taskId,(byte)2);
+		List<NaAutoRunResult> resultList=this.getListByTaskIdRunType(taskId,(byte)2);
 		this.initResult(resultList);
 	}
 

@@ -197,7 +197,7 @@ public class AutoRunTaskSv {
         autoRunTask.setStopFlag(1L);
         autoRunTask.setTaskResult(4L);
         this.save(autoRunTask);
-        //将未执行的用例全部初始化
+        //将已发送到云桌面但还未执行的用例全部初始化
         autoRunResultSv.initResultByExec(autoRunTask.getTaskId());
     }
 

@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover">                                                    
+                                                  
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
@@ -33,4 +33,3 @@
         </tr>
         {{/each}}
     </tbody>
-</table>

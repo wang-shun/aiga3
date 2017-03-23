@@ -16,7 +16,7 @@
 		"sysPassword":"登录密码1",
 		"svnUrl":"SVN地址1",
 		"svnAccount":"SVN账号1",
-		"synPassword":"SVN密码1",
+		"svnPassword":"SVN密码1",
 		"dbAccount":"数据库账号1",
 		"dbPassword":"数据库密码1"
   	}

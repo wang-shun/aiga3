@@ -41,7 +41,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-primary btn-sm" name="link">关联用例</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-primary btn-sm" name="linkAll">关联全部</button>
+                        <button type="button" class="hide btn btn-primary btn-sm" name="linkAll">关联全部</button>
                     </div>
                     <table id="JS_unLinkCaseList" class="table table-bordered table-hover" style="min-height: 100px;">
                     </table>
@@ -86,7 +86,7 @@
             <a>已关联用例信息</a>
             <div class="box-tools">
                 <div class="btn-group">
-                    <button type="button" id="delLinked" class="btn btn-success" name="dele"><i class="fa  fa-flash"></i>取消关联</button>
+                    <button type="button" id="delLinked" class="btn btn-primary btn-sm " name="dele"><i class="fa  fa-remove"></i>取消关联</button>
                 </div>
             </div>            
             <!-- <h3 class="box-title " id="infos">已关联用例信息</h3> -->

@@ -19,8 +19,8 @@
                 <td><input type="checkbox" class="minimal" value="{{planId}}" name="planId"></td>
                 <td><input type="hidden"  name="planTag" value="{{planTag}}">{{planTag}}</td>
                 <td><input type="hidden"  name="planName" value="{{planName}}">{{planName}}</td>
-                <td><input type="hidden"  name="cycleType" value="{{cycleType}}">{{cycleType}}</td>
-                <td><input type="hidden"  name="runType" value="{{runType}}">{{runType}}</td>
+                <td><input type="hidden"  name="cycleType" value="{{cycleType}}">{{transformatCycleType cycleType}}</td>
+                <td><input type="hidden"  name="runType" value="{{runType}}">{{transformatRunType runType}}</td>
                 <td><input type="hidden"  name="creatorId" value="{{creatorId}}">{{creatorId}}</td>
                 <td><input type="hidden"  name="machineIp" value="{{machineIp}}">{{machineIp}}</td>
                 <td><input type="hidden"  name="createTime" value="{{createTime}}">{{createTime}}</td>

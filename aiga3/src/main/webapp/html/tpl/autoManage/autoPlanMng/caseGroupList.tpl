@@ -1,4 +1,4 @@
-<table class="table table-bordered table-hover">
+
    <thead>
          <tr>
             <th class="iCheckbox" width="15"></th>
@@ -9,7 +9,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each content}}
+        {{#each this}}
         <tr>
             <td><input type="checkbox" class="minimal" value="{{groupId}}" name="groupId"></td>
             <td>{{groupName}}</td>
@@ -19,4 +19,3 @@
         </tr>
         {{/each}}
     </tbody>
-</table>

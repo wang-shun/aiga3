@@ -1,7 +1,7 @@
 {
     "retCode": "200",
     "retMessage": null,
-    "data":[{
+    "data":{"content":[{
         "caseId":"001",
         "caseName": "1001",
         "caseType": "001",
@@ -81,5 +81,5 @@
         "environmentType": "呀",
         "hasAuto": "002",
         "paramLevel": "002"
-    }]
+    }]}
 }

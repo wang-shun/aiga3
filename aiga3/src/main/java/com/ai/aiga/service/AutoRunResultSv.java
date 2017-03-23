@@ -119,7 +119,7 @@ public class AutoRunResultSv {
 	}
 
 	public Object list(TaskRunResultRequest condition, int pageNumber, int pageSize) {
-		String sql = "select distinct a.task_id, b.task_tag, b.task_name, a.result_type, b.machine_ip, c.machine_name, "
+		String sql = "select distinct a.task_id, b.task_tag, b.task_name, b.task_result, b.machine_ip, c.machine_name, "
 				+ "d.name as creator_name ,t.auto_group, t.total_case, t.none_run_case, t.has_run_case,"
 				+ " t.success_case, t.fail_case, b.begin_run_time, b.end_run_time "
 				+ " from na_auto_run_result a, na_auto_run_task b, na_auto_machine c, aiga_staff d,"

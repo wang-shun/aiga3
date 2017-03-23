@@ -12,7 +12,7 @@
         <th>业务类型</th>
         <th style="display:none;">测试类型</th>
         <th style="display:none;">测试用例描述</th>
-        <th>预期值</th>
+        <th style="display:none;">预期值</th>
     </tr>
 </thead>
 <tbody>
@@ -29,7 +29,7 @@
         <td>{{busiId}}</td>
         <td style="display:none;">{{testType}}</td>
         <td style="display:none;">{{desc}}</td>
-        <td>{{preResult}}</td>
+        <td style="display:none;">{{preResult}}</td>
     </tr>
         {{/each}}
     </tbody>

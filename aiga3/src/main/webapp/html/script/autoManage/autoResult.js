@@ -7,18 +7,20 @@ define(function(require, exports, module) {
 
     // 分页根据条件查询自动化用例模板信息
     srvMap.add("getAutoResultList", pathAlias + "getAutoResultList.json", "auto/autoRunResult/list");
-    //获取模板信息
-    srvMap.add("getAutoResultInfoList", pathAlias + "getAutoResultInfoList.json", "/auto/autoRunResult/caseByTaskList");
+    //获取详细信息
+    srvMap.add("getAutoResultInfoList", pathAlias + "getAutoResultInfoList.json", "auto/autoRunResult/caseByTaskList");
     //获取所选用例的执行信息
-    srvMap.add("showRunInfo", pathAlias + "showRunInfo.json", "");
+    srvMap.add("showRunInfo", pathAlias + "showRunInfo.json", "auto/autoRunResult/runInfo");
     //获取所选用例的执行日志
-    srvMap.add("showRunLog", pathAlias + "showRunLog.json", "");
+    srvMap.add("showRunLog", pathAlias + "showRunLog.json", "auto/autoRunResult/runLog");
     //获取任务明细
-    srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "");
+    srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "auto/autoRunResult/findOne");
     //获取任务执行结果列表
-    srvMap.add("getReportDetailList", pathAlias + "getReportDetailList.json", "");
+    srvMap.add("getReportDetailList", pathAlias + "getReportDetailList.json", "auto/autoRunResult/taskDetail");
     //保存报告
-    srvMap.add("saveReport", pathAlias + "retMessage.json", "");
+    srvMap.add("saveReport", pathAlias + "retMessage.json", "auto/autoRunResult/reportSave");
+    //保存明细
+    srvMap.add("saveDetail",pathAlias + "retMessage.json","auto/autoRunResult/detailSave");
 
     // 模板对象
     var Tpl = {
@@ -80,6 +82,11 @@ define(function(require, exports, module) {
                     window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Tpl.getAutoResultList);
                     $(Dom.getAutoResultList).html(template(json.data))
+                    var _successCase = json.data.successCase;
+                    var _failCase = json.data.failCase;
+                    var _successRate = parseInt(_successCase) * 100 /parseInt(_successCase + _failCase)+'%';
+                    $(Dom.getAutoResultList).find('td[id=successRate]').val(_successRate);
+
                         //设置分页
                     self.initPaging($(Dom.getAutoResultList), 8)
 
@@ -247,7 +254,7 @@ define(function(require, exports, module) {
                         var dataArray = Utils.getTableDataRows(_form);
                         var _cmd = dataArray;
                         console.log(_cmd);
-                        Rose.ajax.postJson(srvMap.get('saveReport'), _cmd, function(json, status) {
+                        Rose.ajax.postJson(srvMap.get('saveDetail'), _cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.show('保存成功！', 'success', 2000)
                             }
@@ -285,7 +292,7 @@ define(function(require, exports, module) {
                 "searching": false,
                 "ordering": false,
                 "info": true,
-                "autoWidth": false,
+                "autoWidth": true,
                 "scrollX": true,
                 "scrollY": false
             });

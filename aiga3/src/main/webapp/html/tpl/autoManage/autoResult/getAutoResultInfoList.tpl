@@ -22,7 +22,7 @@
                 <td>{{autoName}}</td>
                 <td>{{sortNumber}}</td>
                 <td>{{sortGroup}}</td>
-                <td>{{resultType}}</td>
+                <td>{{getResultType resultType}}</td>
                 <td><a href="javascript:;" name="runInfo" data-resultId="{{resultId}}">显示详细信息</a></td>
                 <td><a href="javascript:;" name="runLog" data-resultId="{{resultId}}">显示详细信息</a></td>
                 <td>{{failReason}}</td>

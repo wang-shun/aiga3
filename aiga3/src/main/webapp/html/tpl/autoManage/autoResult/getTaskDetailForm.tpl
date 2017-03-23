@@ -55,7 +55,7 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>成功率</label>
-                                                <input type="email" class="form-control input-sm" name="successRate" value="{{successRate}}" readonly="readonly">
+                                                <input type="email" class="form-control input-sm" name="successRate" value="{{getSuccessRate successCase totalCase}}" readonly="readonly">
                                             </div>
                                         </div>
                                         <div class="col-md-2">

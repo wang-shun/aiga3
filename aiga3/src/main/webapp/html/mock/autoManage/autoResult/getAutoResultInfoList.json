@@ -7,70 +7,70 @@
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "0",
             "failReason": "######"
         }, {
             "resultId": "2",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "0",
             "failReason": "######"
         }, {
             "resultId": "3",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "1",
             "failReason": "######"
         }, {
             "resultId": "4",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "0",
             "failReason": "######"
         }, {
             "resultId": "5",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "2",
             "failReason": "######"
         }, {
             "resultId": "6",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "0",
             "failReason": "######"
         }, {
             "resultId": "7",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "3",
             "failReason": "######"
         }, {
             "resultId": "8",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "0",
             "failReason": "######"
         }, {
             "resultId": "1",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "0",
             "failReason": "######"
         }, {
             "resultId": "9",
             "autoName": "自动化用例1",
             "sortNumber": "1",
             "sortGroup": "2",
-            "resultType": "执行中",
+            "resultType": "0",
             "failReason": "######"
         }]
     }

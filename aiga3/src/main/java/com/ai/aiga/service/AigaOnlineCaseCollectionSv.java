@@ -261,7 +261,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		String sql = "select  group_id,group_name,"
 								 +" (select name from aiga_staff cc where a.creator_id = cc.staff_id)  as operator, \n"
 						          +"   (select name from aiga_staff dd where a.update_id = dd.staff_id) as updater, \n"
-				+ " update_time  from na_auto_group a where a.group_id not in (select element_id from na_auto_coll_group_case where collect_id ="
+				+ " to_char(update_time,'yyyy-mm-dd hh24:mi:ss') update_time  from na_auto_group a where a.group_id not in (select element_id from na_auto_coll_group_case where collect_id ="
 				+ collectId + " and element_type=0)";
 		if (StringUtils.isNotBlank(groupName)) {
 			sql = sql + " and a.group_Name like '%" + groupName + "%'";
@@ -297,7 +297,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		String sql = "select group_id,group_name,"
 				 +"  (select name from aiga_staff cc where a.creator_id = cc.staff_id)  as operator, \n"
 		          +"  (select name from aiga_staff bb where a.update_id = bb.staff_id)  as updater, \n"
-				+ "update_time from na_auto_group a where a.group_id in (select element_id from na_auto_coll_group_case where collect_id ="
+				+ " to_char(update_time,'yyyy-mm-dd hh24:mi:ss') update_time  from na_auto_group a where a.group_id in (select element_id from na_auto_coll_group_case where collect_id ="
 				+ collectId+" and element_type=0)";
 		if (StringUtils.isNotBlank(groupName)) {
 			sql = sql + " and a.group_Name like '%" + groupName + "'%";

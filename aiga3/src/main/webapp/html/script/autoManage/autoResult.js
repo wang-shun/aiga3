@@ -86,10 +86,6 @@ define(function(require, exports, module) {
                     var _failCase = json.data.failCase;
                     var _successRate = parseInt(_successCase) * 100 /parseInt(_successCase + _failCase)+'%';
                     $(Dom.getAutoResultList).find('td[id=successRate]').val(_successRate);
-
-                        //设置分页
-                    self.initPaging($(Dom.getAutoResultList), 8)
-
                     // 生成报告
                     self.generateReport();
                     //Utils.eventTrClickCallback($(Dom.getAutoResultList));
@@ -103,6 +99,9 @@ define(function(require, exports, module) {
                         self.getAutoResultInfoList(cmd);
                         self.queryAutoResultInfoForm();
                     })
+
+                    //设置分页
+                    self.initPaging($(Dom.getAutoResultList), 8)
 
                 }
             });

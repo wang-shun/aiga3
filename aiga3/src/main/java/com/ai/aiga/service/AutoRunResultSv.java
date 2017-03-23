@@ -143,6 +143,10 @@ public class AutoRunResultSv {
 			if(condition.getMachineIp() != null && !condition.getMachineIp().equals("")){
 				sql += " and b.machine_ip = '"+condition.getMachineIp()+"'";
 			}
+			if(condition.getTaskId() != null && !condition.getTaskId().equals("")){
+				sql +=" and a.task_id = "+condition.getTaskId();
+			}
+			
 		}
 		List<String> list = new ArrayList<String>();
 		list.add("taskId");

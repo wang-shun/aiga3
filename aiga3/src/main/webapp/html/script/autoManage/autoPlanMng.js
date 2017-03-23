@@ -110,9 +110,7 @@ define(function(require, exports, module) {
                 if (value == 1) {
                     return "不轮循";
                 } else if (value == 2) {
-                    return "查询类轮循";
-                } else if (value == 3) {
-                    return "受理类轮循";
+                    return "轮循";
                 }
             });
             Handlebars.registerHelper("transformatStatus", function(value) {
@@ -442,7 +440,7 @@ define(function(require, exports, module) {
                 if (status) {
                     console.log(json.data);
                     var template = Handlebars.compile(Tpl.machineList);
-                    $(Dom.modalNewTaskForm).find("tbody").append(template(json.data));
+                    $(Dom.modalNewTaskForm).find("tbody").append(template(json.data.content));
                     Utils.eventClickChecked($(Dom.modalNewTaskForm).find("tbody"));
                 }
             });

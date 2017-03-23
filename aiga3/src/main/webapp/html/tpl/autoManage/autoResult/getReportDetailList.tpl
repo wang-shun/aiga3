@@ -23,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each this}}
+            {{#each content}}
             <tr>
                 <input type="hidden" value="{{reportId}}" name="reportId">
                 <input type="hidden" value="{{taskId}}" name="taskId">

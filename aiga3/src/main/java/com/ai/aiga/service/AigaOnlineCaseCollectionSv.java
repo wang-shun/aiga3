@@ -168,20 +168,14 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		resultList.add("repairId");
 		String sql = "select collect_ID, \n"
 							     +"  collect_Name, \n"
-							      +"     (select employee_name \n"
-							         +"     from sys_staff aa, sys_employee bb \n"
-							          +"      where aa.employee_id = bb.employee_id \n"
-							          +"     and aa.staff_id = a.op_id) as operator, \n"
+							      +"     (select name from aiga_staff bb where a.OP_ID = bb.staff_id) as operator, \n"
 							       +"    to_char(create_date,'yyyy-mm-dd hh24:mi:ss'),  \n"
 							       +"    case_num, \n"
 							        +"   (select show \n"
 							        +"      from sys_constant cc \n"
 							        +"     where cc.category = 'collectType' \n"
 							        +"       and cc.value = a.case_type) as case_type, \n"
-							        +"   (select employee_name \n"
-							        +"      from sys_staff aa, sys_employee bb \n"
-							        +"     where aa.employee_id = bb.employee_id \n"
-							         +"      and aa.staff_id = a.repairs_id) as repair_id \n"
+							        +"  (select name from aiga_staff cc where a.repairs_id = cc.staff_id) as repair_id \n"
 							   +"   from na_auto_collection a  where 1=1";
 			// 用例集名称
 			if (StringUtils.isNotBlank(caseCollection.getCollectName())) {
@@ -265,15 +259,9 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		resultList.add("updateId");
 		resultList.add("updateTime");
 		String sql = "select  group_id,group_name,"
-								 +"  (select employee_name \n"
-						         +"     from sys_staff aa, sys_employee bb \n"
-						          +"      where aa.employee_id = bb.employee_id \n"
-						          +"     and aa.staff_id = a.creator_id) as operator, \n"
-						          +"  (select employee_name \n"
-							         +"     from sys_staff aa, sys_employee bb \n"
-							          +"      where aa.employee_id = bb.employee_id \n"
-							          +"     and aa.staff_id = a.update_id) as updater, \n"
-				+ " update_time  from na_auto_group a where a.group_id not in (select element_id from na_auto_coll_group_case where collect_id ="
+								 +" (select name from aiga_staff cc where a.creator_id = cc.staff_id)  as operator, \n"
+						          +"   (select name from aiga_staff dd where a.update_id = dd.staff_id) as updater, \n"
+				+ " to_char(update_time,'yyyy-mm-dd hh24:mi:ss') update_time  from na_auto_group a where a.group_id not in (select element_id from na_auto_coll_group_case where collect_id ="
 				+ collectId + " and element_type=0)";
 		if (StringUtils.isNotBlank(groupName)) {
 			sql = sql + " and a.group_Name like '%" + groupName + "%'";
@@ -307,15 +295,9 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		resultList.add("updateId");
 		resultList.add("updateTime");
 		String sql = "select group_id,group_name,"
-				 +"  (select employee_name \n"
-		         +"     from sys_staff aa, sys_employee bb \n"
-		          +"      where aa.employee_id = bb.employee_id \n"
-		          +"     and aa.staff_id = a.creator_id) as operator, \n"
-		          +"  (select employee_name \n"
-			         +"     from sys_staff aa, sys_employee bb \n"
-			          +"      where aa.employee_id = bb.employee_id \n"
-			          +"     and aa.staff_id = a.update_id) as updater, \n"
-				+ "update_time from na_auto_group a where a.group_id in (select element_id from na_auto_coll_group_case where collect_id ="
+				 +"  (select name from aiga_staff cc where a.creator_id = cc.staff_id)  as operator, \n"
+		          +"  (select name from aiga_staff bb where a.update_id = bb.staff_id)  as updater, \n"
+				+ " to_char(update_time,'yyyy-mm-dd hh24:mi:ss') update_time  from na_auto_group a where a.group_id in (select element_id from na_auto_coll_group_case where collect_id ="
 				+ collectId+" and element_type=0)";
 		if (StringUtils.isNotBlank(groupName)) {
 			sql = sql + " and a.group_Name like '%" + groupName + "'%";

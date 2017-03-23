@@ -14,13 +14,13 @@ define(function(require, exports, module) {
     //获取所选用例的执行日志
     srvMap.add("showRunLog", pathAlias + "showRunLog.json", "auto/autoRunResult/runLog");
     //获取任务明细
-    srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "auto/autoRunResult/findOne");
+    srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "auto/autoRunResult/list");
     //获取任务执行结果列表
     srvMap.add("getReportDetailList", pathAlias + "getReportDetailList.json", "auto/autoRunResult/taskDetail");
     //保存报告
     srvMap.add("saveReport", pathAlias + "retMessage.json", "auto/autoRunResult/reportSave");
     //保存明细
-    srvMap.add("saveDetail",pathAlias + "retMessage.json","auto/autoRunResult/detailSave");
+    srvMap.add("saveDetail", pathAlias + "retMessage.json", "auto/autoRunResult/detailSave");
 
     // 模板对象
     var Tpl = {
@@ -43,7 +43,7 @@ define(function(require, exports, module) {
         generateReportModal: '#JS_generateReportModal',
         getTaskDetailForm: '#JS_getTaskDetailForm',
         getReportDetailList: '#JS_getReportDetailList'
-        
+
     };
 
     var Data = {
@@ -84,12 +84,8 @@ define(function(require, exports, module) {
                     $(Dom.getAutoResultList).html(template(json.data))
                     var _successCase = json.data.successCase;
                     var _failCase = json.data.failCase;
-                    var _successRate = parseInt(_successCase) * 100 /parseInt(_successCase + _failCase)+'%';
+                    var _successRate = parseInt(_successCase) * 100 / parseInt(_successCase + _failCase) + '%';
                     $(Dom.getAutoResultList).find('td[id=successRate]').val(_successRate);
-
-                        //设置分页
-                    self.initPaging($(Dom.getAutoResultList), 8)
-
                     // 生成报告
                     self.generateReport();
                     //Utils.eventTrClickCallback($(Dom.getAutoResultList));
@@ -103,6 +99,9 @@ define(function(require, exports, module) {
                         self.getAutoResultInfoList(cmd);
                         self.queryAutoResultInfoForm();
                     })
+
+                    //设置分页
+                    self.initPaging($(Dom.getAutoResultList), 8)
 
                 }
             });
@@ -135,15 +134,12 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.getAutoResultInfoList);
                     $(Dom.getAutoResultInfoList).html(template(json.data));
 
-                    //设置分页
-                    self.initPaging($(Dom.getAutoResultInfoList).find("table"), 8);
-
-                    // Utils.eventClickChecked($(Dom.getAutoResultInfoList));
-
                     self.showRunInfo();
                     self.showRunLog();
                 }
             });
+            //设置分页
+            self.initPaging($(Dom.getAutoResultInfoList).find("table"), 8);
 
         },
         //点击显示执行信息
@@ -213,7 +209,7 @@ define(function(require, exports, module) {
                             window.XMS.msgbox.hide();
                             var template = Handlebars.compile(Tpl.getTaskDetailForm);
                             var _table = $(Dom.getTaskDetailForm);
-                            _table.html(template(json.data))
+                            _table.html(template(json.data.content))
                             _modal.modal('show');
 
                             var _form = $(Dom.getTaskDetailForm);
@@ -223,10 +219,10 @@ define(function(require, exports, module) {
                                 var _cmd = _form.serialize();
                                 var _reportName = _form.find("[name='reportName']").val();
                                 Rose.ajax.postJson(srvMap.get('saveReport'), _cmd, function(json, status) {
-                                    if (status&&_reportName!=="") {
+                                    if (status && _reportName !== "") {
                                         window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                                    } else{
-                                        window.XMS.msgbox.show('报告名称不能为空！','error',2000);
+                                    } else {
+                                        window.XMS.msgbox.show('报告名称不能为空！', 'error', 2000);
                                         return;
                                     }
                                 });
@@ -292,7 +288,7 @@ define(function(require, exports, module) {
                 "searching": false,
                 "ordering": false,
                 "info": true,
-                "autoWidth": true,
+                "autoWidth": false,
                 "scrollX": true,
                 "scrollY": false
             });

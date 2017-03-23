@@ -389,31 +389,10 @@ define(function(require, exports, module) {
 							// 表单校验：成功后调取接口
 							//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 								var cmd = _form.serialize()+"&caseId="+_data.caseId;
-								//var cmd = {};
-								
-								// var caseId = _data.caseId;
-								// var caseName = $("#add_caseName").val();
-								// var important = $("#add_important").val();
-								// var sysId = $("#add_sysId").find("select").val();
-								// var subsysId = $("#add_subSysId").find("select").val();
-								// var funId = $("#add_funId").find("select").val();
-								// var busiId = $("#add_busiId").val();
-								// var caseType = $("#add_caseType").find("select").val();
-								// var operateDesc = $("#JS_add_operateDesc").val();
 								var id;
 								var name;
 								var remark;
-								// self.getUserinfoList(cmd);
-								// cmd = {"caseName":caseName,
-								// 		"caseId":caseId,
-								// 		"important":important,
-								// 		"sysId":sysId,
-								// 		"subsysId":subsysId,
-								// 		"funId":funId ? funId : "",
-								// 		"busiId":busiId ? busiId: "",
-								// 		"caseType":caseType,
-								// 		"operateDesc":operateDesc
-								// 		};
+								
 								var factors = [];
 								$(Dom.factorList).find("tr").each(function(){
 								    var tdArr = $(this).children();

@@ -113,7 +113,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getContral);
 					console.log(json.data);
-					$(Dom.getControlList).html(template(json.data));
+					$(Dom.getControlList).html(template(json.data.content));
 					self.addControl();
 
 					self.deleControl();

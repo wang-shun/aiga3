@@ -44,7 +44,7 @@ public class AutoGroupSv {
 	public Object fingGroups(NaAutoGroup condition, int pageNumber, int pageSize) {
 		
 		String sql = "select a.group_id, a.group_name, b.name as creator_name,"
-				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.update_time "
+				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, to_char(a.update_time,'yyyy-mm-dd hh24:mi:ss') "
 				+ " from aiga_staff b, na_auto_group a where a.creator_id = b.staff_id ";
 		if(condition != null){
 			

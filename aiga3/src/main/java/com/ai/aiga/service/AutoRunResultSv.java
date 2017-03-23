@@ -80,7 +80,7 @@ public class AutoRunResultSv {
 		if(StringUtils.isNoneBlank(condition.getAutoName())){
 			sql += " and auto_name like '%"+condition.getAutoName()+"%'";
 		}
-		if(condition.getResultType() != null && condition.getResultType() > 0){
+		if(condition.getResultType() != null && !condition.getResultType().equals("")){
 			sql += " and a.result_type = "+condition.getResultType() ;
 		}
 		List<String> list = new ArrayList<String>();
@@ -119,7 +119,7 @@ public class AutoRunResultSv {
 	}
 
 	public Object list(TaskRunResultRequest condition, int pageNumber, int pageSize) {
-		String sql = "select distinct a.task_id, b.task_tag, b.task_name, a.result_type, b.machine_ip, c.machine_name, "
+		String sql = "select distinct a.task_id, b.task_tag, b.task_name, b.task_result, b.machine_ip, c.machine_name, "
 				+ "d.name as creator_name ,t.auto_group, t.total_case, t.none_run_case, t.has_run_case,"
 				+ " t.success_case, t.fail_case, b.begin_run_time, b.end_run_time "
 				+ " from na_auto_run_result a, na_auto_run_task b, na_auto_machine c, aiga_staff d,"
@@ -131,24 +131,28 @@ public class AutoRunResultSv {
 				+ " from na_auto_run_result group by task_id) t"
 				+ " where a.task_id = b.task_id and b.machine_ip = c.machine_ip and b.creator_id = d.staff_id and a.task_id = t.task_id";
 		if(condition != null){
-			if(condition.getTaskName() != null){
+			if(condition.getTaskName() != null && !condition.getTaskName().equals("")){
 				sql += " and b.task_name like '%"+condition.getTaskName()+"%'";
 			}
-			if(condition.getTaskTag() != null){
-				sql += " and b.task_tag ="+condition.getTaskTag();
+			if(condition.getTaskTag() != null && !condition.getTaskTag().equals("")){
+				sql += " and b.task_tag like '%"+condition.getTaskTag()+"%'";
 			}
-			if(condition.getResultType() != null){
+			if(condition.getResultType() != null && !condition.getResultType().equals("")){
 				sql += " and a.result_type ="+condition.getResultType();
 			}
-			if(condition.getMachineIp() != null){
-				sql += " and b.machine_ip ="+condition.getMachineIp();
+			if(condition.getMachineIp() != null && !condition.getMachineIp().equals("")){
+				sql += " and b.machine_ip = '"+condition.getMachineIp()+"'";
 			}
+			if(condition.getTaskId() != null && !condition.getTaskId().equals("")){
+				sql +=" and a.task_id = "+condition.getTaskId();
+			}
+			
 		}
 		List<String> list = new ArrayList<String>();
 		list.add("taskId");
 		list.add("taskTag");
 		list.add("taskName");
-		list.add("resultType");
+		list.add("taskResult");
 		list.add("machineIp");
 		list.add("machineName");
 		list.add("creatorName");

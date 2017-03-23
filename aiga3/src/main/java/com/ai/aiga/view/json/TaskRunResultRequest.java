@@ -1,11 +1,18 @@
 package com.ai.aiga.view.json;
 
 public class TaskRunResultRequest {
+	private Long taskId;
 	private String taskTag;
 	private String taskName;
 	private String machineIp;
 	private Byte resultType;
 	private Byte runType;
+	public Long getTaskId() {
+		return taskId;
+	}
+	public void setTaskId(Long taskId) {
+		this.taskId = taskId;
+	}
 	public String getTaskTag() {
 		return taskTag;
 	}

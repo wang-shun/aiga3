@@ -7,10 +7,10 @@
     </div>
 </div>
 <div class="box-body" >
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" style="width: 1800px;">
         <thead>
             <tr>
-                <th class="iCheckbox" width="15"></th>
+                <th class="iCheckbox" ></th>
                 <th>任务单编号</th>
                 <th>任务单名称</th>
                 <th>任务执行状态</th>
@@ -33,9 +33,9 @@
             {{#each content}}
             <tr>
                 <td><input type="radio" class="minimal" value="{{taskId}}" name="taskId"></td>
-                <td>{{taskTag}}</td>
+                <td>{{taskTag}}11</td>
                 <td>{{taskName}}</td>
-                <td>{{resultType}}</td>
+                <td>{{getTaskType taskResult}}</td>
                 <td>{{machineIp}}</td>
                 <td>{{machineName}}</td>
                 <td>{{creatorName}}</td>
@@ -45,7 +45,7 @@
                 <td>{{noneRunCase}}</td>
                 <td>{{successCase}}</td>
                 <td>{{failCase}}</td>
-                <td>{{successRate}}</td>
+                <td>{{getSuccessRate successCase totalCase}}</td>
                 <td>{{beginTime}}</td>
                 <td>{{endTime}}</td>
             </tr>

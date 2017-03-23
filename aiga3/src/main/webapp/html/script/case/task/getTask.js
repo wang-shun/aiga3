@@ -55,7 +55,6 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getTaskList);
 					console.log(json.data);
-					alert(template(json.data));
 					$(Dom.getTaskList).html(template(json.data));
 					self.impType();
 					self.impResult();
@@ -75,6 +74,14 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+		//重置
+		JS_resetTask:function(){
+			$("#JS_resetTask").unbind('click');
+			$("#JS_resetTask").bind('click',function(){
+				$("#JS_queryTaskForm").data('bootstrapValidator').resetForm(true);
+			});
+		},
+		//查找
 		getTaskList:function(){
 			var self=this;
 			$(Dom.queryTask).unbind('click');

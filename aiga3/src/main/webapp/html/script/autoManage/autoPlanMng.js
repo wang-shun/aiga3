@@ -162,6 +162,7 @@ define(function(require, exports, module) {
             var self = this;
             $(Dom.addPlan).bind('click', function() {
                 var time = self.getDate();
+                $(Dom.modalPlanForm).find("h4").html("新增计划");
                 $(Dom.modalPlanForm).find("[name='planTag']").val(time.planTag);
                 $(Dom.modalPlanForm).find("[name='planId']").val('');
                 $(Dom.modalPlanForm).find("[name='planName']").val('');
@@ -183,6 +184,7 @@ define(function(require, exports, module) {
             var data = this.getPlanInfo();
             if (data) {
                 $(Dom.modalPlanForm).modal('show');
+                $(Dom.modalPlanForm).find("h4").html("修改计划");
                 $(Dom.modalPlanForm).find("[name='planId']").val(data.planId);
                 $(Dom.modalPlanForm).find("[name='planTag']").val(data.planTag);
                 $(Dom.modalPlanForm).find("[name='planName']").val(data.planName);
@@ -363,7 +365,7 @@ define(function(require, exports, module) {
 
                     $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
                         var cmd = $("#Js_queryMachine").serialize();
-                        alert(cmd)
+                        alert(cmd);
                         if (cmd) {
                             self.getMachineList(cmd, true);
                         } else {
@@ -395,7 +397,7 @@ define(function(require, exports, module) {
                     });
 
                     $(Dom.modalNewTaskForm).find("button[name='save']").bind('click', function() {
-                        var cmd = $("#JS_newTaskForm").serialize();
+                        var cmd = $("#JS_taskForm").serialize();
                         self.saveNewTaks(cmd);
                         $(Dom.modalNewTaskForm).modal('hide');
                     });

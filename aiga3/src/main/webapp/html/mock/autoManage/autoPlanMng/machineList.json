@@ -1,7 +1,7 @@
 {
     "retCode": "200",
     "retMessage": null,
-    "data":[{
+    "data":{"content":[{
         "machineId":"主机1",
         "machineIp": "10.78.10.123",
         "machineName": "主机1",
@@ -19,5 +19,5 @@
         "machineName": "主机1",
         "status": "2",
         "taskId":"1"
-    }]
+    }]}
 }

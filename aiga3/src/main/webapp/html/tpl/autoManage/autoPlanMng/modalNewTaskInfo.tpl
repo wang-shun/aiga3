@@ -1,3 +1,4 @@
+<form id="Js_taskForm">
 <div class="row">
     <div class="hide">
         <input type="text" class="form-control input-sm" name="planId">
@@ -80,6 +81,7 @@
         </select>
     </div>
 </div>
+</form>
 <div class="box" style="min-height: 100px">
     <div class="box-header">
         <a>主机列表</a>

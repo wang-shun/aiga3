@@ -16,32 +16,28 @@
                     <div class="form-group form-inline">
                         <label for="caseName" class="control-label">用例名称:</label>
                         <input type="hidden" class="form-control" name="planId" value="{{planId}}">
-                        <input id="caseName" type="text" class="form-control input-sm" name="caseName">
-                        <label class="control-label">模板名称:</label>
-                        <input type="text" class="form-control input-sm" name="templeteName">
-                        <label class="control-label">业务:</label>
-                        <select id="queryCase_busi" name="busiId" class="form-control select2 input-sm" style="width: 100px">
+                        <input id="caseName" type="text" class="form-control input-sm" name="autoName"  style="width: 160px"  >
+                         <label class="control-label">系统大类:</label>
+                        <select name="sysId" class="form-control select2 input-sm" style="width: 160px">
                             <option></option>
                         </select>
-                        <label class="control-label">系统大类:</label>
-                        <select name="sysId" class="form-control select2 input-sm" style="width: 160px">
+                        <label class="control-label">业务:</label>
+                        <select id="queryCase_busi" name="busiId" class="form-control select2 input-sm" style="width: 160px">
                             <option></option>
                         </select>
                     </div>
                     <div class="form-group form-inline">
                         <label class="control-label">系统子类:</label>
-                        <select name="subSysId" class="form-control select2 input-sm" style="width: 168px">
+                        <select name="subSysId" class="form-control select2 input-sm" style="width: 160px">
                             <option></option>
                         </select>
                         <label class="control-label">功&nbsp;能&nbsp;点&nbsp;:</label>
-                        <select name="funId" class="form-control select2 input-sm" style="width: 170px">
+                        <select name="funId" class="form-control select2 input-sm" style="width: 160px">
                             <option></option>
-                        </select>&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-primary btn-sm" name="submit">查询</button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="btn btn-primary btn-sm" name="link">关联用例</button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="button" class="hide btn btn-primary btn-sm" name="linkAll">关联全部</button>
+                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary btn-sm" name="submit"   style="width: 70px">查询</button>
+                        &nbsp;
+                        <button type="button" class="btn btn-primary btn-sm" name="link"  style="width: 70px">关联用例</button>
                     </div>
                     <table id="JS_unLinkCaseList" class="table table-bordered table-hover" style="min-height: 100px;">
                     </table>
@@ -69,7 +65,7 @@
                     <div class="form-group form-inline">
                         <label class="control-label">用例集名称：</label>
                         <input type="hidden" class="form-control" name="planId" value="{{planId}}">
-                        <input type="text" class="form-control input-sm" name="groupName" value="{{groupName}}"> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="text" class="form-control input-sm" name="collectName" value="{{collectName}}"> &nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-primary btn-sm" id="connectCaseGroupBtn" name="submit">查询</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-primary btn-sm" id="relCaseGroupBtn" name="link">关联用例集</button>

@@ -18,8 +18,8 @@
     <tbody>
         {{#each this}}
         <tr>
-            <td><input type="checkbox" class="minimal" value="{{caseId}}" name="caseId"></td>
-            <td>{{caseName}}</td>
+            <td><input type="checkbox" class="minimal" value="{{autoId}}" name="autoId"></td>
+            <td>{{autoName}}</td>
             <td>{{caseType}}</td>
             <td style="display:none;">{{important}}</td>
             <td>{{sysName}}</td>

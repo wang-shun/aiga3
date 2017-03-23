@@ -199,32 +199,21 @@ public class NaAutoEnvironmentSv extends BaseService{
 		List<Condition> cons = new ArrayList<Condition>();
 		
 		if(condition != null){
-			if(condition.getEnvId()!=null){
-				cons.add(new Condition("envId", condition.getEnvId(), Condition.Type.EQ));
-			}
-			if(StringUtils.isNotBlank(condition.getEnvUrl())){
-				cons.add(new Condition("envUrl", "%".concat(condition.getEnvUrl()).concat("%"), Condition.Type.EQ));
+			
+			
+			
+			if(condition.getRunEnv()!= null){
+				cons.add(new Condition("runEnv", condition.getRunEnv(), Condition.Type.EQ));
 			}
 			
-			if(condition.getCreatorId()!= null){
-				cons.add(new Condition("creatorId", condition.getCreatorId(), Condition.Type.EQ));
-			}
-			
-			if(condition.getEnvName()!= null){
+			if(condition.getEnvName()!= null&&!condition.getEnvName().equals("")){
 				cons.add(new Condition("envName","%".concat( condition.getEnvName()).concat("%"), Condition.Type.LIKE));
 			}
 			if(condition.getSysId()!= null){
 				cons.add(new Condition("sysId", condition.getSysId(), Condition.Type.EQ));
 			}
-			if(condition.getDatabase()!= null){
-				cons.add(new Condition("database", condition.getDatabase(), Condition.Type.EQ));
-			}
-			if(condition.getDbAccount()!= null){
-				cons.add(new Condition("dbAccount", condition.getDbAccount(), Condition.Type.EQ));
-			}
-			if(condition.getRegionId()!= null){
-				cons.add(new Condition("regionId", condition.getRegionId(), Condition.Type.EQ));
-			}
+			
+			
 		}
 		
 		
@@ -240,6 +229,8 @@ public class NaAutoEnvironmentSv extends BaseService{
 		
 		return naAutoEnvironmentDao.search(cons, pageable);
 	}
+   
+   
    public void addMachineandEnv(NaAutoEnvironmentRequest  request,String machineIds){
 	  
 	   NaAutoEnvironment naAutoEnvironment=saveEnvironment(request);

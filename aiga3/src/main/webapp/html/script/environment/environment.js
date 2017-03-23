@@ -7,6 +7,8 @@ define(function(require,exports,module){
 
 	//显示环境列表
 	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
+	//查询环境
+	srvMap.add("getEnvironment","environment/getEnvironmentList.json","sys/environment/list");
 	//根据Id查询环境
 	srvMap.add("getEnvironmentInfo","environment/getEnvironmentInfo.json","sys/environment/findone");
 	//增加环境
@@ -75,6 +77,25 @@ define(function(require,exports,module){
 				}
 			});
 		},
+		getEnvironment: function(cmd) {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('getEnvironment'), cmd, function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.getEnvironmentList);
+					console.log(json.data)
+					$(Dom.getEnvironmentList).html(template(json.data.content));
+					//删除按钮
+					self.deleteEnvironment();
+					//引入单选框样式
+					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
+						self.updateEnvironmentInfo();
+					})
+					// 分页
+					self.initPaging($(Dom.getEnvironmentList),10);
+				}
+			});
+		},
+		
 		// 按条件查询
 		queryEnvironment: function() {
 			var self = this;
@@ -85,7 +106,7 @@ define(function(require,exports,module){
 			_form.find('button[name="submit"]').bind('click', function() {
 					var cmd = $(Dom.queryEnvironmentForm).serialize();
 					/*self.getEnvironmentList(cmd);*/
-					self.getEnvironmentList(cmd);
+					self.getEnvironment(cmd);
 					//});
 			})
 			// 表单重置

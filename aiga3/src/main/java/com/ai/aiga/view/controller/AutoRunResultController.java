@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -103,16 +104,21 @@ public class AutoRunResultController {
 	/**
 	 * 报告明细保存*/
 	@RequestMapping(path = "/auto/autoRunResult/reportDetailSave")
-	public @ResponseBody JsonBean reportDetailSave(List<NaAutoTaskReportDetailRequest> list){
+	public @ResponseBody JsonBean reportDetailSave(@RequestBody List<NaAutoTaskReportDetailRequest> list){
 		autoRunResultSv.reportDetailSave(list);
 		return JsonBean.success;
 	}
 	/**
-	 * 报告明细查询*/
+	 * 报告明细保存后刷新列表接口*/
 	@RequestMapping(path = "/auto/autoRunResult/reportDetailList")
-	public @ResponseBody JsonBean reportDetailList(Long taskId){
+	public @ResponseBody JsonBean reportDetailList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long taskId
+			){
 		JsonBean bean = new JsonBean();
-		bean.setData(autoRunResultSv.reportDetailList(taskId));
+		bean.setData(autoRunResultSv.reportDetailList(taskId, pageNumber, pageSize));
 		return bean;
 	}
+	
 }

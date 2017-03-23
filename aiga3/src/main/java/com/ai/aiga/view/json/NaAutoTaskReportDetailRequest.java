@@ -10,6 +10,7 @@ public class NaAutoTaskReportDetailRequest {
     private String failReason;
     private String bugStaff;
     private Long creatorId;
+    private Long detailId;
 	public Long getReportId() {
 		return reportId;
 	}
@@ -63,6 +64,12 @@ public class NaAutoTaskReportDetailRequest {
 	}
 	public void setCreatorId(Long creatorId) {
 		this.creatorId = creatorId;
+	}
+	public Long getDetailId() {
+		return detailId;
+	}
+	public void setDetailId(Long detailId) {
+		this.detailId = detailId;
 	}
     
 }

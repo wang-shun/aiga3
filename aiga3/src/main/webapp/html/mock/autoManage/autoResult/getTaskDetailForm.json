@@ -2,6 +2,7 @@
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
     "data": {
+            "creatorId":"1",
             "taskId": "1",
             "taskName": "用例组1",
             "totalCase": "2",

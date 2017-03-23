@@ -12,6 +12,7 @@
                                             <div class="form-group">
                                                 <label>报告名称<i class="text-red">*</i></label>
                                                 <input type="email" class="form-control input-sm" name="reportName" placeholder="请输入报告名称">
+                                                <input type="hidden" value="{{creatorId}}" name="creatorId">
                                             </div>
                                         </div>
                                         <div class="col-md-2">

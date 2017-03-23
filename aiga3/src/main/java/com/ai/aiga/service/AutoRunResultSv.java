@@ -80,7 +80,7 @@ public class AutoRunResultSv {
 		if(StringUtils.isNoneBlank(condition.getAutoName())){
 			sql += " and auto_name like '%"+condition.getAutoName()+"%'";
 		}
-		if(condition.getResultType() != null && condition.getResultType() > 0){
+		if(condition.getResultType() != null && !condition.getResultType().equals("")){
 			sql += " and a.result_type = "+condition.getResultType() ;
 		}
 		List<String> list = new ArrayList<String>();
@@ -131,17 +131,17 @@ public class AutoRunResultSv {
 				+ " from na_auto_run_result group by task_id) t"
 				+ " where a.task_id = b.task_id and b.machine_ip = c.machine_ip and b.creator_id = d.staff_id and a.task_id = t.task_id";
 		if(condition != null){
-			if(condition.getTaskName() != null){
+			if(condition.getTaskName() != null && !condition.getTaskName().equals("")){
 				sql += " and b.task_name like '%"+condition.getTaskName()+"%'";
 			}
-			if(condition.getTaskTag() != null){
-				sql += " and b.task_tag ="+condition.getTaskTag();
+			if(condition.getTaskTag() != null && !condition.getTaskTag().equals("")){
+				sql += " and b.task_tag like '%"+condition.getTaskTag()+"%'";
 			}
-			if(condition.getResultType() != null){
+			if(condition.getResultType() != null && !condition.getResultType().equals("")){
 				sql += " and a.result_type ="+condition.getResultType();
 			}
-			if(condition.getMachineIp() != null){
-				sql += " and b.machine_ip ="+condition.getMachineIp();
+			if(condition.getMachineIp() != null && !condition.getMachineIp().equals("")){
+				sql += " and b.machine_ip = '"+condition.getMachineIp()+"'";
 			}
 		}
 		List<String> list = new ArrayList<String>();

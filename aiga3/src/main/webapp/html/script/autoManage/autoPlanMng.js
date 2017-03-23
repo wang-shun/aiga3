@@ -322,7 +322,6 @@ define(function(require, exports, module) {
             $(Dom.btnNewTask).bind('click', function() {
                 var data = self.getPlanInfo();
                 if (data) {
-
                     nowPlanId = data.planId;
                     runType = data.runType;
                     $(Dom.modalNewTaskForm).modal('show');
@@ -397,7 +396,8 @@ define(function(require, exports, module) {
                     });
 
                     $(Dom.modalNewTaskForm).find("button[name='save']").bind('click', function() {
-                        var cmd = $("#JS_taskForm").serialize();
+                        var cmd = $("#Js_taskForm").serialize();
+                        alert(cmd);
                         self.saveNewTaks(cmd);
                         $(Dom.modalNewTaskForm).modal('hide');
                     });

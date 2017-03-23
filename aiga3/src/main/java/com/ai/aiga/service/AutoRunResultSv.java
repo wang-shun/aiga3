@@ -152,7 +152,7 @@ public class AutoRunResultSv {
 		list.add("taskId");
 		list.add("taskTag");
 		list.add("taskName");
-		list.add("resultType");
+		list.add("taskResult");
 		list.add("machineIp");
 		list.add("machineName");
 		list.add("creatorName");

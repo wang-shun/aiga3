@@ -11,21 +11,21 @@
         <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>
-                <th style="width: 100px;">任务单编号</th>
-                <th style="width: 100px;">任务单名称</th>
-                <th style="width: 100px;">任务执行状态</th>
-                <th style="width: 100px;">执行主机IP</th>
-                <th style="width: 100px;">执行主机名称</th>
-                <th>创建人</th>
-                <th>用例组数</th>
-                <th>总用例数</th>
-                <th>已执行用例数</th>
-                <th>未执行用例数</th>
-                <th>正确完成</th>
-                <th>失败完成</th>
-                <th>成功率</th>
-                <th>执行开始时间</th>
-                <th>执行结束时间</th>
+                <th width="100px">任务单编号</th>
+                <th width="100px">任务单名称</th>
+                <th width="65px">任务执行状态</th>
+                <th width="50px">执行主机IP</th>
+                <th width="100px">执行主机名称</th>
+                <th width="50px">创建人</th>
+                <th width="50px">用例组数</th>
+                <th width="50px">总用例数</th>
+                <th width="50px">已执行用例数</th>
+                <th width="50px">未执行用例数</th>
+                <th width="50px">正确完成</th>
+                <th width="50px">失败完成</th>
+                <th width="50px">成功率</th>
+                <th width="50px">执行开始时间</th>
+                <th width="50px">执行结束时间</th>
 
             </tr>
         </thead>

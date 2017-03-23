@@ -21,16 +21,16 @@ public interface NaAutoRunPlanCaseDao extends SearchAndPageRepository<NaAutoRunP
     Object  findCountByPlanIdAndGroupId(Long planId,Long groupId);
   
   @Modifying
-  @Query(value=" delete from na_auto_run_plan_case where plan_id=?1 and auto_id in (?2)"  , nativeQuery=true)
-   void  deleteByPlanIdAndCaseId(Long planId,  String caseIds);
+  @Query(value=" delete from na_auto_run_plan_case where plan_id=?1 and auto_id = ?2 "  , nativeQuery=true)
+   void  deleteByPlanIdAndCaseId(Long planId,  Long caseIds);
   
   @Modifying
-  @Query(value=" delete from na_auto_run_plan_case  where plan_id=?1 and group_id in (?2)"  , nativeQuery=true)
-   void  deleteByPlanIdAndGroupId(Long planId,  String groupIds);
+  @Query(value=" delete from na_auto_run_plan_case  where plan_id=?1 and group_id = ?2  "  , nativeQuery=true)
+   void  deleteByPlanIdAndGroupId(Long planId,  Long groupIds);
   
   @Modifying
-  @Query(value=" delete from na_auto_run_plan_case where plan_id=?1 and Collect_id in (?2)"  , nativeQuery=true)
-   void  deleteByPlanIdAndCollcetId(Long planId,  String collectIds);
+  @Query(value=" delete from na_auto_run_plan_case where plan_id=?1 and Collect_id = ?2 "  , nativeQuery=true)
+   void  deleteByPlanIdAndCollcetId(Long planId,  Long collectIds);
   
   List<NaAutoRunPlanCase> findByPlanId(Long planId);
 

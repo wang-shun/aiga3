@@ -172,6 +172,8 @@ define(function(require, exports, module) {
                 $(Dom.modalPlanForm).find("[name='cycleType']").val(data.cycleType);
                 $(Dom.modalPlanForm).find("[name='runType']").val(data.runType);
                 $(Dom.modalPlanForm).find("[name='machineIp']").val(data.machineIp);
+                $(Dom.modalPlanForm).find("[name='creatorId']").val(data.creatorId);
+                $(Dom.modalPlanForm).find("[name='createTime']").val(data.createTime);
             }
         },
         //保存计划
@@ -245,21 +247,21 @@ define(function(require, exports, module) {
 
                     //三个关联按钮
                     $("#JS_queryUnlinkCaseForm").find("button[name='link']").bind('click', function() {
-                        var cmd = "planId=" + data.planId + "&caseId=";
+                        var cmd = "planId=" + data.planId + "&caseIds=";
                         var ids = self.getcCheckedRowId("#JS_unLinkCaseList", cmd, "请先选择一个用例！");
                         if (ids) {
                             self.linkCasees(ids);
                         }
                     });
                     $("#Js_queryUnlinkCaseGroupForm").find("button[name='link']").bind('click', function() {
-                        var cmd = "planId=" + data.planId + "&caseGroupId=";
+                        var cmd = "planId=" + data.planId + "&groupIds=";
                         var ids = self.getcCheckedRowId("#Js_unlinkCaseGroupList", cmd, "请先选择一个用例组！");
                         if (ids) {
                             self.linkCaseGroup(ids);
                         }
                     });
                     $("#Js_queryUnlinkCaseCollectForm").find("button[name='link']").bind('click', function() {
-                        var cmd = "planId=" + data.planId + "&caseCollectId=";
+                        var cmd = "planId=" + data.planId + "&collectIds=";
                         var ids = self.getcCheckedRowId("#Js_unlinkCaseCollectList", cmd, "请先选择一个用例集！");
                         if (ids) {
                             self.linkCaseCollect(ids);
@@ -279,15 +281,15 @@ define(function(require, exports, module) {
 
                     //三个查询
                     $("#JS_queryUnlinkCaseForm").find("button[name='submit']").bind('click', function() {
-                        var cmd = $("#JS_queryUnlinkCaseForm").serialize;
+                        var cmd = $("#JS_queryUnlinkCaseForm").serialize();
                         self.getUnLinkCaseList(cmd);
                     });
                     $("#Js_queryUnlinkCaseGroupForm").find("button[name='submit']").bind('click', function() {
-                        var cmd = $("#Js_queryUnlinkCaseGroupForm").serialize;
+                        var cmd = $("#Js_queryUnlinkCaseGroupForm").serialize();
                         self.getUnLinkGroupList(cmd);
                     });
                     $("#Js_queryUnlinkCaseCollectForm").find("button[name='submit']").bind('click', function() {
-                        var cmd = $("#Js_queryUnlinkCaseCollectForm").serialize;
+                        var cmd = $("#Js_queryUnlinkCaseCollectForm").serialize();
                         self.getUnLinkCollectList(cmd);
                     });
 
@@ -301,6 +303,7 @@ define(function(require, exports, module) {
                 _obj.each(function() {
                     var tdArr = $(this).children();
                     id = tdArr.eq(0).find("input").val();
+                    alert(id);
                     cmd += id + ',';
                 });
                 cmd = cmd.substring(0, cmd.length - 1);
@@ -314,30 +317,33 @@ define(function(require, exports, module) {
         deleLinked: function(cmd, state) {
             var self = this;
             if (state == 1) {
-                cmd = "planId=" + nowPlanId + "&caseId="+cmd;
+                cmd = "planId=" + nowPlanId + "&caseIds="+cmd;
                 Rose.ajax.getJson(srvMap.get('deleLinkCase'), cmd, function(json, status) {
                     if (status) {
-                        
                         setTimeout(function() {
                             self.getUnLinkCaseList("planId=" + nowPlanId);
+                            self.getLinkCaseList("planId=" + nowPlanId);
                         }, 1000)
                     }
                 });
             } else if (state == 2) {
-                cmd = "planId=" + nowPlanId + "&groupId="+cmd;
+                cmd = "planId=" + nowPlanId + "&groupIds="+cmd;
                 Rose.ajax.getJson(srvMap.get('deleLinkCaseGroup'), cmd, function(json, status) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkGroupList("planId=" + nowPlanId);
+                            self.getLinkGroupList("planId=" + nowPlanId);
                         }, 1000)
                     }
                 });
             } else if (state == 3) {
-                cmd = "planId=" + nowPlanId + "&collectId="+cmd;
+                cmd = "planId=" + nowPlanId + "&collectIds="+cmd;
                 Rose.ajax.getJson(srvMap.get('deleLinkCaseCollect'), cmd, function(json, status) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkCollectList("planId=" + nowPlanId);
+                            self.getLinkCollectList("planId=" + nowPlanId);
+                       
                         }, 1000)
                     }
                 });
@@ -350,7 +356,9 @@ define(function(require, exports, module) {
             var self = this;
             Rose.ajax.getJson(srvMap.get('linkCase'), cmd, function(json, status) {
                 if (status) {
+                    window.XMS.msgbox.show('关联成功！', 'success', 2000);
                     self.getUnLinkCaseList("planId=" + nowPlanId);
+                    self.getLinkCaseList("planId=" + nowPlanId);
                 }
             });
 
@@ -360,7 +368,9 @@ define(function(require, exports, module) {
             var self = this;
             Rose.ajax.getJson(srvMap.get('linkCaseGroup'), cmd, function(json, status) {
                 if (status) {
+                    window.XMS.msgbox.show(JSON.stringify(json.data.info), 'success', 2000);
                     self.getUnLinkGroupList("planId=" + nowPlanId);
+                    self.getLinkGroupList("planId=" + nowPlanId);
                 }
             });
 
@@ -370,7 +380,9 @@ define(function(require, exports, module) {
             var self = this;
             Rose.ajax.getJson(srvMap.get('linkCaseCollect'), cmd, function(json, status) {
                 if (status) {
+                    window.XMS.msgbox.show(JSON.stringify(json.data.info), 'success', 2000);
                     self.getUnLinkCollectList("planId=" + nowPlanId);
+                    self.getLinkCollectList("planId=" + nowPlanId);
                 }
             });
 

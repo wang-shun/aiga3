@@ -90,22 +90,22 @@
                 "isActive": 1
             }, {
                 "menuName": "自动化环境配置",
-                "menuURL": "#",
+                "menuURL": "view/environment/environment.html",
                 "hasChild": 0,
                 "isActive": 0
             }, {
                 "menuName": "自动化计划管理",
-                "menuURL": "#",
+                "menuURL": "view/autoManage/autoPlanMng.html",
                 "hasChild": 0,
                 "isActive": 0
             }, {
                 "menuName": "自动化任务管理",
-                "menuURL": "#",
+                "menuURL": "view/case/task/task.html",
                 "hasChild": 0,
                 "isActive": 0
             }, {
                 "menuName": "自动化执行结果",
-                "menuURL": "#",
+                "menuURL": "view/autoManage/autoResult.html",
                 "hasChild": 0,
                 "isActive": 0
             }, {

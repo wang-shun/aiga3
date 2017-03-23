@@ -123,7 +123,39 @@ define(function(require, exports, module) {
                 }
 
             });
+            
+            obj.on("change", "select[data-subname]", function(){
+            	var _this = $(this);
+            	
+            	// 判断如果有异步子项，统一做处理
+                var _subname = _this.data("subname");
+                if(_subname){
+                    var _thisSub = obj.find("select[name="+_subname+"]");
+                    var suburl = _thisSub.data("suburl");
+                    var subcmd = _this.attr("name")+"="+_this.val();
+                    if(suburl){
+                    	 self.setSelectHtml(_thisSub,suburl,subcmd);
+                    }
+                }
+            })
         },
+        
+        /**
+         * 清除子的option
+         */
+        clearSubOptions:function(obj){
+        	
+        	// 判断如果有异步子项，统一做处理
+            var _subname = obj.data("subname");
+            if(_subname){
+                var _thisSub = $("select[name="+_subname+"]");
+                _thisSub.html('<option value="">请选择</option>');
+                
+                this.clearSubOptions(_thisSub);
+            }
+        },
+        
+        
          /**
          * 设置下拉框option节点
          *
@@ -138,33 +170,36 @@ define(function(require, exports, module) {
                 if(status) {
                     window.XMS.msgbox.hide();
                     var _data = json.data;
-                    var _html = '';
+                    var _html = '<option value="">请选择</option>';
+                    
+                    var idv = obj.data("idkey");
+                    var namev = obj.data("namekey");
+                    
                     for (var i in _data){
                         var _json = _data[i];
                         var _key,_value;
-                        for (var key in _json){
-                            if(key.indexOf("Id")>=0){
-                                _key = _json[key];
-                            }
-                            if(key.indexOf("Name")>=0){
-                                _value = _json[key];
+                        
+                        if(idv && namev){
+                        	_key = _json[idv];
+                        	_value = _json[namev];
+                        }else{
+                        	for (var key in _json){
+                                if(key.indexOf("Id")>=0){
+                                    _key = _json[key];
+                                }
+                                if(key.indexOf("Name")>=0){
+                                    _value = _json[key];
+                                }
                             }
                         }
+                        
                         _html+='<option value="'+_key+'">'+_value+'</option>';
 
                     }
-                    obj.append(_html);
-
-                    // 判断如果有异步子项，统一做处理
-                    var _subname = obj.data("subname");
-                    if(_subname){
-                        var _thisSub = $("select[name="+_subname+"]");
-                        var _url = _thisSub.data("suburl");
-                        obj.change(function(){
-                            var _cmd = obj.attr("name")+"="+$(this).val();
-                            self.setSelectHtml(_thisSub,_url,_cmd);
-                        });
-                    }
+                    obj.html(_html);
+                    
+                    self.clearSubOptions(obj);
+                    
                 }
             });
         },

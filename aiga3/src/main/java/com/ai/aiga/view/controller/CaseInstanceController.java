@@ -26,7 +26,13 @@ public class CaseInstanceController {
 	@Autowired
 	private CaseSv caseSv;
 	
-	@RequestMapping(path = "/case/instance/list", produces=MediaTypes.JSON)
+	@RequestMapping(path = "/case/instance/toAutoCaseGenerate")
+	public String goToEdit(){
+		return "caseInstanceMng/caseInstanceToAutoCase";
+	}
+	
+	
+	@RequestMapping(path = "/case/instance/list")
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "pageNumber", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
@@ -56,6 +62,12 @@ public class CaseInstanceController {
 			return WebValidUtil.errorInfo(result);
 		}
 		caseSv.updateTest(request);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/case/instance/copy" )
+	public @ResponseBody JsonBean copy(Long testId, String testName){
+		caseSv.copyTest(testId, testName);
 		return JsonBean.success;
 	}
 	

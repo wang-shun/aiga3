@@ -55,7 +55,11 @@
 						 <div class="col-md-2">
                             <div class="form-group">
                               <label>系统大类</label>
-                              <select name="sysId" class="form-control input-sm" data-url="getSysList" data-subname="sysSubId">
+                              <select name="sysId" class="form-control input-sm" 
+                              	data-url="getSysList" 
+                              	data-subname="sysSubId" 
+                              	data-idkey="sysId" 
+                              	data-namekey="sysName">
                                     <option value="">请选择</option>
                                 </select>
                             </div>
@@ -63,7 +67,11 @@
                         <div class="col-md-2">
                             <div class="form-group">
                               <label>系统子类</label>
-                              <select name="sysSubId" class="form-control input-sm" data-suburl="getSubsysList" data-subname="funId">
+                              <select name="sysSubId" class="form-control input-sm" 
+                              	data-suburl="getSubsysList" 
+                              	data-subname="funId" 
+                              	data-idkey="subsysId" 
+                              	data-namekey="sysName">
                                     <option value="">请选择</option>
                                 </select>
                             </div>
@@ -71,7 +79,10 @@
                         <div class="col-md-2">
                             <div class="form-group">
                               <label>功能点</label>
-                              <select name="funId" class="form-control input-sm" data-suburl="getFunList">
+                              <select name="funId" class="form-control input-sm" 
+                              	data-suburl="getFunList"  
+                              	data-idkey="funId" 
+                              	data-namekey="sysName">
                                     <option value="">请选择</option>
                                 </select>
                             </div>
@@ -155,7 +166,7 @@
 	</div>
 </div>
 
-<!-- 测试用例生成 -->
+<!-- 测试用例编辑 -->
 <div class="modal fade" id="modal_testCaseForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -175,18 +186,29 @@
 									<i class="text-red"> * </i>测试用例名称：
 								</label>
 								<div class="col-sm-8">
-									<input type="text" class="form-control" name="testName" disabled>
+									<input type="text" class="form-control" name="testName" readonly>
 								</div>
 							</div>
 						</div>
 						
 						<div class="row">
 							<div class="form-group">
-								<label for="testName" class="col-sm-2 col-sm-2 col-sm-offset-1 control-label">
-									<i class="text-red"> * </i>用例预期结果：
+								<label class="col-sm-2 col-sm-2 col-sm-offset-1 control-label">
+									用例预期结果：
 								</label>
 								<div class="col-sm-8">
 									<textarea class="form-control" name="preResult"></textarea>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group">
+								<label class="col-sm-2 col-sm-2 col-sm-offset-1 control-label">
+									用例描述：
+								</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" name="testDesc"></textarea>
 								</div>
 							</div>
 						</div>
@@ -229,16 +251,118 @@
 	</div>
 </div>
 
-<<script type="text/x-handlebars-template" id="tpl_getFactorList">
+
+<!-- 测试用例复制 -->
+<div class="modal fade" id="modal_testCaseCopyForm" tabindex="-1" role="dialog" 
+aria-labelledby="testCaseCopy">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">复制测试用例</h4>
+			</div>
+			<form class="form-horizontal">
+				<input type="hidden" class="form-control" name="testId">
+				<div class="modal-body">
+					<div style="padding-right: 15px;">
+						<div class="row">
+							<div class="form-group" >
+								<label for="testName" class="col-sm-2 col-sm-offset-1 control-label">
+									<i class="text-red"> * </i>测试用例名称：
+								</label>
+								<div class="col-sm-8">
+<!-- 									<input type="text" class="form-control input-sm" name="caseName" readonly>
+									<input type="text" class="form-control" name="testNameSuffix"> -->
+									<div class="input-group">
+								     	<span class="input-group-addon" name="caseName" style="background-color: #eee;"></span>
+								        <input type="text" class="form-control" name="testNameSuffix">
+								    </div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group">
+								<label class="col-sm-2 col-sm-2 col-sm-offset-1 control-label">
+									用例预期结果：
+								</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" name="preResult" readonly></textarea>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="form-group">
+								<label class="col-sm-2 col-sm-2 col-sm-offset-1 control-label">
+									用例描述：
+								</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" name="testDesc" readonly></textarea>
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+
+							<!-- 组件列表 -->
+							<div class="col-sm-12">
+								<div class="box" style="min-height: 100px">
+									<div class="box-header">
+										<h3 class="box-title">因子列表</h3>
+									</div>
+
+									<div class="box-body" style="min-height: 100px;">
+										<table class="table table-bordered table-hover">
+											<thead>
+												<tr>
+													<th>因子名称</th>
+													<th>参数</th>
+													<th>因子描述</th>
+													<th>因子顺序</th>
+												</tr>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal" name="cancel">取消</button>
+					<button type="button" class="btn btn-primary" name="save">保存</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/x-handlebars-template" id="tpl_getFactorList">
 {{#each this}}
 <tr data-paramId="{{paramId}}">
-    <td><input name="factorName" value="{{factorName}}" class="form-control" disabled></td>
+    <td><input name="factorName" value="{{factorName}}" class="form-control" readonly></td>
 	<td><input name="factorValue" value="{{factorValue}}"  class="form-control"></td>
     <td><input name="remark" value="{{remark}}"  class="form-control" style="width:300px"></td>
     <td><input name="factorOrder" value="{{factorOrder}}"  class="form-control"></td>
 </tr>
 {{/each}}
+</script>
 
+<script type="text/x-handlebars-template" id="tpl_getLabelFactorList">
+{{#each this}}
+<tr data-paramId="{{paramId}}">
+    <td>{{factorName}}</td>
+	<td>{{factorValue}}</td>
+    <td>{{remark}}</td>
+    <td>{{factorOrder}}</td>
+</tr>
+{{/each}}
 </script>
 
 <script>

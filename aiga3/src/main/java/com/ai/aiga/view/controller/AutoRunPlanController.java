@@ -35,7 +35,11 @@ public class AutoRunPlanController {
 	 */
 	@RequestMapping(value="/sys/autoPlan/save")
 	public @ResponseBody  JsonBean   save(NaAutoRunPlanRequest  naAutoRunPlan){
-		naAutoRunPlanSv.save(naAutoRunPlan);
+		try {
+			naAutoRunPlanSv.save(naAutoRunPlan);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return JsonBean.success;
 	}
 	
@@ -58,7 +62,21 @@ public class AutoRunPlanController {
 			return json;
 		}
 		
-		
+		/**
+		 *根据计划编号查询自动化计划
+		 * @param condition
+		 * @param page
+		 * @param pageSize
+		 * @return
+		 */
+			@RequestMapping(value="/sys/autoPlan/queryByPlanId")
+			public @ResponseBody  JsonBean   queryByPlanId(Long planId
+					){
+				JsonBean json = new JsonBean();
+				json.setData(naAutoRunPlanSv.queryByPlanId(planId));
+				return json;
+			}
+			
 	
 	/**
 	 *根据编号 删除自动化计划
@@ -71,12 +89,7 @@ public class AutoRunPlanController {
 		return JsonBean.success;
 	}
 	
-	
-	@RequestMapping(value="/sys/autoPlan/query")
-	public @ResponseBody  JsonBean   query(String planIds){
-	
-		return JsonBean.success;
-	}
+
 	
 
 	/**
@@ -112,7 +125,7 @@ public class AutoRunPlanController {
 	 */
 	@RequestMapping(value="/sys/autoPlan/connectCollect")
 	public @ResponseBody  JsonBean   connectCollect(Long planId ,String collectIds){
-		naAutoRunPlanSv.connectGroup(planId, collectIds);
+		naAutoRunPlanSv.connectCollect(planId, collectIds);
 		return JsonBean.success;
 	}
 	
@@ -174,7 +187,7 @@ public class AutoRunPlanController {
 			 */
 			@RequestMapping(value="/sys/autoPlan/deleteConnectGroup")
 			public @ResponseBody  JsonBean   deleteConnectGroup(Long planId ,  String groupIds){
-				naAutoRunPlanSv.deleteConnectCase(planId, groupIds);
+				naAutoRunPlanSv.deleteConnectGroup(planId, groupIds);
 				return JsonBean.success;
 			}
 			
@@ -185,13 +198,13 @@ public class AutoRunPlanController {
 			 * @param groupIds 要删除的用例组id
 			 * @return
 			 */
-			@RequestMapping(value="/sys/autoPlan/queryUnconnectGroup")
-			public @ResponseBody  JsonBean   queryUnconnectGroup(Long  planId , String groupName,
+			@RequestMapping(value="/sys/autoPlan/queryConnectGroup")
+			public @ResponseBody  JsonBean   queryConnectGroup(Long planId,String groupName,
 					@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 					@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize
 					){
 				JsonBean json = new JsonBean();
-				json.setData(naAutoRunPlanSv.queryUnconnectGroup(planId, groupName,page,pageSize));
+				json.setData(naAutoRunPlanSv.queryConnectGroup(planId,groupName,page,pageSize));
 				return json;
 			}
 			
@@ -212,18 +225,18 @@ public class AutoRunPlanController {
 			
 			
 			/**
-			 * 查询当前计划未关联的用例组
+			 * 查询当前计划关联的用例组
 			 * @param planId 当前计划id
 			 * @param groupIds 要删除的用例组id
 			 * @return
 			 */
-			@RequestMapping(value="/sys/autoPlan/queryUnconnectCollect")
-			public @ResponseBody  JsonBean   queryUnconnectCollect(Long  planId , String collectName,
+			@RequestMapping(value="/sys/autoPlan/queryConnectCollect")
+			public @ResponseBody  JsonBean   queryConnectCollect(Long  planId , String collectName,
 					@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 					@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize
 					){
 				JsonBean json = new JsonBean();
-				json.setData(naAutoRunPlanSv.queryUnconnectCollect(planId, collectName,page,pageSize));
+				json.setData(naAutoRunPlanSv.queryConnectCollect(planId, collectName,page,pageSize));
 				return json;
 			}
 			
@@ -236,8 +249,8 @@ public class AutoRunPlanController {
 			 * @param pageSize
 			 * @return
 			 */
-			@RequestMapping(value="/sys/autoPlan/queryConnectGroup")
-			public @ResponseBody  JsonBean   queryConnectGroup(NaAutoGroup condition,
+			@RequestMapping(value="/sys/autoPlan/queryUnconnectGroup")
+			public @ResponseBody  JsonBean   queryUnconnectGroup(NaAutoGroup condition,
 					@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 					@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize
 					){
@@ -256,8 +269,8 @@ public class AutoRunPlanController {
 		 * @param pageSize
 		 * @return
 		 */
-			@RequestMapping(value="/sys/autoPlan/queryConnectCollect")
-			public @ResponseBody  JsonBean   queryConnectCollect(CaseCollectionRequest caseCollection,
+			@RequestMapping(value="/sys/autoPlan/queryUnconnectCollect")
+			public @ResponseBody  JsonBean   queryUnconnectCollect(CaseCollectionRequest caseCollection,
 					@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 					@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize
 					){

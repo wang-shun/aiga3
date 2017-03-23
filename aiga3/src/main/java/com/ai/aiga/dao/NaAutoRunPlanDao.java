@@ -13,5 +13,7 @@ public interface NaAutoRunPlanDao extends SearchAndPageRepository<NaAutoRunPlan,
 	@Modifying
 	@Query(value="delete from na_auto_run_plan_case where Plan_id=?1",nativeQuery=true)
 	public void deleteNaAutoPunPlanCaseByPlanId(Long planId);
-
+  
+	NaAutoRunPlan findByPlanId(Long planId);
+	
 }

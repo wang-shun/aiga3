@@ -31,7 +31,7 @@ public class NaAutoRunTaskReport  implements java.io.Serializable {
      private Long noneRunCase;
      private Long successCase;
      private Long failCase;
-     private Long successRate;
+     private String  successRate;
      private Date beginTime;
      private Date endTime;
      private Date spendTime;
@@ -45,7 +45,7 @@ public class NaAutoRunTaskReport  implements java.io.Serializable {
     public NaAutoRunTaskReport(long reportId) {
         this.reportId = reportId;
     }
-    public NaAutoRunTaskReport(Long reportId, Long taskId, String reportName, Long totalCase, Long hasRunCase, Long noneRunCase, Long successCase, Long failCase, Long successRate, Date beginTime, Date endTime, Date spendTime, Long creatorId, Date updateTime) {
+    public NaAutoRunTaskReport(Long reportId, Long taskId, String reportName, Long totalCase, Long hasRunCase, Long noneRunCase, Long successCase, Long failCase, String successRate, Date beginTime, Date endTime, Date spendTime, Long creatorId, Date updateTime) {
        this.reportId = reportId;
        this.taskId = taskId;
        this.reportName = reportName;
@@ -137,12 +137,12 @@ public class NaAutoRunTaskReport  implements java.io.Serializable {
         this.failCase = failCase;
     }
     
-    @Column(name="SUCCESS_RATE", precision=14, scale=0)
-    public Long getSuccessRate() {
+    @Column(name="SUCCESS_RATE", length=10)
+    public String getSuccessRate() {
         return this.successRate;
     }
     
-    public void setSuccessRate(Long successRate) {
+    public void setSuccessRate(String successRate) {
         this.successRate = successRate;
     }
     @Temporal(TemporalType.TIMESTAMP)

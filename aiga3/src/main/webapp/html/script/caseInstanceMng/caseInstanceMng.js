@@ -10,6 +10,8 @@ define(function(require, exports, module) {
 	srvMap.add("delete", pathAlias + "getCaseTempList.json", "case/instance/del");
 	srvMap.add("get", pathAlias + "getCaseTempList.json", "case/instance/get");
 	srvMap.add("update", pathAlias + "getCaseTempList.json", "case/instance/update");
+	srvMap.add("copy", pathAlias + "getCaseTempList.json", "case/instance/copy");
+	srvMap.add("goToAutoEdit", pathAlias + "getCaseTempList.json", "case/instance/toAutoCaseGenerate");
 	//srvMap.add("funcList", "componentManage/getFunList.json", "sys/component/compTree");
 	
 	//系统大类下拉框显示
@@ -32,7 +34,8 @@ define(function(require, exports, module) {
 		editForm: "#JS_TestForm",
 		table: "#caseInstanceTable",
 		delBtn: "#JS_delCaseInstance",
-		editTable: "#JS_testCaseFactorList"
+		editTable: "#JS_testCaseFactorList",
+		copyDiv: "#modal_testCaseCopyForm"
 	};
 
 	var fundId = null;
@@ -52,7 +55,7 @@ define(function(require, exports, module) {
 			this.addBtnListener();
 			
 			// 默认只加载组织结构及条件查询
-			this.addEditModelListener();
+			this.addModelListener();
 		},
 		
 		initFunctionTree: function(){
@@ -158,12 +161,38 @@ define(function(require, exports, module) {
 					$(Dom.editForm).find("input[name='testId']").val(data["testId"]);
 					$(Dom.editForm).find("input[name='testName']").val(data["testName"]);
 					$(Dom.editForm).find("textarea[name='preResult']").val(data["preResult"]);
+					$(Dom.editForm).find("textarea[name='testDesc']").val(data["testDesc"]);
 					
 					var factor_template = Handlebars.compile($("#tpl_getFactorList").html());
 					$(Dom.editTable).find("tbody").html(factor_template(data.factors));
 				}
 			});
 			$('#modal_testCaseForm').modal();
+		},
+		
+		showCopy: function(row){
+			var date = {
+					testId : row.testId
+				}
+			$(Dom.copyDiv).find("form")[0].reset();
+			$(Dom.copyDiv).find("form").find("tbody").html("");
+			$(Dom.copyDiv).find("form").find("span[name='caseName']").html("");
+			Rose.ajax.getJson(srvMap.get('get'), date, function(json, status) {
+				if(status){
+					console.log(json);
+					var data = json["data"];
+					//$(Dom.editForm).val(json);
+					$(Dom.copyDiv).find("form").find("input[name='testId']").val(data["testId"]);
+					$(Dom.copyDiv).find("form").find("span[name='caseName']").html(data["caseName"]);
+					//$(copyDiv).find("form").find("input[name='simplTestName']").val(data["simplTestName"]);
+					$(Dom.copyDiv).find("form").find("textarea[name='preResult']").val(data["preResult"]);
+					$(Dom.copyDiv).find("form").find("textarea[name='testDesc']").val(data["testDesc"]);
+					
+					var factor_template = Handlebars.compile($("#tpl_getLabelFactorList").html());
+					$(Dom.copyDiv).find("table").find("tbody").html(factor_template(data.factors));
+				}
+			});
+			$(Dom.copyDiv).modal();
 		},
 		
 		// 用例模板列表
@@ -204,52 +233,96 @@ define(function(require, exports, module) {
 		        	},
 		        	{
 		        		title: '操作说明',
-		        		field: 'testDesc'
+		        		field: 'testDesc',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(typeof "abc" === 'string' && value && value.length > 20){
+		                	   return value.substring(0, 20);
+		                   }
+		                   
+		                   return value;
+		                }
 		        	},
 		        	{
 		        		title: '预期结果',
-		        		field: 'preResult'
+		        		field: 'preResult',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(typeof "abc" === 'string' && value && value.length > 20){
+		                	   return value.substring(0, 20);
+		                   }
+		                   
+		                   return value;
+		                }
 		        	},
 		        	{
-		        		title: '是否实现自动化'
+		        		title: '用例类型',
+		        		field: 'caseType',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(value == 1){
+		                	   return "UI类";
+		                   }else if(value == 2){
+		                	   return "接口类";
+		                   }else if(value == 3){
+		                	   return "后台进程类";
+		                   }else{
+		                	   return "其他类型";
+		                   }
+		                }
 		        	},
 		        	{
-		        		title: '可实现自动化'
-		        	},
-		        	{
-		        		title: '已实现自动化'
+		        		title: '重要程度',
+		        		field: 'important',
+		        		formatter : function(value, row, index) {
+		                    // 在源代码中加入getPage方法
+		                   if(value == 1){
+		                	   return "一级";
+		                   }else if(value == 2){
+		                	   return "二级";
+		                   }else if(value == 3){
+		                	   return "三级";
+		                   }else if(value == 4){
+		                	   return "四级";
+		                   }else{
+		                	   return "其他";
+		                   }
+		                }
+		        	},{
+		        		title: '系统',
+		        		field: 'sysName'
+		        	},{
+		        		title: '子系统',
+		        		field: 'sysSubName'
+		        	},{
+		        		title: '功能',
+		        		field: 'funName'
 		        	},
 		        	{
 		        		field: 'operate',
 		        		title: '操作',
 		        		formatter : function(){
 		        			return [
-		        	            '<a class="operation-run" href="javascript:void(0)" title="">',
-		        	            '运行',
-		        	            '</a>  ',
-		        	            '<a class="operation-edit" href="javascript:void(0)" title="">',
+		        	            '<a class="operation-edit" href="javascript:void(0)" title="编辑测试用例">',
 		        	            '编辑',
 		        	            '</a>  ',
-		        	            '<a class="operation-copy" href="javascript:void(0)" title="">',
+		        	            '<a class="operation-copy" href="javascript:void(0)" title="复制测试用例">',
 		        	            '复制',
-		        	            '</a>'
+		        	            '</a> ',
+		        	            '<a class="operation-genauto" href="javascript:void(0)" title="生成自动化用例">',
+		        	            '生成',
+		        	            '</a>  ',
 		        	        ].join('');
 		        		},
 		        		events: {
-		        	        'click .operation-run': function (e, value, row, index) {
-		        	           	 console.log(e);
-		        	           	 console.log(value);
-		        	           	 console.log(row);
-		        	           	 console.log(index);
-		        	        },
-		        	        'click .operation-edit': function (e, value, row, index) {
+		        			'click .operation-edit': function (e, value, row, index) {
 		        	        	self.showEdit(row);
 		        	        },
 		        	        'click .operation-copy': function (e, value, row, index) {
-		        	        	console.log(e);
-		        	           	 console.log(value);
-		        	           	 console.log(row);
-		        	           	 console.log(index);
+		        	        	self.showCopy(row);
+		        	        },
+		        	        'click .operation-genauto': function (e, value, row, index) {
+		        	        	Rose.ajax.loadHtml($('#JS_MainContent'), srvMap.get("goToAutoEdit"));
 		        	        }
 		        		}
 		        	}
@@ -258,12 +331,13 @@ define(function(require, exports, module) {
 			
 		},
 		
-		addEditModelListener: function(){
+		addModelListener: function(){
 			$(Dom.editForm).find("button[name='save']").click(function(){
 				
 				var cmd = "testId=" + $(Dom.editForm).find("input[name='testId']").val();
 				cmd += "&testName=" + $(Dom.editForm).find("input[name='testName']").val();
 				cmd += "&preResult=" + $(Dom.editForm).find("textarea[name='preResult']").val();
+				cmd += "&testDesc=" + $(Dom.editForm).find("textarea[name='testDesc']").val();
 
 				var factors = [];
 				$(Dom.editTable).find("tbody").find("tr").each(function(){
@@ -285,6 +359,25 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('修改测试用例成功！', 'success', 2000)
 						// 关闭弹出层
 						$('#modal_testCaseForm').modal('hide');
+					}
+				});
+			});
+			
+			$(Dom.copyDiv).find("button[name='save']").click(function(){
+				
+				var formv = $(Dom.copyDiv).find("form");
+				
+				var cmd = "testId=" + formv.find("input[name='testId']").val();
+				cmd += "&testName=" + (formv.find("span[name='caseName']").html() + formv.find("input[name='testNameSuffix']").val());
+				
+				Rose.ajax.postJson(srvMap.get('copy'), cmd, function(json, status) {
+					if (status) {
+						// 添加用户成功后，刷新用户列表页
+						XMS.msgbox.show('复制测试用例成功！', 'success', 2000)
+						// 关闭弹出层
+						$(Dom.copyDiv).modal('hide');
+						
+						$(Dom.table).bootstrapTable('refresh');
 					}
 				});
 			});

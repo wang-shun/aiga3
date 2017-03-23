@@ -11,7 +11,6 @@
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                     	<li class="active"><a href="#seeCaseTab_1" id="JS_seeCasetable1" data-toggle="tab" aria-expanded="false">已关联用例</a>
-                            <iframe id="tmp_iframe" style="display: none;"></iframe>
                         </li>
                         <li class=""><a href="#seeCaseTab_2" id="JS_seeCasetable2" data-toggle="tab" aria-expanded="false">已关联用例组</a></li>
                     </ul>

@@ -22,6 +22,7 @@ import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.AigaFunFolder;
 import com.ai.aiga.domain.AigaSubSysFolder;
 import com.ai.aiga.domain.AigaSystemFolder;
+import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.domain.NaTestCase;
 import com.ai.aiga.domain.NaTestCaseParam;
 import com.ai.aiga.exception.BusinessException;
@@ -174,6 +175,12 @@ public class CaseSv extends BaseService{
 		NaTestCase testCase = testCaseDao.findOne(testId);
 		CaseTestResponse response = BeanMapper.map(testCase, CaseTestResponse.class);
 		
+		String[] names = StringUtils.split(testCase.getTestName(), "_");
+		if(names.length == 2){
+			response.setCaseName(names[0] + "_");
+			response.setSimpleTestName(names[1]);
+		}
+		
 		List<NaTestCaseParam> list = testCaseParamDao.findByTestId(testId);
 		response.setFactors(list);
 		
@@ -191,6 +198,11 @@ public class CaseSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
 		}
 		
+		if(testCaseDao.existsByTestName(request.getTestName())){
+			BusinessException.throwBusinessException("测试用例的名字已经存在.");
+		}
+		
+		
 		CaseTmeplateResponse resopnse = caseTemplateSv.getTmeplate(request.getCaseId());
 		if(resopnse == null){
 			BusinessException.throwBusinessException(ErrorCode.BAD_REQUEST, "caseId");
@@ -198,9 +210,29 @@ public class CaseSv extends BaseService{
 		
 		NaTestCase testcase = BeanMapper.map(resopnse, NaTestCase.class);
 		testcase.setTestName(request.getTestName());
-		testCaseDao.save(testcase);
 		
 		List<NaTestCaseParam> params = structureCaseFactor(request.getFactors());
+		
+		StringBuilder testdesc = new StringBuilder();
+		if(params != null){
+			testdesc.append("根据因子:");
+			for(int i = 0; i < params.size(); i++){
+				NaTestCaseParam one = params.get(i);
+				testdesc.append("[");
+				testdesc.append(one.getFactorName());
+				testdesc.append("=");
+				testdesc.append(one.getFactorValue());
+				testdesc.append("]");
+				
+				if(i < params.size() - 1){
+					testdesc.append(",");
+				}
+			}
+			testdesc.append("进行测试...");
+		}
+		testcase.setTestDesc(testdesc.toString());
+		testCaseDao.save(testcase);
+		
 		if(params != null){
 			for(NaTestCaseParam one : params){
 				one.setTestId(testcase.getTestId());
@@ -229,6 +261,10 @@ public class CaseSv extends BaseService{
 		
 		if(request.getPreResult() != null){
 			testCase.setPreResult(request.getPreResult());
+		}
+		
+		if(request.getTestDesc() != null){
+			testCase.setTestDesc(request.getTestDesc());
 		}
 		
 		
@@ -267,7 +303,62 @@ public class CaseSv extends BaseService{
 		return list;
 	}
 
-
-
+	public void copyTest(Long testId, String testName) {
+		
+		
+		if(testId == null || testId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
+		}
+		
+		if(StringUtils.isBlank(testName)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testName");
+		}
+		
+		NaTestCase testCase = testCaseDao.getOne(testId);
+		if(testCase == null){
+			BusinessException.throwBusinessException(ErrorCode.BAD_REQUEST, "testId");
+		}
+		
+		if(testCaseDao.existsByTestName(testName)){
+			BusinessException.throwBusinessException("测试用例的名字已经存在.");
+		}
+		
+		
+		NaTestCase newtestCase = new NaTestCase();
+		newtestCase.setBusiId(testCase.getBusiId());
+		newtestCase.setCaseId(testCase.getCaseId());
+		newtestCase.setCaseType(testCase.isCaseType());
+		newtestCase.setFunId(testCase.getFunId());
+		newtestCase.setImportant(testCase.getImportant());
+		newtestCase.setPreResult(testCase.getPreResult());
+		newtestCase.setScId(testCase.getScId());
+		newtestCase.setSysId(testCase.getSysId());
+		newtestCase.setSysSubId(testCase.getSysSubId());
+		newtestCase.setTestDesc(testCase.getTestDesc());
+		newtestCase.setTestType(testCase.getTestType());
+		
+		
+		newtestCase.setTestName(testName);
+		
+		testCaseDao.save(newtestCase);
+		
+		List<NaTestCaseParam> list = testCaseParamDao.findByTestId(testId);
+		List<NaTestCaseParam> newlist = BeanMapper.mapList(list, NaTestCaseParam.class, NaTestCaseParam.class);
+		
+		if(newlist != null){
+			for(NaTestCaseParam param : newlist){
+				param.setTestId(newtestCase.getTestId());
+				param.setParamId(0);
+			}
+		}
+		testCaseParamDao.save(newlist);
+	
+				
+//		testCase.setTestId(0);
+//		testCase.setTestName(testName);
+//		
+//		testCaseDao.save(testCase);
+		
+	}
 
 }

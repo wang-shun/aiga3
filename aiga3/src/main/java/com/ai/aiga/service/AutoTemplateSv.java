@@ -60,6 +60,12 @@ public class AutoTemplateSv {
         if (tempId != null ? (isExisting(tempName,tempId))  :  (autoTemplateDao.findByTempName(tempName)!=null)) {
             BusinessException.throwBusinessException("autoTemplate Name already  existing! please change......");
         }
+        if (autoTemplate.getCaseType() == 0) {
+            autoTemplate.setCaseType((byte)1);//默认UI
+        }
+        if (autoTemplate.getImportant() == null) {
+            autoTemplate.setImportant((short) 4);//默认4级
+        }
 //        if(tempId==null)autoTemplate.setCreatorId();
 //        autoTemplate.setUpdateId();
         autoTemplate.setUpdateTime(Calendar.getInstance().getTime());

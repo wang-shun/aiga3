@@ -1,0 +1,206 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">条件查询</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form id="JS_queryPlanForm" class="form-horizontal" role="form">
+        <div class="box-body">
+            <!-- 搜索表单 -->
+            <div class="row">
+                <div class="col-sm-3 form-group">
+                    <label class="col-sm-5 control-label">计划名称</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control input-sm" id="queryPlanName" name="planName">
+                    </div>
+                </div>
+                <div class="col-sm-3 form-group">
+                    <label class="col-sm-5 control-label">执行方式</label>
+                    <div class="col-sm-7">
+                        <select id="query_runType" name="runType" class="form-control input-sm">
+                            <option> </option>
+                            <option value="1">立即执行</option>
+                            <option value="2">定时执行</option>
+                            <option value="3">分布式执行</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group input-group-sm col-sm-6 ">
+                    <label class="col-sm-3 control-label">创建时间</label>
+                    <div class="col-sm-9 form-inline">
+                        <input type="text" class="form-control input-sm " name="createTime" id="createTime1" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 至
+                        <input type="text" class="form-control input-sm " name="updateTime" id="createTime2" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <div class=" text-center">
+                <button type="button" class="btn btn-default" name="reset">重置</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" id="queryBtn" name="submit">查询</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="box" style="min-height: 100px">
+    <div class="box-header">
+        <h3 class="box-title">计划列表</h3>
+        <div class="box-tools">
+            <div class="btn-group">
+                <button type="button" class="btn btn-success" id="JS_runPlan"><i class="fa  fa-flash"></i> 一键执行</button>
+                <button type="button" class="btn btn-info" id="JS_linkCase" data-toggle="modal" ><i class="fa fa-share-alt"></i> 关联用例</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_autoPlanForm" id="JS_addPlan"><i class="fa fa-plus"></i> 新增计划</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="javascript:;" id="JS_delePlan">删除计划</a></li>
+                    <li><a href="javascript:;" id="JS_newTask">生成任务</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="JS_getAutoPlanList" class="box-body" style="min-height: 100px;">
+    </div>
+</div>
+<!-- 新增测试计划 -->
+<div class="modal fade in" id="modal_autoPlanForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <form id="Js_planInfoForm" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="queryCaseName" class="col-sm-3 control-label"><i class="text-red">* </i>计划名称：</label>
+                        <div class="col-sm-8">
+                           <input type="hidden" class="form-control input-sm hide" name="planId" value="">
+                            <input type="text" class="form-control input-sm" name="planName" value="">
+                            <input type="text" class="form-control input-sm hide" name="planTag" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"><i class="text-red">* </i>轮循方式：</label>
+                        <div class="col-sm-8">
+                            <select name="cycleType" class="form-control input-sm">
+                                <option> </option>
+                                <option value="1">不轮循</option>
+                                <option value="2">查询类轮循</option>
+                                <option value="3">受理类轮循</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"><i class="text-red">* </i>执行类型：</label>
+                        <div class="col-sm-8">
+                            <select name="runType" class="form-control input-sm">
+                                <option> </option>
+                                <option value="1">立即执行</option>
+                                <option value="2">定时执行</option>
+                                <option value="3">分布式执行</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryCaseName" class="col-sm-3 control-label">默认执行机：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm" name="machineIp" value="">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" name="cancel">取消</button>
+                <button type="button" class="btn btn-primary" name="submit">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 生成任务 -->
+<div class="modal fade" id="modal_AutoCaseTempForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">生成任务</h4>
+            </div>
+            <form id="JS_AutoCaseTempForm">
+                <div class="modal-body">
+                    <div id="JS_AutoTempFormInner" style="padding-right: 15px;">
+                        <div class="row">
+                            
+                            <!-- 组件列表 -->
+                            <div class="col-sm-9">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <label for="queryCaseName" class="col-sm-3"><i class="text-red"> * </i>自动化模板名称：</label>
+                                        <div class="col-sm-8 form-inline ">
+                                            <input type="text" class="form-control input-sm" id="tempName1" name="caseName" readonly="true">
+                                            <input type="text" class="form-control input-sm" id="tempName2" name="caseName" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box" style="min-height: 100px">
+                                    <div class="box-header">
+                                        <h4 class="box-title">组件列表</h4>
+                                        <div class="box-tools">
+                                            <div class="btn-group">
+                                                <button type="button" id="deleComp" class="btn btn-primary">删除</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="JS_compBody" class="box-body" style="min-height: 100px;">
+                                        <table id="compTable" class="table table-bordered table-hover">
+                                            <div id="messageAddComp" style="text-align: center; padding: 100px 0;">
+                                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                                <p style="color: #333;"><span>请添加组件</span></p>
+                                            </div>
+                                            <thead id="compThead">
+                                                <tr>
+                                                    <th class="iCheckbox" width="15"></th>
+                                                    <th>组件名称</th>
+                                                    <th>用例步骤描述</th>
+                                                    <th>组件顺序</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="compBody">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="box" id="JS_getCaseTempInfo">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" name="cancel" id="JS_AutoCaseTempReset">取消</button>
+                    <button type="button" class="btn btn-primary" id="JS_addAndSaveAutoCaseTemp" name="save">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 关联用例 -->
+<div class="modal fade" id="modal_linkTestCase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            
+            
+        </div>
+    </div>
+</div>
+<script>
+seajs.use("script/autoManage/autoPlanMng", function(init) {
+    init.init();
+});
+</script>

@@ -14,7 +14,7 @@ define(function(require, exports, module) {
     //获取所选用例的执行日志
     srvMap.add("showRunLog", pathAlias + "showRunLog.json", "auto/autoRunResult/runLog");
     //获取任务明细
-    srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "auto/autoRunResult/list");
+    srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "auto/autoRunResult/findOne");
     //获取任务执行结果列表
     srvMap.add("getReportDetailList", pathAlias + "getReportDetailList.json", "auto/autoRunResult/taskDetail");
     //获取任务执行结果列表(刷新)

@@ -12,7 +12,6 @@
                 <option> </option>
                 <option value="1">不轮循</option>
                 <option value="2">查询类轮循</option>
-                <option value="3">受理类轮循</option>
             </select>
         </div>
     </div>

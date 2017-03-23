@@ -2,7 +2,6 @@
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
     "data": {
-        "content": [{
             "taskId": "1",
             "taskName": "用例组1",
             "totalCase": "2",
@@ -12,7 +11,6 @@
             "failCase": "0",
             "beginTime": "2017-2-02 08:00:00",
             "endTime": "2017-2-02 08:00:00",
-            "spendTime": "153分钟"
-        }]
+            "spendTime": "153"
     }
 }

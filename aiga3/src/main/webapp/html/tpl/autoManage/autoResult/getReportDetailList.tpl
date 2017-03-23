@@ -25,6 +25,7 @@
         <tbody>
             {{#each content}}
             <tr>
+                <input type="hidden" value="{{detailId}}" name="detailId">
                 <input type="hidden" value="{{reportId}}" name="reportId">
                 <input type="hidden" value="{{taskId}}" name="taskId">
                 <input type="hidden" value="{{autoId}}" name="autoId">
@@ -37,8 +38,8 @@
                 <td><input type="text" id="failReason" name="failReason" {{checkedState isSuccess}} value="{{failReason}}"></td>
                 <td><select size="1" id="isBug" name="isBug" {{checkedState isSuccess}}>
             <option value="">请选择</option>
-            <option value="0"> 否</option>
-            <option value="1"> 是</option></td>
+            <option value="N"> 否</option>
+            <option value="Y"> 是</option></td>
                 <td><input size="5" type="text" id="bugStaff" name="bugStaff" {{checkedState isSuccess}} value="{{bugStaff}}"></td>
             </tr>
             {{/each}}

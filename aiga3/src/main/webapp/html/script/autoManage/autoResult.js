@@ -17,7 +17,9 @@ define(function(require, exports, module) {
     srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "auto/autoRunResult/list");
     //获取任务执行结果列表
     srvMap.add("getReportDetailList", pathAlias + "getReportDetailList.json", "auto/autoRunResult/taskDetail");
-    //保存报告
+    //获取任务执行结果列表(刷新)
+    srvMap.add("getReportDetailListRefresh", pathAlias + "getReportDetailListRefresh.json", "auto/autoRunResult/reportDetailList")
+        //保存报告
     srvMap.add("saveReport", pathAlias + "retMessage.json", "auto/autoRunResult/reportSave");
     //保存明细
     srvMap.add("saveDetail", pathAlias + "retMessage.json", "auto/autoRunResult/reportDetailSave");
@@ -200,6 +202,7 @@ define(function(require, exports, module) {
                 var data = Utils.getRadioCheckedRow(_dom);
                 if (data) {
                     var cmd = 'taskId=' + data.taskId;
+                    Data.taskId = data.taskId;
                     var _modal = $(Dom.generateReportModal);
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     //调查询任务报告明细接口
@@ -209,7 +212,7 @@ define(function(require, exports, module) {
                             window.XMS.msgbox.hide();
                             var template = Handlebars.compile(Tpl.getTaskDetailForm);
                             var _table = $(Dom.getTaskDetailForm);
-                            _table.html(template(json.data.content))
+                            _table.html(template(json.data))
                             _modal.modal('show');
 
                             var _form = $(Dom.getTaskDetailForm);
@@ -218,14 +221,16 @@ define(function(require, exports, module) {
                             _saveBtn.bind('click', function() {
                                 var _cmd = _form.serialize();
                                 var _reportName = _form.find("[name='reportName']").val();
-                                Rose.ajax.postJson(srvMap.get('saveReport'), _cmd, function(json, status) {
-                                    if (status && _reportName !== "") {
-                                        window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                                    } else {
-                                        window.XMS.msgbox.show('报告名称不能为空！', 'error', 2000);
-                                        return;
-                                    }
-                                });
+                                if (_reportName !== "") {
+                                    Rose.ajax.postJson(srvMap.get('saveReport'), _cmd, function(json, status) {
+                                        if (status && _reportName !== "") {
+                                            window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                        }
+                                    });
+                                } else {
+                                    window.XMS.msgbox.show('报告名称不能为空！', 'error', 2000);
+                                    return;
+                                }
                             });
                         }
                     });
@@ -253,6 +258,40 @@ define(function(require, exports, module) {
                         Rose.ajax.postJson(srvMap.get('saveDetail'), _cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.show('保存成功！', 'success', 2000)
+                                setTimeout(function() {
+                                    self.getReportDetailListRefresh("taskId=" + Data.taskId);
+                                }, 1000)
+                            }
+                        });
+
+
+                        //设置分页
+                        self.initPaging($(Dom.getReportDetailList).find("table"), 8);
+                    });
+                }
+            });
+        },
+        // 查询任务报告明细(刷新)
+        getReportDetailListRefresh: function(cmd) {
+            var self = this;
+            Rose.ajax.postJson(srvMap.get('getReportDetailListRefresh'), cmd, function(json, status) {
+                if (status) {
+                    window.XMS.msgbox.hide();
+                    var template = Handlebars.compile(Tpl.getReportDetailList);
+                    $(Dom.getReportDetailList).html(template(json.data));
+                    var _form = $(Dom.getReportDetailList);
+                    var _saveBtn = _form.find("[name='saveDetail']");
+                    _saveBtn.unbind('click');
+                    _saveBtn.bind('click', function() {
+                        var dataArray = Utils.getTableDataRows(_form);
+                        var _cmd = dataArray;
+                        console.log(_cmd);
+                        Rose.ajax.postJson(srvMap.get('saveDetail'), _cmd, function(json, status) {
+                            if (status) {
+                                window.XMS.msgbox.show('保存成功！', 'success', 2000)
+                                setTimeout(function() {
+                                    self.getReportDetailListRefresh("taskId=" + Data.taskId);
+                                }, 1000)
                             }
                         });
 

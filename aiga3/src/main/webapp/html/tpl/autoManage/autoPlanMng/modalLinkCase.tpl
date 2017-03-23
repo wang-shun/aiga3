@@ -18,7 +18,7 @@
                         <input type="hidden" class="form-control" name="planId" value="{{planId}}">
                         <input id="caseName" type="text" class="form-control input-sm" name="autoName"  style="width: 160px"  >
                          <label class="control-label">系统大类:</label>
-                        <select name="sysId" class="form-control select2 input-sm" style="width: 160px">
+                        <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" style="width: 160px">
                             <option></option>
                         </select>
                         <label class="control-label">业务:</label>
@@ -28,11 +28,11 @@
                     </div>
                     <div class="form-group form-inline">
                         <label class="control-label">系统子类:</label>
-                        <select name="subSysId" class="form-control select2 input-sm" style="width: 160px">
+                        <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" class="form-control select2 input-sm" style="width: 160px">
                             <option></option>
                         </select>
                         <label class="control-label">功&nbsp;能&nbsp;点&nbsp;:</label>
-                        <select name="funId" class="form-control select2 input-sm" style="width: 160px">
+                        <select name="funId" data-suburl="getFunList" class="form-control select2 input-sm" style="width: 160px">
                             <option></option>
                         </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-primary btn-sm" name="submit"   style="width: 70px">查询</button>

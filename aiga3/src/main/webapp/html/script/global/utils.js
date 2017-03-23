@@ -47,7 +47,7 @@ define(function(require, exports, module) {
             var dataArray = []
             obj.find("tbody > tr").each(function(){
                 var data ={};
-                $(this).find("input").each(function(){
+                $(this).find("input,select").each(function(){
                     var key = $(this).attr("name");
                     var value = $(this).val();
                     data[key]=value;

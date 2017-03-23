@@ -75,7 +75,7 @@ public class AutoRunResultController {
 	}
 	/**
 	 * 根据任务Id查询该任务执行结果
-	 * 备注：暂时不用*/
+	 * */
 	@RequestMapping(path = "/auto/autoRunResult/findOne")
 	public @ResponseBody JsonBean findOne(Long taskId){
 		JsonBean bean = new JsonBean();

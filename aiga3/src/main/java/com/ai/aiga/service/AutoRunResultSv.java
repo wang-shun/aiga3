@@ -180,19 +180,20 @@ public class AutoRunResultSv {
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		Object[] object =(Object[]) naAutoRunTaskReportDao.findByTaskId(taskId);
+		List<Object[]> list= naAutoRunTaskReportDao.findByTaskId(taskId);
+		Object[] object = (Object[]) list.get(0);
 		NaAutoRunTaskReportResponse response = new NaAutoRunTaskReportResponse();
 		if(object != null && object.length > 0){
-			response.setTaskId(((BigDecimal) object[0]).longValue());
-			response.setTotalCase(((BigDecimal) object[1]).longValue());
-			response.setNoneRunCase(((BigDecimal) object[2]).longValue());
-			response.setHasRunCase(((BigDecimal) object[3]).longValue());
-			response.setSuccessCase(((BigDecimal) object[4]).longValue());
-			response.setFailCase(((BigDecimal) object[4]).longValue());
-			response.setCreatorId(((BigDecimal) object[5]).longValue());
-			response.setBeginRunTime((Date) object[6]);
-			response.setEndRunTime((Date) object[7]);
-			response.setSpendTime(((BigDecimal) object[5]).longValue());
+			response.setTaskId(((BigDecimal)object[0]).longValue());
+			response.setTotalCase(((BigDecimal)object[1]).longValue());
+			response.setNoneRunCase(((BigDecimal)object[2]).longValue());
+			response.setHasRunCase(((BigDecimal)object[3]).longValue());
+			response.setSuccessCase(((BigDecimal)object[4]).longValue());
+			response.setFailCase(((BigDecimal)object[5]).longValue());
+			response.setCreatorId(((BigDecimal)object[6]).longValue());
+			//response.setBeginRunTime((Date) object[6]);
+			//response.setEndRunTime((Date) object[7]);
+			//response.setSpendTime(((BigDecimal) object[5]).longValue());
 		}
 		
 		return response;
@@ -223,18 +224,18 @@ public class AutoRunResultSv {
 		if(StringUtils.isBlank(naAutoRunTaskReport.getFailCase().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "failCase");
 		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getBeginTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "beginTime");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getEndTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "endTime");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getSpendTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "spendTime");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getCreatorId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "creatorId");
-		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getBeginTime().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "beginTime");
+//		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getEndTime().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "endTime");
+//		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getSpendTime().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "spendTime");
+//		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getCreatorId().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "creatorId");
+//		}
 		if(StringUtils.isBlank(naAutoRunTaskReport.getSuccessRate())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "successRate");
 		}
@@ -525,7 +526,6 @@ public class AutoRunResultSv {
 		list.add("bugStaff");
 		list.add("creatorId");
 		list.add("autoName");
-		list.add("creatorId");
 		list.add("taskName");
 		list.add("creatorName");
 		if(pageNumber < 0){

@@ -3,6 +3,8 @@ package com.ai.aiga.view.json;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class NaAutoEnvironmentRequest {
 	 private BigDecimal envId;
      private BigDecimal sysId;
@@ -21,6 +23,7 @@ public class NaAutoEnvironmentRequest {
      private BigDecimal envType;
      private BigDecimal runEnv;
      private BigDecimal creatorId;
+     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date updateTime;
 	public BigDecimal getEnvId() {
 		return envId;

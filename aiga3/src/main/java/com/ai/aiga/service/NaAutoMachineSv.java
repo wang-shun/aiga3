@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.ai.aiga.dao.NaAutoEnvironmentDao;
 import com.ai.aiga.dao.NaAutoMachineDao;
 import com.ai.aiga.dao.NaAutoMachineEnvDao;
 import com.ai.aiga.domain.NaAutoEnvironment;
@@ -28,6 +28,8 @@ import com.ai.aiga.view.json.NaAutoMachineRequest;
 public class NaAutoMachineSv extends BaseService {
 	@Autowired
     private NaAutoMachineDao naAutoMachineDao; 
+	@Autowired
+	private NaAutoEnvironmentDao naAutoEnvironmentDao ;
 	@Autowired
 	private NaAutoMachineEnvDao naAutoMachineEnvDao;
 	public NaAutoMachine saveMachine(NaAutoMachineRequest request){
@@ -79,7 +81,8 @@ public class NaAutoMachineSv extends BaseService {
 	   if(envId ==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
-	   naAutoMachineDao.delete(envId);
+	   naAutoEnvironmentDao.delete(envId);
+	  // naAutoMachineDao.delete(envId);
 	   naAutoMachineEnvDao.deleteByEnvId(envId);
 	   
    }

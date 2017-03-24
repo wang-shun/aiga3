@@ -139,7 +139,7 @@ public class AutoRunResultSv {
 				sql += " and b.task_tag like '%"+condition.getTaskTag()+"%'";
 			}
 			if(condition.getTaskResult() != null && !condition.getTaskResult().equals("")){
-				sql += " and b.taskResult ="+condition.getTaskResult();
+				sql += " and b.task_result ="+condition.getTaskResult();
 			}
 			if(condition.getMachineIp() != null && !condition.getMachineIp().equals("")){
 				sql += " and b.machine_ip = '"+condition.getMachineIp()+"'";

@@ -33,7 +33,7 @@
                         <select name="funId" data-suburl="getFunList" class="form-control select2 input-sm" style="width: 160px">
                             <option value="">请选择</option>
                         </select>
-                        <label class="control-label">业务:</label>
+                        <label class="control-label">业&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label>
                         <select id="queryCase_busi" data-url="getBusiList" name="busiId" class="form-control select2 input-sm" style="width: 160px">
                             <option value="">请选择</option>
                         </select>

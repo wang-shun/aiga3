@@ -5,6 +5,13 @@ define(function(require, exports, module) {
     var planTag; //计划编号
     var nowPlanId;
 
+    //系统大类下拉框显示
+    srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
+    //系统子类下拉框
+    srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
+    //功能点下拉框
+    srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
+    srvMap.add("getBusiList", pathAlias + "getBusiList.json", "sys/cache/busi"); 
     // 计划列表显示
     srvMap.add("getAutoPlanList", pathAlias + "autoPlanList.json", "sys/autoPlan/queryList");
     //计划保存接口
@@ -86,7 +93,7 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-            
+
             this.hdbarHelp();
             this.getPlanList();
             this.queryAutoPlan();
@@ -251,7 +258,11 @@ define(function(require, exports, module) {
                         planId: data.planId
                     }
                     $(Dom.modalLinkTestCase).find(".modal-content").html(template(id));
+                    //Utils.setSelected($("#JS_queryUnlinkCaseForm"));
+                    Utils.setSelectData($("#JS_queryUnlinkCaseForm"));
+
                     self.getUnLinkCaseList("planId=" + data.planId);
+
                     $("#JS_casetable1").bind('click', function() {
                         states = 1;
                         self.getUnLinkCaseList("planId=" + data.planId);
@@ -455,7 +466,6 @@ define(function(require, exports, module) {
                 _obj.each(function() {
                     var tdArr = $(this).children();
                     id = tdArr.eq(0).find("input").val();
-                    alert(id);
                     cmd += id + ',';
                 });
                 cmd = cmd.substring(0, cmd.length - 1);
@@ -469,7 +479,7 @@ define(function(require, exports, module) {
         deleLinked: function(cmd, state) {
             var self = this;
             if (state == 1) {
-                cmd = "planId=" + nowPlanId + "&caseIds="+cmd;
+                cmd = "planId=" + nowPlanId + "&caseIds=" + cmd;
 
                 Rose.ajax.getJson(srvMap.get('deleLinkCase'), cmd, function(json, status) {
                     if (status) {
@@ -480,7 +490,7 @@ define(function(require, exports, module) {
                     }
                 });
             } else if (state == 2) {
-                cmd = "planId=" + nowPlanId + "&groupIds="+cmd;
+                cmd = "planId=" + nowPlanId + "&groupIds=" + cmd;
                 Rose.ajax.getJson(srvMap.get('deleLinkCaseGroup'), cmd, function(json, status) {
                     if (status) {
                         setTimeout(function() {
@@ -490,13 +500,13 @@ define(function(require, exports, module) {
                     }
                 });
             } else if (state == 3) {
-                cmd = "planId=" + nowPlanId + "&collectIds="+cmd;
+                cmd = "planId=" + nowPlanId + "&collectIds=" + cmd;
                 Rose.ajax.getJson(srvMap.get('deleLinkCaseCollect'), cmd, function(json, status) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkCollectList("planId=" + nowPlanId);
                             self.getLinkCollectList("planId=" + nowPlanId);
-                       
+
                         }, 1000)
                     }
                 });

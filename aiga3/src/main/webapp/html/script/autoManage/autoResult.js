@@ -84,10 +84,6 @@ define(function(require, exports, module) {
                     window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Tpl.getAutoResultList);
                     $(Dom.getAutoResultList).html(template(json.data))
-                    var _successCase = json.data.successCase;
-                    var _failCase = json.data.failCase;
-                    var _successRate = parseInt(_successCase) * 100 / parseInt(_successCase + _failCase) + '%';
-                    $(Dom.getAutoResultList).find('td[id=successRate]').val(_successRate);
                     // 生成报告
                     self.generateReport();
                     //Utils.eventTrClickCallback($(Dom.getAutoResultList));
@@ -263,11 +259,9 @@ define(function(require, exports, module) {
                                 }, 1000)
                             }
                         });
-
-
-                        //设置分页
-                        self.initPaging($(Dom.getReportDetailList).find("table"), 8);
                     });
+                    //设置分页
+                    self.initPaging($(Dom.getReportDetailList).find("table"), 8);
                 }
             });
         },

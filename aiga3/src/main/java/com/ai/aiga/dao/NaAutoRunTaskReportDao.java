@@ -1,5 +1,7 @@
 package com.ai.aiga.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,6 +19,6 @@ public interface NaAutoRunTaskReportDao extends JpaRepository<NaAutoRunTaskRepor
 			+ " count(case when(result_type = 1)  then result_type end) as fail_case"
 			+ " from  na_auto_run_result  group by task_id having task_id =?1) t , na_auto_run_task a"
 			+ " where a.task_id = t.task_id ", nativeQuery = true)
-	NaAutoRunTaskReportResponse findByTaskId(Long taskId);
+	List<Object[]> findByTaskId(Long taskId);
 
 }

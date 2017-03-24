@@ -1,5 +1,6 @@
 package com.ai.aiga.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -179,7 +180,22 @@ public class AutoRunResultSv {
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		NaAutoRunTaskReportResponse response = naAutoRunTaskReportDao.findByTaskId(taskId);
+		List<Object[]> list= naAutoRunTaskReportDao.findByTaskId(taskId);
+		Object[] object = (Object[]) list.get(0);
+		NaAutoRunTaskReportResponse response = new NaAutoRunTaskReportResponse();
+		if(object != null && object.length > 0){
+			response.setTaskId(((BigDecimal)object[0]).longValue());
+			response.setTotalCase(((BigDecimal)object[1]).longValue());
+			response.setNoneRunCase(((BigDecimal)object[2]).longValue());
+			response.setHasRunCase(((BigDecimal)object[3]).longValue());
+			response.setSuccessCase(((BigDecimal)object[4]).longValue());
+			response.setFailCase(((BigDecimal)object[5]).longValue());
+			response.setCreatorId(((BigDecimal)object[6]).longValue());
+			//response.setBeginRunTime((Date) object[6]);
+			//response.setEndRunTime((Date) object[7]);
+			//response.setSpendTime(((BigDecimal) object[5]).longValue());
+		}
+		
 		return response;
 	}
 
@@ -208,18 +224,18 @@ public class AutoRunResultSv {
 		if(StringUtils.isBlank(naAutoRunTaskReport.getFailCase().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "failCase");
 		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getBeginTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "beginTime");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getEndTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "endTime");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getSpendTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "spendTime");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getCreatorId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "creatorId");
-		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getBeginTime().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "beginTime");
+//		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getEndTime().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "endTime");
+//		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getSpendTime().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "spendTime");
+//		}
+//		if(StringUtils.isBlank(naAutoRunTaskReport.getCreatorId().toString())){
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "creatorId");
+//		}
 		if(StringUtils.isBlank(naAutoRunTaskReport.getSuccessRate())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "successRate");
 		}
@@ -246,7 +262,8 @@ public class AutoRunResultSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
 		String sql = "select b.report_id, a.task_id, e.task_name, a.auto_id, a.result_id, c.auto_name, c.creator_id, d.name as creator_name,"
-				+ " (case when (a.result_type = 0) then 'Y' end) as is_success"
+				+ " (case when (a.result_type = 0) then 'Y' "
+				+ " when (a.result_type = 1) then 'N' end) as is_success"
 				+ " from na_auto_run_result a, na_auto_run_task_report b, na_auto_case c, aiga_staff d, na_auto_run_task e"
 				+ " where a.task_id = b.task_id and a.auto_id = c.auto_id and c.creator_id = d.staff_id and a.task_id = e.task_id"
 				+ " and a.task_id = "+taskId;
@@ -278,24 +295,46 @@ public class AutoRunResultSv {
 		for(int i = 0; i < list.size(); i++){
 			NaAutoTaskReportDetailRequest request = list.get(i);
 			if(request != null){
-				NaAutoTaskReportDetail naAutoTaskReportDetail = new NaAutoTaskReportDetail();
-				naAutoTaskReportDetail.setAutoId(request.getAutoId());
-				naAutoTaskReportDetail.setReportId(request.getReportId());
-				naAutoTaskReportDetail.setResultId(request.getResultId());
-				if(request.getBugStaff() != null){
-					naAutoTaskReportDetail.setBugStaff(request.getBugStaff());
+				if(request.getDetailId() == null || request.getDetailId().equals("")){
+					NaAutoTaskReportDetail naAutoTaskReportDetail = new NaAutoTaskReportDetail();
+					naAutoTaskReportDetail.setAutoId(request.getAutoId());
+					naAutoTaskReportDetail.setReportId(request.getReportId());
+					naAutoTaskReportDetail.setResultId(request.getResultId());
+					if(request.getBugStaff() != null){
+						naAutoTaskReportDetail.setBugStaff(request.getBugStaff());
+					}
+					naAutoTaskReportDetail.setCreatorId(request.getCreatorId());
+					naAutoTaskReportDetail.setIsSuccess(request.getIsSuccess());
+					if(request.getFailReason() != null){
+						naAutoTaskReportDetail.setFailReason(request.getFailReason());
+					}
+					if(request.getIsBug() != null){
+						naAutoTaskReportDetail.setIsBug(request.getIsBug());
+					}
+					naAutoTaskReportDetail.setTaskId(request.getTaskId());
+					naAutoTaskReportDetail.setUpdateTime(new Date());
+					naAutoTaskReportDetailDao.save(naAutoTaskReportDetail);
+				}else{
+					NaAutoTaskReportDetail naAutoTaskReportDetail = naAutoTaskReportDetailDao.findOne(request.getDetailId());
+					naAutoTaskReportDetail.setAutoId(request.getAutoId());
+					naAutoTaskReportDetail.setReportId(request.getReportId());
+					naAutoTaskReportDetail.setResultId(request.getResultId());
+					if(request.getBugStaff() != null){
+						naAutoTaskReportDetail.setBugStaff(request.getBugStaff());
+					}
+					naAutoTaskReportDetail.setCreatorId(request.getCreatorId());
+					naAutoTaskReportDetail.setIsSuccess(request.getIsSuccess());
+					if(request.getFailReason() != null){
+						naAutoTaskReportDetail.setFailReason(request.getFailReason());
+					}
+					if(request.getIsBug() != null){
+						naAutoTaskReportDetail.setIsBug(request.getIsBug());
+					}
+					naAutoTaskReportDetail.setTaskId(request.getTaskId());
+					naAutoTaskReportDetail.setUpdateTime(new Date());
+					naAutoTaskReportDetailDao.save(naAutoTaskReportDetail);
 				}
-				naAutoTaskReportDetail.setCreatorId(request.getCreatorId());
-				naAutoTaskReportDetail.setIsSuccess(request.getIsSuccess());
-				if(request.getFailReason() != null){
-					naAutoTaskReportDetail.setFailReason(request.getFailReason());
-				}
-				if(request.getIsBug() != null){
-					naAutoTaskReportDetail.setIsBug(request.getIsBug());
-				}
-				naAutoTaskReportDetail.setTaskId(request.getTaskId());
-				naAutoTaskReportDetail.setUpdateTime(new Date());
-				naAutoTaskReportDetailDao.save(naAutoTaskReportDetail);
+				
 			}
 		}
 		
@@ -466,13 +505,40 @@ public class AutoRunResultSv {
 		return naAutoRunResultDao.deleteByTaskId(taskId);
 	}
 
-	public List<NaAutoTaskReportDetail> reportDetailList(Long taskId) {
+	public Object reportDetailList(Long taskId, int pageNumber, int pageSize) {
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		List<NaAutoTaskReportDetail> list = naAutoTaskReportDetailDao.findByTaskId(taskId);
+		String sql = "select a.detail_id, a.report_id, a.task_id, a.auto_id, a.result_id, a.is_success, a.is_bug, a.fail_reason,"
+				+ " a.bug_staff, a.creator_id, b.auto_name, c.task_name, d.name as creator_name from"
+				+ " na_auto_task_report_detail a, na_auto_case b, na_auto_run_task c, aiga_staff d"
+				+ " where a.auto_id = b.auto_id and a.task_id = c.task_id and a.creator_id = d.staff_id and a.task_id = "+taskId+ " and a.task_id = "+taskId;
 		
-		return list;
+		List<String> list = new ArrayList<String>();
+		list.add("detailId");
+		list.add("reportId");
+		list.add("taskId");
+		list.add("autoId");
+		list.add("resultId");
+		list.add("isSuccess");
+		list.add("isBug");
+		list.add("failReason");
+		list.add("bugStaff");
+		list.add("creatorId");
+		list.add("autoName");
+		list.add("taskName");
+		list.add("creatorName");
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return naAutoTaskReportDetailDao.searchByNativeSQL(sql, pageable, list);
 	}
+
 
 }

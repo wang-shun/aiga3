@@ -38,8 +38,7 @@ public class NaAutoRunTaskReport  implements java.io.Serializable {
      private Date beginTime;
      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      private Date endTime;
-     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-     private Date spendTime;
+     private Long spendTime;
      private Long creatorId;
      private Date updateTime;
 
@@ -50,7 +49,7 @@ public class NaAutoRunTaskReport  implements java.io.Serializable {
     public NaAutoRunTaskReport(long reportId) {
         this.reportId = reportId;
     }
-    public NaAutoRunTaskReport(Long reportId, Long taskId, String reportName, Long totalCase, Long hasRunCase, Long noneRunCase, Long successCase, Long failCase, String successRate, Date beginTime, Date endTime, Date spendTime, Long creatorId, Date updateTime) {
+    public NaAutoRunTaskReport(Long reportId, Long taskId, String reportName, Long totalCase, Long hasRunCase, Long noneRunCase, Long successCase, Long failCase, String successRate, Date beginTime, Date endTime, Long spendTime, Long creatorId, Date updateTime) {
        this.reportId = reportId;
        this.taskId = taskId;
        this.reportName = reportName;
@@ -168,13 +167,12 @@ public class NaAutoRunTaskReport  implements java.io.Serializable {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="SPEND_TIME", length=7)
-    public Date getSpendTime() {
+    @Column(name="SPEND_TIME", precision=14, scale=0)
+    public Long getSpendTime() {
         return this.spendTime;
     }
     
-    public void setSpendTime(Date spendTime) {
+    public void setSpendTime(Long spendTime) {
         this.spendTime = spendTime;
     }
     

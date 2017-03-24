@@ -180,9 +180,13 @@ public class AutoRunResultSv {
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		List<Object[]> list= naAutoRunTaskReportDao.findByTaskId(taskId);
+		List<Object[]> list= naAutoRunTaskReportDao.findResultByTaskId(taskId);
 		Object[] object = (Object[]) list.get(0);
 		NaAutoRunTaskReportResponse response = new NaAutoRunTaskReportResponse();
+		NaAutoRunTaskReport report = naAutoRunTaskReportDao.findByTaskId(taskId);
+		if(report != null && !report.equals("")){
+			response.setReportId(report.getReportId());
+		}
 		if(object != null && object.length > 0){
 			response.setTaskId(((BigDecimal)object[0]).longValue());
 			response.setTotalCase(((BigDecimal)object[1]).longValue());
@@ -239,22 +243,26 @@ public class AutoRunResultSv {
 		if(StringUtils.isBlank(naAutoRunTaskReport.getSuccessRate())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "successRate");
 		}
+		if(StringUtils.isBlank(naAutoRunTaskReport.getReportId().toString())){
+			naAutoRunTaskReportDao.save(naAutoRunTaskReport);
+		}else{
+			NaAutoRunTaskReport report = naAutoRunTaskReportDao.findOne(naAutoRunTaskReport.getReportId());
+			report.setTaskId(naAutoRunTaskReport.getTaskId());
+			report.setReportName(naAutoRunTaskReport.getReportName());
+			report.setTotalCase(naAutoRunTaskReport.getTotalCase());
+			report.setNoneRunCase(naAutoRunTaskReport.getNoneRunCase());
+			report.setHasRunCase(naAutoRunTaskReport.getHasRunCase());
+			report.setSuccessCase(naAutoRunTaskReport.getSuccessCase());
+			report.setFailCase(naAutoRunTaskReport.getFailCase());
+			report.setBeginTime(naAutoRunTaskReport.getBeginTime());
+			report.setEndTime(naAutoRunTaskReport.getEndTime());
+			report.setSpendTime(naAutoRunTaskReport.getSpendTime());
+			report.setCreatorId(naAutoRunTaskReport.getCreatorId());
+			report.setSuccessRate(naAutoRunTaskReport.getSuccessRate());
+			report.setUpdateTime(new Date());
+			naAutoRunTaskReportDao.save(report);
+		}
 		
-		NaAutoRunTaskReport report = new NaAutoRunTaskReport();
-		report.setTaskId(naAutoRunTaskReport.getTaskId());
-		report.setReportName(naAutoRunTaskReport.getReportName());
-		report.setTotalCase(naAutoRunTaskReport.getTotalCase());
-		report.setNoneRunCase(naAutoRunTaskReport.getNoneRunCase());
-		report.setHasRunCase(naAutoRunTaskReport.getHasRunCase());
-		report.setSuccessCase(naAutoRunTaskReport.getSuccessCase());
-		report.setFailCase(naAutoRunTaskReport.getFailCase());
-		report.setBeginTime(naAutoRunTaskReport.getBeginTime());
-		report.setEndTime(naAutoRunTaskReport.getEndTime());
-		report.setSpendTime(naAutoRunTaskReport.getSpendTime());
-		report.setCreatorId(naAutoRunTaskReport.getCreatorId());
-		report.setSuccessRate(naAutoRunTaskReport.getSuccessRate());
-		report.setUpdateTime(new Date());
-		naAutoRunTaskReportDao.save(report);
 	}
 
 	public Object taskDetail(Long taskId, int pageNumber, int pageSize) {

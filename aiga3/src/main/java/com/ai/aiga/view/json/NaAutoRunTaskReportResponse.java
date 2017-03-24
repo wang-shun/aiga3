@@ -9,6 +9,7 @@ public class NaAutoRunTaskReportResponse {
 	private Long noneRunCase;
 	private Long successCase;
 	private Long failCase;
+	private Long creatorId;
 	private String successRate;
 	private Date beginRunTime;
 	private Date endRunTime;
@@ -48,6 +49,12 @@ public class NaAutoRunTaskReportResponse {
 	}
 	public void setFailCase(Long failCase) {
 		this.failCase = failCase;
+	}
+	public Long getCreatorId() {
+		return creatorId;
+	}
+	public void setCreatorId(Long creatorId) {
+		this.creatorId = creatorId;
 	}
 	public String getSuccessRate() {
 		return successRate;

@@ -94,6 +94,7 @@ define(function(require, exports, module) {
             this.deleAutoPlan();
             this.linkCase();
             this.newTask();
+            this.runPlan();
         },
 
         hdbarHelp: function() {
@@ -162,6 +163,7 @@ define(function(require, exports, module) {
             var self = this;
             $(Dom.addPlan).bind('click', function() {
                 var time = self.getDate();
+                $(Dom.modalPlanForm).find("h4").html("新增计划");
                 $(Dom.modalPlanForm).find("[name='planTag']").val(time.planTag);
                 $(Dom.modalPlanForm).find("[name='planId']").val('');
                 $(Dom.modalPlanForm).find("[name='planName']").val('');
@@ -183,6 +185,7 @@ define(function(require, exports, module) {
             var data = this.getPlanInfo();
             if (data) {
                 $(Dom.modalPlanForm).modal('show');
+                $(Dom.modalPlanForm).find("h4").html("修改计划");
                 $(Dom.modalPlanForm).find("[name='planId']").val(data.planId);
                 $(Dom.modalPlanForm).find("[name='planTag']").val(data.planTag);
                 $(Dom.modalPlanForm).find("[name='planName']").val(data.planName);
@@ -320,7 +323,6 @@ define(function(require, exports, module) {
             $(Dom.btnNewTask).bind('click', function() {
                 var data = self.getPlanInfo();
                 if (data) {
-
                     nowPlanId = data.planId;
                     runType = data.runType;
                     $(Dom.modalNewTaskForm).modal('show');
@@ -363,7 +365,6 @@ define(function(require, exports, module) {
 
                     $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
                         var cmd = $("#Js_queryMachine").serialize();
-                        alert(cmd)
                         if (cmd) {
                             self.getMachineList(cmd, true);
                         } else {
@@ -395,7 +396,8 @@ define(function(require, exports, module) {
                     });
 
                     $(Dom.modalNewTaskForm).find("button[name='save']").bind('click', function() {
-                        var cmd = $("#JS_newTaskForm").serialize();
+                        var cmd = $("#Js_taskForm").serialize();
+                        alert(cmd);
                         self.saveNewTaks(cmd);
                         $(Dom.modalNewTaskForm).modal('hide');
                     });
@@ -551,7 +553,7 @@ define(function(require, exports, module) {
                     Utils.eventClickChecked(list);
                 }
             });
-            self.getLinkCaseList(cmd);
+            self.getLinkCaseList("planId=" + nowPlanId);
 
         },
         //关联用例列表
@@ -581,7 +583,7 @@ define(function(require, exports, module) {
                     // Utils.setScroll($(Dom.getAutoPlanList),380px);
                 }
             });
-            self.getLinkGroupList(cmd);
+            self.getLinkGroupList("planId=" + nowPlanId);
         },
         //关联用例组列表
         getLinkGroupList: function(cmd) {
@@ -610,7 +612,7 @@ define(function(require, exports, module) {
                     // Utils.setScroll($(Dom.getAutoPlanList),380px);
                 }
             });
-            self.getLinkCollectList(cmd);
+            self.getLinkCollectList("planId=" + nowPlanId);
         },
         //关联用例集列表
         getLinkCollectList: function(cmd) {

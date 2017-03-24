@@ -100,11 +100,12 @@
                 <button type="button" class="btn btn-primary btn-sm" name="using">使用选中主机</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;                
             </div>
-        </form>            
+        </form>
+                     
         <table id="Js_chooseMachineList" class="table table-bordered table-hover" style="min-height: 100px;">
             <thead>
                  <tr>
-                    <th class="iCheckbox" width="15"></th>
+                    <th class="iCheckbox"></th>
                     <th>主机IP</th>
                     <th>主机名称</th>
                     <th>是否占用</th>
@@ -113,9 +114,7 @@
                     <th class="hide">占用任务单</th>
                 </tr>
             </thead>
-            <tbody>
-                
-            </tbody>
-        </table>        
+            <tbody></tbody>
+        </table>         
     </div>
 </div>

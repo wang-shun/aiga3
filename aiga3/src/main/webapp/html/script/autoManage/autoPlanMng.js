@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
     //功能点下拉框
     srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
-    srvMap.add("getBusiList", pathAlias + "getBusiList.json", "sys/cache/busi"); 
+    srvMap.add("getBusiList", pathAlias + "getBusiList.json", "sys/cache/busi");
     // 计划列表显示
     srvMap.add("getAutoPlanList", pathAlias + "autoPlanList.json", "sys/autoPlan/queryList");
     //计划保存接口
@@ -372,8 +372,7 @@ define(function(require, exports, module) {
 
                     self.getMachineList("status=2", true);
                     self.getMachineList("status=3", false);
-
-
+                    
                     $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
                         var cmd = $("#Js_queryMachine").serialize();
                         if (cmd) {
@@ -383,7 +382,7 @@ define(function(require, exports, module) {
                             self.getMachineList("status=3", false);
                         }
                     });
-
+                    
                     $(Dom.modalNewTaskForm).find("button[name='using']").bind('click', function() {
                         var _obj = self.getCheckedRow("#Js_chooseMachineList");
                         var cmd = '';
@@ -421,14 +420,18 @@ define(function(require, exports, module) {
         },
         //默认执行
         runPlan: function() {
+            var self = this;
             $(Dom.btnRunPlan).bind('click', function() {
-                var self = this;
+                
                 var data = self.getPlanInfo();
                 if (data) {
                     var cmd = 'planId=' + data.planId;
                     Rose.ajax.getJson(srvMap.get('runPlan'), cmd, function(json, status) {
+                        
                         if (status) {
                             window.XMS.msgbox.show('任务生成成功！', 'success', 2000);
+                        }else{
+                            window.XMS.msgbox.show(json.retMessage, 'success', 2000);
                         }
                     });
                 }
@@ -454,7 +457,8 @@ define(function(require, exports, module) {
                     console.log(json.data);
                     var template = Handlebars.compile(Tpl.machineList);
                     $(Dom.modalNewTaskForm).find("tbody").append(template(json.data.content));
-                    Utils.eventClickChecked($(Dom.modalNewTaskForm).find("tbody"));
+                    Utils.eventTrClickCallback($(Dom.modalNewTaskForm).find("tbody"));
+                    // self.initPaging($(Dom.modalNewTaskForm),5);
                 }
             });
         },
@@ -722,6 +726,17 @@ define(function(require, exports, module) {
         prefixInteger: function(num, length) {
             return ("0000000000000000" + num).substr(-length);
         },
+        initPaging: function(obj,length) {
+            obj.find("table").DataTable({
+                "lengthChange": length,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": true,
+                "scrollY": 88,
+                "scrollX": false
+            });
+        }
 
     };
     module.exports = Init;

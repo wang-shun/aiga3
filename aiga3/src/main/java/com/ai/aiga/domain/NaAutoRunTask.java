@@ -20,7 +20,7 @@ public class NaAutoRunTask {
     private Long taskResult;
     private Date beginRunTime;
     private Date endRunTime;
-    private Date spendTime;
+    private Long spendTime;
     private Long runTimes;
     private Long intervalTime;
     private Long endTimes;
@@ -137,11 +137,11 @@ public class NaAutoRunTask {
 
     @Basic
     @Column(name = "SPEND_TIME")
-    public Date getSpendTime() {
+    public Long getSpendTime() {
         return spendTime;
     }
 
-    public void setSpendTime(Date spendTime) {
+    public void setSpendTime(Long spendTime) {
         this.spendTime = spendTime;
     }
 

@@ -33,11 +33,11 @@ public class NaAutoRunResult  implements java.io.Serializable {
      private Long autoId;
      private Long groupId;
      private Long collectId;
-     private Byte resultType;
-     private Byte runType;
+     private Long resultType;
+     private Long runType;
      private Long sortNumber;
      private Long sortGroup;
-     private Byte environmentType;
+     private Long environmentType;
      private Date beginTime;
      private Date endTime;
      private String runInfo;
@@ -51,7 +51,7 @@ public class NaAutoRunResult  implements java.io.Serializable {
     public NaAutoRunResult(long resultId) {
         this.resultId = resultId;
     }
-    public NaAutoRunResult(Long resultId, Long taskId, Long autoId, Long groupId, Long collectId, Byte resultType, Byte runType, Long sortNumber, Long sortGroup, Byte environmentType, Date beginTime, Date endTime, String runInfo, String runLog, String failReason) {
+    public NaAutoRunResult(Long resultId, Long taskId, Long autoId, Long groupId, Long collectId, Long resultType, Long runType, Long sortNumber, Long sortGroup, Long environmentType, Date beginTime, Date endTime, String runInfo, String runLog, String failReason) {
        this.resultId = resultId;
        this.taskId = taskId;
        this.autoId = autoId;
@@ -118,20 +118,20 @@ public class NaAutoRunResult  implements java.io.Serializable {
     }
     
     @Column(name="RESULT_TYPE", precision=2, scale=0)
-    public Byte getResultType() {
+    public Long getResultType() {
         return this.resultType;
     }
     
-    public void setResultType(Byte resultType) {
+    public void setResultType(Long resultType) {
         this.resultType = resultType;
     }
     
     @Column(name="RUN_TYPE", precision=2, scale=0)
-    public Byte getRunType() {
+    public Long getRunType() {
         return this.runType;
     }
     
-    public void setRunType(Byte runType) {
+    public void setRunType(Long runType) {
         this.runType = runType;
     }
     
@@ -154,11 +154,11 @@ public class NaAutoRunResult  implements java.io.Serializable {
     }
     
     @Column(name="ENVIRONMENT_TYPE", precision=2, scale=0)
-    public Byte getEnvironmentType() {
+    public Long getEnvironmentType() {
         return this.environmentType;
     }
     
-    public void setEnvironmentType(Byte environmentType) {
+    public void setEnvironmentType(Long environmentType) {
         this.environmentType = environmentType;
     }
     @Temporal(TemporalType.TIMESTAMP)

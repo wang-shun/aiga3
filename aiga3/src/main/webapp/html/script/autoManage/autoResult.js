@@ -280,6 +280,7 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.getReportDetailList);
                     $(Dom.getReportDetailList).html(template(json.data));
                     var _form = $(Dom.getReportDetailList);
+                    Utils.setSelected(_form);
                     var _saveBtn = _form.find("[name='saveDetail']");
                     _saveBtn.unbind('click');
                     _saveBtn.bind('click', function() {

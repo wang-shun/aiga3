@@ -36,7 +36,7 @@
                 <td>{{creatorName}}</td>
                 <td><input type="hidden" value="{{isSuccess}}" name="isSuccess">{{getYorN isSuccess}}</td>
                 <td><input type="text" id="failReason" name="failReason" {{checkedState isSuccess}} value="{{failReason}}"></td>
-                <td><select size="1" id="isBug" name="isBug" {{checkedState isSuccess}}>
+                <td><select size="1" id="isBug" name="isBug" data-selected="{{isBug}}"{{checkedState isSuccess}}>
             <option value="">请选择</option>
             <option value="N"> 否</option>
             <option value="Y"> 是</option></td>

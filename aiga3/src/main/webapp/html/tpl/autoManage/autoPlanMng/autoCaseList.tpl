@@ -22,9 +22,9 @@
             <td>{{autoName}}</td>
             <td>{{caseType}}</td>
             <td style="display:none;">{{important}}</td>
-            <td>{{sysName}}</td>
-            <td>{{sysSubName}}</td>
-            <td>{{funName}}</td>
+            <td>{{sysId}}</td>
+            <td>{{sysSubId}}</td>
+            <td>{{funcId}}</td>
             <td>{{scId}}</td>
             <td>{{busiId}}</td>
             <td style="display:none;">{{testType}}</td>

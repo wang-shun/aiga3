@@ -19,7 +19,7 @@ public class AutoRunTaskRequest {
     private Long taskResult;//任务结果
     private Date beginRunTime;//开始时间
     private Date endRunTime;//结束时间
-    private Date spendTime;//总耗时
+    private Long spendTime;//总耗时
     private Long runTimes;//轮循执行次数
     private Long intervalTime;//轮循执行间隔时间
     private Long endTimes;//轮循执行结束次数
@@ -34,7 +34,7 @@ public class AutoRunTaskRequest {
     public AutoRunTaskRequest() {
     }
 
-    public AutoRunTaskRequest(Long taskId, Long planId, String taskTag, String taskName, Long taskType, Long cycleType, Long runType, Long taskResult, Date beginRunTime, Date endRunTime, Date spendTime, Long runTimes, Long intervalTime, Long endTimes, String machineIp, Long stopFlag, Long smsType, Long mailType, Long parallelNum, Long creatorId, Long lastRunner, Date createTime) {
+    public AutoRunTaskRequest(Long taskId, Long planId, String taskTag, String taskName, Long taskType, Long cycleType, Long runType, Long taskResult, Date beginRunTime, Date endRunTime, Long spendTime, Long runTimes, Long intervalTime, Long endTimes, String machineIp, Long stopFlag, Long smsType, Long mailType, Long parallelNum, Long creatorId, Long lastRunner, Date createTime) {
         this.taskId = taskId;
         this.planId = planId;
         this.taskTag = taskTag;
@@ -139,11 +139,11 @@ public class AutoRunTaskRequest {
         this.endRunTime = endRunTime;
     }
 
-    public Date getSpendTime() {
+    public Long getSpendTime() {
         return spendTime;
     }
 
-    public void setSpendTime(Date spendTime) {
+    public void setSpendTime(Long spendTime) {
         this.spendTime = spendTime;
     }
 

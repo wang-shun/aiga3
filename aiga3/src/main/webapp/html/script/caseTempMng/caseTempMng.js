@@ -430,7 +430,7 @@ define(function(require, exports, module) {
 			$(Dom.modalCaseTempForm).find("button[name='cancel']").unbind('click');
 			$(Dom.modalCaseTempForm).find("button[name='cancel']").bind('click', function() {
 				$(Dom.modalCaseTempForm).modal('hide');
-			});			
+			});
 		},	
 		//生成自动化模板
 		newAutoCaseTemp: function() {

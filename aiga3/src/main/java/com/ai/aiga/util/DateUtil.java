@@ -16,6 +16,10 @@ public final class DateUtil {
 	 */
 	public static String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
 	/**
+	 * 4位年 2位月 2位日 24小时制 2位分 2位2秒  3位毫秒 如：20130808182418250的形式(精确到毫秒)
+	 */
+	public static String YYYYMMDDHHMMSSSSS= "yyyyMMddHHmmssSSS";
+	/**
 	 * 4位年-2位月-2位日  24小时制-2位分-2位-2秒 如：2013-08-08 18:24:18的形式
 	 */
 	public static String YMDHMS = "yyyy-MM-dd HH:mm:ss";
@@ -59,14 +63,23 @@ public final class DateUtil {
 	public static String getCurrTimeString() {
 		return getCurrTimeString(YYYYMMDDHHMMSS);
 	}
-	
+
+	/**
+	 * 获得当前时间字符串形式
+	 * @return String yyyyMMddHHmmssSSS形式的字符串 如：20131118081808250(精确到毫秒)
+	 */
+	public static String getCurrTimeStringByMs() {
+		return getCurrTimeString(YYYYMMDDHHMMSSSSS);
+	}
+
+
 	/**
 	 * 将当前日期对象转换成指定的日期格式化字符串
-	 * @param format String 日期格式化字符串
+	 * @param format  日期格式化字符串
 	 * @return String 当前日期格式化后的字符串
 	 */
-	public static String getCurrTimeString(String formart) {
-		SimpleDateFormat sdf = new SimpleDateFormat(formart);
+	public static String getCurrTimeString(String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(new Date());
 	}
 	

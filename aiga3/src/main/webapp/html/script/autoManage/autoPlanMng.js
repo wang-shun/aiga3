@@ -94,6 +94,7 @@ define(function(require, exports, module) {
             this.deleAutoPlan();
             this.linkCase();
             this.newTask();
+            this.runPlan();
         },
 
         hdbarHelp: function() {
@@ -364,7 +365,6 @@ define(function(require, exports, module) {
 
                     $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
                         var cmd = $("#Js_queryMachine").serialize();
-                        alert(cmd);
                         if (cmd) {
                             self.getMachineList(cmd, true);
                         } else {
@@ -553,7 +553,7 @@ define(function(require, exports, module) {
                     Utils.eventClickChecked(list);
                 }
             });
-            self.getLinkCaseList(cmd);
+            self.getLinkCaseList("planId=" + nowPlanId);
 
         },
         //关联用例列表
@@ -583,7 +583,7 @@ define(function(require, exports, module) {
                     // Utils.setScroll($(Dom.getAutoPlanList),380px);
                 }
             });
-            self.getLinkGroupList(cmd);
+            self.getLinkGroupList("planId=" + nowPlanId);
         },
         //关联用例组列表
         getLinkGroupList: function(cmd) {
@@ -612,7 +612,7 @@ define(function(require, exports, module) {
                     // Utils.setScroll($(Dom.getAutoPlanList),380px);
                 }
             });
-            self.getLinkCollectList(cmd);
+            self.getLinkCollectList("planId=" + nowPlanId);
         },
         //关联用例集列表
         getLinkCollectList: function(cmd) {

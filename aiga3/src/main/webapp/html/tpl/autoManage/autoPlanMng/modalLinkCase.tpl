@@ -19,29 +19,33 @@
                         <input id="caseName" type="text" class="form-control input-sm" name="autoName"  style="width: 160px"  >
                          <label class="control-label">系统大类:</label>
                         <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" style="width: 160px">
-                            <option></option>
+                            <option value="">请选择</option>
                         </select>
-                        <label class="control-label">业务:</label>
-                        <select id="queryCase_busi" name="busiId" class="form-control select2 input-sm" style="width: 160px">
-                            <option></option>
-                        </select>
-                    </div>
-                    <div class="form-group form-inline">
                         <label class="control-label">系统子类:</label>
                         <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" class="form-control select2 input-sm" style="width: 160px">
-                            <option></option>
-                        </select>
+                            <option value="">请选择</option>
+                        </select>                        
+                        
+                    </div>
+                    <div class="form-group form-inline">
+                        
                         <label class="control-label">功&nbsp;能&nbsp;点&nbsp;:</label>
                         <select name="funId" data-suburl="getFunList" class="form-control select2 input-sm" style="width: 160px">
-                            <option></option>
-                        </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <option value="">请选择</option>
+                        </select>
+                        <label class="control-label">业务:</label>
+                        <select id="queryCase_busi" data-url="getBusiList" name="busiId" class="form-control select2 input-sm" style="width: 160px">
+                            <option value="">请选择</option>
+                        </select>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <button type="button" class="btn btn-primary btn-sm" name="submit"   style="width: 70px">查询</button>
                         &nbsp;
                         <button type="button" class="btn btn-primary btn-sm" name="link"  style="width: 70px">关联用例</button>
                     </div>
-                    <table id="JS_unLinkCaseList" class="table table-bordered table-hover" style="min-height: 100px;">
-                    </table>
                 </form>
+                <table id="JS_unLinkCaseList" class="table table-bordered table-hover" style="min-height: 100px;">
+                </table>
+                
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="connectTab_2">

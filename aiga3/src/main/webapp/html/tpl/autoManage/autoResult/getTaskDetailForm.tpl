@@ -14,6 +14,7 @@
                                                 <input type="email" class="form-control input-sm" name="reportName" placeholder="请输入报告名称">
                                                 <input type="hidden" value="{{creatorId}}" name="creatorId">
                                                 <input type="hidden" value="{{taskId}}" name="taskId">
+                                                <input type="hidden" value="{{reportId}}" name="reportId">
                                             </div>
                                         </div>
                                         <div class="col-md-2">

@@ -88,7 +88,7 @@ public class AutoRunTaskSv {
             autoRunTask.setParallelNum(1L);//默认并行数为1
         }
         if (autoRunTask.getTaskTag() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskTag");
+            autoRunTask.setTaskTag("ART"+DateUtil.getCurrTimeStringByMs());
         }
         if (StringUtils.isBlank(autoRunTask.getTaskName())) {
                   BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskName");

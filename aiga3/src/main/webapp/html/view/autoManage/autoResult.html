@@ -24,7 +24,7 @@
                                 <input type="email" class="form-control input-sm" name="taskTag" placeholder="请输入任务编号">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>执行主机IP</label>
                                 <input type="email" class="form-control input-sm" name="machineIp" placeholder="请输入执行主机IP">
@@ -32,24 +32,13 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label>执行状态</label>
-                                <select name="runType" class="form-control input-sm">
+                                <label>任务执行状态</label>
+                                <select name="taskResult" class="form-control input-sm">
                                     <option value="">请选择</option>
                                     <option value="1">未执行</option>
                                     <option value="2">执行中</option>
                                     <option value="3">执行完成</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>执行结果</label>
-                                <select name="resultType" class="form-control input-sm">
-                                    <option value="">请选择</option>
-                                    <option value="0">成功</option>
-                                    <option value="1">失败</option>
-                                    <option value="2">未执行</option>
-                                    <option value="3">中断</option>
+                                    <option value="4">执行失败</option>
                                 </select>
                             </div>
                         </div>

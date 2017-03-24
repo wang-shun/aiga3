@@ -58,7 +58,7 @@ public class AutoRunTaskController {
      */
     @RequestMapping(path="/auto/task/start")
     public @ResponseBody JsonBean start(AutoRunTaskRequest request){
-        autoRunTaskSv.startTask(request);
+        autoRunTaskSv.initTaskByRequest(request);
         return new JsonBean();
     }
 
@@ -69,7 +69,18 @@ public class AutoRunTaskController {
      */
     @RequestMapping(path="/auto/task/restart")
     public @ResponseBody  JsonBean restart(AutoRunTaskRequest request){
-        autoRunTaskSv.startTask(request);
+        autoRunTaskSv.initTaskByRequest(request);
+        return new JsonBean();
+    }
+
+    /**
+     * 根据计划ID默认启动任务
+     * @param request
+     * @return
+     */
+    @RequestMapping(path="/auto/task/defaultStart")
+    public @ResponseBody  JsonBean defaultStart(AutoRunTaskRequest request){
+        autoRunTaskSv.initTaskByPlan(request);
         return new JsonBean();
     }
 

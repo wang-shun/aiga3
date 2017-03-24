@@ -1,11 +1,16 @@
 package com.ai.aiga.service;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.NaAutoRunPlanDao;
 import com.ai.aiga.dao.NaAutoRunTaskDao;
+import com.ai.aiga.domain.NaAutoRunPlan;
 import com.ai.aiga.domain.NaAutoRunTask;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.util.net.HttpConnectionUtil;
+import com.ai.aiga.util.net.UrlConfigTypes;
 import com.ai.aiga.view.json.AutoRunTaskRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 自动化执行任务
@@ -36,6 +42,9 @@ public class AutoRunTaskSv {
 
     @Autowired
     private AutoRunResultSv autoRunResultSv;
+
+    @Autowired
+    private NaAutoRunPlanDao autoRunPlanDao;
     /**
      * 保存操作(唯一入口)
      * @param autoRunTask
@@ -79,7 +88,7 @@ public class AutoRunTaskSv {
             autoRunTask.setParallelNum(1L);//默认并行数为1
         }
         if (autoRunTask.getTaskTag() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskTag");
+            autoRunTask.setTaskTag("ART"+DateUtil.getCurrTimeStringByMs());
         }
         if (StringUtils.isBlank(autoRunTask.getTaskName())) {
                   BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskName");
@@ -105,19 +114,19 @@ public class AutoRunTaskSv {
         return autoRunTaskDao.findOne(taskId);
     }
 
+
     /**
      * 生成任务
-     * @param runTaskRequest
+     * @param autoRunTask
      * @return
      */
-    public NaAutoRunTask createTask(AutoRunTaskRequest runTaskRequest){
-        if (runTaskRequest == null) {
+    public NaAutoRunTask createTask(NaAutoRunTask autoRunTask){
+        if (autoRunTask == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        if (runTaskRequest.getPlanId() == null) {
+        if (autoRunTask.getPlanId() == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
         }
-        NaAutoRunTask autoRunTask= BeanMapper.map(runTaskRequest,NaAutoRunTask.class);
         //保存任务
         autoRunTask= this.save(autoRunTask);
         //生成任务与用例关联关系
@@ -126,10 +135,45 @@ public class AutoRunTaskSv {
     }
 
     /**
-     * 启动任务
+     * 通过任务请求发起页面参数生成任务
+     * @param runTaskRequest
+     * @return
+     */
+    public NaAutoRunTask createTaskByRequest(AutoRunTaskRequest runTaskRequest){
+        if (runTaskRequest == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        NaAutoRunTask autoRunTask= BeanMapper.map(runTaskRequest,NaAutoRunTask.class);
+        this.createTask(autoRunTask);
+        return autoRunTask;
+    }
+
+
+
+    /**
+     * 根据计划ID默认生成任务
+     * @param planId
+     * @return
+     */
+    public NaAutoRunTask createTaskByPlanId(Long planId){
+        if (planId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+        }
+        NaAutoRunPlan plan=autoRunPlanDao.findByPlanId(planId);
+        if (plan == null) {
+            BusinessException.throwBusinessException("could not found the plan! please make sure the planId:"+planId);
+        }
+        NaAutoRunTask autoRunTask=BeanMapper.map(plan,NaAutoRunTask.class);
+        autoRunTask.setTaskName(plan.getPlanName()+ DateUtil.getCurrTimeString());
+        this.createTask(autoRunTask);
+        return autoRunTask;
+    }
+
+    /**
+     * 根据任务请求发起页面参数初始化任务
      * @param taskRequest
      */
-    public void startTask(AutoRunTaskRequest taskRequest){
+    public void initTaskByRequest(AutoRunTaskRequest taskRequest){
         if (taskRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
@@ -137,7 +181,7 @@ public class AutoRunTaskSv {
         //如果没有任务ID，则执行启动新任务的初始化操作；有任务ID，则执行重跑的初始化操作
         if (taskRequest.getTaskId() == null) {
             //生成任务信息
-            autoRunTask=this.createTask(taskRequest);
+            autoRunTask=this.createTaskByRequest(taskRequest);
             //生成预执行结果信息
             autoRunResultSv.createResultByTaskId(autoRunTask.getTaskId());
         }else{
@@ -148,12 +192,70 @@ public class AutoRunTaskSv {
             //初始化执行结果信息
             autoRunResultSv.initResultByFail(taskRequest.getTaskId());
         }
-
-        /**
-         * 此代码部分为调用云桌面代理程序接口，需后续开发者实现
-         */
-
+        this.startTask(autoRunTask);
     }
+
+    /**
+     * 根据计划ID默认初始化任务
+     * @param taskRequest
+     */
+    public void initTaskByPlan(AutoRunTaskRequest taskRequest){
+        if (taskRequest == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        //生成任务信息
+        NaAutoRunTask autoRunTask=this.createTaskByPlanId(taskRequest.getPlanId());
+        //生成预执行结果信息
+        autoRunResultSv.createResultByTaskId(autoRunTask.getTaskId());
+        this.startTask(autoRunTask);
+    }
+
+    /**
+     * 启动任务
+     * @param autoRunTask
+     */
+    public void startTask(NaAutoRunTask autoRunTask){
+        if (autoRunTask == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        if (autoRunTask.getRunType() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runType");
+        }
+        //根据执行类型不同选择不同方式
+        Long runType=autoRunTask.getRunType();
+        //立即执行
+        if(runType==1){
+
+        }else//分布式执行
+        if(runType==3){
+
+        }
+    }
+
+    /**
+     * 根据机器IP，任务ID，环境配置信息访问云桌面代理程序服务接口
+     * @param machineIp
+     * @param taskId
+     * @param envConfigId
+     * @return
+     */
+    public String accessProxy(String machineIp,String taskId,String envConfigId){
+        if (StringUtils.isBlank(machineIp)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
+        }
+        if (StringUtils.isBlank(taskId)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+        }
+        if (StringUtils.isBlank(envConfigId)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envConfigId");
+        }
+        Map urlMap= UrlConfigTypes.convertUrl(UrlConfigTypes.SENDTASK);
+        String param="taskId="+taskId+"&sceneId="+envConfigId;
+        String url="http://"+machineIp+":"+urlMap.get("port")+urlMap.get("path");
+        String msg= HttpConnectionUtil.requestMethod(HttpConnectionUtil.HTTP_POST,url,param);
+        return msg;
+    }
+
 
     /**
      * 根据主键删除(唯一入口)
@@ -197,7 +299,7 @@ public class AutoRunTaskSv {
         autoRunTask.setStopFlag(1L);
         autoRunTask.setTaskResult(4L);
         this.save(autoRunTask);
-        //将已发送到云桌面但还未执行的用例全部初始化
+        //将执行状态为执行中的用例全部初始化
         autoRunResultSv.initResultByExec(autoRunTask.getTaskId());
     }
 

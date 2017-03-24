@@ -21,4 +21,6 @@ public interface NaAutoRunTaskReportDao extends JpaRepository<NaAutoRunTaskRepor
 			+ " where a.task_id = t.task_id ", nativeQuery = true)
 	List<Object[]> findResultByTaskId(Long taskId);
 
+	NaAutoRunTaskReport findByTaskId(Long taskId);
+
 }

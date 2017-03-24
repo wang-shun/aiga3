@@ -138,8 +138,8 @@ public class AutoRunResultSv {
 			if(condition.getTaskTag() != null && !condition.getTaskTag().equals("")){
 				sql += " and b.task_tag like '%"+condition.getTaskTag()+"%'";
 			}
-			if(condition.getResultType() != null && !condition.getResultType().equals("")){
-				sql += " and a.result_type ="+condition.getResultType();
+			if(condition.getTaskResult() != null && !condition.getTaskResult().equals("")){
+				sql += " and b.taskResult ="+condition.getTaskResult();
 			}
 			if(condition.getMachineIp() != null && !condition.getMachineIp().equals("")){
 				sql += " and b.machine_ip = '"+condition.getMachineIp()+"'";

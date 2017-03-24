@@ -5,8 +5,7 @@ public class TaskRunResultRequest {
 	private String taskTag;
 	private String taskName;
 	private String machineIp;
-	private Byte resultType;
-	private Byte runType;
+	private Byte taskResult;
 	public Long getTaskId() {
 		return taskId;
 	}
@@ -31,17 +30,12 @@ public class TaskRunResultRequest {
 	public void setMachineIp(String machineIp) {
 		this.machineIp = machineIp;
 	}
-	public Byte getResultType() {
-		return resultType;
+	public Byte getTaskResult() {
+		return taskResult;
 	}
-	public void setResultType(Byte resultType) {
-		this.resultType = resultType;
+	public void setTaskResult(Byte taskResult) {
+		this.taskResult = taskResult;
 	}
-	public Byte getRunType() {
-		return runType;
-	}
-	public void setRunType(Byte runType) {
-		this.runType = runType;
-	}
+	
 	
 }

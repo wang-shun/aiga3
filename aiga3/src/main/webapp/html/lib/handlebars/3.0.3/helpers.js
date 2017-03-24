@@ -294,3 +294,11 @@ Handlebars.registerHelper("getSuccessRate", function(successCase, totalCase, fn)
     var successRate = Math.round(parseInt(successCase) / parseInt(totalCase)*10000)/100.00 + '%';
 	return successRate;
 });
+/**
+ * 计算执行时间
+ */
+Handlebars.registerHelper("getSpendTime", function(spendTime, fn) {
+    var _spendTime = Math.floor(spendTime/1440) + "天" + Math.floor(spendTime/60) + "小时" + (spendTime%60) + "分";
+	return _spendTime;
+});
+

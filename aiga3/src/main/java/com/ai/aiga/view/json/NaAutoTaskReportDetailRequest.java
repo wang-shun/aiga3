@@ -6,7 +6,7 @@ public class NaAutoTaskReportDetailRequest {
     private Long autoId;
     private Long resultId;
     private Character isSuccess;
-    private Byte isBug;
+    private Character isBug;
     private String failReason;
     private String bugStaff;
     private Long creatorId;
@@ -41,10 +41,10 @@ public class NaAutoTaskReportDetailRequest {
 	public void setIsSuccess(Character isSuccess) {
 		this.isSuccess = isSuccess;
 	}
-	public Byte getIsBug() {
+	public Character getIsBug() {
 		return isBug;
 	}
-	public void setIsBug(Byte isBug) {
+	public void setIsBug(Character isBug) {
 		this.isBug = isBug;
 	}
 	public String getFailReason() {

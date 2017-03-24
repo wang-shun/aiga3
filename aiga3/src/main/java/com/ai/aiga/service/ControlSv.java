@@ -18,6 +18,7 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaUiControlDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaCaseTemplate;
+import com.ai.aiga.domain.NaUiComponent;
 import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.domain.SysConstant;
 import com.ai.aiga.domain.SysRole;
@@ -42,40 +43,33 @@ public class ControlSv extends BaseService{
 	}*/
 	
    public Object listControl(int pageNumber, int pageSize,String time1, String time2,NaUiControl condition ) throws ParseException {
-		
-		List<Condition> cons = new ArrayList<Condition>();
-		
-		if(condition != null){
-			if(condition.getCtrlId()!=null){
-				cons.add(new Condition("ctrlId", condition.getCtrlId(), Condition.Type.EQ));
-			}
+	   List<String> list = new ArrayList<String>();
+		list.add("ctrlId");
+		list.add("ctrlName");
+		list.add("creatorName");
+		list.add("updateName");
+		list.add("createTime");
+		list.add("updateTime");
+	   String sql = "select a.ctrl_id, a.ctrl_name, b.name as creator_name,"
+				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.create_time,"
+				+ " a.update_time from na_ui_control a, aiga_staff b where a.creator_id = b.staff_id";
+	
 			if(StringUtils.isNotBlank(condition.getCtrlName())){
-				cons.add(new Condition("ctrlName", "%".concat(condition.getCtrlName()).concat("%"), Condition.Type.LIKE));
+				sql += " and a.ctrl_name like '%"+condition.getCtrlName()+"%'";
 			}
-			
-			if(condition.getCreatorId()!= null){
-				cons.add(new Condition("creatorId", condition.getCreatorId(), Condition.Type.EQ));
-			}
-			System.out.println("condition.getFunId"+condition.getFunId());
 			if(condition.getFunId()!= null){
-				cons.add(new Condition("funId", condition.getFunId(), Condition.Type.EQ));
+				sql += " and a.fun_id = "+condition.getFunId();
 			}
 			
 			if(time1 != null && !time1.equals("")){
 			
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			
-				cons.add(new Condition("createTime", sdf.parse(time1), Condition.Type.GT));
+				sql += " and a.create_time > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
 				
 			}
 			
 			if(time2 != null && !time2.equals("")){
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				cons.add(new Condition("createTime", sdf.parse(time2),Condition.Type.LT));
+				sql += " and a.create_time < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
 			}
-			
-		}
-		
 		
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -87,8 +81,9 @@ public class ControlSv extends BaseService{
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		
-		return nauicontroldao.search(cons, pageable);
+		return nauicontroldao.searchByNativeSQL(sql, pageable, list);
 	}
+
 	public List<NaUiControl> findControlreeList(){
 		return nauicontroldao.findAll();
 		
@@ -161,7 +156,7 @@ public class ControlSv extends BaseService{
 		//nauicontrol.setCtrlId(controlRequest.getCtrlId());
 		nauicontrol.setCreatorId(controlRequest.getCreatorId());
 		nauicontrol.setCreateTime(controlRequest.getCreateTime());
-		nauicontrol.setUpdateTime(controlRequest.getUpdateTime());
+		//nauicontrol.setUpdateTime(controlRequest.getUpdateTime());
 		nauicontrol.setUpdateId(controlRequest.getUpdateId());
 		nauicontrol.setCtrlDesc(controlRequest.getCtrlDesc());
 		nauicontrol.setCtrlName(controlRequest.getCtrlName());

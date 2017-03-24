@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
-
+import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.service.ControlSv;
 import com.ai.aiga.view.json.ControlRequest;
@@ -80,7 +80,7 @@ public class ControlController {
 		
 		  JsonBean bean = new JsonBean();
 		bean.setData(controlSv.listControl(pageNumber, pageSize, time1, time2, condition));
-		System.out.println("bean"+bean);
+		//System.out.println("bean"+bean);
 		return bean;
 	}
 }

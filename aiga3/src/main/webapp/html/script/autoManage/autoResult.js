@@ -84,11 +84,7 @@ define(function(require, exports, module) {
                     window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Tpl.getAutoResultList);
                     $(Dom.getAutoResultList).html(template(json.data))
-                    var _successCase = json.data.successCase;
-                    var _failCase = json.data.failCase;
-                    var _successRate = parseInt(_successCase) * 100 / parseInt(_successCase + _failCase) + '%';
-                    $(Dom.getAutoResultList).find('td[id=successRate]').val(_successRate);
-                    // 生成报告
+                        // 生成报告
                     self.generateReport();
                     //Utils.eventTrClickCallback($(Dom.getAutoResultList));
                     Utils.eventTrClickCallback($(Dom.getAutoResultList), function() {
@@ -225,6 +221,9 @@ define(function(require, exports, module) {
                                     Rose.ajax.postJson(srvMap.get('saveReport'), _cmd, function(json, status) {
                                         if (status && _reportName !== "") {
                                             window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                            setTimeout(function() {
+                                                self.getReportDetailList("taskId=" + Data.taskId);
+                                            }, 1000)
                                         }
                                     });
                                 } else {
@@ -263,11 +262,9 @@ define(function(require, exports, module) {
                                 }, 1000)
                             }
                         });
-
-
-                        //设置分页
-                        self.initPaging($(Dom.getReportDetailList).find("table"), 8);
                     });
+                    //设置分页
+                    self.initPaging($(Dom.getReportDetailList).find("table"), 8);
                 }
             });
         },

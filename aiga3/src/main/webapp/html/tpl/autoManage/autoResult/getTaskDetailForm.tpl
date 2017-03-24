@@ -14,6 +14,7 @@
                                                 <input type="email" class="form-control input-sm" name="reportName" placeholder="请输入报告名称">
                                                 <input type="hidden" value="{{creatorId}}" name="creatorId">
                                                 <input type="hidden" value="{{taskId}}" name="taskId">
+                                                <input type="hidden" value="{{reportId}}" name="reportId">
                                             </div>
                                         </div>
                                         <div class="col-md-2">
@@ -75,7 +76,8 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>执行用时</label>
-                                                <input type="email" class="form-control input-sm" name="spendTime" value="{{spendTime}}" readonly="readonly">
+                                                <input type="email" class="form-control input-sm" value="{{getSpendTime spendTime}}" readonly="readonly">
+                                                <input type="hidden" name="spendTime" value="{{spendTime}}">
                                             </div>
                                         </div>
                                     </div>

@@ -3,6 +3,7 @@ package com.ai.aiga.view.json;
 import java.util.Date;
 
 public class NaAutoRunTaskReportResponse {
+	private Long reportId;
 	private Long taskId;
 	private Long totalCase;
 	private Long hasRunCase;
@@ -14,6 +15,12 @@ public class NaAutoRunTaskReportResponse {
 	private Date beginRunTime;
 	private Date endRunTime;
 	private Long spendTime;
+	public Long getReportId() {
+		return reportId;
+	}
+	public void setReportId(Long reportId) {
+		this.reportId = reportId;
+	}
 	public Long getTaskId() {
 		return taskId;
 	}

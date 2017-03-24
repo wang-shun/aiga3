@@ -76,7 +76,8 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>执行用时</label>
-                                                <input type="email" class="form-control input-sm" name="spendTime" value="{{spendTime}}" readonly="readonly">
+                                                <input type="email" class="form-control input-sm" value="{{getSpendTime spendTime}}" readonly="readonly">
+                                                <input type="hidden" name="spendTime" value="{{spendTime}}">
                                             </div>
                                         </div>
                                     </div>

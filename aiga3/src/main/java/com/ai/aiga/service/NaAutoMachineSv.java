@@ -248,7 +248,9 @@ public class NaAutoMachineSv extends BaseService {
 			if(condition.getMachineIp()!= null&&!condition.getMachineIp().equals("")){
 				cons.add(new Condition("machineIp", condition.getMachineIp(), Condition.Type.EQ));
 			}
-			
+			if(condition.getStatus()!= null&&!condition.getStatus().equals("")){
+				cons.add(new Condition("status", condition.getStatus(), Condition.Type.EQ));
+			}
 			
 		}
 		

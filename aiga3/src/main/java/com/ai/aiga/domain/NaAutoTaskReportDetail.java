@@ -29,7 +29,7 @@ public class NaAutoTaskReportDetail  implements java.io.Serializable {
      private Long autoId;
      private Long resultId;
      private Character isSuccess;
-     private Byte isBug;
+     private Character  isBug;
      private String failReason;
      private String bugStaff;
      private Long creatorId;
@@ -42,7 +42,7 @@ public class NaAutoTaskReportDetail  implements java.io.Serializable {
     public NaAutoTaskReportDetail(long detailId) {
         this.detailId = detailId;
     }
-    public NaAutoTaskReportDetail(long detailId, Long reportId, Long taskId, Long autoId, Long resultId, Character isSuccess, Byte isBug, String failReason, String bugStaff, Long creatorId, Date updateTime) {
+    public NaAutoTaskReportDetail(long detailId, Long reportId, Long taskId, Long autoId, Long resultId, Character isSuccess, Character isBug, String failReason, String bugStaff, Long creatorId, Date updateTime) {
        this.detailId = detailId;
        this.reportId = reportId;
        this.taskId = taskId;
@@ -113,12 +113,12 @@ public class NaAutoTaskReportDetail  implements java.io.Serializable {
         this.isSuccess = isSuccess;
     }
     
-    @Column(name="IS_BUG", precision=2, scale=0)
-    public Byte getIsBug() {
+    @Column(name="IS_BUG", length = 1)
+    public Character getIsBug() {
         return this.isBug;
     }
     
-    public void setIsBug(Byte isBug) {
+    public void setIsBug(Character isBug) {
         this.isBug = isBug;
     }
     

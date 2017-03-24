@@ -120,5 +120,4 @@ public class AutoRunResultController {
 		bean.setData(autoRunResultSv.reportDetailList(taskId, pageNumber, pageSize));
 		return bean;
 	}
-	
 }

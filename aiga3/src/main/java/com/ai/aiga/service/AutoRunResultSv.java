@@ -186,6 +186,8 @@ public class AutoRunResultSv {
 		NaAutoRunTaskReport report = naAutoRunTaskReportDao.findByTaskId(taskId);
 		if(report != null && !report.equals("")){
 			response.setReportId(report.getReportId());
+		}else{
+			response.setReportId(Long.valueOf(0));
 		}
 		if(object != null && object.length > 0){
 			response.setTaskId(((BigDecimal)object[0]).longValue());
@@ -243,7 +245,7 @@ public class AutoRunResultSv {
 		if(StringUtils.isBlank(naAutoRunTaskReport.getSuccessRate())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "successRate");
 		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getReportId().toString())){
+		if(naAutoRunTaskReport.getReportId().toString() != null && naAutoRunTaskReport.getReportId().toString().equals("0")){
 			naAutoRunTaskReportDao.save(naAutoRunTaskReport);
 		}else{
 			NaAutoRunTaskReport report = naAutoRunTaskReportDao.findOne(naAutoRunTaskReport.getReportId());

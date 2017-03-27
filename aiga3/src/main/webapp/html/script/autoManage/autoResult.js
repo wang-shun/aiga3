@@ -210,67 +210,6 @@ define(function(require, exports, module) {
                 }
             });
         },
-        // 查询任务报告明细
-        getReportDetailList: function(cmd) {
-            var self = this;
-            Rose.ajax.postJson(srvMap.get('getReportDetailList'), cmd, function(json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getReportDetailList);
-                    $(Dom.getReportDetailList).html(template(json.data));
-                    var _form = $(Dom.getReportDetailList);
-                    var _saveBtn = _form.find("[name='saveDetail']");
-                    _saveBtn.unbind('click');
-                    _saveBtn.bind('click', function() {
-                        var dataArray = Utils.getTableDataRows(_form);
-                        var _cmd = dataArray;
-                        console.log(_cmd);
-                        Rose.ajax.postJson(srvMap.get('saveDetail'), _cmd, function(json, status) {
-                            if (status) {
-                                window.XMS.msgbox.show('保存成功！', 'success', 2000)
-                                setTimeout(function() {
-                                    self.getReportDetailListRefresh("taskId=" + Data.taskId);
-                                }, 1000)
-                            }
-                        });
-                    });
-                    //设置分页
-                    //self.initPaging($(Dom.getReportDetailList).find("table"), 8);
-                }
-            });
-        },
-        // 查询任务报告明细(刷新)
-        getReportDetailListRefresh: function(cmd) {
-            var self = this;
-            Rose.ajax.postJson(srvMap.get('getReportDetailListRefresh'), cmd, function(json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getReportDetailList);
-                    $(Dom.getReportDetailList).html(template(json.data));
-                    var _form = $(Dom.getReportDetailList);
-                    Utils.setSelected(_form);
-                    var _saveBtn = _form.find("[name='saveDetail']");
-                    _saveBtn.unbind('click');
-                    _saveBtn.bind('click', function() {
-                        var dataArray = Utils.getTableDataRows(_form);
-                        var _cmd = dataArray;
-                        console.log(_cmd);
-                        Rose.ajax.postJson(srvMap.get('saveDetail'), _cmd, function(json, status) {
-                            if (status) {
-                                window.XMS.msgbox.show('保存成功！', 'success', 2000)
-                                setTimeout(function() {
-                                    self.getReportDetailListRefresh("taskId=" + Data.taskId);
-                                }, 1000)
-                            }
-                        });
-
-
-                        //设置分页
-                        //self.initPaging($(Dom.getReportDetailList).find("table"), 8);
-                    });
-                }
-            });
-        },
         //获取选中自动化测试任务
         getCheckedAutoResult: function() {
             var _obj = $(Dom.getAutoResultList).find("input[type='radio']:checked").parents("tr");
@@ -295,7 +234,7 @@ define(function(require, exports, module) {
                 "lengthChange": false,
                 "searching": false,
                 "ordering": false,
-                "autoWidth": true,
+                "autoWidth": false,
                 "info": true,
                 "scrollX": scrollX
             });

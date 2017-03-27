@@ -142,7 +142,7 @@
                     "isActive": 0
                 }, {
                     "menuName": "变更计划启动",
-                    "menuURL": "#",
+                    "menuURL": "view/netFlowManage/changePlan/changePlanStart.html",
                     "hasChild": 0,
                     "isActive": 0
                 }]

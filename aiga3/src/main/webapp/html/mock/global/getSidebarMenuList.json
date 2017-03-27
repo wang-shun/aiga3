@@ -137,7 +137,7 @@
                 "isActive": 0,
                 "childMenuList": [{
                     "menuName": "变更计划管理",
-                    "menuURL": "view/case/changePlanManage/changePlanOnile.html",
+                    "menuURL": "view/netFlowManage/changePlan/changePlanOnile.html",
                     "hasChild": 0,
                     "isActive": 0
                 }, {

@@ -67,7 +67,7 @@
                     "menuURL": "view/case/caseSet/caseSet.html",
                     "hasChild": 0,
                     "isActive": 0
-                },{
+                }, {
                     "menuName": "控件管理",
                     "menuURL": "view/control/control.html",
                     "hasChild": 0,
@@ -83,7 +83,7 @@
                 "menuURL": "view/autoManage/funcTest/caseGroup.html",
                 "hasChild": 0,
                 "isActive": 1
-            },{
+            }, {
                 "menuName": "自动化用例模板管理",
                 "menuURL": "view/autoManage/autoCaseTempMng.html",
                 "hasChild": 0,
@@ -93,12 +93,12 @@
                 "menuURL": "view/environment/environment.html",
                 "hasChild": 0,
                 "isActive": 0
-            },{
+            }, {
                 "menuName": "自动化机器配置",
                 "menuURL": "view/machine/machine.html",
                 "hasChild": 0,
                 "isActive": 1
-            },{
+            }, {
                 "menuName": "自动化计划管理",
                 "menuURL": "view/autoManage/autoPlanMng.html",
                 "hasChild": 0,
@@ -121,6 +121,59 @@
             }, {
                 "menuName": "测试用例管理",
                 "menuURL": "view/caseInstanceMng/caseInstanceMng.html",
+                "hasChild": 0,
+                "isActive": 0
+            }]
+        }, {
+            "menuName": "入网流程管理",
+            "menuIcons": "fa fa-fw fa-check-circle",
+            "menuURL": "#",
+            "hasChild": 1,
+            "isActive": 0,
+            "childMenuList": [{
+                "menuName": "变更计划",
+                "menuURL": "#",
+                "hasChild": 1,
+                "isActive": 0,
+                "childMenuList": [{
+                    "menuName": "变更计划管理",
+                    "menuURL": "view/case/changePlanManage/changePlanOnile.html",
+                    "hasChild": 0,
+                    "isActive": 0
+                }, {
+                    "menuName": "变更计划启动",
+                    "menuURL": "#",
+                    "hasChild": 0,
+                    "isActive": 0
+                }]
+            }, {
+                "menuName": "入网验收",
+                "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            }, {
+                "menuName": "变更评审",
+                "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            }, {
+                "menuName": "变更发布",
+                "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            }, {
+                "menuName": "生产验证",
+                "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            }, {
+                "menuName": "问题跟踪",
+                "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            }, {
+                "menuName": "报表统计",
+                "menuURL": "#",
                 "hasChild": 0,
                 "isActive": 0
             }]

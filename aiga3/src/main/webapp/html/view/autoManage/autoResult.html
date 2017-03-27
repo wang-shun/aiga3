@@ -133,7 +133,7 @@
 <!-- Modal -->
 <!-- 查看执行信息 -->
 <div class="modal fade" id="JS_showRunInfoModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -143,7 +143,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box">
-                            <textarea name="runInfoArea" readonly="readonly" style="width: 100%;height: 500px;">
+                            <textarea name="runInfoArea" readonly="readonly" style="width: 100%;height: 200px;">
                             </textarea>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
 <!-- Modal -->
 <!-- 查看执行日志 -->
 <div class="modal fade" id="JS_showRunLogModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -165,36 +165,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box">
-                            <textarea name="runLogArea" readonly="readonly" style="width: 100%;height: 500px;">
+                            <textarea name="runLogArea" readonly="readonly" style="width: 100%;height: 200px;">
                             </textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal -->
-<!-- 生成报告弹出框 -->
-<div class="modal fade" id="JS_generateReportModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">生成报告</h4>
-            </div>
-            <div class="modal-body" style="padding-bottom: 0">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="box">
-                            <form id="JS_getTaskDetailForm">
-                            </form>
-                        </div>
-                        <div class="box" id="JS_getReportDetailList" style="min-height:100px;">
-                            <div style="text-align: center; padding: 50px 0;">
-                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-                                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
     <h3 class="box-title">详细信息列表</h3>
 </div>
 <div class="box-body" >
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover" >
         <thead>
             <tr>
                 <!-- <th class="iCheckbox" width="15"></th> -->

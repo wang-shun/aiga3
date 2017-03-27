@@ -13,23 +13,15 @@ define(function(require, exports, module) {
     srvMap.add("showRunInfo", pathAlias + "showRunInfo.json", "auto/autoRunResult/runInfo");
     //获取所选用例的执行日志
     srvMap.add("showRunLog", pathAlias + "showRunLog.json", "auto/autoRunResult/runLog");
-    //获取任务明细
-    srvMap.add("getTaskDetailForm", pathAlias + "getTaskDetailForm.json", "auto/autoRunResult/findOne");
-    //获取任务执行结果列表
-    srvMap.add("getReportDetailList", pathAlias + "getReportDetailList.json", "auto/autoRunResult/taskDetail");
-    //获取任务执行结果列表(刷新)
-    srvMap.add("getReportDetailListRefresh", pathAlias + "getReportDetailListRefresh.json", "auto/autoRunResult/reportDetailList")
-        //保存报告
+    //保存报告
     srvMap.add("saveReport", pathAlias + "retMessage.json", "auto/autoRunResult/reportSave");
-    //保存明细
-    srvMap.add("saveDetail", pathAlias + "retMessage.json", "auto/autoRunResult/reportDetailSave");
+    //导出报告判断
+    //导出报告
 
     // 模板对象
     var Tpl = {
         getAutoResultList: require('tpl/autoManage/autoResult/getAutoResultList.tpl'),
-        getAutoResultInfoList: require('tpl/autoManage/autoResult/getAutoResultInfoList.tpl'),
-        getTaskDetailForm: require('tpl/autoManage/autoResult/getTaskDetailForm.tpl'),
-        getReportDetailList: require('tpl/autoManage/autoResult/getReportDetailList.tpl')
+        getAutoResultInfoList: require('tpl/autoManage/autoResult/getAutoResultInfoList.tpl')
 
     };
 
@@ -42,9 +34,7 @@ define(function(require, exports, module) {
         getAutoResultInfoModal: '#JS_getAutoResultInfoModal',
         showRunInfoModal: '#JS_showRunInfoModal',
         showRunLogModal: '#JS_showRunLogModal',
-        generateReportModal: '#JS_generateReportModal',
-        getTaskDetailForm: '#JS_getTaskDetailForm',
-        getReportDetailList: '#JS_getReportDetailList'
+        generateReportModal: '#JS_generateReportModal'
 
     };
 
@@ -93,13 +83,13 @@ define(function(require, exports, module) {
                         console.log(Data.taskId);
                         var cmd = "taskId=" + _data.taskId;
                         console.log(cmd);
-                        $(Dom.getAutoResultInfoModal).modal('show');
-                        self.getAutoResultInfoList(cmd);
-                        self.queryAutoResultInfoForm();
+                        $(Dom.getAutoResultInfoModal).modal('show').on('shown.bs.modal', function () {
+                            self.queryAutoResultInfoForm(); 
+                            self.getAutoResultInfoList(cmd);   
+                        })
                     })
-
                     //设置分页
-                    self.initPaging($(Dom.getAutoResultList), 8)
+                    self.initPaging($(Dom.getAutoResultList), 8, true)
 
                 }
             });
@@ -130,14 +120,19 @@ define(function(require, exports, module) {
                 if (status) {
                     window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Tpl.getAutoResultInfoList);
-                    $(Dom.getAutoResultInfoList).html(template(json.data));
-
+                    var _dom = $(Dom.getAutoResultInfoList);
+                    _dom.html(template(json.data));
+                  
+                    //setTimeout(function(){
+                        //设置分页
+                        self.initPaging(_dom, 5, true);    
+                    //},600)
+                   
                     self.showRunInfo();
                     self.showRunLog();
                 }
             });
-            //设置分页
-            self.initPaging($(Dom.getAutoResultInfoList).find("table"), 8);
+            
 
         },
         //点击显示执行信息
@@ -201,36 +196,12 @@ define(function(require, exports, module) {
                     Data.taskId = data.taskId;
                     var _modal = $(Dom.generateReportModal);
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    //调查询任务报告明细接口
-                    self.getReportDetailList(cmd);
-                    Rose.ajax.postJson(srvMap.get('getTaskDetailForm'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('saveReport'), cmd, function(json, status) {
                         if (status) {
-                            window.XMS.msgbox.hide();
-                            var template = Handlebars.compile(Tpl.getTaskDetailForm);
-                            var _table = $(Dom.getTaskDetailForm);
-                            _table.html(template(json.data))
-                            _modal.modal('show');
-
-                            var _form = $(Dom.getTaskDetailForm);
-                            var _saveBtn = _form.find("[name='save']");
-                            _saveBtn.unbind('click');
-                            _saveBtn.bind('click', function() {
-                                var _cmd = _form.serialize();
-                                var _reportName = _form.find("[name='reportName']").val();
-                                if (_reportName !== "") {
-                                    Rose.ajax.postJson(srvMap.get('saveReport'), _cmd, function(json, status) {
-                                        if (status && _reportName !== "") {
-                                            window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                                            setTimeout(function() {
-                                                self.getReportDetailList("taskId=" + Data.taskId);
-                                            }, 1000)
-                                        }
-                                    });
-                                } else {
-                                    window.XMS.msgbox.show('报告名称不能为空！', 'error', 2000);
-                                    return;
-                                }
-                            });
+                            window.XMS.msgbox.show('生成报告成功！', 'success', 2000);
+                            setTimeout(function() {
+                                self.getAutoResultList("taskId=" + Data.taskId);
+                            }, 1000)
                         }
                     });
                 } else {
@@ -264,7 +235,7 @@ define(function(require, exports, module) {
                         });
                     });
                     //设置分页
-                    self.initPaging($(Dom.getReportDetailList).find("table"), 8);
+                    //self.initPaging($(Dom.getReportDetailList).find("table"), 8);
                 }
             });
         },
@@ -295,7 +266,7 @@ define(function(require, exports, module) {
 
 
                         //设置分页
-                        self.initPaging($(Dom.getReportDetailList).find("table"), 8);
+                        //self.initPaging($(Dom.getReportDetailList).find("table"), 8);
                     });
                 }
             });
@@ -317,17 +288,16 @@ define(function(require, exports, module) {
             return data;
         },
         // 事件：分页
-        initPaging: function(obj, length) {
+        initPaging: function(obj, length, scrollX) {
             obj.find("table").DataTable({
                 "iDisplayLength": length,
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
                 "ordering": false,
+                "autoWidth": true,
                 "info": true,
-                "autoWidth": false,
-                "scrollX": true,
-                "scrollY": false
+                "scrollX": scrollX
             });
         }
     };

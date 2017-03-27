@@ -54,6 +54,40 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('getTaskList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getTaskList);
+					var j = json.data.content.length;
+					for(var i=0;i<j;i++){
+						if (json.data.content[i].taskType=="1") {
+							json.data.content[i].taskType="普通类";
+						}else if(json.data.content[i].taskType=="2"){
+							json.data.content[i].taskType="开通类";
+						}
+						if(json.data.content[i].cycleType=="1"){
+							json.data.content[i].cycleType="不轮循";
+						}else if(json.data.content[i].cycleType=="2"){
+							json.data.content[i].cycleType="查询类轮循";
+						}else if(json.data.content[i].cycleType=="3"){
+							json.data.content[i].cycleType="受理类轮循";
+						}
+						if(json.data.content[i].runType=="1"){
+							json.data.content[i].runType="立即执行";
+						}else if(json.data.content[i].runType=="2"){
+							json.data.content[i].runType="定时执行";
+						}else if(json.data.content[i].runType=="3"){
+							json.data.content[i].runType="分布式执行";
+						}
+						
+						if(json.data.content[i].taskResult=="1"){
+							json.data.content[i].taskResult="未执行";
+						}else if(json.data.content[i].taskResult=="2"){
+							json.data.content[i].taskResult="执行中";
+						}else if(json.data.content[i].taskResult=="3"){
+							json.data.content[i].taskResult="执行完成";
+						}else if(json.data.content[i].taskResult=="4"){
+							json.data.content[i].taskResult="执行失败";
+						}
+					};
+					
+					alert(json.data.content[0].taskType);
 					console.log(json.data);
 					$(Dom.getTaskList).html(template(json.data));
 					self.impType();

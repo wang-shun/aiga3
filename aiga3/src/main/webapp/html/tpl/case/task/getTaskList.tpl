@@ -1,8 +1,7 @@
-<table class="table table-bordered table-hover" style="width: 2300px;">
+<table class="table table-bordered table-hover" style="width: 2400px;">
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
-            <th>计划ID</th>
             <th>任务编号</th>
             <th>任务名称</th>
             <th>任务类型</th>
@@ -17,9 +16,6 @@
             <th>轮循执行结束次数</th>
             <th>执行机器IP</th>
             <th>任务停止</th>
-            <th>短信通知</th>
-            <th>邮件通知</th>
-            <th>并行数</th>
             <th>创建人</th>
             <th>最后执行人</th>
             <th>创建时间</th>
@@ -29,7 +25,6 @@
         {{#each this.content}}
         <tr>
             <td><input type="radio" class="minimal" value="{{taskId}}" name="taskId"></td>
-            <td>{{planId}}</td>
             <td>{{taskTag}}</td>
             <td>{{taskName}}</td>
             <td>{{taskType}}</td>   
@@ -44,9 +39,6 @@
             <td>{{endTimes}}</td>
             <td>{{machineIp}}</td>
             <td>{{stopFlag}}</td>
-            <td>{{smsType}}</td>   
-            <td>{{mailType}}</td>
-            <td>{{parallelType}}</td>
             <td>{{creatorId}}</td>
             <td>{{lastRunner}}</td>
             <td>{{createTime}}</td>

@@ -9,27 +9,45 @@ import java.util.Map;
  * @author defaultekey
  * @date 2017/3/24
  */
-public abstract class UrlConfigTypes {
+public class UrlConfigTypes {
 
+    private String ip;
+    private String port;
+    private String path;
     /**
      * 格式 （IP，端口号，路径）
      */
     public static final String SENDTASK="localhost，9999，/srf/arrange";
 
+    private UrlConfigTypes(){}
+
+    public String getIp() {
+        return ip;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
     /**
-     * 以逗号分割并塞入map集合
+     * 以逗号分割并塞入属性中
      * @param args
      * @return
      */
-    public static Map convertUrl(String args) {
-        String[]params=args.split(args);
+    public static UrlConfigTypes getInstance(String args) {
+        String[]params=args.split("，");
         Map<String, String> map = new HashMap<String, String>();
+        UrlConfigTypes url=new UrlConfigTypes();
         if(params.length==3) {
-            map.put("ip", params[0]);
-            map.put("port", params[1]);
-            map.put("path", params[2]);
+            url.ip=params[0];
+            url.port=params[1];
+            url.path=params[2];
         }
-        return map;
+        return url;
     }
 
 }

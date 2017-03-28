@@ -8,8 +8,8 @@ import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaChangePlanOnile;
 
-public interface NaChangePlanOnileDao extends JpaRepository<NaChangePlanOnile, Long>,
-SearchAndPageRepository<NaChangePlanOnile, Long> 
+
+public interface NaChangePlanOnileDao extends JpaRepository<NaChangePlanOnile, Long>,SearchAndPageRepository<NaChangePlanOnile, Long> 
 {
 
 }

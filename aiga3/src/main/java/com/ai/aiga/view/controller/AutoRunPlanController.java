@@ -216,7 +216,7 @@ public class AutoRunPlanController {
 			 */
 			@RequestMapping(value="/sys/autoPlan/deleteConnectCollect")
 			public @ResponseBody  JsonBean   deleteConnectCollect(Long planId ,  String collectIds){
-				naAutoRunPlanSv.deleteConnectGroup(planId, collectIds);
+				naAutoRunPlanSv.deleteConnectCollect(planId, collectIds);
 				return JsonBean.success;
 			}
 			

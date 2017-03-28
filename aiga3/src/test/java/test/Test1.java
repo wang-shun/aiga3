@@ -1,9 +1,10 @@
 package test;
 
-public class Test1 {
+import javax.servlet.http.HttpServlet;
+
+public class Test1  extends HttpServlet {
  public static void main(String[] args) {
-	String str = "sss";
-	String[] strs = str.split(";");
+
 	
 }
 }

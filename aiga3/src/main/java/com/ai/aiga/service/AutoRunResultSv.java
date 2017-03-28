@@ -221,32 +221,32 @@ public class AutoRunResultSv {
 		if(report != null){
 			report.setBeginTime((Date) object[7]);
 			report.setEndTime((Date) object[8]);
-			report.setSpendTime((Long) object[9]);
-			report.setTotalCase((Long) object[1]);
-			report.setNoneRunCase((Long) object[2]);
-			report.setHasRunCase((Long) object[3]);
-			report.setSuccessCase((Long) object[4]);
-			report.setFailCase((Long) object[5]);
+			report.setSpendTime(((BigDecimal) object[9]).longValue());
+			report.setTotalCase(((BigDecimal) object[1]).longValue());
+			report.setNoneRunCase(((BigDecimal) object[2]).longValue());
+			report.setHasRunCase(((BigDecimal) object[3]).longValue());
+			report.setSuccessCase(((BigDecimal) object[4]).longValue());
+			report.setFailCase(((BigDecimal) object[5]).longValue());
 			DecimalFormat  df  = new DecimalFormat("######0.00");   
-			report.setSuccessRate(df.format((Long) object[4]*100/(Long) object[1])+"%");
+			report.setSuccessRate(df.format(((BigDecimal)object[4]).doubleValue()*100/((BigDecimal)object[1]).doubleValue())+"%");
 			report.setUpdateTime(new Date());
 			naAutoRunTaskReportDao.save(report);
 		}else{
 			NaAutoRunTaskReport naAutoRunTaskReport = new NaAutoRunTaskReport();
 			naAutoRunTaskReport.setTaskId(taskId);
-			naAutoRunTaskReport.setCreatorId((Long) object[6]);
+			naAutoRunTaskReport.setCreatorId(((BigDecimal) object[6]).longValue());
 			NaAutoRunTask task = naAutoRunTaskDao.findOne(taskId);
 			naAutoRunTaskReport.setReportName(task.getTaskName()+"报告");
 			naAutoRunTaskReport.setBeginTime((Date) object[7]);
 			naAutoRunTaskReport.setEndTime((Date) object[8]);
-			naAutoRunTaskReport.setSpendTime((Long) object[9]);
-			naAutoRunTaskReport.setTotalCase((Long) object[1]);
-			naAutoRunTaskReport.setNoneRunCase((Long) object[2]);
-			naAutoRunTaskReport.setHasRunCase((Long) object[3]);
-			naAutoRunTaskReport.setSuccessCase((Long) object[4]);
-			naAutoRunTaskReport.setFailCase((Long) object[5]);
-			DecimalFormat  df  = new DecimalFormat("######0.00");   
-			naAutoRunTaskReport.setSuccessRate(df.format((Long) object[4]*100/(Long) object[1])+"%");
+			naAutoRunTaskReport.setSpendTime(((BigDecimal) object[9]).longValue());
+			naAutoRunTaskReport.setTotalCase(((BigDecimal) object[1]).longValue());
+			naAutoRunTaskReport.setNoneRunCase(((BigDecimal) object[2]).longValue());
+			naAutoRunTaskReport.setHasRunCase(((BigDecimal) object[3]).longValue());
+			naAutoRunTaskReport.setSuccessCase(((BigDecimal) object[4]).longValue());
+			naAutoRunTaskReport.setFailCase(((BigDecimal) object[5]).longValue());
+			DecimalFormat  df  = new DecimalFormat("#.00");   
+			naAutoRunTaskReport.setSuccessRate(df.format(((BigDecimal)object[4]).doubleValue()*100/((BigDecimal)object[1]).doubleValue())+"%");
 			naAutoRunTaskReport.setUpdateTime(new Date());
 			naAutoRunTaskReportDao.save(naAutoRunTaskReport);
 		}

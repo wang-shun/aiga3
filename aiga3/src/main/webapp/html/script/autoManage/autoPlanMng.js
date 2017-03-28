@@ -6,12 +6,12 @@ define(function(require, exports, module) {
     var nowPlanId;
 
     //系统大类下拉框显示
-    srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
+    srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
     //系统子类下拉框
-    srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
+    srvMap.add("getSubsysList", "autoManage/autoCaseTempMng/getSubsysList.json", "sys/cache/listSubsysid");
     //功能点下拉框
-    srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
-    srvMap.add("getBusiList", pathAlias + "getBusiList.json", "sys/cache/busi");
+    srvMap.add("getFunList", "autoManage/autoCaseTempMng/getFunList.json", "sys/cache/listFun");
+    srvMap.add("getBusiList", "caseTempMng/getBusiList.json", "sys/cache/busi");
     // 计划列表显示
     srvMap.add("getAutoPlanList", pathAlias + "autoPlanList.json", "sys/autoPlan/queryList");
     //计划保存接口
@@ -133,7 +133,7 @@ define(function(require, exports, module) {
         },
         getPlanList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('getAutoPlanList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getAutoPlanList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getAutoPlanList);
                     console.log(json.data)
@@ -206,7 +206,7 @@ define(function(require, exports, module) {
         //保存计划
         saveAutoPlan: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('saveAutoPlan'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('saveAutoPlan'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.show('计划保存成功！', 'success', 2000);
                     setTimeout(function() {
@@ -351,19 +351,34 @@ define(function(require, exports, module) {
                         /* Act on the event */
                         if (selctCycleType.val() == 1) {
                             $("#Js_cycleInput").addClass("hide");
-                            $("#inputSmsType").addClass("hide");
+                           
                         } else if (selctCycleType.val() == 2) {
                             $("#Js_cycleInput").removeClass("hide");
-                            $("#inputSmsType").removeClass("hide");
+                            
                         }
                     });
                     selctRunType.change(function(event) {
                         /* Act on the event */
                         runType = selctRunType.val();
+                        $("#taskMachineIp").val('');
+                        $("#inputCycleTiming").addClass("hide");
                         if (selctRunType.val() == 2) {
                             $("#inputRunTime").removeClass("hide");
+                            $("#Js_machineList").removeClass("hide");
+                            $("#taskMachineIp").removeAttr("disabled");
+                            if(selctCycleType.val() == 2){
+                                $("#inputCycleTiming").removeClass("hide");
+                            }
                         } else {
                             $("#inputRunTime").addClass("hide");
+
+                            if (selctRunType.val() == 3) {
+                                $("#taskMachineIp").attr("disabled", "disabled");
+                                $("#Js_machineList").addClass("hide");;
+                            } else {
+                                $("#Js_machineList").removeClass("hide");
+                                $("#taskMachineIp").removeAttr("disabled");
+                            }
 
                         }
                     });
@@ -372,7 +387,7 @@ define(function(require, exports, module) {
 
                     self.getMachineList("status=2", true);
                     self.getMachineList("status=3", false);
-                    
+
                     $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
                         var cmd = $("#Js_queryMachine").serialize();
                         if (cmd) {
@@ -382,7 +397,7 @@ define(function(require, exports, module) {
                             self.getMachineList("status=3", false);
                         }
                     });
-                    
+
                     $(Dom.modalNewTaskForm).find("button[name='using']").bind('click', function() {
                         var _obj = self.getCheckedRow("#Js_chooseMachineList");
                         var cmd = '';
@@ -422,15 +437,19 @@ define(function(require, exports, module) {
         runPlan: function() {
             var self = this;
             $(Dom.btnRunPlan).bind('click', function() {
-                
+
                 var data = self.getPlanInfo();
                 if (data) {
                     var cmd = 'planId=' + data.planId;
+                    if(data.runType == 2){
+                         window.XMS.msgbox.show('定时执行计划不支持一键执行', 'error', 2000);
+                         return;
+                    }
                     Rose.ajax.getJson(srvMap.get('runPlan'), cmd, function(json, status) {
-                        
+
                         if (status) {
                             window.XMS.msgbox.show('任务生成成功！', 'success', 2000);
-                        }else{
+                        } else {
                             window.XMS.msgbox.show(json.retMessage, 'success', 2000);
                         }
                     });
@@ -439,7 +458,7 @@ define(function(require, exports, module) {
         },
         //生成任务单
         saveNewTaks: function(cmd) {
-            Rose.ajax.getJson(srvMap.get('newTaskInfo'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('newTaskInfo'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.show('任务生成成功！', 'success', 2000);
                 }
@@ -489,7 +508,6 @@ define(function(require, exports, module) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkCaseList("planId=" + nowPlanId);
-                            self.getLinkCaseList("planId=" + nowPlanId);
                         }, 1000)
                     }
                 });
@@ -499,7 +517,6 @@ define(function(require, exports, module) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkGroupList("planId=" + nowPlanId);
-                            self.getLinkGroupList("planId=" + nowPlanId);
                         }, 1000)
                     }
                 });
@@ -509,8 +526,6 @@ define(function(require, exports, module) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkCollectList("planId=" + nowPlanId);
-                            self.getLinkCollectList("planId=" + nowPlanId);
-
                         }, 1000)
                     }
                 });
@@ -573,7 +588,7 @@ define(function(require, exports, module) {
         //关联用例列表
         getLinkCaseList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('linkCaseList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('linkCaseList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.autoCaseList);
                     console.log(json.data)
@@ -602,7 +617,7 @@ define(function(require, exports, module) {
         //关联用例组列表
         getLinkGroupList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('linkCaseGroupList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('linkCaseGroupList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.caseGroupList);
                     console.log(json.data)
@@ -616,7 +631,7 @@ define(function(require, exports, module) {
         //未关联用例集列表
         getUnLinkCollectList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('unLinkCaseCollectList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('unLinkCaseCollectList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.caseCollectList);
                     console.log(json.data)
@@ -631,7 +646,7 @@ define(function(require, exports, module) {
         //关联用例集列表
         getLinkCollectList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('linkCaseCollectList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('linkCaseCollectList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.caseCollectList);
                     console.log(json.data)
@@ -726,7 +741,7 @@ define(function(require, exports, module) {
         prefixInteger: function(num, length) {
             return ("0000000000000000" + num).substr(-length);
         },
-        initPaging: function(obj,length) {
+        initPaging: function(obj, length) {
             obj.find("table").DataTable({
                 "lengthChange": length,
                 "searching": false,

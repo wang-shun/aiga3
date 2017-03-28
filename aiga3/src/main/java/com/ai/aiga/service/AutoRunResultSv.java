@@ -457,8 +457,8 @@ public class AutoRunResultSv {
 		}
 		for (NaAutoRunTaskCase taskCase:caseList) {
 			NaAutoRunResult result= BeanMapper.map(taskCase,NaAutoRunResult.class);
-			result.setResultType((byte)2);//默认未执行
-			result.setRunType((byte)1);//默认未执行
+			result.setResultType(2L);//默认未执行
+			result.setRunType(1L);//默认未执行
 			entityManager.persist(result);
 		}
 		entityManager.flush();
@@ -472,8 +472,8 @@ public class AutoRunResultSv {
 	private void initResult(List<NaAutoRunResult> resultList){
 		if(resultList!=null&&resultList.size()>0) {
 			for (NaAutoRunResult result : resultList) {
-				result.setResultType((byte) 2);//默认未执行
-				result.setRunType((byte) 1);//默认未执行
+				result.setResultType( 2L);//默认未执行
+				result.setRunType(1L);//默认未执行
 				result.setBeginTime(null);
 				result.setEndTime(null);
 				result.setFailReason(null);

@@ -16,6 +16,7 @@ public class NaAutoRunTask {
     private String taskName;
     private Long taskType;
     private Long cycleType;
+    private Long cycleTiming;
     private Long runType;
     private Long taskResult;
     private Date beginRunTime;
@@ -93,6 +94,16 @@ public class NaAutoRunTask {
 
     public void setCycleType(Long cycleType) {
         this.cycleType = cycleType;
+    }
+
+    @Basic
+    @Column(name = "CYCLE_TIMING")
+    public Long getCycleTiming() {
+        return cycleTiming;
+    }
+
+    public void setCycleTiming(Long cycleTiming) {
+        this.cycleTiming = cycleTiming;
     }
 
     @Basic

@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-3-28 9:39:35 by Hibernate Tools 3.2.2.GA
+// Generated 2017-3-28 14:38:17 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -36,6 +36,7 @@ public class NaChangePlanOnile  implements java.io.Serializable {
      private Byte types;
      private Byte timely;
      private Byte isFinished;
+     private Byte autoRunResult;
 
     public NaChangePlanOnile() {
     }
@@ -46,7 +47,7 @@ public class NaChangePlanOnile  implements java.io.Serializable {
         this.onlinePlanName = onlinePlanName;
         this.planState = planState;
     }
-    public NaChangePlanOnile(Long onlinePlan, String onlinePlanName, byte planState, String createOpId, Date createDate, Date doneDate, Date planDate, Byte result, String remark, String ext1, String ext2, String ext3, Byte sign, Byte types, Byte timely, Byte isFinished) {
+    public NaChangePlanOnile(Long onlinePlan, String onlinePlanName, byte planState, String createOpId, Date createDate, Date doneDate, Date planDate, Byte result, String remark, String ext1, String ext2, String ext3, Byte sign, Byte types, Byte timely, Byte isFinished, Byte autoRunResult) {
        this.onlinePlan = onlinePlan;
        this.onlinePlanName = onlinePlanName;
        this.planState = planState;
@@ -63,6 +64,7 @@ public class NaChangePlanOnile  implements java.io.Serializable {
        this.types = types;
        this.timely = timely;
        this.isFinished = isFinished;
+       this.autoRunResult = autoRunResult;
     }
    
      @Id 
@@ -209,6 +211,15 @@ public class NaChangePlanOnile  implements java.io.Serializable {
     
     public void setIsFinished(Byte isFinished) {
         this.isFinished = isFinished;
+    }
+    
+    @Column(name="AUTO_RUN_RESULT", precision=2, scale=0)
+    public Byte getAutoRunResult() {
+        return this.autoRunResult;
+    }
+    
+    public void setAutoRunResult(Byte autoRunResult) {
+        this.autoRunResult = autoRunResult;
     }
 
 

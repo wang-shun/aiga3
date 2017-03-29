@@ -1,30 +1,34 @@
-    <table id="Tab_getPlanList" class="table table-condensed table-hover">
+    <table id="Tab_getAutoCaseList" class="table table-condensed table-hover">
         <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>
-                <th>计划编号</th>
-                <th>计划名称</th>
-                <th>计划类型</th>
-                <th>执行方式</th>
+                <th>用例名称</th>
+                <th>系统大类</th>
+                <th>系统子类</th>
+                <th>功能点</th>
+                <th>业务</th>
+                <th>环境</th>
+                <th>用例状态</th>
                 <th>创建人</th>
-                <th>默认执行机</th>
-                <th>创建时间</th>
-                <th>更新时间</th>             
+                <th>修改人</th>
+                <th>更新时间</th>
             </tr>
         </thead>
         <tbody>
             {{#each this}}
             <tr>
-                <td><input type="checkbox" class="minimal" value="{{planId}}" name="planId"></td>
-                <td><input type="hidden"  name="planTag" value="{{planTag}}">{{planTag}}</td>
-                <td><input type="hidden"  name="planName" value="{{planName}}">{{planName}}</td>
+                <td><input type="radio" class="minimal" value="{{autoId}}" name="autoId"></td>
+                <td><input type="hidden"  name="autoName" value="{{autoName}}">{{autoName}}</td>
+                <td><input type="hidden"  name="sysId" value="{{sysId}}">{{sysId}}</td>
+                <td><input type="hidden"  name="subSysId" value="{{subSysId}}">{{subSysId}}</td>
 
-                <td><input type="hidden"  name="cycleType" value="{{cycleType}}">{{transformatCycleType cycleType}}</td>
-                <td><input type="hidden"  name="runType" value="{{runType}}">{{transformatRunType runType}}</td>
-
-                <td><input type="hidden"  name="creatorId" value="{{creatorId}}">{{creatorId}}</td>
-                <td><input type="hidden"  name="machineIp" value="{{machineIp}}">{{machineIp}}</td>
-                <td><input type="hidden"  name="createTime" value="{{createTime}}">{{createTime}}</td>
+                <td><input type="hidden"  name="funId" value="{{funId}}">{{funId}}</td>
+                <td><input type="hidden"  name="busiId" value="{{busiId}}">{{transformatBusi busiId}}</td>
+                
+                <td><input type="hidden"  name="environmentType" value="{{environmentType}}">{{transformatEnv environmentType}}</td>
+                <td><input type="hidden"  name="status" value="{{status}}">{{transformatStatus status}}</td>
+                <td><input type="hidden"  name="creator" value="{{creator}}">{{creator}}</td>
+                <td><input type="hidden"  name="update" value="{{update}}">{{update}}</td>
                 <td><input type="hidden"  name="updateTime" value="{{updateTime}}">{{updateTime}}</td>
             </tr>
             {{/each}}

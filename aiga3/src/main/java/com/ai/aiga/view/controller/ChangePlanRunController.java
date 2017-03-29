@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.domain.NaChangePlanOnile;
+import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.service.ChangePlanRunSv;
 import com.ai.aiga.view.json.base.JsonBean;
+
+import springfox.documentation.spring.web.json.Json;
 
 @Controller
 public class ChangePlanRunController {
@@ -56,5 +59,22 @@ public class ChangePlanRunController {
 		bean.setData(changePlanRunSv.taskList(onlinePlan));
 		return bean;
 	}
-	
+	/**
+	 * 删除已分派任务*/
+	@RequestMapping(path = "/accept/changePlanRun/delete")
+	public @ResponseBody JsonBean delete(Long taskId){
+		changePlanRunSv.delete(taskId);
+		return JsonBean.success;
+	}
+	/**
+	 * 编译发布结果查看*/
+	@RequestMapping(path = "/accept/changePlanRun/compileList")
+	public @ResponseBody JsonBean compileList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaCodePath condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(changePlanRunSv.compileList(condition,pageNumber,pageSize));
+		return bean;
+	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,11 @@ import org.terracotta.modules.ehcache.store.nonstop.RejoinWithoutNonStopStore;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
+import com.ai.aiga.dao.NaCodePathDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaChangePlanOnile;
+import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -34,6 +37,9 @@ public class ChangePlanRunSv extends BaseService{
 	
 	@Autowired
 	private NaChangePlanOnileDao naChangePlanOnileDao;
+	
+	@Autowired
+	private NaCodePathDao naCodePathDao;
 
 	public Object list(NaChangePlanOnile condition, String time1, String time2, int pageNumber, int pageSize) {
 		
@@ -118,9 +124,9 @@ public class ChangePlanRunSv extends BaseService{
 			naOnlineTaskDistribute.setAssignDate(new Date());
 			naOnlineTaskDistribute.setDealState(1L);
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
-//			if(naOnlineTaskDistribute.getDealOpId() != null){
-//				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
-//			}
+			if(naOnlineTaskDistribute.getDealOpId() != null){
+				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
+			}
 		}else{
 			NaOnlineTaskDistribute distribute = naOnlineTaskDistributeDao.findOne(naOnlineTaskDistribute.getTaskId());
 			distribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
@@ -131,9 +137,9 @@ public class ChangePlanRunSv extends BaseService{
 			//distribute.setAssignId(assignId);
 			distribute.setAssignDate(new Date());
 			naOnlineTaskDistributeDao.save(distribute);
-//			if(distribute.getDealOpId() != null){
-//				sendMessageForCycle(distribute.getTaskId(), info);
-//			}
+			if(distribute.getDealOpId() != null){
+				sendMessageForCycle(distribute.getTaskId(), info);
+			}
 		}
 		//把计划状态改为处理中
 		naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());
@@ -148,6 +154,7 @@ public class ChangePlanRunSv extends BaseService{
 		.append("在").append(object[2].toString()).append("给您分派了").append(info)
 		.append("任务,请您及时处理！");
 		TaskMessageClient.sendMessageForCycle(object[3].toString(), contents.toString());
+		//TaskMessageClient.sendMessageForCycle("13567177436", "666");
 	}
 
 	public List<NaOnlineTaskDistributeResponse> taskList(Long onlinePlan) {
@@ -177,5 +184,23 @@ public class ChangePlanRunSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
 		naOnlineTaskDistributeDao.delete(taskId);
+	}
+
+	public Page<NaCodePath> compileList(NaCodePath condition, int pageNumber, int pageSize) {
+		
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		cons.add(new Condition("planDate", condition.getPlanDate(), Condition.Type.EQ));
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naCodePathDao.search(cons, pageable);
 	}
 }

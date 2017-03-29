@@ -32,6 +32,10 @@ public interface AigaStaffDao extends JpaRepository<AigaStaff,Long>{
 			+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
 			+ " and ar.organize_id = ao.organize_id and af.name like %?1%",nativeQuery= true)
 	List<Object[]> findStaffByName(String name);
+
+
+
+	AigaStaff findByCode(String code);
 	
 	
 }

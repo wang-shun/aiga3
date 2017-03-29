@@ -11,6 +11,8 @@
 	<properties>
 		<!-- 主要依赖库的版本定义 -->
 		<spring.version>4.3.6.RELEASE</spring.version>
+		<spring-security.version>4.2.2.RELEASE</spring-security.version>
+		<shiro.version>1.3.2</shiro.version>
 		<freemarker.version>2.3.25-incubating</freemarker.version>
 		<jackson.version>2.8.6</jackson.version>
 		<mybatis.version>3.4.2</mybatis.version>
@@ -24,6 +26,10 @@
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.7.5</mockito.version>
 		<ehcache.version>2.10.3</ehcache.version>
+		
+		<springfox-version>2.6.1</springfox-version>
+		<!-- <cxf.version>2.7.18</cxf.version> -->
+		<cxf.version>3.0.12</cxf.version>
 
 		<!-- Plugin的属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -86,7 +92,58 @@
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.springframework.security</groupId> <artifactId>spring-security-web</artifactId> 
+			<version>${spring-security.version}</version> </dependency> <dependency> 
+			<groupId>org.springframework.security</groupId> <artifactId>spring-security-config</artifactId> 
+			<version>${spring-security.version}</version> </dependency> -->
+
 		<!-- spring -->
+		
+		<!-- WS, SOAP -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<!-- WS, SOAP END -->
+		
 
 		<!-- PERSISTENCE begin -->
 		<!-- hibernate -->
@@ -255,6 +312,23 @@
 		</dependency>
 		<!-- TEST begin -->
 
+		<!-- help -->
+<!-- 		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-core</artifactId>
+			<version>1.5.13</version>
+		</dependency> -->
+		<dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-version}</version>
+        </dependency>
+<!--     <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-version}</version>
+        </dependency> 
+ -->   
 	</dependencies>
 
 

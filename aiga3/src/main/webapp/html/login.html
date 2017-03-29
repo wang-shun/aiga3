@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="lib/jquery/2.2.3/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#myform").submit(function(){
+			var data = {
+				username : $("#myform").find("input[name='username']").val(),
+				password : $("#myform").find("input[name='password']").val()
+			}
+			
+			$.post("../login", data, function(d){
+				if(d){
+					var status = d["retCode"];
+					if(status == "200"){
+						window.location = "index.html"; 
+					}else{
+						console.log(d["retMessage"]);
+					}
+				}
+			});
+			
+			return false;
+		});
+	});
+
+</script>
+</head>
+<body>
+	<form id="myform" method="post">
+		用户名 : <input type="text" name="username" /> <br/>
+		密码 : <input type="password" name="password" /> <br/>
+		<input id="mysubmit" type="submit" name="提交"/>
+	</form>
+</body>
+</html>

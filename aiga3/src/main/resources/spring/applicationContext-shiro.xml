@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro安全配置</description>
+	
+	<!-- 項目自定义的Realm, 所有accountService依赖的dao都需要用depends-on声明 -->
+	<bean id="shiroDbRealm" class="com.ai.aiga.security.shiro.ShiroDbRealm">
+		<property name="securitySv" ref="securitySv"/>
+		 <property name="cachingEnabled" value="true"/>
+	</bean>
+
+	<!-- Shiro's main business-tier object for web-enabled applications -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+ 		<property name="cacheManager" ref="shiroEhcacheManager" /> 
+	</bean>
+	
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/html/login.html" />
+		<property name="successUrl" value="/html/index.html" />
+		<property name="filters">  
+            <map>  
+                <entry key="busi">  
+                    <bean  
+                        class="com.ai.aiga.security.shiro.BusiSecurityFilter" />  
+                </entry>  
+            </map>  
+        </property> 
+		<property name="filterChainDefinitions">
+			<value>
+				/logout = logout
+				/html/index.html = authc
+				/global/** = authc
+				/html/view/** = authc, busi
+				/html/** = anon
+				/webService/** = anon
+				/** = busi
+			</value>
+		</property>
+	</bean>
+	<!-- 
+	url=拦截器[参数]，拦截器[参数] : 即如果当前请求的 url 匹配[urls]部分的某个 url 模式，将会执行其配置的拦截器。
+	比如 anon 拦截器表示匿名访问(即不需要登录即可访问);
+	authc 拦截器表示需要身份认证通过后才 能访问;
+	roles[admin]拦截器表示需要有 admin 角色授权才能访问;
+	perms["user:create"] 拦截器表示需要有“user:create”权限才能访问
+	
+	url 模式使用 Ant 风格模式
+	Ant 路径通配符支持?、*、**，注意通配符匹配不包括目录分隔符“/”:
+	?:匹配一个字符，如”/admin?”将匹配/admin1，但不匹配/admin 或/admin2; 
+	*:匹配零个或多个字符串，如/admin*将匹配/admin、/admin123，但不匹配/admin/1; 
+	**:匹配路径中的零个或多个路径，如/admin/**将匹配/admin/a 或/admin/a/b。
+	
+	url 模式匹配顺序是按照在配置中的声明顺序匹配，即从头开始使用第一个匹配的 url 模式 对应的拦截器链。
+	
+	
+	 -->
+	
+	
+	
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml"/>
+	</bean>
+	
+	
+
+</beans>

@@ -12,7 +12,7 @@ import java.util.Date;
 public class NaAutoTemplate {
     private Long tempId;
     private Long caseId;
-    private byte caseType;
+    private Byte caseType;
     private String testType;
     private String tempName;
     private Long sysId;
@@ -49,11 +49,11 @@ public class NaAutoTemplate {
 
     @Basic
     @Column(name = "CASE_TYPE")
-    public byte getCaseType() {
+    public Byte getCaseType() {
         return caseType;
     }
 
-    public void setCaseType(byte caseType) {
+    public void setCaseType(Byte caseType) {
         this.caseType = caseType;
     }
 

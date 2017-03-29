@@ -58,8 +58,8 @@ public class NaAutoRunPlan  implements java.io.Serializable {
     }
    
      @Id 
-     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_CASE$SEQ")
-     @SequenceGenerator(name="NA_AUTO_CASE$SEQ",sequenceName="NA_AUTO_CASE$SEQ",allocationSize=1)
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_RUN_PLAN$SEQ")
+     @SequenceGenerator(name="NA_AUTO_RUN_PLAN$SEQ",sequenceName="NA_AUTO_RUN_PLAN$SEQ",allocationSize=1)
     @Column(name="PLAN_ID", unique=true, nullable=false, precision=22, scale=0)
     public Long getPlanId() {
         return this.planId;

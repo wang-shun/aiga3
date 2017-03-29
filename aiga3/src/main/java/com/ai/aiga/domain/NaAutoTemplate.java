@@ -26,8 +26,8 @@ public class NaAutoTemplate {
     private Date updateTime;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_CASE$SEQ")
-    @SequenceGenerator(name="NA_AUTO_CASE$SEQ",sequenceName="NA_AUTO_CASE$SEQ",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_TEMPLATE$SEQ")
+    @SequenceGenerator(name="NA_AUTO_TEMPLATE$SEQ",sequenceName="NA_AUTO_TEMPLATE$SEQ",allocationSize=1)
     @Column(name = "TEMP_ID")
     public Long getTempId() {
         return tempId;

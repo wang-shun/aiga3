@@ -20,8 +20,8 @@ public class NaAutoCollGroupCase {
     private Date updateTime;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_CASE$SEQ")
-    @SequenceGenerator(name="NA_AUTO_CASE$SEQ",sequenceName="NA_AUTO_CASE$SEQ",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator=" NA_AUTO_COLL_GROUP_CASE$SEQ")
+    @SequenceGenerator(name=" NA_AUTO_COLL_GROUP_CASE$SEQ",sequenceName=" NA_AUTO_COLL_GROUP_CASE$SEQ",allocationSize=1)
     @Column(name = "RELA_ID")
     public Long getRelaId() {
         return relaId;

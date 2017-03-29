@@ -15,8 +15,8 @@ public class NaAutoTemplateComp {
     private Long compOrder;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_CASE$SEQ")
-    @SequenceGenerator(name="NA_AUTO_CASE$SEQ",sequenceName="NA_AUTO_CASE$SEQ",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_TEMPLATE_COMP$SEQ")
+    @SequenceGenerator(name="NA_AUTO_TEMPLATE_COMP$SEQ",sequenceName="NA_AUTO_TEMPLATE_COMP$SEQ",allocationSize=1)
     @Column(name = "RELA_ID")
     public Long getRelaId() {
         return relaId;

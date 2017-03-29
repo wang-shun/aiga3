@@ -17,8 +17,8 @@ public class NaAutoGroup {
     private Date updateTime;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_CASE$SEQ")
-    @SequenceGenerator(name="NA_AUTO_CASE$SEQ",sequenceName="NA_AUTO_CASE$SEQ",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_GROUP$SEQ")
+    @SequenceGenerator(name="NA_AUTO_GROUP$SEQ",sequenceName="NA_AUTO_GROUP$SEQ",allocationSize=1)
     @Column(name = "GROUP_ID")
     public Long getGroupId() {
         return groupId;

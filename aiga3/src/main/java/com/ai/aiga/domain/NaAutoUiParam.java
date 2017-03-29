@@ -25,8 +25,8 @@ public class NaAutoUiParam {
     private Date updateTime;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_CASE$SEQ")
-    @SequenceGenerator(name="NA_AUTO_CASE$SEQ",sequenceName="NA_AUTO_CASE$SEQ",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_UI_PARAM$SEQ")
+    @SequenceGenerator(name="NA_AUTO_UI_PARAM$SEQ",sequenceName="NA_AUTO_UI_PARAM$SEQ",allocationSize=1)
     @Column(name = "PARAM_ID")
     public Long getParamId() {
         return paramId;

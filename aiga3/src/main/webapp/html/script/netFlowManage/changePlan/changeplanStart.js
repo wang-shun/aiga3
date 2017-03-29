@@ -36,6 +36,7 @@ define(function(require, exports, module) {
     // 容器对象
     var Dom = {
         queryChangePlanForm: '#JS_queryChangePlanForm',
+        
         getChangePlanList: '#JS_getChangePlanList',
         getAutoResultList: '#JS_getAutoResultListC',
         getAutoResultModal: '#JS_getAutoResultModal',
@@ -50,7 +51,7 @@ define(function(require, exports, module) {
     var Data = {
         queryListCmd: null,
         onlinePlan: null,
-        opreation:"new"
+        opreation: "new"
     }
 
     var Query = {
@@ -245,12 +246,12 @@ define(function(require, exports, module) {
                 var cmd = '';
                 var taskType = _form.find("[name='taskType']").val();
                 var dealName = _form.find("[name='dealName']").val();
-                var taskId =  _form.find("[name='taskId']").val();
+                var taskId = _form.find("[name='taskId']").val();
                 var onlinePlan = _form.find("[name='onlinePlan']").val();
                 var onlinePlanName = _form.find("[name='onlinePlanName']").val();
                 cmd = "taskType=" + taskType + "&dealName=" + dealName + "&onlinePlan=" + onlinePlan + "&onlinePlanName=" + onlinePlanName;
-                if(Data.opreation=="update"){
-                   cmd = cmd + "&taskId="+taskId;
+                if (Data.opreation == "update") {
+                    cmd = cmd + "&taskId=" + taskId;
                 }
                 var _taskType = _form.find("[name='taskType']").val();
                 if (_taskType != "") {
@@ -261,7 +262,7 @@ define(function(require, exports, module) {
                                 self.getTaskResultList("onlinePlan=" + Data.onlinePlan, data);
                                 _form.find("[name='reset']").click();
                                 Data.opreation = 'new';
-                             }, 1000)
+                            }, 1000)
                         }
                     });
                 } else {

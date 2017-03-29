@@ -85,8 +85,8 @@ public class AutoRunResultController {
 	/**
 	 * 保存报告*/
 	@RequestMapping(path = "/auto/autoRunResult/reportSave")
-	public @ResponseBody JsonBean reportSave(NaAutoRunTaskReport naAutoRunTaskReport){
-		autoRunResultSv.reportSave(naAutoRunTaskReport);
+	public @ResponseBody JsonBean reportSave(Long taskId){
+		autoRunResultSv.reportSave(taskId);
 		return JsonBean.success;
 	}
 	/**

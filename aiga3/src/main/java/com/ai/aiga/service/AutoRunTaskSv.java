@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 自动化执行任务
@@ -249,9 +248,13 @@ public class AutoRunTaskSv {
         if (StringUtils.isBlank(envConfigId)) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envConfigId");
         }
-        Map urlMap= UrlConfigTypes.convertUrl(UrlConfigTypes.SENDTASK);
+        //获取解析后的URL配置类
+        UrlConfigTypes urlConfigTypes= UrlConfigTypes.getInstance(UrlConfigTypes.SENDTASK);
+        //设置传递参数
         String param="taskId="+taskId+"&sceneId="+envConfigId;
-        String url="http://"+machineIp+":"+urlMap.get("port")+urlMap.get("path");
+        //拼接url
+        String url="http://"+machineIp+":"+urlConfigTypes.getPort()+urlConfigTypes.getPath();
+        //发送请求，并获取返回消息
         String msg= HttpConnectionUtil.requestMethod(HttpConnectionUtil.HTTP_POST,url,param);
         return msg;
     }

@@ -1,5 +1,6 @@
 package com.ai.aiga.dao;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoRunTaskCase;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author defaultekey
  * @date 2017/3/20
  */
-public interface NaAutoRunTaskCaseDao extends JpaRepository<NaAutoRunTaskCase,Long>{
+public interface NaAutoRunTaskCaseDao extends SearchAndPageRepository<NaAutoRunTaskCase,Long> {
 
     @Modifying
     @Query(value = "delete from na_auto_run_task_case where task_id=?1",nativeQuery = true)

@@ -1,5 +1,6 @@
 package com.ai.aiga.dao;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoTemplateComp;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author defaultekey
  * @date 2017/3/5
  */
-public interface NaAutoTemplateCompDao extends JpaRepository<NaAutoTemplateComp,Long>{
+public interface NaAutoTemplateCompDao extends SearchAndPageRepository<NaAutoTemplateComp,Long> {
 
     List<NaAutoTemplateComp> findByTempId(Long tempId);
 

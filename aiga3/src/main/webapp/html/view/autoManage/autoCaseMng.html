@@ -1,0 +1,165 @@
+<div class="box">
+    <form id="JS_queryAutoCaseForm" class="form-horizontal">
+        <div class="box-header with-border">
+            <h3 class="box-title">按条件查询</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="form-group form-inline">
+                    <label for="caseName" class="control-label">用例名称:</label>
+                    <input type="hidden" class="form-control" name="planId" value="{{planId}}">
+                    <input placeholder="请输入用例名称" id="caseName" type="text" class="form-control input-sm" name="autoName" style="width: 160px">
+                    <label class="control-label">系统大类:</label>
+                    <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" style="width: 160px">
+                        <option value="">请选择</option>
+                    </select>
+                    <label class="control-label">系统子类:</label>
+                    <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" class="form-control select2 input-sm" style="width: 160px">
+                        <option value="">请选择</option>
+                    </select>
+                    <label class="control-label">功&nbsp;能&nbsp;点&nbsp;:</label>
+                    <select name="funId" data-suburl="getFunList" class="form-control select2 input-sm" style="width: 160px">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group form-inline">
+                    <label class="control-label">业&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label>
+                    <select id="queryCase_busi" data-url="getBusiList" name="busiId" class="form-control select2 input-sm" style="width: 160px">
+                        <option value="">请选择</option>
+                    </select>
+                    <label>重要级别:</label>
+                    <select name="important" class="form-control input-sm" style="width: 160px">
+                        <option value="">请选择</option>
+                        <option value="1">一级用例</option>
+                        <option value="2">二级用例</option>
+                        <option value="3">三级用例</option>
+                        <option value="4">四级用例</option>
+                    </select>
+                    <label>用例类型:</label>
+                    <select name="caseType" class="form-control input-sm" style="width: 160px">
+                        <option value="">请选择</option>
+                        <option value="1">UI类</option>
+                        <option value="2">接口类</option>
+                        <option value="3">后台进程类</option>
+                    </select>
+                    <label>覆盖环境:</label>
+                    <select name="caseType" class="form-control input-sm" style="width: 160px">
+                        <option value="">请选择</option>
+                        <option value="1">验收环境</option>
+                        <option value="2">准发布环境</option>
+                        <option value="3">生产环境</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="text-center">
+                <button type="reset" class="btn btn-default">重置</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="box" style="min-height: 100px">
+    <div class="box-header">
+        <h3 class="box-title">自动化用例列表</h3>
+        <div class="box-tools">
+            <div class="btn-group">
+                <button id="Js_btnEdit" type="button" class="btn btn-primary" name="edit"><i class="fa fa-edit"></i> 编辑模板</button>
+            </div>
+        </div>
+    </div>
+    <div id="JS_getAutoCaseList" class="box-body" style="min-height: 100px;">
+    </div>
+</div>
+<!-- 编辑用例 -->
+<div class="modal fade" id="JS_editAutoCaseModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑用例</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">组件列表</h3>
+                            </div>
+                            <div class="box-body" id="JS_getSideAutoCompList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <form>
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>自动化用例模板名称：
+                                                    <i class="text-red">*</i></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">用例模板_</div>
+                                                    <input type="text" class="form-control" name="autoName" value="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>环境类型
+                                                    <i class="text-red">*</i></label>
+                                                <select class="form-control" name="environmentType">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">验收环境</option>
+                                                    <option value="2">准发布环境
+                                                    </option>
+                                                    <option value="3">生产环境
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="box-header ">
+                                    <h3 class="box-title">参数列表</h3>
+                                </div>
+                                <div class="box-body">
+                                    <table name="table" class="table table-bordered table-hover" id="JS_getParameterList">
+                                        <thead>
+                                            <tr>
+                                                <th>参数名</th>
+                                                <th>参数值</th>
+                                                <th>参数描述</th>
+                                                <th>取值SQL</th>
+                                                <th>预期值</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+seajs.use("script/autoManage/autoCaseMng", function(init) {
+    init.init();
+});
+</script>

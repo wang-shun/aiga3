@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +27,6 @@ public class RoleFuncSv {
     @Autowired
     private AigaRoleFuncDao aigaRoleFuncDao;
 
-    @PersistenceContext
-    private EntityManager entityManager;
     /**
      * 根据roleId查询所有有权限的菜单
      * @param roleFuncRequest
@@ -62,13 +61,13 @@ public class RoleFuncSv {
         /*根据 , 解析funcIds*/
         String[]funIdAry=roleFuncRequest.getFuncIds().split(",");
         /*批量保存*/
+        List<Object> funcList=new ArrayList<Object>();
         for (String funcId:funIdAry) {
             AigaRoleFunc aigaRoleFunc=new AigaRoleFunc();
             aigaRoleFunc.setRoleId(roleFuncRequest.getRoleId());
             aigaRoleFunc.setFuncId(Long.parseLong(funcId));
-            entityManager.persist(aigaRoleFunc);
+            funcList.add(aigaRoleFunc);
         }
-        entityManager.flush();
-        entityManager.clear();
+        aigaRoleFuncDao.saveList(funcList);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,10 +31,6 @@ public class AutoRunTaskCaseSv {
 
     @Autowired
     private NaAutoRunPlanCaseDao autoRunPlanCaseDao;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
     /**
      * 根据任务ID删除关联关系
      * @param taskId
@@ -73,14 +70,14 @@ public class AutoRunTaskCaseSv {
         if (planCaseList ==null || planCaseList.size()==0) {
             BusinessException.throwBusinessException("the plan without autoCase! please make sure the planId: "+planId);
         }
+        List<Object> list=new ArrayList<Object>();
         for (NaAutoRunPlanCase planCase:planCaseList){
             NaAutoRunTaskCase taskCase= BeanMapper.map(planCase,NaAutoRunTaskCase.class);
             //将映射的主键值置为null
             taskCase.setRelaId(null);
             taskCase.setTaskId(taskId);
-            entityManager.persist(taskCase);
+            list.add(taskCase);
         }
-        entityManager.flush();
-        entityManager.clear();
+        autoRunTaskCaseDao.saveList(list);
     }
 }

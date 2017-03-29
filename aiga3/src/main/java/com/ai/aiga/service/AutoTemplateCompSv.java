@@ -35,9 +35,6 @@ public class AutoTemplateCompSv {
     @Autowired
     private NaUiComponentDao componentDao;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     /**
      * 根据模板ID查询出所有关联组件信息(只包含组件ID)
      * @param templateCompRequest
@@ -141,13 +138,13 @@ public class AutoTemplateCompSv {
         //根据tempId删除旧关联关系
         this.deleteByTempId(tempId);
         //批量保存新的组件关系
+        List<Object> compList=new ArrayList<Object>();
         for (AutoTemplateCompRequest request:requestList){
             NaAutoTemplateComp comp=BeanMapper.map(request,NaAutoTemplateComp.class);
             comp.setTempId(tempId);
-            entityManager.persist(comp);
+            compList.add(comp);
         }
-        entityManager.flush();
-        entityManager.clear();
+        templateCompDao.saveList(compList);
     }
 
     /**

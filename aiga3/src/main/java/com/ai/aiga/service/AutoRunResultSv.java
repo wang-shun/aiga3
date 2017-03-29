@@ -1,6 +1,7 @@
 package com.ai.aiga.service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,9 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoRunResultDao;
+import com.ai.aiga.dao.NaAutoRunTaskDao;
 import com.ai.aiga.dao.NaAutoRunTaskReportDao;
 import com.ai.aiga.dao.NaAutoTaskReportDetailDao;
 import com.ai.aiga.domain.NaAutoRunResult;
+import com.ai.aiga.domain.NaAutoRunTask;
 import com.ai.aiga.domain.NaAutoRunTaskReport;
 import com.ai.aiga.domain.NaAutoTaskReportDetail;
 import com.ai.aiga.exception.BusinessException;
@@ -44,6 +47,9 @@ public class AutoRunResultSv {
 	
 	@Autowired
 	private NaAutoTaskReportDetailDao naAutoTaskReportDetailDao;
+	
+	@Autowired
+	private NaAutoRunTaskDao naAutoRunTaskDao;
 
 	@Autowired
 	private AutoRunTaskCaseSv autoRunTaskCaseSv;
@@ -205,64 +211,44 @@ public class AutoRunResultSv {
 		return response;
 	}
 
-	public void reportSave(NaAutoRunTaskReport naAutoRunTaskReport) {
-		if(naAutoRunTaskReport == null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getTaskId().toString())){
+	public void reportSave(Long taskId) {
+		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getReportName())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "reportName");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getTotalCase().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "totalCase");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getNoneRunCase().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "noneRunCase");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getHasRunCase().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "hasRunCase");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getSuccessCase().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "successCase");
-		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getFailCase().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "failCase");
-		}
-//		if(StringUtils.isBlank(naAutoRunTaskReport.getBeginTime().toString())){
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "beginTime");
-//		}
-//		if(StringUtils.isBlank(naAutoRunTaskReport.getEndTime().toString())){
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "endTime");
-//		}
-//		if(StringUtils.isBlank(naAutoRunTaskReport.getSpendTime().toString())){
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "spendTime");
-//		}
-//		if(StringUtils.isBlank(naAutoRunTaskReport.getCreatorId().toString())){
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "creatorId");
-//		}
-		if(StringUtils.isBlank(naAutoRunTaskReport.getSuccessRate())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "successRate");
-		}
-		if(naAutoRunTaskReport.getReportId().toString() != null && naAutoRunTaskReport.getReportId().toString().equals("0")){
-			naAutoRunTaskReportDao.save(naAutoRunTaskReport);
-		}else{
-			NaAutoRunTaskReport report = naAutoRunTaskReportDao.findOne(naAutoRunTaskReport.getReportId());
-			report.setTaskId(naAutoRunTaskReport.getTaskId());
-			report.setReportName(naAutoRunTaskReport.getReportName());
-			report.setTotalCase(naAutoRunTaskReport.getTotalCase());
-			report.setNoneRunCase(naAutoRunTaskReport.getNoneRunCase());
-			report.setHasRunCase(naAutoRunTaskReport.getHasRunCase());
-			report.setSuccessCase(naAutoRunTaskReport.getSuccessCase());
-			report.setFailCase(naAutoRunTaskReport.getFailCase());
-			report.setBeginTime(naAutoRunTaskReport.getBeginTime());
-			report.setEndTime(naAutoRunTaskReport.getEndTime());
-			report.setSpendTime(naAutoRunTaskReport.getSpendTime());
-			report.setCreatorId(naAutoRunTaskReport.getCreatorId());
-			report.setSuccessRate(naAutoRunTaskReport.getSuccessRate());
+		List<Object[]> list= naAutoRunTaskReportDao.findResultByTaskId(taskId);
+		Object[] object = (Object[]) list.get(0);
+		NaAutoRunTaskReport report = naAutoRunTaskReportDao.findByTaskId(taskId);
+		if(report != null){
+			report.setBeginTime((Date) object[7]);
+			report.setEndTime((Date) object[8]);
+			report.setSpendTime(((BigDecimal) object[9]).longValue());
+			report.setTotalCase(((BigDecimal) object[1]).longValue());
+			report.setNoneRunCase(((BigDecimal) object[2]).longValue());
+			report.setHasRunCase(((BigDecimal) object[3]).longValue());
+			report.setSuccessCase(((BigDecimal) object[4]).longValue());
+			report.setFailCase(((BigDecimal) object[5]).longValue());
+			DecimalFormat  df  = new DecimalFormat("######0.00");   
+			report.setSuccessRate(df.format(((BigDecimal)object[4]).doubleValue()*100/((BigDecimal)object[1]).doubleValue())+"%");
 			report.setUpdateTime(new Date());
 			naAutoRunTaskReportDao.save(report);
+		}else{
+			NaAutoRunTaskReport naAutoRunTaskReport = new NaAutoRunTaskReport();
+			naAutoRunTaskReport.setTaskId(taskId);
+			naAutoRunTaskReport.setCreatorId(((BigDecimal) object[6]).longValue());
+			NaAutoRunTask task = naAutoRunTaskDao.findOne(taskId);
+			naAutoRunTaskReport.setReportName(task.getTaskName()+"报告");
+			naAutoRunTaskReport.setBeginTime((Date) object[7]);
+			naAutoRunTaskReport.setEndTime((Date) object[8]);
+			naAutoRunTaskReport.setSpendTime(((BigDecimal) object[9]).longValue());
+			naAutoRunTaskReport.setTotalCase(((BigDecimal) object[1]).longValue());
+			naAutoRunTaskReport.setNoneRunCase(((BigDecimal) object[2]).longValue());
+			naAutoRunTaskReport.setHasRunCase(((BigDecimal) object[3]).longValue());
+			naAutoRunTaskReport.setSuccessCase(((BigDecimal) object[4]).longValue());
+			naAutoRunTaskReport.setFailCase(((BigDecimal) object[5]).longValue());
+			DecimalFormat  df  = new DecimalFormat("#.00");   
+			naAutoRunTaskReport.setSuccessRate(df.format(((BigDecimal)object[4]).doubleValue()*100/((BigDecimal)object[1]).doubleValue())+"%");
+			naAutoRunTaskReport.setUpdateTime(new Date());
+			naAutoRunTaskReportDao.save(naAutoRunTaskReport);
 		}
 		
 	}

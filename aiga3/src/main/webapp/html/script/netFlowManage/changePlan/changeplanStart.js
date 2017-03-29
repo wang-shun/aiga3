@@ -40,6 +40,7 @@ define(function(require, exports, module) {
         getChangePlanList: '#JS_getChangePlanList',
         getAutoResultList: '#JS_getAutoResultListC',
         getAutoResultModal: '#JS_getAutoResultModal',
+        
         saveTaskResultForm: '#JS_saveTaskResultForm',
         getTaskResultList: '#JS_getTaskResultList',
         getTaskResultModal: '#JS_getTaskResultModal',

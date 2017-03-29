@@ -28,9 +28,8 @@ public class CaseInstanceController {
 	
 	@RequestMapping(path = "/case/instance/toAutoCaseGenerate")
 	public String goToEdit(){
-		return "caseInstanceMng/caseInstanceToAutoCase";
+		return "view/caseInstanceMng/caseInstanceToAutoCase";
 	}
-	
 	
 	@RequestMapping(path = "/case/instance/list")
 	public @ResponseBody JsonBean list(

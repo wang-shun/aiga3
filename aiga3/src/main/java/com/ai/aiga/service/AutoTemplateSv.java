@@ -60,7 +60,7 @@ public class AutoTemplateSv {
         if (tempId != null ? (isExisting(tempName,tempId))  :  (autoTemplateDao.findByTempName(tempName)!=null)) {
             BusinessException.throwBusinessException("autoTemplate Name already  existing! please change......");
         }
-        if (autoTemplate.getCaseType() == 0) {
+        if (autoTemplate.getCaseType() == null) {
             autoTemplate.setCaseType((byte)1);//默认UI
         }
         if (autoTemplate.getImportant() == null) {

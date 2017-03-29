@@ -62,7 +62,7 @@ public class AutoCaseSv {
         if (autoCase.getEnvironmentType() == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "EnvironmentType");
         }
-        if (autoCase.getCaseType() == 0) {
+        if (autoCase.getCaseType() == null) {
             autoCase.setCaseType((byte) 1);//默认ui类
         }
         if (autoCase.getImportant()==null){
@@ -320,6 +320,12 @@ public class AutoCaseSv {
             }
             if (condition.getStatus() != null) {
                 nativeSql.append(" and a.status=").append(condition.getStatus());
+            }
+            if(condition.getEnvironmentType() !=null){
+                nativeSql.append(" and a.environment_type=").append(condition.getEnvironmentType());
+            }
+            if(condition.getCaseType() !=null){
+                nativeSql.append(" and a.case_type=").append(condition.getCaseType());
             }
         }
         if(pageNumber < 0){

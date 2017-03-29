@@ -25,7 +25,7 @@ public class NaCaseTemplate implements java.io.Serializable {
 
 	private long caseId;
 	private String caseName;
-	private byte caseType;
+	private Byte caseType;
 	private String testType;
 	private String preCond;
 	private String operateDesc;
@@ -50,7 +50,7 @@ public class NaCaseTemplate implements java.io.Serializable {
 		this.caseType = caseType;
 	}
 
-	public NaCaseTemplate(long caseId, String caseName, byte caseType, String testType, String preCond,
+	public NaCaseTemplate(long caseId, String caseName, Byte caseType, String testType, String preCond,
 			String operateDesc, Short important, Long sysId, Long sysSubId, Long funId, Long scId, Long busiId,
 			Long creatorId, Date createTime, Long updateId, Date updateTime, Byte states) {
 		this.caseId = caseId;
@@ -94,11 +94,11 @@ public class NaCaseTemplate implements java.io.Serializable {
 	}
 
 	@Column(name = "CASE_TYPE", nullable = false, precision = 2, scale = 0)
-	public byte getCaseType() {
+	public Byte getCaseType() {
 		return this.caseType;
 	}
 
-	public void setCaseType(byte caseType) {
+	public void setCaseType(Byte caseType) {
 		this.caseType = caseType;
 	}
 

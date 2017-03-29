@@ -13,11 +13,11 @@ public interface NaAutoRunResultDao extends JpaRepository<NaAutoRunResult, Long>
 
 	List<NaAutoRunResult> findByTaskId(Long taskId);
 
-	List<NaAutoRunResult> findByTaskIdAndResultTypeNot(Long taskId,Byte resultType);
+	List<NaAutoRunResult> findByTaskIdAndResultTypeNot(Long taskId,Long resultType);
 
-	List<NaAutoRunResult> findByTaskIdAndResultType(Long taskId,Byte resultType);
+	List<NaAutoRunResult> findByTaskIdAndResultType(Long taskId,Long resultType);
 
-	List<NaAutoRunResult> findByTaskIdAndRunType(Long taskId,Byte runType);
+	List<NaAutoRunResult> findByTaskIdAndRunType(Long taskId,Long runType);
 
 	@Modifying
 	@Query(value = "delete from na_auto_run_result where task_id=?1",nativeQuery = true)

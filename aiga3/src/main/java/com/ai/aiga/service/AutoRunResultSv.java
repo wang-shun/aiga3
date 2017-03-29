@@ -378,7 +378,7 @@ public class AutoRunResultSv {
 	 * @param taskId
 	 * @return
 	 */
-	public List<NaAutoRunResult> getListByTaskIdResultTypeNot(Long taskId,Byte resultType){
+	public List<NaAutoRunResult> getListByTaskIdResultTypeNot(Long taskId,Long resultType){
 		if (taskId == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
@@ -398,7 +398,7 @@ public class AutoRunResultSv {
 	 * @param resultType
 	 * @return
 	 */
-	public List<NaAutoRunResult> getListByTaskIdResultType(Long taskId,Byte resultType){
+	public List<NaAutoRunResult> getListByTaskIdResultType(Long taskId,Long resultType){
 		if (taskId == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
@@ -418,7 +418,7 @@ public class AutoRunResultSv {
 	 * @param runType
 	 * @return
 	 */
-	public List<NaAutoRunResult> getListByTaskIdRunType(Long taskId,Byte runType){
+	public List<NaAutoRunResult> getListByTaskIdRunType(Long taskId,Long runType){
 		if (taskId == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
@@ -485,7 +485,7 @@ public class AutoRunResultSv {
 	 * 根据任务ID初始化结果表数据（初始化条件：结果状态为未成功）
 	 */
 	public void initResultByFail(Long taskId){
-		List<NaAutoRunResult> resultList=this.getListByTaskIdResultTypeNot(taskId,(byte)0);
+		List<NaAutoRunResult> resultList=this.getListByTaskIdResultTypeNot(taskId,0L);
 		this.initResult(resultList);
 	}
 
@@ -493,7 +493,7 @@ public class AutoRunResultSv {
 	 * 根据任务ID初始化结果表数据（初始化条件：执行状态为执行中）
 	 */
 	public void initResultByExec(Long taskId){
-		List<NaAutoRunResult> resultList=this.getListByTaskIdRunType(taskId,(byte)2);
+		List<NaAutoRunResult> resultList=this.getListByTaskIdRunType(taskId,2L);
 		this.initResult(resultList);
 	}
 

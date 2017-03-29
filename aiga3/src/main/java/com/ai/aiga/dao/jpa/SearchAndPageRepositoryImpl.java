@@ -317,6 +317,10 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
         }
     }
 
+    /**
+     * 批量保存
+     * @param list
+     */
     @Override
     public void saveList(List<Object> list){
         if (list != null&&list.size()>0) {

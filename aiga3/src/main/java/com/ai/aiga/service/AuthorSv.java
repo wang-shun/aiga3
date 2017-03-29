@@ -28,9 +28,6 @@ public class AuthorSv {
     @Autowired
     private AigaAuthorDao aigaAuthorDao;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     /**
      * 根据员工ID获取所有角色
      * @param authorRoleRequest
@@ -64,13 +61,13 @@ public class AuthorSv {
         aigaAuthorDao.deleteByStaffId(authorRoleRequest.getStaffId());
         /*通过 , 解析roleIds*/
         String[]roleIdAry=authorRoleRequest.getRoleIds().split(",");
+        List<Object> authorList=new ArrayList<Object>();
         for(String roleId:roleIdAry){
             AigaAuthor author=new AigaAuthor();
             author.setStaffId(authorRoleRequest.getStaffId());
             author.setRoleId(Long.parseLong(roleId));
-            entityManager.persist(author);
+            authorList.add(author);
         }
-        entityManager.flush();
-        entityManager.clear();
+        aigaAuthorDao.saveList(authorList);
     }
 }

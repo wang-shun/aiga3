@@ -35,8 +35,6 @@ public class AutoUiParamSv {
     @Autowired
     private NaUiParamDao uiParamDao;
 
-    @PersistenceContext
-    private EntityManager entityManager;
     /**
      * 根据传递的请求参数信息批量保存参数信息
      * @param paramRequestList 参数集合列表
@@ -50,6 +48,7 @@ public class AutoUiParamSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
         //批量保存
+        List<Object> paramList=new ArrayList<Object>();
         for (AutoUiParamRequest paramRequest:paramRequestList){
             NaAutoUiParam param= BeanMapper.map(paramRequest,NaAutoUiParam.class);
             param.setCompOrder(comp.getCompOrder());
@@ -57,10 +56,9 @@ public class AutoUiParamSv {
             param.setAutoId(comp.getAutoId());
             param.setCompId(comp.getCompId());
 //            param.setCreatorId();
-            entityManager.persist(param);
+            paramList.add(param);
         }
-        entityManager.flush();
-        entityManager.clear();
+        autoUiParamDao.saveList(paramList);
     }
 
     /**
@@ -111,6 +109,7 @@ public class AutoUiParamSv {
         }
         List<NaUiParam>paramList=uiParamDao.findByCompId(autoUiComp.getCompId());
         //复制参数
+        List<Object> list = new ArrayList<Object>();
         if(paramList!=null&&paramList.size()>0){
             for (NaUiParam uiParam:paramList){
                 NaAutoUiParam autoUiParam=BeanMapper.map(uiParam,NaAutoUiParam.class);
@@ -123,11 +122,10 @@ public class AutoUiParamSv {
                 autoUiParam.setParamLevel(1L);//参数等级，默认为1
 //                autoUiParam.setCreatorId();
                 //保存参数
-                entityManager.persist(autoUiParam);
+                list.add(autoUiParam);
             }
         }
-        entityManager.flush();
-        entityManager.clear();
+        autoUiParamDao.saveList(list);
     }
 
     /**

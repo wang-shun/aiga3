@@ -316,4 +316,15 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
             return new PageImpl<T>(new ArrayList<T>());
         }
     }
+
+    @Override
+    public void saveList(List<Object> list){
+        if (list != null&&list.size()>0) {
+            for (Object obj:list){
+                this.entityManager.persist(obj);
+            }
+            this.entityManager.flush();
+            this.entityManager.clear();
+        }
+    }
 }

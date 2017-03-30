@@ -5,7 +5,7 @@ import java.util.Date;
 public class NaChangePlanOnileRequest {
 	private Long onlinePlan;
     private String onlinePlanName;
-    private byte planState;
+    private Long planState;
     private String createOpId;
     private Date createDate;
     private Date doneDate;
@@ -32,10 +32,10 @@ public class NaChangePlanOnileRequest {
 	public void setOnlinePlanName(String onlinePlanName) {
 		this.onlinePlanName = onlinePlanName;
 	}
-	public byte getPlanState() {
+	public Long getPlanState() {
 		return planState;
 	}
-	public void setPlanState(byte planState) {
+	public void setPlanState(Long planState) {
 		this.planState = planState;
 	}
 	public String getCreateOpId() {

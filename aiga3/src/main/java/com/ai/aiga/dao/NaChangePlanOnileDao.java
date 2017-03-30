@@ -21,8 +21,8 @@ public interface NaChangePlanOnileDao extends JpaRepository<NaChangePlanOnile, L
 			+ "from na_change_plan_onile where online_plan=?1",nativeQuery = true)
 	NaChangePlanOnile findById(Long onlinePlan);
 
-	@Query("update NaChangePlanOnile set plan_State = 2 where onlinePlan = ?1")
-	void updatePlanState(Long onlinePlan);
+	@Query("update na_change_plan_onile set plan_state = 4 where online_plan = ?1")
+	void delectChangePlanOnile(Long onlinePlan);
 
 
 }

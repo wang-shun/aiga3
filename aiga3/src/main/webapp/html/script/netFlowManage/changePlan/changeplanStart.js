@@ -8,13 +8,13 @@ define(function(require, exports, module) {
     // 下拉菜单获取所有变更计划
     srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //获取变更计划列表
-    srvMap.add("getChangePlanList", pathAlias + "getChangePlanList.json", "accpet/changePlan/list");
+    srvMap.add("getChangePlanList", pathAlias + "getChangePlanList.json", "accept/changePlan/list");
     //获取自动化用例执行结果列表
-    srvMap.add("getAutoResultList", pathAlias + "getAutoResultList.json", "");
+    srvMap.add("getAutoResultList", pathAlias + "getAutoResultList.json", "accept/changePlanRun/caseResult");
     //获取编译发布结果列表
-    srvMap.add("getPublishResultList", pathAlias + "getPublishResultList.json", "");
+    srvMap.add("getPublishResultList", pathAlias + "getPublishResultList.json", "accept/changePlanRun/compileList");
     //下拉菜单获取所有处理人
-    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "");
+    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/changePlanRun/createOpId");
     //启动变更的接口
     srvMap.add("startChange", pathAlias + "retMessage.json", "accept/changePlanRun/changStart");
     //启动上线获取验收任务列表接口
@@ -22,7 +22,7 @@ define(function(require, exports, module) {
     //保存验收任务
     srvMap.add("saveTaskResult", pathAlias + "retMessage.json", "accept/changePlanRun/save");
     //删除验收任务
-    srvMap.add("delTaskResult", pathAlias + "retMessage.json", "");
+    srvMap.add("delTaskResult", pathAlias + "retMessage.json", "accept/changePlanRun/delete");
 
     // 模板对象
     var Tpl = {

@@ -5,7 +5,7 @@
 define(function(require, exports, module) {
 
     // 侧边栏菜单列表接口
-    srvMap.add("getSidebarMenuList", "global/getSidebarMenuList.json", "html/mock/global/getSidebarMenuList.json");
+    srvMap.add("getSidebarMenuList", "global/getSidebarMenuList.json", "global/menu");
 
     // 模板对象
     var Tpl = {
@@ -14,7 +14,8 @@ define(function(require, exports, module) {
 
     // 容器对象
     var Mod = {
-        sidebar: $('#Mod_sidebar')
+        sidebar: $('#Mod_sidebar'),
+        menuList: $("#JS_MenuList")
     };
 
     // 渲染对象
@@ -30,10 +31,11 @@ define(function(require, exports, module) {
 		    Rose.ajax.getJson(srvMap.get('getSidebarMenuList'), '', function(json, status) {
 		        if (status) {
 		            var template = Handlebars.compile(Tpl.sidebar);
-		            Mod.sidebar.html(template(json.data));
-
-		            self.initLoadPage(json.data.sidebarMenuList);
+		            Mod.sidebar.html(template(json));
+		            
 		            self.convertURL();
+		            //self.initLoadPage(json.data);
+		            self.initLoadPage($('#JS_MenuList'));
 		        }
 		    });
         },
@@ -41,8 +43,11 @@ define(function(require, exports, module) {
         	var self = this;
 			$('#JS_MenuList').find("a").bind('click', function() {
 				var _href = $(this).data('href');
-				self.loadHtml(_href); 
+				if(_href){
+					self.loadHtml(_href); 
+				}
 			});
+			
 		},
 		setPath: function(){
 
@@ -52,34 +57,29 @@ define(function(require, exports, module) {
 				Rose.ajax.loadHtml($('#JS_MainContent'),href)
 			}
 		},
-		initLoadPage:function (data){
-			var _href = '#';
-			for (x in data){
-				var _thisData = data[x];
-				if(_thisData.isActive){
-					_href = _thisData.menuURL;
-				}
-				if(_thisData.hasChild){
-					var _thisArrayChild = _thisData.childMenuList;
-					for (i in _thisArrayChild){
-						var _thisDataChild = _thisArrayChild[i]
-						if(_thisDataChild.isActive){
-							_href = _thisDataChild.menuURL;
-						}
-						if(_thisDataChild.hasChild){
-							var _thisArrayThirdChild = _thisDataChild.childMenuList;
-							for (t in _thisArrayThirdChild){
-								var _thisDataThirdChild = _thisArrayThirdChild[t]
-								if(_thisDataThirdChild.isActive){
-									_href = _thisDataThirdChild.menuURL;
-								}
-							}
-						}
-					}
+		initLoadPage:function (ulHtml){
+			
+//			if(data && data.length > 0){
+//				var _thisData = data[0];
+//				var _href = _thisData.viewname;
+//				if(_href){
+//					this.loadHtml(_href);
+//				}else{
+//					this.initLoadPage(_thisData.subMenus);
+//				}
+//			}
+			var firstLi = ulHtml.children("li:first");
+			var a = firstLi.children("a:first");
+			if(a.length > 0){
+				a.click();
+				var _href = a.data('href');
+				if(!_href){
+					var nextUl = firstLi.children("ul:first");
+					this.initLoadPage(nextUl);
 				}
 			}
-			this.loadHtml(_href)
 		}
+		
     };
 	Query.init();
     // 暴露渲染对象

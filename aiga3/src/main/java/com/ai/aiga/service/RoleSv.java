@@ -110,6 +110,10 @@ public class RoleSv extends BaseService{
 		
 		return sysRoleDao.findOne(roleId);
 	}
+
+	public List<SysRole> findRolesByUserId(Long staffId) {
+		return sysRoleDao.findRolesByUserId(staffId);
+	}
 	
 
 }

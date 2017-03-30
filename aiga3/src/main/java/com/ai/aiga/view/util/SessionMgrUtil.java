@@ -3,12 +3,10 @@ package com.ai.aiga.view.util;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.security.shiro.UserInfo;
 
 public class SessionMgrUtil {
-	
-
-	
 	
 	public static void addToSession(String key, Object obj){
 		getSubject().getSession().setAttribute(key, obj);
@@ -29,6 +27,11 @@ public class SessionMgrUtil {
 	
 	public static UserInfo getUserInfo(){
 		return (UserInfo) getFromSession(MANAGER_LOGIN_USERINFO);
+	}
+	
+	public static AigaStaff getStaff(){
+		UserInfo userInfo = getUserInfo();
+		return userInfo.getStaff();
 	}
 	
 	

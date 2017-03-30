@@ -68,6 +68,8 @@ public class ShiroDbRealm extends AuthorizingRealm{
 			staff.setPassword("");
 			userInfo.setStaff(staff);
 			
+			securitySv.initUserSecurity(userInfo);
+			
 			//没办法
 			SessionMgrUtil.cacheUserInfo(userInfo);
 			

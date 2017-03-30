@@ -44,7 +44,7 @@ public class AuthorController {
      * @return
      */
     @RequestMapping(value="/sys/staffrole/update")
-    public @ResponseBody JsonBean beforeDelAfterSave(AuthorRoleRequest authorRoleRequest){
+    public @ResponseBody JsonBean beforeDelAfterSave(@RequestBody AuthorRoleRequest authorRoleRequest){
         authorSv.beforeDelAfterSave(authorRoleRequest);
         return new JsonBean();
     }

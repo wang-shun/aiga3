@@ -1,10 +1,12 @@
 package com.ai.aiga.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +16,9 @@ import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.FunctionRequest;
+import com.ai.aiga.view.json.Menu;
 
 @Service
 @Transactional
@@ -184,6 +188,43 @@ public class FunctionSv extends BaseService{
 		
 		aigaFunctionDao.delete(funcId);
 		
+	}
+
+	public List<AigaFunction> findFunctionsByRoleids(List<Long> roleIds) {
+		return aigaFunctionDao.findFunctionsByRoleids(roleIds);
+	}
+	
+	public List<Menu> structureMenu(List<AigaFunction> funs) {
+		List<Menu> topmenus = new ArrayList<Menu>();
+		
+		if(funs != null){
+			Map map = new HashMap();
+			for(AigaFunction fun : funs){
+				
+				Menu hasmenu = (Menu) map.get(fun.getFuncId());
+				if(hasmenu != null){
+					continue;
+				}
+				
+				Menu menu = BeanMapper.map(fun, Menu.class);
+				
+				if(TOP_PARENT_ID == menu.getParentId()){
+					topmenus.add(menu);
+				}else{
+					Menu parentMenu = (Menu) map.get(menu.getParentId());
+					if(parentMenu != null){
+						parentMenu.addSubMenus(menu);
+					}else{
+						// 这部分数据, 数据丢失的数据, 到时候再想办法.
+					}
+				}
+				
+				map.put(menu.getFuncId(), menu);
+				
+			}
+		}
+		
+		return topmenus;
 	}
 
 

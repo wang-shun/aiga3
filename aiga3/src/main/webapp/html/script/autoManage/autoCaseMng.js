@@ -20,9 +20,12 @@ define(function(require, exports, module) {
 	// 根据模板ID获取组件列表
 	srvMap.add("getAutoCompList", pathAlias2 + "getTempCompList.json", "auto/comp/findByAutoId");
 	// 保存与组件关系(批量)
-	srvMap.add("updateCaseCompList", pathAlias2 + "getTempCompList.json", "auto/comp/save");
+	srvMap.add("updateCaseCompList", pathAlias2 + "getTempCompList.json", "auto/case/saveAutoCompParam");
 	//参数列表
 	srvMap.add("parameterList", pathAlias2 + "getParameterList.json", "auto/param/findByAutoComp");
+	//删除用例
+	srvMap.add("deleAutoCase", pathAlias2 + "getParameterList.json", "auto/case/delete");
+
 
 
 	// 模板对象
@@ -58,9 +61,10 @@ define(function(require, exports, module) {
 			$("#Js_contentWrapper").find('li.active').html("自动化用例管理");
 			this.hdbarHelp();
 			this.getBusiList();
-			this.getAutoCaseList("");
+			this.getAutoCaseList();
 			this.queryAutoCase();
 			this.updateCaseInfo();
+			this.deleAutoCase();
 
 			Utils.setSelectData($(Dom.queryAutoCaseList));
 		},
@@ -184,26 +188,44 @@ define(function(require, exports, module) {
 					var _dom = $(Dom.getSideAutoCompList);
 					var template = Handlebars.compile(Tpl.getSideAutoCompList);
 					_dom.html(template(json.data));
+					
+
+					$.each(json.data, function(n, value) {
+						value.paramList["compId"] = value.compId;
+						value.paramList["compOrder"] = value.compOrder;
+						console.log(value.paramList);
+						var template_table = Handlebars.compile(Tpl.getParameterList);
+						var _table = $(Dom.getParameterList);
+						_table.append(template_table(value.paramList))
+						// 设置滚动条高度
+						Utils.setScroll(_table.parent(".box-body"), '250px');			
+					})
+
+
+
 					Utils.eventClickChecked(_dom, function(isChecked, thisDom) {
 						var _name = thisDom.attr("name");
 						var _compOrder = _dom.find("input[name='compOrder']").val();
 						var _val = thisDom.val();
 						if (isChecked == "true") {
-							var cmd ="autoId="+autoId +"&"+ _name + '=' + _val+"&compOrder="+ _compOrder;
+							var cmd = "autoId=" + autoId + "&" + _name + '=' + _val + "&compOrder=" + _compOrder;
 							// 获取参数列表
-							self.getParameterList(cmd, _val,_compOrder);
+							self.getParameterList(cmd, _val, _compOrder);
 						} else {
 							var _table = $(Dom.getParameterList);
-							_table.find("tbody[name=" + _val + "_"+_compOrder+"]").remove();
+							_table.find("tbody[name=" + _val + "_" + _compOrder + "]").remove();
 							// 设置滚动条高度
 							Utils.setScroll(_table.parent(".box-body"), '250px');
 						}
+
 					})
+					console.log(_dom.find("[name='compId']"));
+					_dom.find("[name='compId']").iCheck('check');
 				}
 			});
 		},
 		// 获取参数列表
-		getParameterList: function(cmd, compId,compOrder) {
+		getParameterList: function(cmd, compId, compOrder) {
 			// alert('参数列表'+cmd);
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -215,7 +237,7 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.getParameterList);
 					var _table = $(Dom.getParameterList);
 					_table.append(template(json.data))
-					// 设置滚动条高度
+						// 设置滚动条高度
 					Utils.setScroll(_table.parent(".box-body"), '250px');
 
 				}
@@ -272,7 +294,7 @@ define(function(require, exports, module) {
 							window.XMS.msgbox.show('保存成功！', 'success', 2000)
 							_dom.modal('hide');
 							setTimeout(function() {
-								self.getCaseList();
+								self.getAutoCaseList();
 							}, 1000)
 						}
 					});
@@ -280,34 +302,27 @@ define(function(require, exports, module) {
 			});
 		},
 
-		//删除计划
-		deleAutoPlan: function() {
+		//删除
+		deleAutoCase: function() {
 			var self = this;
-			$("#JS_delePlan").bind('click', function() {
-				var cmd = 'planIds=';
-				var id;
-				$(Dom.getAutoPlanList).find("tr").each(function() {
-					var tdArr = $(this).children();
-					if (tdArr.eq(0).find("input").is(':checked')) {
-						id = tdArr.eq(0).find("input").val();
-						cmd += id + ',';
-					}
-				});
-				cmd = cmd.substring(0, cmd.length - 1);
-				if (id) {
-					Rose.ajax.getJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
+			$("#JS_deleAutoCase").bind('click', function() {
+				var data = self.getAutoInfo();
+				if (data) {
+					var cmd = 'autoId=' + data.autoId;
+					Rose.ajax.getJson(srvMap.get('deleAutoCase'), cmd, function(json, status) {
 						if (status) {
-							window.XMS.msgbox.show('计划删除成功！', 'success', 2000);
+							window.XMS.msgbox.show('用例删除成功！', 'success', 2000);
 							setTimeout(function() {
-								self.getPlanList();
+								self.getAutoCaseList();
 							}, 1000)
 						}
 					});
-				} else {
-					window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
 				}
 
+
+
 			});
+
 		},
 
 
@@ -324,11 +339,11 @@ define(function(require, exports, module) {
 				return;
 			} else {
 				data.autoId = obj.find("[name='autoId']").val();
-				
+
 				data.autoName = obj.find("[name='autoName']").val();
 				data.environmentType = obj.find("[name='environmentType']").val();
 			}
-		
+
 			return data;
 		},
 		// 获取复选列表当前选中行

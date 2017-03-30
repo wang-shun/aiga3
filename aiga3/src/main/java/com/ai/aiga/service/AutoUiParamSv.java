@@ -160,21 +160,21 @@ public class AutoUiParamSv {
      * @param compId
      * @return
      */
-    public List<NaAutoUiParam> findByAutoComp(Long autoId,Long compId){
+    public List<NaAutoUiParam> findByAutoComp(Long autoId,Long compId,Long compOrder){
         if (autoId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
         }
         if (compId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compId");
         }
-        return autoUiParamDao.findByAutoIdAndCompId(autoId,compId);
+        return autoUiParamDao.findByAutoIdAndCompIdAndCompOrder(autoId,compId,compOrder);
     }
 
     public List<NaAutoUiParam> findByAutoComp(AutoUiParamRequest request){
         if (request == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        return this.findByAutoComp(request.getAutoId(),request.getCompId());
+        return this.findByAutoComp(request.getAutoId(),request.getCompId(),request.getCompOrder());
     }
 
     /**
@@ -195,8 +195,8 @@ public class AutoUiParamSv {
      * @param compId
      * @return
      */
-    public  List<AutoUiParamRequest> findByAutoCompRequest(Long autoId,Long compId){
-        List<NaAutoUiParam> paramList=this.findByAutoComp(autoId,compId);
+    public  List<AutoUiParamRequest> findByAutoCompRequest(Long autoId,Long compId,Long compOrder){
+        List<NaAutoUiParam> paramList=this.findByAutoComp(autoId,compId,compOrder);
         List<AutoUiParamRequest> requestList=new ArrayList<AutoUiParamRequest>();
         if (paramList!=null && paramList.size()>0){
             for (NaAutoUiParam param:paramList){

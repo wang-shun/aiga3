@@ -172,7 +172,7 @@ public class AutoUiCompSv {
                 compRequest.setCompName(component.getCompName());
                 compRequest.setCompScript(component.getCompScript());
                 //查询组件下参数
-                compRequest.setParamList(this.autoUiParamSv.findByAutoCompRequest(autoId,compRequest.getCompId()));
+                compRequest.setParamList(this.autoUiParamSv.findByAutoCompRequest(autoId,compRequest.getCompId(),compRequest.getCompOrder()));
                 compRequestList.add(compRequest);
             }
         }

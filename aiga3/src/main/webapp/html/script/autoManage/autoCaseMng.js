@@ -20,7 +20,7 @@ define(function(require, exports, module) {
 	// 根据模板ID获取组件列表
 	srvMap.add("getAutoCompList", pathAlias2 + "getTempCompList.json", "auto/comp/findByAutoId");
 	// 保存与组件关系(批量)
-	srvMap.add("updateTempCompList", pathAlias2 + "getTempCompList.json", "auto/comp/save");
+	srvMap.add("updateCaseCompList", pathAlias2 + "getTempCompList.json", "auto/comp/save");
 	//参数列表
 	srvMap.add("parameterList", pathAlias2 + "getParameterList.json", "auto/param/findByAutoComp");
 
@@ -161,7 +161,9 @@ define(function(require, exports, module) {
 					var ids = 'autoId=' + data.autoId;
 					var _modal = $(Dom.modalEditAutoCase);
 					_modal.modal('show');
-					_modal.find("[name='autoName']").val('');
+					_modal.find("[name='autoName']").val(data.autoName);
+					_modal.find("[name='environmentType']").val(data.environmentType);
+
 					// 获取组件列表
 					self.getSideTempCompList(ids);
 					//保存组件
@@ -189,10 +191,10 @@ define(function(require, exports, module) {
 						if (isChecked == "true") {
 							var cmd ="autoId="+autoId +"&"+ _name + '=' + _val+"&compOrder="+ _compOrder;
 							// 获取参数列表
-							self.getParameterList(cmd, _val);
+							self.getParameterList(cmd, _val,_compOrder);
 						} else {
 							var _table = $(Dom.getParameterList);
-							_table.find("tbody[name=compId_" + _val + "]").remove();
+							_table.find("tbody[name=" + _val + "_"+_compOrder+"]").remove();
 							// 设置滚动条高度
 							Utils.setScroll(_table.parent(".box-body"), '250px');
 						}
@@ -265,12 +267,12 @@ define(function(require, exports, module) {
 					console.log("参数测试")
 					console.log(cmd)
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.postJson(srvMap.get('saveAutoCompParam'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('updateCaseCompList'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('保存成功！', 'success', 2000)
 							_dom.modal('hide');
 							setTimeout(function() {
-								self.getCaseTempList(Data.queryListCmd);
+								self.getCaseList();
 							}, 1000)
 						}
 					});
@@ -314,13 +316,19 @@ define(function(require, exports, module) {
 			var obj = this.getCheckedRow(Dom.getAutoCaseList);
 			var data = {
 				autoId: "",
+				autoName: "",
+				environmentType: "",
 			};
 			if (obj.length == 0) {
 				window.XMS.msgbox.show('请先选择一个用例！', 'error', 2000);
 				return;
 			} else {
 				data.autoId = obj.find("[name='autoId']").val();
+				
+				data.autoName = obj.find("[name='autoName']").val();
+				data.environmentType = obj.find("[name='environmentType']").val();
 			}
+		
 			return data;
 		},
 		// 获取复选列表当前选中行

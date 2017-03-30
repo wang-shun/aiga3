@@ -45,7 +45,7 @@ public class RoleFuncController {
      * @return
      */
     @RequestMapping(path = "/sys/rolefunc/update" )
-    public @ResponseBody JsonBean beforeDelAfterSave(RoleFuncRequest roleFuncRequest){
+    public @ResponseBody JsonBean beforeDelAfterSave(@RequestBody RoleFuncRequest roleFuncRequest){
         roleFuncSv.beforeDelAfterSave(roleFuncRequest);
         return new JsonBean();
     }

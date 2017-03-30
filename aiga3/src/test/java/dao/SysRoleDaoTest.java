@@ -17,14 +17,14 @@ public class SysRoleDaoTest {
 	@Autowired
 	private SysRoleDao dao;
 	
-	@Test
+	
 	public void test1(){
 		System.out.println(dao.count());
 	}
 	
-	
+	@Test
 	public void test2(){
-		System.out.println(dao.findAll());
+		System.out.println(dao.findRolesByUserId(5l));
 	}
 	
 }

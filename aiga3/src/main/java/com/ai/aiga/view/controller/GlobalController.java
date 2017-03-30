@@ -1,5 +1,7 @@
 package com.ai.aiga.view.controller;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.SecuritySv;
+import com.ai.aiga.view.json.Menu;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
@@ -36,7 +40,8 @@ public class GlobalController {
 		if(userInfo == null){
 			bean.fail("用户未登陆!");
 		}else{
-			securitySv.findMenus(userInfo);
+			List<Menu> menus = securitySv.getMenus(userInfo);
+			bean.setData(menus);
 		}
 		
 		return bean;

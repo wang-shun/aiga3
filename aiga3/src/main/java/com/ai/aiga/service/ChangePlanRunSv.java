@@ -124,13 +124,13 @@ public class ChangePlanRunSv extends BaseService{
 		if(naOnlineTaskDistribute.getTaskId() == null || naOnlineTaskDistribute.getTaskId().equals("")){
 			naOnlineTaskDistribute.setParentTaskId(0L);
 			naOnlineTaskDistribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
-			//naOnlineTaskDistribute.setAssignId();;
+			naOnlineTaskDistribute.setAssignId(1L);;
 			naOnlineTaskDistribute.setAssignDate(new Date());
 			naOnlineTaskDistribute.setDealState(1L);
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
-//			if(naOnlineTaskDistribute.getDealOpId() != null){
-//				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
-//			}
+			if(naOnlineTaskDistribute.getDealOpId() != null){
+				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
+			}
 		}else{
 			NaOnlineTaskDistribute distribute = naOnlineTaskDistributeDao.findOne(naOnlineTaskDistribute.getTaskId());
 			distribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
@@ -138,12 +138,12 @@ public class ChangePlanRunSv extends BaseService{
 			if(naOnlineTaskDistribute.getDealOpId() != null){
 				distribute.setDealOpId(naOnlineTaskDistribute.getDealOpId());
 			}
-			//distribute.setAssignId(assignId);
+			distribute.setAssignId(1L);
 			distribute.setAssignDate(new Date());
 			naOnlineTaskDistributeDao.save(distribute);
-//			if(distribute.getDealOpId() != null){
-//				sendMessageForCycle(distribute.getTaskId(), info);
-//			}
+			if(distribute.getDealOpId() != null){
+				sendMessageForCycle(distribute.getTaskId(), info);
+			}
 		}
 		//把计划状态改为处理中
 		naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());

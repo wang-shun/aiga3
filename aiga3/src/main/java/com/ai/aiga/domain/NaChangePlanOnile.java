@@ -5,7 +5,10 @@ package com.ai.aiga.domain;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -68,7 +71,8 @@ public class NaChangePlanOnile  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_CHANGE_PLAN_ONILE$SEQ")
+     @SequenceGenerator(name="NA_CHANGE_PLAN_ONILE$SEQ",sequenceName="NA_CHANGE_PLAN_ONILE$SEQ",allocationSize=1)
     @Column(name="ONLINE_PLAN", nullable=false, precision=12, scale=0)
     public Long getOnlinePlan() {
         return this.onlinePlan;

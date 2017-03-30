@@ -3,10 +3,9 @@ package com.ai.aiga.service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.ai.aiga.util.mapper.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,9 +254,27 @@ public class NaAutoEnvironmentSv extends BaseService{
 				naAutoMachineEnvDao.save(naAutoMachineEnv);
 			}
 		}
+   }
 
-	
-	   
+	/**
+	 * 根据环境ID获取环境信息并返回JSON串（供云桌面使用）
+	 * @param envId
+	 * @return
+	 */
+   public String getEnvById(String envId){
+	   if (StringUtils.isBlank(envId)) {
+	             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envId");
+	   }
+	   NaAutoEnvironment environment = naAutoEnvironmentDao.findOne(new BigDecimal(envId));
+	   Map<String, String> json = new HashMap<String, String>();
+	   json.put("id", envId);
+	   json.put("name", environment.getEnvName());
+	   Map<String, String> arguments = new HashMap<String, String>();
+	   arguments.put("url", environment.getEnvUrl());
+	   arguments.put("sysCode", environment.getSysAccount());
+	   arguments.put("sysPassword", environment.getSysPassword());
+	   arguments.put("ENVIRON", environment.getEnvCode());
+	   return JsonUtil.mapToJson(json);
    }
 
 }

@@ -4,15 +4,7 @@ package com.ai.aiga.domain;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -43,6 +35,8 @@ public class NaAutoEnvironment  implements java.io.Serializable {
      private BigDecimal envType;
      private BigDecimal runEnv;
      private BigDecimal creatorId;
+     private String envCode;
+
      @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date updateTime;
 
@@ -53,7 +47,7 @@ public class NaAutoEnvironment  implements java.io.Serializable {
     public NaAutoEnvironment(BigDecimal envId) {
         this.envId = envId;
     }
-    public NaAutoEnvironment(BigDecimal envId, BigDecimal sysId, String envName, String envUrl, String sysAccount, String sysPassword, String database, String dbAccount, String dbPassword, BigDecimal regionId, String soId, String svnUrl, String svnAccount, String svnPassword, BigDecimal envType, BigDecimal runEnv, BigDecimal creatorId, Date updateTime) {
+    public NaAutoEnvironment(BigDecimal envId, BigDecimal sysId, String envName, String envUrl, String sysAccount, String sysPassword, String database, String dbAccount, String dbPassword, BigDecimal regionId, String soId, String svnUrl, String svnAccount, String svnPassword, BigDecimal envType, BigDecimal runEnv, BigDecimal creatorId, Date updateTime,String envCode) {
        this.envId = envId;
        this.sysId = sysId;
        this.envName = envName;
@@ -72,8 +66,10 @@ public class NaAutoEnvironment  implements java.io.Serializable {
        this.runEnv = runEnv;
        this.creatorId = creatorId;
        this.updateTime = updateTime;
+       this.envCode=envCode;
     }
-   
+
+
      @Id 
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_ENVIRONMENT$SEQ")
      @SequenceGenerator(name="NA_AUTO_ENVIRONMENT$SEQ",sequenceName="NA_AUTO_ENVIRONMENT$SEQ",allocationSize=1)
@@ -239,6 +235,15 @@ public class NaAutoEnvironment  implements java.io.Serializable {
         this.updateTime = updateTime;
     }
 
+    @Basic
+    @Column(name="ENV_CODE")
+    public String getEnvCode() {
+        return this.envCode;
+    }
+
+    public void setEnvCode(String envCode) {
+        this.envCode = envCode;
+    }
 
 
 

@@ -51,6 +51,8 @@ public class AutoUiParamSv {
         List<Object> paramList=new ArrayList<Object>();
         for (AutoUiParamRequest paramRequest:paramRequestList){
             NaAutoUiParam param= BeanMapper.map(paramRequest,NaAutoUiParam.class);
+            //将主键置为空
+            param.setParamId(null);
             param.setCompOrder(comp.getCompOrder());
             param.setUpdateTime(Calendar.getInstance().getTime());
             param.setAutoId(comp.getAutoId());

@@ -77,4 +77,12 @@ public class ChangePlanRunController {
 		bean.setData(changePlanRunSv.compileList(condition,pageNumber,pageSize));
 		return bean;
 	}
+	/**
+	 * 获取处理人接口*/
+	@RequestMapping(path = "/accept/changePlanRun/createOpId")
+	public @ResponseBody JsonBean createOpId(){
+		JsonBean bean = new JsonBean();
+		bean.setData(changePlanRunSv.createOpId());
+		return bean;
+	}
 }

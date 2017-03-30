@@ -12,13 +12,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.terracotta.modules.ehcache.store.nonstop.RejoinWithoutNonStopStore;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaCodePathDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.NaChangePlanOnile;
 import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
@@ -40,6 +41,9 @@ public class ChangePlanRunSv extends BaseService{
 	
 	@Autowired
 	private NaCodePathDao naCodePathDao;
+	
+	@Autowired
+	private AigaStaffDao aigaStaffDao;
 
 	public Object list(NaChangePlanOnile condition, String time1, String time2, int pageNumber, int pageSize) {
 		
@@ -110,9 +114,9 @@ public class ChangePlanRunSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlanName");
 		}
 		String info = "";
-		if(naOnlineTaskDistribute.getTaskType().equals("1")){
+		if(naOnlineTaskDistribute.getTaskType() == 1){
 			info = "前台功能验收";
-		}else if(naOnlineTaskDistribute.getTaskType().equals("2")){
+		}else if(naOnlineTaskDistribute.getTaskType() == 2){
 			info = "后台功能验收";
 		}else{
 			info = "非功能验收";
@@ -124,9 +128,9 @@ public class ChangePlanRunSv extends BaseService{
 			naOnlineTaskDistribute.setAssignDate(new Date());
 			naOnlineTaskDistribute.setDealState(1L);
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
-			if(naOnlineTaskDistribute.getDealOpId() != null){
-				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
-			}
+//			if(naOnlineTaskDistribute.getDealOpId() != null){
+//				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
+//			}
 		}else{
 			NaOnlineTaskDistribute distribute = naOnlineTaskDistributeDao.findOne(naOnlineTaskDistribute.getTaskId());
 			distribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
@@ -137,9 +141,9 @@ public class ChangePlanRunSv extends BaseService{
 			//distribute.setAssignId(assignId);
 			distribute.setAssignDate(new Date());
 			naOnlineTaskDistributeDao.save(distribute);
-			if(distribute.getDealOpId() != null){
-				sendMessageForCycle(distribute.getTaskId(), info);
-			}
+//			if(distribute.getDealOpId() != null){
+//				sendMessageForCycle(distribute.getTaskId(), info);
+//			}
 		}
 		//把计划状态改为处理中
 		naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());
@@ -202,5 +206,10 @@ public class ChangePlanRunSv extends BaseService{
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return naCodePathDao.search(cons, pageable);
+	}
+
+	public List<AigaStaff> createOpId() {
+		List<AigaStaff> list = aigaStaffDao.findAll();
+		return list;
 	}
 }

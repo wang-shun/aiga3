@@ -24,7 +24,7 @@ public interface NaAutoUiParamDao extends SearchAndPageRepository<NaAutoUiParam,
     @Query(value = "delete from na_auto_ui_param where auto_id=?1 and comp_id=?2",nativeQuery = true)
     int deleteByAutoComp(Long autoId,Long compId);
 
-    List<NaAutoUiParam> findByAutoIdAndCompId(Long autoId,Long compId);
+    List<NaAutoUiParam> findByAutoIdAndCompIdAndCompOrder(Long autoId,Long compId,Long compOrder);
 
     List<NaAutoUiParam> findByAutoId(Long autoId);
 }

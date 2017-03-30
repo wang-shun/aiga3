@@ -12,7 +12,6 @@
             <div class="col-md-12">
                 <div class="form-group form-inline">
                     <label for="caseName" class="control-label">用例名称:</label>
-                    <input type="hidden" class="form-control" name="planId" value="{{planId}}">
                     <input placeholder="请输入用例名称" id="caseName" type="text" class="form-control input-sm" name="autoName" style="width: 160px">
                     <label class="control-label">系统大类:</label>
                     <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" style="width: 160px">
@@ -48,7 +47,7 @@
                         <option value="3">后台进程类</option>
                     </select>
                     <label>覆盖环境:</label>
-                    <select name="caseType" class="form-control input-sm" style="width: 160px">
+                    <select name="environmentType" class="form-control input-sm" style="width: 160px">
                         <option value="">请选择</option>
                         <option value="1">验收环境</option>
                         <option value="2">准发布环境</option>
@@ -107,7 +106,6 @@
                                                 <label>自动化用例模板名称：
                                                     <i class="text-red">*</i></label>
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">用例模板_</div>
                                                     <input type="text" class="form-control" name="autoName" value="">
                                                 </div>
                                             </div>
@@ -119,10 +117,8 @@
                                                 <select class="form-control" name="environmentType">
                                                     <option value="">请选择</option>
                                                     <option value="1">验收环境</option>
-                                                    <option value="2">准发布环境
-                                                    </option>
-                                                    <option value="3">生产环境
-                                                    </option>
+                                                    <option value="2">准发布环境</option>
+                                                    <option value="3">生产环境</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -134,7 +130,7 @@
                                     <h3 class="box-title">参数列表</h3>
                                 </div>
                                 <div class="box-body">
-                                    <table name="table" class="table table-bordered table-hover" id="JS_getParameterList">
+                                    <table name="table" class="table table-condensed table-hover" id="JS_getParameterList">
                                         <thead>
                                             <tr>
                                                 <th>参数名</th>

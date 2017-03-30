@@ -26,7 +26,7 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
      private Long taskId;
      private String taskName;
      private Long parentTaskId;
-     private Long onlinePlanId;
+     private Long onlinePlan;
      private Long taskType;
      private Long dealOpId;
      private Long assignId;
@@ -44,11 +44,11 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
     public NaOnlineTaskDistribute(long taskId) {
         this.taskId = taskId;
     }
-    public NaOnlineTaskDistribute(Long taskId, String taskName, Long parentTaskId, Long onlinePlanId, Long taskType, Long dealOpId, Long assignId, Date assignDate, Long dealState, String onlinePlanName, String ext1, String ext2, String ext3) {
+    public NaOnlineTaskDistribute(Long taskId, String taskName, Long parentTaskId, Long onlinePlan, Long taskType, Long dealOpId, Long assignId, Date assignDate, Long dealState, String onlinePlanName, String ext1, String ext2, String ext3) {
        this.taskId = taskId;
        this.taskName = taskName;
        this.parentTaskId = parentTaskId;
-       this.onlinePlanId = onlinePlanId;
+       this.onlinePlan = onlinePlan;
        this.taskType = taskType;
        this.dealOpId = dealOpId;
        this.assignId = assignId;
@@ -61,8 +61,8 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
     }
    
     @Id 
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NaOnlineTaskDistribute$SEQ")
-    @SequenceGenerator(name="NaOnlineTaskDistribute$SEQ",sequenceName="NaOnlineTaskDistribute$SEQ",allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_ONLINE_TASK_DISTRIBUTE$SEQ")
+    @SequenceGenerator(name="NA_ONLINE_TASK_DISTRIBUTE$SEQ",sequenceName="NA_ONLINE_TASK_DISTRIBUTE$SEQ",allocationSize=1)
     @Column(name="TASK_ID", unique=true, nullable=false, precision=14, scale=0)
     public Long getTaskId() {
         return this.taskId;
@@ -90,13 +90,13 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
         this.parentTaskId = parentTaskId;
     }
     
-    @Column(name="ONLINE_PLAN_ID", precision=14, scale=0)
-    public Long getOnlinePlanId() {
-        return this.onlinePlanId;
+    @Column(name="ONLINE_PLAN", precision=14, scale=0)
+    public Long getOnlinePlan() {
+        return this.onlinePlan;
     }
     
-    public void setOnlinePlanId(Long onlinePlanId) {
-        this.onlinePlanId = onlinePlanId;
+    public void setOnlinePlan(Long onlinePlan) {
+        this.onlinePlan = onlinePlan;
     }
     
     @Column(name="TASK_TYPE", precision=14, scale=0)

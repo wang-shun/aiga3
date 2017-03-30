@@ -121,10 +121,20 @@ define(function(require, exports, module) {
 
 	//-------------------------------系统大类，子类，功能点下拉框------------------------------------------//
 		//系统大类下拉框
+		getSysList1: function() {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.getSysList);
+					$("#collectSys").html(template(json.data));
+					console.log(json.data)
+				}								
+			});
+		},
+		//系统大类下拉框
 		getSysList: function(obj,callback) {
 			var self = this;
 			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
-
 				if (status) {
 					var template = Handlebars.compile(Tpl.getSysList);
 					$(obj.getSysList).html(template(json.data));
@@ -136,7 +146,6 @@ define(function(require, exports, module) {
 				}
 				self.sysSelected(obj);
 								
-
 			});
 		},
 
@@ -334,6 +343,8 @@ define(function(require, exports, module) {
 				$("#caseType").val("");
 				$("#repairsId").val("");
 				$("#caseNum").val("");
+				$("input[name=sysId]").val("");
+				self.getSysList1();
 				//弹出层
 				$(Dom.addCaseSetinfoModal).modal('show');
 				$("#JS_addCaseSetinfoSubmit").unbind('click');
@@ -399,14 +410,18 @@ define(function(require, exports, module) {
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.addCaseSetinfo);
+					self.getSysList1();
 					var a = JSON.stringify(json.data.caseType);
 					var b = JSON.stringify(json.data.repairsId);
+					var d = JSON.stringify(json.data.sysId);
 					var c = json.data;
 					c["caseType"]=Dom.caseType;
 					c["repairsId"]=Dom.repairsId;
 					_form.html(template(c));
 					$("#caseType").val(a);
 					$("#repairsId").val(b);
+					$("#sysId").val(d);
+					alert($("#sysId").val());
 					// //弹出层
 					$(Dom.addCaseSetinfoModal).modal('show');
 					$("#formName").html("修改用例集");

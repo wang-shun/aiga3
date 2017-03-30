@@ -14,7 +14,7 @@ public class NaAutoCase {
     private Long testId;
     private Long tempId;
     private String testType;
-    private byte caseType;
+    private Byte caseType;
     private String autoName;
     private Long sysId;
     private Long sysSubId;
@@ -75,11 +75,11 @@ public class NaAutoCase {
 
     @Basic
     @Column(name = "CASE_TYPE")
-    public byte getCaseType() {
+    public Byte getCaseType() {
         return caseType;
     }
 
-    public void setCaseType(byte caseType) {
+    public void setCaseType(Byte caseType) {
         this.caseType = caseType;
     }
 

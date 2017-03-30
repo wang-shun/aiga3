@@ -30,7 +30,7 @@ public class NaChangeListController {
 		bean.setData(naChangeListSv.selectname(changeName));
 		return bean;
 	}
-	@RequestMapping(path = "/sys/require/save")
+	@RequestMapping(path = "/sys/change/save")
 	public @ResponseBody JsonBean save(NaChangeList request){
 		naChangeListSv.save(request);
 		return JsonBean.success;

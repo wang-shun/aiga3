@@ -12,13 +12,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.terracotta.modules.ehcache.store.nonstop.RejoinWithoutNonStopStore;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaCodePathDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.NaChangePlanOnile;
 import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
@@ -40,25 +41,28 @@ public class ChangePlanRunSv extends BaseService{
 	
 	@Autowired
 	private NaCodePathDao naCodePathDao;
+	
+	@Autowired
+	private AigaStaffDao aigaStaffDao;
 
 	public Object list(NaChangePlanOnile condition, String time1, String time2, int pageNumber, int pageSize) {
 		
-		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, a.crete_date, a.types,"
-				+ " a.done_date, a.plan_date, a.timely, a.result, a.remark, is_finished, a.auto_run_result from "
-				+ "na_change_plan_online a, aiga_staff b where a.create_op_id = b.staff_id and sign = 0 ";
+		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, to_char(a.create_date,'YYYY-MM-DD HH24:MI:SS'), a.types,"
+				+ " to_char(a.done_date,'YYYY-MM-DD HH24:MI:SS'), to_char(a.plan_date,'YYYY-MM-DD HH24:MI:SS'), a.timely, a.result, a.remark, is_finished, a.auto_run_result from "
+				+ "na_change_plan_onile a, aiga_staff b where a.create_op_id = b.staff_id and sign = 0 ";
 		
 		if(condition != null){
-			if(StringUtils.isNotBlank(condition.getOnlinePlan().toString())){
-				sql += " and online_plan = "+condition.getOnlinePlan();
+			if(condition.getOnlinePlan() != null){
+				sql += " and a.online_plan = "+condition.getOnlinePlan();
 			}
-			if(condition.getPlanState() > 0 ){
-				sql += " and plan_state = "+condition.getPlanState();
+			if(condition.getPlanState() != null ){
+				sql += " and a.plan_state = "+condition.getPlanState();
 			}
 			if(StringUtils.isNoneBlank(time1)){
-				sql += " and create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
 			}
 			if(StringUtils.isNotBlank(time2)){
-				sql += " and create_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.create_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
 			}
 		}
 		List<String> list = new ArrayList<String>();
@@ -110,9 +114,9 @@ public class ChangePlanRunSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlanName");
 		}
 		String info = "";
-		if(naOnlineTaskDistribute.getTaskType().equals("1")){
+		if(naOnlineTaskDistribute.getTaskType() == 1){
 			info = "前台功能验收";
-		}else if(naOnlineTaskDistribute.getTaskType().equals("2")){
+		}else if(naOnlineTaskDistribute.getTaskType() == 2){
 			info = "后台功能验收";
 		}else{
 			info = "非功能验收";
@@ -124,9 +128,9 @@ public class ChangePlanRunSv extends BaseService{
 			naOnlineTaskDistribute.setAssignDate(new Date());
 			naOnlineTaskDistribute.setDealState(1L);
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
-			if(naOnlineTaskDistribute.getDealOpId() != null){
-				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
-			}
+//			if(naOnlineTaskDistribute.getDealOpId() != null){
+//				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
+//			}
 		}else{
 			NaOnlineTaskDistribute distribute = naOnlineTaskDistributeDao.findOne(naOnlineTaskDistribute.getTaskId());
 			distribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
@@ -137,9 +141,9 @@ public class ChangePlanRunSv extends BaseService{
 			//distribute.setAssignId(assignId);
 			distribute.setAssignDate(new Date());
 			naOnlineTaskDistributeDao.save(distribute);
-			if(distribute.getDealOpId() != null){
-				sendMessageForCycle(distribute.getTaskId(), info);
-			}
+//			if(distribute.getDealOpId() != null){
+//				sendMessageForCycle(distribute.getTaskId(), info);
+//			}
 		}
 		//把计划状态改为处理中
 		naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());
@@ -171,7 +175,7 @@ public class ChangePlanRunSv extends BaseService{
 				distribute.setTaskName(object[1].toString());
 				distribute.setTaskType(((BigDecimal) object[2]).longValue());
 				distribute.setDealState(((BigDecimal) object[3]).longValue());
-				distribute.setDealrName(object[4].toString());
+				distribute.setDealName(object[4].toString());
 				responses.add(distribute);
 			}
 		}
@@ -202,5 +206,10 @@ public class ChangePlanRunSv extends BaseService{
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return naCodePathDao.search(cons, pageable);
+	}
+
+	public List<AigaStaff> createOpId() {
+		List<AigaStaff> list = aigaStaffDao.findAll();
+		return list;
 	}
 }

@@ -394,18 +394,16 @@ define(function(require, exports, module) {
                 }
             });
             Handlebars.registerHelper('getDealState', function(value, fn) {
-                if (value == "0") {
-                    return "未分派";
-                }
                 if (value == "1") {
-                    return "处理中";
+                    return "新增";
                 }
                 if (value == "2") {
-                    return "完成";
+                    return "处理中";
                 }
                 if (value == "3") {
-                    return "不需分派";
+                    return "处理完";
                 }
+                
             });
             Handlebars.registerHelper('getTaskType', function(value, fn) {
                 if (value == "1") {

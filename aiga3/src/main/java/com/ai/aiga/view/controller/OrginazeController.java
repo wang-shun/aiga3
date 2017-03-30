@@ -51,7 +51,8 @@ public class OrginazeController {
 	
 	@RequestMapping(path = "/sys/organize/del")
 	public  @ResponseBody JsonBean  delete(Long organizeId){
-        organizeSv.deleteOrginaze(organizeId);
-		return JsonBean.success;
+		JsonBean json = new JsonBean();
+		json.setData(organizeSv.deleteOrginaze(organizeId));
+		return json;
 	}
 }

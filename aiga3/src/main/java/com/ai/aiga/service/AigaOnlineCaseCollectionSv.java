@@ -76,6 +76,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		caseConnections.setRepairsId(caseCollection.getRepairsId());
 		// 系统默认设定
 		caseConnections.setCreateDate(new Date());
+		caseConnections.setSysId(caseCollection.getSysId());
 		// caseConnections.setOpId();
 		caseDao.save(caseConnections);
 	}
@@ -166,6 +167,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		resultList.add("caseNum");
 		resultList.add("caseType");
 		resultList.add("repairId");
+		resultList.add("sysId");
 		String sql = "select collect_ID, \n"
 							     +"  collect_Name, \n"
 							      +"     (select name from aiga_staff bb where a.OP_ID = bb.staff_id) as operator, \n"
@@ -175,8 +177,10 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 							        +"      from sys_constant cc \n"
 							        +"     where cc.category = 'collectType' \n"
 							        +"       and cc.value = a.case_type) as case_type, \n"
-							        +"  (select name from aiga_staff cc where a.repairs_id = cc.staff_id) as repair_id \n"
-							   +"   from na_auto_collection a  where 1=1";
+							        +"  (select name from aiga_staff cc where a.repairs_id = cc.staff_id) as repair_id \n,"
+							        +" b.sys_name as sys_name  "
+							   +"   from na_auto_collection a left join  aiga_system_folder b \n"
+					   +" 	    on a.sys_Id = b.sys_id \n   where 1=1";
 			// 用例集名称
 			if (StringUtils.isNotBlank(caseCollection.getCollectName())) {
 				sql += " and collect_name like '%"+caseCollection.getCollectName()+"%' ";
@@ -623,17 +627,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	
 	public Object repairMan(){
 		 List  repaireLists = new  ArrayList<Map>();
-		String sql = "select distinct staff.staff_id, emp.employee_name, staff.code\n" +
-								      "  from sys_staff        staff,\n" + 
-								      "       sys_employee     emp,\n" + 
-								      "       sys_author       author,\n" + 
-								      "       sys_station      station,\n" + 
-								      "       sys_station_type type\n" + 
-								      " where type.station_type_id = station.station_type_id\n" + 
-								      "   and emp.employee_id = staff.employee_id\n" + 
-								      "   and author.station_id = station.station_id\n" + 
-								      "   and staff.staff_id = author.staff_id\n" +
-								      " and author.state = 1 \n" ;
+		String sql = " select distinct staff.staff_id, staff.name, staff.code  from aiga_staff staff";
 	    List  repaireList = 	groupDao.searchformSQL(sql);
 	    if(repaireList!=null&&repaireList.size()>0){
 		    	for(int i=0;i<repaireList.size();i++){

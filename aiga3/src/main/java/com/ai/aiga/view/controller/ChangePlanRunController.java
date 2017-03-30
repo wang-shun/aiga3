@@ -26,7 +26,7 @@ public class ChangePlanRunController {
 	
 	/**
 	 * 变更计划列表*/
-	@RequestMapping(path = "/accpet/changePlan/list")
+	@RequestMapping(path = "/accept/changePlan/list")
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
@@ -75,6 +75,14 @@ public class ChangePlanRunController {
 			NaCodePath condition){
 		JsonBean bean = new JsonBean();
 		bean.setData(changePlanRunSv.compileList(condition,pageNumber,pageSize));
+		return bean;
+	}
+	/**
+	 * 获取处理人接口*/
+	@RequestMapping(path = "/accept/changePlanRun/createOpId")
+	public @ResponseBody JsonBean createOpId(){
+		JsonBean bean = new JsonBean();
+		bean.setData(changePlanRunSv.createOpId());
 		return bean;
 	}
 }

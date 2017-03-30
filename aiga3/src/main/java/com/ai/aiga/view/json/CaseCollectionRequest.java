@@ -7,10 +7,25 @@ public class CaseCollectionRequest {
 	  private Long caseType;
       private Long repairsId;
       private Long caseNum;
+      private Long sysId;
 	
 	public CaseCollectionRequest() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+	public Long getSysId() {
+		return sysId;
+	}
+
+
+
+
+	public void setSysId(Long sysId) {
+		this.sysId = sysId;
 	}
 
 

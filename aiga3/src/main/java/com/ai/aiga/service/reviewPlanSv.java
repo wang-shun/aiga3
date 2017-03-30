@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,10 +49,10 @@ public class reviewPlanSv  extends BaseService{
 			HttpUtil.sendPost(url,JsonUtil.mapToJson(map) );
 		}
 	}
-	@Test
-	public void test() throws ParseException{
-		reviewPlanSv sv = new reviewPlanSv();
-		String date = "2017-03-21";
-		sv.returnToADClod(new SimpleDateFormat("yyyy-MM-dd").parse(date));
-	}
+//	@Test
+//	public void test() throws ParseException{
+//		reviewPlanSv sv = new reviewPlanSv();
+//		String date = "2017-03-21";
+//		sv.returnToADClod(new SimpleDateFormat("yyyy-MM-dd").parse(date));
+//	}
 }

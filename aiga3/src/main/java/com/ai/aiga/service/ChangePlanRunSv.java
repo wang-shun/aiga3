@@ -43,22 +43,22 @@ public class ChangePlanRunSv extends BaseService{
 
 	public Object list(NaChangePlanOnile condition, String time1, String time2, int pageNumber, int pageSize) {
 		
-		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, a.crete_date, a.types,"
+		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, a.create_date, a.types,"
 				+ " a.done_date, a.plan_date, a.timely, a.result, a.remark, is_finished, a.auto_run_result from "
-				+ "na_change_plan_online a, aiga_staff b where a.create_op_id = b.staff_id and sign = 0 ";
+				+ "na_change_plan_onile a, aiga_staff b where a.create_op_id = b.staff_id and sign = 0 ";
 		
 		if(condition != null){
-			if(StringUtils.isNotBlank(condition.getOnlinePlan().toString())){
-				sql += " and online_plan = "+condition.getOnlinePlan();
+			if(condition.getOnlinePlan() != null){
+				sql += " and a.online_plan = "+condition.getOnlinePlan();
 			}
-			if(condition.getPlanState() > 0 ){
-				sql += " and plan_state = "+condition.getPlanState();
+			if(condition.getPlanState() != null ){
+				sql += " and a.plan_state = "+condition.getPlanState();
 			}
 			if(StringUtils.isNoneBlank(time1)){
-				sql += " and create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
 			}
 			if(StringUtils.isNotBlank(time2)){
-				sql += " and create_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.create_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
 			}
 		}
 		List<String> list = new ArrayList<String>();
@@ -171,7 +171,7 @@ public class ChangePlanRunSv extends BaseService{
 				distribute.setTaskName(object[1].toString());
 				distribute.setTaskType(((BigDecimal) object[2]).longValue());
 				distribute.setDealState(((BigDecimal) object[3]).longValue());
-				distribute.setDealrName(object[4].toString());
+				distribute.setDealName(object[4].toString());
 				responses.add(distribute);
 			}
 		}

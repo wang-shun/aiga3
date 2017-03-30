@@ -6,7 +6,7 @@ public class NaOnlineTaskDistributeResponse {
 	private String taskName;
 	private Long taskType;
 	private Long dealState;
-	private String dealrName;
+	private String dealName;
 	private Long dealOpId;
 	public Long getTaskId() {
 		return taskId;
@@ -32,11 +32,11 @@ public class NaOnlineTaskDistributeResponse {
 	public void setDealState(Long dealState) {
 		this.dealState = dealState;
 	}
-	public String getDealrName() {
-		return dealrName;
+	public String getDealName() {
+		return dealName;
 	}
-	public void setDealrName(String dealrName) {
-		this.dealrName = dealrName;
+	public void setDealName(String dealName) {
+		this.dealName = dealName;
 	}
 	public Long getDealOpId() {
 		return dealOpId;

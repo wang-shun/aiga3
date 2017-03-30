@@ -26,7 +26,7 @@ public class ChangePlanRunController {
 	
 	/**
 	 * 变更计划列表*/
-	@RequestMapping(path = "/accpet/changePlan/list")
+	@RequestMapping(path = "/accept/changePlan/list")
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,

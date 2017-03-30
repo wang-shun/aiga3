@@ -336,99 +336,104 @@ define(function(require, exports, module) {
                 if (data) {
                     nowPlanId = data.planId;
                     runType = data.runType;
-                    $(Dom.modalNewTaskForm).modal('show');
-                    var template = Handlebars.compile(Tpl.modalNewTaskInfo);
-                    var id = {
-                        planId: data.planId
-                    }
-                    $(Dom.modalNewTaskForm).find(".modal-body").html(template(id));
-                    var selctCycleType = $(Dom.modalNewTaskForm).find("select[name='cycleType']");
-                    var selctRunType = $(Dom.modalNewTaskForm).find("select[name='runType']");
-                    selctCycleType.val(data.cycleType);
-                    selctRunType.val(data.runType);
-
-                    selctCycleType.change(function(event) {
-                        /* Act on the event */
-                        if (selctCycleType.val() == 1) {
-                            $("#Js_cycleInput").addClass("hide");
-                           
-                        } else if (selctCycleType.val() == 2) {
-                            $("#Js_cycleInput").removeClass("hide");
-                            
+                    // $(Dom.modalNewTaskForm).modal('show');
+                    $(Dom.modalNewTaskForm).modal('show').on('shown.bs.modal', function() {
+                        var template = Handlebars.compile(Tpl.modalNewTaskInfo);
+                        var id = {
+                            planId: data.planId
                         }
-                    });
-                    selctRunType.change(function(event) {
-                        /* Act on the event */
-                        runType = selctRunType.val();
-                        $("#taskMachineIp").val('');
-                        $("#inputCycleTiming").addClass("hide");
-                        if (selctRunType.val() == 2) {
-                            $("#inputRunTime").removeClass("hide");
-                            $("#Js_machineList").removeClass("hide");
-                            $("#taskMachineIp").removeAttr("disabled");
-                            if(selctCycleType.val() == 2){
-                                $("#inputCycleTiming").removeClass("hide");
-                            }
-                        } else {
-                            $("#inputRunTime").addClass("hide");
+                        $(Dom.modalNewTaskForm).find(".modal-body").html(template(id));
+                        var selctCycleType = $(Dom.modalNewTaskForm).find("select[name='cycleType']");
+                        var selctRunType = $(Dom.modalNewTaskForm).find("select[name='runType']");
+                        selctCycleType.val(data.cycleType);
+                        selctRunType.val(data.runType);
 
-                            if (selctRunType.val() == 3) {
-                                $("#taskMachineIp").attr("disabled", "disabled");
-                                $("#Js_machineList").addClass("hide");;
-                            } else {
+                        selctCycleType.change(function(event) {
+                            /* Act on the event */
+                            if (selctCycleType.val() == 1) {
+                                $("#Js_cycleInput").addClass("hide");
+
+                            } else if (selctCycleType.val() == 2) {
+                                $("#Js_cycleInput").removeClass("hide");
+
+                            }
+                        });
+                        selctRunType.change(function(event) {
+                            /* Act on the event */
+                            runType = selctRunType.val();
+                            $("#taskMachineIp").val('');
+                            $("#inputCycleTiming").addClass("hide");
+                            if (selctRunType.val() == 2) {
+                                $("#inputRunTime").removeClass("hide");
                                 $("#Js_machineList").removeClass("hide");
                                 $("#taskMachineIp").removeAttr("disabled");
-                            }
-
-                        }
-                    });
-                    selctCycleType.change();
-                    selctRunType.change();
-
-                    self.getMachineList("status=2", true);
-                    self.getMachineList("status=3", false);
-
-                    $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
-                        var cmd = $("#Js_queryMachine").serialize();
-                        if (cmd) {
-                            self.getMachineList(cmd, true);
-                        } else {
-                            self.getMachineList("status=2", true);
-                            self.getMachineList("status=3", false);
-                        }
-                    });
-
-                    $(Dom.modalNewTaskForm).find("button[name='using']").bind('click', function() {
-                        var _obj = self.getCheckedRow("#Js_chooseMachineList");
-                        var cmd = '';
-                        if (_obj.length) {
-                            if (_obj.length > 1 && runType != 3) {
-                                window.XMS.msgbox.show("请选择一台主机！", 'error', 2000);
-                                return;
+                                if (selctCycleType.val() == 2) {
+                                    $("#inputCycleTiming").removeClass("hide");
+                                }
                             } else {
-                                _obj.each(function() {
-                                    var tdArr = $(this).children();
-                                    ip = tdArr.eq(1).find("input").val();
-                                    cmd += ip + ',';
-                                });
-                                cmd = cmd.substring(0, cmd.length - 1);
-                                $("#taskMachineIp").val(cmd);
+                                $("#inputRunTime").addClass("hide");
+
+                                if (selctRunType.val() == 3) {
+                                    $("#taskMachineIp").attr("disabled", "disabled");
+                                    $("#Js_machineList").addClass("hide");;
+                                } else {
+                                    $("#Js_machineList").removeClass("hide");
+                                    $("#taskMachineIp").removeAttr("disabled");
+                                }
+
                             }
-                        } else {
-                            window.XMS.msgbox.show("请选择主机！", 'error', 2000);
-                            return;
-                        }
+                        });
+                        selctCycleType.change();
+                        selctRunType.change();
+
+                        self.getMachineList("status=2", true);
+                        self.getMachineList("status=3", false);
+
+                        $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
+                            var cmd = $("#Js_queryMachine").serialize();
+                            if (cmd) {
+                                self.getMachineList(cmd, true);
+                            } else {
+                                self.getMachineList("status=2", true);
+                                self.getMachineList("status=3", false);
+                            }
+                        });
+                        // self.initPaging($(Dom.modalNewTaskForm), 5);
+
+                        $(Dom.modalNewTaskForm).find("button[name='using']").bind('click', function() {
+                            var _obj = self.getCheckedRow("#Js_chooseMachineList");
+                            var cmd = '';
+                            if (_obj.length) {
+                                if (_obj.length > 1 && runType != 3) {
+                                    window.XMS.msgbox.show("请选择一台主机！", 'error', 2000);
+                                    return;
+                                } else {
+                                    _obj.each(function() {
+                                        var tdArr = $(this).children();
+                                        ip = tdArr.eq(1).find("input").val();
+                                        cmd += ip + ',';
+                                    });
+                                    cmd = cmd.substring(0, cmd.length - 1);
+                                    $("#taskMachineIp").val(cmd);
+                                }
+                            } else {
+                                window.XMS.msgbox.show("请选择主机！", 'error', 2000);
+                                return;
+                            }
+                        });
+
+                        $(Dom.modalNewTaskForm).find("button[name='save']").bind('click', function() {
+                            var cmd = $("#Js_taskForm").serialize();
+                            alert(cmd);
+                            self.saveNewTaks(cmd);
+                            $(Dom.modalNewTaskForm).modal('hide');
+                        });
+                        $(Dom.modalNewTaskForm).find("button[name='cancel']").bind('click', function() {
+                            $(Dom.modalNewTaskForm).modal('hide');
+                        });
                     });
 
-                    $(Dom.modalNewTaskForm).find("button[name='save']").bind('click', function() {
-                        var cmd = $("#Js_taskForm").serialize();
-                        alert(cmd);
-                        self.saveNewTaks(cmd);
-                        $(Dom.modalNewTaskForm).modal('hide');
-                    });
-                    $(Dom.modalNewTaskForm).find("button[name='cancel']").bind('click', function() {
-                        $(Dom.modalNewTaskForm).modal('hide');
-                    });
+
 
                 }
             });
@@ -441,9 +446,9 @@ define(function(require, exports, module) {
                 var data = self.getPlanInfo();
                 if (data) {
                     var cmd = 'planId=' + data.planId;
-                    if(data.runType == 2){
-                         window.XMS.msgbox.show('定时执行计划不支持一键执行', 'error', 2000);
-                         return;
+                    if (data.runType == 2) {
+                        window.XMS.msgbox.show('定时执行计划不支持一键执行', 'error', 2000);
+                        return;
                     }
                     Rose.ajax.getJson(srvMap.get('runPlan'), cmd, function(json, status) {
 
@@ -475,9 +480,12 @@ define(function(require, exports, module) {
                 if (status) {
                     console.log(json.data);
                     var template = Handlebars.compile(Tpl.machineList);
+                    
                     $(Dom.modalNewTaskForm).find("tbody").append(template(json.data.content));
                     Utils.eventTrClickCallback($(Dom.modalNewTaskForm).find("tbody"));
-                    // self.initPaging($(Dom.modalNewTaskForm),5);
+                    // var table = $(Dom.modalNewTaskForm).find("table").DataTable();
+                    // self.drawPaging($(Dom.modalNewTaskForm));
+                    
                 }
             });
         },
@@ -743,15 +751,20 @@ define(function(require, exports, module) {
         },
         initPaging: function(obj, length) {
             obj.find("table").DataTable({
-                "lengthChange": length,
+                "inform": false,
+                "deferRender": true,
+                "paging": false,
+                "lengthChange": false,
                 "searching": false,
                 "ordering": false,
-                "info": true,
-                "autoWidth": true,
-                "scrollY": 88,
+                "autoWidth": false,
+                "scrollY": 160,
                 "scrollX": false
             });
-        }
+        },
+        drawPaging: function(obj) {
+            obj.find("table").DataTable().draw();
+        },
 
     };
     module.exports = Init;

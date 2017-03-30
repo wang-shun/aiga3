@@ -20,16 +20,16 @@ define(function(require, exports, module) {
 	// 根据模板ID获取组件列表
 	srvMap.add("getAutoCompList", pathAlias2 + "getTempCompList.json", "auto/comp/findByAutoId");
 	// 保存与组件关系(批量)
-	srvMap.add("saveTempCompList", pathAlias2 + "getTempCompList.json", "auto/comp/save");
+	srvMap.add("updateTempCompList", pathAlias2 + "getTempCompList.json", "auto/comp/save");
 	//参数列表
-	srvMap.add("getParameterList", pathAlias + "getParameterList.json", "auto/param/findByAutoComp");
+	srvMap.add("parameterList", pathAlias2 + "getParameterList.json", "auto/param/findByAutoComp");
 
 
 	// 模板对象
 	var Tpl = {
 		getAutoCaseList: require('tpl/autoManage/autoCaseMng/autoCaseList.tpl'), //计划列表
-		getSideAutoCompList: require('tpl/autoManage/autoCaseTempMng/getSideTempCompList.tpl'),
-		getParameterList: require('tpl/autoManage/autoCaseTempMng/getParameterList.tpl')
+		getSideAutoCompList: require('tpl/autoManage/autoCaseMng/sideTempCompList.tpl'),
+		getParameterList: require('tpl/autoManage/autoCaseMng/parameterList.tpl')
 
 	};
 
@@ -47,17 +47,22 @@ define(function(require, exports, module) {
 
 
 	};
-	var basiData;
+	var busiData;
 
 	var Init = {
 		init: function() {
 			this._render();
 		},
 		_render: function() {
+			$("#Js_contentWrapper").find('h1').html("自动化用例管理");
+			$("#Js_contentWrapper").find('li.active').html("自动化用例管理");
 			this.hdbarHelp();
 			this.getBusiList();
 			this.getAutoCaseList("");
+			this.queryAutoCase();
+			this.updateCaseInfo();
 
+			Utils.setSelectData($(Dom.queryAutoCaseList));
 		},
 
 		hdbarHelp: function() {
@@ -116,10 +121,7 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.getAutoCaseList);
 					console.log(json.data)
 					$(Dom.getAutoCaseList).html(template(json.data.content));
-
 					Utils.eventClickChecked($(Dom.getAutoCaseList));
-
-
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
 				}
 			});
@@ -128,10 +130,10 @@ define(function(require, exports, module) {
 			var self = this;
 			var _form = $(Dom.queryAutoCaseList);
 			// 表单提交
-			_form.find('button[name="submit"]').bind('click', function() {
+			_form.find('button[name="query"]').bind('click', function() {
 
 					var cmd = _form.serialize();
-					self.getPlanList(cmd);
+					self.getAutoCaseList(cmd);
 				})
 				// 表单重置
 			_form.find('button[name="reset"]').bind('click', function() {
@@ -143,9 +145,7 @@ define(function(require, exports, module) {
 			Rose.ajax.getJson(srvMap.get('getBusiList'), '', function(json, status) {
 				if (status) {
 					busiData = json.data;
-
 				}
-
 			});
 		},
 
@@ -184,9 +184,10 @@ define(function(require, exports, module) {
 					_dom.html(template(json.data));
 					Utils.eventClickChecked(_dom, function(isChecked, thisDom) {
 						var _name = thisDom.attr("name");
+						var _compOrder = _dom.find("input[name='compOrder']").val();
 						var _val = thisDom.val();
 						if (isChecked == "true") {
-							var cmd ="autoId="+autoId +"&"+ _name + '=' + _val;
+							var cmd ="autoId="+autoId +"&"+ _name + '=' + _val+"&compOrder="+ _compOrder;
 							// 获取参数列表
 							self.getParameterList(cmd, _val);
 						} else {
@@ -200,25 +201,26 @@ define(function(require, exports, module) {
 			});
 		},
 		// 获取参数列表
-		getParameterList: function(cmd, compId) {
+		getParameterList: function(cmd, compId,compOrder) {
 			// alert('参数列表'+cmd);
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.getJson(srvMap.get('getParameterList'), cmd, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('parameterList'), cmd, function(json, status) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					json.data["compId"] = compId;
+					json.data["compOrder"] = compOrder;
 					var template = Handlebars.compile(Tpl.getParameterList);
 					var _table = $(Dom.getParameterList);
 					_table.append(template(json.data))
-						// 设置滚动条高度
+					// 设置滚动条高度
 					Utils.setScroll(_table.parent(".box-body"), '250px');
 
 				}
 			});
 		},
-		// 保存生成用例
-		saveAutoCompParam: function(_tempId) {
+		// 保存用例
+		saveAutoCompParam: function(autoId) {
 			var self = this;
 			var _dom = $(Dom.modalEditAutoCase);
 			var _table = $(Dom.getParameterList);
@@ -238,7 +240,7 @@ define(function(require, exports, module) {
 				var hasData = Utils.getCheckboxCheckedRow($(Dom.getSideAutoCompList));
 				if (hasData) {
 					var cmd = {
-						"tempId": _tempId,
+						"autoId": autoId,
 						"autoName": _autoName,
 						"environmentType": _environmentType,
 						"compList": []
@@ -247,6 +249,7 @@ define(function(require, exports, module) {
 					_table.find("tbody").each(function() {
 						var data = {};
 						data["compId"] = $(this).find("[name='compId']").val();
+						data["compOrder"] = $(this).find("[name='compOrder']").val();
 						data["paramList"] = []
 						$(this).find("tr").each(function() {
 							var paramData = {}

@@ -33,7 +33,7 @@ define(function(require, exports, module) {
 
 	// 模板对象
 	var Tpl = {
-		getCaseTempList: require('tpl/caseTempMng/getCaseTempList.tpl'),
+		getCaseTempList: require('tpl/caseTempMng/caseTempList.tpl'),
 		getSysList: require('tpl/caseTempMng/getSysList.tpl'),
 		getSubSysList: require('tpl/caseTempMng/getSubSysList.tpl'),
 		getBusiList: require('tpl/caseTempMng/getBusiList.tpl'),

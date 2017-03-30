@@ -22,7 +22,7 @@ public class NaChangePlanOnile  implements java.io.Serializable {
 
      private Long onlinePlan;
      private String onlinePlanName;
-     private byte planState;
+     private Long planState;
      private String createOpId;
      private Date createDate;
      private Date doneDate;
@@ -42,12 +42,12 @@ public class NaChangePlanOnile  implements java.io.Serializable {
     }
 
 	
-    public NaChangePlanOnile(Long onlinePlan, String onlinePlanName, byte planState) {
+    public NaChangePlanOnile(Long onlinePlan, String onlinePlanName, Long planState) {
         this.onlinePlan = onlinePlan;
         this.onlinePlanName = onlinePlanName;
         this.planState = planState;
     }
-    public NaChangePlanOnile(Long onlinePlan, String onlinePlanName, byte planState, String createOpId, Date createDate, Date doneDate, Date planDate, Byte result, String remark, String ext1, String ext2, String ext3, Byte sign, Byte types, Byte timely, Byte isFinished, Byte autoRunResult) {
+    public NaChangePlanOnile(Long onlinePlan, String onlinePlanName, Long planState, String createOpId, Date createDate, Date doneDate, Date planDate, Byte result, String remark, String ext1, String ext2, String ext3, Byte sign, Byte types, Byte timely, Byte isFinished, Byte autoRunResult) {
        this.onlinePlan = onlinePlan;
        this.onlinePlanName = onlinePlanName;
        this.planState = planState;
@@ -88,11 +88,11 @@ public class NaChangePlanOnile  implements java.io.Serializable {
     }
     
     @Column(name="PLAN_STATE", nullable=false, precision=2, scale=0)
-    public byte getPlanState() {
+    public Long getPlanState() {
         return this.planState;
     }
     
-    public void setPlanState(byte planState) {
+    public void setPlanState(Long planState) {
         this.planState = planState;
     }
     

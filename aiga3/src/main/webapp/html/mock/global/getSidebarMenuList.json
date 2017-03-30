@@ -84,6 +84,11 @@
                 "hasChild": 0,
                 "isActive": 1
             }, {
+                "menuName": "自动化用例管理",
+                "menuURL": "view/autoManage/autoCaseMng.html",
+                "hasChild": 0,
+                "isActive": 1
+            }, {
                 "menuName": "自动化用例模板管理",
                 "menuURL": "view/autoManage/autoCaseTempMng.html",
                 "hasChild": 0,
@@ -221,6 +226,18 @@
             }, {
                 "menuName": "环节时间录入",
                 "menuURL": "#",
+                "hasChild": 0,
+                "isActive": 0
+            }]
+        }, {
+            "menuName": "数据维护",
+            "menuIcons": "fa fa-fw fa-database",
+            "menuURL": "#",
+            "hasChild": 1,
+            "isActive": 0,
+            "childMenuList": [{
+                "menuName": "功能点所属系统管理",
+                "menuURL": "view/dataMaintenance/ascriptionManage.html",
                 "hasChild": 0,
                 "isActive": 0
             }]

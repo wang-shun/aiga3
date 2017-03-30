@@ -14,7 +14,7 @@ public class AutoTemplateRequest {
     private Long tempId;//主键
     private Long caseId;//用例模板ID
     private String caseName;//用例模板名称
-    private byte caseType;//用例类型
+    private Byte caseType;//用例类型
     private String caseTypeDesc;//用例类型描述
     private String testType;//测试类型
     private String testTypeDesc;//测试类型描述
@@ -36,7 +36,7 @@ public class AutoTemplateRequest {
     public AutoTemplateRequest() {
     }
 
-    public AutoTemplateRequest(Long tempId, Long caseId, String caseName, byte caseType, String caseTypeDesc, String testType, String testTypeDesc, String tempName, Long sysId, String sysName, Long sysSubId, String sysSubName, Long busiId, String busiName, Long scId, String scName, Long funId, String funName, Short important, String importantDesc, String operateDesc, List<AutoTemplateCompRequest> compRequestList) {
+    public AutoTemplateRequest(Long tempId, Long caseId, String caseName, Byte caseType, String caseTypeDesc, String testType, String testTypeDesc, String tempName, Long sysId, String sysName, Long sysSubId, String sysSubName, Long busiId, String busiName, Long scId, String scName, Long funId, String funName, Short important, String importantDesc, String operateDesc, List<AutoTemplateCompRequest> compRequestList) {
         this.tempId = tempId;
         this.caseId = caseId;
         this.caseName = caseName;
@@ -85,11 +85,11 @@ public class AutoTemplateRequest {
         this.caseName = caseName;
     }
 
-    public byte getCaseType() {
+    public Byte getCaseType() {
         return caseType;
     }
 
-    public void setCaseType(byte caseType) {
+    public void setCaseType(Byte caseType) {
         this.caseType = caseType;
     }
 

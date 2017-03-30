@@ -5,7 +5,7 @@
   	"content":
   	[{
     "caseId": "10101",
-    "caseName":"用例模板1",
+    "caseName":"test模板1",
 	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
@@ -17,7 +17,7 @@
 	"busiId":"11"
   },{
     "caseId": "10101",
-    "caseName":"用例模板1",
+    "caseName":"test测试模板1",
 	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",
@@ -29,7 +29,7 @@
 	"busiId":"11"
   },{
     "caseId": "10101",
-    "caseName":"用例模板1",
+    "caseName":"test测试模板1",
 	"caseType": "1",
 	"creator": "创建人",
 	"update": "修改人",

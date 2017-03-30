@@ -1,5 +1,6 @@
-<tbody name="compId_{{compId}}">
+<tbody name="{{compId}}_{{compOrder}}">
  <input type="hidden" name="compId" value="{{compId}}">
+ <input type="hidden" name="compOrder" value="{{compOrder}}">
 {{#each this}}
 <tr>
     <td>

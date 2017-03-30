@@ -24,6 +24,14 @@
             </div> 
         </div>
     </div>
+     <div class="row">   
+        <div class="col-sm-2 form-group"></div>
+        <div class="col-sm-6 form-group">
+            <label for="caseType" class="col-sm-4 control-label">关联的系统：</label>
+            <div class="col-sm-8" id="collectSys">
+            </div> 
+        </div>
+    </div>
     <div class="row">   
         <div class="col-sm-2 form-group"></div>
         <div class="col-sm-6 form-group">

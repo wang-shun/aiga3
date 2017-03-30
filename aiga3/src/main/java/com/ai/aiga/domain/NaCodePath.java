@@ -1,6 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-3-29 11:29:38 by Hibernate Tools 3.2.2.GA
-
+// Generated 2017-3-29 18:10:15 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -31,6 +30,7 @@ public class NaCodePath  implements java.io.Serializable {
      private String remark;
      private Date planDate;
      private String isFinished;
+     private Long updateCount;
 
     public NaCodePath() {
     }
@@ -39,7 +39,7 @@ public class NaCodePath  implements java.io.Serializable {
     public NaCodePath(Long ids) {
         this.ids = ids;
     }
-    public NaCodePath(Long ids, String sysName, String modelName, String packageName, Long state, String remark, Date planDate, String isFinished) {
+    public NaCodePath(Long ids, String sysName, String modelName, String packageName, Long state, String remark, Date planDate, String isFinished, Long updateCount) {
        this.ids = ids;
        this.sysName = sysName;
        this.modelName = modelName;
@@ -48,11 +48,10 @@ public class NaCodePath  implements java.io.Serializable {
        this.remark = remark;
        this.planDate = planDate;
        this.isFinished = isFinished;
+       this.updateCount = updateCount;
     }
    
-     @Id 
-     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NA_CODE_PATH$SEQ")
-  	@SequenceGenerator(name = "NA_CODE_PATH$SEQ", sequenceName = "NA_CODE_PATH$SEQ", allocationSize = 1)
+   
     @Column(name="IDS", precision=22, scale=0)
     public Long getIds() {
         return this.ids;
@@ -106,7 +105,7 @@ public class NaCodePath  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-    @Temporal(TemporalType.TIMESTAMP)
+
     @Column(name="PLAN_DATE", length=7)
     public Date getPlanDate() {
         return this.planDate;
@@ -123,6 +122,15 @@ public class NaCodePath  implements java.io.Serializable {
     
     public void setIsFinished(String isFinished) {
         this.isFinished = isFinished;
+    }
+    
+    @Column(name="UPDATE_COUNT", precision=22, scale=0)
+    public Long getUpdateCount() {
+        return this.updateCount;
+    }
+    
+    public void setUpdateCount(Long updateCount) {
+        this.updateCount = updateCount;
     }
 
 

@@ -1,7 +1,9 @@
 package com.ai.aiga.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.AigaOrganizeDao;
+import com.ai.aiga.dao.AigaStaffDao;
+import com.ai.aiga.dao.AigaStaffOrgRelatDao;
 import com.ai.aiga.dao.SysConstantDao;
 import com.ai.aiga.domain.AigaOrganize;
+import com.ai.aiga.domain.AigaStaffOrgRelat;
 import com.ai.aiga.domain.SysConstant;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -24,8 +29,9 @@ public class OrganizeSv extends BaseService{
 	
 	@Autowired
 	private AigaOrganizeDao organizeDao;
-
-	
+    
+	@Autowired
+	private   AigaStaffOrgRelatDao aigaStaffOrgRelatDao;
 	//根据组织名称查询所有信息
 	public List<AigaOrganize> findOrganize(Long organizeId) {
 		return organizeDao.findByOrganizeId(organizeId);
@@ -118,12 +124,23 @@ public class OrganizeSv extends BaseService{
 	
 
 	//根据组织编号删除
-	public void deleteOrginaze(Long organizeId) {
-		
+	public Map deleteOrginaze(Long organizeId) {
+		String info = "";
+		Map<String, String> map =  new HashMap<String, String>();
 		if(organizeId == null || organizeId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");
 		}
-		organizeDao.delete(organizeId);
+		//判断组织下面还有没有子组织或者人员
+		List<AigaStaffOrgRelat>  aigaStaffOrgRelat	= aigaStaffOrgRelatDao.findByOrganizeId(organizeId);
+		List<AigaOrganize>  aigaOrganize = organizeDao.findByParentOrganizeId(organizeId);
+		 if(aigaStaffOrgRelat.isEmpty()&&aigaOrganize.isEmpty()){
+			organizeDao.delete(organizeId);
+			info= "删除成功!";
+		}else {
+			info= "该组织下面存在子组织或者人员,不能删除!";
+		}
+		map.put("info", info);
+		return map;
 	}
 
 	

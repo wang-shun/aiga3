@@ -8,11 +8,14 @@
 	
 	<!-- WebService的实现Bean定义 -->
 	<bean id="soapService" class=" com.ai.aiga.webservice.soap.SoapServiceImpl" />
+	<bean id="naCodePathWebServiceSv" class=" com.ai.aiga.webservice.service.NaCodePathWebServiceSvImp" />
 	
 	<!-- jax-ws endpoint定义  -->
 	<jaxws:endpoint address="/soapservice">
 		<jaxws:implementor ref="soapService" />
 	</jaxws:endpoint>
-
+	<jaxws:endpoint address="/naCodePathWebServiceSv">
+		<jaxws:implementor ref="naCodePathWebServiceSv" />
+	</jaxws:endpoint>
 	
 </beans>

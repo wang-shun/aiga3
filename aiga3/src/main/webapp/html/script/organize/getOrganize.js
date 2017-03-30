@@ -203,7 +203,14 @@ define(function(require, exports, module) {
 				var cmd = "organizeId=" + Dom.organizeId;
 				Rose.ajax.postJson(srvMap.get('deleOrganize'), cmd, function(json, status) {
 					if (status) {
-						window.XMS.msgbox.show('删除成功！', 'success', 2000);
+						var msg = JSON.stringify(json.data.info);
+						var state = "";
+						if(msg.indexOf("成功")!=-1){
+							state = "success";
+						}else{
+							state = "error";
+						}
+						window.XMS.msgbox.show(msg, state, 2000);
 
 						$("#organizeName").val("");
 						$("#districtId").val("");

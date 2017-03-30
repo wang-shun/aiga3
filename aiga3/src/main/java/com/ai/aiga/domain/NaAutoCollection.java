@@ -22,6 +22,7 @@ public class NaAutoCollection {
 	     private String ext3;
 	     private Long caseType;
 	     private Long repairsId;
+	     private Long sysId;
 
 	    public NaAutoCollection() {
 	    }
@@ -56,8 +57,20 @@ public class NaAutoCollection {
 	    public void setCollectId(Long collectId) {
 	        this.collectId = collectId;
 	    }
-	    
-	    @Column(name="COLLECT_NAME", length=2000)
+	    @Column(name="SYS_ID", precision=22, scale=0)
+	    public Long getSysId() {
+			return sysId;
+		}
+
+
+
+		public void setSysId(Long sysId) {
+			this.sysId = sysId;
+		}
+
+
+
+		@Column(name="COLLECT_NAME", length=2000)
 	    public String getCollectName() {
 	        return this.collectName;
 	    }

@@ -23,4 +23,6 @@ public interface AigaStaffOrgRelatDao extends JpaRepository<AigaStaffOrgRelat,Lo
 			+ " where ao.organize_id = ar.organize_id and ar.staff_id = ?1", nativeQuery= true)
 	List<Object[]> findStaffOrgRelatByOrg(Long staffId);
 
+	
+	List<AigaStaffOrgRelat> findByOrganizeId(Long organize);
 }

@@ -1,5 +1,8 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +22,9 @@ public class AigaFunctionDaoTest {
 	
 	@Test
 	public void test(){
-		AigaFunction aigaFuction = new AigaFunction();
-		
-		
+		List<Long> roleIds = new ArrayList<Long>();
+		roleIds.add(10001l);
+		System.out.println(dao.findFunctionsByRoleids(roleIds));
 		
 	}
 }

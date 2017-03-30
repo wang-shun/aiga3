@@ -204,7 +204,7 @@ define(function(require, exports, module) {
 		},
 		//功能点下拉框
 		getFunList: function(id,obj,data) {
-			Rose.ajax.getJson(srvMap.get('getFunList'), 'subsysId='+id, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getFunList'), 'sysSubId='+id, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getFunList);
 					$(obj.getFunList).html(template(json.data));
@@ -604,6 +604,10 @@ define(function(require, exports, module) {
 						//加载下拉框
 						//self.getSysList("#add_sysId");
 						self.getSysList(dropChoice2,json.data);
+						$(Dom.caseTempForm).find("[name='caseType']").val(json.data.caseType);
+						$(Dom.caseTempForm).find("[name='important']").val(json.data.important);
+						$(Dom.caseTempForm).find("[name='operateDesc']").val(json.data.operateDesc);
+						
 						$(Dom.factorList).html(factor_template(json.data.factors));
 							self.eventClickChecked($(Dom.factorList), function() {
 						})

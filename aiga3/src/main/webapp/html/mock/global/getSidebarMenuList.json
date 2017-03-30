@@ -225,6 +225,18 @@
                 "isActive": 0
             }]
         }, {
+            "menuName": "数据维护",
+            "menuIcons": "fa fa-fw fa-database",
+            "menuURL": "#",
+            "hasChild": 1,
+            "isActive": 0,
+            "childMenuList": [{
+                "menuName": "功能点所属系统管理",
+                "menuURL": "view/dataMaintenance/ascriptionManage.html",
+                "hasChild": 0,
+                "isActive": 0
+            }]
+        }, {
             "menuName": "通用组件演示",
             "menuIcons": "fa fa-desktop",
             "menuURL": "#",

@@ -246,11 +246,11 @@ define(function(require, exports, module) {
             _save.bind('click', function() {
                 var cmd = '';
                 var taskType = _form.find("[name='taskType']").val();
-                var dealName = _form.find("[name='dealName']").val();
+                var dealOpId = _form.find("[name='dealOpId']").val();
                 var taskId = _form.find("[name='taskId']").val();
                 var onlinePlan = _form.find("[name='onlinePlan']").val();
                 var onlinePlanName = _form.find("[name='onlinePlanName']").val();
-                cmd = "taskType=" + taskType + "&dealName=" + dealName + "&onlinePlan=" + onlinePlan + "&onlinePlanName=" + onlinePlanName;
+                cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + onlinePlan + "&onlinePlanName=" + onlinePlanName;
                 if (Data.opreation == "update") {
                     cmd = cmd + "&taskId=" + taskId;
                 }

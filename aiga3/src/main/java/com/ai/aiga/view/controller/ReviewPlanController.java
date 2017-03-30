@@ -27,7 +27,7 @@ public class ReviewPlanController {
 	 * @return
 	 */
 	@RequestMapping(value="sys/plan/returnToADClod")
-	public @ResponseBody  JsonBean returnToADClod(Date planDate){
+	public @ResponseBody  JsonBean returnToADClod(String planDate){
 		sv.returnToADClod(planDate);
 		return JsonBean.success;
 	}

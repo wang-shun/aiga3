@@ -51,7 +51,7 @@ public class NaCodePath  implements java.io.Serializable {
        this.updateCount = updateCount;
     }
    
-   
+     @Id 
     @Column(name="IDS", precision=22, scale=0)
     public Long getIds() {
         return this.ids;
@@ -105,7 +105,7 @@ public class NaCodePath  implements java.io.Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="PLAN_DATE", length=7)
     public Date getPlanDate() {
         return this.planDate;

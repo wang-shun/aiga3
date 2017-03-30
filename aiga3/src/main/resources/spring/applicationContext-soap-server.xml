@@ -8,7 +8,7 @@
 	
 	<!-- WebService的实现Bean定义 -->
 	<bean id="soapService" class=" com.ai.aiga.webservice.soap.SoapServiceImpl" />
-	<bean id="naCodePathWebServiceSv" class=" com.ai.aiga.webservice.service.NaCodePathWebServiceSvImp" />
+	<bean id="naCodePathWebServiceSv" class=" com.ai.aiga.webservice.soap.NaCodePathWebServiceSvImp" />
 	
 	<!-- jax-ws endpoint定义  -->
 	<jaxws:endpoint address="/soapservice">

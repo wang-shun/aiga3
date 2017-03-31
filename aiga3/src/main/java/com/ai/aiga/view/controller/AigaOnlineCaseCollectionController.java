@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
@@ -15,14 +16,14 @@ import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
- *
  * @author liuxx
- * @version 1.0
  * @date 2017-03-06
  */
-@Api(value="用例集管理controller")
+@Api(value="操作用例集管理接口")
 @Controller
 public class AigaOnlineCaseCollectionController {
 	
@@ -30,37 +31,21 @@ public class AigaOnlineCaseCollectionController {
 	private AigaOnlineCaseCollectionSv caseCollectionSv;
 
     
-
-    
-	/**
-	 * 新增用例集信息
-	 * 
-	 * @param caseCollection
-	 *            用例集信息
-	 * @param session
-	 *            HttpSession
-	 * @return JsonBean 成功/失败
-	 */
-	@RequestMapping(path = "/sys/case/addCase")
-	public @ResponseBody JsonBean addCase(CaseCollectionRequest caseCollection, HttpSession session) {
-		caseCollectionSv.saveCase(caseCollection, session);
+	@RequestMapping(path = "/sys/case/addCase", method=RequestMethod.POST)
+	@ApiOperation(value="新增", notes="添加用例集：caseName、caseType、RepairsId不为空")
+	@ApiParam(required=true, name="caseCollection",value="用例集信息")
+	public @ResponseBody JsonBean addCase(CaseCollectionRequest caseCollection) {
+		caseCollectionSv.saveCase(caseCollection);
 		return JsonBean.success;
 	}
 	
 
 
-	/**
-	 * 修改用例集信息
-	 * 
-	 * @param caseCollection
-	 *            用例集信息
-	 * @param session
-	 *            HttpSession
-	 * @return JsonBean 成功/失败
-	 */
-	@RequestMapping(path = "/sys/case/updateCase")
-	public @ResponseBody JsonBean update(CaseCollectionRequest caseCollection, HttpSession session) {
-		caseCollectionSv.saveCase(caseCollection, session);
+	@RequestMapping(path = "/sys/case/updateCase", method=RequestMethod.POST)
+	@ApiOperation(value="修改", notes="修改用例集：caseName、caseType、RepairsId不为空")
+	@ApiParam(required=true, name="caseCollection",value="用例集信息")
+	public @ResponseBody JsonBean update(CaseCollectionRequest caseCollection) {
+		caseCollectionSv.saveCase(caseCollection);
 		return JsonBean.success;
 	}
 

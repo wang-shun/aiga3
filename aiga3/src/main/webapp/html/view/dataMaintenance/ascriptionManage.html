@@ -1,0 +1,206 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <form id="JS_queryCaseTempForm">
+        <div class="box-header with-border">
+          <h3 class="box-title">按条件查询</h3>
+
+          <div class="box-tools pull-right"></div>
+        </div>
+
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>系统名称</label> <input type="email" class="form-control input-sm" name="tempName" placeholder="请输入系统名称" />
+              </div>
+            </div>
+
+            <div class="col-md-2 .col-md-offset-4">
+              <div class="form-group">
+                <label>重要级别</label> <select name="importantClass" class="form-control input-sm">
+                  <option value="">
+                    请选择
+                  </option>
+
+                  <option value="1">
+                    一般系统
+                  </option>
+
+                  <option value="2">
+                    核心系统
+                  </option>
+
+                  <option value="3">
+                    重要系统
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>归属域</label> <select name="sysOfDomain" class="form-control input-sm">
+                  <option value="">
+                    请选择
+                  </option>
+
+                  <option value="1">
+                    —全部—
+                  </option>
+
+                  <option value="2">
+                    基础域
+                  </option>
+
+                  <option value="3">
+                    电子渠道
+                  </option>
+
+                  <option value="4">
+                    BOSS
+                  </option>
+
+                  <option value="5">
+                    CRM
+                  </option>
+
+                  <option value="6">
+                    渠道接入
+                  </option>
+
+                  <option value="7">
+                    接口域
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="box-footer">
+          <div class="text-center">
+            <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp; <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="box" id="JS_getAsciptionList" style="min-height:100px;">
+      <div style="text-align: center; padding: 50px 0;">
+        <p style="font-size: 38px;"></p>
+
+        <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+      </div>
+    </div>
+  </div>
+</div><!-- Modal -->
+<!-- 新增弹框 -->
+
+<div class="modal fade" id="JS_addSysInfoModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+        <h4 class="modal-title" id="myModalLabel">新增(功能点)归属系统</h4>
+      </div>
+      <div class="modal-body" style="padding-bottom: 0">
+        <form id="JS_addSysInfo" class="form-inline">
+          <div class="box-body">
+
+
+            <div class="box-body">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>系统名称</label> <input type="email" class="col-xs-8 form-control input-sm" name="tempName" placeholder="请输入系统名称" />
+              </div>
+            </div>
+
+            <div class="col-md-3 col-md-offset-2  ">
+              <div class="form-group">
+                <label>重要级别</label> <select name="importantClass" class="form-control input-sm">
+                  <option value="">
+                    请选择
+                  </option>
+
+                  <option value="1">
+                    一般系统
+                  </option>
+
+                  <option value="2">
+                    核心系统
+                  </option>
+
+                  <option value="3">
+                    重要系统
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-3  ">
+              <div class="form-group">
+                <label>归属域</label> <select name="sysOfDomain" class="form-control input-sm">
+                  <option value="">
+                    请选择
+                  </option>
+
+                  <option value="1">
+                    —全部—
+                  </option>
+
+                  <option value="2">
+                    基础域
+                  </option>
+
+                  <option value="3">
+                    电子渠道
+                  </option>
+
+                  <option value="4">
+                    BOSS
+                  </option>
+
+                  <option value="5">
+                    CRM
+                  </option>
+
+                  <option value="6">
+                    渠道接入
+                  </option>
+
+                  <option value="7">
+                    接口域
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <p></p>
+            <div class="row">
+            <div class="form-group">
+              <label class="col-sm-4 control-label">备注：</label> 
+              <textarea name="remarks" class="col-sm-7 form-control" rows="4"></textarea>
+            </div>
+            </div>
+          </div>
+        </form>
+      </div>          
+        </div>
+        
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button> <button type="button" class="btn btn-primary pull-right" id="addSysInfoButton" name="addSysInfoButton">保存</button>
+      </div>
+    </div>
+  </div>
+</div><!-- Modal -->
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/dataMaintenance/ascriptionManage", function(Init) {
+    Init.init();
+});
+//]]>
+</script>

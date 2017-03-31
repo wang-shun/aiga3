@@ -16,12 +16,13 @@ import com.ai.aiga.view.json.base.JsonBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+
 /**
- * 
  * @author liuxx
  * @dete  2017-02-25
  */
-@Api(value="orginaze  info")
+@Api(value="操作组织接口")
 @Controller
 public class OrginazeController {
 	

@@ -197,6 +197,9 @@ define(function(require, exports, module) {
                             Rose.ajax.postJson(srvMap.get('startChange'), cmd, function(json, status) {
                                 if (status) {
                                     window.XMS.msgbox.show('启动成功！', 'success', 2000);
+                                    setTimeout(function() {
+                                    self.getChangePlanList();
+                                    }, 1000)
                                 } else {
                                     window.XMS.msgbox.show('启动失败！', 'error', 2000);
                                 }
@@ -229,6 +232,11 @@ define(function(require, exports, module) {
                                     })
                                 }
                             });
+                           var _close = _modal.find("[name='close']");
+                           _close.unbind('click');
+                           _close.bind('click', function() {
+                                self.getChangePlanList();
+                           })
                         }
                     } else {
                         window.XMS.msgbox.show('计划状态只有是新增和处理中的计划才能启动！', 'error', 2000);
@@ -414,6 +422,20 @@ define(function(require, exports, module) {
                 }
                 if (value == "3") {
                     return "非功能验收";
+                }
+            });
+            Handlebars.registerHelper('getResulr', function(value, fn) {
+                if (value == "0") {
+                    return "成功";
+                }
+                if (value == "1") {
+                    return "失败";
+                }
+                if (value == "2") {
+                    return "未执行";
+                }
+                if (value == "3") {
+                    return "中断";
                 }
             });
         },

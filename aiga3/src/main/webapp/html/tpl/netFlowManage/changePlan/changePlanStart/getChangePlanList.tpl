@@ -37,7 +37,7 @@
                 <td>{{createDate}}</td>
                 <td><input type="hidden" name="types" value="{{types}}">{{getTypes types}}</td>
                 <td>{{doneDate}}</td>
-                <td>{{planDate}}</td>
+                <td><input type="hidden" name="planDate" value="{{planDate}}">{{planDate}}</td>
                 <td>{{getTimely timely}}</td>
                 <td></td>
                 <td></td>

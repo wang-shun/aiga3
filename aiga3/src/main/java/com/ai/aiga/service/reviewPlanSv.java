@@ -1,7 +1,5 @@
 package com.ai.aiga.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +34,7 @@ public class reviewPlanSv  extends BaseService{
 	public void returnToADClod(String planDate){
 		Map<String, Object>  map = new HashMap<String, Object>();
 		//ADCLOD服务端地址
-		String url = "http://127.0.0.1:8090/netAccept/getAcceptResult";
+		String url = "http://10.73.129.171:8090/netAccept/updateAcceptResult";
 		//查询本次上线计划代码包清单
 		List<NaCodePath> naCodePathS =  naCodePathDao.findByPlanDate(planDate);
 		System.out.println("11111");
@@ -44,6 +42,7 @@ public class reviewPlanSv  extends BaseService{
 			//通过http发送post请求
 			map.put("planDate", planDate);
 			map.put("date", naCodePathS);
+			System.out.println("22222"+JsonUtil.mapToJson(map));
 			HttpUtil.sendPost(url,JsonUtil.mapToJson(map) );
 		}
 	}

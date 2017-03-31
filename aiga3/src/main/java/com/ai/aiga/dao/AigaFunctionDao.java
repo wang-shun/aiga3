@@ -20,4 +20,8 @@ public interface AigaFunctionDao extends JpaRepository<AigaFunction, Long>{
 
 	List<AigaFunction> getByParentIdAndNameAndFuncIdNot(long parentId, String name, long funcId);
 
+	@Query("select fun from AigaFunction fun, AigaRoleFunc rfun where fun.funcId = rfun.funcId and rfun.roleId in (?1) order by fun.funcLevel, fun.funSeq")
+	List<AigaFunction> findFunctionsByRoleids(List<Long> roleIds);
+	
+
 }

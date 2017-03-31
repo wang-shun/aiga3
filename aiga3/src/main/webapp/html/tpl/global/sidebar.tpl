@@ -22,37 +22,37 @@
     <!-- 菜单区 -->
     <ul class="sidebar-menu" id="JS_MenuList">
         <!-- <li class="header">中国移动通信</li> -->
-        {{#each sidebarMenuList}}
-        <li class="treeview {{#if isActive}}active{{/if}}">
-          <a href="javascript:;" data-href="{{menuURL}}">
-            <i class="{{menuIcons}}"></i>
-            <span>{{menuName}}</span>
-            {{#if hasChild}}
+        {{#each data}}
+        <li class="treeview">
+          <a href="javascript:;" data-href="{{viewname}}">
+            <i class="{{funcImg}}"></i>
+            <span>{{name}}</span>
+            {{#if subMenus}}
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
             {{/if}}
           </a>
-          {{#if hasChild}}
+          {{#if subMenus}}
           <ul class="treeview-menu">
-            {{#each childMenuList}}
-            <li class="{{#if isActive}}active{{/if}}">
-                <a href="javascript:;" data-href="{{menuURL}} ">
+            {{#each subMenus}}
+            <li class="">
+                <a href="javascript:;" data-href="{{viewname}}">
                     <i class="fa fa-circle-o"></i>
-                    <span>{{menuName}}</span>
-                    {{#if hasChild}}
+                    <span>{{name}}</span>
+                    {{#if subMenus}}
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                     {{/if}}
                 </a>
-                {{#if hasChild}}
+                {{#if subMenus}}
                 <ul href="javascript:;" class="treeview-menu">
-                    {{#each childMenuList}}
-                    <li class="{{#if isActive}}active{{/if}}">
-                        <a href="javascript:;" data-href="{{menuURL}}">
+                    {{#each subMenus}}
+                    <li class="">
+                        <a href="javascript:;" data-href="{{viewname}}">
                             <i class="fa fa-circle-o"></i>
-                            <span>{{menuName}}</span>
+                            <span>{{name}}</span>
                         </a>
                     </li>
                     {{/each}}

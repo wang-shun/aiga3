@@ -30,10 +30,12 @@ define(function(require, exports, module) {
     var Dom = {
         saveStaffRole: "#JS_saveStaffRole",
         getUserinfoListTable: '#JS_getUserinfoListTable',
-        getStaffRoleListTable: '#JS_getStaffRoleListTable'
+        getStaffRoleListTable: '#JS_getStaffRoleListTable',
+        queryStaffForm: '#JS_queryStaffForm'
     };
     var Data = {
-        staffId: null
+        staffId: null,
+        queryListCmd: null
     }
 
 
@@ -47,13 +49,24 @@ define(function(require, exports, module) {
             this.getUserinfoList();
             // 查询所有角色
             this.getStaffRoleList();
-
             this.saveStaffRole();
-            // this.delStaffRole();
+            this.queryStaffForm();
         },
-        getUserinfoList: function() {
+        queryStaffForm: function() {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getUserinfoList'), '', function(json, status) {
+            var _form = $(Dom.queryStaffForm);
+            var _queryBtn = _form.find("[name='query']");
+            _queryBtn.unbind('click');
+            _queryBtn.bind('click', function() {
+                var cmd = _form.serialize();
+                self.getUserinfoList(cmd);
+            });
+        },
+        getUserinfoList: function(cmd) {
+            var self = this;
+            var _cmd = '' || cmd;
+            Data.queryListCmd = _cmd;
+            Rose.ajax.postJson(srvMap.get('getUserinfoList'), _cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl1.getUserinfoList);
                     console.log(json.data)

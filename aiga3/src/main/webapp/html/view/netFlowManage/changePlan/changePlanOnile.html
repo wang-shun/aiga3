@@ -42,13 +42,13 @@
 	        <div class="col-sm-4 form-group">
 	            <label class="col-sm-5 control-label">起始时间：</label>
 				<div class="col-sm-7">
-					<input type="text" class="form-control input-sm " name="createDate" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+					<input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 				</div>
 	        </div>   
 			<div class="col-sm-4 form-group">
 	            <label class="col-sm-5 control-label">终止时间：</label>
 				<div class="col-sm-7">
-					<input type="text" class="form-control input-sm " name="doneDate" id="JS_doneDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+					<input type="text" class="form-control input-sm " name="time2" id="JS_doneDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
 				</div>
 	            
 	        </div>
@@ -147,8 +147,6 @@
         </div>
     </div>
 </div>
-
-
 <script>
     seajs.use("script/netFlowManage/changePlan/changePlanOnlie.js", function(getChangePlanOnlie) {
         getChangePlanOnlie.init();

@@ -1,16 +1,18 @@
-<div class="row">
-    <div class="col-sm-7 form-group">
-        <label class="col-sm-5 control-label">需求名称：</label>
-        <div class="col-sm-7">
-            <!-- <input type="hidden"  class="form-control" name="onlinePlan" value="{{onlinePlan}}"> -->
-            <input type="text" class="form-control input-sm" name="requireName" value="{{requireName}}">
-         </div> 
-    </div>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-primary" name="submit">查询</button>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-primary" name="perservation">删除</button>
-</div>
+<form name="seeRequForm">      
+	<div class="row">
+
+	    <div class="col-sm-7 form-group">
+	        <label class="col-sm-5 control-label">需求名称：</label>
+	        <div class="col-sm-7">
+	            <input type="text" class="form-control input-sm" name="requireName" value="{{requireName}}">
+	         </div> 
+	    </div>
+	    &nbsp;&nbsp;&nbsp;&nbsp;
+	    <button type="button" class="btn btn-primary" name="submit">查询</button>
+	    &nbsp;&nbsp;&nbsp;&nbsp;
+	    <button type="button" class="btn btn-primary" name="perservation">删除</button>
+	</div>
+</form>
 <div class="box-body" name="seeTpl" style="min-height: 100px;" >
     <table  class="table table-bordered table-hover" id="taaa"><!--id="JS_conCaseList"-->
        <thead>

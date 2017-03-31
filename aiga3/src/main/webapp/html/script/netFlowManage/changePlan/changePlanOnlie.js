@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 	//保存计划
 	srvMap.add("changePlansave", pathAlias + "scrap.json", "sys/changeplanonile/save");
 	//上线总结提交/修改
-	srvMap.add("submit", pathAlias + "scrap.json", "sys/changeplanonile/resultsave");
+	srvMap.add("submit", pathAlias + "scrap.json", "sys/changeplanonile/resultupdate");
 	//上线总结
 	srvMap.add("addChangePlanResulForm", pathAlias + "addChangePlanResulForm.json", "sys/changeplanonile/findone");
 	//查看需求
@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 	//保存需求状态
 	srvMap.add("saverequList", pathAlias + "scrap.json", "sys/require/save");
 	//查看变更
-	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "sys/require/list");
+	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "sys/change/list");
 	//保存变更状态
 	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/require/save");
 
@@ -251,7 +251,6 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('保存成功！', 'success', 2000)
 						setTimeout(function() {
 							self.initChangePlanOnlie();
-							alert();
 						}, 1000)
 					}
 				});
@@ -330,8 +329,9 @@ define(function(require, exports, module) {
 						if (status) {
 							var template = Handlebars.compile(Tpl.addChangePlanResulForm);
 							console.log(json.data)
-							$(_form).html(template(json.data));
-
+							_form.html(template(json.data));
+							_form.find("[name='planState']").val(json.data.planState);
+							_form.find("[name='types']").val(json.data.types);
 							self.resultUpdate();
 							self.resultSubmit();
 						}
@@ -347,12 +347,14 @@ define(function(require, exports, module) {
 			_update.unbind('click');
 			_update.bind('click', function() {
 				var cmd = "ext3=1&";
+
 				cmd = cmd + _addResult.serialize();
 				Rose.ajax.postJson(srvMap.get('submit'), cmd, function(json, status) {
 					if (status) {
 						XMS.msgbox.show('修改成功！', 'success', 2000)
 						setTimeout(function() {
-							// self.initChangePlanOnlie();
+							self.initChangePlanOnlie();
+							self.addSummary();
 						}, 1000)
 					}
 				});
@@ -370,7 +372,8 @@ define(function(require, exports, module) {
 					if (status) {
 						XMS.msgbox.show('提交成功！', 'success', 2000)
 						setTimeout(function() {
-							// self.initChangePlanOnlie();
+							self.initChangePlanOnlie();
+							self.addSummary();
 						}, 1000)
 					}
 				});
@@ -409,16 +412,17 @@ define(function(require, exports, module) {
 		},
 		seerequList: function(a,onlinePlan) {
 			var self = this;
-			var _form = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
-			// var _dom = $(Dom.addChangePlanForm).find("[name='seeTpl']");
-			var cmd = "onlinePlan=" + onlinePlan + "&" + _form.serialize();
+			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
+			var _dom = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
+			var cmd = "onlinePlan=" + onlinePlan + "&"+_dom.serialize();
 			Rose.ajax.postJson(srvMap.get('seerequList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seerequList);
 					console.log(json.data)
 					_form.html(template(json.data.content));
 						//查询
-							self.queSeeSubmit(a,onlinePlan);
+						alert(onlinePlan);
+					self.queSeeSubmit(a,onlinePlan);
 						// 绑定单机当前行事件
 					self.eventClickChecked($("#taaa"), function() {
 
@@ -429,9 +433,9 @@ define(function(require, exports, module) {
 		},
 		seeChangeList: function(a,onlinePlan) {
 			var self = this;
-			var _form = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
-			// var _dom = $(Dom.addChangePlanForm).find("[name='seeTpl']");
-			var cmd = "onlinePlan=" + onlinePlan + "&" + _form.serialize();
+			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
+			var _dom = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
+			var cmd = "onlinePlan=" + onlinePlan + "&" + _dom.serialize();
 			Rose.ajax.postJson(srvMap.get('seeChangeList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seeChangeList);
@@ -454,9 +458,9 @@ define(function(require, exports, module) {
 			_submit.unbind('click');
 			_submit.bind('click', function() {
 				if (a == "0" || a == "1") {
-					self.seerequList(onlinePlan);
+					self.seerequList(a,onlinePlan);
 				} else {
-					self.seeChangeList(onlinePlan);
+					self.seeChangeList(a,onlinePlan);
 				}
 			});
 		},

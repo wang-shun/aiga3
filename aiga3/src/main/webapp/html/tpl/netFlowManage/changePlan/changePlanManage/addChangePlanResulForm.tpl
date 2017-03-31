@@ -16,7 +16,13 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">计划状态：</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="planState"  value="{{plan_state planState}}">
+                	<select name="planState" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">新建</option>
+                        <option value="2">处理中</option>
+                        <option value="3">完成</option>
+                        <option value="4">取消</option>
+                    </select>
                 </div>
             </div>
          </div>
@@ -24,13 +30,19 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">类型：</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="types" value="{{type types}}"> 
+                  <select name="types" class="form-control input-sm" >
+                        <option value="">请选择</option>
+                        <option value="0">计划上线</option>
+                        <option value="1">紧急上线</option>
+                        <option value="2">计划变更</option>
+                        <option value="3">紧急变更</option>
+                    </select> 
                 </div>
             </div>
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">计划变更时间：</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="planDate" value="{{planDate}}"> 
+                	<input type="text" class="form-control input-sm " name="planDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}">
                 </div>
             </div>
             <div class="col-sm-4 form-group">
@@ -44,7 +56,7 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">完成时间：</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="doneDate" value="{{doneDate}}">
+                	<input type="text" class="form-control input-sm " name="doneDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{doneDate}}">
                 </div>
             </div>
             <div class="col-sm-4 form-group">

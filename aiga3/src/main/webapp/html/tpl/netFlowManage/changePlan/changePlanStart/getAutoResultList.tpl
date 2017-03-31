@@ -19,7 +19,7 @@
                 <td>{{sysName}}</td>
                 <td>{{subSysName}}</td>
                 <td>{{funName}}</td>
-                <td>{{resulr}}</td>
+                <td>{{getResulr resulr}}</td>
             </tr>
             {{/each}}
         </tbody>

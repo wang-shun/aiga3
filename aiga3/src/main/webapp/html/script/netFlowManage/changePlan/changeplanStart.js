@@ -424,6 +424,20 @@ define(function(require, exports, module) {
                     return "非功能验收";
                 }
             });
+            Handlebars.registerHelper('getResulr', function(value, fn) {
+                if (value == "0") {
+                    return "成功";
+                }
+                if (value == "1") {
+                    return "失败";
+                }
+                if (value == "2") {
+                    return "未执行";
+                }
+                if (value == "3") {
+                    return "中断";
+                }
+            });
         },
 
     };

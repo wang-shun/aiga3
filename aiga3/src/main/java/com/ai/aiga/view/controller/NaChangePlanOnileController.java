@@ -15,12 +15,13 @@ import com.ai.aiga.view.json.base.JsonBean;
 public class NaChangePlanOnileController {
 	@Autowired
 	private NaChangePlanOnileSv naChangePlanOnileSv ;
+//保存
 	@RequestMapping(path = "/sys/changeplanonile/save")
 	public @ResponseBody JsonBean save(NaChangePlanOnileRequest request){
 		naChangePlanOnileSv.saveChangePlanOnile(request);
 		return JsonBean.success;
 	}
-	
+	//修改
 	@RequestMapping(path = "/sys/changeplanonile/update")
 	public @ResponseBody JsonBean update(NaChangePlanOnileRequest request){
 		naChangePlanOnileSv.updateChangePlanOnile(request);
@@ -33,28 +34,32 @@ public class NaChangePlanOnileController {
 		naChangePlanOnileSv.delectChangePlanOnile(onlinePlan);
 		return JsonBean.success;
 	}
+	//废弃
 	@RequestMapping(path = "/sys/changeplanonile/abandon")
 	public @ResponseBody JsonBean abandon(
 			@RequestParam Long onlinePlan){
 		naChangePlanOnileSv.abandonChangePlanOnile(onlinePlan);
 		return JsonBean.success;
 	}
-	//提交
+	
+	//添加上线总结修改
 	@RequestMapping(path = "/sys/changeplanonile/resultsave")
 	public @ResponseBody JsonBean resultsave(NaChangePlanOnileRequest request){
 		naChangePlanOnileSv.summaryChangePlanOnile(request);
 		return JsonBean.success;
 	}
+	//添加上线总结提交
 	@RequestMapping(path = "/sys/changeplanonile/resultupdate")
 	public @ResponseBody JsonBean resultupdate(@RequestParam String ext1,NaChangePlanOnileRequest request){
 		naChangePlanOnileSv.select(ext1, request);
 		return JsonBean.success;
 	}
+	//查找一个
 	@RequestMapping(path = "/sys/changeplanonile/findone")
 	public @ResponseBody JsonBean findone(
 				@RequestParam Long onlinePlan){
 		JsonBean bean = new JsonBean();
-		bean.setData(naChangePlanOnileSv.findOne(onlinePlan));
+		bean.setData(naChangePlanOnileSv.findOne1(onlinePlan));
 		return bean;
 	}
 }

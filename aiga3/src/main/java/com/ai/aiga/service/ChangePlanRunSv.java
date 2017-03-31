@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaStaffDao;
+import com.ai.aiga.dao.NaAutoCaseResultFlowDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaCodePathDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
@@ -44,6 +45,9 @@ public class ChangePlanRunSv extends BaseService{
 	
 	@Autowired
 	private AigaStaffDao aigaStaffDao;
+	
+	@Autowired
+	private NaAutoCaseResultFlowDao naAutoCaseResultFlowDao;
 
 	public Object list(NaChangePlanOnile condition, String time1, String time2, int pageNumber, int pageSize) {
 		
@@ -69,8 +73,8 @@ public class ChangePlanRunSv extends BaseService{
 		list.add("onlinePlan");
 		list.add("onlinePlanName");
 		list.add("planState");
-		list.add("creatorName");
-		list.add("creatorDate");
+		list.add("createName");
+		list.add("createDate");
 		list.add("types");
 		list.add("doneDate");
 		list.add("planDate");
@@ -154,7 +158,7 @@ public class ChangePlanRunSv extends BaseService{
 		List<Object[]> list = naOnlineTaskDistributeDao.messageInfo(taskId);
 		Object[] object = list.get(0);
 		StringBuilder contents = new StringBuilder();
-		contents.append("尊敬的:").append(object[0].toString()).append(",").append(object[1].toString())
+		contents.append("AIGA_SMS~尊敬的:").append(object[0].toString()).append(",").append(object[1].toString())
 		.append("在").append(object[2].toString()).append("给您分派了").append(info)
 		.append("任务,请您及时处理！");
 		TaskMessageClient.sendMessageForCycle(object[3].toString(), contents.toString());
@@ -211,5 +215,36 @@ public class ChangePlanRunSv extends BaseService{
 	public List<AigaStaff> createOpId() {
 		List<AigaStaff> list = aigaStaffDao.findAll();
 		return list;
+	}
+
+	public Object caseResult(Long onlinePlan, int pageNumber, int pageSize ) {
+		if(onlinePlan == null || onlinePlan < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
+		}
+		
+		String sql = "select a.case_id, b.auto_name, a.resulr, c.sys_name, d.sys_name as sub_sys_name, e.sys_name as fun_name "
+				+ " from na_auto_case_result_flow a, na_auto_case b, aiga_system_folder c, aiga_sub_sys_folder d,"
+				+ " aiga_fun_folder e where a.case_id = b.auto_id and b.sys_id = c.sys_id and b.sys_sub_id = d.subsys_id"
+				+ " and b.fun_id = e.fun_id and a.plan_id = "+onlinePlan;
+		
+		List<String> list = new ArrayList<String>();
+		list.add("caseId");
+		list.add("caseName");
+		list.add("resulr");
+		list.add("sysName");
+		list.add("subSysName");
+		list.add("funName");
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naAutoCaseResultFlowDao.searchByNativeSQL(sql, pageable, list);
 	}
 }

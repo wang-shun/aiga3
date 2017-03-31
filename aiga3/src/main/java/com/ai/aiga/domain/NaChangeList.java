@@ -5,7 +5,10 @@ package com.ai.aiga.domain;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -50,7 +53,8 @@ public class NaChangeList  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_CHANGE_LIST$SEQ")
+     @SequenceGenerator(name="NA_CHANGE_LIST$SEQ",sequenceName="NA_CHANGE_LIST$SEQ",allocationSize=1)
     @Column(name="CHANGE_ID", unique=true, nullable=false, precision=22, scale=0)
     public BigDecimal getChangeId() {
         return this.changeId;

@@ -82,7 +82,7 @@ public class NaRequireListSv extends BaseService{
 		naRequireList.setTestManager(request.getTestManager());
 		naRequireList.setReviewState(request.getReviewState());
 		
-		if(request.getIntroducedState().equals("")){
+		if(request.getIntroducedState()==null||request.getIntroducedState().equals("")){
 			//成功
 			naRequireList.setIntroducedState(BigDecimal.valueOf((NumberUtils.toLong("1"))));
 		}else{

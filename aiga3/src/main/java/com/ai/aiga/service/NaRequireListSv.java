@@ -34,11 +34,41 @@ public class NaRequireListSv extends BaseService{
 		return naRequireListDao.select(requireName);
 		
 	}
-	public List<NaRequireList> selectList(){
+		public Object selectList(int pageNumber, int pageSize,NaRequireList condition ) throws ParseException {
+			   List<String> list = new ArrayList<String>();
+				list.add("id");
+				list.add("requireCode");
+				list.add("requireName");
+				list.add("requireMan");
+				list.add("devManager");
+				list.add("testManager");
+				list.add("reviewState");
+				list.add("introducedState");
+			   String sql = "select a.id,a.REQUIRE_CODE,a.REQUIRE_NAME,a.REQUIRE_MAN,a.DEV_MANAGER,a.TEST_MANAGER,a.REVIEW_STATE,"
+						+ "a.INTRODUCED_STATE from NA_REQUIRE_LIST a,NA_CHANGE_PLAN_ONILE b "
+						+ "where a.PLAN_ID=b.ONLINE_PLAN";
+			
+					if(StringUtils.isNotBlank(condition.getRequireName())){
+						sql += " and a.REQUIRE_NAME like '%"+condition.getRequireName()+"%'";
+					}
+					
+					
+					
+				
+				if(pageNumber < 0){
+					pageNumber = 0;
+				}
+				
+				if(pageSize <= 0){
+					pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+				}
+
+				Pageable pageable = new PageRequest(pageNumber, pageSize);
+				
+				return naRequireListDao.searchByNativeSQL(sql, pageable, list);
+			}
+
 		
-		return naRequireListDao.selectList();
-		
-	}
 	public NaRequireList save(NaRequireList request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -52,9 +82,11 @@ public class NaRequireListSv extends BaseService{
 		naRequireList.setTestManager(request.getTestManager());
 		naRequireList.setReviewState(request.getReviewState());
 		
-		if(request.getIntroducedState()==null||request.getIntroducedState().equals("")){
+		if(request.getIntroducedState().equals("")){
 			//成功
 			naRequireList.setIntroducedState(BigDecimal.valueOf((NumberUtils.toLong("1"))));
+		}else{
+		naRequireList.setIntroducedState(request.getIntroducedState());
 		}
 		naRequireListDao.save(naRequireList);
 		return naRequireList;

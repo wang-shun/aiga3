@@ -38,6 +38,7 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setTypes(request.getTypes());
 		naChangePlanOnile.setTimely(request.getTimely());
 		naChangePlanOnile.setRemark(request.getRemark());
+		naChangePlanOnile.setPlanState(request.getPlanState());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			
@@ -107,13 +108,14 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setExt1(request.getExt1());
 		naChangePlanOnile.setResult(request.getResult());
 		naChangePlanOnile.setDoneDate(request.getDoneDate());
+		naChangePlanOnile.setPlanState(request.getPlanState());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			
 	}
 	public String  select( String ext1,NaChangePlanOnileRequest request){
 		//修改
-		if(ext1=="1"){
+		if(ext1.equals("1")){
 			NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
 			
 			//提交
@@ -132,12 +134,12 @@ public class NaChangePlanOnileSv extends BaseService{
 		//return ext1;
 		
 	}
-	public  NaChangePlanOnile findOne(Long onlinePlan) {
+	public  NaChangePlanOnile findOne1(Long onlinePlan) {
 		if(onlinePlan == null || onlinePlan < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "roleId");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");
 		}
 		
-		return naChangePlanOnileDao.findById(onlinePlan);
+		return naChangePlanOnileDao.findOne(onlinePlan);
 	}
 	public void updateChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 

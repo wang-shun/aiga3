@@ -17,9 +17,13 @@ SearchAndPageRepository<NaChangeList, BigDecimal>{
 			+ "a.review_state,a.result_state from NA_CHANGE_LIST a where change_name=?1",nativeQuery = true)
 	NaChangeList  select(String changeName);
 	
-	@Query(value="select  a.change_name,a.change_manager,a.change_man,a.change_title,"
+	/*@Query(value="select  a.change_name,a.change_manager,a.change_man,a.change_title,"
 			+ "a.review_state,a.result_state"
 			+ " from NA_CHANGE_LIST a,NA_CHANGE_PLAN_ONILE b "
 			+ "where a.PLAN_ID=b.ONLINE_PLAN ",nativeQuery = true)
+			List<NaChangeList>  selectList();*/
+	@Query(value="select  a.* from NA_CHANGE_LIST a,NA_CHANGE_PLAN_ONILE b "
+			+ "where a.PLAN_ID=b.ONLINE_PLAN ",nativeQuery = true)
 			List<NaChangeList>  selectList();
+	
 }

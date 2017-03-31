@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-3-30 15:29:33 by Hibernate Tools 3.2.2.GA
+// Generated 2017-3-30 20:46:11 by Hibernate Tools 3.2.2.GA
 
 
 import java.math.BigDecimal;

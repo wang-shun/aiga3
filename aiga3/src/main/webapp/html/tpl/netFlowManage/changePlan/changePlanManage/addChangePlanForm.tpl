@@ -19,7 +19,7 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">计划变更时间：</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="planDate" value="planDate"> 
+                  <input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
                 </div>
             </div>
             <div class="col-sm-4 form-group">

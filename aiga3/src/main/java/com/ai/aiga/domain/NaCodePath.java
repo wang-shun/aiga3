@@ -1,14 +1,11 @@
 package com.ai.aiga.domain;
-// Generated 2017-3-29 18:10:15 by Hibernate Tools 3.2.2.GA
+// Generated 2017-3-30 20:51:25 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,29 +15,33 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="NA_CODE_PATH"
+    ,schema="AIGA"
 )
 public class NaCodePath  implements java.io.Serializable {
 
 
-     private Long ids;
+     private Long id;
+     private String listId;
      private String sysName;
      private String modelName;
      private String packageName;
      private Long state;
      private String remark;
      private Date planDate;
-     private String isFinished;
+     private Long isFinished;
      private Long updateCount;
+     private Long result;
 
     public NaCodePath() {
     }
 
 	
-    public NaCodePath(Long ids) {
-        this.ids = ids;
+    public NaCodePath(Long id) {
+        this.id = id;
     }
-    public NaCodePath(Long ids, String sysName, String modelName, String packageName, Long state, String remark, Date planDate, String isFinished, Long updateCount) {
-       this.ids = ids;
+    public NaCodePath(Long id, String listId, String sysName, String modelName, String packageName, Long state, String remark, Date planDate, Long isFinished, Long updateCount, Long result) {
+       this.id = id;
+       this.listId = listId;
        this.sysName = sysName;
        this.modelName = modelName;
        this.packageName = packageName;
@@ -49,16 +50,27 @@ public class NaCodePath  implements java.io.Serializable {
        this.planDate = planDate;
        this.isFinished = isFinished;
        this.updateCount = updateCount;
+       this.result = result;
     }
    
      @Id 
-    @Column(name="IDS", precision=22, scale=0)
-    public Long getIds() {
-        return this.ids;
+    
+    @Column(name="ID", unique=true, nullable=false, precision=22, scale=0)
+    public Long getId() {
+        return this.id;
     }
     
-    public void setIds(Long ids) {
-        this.ids = ids;
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    @Column(name="LIST_ID", length=100)
+    public String getListId() {
+        return this.listId;
+    }
+    
+    public void setListId(String listId) {
+        this.listId = listId;
     }
     
     @Column(name="SYS_NAME", length=2000)
@@ -115,12 +127,12 @@ public class NaCodePath  implements java.io.Serializable {
         this.planDate = planDate;
     }
     
-    @Column(name="IS_FINISHED", length=20)
-    public String getIsFinished() {
+    @Column(name="IS_FINISHED", precision=22, scale=0)
+    public Long getIsFinished() {
         return this.isFinished;
     }
     
-    public void setIsFinished(String isFinished) {
+    public void setIsFinished(Long isFinished) {
         this.isFinished = isFinished;
     }
     
@@ -131,6 +143,15 @@ public class NaCodePath  implements java.io.Serializable {
     
     public void setUpdateCount(Long updateCount) {
         this.updateCount = updateCount;
+    }
+    
+    @Column(name="RESULT", precision=20, scale=0)
+    public Long getResult() {
+        return this.result;
+    }
+    
+    public void setResult(Long result) {
+        this.result = result;
     }
 
 

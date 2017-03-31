@@ -34,7 +34,9 @@ public class TaskMessageClient {
 		AddTaskRsp message=service.addTask(taskValue);
 		System.out.println(message.getError());
 	}
+
 //	public static void main(String[] args) {
-//		sendMessageForCycle("13567177436", "AIGA_SMS~this is for test");
+//		sendMessageForCycle("15988409381", "AIGA_SMS~this is for test");
 //	}
+
 }

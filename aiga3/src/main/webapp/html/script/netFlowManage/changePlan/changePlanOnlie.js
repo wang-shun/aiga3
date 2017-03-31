@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 	//修改计划
 	srvMap.add("changePlanupdate", pathAlias + "scrap.json", "sys/changeplanonlie/update");
 	//保存计划
-	srvMap.add("changePlansave", pathAlias + "scrap.json", "sys/changeplanonlie/save");
+	srvMap.add("changePlansave", pathAlias + "scrap.json", "sys/changeplanonile/save");
 	//上线总结提交/修改
 	srvMap.add("submit", pathAlias + "scrap.json", "sys/changeplanonlie/resultsave");
 	//上线总结
@@ -39,7 +39,7 @@ define(function(require, exports, module) {
 		addChangePlanForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanForm.tpl'),
 
 		seeRequForm: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequForm.tpl'),
-		seerequList: require('tpl/netFlowManage/changePlan/changePlanManage/seerequList.tpl'),
+		seerequList: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequList.tpl'),
 		seeChangeList: require('tpl/netFlowManage/changePlan/changePlanManage/seeChangeList.tpl'),
 	};
 
@@ -83,7 +83,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getChangePlanOnlieList);
 					console.log(json.data)
-					$(Dom.getChangePlanOnlieList).html(template(json.data));
+					$(Dom.getChangePlanOnlieList).html(template(json.data.content));
 					//新增
 					self.addBut();
 					//修改
@@ -179,6 +179,7 @@ define(function(require, exports, module) {
 			});
 		},
 		////////*******************************************/////新增//*******************************************////////
+		//新增
 		addBut: function() {
 			var self = this;
 			// var _form=$(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
@@ -186,7 +187,8 @@ define(function(require, exports, module) {
 			_add.unbind('click');
 			_add.bind('click', function() {
 				var template = Handlebars.compile(Tpl.addChangePlanForm);
-				$(Dom.addChangePlanForm).html(template({}));
+
+				$(Dom.addChangePlanForm).html(template(""));
 				//弹出层
 				$("#JS_addChangePlanFormModal").modal('show');
 

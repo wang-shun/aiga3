@@ -33,14 +33,7 @@ public class NaRequireListController {
 		
 		return bean;
 	}
-//按照名字查询
-	@RequestMapping(path = "/sys/require/name")
-	public @ResponseBody JsonBean findone(
-				@RequestParam String requireName){
-		JsonBean bean = new JsonBean();
-		bean.setData(naRequireListSv.selectname(requireName));
-		return bean;
-	}
+
 	//保存
 	@RequestMapping(path = "/sys/require/save")
 	public @ResponseBody JsonBean save(NaRequireList request){

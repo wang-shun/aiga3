@@ -43,7 +43,8 @@ public class reviewPlanSv  extends BaseService{
 			map.put("planDate", planDate);
 			map.put("date", naCodePathS);
 			System.out.println("22222"+JsonUtil.mapToJson(map));
-			HttpUtil.sendPost(url,JsonUtil.mapToJson(map) );
+			String info =   HttpUtil.sendPost(url,JsonUtil.mapToJson(map) );
+			System.out.println("info"+info);
 		}
 	}
 	

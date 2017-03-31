@@ -185,7 +185,7 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('updateOrganize'), cmd, function(json, status) {
 						if (status) {
 							XMS.msgbox.show('保存成功！', 'success', 2000)
-							Rose.ajax.getJson(srvMap.get('organizeTree'), '', function(json, status) {
+							Rose.ajax.postJson(srvMap.get('organizeTree'), '', function(json, status) {
 								if (status) {
 									$.fn.zTree.init($("#treeDemo"), setting, json.data);
 								}

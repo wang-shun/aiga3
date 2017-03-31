@@ -85,4 +85,15 @@ public class ChangePlanRunController {
 		bean.setData(changePlanRunSv.createOpId());
 		return bean;
 	}
+	/**
+	 * 环境验证用例执行结果查看*/
+	@RequestMapping(path = "/accept/changePlanRun/caseResult")
+	public @ResponseBody JsonBean caseResult(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long onlinePlan){
+		JsonBean bean = new JsonBean();
+		bean.setData(changePlanRunSv.caseResult(onlinePlan, pageNumber, pageSize));
+		return bean;
+	}
 }

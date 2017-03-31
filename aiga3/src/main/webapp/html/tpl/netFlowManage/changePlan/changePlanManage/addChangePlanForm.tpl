@@ -13,19 +13,19 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label"><i class="text-red">*</i>变更计划名称：</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="onlinePlanName" value="onlinePlanName" > 
+                  <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}" > 
                 </div>
             </div>
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">计划变更时间：</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
+                  <input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}"> 
                 </div>
             </div>
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label"><i class="text-red">*</i>变更类型：</label>
                 <div class="col-sm-7">
-                    <select name="types" class="form-control input-sm" value="types" >
+                    <select name="types" class="form-control input-sm" >
                         <option value="">请选择</option>
                         <option value="0">计划上线</option>
                         <option value="1">紧急上线</option>
@@ -39,7 +39,7 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">上线是否及时：</label>
                 <div class="col-sm-7">
-                    <select name="timely" class="form-control input-sm" value="timely" >
+                    <select name="timely" class="form-control input-sm" value="{{timely}}" >
                         <option value="">请选择</option>
                         <option value="1">是</option>
                         <option value="2">否</option>
@@ -49,7 +49,7 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="remark" value="remark"> 
+                  <input type="text" class="form-control input-sm" name="remark" value="{{remark}}"> 
                 </div>
             </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-primary" name="submit">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>

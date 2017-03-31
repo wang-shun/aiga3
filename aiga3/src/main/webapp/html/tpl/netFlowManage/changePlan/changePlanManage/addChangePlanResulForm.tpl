@@ -16,7 +16,7 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">计划状态：</label>
                 <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="planState"  value="{{planState}}">
+                    <input type="text" class="form-control input-sm" name="planState"  value="{{plan_state planState}}">
                 </div>
             </div>
          </div>
@@ -24,7 +24,7 @@
             <div class="col-sm-4 form-group">
                 <label class="col-sm-5 control-label">类型：</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="types" value="{{types}}"> 
+                  <input type="text" class="form-control input-sm" name="types" value="{{type types}}"> 
                 </div>
             </div>
             <div class="col-sm-4 form-group">

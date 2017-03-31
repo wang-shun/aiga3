@@ -6,9 +6,9 @@ define(function(require, exports, module) {
 
 	var pathAlias = "netFlowManage/changePlan/changePlanManage/";
 	// 显示变更计划
-	srvMap.add("getChangePlanOnlieList", pathAlias + "getChangePlanOnlieList.json", "auto/task/listInfo");
+	srvMap.add("getChangePlanOnlieList", pathAlias + "getChangePlanOnlieList.json", "accept/changePlan/list");
 	// 显示变更计划名称
-	srvMap.add("queryOnlinePlanName", pathAlias + "getChangePlanOnlieList.json", "auto/task/listInfo");
+	srvMap.add("queryOnlinePlanName", pathAlias + "getChangePlanOnlieList.json", "sys/cache/changePlan");
 	//废弃scrap计划
 	srvMap.add("scrap", pathAlias + "scrap.json", "sys/changeplanonlie/abandon");
 	//取消计划

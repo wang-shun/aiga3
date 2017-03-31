@@ -26,10 +26,10 @@ public class NaRequireListController {
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			
-			NaRequireList condition) throws ParseException {
+			String requireName,String onlinePlan) throws ParseException {
 		
 		  JsonBean bean = new JsonBean();
-		bean.setData(naRequireListSv.selectList(pageNumber, pageSize,condition));
+		bean.setData(naRequireListSv.selectList(pageNumber, pageSize,requireName,onlinePlan));
 		
 		return bean;
 	}

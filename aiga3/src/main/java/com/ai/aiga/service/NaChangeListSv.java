@@ -34,7 +34,7 @@ public class NaChangeListSv extends BaseService{
 		return naChangeListDao.select(changeName);
 		
 	}
-	public Object selectList(int pageNumber, int pageSize,NaChangeList condition ) throws ParseException {
+	public Object selectList(int pageNumber, int pageSize,String name ,String onlinePlan ) throws ParseException {
 		   List<String> list = new ArrayList<String>();
 			list.add("changeId");
 			list.add("changeName");
@@ -49,8 +49,11 @@ public class NaChangeListSv extends BaseService{
 			+ " from NA_CHANGE_LIST a,NA_CHANGE_PLAN_ONILE b "
 			+ "where a.PLAN_ID=b.ONLINE_PLAN";
 		
-				if(StringUtils.isNotBlank(condition.getChangeName())){
-					sql += " and a.change_name like '%"+condition.getChangeName()+"%'";
+				if(StringUtils.isNotBlank(name)){
+					sql += " and a.change_name like '%"+name+"%'";
+				}
+				if(StringUtils.isNotBlank(onlinePlan)){
+					sql += " and b.ONLINE_PLAN ="+onlinePlan;
 				}
 				
 				

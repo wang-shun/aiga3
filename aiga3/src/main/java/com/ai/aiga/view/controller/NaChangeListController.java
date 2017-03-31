@@ -26,10 +26,10 @@ public class NaChangeListController {
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			
-			NaChangeList condition) throws ParseException {
+			String changeName,String onlinePlan) throws ParseException {
 		
 		  JsonBean bean = new JsonBean();
-		bean.setData(naChangeListSv.selectList(pageNumber, pageSize,condition));
+		bean.setData(naChangeListSv.selectList(pageNumber, pageSize,changeName,onlinePlan));
 		
 		return bean;
 	}

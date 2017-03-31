@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,11 +33,15 @@ import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 @Service
 @Transactional
 public class AigaOnlineCaseCollectionSv extends BaseService {
+	
+	private static Logger logger = LoggerFactory.getLogger(AigaOnlineCaseCollectionSv.class);
 
 	@Autowired
 	private NaAutoCollectionDao caseDao;
+	
 	@Autowired
 	private NaAutoCollGroupCaseDao dao;
+	
 	@Autowired
 	private NaAutoGroupDao groupDao;
 
@@ -44,7 +50,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 * @param caseCollection
 	 *            用例集信息
 	 */
-	public void saveCase(CaseCollectionRequest caseCollection, HttpSession session) {
+	public void saveCase(CaseCollectionRequest caseCollection) {
 		if (caseCollection == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
 		}
@@ -70,7 +76,6 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			caseConnections.setCollectId(caseCollection.getCollectId());
 			caseConnections.setCaseNum(caseCollection.getCaseNum());
 		}
-		String user = (String) session.getAttribute("");
 		caseConnections.setCollectName(caseCollection.getCollectName());
 		caseConnections.setCaseType(caseCollection.getCaseType());
 		caseConnections.setRepairsId(caseCollection.getRepairsId());
@@ -142,7 +147,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 						collGroupCaseNew.setUpdateTime(new Date());
 						dao.save(collGroupCaseNew);
 					} else {
-						System.out.println("当前用例已经被关联过");
+						logger.info("connectCaseCollection:当前用例已经被关联过!");
 					}
 				}
 			}
@@ -170,33 +175,34 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		resultList.add("sysId");
 		String sql = "select collect_ID, \n"
 							     +"  collect_Name, \n"
-							      +"     (select name from aiga_staff bb where a.OP_ID = bb.staff_id) as operator, \n"
-							       +"    to_char(create_date,'yyyy-mm-dd hh24:mi:ss'),  \n"
-							       +"    case_num, \n"
-							        +"   (select show \n"
-							        +"      from sys_constant cc \n"
-							        +"     where cc.category = 'collectType' \n"
-							        +"       and cc.value = a.case_type) as case_type, \n"
-							        +"  (select name from aiga_staff cc where a.repairs_id = cc.staff_id) as repair_id \n,"
-							        +" b.sys_name as sys_name  "
-							   +"   from na_auto_collection a left join  aiga_system_folder b \n"
-					   +" 	    on a.sys_Id = b.sys_id \n   where 1=1";
+							     +"  (select name from aiga_staff bb where a.OP_ID = bb.staff_id) as operator, \n"
+							     +"  to_char(create_date,'yyyy-mm-dd hh24:mi:ss'),  \n"
+							     +"  case_num, \n"
+							     +"  (select show \n"
+							     +"  from sys_constant cc \n"
+							     +"  where cc.category = 'collectType' \n"
+							     +"  and cc.value = a.case_type) as case_type, \n"
+							     +"  (select name from aiga_staff cc where a.repairs_id = cc.staff_id) as repair_id \n,"
+							     +"  b.sys_name as sys_name \n "
+							     +"  from na_auto_collection a left join  aiga_system_folder b \n"
+							     +"  on a.sys_Id = b.sys_id \n "
+							     + "  where 1=1 \n";
 			// 用例集名称
 			if (StringUtils.isNotBlank(caseCollection.getCollectName())) {
-				sql += " and collect_name like '%"+caseCollection.getCollectName()+"%' ";
+				sql += " and collect_name like '%"+caseCollection.getCollectName()+"%'  \n";
 			}
 			// 用例集类型
 			if (caseCollection.getCaseType()!=null) {
-			   sql += " and case_type ="+caseCollection.getCaseType();
+			   sql += " and case_type ="+caseCollection.getCaseType()+"\n";
 			}
 			sql +=" order by create_date desc ";
-		if (pageNumber < 0) {
-			pageNumber = 0;
-		}
+			if (pageNumber < 0) {
+				pageNumber = 0;
+			}
 
-		if (pageSize <= 0) {
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
+			if (pageSize <= 0) {
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return caseDao.searchByNativeSQL(sql, pageable, resultList);
 	}

@@ -9,21 +9,17 @@
                 <th>系统大类</th>
                 <th>系统子类</th>
                 <th>功能点</th>
-                <th>重要程度</th>
-                <th>处理状态</th>
-                <th>自动化编号</th>
                 <th>自动化执行结果</th>
             </tr>
         </thead>
         <tbody>
             {{#each content}}
             <tr>
-                <td>{{autoName}}</td>
+                <td>{{caseName}}</td>
                 <td>{{sysName}}</td>
-                <td>{{sunSysName}}</td>
+                <td>{{subSysName}}</td>
                 <td>{{funName}}</td>
-                <td>{{important}}</td>
-                <td>{{caseState}}</td>
+                <td>{{resulr}}</td>
             </tr>
             {{/each}}
         </tbody>

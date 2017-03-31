@@ -17,9 +17,11 @@ SearchAndPageRepository<NaRequireList, BigDecimal> {
 			+ "INTRODUCED_STATE from NA_REQUIRE_LIST  where REQUIRE_NAME=?1",nativeQuery = true)
 	NaRequireList  select(String requireName);
 	
-	@Query(value="select  a.REQUIRE_CODE,a.REQUIRE_NAME,a.REQUIRE_MAN,a.DEV_MANAGER,a.TEST_MANAGER,a.REVIEW_STATE,"
+	/*@Query(value="select a.id,a.REQUIRE_CODE,a.REQUIRE_NAME,a.REQUIRE_MAN,a.DEV_MANAGER,a.TEST_MANAGER,a.REVIEW_STATE,"
 			+ "a.INTRODUCED_STATE from NA_REQUIRE_LIST a,NA_CHANGE_PLAN_ONILE b "
 			+ "where a.PLAN_ID=b.ONLINE_PLAN ",nativeQuery = true)
+			List<NaRequireList>  selectList();*/
+	@Query(value="select a.* from NA_REQUIRE_LIST a,NA_CHANGE_PLAN_ONILE b "
+			+ "where a.PLAN_ID=b.ONLINE_PLAN ",nativeQuery = true)
 			List<NaRequireList>  selectList();
-	
 }

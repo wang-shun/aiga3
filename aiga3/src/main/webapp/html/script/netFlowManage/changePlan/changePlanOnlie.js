@@ -4,125 +4,434 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	require('global/sidebar.js');
 
-	var pathAlias = "case/changePlanManage/";
+	var pathAlias = "netFlowManage/changePlan/changePlanManage/";
 	// 显示用例集列表
-	srvMap.add("getChangePlanOnlieList", pathAlias+"getChangePlanOnlieList.json", "auto/task/listInfo");
-	
+	srvMap.add("getChangePlanOnlieList", pathAlias + "getChangePlanOnlieList.json", "auto/task/listInfo");
+	// 显示用例集列表
+	srvMap.add("queryOnlinePlanName", pathAlias + "getChangePlanOnlieList.json", "auto/task/listInfo");
+	//废弃scrap
+	srvMap.add("scrap", pathAlias + "scrap.json", "auto/task/listInfo");
+	//取消
+	srvMap.add("cancel", pathAlias + "scrap.json", "auto/task/listInfo");
+	//上线总结
+	srvMap.add("submit", pathAlias + "scrap.json", "auto/task/listInfo");
+	//上线总结
+	srvMap.add("addChangePlanResulForm", pathAlias + "addChangePlanResulForm.json", "auto/task/listInfo");
+	//查看需求
+	srvMap.add("seerequList", pathAlias + "seeRequList.json", "auto/task/listInfo");
+	//查看变更
+	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "auto/task/listInfo");
+
 
 	// 模板对象
 	var Tpl = {
-		getChangePlanOnlieList: require('tpl/case/changePlanManage/getChangePlanOnlieList.tpl'),
+		getChangePlanOnlieList: require('tpl/netFlowManage/changePlan/changePlanManage/getChangePlanOnlieList.tpl'),
+		queryOnlinePlanName: require('tpl/netFlowManage/changePlan/changePlanManage/queryOnlinePlanName.tpl'),
+		addChangePlanResulForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanResulForm.tpl'),
+		addChangePlanForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanForm.tpl'),
+
+		seeRequForm: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequForm.tpl'),
+		seerequList: require('tpl/netFlowManage/changePlan/changePlanManage/seerequList.tpl'),
+		seeChangeList: require('tpl/netFlowManage/changePlan/changePlanManage/seeChangeList.tpl'),
 	};
 
 
 	var Dom = {
-		planName:[],
-		getChangePlanOnlieList:"#JS_getChangePlanOnlieList",
+		planName: [],
+		getChangePlanOnlieList: "#JS_getChangePlanOnlieList",
+		queryOnlinePlanName: "#query_OnlinePlanName",
+		queryChangePlanOnileBtn: "#JS_queryChangePlanOnileBtn",
+		queryChangePlanOnileForm: "#JS_queryChangePlanOnileForm",
+		changePlanOnlie: "#JS_changePlanOnlie",
+		addChangePlanForm: "#JS_addChangePlanForm",
+		addChangePlanResultForm: "#JS_addChangePlanResulForm",
 	}
 	var getChangePlanOnlie = {
 		init: function() {
 			this._render();
+
 		},
 		_render: function() {
 			this.initChangePlanOnlie();
+			this.queryOnlinePlanName();
+			this.queryChangePlanOnileBtn();
+			//重置
+			this.reset();
+			//废弃
+			this.scrap();
+			this.cancel();
+
+			//////////////
+			// this.addChangePlan(1);
+			// this.addSummary();
 			// this.getTaskList();
 		},
 
-	//---------------------------------------------------------------------------------//
-        ///////初始化///////////
+		//---------------------------------------------------------------------------------//
+		///////初始化///////////
 		initChangePlanOnlie: function(cmd) {
 			var self = this;
 			Rose.ajax.postJson(srvMap.get('getChangePlanOnlieList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getChangePlanOnlieList);
-					Dom.planName=json.data.onlinePlanName;
 					console.log(json.data)
 					$(Dom.getChangePlanOnlieList).html(template(json.data));
-					
-
+					//新增
+					self.addBut();
+					//修改
+					self.modifyBut();
+					//查看交付物
+					self.queryDelBut();
 					// 绑定单机当前行事件
-				    self.eventClickChecked($(Dom.getChangePlanOnlieList),function(){
+					self.eventClickChecked($(Dom.getChangePlanOnlieList), function() {
 
-				    });
-				    // 绑定双击当前行事件
-				    self.eventDClickCallback($(Dom.getChangePlanOnlieList),function(){
-				    	// 请求：用户基本信息
+					});
+					// 绑定双击当前行事件
+					self.eventDClickCallback($(Dom.getChangePlanOnlieList), function() {
+						// 请求：用户基本信息
 						//self.seeCase();
-				    })
-				    self.initPaging($(Dom.getChangePlanOnlieList),8)
-				    
+					})
+					self.initPaging($(Dom.getChangePlanOnlieList), 8)
+
+				}
+			});
+		},
+		queryOnlinePlanName: function() {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.queryOnlinePlanName);
+					console.log(json.data)
+					$(Dom.queryOnlinePlanName).html(template(json.data));
 				}
 			});
 		},
 		//重置
-		JS_resetTask:function(){
-			$("#JS_resetTask").unbind('click');
-			$("#JS_resetTask").bind('click',function(){
-				$("#JS_queryTaskForm").data('bootstrapValidator').resetForm(true);
+		reset: function() {
+			var _form = $(Dom.queryChangePlanOnileForm);
+			var _reset = _form.find("[name='reset']");
+			_reset.unbind('click');
+			_reset.bind('click', function() {
+				_form.find("[name='important']").val("");
+				_form.find("[name='caseName']").val("");
+				_form.find("[name='createDate']").val("");
+				_form.find("[name='doneDate']").val("");
 			});
 		},
 		//查找
-		getTaskList:function(){
-			var self=this;
-			$(Dom.queryTask).unbind('click');
-			$(Dom.queryTask).bind('click',function(){
-				var cmd = $("#JS_queryTaskForm").serialize();
-				self.initTask(cmd);
+		queryChangePlanOnileBtn: function() {
+			var self = this;
+			$(Dom.queryChangePlanOnileBtn).unbind('click');
+			$(Dom.queryChangePlanOnileBtn).bind('click', function() {
+				var cmd = $(Dom.queryChangePlanOnileForm).serialize();
+				self.initChangePlanOnlie(cmd);
+			});
+		},
+		//add
+		//废弃scrap
+		scrap: function() {
+			var self = this;
+			var _dom = $(Dom.changePlanOnlie);
+			var _scrap = _dom.find("[name='scrap']");
+			_scrap.unbind('click');
+			_scrap.bind('click', function() {
+				var _data = self.getTaskRow();
+				if (_data) {
+					var cmd = "onlinePlan=" + _data.onlinePlan;
+					Rose.ajax.postJson(srvMap.get('scrap'), cmd, function(json, status) {
+						if (status) {
+							XMS.msgbox.show('已废弃！', 'success', 2000)
+							setTimeout(function() {
+								self.initChangePlanOnlie();
+							}, 1000)
+						}
+					});
+				}
+			});
+		},
+		//changePlanOnlie取消cancel
+		cancel: function() {
+			var self = this;
+			var _dom = $(Dom.changePlanOnlie);
+			var _scrap = _dom.find("[name='cancel']");
+			_scrap.unbind('click');
+			_scrap.bind('click', function() {
+				var _data = self.getTaskRow();
+				if (_data) {
+					var cmd = "onlinePlan=" + _data.onlinePlan;
+					Rose.ajax.postJson(srvMap.get('cancel'), cmd, function(json, status) {
+						if (status) {
+							XMS.msgbox.show('已取消！', 'success', 2000)
+							setTimeout(function() {
+								self.initChangePlanOnlie();
+							}, 1000)
+						}
+					});
+				}
+			});
+		},
+		////////*******************************************/////新增//*******************************************////////
+		addBut: function() {
+			var self = this;
+			// var _form=$(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
+			var _add = $(Dom.changePlanOnlie).find("[name='add']")
+			_add.unbind('click');
+			_add.bind('click', function() {
+				var template = Handlebars.compile(Tpl.addChangePlanForm);
+				$(Dom.addChangePlanForm).html(template({}));
+				//弹出层
+				$("#JS_addChangePlanFormModal").modal('show');
+
+				self.addChangePlan("");
+			});
+		},
+		//保存
+		addChangePlan: function(onlinePlan) {
+			var self = this;
+			var _add = $(Dom.addChangePlanForm);
+			var _submit = _add.find("[name='submit']");
+			var _form = _add.find("[name='addChangePlanForm']");
+			_submit.unbind('click');
+			_submit.bind('click', function() {
+				var cmd = "onlinePlan=" + onlinePlan + "&";
+				cmd = cmd + _form.serialize();
+				console.log(_form.serialize())
+				Rose.ajax.postJson(srvMap.get('cancel'), cmd, function(json, status) {
+					if (status) {
+						XMS.msgbox.show('保存成功！', 'success', 2000)
+						setTimeout(function() {
+							self.initChangePlanOnlie();
+						}, 1000)
+					}
+				});
+			});
+		},
+
+		//修改
+		modifyBut: function() {
+			var self = this;
+			// var _form=$(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
+			var _modify = $(Dom.changePlanOnlie).find("[name='modify']")
+			_modify.unbind('click');
+			_modify.bind('click', function() {
+				var _data = self.getTaskRow();
+				var onlinePlan = _data.onlinePlan;
+				if (_data) {
+					Rose.ajax.postJson(srvMap.get('getChangePlanOnlieList'), "onlinePlan" + onlinePlan, function(json, status) {
+						if (status) {
+							var template = Handlebars.compile(Tpl.addChangePlanForm);
+							console.log(json.data[0])
+
+							$(Dom.addChangePlanForm).html(template(json.data[0]));
+
+							//弹出层
+							$("#JS_addChangePlanFormModal").modal('show');
+							self.addChangePlan(onlinePlan);
+						}
+					});
+				}
+			});
+		},
+		////////*******************************************////添加上线总结//*******************************************////////
+		addSummary: function() {
+			var self = this;
+			var _form = $(Dom.addChangePlanResultForm);
+			var _addSummary = $(Dom.changePlanOnlie).find("[name='addSummary']")
+			_addSummary.unbind('click');
+			_addSummary.bind('click', function() {
+				var _data = self.getTaskRow();
+				var onlinePlan = _data.onlinePlan;
+				//弹出层
+				$("#JS_addChangePlanResultFormModal").modal('show');
+
+				if (_data) {
+					var cmd = "onlinePlan=" + onlinePlan;
+					Rose.ajax.postJson(srvMap.get('addChangePlanResulForm'), cmd, function(json, status) {
+						if (status) {
+							var template = Handlebars.compile(Tpl.addChangePlanResulForm);
+							console.log(json.data)
+							$(_form).html(template(json.data));
+
+							self.resultUpdate();
+							self.resultSubmit();
+						}
+					});
+				}
+			});
+		},
+
+		//修改总结
+		resultUpdate: function() {
+			var _addResult = $(Dom.addChangePlanResultForm);
+			var _update = _addResult.find("[name='update']");
+			_update.unbind('click');
+			_update.bind('click', function() {
+				var cmd = "ext3=1&";
+				cmd = cmd + _addResult.serialize();
+				Rose.ajax.postJson(srvMap.get('submit'), cmd, function(json, status) {
+					if (status) {
+						XMS.msgbox.show('修改成功！', 'success', 2000)
+						setTimeout(function() {
+							// self.initChangePlanOnlie();
+						}, 1000)
+					}
+				});
+			});
+		},
+		//提交总结
+		resultSubmit: function() {
+			var _addResult = $(Dom.addChangePlanResultForm);
+			var _submit = _addResult.find("[name='submit']");
+			_submit.unbind('click');
+			_submit.bind('click', function() {
+				var cmd = "ext3=2&";
+				cmd = cmd + _addResult.serialize();
+				Rose.ajax.postJson(srvMap.get('submit'), cmd, function(json, status) {
+					if (status) {
+						XMS.msgbox.show('提交成功！', 'success', 2000)
+						setTimeout(function() {
+							// self.initChangePlanOnlie();
+						}, 1000)
+					}
+				});
+			});
+		},
+		//////////********************************************查看交付物*************************************************///////
+		queryDelBut: function() {
+			var self = this;
+			var _form = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
+			var _queryDel = $(Dom.changePlanOnlie).find("[name='queryDel']");
+			_queryDel.unbind('click');
+			_queryDel.bind('click', function() {
+				var _data = self.getTaskRow();
+				var onlinePlan = _data.onlinePlan;
+				if (_data) {
+					//弹出层
+					var template = Handlebars.compile(Tpl.seeRequForm);
+					$(Dom.addChangePlanForm).html(template({}));
+
+					$("#JS_addChangePlanFormModal").modal('show');
+					var cmd = "onlinePlan=" + onlinePlan;
+					Rose.ajax.postJson(srvMap.get('addChangePlanResulForm'), cmd, function(json, status) {
+						if (status) {
+							var a = json.data.types;
+							console.log(json.data)
+							if (a == "0" || a == "1") {
+								self.seerequList(a,onlinePlan);
+							} else {
+								self.seeChangeList(a,onlinePlan);
+							}
+						}
+					});
+				}
+			});
+		},
+		seerequList: function(a,onlinePlan) {
+			var self = this;
+			var _form = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
+			// var _dom = $(Dom.addChangePlanForm).find("[name='seeTpl']");
+			var cmd = "onlinePlan=" + onlinePlan + "&" + _form.serialize();
+			Rose.ajax.postJson(srvMap.get('seerequList'), cmd, function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.seerequList);
+					console.log(json.data)
+					_form.html(template(json.data));
+						//查询
+							self.queSeeSubmit(a,onlinePlan);
+						// 绑定单机当前行事件
+					self.eventClickChecked($("#taaa"), function() {
+
+					});
+
+				}
+			});
+		},
+		seeChangeList: function(a,onlinePlan) {
+			var self = this;
+			var _form = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
+			// var _dom = $(Dom.addChangePlanForm).find("[name='seeTpl']");
+			var cmd = "onlinePlan=" + onlinePlan + "&" + _form.serialize();
+			Rose.ajax.postJson(srvMap.get('seeChangeList'), cmd, function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.seeChangeList);
+					console.log(json.data)
+					_form.html(template(json.data));
+						//查询
+							self.queSeeSubmit(a,onlinePlan);
+						// 绑定单机当前行事件
+					self.eventClickChecked($("#tbbb"), function() {
+						
+					});
+					
+				}
+			});
+		},
+		//查询
+		queSeeSubmit : function(a,onlinePlan){
+			var self = this;
+			var _submit = $(Dom.addChangePlanForm).find("[name='seeRequForm']").find("[name='submit']");
+			_submit.unbind('click');
+			_submit.bind('click', function() {
+				if (a == "0" || a == "1") {
+					self.seerequList(onlinePlan);
+				} else {
+					self.seeChangeList(onlinePlan);
+				}
 			});
 		},
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行
-		getTaskRow : function(){
-			var _obj = $(Dom.getTaskList).find("input[type='radio']:checked").parents("tr");
-			var _taskId = _obj.find("input[name='taskId']");
-			console.log(_taskId)
+		getTaskRow: function() {
+			var _obj = $(Dom.getChangePlanOnlieList).find("input[type='radio']:checked").parents("tr");
+			var _onlinePlan = _obj.find("input[name='onlinePlan']");
+			console.log(_onlinePlan)
 			var data = {
-				taskId: "",
-		    }
-		    if(_taskId.length==0){
-		    	window.XMS.msgbox.show('请先选择一个任务！', 'error', 2000);
-		    	return;
-		    }else{
-		    	data.taskId= _taskId.val();
-		    }
-		    console.log(data.taskId)
-		    return data;
+				onlinePlan: "",
+			}
+			if (_onlinePlan.length == 0) {
+				window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
+				return;
+			} else {
+				data.onlinePlan = _onlinePlan.val();
+			}
+			console.log(data.onlinePlan)
+			return data;
 		},
 		// 事件：单机选中当前行
-		eventClickChecked:function(obj,callback){
+		eventClickChecked: function(obj, callback) {
 			obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-			      checkboxClass: 'icheckbox_square-blue',
-			      radioClass: 'iradio_square-blue'
+				checkboxClass: 'icheckbox_square-blue',
+				radioClass: 'iradio_square-blue'
 			});
 			obj.find("tr").bind('click', function(event) {
-		        $(this).find('.minimal').iCheck('check');
-	        	if (callback) {
+				$(this).find('.minimal').iCheck('check');
+				if (callback) {
 					callback();
 				}
-		    });
+			});
 		},
 		// 事件：双击绑定事件
-		eventDClickCallback:function(obj,callback){
+		eventDClickCallback: function(obj, callback) {
 			obj.find("tr").bind('dblclick ', function(event) {
-		        	if (callback) {
-						callback();
-					}
-		    });
+				if (callback) {
+					callback();
+				}
+			});
 		},
 		// 事件：分页
-        initPaging: function(obj, length) {
-            obj.find("table").DataTable({
-                "iDisplayLength": length,
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false,
-                "scrollX": true,
-                "scrollY": false
-            });
-        }
+		initPaging: function(obj, length) {
+			obj.find("table").DataTable({
+				"iDisplayLength": length,
+				"paging": true,
+				"lengthChange": false,
+				"searching": false,
+				"ordering": false,
+				"info": true,
+				"autoWidth": false,
+				"scrollX": true,
+				"scrollY": false
+			});
+		}
 	};
 	module.exports = getChangePlanOnlie;
 });

@@ -73,8 +73,8 @@ public class ChangePlanRunSv extends BaseService{
 		list.add("onlinePlan");
 		list.add("onlinePlanName");
 		list.add("planState");
-		list.add("creatorName");
-		list.add("creatorDate");
+		list.add("createName");
+		list.add("createDate");
 		list.add("types");
 		list.add("doneDate");
 		list.add("planDate");

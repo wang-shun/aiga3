@@ -5,22 +5,30 @@ define(function(require, exports, module) {
 	require('global/sidebar.js');
 
 	var pathAlias = "netFlowManage/changePlan/changePlanManage/";
-	// 显示用例集列表
+	// 显示变更计划
 	srvMap.add("getChangePlanOnlieList", pathAlias + "getChangePlanOnlieList.json", "auto/task/listInfo");
-	// 显示用例集列表
+	// 显示变更计划名称
 	srvMap.add("queryOnlinePlanName", pathAlias + "getChangePlanOnlieList.json", "auto/task/listInfo");
-	//废弃scrap
-	srvMap.add("scrap", pathAlias + "scrap.json", "auto/task/listInfo");
-	//取消
-	srvMap.add("cancel", pathAlias + "scrap.json", "auto/task/listInfo");
+	//废弃scrap计划
+	srvMap.add("scrap", pathAlias + "scrap.json", "sys/changeplanonlie/abandon");
+	//取消计划
+	srvMap.add("cancel", pathAlias + "scrap.json", "sys/changeplanonlie/del");
+	//修改计划
+	srvMap.add("changePlanupdate", pathAlias + "scrap.json", "sys/changeplanonlie/update");
+	//保存计划
+	srvMap.add("changePlansave", pathAlias + "scrap.json", "sys/changeplanonlie/save");
+	//上线总结提交/修改
+	srvMap.add("submit", pathAlias + "scrap.json", "sys/changeplanonlie/resultsave");
 	//上线总结
-	srvMap.add("submit", pathAlias + "scrap.json", "auto/task/listInfo");
-	//上线总结
-	srvMap.add("addChangePlanResulForm", pathAlias + "addChangePlanResulForm.json", "auto/task/listInfo");
+	srvMap.add("addChangePlanResulForm", pathAlias + "addChangePlanResulForm.json", "sys/changeplanonlie/findone");
 	//查看需求
-	srvMap.add("seerequList", pathAlias + "seeRequList.json", "auto/task/listInfo");
+	srvMap.add("seerequList", pathAlias + "seeRequList.json", "sys/require/list");
+	//保存需求状态
+	srvMap.add("saverequList", pathAlias + "scrap.json", "sys/require/save");
 	//查看变更
-	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "auto/task/listInfo");
+	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "sys/require/list");
+	//保存变更状态
+	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/require/save");
 
 
 	// 模板对象
@@ -182,11 +190,32 @@ define(function(require, exports, module) {
 				//弹出层
 				$("#JS_addChangePlanFormModal").modal('show');
 
-				self.addChangePlan("");
+				self.addChangePlan();
 			});
 		},
 		//保存
-		addChangePlan: function(onlinePlan) {
+		addChangePlan: function() {
+			var self = this;
+			var _add = $(Dom.addChangePlanForm);
+			var _submit = _add.find("[name='submit']");
+			var _form = _add.find("[name='addChangePlanForm']");
+			_submit.unbind('click');
+			_submit.bind('click', function() {
+				var cmd = _form.serialize();
+				console.log(_form.serialize())
+				Rose.ajax.postJson(srvMap.get('changePlansave'), cmd, function(json, status) {
+					if (status) {
+						XMS.msgbox.show('保存成功！', 'success', 2000)
+						setTimeout(function() {
+							self.initChangePlanOnlie();
+						}, 1000)
+					}
+				});
+			});
+		},
+
+		//修改
+		updateChangePlan: function(onlinePlan) {
 			var self = this;
 			var _add = $(Dom.addChangePlanForm);
 			var _submit = _add.find("[name='submit']");
@@ -196,9 +225,9 @@ define(function(require, exports, module) {
 				var cmd = "onlinePlan=" + onlinePlan + "&";
 				cmd = cmd + _form.serialize();
 				console.log(_form.serialize())
-				Rose.ajax.postJson(srvMap.get('cancel'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('changePlanupdate'), cmd, function(json, status) {
 					if (status) {
-						XMS.msgbox.show('保存成功！', 'success', 2000)
+						XMS.msgbox.show('修改成功！', 'success', 2000)
 						setTimeout(function() {
 							self.initChangePlanOnlie();
 						}, 1000)
@@ -217,7 +246,7 @@ define(function(require, exports, module) {
 				var _data = self.getTaskRow();
 				var onlinePlan = _data.onlinePlan;
 				if (_data) {
-					Rose.ajax.postJson(srvMap.get('getChangePlanOnlieList'), "onlinePlan" + onlinePlan, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('getChangePlanOnlieList'), "onlinePlan=" + onlinePlan, function(json, status) {
 						if (status) {
 							var template = Handlebars.compile(Tpl.addChangePlanForm);
 							console.log(json.data[0])
@@ -226,13 +255,14 @@ define(function(require, exports, module) {
 
 							//弹出层
 							$("#JS_addChangePlanFormModal").modal('show');
-							self.addChangePlan(onlinePlan);
+							self.updateChangePlan(onlinePlan);
 						}
 					});
 				}
 			});
 		},
 		////////*******************************************////添加上线总结//*******************************************////////
+		//
 		addSummary: function() {
 			var self = this;
 			var _form = $(Dom.addChangePlanResultForm);

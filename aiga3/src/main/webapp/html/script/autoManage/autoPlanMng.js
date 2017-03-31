@@ -421,10 +421,9 @@ define(function(require, exports, module) {
                                 return;
                             }
                         });
-
+                        $(Dom.modalNewTaskForm).find("button[name='save']").unbind();
                         $(Dom.modalNewTaskForm).find("button[name='save']").bind('click', function() {
                             var cmd = $("#Js_taskForm").serialize();
-                            alert(cmd);
                             self.saveNewTaks(cmd);
                             $(Dom.modalNewTaskForm).modal('hide');
                         });
@@ -480,12 +479,12 @@ define(function(require, exports, module) {
                 if (status) {
                     console.log(json.data);
                     var template = Handlebars.compile(Tpl.machineList);
-                    
+
                     $(Dom.modalNewTaskForm).find("tbody").append(template(json.data.content));
                     Utils.eventTrClickCallback($(Dom.modalNewTaskForm).find("tbody"));
                     // var table = $(Dom.modalNewTaskForm).find("table").DataTable();
                     // self.drawPaging($(Dom.modalNewTaskForm));
-                    
+
                 }
             });
         },

@@ -52,6 +52,9 @@ define(function(require, exports, module) {
     //默认执行
     srvMap.add("runPlan", pathAlias + "machineList.json", "auto/task/defaultStart");
 
+    //查询任务
+    srvMap.add("getTaskInfo", pathAlias + "getTaskList.json", "auto/task/listInfo");
+
     // 模板对象
     var Tpl = {
         getAutoPlanList: require('tpl/autoManage/autoPlanMng/autoPlanList.tpl'), //计划列表
@@ -64,6 +67,8 @@ define(function(require, exports, module) {
         caseCollectList: require('tpl/autoManage/autoPlanMng/caseCollectList.tpl'), //用例集列表
 
         machineList: require('tpl/autoManage/autoPlanMng/machineList.tpl'), //主机列表
+
+
 
     };
 
@@ -129,6 +134,10 @@ define(function(require, exports, module) {
                 } else if (value == 3) {
                     return "占用";
                 }
+            });
+            Handlebars.registerHelper("transformatTaskId", function(value) {
+                var cmd = "taskId="+value;
+                Rose.ajax.postJson(srvMap.get('getTaskInfo'), cmd, function(json, status) {
             });
         },
         getPlanList: function(cmd) {
@@ -343,6 +352,9 @@ define(function(require, exports, module) {
                             planId: data.planId
                         }
                         $(Dom.modalNewTaskForm).find(".modal-body").html(template(id));
+
+                        //设置滚动条
+
                         var selctCycleType = $(Dom.modalNewTaskForm).find("select[name='cycleType']");
                         var selctRunType = $(Dom.modalNewTaskForm).find("select[name='runType']");
                         selctCycleType.val(data.cycleType);
@@ -388,7 +400,7 @@ define(function(require, exports, module) {
 
                         self.getMachineList("status=2", true);
                         self.getMachineList("status=3", false);
-
+                        // var table = $(Dom.modalNewTaskForm).find("table").DataTable();
                         $(Dom.modalNewTaskForm).find("button[name='submit']").bind('click', function() {
                             var cmd = $("#Js_queryMachine").serialize();
                             if (cmd) {
@@ -472,6 +484,10 @@ define(function(require, exports, module) {
         //获取主机列表
         getMachineList: function(cmd, empty) {
             var self = this
+            $("#Js_chooseMachine").slimScroll({
+                height: '160px'
+            });
+
             if (empty) {
                 $(Dom.modalNewTaskForm).find("tbody").empty();
             }

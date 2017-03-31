@@ -42,7 +42,7 @@ define(function(require, exports, module) {
 		queryAutoCaseList: '#JS_queryAutoCaseForm', //查询表单
 		modalEditAutoCase: '#JS_editAutoCaseModal', //modal
 		getParameterList: '#JS_getParameterList', //参数列表
-		getSideAutoCompList: '#JS_getSideAutoCompList', //侧边组件栏
+		getSideAutoCompList: '#JS_sideAutoCompList', //侧边组件栏
 
 
 		//编辑用例按钮

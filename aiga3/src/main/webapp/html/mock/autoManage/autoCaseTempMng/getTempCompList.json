@@ -1,39 +1,62 @@
 {
-    "retCode":"200",
-    "retMessage":null,
-    "data":[
-        {
-            "relaId":25,
-            "tempId":21,
-            "tempName":null,
-            "caseId":null,
-            "compId":1,
-            "compName":"组件1",
-            "compDesc":"这是组件1",
-            "compScript":null,
-            "compOrder":1
-        },
-        {
-            "relaId":25,
-            "tempId":21,
-            "tempName":null,
-            "caseId":null,
-            "compId":2,
-            "compName":"组件2",
-            "compDesc":"这是组件2",
-            "compScript":null,
-            "compOrder":2
-        },
-        {
-            "relaId":25,
-            "tempId":21,
-            "tempName":null,
-            "caseId":null,
-            "compId":4,
-            "compName":"组件四",
-            "compDesc":"这是组件四",
-            "compScript":null,
-            "compOrder":3
-        }
-    ]
+    "retCode": "200",
+    "retMessage": null,
+    "data": [{
+        "relaId": 25,
+        "tempId": 21,
+        "tempName": null,
+        "caseId": null,
+        "compId": 1,
+        "compName": "组件1",
+        "compDesc": "这是组件1",
+        "compScript": null,
+        "compOrder": 1,
+        "paramList": [{
+            "paramId": "1001",
+            "paramName": "WF_TEST_HW",
+            "paramValue": "手工人员",
+            "paramDesc": "自动化",
+            "paramSql": "select * from",
+            "paramExpect": "无预期"
+
+        }]
+    }, {
+        "relaId": 25,
+        "tempId": 21,
+        "tempName": null,
+        "caseId": null,
+        "compId": 2,
+        "compName": "组件2",
+        "compDesc": "这是组件2",
+        "compScript": null,
+        "compOrder": 2,
+        "paramList": [{
+            "paramId": "1001",
+            "paramName": "WF_TEST_HW",
+            "paramValue": "手工人员",
+            "paramDesc": "自动化",
+            "paramSql": "select * from",
+            "paramExpect": "无预期"
+
+        }]
+    }, {
+        "relaId": 25,
+        "tempId": 21,
+        "tempName": null,
+        "caseId": null,
+        "compId": 4,
+        "compName": "组件四",
+        "compDesc": "这是组件四",
+        "compScript": null,
+        "compOrder": 3,
+        "paramList": [{
+            "paramId": "1001",
+            "paramName": "WF_TEST_HW",
+            "paramValue": "手工人员",
+            "paramDesc": "自动化",
+            "paramSql": "select * from",
+            "paramExpect": "无预期"
+
+        }]
+    }]
 }

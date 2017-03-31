@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface NaCodePathDao extends JpaRepository<NaCodePath, Long>, SearchAndPageRepository<NaCodePath, Long>{
 
-	NaCodePath findByIds(Long ids);
+	NaCodePath findById(Long ids);
 	
 	@Query(value="select *   from Na_Code_Path where to_char(plan_Date,'yyyy-MM-dd')  like ?1  " , nativeQuery=true)
 	List<NaCodePath> findByPlanDate(String planDate);

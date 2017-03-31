@@ -14,15 +14,18 @@ import com.ai.aiga.view.json.CaseCollectionRequest;
 import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
+import io.swagger.annotations.Api;
+
 /**
- * 用例集管理controller
+ *
  * @author liuxx
  * @version 1.0
  * @date 2017-03-06
  */
+@Api(value="用例集管理controller")
 @Controller
-@RequestMapping(path = "/sys/case/")
 public class AigaOnlineCaseCollectionController {
+	
 	@Autowired
 	private AigaOnlineCaseCollectionSv caseCollectionSv;
 
@@ -38,7 +41,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            HttpSession
 	 * @return JsonBean 成功/失败
 	 */
-	@RequestMapping(path = "addCase")
+	@RequestMapping(path = "/sys/case/addCase")
 	public @ResponseBody JsonBean addCase(CaseCollectionRequest caseCollection, HttpSession session) {
 		caseCollectionSv.saveCase(caseCollection, session);
 		return JsonBean.success;
@@ -55,7 +58,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            HttpSession
 	 * @return JsonBean 成功/失败
 	 */
-	@RequestMapping(path = "updateCase")
+	@RequestMapping(path = "/sys/case/updateCase")
 	public @ResponseBody JsonBean update(CaseCollectionRequest caseCollection, HttpSession session) {
 		caseCollectionSv.saveCase(caseCollection, session);
 		return JsonBean.success;
@@ -70,7 +73,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            用例集Id
 	 * @return JsonBean 成功/失败
 	 */
-	@RequestMapping(path = "deleteCase")
+	@RequestMapping(path = "/sys/case/deleteCase")
 	public @ResponseBody JsonBean delete(String collectId) {
 		try {
 			caseCollectionSv.deleteConnection(collectId);
@@ -87,7 +90,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            用例集编号
 	 * @return 一条用例集信息
 	 */
-	@RequestMapping(path = "queryCaseById")
+	@RequestMapping(path = "/sys/case/queryCaseById")
 	public @ResponseBody JsonBean queryCaseById(Long collectId) {
 		JsonBean json = new JsonBean();
 		json.setData(caseCollectionSv.queryCaseById(collectId));
@@ -104,7 +107,7 @@ public class AigaOnlineCaseCollectionController {
 	 * @param caseConllection
 	 * @return
 	 */
-	@RequestMapping(path = "queryCase")
+	@RequestMapping(path = "/sys/case/queryCase")
 	public @ResponseBody JsonBean queryCase(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize,
@@ -125,7 +128,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            1表示手工用例，0表示用例组，2表示自动化用例
 	 * @return
 	 */
-	@RequestMapping(path = "connectCase")
+	@RequestMapping(path = "/sys/case/connectCase")
 	public @ResponseBody JsonBean connectCase(Long collectId, String caseIds, Long types) {
 		String[] caseId = caseIds.split(",");
 		caseCollectionSv.connectCase(collectId, caseId, types);
@@ -145,7 +148,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            需要关联的用例集Id
 	 * @return
 	 */
-	@RequestMapping(path = "connectCaseCollection")
+	@RequestMapping(path = "/sys/case/connectCaseCollection")
 	public @ResponseBody JsonBean connectCaseCollection(Long collectId, String collectIds) {
 		caseCollectionSv.connectCaseCollection(collectId, collectIds);
 		return JsonBean.success;
@@ -164,7 +167,7 @@ public class AigaOnlineCaseCollectionController {
 	 * @param pageSize
 	 * @return
 	 */
-	@RequestMapping(path = "queryUnconnectCaseGroup")
+	@RequestMapping(path = "/sys/case/queryUnconnectCaseGroup")
 	public @ResponseBody JsonBean queryUnconnectCaseGroup(Long collectId, String groupName,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -186,7 +189,7 @@ public class AigaOnlineCaseCollectionController {
 	 * @param pageSize
 	 * @return 已关联的用例组
 	 */
-	@RequestMapping(path = "queryConnectCaseGroup")
+	@RequestMapping(path = "/sys/case/queryConnectCaseGroup")
 	public @ResponseBody JsonBean queryConnectCaseGroup(Long collectId, String groupName,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -199,7 +202,7 @@ public class AigaOnlineCaseCollectionController {
 	 *  用例集维护人
 	 * @return
 	 */
-	@RequestMapping(path = "repairMan")
+	@RequestMapping(path = "/sys/case/repairMan")
 	public @ResponseBody JsonBean repairMan() {
 		JsonBean json = new JsonBean();
 	   json.setData(caseCollectionSv.repairMan());
@@ -218,7 +221,7 @@ public class AigaOnlineCaseCollectionController {
 	 * @param pageSize
 	 * @return 已关联的用例
 	 */
-	@RequestMapping(path = "queryConnectCaseById")
+	@RequestMapping(path = "/sys/case/queryConnectCaseById")
 	public @ResponseBody JsonBean queryConnectCaseById(QueryUnconnectCaseRequest  request,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -238,7 +241,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            用例组id
 	 * @return
 	 */
-	@RequestMapping(path = "deleteConnectCaseGroup")
+	@RequestMapping(path = "/sys/case/deleteConnectCaseGroup")
 	public @ResponseBody JsonBean deleteConnectCaseGroup(Long collectId, String groupIds) {
 		caseCollectionSv.deleteAutoCollGroups(0l, collectId, groupIds);
 		return JsonBean.success;
@@ -255,7 +258,7 @@ public class AigaOnlineCaseCollectionController {
 	 * @param types
 	 * @return
 	 */
-	@RequestMapping(path = "deleteConnectCase")
+	@RequestMapping(path = "/sys/case/deleteConnectCase")
 	public @ResponseBody JsonBean deleteConnectCase(Long collectId, String ids, Long types) {
 		caseCollectionSv.deleteAutoCollGroups(types, collectId, ids);
 		return JsonBean.success;
@@ -271,7 +274,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            1手工用例，2自动化用例
 	 * @return
 	 */
-	@RequestMapping(path = "queryUnconnectCase")
+	@RequestMapping(path = "/sys/case/queryUnconnectCase")
 	public @ResponseBody JsonBean queryUnconnectCase(QueryUnconnectCaseRequest  request,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -291,7 +294,7 @@ public class AigaOnlineCaseCollectionController {
 	 *            1手工用例，2自动化用例
 	 * @return
 	 */
-	@RequestMapping(path = "connectAllCase")
+	@RequestMapping(path = "/sys/case/connectAllCase")
 	public @ResponseBody JsonBean connectAllCase(QueryUnconnectCaseRequest  request) {
 		caseCollectionSv.connectAllCase(request);
 		return JsonBean.success;

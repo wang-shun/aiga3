@@ -11,18 +11,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.AigaOrganizeDao;
-import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.AigaStaffOrgRelatDao;
-import com.ai.aiga.dao.SysConstantDao;
 import com.ai.aiga.domain.AigaOrganize;
 import com.ai.aiga.domain.AigaStaffOrgRelat;
-import com.ai.aiga.domain.SysConstant;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.OrginazeRequest;
 
-
+/**
+ * 系统管理-组织信息
+ * @author lovestar 
+ *
+ */
 @Service
 @Transactional
 public class OrganizeSv extends BaseService{
@@ -32,33 +33,45 @@ public class OrganizeSv extends BaseService{
     
 	@Autowired
 	private   AigaStaffOrgRelatDao aigaStaffOrgRelatDao;
-	//根据组织名称查询所有信息
+	
+	
+	/**
+	 * 根据组织名称查询所有信息
+	 * @param organizeId 组织编号
+	 * @return  单个组织信息
+	 */
 	public List<AigaOrganize> findOrganize(Long organizeId) {
 		return organizeDao.findByOrganizeId(organizeId);
 	}
 
-//查询组织树
+/**
+ * 查询组织树
+ * @return 组织信息
+ */
 	public List<AigaOrganize> findOrginazeTree(){
 		return  organizeDao.findAll();
 	}
 	
 
 	
-	//新增
+	/**
+	 * 新增组织
+	 * @param orginazeRequest  组织的全部信息
+	 */
 	public void saveOrginaze(OrginazeRequest orginazeRequest) {  
 		AigaOrganize organize = new  AigaOrganize();
 		//对象不为空
 		if(orginazeRequest == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRequest");
 		}
+		//主键不为空--修改 ；主键为空--新增
 		if(!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrganizeId()))){
-			//修改
 			organize.setOrganizeId(orginazeRequest.getOrganizeId());
 			organize.setDoneDate(new Date());
 		}else{
-			//新增
 			   organize.setCreateDate(new  Date());
 		}
+		
 		//组织名称
 		if(StringUtils.isBlank(orginazeRequest.getOrganizeName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "name");
@@ -72,6 +85,7 @@ public class OrganizeSv extends BaseService{
 		}else{
 			organize.setParentOrganizeId(orginazeRequest.getParentOrganizeId());
 		}
+		
 		//编码
 		if(StringUtils.isBlank(orginazeRequest.getCode())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -123,8 +137,12 @@ public class OrganizeSv extends BaseService{
 	
 	
 
-	//根据组织编号删除
-	public Map deleteOrginaze(Long organizeId) {
+	/**
+	 * 根据组织编号删除,如果该组织下面存在子组织和人员，就不能删除
+	 * @param organizeId 组织id
+	 * @return  删除信息
+	 */
+	public Map<String, String> deleteOrginaze(Long organizeId) {
 		String info = "";
 		Map<String, String> map =  new HashMap<String, String>();
 		if(organizeId == null || organizeId < 0){

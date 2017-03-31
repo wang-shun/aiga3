@@ -21,6 +21,8 @@ public class NaCodePathDTO implements java.io.Serializable {
 	private Long state;
 	private String remark;
 	private Date planDate;
+	private String listId;
+    private Long result;
 	public NaCodePathDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -35,6 +37,19 @@ public class NaCodePathDTO implements java.io.Serializable {
 		this.state = state;
 		this.remark = remark;
 		this.planDate = planDate;
+	}
+	
+	public Long getResult() {
+		return result;
+	}
+	public void setResult(Long result) {
+		this.result = result;
+	}
+	public String getListId() {
+		return listId;
+	}
+	public void setListId(String listId) {
+		this.listId = listId;
 	}
 	public Long getIds() {
 		return ids;

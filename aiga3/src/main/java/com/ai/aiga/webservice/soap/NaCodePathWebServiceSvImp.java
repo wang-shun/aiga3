@@ -63,14 +63,16 @@ public class NaCodePathWebServiceSvImp implements NaCodePathWebServiceSv {
 			//保存到na_CODE_PATH中
 			for (NaCodePathDTO naCodePath : naCodePaths) {
 				NaCodePath naCodePathAiga = new NaCodePath();
-				naCodePathAiga.setIds(naCodePath.getIds());
+				naCodePathAiga.setId(naCodePath.getIds());
+				naCodePathAiga.setListId(naCodePath.getListId());
 				naCodePathAiga.setSysName(naCodePath.getSysName());
 				naCodePathAiga.setModelName(naCodePath.getModelName());
 				naCodePathAiga.setPackageName(naCodePath.getPackageName());
 				naCodePathAiga.setState(naCodePath.getState());
 				naCodePathAiga.setPlanDate(naCodePath.getPlanDate());
 				naCodePathAiga.setRemark(naCodePath.getRemark());
-				NaCodePath naCodePathss = 	dao.findByIds(naCodePath.getIds());
+				naCodePathAiga.setResult(naCodePath.getResult());
+				NaCodePath naCodePathss = 	dao.findById(naCodePath.getIds());
 				//如果是新增状态，那么修改次数设置为0
 				if(naCodePath.getState()==1||naCodePathss==null){
 					naCodePathAiga.setUpdateCount(0L);

@@ -158,7 +158,7 @@ public class ChangePlanRunSv extends BaseService{
 		List<Object[]> list = naOnlineTaskDistributeDao.messageInfo(taskId);
 		Object[] object = list.get(0);
 		StringBuilder contents = new StringBuilder();
-		contents.append("尊敬的:").append(object[0].toString()).append(",").append(object[1].toString())
+		contents.append("AIGA_SMS~尊敬的:").append(object[0].toString()).append(",").append(object[1].toString())
 		.append("在").append(object[2].toString()).append("给您分派了").append(info)
 		.append("任务,请您及时处理！");
 		TaskMessageClient.sendMessageForCycle(object[3].toString(), contents.toString());

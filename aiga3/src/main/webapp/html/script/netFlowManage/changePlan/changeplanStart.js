@@ -36,11 +36,11 @@ define(function(require, exports, module) {
     // 容器对象
     var Dom = {
         queryChangePlanForm: '#JS_queryChangePlanForm',
-        
+
         getChangePlanList: '#JS_getChangePlanList',
         getAutoResultList: '#JS_getAutoResultListC',
         getAutoResultModal: '#JS_getAutoResultModal',
-        
+
         saveTaskResultForm: '#JS_saveTaskResultForm',
         getTaskResultList: '#JS_getTaskResultList',
         getTaskResultModal: '#JS_getTaskResultModal',
@@ -198,7 +198,7 @@ define(function(require, exports, module) {
                                 if (status) {
                                     window.XMS.msgbox.show('启动成功！', 'success', 2000);
                                     setTimeout(function() {
-                                    self.getChangePlanList();
+                                        self.getChangePlanList();
                                     }, 1000)
                                 } else {
                                     window.XMS.msgbox.show('启动失败！', 'error', 2000);
@@ -225,6 +225,11 @@ define(function(require, exports, module) {
                                         self.saveTaskResult(data);
                                         self.delTaskResult(data);
                                         self.updateTaskResult(data);
+                                        var _close = _modal.find("[name='close']");
+                                        _close.unbind('click');
+                                        _close.bind('click', function() {
+                                            self.getChangePlanList();
+                                        })
                                         Utils.eventTrClickCallback($(Dom.getTaskResultList))
                                             //设置分页
                                         self.initPaging(_dom, 5, true);
@@ -232,11 +237,6 @@ define(function(require, exports, module) {
                                     })
                                 }
                             });
-                           var _close = _modal.find("[name='close']");
-                           _close.unbind('click');
-                           _close.bind('click', function() {
-                                self.getChangePlanList();
-                           })
                         }
                     } else {
                         window.XMS.msgbox.show('计划状态只有是新增和处理中的计划才能启动！', 'error', 2000);
@@ -411,7 +411,7 @@ define(function(require, exports, module) {
                 if (value == "3") {
                     return "处理完";
                 }
-                
+
             });
             Handlebars.registerHelper('getTaskType', function(value, fn) {
                 if (value == "1") {

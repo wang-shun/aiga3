@@ -158,6 +158,8 @@ public class NaChangePlanOnileSv extends BaseService{
 			/*if(StringUtils.isBlank(request.getTypes().toString())){
 				naChangePlanOnile.setTypes(request.getTypes());
 			}*/
+			naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
+
 			naChangePlanOnile.setCreateDate(new Date(System.currentTimeMillis()));
 			naChangePlanOnile.setDoneDate(request.getDoneDate());
 			naChangePlanOnile.setTimely(request.getTimely());
@@ -165,6 +167,7 @@ public class NaChangePlanOnileSv extends BaseService{
 			naChangePlanOnile.setPlanDate(request.getPlanDate());
 			naChangePlanOnile.setResult(request.getResult());
 			naChangePlanOnile.setPlanState(request.getPlanState());
+			naChangePlanOnileDao.save(naChangePlanOnile);
 		}
 		
 	}

@@ -267,13 +267,16 @@ public class NaAutoEnvironmentSv extends BaseService{
 	   }
 	   NaAutoEnvironment environment = naAutoEnvironmentDao.findOne(new BigDecimal(envId));
 	   Map<String, String> json = new HashMap<String, String>();
-	   json.put("id", envId);
-	   json.put("name", environment.getEnvName());
-	   Map<String, String> arguments = new HashMap<String, String>();
-	   arguments.put("url", environment.getEnvUrl());
-	   arguments.put("sysCode", environment.getSysAccount());
-	   arguments.put("sysPassword", environment.getSysPassword());
-	   arguments.put("ENVIRON", environment.getEnvCode());
+	   if(environment !=null){
+		   json.put("id", envId);
+		   json.put("name", environment.getEnvName());
+		   Map<String, String> arguments = new HashMap<String, String>();
+		   arguments.put("url", environment.getEnvUrl());
+		   arguments.put("sysCode", environment.getSysAccount());
+		   arguments.put("sysPassword", environment.getSysPassword());
+		   arguments.put("ENVIRON", environment.getEnvCode());
+	   }
+
 	   return JsonUtil.mapToJson(json);
    }
 

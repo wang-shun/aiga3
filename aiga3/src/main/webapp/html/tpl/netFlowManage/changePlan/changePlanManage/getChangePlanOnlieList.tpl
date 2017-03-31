@@ -22,17 +22,17 @@
         <tr>
             <td><input type="radio" class="minimal" value="{{onlinePlan}}" name="onlinePlan"></td>
             <td>{{onlinePlanName}}</td>
-            <td>{{planState}}</td>
+            <td>{{plan_state planState}}</td>
             <td>{{createOpId}}</td>   
             <td>{{createDate}}</td>
             <td>{{doneDate}}</td>
             <td>{{planDate}}</td>
-            <td>{{result}}</td>
-            <td>{{timely}}</td>
+            <td>{{results result}}</td>
+            <td>{{timelys timely}}</td>
             <td>{{sign}}</td>   
-            <td>{{types}}</td>
+            <td>{{type types}}</td>
             <td>{{ext3}}</td>
-            <td>{{isFinished}}</td>
+            <td>{{timelys isFinished}}</td>
             <td>{{remark}}</td>
         </tr>
         {{/each}}

@@ -116,7 +116,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;                
             </div>
         </form>
-                     
+        <div id="Js_chooseMachine">         
         <table id="Js_chooseMachineList" class="table table-bordered table-hover" style="min-height: 100px;">
             <thead>
                  <tr>
@@ -130,6 +130,7 @@
                 </tr>
             </thead>
             <tbody></tbody>
-        </table>         
+        </table>
+        </div> 
     </div>
 </div>

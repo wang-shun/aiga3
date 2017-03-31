@@ -10,17 +10,17 @@ define(function(require, exports, module) {
 	// 显示变更计划名称
 	srvMap.add("queryOnlinePlanName", pathAlias + "getChangePlanOnlieList.json", "sys/cache/changePlan");
 	//废弃scrap计划
-	srvMap.add("scrap", pathAlias + "scrap.json", "sys/changeplanonlie/abandon");
+	srvMap.add("scrap", pathAlias + "scrap.json", "sys/changeplanonile/abandon");
 	//取消计划
-	srvMap.add("cancel", pathAlias + "scrap.json", "sys/changeplanonlie/del");
+	srvMap.add("cancel", pathAlias + "scrap.json", "sys/changeplanonile/del");
 	//修改计划
-	srvMap.add("changePlanupdate", pathAlias + "scrap.json", "sys/changeplanonlie/update");
+	srvMap.add("changePlanupdate", pathAlias + "scrap.json", "sys/changeplanonile/update");
 	//保存计划
-	srvMap.add("changePlansave", pathAlias + "scrap.json", "sys/changeplanonlie/save");
+	srvMap.add("changePlansave", pathAlias + "scrap.json", "sys/changeplanonile/save");
 	//上线总结提交/修改
-	srvMap.add("submit", pathAlias + "scrap.json", "sys/changeplanonlie/resultsave");
+	srvMap.add("submit", pathAlias + "scrap.json", "sys/changeplanonile/resultsave");
 	//上线总结
-	srvMap.add("addChangePlanResulForm", pathAlias + "addChangePlanResulForm.json", "sys/changeplanonlie/findone");
+	srvMap.add("addChangePlanResulForm", pathAlias + "addChangePlanResulForm.json", "sys/changeplanonile/findone");
 	//查看需求
 	srvMap.add("seerequList", pathAlias + "seeRequList.json", "sys/require/list");
 	//保存需求状态
@@ -39,7 +39,7 @@ define(function(require, exports, module) {
 		addChangePlanForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanForm.tpl'),
 
 		seeRequForm: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequForm.tpl'),
-		seerequList: require('tpl/netFlowManage/changePlan/changePlanManage/seerequList.tpl'),
+		seerequList: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequList.tpl'),
 		seeChangeList: require('tpl/netFlowManage/changePlan/changePlanManage/seeChangeList.tpl'),
 	};
 
@@ -68,13 +68,51 @@ define(function(require, exports, module) {
 			//废弃
 			this.scrap();
 			this.cancel();
+			this.hdbarHelp();
 
 			//////////////
 			// this.addChangePlan(1);
 			// this.addSummary();
 			// this.getTaskList();
 		},
-
+		hdbarHelp: function() {
+			Handlebars.registerHelper("plan_state", function(value) {
+				if (value == 1) {
+					return "新建";
+				} else if (value == 2) {
+					return "处理中";
+				} else if (value == 3) {
+					return "完成";
+				} else if (value == 4) {
+					return "取消";
+				}
+			});
+			Handlebars.registerHelper("type", function(value) {
+				if (value == 0) {
+					return "计划上线";
+				} else if (value == 1) {
+					return "紧急上线";
+				} else if (value == 2) {
+					return "计划变更";
+				} else if (value == 3) {
+					return "紧急变更";
+				}
+			});
+			Handlebars.registerHelper("results", function(value) {
+				if (value == 1) {
+					return "通过";
+				} else if (value == 2) {
+					return "不通过";
+				}
+			});
+			Handlebars.registerHelper("timelys", function(value) {
+				if (value == 1) {
+					return "是";
+				} else if (value == 2) {
+					return "否";
+				}
+			});
+		},
 		//---------------------------------------------------------------------------------//
 		///////初始化///////////
 		initChangePlanOnlie: function(cmd) {
@@ -83,13 +121,16 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.getChangePlanOnlieList);
 					console.log(json.data)
-					$(Dom.getChangePlanOnlieList).html(template(json.data));
+					$(Dom.getChangePlanOnlieList).html(template(json.data.content));
 					//新增
 					self.addBut();
 					//修改
 					self.modifyBut();
 					//查看交付物
 					self.queryDelBut();
+					//添加上线总结
+			        self.addSummary();
+
 					// 绑定单机当前行事件
 					self.eventClickChecked($(Dom.getChangePlanOnlieList), function() {
 
@@ -99,7 +140,7 @@ define(function(require, exports, module) {
 						// 请求：用户基本信息
 						//self.seeCase();
 					})
-					self.initPaging($(Dom.getChangePlanOnlieList), 8)
+					self.initPaging($(Dom.getChangePlanOnlieList), 10)
 
 				}
 			});
@@ -179,6 +220,7 @@ define(function(require, exports, module) {
 			});
 		},
 		////////*******************************************/////新增//*******************************************////////
+		//新增按钮
 		addBut: function() {
 			var self = this;
 			// var _form=$(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
@@ -186,14 +228,15 @@ define(function(require, exports, module) {
 			_add.unbind('click');
 			_add.bind('click', function() {
 				var template = Handlebars.compile(Tpl.addChangePlanForm);
-				$(Dom.addChangePlanForm).html(template({}));
+
+				$(Dom.addChangePlanForm).html(template(""));
 				//弹出层
 				$("#JS_addChangePlanFormModal").modal('show');
 
 				self.addChangePlan();
 			});
 		},
-		//保存
+		//保存新增
 		addChangePlan: function() {
 			var self = this;
 			var _add = $(Dom.addChangePlanForm);
@@ -201,13 +244,14 @@ define(function(require, exports, module) {
 			var _form = _add.find("[name='addChangePlanForm']");
 			_submit.unbind('click');
 			_submit.bind('click', function() {
-				var cmd = _form.serialize();
+				var cmd = _form.serialize()+"&createOpId=1";
 				console.log(_form.serialize())
 				Rose.ajax.postJson(srvMap.get('changePlansave'), cmd, function(json, status) {
 					if (status) {
 						XMS.msgbox.show('保存成功！', 'success', 2000)
 						setTimeout(function() {
 							self.initChangePlanOnlie();
+							alert();
 						}, 1000)
 					}
 				});
@@ -215,13 +259,15 @@ define(function(require, exports, module) {
 		},
 
 		//修改
-		updateChangePlan: function(onlinePlan) {
+		updateChangePlan: function(onlinePlan,types) {
 			var self = this;
 			var _add = $(Dom.addChangePlanForm);
 			var _submit = _add.find("[name='submit']");
 			var _form = _add.find("[name='addChangePlanForm']");
+			_form.find("[name='types']").val(types);
 			_submit.unbind('click');
 			_submit.bind('click', function() {
+
 				var cmd = "onlinePlan=" + onlinePlan + "&";
 				cmd = cmd + _form.serialize();
 				console.log(_form.serialize())
@@ -236,11 +282,12 @@ define(function(require, exports, module) {
 			});
 		},
 
-		//修改
+		//修改按钮
 		modifyBut: function() {
 			var self = this;
 			// var _form=$(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
 			var _modify = $(Dom.changePlanOnlie).find("[name='modify']")
+
 			_modify.unbind('click');
 			_modify.bind('click', function() {
 				var _data = self.getTaskRow();
@@ -249,13 +296,16 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('getChangePlanOnlieList'), "onlinePlan=" + onlinePlan, function(json, status) {
 						if (status) {
 							var template = Handlebars.compile(Tpl.addChangePlanForm);
-							console.log(json.data[0])
+							console.log(json.data.content[0])
+							var _form = $(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
 
-							$(Dom.addChangePlanForm).html(template(json.data[0]));
+							var types=json.data.content[0].types
+
+							$(Dom.addChangePlanForm).html(template(json.data.content[0]));
 
 							//弹出层
 							$("#JS_addChangePlanFormModal").modal('show');
-							self.updateChangePlan(onlinePlan);
+							self.updateChangePlan(onlinePlan,types);
 						}
 					});
 				}
@@ -345,6 +395,7 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('addChangePlanResulForm'), cmd, function(json, status) {
 						if (status) {
 							var a = json.data.types;
+							alert(a);
 							console.log(json.data)
 							if (a == "0" || a == "1") {
 								self.seerequList(a,onlinePlan);
@@ -365,7 +416,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seerequList);
 					console.log(json.data)
-					_form.html(template(json.data));
+					_form.html(template(json.data.content));
 						//查询
 							self.queSeeSubmit(a,onlinePlan);
 						// 绑定单机当前行事件
@@ -384,8 +435,8 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('seeChangeList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seeChangeList);
-					console.log(json.data)
-					_form.html(template(json.data));
+					console.log(json.data.content)
+					_form.html(template(json.data.content));
 						//查询
 							self.queSeeSubmit(a,onlinePlan);
 						// 绑定单机当前行事件

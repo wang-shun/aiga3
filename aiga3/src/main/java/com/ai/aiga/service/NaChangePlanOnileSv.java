@@ -39,6 +39,7 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setTimely(request.getTimely());
 		naChangePlanOnile.setRemark(request.getRemark());
 		naChangePlanOnile.setPlanState(request.getPlanState());
+		naChangePlanOnile.setCreateOpId(request.getCreateOpId());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			

@@ -36,11 +36,9 @@ define(function(require, exports, module) {
     // 容器对象
     var Dom = {
         queryChangePlanForm: '#JS_queryChangePlanForm',
-
         getChangePlanList: '#JS_getChangePlanList',
         getAutoResultList: '#JS_getAutoResultListC',
         getAutoResultModal: '#JS_getAutoResultModal',
-
         saveTaskResultForm: '#JS_saveTaskResultForm',
         getTaskResultList: '#JS_getTaskResultList',
         getTaskResultModal: '#JS_getTaskResultModal',
@@ -139,7 +137,7 @@ define(function(require, exports, module) {
             _checkResultC.bind('click', function() {
                 var data = self.getRadioCheckedRow(_dom);
                 if (data) {
-                    var cmd = 'onlinePlan=' + data.onlinePlan;
+                    var cmd = 'planDate=' + data.planDate;
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     Rose.ajax.postJson(srvMap.get('getPublishResultList'), cmd, function(json, status) {
                         if (status) {

@@ -1,4 +1,3 @@
-
 <!-- 主内容包裹区 -->
 <!-- <div class="content-wrapper" style="min-height: 1011px;">
     Content Header (Page header)
@@ -11,47 +10,42 @@
         <li class="active">功能菜单管理</li>
       </ol>
     </section> -->
-    <!-- 主内容 -->
-    <section class="content">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="box box-info">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">菜单列表</h3>
-                    </div>
-                    <div class="box-body" >
-                        <div name="scroll">
-                            <ul id="treeDemo" class="ztree"></ul>
-                        </div>
-                    </div>
-                </div>                
+<!-- 主内容 -->
+<section class="content">
+    <div class="col-md-3">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">菜单列表</h3>
+                <button id="menuAdd" type="button" class="btn btn-primary pull-right">添加</button>
             </div>
-            <div class="col-md-9">
-              <div class="box">
-                
-                  <div class="box-header">
-                    <h3 class="box-title">菜单信息</h3>
-                  </div>
-                  <form id="JS_getMenuinfoForm">
-                    <div class="box-body" style="min-height: 100px;" id="Page_menuInfo">
-                        
-                    </div> 
-                    <div class="modal-footer">
-                      <button id="menuAdd" type="button" class="btn btn-primary">添加</button>      
-                      <button id="menuSave" type="button" class="btn btn-primary" name="save">保存</button>
-                      <button  id="menuDel" type="button" class="btn btn-default pull-left" name="del">删除</button> 
-                    </div> 
-                  </form> 
-                
-              </div>
-              
+            <div class="box-body">
+                <div name="scroll">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
             </div>
         </div>
-    </section>
-    <script>
-      seajs.use("script/systemManage/menuManage", function(menuMng) {
-        menuMng.init();
-      });    
-    </script>      
+    </div>
+    <div class="col-md-9">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">菜单信息</h3>
+            </div>
+            <form id="JS_getMenuinfoForm" class="form-horizontal">
+                <div class="box-body" style="min-height: 100px;" id="Page_menuInfo">
+                </div>
+                <div class="modal-footer">
+                    <div class=" text-center">
+                        <button id="menuSave" type="button" class="btn btn-primary" name="save">保存</button>
+                        <button id="menuDel" type="button" class="btn btn-default" name="del">删除</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+seajs.use("script/systemManage/menuManage", function(menuMng) {
+    menuMng.init();
+});
+</script>
 <!-- </div> -->
-

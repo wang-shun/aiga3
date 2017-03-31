@@ -36,11 +36,9 @@ define(function(require, exports, module) {
     // 容器对象
     var Dom = {
         queryChangePlanForm: '#JS_queryChangePlanForm',
-
         getChangePlanList: '#JS_getChangePlanList',
         getAutoResultList: '#JS_getAutoResultListC',
         getAutoResultModal: '#JS_getAutoResultModal',
-
         saveTaskResultForm: '#JS_saveTaskResultForm',
         getTaskResultList: '#JS_getTaskResultList',
         getTaskResultModal: '#JS_getTaskResultModal',

@@ -75,7 +75,9 @@
         <h3 class="box-title">变更计划列表</h3>
       	<div class="box-tools">
             <div class="btn-group">
-	             <button type="button" class="btn btn-primary" name="add" data-toggle="modal" ><i class="fa fa-plus"></i> 添加</button>
+            	<button type="button" class="btn btn-primary" name="addSummary"><i class="fa fa-share-alt"></i> 添加上线总结</button>
+            	<button type="button" class="btn btn-primary" name="queryDel"><i class="fa fa-share-alt"></i> 查看交付物</button>
+	            <button type="button" class="btn btn-primary" name="add" data-toggle="modal" ><i class="fa fa-plus"></i> 添加</button>
 	            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 	                <span class="caret"></span>
 	                <span class="sr-only">Toggle Dropdown</span>
@@ -84,8 +86,6 @@
 	                <li><a href="javascript:;" name="modify" >修改</a></li>
 	                <li><a href="javascript:;" name="scrap" >废弃</a></li>
 	                <li><a href="javascript:;" name="cancel" >取消</a></li>
-	                <li><a href="javascript:;" name="addSummary" >添加上线总结</a></li>
-	                <li><a href="javascript:;" name="queryDel" >查看交付物</a></li>
 	                <li><a href="javascript:;" name="reviewDel" >评审交付物</a></li>
 	            </ul>
             </div>
@@ -99,7 +99,7 @@
 <!-- 弹框，新增 -->
 <div class="modal fade" id="JS_addChangePlanFormModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="JS_addChangePlanForm"  style="width: 1200px;" >
+        <div class="modal-content" id="JS_addChangePlanForm" >
             
         </div>
     </div>
@@ -108,7 +108,7 @@
 <!-- 添加结果 -->
 <div class="modal fade" id="JS_addChangePlanResultFormModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" style="width: 1200px;">
+        <div class="modal-content" >
         	<div class="box"  style="min-height: 100px">
 			    <div class="box-header with-border">
 			      <h3 class="box-title">条件查询</h3>

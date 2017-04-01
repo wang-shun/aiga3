@@ -1,7 +1,8 @@
 {
     "retCode": "200",
     "retMessage": null,
-    "data":[{
+    "data":{
+        "content":[{
         "changeName":"001",
         "changeManager": "1001",
         "changeMan": "001",
@@ -32,4 +33,5 @@
         "changeTitle": "H",
         "resultState":"1"
     }]
+    }
 }

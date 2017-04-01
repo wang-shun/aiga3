@@ -492,8 +492,10 @@ define(function(require, exports, module) {
 			_save.bind('click', function() {
 				if (a == "0" || a == "1") {
 					self.saveRequList(a,onlinePlan);
+					self.initChangePlanOnlie();
 				} else {
 					self.saveChangeList(a,onlinePlan);
+					self.initChangePlanOnlie();
 				}
 			});
 		},

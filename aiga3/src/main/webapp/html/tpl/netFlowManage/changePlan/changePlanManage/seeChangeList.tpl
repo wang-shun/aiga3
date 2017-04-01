@@ -1,16 +1,11 @@
 <form name="seeRequForm">
-<div class="row">
-    <div class="col-sm-5 form-group">
-        <label class="col-sm-3 control-label">变更名称：</label>
-        <div class="col-sm-8">
-            <!-- <input type="hidden"  class="form-control" name="onlinePlan" value="{{onlinePlan}}"> -->
-            <input type="text" class="form-control input-sm" name="changeName" value="{{changeName}}">
-         </div> 
-    </div>
+<div class="form-group form-inline">
+    <label>&nbsp;&nbsp;&nbsp;&nbsp;变更名称：</label>
+    <input type="text" class="form-control input-sm" name="changeName" value="{{changeName}}">
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-primary" name="query">查询</button>
+    <button type="button" class="btn btn-primary" name="query">查&nbsp;&nbsp;询</button>
     &nbsp;&nbsp;&nbsp;&nbsp;
-    <button type="button" class="btn btn-primary" name="save">保存</button>
+    <button type="button" class="btn btn-primary" name="save">保&nbsp;&nbsp;存</button>
 </div>
 </form>
 <div class="box-body" name="seeTpl" style="min-height: 100px;" >

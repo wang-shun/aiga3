@@ -139,7 +139,7 @@ define(function(require,exports,module){
 					if(OperateState == "new"){
 						cmd = "parentId="+currentMenu+"&"+cmd;
 			  			console.log(cmd);
-			  			Rose.ajax.postJson(srvMap.get('addMenu') + "?" + cmd, "", function(json, status) {
+			  			Rose.ajax.postJson(srvMap.get('addMenu'),cmd,function(json, status) {
 							if(status) {
 								OperateState = "update";
 								self.initMenuList();
@@ -150,7 +150,7 @@ define(function(require,exports,module){
 			  		else if(OperateState == "update"){		
 						cmd = "funcId="+currentMenu+"&"+cmd;
 			  			console.log(cmd);
-			  			Rose.ajax.postJson(srvMap.get('updateMenu')+"?"+cmd, '', function(json, status) {
+			  			Rose.ajax.postJson(srvMap.get('updateMenu'),cmd, function(json, status) {
 							if(status) {
 								OperateState = "update";
 								self.initMenuList();								

@@ -1,40 +1,42 @@
 {
     "retCode": "200",
     "retMessage": null,
-    "data":[{
+    "data":{
+        "content":[{
         "requireCode":"001",
         "requireName": "1001",
         "requireMan": "001",
         "devManager": "H",
         "testManager":"1",
-        "taskState": "呀"
+        "introducedState": "1"
     },{
         "requireCode":"001",
         "requireName": "1001",
         "requireMan": "001",
         "devManager": "H",
         "testManager":"1",
-        "taskState": "呀"
+        "introducedState": "1"
     },{
        "requireCode":"001",
         "requireName": "1001",
         "requireMan": "001",
         "devManager": "H",
         "testManager":"1",
-        "taskState": "呀"
+        "introducedState": "1"
     },{
         "requireCode":"001",
         "requireName": "1001",
         "requireMan": "001",
         "devManager": "H",
         "testManager":"1",
-        "taskState": "呀"
+        "introducedState": "1"
     },{
         "requireCode":"001",
         "requireName": "1001",
         "requireMan": "001",
         "devManager": "H",
         "testManager":"1",
-        "taskState": "呀"
+        "introducedState": "1"
     }]
+    }
 }

@@ -24,11 +24,11 @@ define(function(require, exports, module) {
 	//查看需求
 	srvMap.add("seerequList", pathAlias + "seeRequList.json", "sys/require/list");
 	//保存需求状态
-	srvMap.add("saverequList", pathAlias + "scrap.json", "sys/require/save");
+	srvMap.add("saveRequList", pathAlias + "scrap.json", "sys/require/save");
 	//查看变更
 	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "sys/change/list");
 	//保存变更状态
-	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/require/save");
+	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/change/save");
 
 
 	// 模板对象
@@ -410,6 +410,7 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+		//查找需求列表
 		seerequList: function(a,onlinePlan) {
 			var self = this;
 			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
@@ -418,19 +419,29 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('seerequList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seerequList);
-					console.log(json.data)
+					console.log(json.data.content)
 					_form.html(template(json.data.content));
-						//查询
-						alert(onlinePlan);
+					var da=json.data.content;
+					var i=0
+					$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
+						var tdArr = $(this).children();
+						tdArr.eq(1).find("select").val(da[i].introducedState);
+						i++;
+					});
+					//查询
+					alert(onlinePlan);
 					self.queSeeSubmit(a,onlinePlan);
+					//保存
+					self.saveSeeSubmit(a,onlinePlan);
 						// 绑定单机当前行事件
-					self.eventClickChecked($("#taaa"), function() {
+					self.eventClickChecked($("#JS_requListab"), function() {
 
 					});
 
 				}
 			});
 		},
+		//查找变更列表
 		seeChangeList: function(a,onlinePlan) {
 			var self = this;
 			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
@@ -441,26 +452,95 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.seeChangeList);
 					console.log(json.data.content)
 					_form.html(template(json.data.content));
-						//查询
-							self.queSeeSubmit(a,onlinePlan);
-						// 绑定单机当前行事件
-					self.eventClickChecked($("#tbbb"), function() {
+					var da=json.data.content;
+					var i=0
+					$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
+						var tdArr = $(this).children();
+						tdArr.eq(1).find("select").val(da[i].resultState);
+						i++;
+					});
+					//查询
+					self.queSeeSubmit(a,onlinePlan);
+					//保存
+					self.saveSeeSubmit(a,onlinePlan);
+					// 绑定单机当前行事件
+					self.eventClickChecked($("#JS_changeListab"), function() {
 						
 					});
 					
 				}
 			});
 		},
-		//查询
+		//查询按钮
 		queSeeSubmit : function(a,onlinePlan){
 			var self = this;
-			var _submit = $(Dom.addChangePlanForm).find("[name='seeRequForm']").find("[name='submit']");
-			_submit.unbind('click');
-			_submit.bind('click', function() {
+			var _query = $(Dom.addChangePlanForm).find("[name='seeRequForm']").find("[name='query']");
+			_query.unbind('click');
+			_query.bind('click', function() {
 				if (a == "0" || a == "1") {
 					self.seerequList(a,onlinePlan);
 				} else {
 					self.seeChangeList(a,onlinePlan);
+				}
+			});
+		},
+		//保存按钮
+		saveSeeSubmit : function(a,onlinePlan){
+			var self = this;
+			var _save = $(Dom.addChangePlanForm).find("[name='seeRequForm']").find("[name='save']");
+			_save.unbind('click');
+			_save.bind('click', function() {
+				var id;
+				var state;
+				var saveState = [];
+				var cmd;
+				$(Dom.addChangePlanForm).find("tr").each(function(){
+					var tdArr = $(this).children();
+					id = tdArr.eq(0).find("input").val();
+					state = tdArr.eq(1).find("select").val();
+					saveState.push({
+						"id" : id,
+						"state" : state
+					});
+				});
+				cmd = "saveState="+JSON.stringify(saveState);
+				console.log(cmd);
+				if (a == "0" || a == "1") {
+					self.saveRequList(a,onlinePlan,cmd);
+				} else {
+					self.saveChangeList(a,onlinePlan,cmd);
+				}
+			});
+		},
+		//保存需求
+		saveRequList : function(a,onlinePlan,cmd){
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('saveRequList'), cmd, function(json, status) {
+				if (status) {
+					XMS.msgbox.show('保存成功！', 'success', 2000)
+					setTimeout(function() {
+						if (a == "0" || a == "1") {
+							self.seerequList(a,onlinePlan);
+						} else {
+							self.seeChangeList(a,onlinePlan);
+						}
+					}, 1000)
+				}
+			});
+		},
+		//保存变更
+		saveChangeList : function(a,onlinePlan,cmd){
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('saveChangeList'), cmd, function(json, status) {
+				if (status) {
+					XMS.msgbox.show('保存成功！', 'success', 2000)
+					setTimeout(function() {
+						if (a == "0" || a == "1") {
+							self.seerequList(a,onlinePlan);
+						} else {
+							self.seeChangeList(a,onlinePlan);
+						}
+					}, 1000)
 				}
 			});
 		},

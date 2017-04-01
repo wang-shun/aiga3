@@ -97,7 +97,7 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if(data){
 					console.log(data);
-					var cmd = sysId+data.sysId;
+					var cmd = 'sysId='+data.sysId;
 					//alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delSysInfo'), cmd, function(json, status) {

@@ -1,18 +1,23 @@
 package com.ai.aiga.service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaSystemFolderDao;
 
 import com.ai.aiga.domain.AigaSystemFolder;
-
+import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
@@ -93,5 +98,39 @@ public AigaSystemFolder findOne(BigDecimal sysId) {
 			
 		}
 	}
+ public Object list(int pageNumber, int pageSize,AigaSystemFolder condition ) throws ParseException {
+	   List<String> list = new ArrayList<String>();
+		list.add("sysId");
+		list.add("sysName");
+		list.add("createTime");
+		list.add("updateTime");
+		list.add("importantClass");
+		list.add("firm");
+		list.add("sysOfDomain");
+		list.add("remarks");
+	   String sql = "select a.sys_id, a.sys_name, a.create_time,a.update_time,a.important_class,"
+	   		+ "a.firm,a.sys_of_domain,remarks from AIGA_SYSTEM_FOLDER a";
+	
+			if(StringUtils.isNotBlank(condition.getSysName())){
+				sql += " and a.sys_name like '%"+condition.getSysName()+"%'";
+			}
+			if(condition.getImportantClass()!= null){
+				sql += " and a.important_class = "+condition.getImportantClass();
+			}
+			if(condition.getSysOfDomain()!= null){
+				sql += " and a.sys_of_domain = "+condition.getSysOfDomain();
+			}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
 
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return aigaSystemFolderDao.searchByNativeSQL(sql, pageable, list);
+	}
 }

@@ -62,6 +62,9 @@ public class ChangePlanRunSv extends BaseService{
 			if(condition.getPlanState() != null ){
 				sql += " and a.plan_state = "+condition.getPlanState();
 			}
+			if(condition.getTypes() != null){
+				sql += " and a.types = "+condition.getTypes();
+			}
 			if(StringUtils.isNoneBlank(time1)){
 				sql += " and a.create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
 			}

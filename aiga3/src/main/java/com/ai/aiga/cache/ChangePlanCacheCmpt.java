@@ -23,7 +23,7 @@ public class ChangePlanCacheCmpt extends AbstractCache{
 	protected Map load() {
 		Map cache = new HashMap();
 		
-		List<NaChangePlanOnile> list = naChangePlanOnileDao.findAll();
+		List<NaChangePlanOnile> list = naChangePlanOnileDao.findBySign();
 		cache.put(ALL_LIST, list);
 		return cache;
 	}

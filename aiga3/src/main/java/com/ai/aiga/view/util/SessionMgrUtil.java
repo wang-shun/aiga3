@@ -25,10 +25,28 @@ public class SessionMgrUtil {
 		addToSession(MANAGER_LOGIN_USERINFO, userInfo);
 	}
 	
+	/**
+	 * 
+	 * @ClassName: SessionMgrUtil :: getUserInfo
+	 * @author: taoyf
+	 * @date: 2017年4月1日 上午9:51:54
+	 *
+	 * @Description: 获得session中的用户UserInfo,包括用户基本信息, 角色, 菜单
+	 * @return
+	 */
 	public static UserInfo getUserInfo(){
 		return (UserInfo) getFromSession(MANAGER_LOGIN_USERINFO);
 	}
 	
+	/**
+	 * 
+	 * @ClassName: SessionMgrUtil :: getStaff
+	 * @author: taoyf
+	 * @date: 2017年4月1日 上午9:52:18
+	 *
+	 * @Description:获得session中的人员信息
+	 * @return
+	 */
 	public static AigaStaff getStaff(){
 		UserInfo userInfo = getUserInfo();
 		return userInfo.getStaff();

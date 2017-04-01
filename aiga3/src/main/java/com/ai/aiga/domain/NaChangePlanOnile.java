@@ -187,7 +187,7 @@ public class NaChangePlanOnile  implements java.io.Serializable {
     }
     
     @Column(name="SIGN", precision=2, scale=0)
-    public Byte getSign(byte b) {
+    public Byte getSign() {
         return this.sign;
     }
     

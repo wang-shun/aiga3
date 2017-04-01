@@ -72,28 +72,32 @@ public class NaChangeListSv extends BaseService{
 			return naChangeListDao.searchByNativeSQL(sql, pageable, list);
 		}
 
-	public NaChangeList save(NaChangeList request){
+	public void save(List<NaChangeList> request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
+		for(int i = 0; i < request.size(); i++){
+			
+			NaChangeList naChangeList=request.get(i);
+			
+			if(naChangeList!=null){
+		NaChangeList nachangeList1=naChangeListDao.findOne(naChangeList.getChangeId());
+		nachangeList1.setChangeMan(naChangeList.getChangeMan());
+		nachangeList1.setChangeManager(naChangeList.getChangeManager());
+		nachangeList1.setChangeName(naChangeList.getChangeName());
+		nachangeList1.setChangeTitle(naChangeList.getChangeTitle());
+		nachangeList1.setReviewState(naChangeList.getReviewState());
 		
-		NaChangeList nachangeList=new NaChangeList();
-		nachangeList.setChangeMan(request.getChangeMan());
-		nachangeList.setChangeManager(request.getChangeManager());
-		nachangeList.setChangeName(request.getChangeName());
-		nachangeList.setChangeTitle(request.getChangeTitle());
-		nachangeList.setReviewState(request.getReviewState());
-		
-		if(request.getResultState()==null||request.getResultState().equals("")){
+		if(naChangeList.getResultState()==null||naChangeList.getResultState().equals("")){
 			//成功
-			nachangeList.setResultState("1");
+			nachangeList1.setResultState("1");
 		}else{
-			nachangeList.setResultState(request.getResultState());
+			nachangeList1.setResultState(naChangeList.getResultState());
 		}
-		naChangeListDao.save(nachangeList);
-		return nachangeList;
+		naChangeListDao.save(nachangeList1);
+		
 		
 	}
-	
-
+		}
+		}
 }

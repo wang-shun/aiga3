@@ -72,27 +72,33 @@ public class NaRequireListSv extends BaseService{
 			}
 
 		
-	public NaRequireList save(NaRequireList request){
+	public void save(List<NaRequireList> request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
+		for(int i = 0; i < request.size(); i++){
+			
+		NaRequireList naRequireList=request.get(i);
 		
-		NaRequireList naRequireList=new NaRequireList();
-		naRequireList.setRequireCode(request.getRequireCode());
-		naRequireList.setRequireName(request.getRequireName());
-		naRequireList.setRequireMan(request.getRequireMan());
-		naRequireList.setDevManager(request.getDevManager());
-		naRequireList.setTestManager(request.getTestManager());
-		naRequireList.setReviewState(request.getReviewState());
+		if(naRequireList!=null){
+		NaRequireList naRequireList1=naRequireListDao.findOne(naRequireList.getId());
+		naRequireList1.setRequireCode(naRequireList.getRequireCode());
+		naRequireList1.setRequireName(naRequireList.getRequireName());
+		naRequireList1.setRequireMan(naRequireList.getRequireMan());
+		naRequireList1.setDevManager(naRequireList.getDevManager());
+		naRequireList1.setTestManager(naRequireList.getTestManager());
+		naRequireList1.setReviewState(naRequireList.getReviewState());
 		
-		if(request.getIntroducedState()==null||request.getIntroducedState().equals("")){
+		if(naRequireList.getIntroducedState()==null||naRequireList.getIntroducedState().equals("")){
 			//成功
-			naRequireList.setIntroducedState(BigDecimal.valueOf((NumberUtils.toLong("1"))));
+			naRequireList1.setIntroducedState(BigDecimal.valueOf((NumberUtils.toLong("1"))));
 		}else{
-		naRequireList.setIntroducedState(request.getIntroducedState());
+		naRequireList1.setIntroducedState(naRequireList.getIntroducedState());
 		}
-		naRequireListDao.save(naRequireList);
-		return naRequireList;
+		naRequireListDao.save(naRequireList1);
 		
-	}
+		}
+		}
+		
+}
 }

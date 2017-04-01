@@ -109,7 +109,7 @@ public AigaSystemFolder findOne(BigDecimal sysId) {
 		list.add("sysOfDomain");
 		list.add("remarks");
 	   String sql = "select a.sys_id, a.sys_name, a.create_time,a.update_time,a.important_class,"
-	   		+ "a.firm,a.sys_of_domain,remarks from AIGA_SYSTEM_FOLDER a";
+	   		+ "a.firm,a.sys_of_domain,remarks from AIGA_SYSTEM_FOLDER a where 1=1";
 	
 			if(StringUtils.isNotBlank(condition.getSysName())){
 				sql += " and a.sys_name like '%"+condition.getSysName()+"%'";

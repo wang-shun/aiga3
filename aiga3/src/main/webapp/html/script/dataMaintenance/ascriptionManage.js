@@ -8,11 +8,11 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getAsciptionList",pathAlias+"getAsciptionList.json","sys/systemfolder/list");
+	srvMap.add("getAsciptionList",pathAlias+"getAsciptionList.json","sys/systemfolder/listByName");
 	// 删除所选条目
 	srvMap.add("delSysInfo", pathAlias + "retMessage.json", "sys/systemfolder/del");
 	//新增条目
-    srvMap.add("addSysInfo", pathAlias + "retMessage.json", "sys/systemfolder/sava");
+    srvMap.add("addSysInfo", pathAlias + "retMessage.json", "sys/systemfolder/save");
 
 
 

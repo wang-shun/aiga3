@@ -1,71 +1,39 @@
 <div class="box-body">
 	       <!-- 新增 --> 
-	       <div class="row">
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label"><i class="text-red">*</i>变更计划编号：</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="onlinePlan" value="{{onlinePlan}}"> 
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">变更计划名称：</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}"> 
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">计划状态：</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="planState"  value="{{plan_state planState}}">
-                </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">类型：</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="types" value="{{type types}}"> 
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">计划变更时间：</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="planDate" value="{{planDate}}"> 
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">申请是否及时：</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="timely" value="{{timely}}">
-                </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">完成时间：</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control input-sm" name="doneDate" value="{{doneDate}}">
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label"><i class="text-red">*</i>结果：</label>
-                <div class="col-sm-7">
-                    <select name="result" class="form-control input-sm" value="{{result}}">
-                        <option value="">请选择</option>
-                        <option value="1">通过</option>
-                        <option value="2">不通过</option>
-                    </select>
-                </div>
-            </div>
-         </div>
-         <div class="row">
-            <div class="col-sm-9 form-group">
-                <label class="col-sm-2 control-label">上线总结：</label>
-                <div class="col-sm-7">
-                    <textarea class="form-control" rows="3" name="compScript" value="{{compScript}}"></textarea>
-                </div>
-            </div>
-         </div>
+	<div class="form-group form-inline">
+            <label class="col-sm-2 control-label">变更计划名称：</label>
+            <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}">
+            <label>计划状态：</label>
+        	<select name="planState" class="form-control input-sm" style="width: 172px">
+                <option value="">请选择</option>
+                <option value="1">新建</option>
+                <option value="2">处理中</option>
+                <option value="3">完成</option>
+                <option value="4">取消</option>
+            </select>
+            <label>类型：</label>
+            <select name="types" class="form-control input-sm" style="width: 172px" >
+                <option value="">请选择</option>
+                <option value="0">计划上线</option>
+                <option value="1">紧急上线</option>
+                <option value="2">计划变更</option>
+                <option value="3">紧急变更</option>
+            </select>
+    </div>
+    <div class="form-group form-inline">
+            <label class="col-sm-2 control-label">计划变更时间：</label>
+            <input type="text" class="form-control input-sm " name="planDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}">
+            <label><i class="text-red">&nbsp;&nbsp;*&nbsp;</i>&nbsp;&nbsp;结&nbsp;果&nbsp;&nbsp;：</label>
+            <select name="result" class="form-control input-sm" style="width: 172px" >
+                <option value="">请选择</option>
+                <option value="1">通过</option>
+                <option value="2">不通过</option>
+            </select>
+    </div>
+    <div class="row">
+            <label class="col-sm-2 control-label">上线总结：</label>
+            <textarea class="form-control" rows="3" name="compScript" value="{{compScript}}" style="width: 70%"></textarea>
+    </div>
          <div class="box-footer">
             <div class="text-center">
                 <button type="reset" class="btn btn-default" name="reset">重置</button>

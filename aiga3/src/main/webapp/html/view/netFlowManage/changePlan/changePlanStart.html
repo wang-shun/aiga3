@@ -12,7 +12,7 @@
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label>变更计划名称</label>
                                 <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList" data-idkey="onlinePlan" data-namekey="onlinePlanName">
@@ -20,7 +20,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label>计划状态</label>
                                 <select name="planState" class="form-control input-sm">
@@ -31,6 +31,18 @@
                                     <option value="4">取消</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>变更类型</label>
+                                <select name="types" class="form-control input-sm">
+                                    <option value="">请选择</option>
+                                    <option value="0">计划上线</option>
+                                    <option value="1">紧急上线</option>
+                                    <option value="2">计划变更</option>
+                                    <option value="3">紧急变更</option>
+                                </select>
+                            </div>                            
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">

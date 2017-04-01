@@ -53,7 +53,24 @@
                         <a href="javascript:;" data-href="{{viewname}}">
                             <i class="fa fa-circle-o"></i>
                             <span>{{name}}</span>
+                            {{#if subMenus}}
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                            {{/if}}
                         </a>
+                        {{#if subMenus}}
+                        <ul href="javascript:;" class="treeview-menu">
+                            {{#each subMenus}}
+                            <li class="">
+                                <a href="javascript:;" data-href="{{viewname}}">
+                                    <i class="fa fa-circle-o"></i>
+                                    <span>{{name}}</span>
+                                </a>
+                            </li>
+                            {{/each}}
+                        </ul>
+                        {{/if}}
                     </li>
                     {{/each}}
                 </ul>

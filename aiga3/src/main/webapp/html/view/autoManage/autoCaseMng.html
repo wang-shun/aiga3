@@ -14,21 +14,21 @@
                     <label for="caseName" class="control-label">用例名称:</label>
                     <input placeholder="请输入用例名称" id="caseName" type="text" class="form-control input-sm" name="autoName" style="width: 160px">
                     <label class="control-label">系统大类:</label>
-                    <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" style="width: 160px">
+                    <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" data-idkey="sysId" data-namekey="sysName" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
                     <label class="control-label">系统子类:</label>
-                    <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" class="form-control select2 input-sm" style="width: 160px">
+                    <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" data-idkey="subsysId" data-namekey="sysName"  class="form-control select2 input-sm" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
                     <label class="control-label">功&nbsp;能&nbsp;点&nbsp;:</label>
-                    <select name="funId" data-suburl="getFunList" class="form-control select2 input-sm" style="width: 160px">
+                    <select name="funId" data-suburl="getFunList" data-idkey="funId" data-namekey="sysName" class="form-control select2 input-sm" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
                 </div>
                 <div class="form-group form-inline">
                     <label class="control-label">业&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label>
-                    <select id="queryCase_busi" data-url="getBusiList" name="busiId" class="form-control select2 input-sm" style="width: 160px">
+                    <select id="queryCase_busi" data-url="getBusiList" data-idkey="busiId" data-namekey="busiName" name="busiId" class="form-control select2 input-sm" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
                     <label>重要级别:</label>
@@ -70,7 +70,7 @@
         <h3 class="box-title">自动化用例列表</h3>
         <div class="box-tools">
             <div class="btn-group">
-                <button id="Js_btnEdit" type="button" class="btn btn-primary" name="edit"><i class="fa fa-edit"></i> 编辑模板</button>
+                <button id="Js_btnEdit" type="button" class="btn btn-primary" name="edit"><i class="fa fa-edit"></i> 编辑用例</button>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
@@ -99,7 +99,7 @@
                             <div class="box-header with-border">
                                 <h3 class="box-title">组件列表</h3>
                             </div>
-                            <div class="box-body" id="JS_getSideAutoCompList">
+                            <div class="box-body" id="JS_sideAutoCompList">
                             </div>
                         </div>
                     </div>
@@ -107,27 +107,18 @@
                         <form>
                             <div class="box">
                                 <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label><i class="text-red">*</i>自动化用例模板名称：
-                                                    </label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" name="autoName" value="">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>环境类型
-                                                    <i class="text-red">*</i></label>
-                                                <select class="form-control" name="environmentType">
-                                                    <option value="">请选择</option>
-                                                    <option value="1">验收环境</option>
-                                                    <option value="2">准发布环境</option>
-                                                    <option value="3">生产环境</option>
-                                                </select>
-                                            </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group form-inline">
+                                            <label><i class="text-red">*  </i>自动化用例名称：
+                                            </label>
+                                            <input type="text" class="form-control" name="autoName" value="">&nbsp;&nbsp;&nbsp;
+                                            <label><i class="text-red">*  </i>环境类型：</label>
+                                            <select class="form-control" name="environmentType">
+                                                <option value="">请选择</option>
+                                                <option value="1">验收环境</option>
+                                                <option value="2">准发布环境</option>
+                                                <option value="3">生产环境</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

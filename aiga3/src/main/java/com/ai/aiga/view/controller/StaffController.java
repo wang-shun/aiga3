@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.service.AigaStaffSv;
 import com.ai.aiga.view.json.StaffOrgRelatRequest;
 import com.ai.aiga.view.json.StaffRequest;
@@ -48,15 +49,15 @@ public class StaffController {
 	 * 新增操作员信息,及其与组织关系的保存
 	 * */
 	@RequestMapping(path = "/aiga/staff/save")
-	public @ResponseBody JsonBean save(StaffRequest staffRequest,Long organizeId){
+	public @ResponseBody JsonBean save(AigaStaff staffRequest,Long organizeId){
 		aigaStaffSv.saveStaffOrg(staffRequest,organizeId);
 		return JsonBean.success;
 	}
 	/*
 	 * 修改操作员信息
 	 * */
-	@RequestMapping(path = "/aiga/staff/updat")
-	public @ResponseBody JsonBean update(StaffRequest staffRequest){
+	@RequestMapping(path = "/aiga/staff/update")
+	public @ResponseBody JsonBean update(AigaStaff staffRequest){
 		aigaStaffSv.updateStaff(staffRequest);
 		return JsonBean.success;
 	}

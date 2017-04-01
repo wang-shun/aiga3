@@ -1,14 +1,19 @@
 package com.ai.aiga.service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaFunFolderDao;
 import com.ai.aiga.dao.AigaSystemFolderDao;
 import com.ai.aiga.domain.AigaFunFolder;
@@ -136,5 +141,63 @@ public AigaFunFolder findOne(BigDecimal funId) {
 			aigaFunFolderDao.save(aigaFunFolder);
 			
 		}
+	}
+ public Object list(int pageNumber, int pageSize,AigaFunFolder condition ) throws ParseException {
+	   List<String> list = new ArrayList<String>();
+		list.add("funId");
+		list.add("sysName");
+		list.add("createTime");
+		list.add("updateTime");
+		list.add("sysId");
+		list.add("busiLabel");
+		list.add("baseFunLabel");
+		list.add("dataCheckScript");
+		list.add("importantClass");
+		list.add("menuPath");
+		list.add("funType");
+		list.add("funDesc");
+		list.add("isInvalid");
+		list.add("addReason");
+		list.add("efficiencyTestType");
+		list.add("isEfficiencyTest");
+		list.add("devFirm");
+		list.add("sysIdTemp");
+		list.add("subSysId");
+		list.add("subSysIdTemp");
+		list.add("operatorId");
+		list.add("operatorName");
+		list.add("creatorId");
+		list.add("creatorName");
+		list.add("addReasonType");
+		
+	   String sql = "select a.* from AIGA_FUN_FOLDER a, AIGA_SYSTEM_FOLDER b ,"
+	   		+ "AIGA_SUB_SYS_FOLDER c where a.SYS_ID=b.SYS_ID and a.SUB_SYS_ID=c.SUB_SYS_ID";
+	
+			if(StringUtils.isNotBlank(condition.getSysName())){
+				sql += " and a.sys_name like '%"+condition.getSysName()+"%'";
+			}
+			if(condition.getImportantClass()!= null){
+				sql += " and a.important_class = "+condition.getImportantClass();
+			}
+			if(condition.getSysId()!= null){
+				sql += " and a.SYS_ID = "+condition.getSysId();
+			}
+			if(condition.getSubSysId()!= null){
+				sql += " and a.SUB_SYS_ID = "+condition.getSubSysId();
+			}
+			if(condition.getFunType()!= null){
+				sql += " and a.FUN_TYPE = "+condition.getFunType();
+			}
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return aigaFunFolderDao.searchByNativeSQL(sql, pageable, list);
 	}
 }

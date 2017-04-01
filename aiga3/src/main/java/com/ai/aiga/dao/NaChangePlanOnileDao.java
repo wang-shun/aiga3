@@ -1,6 +1,7 @@
 package com.ai.aiga.dao;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -29,6 +30,9 @@ public interface NaChangePlanOnileDao extends JpaRepository<NaChangePlanOnile, L
 	@Modifying
 	@Query("update NaChangePlanOnile set planState = 2 where onlinePlan = ?1")
 	void updatePlanState(Long onlinePlan);
+
+	@Query("from NaChangePlanOnile where sign = 0")
+	List<NaChangePlanOnile> findBySign();
 
 
 }

@@ -20,7 +20,7 @@
                 <td><input type="radio" class="minimal" value="{{autoId}}" name="autoId"></td>
                 <td><input type="hidden"  name="autoName" value="{{autoName}}">{{autoName}}</td>
                 <td><input type="hidden"  name="sysId" value="{{sysId}}">{{sysId}}</td>
-                <td><input type="hidden"  name="subSysId" value="{{subSysId}}">{{subSysId}}</td>
+                <td><input type="hidden"  name="sysSubId" value="{{sysSubId}}">{{sysSubId}}</td>
 
                 <td><input type="hidden"  name="funId" value="{{funId}}">{{funId}}</td>
                 <td><input type="hidden"  name="busiId" value="{{busiId}}">{{transformatBusi busiId}}</td>

@@ -1,92 +1,56 @@
 <div class="box box-primary">
     <div class="box-header with-border">
-      <h3 class="box-title">条件查询</h3>
+      <h3 class="box-title">新增计划</h3>
       <div class="box-tools pull-right">
     	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
   	  </div>
     </div>
+    <div class="box-body">
     <form class="form-horizontal" name="addChangePlanForm"  role = "form">
-      <div class="box-body">
-	       
-	       <div class="row">
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label"><i class="text-red">*</i>变更计划名称：</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}" > 
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">计划变更时间：</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}"> 
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label"><i class="text-red">*</i>变更类型：</label>
-                <div class="col-sm-7">
-                    <select name="types" class="form-control input-sm" >
-                        <option value="">请选择</option>
-                        <option value="0">计划上线</option>
-                        <option value="1">紧急上线</option>
-                        <option value="2">计划变更</option>
-                        <option value="3">紧急变更</option>
-                    </select> 
-                </div>
-            </div>
+	   <div class="form-group form-inline">
+                <label><i class="text-red">&nbsp;&nbsp;*&nbsp;&nbsp;</i>变更计划名称：</label>
+                <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}" > 
+                <label>计划变更时间：</label>
+                <input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}"> 
+                <label>&nbsp;&nbsp;&nbsp;上线是否及时&nbsp;&nbsp;：</label>
+                <select name="timely" class="form-control input-sm" style="width:172px" >
+                    <option value="">请选择</option>
+                    <option value="1">是</option>
+                    <option value="2">否</option>
+                </select>
          </div>
-         <div class="row">
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">上线是否及时：</label>
-                <div class="col-sm-7">
-                    <select name="timely" class="form-control input-sm" value="{{timely}}" >
-                        <option value="">请选择</option>
-                        <option value="1">是</option>
-                        <option value="2">否</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4 form-group">
-                <label class="col-sm-5 control-label">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control input-sm" name="remark" value="{{remark}}"> 
-                </div>
-            </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" class="btn btn-primary" name="submit">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+         <div class="form-group form-inline">
+                <label><i class="text-red">&nbsp;&nbsp;*&nbsp;&nbsp;</i>变&nbsp;&nbsp;更&nbsp;&nbsp;类&nbsp;&nbsp;型&nbsp;&nbsp;：</label>
+                <select name="types" class="form-control input-sm" style="width:172px" >
+                    <option value="">请选择</option>
+                    <option value="0">计划上线</option>
+                    <option value="1">紧急上线</option>
+                    <option value="2">计划变更</option>
+                    <option value="3">紧急变更</option>
+                </select> 
+                <label>&nbsp;&nbsp;备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;</label>
+                <input type="text" class="form-control input-sm" name="remark" value="{{remark}}"> 
+            <button type="button" class="btn btn-primary" name="submit" style="float:right; margin-right:40px;">保&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存</button>
          </div>
-      </div>
     </form>
-    <hr/>
     <form class="form-horizontal" role = "form">
-        <div class="box-body">
-            <div class="row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label">上传文档：</label>
-                    <div class="col-sm-7">
-                      <input type="text" class="form-control input-sm" name="filePath"> 
-                    </div>
-                </div>
-                <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label fa-reply"><i class="text-red">*</i>文档类型：</label>
-                    <div class="col-sm-7">
-                        <select name="important" class="form-control input-sm"  >
-                        </select>
-                    </div>
-                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary" name="submit">上传文档</button>
+            <div class="form-group form-inline">
+                <label>&nbsp;&nbsp; &nbsp;&nbsp;上&nbsp;&nbsp;传&nbsp;&nbsp;文&nbsp;&nbsp;档&nbsp;&nbsp;：</label>
+                <input type="text" class="form-control input-sm" name="filePath"> 
+                <label><i class="text-red">*</i>文档类型：</label>
+                <select name="important" class="form-control input-sm" >
+                    <option value="">需求变更清单</option>
+                </select>
+                <button type="button" class="btn btn-default" name="submit">上传文档</button>
+                <label>模板类型：</label>
+                <select name="important" class="form-control input-sm" >
+                    <option value="">需求变更清单模板</option>
+                </select>
+                <button type="button" class="btn btn-default" name="submit">下载模板</button>
              </div>
-             <div class="row">
-               <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label">模板类型：</label>
-                    <div class="col-sm-7">
-                        <select name="important" class="form-control input-sm"  >
-                        </select> 
-                    </div>
-                </div>
-                <button type="button" class="btn btn-primary" name="submit">下载模板</button>
-             </div>
-        </div>
     </form>
+    </div>
 </div>
 <div class="box" id="JS_addChangePlanList">
     <div class="box-header">

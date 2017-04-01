@@ -53,7 +53,7 @@ public class ChangePlanRunSv extends BaseService{
 		
 		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, to_char(a.create_date,'YYYY-MM-DD HH24:MI:SS'), a.types,"
 				+ " to_char(a.done_date,'YYYY-MM-DD HH24:MI:SS'), to_char(a.plan_date,'YYYY-MM-DD HH24:MI:SS'), a.timely, a.result, a.remark, is_finished, a.auto_run_result from "
-				+ "na_change_plan_onile a, aiga_staff b where a.create_op_id = b.staff_id and sign = 0 ";
+				+ "na_change_plan_onile a, aiga_staff b where a.create_op_id = b.staff_id and a.sign = 0 ";
 		
 		if(condition != null){
 			if(condition.getOnlinePlan() != null){
@@ -61,6 +61,9 @@ public class ChangePlanRunSv extends BaseService{
 			}
 			if(condition.getPlanState() != null ){
 				sql += " and a.plan_state = "+condition.getPlanState();
+			}
+			if(condition.getTypes() != null){
+				sql += " and a.types = "+condition.getTypes();
 			}
 			if(StringUtils.isNoneBlank(time1)){
 				sql += " and a.create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";

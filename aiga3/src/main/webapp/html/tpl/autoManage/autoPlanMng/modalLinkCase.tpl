@@ -22,7 +22,7 @@
                             <option value="">请选择</option>
                         </select>
                         <label class="control-label">系统子类:</label>
-                        <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" class="form-control select2 input-sm" style="width: 160px">
+                        <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" data-idkey="subsysId" data-namekey="sysName" class="form-control select2 input-sm" style="width: 160px">
                             <option value="">请选择</option>
                         </select>                        
                         
@@ -30,11 +30,11 @@
                     <div class="form-group form-inline">
                         
                         <label class="control-label">功&nbsp;能&nbsp;点&nbsp;:</label>
-                        <select name="funId" data-suburl="getFunList" class="form-control select2 input-sm" style="width: 160px">
+                        <select name="funId" data-suburl="getFunList" data-idkey="funId" data-namekey="sysName"  class="form-control select2 input-sm" style="width: 160px">
                             <option value="">请选择</option>
                         </select>
                         <label class="control-label">业&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;务:</label>
-                        <select id="queryCase_busi" data-url="getBusiList" name="busiId" class="form-control select2 input-sm" style="width: 160px">
+                        <select id="queryCase_busi" data-url="getBusiList" data-idkey="busiId" data-namekey="busiName" name="busiId" class="form-control select2 input-sm" style="width: 160px">
                             <option value="">请选择</option>
                         </select>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

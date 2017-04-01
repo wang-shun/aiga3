@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaRequireListDao;
+import com.ai.aiga.domain.NaChangePlanOnile;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.exception.BusinessException;
@@ -34,7 +35,7 @@ public class NaRequireListSv extends BaseService{
 		return naRequireListDao.select(requireName);
 		
 	}
-		public Object selectList(int pageNumber, int pageSize,NaRequireList condition ) throws ParseException {
+		public Object selectList(int pageNumber, int pageSize,String name, String onlinePlan) throws ParseException {
 			   List<String> list = new ArrayList<String>();
 				list.add("id");
 				list.add("requireCode");
@@ -47,11 +48,13 @@ public class NaRequireListSv extends BaseService{
 			   String sql = "select a.id,a.REQUIRE_CODE,a.REQUIRE_NAME,a.REQUIRE_MAN,a.DEV_MANAGER,a.TEST_MANAGER,a.REVIEW_STATE,"
 						+ "a.INTRODUCED_STATE from NA_REQUIRE_LIST a,NA_CHANGE_PLAN_ONILE b "
 						+ "where a.PLAN_ID=b.ONLINE_PLAN";
-			
-					if(StringUtils.isNotBlank(condition.getRequireName())){
-						sql += " and a.REQUIRE_NAME like '%"+condition.getRequireName()+"%'";
+			    
+					if(StringUtils.isNotBlank(name)){
+						sql += " and a.REQUIRE_NAME like '%"+name+"%'";
 					}
-					
+					if(StringUtils.isNotBlank(onlinePlan)){
+						sql += " and b.ONLINE_PLAN ="+onlinePlan;
+					}
 					
 					
 				
@@ -69,27 +72,33 @@ public class NaRequireListSv extends BaseService{
 			}
 
 		
-	public NaRequireList save(NaRequireList request){
+	public void save(List<NaRequireList> request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
+		for(int i = 0; i < request.size(); i++){
+			
+		NaRequireList naRequireList=request.get(i);
 		
-		NaRequireList naRequireList=new NaRequireList();
-		naRequireList.setRequireCode(request.getRequireCode());
-		naRequireList.setRequireName(request.getRequireName());
-		naRequireList.setRequireMan(request.getRequireMan());
-		naRequireList.setDevManager(request.getDevManager());
-		naRequireList.setTestManager(request.getTestManager());
-		naRequireList.setReviewState(request.getReviewState());
+		if(naRequireList!=null){
+		NaRequireList naRequireList1=naRequireListDao.findOne(naRequireList.getId());
+		naRequireList1.setRequireCode(naRequireList.getRequireCode());
+		naRequireList1.setRequireName(naRequireList.getRequireName());
+		naRequireList1.setRequireMan(naRequireList.getRequireMan());
+		naRequireList1.setDevManager(naRequireList.getDevManager());
+		naRequireList1.setTestManager(naRequireList.getTestManager());
+		naRequireList1.setReviewState(naRequireList.getReviewState());
 		
-		if(request.getIntroducedState()==null||request.getIntroducedState().equals("")){
+		if(naRequireList.getIntroducedState()==null||naRequireList.getIntroducedState().equals("")){
 			//成功
-			naRequireList.setIntroducedState(BigDecimal.valueOf((NumberUtils.toLong("1"))));
+			naRequireList1.setIntroducedState(BigDecimal.valueOf((NumberUtils.toLong("1"))));
 		}else{
-		naRequireList.setIntroducedState(request.getIntroducedState());
+		naRequireList1.setIntroducedState(naRequireList.getIntroducedState());
 		}
-		naRequireListDao.save(naRequireList);
-		return naRequireList;
+		naRequireListDao.save(naRequireList1);
 		
-	}
+		}
+		}
+		
+}
 }

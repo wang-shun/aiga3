@@ -34,7 +34,7 @@ public class NaChangeListSv extends BaseService{
 		return naChangeListDao.select(changeName);
 		
 	}
-	public Object selectList(int pageNumber, int pageSize,NaChangeList condition ) throws ParseException {
+	public Object selectList(int pageNumber, int pageSize,String name ,String onlinePlan ) throws ParseException {
 		   List<String> list = new ArrayList<String>();
 			list.add("changeId");
 			list.add("changeName");
@@ -49,8 +49,11 @@ public class NaChangeListSv extends BaseService{
 			+ " from NA_CHANGE_LIST a,NA_CHANGE_PLAN_ONILE b "
 			+ "where a.PLAN_ID=b.ONLINE_PLAN";
 		
-				if(StringUtils.isNotBlank(condition.getChangeName())){
-					sql += " and a.change_name like '%"+condition.getChangeName()+"%'";
+				if(StringUtils.isNotBlank(name)){
+					sql += " and a.change_name like '%"+name+"%'";
+				}
+				if(StringUtils.isNotBlank(onlinePlan)){
+					sql += " and b.ONLINE_PLAN ="+onlinePlan;
 				}
 				
 				
@@ -69,28 +72,32 @@ public class NaChangeListSv extends BaseService{
 			return naChangeListDao.searchByNativeSQL(sql, pageable, list);
 		}
 
-	public NaChangeList save(NaChangeList request){
+	public void save(List<NaChangeList> request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
+		for(int i = 0; i < request.size(); i++){
+			
+			NaChangeList naChangeList=request.get(i);
+			
+			if(naChangeList!=null){
+		NaChangeList nachangeList1=naChangeListDao.findOne(naChangeList.getChangeId());
+		nachangeList1.setChangeMan(naChangeList.getChangeMan());
+		nachangeList1.setChangeManager(naChangeList.getChangeManager());
+		nachangeList1.setChangeName(naChangeList.getChangeName());
+		nachangeList1.setChangeTitle(naChangeList.getChangeTitle());
+		nachangeList1.setReviewState(naChangeList.getReviewState());
 		
-		NaChangeList nachangeList=new NaChangeList();
-		nachangeList.setChangeMan(request.getChangeMan());
-		nachangeList.setChangeManager(request.getChangeManager());
-		nachangeList.setChangeName(request.getChangeName());
-		nachangeList.setChangeTitle(request.getChangeTitle());
-		nachangeList.setReviewState(request.getReviewState());
-		
-		if(request.getResultState()==null||request.getResultState().equals("")){
+		if(naChangeList.getResultState()==null||naChangeList.getResultState().equals("")){
 			//成功
-			nachangeList.setResultState("1");
+			nachangeList1.setResultState("1");
 		}else{
-			nachangeList.setResultState(request.getResultState());
+			nachangeList1.setResultState(naChangeList.getResultState());
 		}
-		naChangeListDao.save(nachangeList);
-		return nachangeList;
+		naChangeListDao.save(nachangeList1);
+		
 		
 	}
-	
-
+		}
+		}
 }

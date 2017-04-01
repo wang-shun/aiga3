@@ -351,6 +351,10 @@ define(function(require, exports, module) {
                 "ordering": false,
                 "autoWidth": false,
                 "info": true,
+                "language": {
+                    "emptyTable": "暂无数据...",
+                    "infoEmpty":"第0-0条，共0条"
+                },
                 "scrollX": scrollX
             });
         },
@@ -434,6 +438,14 @@ define(function(require, exports, module) {
                 }
                 if (value == "3") {
                     return "中断";
+                }
+            });
+            Handlebars.registerHelper('getIsFinished', function(value, fn) {
+                if (value == "0") {
+                    return "是";
+                }
+                if (value == "1") {
+                    return "否";
                 }
             });
         },

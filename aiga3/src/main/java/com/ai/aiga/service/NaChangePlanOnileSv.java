@@ -38,6 +38,7 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setTypes(request.getTypes());
 		naChangePlanOnile.setTimely(request.getTimely());
 		naChangePlanOnile.setRemark(request.getRemark());
+		naChangePlanOnile.setSign(Byte.parseByte("0"));
 		naChangePlanOnile.setPlanState(request.getPlanState());
 		naChangePlanOnile.setCreateOpId(request.getCreateOpId());
 		naChangePlanOnileDao.save(naChangePlanOnile);
@@ -106,7 +107,7 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setTypes(request.getTypes());
 		naChangePlanOnile.setTimely(request.getTimely());
 		naChangePlanOnile.setRemark(request.getRemark());
-		naChangePlanOnile.setExt1(request.getExt1());
+		naChangePlanOnile.setExt3(request.getExt3());
 		naChangePlanOnile.setResult(request.getResult());
 		naChangePlanOnile.setDoneDate(request.getDoneDate());
 		naChangePlanOnile.setPlanState(request.getPlanState());
@@ -114,25 +115,20 @@ public class NaChangePlanOnileSv extends BaseService{
 		return naChangePlanOnile;
 			
 	}
-	public String  select( String ext1,NaChangePlanOnileRequest request){
+	public String  select( NaChangePlanOnileRequest request){
 		//修改
-		if(ext1.equals("1")){
+		if(request.getExt3().equals("1")){
 			NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
-			
-			//提交
-			if(naChangePlanOnile.getExt1().equals("2")){
-				return "no";
-			}else{
+			System.out.println("======="+naChangePlanOnile.getExt3());
 				naChangePlanOnileSv.summaryChangePlanOnile(request);
 				return "true";
-			}
 		}else{
 			NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
-			naChangePlanOnile.setExt1("2");
+			naChangePlanOnile.setExt3(request.getExt3());
+			naChangePlanOnile.setPlanState(3L);
 			naChangePlanOnileDao.save(naChangePlanOnile);
 			return "true";
 		}
-		//return ext1;
 		
 	}
 	public  NaChangePlanOnile findOne1(Long onlinePlan) {

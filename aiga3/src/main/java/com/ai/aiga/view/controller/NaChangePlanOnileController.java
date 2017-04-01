@@ -50,8 +50,8 @@ public class NaChangePlanOnileController {
 	}
 	//添加上线总结提交
 	@RequestMapping(path = "/sys/changeplanonile/resultupdate")
-	public @ResponseBody JsonBean resultupdate(@RequestParam String ext1,NaChangePlanOnileRequest request){
-		naChangePlanOnileSv.select(ext1, request);
+	public @ResponseBody JsonBean resultupdate(NaChangePlanOnileRequest request){
+		naChangePlanOnileSv.select(request);
 		return JsonBean.success;
 	}
 	//查找一个

@@ -1,9 +1,11 @@
 package com.ai.aiga.view.controller;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,10 +28,10 @@ public class NaChangeListController {
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			
-			NaChangeList condition) throws ParseException {
+			String changeName,String onlinePlan) throws ParseException {
 		
 		  JsonBean bean = new JsonBean();
-		bean.setData(naChangeListSv.selectList(pageNumber, pageSize,condition));
+		bean.setData(naChangeListSv.selectList(pageNumber, pageSize,changeName,onlinePlan));
 		
 		return bean;
 	}
@@ -38,8 +40,8 @@ public class NaChangeListController {
 	
 	
 	@RequestMapping(path = "/sys/change/save")
-	public @ResponseBody JsonBean save(NaChangeList request){
-		naChangeListSv.save(request);
+	public @ResponseBody JsonBean save(@RequestBody List<NaChangeList> saveState){
+		naChangeListSv.save(saveState);
 		return JsonBean.success;
 	}
 }

@@ -42,7 +42,7 @@ define(function(require, exports, module) {
 		queryAutoCaseList: '#JS_queryAutoCaseForm', //查询表单
 		modalEditAutoCase: '#JS_editAutoCaseModal', //modal
 		getParameterList: '#JS_getParameterList', //参数列表
-		getSideAutoCompList: '#JS_getSideAutoCompList', //侧边组件栏
+		getSideAutoCompList: '#JS_sideAutoCompList', //侧边组件栏
 
 
 		//编辑用例按钮
@@ -146,7 +146,7 @@ define(function(require, exports, module) {
 		},
 
 		getBusiList: function(obj, data) {
-			Rose.ajax.getJson(srvMap.get('getBusiList'), '', function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getBusiList'), '', function(json, status) {
 				if (status) {
 					busiData = json.data;
 				}
@@ -193,6 +193,8 @@ define(function(require, exports, module) {
 					$.each(json.data, function(n, value) {
 						value.paramList["compId"] = value.compId;
 						value.paramList["compOrder"] = value.compOrder;
+						value.paramList["compName"] = value.compName;
+						alert(value.compName);
 						console.log(value.paramList);
 						var template_table = Handlebars.compile(Tpl.getParameterList);
 						var _table = $(Dom.getParameterList);
@@ -206,11 +208,12 @@ define(function(require, exports, module) {
 					Utils.eventClickChecked(_dom, function(isChecked, thisDom) {
 						var _name = thisDom.attr("name");
 						var _compOrder = _dom.find("input[name='compOrder']").val();
+						var _compName = _dom.find("input[name='compName']").val();
 						var _val = thisDom.val();
 						if (isChecked == "true") {
 							var cmd = "autoId=" + autoId + "&" + _name + '=' + _val + "&compOrder=" + _compOrder;
 							// 获取参数列表
-							self.getParameterList(cmd, _val, _compOrder);
+							self.getParameterList(cmd, _val, _compOrder,_compName);
 						} else {
 							var _table = $(Dom.getParameterList);
 							_table.find("tbody[name=" + _val + "_" + _compOrder + "]").remove();
@@ -225,7 +228,7 @@ define(function(require, exports, module) {
 			});
 		},
 		// 获取参数列表
-		getParameterList: function(cmd, compId, compOrder) {
+		getParameterList: function(cmd, compId, compOrder,compName) {
 			// alert('参数列表'+cmd);
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -234,6 +237,7 @@ define(function(require, exports, module) {
 					window.XMS.msgbox.hide();
 					json.data["compId"] = compId;
 					json.data["compOrder"] = compOrder;
+					json.data["compName"] = compName;
 					var template = Handlebars.compile(Tpl.getParameterList);
 					var _table = $(Dom.getParameterList);
 					_table.append(template(json.data))

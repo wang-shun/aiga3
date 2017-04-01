@@ -2,13 +2,18 @@ package com.ai.aiga.view.json;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class NaChangePlanOnileRequest {
 	private Long onlinePlan;
     private String onlinePlanName;
     private Long planState;
     private String createOpId;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date doneDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date planDate;
     private Byte result;
     private String remark;

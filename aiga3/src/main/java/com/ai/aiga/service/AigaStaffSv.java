@@ -32,8 +32,7 @@ import com.ai.aiga.view.json.StaffRequest;
 @Service
 @Transactional
 public class AigaStaffSv extends BaseService{
-	@PersistenceContext
-	EntityManager em;
+	
 	@Autowired
 	private AigaStaffDao aigaStaffDao;
 	@Autowired
@@ -101,7 +100,7 @@ public class AigaStaffSv extends BaseService{
 		return aigaStaff;
 	}
 	
-	public void saveStaffOrg(StaffRequest staffRequest,Long organizeId){
+	public void saveStaffOrg(AigaStaff staffRequest,Long organizeId){
 		AigaStaff aigaStaff = saveStaff(staffRequest);
 		if(aigaStaff == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -120,90 +119,90 @@ public class AigaStaffSv extends BaseService{
 		aigaStaffOrgRelatDao.save(aigaStaffOrgRelat);
 	}
 	
-	public AigaStaff saveStaff(StaffRequest staffRequest){
+	public AigaStaff saveStaff(AigaStaff staffRequest){
 		if(staffRequest == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
 		if(StringUtils.isBlank(staffRequest.getCode())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Code");
 		}
 		if(StringUtils.isBlank(staffRequest.getName())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Name");
 		}
 		if(StringUtils.isBlank(staffRequest.getPassword())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Password");
 		}
 		if(StringUtils.isBlank(staffRequest.getBillId())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "BillId");
 		}
-		if(StringUtils.isBlank(staffRequest.getCardTypeId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getCardTypeId() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "CardTypeId");
 		}
 		if(StringUtils.isBlank(staffRequest.getCardNo())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "CardNo");
 		}
 		if(StringUtils.isBlank(staffRequest.getEmail())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Email");
 		}
-		if(StringUtils.isBlank(staffRequest.getRecentPassTimes().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getRecentPassTimes() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "RecentPassTimes");
 		}
-		if(StringUtils.isBlank(staffRequest.getMinPasswdLength().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getMinPasswdLength() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "MinPasswdLength");
 		}
-		if(StringUtils.isBlank(staffRequest.getAllowChangePassword().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getAllowChangePassword() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "AllowChangePassword");
 		}
-		if(StringUtils.isBlank(staffRequest.getAcctEffectDate().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getAcctEffectDate() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "AcctEffectDate");
 		}
-		if(StringUtils.isBlank(staffRequest.getAcctExpireDate().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getAcctExpireDate() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "AcctExpireDate");
 		}
-		if(StringUtils.isBlank(staffRequest.getMultiLoginFlag().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getMultiLoginFlag() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "MultiLoginFlag");
 		}
-		if(StringUtils.isBlank(staffRequest.getTryTimes().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getTryTimes() == null ){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "TryTimes");
 		}
-		if(StringUtils.isBlank(staffRequest.getLockFlag().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getLockFlag() == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "LockFlag");
 		}
-		if(StringUtils.isBlank(staffRequest.getChgPasswdAlarmDays().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		if(staffRequest.getChgPasswdAlarmDays() == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ChgPasswdAlarmDays");
 		}
 		
 		
-		AigaStaff aigastaff = new AigaStaff();
-		aigastaff.setCode(staffRequest.getCode());
-		aigastaff.setName(staffRequest.getName());
-		aigastaff.setPassword(staffRequest.getPassword());
-		aigastaff.setBillId(staffRequest.getBillId());
-		aigastaff.setCardTypeId(staffRequest.getCardTypeId());
-		aigastaff.setCardNo(staffRequest.getCardNo());
-		aigastaff.setEmail(staffRequest.getEmail());
-		aigastaff.setRecentPassTimes(staffRequest.getRecentPassTimes());
-		aigastaff.setMinPasswdLength(staffRequest.getMinPasswdLength());
-		aigastaff.setAllowChangePassword(staffRequest.getAllowChangePassword());
-		aigastaff.setAcctEffectDate(staffRequest.getAcctEffectDate());
-		aigastaff.setAcctExpireDate(staffRequest.getAcctExpireDate());
-		aigastaff.setMultiLoginFlag(staffRequest.getMultiLoginFlag());
-		aigastaff.setTryTimes(staffRequest.getTryTimes());
-		aigastaff.setLockFlag(staffRequest.getLockFlag());
-		aigastaff.setChgPasswdAlarmDays(staffRequest.getChgPasswdAlarmDays());
-		aigastaff.setOpType(staffRequest.getOpType());
-		aigastaff.setExt1(staffRequest.getExt1());
-		aigastaff.setExt2(staffRequest.getExt2());
-		aigastaff.setExt3(staffRequest.getExt3());
-		aigastaff.setOpLvl(staffRequest.getOpLvl());
-		aigastaff.setBandType(staffRequest.getBandType());
-		aigastaff.setNotes(staffRequest.getNotes());
-		aigastaff.setState(1);
-		AigaStaff aigaStaff= aigaStaffDao.save(aigastaff);
-		return aigaStaff;
+//		AigaStaff aigastaff = new AigaStaff();
+//		aigastaff.setCode(staffRequest.getCode());
+//		aigastaff.setName(staffRequest.getName());
+//		aigastaff.setPassword(staffRequest.getPassword());
+//		aigastaff.setBillId(staffRequest.getBillId());
+//		aigastaff.setCardTypeId(staffRequest.getCardTypeId());
+//		aigastaff.setCardNo(staffRequest.getCardNo());
+//		aigastaff.setEmail(staffRequest.getEmail());
+//		aigastaff.setRecentPassTimes(staffRequest.getRecentPassTimes());
+//		aigastaff.setMinPasswdLength(staffRequest.getMinPasswdLength());
+//		aigastaff.setAllowChangePassword(staffRequest.getAllowChangePassword());
+//		aigastaff.setAcctEffectDate(staffRequest.getAcctEffectDate());
+//		aigastaff.setAcctExpireDate(staffRequest.getAcctExpireDate());
+//		aigastaff.setMultiLoginFlag(staffRequest.getMultiLoginFlag());
+//		aigastaff.setTryTimes(staffRequest.getTryTimes());
+//		aigastaff.setLockFlag(staffRequest.getLockFlag());
+//		aigastaff.setChgPasswdAlarmDays(staffRequest.getChgPasswdAlarmDays());
+//		aigastaff.setOpType(staffRequest.getOpType());
+//		aigastaff.setExt1(staffRequest.getExt1());
+//		aigastaff.setExt2(staffRequest.getExt2());
+//		aigastaff.setExt3(staffRequest.getExt3());
+//		aigastaff.setOpLvl(staffRequest.getOpLvl());
+//		aigastaff.setBandType(staffRequest.getBandType());
+//		aigastaff.setNotes(staffRequest.getNotes());
+		staffRequest.setState(1);
+		//AigaStaff aigaStaff= aigaStaffDao.save(staffRequest);
+		return aigaStaffDao.save(staffRequest);
 	}
 	
-	public void updateStaff(StaffRequest staffRequest){
+	public void updateStaff(AigaStaff staffRequest){
 		
 		if(staffRequest == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");

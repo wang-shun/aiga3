@@ -15,7 +15,7 @@
             <tr>
                 <td>{{sysName}}</td>
                 <td>{{modelName}}</td>
-                <td>{{isFinished}}</td>
+                <td>{{getIsFinished isFinished}}</td>
             </tr>
             {{/each}}
         </tbody>

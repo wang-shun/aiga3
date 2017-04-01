@@ -1,39 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="lib/jquery/2.2.3/jquery.min.js"></script>
-<script type="text/javascript">
-	$(function(){
-		$("#myform").submit(function(){
-			var data = {
-				username : $("#myform").find("input[name='username']").val(),
-				password : $("#myform").find("input[name='password']").val()
-			}
-			
-			$.post("../login", data, function(d){
-				if(d){
-					var status = d["retCode"];
-					if(status == "200"){
-						window.location = "index.html"; 
-					}else{
-						console.log(d["retMessage"]);
-					}
-				}
-			});
-			
-			return false;
-		});
-	});
 
-</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="lib/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- AdminLTE Theme skin-blue  -->
+    <link rel="stylesheet" href="lib/AdminLTE/css/AdminLTE.css">
+    <script type="text/javascript">
+    $(function() {
+        $("#myform").submit(function() {
+            var data = {
+                username: $("#myform").find("input[name='username']").val(),
+                password: $("#myform").find("input[name='password']").val()
+            }
+
+            $.post("../login", data, function(d) {
+                if (d) {
+                    var status = d["retCode"];
+                    if (status == "200") {
+                        window.location = "index.html";
+                    } else {
+                        console.log(d["retMessage"]);
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+    </script>
 </head>
-<body>
-	<form id="myform" method="post">
-		用户名 : <input type="text" name="username" /> <br/>
-		密码 : <input type="password" name="password" /> <br/>
-		<input id="mysubmit" type="submit" name="提交"/>
-	</form>
+
+<body class="hold-transition login-page">
+<div class="login-title">
+<h1 class="text-center" >
+    自动化验收发布平台
+</h1>
+    
+</div>
+    <div class="login-box ">
+        <div class="login-box-body">
+            <p class="login-box-msg">请输入登录信息</p>
+            <form id="myform" method="post" class="">
+                <span class="fa fa-user"></span>
+                <label>用户名 :</label> 
+                <input type="text" name="username" class="form-control" placeholder="Username">
+                
+                <br/>
+                <span class="fa fa-lock"></span> 
+                <label> 密码 :</label>
+                <input type="password" name="password" class="form-control" placeholder="Password">
+                <br/>
+                <input id="mysubmit" type="submit" class="btn btn-primary btn-block btn-flat" name="登录" />
+            </form>
+            <div class="social-auth-links text-center">
+            </div>
+            <!-- /.social-auth-links -->
+            <a href="#">I forgot my password</a>
+            <br>
+        </div>
+    </div>
 </body>
+
 </html>

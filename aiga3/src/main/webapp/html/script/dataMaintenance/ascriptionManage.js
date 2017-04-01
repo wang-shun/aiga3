@@ -16,7 +16,6 @@ define(function(require, exports, module) {
 
 
 
-
 	// 模板对象
 	var Tpl = {
 		getAsciptionList: require('tpl/dataMaintenance/getAsciptionList.tpl'),
@@ -55,7 +54,6 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
-				alert(cmd);
 				self.getCaseTempList(cmd);
 			});
 		},
@@ -97,7 +95,7 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if(data){
 					console.log(data);
-					var cmd = data.sysId;
+					var cmd = 'sysId='+data.sysId;
 					//alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delSysInfo'), cmd, function(json, status) {

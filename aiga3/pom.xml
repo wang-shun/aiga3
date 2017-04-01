@@ -310,6 +310,20 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- jta begin -->
+		<dependency>
+			<groupId>com.atomikos</groupId>
+			<artifactId>transactions-hibernate4</artifactId>
+			<version>4.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-jta_1.0.1B_spec</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- jta end -->
+		
 		<!-- TEST begin -->
 
 		<!-- help -->

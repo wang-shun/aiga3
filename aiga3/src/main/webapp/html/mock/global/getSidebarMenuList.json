@@ -2,161 +2,164 @@
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
     "data": [{
-            "name": "首页",
-            "funcImg": "fa fa-home",
-            "viewname" : "view/welcome.html"
+        "name": "首页",
+        "funcImg": "fa fa-home",
+        "viewname": "view/welcome.html"
+    }, {
+        "name": "系统管理",
+        "funcImg": "fa fa-cogs",
+        "viewname": "#",
+        "subMenus": [{
+            "name": "员工管理",
+            "viewname": "view/systemManage/staffManage.html"
         }, {
-            "name": "系统管理",
-            "funcImg": "fa fa-cogs",
+            "name": "功能模块管理",
+            "viewname": "view/systemManage/menuManage.html"
+        }, {
+            "name": "组织管理",
+            "viewname": "view/organize/organize.html"
+        }, {
+            "name": "角色管理",
+            "viewname": "view/systemManage/roleManage.html"
+        }, {
+            "name": "附权管理",
             "viewname": "#",
             "subMenus": [{
-                "name": "员工管理",
-                "viewname": "view/systemManage/staffManage.html"
+                "name": "员工角色权限管理",
+                "viewname": "view/staffRole/staffRole.html"
             }, {
-                "name": "功能模块管理",
-                "viewname": "view/systemManage/menuManage.html"
-            }, {
-                "name": "组织管理",
-                "viewname": "view/organize/organize.html"
-            }, {
-                "name": "角色管理",
-                "viewname": "view/systemManage/roleManage.html"
-            }, {
-                "name": "附权管理",
-                "viewname": "#",
-                "subMenus": [{
-                    "name": "员工角色权限管理",
-                    "viewname": "view/staffRole/staffRole.html"
-                }, {
-                    "name": "角色菜单权限管理",
-                    "viewname": "view/roleFunc/roleFunc.html"
-                }]
-            }]
-        }, {
-            "name": "自动化管理",
-            "funcImg": "fa fa-clock-o",
-            "viewname": "#",
-            "subMenus": [{
-                "name": "功能测试",
-                "viewname": "#",
-                "subMenus": [{
-                    "name": "用例集管理",
-                    "viewname": "view/case/caseSet/caseSet.html"
-                }, {
-                    "name": "控件管理",
-                    "viewname": "view/control/control.html"
-                }, {
-                    "name": "组件管理",
-                    "viewname": "view/autoManage/funcTest/componentManage.html"
-                }]
-            }, {
-                "name": "用例组管理",
-                "viewname": "view/autoManage/funcTest/caseGroup.html"
-            }, {
-                "name": "自动化用例管理",
-                "viewname": "view/autoManage/autoCaseMng.html"
-            }, {
-                "name": "自动化用例模板管理",
-                "viewname": "view/autoManage/autoCaseTempMng.html"
-            }, {
-                "name": "自动化环境配置",
-                "viewname": "view/environment/environment.html"
-            }, {
-                "name": "自动化机器配置",
-                "viewname": "view/machine/machine.html"
-            }, {
-                "name": "自动化计划管理",
-                "viewname": "view/autoManage/autoPlanMng.html"
-            }, {
-                "name": "自动化任务管理",
-                "viewname": "view/case/task/task.html"
-            }, {
-                "name": "自动化执行结果",
-                "viewname": "view/autoManage/autoResult.html"
-            }, {
-                "name": "用例模板管理",
-                "viewname": "view/caseTempMng/caseTempMng.html"
-            }, {
-                "name": "测试用例管理",
-                "viewname": "view/caseInstanceMng/caseInstanceMng.html"
-            }]
-        }, {
-            "name": "入网流程管理",
-            "funcImg": "fa fa-fw fa-check-circle",
-            "viewname": "#",
-            "subMenus": [{
-                "name": "变更计划",
-                "viewname": "#",
-                "subMenus": [{
-                    "name": "变更计划管理",
-                    "viewname": "view/netFlowManage/changePlan/changePlanOnile.html"
-                }, {
-                    "name": "变更计划启动",
-                    "viewname": "view/netFlowManage/changePlan/changePlanStart.html" 
-                }]
-            }, {
-                "name": "入网验收",
-                "viewname": "#"
-            }, {
-                "name": "变更评审",
-                "viewname": "#"   
-            }, {
-                "name": "变更发布",
-                "viewname": "#"  
-            }, {
-                "name": "生产验证",
-                "viewname": "#"   
-            }, {
-                "name": "问题跟踪",
-                "viewname": "#"   
-            }, {
-                "name": "报表统计",
-                "viewname": "#"
-            }]
-        }, {
-            "name": "报告报表查询",
-            "funcImg": "fa fa-line-chart",
-            "viewname": "#",
-            "subMenus": [{
-                "name": "知识库管理",
-                "viewname": "#"               
-            }, {
-                "name": "标签管理",
-                "viewname": "#"                
-            }, {
-                "name": "功能点管理",
-                "viewname": "#"               
-            }, {
-                "name": "测试日报",
-                "viewname": "#"                
-            }, {
-                "name": "测试日报统计查询",
-                "viewname": "#"             
-            }, {
-                "name": "功能点所属系统管理",
-                "viewname": "#"
-            }, {
-                "name": "报表数据导入",
-                "viewname": "#"
-            }, {
-                "name": "环节时间录入",
-                "viewname": "#"
-            }]
-        }, {
-            "name": "数据维护",
-            "funcImg": "fa fa-fw fa-database",
-            "viewname": "#",
-            "subMenus": [{
-                "name": "功能点所属系统管理",
-                "viewname": "view/dataMaintenance/ascriptionManage.html"
-            }]
-        }, {
-            "name": "通用组件演示",
-            "funcImg": "fa fa-desktop",
-            "viewname": "#",
-            "subMenus": [{
-                "name": "日期控件",
-                "viewname": "view/docs/My97DatePicker.html"
+                "name": "角色菜单权限管理",
+                "viewname": "view/roleFunc/roleFunc.html"
             }]
         }]
+    }, {
+        "name": "自动化管理",
+        "funcImg": "fa fa-clock-o",
+        "viewname": "#",
+        "subMenus": [{
+            "name": "功能测试",
+            "viewname": "#",
+            "subMenus": [{
+                "name": "用例集管理",
+                "viewname": "view/case/caseSet/caseSet.html"
+            }, {
+                "name": "控件管理",
+                "viewname": "view/control/control.html"
+            }, {
+                "name": "组件管理",
+                "viewname": "view/autoManage/funcTest/componentManage.html"
+            }]
+        }, {
+            "name": "用例组管理",
+            "viewname": "view/autoManage/funcTest/caseGroup.html"
+        }, {
+            "name": "自动化用例管理",
+            "viewname": "view/autoManage/autoCaseMng.html"
+        }, {
+            "name": "自动化用例模板管理",
+            "viewname": "view/autoManage/autoCaseTempMng.html"
+        }, {
+            "name": "自动化环境配置",
+            "viewname": "view/environment/environment.html"
+        }, {
+            "name": "自动化机器配置",
+            "viewname": "view/machine/machine.html"
+        }, {
+            "name": "自动化计划管理",
+            "viewname": "view/autoManage/autoPlanMng.html"
+        }, {
+            "name": "自动化任务管理",
+            "viewname": "view/case/task/task.html"
+        }, {
+            "name": "自动化执行结果",
+            "viewname": "view/autoManage/autoResult.html"
+        }, {
+            "name": "用例模板管理",
+            "viewname": "view/caseTempMng/caseTempMng.html"
+        }, {
+            "name": "测试用例管理",
+            "viewname": "view/caseInstanceMng/caseInstanceMng.html"
+        }]
+    }, {
+        "name": "入网流程管理",
+        "funcImg": "fa fa-fw fa-check-circle",
+        "viewname": "#",
+        "subMenus": [{
+            "name": "变更计划",
+            "viewname": "#",
+            "subMenus": [{
+                "name": "变更计划管理",
+                "viewname": "view/netFlowManage/changePlan/changePlanOnile.html"
+            }, {
+                "name": "变更计划启动",
+                "viewname": "view/netFlowManage/changePlan/changePlanStart.html"
+            }]
+        }, {
+            "name": "入网验收",
+            "viewname": "#"
+        }, {
+            "name": "变更评审",
+            "viewname": "#"
+        }, {
+            "name": "变更发布",
+            "viewname": "#"
+        }, {
+            "name": "生产验证",
+            "viewname": "#"
+        }, {
+            "name": "问题跟踪",
+            "viewname": "#"
+        }, {
+            "name": "报表统计",
+            "viewname": "#"
+        }]
+    }, {
+        "name": "报告报表查询",
+        "funcImg": "fa fa-line-chart",
+        "viewname": "#",
+        "subMenus": [{
+            "name": "知识库管理",
+            "viewname": "#"
+        }, {
+            "name": "标签管理",
+            "viewname": "#"
+        }, {
+            "name": "功能点管理",
+            "viewname": "#"
+        }, {
+            "name": "测试日报",
+            "viewname": "#"
+        }, {
+            "name": "测试日报统计查询",
+            "viewname": "#"
+        }, {
+            "name": "功能点所属系统管理",
+            "viewname": "#"
+        }, {
+            "name": "报表数据导入",
+            "viewname": "#"
+        }, {
+            "name": "环节时间录入",
+            "viewname": "#"
+        }]
+    }, {
+        "name": "数据维护",
+        "funcImg": "fa fa-fw fa-database",
+        "viewname": "#",
+        "subMenus": [{
+            "name": "功能点所属系统管理",
+            "viewname": "view/dataMaintenance/ascriptionManage.html"
+        }, {
+            "name": "系统子类",
+            "viewname": "view/dataMaintenance/sonSysManage.html"
+        }]
+    }, {
+        "name": "通用组件演示",
+        "funcImg": "fa fa-desktop",
+        "viewname": "#",
+        "subMenus": [{
+            "name": "日期控件",
+            "viewname": "view/docs/My97DatePicker.html"
+        }]
+    }]
 }

@@ -351,6 +351,10 @@ define(function(require, exports, module) {
                 "ordering": false,
                 "autoWidth": false,
                 "info": true,
+                "language": {
+                    "emptyTable": "无数据",
+                    "infoEmpty":"第0-0条，共0条"
+                },
                 "scrollX": scrollX
             });
         },

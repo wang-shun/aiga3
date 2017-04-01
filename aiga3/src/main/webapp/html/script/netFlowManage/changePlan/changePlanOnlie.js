@@ -494,7 +494,7 @@ define(function(require, exports, module) {
 				var state;
 				var saveState = [];
 				var cmd;
-				$(Dom.addChangePlanForm).find("tr").each(function(){
+				$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
 					var tdArr = $(this).children();
 					id = tdArr.eq(0).find("input").val();
 					state = tdArr.eq(1).find("select").val();

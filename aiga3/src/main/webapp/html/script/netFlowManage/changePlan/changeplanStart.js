@@ -352,7 +352,7 @@ define(function(require, exports, module) {
                 "autoWidth": false,
                 "info": true,
                 "language": {
-                    "emptyTable": "无数据",
+                    "emptyTable": "暂无数据...",
                     "infoEmpty":"第0-0条，共0条"
                 },
                 "scrollX": scrollX

@@ -96,7 +96,18 @@
             }]
         }, {
             "name": "入网验收",
-            "viewname": "#"
+            "viewname": "#",
+            "subMenus":[{
+                "name":"验收任务分派",
+                "viewname":"view/netFlowManage/netFlow/onlinePlanTaskDistribute.html"
+            },{
+                "name":"验收任务处理",
+                "viewname":"#",
+                "subMenus":[{
+                    "name":"功能验收任务处理",
+                    "viewname":"#"
+                }]
+            }]
         }, {
             "name": "变更评审",
             "viewname": "#"

@@ -16,7 +16,6 @@ define(function(require, exports, module) {
 
 
 
-
 	// 模板对象
 	var Tpl = {
 		getAsciptionList: require('tpl/dataMaintenance/getAsciptionList.tpl'),
@@ -55,7 +54,6 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
-				alert(cmd);
 				self.getCaseTempList(cmd);
 			});
 		},

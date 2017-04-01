@@ -13,10 +13,8 @@ define(function(require, exports, module) {
 	srvMap.add("delsubSysInfo", pathAlias + "retMessage.json", "sys/subsysfolder/del");
 	//新增条目
 	srvMap.add("addsubSysInfo", pathAlias + "retMessage.json", "sys/subsysfolder/save");
-	//归属系统
-	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
-
-
+//归属系统
+	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");	
 
 	// 模板对象
 	var Tpl = {
@@ -65,7 +63,7 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getAsciptionList'), _cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getSubAsciptionList'), _cmd, function(json, status) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getSonSysList);

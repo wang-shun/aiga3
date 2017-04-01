@@ -440,6 +440,14 @@ define(function(require, exports, module) {
                     return "中断";
                 }
             });
+            Handlebars.registerHelper('getIsFinished', function(value, fn) {
+                if (value == "0") {
+                    return "是";
+                }
+                if (value == "1") {
+                    return "否";
+                }
+            });
         },
 
     };

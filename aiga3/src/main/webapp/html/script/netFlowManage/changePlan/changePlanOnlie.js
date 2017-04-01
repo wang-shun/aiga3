@@ -490,31 +490,31 @@ define(function(require, exports, module) {
 			var _save = $(Dom.addChangePlanForm).find("[name='seeRequForm']").find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				var id;
-				var state;
-				var saveState = [];
-				var cmd;
-				$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
-					var tdArr = $(this).children();
-					id = tdArr.eq(0).find("input").val();
-					state = tdArr.eq(1).find("select").val();
-					saveState.push({
-						"id" : id,
-						"state" : state
-					});
-				});
-				cmd = "saveState="+JSON.stringify(saveState);
-				console.log(cmd);
 				if (a == "0" || a == "1") {
-					self.saveRequList(a,onlinePlan,cmd);
+					self.saveRequList(a,onlinePlan);
 				} else {
-					self.saveChangeList(a,onlinePlan,cmd);
+					self.saveChangeList(a,onlinePlan);
 				}
 			});
 		},
 		//保存需求
-		saveRequList : function(a,onlinePlan,cmd){
+		saveRequList : function(a,onlinePlan){
 			var self = this;
+			var id;
+			var state;
+			var saveState = [];
+			var cmd;
+			$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
+				var tdArr = $(this).children();
+				id = tdArr.eq(0).find("input").val();
+				state = tdArr.eq(1).find("select").val();
+				saveState.push({
+					"id" : id,
+					"introducedState" : state
+				});
+			});
+			cmd = "saveState="+JSON.stringify(saveState);
+			console.log(cmd);
 			Rose.ajax.postJson(srvMap.get('saveRequList'), cmd, function(json, status) {
 				if (status) {
 					XMS.msgbox.show('保存成功！', 'success', 2000)
@@ -529,8 +529,23 @@ define(function(require, exports, module) {
 			});
 		},
 		//保存变更
-		saveChangeList : function(a,onlinePlan,cmd){
+		saveChangeList : function(a,onlinePlan){
 			var self = this;
+			var id;
+			var state;
+			var saveState = [];
+			var cmd;
+			$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
+				var tdArr = $(this).children();
+				id = tdArr.eq(0).find("input").val();
+				state = tdArr.eq(1).find("select").val();
+				saveState.push({
+					"changeId" : id,
+					"resultState" : state
+				});
+			});
+			cmd = "saveState="+JSON.stringify(saveState);
+			console.log(cmd);
 			Rose.ajax.postJson(srvMap.get('saveChangeList'), cmd, function(json, status) {
 				if (status) {
 					XMS.msgbox.show('保存成功！', 'success', 2000)

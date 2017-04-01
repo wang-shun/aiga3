@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.service;
+package com.ai.process.jta.service;
 
 import java.lang.reflect.Method;
 import java.sql.Connection;
@@ -16,11 +16,11 @@ import com.ai.aiga.domain.NaAutoBackupDeal;
 import com.ai.aiga.domain.NaAutoPropertyConfig;
 import com.ai.aiga.domain.NaAutoPropertyCorrelation;
 import com.ai.aiga.exception.BusinessException;
-import com.ai.aiga.jta.DatabaseContextHolder;
-import com.ai.aiga.jta.tabledata.ColumnModel;
-import com.ai.aiga.jta.tabledata.ColumnTypeEnum;
-import com.ai.aiga.jta.tabledata.TableUtils;
 import com.ai.aiga.util.ExceptionUtil;
+import com.ai.process.jta.DatabaseContextHolder;
+import com.ai.process.jta.tabledata.ColumnModel;
+import com.ai.process.jta.tabledata.ColumnTypeEnum;
+import com.ai.process.jta.tabledata.TableUtils;
 
 @Service
 public class NaAutoBackupSv extends AbstractJatService {

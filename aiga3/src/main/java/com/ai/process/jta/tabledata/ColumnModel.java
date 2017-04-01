@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.tabledata;
+package com.ai.process.jta.tabledata;
 
 /**
  * 列模型

@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.task;
+package com.ai.process.jta.task;
 
 /**
  * 定时任务接口

@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.service;
+package com.ai.process.jta.service;
 
 import java.util.HashMap;
 import java.util.List;

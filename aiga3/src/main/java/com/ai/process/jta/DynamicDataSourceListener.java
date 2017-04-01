@@ -1,4 +1,4 @@
-package com.ai.aiga.jta;
+package com.ai.process.jta;
 
 import java.io.IOException;
 import java.util.HashMap;

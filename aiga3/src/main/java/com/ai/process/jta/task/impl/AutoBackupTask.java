@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.task.impl;
+package com.ai.process.jta.task.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -14,10 +14,10 @@ import com.ai.aiga.domain.NaAutoBackupDeal;
 import com.ai.aiga.domain.NaAutoPropertyConfig;
 import com.ai.aiga.domain.NaAutoPropertyCorrelation;
 import com.ai.aiga.exception.BusinessException;
-import com.ai.aiga.jta.common.JtaSpringContext;
-import com.ai.aiga.jta.service.NaAutoBackupConfigSv;
-import com.ai.aiga.jta.service.NaAutoBackupSv;
 import com.ai.aiga.util.ExceptionUtil;
+import com.ai.process.jta.common.JtaSpringContext;
+import com.ai.process.jta.service.NaAutoBackupConfigSv;
+import com.ai.process.jta.service.NaAutoBackupSv;
 
 @Component("autoBackTask")
 public class AutoBackupTask extends AbstractTask {

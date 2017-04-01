@@ -65,8 +65,9 @@ public class SecuritySv extends BaseService{
 	public List<Menu> getMenus(UserInfo userInfo) {
 		List<Menu> menus = functionSv.structureMenu(userInfo.getFuns());
 		return menus;
-		
 	}
+
+	
 
 
 

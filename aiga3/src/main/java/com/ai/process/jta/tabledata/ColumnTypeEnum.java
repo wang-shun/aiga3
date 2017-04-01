@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.tabledata;
+package com.ai.process.jta.tabledata;
 
 /**
  * 数据库类型枚举

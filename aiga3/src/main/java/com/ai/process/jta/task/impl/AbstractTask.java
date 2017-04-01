@@ -1,9 +1,9 @@
-package com.ai.aiga.jta.task.impl;
+package com.ai.process.jta.task.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ai.aiga.jta.task.ITask;
+import com.ai.process.jta.task.ITask;
 
 public abstract class AbstractTask implements ITask {
 

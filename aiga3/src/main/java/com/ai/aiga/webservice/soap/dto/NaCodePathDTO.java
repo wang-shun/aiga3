@@ -2,48 +2,28 @@ package com.ai.aiga.webservice.soap.dto;
 // Generated 2017-3-29 11:29:38 by Hibernate Tools 3.2.2.GA
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 public class NaCodePathDTO implements java.io.Serializable {
 
-	private Long ids;
-	private String sysName;
-	private String modelName;
-	private String packageName;
-	private Long state;
-	private String remark;
-	private Date planDate;
-	private String listId;
+	
+    private long id; //
+    private String listId;
+    private String proName;      //应用名
+    private String selPackage;     //包名
+    private String  planDate;   //预计上线日期
+    private String modelName; //模块名
+    private String remark;
+    private Long state;
     private Long result;
 	public NaCodePathDTO() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public NaCodePathDTO(Long ids, String sysName, String modelName, String packageName, Long state, String remark,
-			Date planDate) {
-		super();
-		this.ids = ids;
-		this.sysName = sysName;
-		this.modelName = modelName;
-		this.packageName = packageName;
-		this.state = state;
-		this.remark = remark;
-		this.planDate = planDate;
-	}
 	
-	public Long getResult() {
-		return result;
 	}
-	public void setResult(Long result) {
-		this.result = result;
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
 	}
 	public String getListId() {
 		return listId;
@@ -51,17 +31,25 @@ public class NaCodePathDTO implements java.io.Serializable {
 	public void setListId(String listId) {
 		this.listId = listId;
 	}
-	public Long getIds() {
-		return ids;
+	public String getProName() {
+		return proName;
 	}
-	public void setIds(Long ids) {
-		this.ids = ids;
+	public void setProName(String proName) {
+		this.proName = proName;
 	}
-	public String getSysName() {
-		return sysName;
+	public String getSelPackage() {
+		return selPackage;
 	}
-	public void setSysName(String sysName) {
-		this.sysName = sysName;
+	public void setSelPackage(String selPackage) {
+		this.selPackage = selPackage;
+	}
+
+
+	public String getPlanDate() {
+		return planDate;
+	}
+	public void setPlanDate(String planDate) {
+		this.planDate = planDate;
 	}
 	public String getModelName() {
 		return modelName;
@@ -69,11 +57,11 @@ public class NaCodePathDTO implements java.io.Serializable {
 	public void setModelName(String modelName) {
 		this.modelName = modelName;
 	}
-	public String getPackageName() {
-		return packageName;
+	public String getRemark() {
+		return remark;
 	}
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	public Long getState() {
 		return state;
@@ -81,17 +69,13 @@ public class NaCodePathDTO implements java.io.Serializable {
 	public void setState(Long state) {
 		this.state = state;
 	}
-	public String getRemark() {
-		return remark;
+	public Long getResult() {
+		return result;
 	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	public Date getPlanDate() {
-		return planDate;
-	}
-	public void setPlanDate(Date planDate) {
-		this.planDate = planDate;
+	public void setResult(Long result) {
+		this.result = result;
 	}
 
+	
+	
 }

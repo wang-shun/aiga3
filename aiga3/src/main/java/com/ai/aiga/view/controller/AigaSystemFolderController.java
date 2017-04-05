@@ -60,8 +60,9 @@ public class AigaSystemFolderController {
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 		
 			AigaSystemFolder condition) throws ParseException {
-		
+		System.out.println("进入查询");
 		  JsonBean bean = new JsonBean();
+		  System.out.println(condition);
 		bean.setData(aigaSystemFolderSv.list(pageNumber, pageSize,condition));
 		//System.out.println("bean"+bean);
 		return bean;

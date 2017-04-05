@@ -68,6 +68,8 @@ define(function(require,exports,module){
 					$(Dom.getEnvironmentList).html(template(json.data));
 					//删除按钮
 					self.deleteEnvironment();
+					//关联机器
+					self.connectMachine();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
 						self.updateEnvironmentInfo();
@@ -86,6 +88,8 @@ define(function(require,exports,module){
 					$(Dom.getEnvironmentList).html(template(json.data.content));
 					//删除按钮
 					self.deleteEnvironment();
+					//关联机器
+					self.connectMachine();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
 						self.updateEnvironmentInfo();
@@ -95,7 +99,6 @@ define(function(require,exports,module){
 				}
 			});
 		},
-		
 		// 按条件查询
 		queryEnvironment: function() {
 			var self = this;
@@ -183,6 +186,17 @@ define(function(require,exports,module){
 				});
 			});
 		},
+		//关联机器
+		connectMachine : function(){
+			var self = this;
+			$("#JS_connectMachine").unbind('click');
+			$("#JS_connectMachine").bind('click',function(){
+				var _data = self.getCaseSetRow();
+				if(_data){
+					self.connectCaseList();
+				}
+			});
+		},
 		updateEnvironmentInfo:function(){
 			var self = this;
 			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
@@ -220,7 +234,7 @@ define(function(require,exports,module){
 					});
 				}
 			});
-			
+
 		},
 		// 事件：分页
         initPaging: function(obj, length) {

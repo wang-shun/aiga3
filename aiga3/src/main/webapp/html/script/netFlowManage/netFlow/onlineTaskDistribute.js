@@ -91,7 +91,7 @@ define(function(require, exports, module) {
                     _distribute.bind('click', function() {
                         var data = self.getRadioCheckedRow(_dom);
                         if (data) {
-                            var cmd = 'onlinePlanId=' + data.onlinePlanId;
+                            var cmd = 'onlinePlanId=' + data.onlinePlanId + '&taskId=' + data.taskId;
                             //存储到全局变量
                             Data.onlinePlanId = data.onlinePlanId;
                             console.log(Data.onlinePlanId);

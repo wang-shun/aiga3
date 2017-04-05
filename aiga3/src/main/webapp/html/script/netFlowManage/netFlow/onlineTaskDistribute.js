@@ -17,13 +17,17 @@ define(function(require, exports, module) {
     srvMap.add("saveOnlineTask", pathAlias + "retMessage.json", "");
     //删除回归子任务
     srvMap.add("delOnlineTask", pathAlias + "retMessage.json", "");
-    //查看用例执行结果列表
+    //查看手工用例执行结果列表
+    srvMap.add("getManualResultList", pathAlias + "getManualResultList.json", "");
+    //查看自动化用例执行结果列表
     srvMap.add("getAutoResultList", pathAlias + "getAutoResultList.json", "");
+
 
     // 模板对象
     var Tpl = {
         getOnlineTaskList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getOnlineTaskList.tpl'),
         getOnlineTaskDistributeList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getOnlineTaskDistributeList.tpl'),
+        getManualResultList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getManualResultList.tpl'),
         getAutoResultList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getAutoResultList.tpl')
     };
 
@@ -34,8 +38,10 @@ define(function(require, exports, module) {
         getOnlineTaskDistributeModal: '#JS_getOnlineTaskDistributeModal',
         addOnlineTaskDistributeForm: '#JS_addOnlineTaskDistributeForm',
         getOnlineTaskDistributeList: '#JS_getOnlineTaskDistributeList',
-        getAutoResultList:"#JS_getAutoResultList",
-        getAutoResultListModal:"#JS_getAutoResultListModal"
+        getAutoResultList: "#JS_getAutoResultList",
+        getAutoResultListModal: "#JS_getAutoResultListModal",
+        getManualResultListModal: '#JS_getManualResultListModal',
+        getManualResultList: '#JS_getManualResultList'
 
     };
 
@@ -253,22 +259,41 @@ define(function(require, exports, module) {
             _checkResult.bind('click', function() {
                 var data = self.getCheckboxCheckedRow(_dom);
                 if (data) {
-                    var cmd = 'taskId=' + data.taskId;
-                    XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.postJson(srvMap.get('getAutoResultList'), cmd, function(json, status) {
-                        if (status) {
-                            window.XMS.msgbox.hide();
-                            // 显示弹框
-                            var _modal = $(Dom.getAutoResultListModal);
-                            _modal.modal('show').on('shown.bs.modal', function() {
-                                var template = Handlebars.compile(Tpl.getAutoResultList);
-                                var _dom = $(Dom.getAutoResultList);
-                                _dom.html(template(json.data));
-                                //设置分页
-                                self.initPaging(_dom, 5, true);
-                            })
-                        }
-                    });
+                    if (data.taskType == 1) {
+                        var cmd = 'taskId=' + data.taskId;
+                        XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                        Rose.ajax.postJson(srvMap.get('getManualResultList'), cmd, function(json, status) {
+                            if (status) {
+                                window.XMS.msgbox.hide();
+                                // 显示弹框
+                                var _modal = $(Dom.getManualResultListModal);
+                                _modal.modal('show').on('shown.bs.modal', function() {
+                                    var template = Handlebars.compile(Tpl.getManualResultList);
+                                    var _dom = $(Dom.getManualResultList);
+                                    _dom.html(template(json.data));
+                                    //设置分页
+                                    self.initPaging(_dom, 5, true);
+                                })
+                            }
+                        });
+                    } else {
+                        var cmd = 'taskId=' + data.taskId;
+                        XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                        Rose.ajax.postJson(srvMap.get('getAutoResultList'), cmd, function(json, status) {
+                            if (status) {
+                                window.XMS.msgbox.hide();
+                                // 显示弹框
+                                var _modal = $(Dom.getAutoResultListModal);
+                                _modal.modal('show').on('shown.bs.modal', function() {
+                                    var template = Handlebars.compile(Tpl.getAutoResultList);
+                                    var _dom = $(Dom.getAutoResultList);
+                                    _dom.html(template(json.data));
+                                    //设置分页
+                                    self.initPaging(_dom, 5, true);
+                                })
+                            }
+                        });
+                    }
                 }
             });
         },

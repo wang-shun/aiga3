@@ -134,7 +134,7 @@
     </div>
 </div>
 <!-- Modal -->
-<!-- 查看编译发布详细信息弹出框 -->
+<!-- 查看自动化用例执行情况弹出框 -->
 <div class="modal fade" id="JS_getAutoResultListModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -146,6 +146,30 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box" id="JS_getAutoResultList" style="min-height:100px;">
+                            <div style="text-align: center; padding: 50px 0;">
+                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<!-- 查看手工用例执行情况弹出框 -->
+<div class="modal fade" id="JS_getManualResultListModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">用例执行情况</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box" id="JS_getManualResultList" style="min-height:100px;">
                             <div style="text-align: center; padding: 50px 0;">
                                 <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
                                 <p style="color: #333;"><span>数据加载中，请稍后...</span></p>

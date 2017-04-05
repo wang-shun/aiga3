@@ -114,7 +114,11 @@ public class AutoTemplateSv {
         if (tempId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
-        return autoTemplateDao.findOne(tempId);
+        NaAutoTemplate autoTemplate=autoTemplateDao.findOne(tempId);
+        if (autoTemplate == null) {
+            BusinessException.throwBusinessException("can not found the autoTemplate! please make sure the tempId:"+tempId);
+        }
+        return autoTemplate;
     }
 
     /**

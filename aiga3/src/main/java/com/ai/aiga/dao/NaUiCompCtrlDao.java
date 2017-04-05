@@ -7,11 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.domain.NaUiCompCtrl;
 
+import java.util.List;
+
 public interface NaUiCompCtrlDao extends JpaRepository<NaUiCompCtrl, Long>{
 	
 	@Modifying
 	@Query("delete from NaUiCompCtrl where compId= ?1")
 	void deleteByCompId(Long compId);
-	
+
+	List<NaUiCompCtrl> findByCompId(Long compId);
 
 }

@@ -33,6 +33,7 @@ public class NaAutoRunTask {
     private Long creatorId;
     private Long lastRunner;
     private Date createTime;
+    private Long distributeNum;
 
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_RUN_TASK$SEQ")
@@ -244,6 +245,16 @@ public class NaAutoRunTask {
 
     public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
+    }
+
+    @Basic
+    @Column(name = "DISTRIBUTE_NUM")
+    public Long getDistributeNum() {
+        return distributeNum;
+    }
+
+    public void setDistributeNum(Long distributeNum) {
+        this.distributeNum = distributeNum;
     }
 
     @Basic

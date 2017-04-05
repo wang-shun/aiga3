@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 	var pathAlias = "dataMaintenance/";
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getFunList", pathAlias + "getFunctionList.json", "sys/sys/menu/list");
+	srvMap.add("getFunList", pathAlias + "getFunctionList.json", "sys/menu/list");
 	//归属系统
 	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
 	//系统子类下拉框
@@ -55,14 +55,14 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 
 
-
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
 				self.getCaseTempList(cmd);
 			});
+			self.initPaging($(Dom.getFunList),8);
 		},
-		// 查询自动化用例模板
+		// 查询功能点
 		getCaseTempList: function(cmd) {
 			var self = this;
 			var _cmd = '' || cmd;
@@ -81,10 +81,7 @@ define(function(require, exports, module) {
 					self.addFunInfo();
 					Utils.eventTrClickCallback($(Dom.getFunList));
 
-					//滚动条
-					$('#AsciptionListTable').parent().slimScroll({
-						"height": '250px'
-					});
+					self.initPaging($(Dom.getFunList),8);
 				}
 			});
 
@@ -176,7 +173,19 @@ define(function(require, exports, module) {
 				}
 
 			});
-		}
+		},
+        // 事件：分页
+        initPaging: function(obj, length) {
+            obj.find("table").DataTable({
+                "iDisplayLength": length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false
+            });
+        }
 	};
 	module.exports = Query;
 });

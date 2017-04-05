@@ -27,9 +27,7 @@ define(function(require, exports, module) {
 		getAsciptionList:'#JS_getAsciptionList',
 
 		addSysInfoModel : '#JS_addSysInfoModel',
-		addSysInfo : '#JS_addSysInfo',
-
-
+		addSysInfo : '#JS_addSysInfo'
 
 	};
 
@@ -56,6 +54,7 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				self.getCaseTempList(cmd);
 			});
+			
 		},
 		// 查询自动化用例模板
 		getCaseTempList: function(cmd) {
@@ -75,11 +74,10 @@ define(function(require, exports, module) {
 					self.addSysInfo();
 					Utils.eventTrClickCallback($(Dom.getAsciptionList));
 
-					//滚动条
-					 $('#AsciptionListTable').parent().slimScroll({
-                        "height": '250px'
-                    });
+
 				}
+ 				//设置分页
+             self.initPaging($(Dom.getAsciptionList), 8)
 			});
 
 
@@ -169,8 +167,20 @@ define(function(require, exports, module) {
 					return "接口域";
 				}
 
-			});			
-		}
+			});
+		},
+        // 事件：分页
+        initPaging: function(obj, length) {
+            obj.find("table").DataTable({
+                "iDisplayLength": length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false
+            });
+        }
 	};
 		module.exports = Query;
 });

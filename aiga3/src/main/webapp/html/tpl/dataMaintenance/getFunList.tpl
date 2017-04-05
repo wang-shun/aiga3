@@ -23,8 +23,8 @@
         </div>
     </div>
 </div>
-<div class="box-body" >
-    <table class="table table-bordered table-hover" id="funList">
+<div class="box-body" style="overflow: auto" >
+    <table class="table table-bordered table-hover" id="funList" style="width: 2160px;">
         <thead>
             <tr>
 				<th class="iCheckbox" width="15"></th>

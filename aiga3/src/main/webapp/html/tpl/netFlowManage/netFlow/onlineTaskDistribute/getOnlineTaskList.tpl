@@ -24,7 +24,8 @@
         <tbody>
             {{#each content}}
             <tr>
-                <td><input type="radio" class="minimal" value="{{onlinePlanId}}" name="onlinePlanId"></td>
+                <td><input type="radio" class="minimal" value="{{onlinePlanId}}" name="onlinePlanId">
+                <input type="hidden" name="taskId" value="{{taskId}}"></td>
                 <td><input type="hidden" name="onlinePlanName" value="{{onlinePlanName}}">{{onlinePlanName}}</td>
                 <td><input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
                 <td><input type="hidden" name="taskType" value="{{taskType}}">{{getTaskType taskType}}</td>

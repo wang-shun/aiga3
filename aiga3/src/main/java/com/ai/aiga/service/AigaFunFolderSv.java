@@ -61,6 +61,24 @@ public AigaFunFolder findOne(BigDecimal funId) {
 	 if(StringUtils.isBlank(request.getSysName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
 		}
+	 if(StringUtils.isBlank(request.getMenuPath())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+		}
+	 if(request.getFunType().equals("")||request.getFunType()==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+		}
+	 if(request.getIsEfficiencyTest()==null||request.getIsEfficiencyTest().equals("")){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+		}
+	 if(request.getEfficiencyTestType()==null||request.getEfficiencyTestType().equals("")){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+		}
+	 if(request.getBaseFunLabel()==null||request.getBaseFunLabel().equals("")){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+		}
+	 if(request.getBusiLabel()==null||request.getBusiLabel().equals("")){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
+		}
 	 AigaFunFolder aigaFunFolder =new AigaFunFolder();
 	 aigaFunFolder.setAddReason(request.getAddReason());
 	 aigaFunFolder.setAddReasonType(request.getAddReasonType());

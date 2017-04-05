@@ -5,7 +5,10 @@ package com.ai.aiga.domain;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,7 +23,7 @@ import javax.persistence.TemporalType;
 public class NaOnlinePlanBug  implements java.io.Serializable {
 
 
-     private long bugId;
+     private Long bugId;
      private Long onlinePlans;
      private Byte bugType;
      private Byte bugLevel;
@@ -43,10 +46,10 @@ public class NaOnlinePlanBug  implements java.io.Serializable {
     }
 
 	
-    public NaOnlinePlanBug(long bugId) {
+    public NaOnlinePlanBug(Long bugId) {
         this.bugId = bugId;
     }
-    public NaOnlinePlanBug(long bugId, Long onlinePlans, Byte bugType, Byte bugLevel, String requireName, String question, String reasons, String methods, String deal, String type, Long createId, Date createDate, Byte resove, String doneDate, String foundDate, String ext1, String ext2, String ext3) {
+    public NaOnlinePlanBug(Long bugId, Long onlinePlans, Byte bugType, Byte bugLevel, String requireName, String question, String reasons, String methods, String deal, String type, Long createId, Date createDate, Byte resove, String doneDate, String foundDate, String ext1, String ext2, String ext3) {
        this.bugId = bugId;
        this.onlinePlans = onlinePlans;
        this.bugType = bugType;
@@ -67,14 +70,15 @@ public class NaOnlinePlanBug  implements java.io.Serializable {
        this.ext3 = ext3;
     }
    
-     @Id 
-    
+    @Id 
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_ONLINE_PLAN_BUG$SEQ")
+    @SequenceGenerator(name="NA_ONLINE_PLAN_BUG$SEQ",sequenceName="NA_ONLINE_PLAN_BUG$SEQ",allocationSize=1)
     @Column(name="BUG_ID", unique=true, nullable=false, precision=14, scale=0)
-    public long getBugId() {
+    public Long getBugId() {
         return this.bugId;
     }
     
-    public void setBugId(long bugId) {
+    public void setBugId(Long bugId) {
         this.bugId = bugId;
     }
     

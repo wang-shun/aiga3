@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getSubAsciptionList", pathAlias + "getAsciptionList.json", "sys/common/subSystem");
+	srvMap.add("getSubAsciptionList", pathAlias + "getAsciptionList.json", "sys/subsysfolder/listByName");
 	// 删除所选条目
 	srvMap.add("delsubSysInfo", pathAlias + "retMessage.json", "sys/subsysfolder/del");
 	//新增条目

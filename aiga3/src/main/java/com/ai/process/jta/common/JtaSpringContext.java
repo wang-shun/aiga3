@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.common;
+package com.ai.process.jta.common;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

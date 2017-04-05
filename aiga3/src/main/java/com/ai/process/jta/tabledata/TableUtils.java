@@ -1,4 +1,4 @@
-package com.ai.aiga.jta.tabledata;
+package com.ai.process.jta.tabledata;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

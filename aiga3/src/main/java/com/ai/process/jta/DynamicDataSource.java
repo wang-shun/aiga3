@@ -1,4 +1,4 @@
-package com.ai.aiga.jta;
+package com.ai.process.jta;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

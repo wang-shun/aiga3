@@ -1,4 +1,4 @@
-package com.ai.aiga.jta;
+package com.ai.process.jta;
 
 public class DatabaseContextHolder {
 	

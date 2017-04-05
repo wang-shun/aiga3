@@ -1,14 +1,19 @@
 package com.ai.aiga.service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaSubSysFolderDao;
 import com.ai.aiga.dao.AigaSystemFolderDao;
 import com.ai.aiga.domain.AigaSubSysFolder;
@@ -92,5 +97,34 @@ public AigaSubSysFolder findOne(BigDecimal subsysId) {
 			
 		}
 	}
+ public Object list(int pageNumber, int pageSize,AigaSubSysFolder condition ) throws ParseException {
+	   List<String> list = new ArrayList<String>();
+		list.add("subsysId");
+		list.add("sysName");
+		list.add("createTime");
+		list.add("updateTime");
+		list.add("sysId");
+	   String sql = "select a.SUBSYS_ID, a.SYS_NAME, a.CREATE_TIME,a.UPDATE_TIME,a.SYS_ID"
+	   		+ "from AIGA_SUB_SYS_FOLDER a,AIGA_SYSTEM_FOLDER b where a.SYS_ID=b.SYS_ID";
+	
+			if(StringUtils.isNotBlank(condition.getSysName())){
+				sql += " and a.SYS_NAME like '%"+condition.getSysName()+"%'";
+			}
+			if(condition.getSysId()!= null){
+				sql += " and a.SYS_ID = "+condition.getSysId();
+			}
+			
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
 
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return aigaSubSysFolderDao.searchByNativeSQL(sql, pageable, list);
+	}
 }

@@ -76,14 +76,14 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			caseConnections.setCollectId(caseCollection.getCollectId());
 			caseConnections.setCaseNum(caseCollection.getCaseNum());
 		}
-		caseConnections.setCollectName(caseCollection.getCollectName());
-		caseConnections.setCaseType(caseCollection.getCaseType());
-		caseConnections.setRepairsId(caseCollection.getRepairsId());
-		// 系统默认设定
-		caseConnections.setCreateDate(new Date());
-		caseConnections.setSysId(caseCollection.getSysId());
-		// caseConnections.setOpId();
-		caseDao.save(caseConnections);
+			caseConnections.setCollectName(caseCollection.getCollectName());
+			caseConnections.setCaseType(caseCollection.getCaseType());
+			caseConnections.setRepairsId(caseCollection.getRepairsId());
+			// 系统默认设定
+			caseConnections.setCreateDate(new Date());
+			caseConnections.setSysId(caseCollection.getSysId());
+			// caseConnections.setOpId();
+			caseDao.save(caseConnections);
 	}
 
 	/**

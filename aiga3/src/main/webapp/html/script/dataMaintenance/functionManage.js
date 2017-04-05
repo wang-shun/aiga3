@@ -7,15 +7,15 @@ define(function(require, exports, module) {
 	var pathAlias = "dataMaintenance/";
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getFunList", pathAlias + "getFunctionList.json", "sys/menu/list");
+	srvMap.add("getFunList", pathAlias + "getFunctionList.json", "sys/funfolder/listByName");
 	//归属系统
 	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
 	//系统子类下拉框
 	srvMap.add("getSubsysList","autoManage/autoCaseTempMng/getSubsysList.json", "sys/cache/listSubsysid");
 	//删除
-	srvMap.add("delFunction",pathAlias+"retMessage.json","sys/menu/del");
+	srvMap.add("delFunction",pathAlias+"retMessage.json","sys/funfolder/del");
 	//增加功能
-	srvMap.add("addFunction",pathAlias+"retMessage.json","sys/menu/save");
+	srvMap.add("addFunction",pathAlias+"retMessage.json","sys/funfolder/save");
 
 	//功能点类型
 	srvMap.add("getFuntypeList",pathAlias,"");

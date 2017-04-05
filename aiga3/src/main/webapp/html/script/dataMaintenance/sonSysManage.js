@@ -94,7 +94,6 @@ define(function(require, exports, module) {
 				if (data) {
 					console.log(data);
 					var cmd = 'subsysId='+data.subsysId;
-					alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delsubSysInfo'), cmd, function(json, status) {
 						if (status) {

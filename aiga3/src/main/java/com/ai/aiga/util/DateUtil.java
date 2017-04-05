@@ -8,7 +8,7 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 /**
- * 
+ *
  */
 public final class DateUtil {
 	/**
@@ -39,8 +39,8 @@ public final class DateUtil {
 	 * 4位年-2位月-2位日  24小时制-2位分-2位-2秒 如：2013的形式
 	 */
 	public static String YYYY = "yyyy";
-	
-	
+
+
 	/**
 	 * 转换操作，将日期对象转换成指定的字符串，并处理对象中的特殊字符
 	 * @param value Object
@@ -55,7 +55,7 @@ public final class DateUtil {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 获得当前时间字符串形式
 	 * @return String yyyyMMddHHmmss形式的字符串 如：20131118081808
@@ -82,7 +82,7 @@ public final class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf.format(new Date());
 	}
-	
+
 	/**
 	 * 将传入的Date对象，转换成yyyyMMddHHmmss形式的字符串
 	 * @param date java.util.Date
@@ -92,7 +92,7 @@ public final class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat(YYYYMMDDHHMMSS);
 		return sdf.format(date);
 	}
-	
+
 	/**
 	 * 将传入的Date对象，转换成指定的formart形式的字符串
 	 * @param date java.util.Date
@@ -103,7 +103,7 @@ public final class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat(formart);
 		return sdf.format(date);
 	}
-	
+
 	/**
 	 * 将传入的Timestamp对象，转换成指定的formart形式的字符串
 	 * @param date java.util.Date
@@ -114,7 +114,7 @@ public final class DateUtil {
 		SimpleDateFormat sdf = new SimpleDateFormat(formart);
 		return sdf.format(date);
 	}
-	
+
 	/**
 	 * 将14位的日期字符串，转换成Date对象
 	 * @param date String 14位的日期字符串：如201312081508
@@ -123,14 +123,14 @@ public final class DateUtil {
 	public static Date getDateByDateString(String date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Integer.valueOf(date.substring(0, 4)), (Integer.valueOf(date.substring(4, 6)) - 1),
-				Integer.valueOf(date.substring(6, 8)), Integer.valueOf(date.substring(8, 10)), 
+				Integer.valueOf(date.substring(6, 8)), Integer.valueOf(date.substring(8, 10)),
 				Integer.valueOf(date.substring(10, 12)), Integer.valueOf(date.substring(12, 14)));
 		return calendar.getTime();
 	}
-	
+
 	public static Date getDate(String date, String formart) {
 		SimpleDateFormat sdf = new SimpleDateFormat(formart);
-		
+
 		try {
 			Date d = sdf.parse(date);
 			return d;
@@ -138,7 +138,7 @@ public final class DateUtil {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 根据传入的时间，算出当天的时间范围的两个时间点
 	 * @param date
@@ -151,9 +151,9 @@ public final class DateUtil {
 		if(StringUtils.isBlank(date)){
 			return null;
 		}
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat(YMDHMS);
-		
+
 		try {
 			Date d = sdf.parse(date);
 			return getDateScope(d);
@@ -167,7 +167,7 @@ public final class DateUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 根据传入的时间，算出当天的时间范围的两个时间点
 	 * @param date
@@ -182,23 +182,35 @@ public final class DateUtil {
 
 		Calendar cal1=Calendar.getInstance();
 		cal1.setTime(date);
-		
+
 		//获得开始时间
 		cal1.set(Calendar.HOUR_OF_DAY, 0);
 		cal1.set(Calendar.MINUTE, 0);
 		cal1.set(Calendar.SECOND, 0);
-		
+
 		Date dateFirst = cal1.getTime();
-		
+
 		//获得开始时间
 		cal1.set(Calendar.HOUR_OF_DAY, 23);
 		cal1.set(Calendar.MINUTE, 59);
 		cal1.set(Calendar.SECOND, 59);
-		
+
 		Date dateEnd = cal1.getTime();
-		
+
 		return new Date[]{dateFirst, dateEnd};
 	}
-	
+
+	/**
+	 * 获取当前系统时间
+	 * @return
+	 */
+	public static Date getCurrentTime(){
+		return Calendar.getInstance().getTime();
+	}
+
+	public static Long getIntervalMinute(Date startTime,Date endTime){
+		return (startTime.getTime() - endTime.getTime()) / 1000 * 60;
+	}
+
 }
 

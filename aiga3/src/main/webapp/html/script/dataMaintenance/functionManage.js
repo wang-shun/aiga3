@@ -6,32 +6,30 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "dataMaintenance/";
 
-
 	//分页根据条件查询功能点归属
-	srvMap.add("getSubAsciptionList", pathAlias + "getAsciptionList.json", "sys/subsysfolder/listByName");
-	// 删除所选条目
-	srvMap.add("delsubSysInfo", pathAlias + "retMessage.json", "sys/subsysfolder/del");
-	//新增条目
-	srvMap.add("addsubSysInfo", pathAlias + "retMessage.json", "sys/subsysfolder/save");
-    //归属系统
+	srvMap.add("getFunList", pathAlias + "getFunctionList.json", "sys/menu/list");
+	//归属系统
 	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
+	//系统子类下拉框
+	srvMap.add("getSubsysList","autoManage/autoCaseTempMng/getSubsysList.json", "sys/cache/listSubsysid");
+	//删除
+	srvMap.add("delFunction",pathAlias+"retMessage.json","sys/menu/del");
+	//增加功能
+	srvMap.add("addFunction",pathAlias+"retMessage.json","sys/menu/save");
 
+	//功能点类型
+	srvMap.add("getFuntypeList",pathAlias,"");
 	// 模板对象
 	var Tpl = {
-		getSonSysList: require('tpl/dataMaintenance/getSonSysList.tpl')
+		getFunList: require('tpl/dataMaintenance/getFunList.tpl'),
 	};
 
 	// 容器对象
 	var Dom = {
 		queryCaseTempForm: '#JS_queryCaseTempForm',
-		getsubInfoList: '#JS_getsubInfoList',
-		//弹出框
-		addsubSysInfoModel: '#JS_addsubSysInfoModel',
-		//新增表单
-		addSysInfo: '#JS_addSysInfo',
-
-
-
+		getFunList: '#JS_getFunList',
+		addFunInfoModel: '#JS_addFunInfoModel',
+		addFunInfo: '#JS_addFunInfo',
 	};
 
 	var Data = {
@@ -42,50 +40,57 @@ define(function(require, exports, module) {
 		init: function() {
 			// 默认查询所有
 			this.getCaseTempList();
-			// 初始化查询表单
-			this.queryCaseTempForm();
+			// 查询表单
+			this.queryFunlistForm();
+			//映射
+			this.hdbarHelp();
 		},
 		// 按条件查询
-		queryCaseTempForm: function() {
+		queryFunlistForm: function() {
 			var self = this;
 			var _form = $(Dom.queryCaseTempForm);
+
+
+
 			Utils.setSelectData(_form);
+
+
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
-				console.log(cmd);
 				self.getCaseTempList(cmd);
 			});
-
+			self.initPaging($(Dom.getFunList),8);
 		},
-		// 查询自动化用例模板
+		// 查询功能点
 		getCaseTempList: function(cmd) {
 			var self = this;
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getSubAsciptionList'), _cmd, function(json, status) {
+
+			Rose.ajax.postJson(srvMap.get('getFunList'), _cmd, function(json, status) {
 				if (status) {
 					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getSonSysList);
-					$(Dom.getsubInfoList).html(template(json.data.content));
+					var template = Handlebars.compile(Tpl.getFunList);
+					$(Dom.getFunList).html(template(json.data.content));
 
 					//删除所选条目
-					self.delSubCaseSysInfo();
+					self.delCaseSysInfo();
 					//新增条目
-					self.addSubSysInfo();
-					Utils.eventTrClickCallback($(Dom.getsubInfoList));
+					self.addFunInfo();
+					Utils.eventTrClickCallback($(Dom.getFunList));
 
-					self.initPaging($(Dom.getsubInfoList),8);
+					self.initPaging($(Dom.getFunList),8);
 				}
 			});
 
 
 		},
 		// 删除所选条目
-		delSubCaseSysInfo: function() {
+		delCaseSysInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getsubInfoList);
+			var _dom = $(Dom.getFunList);
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -93,10 +98,9 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					console.log(data);
-					var cmd = 'subsysId='+data.subsysId;
-					alert(cmd);
+					var cmd = 'funId=' + data.funId;
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('delsubSysInfo'), cmd, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('delFunction'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
@@ -107,38 +111,68 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		//新增子类
-		addSubSysInfo: function() {
+		//新增
+		addFunInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getsubInfoList);
+			var _dom = $(Dom.getFunList);
 			var _add = _dom.find("[name='add']");
-
 			_add.unbind('click');
 			_add.bind('click', function() {
 				// 弹出层
-				$(Dom.addsubSysInfoModel).modal('show');
+				$(Dom.addFunInfoModel).modal('show');
 				//组件表单校验初始化
-				var _form = $(Dom.addSysInfo);
+				var _form = $(Dom.addFunInfo);
 				Utils.setSelectData(_form);
 				// 表单提交
-				$("#addSysInfoButton").unbind('click');
-				$("#addSysInfoButton").bind('click', function() {
+				$("#addFunInfoButton").unbind('click');
+				$("#addFunInfoButton").bind('click', function() {
 					var cmd = _form.serialize();
 					console.log(cmd);
-					Rose.ajax.postJson(srvMap.get('addsubSysInfo'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('addFunction'), cmd, function(json, status) {
 						if (status) {
 							// 添加用户成功后，刷新用户列表页
 							XMS.msgbox.show('添加成功！', 'success', 2000)
 								// 关闭弹出层
-							$(Dom.addsubSysInfoModel).modal('hide');
+							$(Dom.addFunInfoModel).modal('hide');
 
 							setTimeout(function() {
-								self.getCaseTempList();
+								self.getCaseTempList(Data.queryListCmd);
 							}, 1000)
 						}
 					});
 				})
 			})
+		},
+		//映射处理
+		hdbarHelp: function() {
+			Handlebars.registerHelper("transformatImc", function(value) {
+				if (value == 1) {
+					return "一般系统";
+				} else if (value == 2) {
+					return "核心系统名";
+				} else if (value == 3) {
+					return "重要系统";
+				}
+
+			});
+			Handlebars.registerHelper("transformatDomain", function(value) {
+				if (value == "1") {
+					return "—全部—";
+				} else if (value == 2) {
+					return "基础域";
+				} else if (value == 3) {
+					return "电子渠道";
+				} else if (value == 4) {
+					return "BOSS";
+				} else if (value == 5) {
+					return "CRM";
+				} else if (value == 6) {
+					return "渠道接入";
+				} else if (value == 7) {
+					return "接口域";
+				}
+
+			});
 		},
         // 事件：分页
         initPaging: function(obj, length) {

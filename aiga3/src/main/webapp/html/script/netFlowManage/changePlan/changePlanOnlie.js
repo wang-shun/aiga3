@@ -508,14 +508,16 @@ define(function(require, exports, module) {
 			var cmd;
 			$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
 				var tdArr = $(this).children();
-				id = tdArr.eq(0).find("input").val();
-				state = tdArr.eq(1).find("select").val();
-				saveState.push({
-					"id" : id,
-					"introducedState" : state
-				});
+				if(tdArr.eq(0).find("input").is(':checked')){
+					id = tdArr.eq(0).find("input").val();
+					state = tdArr.eq(1).find("select").val();
+					saveState.push({
+						"id" : id,
+						"introducedState" : state
+					});
+				}
 			});
-			cmd = "saveState="+JSON.stringify(saveState);
+			cmd = saveState;
 			console.log(cmd);
 			Rose.ajax.postJson(srvMap.get('saveRequList'), cmd, function(json, status) {
 				if (status) {
@@ -539,14 +541,16 @@ define(function(require, exports, module) {
 			var cmd;
 			$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
 				var tdArr = $(this).children();
-				id = tdArr.eq(0).find("input").val();
-				state = tdArr.eq(1).find("select").val();
-				saveState.push({
-					"changeId" : id,
-					"resultState" : state
-				});
+				if(tdArr.eq(0).find("input").is(':checked')){
+					id = tdArr.eq(0).find("input").val();
+					state = tdArr.eq(1).find("select").val();
+					saveState.push({
+						"changeId" : id,
+						"resultState" : state
+					});
+				}
 			});
-			cmd = "saveState="+JSON.stringify(saveState);
+			cmd = saveState;
 			console.log(cmd);
 			Rose.ajax.postJson(srvMap.get('saveChangeList'), cmd, function(json, status) {
 				if (status) {

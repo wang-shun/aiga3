@@ -99,13 +99,13 @@
             "viewname": "#",
             "subMenus":[{
                 "name":"验收任务分派",
-                "viewname":"view/netFlowManage/netFlow/onlinePlanTaskDistribute.html"
+                "viewname":"view/netFlowManage/netFlow/onlineTaskDistribute.html"
             },{
                 "name":"验收任务处理",
                 "viewname":"#",
                 "subMenus":[{
                     "name":"功能验收任务处理",
-                    "viewname":"#"
+                    "viewname":"view/netFlowManage/taskProcess/funTaskProcess.html"
                 }]
             }]
         }, {
@@ -163,6 +163,9 @@
         }, {
             "name": "系统子类",
             "viewname": "view/dataMaintenance/sonSysManage.html"
+        }, {
+            "name": "功能点管理",
+            "viewname": "view/dataMaintenance/functionManage.html"
         }]
     }, {
         "name": "通用组件演示",

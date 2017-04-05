@@ -129,12 +129,12 @@ define(function(require, exports, module) {
                         if (status) {
                             // 添加用户成功后，刷新用户列表页
                             XMS.msgbox.show('添加成功！', 'success', 2000)
-                                // 关闭弹出层
-                            $(Dom.addSysInfoModel).modal('hide');
 
                             setTimeout(function() {
                                 self.getCaseTempList();
-                            }, 1000)
+                            }, 1000);
+// 关闭弹出层
+                            $(Dom.addSysInfoModel).modal('hide');
                         }
                     });
                 })

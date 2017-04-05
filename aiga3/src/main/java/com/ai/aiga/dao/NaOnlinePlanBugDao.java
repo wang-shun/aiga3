@@ -1,5 +1,10 @@
 package com.ai.aiga.dao;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
+import com.ai.aiga.domain.NaOnlinePlanBug;
+
 /**
  * @ClassName: NaOnlinePlanBugDao
  * @author: dongch
@@ -7,7 +12,7 @@ package com.ai.aiga.dao;
  * @Description:
  * 
  */
-public interface NaOnlinePlanBugDao {
+public interface NaOnlinePlanBugDao extends JpaRepository<NaOnlinePlanBug, Long>, SearchAndPageRepository<NaOnlinePlanBug, Long>{
 
 }
 

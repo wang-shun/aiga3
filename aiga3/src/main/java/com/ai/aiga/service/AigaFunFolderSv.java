@@ -55,30 +55,30 @@ public AigaFunFolder findOne(BigDecimal funId) {
 	 if(StringUtils.isBlank(request.getSysId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
 		}
-	 if(StringUtils.isBlank(request.getSubSysId().toString())){
+	 /*if(StringUtils.isBlank(request.getSubSysId().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
-		}
+		}*/
 	 if(StringUtils.isBlank(request.getSysName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
 		}
-	 if(StringUtils.isBlank(request.getMenuPath())){
+	/* if(StringUtils.isBlank(request.getMenuPath())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
-		}
+		}*/
 	 if(request.getFunType().equals("")||request.getFunType()==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
 		}
-	 if(request.getIsEfficiencyTest()==null||request.getIsEfficiencyTest().equals("")){
+	/* if(request.getIsEfficiencyTest()==null||request.getIsEfficiencyTest().equals("")){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
-		}
-	 if(request.getEfficiencyTestType()==null||request.getEfficiencyTestType().equals("")){
+		}*/
+	/* if(request.getEfficiencyTestType()==null||request.getEfficiencyTestType().equals("")){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
-		}
-	 if(request.getBaseFunLabel()==null||request.getBaseFunLabel().equals("")){
+		}*/
+	 /*if(request.getBaseFunLabel()==null||request.getBaseFunLabel().equals("")){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
 		}
 	 if(request.getBusiLabel()==null||request.getBusiLabel().equals("")){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
-		}
+		}*/
 	 AigaFunFolder aigaFunFolder =new AigaFunFolder();
 	 aigaFunFolder.setAddReason(request.getAddReason());
 	 aigaFunFolder.setAddReasonType(request.getAddReasonType());
@@ -189,7 +189,7 @@ public AigaFunFolder findOne(BigDecimal funId) {
 		list.add("addReasonType");
 		
 	   String sql = "select a.* from AIGA_FUN_FOLDER a, AIGA_SYSTEM_FOLDER b ,"
-	   		+ "AIGA_SUB_SYS_FOLDER c where a.SYS_ID=b.SYS_ID and a.SUB_SYS_ID=c.SUB_SYS_ID";
+	   		+ "AIGA_SUB_SYS_FOLDER c where a.SYS_ID=b.SYS_ID and a.SUB_SYS_ID=c.SUBSYS_ID";
 	
 			if(StringUtils.isNotBlank(condition.getSysName())){
 				sql += " and a.sys_name like '%"+condition.getSysName()+"%'";

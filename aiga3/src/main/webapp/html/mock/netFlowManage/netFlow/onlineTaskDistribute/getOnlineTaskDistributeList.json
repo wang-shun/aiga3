@@ -1,0 +1,117 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "content": [{
+            "taskId": "1",
+            "taskName": "100_自动化",
+            "taskType": "1",
+            "dealState": "0",
+            "dealOpId":"11",
+            "autoPlanId":"1",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "2",
+            "taskName": "111_自动化",
+            "taskType": "2",
+            "dealState": "1",
+            "dealOpId":"22",
+            "autoPlanId":"2",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "3",
+            "taskName": "222_自动化",
+            "taskType": "1",
+            "dealState": "2",
+            "dealOpId":"33",
+            "autoPlanId":"3",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "4",
+            "taskName": "333_自动化",
+            "taskType": "2",
+            "dealState": "3",
+            "dealOpId":"44",
+            "autoPlanId":"4",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "5",
+            "taskName": "444_自动化",
+            "taskType": "1",
+            "dealState": "0",
+            "dealOpId":"55",
+            "autoPlanId":"5",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "6",
+            "taskName": "555_自动化",
+            "taskType": "2",
+            "dealState": "1",
+            "dealOpId":"66",
+            "autoPlanId":"6",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "7",
+            "taskName": "666_自动化",
+            "taskType": "1",
+            "dealState": "2",
+            "dealOpId":"77",
+            "autoPlanId":"7",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "8",
+            "taskName": "777_自动化",
+            "taskType": "2",
+            "dealState": "3",
+            "dealOpId":"88",
+            "autoPlanId":"8",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "10",
+            "taskName": "888_自动化",
+            "taskType": "3",
+            "dealState": "0",
+            "dealOpId":"99",
+            "autoPlanId":"9",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }, {
+            "taskId": "9",
+            "taskName": "999_自动化",
+            "taskType": "2",
+            "dealState": "1",
+            "dealOpId":"00",
+            "autoPlanId":"10",
+            "autoPlanName": "test11",
+            "dealOpName": "李四",
+            "createDate":"2017-2-02 08:00:00",
+            "assignDate":"2017-2-02 09:00:00"
+        }]
+    }
+}

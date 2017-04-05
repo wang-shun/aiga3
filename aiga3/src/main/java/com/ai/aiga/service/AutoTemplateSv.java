@@ -8,6 +8,7 @@ import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.AutoTemplateRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -68,7 +69,7 @@ public class AutoTemplateSv {
         }
 //        if(tempId==null)autoTemplate.setCreatorId();
 //        autoTemplate.setUpdateId();
-        autoTemplate.setUpdateTime(Calendar.getInstance().getTime());
+        autoTemplate.setUpdateTime(DateUtil.getCurrentTime());
         return autoTemplateDao.save(autoTemplate);
     }
     

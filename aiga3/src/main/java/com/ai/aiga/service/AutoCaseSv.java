@@ -5,6 +5,9 @@ import com.ai.aiga.dao.*;
 import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.service.enums.GeneralEnum;
+import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.AutoCaseRequest;
@@ -73,10 +76,10 @@ public class AutoCaseSv {
             autoCase.setImportant((short) 4);//默认为4级
         }
         if (autoCase.getStatus() == null) {
-            autoCase.setStatus(1L);//默认可用
+            autoCase.setStatus(GeneralEnum.Status_able.getValue());//默认可用
         }
         if (autoCase.getHasAuto() == null) {
-            autoCase.setHasAuto(0L);//默认未实现自动化
+            autoCase.setHasAuto(GeneralEnum.Logic_no.getValue());//默认未实现自动化
         }
         if (autoCase.getParamLevel() == null) {
             autoCase.setParamLevel(1L);//默认为1级
@@ -87,7 +90,7 @@ public class AutoCaseSv {
         }
 //       if (autoCase.getAutoId()==null)autoCase.setCreatorId();
 //        autoCase.setUpdateId();
-        autoCase.setUpdateTime(Calendar.getInstance().getTime());
+        autoCase.setUpdateTime(DateUtil.getCurrentTime());
         return autoCaseDao.save(autoCase);
     }
 
@@ -138,7 +141,7 @@ public class AutoCaseSv {
         }
         NaAutoCase autoCase=BeanMapper.map(testCase,NaAutoCase.class);
         autoCase.setAutoName(testCase.getTestName());//默认根据测试用例名称填充，需由后续调用方法者覆盖
-        autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
+        autoCase.setEnvironmentType(AutoRunEnum.EnvironmentType_acceptance.getValue());//默认验收环境，需由后续调用方法者覆盖
         //保存操作
         return this.save(autoCase);
     }

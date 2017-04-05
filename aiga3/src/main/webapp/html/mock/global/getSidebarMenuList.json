@@ -105,7 +105,7 @@
                 "viewname":"#",
                 "subMenus":[{
                     "name":"功能验收任务处理",
-                    "viewname":"#"
+                    "viewname":"view/netFlowManage/taskProcess/funTaskProcess.html"
                 }]
             }]
         }, {

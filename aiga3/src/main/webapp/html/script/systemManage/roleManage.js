@@ -1,4 +1,6 @@
 define(function(require,exports,module){
+	// 通用工具模块
+    var Utils = require("global/utils.js");
 	// 路径重命名
 	var pathAlias = "systemManage/roleManage/";
 
@@ -122,10 +124,11 @@ define(function(require,exports,module){
 					}
 	  			});
   			});
-  			/*var _domReset = $(Dom.manageRoleinfo).find("[name='reset']");
+  			 _domReset = $(Dom.manageRoleinfo).find("[name='reset']");
   			_domReset.bind('click', function() {
-
-  			});*/
+  				// 清除表单所有内容
+  				Utils.resetForm(Dom.manageRoleinfo);
+  			});
 
 		},
 		// 删除角色

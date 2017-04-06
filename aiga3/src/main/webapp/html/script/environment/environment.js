@@ -5,6 +5,8 @@ define(function(require,exports,module){
 	require('global/sidebar.js');
 	var Utils = require('global/utils.js')
 
+	//系统大类下拉框显示
+	srvMap.add("getSysList", "", "sys/cache/listSysid");
 	//显示环境列表
 	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
 	//查询环境
@@ -19,6 +21,8 @@ define(function(require,exports,module){
 	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
 	//获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
+	//关联机器
+	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
 	//模板对象
 	var Tpl={
@@ -58,6 +62,7 @@ define(function(require,exports,module){
     		this.getEnvironmentList();
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
+    		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
     	initForm:function(){
 	    		var self=this;
@@ -219,10 +224,20 @@ define(function(require,exports,module){
 							$("#JS_connectMachineSubmit").bind('click',function(){
 								/*var cmd = _form.serialize();
 								console.log(cmd);*/
-								var cmd=
-								Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+
+								var  machineId="";
+								$("#Tab_getMachine").find("tbody").find("tr").each(function(){
+									var tdArr = $(this).children();
+									if(tdArr.eq(0).find("input").is(':checked')){
+										machineId += tdArr.eq(0).find("input").val()+",";
+
+									}
+								});
+
+								var cmd = "machineId="+machineId + "&envId=" +_envId;
+								Rose.ajax.postJson(srvMap.get('connectMachine'), cmd, function(json, status) {
 									if(status) {
-											// 关联机器成功后，刷新用户列表页
+											// 关联机器成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)
 											// 关闭弹出层
 											$(Dom.connectMachineModal).modal('hide');

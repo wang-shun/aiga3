@@ -7,13 +7,13 @@ define(function(require, exports, module) {
 	// 功能验收子任务列表显示
 	srvMap.add("funTaskList", pathAlias + "funTaskList.json", "");
 	//系统大类下拉框显示
-	srvMap.add("funTaskList", pathAlias + "funTaskList.json", "sys/cache/listSysid");	
+	srvMap.add("submitRst", pathAlias + "funTaskList.json", "");
 
 
 	// 模板对象
 	var Tpl = {
-		funTaskList: require('tpl/netFlowManage/taskProcess/funTaskProcess/funTaskList.tpl'), //计划列表
-		submitRstList: require('tpl/netFlowManage/taskProcess/funTaskProcess/submitRstList.tpl'),
+		funTaskList: $("#TPL_funTaskList").html(), //计划列表
+		taskProcessList: $("#TPL_taskProcessList").html()
 
 	};
 
@@ -22,13 +22,13 @@ define(function(require, exports, module) {
 		funTaskList: '#Js_funTaskList',
 		QueryTaskForm: '#Js_queryTaskForm', //查询表单
 
-		getParameterList: '#JS_getParameterList', //参数列表
-		getSideAutoCompList: '#JS_sideAutoCompList', //侧边组件栏
-
+		taskProcessList: '#Js_taskProcessList',
 		modalSubmitResult: '#modal_submitResult', //modal
 
 		//提交结果按钮
-		btnSubmitRst: '#JS_submitRst',
+		btnSubmitRst: '#Js_submitRst',
+		btnSaveRst: "#Js_saveRst",
+		btnDealAutoCase: 'Js_dealAutoCase',
 
 
 	};
@@ -56,8 +56,9 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.funTaskList);
 					console.log(json.data)
 					$(Dom.funTaskList).html(template(json.data.content));
-					Utils.eventClickChecked($(Dom.funTaskList));
+					Utils.eventTrClickCallback($(Dom.funTaskList));
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
+					self.initPaging($(Dom.funTaskList), 5, true);
 				}
 			});
 		},
@@ -84,32 +85,85 @@ define(function(require, exports, module) {
 			var btn = $(Dom.btnSubmitRst);
 			btn.unbind('click');
 			btn.bind('click', function() {
-				// var data = self.getSelectedInfo();
-				// if (data) {
-				var _modal = $(Dom.modalSubmitResult);
-				_modal.modal('show');
+				var data = self.getSelectedInfo();
+				if (data) {
+					var _modal = $(Dom.modalSubmitResult);
+					_modal.modal('show');
+					var cmd = data.taskId;
+					self.getTaskProcessList();
+					self.saveResult(cmd);
+				}
+			});
+		},
+		//保存结果
+		saveResult: function(taskId) {
+			var self = this;
+			var btn = $(Dom.btnSaveRst);
+			var _table = $(Dom.taskProcessList);
+			btn.unbind('click');
+			btn.bind('click', function() {
+				var cmd = {
+					"taskId": taskId,
+					"result": []
+				};
+				_table.find("tbody").each(function() {
+					$(this).find("tr").each(function() {
+						var paramData = {}
+						$(this).find("input").each(function() {
+							var key = $(this).attr("name");
+							var value = $(this).val();
+							paramData[key] = value;
+						});
+						$(this).find("select").each(function() {
+							var key = $(this).attr("name");
+							var value = $(this).val();
+							paramData[key] = value;
+						});
+						cmd.result.push(paramData);
+					})
+				});
+				Rose.ajax.postJson(srvMap.get('submitRst'), cmd, function(json, status) {
+					if (status) {
+						var template = Handlebars.compile(Tpl.taskProcessList);
+						console.log(json.data)
+						_table.html(template(json.data.content));
+					}
+				});
 
-				// }
+			});
+		},
+
+		getTaskProcessList: function(cmd) {
+			var self = this;
+			var _table = $(Dom.taskProcessList);
+			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd, function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.taskProcessList);
+					console.log(json.data)
+					_table.html(template(json.data.content));
+
+
+				}
 			});
 		},
 
 
+
 		//获取选中当前行数据
 		getSelectedInfo: function() {
-			var obj = this.getCheckedRow(Dom.getAutoCaseList);
+			var obj = this.getCheckedRow(Dom.funTaskList);
 			var data = {
-				autoId: "",
-				autoName: "",
-				environmentType: "",
+				taskId: "",
+				dealState: "",
+				taskType: ""
 			};
 			if (obj.length == 0) {
-				window.XMS.msgbox.show('请先选择一个用例！', 'error', 2000);
+				window.XMS.msgbox.show('请先选择一个任务！', 'info', 2000);
 				return;
 			} else {
-				data.autoId = obj.find("[name='autoId']").val();
-
-				data.autoName = obj.find("[name='autoName']").val();
-				data.environmentType = obj.find("[name='environmentType']").val();
+				data.taskId = obj.find("[name='taskId']").val();
+				data.dealState = obj.find("[name='dealState']").val();
+				data.taskType = obj.find("[name='taskType']").val();
 			}
 
 			return data;
@@ -119,16 +173,21 @@ define(function(require, exports, module) {
 			var _obj = $(obj).find("input[type='radio']:checked").parents("tr");
 			return _obj;
 		},
-		eventClickChecked: function(obj, callback) {
-			obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-				checkboxClass: 'icheckbox_square-blue',
-				radioClass: 'iradio_square-blue'
-			});
-			obj.find("tr").bind('click', function(event) {
-				$(this).find('.minimal').iCheck('check');
-				if (callback) {
-					callback();
-				}
+
+		initPaging: function(obj, length, scrollX) {
+			obj.find("table").DataTable({
+				"iDisplayLength": length,
+				"paging": true,
+				"lengthChange": false,
+				"searching": false,
+				"ordering": false,
+				"autoWidth": false,
+				"info": true,
+				"language": {
+					"emptyTable": "暂无数据...",
+					"infoEmpty": "第0-0条，共0条"
+				},
+				"scrollX": scrollX
 			});
 		},
 

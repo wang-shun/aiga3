@@ -37,19 +37,5 @@
               <input type="text" class="form-control input-sm" id="machinePassword" name="machinePassword" value="{{machinePassword}}">
             </div>
         </div>
-        <div class="col-sm-4 form-group">
-            <label for="requestTime" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->请求时间：</label>
-            <div class="col-sm-7">
-                <input type="text" class="form-control input-sm " id="requestTime" name="requestTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{requestTime}}">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4 form-group">
-            <label for="taskId" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->任务ID：</label>
-            <div class="col-sm-7">
-              <input type="text" class="form-control input-sm" id="taskId" name="taskId" value="{{taskId}}">
-            </div>
-        </div>
     </div>
 </div>

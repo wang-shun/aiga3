@@ -6,9 +6,9 @@ define(function(require, exports, module) {
     var pathAlias = "netFlowManage/netFlow/onlineTaskDistribute/";
 
     // 下拉菜单获取所有变更计划
-    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "");
+    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //获取验收任务列表
-    srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "");
+    srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "accept/onlineTask/list");
     //获取子任务分派列表
     srvMap.add("getOnlineTaskDistributeList", pathAlias + "getOnlineTaskDistributeList.json", "");
     //下拉菜单获取所有处理人
@@ -91,7 +91,7 @@ define(function(require, exports, module) {
                     _distribute.bind('click', function() {
                         var data = self.getRadioCheckedRow(_dom);
                         if (data) {
-                            var cmd = 'onlinePlanId=' + data.onlinePlanId + '&taskId=' + data.taskId;
+                            var cmd = 'onlinePlanId=' + data.onlinePlanId;
                             //存储到全局变量
                             Data.onlinePlanId = data.onlinePlanId;
                             console.log(Data.onlinePlanId);
@@ -108,6 +108,8 @@ define(function(require, exports, module) {
                                         var template = Handlebars.compile(Tpl.getOnlineTaskDistributeList);
                                         var _dom = $(Dom.getOnlineTaskDistributeList);
                                         _dom.html(template(json.data));
+                                        // 初始化步骤
+                                        Utils.initStep(_modal);
                                         self.addOnlineTask();
                                         self.updateOnlineTask();
                                         self.delOnlineTask();
@@ -178,7 +180,7 @@ define(function(require, exports, module) {
                     var dealOpId = _form.find("[name='dealOpId']").val();
                     var taskId = _form.find("[name='taskId']").val();
                     var onlinePlanId = _form.find("[name='onlinePlanId']").val();
-                    cmd = "taskName=" + taskName + "&autoPlanId=" + autoPlanId + "&onlinePlanId=" + onlinePlanId + "&dealOpId=" + dealOpId;
+                    cmd = "taskName=" + taskName + "&autoPlanId=" + autoPlanId + "&parentTaskId=" + data.taskId + "&dealOpId=" + dealOpId;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
                     }
@@ -265,15 +267,18 @@ define(function(require, exports, module) {
                         Rose.ajax.postJson(srvMap.get('getManualResultList'), cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.hide();
+
+                                // 到第二步骤
+                                Utils.goStep(Dom.getOnlineTaskDistributeModal,2);
                                 // 显示弹框
-                                var _modal = $(Dom.getManualResultListModal);
-                                _modal.modal('show').on('shown.bs.modal', function() {
+                                // var _modal = $(Dom.getManualResultListModal);
+                                // _modal.modal('show').on('shown.bs.modal', function() {
                                     var template = Handlebars.compile(Tpl.getManualResultList);
                                     var _dom = $(Dom.getManualResultList);
                                     _dom.html(template(json.data));
                                     //设置分页
                                     self.initPaging(_dom, 5, true);
-                                })
+                                //})
                             }
                         });
                     } else {
@@ -282,15 +287,17 @@ define(function(require, exports, module) {
                         Rose.ajax.postJson(srvMap.get('getAutoResultList'), cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.hide();
+                                // 到第三步骤
+                                Utils.goStep(Dom.getOnlineTaskDistributeModal,3);
                                 // 显示弹框
-                                var _modal = $(Dom.getAutoResultListModal);
-                                _modal.modal('show').on('shown.bs.modal', function() {
+                                // var _modal = $(Dom.getAutoResultListModal);
+                                // _modal.modal('show').on('shown.bs.modal', function() {
                                     var template = Handlebars.compile(Tpl.getAutoResultList);
                                     var _dom = $(Dom.getAutoResultList);
                                     _dom.html(template(json.data));
                                     //设置分页
                                     self.initPaging(_dom, 5, true);
-                                })
+                                // })
                             }
                         });
                     }

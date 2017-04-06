@@ -21,6 +21,8 @@ define(function(require,exports,module){
 	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
 	//获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
+	//关联机器
+	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/add");
 
 	//模板对象
 	var Tpl={
@@ -228,7 +230,7 @@ define(function(require,exports,module){
 									machineId += $(this).val()+",";
 								});
 								var cmd = "machineId="+machineId + "&envId=" +_envId;
-								Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+								Rose.ajax.postJson(srvMap.get('connectMachine'), cmd, function(json, status) {
 									if(status) {
 											// 关联机器成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)

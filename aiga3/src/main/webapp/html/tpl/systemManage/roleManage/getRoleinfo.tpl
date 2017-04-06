@@ -28,7 +28,7 @@
         <!-- /.box-body -->
     </div>
     <div class="box-footer">
-        <button type="reset" class="btn btn-default" name="reset">重置</button>
+        <button type="button" class="btn btn-default" name="reset">重置</button>
         <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
     </div>
 <!-- Modal -->

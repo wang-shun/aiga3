@@ -33,6 +33,43 @@ define(function(require, exports, module) {
                 }
             });
         },
+         /**
+         * 表单验证
+         *
+         * @method objForm 表单父元素
+         * @callback Fun 回调函数
+         */
+        checkForm:function(objForm,callback){
+            var state = true;
+            var text = '';
+            $(objForm).find(':input[required]')
+            .not(':button, :submit, :reset, :hidden').each(function(){
+                var _val = $.trim($(this).val());
+                var _text = $.trim($(this).prev().text());
+                if(_val == null || _val == undefined || _val == ''){
+                    state = false;
+                    text = _text;
+                    return false;
+                }
+            })
+            if(state){
+                 callback(state);
+            }else{
+                XMS.msgbox.show(text.trimStar()+'不能为空！', 'error', 2000);
+            }
+        },
+         /**
+         * 清空表单所有的
+         *
+         * @method obj 父元素
+         */
+        resetForm:function(objForm){
+            $(objForm).find(':input')
+            .not(':button, :submit, :reset, :hidden, :disabled, :enabled')
+            .val('')
+            .removeAttr('checked')
+            .removeAttr('selected');
+        },
         /**
          * 页面中多DIV跳转
          *

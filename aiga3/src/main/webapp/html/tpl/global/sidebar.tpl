@@ -20,11 +20,11 @@
         </div>
     </form>
     <!-- 菜单区 -->
-    <ul class="sidebar-menu" id="JS_MenuList">
+    <ul class="sidebar-menu" id="JS_menuList">
         <!-- <li class="header">中国移动通信</li> -->
         {{#each data}}
         <li class="treeview">
-          <a href="javascript:;" data-href="{{viewname}}">
+          <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
             <i class="{{funcImg}}"></i>
             <span>{{name}}</span>
             {{#if subMenus}}
@@ -37,7 +37,7 @@
           <ul class="treeview-menu">
             {{#each subMenus}}
             <li class="">
-                <a href="javascript:;" data-href="{{viewname}}">
+                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
                     <i class="fa fa-circle-o"></i>
                     <span>{{name}}</span>
                     {{#if subMenus}}
@@ -50,7 +50,7 @@
                 <ul href="javascript:;" class="treeview-menu">
                     {{#each subMenus}}
                     <li class="">
-                        <a href="javascript:;" data-href="{{viewname}}">
+                        <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
                             <i class="fa fa-circle-o"></i>
                             <span>{{name}}</span>
                             {{#if subMenus}}
@@ -63,7 +63,7 @@
                         <ul href="javascript:;" class="treeview-menu">
                             {{#each subMenus}}
                             <li class="">
-                                <a href="javascript:;" data-href="{{viewname}}">
+                                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
                                     <i class="fa fa-circle-o"></i>
                                     <span>{{name}}</span>
                                 </a>

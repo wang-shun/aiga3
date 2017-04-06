@@ -2,178 +2,221 @@
     "retCode": "200",
     "retMessage": "系统异常，请稍后再试",
     "data": [{
+        "funcId":1,
+        "funcCode":"HomePage",
         "name": "首页",
         "funcImg": "fa fa-home",
         "viewname": "view/welcome.html"
     }, {
+        "funcId":2,
         "name": "系统管理",
         "funcImg": "fa fa-cogs",
         "viewname": "#",
         "subMenus": [{
+            "funcId":3,
             "name": "员工管理",
             "viewname": "view/systemManage/staffManage.html"
         }, {
+            "funcId":4,
             "name": "功能模块管理",
             "viewname": "view/systemManage/menuManage.html"
         }, {
+            "funcId":5,
             "name": "组织管理",
             "viewname": "view/organize/organize.html"
         }, {
+            "funcId":6,
             "name": "角色管理",
             "viewname": "view/systemManage/roleManage.html"
         }, {
+            "funcId":7,
             "name": "附权管理",
             "viewname": "#",
             "subMenus": [{
+                "funcId":8,
                 "name": "员工角色权限管理",
                 "viewname": "view/staffRole/staffRole.html"
             }, {
+                "funcId":9,
                 "name": "角色菜单权限管理",
                 "viewname": "view/roleFunc/roleFunc.html"
             }]
         }]
     }, {
+        "funcId":10,
         "name": "自动化管理",
         "funcImg": "fa fa-clock-o",
         "viewname": "#",
         "subMenus": [{
+            "funcId":11,
             "name": "功能测试",
             "viewname": "#",
             "subMenus": [{
+                "funcId":12,
                 "name": "用例集管理",
                 "viewname": "view/case/caseSet/caseSet.html"
             }, {
+                "funcId":13,
                 "name": "控件管理",
                 "viewname": "view/control/control.html"
             }, {
+                "funcId":14,
                 "name": "组件管理",
                 "viewname": "view/autoManage/funcTest/componentManage.html"
             }]
         }, {
+            "funcId":15,
             "name": "用例组管理",
             "viewname": "view/autoManage/funcTest/caseGroup.html"
         }, {
+            "funcId":16,
             "name": "自动化用例管理",
             "viewname": "view/autoManage/autoCaseMng.html"
         }, {
+            "funcId":17,
             "name": "自动化用例模板管理",
             "viewname": "view/autoManage/autoCaseTempMng.html"
         }, {
+            "funcId":18,
             "name": "自动化环境配置",
             "viewname": "view/environment/environment.html"
         }, {
+            "funcId":19,
             "name": "自动化机器配置",
             "viewname": "view/machine/machine.html"
         }, {
+            "funcId":20,
             "name": "自动化计划管理",
             "viewname": "view/autoManage/autoPlanMng.html"
         }, {
+            "funcId":21,
             "name": "自动化任务管理",
             "viewname": "view/case/task/task.html"
         }, {
+            "funcId":22,
             "name": "自动化执行结果",
             "viewname": "view/autoManage/autoResult.html"
         }, {
+            "funcId":23,
             "name": "用例模板管理",
             "viewname": "view/caseTempMng/caseTempMng.html"
         }, {
+            "funcId":24,
             "name": "测试用例管理",
             "viewname": "view/caseInstanceMng/caseInstanceMng.html"
         }]
     }, {
+        "funcId":25,
         "name": "入网流程管理",
         "funcImg": "fa fa-fw fa-check-circle",
         "viewname": "#",
         "subMenus": [{
+            "funcId":26,
             "name": "变更计划",
             "viewname": "#",
             "subMenus": [{
+                "funcId":27,
                 "name": "变更计划管理",
                 "viewname": "view/netFlowManage/changePlan/changePlanOnile.html"
             }, {
+                "funcId":28,
                 "name": "变更计划启动",
                 "viewname": "view/netFlowManage/changePlan/changePlanStart.html"
             }]
         }, {
+            "funcId":29,
             "name": "入网验收",
             "viewname": "#",
             "subMenus":[{
+                "funcId":30,
                 "name":"验收任务分派",
                 "viewname":"view/netFlowManage/netFlow/onlineTaskDistribute.html"
             },{
+                "funcId":31,
                 "name":"验收任务处理",
                 "viewname":"#",
                 "subMenus":[{
+                    "funcId":32,
                     "name":"功能验收任务处理",
                     "viewname":"view/netFlowManage/taskProcess/funTaskProcess.html"
                 }]
             }]
         }, {
+            "funcId":33,
             "name": "变更评审",
             "viewname": "#"
         }, {
+            "funcId":34,
             "name": "变更发布",
             "viewname": "#"
         }, {
+            "funcId":35,
             "name": "生产验证",
             "viewname": "#"
         }, {
+            "funcId":36,
             "name": "问题跟踪",
             "viewname": "#"
         }, {
+            "funcId":37,
             "name": "报表统计",
             "viewname": "#"
         }]
     }, {
+        "funcId":38,
         "name": "报告报表查询",
         "funcImg": "fa fa-line-chart",
         "viewname": "#",
         "subMenus": [{
+            "funcId":39,
             "name": "知识库管理",
             "viewname": "#"
         }, {
+            "funcId":40,
             "name": "标签管理",
             "viewname": "#"
         }, {
+            "funcId":41,
             "name": "功能点管理",
             "viewname": "#"
         }, {
+            "funcId":42,
             "name": "测试日报",
             "viewname": "#"
         }, {
+            "funcId":43,
             "name": "测试日报统计查询",
             "viewname": "#"
         }, {
+            "funcId":44,
             "name": "功能点所属系统管理",
             "viewname": "#"
         }, {
+            "funcId":45,
             "name": "报表数据导入",
             "viewname": "#"
         }, {
+            "funcId":46,
             "name": "环节时间录入",
             "viewname": "#"
         }]
     }, {
+        "funcId":47,
         "name": "数据维护",
         "funcImg": "fa fa-fw fa-database",
         "viewname": "#",
         "subMenus": [{
+            "funcId":48,
             "name": "功能点所属系统管理",
             "viewname": "view/dataMaintenance/ascriptionManage.html"
         }, {
+            "funcId":49,
             "name": "系统子类",
             "viewname": "view/dataMaintenance/sonSysManage.html"
         }, {
+            "funcId":50,
             "name": "功能点管理",
             "viewname": "view/dataMaintenance/functionManage.html"
-        }]
-    }, {
-        "name": "通用组件演示",
-        "funcImg": "fa fa-desktop",
-        "viewname": "#",
-        "subMenus": [{
-            "name": "日期控件",
-            "viewname": "view/docs/My97DatePicker.html"
         }]
     }]
 }

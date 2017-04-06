@@ -79,6 +79,7 @@ public class OnlinePlanBugSv extends BaseService{
 		list.add("type");
 		list.add("onlinePlanName");
 		list.add("createName");
+		
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}

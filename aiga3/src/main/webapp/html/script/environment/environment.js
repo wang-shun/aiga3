@@ -17,12 +17,15 @@ define(function(require,exports,module){
 	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","sys/environment/del");
 	//修改环境
 	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
+	//获取机器列表
+	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
 
 	//模板对象
 	var Tpl={
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
-		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl')
+		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
+		getMachineList: require('tpl/environment/getMachineList.tpl')
 	};
 
 	var Dom={
@@ -30,6 +33,8 @@ define(function(require,exports,module){
 		getEnvironmentList:'#JS_getEnvironmentList',
 		addEnviromentInfoForm:"#JS_addEnvironmentInfoForm",
 		addEnvironmentInfoModal:"#JS_addEnvironmentInfoModal",
+		connectMachineList:"#JS_connectMachineList",
+		connectMachineModal:"#JS_connectMachineModal",
 		caseType:[],
 		repairsId:[]
 	}
@@ -68,6 +73,8 @@ define(function(require,exports,module){
 					$(Dom.getEnvironmentList).html(template(json.data));
 					//删除按钮
 					self.deleteEnvironment();
+					//关联机器
+					self.connectMachine();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
 						self.updateEnvironmentInfo();
@@ -86,6 +93,8 @@ define(function(require,exports,module){
 					$(Dom.getEnvironmentList).html(template(json.data.content));
 					//删除按钮
 					self.deleteEnvironment();
+					//关联机器
+					self.connectMachine();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
 						self.updateEnvironmentInfo();
@@ -95,7 +104,6 @@ define(function(require,exports,module){
 				}
 			});
 		},
-		
 		// 按条件查询
 		queryEnvironment: function() {
 			var self = this;
@@ -183,6 +191,63 @@ define(function(require,exports,module){
 				});
 			});
 		},
+		//关联机器
+		connectMachine : function(cmd){
+			var self = this;
+			$("#JS_connectMachine").bind('click', function() {
+				var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+				if(_checkObj.length==0){
+				   window.XMS.msgbox.show('请选择要关联的环境！', 'error', 2000);
+				   return false;
+			    }
+				var _form = $(Dom.connectMachineList);
+				var template = Handlebars.compile(Tpl.getMachineList);
+				/*$("#formName").html("关联机器");*/
+				_form.html(template());
+				self.getMachineList();
+				//弹出层
+				$(Dom.connectMachineModal).modal('show');
+				$("#JS_connectMachineSubmit").unbind('click');
+				//点击保存
+				$("#JS_connectMachineSubmit").bind('click',function(){
+					/*var cmd = _form.serialize();
+					console.log(cmd);*/
+					Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+						if(status) {
+								// 关联机器成功后，刷新用户列表页
+								XMS.msgbox.show('关联成功！', 'success', 2000)
+								// 关闭弹出层
+								$(Dom.connectMachineModal).modal('hide');
+								/*setTimeout(function(){
+									self.getEnvironmentList();
+								},1000)*/
+						}
+					});
+				});
+			});
+		},
+        //机器列表
+        getMachineList: function(cmd) {
+            var self = this;
+            Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.getMachineList);
+                    console.log(json.data.content);
+                    $("#formName").html("关联机器");
+                    $(Dom.connectMachineList).html(template(json.data.content));
+                    //单击选中
+                    /*self.eventClickChecked($(Dom.getCaseList));*/
+                    //双击关联用例
+                    // self.eventDClickCallback($(Dom.getCaseGroupList), function() {
+                    //     var _data = self.getCheckedCaseGroup();
+                    //     var cmd = "groupId=" + _data.groupId;
+                    //     self.getCaseGroupInfo(cmd);
+                    // })
+                    //设置分页
+                    self.initPaging($(Dom.connectMachineList), 10)
+                }
+            });
+        },
 		updateEnvironmentInfo:function(){
 			var self = this;
 			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
@@ -220,7 +285,7 @@ define(function(require,exports,module){
 					});
 				}
 			});
-			
+
 		},
 		// 事件：分页
         initPaging: function(obj, length) {

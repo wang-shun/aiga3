@@ -136,8 +136,11 @@ define(function(require, exports, module) {
                 }
             });
             Handlebars.registerHelper("transformatTaskId", function(value) {
-                var cmd = "taskId="+value;
+                var cmd = "taskId=" + value;
                 Rose.ajax.postJson(srvMap.get('getTaskInfo'), cmd, function(json, status) {
+
+                });
+
             });
         },
         getPlanList: function(cmd) {

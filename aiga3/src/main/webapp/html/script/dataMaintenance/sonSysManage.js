@@ -53,9 +53,10 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
-				alert(cmd);
+				console.log(cmd);
 				self.getCaseTempList(cmd);
 			});
+
 		},
 		// 查询自动化用例模板
 		getCaseTempList: function(cmd) {
@@ -75,10 +76,7 @@ define(function(require, exports, module) {
 					self.addSubSysInfo();
 					Utils.eventTrClickCallback($(Dom.getsubInfoList));
 
-					//滚动条
-					$('#AsciptionListTable').parent().slimScroll({
-						"height": '250px'
-					});
+					self.initPaging($(Dom.getsubInfoList),8);
 				}
 			});
 
@@ -95,8 +93,7 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					console.log(data);
-					var cmd = data.sysId;
-					//alert(cmd);
+					var cmd = 'subsysId='+data.subsysId;
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delsubSysInfo'), cmd, function(json, status) {
 						if (status) {
@@ -141,7 +138,19 @@ define(function(require, exports, module) {
 					});
 				})
 			})
-		}
+		},
+        // 事件：分页
+        initPaging: function(obj, length) {
+            obj.find("table").DataTable({
+                "iDisplayLength": length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false
+            });
+        }
 	};
 	module.exports = Query;
 });

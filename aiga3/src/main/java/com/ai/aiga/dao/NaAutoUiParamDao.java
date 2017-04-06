@@ -26,5 +26,5 @@ public interface NaAutoUiParamDao extends SearchAndPageRepository<NaAutoUiParam,
 
     List<NaAutoUiParam> findByAutoIdAndCompIdAndCompOrder(Long autoId,Long compId,Long compOrder);
 
-    List<NaAutoUiParam> findByAutoId(Long autoId);
+    List<NaAutoUiParam> findByAutoIdOrderByCompOrder(Long autoId);
 }

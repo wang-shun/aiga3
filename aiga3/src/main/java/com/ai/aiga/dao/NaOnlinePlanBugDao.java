@@ -1,6 +1,10 @@
 package com.ai.aiga.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaOnlinePlanBug;
@@ -13,6 +17,10 @@ import com.ai.aiga.domain.NaOnlinePlanBug;
  * 
  */
 public interface NaOnlinePlanBugDao extends JpaRepository<NaOnlinePlanBug, Long>, SearchAndPageRepository<NaOnlinePlanBug, Long>{
+
+	@Modifying
+	@Query("delete from NaOnlinePlanBug where bugId in (?1)")
+	void delete(List<Long> list);
 
 }
 

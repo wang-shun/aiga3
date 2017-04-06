@@ -1,0 +1,47 @@
+{
+	"retCode": "200",
+	"retMessage": null,
+	"data":[
+			{
+				"funcId": "1",
+				"name": "业务",
+				"parentId": "0"
+			},{
+				"funcId": "11",
+				"name": "模块",
+				"parentId": "1"
+			},{
+				"funcId": "22",
+				"name": "模块",
+				"parentId": "1"
+			},{
+				"funcId": "33",
+				"name": "子模块",
+				"parentId": "22"
+			},{
+				"funcId": "44",
+				"name": "业务",
+				"parentId": "0"
+			},{
+				"funcId": "55",
+				"name": "模块",
+				"parentId": "44"
+			},{
+				"funcId": "6",
+				"name": "业务",
+				"parentId": "0"
+			},{
+				"funcId": "7",
+				"name": "业务",
+				"parentId": "0"
+			},{
+				"funcId": "8",
+				"name": "业务",
+				"parentId": "0"
+			},{
+				"funcId": "9",
+				"name": "业务",
+				"parentId": "0"
+			}
+		]
+}

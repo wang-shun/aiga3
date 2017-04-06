@@ -1,14 +1,15 @@
 package com.ai.aiga.service;
 
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.dao.NaAutoCaseDao;
-import com.ai.aiga.dao.NaTestCaseDao;
-import com.ai.aiga.domain.NaAutoCase;
-import com.ai.aiga.domain.NaAutoTemplate;
-import com.ai.aiga.domain.NaTestCase;
+import com.ai.aiga.dao.*;
+import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.service.enums.GeneralEnum;
+import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.AutoCaseRequest;
 import com.ai.aiga.view.json.AutoUiCompRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -18,9 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * 自动化用例
@@ -47,6 +46,14 @@ public class AutoCaseSv {
     @Autowired
     private NaTestCaseDao testCaseDao;
 
+    @Autowired
+    private NaUiComponentDao componentDao;
+
+    @Autowired
+    private NaUiCompCtrlDao compCtrlDao;
+
+    @Autowired
+    private NaUiControlDao controlDao;
     /**
      * 保存操作(唯一入口)
      * @param autoCase
@@ -69,10 +76,10 @@ public class AutoCaseSv {
             autoCase.setImportant((short) 4);//默认为4级
         }
         if (autoCase.getStatus() == null) {
-            autoCase.setStatus(1L);//默认可用
+            autoCase.setStatus(GeneralEnum.Status_able.getValue());//默认可用
         }
         if (autoCase.getHasAuto() == null) {
-            autoCase.setHasAuto(0L);//默认未实现自动化
+            autoCase.setHasAuto(GeneralEnum.Logic_no.getValue());//默认未实现自动化
         }
         if (autoCase.getParamLevel() == null) {
             autoCase.setParamLevel(1L);//默认为1级
@@ -83,7 +90,7 @@ public class AutoCaseSv {
         }
 //       if (autoCase.getAutoId()==null)autoCase.setCreatorId();
 //        autoCase.setUpdateId();
-        autoCase.setUpdateTime(Calendar.getInstance().getTime());
+        autoCase.setUpdateTime(DateUtil.getCurrentTime());
         return autoCaseDao.save(autoCase);
     }
 
@@ -97,9 +104,6 @@ public class AutoCaseSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
         NaAutoTemplate autoTemplate=autoTemplateSv.findById(tempId);
-        if (autoTemplate == null) {
-            BusinessException.throwBusinessException("can not found the autoTemplate! please make sure the tempId:"+tempId);
-        }
         NaAutoCase autoCase= BeanMapper.map(autoTemplate,NaAutoCase.class);
         autoCase.setAutoName(autoTemplate.getTempName());//默认根据模板名称填充，需由后续调用方法者覆盖
         autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
@@ -137,7 +141,7 @@ public class AutoCaseSv {
         }
         NaAutoCase autoCase=BeanMapper.map(testCase,NaAutoCase.class);
         autoCase.setAutoName(testCase.getTestName());//默认根据测试用例名称填充，需由后续调用方法者覆盖
-        autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
+        autoCase.setEnvironmentType(AutoRunEnum.EnvironmentType_acceptance.getValue());//默认验收环境，需由后续调用方法者覆盖
         //保存操作
         return this.save(autoCase);
     }
@@ -171,9 +175,6 @@ public class AutoCaseSv {
             }
         }else{
             autoCase=this.findById(autoCaseRequest.getAutoId());
-            if (autoCase == null) {
-                BusinessException.throwBusinessException("can not found autoCase !please make sure the autoId is valid......");
-            }
             //删除现有组件和参数关系
             autoUiCompSv.deleteByAutoId(autoCase.getAutoId());
             autoUiParamSv.deleteByAutoId(autoCase.getAutoId());
@@ -223,7 +224,27 @@ public class AutoCaseSv {
         if (autoId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
         }
-        return autoCaseDao.findOne(autoId);
+        NaAutoCase autoCase = autoCaseDao.findOne(autoId);
+        if (autoCase == null) {
+            BusinessException.throwBusinessException("can not found autoCase !please make sure the autoId:"+autoId);
+        }
+         return autoCase;
+    }
+
+    /**
+     * 根据用例名称查询
+     * @param autoName
+     * @return
+     */
+    public NaAutoCase findByAutoName(String autoName){
+        if (StringUtils.isBlank(autoName)) {
+                  BusinessException.throwBusinessException(ErrorCode.Parameter_null, autoName);
+        }
+        NaAutoCase autoCase = autoCaseDao.findByAutoName(autoName);
+        if (autoCase == null) {
+            BusinessException.throwBusinessException("can not found autoCase !please make sure the autoName:"+autoName);
+        }
+        return autoCase;
     }
 
     /**
@@ -350,6 +371,83 @@ public class AutoCaseSv {
         return autoCase!=null ? !autoCase.getAutoId().equals(autoId) : false;
     }
 
+    /**
+     * 根据任务ID和用例名称返回json信息
+     * @param autoName
+     * @return
+     */
+    public String getCaseByAutoNameToJson(String autoName){
+        if (StringUtils.isBlank(autoName)) {
+                  BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoName");
+        }
+        Map<String,String> json=new HashMap<String,String>();
+        Map<String, String> scripts = new HashMap<String, String>();
+        Map<String, String> elements = new HashMap<String, String>();
+        List<String> steps=new ArrayList<String>();
+        NaAutoCase autoCase=this.findByAutoName(autoName);
+        List<NaAutoUiComp> autoUiCompList=this.autoUiCompSv.findByAutoId(autoCase.getAutoId());
+        if (autoUiCompList == null || autoUiCompList.size() == 0) {
+            BusinessException.throwBusinessException("getCaseByCaseNameToJson could not found the autoCaseComp......");
+        }
+        for (NaAutoUiComp autoUiComp:autoUiCompList){
+            //获取组件脚本信息
+            NaUiComponent uiComponent=this.componentDao.findOne(autoUiComp.getCompId());
+            if(uiComponent !=null){
+                steps.add(uiComponent.getCompName());
+                scripts.put(uiComponent.getCompName(), uiComponent.getCompScript());
+            }
+            //获取控件XPATH信息
+            List<NaUiCompCtrl> ctrlList=this.compCtrlDao.findByCompId(autoUiComp.getCompId());
+            if (ctrlList != null && ctrlList.size() > 0) {
+                for (NaUiCompCtrl compCtrl:ctrlList){
+                    NaUiControl control=controlDao.findOne(compCtrl.getCtrlId());
+                    if (control != null) {
+                        elements.put(control.getCtrlName(),control.getCtrlXpath());
+                    }
+                }
+            }
+        }
+        json.put("name", autoName);
+        json.put("steps", JsonUtil.listToJson(steps));
+        json.put("scripts", JsonUtil.mapToJson(scripts));
+        json.put("elements", JsonUtil.mapToJson(elements));
+        return JsonUtil.mapToJson(json);
+    }
 
+    /**
+     * 获取自动化用例的参数值
+     * @param taskIdAutoId 传入参数为taskId_autoId格式字符串，需解析出autoId
+     * @return
+     */
+    public String getParamValueByautoIdToJson(String taskIdAutoId){
+        if (StringUtils.isBlank(taskIdAutoId)) {
+                  BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskIdAutoId");
+        }
+        Long autoId = Long.parseLong(taskIdAutoId.split("_")[1]);
+        List<NaAutoUiComp> compList=this.autoUiCompSv.findByAutoId(autoId);
+        Map<String,String> json=new HashMap<String, String>();
+        Map<String,String> arguments=new HashMap<String, String>();
+        if (compList == null || compList.size()==0) {
+            BusinessException.throwBusinessException("getCaseByCaseNameToJson could not found the autoCaseComp......");
+        }
+        //获取组件
+        for (NaAutoUiComp comp:compList){
+            List<NaAutoUiParam> paramList=this.autoUiParamSv.findByAutoComp(autoId,comp.getCompId(),comp.getCompOrder());
+            Map<String,String> compMap=new HashMap<String, String>();
+            //获取组件下的参数
+            if (paramList != null && paramList.size() > 0) {
+                for (NaAutoUiParam param:paramList){
+                    Map<String,String> args=new HashMap<String, String>();
+                    args.put("value",param.getParamValue());
+                    args.put("expect",param.getParamExpect());
+                    compMap.put(param.getParamName(),JsonUtil.mapToJson(args));
+                }
+            }
+            arguments.put(comp.getCompOrder().toString(),JsonUtil.mapToJson(compMap));
+        }
+        json.put("name",taskIdAutoId);
+        json.put("arguments",JsonUtil.mapToJson(arguments));
+        return JsonUtil.mapToJson(json);
+    }
 
 }

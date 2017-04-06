@@ -7,8 +7,11 @@ import com.ai.aiga.domain.NaAutoRunPlan;
 import com.ai.aiga.domain.NaAutoRunTask;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.service.enums.GeneralEnum;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.util.net.HttpConnectionUtil;
 import com.ai.aiga.util.net.UrlConfigTypes;
 import com.ai.aiga.view.json.AutoRunTaskRequest;
@@ -19,9 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * 自动化执行任务
@@ -54,16 +55,16 @@ public class AutoRunTaskSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
         if (autoRunTask.getTaskType() == null) {
-            autoRunTask.setTaskType(1L);//默认普通类型
+            autoRunTask.setTaskType(AutoRunEnum.TaskType_general.getValue());//默认普通类型
         }
         if (autoRunTask.getCycleType() == null) {
-            autoRunTask.setCycleType(1L);//默认不轮循
+            autoRunTask.setCycleType(AutoRunEnum.CycleType_noCylcle.getValue());//默认不轮循
         }
         if (autoRunTask.getRunType() == null) {
-            autoRunTask.setRunType(1L);//默认立即执行
+            autoRunTask.setRunType(AutoRunEnum.RunType_immediately.getValue());//默认立即执行
         }
         if (autoRunTask.getTaskResult() == null) {
-            autoRunTask.setTaskResult(1L);//默认未执行
+            autoRunTask.setTaskResult(AutoRunEnum.TaskResult_none.getValue());//默认未执行
         }
         if (autoRunTask.getRunTimes() == null) {
             autoRunTask.setRunTimes(0L);//默认0
@@ -75,26 +76,29 @@ public class AutoRunTaskSv {
             autoRunTask.setEndTimes(0L);//默认0
         }
         if (autoRunTask.getStopFlag() == null) {
-            autoRunTask.setStopFlag(0L);//默认否
+            autoRunTask.setStopFlag(GeneralEnum.Logic_no.getValue());//默认否
         }
         if (autoRunTask.getSmsType() == null) {
-            autoRunTask.setSmsType(0L);//默认不发送
+            autoRunTask.setSmsType(GeneralEnum.Message_no.getValue());//默认不发送
         }
         if (autoRunTask.getMailType() == null) {
-            autoRunTask.setMailType(0L);//默认不发送
+            autoRunTask.setMailType(GeneralEnum.Message_no.getValue());//默认不发送
         }
         if(autoRunTask.getParallelNum()==null){
             autoRunTask.setParallelNum(1L);//默认并行数为1
+        }
+        if (autoRunTask.getDistributeNum() == null) {
+            autoRunTask.setDistributeNum(10L);//默认分布式执行数量
         }
         if (autoRunTask.getTaskTag() == null) {
             autoRunTask.setTaskTag("ART"+DateUtil.getCurrTimeStringByMs());
         }
         if (StringUtils.isBlank(autoRunTask.getTaskName())) {
-                  BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskName");
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskName");
         }
         if(autoRunTask.getTaskId()==null){
 //            autoRunTask.setCreatorId();//创建人
-            autoRunTask.setCreateTime(Calendar.getInstance().getTime());
+            autoRunTask.setCreateTime(DateUtil.getCurrentTime());
         }
 //        autoRunTask.setLastRunner();//修改人
         autoRunTask=autoRunTaskDao.save(autoRunTask);
@@ -110,7 +114,11 @@ public class AutoRunTaskSv {
         if (taskId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
         }
-        return autoRunTaskDao.findOne(taskId);
+        NaAutoRunTask autoRunTask= autoRunTaskDao.findOne(taskId);
+        if (autoRunTask == null) {
+            BusinessException.throwBusinessException("could not found the task! please make sure the taskId:"+taskId);
+        }
+        return autoRunTask;
     }
 
 
@@ -119,7 +127,7 @@ public class AutoRunTaskSv {
      * @param autoRunTask
      * @return
      */
-    public NaAutoRunTask createTask(NaAutoRunTask autoRunTask){
+    private NaAutoRunTask createTask(NaAutoRunTask autoRunTask){
         if (autoRunTask == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
@@ -154,7 +162,7 @@ public class AutoRunTaskSv {
      * @param planId
      * @return
      */
-    public NaAutoRunTask createTaskByPlanId(Long planId){
+    private NaAutoRunTask createTaskByPlanId(Long planId){
         if (planId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
         }
@@ -185,9 +193,6 @@ public class AutoRunTaskSv {
             autoRunResultSv.createResultByTaskId(autoRunTask.getTaskId());
         }else{
             autoRunTask=this.findById(taskRequest.getTaskId());
-            if (autoRunTask == null) {
-                BusinessException.throwBusinessException("could not found the task! please make sure the taskId:"+taskRequest.getTaskId());
-            }
             //初始化执行结果信息
             autoRunResultSv.initResultByFail(taskRequest.getTaskId());
         }
@@ -213,7 +218,7 @@ public class AutoRunTaskSv {
      * 启动任务
      * @param autoRunTask
      */
-    public void startTask(NaAutoRunTask autoRunTask){
+    private void startTask(NaAutoRunTask autoRunTask){
         if (autoRunTask == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
@@ -222,13 +227,17 @@ public class AutoRunTaskSv {
         }
         //根据执行类型不同选择不同方式
         Long runType=autoRunTask.getRunType();
+        //更新任务信息
+        autoRunTask.setBeginRunTime(DateUtil.getCurrentTime());
+        autoRunTask.setTaskResult(AutoRunEnum.TaskResult_running.getValue());//执行中
+//            autoRunTask.setLastRunner();//执行者
         //立即执行
-        if(runType==1){
+        if(runType==AutoRunEnum.RunType_timing.getValue()){
 
         }else//分布式执行
-        if(runType==3){
+            if(runType==AutoRunEnum.RunType_distributed.getValue()){
 
-        }
+            }
     }
 
     /**
@@ -291,16 +300,13 @@ public class AutoRunTaskSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
         }
         NaAutoRunTask autoRunTask=this.findById(taskId);
-        if (autoRunTask == null) {
-            BusinessException.throwBusinessException("can not found the task! please make sure the taskId:"+taskId);
-        }
         /**
          * 此部分代码为终止云桌面代理程序并重新启动，需后续开发者继续实现
          */
 
         //最后将任务状态设为终止,任务执行结果为执行失败
-        autoRunTask.setStopFlag(1L);
-        autoRunTask.setTaskResult(4L);
+        autoRunTask.setStopFlag(GeneralEnum.Logic_yes.getValue());
+        autoRunTask.setTaskResult(AutoRunEnum.TaskResult_fail.getValue());
         this.save(autoRunTask);
         //将执行状态为执行中的用例全部初始化
         autoRunResultSv.initResultByExec(autoRunTask.getTaskId());
@@ -323,16 +329,16 @@ public class AutoRunTaskSv {
     public Object listbyNativeSQL(AutoRunTaskRequest condition,int pageNumber, int pageSize){
         StringBuilder nativeSql=new StringBuilder(
                 "select a.task_id,a.plan_id,task_tag,task_name,Task_type,a.cycle_type,a.Run_type,\n" +
-                "Task_result,Begin_run_time,End_run_time,Spend_time,run_Times,interval_Time,\n" +
-                "End_times,Stop_flag,Sms_type,Mail_type,Parallel_num,Last_runner,\n" +
-                "(select name from aiga_staff where staff_id=a.creator_id) creator_id,\n" +
-                "(select name from aiga_staff where staff_id=a.last_runner) lastRunnerName,\n" +
-                "b.plan_name,b.plan_tag,c.machine_name,a.Machine_ip\n" +
-                "from na_auto_run_task a \n" +
-                "left join na_auto_run_plan b on a.plan_id=b.plan_id \n" +
-                "left join na_auto_machine c on a.machine_ip=c.machine_ip\n" +
-                "where 1=1  \n" +
-                "\n");
+                        "Task_result,Begin_run_time,End_run_time,Spend_time,run_Times,interval_Time,\n" +
+                        "End_times,Stop_flag,Sms_type,Mail_type,Parallel_num,Last_runner,\n" +
+                        "(select name from aiga_staff where staff_id=a.creator_id) creator_id,\n" +
+                        "(select name from aiga_staff where staff_id=a.last_runner) lastRunnerName,\n" +
+                        "b.plan_name,b.plan_tag,c.machine_name,a.Machine_ip\n" +
+                        "from na_auto_run_task a \n" +
+                        "left join na_auto_run_plan b on a.plan_id=b.plan_id \n" +
+                        "left join na_auto_machine c on a.machine_ip=c.machine_ip\n" +
+                        "where 1=1  \n" +
+                        "\n");
         if (condition != null) {
             if (StringUtils.isNoneBlank(condition.getTaskName())) {
                 nativeSql.append(" and a.task_name like '%").append(condition.getTaskName()).append("%' ");
@@ -388,6 +394,27 @@ public class AutoRunTaskSv {
         }
         Pageable pageable = new PageRequest(pageNumber, pageSize);
         return autoRunTaskDao.searchByNativeSQL(nativeSql.toString(),pageable,keyList);
+    }
+
+
+    /**
+     * 根据任务ID返回任务数据以及任务关联用例的JSON数据(供云桌面使用)
+     * @param taskId
+     * @return
+     */
+    public String getTaskByTaskIdToJson(String taskId){
+        if (StringUtils.isBlank(taskId)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+        }
+        NaAutoRunTask autoRunTask = this.findById(Long.parseLong(taskId));
+        Map<String, String> taskMap = new HashMap<String, String>();
+        taskMap.put("name",autoRunTask.getTaskName());
+        taskMap.put("schedule",DateUtil.getDateStringByDate(autoRunTask.getBeginRunTime(),DateUtil.YMDHMS));
+        taskMap.put("parallelNum",autoRunTask.getParallelNum().toString());
+        //获取任务下的所有执行用例信息
+        String results=this.autoRunResultSv.getResultByTaskIdToJson(Long.parseLong(taskId));
+        taskMap.put("plans",results);
+        return JsonUtil.mapToJson(taskMap);
     }
 
 

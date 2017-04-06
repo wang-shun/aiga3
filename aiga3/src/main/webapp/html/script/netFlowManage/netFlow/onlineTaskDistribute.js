@@ -108,6 +108,8 @@ define(function(require, exports, module) {
                                         var template = Handlebars.compile(Tpl.getOnlineTaskDistributeList);
                                         var _dom = $(Dom.getOnlineTaskDistributeList);
                                         _dom.html(template(json.data));
+                                        // 初始化步骤
+                                        Utils.initStep(_modal);
                                         self.addOnlineTask();
                                         self.updateOnlineTask();
                                         self.delOnlineTask();
@@ -265,15 +267,18 @@ define(function(require, exports, module) {
                         Rose.ajax.postJson(srvMap.get('getManualResultList'), cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.hide();
+
+                                // 到第二步骤
+                                Utils.goStep(Dom.getOnlineTaskDistributeModal,2);
                                 // 显示弹框
-                                var _modal = $(Dom.getManualResultListModal);
-                                _modal.modal('show').on('shown.bs.modal', function() {
+                                // var _modal = $(Dom.getManualResultListModal);
+                                // _modal.modal('show').on('shown.bs.modal', function() {
                                     var template = Handlebars.compile(Tpl.getManualResultList);
                                     var _dom = $(Dom.getManualResultList);
                                     _dom.html(template(json.data));
                                     //设置分页
                                     self.initPaging(_dom, 5, true);
-                                })
+                                //})
                             }
                         });
                     } else {

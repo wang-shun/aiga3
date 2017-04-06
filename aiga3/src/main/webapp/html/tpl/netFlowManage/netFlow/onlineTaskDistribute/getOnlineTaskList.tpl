@@ -24,15 +24,15 @@
         <tbody>
             {{#each content}}
             <tr>
-                <td><input type="radio" class="minimal" value="{{onlinePlanId}}" name="onlinePlanId">
+                <td><input type="radio" class="minimal" value="{{onlinePlan}}" name="onlinePlan">
                 <input type="hidden" name="taskId" value="{{taskId}}"></td>
                 <td><input type="hidden" name="onlinePlanName" value="{{onlinePlanName}}">{{onlinePlanName}}</td>
                 <td><input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
                 <td><input type="hidden" name="taskType" value="{{taskType}}">{{getTaskType taskType}}</td>
                 <td>{{getDealState dealState}}</td>
-                <td>{{creatorName}}</td>
-                <td><input type="hidden" name="dealOpName" value="{{dealOpName}}">{{dealOpName}}</td>
-                <td>{{createDate}}</td>
+                <td>{{assignName}}</td>
+                <td><input type="hidden" name="dealName" value="{{dealName}}">{{dealName}}</td>
+                <td>{{assignDate}}</td>
             </tr>
             {{/each}}
         </tbody>

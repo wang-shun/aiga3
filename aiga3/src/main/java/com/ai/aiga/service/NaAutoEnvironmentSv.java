@@ -61,13 +61,13 @@ public class NaAutoEnvironmentSv extends BaseService{
 	/*   if(StringUtils.isBlank(request.getSoId())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"soId");
    }*/
-	   if(StringUtils.isBlank(request.getSvnUrl())){
+	   /*if(StringUtils.isBlank(request.getSvnUrl())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"svnUrl");
    }
 	   if(StringUtils.isBlank(request.getSvnPassword())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"svnPassword");
-   }
-	   if(StringUtils.isBlank(request.getSvnAccount())){
+   }*/
+	   /*if(StringUtils.isBlank(request.getSvnAccount())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"svnAccount");
    }
 	   if(StringUtils.isBlank(request.getDbPassword())){
@@ -78,19 +78,19 @@ public class NaAutoEnvironmentSv extends BaseService{
    }
 	   if(StringUtils.isBlank(request.getCreatorId().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"creatorId");
-   }
+   }*/
 	   if(StringUtils.isBlank(request.getRunEnv().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"runEnv");
    }
-	   if(StringUtils.isBlank(request.getUpdateTime().toString())){
+	  /* if(StringUtils.isBlank(request.getUpdateTime().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"updateTime");
-   }
+   }*/
 	   if(StringUtils.isBlank(request.getRegionId().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"regionId");
    }
-	   if(StringUtils.isBlank(request.getDatabase())){
+	   /*if(StringUtils.isBlank(request.getDatabase())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"database");
-   }
+   }*/
 	   NaAutoEnvironment naAutoEnvironment =new NaAutoEnvironment();
 	   naAutoEnvironment.setCreatorId(request.getCreatorId());
 	   naAutoEnvironment.setDatabase(request.getDatabase());
@@ -234,7 +234,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 	}
    
    
-   public void addMachineandEnv(NaAutoEnvironmentRequest  request,String machineIds){
+   /*public void addMachineandEnv(NaAutoEnvironmentRequest  request,String machineIds){
 	  
 	   NaAutoEnvironment naAutoEnvironment=saveEnvironment(request);
 	   if(naAutoEnvironment==null){
@@ -258,7 +258,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 				naAutoMachineEnvDao.save(naAutoMachineEnv);
 			}
 		}
-   }
+   }*/
    /**
     * 
     * @ClassName: NaAutoEnvironmentSv :: saveMachine
@@ -269,7 +269,7 @@ public class NaAutoEnvironmentSv extends BaseService{
     * @param list
     * @param envId
     */
-   public void saveMachine(List<NaAutoMachine> list,BigDecimal envId) {
+  /* public void saveMachine(List<NaAutoMachine> list,BigDecimal envId) {
  		if (list == null&&envId==null) {
  			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
  		}
@@ -286,7 +286,21 @@ public class NaAutoEnvironmentSv extends BaseService{
 
  			}
  		}
- 	}
+ 	}*/
+   public void saveMachine(String machines,BigDecimal envId) {
+		if (machines == null&&envId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		String[] machine=machines.split(",");
+		for (int i = 0; i < machine.length; i++) {
+				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
+				naAutoMachineEnv.setEnvId(envId);
+				naAutoMachineEnv.setMachineId(BigDecimal.valueOf((NumberUtils.toLong(machine[i]))));
+				naAutoMachineEnvDao.save(naAutoMachineEnv);
+
+			
+		}
+	}
 	/**
 	 * 根据环境ID获取环境信息并返回JSON串（供云桌面使用）
 	 * @param envId

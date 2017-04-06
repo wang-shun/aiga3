@@ -1,16 +1,23 @@
 package com.ai.aiga.service;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.SysRoleDao;
 import com.ai.aiga.dao.SysRoleStationtypeDao;
+import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.AigaFunction;
+import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.domain.SysRoleStationtype;
 import com.ai.aiga.exception.BusinessException;
@@ -29,7 +36,28 @@ public class RoleSv extends BaseService{
 	public List<SysRole> findRoles() {
 		return sysRoleDao.findAll();
 	}
+   
+public Object list(int pageNumber, int pageSize ,SysRole condition ) throws ParseException {
+		
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
 
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return sysRoleDao.search(cons, pageable);
+	}
+   
+	
+	
 	public void saveRole(RoleRequest roleRequest) {
 		if(roleRequest == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);

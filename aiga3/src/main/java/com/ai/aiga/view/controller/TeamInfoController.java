@@ -32,11 +32,15 @@ public class TeamInfoController {
 
 	@Autowired
 	private TeamInfoSv teamInfoSv;
+	
+	
 	@RequestMapping(path = "/sys/team/save")
 	public @ResponseBody JsonBean save(NaTeamInfo naTeamInfo){
 		teamInfoSv.save(naTeamInfo);
 		return JsonBean.success;
 	}
+	
+	
 	
 	@RequestMapping(path = "/sys/team/update")
 	public @ResponseBody JsonBean update(NaTeamInfo naTeamInfo){
@@ -77,11 +81,17 @@ public class TeamInfoController {
 		bean.setData(teamInfoSv.listEmployee(pageNumber, pageSize, condition));
 		return bean;
 	}
+	
 	@RequestMapping(path = "/sys/employeeandteam/saveemployee")
 	public @ResponseBody JsonBean save(@RequestBody List<NaEmployeeInfo> list,Long teamId){
 		teamInfoSv.saveEmployee(list, teamId);
 		return JsonBean.success;
 	}
 	
+	@RequestMapping(path = "/sys/employee/save")
+	public @ResponseBody JsonBean saveemployee(NaEmployeeInfo request){
+		teamInfoSv.saveEmployee(request);
+		return JsonBean.success;
+	}
 }
 

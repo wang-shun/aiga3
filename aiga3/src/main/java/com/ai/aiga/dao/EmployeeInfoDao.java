@@ -3,6 +3,8 @@ package com.ai.aiga.dao;
 import java.math.BigDecimal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.AigaSystemFolder;
@@ -17,6 +19,8 @@ import com.ai.aiga.domain.NaEmployeeInfo;
  */
 public interface EmployeeInfoDao extends JpaRepository<NaEmployeeInfo, Long>
 ,SearchAndPageRepository<NaEmployeeInfo, Long>{
-
+	@Modifying
+	@Query("delete from NaTeamEmployeeRel where id= ?1")
+	void deleteById(Long id);
 }
 

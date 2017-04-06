@@ -22,7 +22,7 @@ define(function(require,exports,module){
 	//获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
 	//关联机器
-	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/add");
+	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
 	//模板对象
 	var Tpl={

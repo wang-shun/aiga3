@@ -75,28 +75,26 @@ public class NaChangeListSv extends BaseService {
 		if (list == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		// System.out.println("request"+request);
-		// List<NaChangeList> list = (List<NaChangeList>)
-		// JsonUtil.json2Object(request, NaChangeList.class);
+		
 		for (int i = 0; i < list.size(); i++) {
 
 			NaChangeList naChangeList = list.get(i);
 
 			if (naChangeList != null) {
-				NaChangeList nachangeList1 = naChangeListDao.findOne(naChangeList.getChangeId());
+				/*NaChangeList nachangeList1 = naChangeListDao.findOne(naChangeList.getChangeId());
 				nachangeList1.setChangeMan(naChangeList.getChangeMan());
 				nachangeList1.setChangeManager(naChangeList.getChangeManager());
 				nachangeList1.setChangeName(naChangeList.getChangeName());
 				nachangeList1.setChangeTitle(naChangeList.getChangeTitle());
-				nachangeList1.setReviewState(naChangeList.getReviewState());
+				nachangeList1.setReviewState(naChangeList.getReviewState());*/
 
 				if (naChangeList.getResultState() == null || naChangeList.getResultState().equals("")) {
-					// 成功
-					nachangeList1.setResultState("1");
+					naChangeListDao.updateResultState(naChangeList.getChangeId());
+					naChangeListDao.save(naChangeList);
 				} else {
-					nachangeList1.setResultState(naChangeList.getResultState());
+					naChangeListDao.save(naChangeList);
 				}
-				naChangeListDao.save(nachangeList1);
+				
 
 			}
 		}

@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.SysRole;
 
-public interface SysRoleDao extends JpaRepository<SysRole, Long>{
+public interface SysRoleDao extends JpaRepository<SysRole, Long>,
+SearchAndPageRepository<SysRole, Long>{
 	
 	public List<SysRole> findByName(String name);
 

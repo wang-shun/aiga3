@@ -91,7 +91,7 @@ define(function(require, exports, module) {
                     _distribute.bind('click', function() {
                         var data = self.getRadioCheckedRow(_dom);
                         if (data) {
-                            var cmd = 'onlinePlanId=' + data.onlinePlanId + '&taskId=' + data.taskId;
+                            var cmd = 'onlinePlanId=' + data.onlinePlanId;
                             //存储到全局变量
                             Data.onlinePlanId = data.onlinePlanId;
                             console.log(Data.onlinePlanId);
@@ -180,7 +180,7 @@ define(function(require, exports, module) {
                     var dealOpId = _form.find("[name='dealOpId']").val();
                     var taskId = _form.find("[name='taskId']").val();
                     var onlinePlanId = _form.find("[name='onlinePlanId']").val();
-                    cmd = "taskName=" + taskName + "&autoPlanId=" + autoPlanId + "&onlinePlanId=" + onlinePlanId + "&dealOpId=" + dealOpId;
+                    cmd = "taskName=" + taskName + "&autoPlanId=" + autoPlanId + "&parentTaskId=" + data.taskId + "&dealOpId=" + dealOpId;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
                     }

@@ -12,7 +12,10 @@ import com.ai.aiga.service.RoleSv;
 import com.ai.aiga.view.json.RoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
+import io.swagger.annotations.Api;
+
 @Controller
+@Api(value = "RoleController", description = "角色相关api")
 public class RoleController {
 	
 	@Autowired

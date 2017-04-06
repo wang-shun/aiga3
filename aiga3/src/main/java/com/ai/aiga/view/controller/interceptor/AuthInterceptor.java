@@ -25,7 +25,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
 			HttpServletResponse response, Object handler) throws Exception {
 		
 		String servlpath = request.getServletPath();
-		log.info("这次访问的url: auth + " + servlpath);
+		log.info("这次访问的url: uri + " + servlpath);
+		log.info("这次访问的url: content-type + " + request.getContentType());
 		//先过滤一层公用的功能和资源
 		
 		return true;

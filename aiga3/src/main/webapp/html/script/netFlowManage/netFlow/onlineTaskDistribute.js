@@ -287,15 +287,17 @@ define(function(require, exports, module) {
                         Rose.ajax.postJson(srvMap.get('getAutoResultList'), cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.hide();
+                                // 到第三步骤
+                                Utils.goStep(Dom.getOnlineTaskDistributeModal,3);
                                 // 显示弹框
-                                var _modal = $(Dom.getAutoResultListModal);
-                                _modal.modal('show').on('shown.bs.modal', function() {
+                                // var _modal = $(Dom.getAutoResultListModal);
+                                // _modal.modal('show').on('shown.bs.modal', function() {
                                     var template = Handlebars.compile(Tpl.getAutoResultList);
                                     var _dom = $(Dom.getAutoResultList);
                                     _dom.html(template(json.data));
                                     //设置分页
                                     self.initPaging(_dom, 5, true);
-                                })
+                                // })
                             }
                         });
                     }

@@ -91,7 +91,7 @@ define(function(require, exports, module) {
                     _distribute.bind('click', function() {
                         var data = self.getRadioCheckedRow(_dom);
                         if (data) {
-                            var cmd = 'onlinePlanId=' + data.onlinePlanId;
+                            var cmd = 'taskId=' + data.taskId;
                             //存储到全局变量
                             Data.onlinePlanId = data.onlinePlanId;
                             console.log(Data.onlinePlanId);
@@ -101,7 +101,7 @@ define(function(require, exports, module) {
                                     window.XMS.msgbox.hide();
                                     var _form = $(Dom.addOnlineTaskDistributeForm);
                                     Utils.setSelectData(_form);
-                                    _form.find("[name='onlinePlanId']").val(data.onlinePlanId);
+                                    //_form.find("[name='onlinePlanId']").val(data.onlinePlanId);
                                     // 显示弹框
                                     var _modal = $(Dom.getOnlineTaskDistributeModal);
                                     _modal.modal('show').on('shown.bs.modal', function() {

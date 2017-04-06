@@ -23,12 +23,12 @@ public class AigaFunFolderController {
 	@Autowired
 	private AigaFunFolderSv aigaFunFolderSv;
 
-	@RequestMapping(path = "/sys/funfolder/list")
+	/*@RequestMapping(path = "/sys/funfolder/list")
 	public @ResponseBody JsonBean list() {
 		JsonBean bean = new JsonBean();
 		bean.setData(aigaFunFolderSv.findfunFolder());
 		return bean;
-	}
+	}*/
 
 	@RequestMapping(path = "/sys/funfolder/del")
 	public @ResponseBody JsonBean del(@RequestParam BigDecimal funId) {
@@ -56,6 +56,7 @@ public class AigaFunFolderController {
 		aigaFunFolderSv.updatefunFolder(request);
 		return JsonBean.success;
 	}
+
 	@RequestMapping(path = "/sys/funfolder/listByName")
 	public @ResponseBody JsonBean listByName(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,

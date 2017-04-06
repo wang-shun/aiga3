@@ -6,9 +6,9 @@ define(function(require, exports, module) {
     var pathAlias = "netFlowManage/netFlow/onlineTaskDistribute/";
 
     // 下拉菜单获取所有变更计划
-    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "");
+    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //获取验收任务列表
-    srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "");
+    srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "accept/onlineTask/list");
     //获取子任务分派列表
     srvMap.add("getOnlineTaskDistributeList", pathAlias + "getOnlineTaskDistributeList.json", "");
     //下拉菜单获取所有处理人
@@ -91,7 +91,7 @@ define(function(require, exports, module) {
                     _distribute.bind('click', function() {
                         var data = self.getRadioCheckedRow(_dom);
                         if (data) {
-                            var cmd = 'onlinePlanId=' + data.onlinePlanId + '&taskId=' + data.taskId;
+                            var cmd = 'onlinePlanId=' + data.onlinePlanId;
                             //存储到全局变量
                             Data.onlinePlanId = data.onlinePlanId;
                             console.log(Data.onlinePlanId);
@@ -180,7 +180,7 @@ define(function(require, exports, module) {
                     var dealOpId = _form.find("[name='dealOpId']").val();
                     var taskId = _form.find("[name='taskId']").val();
                     var onlinePlanId = _form.find("[name='onlinePlanId']").val();
-                    cmd = "taskName=" + taskName + "&autoPlanId=" + autoPlanId + "&onlinePlanId=" + onlinePlanId + "&dealOpId=" + dealOpId;
+                    cmd = "taskName=" + taskName + "&autoPlanId=" + autoPlanId + "&parentTaskId=" + data.taskId + "&dealOpId=" + dealOpId;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
                     }

@@ -2,7 +2,7 @@
     <h3 class="box-title">自动化用例执行结果</h3>
 </div>
 <div class="box-body" >
-    <table class="table table-bordered table-hover" >
+    <table class="table table-bordered table-condensed table-hover" >
         <thead>
             <tr>
                 <th>用例名称</th>

@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="box-body" >
-    <table class="table table-bordered table-hover" style="width: 1630px;">
+    <table class="table table-bordered table-condensed table-hover" style="width: 1630px;">
         <thead>
             <tr>
                 <th class="iCheckbox" ></th>

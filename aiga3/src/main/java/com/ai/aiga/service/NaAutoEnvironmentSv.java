@@ -58,9 +58,9 @@ public class NaAutoEnvironmentSv extends BaseService{
 	   if(StringUtils.isBlank(request.getSysPassword())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"sysPassword");
    }
-	   if(StringUtils.isBlank(request.getSoId())){
+	/*   if(StringUtils.isBlank(request.getSoId())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"soId");
-   }
+   }*/
 	   if(StringUtils.isBlank(request.getSvnUrl())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"svnUrl");
    }

@@ -17,12 +17,15 @@ define(function(require,exports,module){
 	srvMap.add("deleteMachine","machine/deleteMachine.json","sys/machine/del");
 	//修改机器
 	srvMap.add("updateMachineInfo","machine/updateMachineInfo.json","sys/machine/update");
+	//获取环境列表
+	srvMap.add("getEnvironmentList","machine/getEnvironmentList.json","sys/environment/list");
 
 	//模板对象
 	var Tpl={
 		queryMachineForm:require('tpl/machine/queryMachineForm.tpl'),
 		getMachineList:require('tpl/machine/getMachineList.tpl'),
-		addMachineInfo: require('tpl/machine/addMachineInfo.tpl')
+		addMachineInfo: require('tpl/machine/addMachineInfo.tpl'),
+		getEnvironmentList: require('tpl/machine/getEnvironmentList.tpl')
 	};
 
 	var Dom={
@@ -30,6 +33,8 @@ define(function(require,exports,module){
 		getMachineList:'#JS_getMachineList',
 		addMachineInfoForm:"#JS_addMachineInfoForm",
 		addMachineInfoModal:"#JS_addMachineInfoModal",
+		connectEnvironmentList:"#JS_connectEnvironmentList",
+		connectEnvironmentModal:"#JS_connectEnvironmentModal",
 		caseType:[],
 		repairsId:[]
 	}
@@ -68,6 +73,8 @@ define(function(require,exports,module){
 					$(Dom.getMachineList).html(template(json.data));
 					//删除按钮
 					self.deleteMachine();
+					//关联环境
+					self.connectEnvironment();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getMachineList), function() {
 						self.updateMachineInfo();
@@ -86,6 +93,8 @@ define(function(require,exports,module){
 					$(Dom.getMachineList).html(template(json.data.content));
 					//删除按钮
 					self.deleteMachine();
+					//关联环境
+					self.connectEnvironment();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getMachineList), function() {
 						self.updateMachineInfo();
@@ -95,7 +104,6 @@ define(function(require,exports,module){
 				}
 			});
 		},
-
 		// 按条件查询
 		queryMachine: function() {
 			var self = this;
@@ -174,6 +182,79 @@ define(function(require,exports,module){
 				});
 			});
 		},
+		//关联环境
+		connectEnvironment : function(cmd){
+			var self = this;
+			$("#JS_connectEnvironment").unbind('click');
+				$("#JS_connectEnvironment").bind('click', function() {
+					var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
+					if(_checkObj.length==0){
+					   window.XMS.msgbox.show('请选择要关联的机器！', 'error', 2000);
+					   return false;
+				    }
+					var _machineId ="";
+					_checkObj.each(function (){
+						_machineId = $(this).val();
+					})
+					Rose.ajax.postJson(srvMap.get('getMachineInfo'), 'machineId='+_machineId, function(json, status) {
+						if (status) {
+							var _form = $(Dom.connectEnvironmentList);
+							var template = Handlebars.compile(Tpl.getEnvironmentList);
+							_form.html(template());
+							self.getEnvironmentList();
+							//弹出层
+							$(Dom.connectEnvironmentModal).modal('show');
+							$("#JS_connectEnvironmentSubmit").unbind('click');
+							//点击保存
+							$("#JS_connectEnvironmentSubmit").bind('click',function(){
+								/*var cmd = _form.serialize();
+								console.log(cmd);*/
+								/*var _checkObj =	$('#JS_getEnvironmentList').find("input[type='checkbox']:checked");*/
+								var  envId="";
+								_checkObj.each(function (){
+									envId += $(this).val()+",";
+								});
+								var cmd = "envId="+envId + "&machineId=" +_machineId;
+								Rose.ajax.postJson(srvMap.get('getEnvironmentList'), cmd, function(json, status) {
+									if(status) {
+											// 关联环境成功
+											XMS.msgbox.show('关联成功！', 'success', 2000)
+											// 关闭弹出层
+											$(Dom.connectEnvironmentModal).modal('hide');
+									}
+								});
+							});
+						}
+					});
+				});
+		},
+        //环境列表
+        getEnvironmentList: function(cmd) {
+            var self = this;
+            Rose.ajax.postJson(srvMap.get('getEnvironmentList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.getEnvironmentList);
+                    /*console.log(json.data.content);*/
+                    $("#formName").html("关联环境");
+                    $(Dom.connectEnvironmentList).html(template(json.data.content));
+
+                    //单击选中
+                    /*self.eventClickChecked($(Dom.getCaseList));*/
+                    //双击关联用例
+                    // self.eventDClickCallback($(Dom.getCaseGroupList), function() {
+                    //     var _data = self.getCheckedCaseGroup();
+                    //     var cmd = "groupId=" + _data.groupId;
+                    //     self.getCaseGroupInfo(cmd);
+                    // })
+					//引入多选框样式
+					Utils.eventTrClickCallback($(Dom.connectEnvironmentList), function() {
+
+					})
+                    //设置分页
+                    self.initPaging($(Dom.connectEnvironmentList), 10)
+                }
+            });
+        },
 		updateMachineInfo:function(){
 			var self = this;
 			var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
@@ -187,6 +268,8 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.addMachineInfo);
 					var c = json.data;
 					_form.html(template(c));
+					/*alert(json.data.content[0].envType);
+					$("#query_envType").val(json.data.content[0].envType);*/
 					// 设置下拉框选中值
 					Utils.setSelected(_form);
 					// //弹出层

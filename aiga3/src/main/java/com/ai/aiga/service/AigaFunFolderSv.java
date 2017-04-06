@@ -187,8 +187,9 @@ public AigaFunFolder findOne(BigDecimal funId) {
 		list.add("creatorId");
 		list.add("creatorName");
 		list.add("addReasonType");
-		
-	   String sql = "select a.* from AIGA_FUN_FOLDER a, AIGA_SYSTEM_FOLDER b ,"
+		list.add("name");
+		list.add("subName");
+	   String sql = "select a.*,b.SYS_NAME as NAME ,c.SYS_NAME  as SUB_NAME from AIGA_FUN_FOLDER a, AIGA_SYSTEM_FOLDER b ,"
 	   		+ "AIGA_SUB_SYS_FOLDER c where a.SYS_ID=b.SYS_ID and a.SUB_SYS_ID=c.SUBSYS_ID";
 	
 			if(StringUtils.isNotBlank(condition.getSysName())){

@@ -13,17 +13,21 @@ define(function(require, exports, module) {
     };
 
     // 容器对象
-    var Mod = {
-        sidebar: $('#Mod_sidebar'),
-        menuList: $("#JS_MenuList")
+    var Dom = {
+        sidebar: '#JS_sidebar',
+        menuList: '#JS_menuList',
+        mainTabs: '#JS_mainTabs',
+        mainTabsContent: '#JS_mainTabsContent'
     };
+
+    var Data = {
+    	sidebar:[]
+    }
 
     // 渲染对象
     var Query = {
         init: function(){
             this._render();
-            this.menulist = $('#JS_MenuList');
-            this.mainContent = $('#JS_MainContent');
         },
         _render: function() {
         	var self = this;
@@ -31,34 +35,88 @@ define(function(require, exports, module) {
 		    Rose.ajax.getJson(srvMap.get('getSidebarMenuList'), '', function(json, status) {
 		        if (status) {
 		            var template = Handlebars.compile(Tpl.sidebar);
-		            Mod.sidebar.html(template(json));
-		            
-		            self.convertURL();
-		            //self.initLoadPage(json.data);
-		            self.initLoadPage($('#JS_MenuList'));
+		            $(Dom.sidebar).html(template(json));
+		            Data.sidebar = json.data;
+		            self.bindMenuClickEvent();
+		            self.initHomePage();
 		        }
 		    });
         },
-        convertURL: function() {
+        getSidebarList:function(){
+        	return Data.sidebar;
+        },
+        getSidebarInfo:function(id){
+        	// something todo
+        },
+        creatTab: function(objData) {
         	var self = this;
-			$('#JS_MenuList').find("a").bind('click', function() {
-				var _href = $(this).data('href');
-				if(_href){
-					self.loadHtml(_href); 
+    		var objId = '#JS_childTab_'+objData.id;
+        	if($(objId).length > 0){
+        		$("a[href='"+objId+"']").click();
+        	}else{
+        		if($(Dom.mainTabs).children("li").length < 8){
+        			var _delDom = '';
+        			if(objData.name!="首页"){
+        				_delDom = '<i class="fa fa-remove"></i>';
+        			}
+	        		$(Dom.mainTabs).children('li.active').removeClass('active').end().append('<li class="active">'+
+	        					'<a href="#JS_childTab_'+objData.id+'" data-toggle="tab" title="'+objData.name+'" data-id="'+objData.id+'">'+
+	        						Rose.string.substr(objData.name,6) + _delDom +
+	                        	'</a>'+
+	                    	'</li>');
+	        		$(Dom.mainTabsContent).children('div.active').removeClass('active').end().append('<div class="tab-pane active" id="JS_childTab_'+objData.id+'"></div>');
+	        		Rose.ajax.loadHtml($('#JS_childTab_'+objData.id),objData.href);
+
+	        		// 绑定删除事件
+	        		self.bindTabDelEvent();
+        		}else{
+           			window.XMS.msgbox.show('页签最多只能打开8个！', 'error', 3000);
+    			}
+        	}
+
+        },
+        delTab: function(id){
+        	var objContent = '#JS_childTab_'+id;
+        	var $li = $("a[href='"+objContent+"']").parent("li");
+
+        	// 当期为active，删除前显示前一个节点
+        	if($li.hasClass("active")){
+        		if($li.next().length > 0){
+        			$li.next().find("a").click();
+        		}else{
+        			$li.prev().find("a").click();
+        		}
+        	}
+        	// 删除节点
+        	$li.remove();
+        	$(objContent).remove();
+
+        },
+        // 绑定点击事件
+        bindMenuClickEvent: function() {
+        	var self = this;
+			$(Dom.menuList).find("a").bind('click', function() {
+				var objData = {
+					id : $(this).data('id'),
+					name : $.trim($(this).text()),
+					href : $(this).data('href')
+				}
+				if(objData.href.indexOf('.html')>=0){
+					self.creatTab(objData);
 				}
 			});
-			
 		},
-		setPath: function(){
-
+		bindTabDelEvent: function(){
+			var self = this;
+			var $removeObj = $(Dom.mainTabs).find(".fa-remove");
+			$removeObj.unbind();
+    		$removeObj.bind("click",function(){
+				var _id = $(this).parent().data("id");
+				self.delTab(_id);
+			})
 		},
-		loadHtml: function(href){
-			if(href.indexOf('.html')>=0){
-				Rose.ajax.loadHtml($('#JS_MainContent'),href)
-			}
-		},
-		initLoadPage:function (ulHtml){
-			
+		initHomePage:function (){
+			$(Dom.sidebar).find("li:first > a").click();
 //			if(data && data.length > 0){
 //				var _thisData = data[0];
 //				var _href = _thisData.viewname;
@@ -68,7 +126,7 @@ define(function(require, exports, module) {
 //					this.initLoadPage(_thisData.subMenus);
 //				}
 //			}
-			var firstLi = ulHtml.children("li:first");
+			/*var firstLi = ulHtml.children("li:first");
 			var a = firstLi.children("a:first");
 			if(a.length > 0){
 				a.click();
@@ -77,9 +135,8 @@ define(function(require, exports, module) {
 					var nextUl = firstLi.children("ul:first");
 					this.initLoadPage(nextUl);
 				}
-			}
+			}*/
 		}
-		
     };
 	Query.init();
     // 暴露渲染对象

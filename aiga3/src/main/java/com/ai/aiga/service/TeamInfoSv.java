@@ -181,4 +181,11 @@ public class TeamInfoSv extends BaseService {
 			}
 		}
 	}
+  public NaTeamInfo findone(Long teamId){
+	  if (teamId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	  return teamInfoDao.findOne(teamId);
+  }
+  
 }

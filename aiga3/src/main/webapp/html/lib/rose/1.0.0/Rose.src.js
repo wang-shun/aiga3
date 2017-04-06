@@ -473,7 +473,7 @@ Rose.string = {
 		}
 
 		if (hasDot && strLength > len) {
-			newStr += "...";
+			newStr += " ...";
 		}
 		return newStr;
 	},

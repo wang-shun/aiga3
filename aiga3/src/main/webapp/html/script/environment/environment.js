@@ -219,10 +219,15 @@ define(function(require,exports,module){
 							$("#JS_connectMachineSubmit").bind('click',function(){
 								/*var cmd = _form.serialize();
 								console.log(cmd);*/
-								var cmd=
+								/*var _checkObj =	$('#JS_getMachineList').find("input[type='checkbox']:checked");*/
+								var  machineId="";
+								_checkObj.each(function (){
+									machineId += $(this).val()+",";
+								});
+								var cmd = "machineId="+machineId + "&envId=" +_envId;
 								Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
 									if(status) {
-											// 关联机器成功后，刷新用户列表页
+											// 关联机器成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)
 											// 关闭弹出层
 											$(Dom.connectMachineModal).modal('hide');

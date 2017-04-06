@@ -219,6 +219,7 @@ define(function(require,exports,module){
 							$("#JS_connectMachineSubmit").bind('click',function(){
 								/*var cmd = _form.serialize();
 								console.log(cmd);*/
+								var cmd=
 								Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
 									if(status) {
 											// 关联机器成功后，刷新用户列表页
@@ -244,6 +245,7 @@ define(function(require,exports,module){
                     /*console.log(json.data.content);*/
                     $("#formName").html("关联机器");
                     $(Dom.connectMachineList).html(template(json.data.content));
+
                     //单击选中
                     /*self.eventClickChecked($(Dom.getCaseList));*/
                     //双击关联用例
@@ -274,6 +276,8 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.addEnvironmentInfo);
 					var c = json.data;
 					_form.html(template(c));
+					alert(json.data.content[0].envType);
+					$("#query_envType").val(json.data.content[0].envType);
 					// 设置下拉框选中值
 					Utils.setSelected(_form);
 					// //弹出层

@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
-            <th>系统大类ID</th>
+            <th>系统大类</th>
             <th>环境名称</th>
             <th>环境地址</th>
             <th>测试数据库</th>
@@ -10,7 +10,7 @@
             <th>所处中心</th>
             <th>环境类型</th>
             <th>执行环境</th>
-            <th>创建人</th>
+            <!-- <th>创建人</th> -->
             <th>更新时间</th>
             <th style="display:none;">登录账号</th>
             <th style="display:none;">登录密码</th>
@@ -31,9 +31,9 @@
             <td>{{database}}</td>
             <td>{{regionId}}</td>
             <td>{{soId}}</td>
-            <td>{{envType}}</td>
-            <td>{{runEnv}}</td>
-            <td>{{creatorId}}</td>
+            <td>{{envTypes envType}}</td>
+            <td>{{runEnvs runEnv}}</td>
+            <!-- <td>{{creatorId}}</td> -->
             <td>{{updateTime}}</td>
             <td style="display:none;">{{sysAccount}}</td>
             <td style="display:none;">{{sysPassword}}</td>

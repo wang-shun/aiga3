@@ -62,8 +62,27 @@ define(function(require,exports,module){
     		this.getEnvironmentList();
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
+    		this.hdbarHelp();
     		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
+		hdbarHelp: function() {
+			Handlebars.registerHelper("envTypes", function(value) {
+				if (value == 1) {
+					return "个人环境配置";
+				} else if (value == 2) {
+					return "公共环境配置";
+				}
+			});
+			Handlebars.registerHelper("runEnvs", function(value) {
+				if (value == 1) {
+					return "验收环境";
+				} else if (value == 2) {
+					return "准发布环境";
+				} else if (value == 3) {
+					return "生产环境";
+				}
+			});
+		},
     	initForm:function(){
 	    		var self=this;
 	    		var template=Handlebars.compile(Tpl.queryEnvironmentForm);

@@ -1,3 +1,4 @@
+
 define(function(require, exports, module) {
 
 
@@ -179,14 +180,16 @@ define(function(require, exports, module) {
 						OperateState = null;
 						currentMenu = 0;
 						XMS.msgbox.show('删除菜单成功！', 'success', 3000)
-						$("#funcCode").val("");
-						$("#name").val("");
-						$("#funcImg").val("");
-						$("#funcType").val("");
-						$("#funcArg").val("");
-						$("#dllPath").val("");
-						$("#viewname").val("");
-						$("#notes").val("");
+						_form.find("input").val("");
+						_form.find("select").val("");
+						// $("#funcCode").val("");
+						// $("#name").val("");
+						// $("#funcImg").val("");
+						// $("#funcType").val("");
+						// $("#funcArg").val("");
+						// $("#dllPath").val("");
+						// $("#viewname").val("");
+						// $("#notes").val("");
 						console.log(json.data);
 						_form.find('button[name="del"]').attr({
 							"disabled": "disabled"

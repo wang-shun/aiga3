@@ -1,11 +1,13 @@
 define(function(require, exports, module) {
 	// 路径重命名
-	var pathAlias = "newFlowManage/taskProcess/";
+	var pathAlias = "netFlowManage/taskProcess/funTaskProcess/";
+
 	var Utils = require("global/utils.js");
 
 	// 功能验收子任务列表显示
 	srvMap.add("funTaskList", pathAlias + "funTaskList.json", "");
-
+	//系统大类下拉框显示
+	srvMap.add("funTaskList", pathAlias + "funTaskList.json", "sys/cache/listSysid");	
 
 
 	// 模板对象
@@ -19,7 +21,7 @@ define(function(require, exports, module) {
 	var Dom = {
 		funTaskList: '#Js_funTaskList',
 		QueryTaskForm: '#Js_queryTaskForm', //查询表单
-		
+
 		getParameterList: '#JS_getParameterList', //参数列表
 		getSideAutoCompList: '#JS_sideAutoCompList', //侧边组件栏
 
@@ -45,7 +47,7 @@ define(function(require, exports, module) {
 		},
 
 		hdbarHelp: function() {
-			
+
 		},
 		getFunTaskList: function(cmd) {
 			var self = this;
@@ -74,7 +76,7 @@ define(function(require, exports, module) {
 			});
 		},
 
-		
+
 
 		// 提交结果
 		submitResult: function(cmd) {
@@ -84,9 +86,8 @@ define(function(require, exports, module) {
 			btn.bind('click', function() {
 				// var data = self.getSelectedInfo();
 				// if (data) {
-				alert()
-					var _modal = $(Dom.modalSubmitResult);
-					_modal.modal('show');
+				var _modal = $(Dom.modalSubmitResult);
+				_modal.modal('show');
 
 				// }
 			});

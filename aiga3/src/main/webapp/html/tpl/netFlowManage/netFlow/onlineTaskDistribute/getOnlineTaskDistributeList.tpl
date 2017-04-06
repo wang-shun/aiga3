@@ -29,10 +29,10 @@
                 <td><input type="checkbox" class="minimal" value="{{taskId}}" name="taskId"></td>
                 <td><input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
                 <td><input type="hidden" name="taskType" value="{{taskType}}">{{getTaskType taskType}}</td>
-                <td>{{getDealState dealState}}</td>
-                <td><input type="hidden" name="autoPlanId" value="{{autoPlanId}}">{{autoPlanName}}</td>
+                <td>{{getState state}}</td>
+                <td><input type="hidden" name="collectId" value="{{collectId}}">{{collectName}}</td>
                 <td><input type="hidden" name="dealOpId" value="{{dealOpId}}">{{dealOpName}}</td>
-                <td>{{createDate}}</td>
+                <td>{{assignDate}}</td>
                 <td>{{assignDate}}</td>
             </tr>
             {{/each}}

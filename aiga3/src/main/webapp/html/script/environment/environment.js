@@ -5,6 +5,8 @@ define(function(require,exports,module){
 	require('global/sidebar.js');
 	var Utils = require('global/utils.js')
 
+	//系统大类下拉框显示
+	srvMap.add("getSysList", "environment/getSysList.json", "sys/cache/listSysid");
 	//显示环境列表
 	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
 	//查询环境

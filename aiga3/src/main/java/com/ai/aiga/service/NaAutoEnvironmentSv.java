@@ -23,6 +23,7 @@ import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaAutoMachineEnv;
 import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaTeamEmployeeRel;
+import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
@@ -197,7 +198,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 		}
 	   return naAutoEnvironmentDao.findOne(envId);
    }
-   public Object listEnvironment(int pageNumber, int pageSize ,NaAutoEnvironment condition ) throws ParseException {
+/*   public Object listEnvironment(int pageNumber, int pageSize ,NaAutoEnvironment condition ) throws ParseException {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
@@ -231,8 +232,51 @@ public class NaAutoEnvironmentSv extends BaseService{
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		
 		return naAutoEnvironmentDao.search(cons, pageable);
+	}*/
+   public Object listEnvironment(int pageNumber, int pageSize, NaAutoEnvironment condition) throws ParseException {
+		List<String> list = new ArrayList<String>();
+		list.add("envId");
+		list.add("sysId");
+		list.add("envName");
+		list.add("envUrl");
+		list.add("sysAccount");
+		list.add("sysPassword");
+		list.add("database");
+		list.add("dbAccount");
+		list.add("dbPassword");
+		list.add("regionId");
+		list.add("soId");
+		list.add("svnUrl");
+		list.add("svnAccount");
+		list.add("svnPassword");
+		list.add("envType");
+		list.add("runEnv");
+		list.add("creatorId");
+		list.add("envCode");
+		list.add("sysName");
+		String sql = "select a.*,b.SYS_NAME from NA_AUTO_ENVIRONMENT a,AIGA_SYSTEM_FOLDER b where a.SYS_ID=b.SYS_ID";
+		if(condition.getRunEnv()!= null){
+			sql += " and a.run_env =" + condition.getRunEnv() ;
+		}
+		
+		if(condition.getEnvName()!= null&&!condition.getEnvName().equals("")){
+			sql += " and a.ENV_NAME like '%" + condition.getEnvName() + "%'";
+		}
+		if(condition.getSysId()!= null){
+			sql += " and a.SYS_ID =" + condition.getSysId() ;
+		}
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return naAutoEnvironmentDao.searchByNativeSQL(sql, pageable, list);
 	}
-   
    
    /*public void addMachineandEnv(NaAutoEnvironmentRequest  request,String machineIds){
 	  

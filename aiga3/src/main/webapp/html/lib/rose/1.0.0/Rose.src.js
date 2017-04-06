@@ -1124,6 +1124,15 @@ String.prototype.trimCom = function() {
 	return this.replace(/(\,$)/g, "");
 };
 /**
+ * 去掉字符串最后面的'*'end//[星星Star]
+ * 
+ * @method trimStar
+ * @return {String}
+ */
+String.prototype.trimStar = function() {
+	return this.replace("*", "");
+};
+/**
  * 去掉字符串中前面的'0'
  * 
  * @method trimZero

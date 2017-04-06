@@ -69,8 +69,7 @@ define(function(require, exports, module) {
 			this._render();
 		},
 		_render: function() {
-			$("#Js_contentWrapper").find('h1').html("业务模块管理");
-			$("#Js_contentWrapper").find('li.active').html("业务模块管理");
+
 			this.iniModulList();
 			this.modulAdd();
 			this.modulSave();

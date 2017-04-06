@@ -194,7 +194,6 @@ define(function(require, exports, module) {
 						value.paramList["compId"] = value.compId;
 						value.paramList["compOrder"] = value.compOrder;
 						value.paramList["compName"] = value.compName;
-						alert(value.compName);
 						console.log(value.paramList);
 						var template_table = Handlebars.compile(Tpl.getParameterList);
 						var _table = $(Dom.getParameterList);

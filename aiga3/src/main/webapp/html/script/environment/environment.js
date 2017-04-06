@@ -194,37 +194,46 @@ define(function(require,exports,module){
 		//关联机器
 		connectMachine : function(cmd){
 			var self = this;
-			$("#JS_connectMachine").bind('click', function() {
-				var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
-				if(_checkObj.length==0){
-				   window.XMS.msgbox.show('请选择要关联的环境！', 'error', 2000);
-				   return false;
-			    }
-				var _form = $(Dom.connectMachineList);
-				var template = Handlebars.compile(Tpl.getMachineList);
-				/*$("#formName").html("关联机器");*/
-				_form.html(template());
-				self.getMachineList();
-				//弹出层
-				$(Dom.connectMachineModal).modal('show');
-				$("#JS_connectMachineSubmit").unbind('click');
-				//点击保存
-				$("#JS_connectMachineSubmit").bind('click',function(){
-					/*var cmd = _form.serialize();
-					console.log(cmd);*/
-					Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
-						if(status) {
-								// 关联机器成功后，刷新用户列表页
-								XMS.msgbox.show('关联成功！', 'success', 2000)
-								// 关闭弹出层
-								$(Dom.connectMachineModal).modal('hide');
-								/*setTimeout(function(){
-									self.getEnvironmentList();
-								},1000)*/
+			$("#JS_connectMachine").unbind('click');
+				$("#JS_connectMachine").bind('click', function() {
+					var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+					if(_checkObj.length==0){
+					   window.XMS.msgbox.show('请选择要关联的环境！', 'error', 2000);
+					   return false;
+				    }
+					var _envId ="";
+					_checkObj.each(function (){
+						_envId = $(this).val();
+					})
+					Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
+						if (status) {
+							var _form = $(Dom.connectMachineList);
+							var template = Handlebars.compile(Tpl.getMachineList);
+							/*$("#formName").html("关联机器");*/
+							_form.html(template());
+							self.getMachineList();
+							//弹出层
+							$(Dom.connectMachineModal).modal('show');
+							$("#JS_connectMachineSubmit").unbind('click');
+							//点击保存
+							$("#JS_connectMachineSubmit").bind('click',function(){
+								/*var cmd = _form.serialize();
+								console.log(cmd);*/
+								Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+									if(status) {
+											// 关联机器成功后，刷新用户列表页
+											XMS.msgbox.show('关联成功！', 'success', 2000)
+											// 关闭弹出层
+											$(Dom.connectMachineModal).modal('hide');
+											/*setTimeout(function(){
+												self.getEnvironmentList();
+											},1000)*/
+									}
+								});
+							});
 						}
 					});
 				});
-			});
 		},
         //机器列表
         getMachineList: function(cmd) {
@@ -232,7 +241,7 @@ define(function(require,exports,module){
             Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getMachineList);
-                    console.log(json.data.content);
+                    /*console.log(json.data.content);*/
                     $("#formName").html("关联机器");
                     $(Dom.connectMachineList).html(template(json.data.content));
                     //单击选中
@@ -243,6 +252,10 @@ define(function(require,exports,module){
                     //     var cmd = "groupId=" + _data.groupId;
                     //     self.getCaseGroupInfo(cmd);
                     // })
+					//引入多选框样式
+					Utils.eventTrClickCallback($(Dom.connectMachineList), function() {
+
+					})
                     //设置分页
                     self.initPaging($(Dom.connectMachineList), 10)
                 }

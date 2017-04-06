@@ -88,7 +88,7 @@ public class NaAutoMachineSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
 	   naAutoEnvironmentDao.delete(envId);
-	  // naAutoMachineDao.delete(envId);
+	 
 	   naAutoMachineEnvDao.deleteByEnvId(envId);
 	   
    }

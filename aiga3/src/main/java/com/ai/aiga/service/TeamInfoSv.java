@@ -16,7 +16,7 @@ import com.ai.aiga.dao.EmployeeInfoDao;
 
 import com.ai.aiga.dao.TeamEmployeeRelDao;
 import com.ai.aiga.dao.TeamInfoDao;
-import com.ai.aiga.domain.NaChangeList;
+
 import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaTeamEmployeeRel;
 import com.ai.aiga.domain.NaTeamInfo;

@@ -19,11 +19,15 @@ import com.ai.aiga.dao.NaAutoEnvironmentDao;
 import com.ai.aiga.dao.NaAutoMachineEnvDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoEnvironment;
+import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaAutoMachineEnv;
+import com.ai.aiga.domain.NaEmployeeInfo;
+import com.ai.aiga.domain.NaTeamEmployeeRel;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.NaAutoEnvironmentRequest;
+import com.ai.aiga.view.json.NaAutoMachineRequest;
 
 @Service
 @Transactional
@@ -255,7 +259,34 @@ public class NaAutoEnvironmentSv extends BaseService{
 			}
 		}
    }
+   /**
+    * 
+    * @ClassName: NaAutoEnvironmentSv :: saveMachine
+    * @author: liujinfang
+    * @date: 2017年4月6日 上午10:07:20
+    *
+    * @Description:
+    * @param list
+    * @param envId
+    */
+   public void saveMachine(List<NaAutoMachine> list,BigDecimal envId) {
+ 		if (list == null&&envId==null) {
+ 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+ 		}
+ 		
+ 		for (int i = 0; i < list.size(); i++) {
 
+ 			NaAutoMachine  naAutoMachine= list.get(i);
+
+ 			if (naAutoMachine != null) {
+ 				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
+ 				naAutoMachineEnv.setEnvId(envId);
+ 				naAutoMachineEnv.setMachineId(naAutoMachine.getMachineId());
+ 				naAutoMachineEnvDao.save(naAutoMachineEnv);
+
+ 			}
+ 		}
+ 	}
 	/**
 	 * 根据环境ID获取环境信息并返回JSON串（供云桌面使用）
 	 * @param envId

@@ -554,7 +554,7 @@ public class AutoRunResultSv {
 	 */
 	public String getResultByTaskIdToJson(Long taskId){
 		List<NaAutoRunResult> resultList = naAutoRunResultDao
-				.findByTaskIdAndResultTypeOrderBySortGroupSortNumberAsc(taskId, 2L);
+				.findByTaskIdAndResultTypeOrderBySortGroupAscSortNumberAsc(taskId, 2L);
 		List<String> results=new ArrayList<String>();
 		for (NaAutoRunResult result : resultList) {
 			NaAutoCase autoCase = this.autoCaseSv.findById(result.getAutoId());

@@ -70,16 +70,16 @@ public class NaAutoEnvironmentController {
 		
 		return bean;
 	}
-	@RequestMapping(path = "/sys/envandmachine/add")
+/*	@RequestMapping(path = "/sys/envandmachine/add")
 	public @ResponseBody JsonBean add1(NaAutoEnvironmentRequest request,String machineIds){
 		
 		naAutoEnvironmentSv.addMachineandEnv(request, machineIds);
 		return JsonBean.success;
 		
-	}
+	}*/
 	@RequestMapping(path = "/sys/envandmachine/savemachine")
-	public @ResponseBody JsonBean save(@RequestBody List<NaAutoMachine> save,BigDecimal envId){
-		naAutoEnvironmentSv.saveMachine(save, envId);
+	public @ResponseBody JsonBean save(String machineId,BigDecimal envId){
+		naAutoEnvironmentSv.saveMachine(machineId, envId);
 		return JsonBean.success;
 	}
 }

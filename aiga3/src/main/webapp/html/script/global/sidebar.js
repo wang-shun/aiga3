@@ -1,8 +1,6 @@
-/*
- * 侧边栏菜单模块
- * author:qijc
- */
 define(function(require, exports, module) {
+	// 通用工具模块
+    var Utils = require("global/utils.js");
 
     // 侧边栏菜单列表接口
     srvMap.add("getSidebarMenuList", "global/getSidebarMenuList.json", "global/menu");
@@ -37,6 +35,8 @@ define(function(require, exports, module) {
 		            var template = Handlebars.compile(Tpl.sidebar);
 		            $(Dom.sidebar).html(template(json));
 		            Data.sidebar = json.data;
+		            var height = $(Dom.sidebar).height();
+		            Utils.setScroll($(Dom.sidebar).children(".sidebar"),height-50)
 		            self.bindMenuClickEvent();
 		            self.initHomePage();
 		        }

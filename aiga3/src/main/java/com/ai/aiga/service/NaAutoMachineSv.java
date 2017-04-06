@@ -236,6 +236,24 @@ public class NaAutoMachineSv extends BaseService {
 
 	   
    }
+   public void saveEnv(List<NaAutoEnvironment> list,BigDecimal machineId) {
+		if (list == null&&machineId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		
+		for (int i = 0; i < list.size(); i++) {
+
+			NaAutoEnvironment  naAutoEnvironment= list.get(i);
+
+			if (naAutoEnvironment != null) {
+				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
+				naAutoMachineEnv.setEnvId(naAutoEnvironment.getEnvId());
+				naAutoMachineEnv.setMachineId(machineId);
+				naAutoMachineEnvDao.save(naAutoMachineEnv);
+
+			}
+		}
+	}
    public Object listMachine(int pageNumber, int pageSize ,NaAutoMachine condition ) throws ParseException {
 		
 		List<Condition> cons = new ArrayList<Condition>();

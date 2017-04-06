@@ -2,16 +2,19 @@ package com.ai.aiga.view.controller;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoEnvironment;
-
+import com.ai.aiga.domain.NaAutoMachine;
+import com.ai.aiga.domain.NaChangeList;
 import com.ai.aiga.service.NaAutoEnvironmentSv;
 import com.ai.aiga.service.NaAutoMachineSv;
 import com.ai.aiga.view.json.NaAutoEnvironmentRequest;
@@ -73,5 +76,10 @@ public class NaAutoEnvironmentController {
 		naAutoEnvironmentSv.addMachineandEnv(request, machineIds);
 		return JsonBean.success;
 		
+	}
+	@RequestMapping(path = "/sys/envandmachine/savemachine")
+	public @ResponseBody JsonBean save(@RequestBody List<NaAutoMachine> save,BigDecimal envId){
+		naAutoEnvironmentSv.saveMachine(save, envId);
+		return JsonBean.success;
 	}
 }

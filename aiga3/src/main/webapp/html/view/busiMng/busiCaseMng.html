@@ -11,20 +11,84 @@
             </div>
         </div>
     </div>
-    <div class="col-md-9" >
+    <div class="col-md-9">
         <!--用户列表-->
-        <div id="JS_getUserinfoList" class="box"  style="min-height: 100px">
+        <div id="JS_busiCaseList" class="box" style="min-height: 100px">
             <div style="text-align: center; padding: 100px 0;">
                 <p style="font-size: 38px;"><i class="fa fa-warning text-yellow"></i></p>
                 <p style="color: #666;"><span>请先选择模块！</span></p>
             </div>
         </div>
-        <!--关联组织-->
-        <div id="JS_getStaffOrgList" class="box hide" style="min-height: 100px"></div>
-        <!-- /.box -->
+    </div>
+</div>
+<!-- 新增测试计划 -->
+<div class="modal fade in" id="modal_busiCaseInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">编辑用例</h4>
+            </div>
+            <form id="Js_busiCaseInfo" class="form-horizontal">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="queryCaseName" class="col-sm-3 control-label"><i class="text-red">* </i>用例名称：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryCaseName" class="col-sm-3 control-label">资产信息：</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="queryCaseName" class="col-sm-3 control-label">取值SQL</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control input-sm" name="caseName" value="{{caseName}}">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" name="cancel">取消</button>
+                <button type="button" class="btn btn-primary" name="submit">保存</button>
+            </div>
+        </div>
     </div>
 </div>
 
+<script id="TPL_busiCaseList" type="text/x-handlebars-template">
+    <table class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th class="iCheckbox"></th>
+                <th>用例名称</th>
+                <th>业务</th>
+                <th>归属模块</th>
+                <th>资产信息</th>
+                <th>SQL取值</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this}}
+            <tr>
+                <td>{{caseState}}</td>
+                <td>
+                    <input type="radio" class="minimal" value="{{caseId}}" name="caseId">
+                </td>
+                <td>{{busiId}}</td>
+                <td>
+                    <input type="hidden" name="modulId" value="{{modulId}}">{{modulName}}</td>
+                <td>{{information}}</td>
+                <td>{{SQL}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <!-- /.box-body -->
+</script>
 <script>
 seajs.use("script/busiMng/busiCaseMng.js", function(Query) {
     Query.init();

@@ -62,8 +62,58 @@ define(function(require,exports,module){
     		this.getEnvironmentList();
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
+    		this.hdbarHelp();
     		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
+		hdbarHelp: function() {
+			Handlebars.registerHelper("transformatImp", function(value) {
+				if (value == 1) {
+					return "一级用例";
+				} else if (value == 2) {
+					return "二级用例";
+				} else if (value == 3) {
+					return "三级用例";
+				} else if (value == 4) {
+					return "四级用例";
+				}
+			});
+			Handlebars.registerHelper("transformatType", function(value) {
+				if (value == 1) {
+					return "UI类";
+				} else if (value == 2) {
+					return "接口类";
+				} else if (value == 3) {
+					return "后台进程类";
+				}
+			});
+			Handlebars.registerHelper("transformatEnv", function(value) {
+				if (value == 1) {
+					return "验收环境";
+				} else if (value == 2) {
+					return "准发布环境";
+				} else if (value == 3) {
+					return "生产环境";
+				}
+			});
+			Handlebars.registerHelper("transformatStatus", function(value) {
+				if (value == 0) {
+					return "可用";
+				} else if (value == 1) {
+					return "不可用";
+				}
+			});
+			Handlebars.registerHelper("transformatBusi", function(value) {
+				var _val = value;
+				var name;
+				$.each(busiData, function(n, value) {
+					if (_val == value.busiId) {
+						name = value.busiName;
+					}
+				});
+				return name;
+
+			});
+		},
     	initForm:function(){
 	    		var self=this;
 	    		var template=Handlebars.compile(Tpl.queryEnvironmentForm);

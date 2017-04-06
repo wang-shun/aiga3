@@ -6,9 +6,9 @@ define(function(require, exports, module) {
     var pathAlias = "netFlowManage/netFlow/onlineTaskDistribute/";
 
     // 下拉菜单获取所有变更计划
-    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "");
+    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //获取验收任务列表
-    srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "");
+    srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "accept/onlineTask/list");
     //获取子任务分派列表
     srvMap.add("getOnlineTaskDistributeList", pathAlias + "getOnlineTaskDistributeList.json", "");
     //下拉菜单获取所有处理人

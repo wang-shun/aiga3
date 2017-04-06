@@ -6,7 +6,7 @@ define(function(require,exports,module){
 	var Utils = require('global/utils.js')
 
 	//系统大类下拉框显示
-	srvMap.add("getSysList", "environment/getSysList.json", "sys/cache/listSysid");
+	srvMap.add("getSysList", "", "sys/cache/listSysid");
 	//显示环境列表
 	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
 	//查询环境
@@ -224,11 +224,16 @@ define(function(require,exports,module){
 							$("#JS_connectMachineSubmit").bind('click',function(){
 								/*var cmd = _form.serialize();
 								console.log(cmd);*/
-								/*var _checkObj =	$('#JS_getMachineList').find("input[type='checkbox']:checked");*/
+
 								var  machineId="";
-								_checkObj.each(function (){
-									machineId += $(this).val()+",";
+								$("#Tab_getMachine").find("tbody").find("tr").each(function(){
+									var tdArr = $(this).children();
+									if(tdArr.eq(0).find("input").is(':checked')){
+										machineId += tdArr.eq(0).find("input").val()+",";
+
+									}
 								});
+
 								var cmd = "machineId="+machineId + "&envId=" +_envId;
 								Rose.ajax.postJson(srvMap.get('connectMachine'), cmd, function(json, status) {
 									if(status) {

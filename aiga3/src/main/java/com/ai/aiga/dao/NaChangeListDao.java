@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
@@ -25,5 +26,9 @@ SearchAndPageRepository<NaChangeList, BigDecimal>{
 	@Query(value="select  a.* from NA_CHANGE_LIST a,NA_CHANGE_PLAN_ONILE b "
 			+ "where a.PLAN_ID=b.ONLINE_PLAN ",nativeQuery = true)
 			List<NaChangeList>  selectList();
+	
+	@Modifying
+	@Query("update NaChangeList set resultState=1 where  changeId=?1")
+	void updateResultState(BigDecimal changeId);
 	
 }

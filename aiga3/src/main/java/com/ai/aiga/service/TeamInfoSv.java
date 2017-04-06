@@ -128,7 +128,32 @@ public class TeamInfoSv extends BaseService {
 		return naTeamInfo;
 		
 	}
-	
+	public  NaEmployeeInfo saveEmployee(NaEmployeeInfo request){
+		if(request == null){ 
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		if(StringUtils.isBlank(request.getEmName())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
+		}
+		if(StringUtils.isBlank(request.getEmail())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
+		}
+		//组织
+		if(StringUtils.isBlank(request.getExt1())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
+		}
+		if(StringUtils.isBlank(request.getPhoneNum())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
+		}
+		
+		NaEmployeeInfo naEmployeeInfo=new NaEmployeeInfo();
+		naEmployeeInfo.setEmail(request.getEmail());
+		naEmployeeInfo.setEmName(request.getEmName());
+		naEmployeeInfo.setExt1(request.getExt1());
+		naEmployeeInfo.setPhoneNum(request.getPhoneNum());
+		employeeInfoDao.save(naEmployeeInfo);
+		return naEmployeeInfo;
+	}
 	public void update(NaTeamInfo request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -153,7 +178,23 @@ public class TeamInfoSv extends BaseService {
 		teamInfoDao.save(naTeamInfo);
 		}
 }
-	
+	public void delectEmployee(List<NaEmployeeInfo> list){
+		if (list == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		for (int i = 0; i < list.size(); i++) {
+
+			NaEmployeeInfo naEmployeeInfo = list.get(i);
+
+			if (naEmployeeInfo != null) {
+				if(naEmployeeInfo.getId()!=null){
+					employeeInfoDao.delete(naEmployeeInfo.getId());
+					employeeInfoDao.deleteById(naEmployeeInfo.getId());
+				}
+
+			}
+		}
+	}
   public void delete( Long teamId) {
 		
 		if(teamId == null || teamId < 0){

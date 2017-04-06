@@ -60,6 +60,7 @@ define(function(require,exports,module){
     		this.getEnvironmentList();
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
+    		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
     	initForm:function(){
 	    		var self=this;

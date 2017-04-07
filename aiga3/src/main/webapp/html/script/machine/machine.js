@@ -19,6 +19,8 @@ define(function(require,exports,module){
 	srvMap.add("updateMachineInfo","machine/updateMachineInfo.json","sys/machine/update");
 	//获取环境列表
 	srvMap.add("getEnvironmentList","machine/getEnvironmentList.json","sys/environment/list");
+	//关联环境
+	srvMap.add("connectEnvironment","machine/connectEnvironment.json","sys/envandmachine/saveenv");
 
 	//模板对象
 	var Tpl={
@@ -209,13 +211,15 @@ define(function(require,exports,module){
 							$("#JS_connectEnvironmentSubmit").bind('click',function(){
 								/*var cmd = _form.serialize();
 								console.log(cmd);*/
-								/*var _checkObj =	$('#JS_getEnvironmentList').find("input[type='checkbox']:checked");*/
 								var  envId="";
-								_checkObj.each(function (){
-									envId += $(this).val()+",";
+								$("#Tab_getEnvironment").find("tbody").find("tr").each(function(){
+									var tdArr = $(this).children();
+									if(tdArr.eq(0).find("input").is(':checked')){
+										envId += tdArr.eq(0).find("input").val()+",";
+									}
 								});
 								var cmd = "envId="+envId + "&machineId=" +_machineId;
-								Rose.ajax.postJson(srvMap.get('getEnvironmentList'), cmd, function(json, status) {
+								Rose.ajax.postJson(srvMap.get('connectEnvironment'), cmd, function(json, status) {
 									if(status) {
 											// 关联环境成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)

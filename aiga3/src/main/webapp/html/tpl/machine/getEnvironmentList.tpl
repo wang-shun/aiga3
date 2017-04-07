@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
-            <th>系统大类ID</th>
+            <th>系统大类</th>
             <th>环境名称</th>
             <th>环境地址</th>
             <th>测试数据库</th>
@@ -25,7 +25,7 @@
     {{#each this}}
         <tr>
             <td><input type="checkbox" class="minimal" value="{{envId}}" name="envId"></td>
-            <td>{{sysId}}</td>
+            <td>{{sysName}}</td>
             <td>{{envName}}</td>
             <td>{{envUrl}}</td>
             <td>{{database}}</td>

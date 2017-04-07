@@ -60,7 +60,7 @@ define(function(require,exports,module){
     	},
     	_render:function(){
     		this.initForm();
-    		this.getEnvironmentList();
+    		this.getEnvironment();
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
     		this.hdbarHelp();
@@ -140,6 +140,7 @@ define(function(require,exports,module){
 			_form.find('button[name="submit"]').bind('click', function() {
 					var cmd = $(Dom.queryEnvironmentForm).serialize();
 					/*self.getEnvironmentList(cmd);*/
+					alert("按条件查询");
 					self.getEnvironment(cmd);
 					//});
 			})
@@ -179,7 +180,7 @@ define(function(require,exports,module){
 								// 关闭弹出层
 								$(Dom.addEnvironmentInfoModal).modal('hide');
 								setTimeout(function(){
-									self.getEnvironmentList();
+									self.getEnvironment();
 								},1000)
 						}
 					});
@@ -212,7 +213,7 @@ define(function(require,exports,module){
 						if (status) {
 							XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
-							  self.getEnvironmentList();
+							  self.getEnvironment();
 							}, 1000)
 						}
 				});
@@ -332,7 +333,7 @@ define(function(require,exports,module){
 								// 关闭弹出层
 								$(Dom.addEnvironmentInfoModal).modal('hide');
 								setTimeout(function(){
-									self.getEnvironmentList();
+									self.getEnvironment();
 								},1000)
 						}
 								});

@@ -130,8 +130,8 @@ public class MachineController {
 		return bean;
 	}
 	@RequestMapping(path = "/sys/envandmachine/saveenv")
-	public @ResponseBody JsonBean save(String list,BigDecimal machineId){
-		naAutoMachineSv.saveEnv(list, machineId);
+	public @ResponseBody JsonBean save(String envId,BigDecimal machineId){
+		naAutoMachineSv.saveEnv(envId, machineId);
 		return JsonBean.success;
 	}
 }

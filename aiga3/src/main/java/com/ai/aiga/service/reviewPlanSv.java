@@ -66,9 +66,10 @@ public class reviewPlanSv  extends BaseService{
 			//通过http发送post请求
 			map.put("planDate", planDate);
 			map.put("obj", naCodePathDto);
+			System.out.println("数据"+JsonUtil.mapToJson(map));
 			String info =   HttpUtil.sendPost(url,JsonUtil.mapToJson(map) );
 		     mapreturn = JsonUtil.jsonToMap(info);
-			System.out.println("数据"+JsonUtil.mapToJson(map));
+		     naCodePathDao.updateIsFinished(planDate);
 			return mapreturn;
 		}
 		return mapreturn;
@@ -98,6 +99,8 @@ public class reviewPlanSv  extends BaseService{
 					naCodePathAiga.setPlanDate(new SimpleDateFormat("yyyy-MM-dd").parse(naCodePath.getPlanDate()));
 					naCodePathAiga.setRemark(naCodePath.getRemark());
 					naCodePathAiga.setResult(naCodePath.getResult());
+					naCodePathAiga.setIsFinished(1L);
+					naCodePathAiga.setComplimeCount(1L);
 					NaCodePath naCodePathss = 	naCodePathDao.findById(naCodePath.getId());
 					//如果是新增状态，那么修改次数设置为0
 					if(naCodePath.getState()==1||naCodePathss==null){

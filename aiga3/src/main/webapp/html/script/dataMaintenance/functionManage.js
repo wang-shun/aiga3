@@ -60,7 +60,7 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				self.getCaseTempList(cmd);
 			});
-			self.initPaging($(Dom.getFunList),8);
+			self.initPaging($(Dom.getFunList),3);
 		},
 		// 查询功能点
 		getCaseTempList: function(cmd) {
@@ -81,7 +81,7 @@ define(function(require, exports, module) {
 					self.addFunInfo();
 					Utils.eventTrClickCallback($(Dom.getFunList));
 
-					self.initPaging($(Dom.getFunList),8);
+					self.initPaging($(Dom.getFunList),2);
 				}
 			});
 

@@ -11,7 +11,11 @@
                             <h3 class="box-title">
                                 按条件查询
                             </h3>
-                            <div class="box-tools pull-right"></div>
+                             <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
                         </div>
                         <div class="box-body">
                             <div class="row">
@@ -65,12 +69,12 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <label>系统名称</label> <input class="col-xs-8 form-control" name="sysName" placeholder="请输入系统名称">
+                                                <i class="text-red">* </i><label>系统名称</label> <input class="col-xs-8 form-control" name="sysName" placeholder="请输入系统名称">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label>归属系统</label> <select name="sysId" class="form-control" data-url="getSysList" data-idkey="sysId">
+                                               <i class="text-red">* </i> <label>归属系统</label> <select name="sysId" class="form-control" data-url="getSysList" data-idkey="sysId">
                                                     <option value="">
                                                         请选择
                                                     </option>

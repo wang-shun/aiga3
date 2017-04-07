@@ -7,15 +7,15 @@
 	<description>Apache CXF的 SOAP Web Service配置</description>
 	
 	<!-- WebService的实现Bean定义 -->
-	<bean id="soapService" class=" com.ai.aiga.webservice.soap.SoapServiceImpl" />
-	<bean id="naCodePathWebServiceSv" class=" com.ai.aiga.webservice.soap.NaCodePathWebServiceSvImp" />
+	<bean id="soapService" class=" com.ai.aiga.webservice.soap.server.SoapServiceImpl" />
+	<bean id="fromBmcWebServiceSv" class=" com.ai.aiga.webservice.soap.server.FromBmcServiceSvImp" />
 	
 	<!-- jax-ws endpoint定义  -->
 	<jaxws:endpoint address="/soapservice">
 		<jaxws:implementor ref="soapService" />
 	</jaxws:endpoint>
-	<jaxws:endpoint address="/naCodePathWebServiceSv">
-		<jaxws:implementor ref="naCodePathWebServiceSv" />
+	<jaxws:endpoint address="/fromBmcWebServiceSv">
+		<jaxws:implementor ref="fromBmcWebServiceSv" />
 	</jaxws:endpoint>
 	
 </beans>

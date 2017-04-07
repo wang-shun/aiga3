@@ -15,14 +15,18 @@ import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 /**
+ * @className AigaOnlineCaseCollectionController
  * @author liuxx
  * @date 2017-03-06
  */
-@Api(value="操作用例集管理接口")
+
+@Api(value="AigaOnlineCaseCollectionController", description="操作用例集管理接口")
 @Controller
 public class AigaOnlineCaseCollectionController {
 	
@@ -49,15 +53,10 @@ public class AigaOnlineCaseCollectionController {
 	}
 
 	
-	
-	/**
-	 * 删除用例集信息
-	 * 
-	 * @param collectId
-	 *            用例集Id
-	 * @return JsonBean 成功/失败
-	 */
-	@RequestMapping(path = "/sys/case/deleteCase")
+
+	@RequestMapping(path = "/sys/case/deleteCase",method=RequestMethod.POST)
+	@ApiOperation(value="删除", notes="根据用例集id删除，可以批量删除")
+	@ApiParam(required=true, name="collectId", value="用例集id")
 	public @ResponseBody JsonBean delete(String collectId) {
 		try {
 			caseCollectionSv.deleteConnection(collectId);
@@ -68,13 +67,10 @@ public class AigaOnlineCaseCollectionController {
 	}
 
 	
-	
-	/**
-	 * @param collectId
-	 *            用例集编号
-	 * @return 一条用例集信息
-	 */
-	@RequestMapping(path = "/sys/case/queryCaseById")
+
+	@RequestMapping(path = "/sys/case/queryCaseById",method=RequestMethod.POST)
+	@ApiOperation(value="查询", notes="根据用例集id查询用例集信息"  )
+	@ApiParam(required=true, name="collectId", value="用例集id")
 	public @ResponseBody JsonBean queryCaseById(Long collectId) {
 		JsonBean json = new JsonBean();
 		json.setData(caseCollectionSv.queryCaseById(collectId));
@@ -82,16 +78,10 @@ public class AigaOnlineCaseCollectionController {
 	}
 
 	
-	
-	/**
-	 * 查询用例集信息（用例集名称和类型）
-	 * 
-	 * @param page
-	 * @param pageSize
-	 * @param caseConllection
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/queryCase")
+
+	@RequestMapping(path = "/sys/case/queryCase",method=RequestMethod.POST)
+	@ApiOperation(value="查询", notes="查询用例集信息，带分页")
+	@ApiParam(required=true, name="caseConllection", value="查询条件：用例集名称，用例集类型")
 	public @ResponseBody JsonBean queryCase(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize,
@@ -103,16 +93,13 @@ public class AigaOnlineCaseCollectionController {
 	
 	
 	
-
-	/**
-	 * @param collectId
-	 *            用例集Id
-	 * @param caseIds用例Id/用例组Id
-	 * @param types
-	 *            1表示手工用例，0表示用例组，2表示自动化用例
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/connectCase")
+	@RequestMapping(path = "/sys/case/connectCase",method=RequestMethod.POST)
+	@ApiOperation(value="关联用例", notes="关联用例，可以关联多个")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType="query" ,name="collectId", value="当前用例集id", dataType="Long"),
+		@ApiImplicitParam(paramType="query" ,name="caseIds", value="需要被关联的用例ids"),
+		@ApiImplicitParam(paramType="query" ,name="types", value=" 1表示手工用例，0表示用例组，2表示自动化用例")
+	})
 	public @ResponseBody JsonBean connectCase(Long collectId, String caseIds, Long types) {
 		String[] caseId = caseIds.split(",");
 		caseCollectionSv.connectCase(collectId, caseId, types);
@@ -122,17 +109,12 @@ public class AigaOnlineCaseCollectionController {
 
 	
 	
-	
-	/**
-	 * 关联用例集
-	 * 
-	 * @param collectId
-	 *            当前用例集Id
-	 * @param collectIds
-	 *            需要关联的用例集Id
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/connectCaseCollection")
+	@RequestMapping(path = "/sys/case/connectCaseCollection", method=RequestMethod.POST)
+	@ApiOperation(value="关联用例集", notes="关联用例集，可以关联多个")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType="query" ,name="collectId", value="当前用例集id", dataType="Long"),
+		@ApiImplicitParam(paramType="query" ,name="collectIds", value="需要被关联的用例集ids")
+	})
 	public @ResponseBody JsonBean connectCaseCollection(Long collectId, String collectIds) {
 		caseCollectionSv.connectCaseCollection(collectId, collectIds);
 		return JsonBean.success;
@@ -141,17 +123,12 @@ public class AigaOnlineCaseCollectionController {
 	
 	
 	
-	/**
-	 * 根据用例组名称查询未关联的用例组
-	 * 
-	 * @param groupName
-	 *            用例组名称
-	 * @param 当前用例集id
-	 * @param page
-	 * @param pageSize
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/queryUnconnectCaseGroup")
+	@RequestMapping(path =  "/sys/case/queryUnconnectCaseGroup", method=RequestMethod.POST)
+	@ApiOperation(value="查询未关联的用例组", notes="查询当前用例集未关联的用例组，带分页")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType="query" ,name="collectId", value="当前用例集id", dataType="Long"),
+		@ApiImplicitParam(paramType="query" ,name="groupName", value="用例组名称")
+	})
 	public @ResponseBody JsonBean queryUnconnectCaseGroup(Long collectId, String groupName,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -162,18 +139,13 @@ public class AigaOnlineCaseCollectionController {
 
 	
 	
-	
-	/**
-	 * 根据用例组名称查询已关联的用例组
-	 * 
-	 * @param groupName
-	 *            用例组名称
-	 * @param 当前用例集id
-	 * @param page
-	 * @param pageSize
-	 * @return 已关联的用例组
-	 */
-	@RequestMapping(path = "/sys/case/queryConnectCaseGroup")
+
+	@RequestMapping(path = "/sys/case/queryConnectCaseGroup", method=RequestMethod.POST)
+	@ApiOperation(value="查询已关联的用例组", notes="查询当前用例集已关联的用例组，带分页")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType="query" ,name="collectId", value="当前用例集id", dataType="Long"),
+		@ApiImplicitParam(paramType="query" ,name="groupName", value="用例组名称")
+	})
 	public @ResponseBody JsonBean queryConnectCaseGroup(Long collectId, String groupName,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -182,11 +154,10 @@ public class AigaOnlineCaseCollectionController {
 		return json;
 	}
 	
-	/**
-	 *  用例集维护人
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/repairMan")
+
+	
+	@RequestMapping(path = "/sys/case/repairMan", method=RequestMethod.POST)
+	@ApiOperation(value="查询用例集维护人", notes="查询用例集维护人")
 	public @ResponseBody JsonBean repairMan() {
 		JsonBean json = new JsonBean();
 	   json.setData(caseCollectionSv.repairMan());
@@ -195,17 +166,10 @@ public class AigaOnlineCaseCollectionController {
 	
 	
 
-	/**
-	 * 根据用例组名称查询已关联的手工用例/自动化用例
-	 * 
-	 * @param collectName
-	 *            用例名称
-	 * @param 当前用例集id
-	 * @param page
-	 * @param pageSize
-	 * @return 已关联的用例
-	 */
-	@RequestMapping(path = "/sys/case/queryConnectCaseById")
+
+	@RequestMapping(path = "/sys/case/queryConnectCaseById", method=RequestMethod.POST)
+	@ApiOperation(value="查询已关联的用例", notes="查询当前用例集已关联的用例，带分页")
+	@ApiParam(name="request",value="查询条件" ,required=true)
 	public @ResponseBody JsonBean queryConnectCaseById(QueryUnconnectCaseRequest  request,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -216,16 +180,12 @@ public class AigaOnlineCaseCollectionController {
 
 	
 
-	/**
-	 * 删除关联的用例组
-	 * 
-	 * @param collectId
-	 *            用例集id
-	 * @param groupIds
-	 *            用例组id
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/deleteConnectCaseGroup")
+	@RequestMapping(path = "/sys/case/deleteConnectCaseGroup", method=RequestMethod.POST)
+	@ApiOperation(value="删除已关联用例组", notes="删除当前用例集已关联用例组，可以批量删除")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType="query" ,name="collectId", value="当前用例集id", dataType="Long"),
+		@ApiImplicitParam(paramType="query" ,name="groupIds", value="用例组ids")
+	})
 	public @ResponseBody JsonBean deleteConnectCaseGroup(Long collectId, String groupIds) {
 		caseCollectionSv.deleteAutoCollGroups(0l, collectId, groupIds);
 		return JsonBean.success;
@@ -233,16 +193,13 @@ public class AigaOnlineCaseCollectionController {
 	
 	
 	
-
-	/**
-	 * 删除已关联手工用例/自动化用例
-	 * 
-	 * @param collectId
-	 * @param ids
-	 * @param types
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/deleteConnectCase")
+	@RequestMapping(path = "/sys/case/deleteConnectCase", method=RequestMethod.POST)
+	@ApiOperation(value="删除已关联用例", notes="删除当前用例集已关联用例，可以批量删除")
+	@ApiImplicitParams({
+		@ApiImplicitParam(paramType="query" ,name="collectId", value="当前用例集id", dataType="Long"),
+		@ApiImplicitParam(paramType="query" ,name="groupIds", value="用例ids"),
+		@ApiImplicitParam(paramType="query" ,name="types", value="1手工用例，2自动化用例")
+	})
 	public @ResponseBody JsonBean deleteConnectCase(Long collectId, String ids, Long types) {
 		caseCollectionSv.deleteAutoCollGroups(types, collectId, ids);
 		return JsonBean.success;
@@ -250,15 +207,9 @@ public class AigaOnlineCaseCollectionController {
 	
 	
 
-	/**
-	 * 查询未关联手工用例/自动化用例
-	 * 
-	 * @param collectId当前用例集id
-	 * @param types
-	 *            1手工用例，2自动化用例
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/queryUnconnectCase")
+	@RequestMapping(path = "/sys/case/queryUnconnectCase", method=RequestMethod.POST)
+	@ApiOperation(value="查询未关联用例", notes="查询当前用例集未关联用例,带分页")
+	@ApiParam(name="request",value="查询条件")
 	public @ResponseBody JsonBean queryUnconnectCase(QueryUnconnectCaseRequest  request,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int page,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_SIZE_DEFAULT + "") int pageSize) {
@@ -269,16 +220,9 @@ public class AigaOnlineCaseCollectionController {
 	
 	
 	
-	
-	/**
-	 *关联全部手工用例/自动化用例
-	 * 
-	 * @param collectId当前用例集id
-	 * @param types
-	 *            1手工用例，2自动化用例
-	 * @return
-	 */
-	@RequestMapping(path = "/sys/case/connectAllCase")
+	@RequestMapping(path = "/sys/case/connectAllCase", method=RequestMethod.POST)
+	@ApiOperation(value="关联全部用例", notes="关联全部用例")
+	@ApiParam(name="request", value="关联全部用例")
 	public @ResponseBody JsonBean connectAllCase(QueryUnconnectCaseRequest  request) {
 		caseCollectionSv.connectAllCase(request);
 		return JsonBean.success;

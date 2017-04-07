@@ -1,4 +1,4 @@
-package com.ai.aiga.webservice.soap;
+package com.ai.aiga.webservice.soap.server;
 
 import javax.jws.WebService;
 
@@ -6,6 +6,7 @@ import org.apache.cxf.feature.Features;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ai.aiga.webservice.soap.WsConstants;
 import com.ai.aiga.webservice.soap.dto.Result;
 import com.ai.aiga.webservice.soap.dto.UserDTO;
 import com.ai.aiga.webservice.soap.dto.WSResult;
@@ -15,7 +16,7 @@ import com.ai.aiga.webservice.soap.dto.WSResult;
  * 
  */
 // serviceName指明WSDL中<wsdl:service>与<wsdl:binding>元素的名称, endpointInterface属性指向Interface类全称.
-@WebService(serviceName = "SoapService", endpointInterface = "com.ai.aiga.webservice.soap.SoapService", targetNamespace = WsConstants.NS)
+@WebService(serviceName = "SoapService", endpointInterface = "com.ai.aiga.webservice.soap.server.SoapService", targetNamespace = WsConstants.NS)
 // 增加inbound/outbound SOAP内容的日志
 @Features(features = "org.apache.cxf.feature.LoggingFeature")
 public class SoapServiceImpl implements SoapService{

@@ -57,7 +57,7 @@
             </div>
             <div class="form-group form-inline">
             	<label class="col-sm-2 control-label">原因分析：</label>
-            	<textarea class="form-control" rows="3" name="resons" style="width: 70%">{{resons}}</textarea>
+            	<textarea class="form-control" rows="3" name="reasons" style="width: 70%">{{reasons}}</textarea>
             </div>
             <div class="form-group form-inline">
             	<label class="col-sm-2 control-label">改进措施：</label>

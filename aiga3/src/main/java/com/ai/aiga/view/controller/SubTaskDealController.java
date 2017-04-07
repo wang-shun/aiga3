@@ -53,5 +53,16 @@ public class SubTaskDealController {
 		subTaskDealSv.caseResultSave(list);
 		return JsonBean.success;
 	}
+	
+	@RequestMapping(path = "/accept/subTask/autoResult")
+	public @ResponseBody JsonBean autoResult(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long taskId){
+		JsonBean bean = new JsonBean();
+		bean.setData(subTaskDealSv.autoResult(taskId, pageNumber, pageSize));
+		return bean;
+		
+	}
 }
 

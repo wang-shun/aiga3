@@ -163,5 +163,51 @@ public class SubTaskDealSv extends BaseService{
 		}
 	}
 
+	/**
+	 * @ClassName: SubTaskDealSv :: autoResult
+	 * @author: dongch
+	 * @date: 2017年4月7日 下午1:15:04
+	 *
+	 * @Description:
+	 * @param taskId
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return          
+	 */
+	public Object autoResult(Long taskId, int pageNumber, int pageSize) {
+		if(taskId == null || taskId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		String sql = "select  b.result_id, b.case_state, b.result, b.bug, a.auto_name, c.sys_name, d.sys_name as subSysName,"
+				+ " e.sys_name as funName, a.important, b.auto_code, b.auto_result from "
+				+ " na_auto_case a, na_plan_case_result b, aiga_system_folder c, aiga_sub_sys_folder d, aiga_fun_folder e"
+				+ " where a.case_id = b.case_id and a.sys_id = c.sys_id and a.sys_sub_id = d.subsys_id and a.fun_id = e.fun_id"
+				+ " and and b.sub_task_id = "+taskId;
+		
+		List<String> list = new ArrayList<String>();
+		list.add("resultId");
+		list.add("caseState");
+		list.add("result");
+		list.add("bug");
+		list.add("autoName");
+		list.add("sysName");
+		list.add("subSysName");
+		list.add("funName");
+		list.add("important");
+		list.add("autoCode");
+		list.add("autoResult");
+		
+		
+		 if(pageNumber < 0){
+				pageNumber = 0;
+			}
+			
+		 if(pageSize <= 0){
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naOnlineTaskDistributeDao.searchByNativeSQL(sql, pageable, list);
+	}
+
 }
 

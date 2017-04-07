@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
+    <script src="lib/ajaxupload/2.0.2/jquery.ajaxupload.js"></script>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <script type="text/javascript">
+    $(function() {
+        $("#myform").submit(function() {
+        	
+        	$(this).ajaxUpload({
+    			url: '/aiga3/produce/plan/upload',
+    			success: function (data, status, xhr) {
+    				console.log(data);
+    			}
+    		});
+            
+			
+            return false;
+        });
+        
+        $("#myupload2").click(function(){
+        	
+        	var files = $("#fileId2")[0];
+        	var rfile = files.files;
+        	
+        	var data = {
+        			id : 123,
+        			file : $("#fileId2")[0].files[0]
+        	}
+        	
+        	/* */
+        	$.ajaxUpload({
+    			url: '/aiga3/produce/plan/upload',
+    			data: data,
+    			success: function (data, status, xhr) {
+    				console.log(data);
+    			}
+    		}); 
+        });
+        
+    });
+    </script>
+</head>
+<body>
+    
+<div>
+<h1>1</h1>
+<form id="myform" method="post" enctype="multipart/form-data">
+id : <input type="text" name="id"> <br/>
+文件 : <input type="file" name="file">
+<input type="submit" name="myupload1">
+</form>
+   	
+</div>
+
+<div>
+<h1>2</h1>
+文件 : <input type="file" name="file" id="fileId2">
+<button id="myupload2">上传</button>
+</div>
+   
+   
+</body>
+
+</html>

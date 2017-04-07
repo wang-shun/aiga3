@@ -32,7 +32,7 @@ public class NaCodePath  implements java.io.Serializable {
      private Long isFinished;
      private Long updateCount;
      private Long result;
-
+     private Long complimeCount;
     public NaCodePath() {
     }
 
@@ -65,7 +65,18 @@ public class NaCodePath  implements java.io.Serializable {
         this.id = id;
     }
     
-    @Column(name="LIST_ID", length=100)
+    @Column(name="COMPLIME_COUNT")
+    public Long getComplimeCount() {
+		return complimeCount;
+	}
+
+
+	public void setComplimeCount(Long complimeCount) {
+		this.complimeCount = complimeCount;
+	}
+
+
+	@Column(name="LIST_ID", length=100)
     public String getListId() {
         return this.listId;
     }

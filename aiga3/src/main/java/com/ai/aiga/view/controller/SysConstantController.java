@@ -11,8 +11,8 @@ import com.ai.aiga.cache.SysConstantCacheCmpt;
 import com.ai.aiga.service.OrganizeSv;
 import com.ai.aiga.service.RoleSv;
 import com.ai.aiga.service.SysConatantSv;
+import com.ai.aiga.view.controller.role.dto.RoleRequest;
 import com.ai.aiga.view.json.OrginazeRequest;
-import com.ai.aiga.view.json.RoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

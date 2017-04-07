@@ -1,4 +1,4 @@
-package com.ai.aiga.view.json;
+package com.ai.aiga.view.controller.role.dto;
 
 /**
  * 角色菜单权限关联关系

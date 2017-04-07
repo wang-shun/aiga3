@@ -17,16 +17,17 @@ import com.ai.aiga.service.reviewPlanSv;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.webservice.soap.dto.AdclodArgs;
 
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 
 /**
- * 计划评审controller
  * @author lovestar
  * @date 2017-03-28
  */
+@Api(value="计划评审controller")
 @Controller
 public class ReviewPlanController {
 	@Autowired
@@ -44,7 +45,7 @@ public class ReviewPlanController {
 	
 	@RequestMapping(value="sys/plan/copytNaCodePathFromADClod" ,method=RequestMethod.POST)
 	@ApiOperation(value="同步数据", notes="从ADCLOD获取代码包路径信息")
-	@ApiParam(name="naCodePathAgr", value="本次上线代码包清单", required=true)
+	@ApiImplicitParam(name="naCodePathAgr", value="本次上线代码包清单", required=true)
 	public @ResponseBody JsonBean copytNaCodePathFromADClod(@RequestBody AdclodArgs name) throws ParseException {
 		JsonBean json = new JsonBean();
 		json.setData(sv.copytNaCodePathFromADClod(name));

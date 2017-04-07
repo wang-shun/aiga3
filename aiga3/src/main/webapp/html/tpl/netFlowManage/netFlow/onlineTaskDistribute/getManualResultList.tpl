@@ -2,7 +2,7 @@
     <h3 class="box-title">手工用例执行结果</h3>
 </div>
 <div class="box-body" >
-    <table class="table table-bordered table-condensed table-hover" >
+    <table class="table table-bordered table-condensed table-hover" style="width: 1630px;">
         <thead>
             <tr>
                 <th>用例名称</th>

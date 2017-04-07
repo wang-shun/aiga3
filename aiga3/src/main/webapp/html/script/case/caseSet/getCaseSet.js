@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 	srvMap.add("deleCaseSet", pathAlias+"deleteCase.json", "sys/case/deleteCase");
 	//关联用例集
 	srvMap.add("connectCaseCollection", pathAlias+"getCaseSetList.json", "sys/case/connectCaseCollection");
-	//关联用例（查询未显示用例）
+	//关联用例（查询未显示用例）queryCaseById
 	srvMap.add("queryUnconnectCase", pathAlias+"useCaseList.json", "sys/case/queryUnconnectCase");
 	//系统大类下拉框显示 OK
 	srvMap.add("getSysList", "caseTempMng/getSysList.json", "sys/cache/listSysid");
@@ -264,7 +264,6 @@ define(function(require, exports, module) {
 			//弹出层
 			$("#JS_connectCaseSetinfoModal").modal('show');
 			var a=$("#types5").val();
-			alert("a="+a)
 			self.queryConnectCaseById2(_collectId,a);
 			self.seeCaseBtn(_collectId);
 			self.queryConnectCaseGroup1(_collectId);
@@ -421,7 +420,6 @@ define(function(require, exports, module) {
 					$("#caseType").val(a);
 					$("#repairsId").val(b);
 					$("#sysId").val(d);
-					alert($("#sysId").val());
 					// //弹出层
 					$(Dom.addCaseSetinfoModal).modal('show');
 					$("#formName").html("修改用例集");
@@ -574,7 +572,7 @@ define(function(require, exports, module) {
 			   }
 			var _data = self.getCaseSetRow();
 			var _collectId = _data.collectId;
-			Rose.ajax.getJson(srvMap.get('getCaseById'), "collectId="+_collectId, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getCaseById'), "collectId="+_collectId, function(json, status) {
 				if (status) {
 					var _form = $(Dom.addCaseSetinfoForm);
 					var template = Handlebars.compile(Tpl.connectCaseList);
@@ -662,7 +660,7 @@ define(function(require, exports, module) {
 			$("#collectId1").val(md);
 			var _form = $("#JS_queryUnconnectCaseForm");
 			var cmd = _form.serialize();
-			Rose.ajax.getJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('queryUnconnectCase'), cmd, function(json, status) {
 				if (status) {
 					if (a=="1") {
 						var template = Handlebars.compile(Tpl.useCaseList);

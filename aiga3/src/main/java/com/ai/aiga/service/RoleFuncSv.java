@@ -4,7 +4,8 @@ import com.ai.aiga.dao.AigaRoleFuncDao;
 import com.ai.aiga.domain.AigaRoleFunc;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
-import com.ai.aiga.view.json.RoleFuncRequest;
+import com.ai.aiga.view.controller.role.dto.RoleFuncRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

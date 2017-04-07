@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller.exception;
+package com.ai.aiga.view.exception;
 
 import java.util.Map;
 

@@ -28,7 +28,7 @@
                 <input type="hidden" name="taskId" value="{{taskId}}"></td>
                 <td><input type="hidden" name="onlinePlanName" value="{{onlinePlanName}}">{{onlinePlanName}}</td>
                 <td><input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
-                <td><input type="hidden" name="taskType" value="{{taskType}}">{{getTaskType taskType}}</td>
+                <td><input type="hidden" name="taskType" value="{{taskType}}">{{getParentTaskType taskType}}</td>
                 <td>{{getDealState dealState}}</td>
                 <td>{{assignName}}</td>
                 <td><input type="hidden" name="dealName" value="{{dealName}}">{{dealName}}</td>

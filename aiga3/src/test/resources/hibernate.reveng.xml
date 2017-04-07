@@ -10,5 +10,9 @@
 		<!--  <schema-selection match-schema="AIGA" match-table="AIGA_ONLINE_CASE_COLLECTION"/>--> 
 		<!-- <schema-selection match-schema="AIGA"  match-table="NA_AUTO_RUN_PLAN"/> -->
 			<!--  <schema-selection match-schema="AIGA"  match-table="NA_AUTO_RUN_PLAN_CASE"/>-->
-			<schema-selection match-schema="AIGA"  match-table="NA_TEAM_EMPLOYEE_REL"/>
+
+		
+
+			<schema-selection match-schema="AIGA"  match-table="NA_CODE_PATH_COMPILE"/>
+
  </hibernate-reverse-engineering>

@@ -406,6 +406,17 @@ define(function(require, exports, module) {
                 }
 
             });
+            Handlebars.registerHelper('getParentTaskType', function(value, fn) {
+                if (value == "1") {
+                    return "前台功能验收";
+                }
+                if (value == "2") {
+                    return "后台功能验收";
+                }
+                if (value == "3") {
+                    return "非功能验收";
+                }
+            });
             Handlebars.registerHelper('getTaskType', function(value, fn) {
                 if (value == "1") {
                     return "手工用例";

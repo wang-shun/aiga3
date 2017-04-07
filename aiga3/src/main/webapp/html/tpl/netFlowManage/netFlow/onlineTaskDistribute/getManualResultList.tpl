@@ -6,12 +6,10 @@
         <thead>
             <tr>
                 <th>用例名称</th>
-                <th>测试场景</th>
                 <th>系统大类</th>
                 <th>系统子类</th>
                 <th>功能点</th>
                 <th>重要程度</th>
-                <th>用例前置条件</th>
                 <th>用例操作说明</th>
                 <th>预期结果</th>
                 <th>处理状态</th>
@@ -22,18 +20,16 @@
         <tbody>
             {{#each content}}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{testName}}</td>
+                <td>{{sysName}}</td>
+                <td>{{subSysName}}</td>
+                <td>{{funName}}</td>
+                <td>{{important}}</td>
+                <td>{{testDesc}}</td>
+                <td>{{preResult}}</td>
+                <td>{{caseState}}</td>
+                <td>{{result}}</td>
+                <td>{{bug}}</td>
             </tr>
             {{/each}}
         </tbody>

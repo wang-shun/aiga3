@@ -60,5 +60,18 @@ public class OnlineTaskController {
 		return JsonBean.success;
 	}
 	
+	@RequestMapping(path = "/accept/onlineTask/collect")
+	public @ResponseBody JsonBean collect(){
+		JsonBean bean = new JsonBean();
+		bean.setData(onlineTaskSv.collect());
+		return bean;
+	}
+	
+	@RequestMapping(path = "/accept/onlineTask/dealOp")
+	public @ResponseBody JsonBean dealOp(){
+		JsonBean bean = new JsonBean();
+		bean.setData(onlineTaskSv.dealOp());
+		return bean;
+	}
 }
 

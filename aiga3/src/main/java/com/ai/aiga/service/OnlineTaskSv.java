@@ -11,15 +11,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
+import com.ai.aiga.dao.NaAutoCollectionDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.NaOnlineTaskResultDao;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
+import com.ai.aiga.domain.NaAutoCollection;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.domain.NaOnlineTaskResult;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.DealOpResponse;
 import com.ai.aiga.view.json.OnlineTaskRequest;
 
 /**
@@ -42,6 +47,11 @@ public class OnlineTaskSv extends BaseService{
 	@Autowired
 	private NaOnlineTaskResultDao naOnlineTaskResultDao;
 	
+	@Autowired
+	private NaAutoCollectionDao naAutoCollectionDao;
+	
+	@Autowired
+	private AigaStaffDao aigaStaffDao;
 	/**
 	 * @ClassName: OnlineTaskSv :: list
 	 * @author: dongch
@@ -246,6 +256,43 @@ public class OnlineTaskSv extends BaseService{
 				naOnlineTaskResultDao.save(planResultAuto);
 			}
 		}
+	}
+
+	/**
+	 * @ClassName: OnlineTaskSv :: collect
+	 * @author: dongch
+	 * @date: 2017年4月7日 上午11:28:28
+	 *用例集下拉框
+	 * @Description:
+	 * @return          
+	 */
+	public List<NaAutoCollection> collect() {
+		
+		List<NaAutoCollection> list = naAutoCollectionDao.findAll();
+		return list;
+	}
+
+	/**
+	 * @ClassName: OnlineTaskSv :: dealOp
+	 * @author: dongch
+	 * @date: 2017年4月7日 上午11:42:54
+	 *
+	 * @Description:
+	 * @return          
+	 */
+	public List<DealOpResponse> dealOp() {
+		List<AigaStaff> list = aigaStaffDao.findAll();
+		List<DealOpResponse> responses = new ArrayList<DealOpResponse>(list.size());
+		if(list != null && list.size() > 0){
+			for(int i = 0; i < list.size(); i++){
+				DealOpResponse response = new DealOpResponse();
+				response.setDealOpId(list.get(i).getStaffId());
+				response.setDealOpName(list.get(i).getName());
+				responses.add(response);
+			}
+		}
+		
+		return responses;
 	}
 
 }

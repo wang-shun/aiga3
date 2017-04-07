@@ -107,6 +107,7 @@ public class OnlinePlanBugSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlans");
 		}
 		if(naOnlinePlanBug.getBugId() == null){
+			naOnlinePlanBug.setCreateId(1L);
 			naOnlinePlanBugDao.save(naOnlinePlanBug);
 		}else{
 			NaOnlinePlanBug bug = naOnlinePlanBugDao.findOne(naOnlinePlanBug.getBugId());

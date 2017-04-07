@@ -98,5 +98,11 @@ public class TeamInfoController {
 		teamInfoSv.saveEmployee(request);
 		return JsonBean.success;
 	}
+	@RequestMapping(path = "/sys/employee/list")
+	public @ResponseBody JsonBean list(Long teamId){
+		JsonBean bean = new JsonBean();
+		bean.setData(teamInfoSv.selectall(teamId));
+		return bean;
+	}
 }
 

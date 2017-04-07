@@ -57,12 +57,7 @@ public class NaAutoMachineSv extends BaseService {
 		if(StringUtils.isBlank(request.getStatus().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "status");
 		}
-		if(StringUtils.isBlank(request.getRequestTime().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "requestTime");
-		}
-		if(StringUtils.isBlank(request.getTaskId().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
-		}
+		
 		NaAutoMachine naAutoMachine=new NaAutoMachine();
 		naAutoMachine.setMachineAccount(request.getMachineAccount());
 		naAutoMachine.setMachineIp(request.getMachineIp());
@@ -159,12 +154,11 @@ public class NaAutoMachineSv extends BaseService {
 				naAutoMachine.setStatus(request.getStatus());
 
 			}
-			if(StringUtils.isNotBlank(request.getRequestTime().toString())){
-				naAutoMachine.setRequestTime(request.getRequestTime());
-			}
-			if(StringUtils.isNotBlank(request.getTaskId().toString())){
+			
+				naAutoMachine.setRequestTime(new Date(System.currentTimeMillis()));
+		
+			
 				naAutoMachine.setTaskId(request.getTaskId());
-			}
 			
 			naAutoMachineDao.save(naAutoMachine);
 	   }

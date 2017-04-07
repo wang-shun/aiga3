@@ -86,9 +86,9 @@ public class NaAutoEnvironmentSv extends BaseService{
 	  /* if(StringUtils.isBlank(request.getUpdateTime().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"updateTime");
    }*/
-	   if(StringUtils.isBlank(request.getRegionId().toString())){
+	   /*if(StringUtils.isBlank(request.getRegionId().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"regionId");
-   }
+   }*/
 	   /*if(StringUtils.isBlank(request.getDatabase())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"database");
    }*/
@@ -143,40 +143,39 @@ public class NaAutoEnvironmentSv extends BaseService{
 		   if(StringUtils.isNotBlank(request.getSysPassword())){
 			   naAutoEnvironment.setSysPassword(request.getSysPassword());
 	   }
-		   if(StringUtils.isNotBlank(request.getSoId())){
+		   
 			   naAutoEnvironment.setSoId(request.getSoId());
-	   }
+	 
 		   if(StringUtils.isNotBlank(request.getSvnUrl())){
 			   naAutoEnvironment.setSvnUrl(request.getSvnUrl());
 	   }
-		   if(StringUtils.isNotBlank(request.getSvnPassword())){
+		 
 			   naAutoEnvironment.setSvnPassword(request.getSvnPassword());
-	   }
-		   if(StringUtils.isNotBlank(request.getSvnAccount())){
+	
+		 
 			   naAutoEnvironment.setSvnAccount(request.getSvnAccount());
-	   }
-		   if(StringUtils.isNotBlank(request.getDbPassword())){
+	
+		  
 			   naAutoEnvironment.setDbPassword(request.getDbPassword());
-	   }
-		   if(StringUtils.isNotBlank(request.getDbAccount())){
+	 
+		  
 			   naAutoEnvironment.setDbAccount(request.getDbAccount());  
-	   }
-		   if(StringUtils.isNotBlank(request.getCreatorId().toString())){
+	
+		  
 			   naAutoEnvironment.setCreatorId(request.getCreatorId());
-	   }
-		   if(StringUtils.isNotBlank(request.getDatabase())){
+
+		  
 			   naAutoEnvironment.setDatabase(request.getDatabase());
-	   }
-		   if(StringUtils.isNotBlank(request.getRegionId().toString())){
+	 
+		  
 			   naAutoEnvironment.setRegionId(request.getRegionId());
-	   }
+	  
 		   if(StringUtils.isNotBlank(request.getRunEnv().toString())){
 			   naAutoEnvironment.setRunEnv(request.getRunEnv());
 	   }
-		   if(StringUtils.isNotBlank(request.getUpdateTime().toString()))
-		   {
+		  
 			   naAutoEnvironment.setUpdateTime(new Date(System.currentTimeMillis()));
-			}
+		
 		  
 		   naAutoEnvironmentDao.save(naAutoEnvironment);
 	   }

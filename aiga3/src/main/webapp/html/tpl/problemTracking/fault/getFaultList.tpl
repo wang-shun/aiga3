@@ -21,7 +21,7 @@
     <tbody>
         {{#each this}}
         <tr>
-            <td><input type="checkbox" class="minimal" value="{{id}}" name="id"></td>
+            <td><input type="checkbox" class="minimal" value="{{bugId}}" name="bugId"></td>
             <td>{{onlinePlan}}</td>
             <td>{{bugType}}</td>
             <td>{{bugLevels bugLevel}}</td>   

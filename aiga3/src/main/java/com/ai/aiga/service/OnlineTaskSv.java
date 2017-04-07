@@ -19,6 +19,7 @@ import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.domain.NaOnlineTaskResult;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.OnlineTaskRequest;
 
 /**
@@ -30,7 +31,7 @@ import com.ai.aiga.view.json.OnlineTaskRequest;
  */
 @Service
 @Transactional
-public class OnlineTaskSv {
+public class OnlineTaskSv extends BaseService{
 	
 	@Autowired
 	private NaOnlineTaskDistributeDao naOnlineTaskDistributeDao;

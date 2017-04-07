@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 public class NaPlanCaseResult  implements java.io.Serializable {
 
 
-     private long resultId;
+     private Long resultId;
      private Long subTaskId;
      private Long caseId;
      private Byte caseType;
@@ -45,7 +45,7 @@ public class NaPlanCaseResult  implements java.io.Serializable {
     public NaPlanCaseResult(long resultId) {
         this.resultId = resultId;
     }
-    public NaPlanCaseResult(long resultId, Long subTaskId, Long caseId, Byte caseType, Byte caseState, String result, String bug, Long operatId, Date doneDate, Byte autoResult, String userAutoResult, String ext1, String ext2, String ext3) {
+    public NaPlanCaseResult(Long resultId, Long subTaskId, Long caseId, Byte caseType, Byte caseState, String result, String bug, Long operatId, Date doneDate, Byte autoResult, String userAutoResult, String ext1, String ext2, String ext3) {
        this.resultId = resultId;
        this.subTaskId = subTaskId;
        this.caseId = caseId;
@@ -66,11 +66,11 @@ public class NaPlanCaseResult  implements java.io.Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_PLAN_CASE_RESULT$SEQ")
     @SequenceGenerator(name="NA_PLAN_CASE_RESULT$SEQ",sequenceName="NA_PLAN_CASE_RESULT$SEQ",allocationSize=1)
     @Column(name="RESULT_ID", unique=true, nullable=false, precision=14, scale=0)
-    public long getResultId() {
+    public Long getResultId() {
         return this.resultId;
     }
     
-    public void setResultId(long resultId) {
+    public void setResultId(Long resultId) {
         this.resultId = resultId;
     }
     

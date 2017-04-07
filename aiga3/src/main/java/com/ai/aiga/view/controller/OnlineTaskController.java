@@ -37,7 +37,7 @@ public class OnlineTaskController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/accept/onlineTask/childList")
+	@RequestMapping(path = "/accept/onlineTask/childList")//子任务分派展示
 	public @ResponseBody JsonBean childList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,

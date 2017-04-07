@@ -15,6 +15,7 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaChangeList;
+import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.service.NaAutoEnvironmentSv;
 import com.ai.aiga.service.NaAutoMachineSv;
 import com.ai.aiga.view.json.NaAutoEnvironmentRequest;
@@ -70,6 +71,8 @@ public class NaAutoEnvironmentController {
 		
 		return bean;
 	}
+	
+
 /*	@RequestMapping(path = "/sys/envandmachine/add")
 	public @ResponseBody JsonBean add1(NaAutoEnvironmentRequest request,String machineIds){
 		

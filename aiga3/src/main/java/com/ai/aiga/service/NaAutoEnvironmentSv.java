@@ -257,7 +257,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 		String sql = "select a.ENV_ID,a.SYS_ID,a.ENV_NAME,a.ENV_URL,a.SYS_ACCOUNT,a.SYS_PASSWORD,"
 				+ "a.DATABASE,a.DB_ACCOUNT,a.DB_PASSWORD,a.REGION_ID,a.SO_ID,"
 				+ "a.SVN_URL,a.SVN_ACCOUNT,a.SVN_PASSWORD,a.ENV_TYPE,a.RUN_ENV,a.CREATOR_ID,"
-				+ "a,ENV_CODE,"
+				+ "a.ENV_CODE,"
 				+ "b.SYS_NAME from NA_AUTO_ENVIRONMENT a,AIGA_SYSTEM_FOLDER b"
 				+ " where a.SYS_ID=b.SYS_ID";
 		if (condition.getRunEnv() != null) {

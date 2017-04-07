@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 	srvMap.add("getEmList", pathAlias + "emList.json", "sys/employee/findByName");
 
 	//查询已关联员工列表
-	srvMap.add("getEmedList", pathAlias + "emedList.json", "");
+	srvMap.add("getEmedList", pathAlias + "emedList.json", "sys/employee/list");
 
 	//批量删除已关联员工
 	srvMap.add("delEmed", pathAlias + "retMessage.json", "sys/employee/del");

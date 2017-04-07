@@ -2,8 +2,8 @@ define(function(require, exports, module) {
 
     // 路径重命名
     var pathAlias = "busiMng/";
-// 通用工具模块
-	var Utils = require("global/utils.js");
+    // 通用工具模块
+    var Utils = require("global/utils.js");
 
     // 初始化菜单列表
     srvMap.add("getModulList", pathAlias + "getModulList.json", "");
@@ -22,6 +22,8 @@ define(function(require, exports, module) {
     var Dom = {
         busiCaseList: '#JS_busiCaseList',
         treeModuls: "#JS_busiModulTree",
+        modalUpdateCase: "#modal_busiCaseInfo",
+        formCaseInfo: "#Js_busiCaseInfo",
     };
 
     //当前菜单id
@@ -45,14 +47,7 @@ define(function(require, exports, module) {
                 currentModul = treeNode.funcId;
                 currentModulName = treeNode.name;
                 var cmd = "funcId=" + currentModul;
-                Rose.ajax.getJson(srvMap.get('getCaseList'), 'cmd', function(json, status) {
-                    if (status) {
-                        var template = Handlebars.compile(Tpl.getCaseList);
-                        console.log(json.data)
-                        $(Dom.busiCaseList).html(template(json.data.content));
-                        Utils.eventTrClickCallback($(Dom.busiCaseList));
-                    }
-                });
+                initFunction.getCaseList(cmd);
 
             }
         }
@@ -68,7 +63,6 @@ define(function(require, exports, module) {
 
             this.initTree();
             this.getCaseList();
-            this.updateCase();
 
         },
 
@@ -83,28 +77,32 @@ define(function(require, exports, module) {
             });
         },
 
-        getCaseList: function() {
-            Rose.ajax.getJson(srvMap.get('getCaseList'), '', function(json, status) {
+        getCaseList: function(cmd) {
+        	var self = this;
+            Rose.ajax.getJson(srvMap.get('getCaseList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getCaseList);
                     console.log(json.data)
                     $(Dom.busiCaseList).html(template(json.data.content));
-                    Utils.eventTrClickCallback($(Dom.busiCaseList));
+                    Utils.eventTrClickCallback($(Dom.busiCaseList),function(){
+                    	self.updateCase();
+                    });
                 }
             });
         },
 
         updateCase: function() {
             var self = this;
-            var _form = $(Dom.getModulInfo);
-            _form.find('button[name="save"]').bind('click', function() {
+            var _form = $(Dom.formCaseInfo);
+            $(Dom.modalUpdateCase).modal('show');
+
+            _form.find('button[name="submit"]').unbind();
+            _form.find('button[name="submit"]').bind('click', function() {
                 var cmd = _form.serialize();
-                var modulName = _form.find("input[name = 'modulName']").val();
-                Rose.ajax.postJson(srvMap.get('addModul'), cmd, function(json, status) {
+                Rose.ajax.postJson(srvMap.get('updateCase'), cmd, function(json, status) {
                     if (status) {
-                        OperateState = "update";
-                        self.iniModulList();
-                        XMS.msgbox.show('添加菜单成功！', 'success', 3000)
+                        XMS.msgbox.show('修改用例成功！', 'success', 3000)
+                        $(Dom.modalUpdateCase).modal('hide');
                     }
                 });
 

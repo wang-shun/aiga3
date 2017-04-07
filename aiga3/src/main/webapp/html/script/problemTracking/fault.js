@@ -9,6 +9,7 @@ define(function(require, exports, module) {
 	srvMap.add("getFaultList", pathAlias + "getFaultList.json", "accept/onlinePlanBug/list");
 	srvMap.add("saveFaultList", pathAlias + "saveFaultList.json", "accept/onlinePlanBug/save");
 	srvMap.add("deleteFaultList", pathAlias + "saveFaultList.json", "accept/onlinePlanBug/delete");
+	srvMap.add("findOne", pathAlias + "saveFaultList.json", "accept/onlinePlanBug/findOne");
 	
 	// 显示变更计划名称
 	srvMap.add("queryOnlinePlanName","netFlowManage/changePlan/changePlanManage/getChangePlanOnlieList.json", "sys/cache/changePlan");
@@ -37,6 +38,7 @@ define(function(require, exports, module) {
 			this.getFaultList();
 			this.queryFaultForm();
 			this.queryOnlinePlanName();
+			this.bugLevel($(Dom.queryFaultForm));
 		},
 		hdbarHelp: function() {
 			Handlebars.registerHelper("bugLevels", function(value) {
@@ -77,6 +79,18 @@ define(function(require, exports, module) {
 					console.log(json.data)
 					console.log("1111111111111")
 					_onlinePlan.html(template(json.data));
+				}
+			});
+		},
+		bugLevel: function(bug){
+			var _bugType=bug.find("[name='bugType']")
+			_bugType.change(function() {
+				var i=_bugType.val()
+				if(i=="1"){
+					bug.find("[name='bugLevel']").removeAttr("disabled");
+				}else if(i=="2"){
+					bug.find("[name='bugLevel']").val("");
+					bug.find("[name='bugLevel']").attr("disabled","disabled");
 				}
 			});
 		},
@@ -135,6 +149,7 @@ define(function(require, exports, module) {
 			_save.bind('click', function() {
 				var template = Handlebars.compile(Tpl.addFaultForm);
 				$("#JS_addFaultForm").html(template({}));
+				this.bugLevel($("#JS_addFaultForm"));
 				Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.queryOnlinePlanName);
@@ -174,21 +189,48 @@ define(function(require, exports, module) {
 		updateFault : function(){
 			var self = this;
 			var _save = $(Dom.getFaultList).find("[name='edit']");
-			var _form = $("#JS_addFaultForm").find("[name='addFaultForm']");
+			var _form = $(Dom.addFaultFormModal).find("[name='addFaultForm']");
 			_save.unbind('click');
 			_save.bind('click', function() {
 				var _data = self.getTaskRow();
 				var _bugId = _data.bugId;
 				alert(_bugId)
 				if (_data) {
-					Rose.ajax.postJson(srvMap.get('getFaultList'), "bugId=" + _bugId, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('findOne'), "bugId=" + _bugId, function(json, status) {
 						if (status) {
 							var template = Handlebars.compile(Tpl.addFaultForm);
-							_form.html(template(json.data.content[0]));
-							//// 弹出层
-							$(Dom.addFaultFormModal).modal('show');
-							var cmd="bugId=" + _bugId+"&"
-							self.saveFault(cmd);
+							console.log(json.data)
+							$("#JS_addFaultForm").html(template(json.data));
+							var onlinePlans=json.data.onlinePlans;
+							$("#JS_addFaultForm").find("[name='bugType']").val(json.data.bugType);
+							$("#JS_addFaultForm").find("[name='resove']").val(json.data.resove);
+							$("#JS_addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
+							
+							var _bugType=$("#JS_addFaultForm").find("[name='bugType']")
+							_bugType.change(function() {
+								var i=_bugType.val()
+								if(i=="1"){
+									$("#JS_addFaultForm").find("[name='bugLevel']").removeAttr("disabled");
+									$("#JS_addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
+								}else if(i=="2"){
+									$("#JS_addFaultForm").find("[name='bugLevel']").val("");
+									$("#JS_addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
+								}
+							});
+							Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
+								if (status) {
+									var template = Handlebars.compile(Tpl.queryOnlinePlanName);
+									console.log(json.data)
+									console.log("1111111111111")
+									$("#JS_addFaultForm").find("[name='onlinePlans']").html(template(json.data));
+									$("#JS_addFaultForm").find("[name='onlinePlans']").val(onlinePlans);
+									//// 弹出层
+									$(Dom.addFaultFormModal).modal('show');
+									
+									var cmd="bugId=" + _bugId+"&"
+									self.saveFault(cmd);
+								}
+							});
 						}
 					});
 				}

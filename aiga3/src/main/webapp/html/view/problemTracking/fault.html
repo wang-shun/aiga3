@@ -1,61 +1,72 @@
 <div class="box">
-    <form id="JS_queryFaultForm" class="form-horizontal">
-        <div class="box-header with-border">
-            <h3 class="box-title">按条件查询</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="box-body">
-            <div class="col-md-12">
-                <div class="form-group form-inline">
-                    <label class="control-label">变更计划名称:</label>
-                    <select name="onlinePlans" class="form-control input-sm" style="width: 160px">
-                        
-                    </select>
-                    <label class="control-label">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;&nbsp;:</label>
-                    <select name="bugType" class="form-control select2 input-sm" data-url="getSysList" data-subname="bugLevel" data-idkey="bugType" data-namekey="sysName" style="width: 160px">
-                        <option value="">请选择</option>
-                        <option value="1">故障</option>
-                        <option value="2">异常</option>
-                    </select>
-                    <label class="control-label">故障级别:</label>
-                    <select name="bugLevel" data-suburl="getSubsysList" data-subname="funId" data-idkey="bugLevel" data-namekey="sysName"  class="form-control select2 input-sm" style="width: 160px" readonly="readonly">
-                        <option value="">请选择</option>
-                        <option value="1">红色</option>
-                        <option value="2">橙色</option>
-                        <option value="1">黄色</option>
-                        <option value="2">蓝色</option>
-                        <option value="2">灰色</option>
-                    </select>
-                    <label class="control-label">需求名称:</label>
-                    <input type="text" class="form-control input-sm " name="requireName">
-                </div>
-                <div class="form-group form-inline">
-                    <label>是&nbsp;&nbsp;否&nbsp;&nbsp;解&nbsp;&nbsp;决&nbsp;&nbsp;:</label>
-                    <select name="resove" class="form-control input-sm" style="width: 160px">
-                        <option value="">请选择</option>
-                        <option value="1">是</option>
-                        <option value="2">否</option>
-                    </select>
-                    <label>解决时间:</label>
-                    <input type="text" class="form-control input-sm " name="doneDate" onClick="WdatePicker({dateFmt:'yyyyMMdd'})">
-                    <button type="reset" class="btn btn-default" name="chongZhi">重&nbsp;&nbsp;置</button>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查&nbsp;&nbsp;询</button>
-                </div>
-            </div>
-        </div>
-    </form>
-    <form id="JS_importFile" class="form-horizontal">
-        <div class="form-group form-inline">
-                    <label>导&nbsp;&nbsp;入&nbsp;&nbsp;文&nbsp;&nbsp;件&nbsp;&nbsp;:</label>
-                    <input type="text" class="form-control input-sm " name="doneDate" >
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="button" class="btn btn-primary" data-toggle="modal" name="import">导入</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" name="download">下载模板</button>
-                </div></form>
+	<div class="box-header with-border">
+		<h3 class="box-title">按条件查询</h3>
+		<div class="box-tools pull-right">
+			<button type="button" class="btn btn-box-tool" data-widget="collapse">
+				<i class="fa fa-minus"></i>
+			</button>
+		</div>
+	</div>
+	<div class="box-body">
+		<form id="JS_queryFaultForm" class="form-horizontal">
+			<div class="col-md-12">
+				<div class="form-group form-inline">
+					<label class="control-label">变更计划名称:</label> <select
+						name="onlinePlans" class="form-control input-sm"
+						style="width: 172px">
+
+					</select> <label class="control-label">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别&nbsp;&nbsp;:</label>
+					<select name="bugType" class="form-control select2 input-sm"
+						data-url="getSysList" data-subname="bugLevel" data-idkey="bugType"
+						data-namekey="sysName" style="width: 172px">
+						<option value="">请选择</option>
+						<option value="1">故障</option>
+						<option value="2">异常</option>
+					</select> <label class="control-label">故障级别:</label> <select name="bugLevel"
+						data-suburl="getSubsysList" data-subname="funId"
+						data-idkey="bugLevel" data-namekey="sysName"
+						class="form-control select2 input-sm" style="width: 172px"
+						disabled="disabled">
+						<option value="">请选择</option>
+						<option value="1">红色</option>
+						<option value="2">橙色</option>
+						<option value="1">黄色</option>
+						<option value="2">蓝色</option>
+						<option value="2">灰色</option>
+					</select> <label class="control-label">需求名称:</label> <input type="text"
+						class="form-control input-sm " name="requireName">
+				</div>
+				<div class="form-group form-inline">
+					<label>是&nbsp;&nbsp;否&nbsp;&nbsp;解&nbsp;&nbsp;决&nbsp;&nbsp;:</label>
+					<select name="resove" class="form-control input-sm"
+						style="width: 172px">
+						<option value="">请选择</option>
+						<option value="1">是</option>
+						<option value="2">否</option>
+					</select> <label>解决时间:</label> <input type="text"
+						class="form-control input-sm " name="doneDate"
+						onClick="WdatePicker({dateFmt:'yyyyMMdd'})">
+					<button type="reset" class="btn btn-default" name="chongZhi">重&nbsp;&nbsp;置</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						name="query">查&nbsp;&nbsp;询</button>
+				</div>
+			</div>
+		</form>
+		<div class="col-md-12">
+		<form id="JS_importFile" class="form-horizontal"  role = "form">
+			<div class="form-group form-inline">
+				<label>导&nbsp;&nbsp;入&nbsp;&nbsp;文&nbsp;&nbsp;件&nbsp;&nbsp;:</label>
+				<input type="text" class="form-control input-sm " name="doneDate">
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary" data-toggle="modal"
+					name="import">导入</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal"
+					name="download">下载模板</button>
+			</div>
+		</form>
+		</div>
+	</div>
 </div>
 <div id="JS_getFaultList" class="box" style="min-height: 100px">
     <div class="box-header">

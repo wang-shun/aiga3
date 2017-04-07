@@ -20,7 +20,7 @@
                     <option value="2">异常</option>
                 </select>
                 <label class="control-label">故障级别:</label>
-                <select name="bugLevel" data-suburl="getSubsysList" data-subname="funId" data-idkey="bugLevel" data-namekey="sysName"  class="form-control select2 input-sm" style="width: 172px" readonly="readonly">
+                <select name="bugLevel" data-suburl="getSubsysList" data-subname="funId" data-idkey="bugLevel" data-namekey="sysName"  class="form-control select2 input-sm" style="width: 172px" >
                     <option value="">请选择</option>
                     <option value="1">红色</option>
                     <option value="2">橙色</option>
@@ -43,25 +43,25 @@
             </div>
             <div class="form-group form-inline">
                 <label class="col-sm-2 control-label">责任方:</label>
-                <input type="text" class="form-control input-sm " name="deal">
+                <input type="text" class="form-control input-sm " name="deal" value="{{deal}}" >
                 <label class="control-label">原因分类:</label>
-                <input type="text" class="form-control input-sm " name="doneDate" value="{{doneDate}}">
+                <input type="text" class="form-control input-sm " name="type" value="{{type}}">
             </div>
             <div class="form-group form-inline">
             	<label class="col-sm-2 control-label">需求名称：</label>
-            	<textarea class="form-control" rows="3" name="requireName" value="{{requireName}}" style="width: 70%"></textarea>
+            	<textarea class="form-control" rows="3" name="requireName" style="width: 70%">{{requireName}}</textarea>
             </div>
             <div class="form-group form-inline">
             	<label class="col-sm-2 control-label">问题描述：</label>
-            	<textarea class="form-control" rows="3" name="question" value="{{question}}" style="width: 70%"></textarea>
+            	<textarea class="form-control" rows="3" name="question" style="width: 70%">{{question}}</textarea>
             </div>
             <div class="form-group form-inline">
             	<label class="col-sm-2 control-label">原因分析：</label>
-            	<textarea class="form-control" rows="3" name="resons" value="{{resons}}" style="width: 70%"></textarea>
+            	<textarea class="form-control" rows="3" name="resons" style="width: 70%">{{resons}}</textarea>
             </div>
             <div class="form-group form-inline">
             	<label class="col-sm-2 control-label">改进措施：</label>
-            	<textarea class="form-control" rows="3" name="methods" value="{{methods}}" style="width: 70%"></textarea>
+            	<textarea class="form-control" rows="3" name="methods" style="width: 70%">{{methods}}</textarea>
             </div>
         </div>
     </div>

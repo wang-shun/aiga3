@@ -23,14 +23,14 @@
         <tr>
             <td><input type="checkbox" class="minimal" value="{{bugId}}" name="bugId"></td>
             <td>{{onlinePlan}}</td>
-            <td>{{bugType}}</td>
+            <td>{{td_types bugType}}</td>
             <td>{{bugLevels bugLevel}}</td>   
             <td>{{requireName}}</td>
             <td>{{question}}</td>
             <td>{{resons}}</td>
             <td>{{methods}}</td>
             <td>{{deal}}</td>
-            <td>{{td_types type}}</td>   
+            <td>{{type}}</td>   
             <td>{{createId}}</td>
             <td>{{createDate}}</td>
             <td>{{resoves resove}}</td>

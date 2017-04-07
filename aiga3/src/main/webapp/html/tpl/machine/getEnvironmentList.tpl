@@ -1,4 +1,4 @@
-<table id="Tab_getCaseTemp" class="table table-bordered table-condensed table-hover">
+<table id="Tab_getEnvironment" class="table table-bordered table-condensed table-hover">
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>

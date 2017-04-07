@@ -25,7 +25,7 @@
     {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" value="{{envId}}" name="envId"></td>
-            <td>{{sysId}}</td>
+            <td>{{sysName}}</td>
             <td>{{envName}}</td>
             <td>{{envUrl}}</td>
             <td>{{database}}</td>

@@ -308,8 +308,7 @@ define(function(require,exports,module){
 				if (status) {
 					var _form = $(Dom.addEnviromentInfoForm);
 					var template = Handlebars.compile(Tpl.addEnvironmentInfo);
-					var c = json.data;
-					_form.html(template(c));
+					_form.html(template(json.data));
 					alert(json.data.content[0].envType);
 					$("#query_envType").val(json.data.content[0].envType);
 					// 设置下拉框选中值

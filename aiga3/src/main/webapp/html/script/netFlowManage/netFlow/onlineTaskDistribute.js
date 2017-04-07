@@ -11,8 +11,10 @@ define(function(require, exports, module) {
     srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "accept/onlineTask/list");
     //获取子任务分派列表
     srvMap.add("getOnlineTaskDistributeList", pathAlias + "getOnlineTaskDistributeList.json", "accept/onlineTask/childList");
+    //下拉菜单获取所有用力集
+    srvMap.add("getCollectIdList", pathAlias + "getCollectIdList.json", "accept/onlineTask/collect");
     //下拉菜单获取所有处理人
-    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/changePlanRun/createOpId");
+    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
     //保存回归子任务
     srvMap.add("saveOnlineTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
     //删除回归子任务

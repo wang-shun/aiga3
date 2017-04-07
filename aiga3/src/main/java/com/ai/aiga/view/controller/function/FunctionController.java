@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.service.FunctionSv;
-import com.ai.aiga.view.json.FunctionRequest;
+import com.ai.aiga.view.controller.function.dto.FunctionRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.MediaTypes;
 

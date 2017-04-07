@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.common;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.domain.AigaFunction;
 import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.SecuritySv;
-import com.ai.aiga.view.json.Menu;
+import com.ai.aiga.view.controller.common.dto.Menu;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
 

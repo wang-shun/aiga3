@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.common;
 
 
 import org.apache.commons.lang3.StringUtils;

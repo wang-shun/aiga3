@@ -115,7 +115,7 @@ define(function(require,exports,module){
     		// 验证表单保存提交
     		_domSave.bind('click', function() {
     			Utils.checkForm($(Dom.manageRoleinfo),function(){
-    				var cmd = $(this).parents("form").serialize();
+    				var cmd = $(Dom.manageRoleinfo).find("form").serialize();
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
 					Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {

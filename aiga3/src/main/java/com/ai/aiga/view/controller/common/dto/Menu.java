@@ -1,4 +1,4 @@
-package com.ai.aiga.view.json;
+package com.ai.aiga.view.controller.common.dto;
 
 import java.util.ArrayList;
 import java.util.List;

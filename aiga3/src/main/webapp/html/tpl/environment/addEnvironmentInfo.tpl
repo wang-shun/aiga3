@@ -4,7 +4,7 @@
             <label for="sysId" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->系统大类：</label>
             <div class="col-sm-7">
               <!-- <input type="text" class="form-control input-sm" id="sysId" name="sysId" value="{{sysId}}"> -->
-                <select id="sysId" name="sysId" class="form-control select2 input-sm" data-selected="{{sysId}}">
+                <select id="sysId" name="sysId" class="form-control select2 input-sm" data-selected="{{sysId}}" data-url="getSysList" data-idkey="sysId" data-namekey="sysName">
                     <option value="">请选择</option>
                     <option value="11">系统大类</option>
                     <option value="22">系统大类</option>

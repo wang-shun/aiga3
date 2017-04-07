@@ -112,7 +112,7 @@ public class SubTaskDealSv extends BaseService{
 		String sql = "select b.result_id, b.case_state, b.result, b.bug, a.test_name, c.sys_name, d.sys_name as subSysName,"
 				+ " e.sys_name as funName, a.important, a.test_desc, a.pre_result  from "
 				+ " na_test_case a, na_plan_case_result b, aiga_system_folder c, aiga_sub_sys_folder d, aiga_fun_folder e"
-				+ " where a.case_id = b.case_id and a.sys_id = c.sys_id and a.sys_sub_id = d.subsys_id and a.fun_id = e.fun_id"
+				+ " where a.test_id = b.case_id and a.sys_id = c.sys_id and a.sys_sub_id = d.subsys_id and a.fun_id = e.fun_id"
 				+ " and b.sub_task_id = "+taskId;
 		
 		List<String> list = new ArrayList<String>();

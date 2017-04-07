@@ -63,7 +63,7 @@
     <table class="table table-condensed table-hover">
         <thead>
             <tr>
-                <th class="iCheckbox"></th>
+                <th class="iCheckbox" width="15"></th>
                 <th>用例名称</th>
                 <th>业务</th>
                 <th>归属模块</th>
@@ -74,10 +74,10 @@
         <tbody>
             {{#each this}}
             <tr>
-                <td>{{caseState}}</td>
                 <td>
                     <input type="radio" class="minimal" value="{{caseId}}" name="caseId">
                 </td>
+                <td>{{caseName}}</td>
                 <td>{{busiId}}</td>
                 <td>
                     <input type="hidden" name="modulId" value="{{modulId}}">{{modulName}}</td>

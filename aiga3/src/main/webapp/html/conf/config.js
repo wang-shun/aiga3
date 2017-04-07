@@ -54,7 +54,7 @@ seajs.config({
         'AdminLTE':'lib/AdminLTE/js/app.js',
         'iCheckCSS':'lib/iCheck/all.css',
         'iCheckJS':'lib/iCheck/icheck.min.js',
-        'zTreeCSS':'lib/ztree/3.5.28/css/zTreeStyle/zTreeStyle.css',
+        'zTreeCSS':'lib/ztree/3.5.28/css/metroStyle/metroStyle.css',
         'zTreeJS':'lib/ztree/3.5.28/js/jquery.ztree.core.js',
         'zTreeExcheckJS':'lib/ztree/3.5.28/js/jquery.ztree.excheck.js',
         'datatablesCSS':'lib/datatables/dataTables.bootstrap.css',

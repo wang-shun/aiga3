@@ -5,9 +5,11 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 
 	// 功能验收子任务列表显示
-	srvMap.add("funTaskList", pathAlias + "funTaskList.json", "");
-	//系统大类下拉框显示
-	srvMap.add("submitRst", pathAlias + "funTaskList.json", "");
+	srvMap.add("funTaskList", pathAlias + "funTaskList.json", "accept/subTask/list");
+
+	srvMap.add("caseResultList", pathAlias + "funTaskList.json", "accept/subTask/caseResult");
+
+	srvMap.add("submitRst", pathAlias + "funTaskList.json", "accept/subTask/caseResultSave");
 
 
 	// 模板对象
@@ -39,15 +41,34 @@ define(function(require, exports, module) {
 			this._render();
 		},
 		_render: function() {
-			$("#Js_contentWrapper").find('h1').html("功能验收任务处理");
-			$("#Js_contentWrapper").find('li.active').html("功能验收任务处理");
+
 			this.hdbarHelp();
-			this.getFunTaskList();
+			this.getFunTaskList("");
+			this.queryFunTask();
 			this.submitResult('');
 		},
 
 		hdbarHelp: function() {
-
+			Handlebars.registerHelper("transformatTaskType", function(value) {
+				if (value == 1) {
+					return "自动化用例";
+				} else if (value == 2) {
+					return "手工用例";
+				} else {
+					return "未定义";
+				}
+			});
+			Handlebars.registerHelper("transformatState", function(value) {
+				if (value == 0) {
+					return "未处理";
+				} else if (value == 1) {
+					return "处理中";
+				} else if (value == 2) {
+					return "处理完成";
+				} else {
+					return "未定义";
+				}
+			});
 		},
 		getFunTaskList: function(cmd) {
 			var self = this;
@@ -90,7 +111,7 @@ define(function(require, exports, module) {
 					var _modal = $(Dom.modalSubmitResult);
 					_modal.modal('show');
 					var cmd = data.taskId;
-					self.getTaskProcessList();
+					self.getTaskProcessList(cmd);
 					self.saveResult(cmd);
 				}
 			});
@@ -136,7 +157,8 @@ define(function(require, exports, module) {
 		getTaskProcessList: function(cmd) {
 			var self = this;
 			var _table = $(Dom.taskProcessList);
-			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd, function(json, status) {
+			cmd = "taskId=" + cmd;
+			Rose.ajax.postJson(srvMap.get('caseResultList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.taskProcessList);
 					console.log(json.data)

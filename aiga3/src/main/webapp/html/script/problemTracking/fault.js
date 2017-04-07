@@ -178,15 +178,16 @@ define(function(require, exports, module) {
 			_save.unbind('click');
 			_save.bind('click', function() {
 				var _data = self.getTaskRow();
-				var _id = _data.id;
+				var _bugId = _data.bugId;
+				alert(_bugId)
 				if (_data) {
-					Rose.ajax.postJson(srvMap.get('getFaultList'), "id=" + _id, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('getFaultList'), "bugId=" + _bugId, function(json, status) {
 						if (status) {
 							var template = Handlebars.compile(Tpl.addFaultForm);
 							_form.html(template(json.data.content[0]));
 							//// 弹出层
 							$(Dom.addFaultFormModal).modal('show');
-							var cmd="id=" + _id+"&"
+							var cmd="bugId=" + _bugId+"&"
 							self.saveFault(cmd);
 						}
 					});
@@ -200,7 +201,7 @@ define(function(require, exports, module) {
 			var _delete = $(Dom.getFaultList).find("[name='delete']");
 			_delete.unbind('click');
 			_delete.bind('click', function() {
-				var id="";
+				var bugId="";
 				var num =0 ;
 			    var _checkObj =	$(Dom.getFaultList).find("input[type='checkbox']:checked");
 			    if(_checkObj.length==0){
@@ -209,14 +210,14 @@ define(function(require, exports, module) {
 			    }
 			    _checkObj.each(function (){
 				   if(num!=(_checkObj.length-1)){
-					   id += $(this).val()+",";		
+					   bugId += $(this).val()+",";		
 				   }else{
-					   id += $(this).val();		
+					   bugId += $(this).val();		
 				   }
 				   num ++;
 				});
-				console.log(id);
-				Rose.ajax.postJson(srvMap.get('deleteFaultList'), "id="+id, function(json, status) {
+				console.log(bugId);
+				Rose.ajax.postJson(srvMap.get('deleteFaultList'), "bugIds="+bugId, function(json, status) {
 					if (status) {
 						XMS.msgbox.show('删除成功！', 'success', 2000)
 						setTimeout(function() {
@@ -229,19 +230,19 @@ define(function(require, exports, module) {
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行
 		getTaskRow: function() {
-			var _obj = $(Dom.getFaultList).find("input[type='checkbox']:checked").parents("tr");
-			var _id = _obj.find("input[name='id']");
-			console.log(_id)
+			var _obj = $("#JS_getFaultList").find("input[type='checkbox']:checked").parents("tr");
+			var _bugId = _obj.find("input[name='bugId']");
+			console.log(_bugId)
 			var data = {
-				id: "",
+				bugId: "",
 			}
-			if (_id.length == 0) {
+			if (_bugId.length == 0) {
 				window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
 				return;
 			} else {
-				data.id = _id.val();
+				data.bugId = _bugId.val();
 			}
-			console.log(data.id)
+			console.log(data.bugId)
 			return data;
 		},
 		// 事件：单机选中当前行

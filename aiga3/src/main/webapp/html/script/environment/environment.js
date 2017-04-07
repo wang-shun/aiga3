@@ -29,7 +29,8 @@ define(function(require,exports,module){
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
-		getMachineList: require('tpl/environment/getMachineList.tpl')
+		getMachineList: require('tpl/environment/getMachineList.tpl'),
+		getSysList: require('tpl/caseTempMng/getSysList.tpl')
 	};
 
 	var Dom={
@@ -63,6 +64,7 @@ define(function(require,exports,module){
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
     		this.hdbarHelp();
+    		this.getSysList();
     		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
 		hdbarHelp: function() {
@@ -162,6 +164,7 @@ define(function(require,exports,module){
 				var template = Handlebars.compile(Tpl.addEnvironmentInfo);
 				$("#formName").html("新增环境");
 				_form.html(template());
+				Utils.setSelectData($(Dom.addEnviromentInfoForm));
 				//弹出层
 				$(Dom.addEnvironmentInfoModal).modal('show');
 				$("#JS_addEnvironmentInfoSubmit").unbind('click');
@@ -309,10 +312,11 @@ define(function(require,exports,module){
 					var _form = $(Dom.addEnviromentInfoForm);
 					var template = Handlebars.compile(Tpl.addEnvironmentInfo);
 					_form.html(template(json.data));
-					alert(json.data.content[0].envType);
-					$("#query_envType").val(json.data.content[0].envType);
+					/*alert(json.data.content[0].envType);*/
+					$("#query_envType").val(json.data.envType);
 					// 设置下拉框选中值
 					Utils.setSelected(_form);
+					Utils.setSelectData($(Dom.addEnviromentInfoForm));
 					// //弹出层
 					$(Dom.addEnvironmentInfoModal).modal('show');
 					$("#formName").html("修改环境");
@@ -336,6 +340,16 @@ define(function(require,exports,module){
 				}
 			});
 
+		},
+		getSysList: function() {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.getSysList);
+					$("#sysId").html(template(json.data));
+					console.log(json.data)
+				}								
+			});
 		},
 		// 事件：分页
         initPaging: function(obj, length) {

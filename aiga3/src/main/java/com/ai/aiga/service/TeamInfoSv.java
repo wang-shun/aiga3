@@ -57,7 +57,9 @@ public class TeamInfoSv extends BaseService {
 		list.add("createDate");
 		list.add("remark");
 		list.add("createOpId");
-		String sql = "select a.*,b.name as creator_name from  NA_TEAM_INFO a,aiga_staff b where a.CREATE_OP_ID = b.staff_id";
+		String sql = "select a.TEAM_ID,a.EXT_1,a.TEAM_TYPE,a.EXT_2,a.EXT_3,b.name as creator_name,"
+				+ "a.CREATE_DATE,a.REMARK,a.CREATE_OP_ID from  NA_TEAM_INFO a,"
+				+ "aiga_staff b where a.CREATE_OP_ID = b.staff_id";
 		// 名字
 		if (StringUtils.isNotBlank(condition.getExt1())) {
 			sql += " and a.EXT_1 like '%" + condition.getExt1() + "%'";
@@ -88,13 +90,13 @@ public class TeamInfoSv extends BaseService {
 		//组织
 		list.add("ext1");
 		
-		String sql = "select a.* from  NA_EMPLOYEE_INFO a where 1=1";
+		String sql = "select ID,EM_NAME,PHONE_NUM,EXT_2,EXT_3,EMAIL,EXT_1 from NA_EMPLOYEE_INFO where 1=1";
 		// 名字
 		if (StringUtils.isNotBlank(condition.getEmName())) {
-			sql += " and a.EM_NAME like '%" + condition.getEmName() + "%'";
+			sql += " and EM_NAME like '%" + condition.getEmName() + "%'";
 		}
-         if(condition.getId()==null||condition.getId().equals("")){
-        	 sql=" and a.id="+condition.getId();
+         if(condition.getId()!=null){
+        	 sql +=" and id="+condition.getId();
          }
 		if (pageNumber < 0) {
 			pageNumber = 0;

@@ -4,7 +4,7 @@
             <label for="sysId" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->系统大类：</label>
             <div class="col-sm-7">
               <!-- <input type="text" class="form-control input-sm" id="sysId" name="sysId" value="{{sysId}}"> -->
-                <select id="sysId" name="sysId" class="form-control select2 input-sm" data-selected="{{sysId}}">
+                <select id="sysId" name="sysId" class="form-control select2 input-sm" data-selected="{{sysId}}" data-url="getSysList" data-idkey="sysId" data-namekey="sysName">
                     <option value="">请选择</option>
                     <option value="11">系统大类</option>
                     <option value="22">系统大类</option>
@@ -26,14 +26,9 @@
     </div>
     <div class="row">
         <div class="col-sm-4 form-group">
-            <label for="regionId" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->地市：</label>
+            <label for="svnUrl" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->SVN地址：</label>
             <div class="col-sm-7">
-                <!-- <input type="text" class="form-control input-sm" id="regionId" name="regionId" value="{{regionId}}"> -->
-                <select  id="regionId" name="regionId" class="form-control select2 input-sm" data-selected="{{regionId}}">
-                    <option value="">请选择</option>
-                    <option value="11">地市</option>
-                    <option value="22">地市</option>
-                </select>
+                <input type="text" class="form-control input-sm" id="svnUrl" name="svnUrl" value="{{svnUrl}}">
             </div>
         </div>
         <div class="col-sm-4 form-group">
@@ -69,12 +64,6 @@
             <label for="sysPassword" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->登录密码：</label>
             <div class="col-sm-7">
                 <input type="text" class="form-control input-sm" id="sysPassword" name="sysPassword" value="{{sysPassword}}">
-            </div>
-        </div>
-        <div class="col-sm-4 form-group">
-            <label for="svnUrl" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->SVN地址：</label>
-            <div class="col-sm-7">
-                <input type="text" class="form-control input-sm" id="svnUrl" name="svnUrl" value="{{svnUrl}}">
             </div>
         </div>
     </div>

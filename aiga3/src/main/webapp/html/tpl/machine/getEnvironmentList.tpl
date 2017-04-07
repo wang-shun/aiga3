@@ -31,8 +31,8 @@
             <td>{{database}}</td>
             <td>{{regionId}}</td>
             <td>{{soId}}</td>
-            <td>{{envType}}</td>
-            <td>{{runEnv}}</td>
+            <td>{{envTypes envType}}</td>
+            <td>{{runEnvs runEnv}}</td>
             <td>{{creatorId}}</td>
             <td>{{updateTime}}</td>
             <td style="display:none;">{{sysAccount}}</td>

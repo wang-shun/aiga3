@@ -60,7 +60,26 @@ define(function(require,exports,module){
     		this.getMachineList();
     		this.queryMachine();
     		this.addMachineInfo();
+    		this.hdbarHelp();
     	},
+    	hdbarHelp: function() {
+			Handlebars.registerHelper("envTypes", function(value) {
+				if (value == 1) {
+					return "个人环境配置";
+				} else if (value == 2) {
+					return "公共环境配置";
+				}
+			});
+			Handlebars.registerHelper("runEnvs", function(value) {
+				if (value == 1) {
+					return "验收环境";
+				} else if (value == 2) {
+					return "准发布环境";
+				} else if (value == 3) {
+					return "生产环境";
+				}
+			});
+		},
     	initForm:function(){
 	    		var self=this;
 	    		var template=Handlebars.compile(Tpl.queryMachineForm);
@@ -241,7 +260,6 @@ define(function(require,exports,module){
                     /*console.log(json.data.content);*/
                     $("#formName").html("关联环境");
                     $(Dom.connectEnvironmentList).html(template(json.data.content));
-
                     //单击选中
                     /*self.eventClickChecked($(Dom.getCaseList));*/
                     //双击关联用例

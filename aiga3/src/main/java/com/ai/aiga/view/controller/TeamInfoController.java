@@ -17,7 +17,7 @@ import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.service.TeamInfoSv;
-import com.ai.aiga.view.json.RoleRequest;
+import com.ai.aiga.view.controller.role.dto.RoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 /**

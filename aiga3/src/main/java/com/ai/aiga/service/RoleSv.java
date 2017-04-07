@@ -23,7 +23,7 @@ import com.ai.aiga.domain.SysRoleStationtype;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.json.RoleRequest;
+import com.ai.aiga.view.controller.role.dto.RoleRequest;
 
 @Service
 @Transactional

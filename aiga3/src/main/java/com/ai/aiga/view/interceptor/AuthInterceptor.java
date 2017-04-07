@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller.interceptor;
+package com.ai.aiga.view.interceptor;
 
 import java.util.Collection;
 

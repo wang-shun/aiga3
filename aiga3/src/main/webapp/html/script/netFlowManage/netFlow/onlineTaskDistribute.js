@@ -124,7 +124,7 @@ define(function(require, exports, module) {
                                         var _rest = _form.find("[name='reset']");
                                         _rest.unbind('click');
                                         _rest.bind('click', function() {
-                                            _form.find("[name='collectId']").attr("readonly", false);
+                                            _form.find("[name='collectId']").attr("disabled", false);
                                             Data.opreation = 'new';
                                         })
                                         Utils.eventTrClickCallback($(Dom.getOnlineTaskDistributeList))
@@ -198,7 +198,7 @@ define(function(require, exports, module) {
                                 window.XMS.msgbox.show('保存成功！', 'success', 2000);
                                 setTimeout(function() {
                                     self.getOnlineTaskDistributeList();
-                                    _form.find("[name='collectId']").attr("readonly", false);
+                                    _form.find("[name='collectId']").attr("disabled", false);
                                     _form.find("[name='reset']").click();
                                     Data.opreation = 'new';
                                 }, 1000)
@@ -223,7 +223,7 @@ define(function(require, exports, module) {
                 console.log(dataTemp)
                 if (dataTemp) {
                     _form.find("[name='taskName']").val(dataTemp.taskName);
-                    _form.find("[name='collectId']").val(dataTemp.collectId).attr("readonly", true);
+                    _form.find("[name='collectId']").val(dataTemp.collectId).attr("disabled", true);
                     _form.find("[name='dealOpId']").val(dataTemp.dealOpId);
                     _form.find("[name='taskId']").val(dataTemp.taskId);
                     Data.opreation = "update";

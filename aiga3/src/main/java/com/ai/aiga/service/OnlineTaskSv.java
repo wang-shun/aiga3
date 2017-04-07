@@ -116,7 +116,7 @@ public class OnlineTaskSv extends BaseService{
 		if(condition.getTaskId() == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		String sql = "select a.task_id, b.task_name, b.task_type, a.state, c.collect_name, d.name as opName,"
+		String sql = "select a.task_id, b.task_name, b.task_type, b.deal_state, c.collect_name, d.name as opName,"
 				+ " a.auto_plan_id, a.op_id, b.assign_date"
 				+ "  from na_online_task_result a, na_online_task_distribute b, na_auto_collection c,"
 				+ " aiga_staff d where a.task_id = b.task_id and a.auto_plan_id = c.collect_id and a.op_id = d.staff_id"

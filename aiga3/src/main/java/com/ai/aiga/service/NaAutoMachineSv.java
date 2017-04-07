@@ -236,7 +236,7 @@ public class NaAutoMachineSv extends BaseService {
 
 	   
    }
-   public void saveEnv(List<NaAutoEnvironment> list,BigDecimal machineId) {
+/*   public void saveEnv(List<NaAutoEnvironment> list,BigDecimal machineId) {
 		if (list == null&&machineId==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -252,6 +252,24 @@ public class NaAutoMachineSv extends BaseService {
 				naAutoMachineEnvDao.save(naAutoMachineEnv);
 
 			}
+		}
+	}*/
+   public void saveEnv(String list,BigDecimal machineId) {
+		if (list == null&&machineId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		String[] split = list.split(",");
+		for (int i = 0; i < split.length; i++) {
+
+			
+
+			
+				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
+				naAutoMachineEnv.setEnvId(BigDecimal.valueOf((NumberUtils.toLong(split[i]))));
+				naAutoMachineEnv.setMachineId(machineId);
+				naAutoMachineEnvDao.save(naAutoMachineEnv);
+
+			
 		}
 	}
    public Object listMachine(int pageNumber, int pageSize ,NaAutoMachine condition ) throws ParseException {

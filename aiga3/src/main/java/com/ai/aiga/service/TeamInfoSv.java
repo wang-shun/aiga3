@@ -1,10 +1,12 @@
 package com.ai.aiga.service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +18,7 @@ import com.ai.aiga.dao.EmployeeInfoDao;
 
 import com.ai.aiga.dao.TeamEmployeeRelDao;
 import com.ai.aiga.dao.TeamInfoDao;
-
+import com.ai.aiga.domain.NaAutoMachineEnv;
 import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaTeamEmployeeRel;
 import com.ai.aiga.domain.NaTeamInfo;
@@ -178,7 +180,7 @@ public class TeamInfoSv extends BaseService {
 		teamInfoDao.save(naTeamInfo);
 		}
 }
-	public void delectEmployee(List<NaEmployeeInfo> list){
+	/*public void delectEmployee(List<NaEmployeeInfo> list){
 		if (list == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -194,6 +196,19 @@ public class TeamInfoSv extends BaseService {
 
 			}
 		}
+	}*/
+	
+	public void delectEmployee(String list) {
+		if (list == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		String[] split = list.split(",");
+		for (int i = 0; i < split.length; i++) {
+
+			employeeInfoDao.delete(Long.parseLong(split[i]));
+			employeeInfoDao.deleteById(Long.parseLong(split[i]));
+
+		}
 	}
   public void delete( Long teamId) {
 		
@@ -204,7 +219,7 @@ public class TeamInfoSv extends BaseService {
 		teamInfoDao.delete(teamId);
 		teamEmployeeRelDao.deleteTeam(teamId);
 	}
-  public void saveEmployee(List<NaEmployeeInfo> list,Long teamId) {
+/*  public void saveEmployee(List<NaEmployeeInfo> list,Long teamId) {
 		if (list == null&&teamId==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -220,6 +235,21 @@ public class TeamInfoSv extends BaseService {
 				teamEmployeeRelDao.save(naTeamEmployeeRel);
 
 			}
+		}
+	}*/
+  
+  public void saveEnv(String list,Long teamId) {
+		if (list == null&&teamId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		String[] split = list.split(",");
+		for (int i = 0; i < split.length; i++) {
+			NaTeamEmployeeRel naTeamEmployeeRel=new NaTeamEmployeeRel();
+			naTeamEmployeeRel.setEmpId(Long.parseLong(split[i]));         
+			naTeamEmployeeRel.setTeamId(teamId);
+			teamEmployeeRelDao.save(naTeamEmployeeRel);
+
+			
 		}
 	}
   public NaTeamInfo findone(Long teamId){

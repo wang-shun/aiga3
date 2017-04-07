@@ -5,7 +5,10 @@ package com.ai.aiga.domain;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +51,8 @@ public class NaTeamInfo  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_TEAM_INFO$SEQ")
+     @SequenceGenerator(name="NA_TEAM_INFO$SEQ",sequenceName="NA_TEAM_INFO$SEQ",allocationSize=1)
     @Column(name="TEAM_ID", unique=true, nullable=false, precision=12, scale=0)
     public Long getTeamId() {
         return this.teamId;

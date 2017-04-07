@@ -54,6 +54,11 @@ public class TeamInfoController {
 		teamInfoSv.delete(teamId);
 		return JsonBean.success;
 	}
+	@RequestMapping(path = "/sys/employee/del")
+	public @ResponseBody JsonBean delemployee(@RequestParam String list){
+		teamInfoSv.delectEmployee(list);
+		return JsonBean.success;
+	}
 	@RequestMapping(path = "/sys/team/findone")
 	public @ResponseBody JsonBean findone(
 				@RequestParam Long teamId){
@@ -83,8 +88,8 @@ public class TeamInfoController {
 	}
 	
 	@RequestMapping(path = "/sys/employeeandteam/saveemployee")
-	public @ResponseBody JsonBean save(@RequestBody List<NaEmployeeInfo> list,Long teamId){
-		teamInfoSv.saveEmployee(list, teamId);
+	public @ResponseBody JsonBean save(String list,Long teamId){
+		teamInfoSv.saveEnv(list, teamId);
 		return JsonBean.success;
 	}
 	

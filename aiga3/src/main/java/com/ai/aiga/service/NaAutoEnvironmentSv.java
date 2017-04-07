@@ -233,7 +233,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 		
 		return naAutoEnvironmentDao.search(cons, pageable);
 	}*/
-   public Object listEnvironment(int pageNumber, int pageSize, NaAutoEnvironment condition) throws ParseException {
+	public Object listEnvironment(int pageNumber, int pageSize, NaAutoEnvironment condition) throws ParseException {
 		List<String> list = new ArrayList<String>();
 		list.add("envId");
 		list.add("sysId");
@@ -254,16 +254,21 @@ public class NaAutoEnvironmentSv extends BaseService{
 		list.add("creatorId");
 		list.add("envCode");
 		list.add("sysName");
-		String sql = "select a.*,b.SYS_NAME from NA_AUTO_ENVIRONMENT a,AIGA_SYSTEM_FOLDER b where a.SYS_ID=b.SYS_ID";
-		if(condition.getRunEnv()!= null){
-			sql += " and a.run_env =" + condition.getRunEnv() ;
+		String sql = "select a.ENV_ID,a.SYS_ID,a.ENV_NAME,a.ENV_URL,a.SYS_ACCOUNT,a.SYS_PASSWORD,"
+				+ "a.DATABASE,a.DB_ACCOUNT,a.DB_PASSWORD,a.REGION_ID,a.SO_ID,"
+				+ "a.SVN_URL,a.SVN_ACCOUNT,a.SVN_PASSWORD,a.ENV_TYPE,a.RUN_ENV,a.CREATOR_ID,"
+				+ "a,ENV_CODE,"
+				+ "b.SYS_NAME from NA_AUTO_ENVIRONMENT a,AIGA_SYSTEM_FOLDER b"
+				+ " where a.SYS_ID=b.SYS_ID";
+		if (condition.getRunEnv() != null) {
+			sql += " and a.run_env =" + condition.getRunEnv();
 		}
-		
-		if(condition.getEnvName()!= null&&!condition.getEnvName().equals("")){
+
+		if (condition.getEnvName() != null && !condition.getEnvName().equals("")) {
 			sql += " and a.ENV_NAME like '%" + condition.getEnvName() + "%'";
 		}
-		if(condition.getSysId()!= null){
-			sql += " and a.SYS_ID =" + condition.getSysId() ;
+		if (condition.getSysId() != null) {
+			sql += " and a.SYS_ID =" + condition.getSysId();
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;

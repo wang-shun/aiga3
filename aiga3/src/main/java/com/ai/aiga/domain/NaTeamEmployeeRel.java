@@ -4,7 +4,10 @@ package com.ai.aiga.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -41,7 +44,8 @@ public class NaTeamEmployeeRel  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_TEAM_EMPLOYEE_REL$SEQ")
+     @SequenceGenerator(name="NA_TEAM_EMPLOYEE_REL$SEQ",sequenceName="NA_TEAM_EMPLOYEE_REL$SEQ",allocationSize=1)
     @Column(name="ID", unique=true, nullable=false, precision=12, scale=0)
     public long getId() {
         return this.id;

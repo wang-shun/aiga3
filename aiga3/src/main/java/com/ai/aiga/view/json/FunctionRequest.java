@@ -2,8 +2,13 @@ package com.ai.aiga.view.json;
 
 import java.util.Date;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("菜单具体信息")
 public class FunctionRequest {
 	
+	@ApiModelProperty(value = "菜单主键ID")
     private Long funcId;
     private Long parentId;
     private String funcCode;

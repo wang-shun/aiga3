@@ -35,7 +35,7 @@
 	
 	<mvc:interceptors>  
 <!--     	<bean class="com.ai.aiga.view.controller.interceptor.SessionInterceptor" />   -->
-    	<bean class="com.ai.aiga.view.controller.interceptor.AuthInterceptor" />  
+    	<bean class="com.ai.aiga.view.interceptor.AuthInterceptor" />  
 	</mvc:interceptors>  
 	
 	<!-- ViewResolver -->  

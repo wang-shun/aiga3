@@ -1,4 +1,6 @@
 define(function(require,exports,module){
+	// 通用工具模块
+    var Utils = require("global/utils.js");
 	// 路径重命名
 	var pathAlias = "systemManage/staffManage/";
 
@@ -219,7 +221,6 @@ define(function(require,exports,module){
 					XMS.msgbox.show('请先选择一个组织结构！', 'info', 2000);
 					return false;
 		        }
-		        // 表单校验初始化
 		        var _form = $(Dom.addUserinfoForm);
 		        var template = Handlebars.compile(Tpl.getUserinfo);
             	_form.html(template({}));
@@ -253,17 +254,14 @@ define(function(require,exports,module){
 		        // 设置组织ID
 		        _form.find("input[name='staffId']").remove();
 		        _form.find("input[name='organizeId']").val(Data.organizeId);
-				
 
-
-				// _form.bootstrapValidator('validate');
 				// 表单提交
 		        $(Dom.addUserinfoSubmit).unbind('click');
 				$(Dom.addUserinfoSubmit).bind('click',function(){
 
-					// 表单校验：成功后调取接口
-					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-			            var cmd = _form.serialize();
+					// 表单验证
+					Utils.checkForm(_form,function(){
+						var cmd = _form.serialize();
 			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
 			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
@@ -275,17 +273,11 @@ define(function(require,exports,module){
 								$(Dom.addUserinfoModal).modal('hide');
 								setTimeout(function(){
 									self.getUserinfoList("organizeId="+Data.organizeId);
-									
 								},1000)
 							}
 			  			});
-		        	//});
+					})
 		  		})
-		  		// 表单重置
-		  		/*$(Dom.addUserinfoReset).bind('click',function(){
-		  			_form.data('bootstrapValidator').resetForm(true);
-		  		})*/
-
 			})
 		},
 		getUserinfo:function(){
@@ -317,23 +309,16 @@ define(function(require,exports,module){
 				    });
 				    // 弹出层
 					$(Dom.addUserinfoModal).modal('show');
-					
+
 					// 设置组织ID
 					_form.find("input[name='organizeId']").val(Data.organizeId);
 
-					// 提交
-					// $(Dom.addUserinfoSubmit).bind('click',function(){
-
-					// 表单校验：成功后调取接口
-					// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-		          
-		  			// self.getUserinfoList(cmd);
 		            $(Dom.addUserinfoSubmit).unbind('click');
 					$(Dom.addUserinfoSubmit).bind('click',function(){
 
-						// 表单校验：成功后调取接口
-						// _form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-				            var cmd = _form.serialize();
+						// 表单验证成功后提交
+						Utils.checkForm(_form,function(){
+							var cmd = _form.serialize();
 				            console.log(cmd);
 				  			// self.getUserinfoList(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
@@ -348,11 +333,8 @@ define(function(require,exports,module){
 									},1000)
 								}
 				  			});
-			        	//});
-			  		//})
-		  			
-		        	//});
-					})
+						});
+					});
 				}
   			});
 		},

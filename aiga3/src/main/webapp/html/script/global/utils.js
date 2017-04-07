@@ -33,6 +33,57 @@ define(function(require, exports, module) {
                 }
             });
         },
+         /**
+         * 表单验证
+         *
+         * @method objForm 表单父元素
+         * @callback Fun 回调函数
+         */
+        checkForm:function(objForm,callback){
+            var state = true;
+            var text = '';
+            $(objForm).find(':input[required]')
+            .not(':button, :submit, :reset, :hidden').each(function(){
+                var _val = $.trim($(this).val());
+                var _text = $.trim($(this).prev().text());
+                if(_val == null || _val == undefined || _val == ''){
+                    state = false;
+                    text = _text;
+                    return false;
+                }
+            })
+            if(state){
+                 callback(state);
+            }else{
+                XMS.msgbox.show(text.trimStar()+'不能为空！', 'error', 2000);
+            }
+        },
+         /**
+         * 清空表单所有的
+         *
+         * @method obj 父元素
+         */
+        resetForm:function(objForm){
+            $(objForm).find(':input')
+            .not(':button, :submit, :reset, :hidden, :disabled')
+            .val('')
+            .removeAttr('checked')
+            .removeAttr('selected');
+        },
+        /**
+         * 页面中多DIV跳转
+         *
+         * @method obj 父元素
+         */
+        initStep:function(obj){
+            var self = this;
+            $(obj).find("[data-gostep]").bind("click",function(){
+                self.goStep($(obj),$(this).data("gostep"));
+            })
+        },
+        goStep:function(obj,num){
+            $(obj).find("div[data-steps='"+num+"']").removeClass('hide').siblings().addClass('hide');
+        },
         setScroll:function(obj,height){
             obj.slimScroll({
                 "height": height
@@ -123,10 +174,10 @@ define(function(require, exports, module) {
                 }
 
             });
-            
+
             obj.on("change", "select[data-subname]", function(){
             	var _this = $(this);
-            	
+
             	// 判断如果有异步子项，统一做处理
                 var _subname = _this.data("subname");
                 if(_subname){
@@ -139,23 +190,22 @@ define(function(require, exports, module) {
                 }
             })
         },
-        
+
         /**
          * 清除子的option
          */
         clearSubOptions:function(obj){
-        	
+
         	// 判断如果有异步子项，统一做处理
             var _subname = obj.data("subname");
             if(_subname){
                 var _thisSub = $("select[name="+_subname+"]");
                 _thisSub.html('<option value="">请选择</option>');
-                
+
                 this.clearSubOptions(_thisSub);
             }
         },
-        
-        
+
          /**
          * 设置下拉框option节点
          *
@@ -171,14 +221,14 @@ define(function(require, exports, module) {
                     window.XMS.msgbox.hide();
                     var _data = json.data;
                     var _html = '<option value="">请选择</option>';
-                    
+
                     var idv = obj.data("idkey");
                     var namev = obj.data("namekey");
-                    
+
                     for (var i in _data){
                         var _json = _data[i];
                         var _key,_value;
-                        
+
                         if(idv && namev){
                         	_key = _json[idv];
                         	_value = _json[namev];
@@ -192,14 +242,11 @@ define(function(require, exports, module) {
                                 }
                             }
                         }
-                        
                         _html+='<option value="'+_key+'">'+_value+'</option>';
 
                     }
                     obj.html(_html);
-                    
                     self.clearSubOptions(obj);
-                    
                 }
             });
         },

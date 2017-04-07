@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
-    <title>首页</title>
+    <title>入网验收发布平台</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -12,17 +12,84 @@
     <link rel="stylesheet" href="lib/font-awesome/4.7.0/css/font-awesome.css">
     <!-- AdminLTE Theme skin-blue  -->
     <link rel="stylesheet" href="lib/AdminLTE/css/AdminLTE.css">
+    <style type="text/css">
+        .main-tab{
+            box-shadow: none;
+            background: #ecf0f5;
+            position: relative;
+            margin-bottom: 0;
+        }
+        @media (min-width: 768px){
+            .main-tab > .nav-tabs {
+                position: fixed;
+                width: 100%;
+                padding-right: 230px;
+                z-index: 1001;
+
+            }
+        }
+        .main-tab > .nav-tabs{
+            background: #fff;
+            box-shadow: 0 1px 1px rgba(202, 202, 202, 0.1);
+        }
+        .main-tab > .nav-tabs > li{
+            width: 12.5%;
+            border-top:none;
+            border-right: 1px solid #eee;
+            margin-right: 0;
+        }
+        .main-tab > .nav-tabs > li > a{
+            color: #999;
+            padding: 12px 25px 12px 10px;
+            text-align: center;
+            border:none;
+        }
+        .main-tab > .nav-tabs > li > a > i.fa{
+            margin-right: 5px;
+        }
+        .main-tab > .nav-tabs > li.active > a,
+        .main-tab > .nav-tabs > li.active:hover > a{
+            position: relative;
+            border:none;
+            background-color: #ecf0f5;
+            color: #367fa9;
+            font-weight: bold;
+        }
+        .main-tab > .nav-tabs > li > a > .fa-remove{
+            color: #dadada;
+            position:absolute;
+            top: 3px;
+            right: 8px;
+        }
+        .main-tab > .nav-tabs > li > a > .fa-remove:hover{
+            color: #cc615f;
+        }
+        .main-tab > .tab-content{
+            background-color: #ecf0f5;
+            border: none;
+            padding: 55px 10px  15px 10px;
+            position: relative;
+        }
+         @media (max-width: 768px){
+            .main-tab > .nav-tabs > li > a{
+                height: 100px;
+            }
+            .main-tab > .tab-content{
+                padding: 15px 10px;
+            }
+        }
+    </style>
 </head>
 
 <!-- <body class="skin-blue fixed sidebar-mini fixed"> -->
 <body class="skin-blue fixed sidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper"  style="background: #ecf0f5;">
         <!-- 导航栏 -->
         <header class="main-header" >
             <!-- Logo -->
             <a href="index2.html" class="logo">
                 <span class="logo-mini"><b>A</b>iga</span>
-                <span class="logo-lg"><img src="style/image/cmcc_logo.png" style="vertical-align: middle;">测试管理平台系统</span>
+                <span class="logo-lg"><img src="style/image/cmcc_logo.png" style="vertical-align: middle;">入网验收发布平台</span>
             </a>
             <nav class="navbar navbar-static-top">
                 <!-- 收缩按钮-->
@@ -38,27 +105,20 @@
         </header>
 
         <!-- 侧边菜单栏-->
-        <aside class="main-sidebar" id="Mod_sidebar">
+        <aside class="main-sidebar" id="JS_sidebar">
           <div style="min-height: 200px;">
             <div class="overlay">
               <i class="fa fa-refresh fa-spin"></i>
             </div>
           </div>
         </aside>
+
         <!-- 主内容包裹区 -->
-        <div id="Js_contentWrapper" class="content-wrapper" style="min-height: 1011px;">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-              <h1>
-                首页
-              </h1>
-              <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                <li class="active">员工管理</li>
-              </ol>
-            </section>
-            <!-- 主内容 -->
-            <section class="content" id="JS_MainContent"></section>
+        <div class="content-wrapper">
+            <div class="nav-tabs-custom main-tab">
+                <ul class="nav nav-tabs" id="JS_mainTabs"></ul>
+                <div class="tab-content" id="JS_mainTabsContent"></div>
+            </div>
         </div>
     </div>
     <script src="lib/jquery/2.2.3/jquery.min.js"></script>

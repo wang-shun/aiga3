@@ -3,11 +3,13 @@ package com.ai.aiga.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 
-public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDistribute, Long>{
+public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDistribute, Long>, SearchAndPageRepository<NaOnlineTaskDistribute, Long>{
 	
 	@Query(value = "select a.task_id, a.task_name, a.task_type, a.deal_state, b.name as creator_name from na_online_task_distribute a,"
 			+ " aiga_staff b where a.deal_op_id = b.staff_id and a.online_plan =?1", nativeQuery = true)
@@ -17,5 +19,9 @@ public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDis
 			+ " b.name as assign, a.assign_date, b.bill_id from na_online_task_distribute a,"
 			+ " aiga_staff b where a.assign_id = b.staff_id and a.task_id = ?1", nativeQuery = true)
 	List<Object[]> messageInfo(Long taskId);
+
+	@Modifying
+	@Query("delete from NaOnlineTaskDistribute where taskId in (?1)")
+	void delete(List<Long> list);
 
 }

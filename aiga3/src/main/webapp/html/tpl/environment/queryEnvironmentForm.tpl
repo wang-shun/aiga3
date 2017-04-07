@@ -4,13 +4,19 @@
         <div class="col-sm-4 form-group">
             <label for="sysId" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->系统大类ID：</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control input-sm" id="sysId" name="sysId">
+                <!-- <input type="text" class="form-control input-sm" id="sysId" name="sysId"> -->
+                <select id="sysId" name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-idkey="sysId" data-namekey="sysName" >
+                    <option value="">请选择</option>
+                    <option value="11">系统大类</option>
+                    <option value="22">系统大类</option>
+                    <option value="33">系统大类</option>
+                </select>
             </div>
         </div>
         <div class="col-sm-4 form-group">
             <label for="envName" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->环境名称：</label>
             <div class="col-sm-7">
-              <input type="text" class="form-control input-sm" id="envName" name="envName">
+                <input type="text" class="form-control input-sm" id="envName" name="envName">
             </div>
         </div>
 		<div class="col-sm-4 form-group">

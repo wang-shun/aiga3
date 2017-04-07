@@ -1,5 +1,6 @@
 package com.ai.aiga.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -8,8 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.ai.aiga.domain.NaAutoRunTaskCase;
+import com.ai.aiga.domain.*;
+import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.util.mapper.JsonUtil;
+import com.ai.aiga.view.json.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,16 +27,8 @@ import com.ai.aiga.dao.NaAutoRunResultDao;
 import com.ai.aiga.dao.NaAutoRunTaskDao;
 import com.ai.aiga.dao.NaAutoRunTaskReportDao;
 import com.ai.aiga.dao.NaAutoTaskReportDetailDao;
-import com.ai.aiga.domain.NaAutoRunResult;
-import com.ai.aiga.domain.NaAutoRunTask;
-import com.ai.aiga.domain.NaAutoRunTaskReport;
-import com.ai.aiga.domain.NaAutoTaskReportDetail;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
-import com.ai.aiga.view.json.AutoRunResultRequest;
-import com.ai.aiga.view.json.NaAutoRunTaskReportResponse;
-import com.ai.aiga.view.json.NaAutoTaskReportDetailRequest;
-import com.ai.aiga.view.json.TaskRunResultRequest;
 
 import javax.persistence.EntityManager;
 
@@ -53,9 +50,15 @@ public class AutoRunResultSv {
 
 	@Autowired
 	private AutoRunTaskCaseSv autoRunTaskCaseSv;
+
+	@Autowired
+	private AutoCaseSv autoCaseSv;
 	
 	@Autowired
 	private EntityManager entityManager;
+
+	@Autowired
+	private AutoRunTaskSv autoRunTaskSv;
 
 	public void save(NaAutoRunResult naAutoRunResult) {
 		
@@ -443,8 +446,8 @@ public class AutoRunResultSv {
 		}
 		for (NaAutoRunTaskCase taskCase:caseList) {
 			NaAutoRunResult result= BeanMapper.map(taskCase,NaAutoRunResult.class);
-			result.setResultType(2L);//默认未执行
-			result.setRunType(1L);//默认未执行
+			result.setResultType(AutoRunEnum.ResultType_none.getValue());//默认未执行
+			result.setRunType(AutoRunEnum.RunStatus_none.getValue());//默认未执行
 			entityManager.persist(result);
 		}
 		entityManager.flush();
@@ -458,8 +461,8 @@ public class AutoRunResultSv {
 	private void initResult(List<NaAutoRunResult> resultList){
 		if(resultList!=null&&resultList.size()>0) {
 			for (NaAutoRunResult result : resultList) {
-				result.setResultType( 2L);//默认未执行
-				result.setRunType(1L);//默认未执行
+				result.setResultType( AutoRunEnum.ResultType_none.getValue());//默认未执行
+				result.setRunType(AutoRunEnum.RunStatus_none.getValue());//默认未执行
 				result.setBeginTime(null);
 				result.setEndTime(null);
 				result.setFailReason(null);
@@ -485,7 +488,7 @@ public class AutoRunResultSv {
 	 * 根据任务ID初始化结果表数据（初始化条件：结果状态为未成功）
 	 */
 	public void initResultByFail(Long taskId){
-		List<NaAutoRunResult> resultList=this.getListByTaskIdResultTypeNot(taskId,0L);
+		List<NaAutoRunResult> resultList=this.getListByTaskIdResultTypeNot(taskId,AutoRunEnum.ResultType_success.getValue());
 		this.initResult(resultList);
 	}
 
@@ -493,7 +496,7 @@ public class AutoRunResultSv {
 	 * 根据任务ID初始化结果表数据（初始化条件：执行状态为执行中）
 	 */
 	public void initResultByExec(Long taskId){
-		List<NaAutoRunResult> resultList=this.getListByTaskIdRunType(taskId,2L);
+		List<NaAutoRunResult> resultList=this.getListByTaskIdRunType(taskId,AutoRunEnum.RunStatus_running.getValue());
 		this.initResult(resultList);
 	}
 
@@ -543,5 +546,78 @@ public class AutoRunResultSv {
 		return naAutoTaskReportDetailDao.searchByNativeSQL(sql, pageable, list);
 	}
 
+
+	/**
+	 * 根据任务ID返回任务关联用例的JSON数据
+	 * @param taskId
+	 * @return
+	 */
+	public String getResultByTaskIdToJson(Long taskId){
+		List<NaAutoRunResult> resultList = naAutoRunResultDao
+				.findByTaskIdAndResultTypeOrderBySortGroupAscSortNumberAsc(taskId, 2L);
+		List<String> results=new ArrayList<String>();
+		for (NaAutoRunResult result : resultList) {
+			NaAutoCase autoCase = this.autoCaseSv.findById(result.getAutoId());
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("id",result.getResultId().toString());
+			map.put("testcaseid", autoCase.getAutoName());
+			map.put("datasetid",result.getTaskId()+"_"+result.getAutoId());
+			map.put("sceneId",result.getEnvironmentType().toString());
+			map.put("caseGroup",result.getSortGroup()==null?"0":result.getSortGroup().toString());
+			results.add(JsonUtil.mapToJson(map));
+		}
+		//更新发送到云桌面的执行用例的runType为执行中
+		naAutoRunResultDao.updateRunTypeByTaskIdAndResultType(taskId, AutoRunEnum.RunStatus_running.getValue(),AutoRunEnum.ResultType_none.getValue());
+		return JsonUtil.listToJson(results);
+	}
+
+	public void saveAutoRunResult(String resultJson)throws Exception{
+		List<AutoReportRequest> reportList=JsonUtil.jsonToList(JsonUtil.jsonToArray(resultJson)[0], AutoReportRequest.class);
+		if (reportList == null || reportList.size()==0) {
+			BusinessException.throwBusinessException("saveAutoRunResult report is null !");
+		}
+		AutoReportRequest report=reportList.get(0);
+		Long resultType=report.getResult();//获取结果状态
+		Long resultId=report.getPlanid();//获取结果唯一主键
+		NaAutoRunResult result=naAutoRunResultDao.findOne(resultId);
+		if (result == null) {
+			BusinessException.throwBusinessException("saveAutoRunResult autoRunResult could not found! please make sure the resultId:"+resultId);
+		}
+		//设置结果类型
+		if (resultType == 0) {//成功
+			result.setResultType(AutoRunEnum.ResultType_success.getValue());
+		}else
+		if(resultType>10L){//中断
+			result.setResultType(AutoRunEnum.ResultType_interrupt.getValue());
+		}else{//失败
+			result.setResultType(AutoRunEnum.ResultType_fail.getValue());
+		}
+		result.setBeginTime(DateUtil.getDate(report.getStarttime(),DateUtil.YYYYMMDDHHMMSS));//设置开始时间
+		result.setEndTime(DateUtil.getDate(report.getFinishtime(),DateUtil.YYYYMMDDHHMMSS));//设置结束时间
+		result.setRunType(AutoRunEnum.RunStatus_complete.getValue());//设置执行状态已完成
+		this.save(result);//保存执行结果信息
+
+		//查询用例是否执行完成
+		List<NaAutoRunResult> resultList=naAutoRunResultDao.findByTaskIdAndRunTypeNot(result.getTaskId(),AutoRunEnum.RunStatus_complete.getValue());
+		if (resultList.size() == 0) {
+			//获取任务信息
+			NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(result.getTaskId());
+			autoRunTask.setEndRunTime(DateUtil.getCurrentTime());//结束时间
+			autoRunTask.setSpendTime(DateUtil.getIntervalMinute(autoRunTask.getBeginRunTime(),autoRunTask.getEndRunTime()));//花费时间
+			//查询未成功的用例
+			resultList = naAutoRunResultDao.findByTaskIdAndResultTypeNot(autoRunTask.getTaskId(), AutoRunEnum.ResultType_success.getValue());
+			if (resultList != null && resultList.size() > 0) {
+				autoRunTask.setTaskResult(AutoRunEnum.TaskResult_fail.getValue());//有未成功的用例则失败
+			} else {
+				autoRunTask.setTaskResult(AutoRunEnum.TaskResult_success.getValue());//没有则成功
+			}
+			this.autoRunTaskSv.save(autoRunTask);
+			//更新机器状态
+
+		}
+
+
+
+	}
 
 }

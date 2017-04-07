@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.service.NaChangePlanOnileSv;
 import com.ai.aiga.view.json.ControlRequest;
@@ -60,6 +61,16 @@ public class NaChangePlanOnileController {
 				@RequestParam Long onlinePlan){
 		JsonBean bean = new JsonBean();
 		bean.setData(naChangePlanOnileSv.findOne1(onlinePlan));
+		return bean;
+	}
+	
+	
+	//查找一个
+	@RequestMapping(path = "/produce/plan/upload")
+	public @ResponseBody JsonBean upload(
+			@RequestParam MultipartFile file){
+		JsonBean bean = new JsonBean();
+		System.out.println(file);
 		return bean;
 	}
 }

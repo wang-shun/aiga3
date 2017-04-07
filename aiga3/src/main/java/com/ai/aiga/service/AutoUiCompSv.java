@@ -151,7 +151,7 @@ public class AutoUiCompSv {
         if (autoId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
         }
-        return autoUiCompDao.findByAutoId(autoId);
+        return autoUiCompDao.findByAutoIdOrderByCompOrder(autoId);
     }
 
     /**

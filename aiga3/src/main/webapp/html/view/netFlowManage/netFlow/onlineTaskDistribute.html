@@ -1,0 +1,229 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryOnlineTaskForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>任务名称</label>
+                                <input type="text" class="form-control input-sm" name="taskName" placeholder="请输入任务名称">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更计划名称</label>
+                                <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList"  data-idkey="onlinePlan" data-namekey="onlinePlanName">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>任务状态</label>
+                                <select name="dealState" class="form-control input-sm">
+                                    <option value="">请选择</option>
+                                    <option value="0">未分派</option>
+                                    <option value="1">处理中</option>
+                                    <option value="2">完成</option>
+                                    <option value="3">不需分派</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_getOnlineTaskList" style="min-height:100px;">
+            <div style="text-align: center; padding: 50px 0;">
+                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 查看子任务分派弹出框 -->
+<div class="modal fade" id="JS_getOnlineTaskDistributeModal">
+    <div class="modal-dialog modal-lg">
+        <!--弹框步骤1-->
+        <div class="modal-content" data-steps="1">
+            <div class="modal-header">
+                <button type="button" class="close" name="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">回归子任务分派</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box">
+                            <form id="JS_addOnlineTaskDistributeForm">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">新增子任务分派</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>任务名称</label><i class="text-red">*</i>
+                                                <input type="text" class="form-control input-sm" name="taskName" placeholder="请输入任务名称">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>关联用例集</label><i class="text-red">*</i>
+                                                <select name="collectId" class="form-control input-sm" data-url="getCollectIdList" data-idkey="collectId" data-namekey="collectName">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                                <input type="hidden" name="onlinePlan" value="">
+                                                <input type="hidden" name="taskId" value="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>处理人</label><i class="text-red">*</i>
+                                                <select name="dealOpId" class="form-control input-sm" data-url="getDealOpIdList" data-idkey="dealOpId" data-namekey="dealOpName">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label></label>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label></label>
+                                                <button type="reset" class="btn btn-default" name="reset">重置</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="box" id="JS_getOnlineTaskDistributeList" style="min-height:100px;">
+                            <div style="text-align: center; padding: 50px 0;">
+                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--弹框步骤2-->
+        <div class="modal-content hide" data-steps="2">
+            <div class="modal-header">
+                <button type="button" class="close" name="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    <a class="btn btn-social-icon btn-bitbucket btn-primary btn-sm" data-gostep="1" title="返回"><i class="fa fa-arrow-left"></i></a>&nbsp;用例执行情况
+                </h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box" id="JS_getManualResultList" style="min-height:100px;">
+                            <div style="text-align: center; padding: 50px 0;">
+                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--弹框步骤3-->
+        <div class="modal-content hide" data-steps="3">
+            <div class="modal-header">
+                <button type="button" class="close" name="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">
+                    <a class="btn btn-social-icon btn-bitbucket btn-primary btn-sm" data-gostep="1" title="返回"><i class="fa fa-arrow-left"></i></a>&nbsp;用例执行情况
+                </h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box" id="JS_getAutoResultList" style="min-height:100px;">
+                            <div style="text-align: center; padding: 50px 0;">
+                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<!-- 查看自动化用例执行情况弹出框 -->
+<div class="modal fade" id="JS_getAutoResultListModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">用例执行情况</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box" id="JS_getAutoResultList" style="min-height:100px;">
+                            <div style="text-align: center; padding: 50px 0;">
+                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<!-- 查看手工用例执行情况弹出框 -->
+<div class="modal fade" id="JS_getManualResultListModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">用例执行情况</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box" id="JS_getManualResultList" style="min-height:100px;">
+                            <div style="text-align: center; padding: 50px 0;">
+                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<script>
+seajs.use("script/netFlowManage/netFlow/onlineTaskDistribute.js", function(Query) {
+    Query.init();
+});
+</script>

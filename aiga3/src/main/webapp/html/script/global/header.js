@@ -1,7 +1,3 @@
-/*
- * 头部公用模块
- * author:qijc
- */
 define(function(require, exports, module) {
 
     // 用户信息接口

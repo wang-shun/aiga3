@@ -5,6 +5,8 @@ define(function(require,exports,module){
 	require('global/sidebar.js');
 	var Utils = require('global/utils.js')
 
+	//系统大类下拉框显示
+	srvMap.add("getSysList", "", "sys/cache/listSysid");
 	//显示环境列表
 	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
 	//查询环境
@@ -17,12 +19,18 @@ define(function(require,exports,module){
 	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","sys/environment/del");
 	//修改环境
 	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
+	//获取机器列表
+	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
+	//关联机器
+	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
 	//模板对象
 	var Tpl={
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
-		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl')
+		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
+		getMachineList: require('tpl/environment/getMachineList.tpl'),
+		getSysList: require('tpl/caseTempMng/getSysList.tpl')
 	};
 
 	var Dom={
@@ -30,6 +38,8 @@ define(function(require,exports,module){
 		getEnvironmentList:'#JS_getEnvironmentList',
 		addEnviromentInfoForm:"#JS_addEnvironmentInfoForm",
 		addEnvironmentInfoModal:"#JS_addEnvironmentInfoModal",
+		connectMachineList:"#JS_connectMachineList",
+		connectMachineModal:"#JS_connectMachineModal",
 		caseType:[],
 		repairsId:[]
 	}
@@ -53,7 +63,28 @@ define(function(require,exports,module){
     		this.getEnvironmentList();
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
+    		this.hdbarHelp();
+    		this.getSysList();
+    		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
+		hdbarHelp: function() {
+			Handlebars.registerHelper("envTypes", function(value) {
+				if (value == 1) {
+					return "个人环境配置";
+				} else if (value == 2) {
+					return "公共环境配置";
+				}
+			});
+			Handlebars.registerHelper("runEnvs", function(value) {
+				if (value == 1) {
+					return "验收环境";
+				} else if (value == 2) {
+					return "准发布环境";
+				} else if (value == 3) {
+					return "生产环境";
+				}
+			});
+		},
     	initForm:function(){
 	    		var self=this;
 	    		var template=Handlebars.compile(Tpl.queryEnvironmentForm);
@@ -68,6 +99,8 @@ define(function(require,exports,module){
 					$(Dom.getEnvironmentList).html(template(json.data));
 					//删除按钮
 					self.deleteEnvironment();
+					//关联机器
+					self.connectMachine();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
 						self.updateEnvironmentInfo();
@@ -86,6 +119,8 @@ define(function(require,exports,module){
 					$(Dom.getEnvironmentList).html(template(json.data.content));
 					//删除按钮
 					self.deleteEnvironment();
+					//关联机器
+					self.connectMachine();
 					//引入单选框样式
 					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
 						self.updateEnvironmentInfo();
@@ -95,7 +130,6 @@ define(function(require,exports,module){
 				}
 			});
 		},
-		
 		// 按条件查询
 		queryEnvironment: function() {
 			var self = this;
@@ -130,6 +164,7 @@ define(function(require,exports,module){
 				var template = Handlebars.compile(Tpl.addEnvironmentInfo);
 				$("#formName").html("新增环境");
 				_form.html(template());
+				Utils.setSelectData($(Dom.addEnviromentInfoForm));
 				//弹出层
 				$(Dom.addEnvironmentInfoModal).modal('show');
 				$("#JS_addEnvironmentInfoSubmit").unbind('click');
@@ -183,6 +218,88 @@ define(function(require,exports,module){
 				});
 			});
 		},
+		//关联机器
+		connectMachine : function(cmd){
+			var self = this;
+			$("#JS_connectMachine").unbind('click');
+				$("#JS_connectMachine").bind('click', function() {
+					var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+					if(_checkObj.length==0){
+					   window.XMS.msgbox.show('请选择要关联的环境！', 'error', 2000);
+					   return false;
+				    }
+					var _envId ="";
+					_checkObj.each(function (){
+						_envId = $(this).val();
+					})
+					Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
+						if (status) {
+							var _form = $(Dom.connectMachineList);
+							var template = Handlebars.compile(Tpl.getMachineList);
+							/*$("#formName").html("关联机器");*/
+							_form.html(template());
+							self.getMachineList();
+							//弹出层
+							$(Dom.connectMachineModal).modal('show');
+							$("#JS_connectMachineSubmit").unbind('click');
+							//点击保存
+							$("#JS_connectMachineSubmit").bind('click',function(){
+								/*var cmd = _form.serialize();
+								console.log(cmd);*/
+
+								var  machineId="";
+								$("#Tab_getMachine").find("tbody").find("tr").each(function(){
+									var tdArr = $(this).children();
+									if(tdArr.eq(0).find("input").is(':checked')){
+										machineId += tdArr.eq(0).find("input").val()+",";
+
+									}
+								});
+
+								var cmd = "machineId="+machineId + "&envId=" +_envId;
+								Rose.ajax.postJson(srvMap.get('connectMachine'), cmd, function(json, status) {
+									if(status) {
+											// 关联机器成功
+											XMS.msgbox.show('关联成功！', 'success', 2000)
+											// 关闭弹出层
+											$(Dom.connectMachineModal).modal('hide');
+											/*setTimeout(function(){
+												self.getEnvironmentList();
+											},1000)*/
+									}
+								});
+							});
+						}
+					});
+				});
+		},
+        //机器列表
+        getMachineList: function(cmd) {
+            var self = this;
+            Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.getMachineList);
+                    /*console.log(json.data.content);*/
+                    $("#formName").html("关联机器");
+                    $(Dom.connectMachineList).html(template(json.data.content));
+
+                    //单击选中
+                    /*self.eventClickChecked($(Dom.getCaseList));*/
+                    //双击关联用例
+                    // self.eventDClickCallback($(Dom.getCaseGroupList), function() {
+                    //     var _data = self.getCheckedCaseGroup();
+                    //     var cmd = "groupId=" + _data.groupId;
+                    //     self.getCaseGroupInfo(cmd);
+                    // })
+					//引入多选框样式
+					Utils.eventTrClickCallback($(Dom.connectMachineList), function() {
+
+					})
+                    //设置分页
+                    self.initPaging($(Dom.connectMachineList), 10)
+                }
+            });
+        },
 		updateEnvironmentInfo:function(){
 			var self = this;
 			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
@@ -194,10 +311,12 @@ define(function(require,exports,module){
 				if (status) {
 					var _form = $(Dom.addEnviromentInfoForm);
 					var template = Handlebars.compile(Tpl.addEnvironmentInfo);
-					var c = json.data;
-					_form.html(template(c));
+					_form.html(template(json.data));
+					/*alert(json.data.content[0].envType);*/
+					$("#query_envType").val(json.data.envType);
 					// 设置下拉框选中值
 					Utils.setSelected(_form);
+					Utils.setSelectData($(Dom.addEnviromentInfoForm));
 					// //弹出层
 					$(Dom.addEnvironmentInfoModal).modal('show');
 					$("#formName").html("修改环境");
@@ -220,7 +339,17 @@ define(function(require,exports,module){
 					});
 				}
 			});
-			
+
+		},
+		getSysList: function() {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
+				if (status) {
+					var template = Handlebars.compile(Tpl.getSysList);
+					$("#sysId").html(template(json.data));
+					console.log(json.data)
+				}								
+			});
 		},
 		// 事件：分页
         initPaging: function(obj, length) {

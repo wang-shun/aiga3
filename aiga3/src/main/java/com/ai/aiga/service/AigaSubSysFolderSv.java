@@ -103,9 +103,9 @@ public AigaSubSysFolder findOne(BigDecimal subsysId) {
 		list.add("sysName");
 		list.add("createTime");
 		list.add("updateTime");
-		list.add("sysId");
-	   String sql = "select a.SUBSYS_ID, a.SYS_NAME, a.CREATE_TIME,a.UPDATE_TIME,a.SYS_ID"
-	   		+ "from AIGA_SUB_SYS_FOLDER a,AIGA_SYSTEM_FOLDER b where a.SYS_ID=b.SYS_ID";
+		list.add("name");
+	   String sql = "select a.SUBSYS_ID, a.SYS_NAME, a.CREATE_TIME,a.UPDATE_TIME,b.SYS_NAME as NAME"
+	   		+ " from AIGA_SUB_SYS_FOLDER a,AIGA_SYSTEM_FOLDER b where a.SYS_ID=b.SYS_ID";
 	
 			if(StringUtils.isNotBlank(condition.getSysName())){
 				sql += " and a.SYS_NAME like '%"+condition.getSysName()+"%'";

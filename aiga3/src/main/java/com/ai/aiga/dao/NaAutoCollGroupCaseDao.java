@@ -20,7 +20,7 @@ public interface NaAutoCollGroupCaseDao extends JpaRepository<NaAutoCollGroupCas
 		public List<NaAutoCollGroupCase> findByCollectId(Long collectId);
 	
 	@Modifying
-	@	Query(value="delete from na_auto_coll_group_case t where t.collect_id =  ?1 " , nativeQuery=true)
+	@Query(value="delete from na_auto_coll_group_case t where t.collect_id =  ?1 " , nativeQuery=true)
 	  public void deleteByCollectId (Long collectId) throws Exception ;
 	
 	@Modifying
@@ -28,4 +28,7 @@ public interface NaAutoCollGroupCaseDao extends JpaRepository<NaAutoCollGroupCas
 	public void deleteConnectGroups(Long types,Long collectId ,Long  groupId) throws Exception ;
 	
 	public List<NaAutoCollGroupCase>  findByCollectIdAndElementIdAndElementType(Long collectId, Long elementId,Long elementType);
+
+	
+	public List<NaAutoCollGroupCase> findByCollectIdAndElementType(Long collectId, Long elementType);
 }

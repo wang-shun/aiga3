@@ -19,11 +19,16 @@ import com.ai.aiga.dao.NaAutoEnvironmentDao;
 import com.ai.aiga.dao.NaAutoMachineEnvDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoEnvironment;
+import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaAutoMachineEnv;
+import com.ai.aiga.domain.NaEmployeeInfo;
+import com.ai.aiga.domain.NaTeamEmployeeRel;
+import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.NaAutoEnvironmentRequest;
+import com.ai.aiga.view.json.NaAutoMachineRequest;
 
 @Service
 @Transactional
@@ -54,16 +59,16 @@ public class NaAutoEnvironmentSv extends BaseService{
 	   if(StringUtils.isBlank(request.getSysPassword())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"sysPassword");
    }
-	   if(StringUtils.isBlank(request.getSoId())){
+	/*   if(StringUtils.isBlank(request.getSoId())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"soId");
-   }
-	   if(StringUtils.isBlank(request.getSvnUrl())){
+   }*/
+	   /*if(StringUtils.isBlank(request.getSvnUrl())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"svnUrl");
    }
 	   if(StringUtils.isBlank(request.getSvnPassword())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"svnPassword");
-   }
-	   if(StringUtils.isBlank(request.getSvnAccount())){
+   }*/
+	   /*if(StringUtils.isBlank(request.getSvnAccount())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"svnAccount");
    }
 	   if(StringUtils.isBlank(request.getDbPassword())){
@@ -74,19 +79,19 @@ public class NaAutoEnvironmentSv extends BaseService{
    }
 	   if(StringUtils.isBlank(request.getCreatorId().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"creatorId");
-   }
+   }*/
 	   if(StringUtils.isBlank(request.getRunEnv().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"runEnv");
    }
-	   if(StringUtils.isBlank(request.getUpdateTime().toString())){
+	  /* if(StringUtils.isBlank(request.getUpdateTime().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"updateTime");
-   }
+   }*/
 	   if(StringUtils.isBlank(request.getRegionId().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"regionId");
    }
-	   if(StringUtils.isBlank(request.getDatabase())){
+	   /*if(StringUtils.isBlank(request.getDatabase())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"database");
-   }
+   }*/
 	   NaAutoEnvironment naAutoEnvironment =new NaAutoEnvironment();
 	   naAutoEnvironment.setCreatorId(request.getCreatorId());
 	   naAutoEnvironment.setDatabase(request.getDatabase());
@@ -193,7 +198,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 		}
 	   return naAutoEnvironmentDao.findOne(envId);
    }
-   public Object listEnvironment(int pageNumber, int pageSize ,NaAutoEnvironment condition ) throws ParseException {
+/*   public Object listEnvironment(int pageNumber, int pageSize ,NaAutoEnvironment condition ) throws ParseException {
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
@@ -227,10 +232,58 @@ public class NaAutoEnvironmentSv extends BaseService{
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		
 		return naAutoEnvironmentDao.search(cons, pageable);
+	}*/
+	public Object listEnvironment(int pageNumber, int pageSize, NaAutoEnvironment condition) throws ParseException {
+		List<String> list = new ArrayList<String>();
+		list.add("envId");
+		list.add("sysId");
+		list.add("envName");
+		list.add("envUrl");
+		list.add("sysAccount");
+		list.add("sysPassword");
+		list.add("database");
+		list.add("dbAccount");
+		list.add("dbPassword");
+		list.add("regionId");
+		list.add("soId");
+		list.add("svnUrl");
+		list.add("svnAccount");
+		list.add("svnPassword");
+		list.add("envType");
+		list.add("runEnv");
+		list.add("creatorId");
+		list.add("envCode");
+		list.add("sysName");
+		String sql = "select a.ENV_ID,a.SYS_ID,a.ENV_NAME,a.ENV_URL,a.SYS_ACCOUNT,a.SYS_PASSWORD,"
+				+ "a.DATABASE,a.DB_ACCOUNT,a.DB_PASSWORD,a.REGION_ID,a.SO_ID,"
+				+ "a.SVN_URL,a.SVN_ACCOUNT,a.SVN_PASSWORD,a.ENV_TYPE,a.RUN_ENV,a.CREATOR_ID,"
+				+ "a.ENV_CODE,"
+				+ "b.SYS_NAME from NA_AUTO_ENVIRONMENT a,AIGA_SYSTEM_FOLDER b"
+				+ " where a.SYS_ID=b.SYS_ID";
+		if (condition.getRunEnv() != null) {
+			sql += " and a.run_env =" + condition.getRunEnv();
+		}
+
+		if (condition.getEnvName() != null && !condition.getEnvName().equals("")) {
+			sql += " and a.ENV_NAME like '%" + condition.getEnvName() + "%'";
+		}
+		if (condition.getSysId() != null) {
+			sql += " and a.SYS_ID =" + condition.getSysId();
+		}
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return naAutoEnvironmentDao.searchByNativeSQL(sql, pageable, list);
 	}
    
-   
-   public void addMachineandEnv(NaAutoEnvironmentRequest  request,String machineIds){
+   /*public void addMachineandEnv(NaAutoEnvironmentRequest  request,String machineIds){
 	  
 	   NaAutoEnvironment naAutoEnvironment=saveEnvironment(request);
 	   if(naAutoEnvironment==null){
@@ -254,8 +307,49 @@ public class NaAutoEnvironmentSv extends BaseService{
 				naAutoMachineEnvDao.save(naAutoMachineEnv);
 			}
 		}
-   }
+   }*/
+   /**
+    * 
+    * @ClassName: NaAutoEnvironmentSv :: saveMachine
+    * @author: liujinfang
+    * @date: 2017年4月6日 上午10:07:20
+    *
+    * @Description:
+    * @param list
+    * @param envId
+    */
+  /* public void saveMachine(List<NaAutoMachine> list,BigDecimal envId) {
+ 		if (list == null&&envId==null) {
+ 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+ 		}
+ 		
+ 		for (int i = 0; i < list.size(); i++) {
 
+ 			NaAutoMachine  naAutoMachine= list.get(i);
+
+ 			if (naAutoMachine != null) {
+ 				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
+ 				naAutoMachineEnv.setEnvId(envId);
+ 				naAutoMachineEnv.setMachineId(naAutoMachine.getMachineId());
+ 				naAutoMachineEnvDao.save(naAutoMachineEnv);
+
+ 			}
+ 		}
+ 	}*/
+   public void saveMachine(String machines,BigDecimal envId) {
+		if (machines == null&&envId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		String[] machine=machines.split(",");
+		for (int i = 0; i < machine.length; i++) {
+				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
+				naAutoMachineEnv.setEnvId(envId);
+				naAutoMachineEnv.setMachineId(BigDecimal.valueOf((NumberUtils.toLong(machine[i]))));
+				naAutoMachineEnvDao.save(naAutoMachineEnv);
+
+			
+		}
+	}
 	/**
 	 * 根据环境ID获取环境信息并返回JSON串（供云桌面使用）
 	 * @param envId

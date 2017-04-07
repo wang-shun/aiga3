@@ -188,7 +188,7 @@ public class AutoUiParamSv {
         if (autoId == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
         }
-        return autoUiParamDao.findByAutoId(autoId);
+        return autoUiParamDao.findByAutoIdOrderByCompOrder(autoId);
     }
 
     /**

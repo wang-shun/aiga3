@@ -8,7 +8,7 @@
     </div>
 </div>
 <div class="box-body" >
-    <table class="table table-bordered table-hover" id="AsciptionListTable">
+    <table class="table table-bordered table-hover" id="AsciptionListTable" >
         <thead>
             <tr>
                 

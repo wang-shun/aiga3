@@ -2,7 +2,7 @@
     <!-- 搜索表单 -->
     <div class="row">
         <div class="col-sm-4 form-group">
-            <label for="machineIp" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->IP：</label>
+            <label for="machineIp" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->主机IP：</label>
             <div class="col-sm-7">
               <input type="text" class="form-control input-sm" id="machineIp" name="machineIp">
             </div>

@@ -11,14 +11,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
+import com.ai.aiga.dao.NaAutoCollectionDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.NaOnlineTaskResultDao;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
+import com.ai.aiga.domain.NaAutoCollection;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.domain.NaOnlineTaskResult;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.DealOpResponse;
 import com.ai.aiga.view.json.OnlineTaskRequest;
 
 /**
@@ -30,7 +36,7 @@ import com.ai.aiga.view.json.OnlineTaskRequest;
  */
 @Service
 @Transactional
-public class OnlineTaskSv {
+public class OnlineTaskSv extends BaseService{
 	
 	@Autowired
 	private NaOnlineTaskDistributeDao naOnlineTaskDistributeDao;
@@ -41,6 +47,11 @@ public class OnlineTaskSv {
 	@Autowired
 	private NaOnlineTaskResultDao naOnlineTaskResultDao;
 	
+	@Autowired
+	private NaAutoCollectionDao naAutoCollectionDao;
+	
+	@Autowired
+	private AigaStaffDao aigaStaffDao;
 	/**
 	 * @ClassName: OnlineTaskSv :: list
 	 * @author: dongch
@@ -105,9 +116,10 @@ public class OnlineTaskSv {
 		if(condition.getTaskId() == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		String sql = "select a.task_id, b.task_name, b.task_type, a.state, c.collect_name, d.op_name,"
-				+ " b.assign_date from na_online_task_result a, na_online_task_distribute b, na_auto_collection c,"
-				+ " aiga_staff d where a.task_id = b.task_id and a.auto_plan_id = c.collect_id and a.op_id = d.staff_id"
+		String sql = "select a.task_id, b.task_name, b.task_type, b.deal_state, c.collect_name, d.name as opName,"
+				+ " a.auto_plan_id, b.deal_op_id, b.assign_date"
+				+ "  from na_online_task_result a, na_online_task_distribute b, na_auto_collection c,"
+				+ " aiga_staff d where a.task_id = b.task_id and a.auto_plan_id = c.collect_id and b.deal_op_id = d.staff_id"
 				+ " and b.parent_task_id = "+condition.getTaskId();
 		if(condition.getTaskName() != null){
 			sql += " and b.task_name like '%"+condition.getTaskName()+"%'";
@@ -118,7 +130,9 @@ public class OnlineTaskSv {
 		list.add("taskType");
 		list.add("state");
 		list.add("collectName");
-		list.add("opName");
+		list.add("dealOpName");
+		list.add("collectId");
+		list.add("dealOpId");
 		list.add("assignDate");
 		
 		if(pageNumber < 0){
@@ -242,6 +256,43 @@ public class OnlineTaskSv {
 				naOnlineTaskResultDao.save(planResultAuto);
 			}
 		}
+	}
+
+	/**
+	 * @ClassName: OnlineTaskSv :: collect
+	 * @author: dongch
+	 * @date: 2017年4月7日 上午11:28:28
+	 *用例集下拉框
+	 * @Description:
+	 * @return          
+	 */
+	public List<NaAutoCollection> collect() {
+		
+		List<NaAutoCollection> list = naAutoCollectionDao.findAll();
+		return list;
+	}
+
+	/**
+	 * @ClassName: OnlineTaskSv :: dealOp
+	 * @author: dongch
+	 * @date: 2017年4月7日 上午11:42:54
+	 *
+	 * @Description:
+	 * @return          
+	 */
+	public List<DealOpResponse> dealOp() {
+		List<AigaStaff> list = aigaStaffDao.findAll();
+		List<DealOpResponse> responses = new ArrayList<DealOpResponse>(list.size());
+		if(list != null && list.size() > 0){
+			for(int i = 0; i < list.size(); i++){
+				DealOpResponse response = new DealOpResponse();
+				response.setDealOpId(list.get(i).getStaffId());
+				response.setDealOpName(list.get(i).getName());
+				responses.add(response);
+			}
+		}
+		
+		return responses;
 	}
 
 }

@@ -26,14 +26,9 @@
     </div>
     <div class="row">
         <div class="col-sm-4 form-group">
-            <label for="regionId" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->地市：</label>
+            <label for="svnUrl" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->SVN地址：</label>
             <div class="col-sm-7">
-                <!-- <input type="text" class="form-control input-sm" id="regionId" name="regionId" value="{{regionId}}"> -->
-                <select  id="regionId" name="regionId" class="form-control select2 input-sm" data-selected="{{regionId}}">
-                    <option value="">请选择</option>
-                    <option value="11">地市</option>
-                    <option value="22">地市</option>
-                </select>
+                <input type="text" class="form-control input-sm" id="svnUrl" name="svnUrl" value="{{svnUrl}}">
             </div>
         </div>
         <div class="col-sm-4 form-group">
@@ -69,12 +64,6 @@
             <label for="sysPassword" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->登录密码：</label>
             <div class="col-sm-7">
                 <input type="text" class="form-control input-sm" id="sysPassword" name="sysPassword" value="{{sysPassword}}">
-            </div>
-        </div>
-        <div class="col-sm-4 form-group">
-            <label for="svnUrl" class="col-sm-5 control-label"><!-- <i class="text-red">*</i> -->SVN地址：</label>
-            <div class="col-sm-7">
-                <input type="text" class="form-control input-sm" id="svnUrl" name="svnUrl" value="{{svnUrl}}">
             </div>
         </div>
     </div>

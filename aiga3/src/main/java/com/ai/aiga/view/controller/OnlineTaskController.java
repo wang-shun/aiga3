@@ -37,7 +37,7 @@ public class OnlineTaskController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/accept/onlineTask/childList")
+	@RequestMapping(path = "/accept/onlineTask/childList")//子任务分派展示
 	public @ResponseBody JsonBean childList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
@@ -58,6 +58,20 @@ public class OnlineTaskController {
 	public @ResponseBody JsonBean delete(String taskIds){
 		onlineTaskSv.delete(taskIds);
 		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/accept/onlineTask/collect")
+	public @ResponseBody JsonBean collect(){
+		JsonBean bean = new JsonBean();
+		bean.setData(onlineTaskSv.collect());
+		return bean;
+	}
+	
+	@RequestMapping(path = "/accept/onlineTask/dealOp")
+	public @ResponseBody JsonBean dealOp(){
+		JsonBean bean = new JsonBean();
+		bean.setData(onlineTaskSv.dealOp());
+		return bean;
 	}
 	
 }

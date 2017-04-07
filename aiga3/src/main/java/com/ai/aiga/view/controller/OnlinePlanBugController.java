@@ -53,5 +53,12 @@ public class OnlinePlanBugController {
 		onlinePlanBugSv.delete(bugIds);
 		return JsonBean.success;
 	}
+	
+	@RequestMapping(path = "/accept/onlinePlanBug/findOne")
+	public @ResponseBody JsonBean findOne(Long bugId){
+		JsonBean bean = new JsonBean();
+		bean.setData(onlinePlanBugSv.findOne(bugId));
+		return bean;
+	}
 }
 

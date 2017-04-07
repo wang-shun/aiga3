@@ -107,6 +107,7 @@ public class OnlinePlanBugSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlans");
 		}
 		if(naOnlinePlanBug.getBugId() == null){
+			naOnlinePlanBug.setCreateId(1L);
 			naOnlinePlanBugDao.save(naOnlinePlanBug);
 		}else{
 			NaOnlinePlanBug bug = naOnlinePlanBugDao.findOne(naOnlinePlanBug.getBugId());
@@ -168,6 +169,24 @@ public class OnlinePlanBugSv extends BaseService{
 			list.add(Long.valueOf(bugId[i]).longValue());
 		}
 		naOnlinePlanBugDao.delete(list);
+	}
+
+	/**
+	 * @ClassName: OnlinePlanBugSv :: findOne
+	 * @author: dongch
+	 * @date: 2017年4月7日 下午1:40:34
+	 *
+	 * @Description:
+	 * @param bugId
+	 * @return          
+	 */
+	public NaOnlinePlanBug findOne(Long bugId) {
+		if(bugId == null || bugId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "bugId");
+		}
+		NaOnlinePlanBug bug = naOnlinePlanBugDao.findOne(bugId);
+		
+		return bug;
 	}
 
 }

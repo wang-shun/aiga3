@@ -171,5 +171,23 @@ public class OnlinePlanBugSv extends BaseService{
 		naOnlinePlanBugDao.delete(list);
 	}
 
+	/**
+	 * @ClassName: OnlinePlanBugSv :: findOne
+	 * @author: dongch
+	 * @date: 2017年4月7日 下午1:40:34
+	 *
+	 * @Description:
+	 * @param bugId
+	 * @return          
+	 */
+	public NaOnlinePlanBug findOne(Long bugId) {
+		if(bugId == null || bugId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "bugId");
+		}
+		NaOnlinePlanBug bug = naOnlinePlanBugDao.findOne(bugId);
+		
+		return bug;
+	}
+
 }
 

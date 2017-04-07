@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiParam;
  * @author liuxx
  * @dete 2017-02-25
  */
-@Api(value = "操作组织接口")
+@Api(value="OrginazeController", description="操作组织接口")
 @Controller
 public class OrginazeController {
 
@@ -34,6 +34,7 @@ public class OrginazeController {
 		bean.setData(organizeSv.findOrganize(organizeId));
 		return bean;
 	}
+	
 
 	@RequestMapping(path = "/sys/organize/treeList", method = RequestMethod.POST)
 	@ApiOperation(value = "查询组织树", response = AigaOrganize.class, notes = "查询组织树")
@@ -43,6 +44,7 @@ public class OrginazeController {
 		return bean;
 	}
 
+	
 	@RequestMapping(path = "/sys/organize/save", method = RequestMethod.POST)
 	@ApiOperation(value = "保存组织", notes = "保存组织:organizeName和code必填")
 	@ApiParam(name = "orginazeRequest", value = "组织信息", required = true)
@@ -50,6 +52,7 @@ public class OrginazeController {
 		organizeSv.saveOrginaze(orginazeRequest);
 		return JsonBean.success;
 	}
+	
 
 	@RequestMapping(path = "/sys/organize/update", method = RequestMethod.POST)
 	@ApiOperation(value = "更新组织", notes = "保存组织:organizeName和code必填")

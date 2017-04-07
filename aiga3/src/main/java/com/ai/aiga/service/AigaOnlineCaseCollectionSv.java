@@ -5,9 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +17,6 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoCollectionDao;
 import com.ai.aiga.dao.NaAutoGroupDao;
-import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
 import com.ai.aiga.domain.NaAutoCollection;
 import com.ai.aiga.exception.BusinessException;
@@ -28,6 +24,7 @@ import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.CaseCollectionRequest;
 import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
+import com.ai.aiga.view.util.SessionMgrUtil;
 
 
 @Service
@@ -44,6 +41,7 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	
 	@Autowired
 	private NaAutoGroupDao groupDao;
+	
 
 	/**
 	 * 
@@ -82,7 +80,8 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			// 系统默认设定
 			caseConnections.setCreateDate(new Date());
 			caseConnections.setSysId(caseCollection.getSysId());
-			// caseConnections.setOpId();
+			System.out.println("11111111111111"+SessionMgrUtil.getUserInfo().getStaff().getOpId());
+			 caseConnections.setOpId(SessionMgrUtil.getStaff().getOpId());
 			caseDao.save(caseConnections);
 	}
 

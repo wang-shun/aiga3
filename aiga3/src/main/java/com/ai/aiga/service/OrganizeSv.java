@@ -16,8 +16,10 @@ import com.ai.aiga.domain.AigaOrganize;
 import com.ai.aiga.domain.AigaStaffOrgRelat;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.OrginazeRequest;
+import com.ai.aiga.view.util.SessionMgrUtil;
 
 /**
  * 系统管理-组织信息
@@ -34,7 +36,9 @@ public class OrganizeSv extends BaseService{
 	@Autowired
 	private   AigaStaffOrgRelatDao aigaStaffOrgRelatDao;
 	
-	
+//	@Autowired
+//	private SessionMgrUtil user;
+
 	/**
 	 * 根据组织名称查询所有信息
 	 * @param organizeId 组织编号
@@ -131,7 +135,7 @@ public class OrganizeSv extends BaseService{
 	   if(!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrgRoleTypeId()))){
 		   organize.setOrgRoleTypeId(orginazeRequest.getOrgRoleTypeId());
 	   }
-
+	  // organize.setOpId(user.getStaff().getOpId());
 	   organizeDao.save(organize);
 	}
 	

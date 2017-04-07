@@ -1,8 +1,9 @@
-package com.ai.aiga.webservice.soap;
+package com.ai.aiga.webservice.soap.server;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import com.ai.aiga.webservice.soap.WsConstants;
 import com.ai.aiga.webservice.soap.dto.Result;
 import com.ai.aiga.webservice.soap.dto.UserDTO;
 

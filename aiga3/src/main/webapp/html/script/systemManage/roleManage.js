@@ -111,22 +111,27 @@ define(function(require,exports,module){
 			var self = this;
 			var _srvMap = type == "save" ? 'addRoleinfo' : 'updateRoleinfo';
     		var _domSave = $(Dom.manageRoleinfo).find("[name='save']");
-    		_domSave.bind('click', function() {
-				var cmd = $(this).parents("form").serialize();
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
-				Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {
-					if(status) {
-						window.XMS.msgbox.show('保存成功！', 'success', 2000)
-						setTimeout(function(){
-							self.getRoleinfoList();
-						},1000)
-					}
-	  			});
+    		// 验证表单保存提交
+    		_domSave.bind('click', function() {
+    			Utils.checkForm($(Dom.manageRoleinfo),function(){
+    				var cmd = $(this).parents("form").serialize();
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+
+					Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.show('保存成功！', 'success', 2000)
+							setTimeout(function(){
+								self.getRoleinfoList();
+							},1000)
+						}
+		  			});
+    			})
   			});
-  			 _domReset = $(Dom.manageRoleinfo).find("[name='reset']");
+
+  			// 清除表单所有内容
+  			_domReset = $(Dom.manageRoleinfo).find("[name='reset']");
   			_domReset.bind('click', function() {
-  				// 清除表单所有内容
   				Utils.resetForm(Dom.manageRoleinfo);
   			});
 

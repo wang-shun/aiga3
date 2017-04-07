@@ -20,9 +20,9 @@ define(function(require, exports, module) {
     //删除回归子任务
     srvMap.add("delOnlineTask", pathAlias + "retMessage.json", "accept/onlineTask/delete");
     //查看手工用例执行结果列表
-    srvMap.add("getManualResultList", pathAlias + "getManualResultList.json", "");
+    srvMap.add("getManualResultList", pathAlias + "getManualResultList.json", "accept/subTask/caseResult");
     //查看自动化用例执行结果列表
-    srvMap.add("getAutoResultList", pathAlias + "getAutoResultList.json", "");
+    srvMap.add("getAutoResultList", pathAlias + "getAutoResultList.json", "accept/subTask/autoResult");
 
 
     // 模板对象

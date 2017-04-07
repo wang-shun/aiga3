@@ -20,16 +20,16 @@
         <tbody>
             {{#each content}}
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{autoName}}</td>
+                <td>{{sysName}}</td>
+                <td>{{subSysName}}</td>
+                <td>{{funName}}</td>
+                <td>{{important}}</td>
+                <td>{{caseState}}</td>
+                <td>{{autoCode}}</td>
+                <td>{{autoResult}}</td>
+                <td>{{result}}</td>
+                <td>{{bug}}</td>
             </tr>
             {{/each}}
         </tbody>

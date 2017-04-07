@@ -65,7 +65,7 @@ define(function(require, exports, module) {
          */
         resetForm:function(objForm){
             $(objForm).find(':input')
-            .not(':button, :submit, :reset, :hidden, :disabled, :enabled')
+            .not(':button, :submit, :reset, :hidden, :disabled')
             .val('')
             .removeAttr('checked')
             .removeAttr('selected');

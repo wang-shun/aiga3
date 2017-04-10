@@ -3,7 +3,16 @@
  <div class="box-tools">
         <div class="btn-group">
          <button type="button" class="btn btn-info" name="rel" ><i class="fa fa-users"></i> 关联</button>
-          <button type="button" class="btn btn-success" name="add" ><i class="fa fa-plus"></i> 新增</button>
+        <div class="btn-group" role="group">
+             <button type="button" class="btn btn-block btn-success " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i>
+                            新增
+                         <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                    <li><button type="button" class="btn btn-block btn-success" name="addTeam" style="text-align:left" id="addTeamBt">新增团队</button></li>
+                 <li><button type="button" class="btn btn-block btn-success" name="addEm" style="text-align:left">新增员工</button></li>
+    </ul>
+  </div>
           <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
         </div>
     </div>

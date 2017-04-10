@@ -122,6 +122,7 @@ define(function(require, exports, module) {
 				// 表单提交
 				$("#addSysInfoButton").unbind('click');
 				$("#addSysInfoButton").bind('click', function() {
+						Utils.checkForm(_form, function() {
 					var cmd = _form.serialize();
 					console.log(cmd);
 					Rose.ajax.postJson(srvMap.get('addsubSysInfo'), cmd, function(json, status) {
@@ -136,6 +137,7 @@ define(function(require, exports, module) {
 							}, 1000)
 						}
 					});
+				});
 				})
 			})
 		},

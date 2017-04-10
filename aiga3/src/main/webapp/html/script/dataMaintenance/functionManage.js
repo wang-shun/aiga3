@@ -126,6 +126,7 @@ define(function(require, exports, module) {
 				// 表单提交
 				$("#addFunInfoButton").unbind('click');
 				$("#addFunInfoButton").bind('click', function() {
+					Utils.checkForm(_form, function() {
 					var cmd = _form.serialize();
 					console.log(cmd);
 					Rose.ajax.postJson(srvMap.get('addFunction'), cmd, function(json, status) {
@@ -140,7 +141,13 @@ define(function(require, exports, module) {
 							}, 1000)
 						}
 					});
+				});
 				})
+	// 清除表单所有内容
+				_domReset = _form.find("[name='reset']");
+				_domReset.bind('click', function() {
+					Utils.resetForm(_form);
+				});				
 			})
 		},
 		//映射处理

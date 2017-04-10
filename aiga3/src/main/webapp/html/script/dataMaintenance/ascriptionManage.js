@@ -8,11 +8,11 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getAsciptionList",pathAlias+"getAsciptionList.json","sys/systemfolder/listByName");
+	srvMap.add("getAsciptionList", pathAlias + "getAsciptionList.json", "sys/systemfolder/listByName");
 	// 删除所选条目
 	srvMap.add("delSysInfo", pathAlias + "retMessage.json", "sys/systemfolder/del");
 	//新增条目
-    srvMap.add("addSysInfo", pathAlias + "retMessage.json", "sys/systemfolder/save");
+	srvMap.add("addSysInfo", pathAlias + "retMessage.json", "sys/systemfolder/save");
 
 
 
@@ -24,10 +24,10 @@ define(function(require, exports, module) {
 	// 容器对象
 	var Dom = {
 		queryCaseTempForm: '#JS_queryCaseTempForm',
-		getAsciptionList:'#JS_getAsciptionList',
+		getAsciptionList: '#JS_getAsciptionList',
 
-		addSysInfoModel : '#JS_addSysInfoModel',
-		addSysInfo : '#JS_addSysInfo'
+		addSysInfoModel: '#JS_addSysInfoModel',
+		addSysInfo: '#JS_addSysInfo'
 
 	};
 
@@ -54,7 +54,7 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				self.getCaseTempList(cmd);
 			});
-			
+
 		},
 		// 查询自动化用例模板
 		getCaseTempList: function(cmd) {
@@ -76,14 +76,14 @@ define(function(require, exports, module) {
 
 
 				}
- 				//设置分页
-             self.initPaging($(Dom.getAsciptionList), 3)
+				//设置分页
+				self.initPaging($(Dom.getAsciptionList), 3)
 			});
 
 
 		},
-	// 删除所选条目
-		delCaseSysInfo: function(){
+		// 删除所选条目
+		delCaseSysInfo: function() {
 			var self = this;
 			var _dom = $(Dom.getAsciptionList);
 			var _del = _dom.find("[name='del']");
@@ -91,52 +91,55 @@ define(function(require, exports, module) {
 			_del.bind('click', function() {
 				//获得当前单选框值
 				var data = Utils.getRadioCheckedRow(_dom);
-				if(data){
+				if (data) {
 					console.log(data);
-					var cmd = 'sysId='+data.sysId;
+					var cmd = 'sysId=' + data.sysId;
 					//alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delSysInfo'), cmd, function(json, status) {
-						if(status) {
+						if (status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
-							setTimeout(function(){
+							setTimeout(function() {
 								self.getCaseTempList(Data.queryListCmd);
-							},1000)
+							}, 1000)
 						}
-		  			});
+					});
 				}
 			});
-			},
+		},
 		//新增
-		addSysInfo:function(){
-			 var self = this;
-			 var _dom = $(Dom.getAsciptionList);
-			 var _add = _dom.find("[name='add']");
-            _add.unbind('click');
-            _add.bind('click', function() {
-                // 弹出层
-                $(Dom.addSysInfoModel).modal('show');
-                //组件表单校验初始化
-                var _form = $(Dom.addSysInfo);
-                 // 表单提交
-                $("#addSysInfoButton").unbind('click');
-                $("#addSysInfoButton").bind('click', function() {
-                    var cmd = _form.serialize();
-                    console.log(cmd);
-                    Rose.ajax.postJson(srvMap.get('addSysInfo'), cmd, function(json, status) {
-                        if (status) {
-                            // 添加用户成功后，刷新用户列表页
-                            XMS.msgbox.show('添加成功！', 'success', 2000)
+		addSysInfo: function() {
+			var self = this;
+			var _dom = $(Dom.getAsciptionList);
+			var _add = _dom.find("[name='add']");
+			_add.unbind('click');
+			_add.bind('click', function() {
+				// 弹出层
+				$(Dom.addSysInfoModel).modal('show');
+				//组件表单校验初始化
+				var _form = $(Dom.addSysInfo);
+				// 表单提交
+				$("#addSysInfoButton").unbind('click');
+				$("#addSysInfoButton").bind('click', function() {
+					Utils.checkForm(_form, function() {
+						var cmd = _form.serialize();
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						console.log(cmd);
+						Rose.ajax.postJson(srvMap.get('addSysInfo'), cmd, function(json, status) {
+							if (status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('添加成功！', 'success', 2000)
+								setTimeout(function() {
+									self.getCaseTempList();
+								}, 1000);
+								// 关闭弹出层
+								$(Dom.addSysInfoModel).modal('hide');
+					}
+		  			});
+    			})
+  			});
 
-                            setTimeout(function() {
-                                self.getCaseTempList();
-                            }, 1000);
-// 关闭弹出层
-                            $(Dom.addSysInfoModel).modal('hide');
-                        }
-                    });
-                })
-            })
+			});
 		},
 		//映射处理
 		hdbarHelp: function() {
@@ -157,11 +160,11 @@ define(function(require, exports, module) {
 					return "基础域";
 				} else if (value == 3) {
 					return "电子渠道";
-				}else if (value == 4) {
+				} else if (value == 4) {
 					return "BOSS";
 				} else if (value == 5) {
 					return "CRM";
-				}else if (value == 6) {
+				} else if (value == 6) {
 					return "渠道接入";
 				} else if (value == 7) {
 					return "接口域";
@@ -169,18 +172,18 @@ define(function(require, exports, module) {
 
 			});
 		},
-        // 事件：分页
-        initPaging: function(obj, length) {
-            obj.find("table").DataTable({
-                "iDisplayLength": length,
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false
-            });
-        }
+		// 事件：分页
+		initPaging: function(obj, length) {
+			obj.find("table").DataTable({
+				"iDisplayLength": length,
+				"paging": true,
+				"lengthChange": false,
+				"searching": false,
+				"ordering": false,
+				"info": true,
+				"autoWidth": false
+			});
+		}
 	};
-		module.exports = Query;
+	module.exports = Query;
 });

@@ -9,12 +9,13 @@ define(function(require, exports, module) {
 	//分页根据条件查询功能点归属
 	srvMap.add("getTeamList", pathAlias + "getTeamList.json", "sys/team/findByName");
 	//删除团队
-	srvMap.add("delTeamtion", pathAlias + "retMessage.json", "sys/team/del");
+	srvMap.add("delTeamInfo", pathAlias + "retMessage.json", "sys/team/del");
 	//新增团队
-	srvMap.add("addTeamtion", pathAlias + "retMessage.json", "sys/team/save");
+	srvMap.add("addTeamInfo", pathAlias + "retMessage.json", "sys/team/save");
+	//新增员工
+	srvMap.add("addEmInfo", pathAlias + "retMessage.json", "sys/employee/save");	
 	//查询所有员工列表
 	srvMap.add("getEmList", pathAlias + "emList.json", "sys/employee/findByName");
-
 	//查询已关联员工列表
 	srvMap.add("getEmedList", pathAlias + "emedList.json", "sys/employee/list");
 
@@ -42,6 +43,15 @@ define(function(require, exports, module) {
 		//已关联员工列表
 		emedList: '#JS_EmedList',
 		queryEmForm: '#JS_queryEmForm',
+		//新增团队弹出框
+		addTeamModal:'#JS_addTeamModal',
+		addTeamInfo: '#JS_addTeamInfo',
+		//新增员工弹出框
+		addEmModal:'#JS_addEmModal',
+		addTeamInfo: '#JS_addEmInfo',
+		//关联弹出框
+		relTeamerModal:'#JS_relTeamerModal',
+
 	};
 
 	var Data = {
@@ -71,7 +81,7 @@ define(function(require, exports, module) {
 				self.getTeamList(cmd);
 			});
 		},
-		// 查询功能点
+		// 查询团队
 		getTeamList: function(cmd) {
 			var self = this;
 			var _cmd = '' || cmd;
@@ -85,8 +95,10 @@ define(function(require, exports, module) {
 					$(Dom.teamList).html(template(json.data.content));
 					//删除所选条目
 					self.delTeamInfo();
-					//新增条目
+					//新增团队
 					self.addTeamInfo();
+					//新增员工
+					self.addEmInfo();
 					//关联
 					self.relTeamAndEm();
 					Utils.eventTrClickCallback($(Dom.teamList));
@@ -108,10 +120,10 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					console.log(data);
-
 					var cmd = 'teamId=' + data.teamId;
+					alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('delTeamtion'), cmd, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('delTeamInfo'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
@@ -122,41 +134,78 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		//新增
+		//新增团队
 		addTeamInfo: function() {
 			var self = this;
 			var _dom = $(Dom.teamList);
-			var _add = _dom.find("[name='add']");
+			var _add = _dom.find("[name='addTeam']");
+
 			_add.unbind('click');
 			_add.bind('click', function() {
-				//弹出框
-				$(Dom.addTeamInfoForm).show();
+				// 弹出层
+				$(Dom.addTeamModal).modal('show');
 				//组件表单校验初始化
-				var _form = $(Dom.addTeamInfoForm);
+				var _form =  $('#JS_addTeamInfo');
+				_saveBt = $(Dom.addTeamModal).find("[name='save']");
+				Utils.setSelectData(_form);
 				// 表单提交
-				$("#JS_saveTeamButton").unbind('click');
-				$("#JS_saveTeamButton").bind('click', function() {
-
-					Utils.setSelectData(_form);
-
+				_saveBt.unbind('click');
+				_saveBt.bind('click', function() {
+						Utils.checkForm(_form, function() {
 					var cmd = _form.serialize();
+					cmd+="&createOpId=12";
 					console.log(cmd);
-					Rose.ajax.postJson(srvMap.get('addTeamtion'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('addTeamInfo'), cmd, function(json, status) {
 						if (status) {
 							// 添加用户成功后，刷新用户列表页
 							XMS.msgbox.show('添加成功！', 'success', 2000)
-							setTimeout(function() {
-								self.getTeamList(Data.queryListCmd);
-							}, 1000);
-							$("#teamMngView").show();
-							$("#addTeamView").hide();
+								// 关闭弹出层
+							$(Dom.addTeamModal).modal('hide');
 
+							setTimeout(function() {
+								self.getTeamList();
+							}, 1000)
 						}
 					});
-
+				});
 				})
 			})
 		},
+		//新增员工
+		addEmInfo: function() {
+			var self = this;
+			var _dom = $(Dom.teamList);
+			var _add = _dom.find("[name='addEm']");
+			_add.unbind('click');
+			_add.bind('click', function() {
+				// 弹出层
+				$(Dom.addEmModal).modal('show');
+				//组件表单校验初始化
+				var _form =  $('#JS_addEmInfo');
+				_saveBt = $(Dom.addEmModal).find("[name='save']");
+				Utils.setSelectData(_form);
+				// 表单提交
+				_saveBt.unbind('click');
+				_saveBt.bind('click', function() {
+						Utils.checkForm(_form, function() {
+					var cmd = _form.serialize();
+					console.log(cmd);
+					Rose.ajax.postJson(srvMap.get('addEmInfo'), cmd, function(json, status) {
+						if (status) {
+							// 添加用户成功后，刷新用户列表页
+							XMS.msgbox.show('添加成功！', 'success', 2000)
+								// 关闭弹出层
+							$(Dom.addEmModal).modal('hide');
+
+							setTimeout(function() {
+								self.getTeamList();
+							}, 1000)
+						}
+					});
+				});
+				})
+			})
+		},		
 		//已有团队关联
 		relTeamAndEm: function() {
 			var self = this;
@@ -168,8 +217,7 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					//跳转
-					$("#teamMngView").hide();
-					$("#teamerMngView2").show();
+					$(Dom.relTeamerModal).modal('show');
 					Data.teamId = data.teamId;
 					//关联新成员
 					self.relEm(Data.teamId);
@@ -210,24 +258,26 @@ define(function(require, exports, module) {
 
 					Utils.eventTrClickCallback($(Dom.emList));
 
-					self.initPaging($(Dom.emList), 2);
+					self.initPaging($(Dom.emList), 5);
 				}
 			});
 
 
 		},
 		// 查询已关联员工信息
-		getEmedList: function(data) {
+		getEmedList: function(cmd) {
 			var self = this;
+			var _cmd = 'teamId='+cmd;
+			alert(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getEmedList'), data, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getEmedList'), _cmd, function(json, status) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getEmedList);
 					$(Dom.emedList).html(template(json.data.content));
 					Utils.eventTrClickCallback($(Dom.emedList));
 
-					self.initPaging($(Dom.emedList), 2);
+					self.initPaging($(Dom.emedList), 5);
 				}
 			});
 
@@ -288,7 +338,6 @@ define(function(require, exports, module) {
 				relEmIds = relEmIds.substring(0, relEmIds.length - 1);
 				var _cmd = relEmIds+'&teamId='+Data.teamId;
 				console.log(_cmd);
-				alert(_cmd);
 				//批量关联接口
 				Rose.ajax.postJson(srvMap.get('relEmed'),_cmd, function(json, status) {
 					if (status) {

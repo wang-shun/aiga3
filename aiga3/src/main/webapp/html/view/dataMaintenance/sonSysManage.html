@@ -1,8 +1,4 @@
-<html>
- <head>
- <title></title>
-    </head>
-    <body>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="box">
@@ -14,7 +10,6 @@
                              <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                         </div>
                         <div class="box-body">
@@ -69,12 +64,12 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
-                                                <i class="text-red">* </i><label>系统名称</label> <input class="col-xs-8 form-control" name="sysName" placeholder="请输入系统名称">
+                                                <i class="text-red">* </i><label>系统名称</label> <input class="col-xs-8 form-control" name="sysName" placeholder="请输入系统名称" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                               <i class="text-red">* </i> <label>归属系统</label> <select name="sysId" class="form-control" data-url="getSysList" data-idkey="sysId">
+                                               <i class="text-red">* </i> <label>归属系统</label> <select name="sysId" class="form-control" data-url="getSysList" data-idkey="sysId" required>
                                                     <option value="">
                                                         请选择
                                                     </option>
@@ -90,7 +85,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button> <button type="button" class="btn btn-primary pull-right" id="addSysInfoButton" name="addSysInfoButton">保存</button>
                 </div>
-        </div><!-- Modal -->
+        </div>
+        </div>
+        </div>
+        <!-- Modal -->
         <script type="text/javascript">
 //<![CDATA[
         seajs.use("script/dataMaintenance/sonSysManage", function(Init) {
@@ -98,5 +96,4 @@
         });
         //]]>
         </script>
-    </body>
-</html>
+  

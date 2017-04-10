@@ -1,6 +1,6 @@
 package com.ai.aiga.service;
 
-import java.math.BigDecimal;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +33,7 @@ public class AigaFunFolderSv  extends BaseService{
 	public List<AigaFunFolder> findfunFolder() {
 		return aigaFunFolderDao.findAll();
 	}
-public void deletefunFolder(BigDecimal funId) {
+public void deletefunFolder(Long funId) {
 		
 		if(funId == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
@@ -41,7 +41,7 @@ public void deletefunFolder(BigDecimal funId) {
 		
 		aigaFunFolderDao.delete(funId);
 	}
-public AigaFunFolder findOne(BigDecimal funId) {
+public AigaFunFolder findOne(Long funId) {
 	if(funId == null ){
 		BusinessException.throwBusinessException(ErrorCode.Parameter_null, "funId");
 	}

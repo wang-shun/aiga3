@@ -1,6 +1,6 @@
 package com.ai.aiga.dao;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,29 +13,29 @@ import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaAutoMachineEnv;
 
 
-public interface NaAutoMachineEnvDao extends JpaRepository<NaAutoMachineEnv, BigDecimal>,SearchAndPageRepository<NaAutoMachineEnv, BigDecimal> {
+public interface NaAutoMachineEnvDao extends JpaRepository<NaAutoMachineEnv, Long>,SearchAndPageRepository<NaAutoMachineEnv, Long> {
 	@Modifying
 	@Query("delete from NaAutoMachineEnv where machineId= ?1")
-	void deleteByMachineId(BigDecimal machineId);
+	void deleteByMachineId(Long machineId);
 	
 	@Modifying
 	@Query("delete from NaAutoMachineEnv where envId= ?1")
-	void deleteByEnvId(BigDecimal machineId);
+	void deleteByEnvId(Long machineId);
 
 	@Query("select a from NaAutoMachine a,NaAutoMachineEnv b "
 			+ "where b.machineId=a.machineId and b.envId=?1")
-	List<NaAutoMachine> selectall(BigDecimal envId);
+	List<NaAutoMachine> selectall(Long envId);
 	
 	@Query("select a from NaAutoEnvironment a,NaAutoMachineEnv b "
 			+ "where b.envId=a.envId and b.machineId=?1")
-	List<NaAutoEnvironment> select(BigDecimal machineId);
+	List<NaAutoEnvironment> select(Long machineId);
 	
 	@Modifying
 	@Query("delete from NaAutoMachineEnv where envId= ?1 and machineId=?2")
-	void delrel(BigDecimal envId,BigDecimal machineId);
+	void delrel(Long envId,Long machineId);
 	
 	@Modifying
 	@Query("delete from NaAutoMachineEnv where machineId= ?1 and envId=?2")
-	void delectrel(BigDecimal machineId,BigDecimal envId);
+	void delectrel(Long machineId,Long envId);
 	
 }

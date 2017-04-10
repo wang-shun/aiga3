@@ -1,10 +1,10 @@
 package com.ai.aiga.view.json;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 public class AigaSystemFolderRequest {
-	private BigDecimal sysId;
+	private Long sysId;
 	private String sysName;
 	private Date createTime;
 	private Date updateTime;
@@ -13,10 +13,10 @@ public class AigaSystemFolderRequest {
 	private Short importantClass;
 	private Short sysOfDomain;
 	private Short isInvalid;
-	public BigDecimal getSysId() {
+	public Long getSysId() {
 		return sysId;
 	}
-	public void setSysId(BigDecimal sysId) {
+	public void setSysId(Long sysId) {
 		this.sysId = sysId;
 	}
 	public String getSysName() {

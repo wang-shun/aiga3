@@ -1,6 +1,6 @@
 package com.ai.aiga.view.controller;
 
-import java.math.BigDecimal;
+
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +31,13 @@ public class AigaFunFolderController {
 	}*/
 
 	@RequestMapping(path = "/sys/funfolder/del")
-	public @ResponseBody JsonBean del(@RequestParam BigDecimal funId) {
+	public @ResponseBody JsonBean del(@RequestParam Long funId) {
 		aigaFunFolderSv.deletefunFolder(funId);
 		return JsonBean.success;
 	}
 
 	@RequestMapping(path = "/sys/funfolder/findone")
-	public @ResponseBody JsonBean findone(@RequestParam BigDecimal funId) {
+	public @ResponseBody JsonBean findone(@RequestParam Long funId) {
 		JsonBean bean = new JsonBean();
 		bean.setData(aigaFunFolderSv.findOne(funId));
 		return bean;

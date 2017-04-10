@@ -1,39 +1,39 @@
 package com.ai.aiga.view.json;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class NaAutoMachineEnvRequest {
-	 private BigDecimal relaId;
-     private BigDecimal machineId;
-     private BigDecimal envId;
-     private BigDecimal creatorId;
+	 private Long relaId;
+     private Long machineId;
+     private Long envId;
+     private Long creatorId;
      @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date updateTime;
-	public BigDecimal getRelaId() {
+	public Long getRelaId() {
 		return relaId;
 	}
-	public void setRelaId(BigDecimal relaId) {
+	public void setRelaId(Long relaId) {
 		this.relaId = relaId;
 	}
-	public BigDecimal getMachineId() {
+	public Long getMachineId() {
 		return machineId;
 	}
-	public void setMachineId(BigDecimal machineId) {
+	public void setMachineId(Long machineId) {
 		this.machineId = machineId;
 	}
-	public BigDecimal getEnvId() {
+	public Long getEnvId() {
 		return envId;
 	}
-	public void setEnvId(BigDecimal envId) {
+	public void setEnvId(Long envId) {
 		this.envId = envId;
 	}
-	public BigDecimal getCreatorId() {
+	public Long getCreatorId() {
 		return creatorId;
 	}
-	public void setCreatorId(BigDecimal creatorId) {
+	public void setCreatorId(Long creatorId) {
 		this.creatorId = creatorId;
 	}
 	public Date getUpdateTime() {

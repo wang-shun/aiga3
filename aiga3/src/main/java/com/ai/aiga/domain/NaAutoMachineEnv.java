@@ -2,7 +2,7 @@ package com.ai.aiga.domain;
 // Generated 2017-3-17 15:15:01 by Hibernate Tools 3.2.2.GA
 
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,10 +26,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class NaAutoMachineEnv  implements java.io.Serializable {
 
 
-     private BigDecimal relaId;
-     private BigDecimal machineId;
-     private BigDecimal envId;
-     private BigDecimal creatorId;
+     private Long relaId;
+     private Long machineId;
+     private Long envId;
+     private Long creatorId;
      @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date updateTime;
 
@@ -37,10 +37,10 @@ public class NaAutoMachineEnv  implements java.io.Serializable {
     }
 
 	
-    public NaAutoMachineEnv(BigDecimal relaId) {
+    public NaAutoMachineEnv(Long relaId) {
         this.relaId = relaId;
     }
-    public NaAutoMachineEnv(BigDecimal relaId, BigDecimal machineId, BigDecimal envId, BigDecimal creatorId, Date updateTime) {
+    public NaAutoMachineEnv(Long relaId, Long machineId, Long envId, Long creatorId, Date updateTime) {
        this.relaId = relaId;
        this.machineId = machineId;
        this.envId = envId;
@@ -52,38 +52,38 @@ public class NaAutoMachineEnv  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_MACHINE_ENV$SEQ")
      @SequenceGenerator(name="NA_AUTO_MACHINE_ENV$SEQ",sequenceName="NA_AUTO_MACHINE_ENV$SEQ",allocationSize=1)
     @Column(name="RELA_ID", unique=true, nullable=false, precision=22, scale=0)
-    public BigDecimal getRelaId() {
+    public Long getRelaId() {
         return this.relaId;
     }
     
-    public void setRelaId(BigDecimal relaId) {
+    public void setRelaId(Long relaId) {
         this.relaId = relaId;
     }
     
     @Column(name="MACHINE_ID", precision=22, scale=0)
-    public BigDecimal getMachineId() {
+    public Long getMachineId() {
         return this.machineId;
     }
     
-    public void setMachineId(BigDecimal machineId) {
+    public void setMachineId(Long machineId) {
         this.machineId = machineId;
     }
     
     @Column(name="ENV_ID", precision=22, scale=0)
-    public BigDecimal getEnvId() {
+    public Long getEnvId() {
         return this.envId;
     }
     
-    public void setEnvId(BigDecimal envId) {
+    public void setEnvId(Long envId) {
         this.envId = envId;
     }
     
     @Column(name="CREATOR_ID", precision=22, scale=0)
-    public BigDecimal getCreatorId() {
+    public Long getCreatorId() {
         return this.creatorId;
     }
     
-    public void setCreatorId(BigDecimal creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
     @Temporal(TemporalType.TIMESTAMP)

@@ -1,18 +1,18 @@
 package com.ai.aiga.view.json;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 public class AigaSubSysFolderRequest {
-	private BigDecimal subsysId;
+	private Long subsysId;
 	private String sysName;
 	private Date createTime;
 	private Date updateTime;
-	private BigDecimal sysId;
-	public BigDecimal getSubsysId() {
+	private Long sysId;
+	public Long getSubsysId() {
 		return subsysId;
 	}
-	public void setSubsysId(BigDecimal subsysId) {
+	public void setSubsysId(Long subsysId) {
 		this.subsysId = subsysId;
 	}
 	public String getSysName() {
@@ -33,10 +33,10 @@ public class AigaSubSysFolderRequest {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	public BigDecimal getSysId() {
+	public Long getSysId() {
 		return sysId;
 	}
-	public void setSysId(BigDecimal sysId) {
+	public void setSysId(Long sysId) {
 		this.sysId = sysId;
 	}
 	@Override

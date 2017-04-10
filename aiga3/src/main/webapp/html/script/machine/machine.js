@@ -312,8 +312,8 @@ define(function(require,exports,module){
                     $(Dom.getRelaEnvironmentList).html(template(json.data));
 
                     var template = Handlebars.compile(Tpl.getRelaEnvironmentList);
-                    console.log(json.data.content)
-                    $(Dom.getRelaEnvironmentList).html(template(json.data.content));
+                    console.log(json.data)
+                    $(Dom.getRelaEnvironmentList).html(template(json.data));
 
                     //单击选中
                     /*self.eventClickChecked($(Dom.getRelaMachineList));*/

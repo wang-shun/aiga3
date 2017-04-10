@@ -15,9 +15,9 @@ public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDis
 			+ " aiga_staff b where a.deal_op_id = b.staff_id and a.online_plan =?1", nativeQuery = true)
 	List<Object[]> findByOnlinePlan(Long onlinePlan);
 
-	@Query(value = "select (select name from aiga_staff where staff_id = a.deal_op_id) as deal,"
-			+ " b.name as assign, a.assign_date, b.bill_id from na_online_task_distribute a,"
-			+ " aiga_staff b where a.assign_id = b.staff_id and a.task_id = ?1", nativeQuery = true)
+	@Query(value = "select (select name from aiga_staff where staff_id = a.assign_id) as assign,"
+			+ " b.name as deal, a.assign_date, b.bill_id from na_online_task_distribute a,"
+			+ " aiga_staff b where a.deal_op_id = b.staff_id and a.task_id = ?1", nativeQuery = true)
 	List<Object[]> messageInfo(Long taskId);
 
 	@Modifying

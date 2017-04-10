@@ -16,6 +16,7 @@ import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoCollectionDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.NaOnlineTaskResultDao;
+import com.ai.aiga.dao.NaPlanCaseResultDao;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
 import com.ai.aiga.domain.NaAutoCollection;
@@ -26,6 +27,7 @@ import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.DealOpResponse;
 import com.ai.aiga.view.json.OnlineTaskRequest;
+import com.huawei.msp.mmap.server.TaskMessageClient;
 
 /**
  * @ClassName: OnlineTaskSv
@@ -52,6 +54,10 @@ public class OnlineTaskSv extends BaseService{
 	
 	@Autowired
 	private AigaStaffDao aigaStaffDao;
+	
+	@Autowired
+	private NaPlanCaseResultDao naPlanCaseResultDao;
+	
 	/**
 	 * @ClassName: OnlineTaskSv :: list
 	 * @author: dongch
@@ -219,6 +225,14 @@ public class OnlineTaskSv extends BaseService{
 			subTaskAuto.setTaskType(2L);
 			subTaskAuto.setDealState(1L);
 			subTaskAuto.setAssignDate(new Date());
+			//创建用例组类型子任务--自动生成
+			NaOnlineTaskDistribute subTaskGroup = new NaOnlineTaskDistribute();
+			subTaskGroup.setTaskName(onlineTaskRequest.getTaskName()+"_用例组");
+			subTaskGroup.setParentTaskId(onlineTaskRequest.getParentTaskId());
+			subTaskGroup.setDealOpId(onlineTaskRequest.getDealOpId());
+			subTaskGroup.setTaskType(2L);
+			subTaskGroup.setDealState(1L);
+			subTaskGroup.setAssignDate(new Date());
 			
 			NaOnlineTaskDistribute response = naOnlineTaskDistributeDao.findOne(onlineTaskRequest.getParentTaskId());
 			if(response != null){
@@ -227,8 +241,13 @@ public class OnlineTaskSv extends BaseService{
 				
 				subTaskAuto.setAssignId(response.getAssignId());
 				subTaskAuto.setOnlinePlan(response.getOnlinePlan());
+				
+				subTaskGroup.setAssignId(response.getAssignId());
+				subTaskGroup.setOnlinePlan(response.getOnlinePlan());
 			}
 			naOnlineTaskDistributeDao.save(subTask);
+			//发短信提醒处理人
+			//sendMessageForCycle(subTask.getTaskId());
 			
 			//创建手工用例类型子任务结果
 			NaOnlineTaskResult planResult = new NaOnlineTaskResult();
@@ -248,14 +267,61 @@ public class OnlineTaskSv extends BaseService{
 			planResultAuto.setDealType((byte) 1);
 			planResultAuto.setState((byte) 0);
 			
+			//创建用例组类型子任务结果
+			NaOnlineTaskResult planResultGroup = new NaOnlineTaskResult();
+			planResultGroup.setCreateDate(new Date());
+			planResultGroup.setOpId(onlineTaskRequest.getDealOpId());
+			planResultGroup.setAutoPlanId(onlineTaskRequest.getCollectId());
+			planResultGroup.setDealType((byte) 0);
+			planResultGroup.setState((byte) 0);
+			
+			//将选中用例集下手工用例关联到回归子任务处理结果表
+			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 2L);
 			//判断是否需要生成自动化子任务
 			List<NaAutoCollGroupCase> list = naAutoCollGroupCaseDao.findByCollectIdAndElementType(onlineTaskRequest.getCollectId(), 2L);
-			if(list != null){
+			//判断是否需要生成用例组子任务
+			List<NaAutoCollGroupCase> listGroup = naAutoCollGroupCaseDao.findByCollectIdAndElementType(onlineTaskRequest.getCollectId(), 0L);
+			
+			if(list != null && list.size() > 0){
 				naOnlineTaskDistributeDao.save(subTaskAuto);
 				planResultAuto.setTaskId(subTaskAuto.getTaskId());
 				naOnlineTaskResultDao.save(planResultAuto);
+				//发短信
+				//sendMessageForCycle(subTaskAuto.getTaskId());
+				
+				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
 			}
+			if(listGroup != null && listGroup.size() > 0){
+				naOnlineTaskDistributeDao.save(subTaskGroup);
+				planResultGroup.setTaskId(subTaskGroup.getTaskId());
+				naOnlineTaskResultDao.save(planResultGroup);
+				//发短信
+				//sendMessageForCycle(subTaskGroup.getTaskId());
+				
+				naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId(), 0L);
+			}
+			
 		}
+	}
+
+	/**
+	 * @ClassName: OnlineTaskSv :: sendMessageForCycle
+	 * @author: dongch
+	 * @date: 2017年4月10日 下午2:49:49
+	 *
+	 * @Description:
+	 * @param taskId          
+	 */
+	private void sendMessageForCycle(Long taskId) {
+		if(taskId == null || taskId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		Object[] obj = naPlanCaseResultDao.message(taskId);
+		StringBuilder contents = new StringBuilder();
+		contents.append("AIGA_SMS~尊敬的:").append(obj[0].toString()).append(",").append(obj[3].toString())
+		.append("在").append(obj[3].toString()).append("给您分派了").append(obj[2].toString())
+		.append("子任务,请您及时处理！");
+		TaskMessageClient.sendMessageForCycle(obj[1].toString(), contents.toString());
 	}
 
 	/**

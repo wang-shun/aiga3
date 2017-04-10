@@ -224,6 +224,7 @@ define(function(require, exports, module) {
 					//查询所有员工信息
 					self.queryEmlistForm();
 					self.getEmList();
+					alert(Data.teamId);
 					self.getEmedList(Data.teamId);
 					self.delEmed();
 				}
@@ -290,7 +291,7 @@ define(function(require, exports, module) {
 			var delBt = $("#JS_delEmedBt");
 			delBt.unbind('click');
 			delBt.bind('click', function(event) {
-				var delEmedIds= "emId="
+				var delEmedIds= "list="
 
 				var data = Utils.getCheckboxCheckedRow(_dom);
 				for (var k in data) {
@@ -309,12 +310,11 @@ define(function(require, exports, module) {
 						setTimeout(function() {
 
 							//问题
-							self.getEmedList();
+							self.getEmedList(Data.teamId);
 						}, 1000)
 					}
 				});
 				self.getEmList();
-				self.getEmedList(Data.teamId);
 				//删除参数初始化
 				delEmedIds = "emId:";
 			});
@@ -327,7 +327,7 @@ define(function(require, exports, module) {
 			var _relBtn = _form.find("[name='rel']");
 			_relBtn.unbind('click');
 			_relBtn.bind('click', function() {
-				var relEmIds="emId="
+				var relEmIds="list="
 				var data = Utils.getCheckboxCheckedRow(_dom);
 				for (var k in data) {
 					var emId = data[k];
@@ -345,12 +345,12 @@ define(function(require, exports, module) {
 						setTimeout(function() {
 
 							//问题
-							self.getEmedList();
+							alert(Data.teamId);
+							self.getEmedList(Data.teamId);
+							self.getEmList();
 						}, 1000)
 					}
 				});
-				self.getEmList();
-				self.getEmedList(Data.teamId);
 				//删除参数初始化
 				relEmedIds = "emId:";
 			});

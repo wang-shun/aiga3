@@ -341,7 +341,7 @@ define(function(require,exports,module){
 
 					})
                     //设置分页
-                    self.initPaging($(Dom.getRelaMachineList), 10)
+                    self.initPaging($(Dom.getRelaMachineList), 4)
                 }
             });
         },

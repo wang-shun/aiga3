@@ -18,7 +18,7 @@ define(function(require,exports,module){
 	//修改机器
 	srvMap.add("updateMachineInfo","machine/updateMachineInfo.json","sys/machine/update");
 	//获取环境列表
-	srvMap.add("getEnvironmentList","machine/getEnvironmentList.json","sys/environment/list");
+	srvMap.add("getEnvironmentListInMachine","machine/getEnvironmentList.json","sys/environment/list");
 	//获取已关联的环境列表
     srvMap.add('getRelaEnvironmentList',"machine/getEnvironmentList.json", "sys/machine/rel");
 	//删除环境机器关联
@@ -31,8 +31,8 @@ define(function(require,exports,module){
 		queryMachineForm:require('tpl/machine/queryMachineForm.tpl'),
 		getMachineList:require('tpl/machine/getMachineList.tpl'),
 		addMachineInfo: require('tpl/machine/addMachineInfo.tpl'),
-		getEnvironmentListInMachine: require('tpl/machine/getEnvironmentListInMachine.tpl')/*,
-		getRelaEnvironmentList: require('tpl/environment/getRelaMachineList.tpl')*/
+		getEnvironmentListInMachine: require('tpl/machine/getEnvironmentListInMachine.tpl'),
+		getRelaEnvironmentList: require('tpl/machine/getRelaEnvironmentList.tpl')
 	};
 
 	var Dom={
@@ -237,7 +237,7 @@ define(function(require,exports,module){
 							var _form = $(Dom.connectEnvironmentList);
 							var template = Handlebars.compile(Tpl.getEnvironmentListInMachine);
 							_form.html(template());
-							self.getEnvironmentList();
+							self.getEnvironmentListInMachine();
 							self.getRelaEnvironmentList();
 							self.delRelaEnvironment();
 							//弹出层
@@ -269,9 +269,9 @@ define(function(require,exports,module){
 				});
 		},
         //环境列表
-        getEnvironmentList: function(cmd) {
+        getEnvironmentListInMachine: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getEnvironmentList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getEnvironmentListInMachine'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getEnvironmentListInMachine);
                     /*console.log(json.data.content);*/
@@ -306,9 +306,15 @@ define(function(require,exports,module){
             console.log(cmd);
             Rose.ajax.postJson(srvMap.get('getRelaEnvironmentList'), cmd, function(json, status) {
                 if (status) {
+
                     var template = Handlebars.compile(Tpl.getEnvironmentListInMachine);
                     console.log(json.data)
                     $(Dom.getRelaEnvironmentList).html(template(json.data));
+
+                    var template = Handlebars.compile(Tpl.getRelaEnvironmentList);
+                    console.log(json.data.content)
+                    $(Dom.getRelaEnvironmentList).html(template(json.data.content));
+
                     //单击选中
                     /*self.eventClickChecked($(Dom.getRelaMachineList));*/
                     //双击关联用例

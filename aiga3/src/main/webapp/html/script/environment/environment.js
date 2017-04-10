@@ -33,7 +33,7 @@ define(function(require,exports,module){
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
-		getMachineList: require('tpl/environment/getMachineList.tpl'),
+		getMachineList: require('tpl/environment/getMachineListInEnvironment.tpl'),
 		getSysList: require('tpl/caseTempMng/getSysList.tpl')/*,
 		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')*/
 	};

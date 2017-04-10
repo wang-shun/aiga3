@@ -55,13 +55,13 @@ public class OnlinePlanBugSv extends BaseService{
 		if(condition.getBugLevel() != null){
 			sql += " and a.bug_level = "+condition.getBugLevel();
 		}
-		if(condition.getRequireName() != null){
+		if(condition.getRequireName() != null && !condition.getRequireName().equals("")){
 			sql += " and a.require_name like '%"+condition.getRequireName()+"%'";
 		}
 		if(condition.getResove() != null){
 			sql += " and a.resove = "+condition.getResove();
 		}
-		if(condition.getDoneDate() != null){
+		if(condition.getDoneDate() != null && !condition.getDoneDate().equals("")){
 			sql += " and a.done_date like '%"+condition.getDoneDate()+"%'";
 		}
 		List<String> list = new ArrayList<String>();
@@ -119,6 +119,8 @@ public class OnlinePlanBugSv extends BaseService{
 			}
 			if(naOnlinePlanBug.getBugLevel() != null){
 				bug.setBugLevel(naOnlinePlanBug.getBugLevel());
+			}else{
+				bug.setBugLevel(null);
 			}
 			if(naOnlinePlanBug.getFoundDate() != null){
 				bug.setFoundDate(naOnlinePlanBug.getFoundDate());

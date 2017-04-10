@@ -106,14 +106,6 @@ define(function(require, exports, module) {
 					self.addFault();
 					self.updateFault();
 					self.deleteFault();
-					//新增
-					// self.addBut();
-					// //修改
-					// self.modifyBut();
-					// //查看交付物
-					// self.queryDelBut();
-					// //添加上线总结
-			  //       self.addSummary();
 
 					// 绑定单机当前行事件
 					self.eventClickChecked($(Dom.getFaultList), function() {
@@ -149,7 +141,7 @@ define(function(require, exports, module) {
 			_save.bind('click', function() {
 				var template = Handlebars.compile(Tpl.addFaultForm);
 				$("#JS_addFaultForm").html(template({}));
-				this.bugLevel($("#JS_addFaultForm"));
+				self.bugLevel($("#JS_addFaultForm"));
 				Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.queryOnlinePlanName);
@@ -194,7 +186,6 @@ define(function(require, exports, module) {
 			_save.bind('click', function() {
 				var _data = self.getTaskRow();
 				var _bugId = _data.bugId;
-				alert(_bugId)
 				if (_data) {
 					Rose.ajax.postJson(srvMap.get('findOne'), "bugId=" + _bugId, function(json, status) {
 						if (status) {
@@ -207,6 +198,9 @@ define(function(require, exports, module) {
 							$("#JS_addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
 							
 							var _bugType=$("#JS_addFaultForm").find("[name='bugType']")
+							if(_bugType.val()=="2"){
+								$("#JS_addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
+							}
 							_bugType.change(function() {
 								var i=_bugType.val()
 								if(i=="1"){
@@ -281,6 +275,9 @@ define(function(require, exports, module) {
 			if (_bugId.length == 0) {
 				window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
 				return;
+			}else if(_bugId.length > 1){
+				window.XMS.msgbox.show('请选择一条计划修改！', 'error', 2000);
+			   return;
 			} else {
 				data.bugId = _bugId.val();
 			}

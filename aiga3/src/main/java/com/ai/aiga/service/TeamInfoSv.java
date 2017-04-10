@@ -263,7 +263,7 @@ public class TeamInfoSv extends BaseService {
 		}
 	  return teamInfoDao.findOne(teamId);
   }
-  public List<NaTeamEmployeeRel> selectall(Long teamId){
+  public List<NaEmployeeInfo> selectall(Long teamId){
 	  if (teamId==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}

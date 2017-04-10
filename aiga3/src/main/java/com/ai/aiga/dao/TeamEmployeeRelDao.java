@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoMachineEnv;
+import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaTeamEmployeeRel;
 
 /**
@@ -25,10 +26,9 @@ SearchAndPageRepository<NaTeamEmployeeRel, Long> {
 	@Query("delete from NaTeamEmployeeRel where teamId= ?1")
 	void deleteTeam(Long teamId);
 	
-	@Query(value="select  a.ID,a.EM_NAME,a.PHONE_NUM,a.EXT_2,a.EXT_3,a.EMAIL,"
-			+ "a.EXT_1 from NA_EMPLOYEE_INFO a,NA_TEAM_EMPLOYEE_REL b "
-			+ "where b.EMP_ID=a.ID and  TEAM_ID=?1",nativeQuery=true)
-	  List<NaTeamEmployeeRel> selectall(Long teamId);
+	@Query(value="select a.* from NA_EMPLOYEE_INFO a,NA_TEAM_EMPLOYEE_REL b "
+			+ "where b.EMP_ID=a.ID and b.TEAM_ID=?1",nativeQuery=true)
+	  List<NaEmployeeInfo> selectall(Long teamId);
 	
 }
 

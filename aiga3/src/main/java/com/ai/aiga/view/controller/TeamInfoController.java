@@ -99,7 +99,7 @@ public class TeamInfoController {
 		return JsonBean.success;
 	}
 	@RequestMapping(path = "/sys/employee/list")
-	public @ResponseBody JsonBean list(Long teamId){
+	public @ResponseBody JsonBean list(@RequestParam Long teamId){
 		JsonBean bean = new JsonBean();
 		bean.setData(teamInfoSv.selectall(teamId));
 		return bean;

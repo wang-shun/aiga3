@@ -198,6 +198,9 @@ define(function(require, exports, module) {
 							$("#JS_addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
 							
 							var _bugType=$("#JS_addFaultForm").find("[name='bugType']")
+							if(_bugType.val()=="2"){
+								$("#JS_addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
+							}
 							_bugType.change(function() {
 								var i=_bugType.val()
 								if(i=="1"){

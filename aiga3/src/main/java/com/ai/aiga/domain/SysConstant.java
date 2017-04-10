@@ -2,7 +2,7 @@ package com.ai.aiga.domain;
 // Generated 2017-2-22 9:11:58 by Hibernate Tools 3.2.2.GA
 
 
-import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class SysConstant  implements java.io.Serializable {
 
 
-     private BigDecimal constantId;
+     private Long constantId;
      private String categoryName;
      private String category;
      private String show;
@@ -39,12 +39,12 @@ public class SysConstant  implements java.io.Serializable {
     }
 
 	
-    public SysConstant(BigDecimal constantId, String category, long value) {
+    public SysConstant(Long constantId, String category, long value) {
         this.constantId = constantId;
         this.category = category;
         this.value = value;
     }
-    public SysConstant(BigDecimal constantId, String categoryName, String category, String show, long value, String other1, String other2, String memo, String author, String remark, String escapeShow, String escapeField, String firstSpell, String fullSpelling, Long status) {
+    public SysConstant(Long constantId, String categoryName, String category, String show, long value, String other1, String other2, String memo, String author, String remark, String escapeShow, String escapeField, String firstSpell, String fullSpelling, Long status) {
        this.constantId = constantId;
        this.categoryName = categoryName;
        this.category = category;
@@ -66,11 +66,11 @@ public class SysConstant  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="SYS_CONSTANT$SEQ")
      @SequenceGenerator(name="SYS_CONSTANT$SEQ",sequenceName="SYS_CONSTANT$SEQ",allocationSize=1)
     @Column(name="CONSTANT_ID", nullable=false, precision=20, scale=0)
-    public BigDecimal getConstantId() {
+    public Long getConstantId() {
         return this.constantId;
     }
     
-    public void setConstantId(BigDecimal constantId) {
+    public void setConstantId(Long constantId) {
         this.constantId = constantId;
     }
     

@@ -1,6 +1,6 @@
 package com.ai.aiga.dao;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,8 +10,8 @@ import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaUiControl;
 
-public interface NaRequireListDao extends JpaRepository<NaRequireList, BigDecimal>,
-SearchAndPageRepository<NaRequireList, BigDecimal> {
+public interface NaRequireListDao extends JpaRepository<NaRequireList, Long>,
+SearchAndPageRepository<NaRequireList, Long> {
 	
 	@Query(value="select  REQUIRE_CODE,REQUIRE_NAME,REQUIRE_MAN,DEV_MANAGER,TEST_MANAGER,REVIEW_STATE,"
 			+ "INTRODUCED_STATE from NA_REQUIRE_LIST  where REQUIRE_NAME=?1",nativeQuery = true)

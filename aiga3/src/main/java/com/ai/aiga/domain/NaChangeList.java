@@ -2,7 +2,7 @@ package com.ai.aiga.domain;
 // Generated 2017-3-30 20:46:11 by Hibernate Tools 3.2.2.GA
 
 
-import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,12 +21,12 @@ import javax.persistence.Table;
 public class NaChangeList  implements java.io.Serializable {
 
 
-     private BigDecimal changeId;
+     private Long changeId;
      private String changeName;
      private String changeManager;
      private String changeMan;
      private String changeTitle;
-     private BigDecimal planId;
+     private Long planId;
      private String reviewState;
      private String resultState;
      private String ext1;
@@ -36,10 +36,10 @@ public class NaChangeList  implements java.io.Serializable {
     }
 
 	
-    public NaChangeList(BigDecimal changeId) {
+    public NaChangeList(Long changeId) {
         this.changeId = changeId;
     }
-    public NaChangeList(BigDecimal changeId, String changeName, String changeManager, String changeMan, String changeTitle, BigDecimal planId, String reviewState, String resultState, String ext1, String ext2) {
+    public NaChangeList(Long changeId, String changeName, String changeManager, String changeMan, String changeTitle, Long planId, String reviewState, String resultState, String ext1, String ext2) {
        this.changeId = changeId;
        this.changeName = changeName;
        this.changeManager = changeManager;
@@ -56,11 +56,11 @@ public class NaChangeList  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_CHANGE_LIST$SEQ")
      @SequenceGenerator(name="NA_CHANGE_LIST$SEQ",sequenceName="NA_CHANGE_LIST$SEQ",allocationSize=1)
     @Column(name="CHANGE_ID", unique=true, nullable=false, precision=22, scale=0)
-    public BigDecimal getChangeId() {
+    public Long getChangeId() {
         return this.changeId;
     }
     
-    public void setChangeId(BigDecimal changeId) {
+    public void setChangeId(Long changeId) {
         this.changeId = changeId;
     }
     
@@ -101,11 +101,11 @@ public class NaChangeList  implements java.io.Serializable {
     }
     
     @Column(name="PLAN_ID", precision=22, scale=0)
-    public BigDecimal getPlanId() {
+    public Long getPlanId() {
         return this.planId;
     }
     
-    public void setPlanId(BigDecimal planId) {
+    public void setPlanId(Long planId) {
         this.planId = planId;
     }
     

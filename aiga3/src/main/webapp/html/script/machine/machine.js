@@ -19,6 +19,10 @@ define(function(require,exports,module){
 	srvMap.add("updateMachineInfo","machine/updateMachineInfo.json","sys/machine/update");
 	//获取环境列表
 	srvMap.add("getEnvironmentList","machine/getEnvironmentList.json","sys/environment/list");
+	//获取已关联的环境列表
+    srvMap.add('getRelaEnvironmentList',"machine/getEnvironmentList.json", "sys/autoGroup/caseRelatGroupList");
+	//删除环境机器关联
+    srvMap.add('delRelaEnvironment',"machine/deleteMachine.json", "sys/autoGroup/caseRelatGroupDel");
 	//关联环境
 	srvMap.add("connectEnvironment","machine/connectEnvironment.json","sys/envandmachine/saveenv");
 
@@ -27,7 +31,8 @@ define(function(require,exports,module){
 		queryMachineForm:require('tpl/machine/queryMachineForm.tpl'),
 		getMachineList:require('tpl/machine/getMachineList.tpl'),
 		addMachineInfo: require('tpl/machine/addMachineInfo.tpl'),
-		getEnvironmentList: require('tpl/machine/getEnvironmentList.tpl')
+		getEnvironmentList: require('tpl/machine/getEnvironmentList.tpl')/*,
+		getRelaEnvironmentList: require('tpl/environment/getRelaMachineList.tpl')*/
 	};
 
 	var Dom={
@@ -37,6 +42,7 @@ define(function(require,exports,module){
 		addMachineInfoModal:"#JS_addMachineInfoModal",
 		connectEnvironmentList:"#JS_connectEnvironmentList",
 		connectEnvironmentModal:"#JS_connectEnvironmentModal",
+		getRelaEnvironmentList: '#JS_getRelaEnvironmentList', //获取已关联的环境列表
 		caseType:[],
 		repairsId:[]
 	}
@@ -232,6 +238,8 @@ define(function(require,exports,module){
 							var template = Handlebars.compile(Tpl.getEnvironmentList);
 							_form.html(template());
 							self.getEnvironmentList();
+							self.getRelaEnvironmentList();
+							self.delRelaEnvironment();
 							//弹出层
 							$(Dom.connectEnvironmentModal).modal('show');
 							$("#JS_connectEnvironmentSubmit").unbind('click');
@@ -286,6 +294,85 @@ define(function(require,exports,module){
                 }
             });
         },
+		// 已关联环境列表
+        getRelaEnvironmentList: function(cmd) {
+            var self = this;
+            var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
+            var _machineId ="";
+			_checkObj.each(function (){
+				_machineId = $(this).val();
+			})
+            var cmd = "machineId=" + _machineId;
+            console.log(cmd);
+            Rose.ajax.postJson(srvMap.get('getRelaEnvironmentList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.getEnvironmentList);
+                    console.log(json.data.content)
+                    $(Dom.getRelaEnvironmentList).html(template(json.data.content));
+                    //单击选中
+                    /*self.eventClickChecked($(Dom.getRelaMachineList));*/
+                    //双击关联用例
+                    // self.eventDClickCallback($(Dom.getCaseGroupList), function() {
+                    //     var _data = self.getCheckedCaseGroup();
+                    //     var cmd = "groupId=" + _data.groupId;
+                    //     self.getCaseGroupInfo(cmd);
+                    // })
+					//引入多选框样式
+					Utils.eventTrClickCallback($(Dom.getRelaEnvironmentList), function() {
+
+					})
+                    //设置分页
+                    self.initPaging($(Dom.getRelaEnvironmentList), 4)
+                }
+            });
+        },
+		// 删除已关联环境
+        delRelaEnvironment: function() {
+            var self = this;
+            $("#JS_deleteConnectEnvironment").unbind('click');
+            $("#JS_deleteConnectEnvironment").bind('click',function(){
+                var _data = self.getCheckedRelaEnvironment();
+                if (_data) {
+                    var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
+		            var _machineId ="";
+					_checkObj.each(function (){
+						_machineId = $(this).val();
+					})
+                    var _envIdsArray = [];
+                    _data.each(function() {
+                        _envIdsArray.push($(this).val());
+                    })
+                    var _cmd = "machineId=" + _machineId;
+                    var _cmd1 = "&envIds=" + _envIdsArray.join(",");
+                    var cmd = _cmd + _cmd1;
+                    console.log(cmd);
+                    XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                    Rose.ajax.postJson(srvMap.get('delRelaEnvironment'), cmd, function(json, status) {
+                        if (status) {
+                            window.XMS.msgbox.show('删除已关联环境成功！', 'success', 2000)
+                            setTimeout(function() {
+                                self.getRelaEnvironmentList("machineId=" + _machineId);
+                            }, 1000)
+                        }
+                    });
+                }
+            });
+        },
+		//获取选中已关联环境
+        getCheckedRelaEnvironment: function() {
+            var _obj = $(Dom.getRelaEnvironmentList).find("input[type='checkbox']:checked").parents("tr");
+            var _envId = _obj.find("input[name='envId']");
+            console.log(_envId);
+            if (_envId.length == 0) {
+                window.XMS.msgbox.show('请先选择一个已关联环境！', 'error', 2000);
+                return;
+            } else {
+                var _data = $(_envId);
+                data = _data;
+                console.log(data);
+            }
+            return data;
+        },
 		updateMachineInfo:function(){
 			var self = this;
 			var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
@@ -297,8 +384,7 @@ define(function(require,exports,module){
 				if (status) {
 					var _form = $(Dom.addMachineInfoForm);
 					var template = Handlebars.compile(Tpl.addMachineInfo);
-					var c = json.data;
-					_form.html(template(c));
+					_form.html(template(json.data));
 					/*alert(json.data.content[0].envType);
 					$("#query_envType").val(json.data.content[0].envType);*/
 					// 设置下拉框选中值

@@ -73,7 +73,7 @@ public class OnlineTaskSv extends BaseService{
 		
 		String sql = "select a.online_plan, a.online_plan_name, a.task_id, a.task_name, a.task_type, a.deal_state,"
 				+ " a.assign_date, b.name as assign_name, (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
-				+ " from na_online_task_distribute a, aiga_staff b where a.assign_id = b.staff_id ";
+				+ " from na_online_task_distribute a, aiga_staff b where a.assign_id = b.staff_id  and a.parent_task_id = 0";
 		if(condition.getTaskName() != null){
 			sql += " and a.task_name like '%"+condition.getTaskName()+"%'";
 		}

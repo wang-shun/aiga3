@@ -1,6 +1,7 @@
 package com.ai.aiga.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.domain.NaPlanCaseResult;
@@ -14,6 +15,7 @@ import com.ai.aiga.domain.NaPlanCaseResult;
  */
 public interface NaPlanCaseResultDao extends JpaRepository<NaPlanCaseResult, Long>{
 
+	@Modifying
 	@Query(value = "insert into na_plan_case_result(result_id,sub_task_id,case_id,case_type,case_state)"
 			+ " select na_plan_case_result$seq.nextval, ?1, element_id,element_type,0 from na_auto_coll_group_case"
 			+ " where collect_id = ?2 and element_type = ?3", nativeQuery = true)

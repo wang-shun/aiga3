@@ -22,9 +22,9 @@ define(function(require,exports,module){
 	//获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
 	//获取已关联的机器列表
-    srvMap.add('getRelaMachineList',"environment/getMachineList.json", "sys/autoGroup/caseRelatGroupList");
+    srvMap.add('getRelaMachineList',"environment/getMachineList.json", "sys/environment/rel");
 	//删除环境机器关联
-    srvMap.add('delRelaMachine',"environment/deleteEnvironment.json", "sys/autoGroup/caseRelatGroupDel");
+    srvMap.add('delRelaMachine',"environment/deleteEnvironment.json", "sys/rel/del");
 	//关联机器
 	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
@@ -33,7 +33,7 @@ define(function(require,exports,module){
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
-		getMachineList: require('tpl/environment/getMachineListInEnvironment.tpl'),
+		getMachineListInEnvironment: require('tpl/environment/getMachineListInEnvironment.tpl'),
 		getSysList: require('tpl/caseTempMng/getSysList.tpl')/*,
 		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')*/
 	};
@@ -251,7 +251,7 @@ define(function(require,exports,module){
 					Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
 						if (status) {
 							var _form = $(Dom.connectMachineList);
-							var template = Handlebars.compile(Tpl.getMachineList);
+							var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
 							_form.html(template());
 							self.getMachineList();
 							self.getRelaMachineList();
@@ -291,7 +291,7 @@ define(function(require,exports,module){
             var self = this;
             Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
                 if (status) {
-                    var template = Handlebars.compile(Tpl.getMachineList);
+                    var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
                     /*console.log(json.data.content);*/
                     $("#formName").html("关联机器");
                     $(Dom.connectMachineList).html(template(json.data.content));
@@ -325,7 +325,7 @@ define(function(require,exports,module){
             console.log(cmd);
             Rose.ajax.postJson(srvMap.get('getRelaMachineList'), cmd, function(json, status) {
                 if (status) {
-                    var template = Handlebars.compile(Tpl.getMachineList);
+                    var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
                     console.log(json.data.content)
                     $(Dom.getRelaMachineList).html(template(json.data.content));
                     //单击选中

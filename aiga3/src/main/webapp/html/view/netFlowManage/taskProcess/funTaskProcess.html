@@ -97,7 +97,7 @@
     </div>
 </div>
 <script id="TPL_funTaskList" type="text/x-handlebars-template">
-    <table class="table table-condensed table-hover" style="width: 1630px;">
+    <table class="table table-condensed table-hover" style="width: 2000px;">
         <thead>
             <tr>
                 <th class="iCheckbox"></th>
@@ -165,7 +165,7 @@
         <tbody>
             {{#each this}}
             <tr>
-                <td>{{caseState}}</td>
+                <td>{{transformatCaseState caseState}}</td>
                 <td>
                     <select type="hidden" name="result" value="{{result}}">
                         <option></option>
@@ -176,10 +176,10 @@
                 </td>
                 <td>{{bug}}</td>
                 <td>
-                    <input type="hidden" name="caseId" value="{{caseId}}">{{caseName}}</td>
-                <td>{{sysId}}</td>
-                <td>{{sysSubId}}</td>
-                <td>{{funId}}</td>
+                    <input type="hidden" name="resultId" value="{{resultId}}">{{testName}}</td>
+                <td>{{sysName}}</td>
+                <td>{{subSysName}}</td>
+                <td>{{funName}}</td>
                 <td>{{busiId}}</td>
             </tr>
             {{/each}}

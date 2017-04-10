@@ -76,7 +76,7 @@ define(function(require, exports, module) {
 					self.addSubSysInfo();
 					Utils.eventTrClickCallback($(Dom.getsubInfoList));
 
-					self.initPaging($(Dom.getsubInfoList),8);
+					self.initPaging($(Dom.getsubInfoList),3);
 				}
 			});
 

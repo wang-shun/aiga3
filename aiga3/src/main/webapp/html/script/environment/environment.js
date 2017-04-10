@@ -21,6 +21,10 @@ define(function(require,exports,module){
 	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
 	//获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
+	//获取已关联的机器列表
+    srvMap.add('getRelaMachineList',"environment/getRelaMachineList.json", "sys/autoGroup/caseRelatGroupList");
+	//删除环境机器关联
+    srvMap.add('delRelaMachine',"environment/deleteEnvironment.json", "sys/autoGroup/caseRelatGroupDel");
 	//关联机器
 	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
@@ -30,7 +34,8 @@ define(function(require,exports,module){
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
 		getMachineList: require('tpl/environment/getMachineList.tpl'),
-		getSysList: require('tpl/caseTempMng/getSysList.tpl')
+		getSysList: require('tpl/caseTempMng/getSysList.tpl'),
+		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')
 	};
 
 	var Dom={
@@ -40,6 +45,7 @@ define(function(require,exports,module){
 		addEnvironmentInfoModal:"#JS_addEnvironmentInfoModal",
 		connectMachineList:"#JS_connectMachineList",
 		connectMachineModal:"#JS_connectMachineModal",
+		getRelaMachineList: '#JS_getRelaMachineList', //获取已关联的机器列表
 		caseType:[],
 		repairsId:[]
 	}
@@ -82,6 +88,15 @@ define(function(require,exports,module){
 					return "准发布环境";
 				} else if (value == 3) {
 					return "生产环境";
+				}
+			});
+			Handlebars.registerHelper("statuses", function(value) {
+				if (value == 1) {
+					return "离线";
+				} else if (value == 2) {
+					return "空闲";
+				} else if (value == 3) {
+					return "占用";
 				}
 			});
 		},
@@ -240,6 +255,8 @@ define(function(require,exports,module){
 							/*$("#formName").html("关联机器");*/
 							_form.html(template());
 							self.getMachineList();
+							self.getRelaMachineList();
+							self.delRelaMachine();
 							//弹出层
 							$(Dom.connectMachineModal).modal('show');
 							$("#JS_connectMachineSubmit").unbind('click');
@@ -301,6 +318,85 @@ define(function(require,exports,module){
                 }
             });
         },
+		// 已关联机器列表
+        getRelaMachineList: function(cmd) {
+            var self = this;
+            var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+            var _envId ="";
+			_checkObj.each(function (){
+				_envId = $(this).val();
+			})
+            var cmd = "envId=" + _envId;
+            console.log(cmd);
+            Rose.ajax.postJson(srvMap.get('getRelaMachineList'), cmd, function(json, status) {
+                if (status) {
+                    var template = Handlebars.compile(Tpl.getRelaMachineList);
+                    console.log(json.data.content)
+                    $(Dom.getRelaMachineList).html(template(json.data.content));
+                    //单击选中
+                    /*self.eventClickChecked($(Dom.getRelaMachineList));*/
+                    //双击关联用例
+                    // self.eventDClickCallback($(Dom.getCaseGroupList), function() {
+                    //     var _data = self.getCheckedCaseGroup();
+                    //     var cmd = "groupId=" + _data.groupId;
+                    //     self.getCaseGroupInfo(cmd);
+                    // })
+					//引入多选框样式
+					Utils.eventTrClickCallback($(Dom.getRelaMachineList), function() {
+
+					})
+                    //设置分页
+                    self.initPaging($(Dom.getRelaMachineList), 4)
+                }
+            });
+        },
+		// 删除已关联机器
+        delRelaMachine: function() {
+            var self = this;
+            $("#JS_deleteConnectMachine").unbind('click');
+            $("#JS_deleteConnectMachine").bind('click',function(){
+                var _data = self.getCheckedRelaMachine();
+                if (_data) {
+                    var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+		            var _envId ="";
+					_checkObj.each(function (){
+						_envId = $(this).val();
+					})
+                    var _relaIdsArray = [];
+                    _data.each(function() {
+                        _relaIdsArray.push($(this).val());
+                    })
+                    var _cmd = "envId=" + _envId;
+                    var _cmd1 = "&relaIds=" + _relaIdsArray.join(",");
+                    var cmd = _cmd + _cmd1;
+                    console.log(cmd);
+                    XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                    Rose.ajax.postJson(srvMap.get('delRelaMachine'), cmd, function(json, status) {
+                        if (status) {
+                            window.XMS.msgbox.show('删除已关联机器成功！', 'success', 2000)
+                            setTimeout(function() {
+                                self.getRelaMachineList("envId=" + _envId);
+                            }, 1000)
+                        }
+                    });
+                }
+            });
+        },
+		//获取选中已关联机器
+        getCheckedRelaMachine: function() {
+            var _obj = $(Dom.getRelaMachineList).find("input[type='checkbox']:checked").parents("tr");
+            var _relaId = _obj.find("input[name='relaId']");
+            console.log(_relaId);
+            if (_relaId.length == 0) {
+                window.XMS.msgbox.show('请先选择一个已关联机器！', 'error', 2000);
+                return;
+            } else {
+                var _data = $(_relaId);
+                data = _data;
+                console.log(data);
+            }
+            return data;
+        },
 		updateEnvironmentInfo:function(){
 			var self = this;
 			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
@@ -349,7 +445,7 @@ define(function(require,exports,module){
 					var template = Handlebars.compile(Tpl.getSysList);
 					$("#sysId").html(template(json.data));
 					console.log(json.data)
-				}								
+				}
 			});
 		},
 		// 事件：分页

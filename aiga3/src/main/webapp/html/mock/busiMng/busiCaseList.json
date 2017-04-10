@@ -4,38 +4,34 @@
     "data":{
         "content":[
             {
-                "autoId":"T100",  
-                "autoName":"用例模板1",
-                "sysId":"系统大类1",
-                "sysSubId":"子类名称1",
-                "funId":"功能点1",
+                "caseId":"T100",  
+                "caseName":"测试用例1",
+                "busiId":"业务1",
+                "modulName":"模块",
+                "information":"资产信息",
                 "busiId":"11",
-                "status":"1",
-                "environmentType":"1",
-                "important":"一级用例"
-            },
-            {
-                "autoId":"T101",
+                "sqlInfo":"select * form aiga_***",
                 
-                "autoName":"用例模板1",
-                "sysId":"系统大类1",
-                "sysSubId":"子类名称1",
-                "funId":"功能点1",
-                "busiId":"11",
-                "status":"0",
-                "environmentType":"2",
-                "important":"一级用例"
             },
             {
-                "autoId":"T102",
-                "autoName":"用例模板1",
-                "sysId":"系统大类1",
-                "sysSubId":"子类名称1",
-                "funId":"功能点1",
+                "caseId":"T101",
+                "caseName":"测试用例1",
+                "busiId":"业务1",
+                "modulName":"模块",
+                "information":"资产信息",
                 "busiId":"11",
-                "status":"0",
-                "environmentType":"3",
-                "important":"一级用例"
+                "sqlInfo":"select * form aiga_***",
+               
+            },
+            {
+                "caseId":"T102",
+                "caseName":"测试用例1",
+                "busiId":"业务1",
+                "modulName":"模块",
+                "information":"资产信息",
+                "busiId":"11",
+                "sqlInfo":"select * form aiga_***",
+               
             }
         ],
         "totalPages":1,

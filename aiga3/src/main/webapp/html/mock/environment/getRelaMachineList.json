@@ -1,0 +1,25 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "content": [{
+            "relaId": "1",
+            "machineId": "1",
+            "envId": "1",
+            "creatorId": "创建人1",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "relaId": "1",
+            "machineId": "1",
+            "envId": "1",
+            "creatorId": "创建人1",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "relaId": "1",
+            "machineId": "1",
+            "envId": "1",
+            "creatorId": "创建人1",
+            "updateTime": "2017-2-02 08:00:00"
+        }]
+    }
+}

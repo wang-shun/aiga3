@@ -77,7 +77,7 @@ define(function(require, exports, module) {
 
 				}
  				//设置分页
-             self.initPaging($(Dom.getAsciptionList), 8)
+             self.initPaging($(Dom.getAsciptionList), 3)
 			});
 
 

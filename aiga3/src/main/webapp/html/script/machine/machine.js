@@ -79,6 +79,15 @@ define(function(require,exports,module){
 					return "生产环境";
 				}
 			});
+			Handlebars.registerHelper("statuses", function(value) {
+				if (value == 1) {
+					return "离线";
+				} else if (value == 2) {
+					return "空闲";
+				} else if (value == 3) {
+					return "占用";
+				}
+			});
 		},
     	initForm:function(){
 	    		var self=this;

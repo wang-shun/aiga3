@@ -307,8 +307,8 @@ define(function(require,exports,module){
             Rose.ajax.postJson(srvMap.get('getRelaEnvironmentList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getEnvironmentListInMachine);
-                    console.log(json.data.content)
-                    $(Dom.getRelaEnvironmentList).html(template(json.data.content));
+                    console.log(json.data)
+                    $(Dom.getRelaEnvironmentList).html(template(json.data));
                     //单击选中
                     /*self.eventClickChecked($(Dom.getRelaMachineList));*/
                     //双击关联用例

@@ -22,12 +22,12 @@ public interface NaAutoMachineEnvDao extends JpaRepository<NaAutoMachineEnv, Big
 	@Query("delete from NaAutoMachineEnv where envId= ?1")
 	void deleteByEnvId(BigDecimal machineId);
 
-	@Query("select a.machineId,a.machineIp,a.machineName,a.status from NaAutoMachine a,NaAutoMachineEnv b "
+	@Query("select a from NaAutoMachine a,NaAutoMachineEnv b "
 			+ "where b.machineId=a.machineId and b.envId=?1")
 	List<NaAutoMachine> selectall(BigDecimal envId);
 	
-	@Query("select a.envId,c.sysName,a.envName,a.envUrl from NaAutoEnvironment a,NaAutoMachineEnv b,AigaSystemFolder c "
-			+ "where b.envId=a.envId and c.sysId=a.sysId and b.machineId=?1")
+	@Query("select a from NaAutoEnvironment a,NaAutoMachineEnv b "
+			+ "where b.envId=a.envId and b.machineId=?1")
 	List<NaAutoEnvironment> select(BigDecimal machineId);
 	
 	@Modifying

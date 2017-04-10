@@ -274,7 +274,7 @@ define(function(require, exports, module) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getEmedList);
-					$(Dom.emedList).html(template(json.data.content));
+					$(Dom.emedList).html(template(json.data));
 					Utils.eventTrClickCallback($(Dom.emedList));
 
 					self.initPaging($(Dom.emedList), 5);

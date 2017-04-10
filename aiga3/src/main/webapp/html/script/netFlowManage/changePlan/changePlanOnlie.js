@@ -398,7 +398,6 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('addChangePlanResulForm'), cmd, function(json, status) {
 						if (status) {
 							var a = json.data.types;
-							alert(a);
 							console.log(json.data)
 							if (a == "0" || a == "1") {
 								self.seerequList(a,onlinePlan);
@@ -429,7 +428,6 @@ define(function(require, exports, module) {
 						i++;
 					});
 					//查询
-					alert(onlinePlan);
 					self.queSeeSubmit(a,onlinePlan);
 					//保存
 					self.saveSeeSubmit(a,onlinePlan);

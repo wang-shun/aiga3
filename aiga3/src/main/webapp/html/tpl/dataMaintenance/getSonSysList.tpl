@@ -11,7 +11,6 @@
     <table class="table table-bordered table-hover" id="AsciptionListTable">
         <thead>
             <tr>
-                
 				<th class="iCheckbox" width="15"></th>
     			<th>子系统名称</th>
     			<th>创建时间</th>
@@ -26,7 +25,7 @@
                  <td>{{sysName}}</td>
                 <td>{{createTime}}</td>
                 <td>{{updateTime}}</td>
-                <td>{{sysId}}</td>
+                <td>{{name}}</td>
             </tr>
             {{/each}}
         </tbody>

@@ -291,7 +291,7 @@ define(function(require, exports, module) {
 			var delBt = $("#JS_delEmedBt");
 			delBt.unbind('click');
 			delBt.bind('click', function(event) {
-				var delEmedIds= "emId="
+				var delEmedIds= "list="
 
 				var data = Utils.getCheckboxCheckedRow(_dom);
 				for (var k in data) {
@@ -327,7 +327,7 @@ define(function(require, exports, module) {
 			var _relBtn = _form.find("[name='rel']");
 			_relBtn.unbind('click');
 			_relBtn.bind('click', function() {
-				var relEmIds="emId="
+				var relEmIds="list="
 				var data = Utils.getCheckboxCheckedRow(_dom);
 				for (var k in data) {
 					var emId = data[k];

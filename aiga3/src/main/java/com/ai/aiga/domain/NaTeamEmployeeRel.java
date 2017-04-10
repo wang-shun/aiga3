@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class NaTeamEmployeeRel  implements java.io.Serializable {
 
 
-     private long id;
+     private Long id;
      private Long teamId;
      private Long empId;
      private String ext1;
@@ -31,10 +31,10 @@ public class NaTeamEmployeeRel  implements java.io.Serializable {
     }
 
 	
-    public NaTeamEmployeeRel(long id) {
+    public NaTeamEmployeeRel(Long id) {
         this.id = id;
     }
-    public NaTeamEmployeeRel(long id, Long teamId, Long empId, String ext1, String ext2, String ext3) {
+    public NaTeamEmployeeRel(Long id, Long teamId, Long empId, String ext1, String ext2, String ext3) {
        this.id = id;
        this.teamId = teamId;
        this.empId = empId;
@@ -47,11 +47,11 @@ public class NaTeamEmployeeRel  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_TEAM_EMPLOYEE_REL$SEQ")
      @SequenceGenerator(name="NA_TEAM_EMPLOYEE_REL$SEQ",sequenceName="NA_TEAM_EMPLOYEE_REL$SEQ",allocationSize=1)
     @Column(name="ID", unique=true, nullable=false, precision=12, scale=0)
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
     

@@ -31,7 +31,7 @@ define(function(require,exports,module){
 		queryMachineForm:require('tpl/machine/queryMachineForm.tpl'),
 		getMachineList:require('tpl/machine/getMachineList.tpl'),
 		addMachineInfo: require('tpl/machine/addMachineInfo.tpl'),
-		getEnvironmentList: require('tpl/machine/getEnvironmentList.tpl')/*,
+		getEnvironmentList: require('tpl/machine/getEnvironmentListInMachine.tpl')/*,
 		getRelaEnvironmentList: require('tpl/environment/getRelaMachineList.tpl')*/
 	};
 

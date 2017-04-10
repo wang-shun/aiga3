@@ -224,6 +224,7 @@ define(function(require, exports, module) {
 					//查询所有员工信息
 					self.queryEmlistForm();
 					self.getEmList();
+					alert(Data.teamId);
 					self.getEmedList(Data.teamId);
 					self.delEmed();
 				}
@@ -309,12 +310,11 @@ define(function(require, exports, module) {
 						setTimeout(function() {
 
 							//问题
-							self.getEmedList();
+							self.getEmedList(Data.teamId);
 						}, 1000)
 					}
 				});
 				self.getEmList();
-				self.getEmedList(Data.teamId);
 				//删除参数初始化
 				delEmedIds = "emId:";
 			});
@@ -345,12 +345,12 @@ define(function(require, exports, module) {
 						setTimeout(function() {
 
 							//问题
-							self.getEmedList();
+							alert(Data.teamId);
+							self.getEmedList(Data.teamId);
+							self.getEmList();
 						}, 1000)
 					}
 				});
-				self.getEmList();
-				self.getEmedList(Data.teamId);
 				//删除参数初始化
 				relEmedIds = "emId:";
 			});

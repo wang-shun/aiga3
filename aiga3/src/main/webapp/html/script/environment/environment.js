@@ -20,7 +20,7 @@ define(function(require,exports,module){
 	//修改环境
 	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
 	//获取机器列表
-	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
+	srvMap.add("getMachineListInEnvironment","environment/getMachineList.json","sys/machine/list");
 	//获取已关联的机器列表
     srvMap.add('getRelaMachineList',"environment/getMachineList.json", "sys/environment/rel");
 	//删除环境机器关联
@@ -253,7 +253,7 @@ define(function(require,exports,module){
 							var _form = $(Dom.connectMachineList);
 							var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
 							_form.html(template());
-							self.getMachineList();
+							self.getMachineListInEnvironment();
 							self.getRelaMachineList();
 							self.delRelaMachine();
 							//弹出层
@@ -287,9 +287,9 @@ define(function(require,exports,module){
 				});
 		},
         //机器列表
-        getMachineList: function(cmd) {
+        getMachineListInEnvironment: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getMachineListInEnvironment'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
                     /*console.log(json.data.content);*/

@@ -121,7 +121,6 @@ define(function(require, exports, module) {
 				if (data) {
 					console.log(data);
 					var cmd = 'teamId=' + data.teamId;
-					alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delTeamInfo'), cmd, function(json, status) {
 						if (status) {
@@ -224,7 +223,6 @@ define(function(require, exports, module) {
 					//查询所有员工信息
 					self.queryEmlistForm();
 					self.getEmList();
-					alert(Data.teamId);
 					self.getEmedList(Data.teamId);
 					self.delEmed();
 				}
@@ -254,7 +252,7 @@ define(function(require, exports, module) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getEmList);
-					$(Dom.emList).html(template(json.data.content));
+					$(Dom.emList).html(template(json.data));
 
 
 					Utils.eventTrClickCallback($(Dom.emList));
@@ -269,7 +267,6 @@ define(function(require, exports, module) {
 		getEmedList: function(cmd) {
 			var self = this;
 			var _cmd = 'teamId='+cmd;
-			alert(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.postJson(srvMap.get('getEmedList'), _cmd, function(json, status) {
 				if (status) {
@@ -299,6 +296,7 @@ define(function(require, exports, module) {
 					//拼接
 					delEmedIds += emId + ",";
 				}
+				
 				//去除最后的逗号
 				delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
 				var _cmd = delEmedIds;
@@ -345,7 +343,6 @@ define(function(require, exports, module) {
 						setTimeout(function() {
 
 							//问题
-							alert(Data.teamId);
 							self.getEmedList(Data.teamId);
 							self.getEmList();
 						}, 1000)

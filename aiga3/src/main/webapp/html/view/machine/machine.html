@@ -77,12 +77,12 @@
                             <div class="row">
                                 <div class="box" id="">
                                     <div class="box-header">
-                                        <div class="box-title">机器列表</div>
+                                        <div class="box-title">环境列表</div>
                                         <div class="box-tools">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_connectMachineSubmit"><i class="fa fa-plus"></i> 关联用例</button>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_connectEnvironmentSubmit"><i class="fa fa-plus"></i> 关联用例</button>
                                         </div>
                                     </div>
-                                    <div class="box-body" style="min-height: 100px;" id="JS_connectMachineList"></div>
+                                    <div class="box-body" style="min-height: 100px;" id="JS_connectEnvironmentList"></div>
                                 </div>
                             </div>
                         </div>
@@ -91,12 +91,12 @@
                             <div class="row">
                                 <div class="box" id="">
                                     <div class="box-header">
-                                        <h3 class="box-title">已关联机器列表</h3>
+                                        <h3 class="box-title">已关联环境列表</h3>
                                         <div class="box-tools">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_deleteConnectMachine" name="del"><i class="fa fa-plus"></i> 删除关联</button>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_deleteConnectEnvironment" name="del"><i class="fa fa-plus"></i> 删除关联</button>
                                         </div>
                                     </div>
-                                    <div class="box-body" style="min-height: 100px;" id="JS_getRelaMachineList"></div>
+                                    <div class="box-body" style="min-height: 100px;" id="JS_getRelaEnvironmentList"></div>
                                 </div>
                             </div>
                         </div>
@@ -104,17 +104,11 @@
                     </div>
                     <!-- /.tab-content -->
                 </div>
-                <div class="box" id="">
-                    <div class="box-header">
-                        <div class="box-title">环境列表</div>
-                    </div>
-                    <div class="box-body" style="min-height: 100px;" id="JS_connectEnvironmentList"></div>
-                </div>
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="reset" class="btn btn-default pull-left" id="JS_connectEnvironmentReset" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="JS_connectEnvironmentSubmit">确认</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

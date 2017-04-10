@@ -26,8 +26,9 @@ SearchAndPageRepository<NaTeamEmployeeRel, Long> {
 	void deleteTeam(Long teamId);
 	
 	@Query(value="select  a.ID,a.EM_NAME,a.PHONE_NUM,a.EXT_2,a.EXT_3,a.EMAIL,"
-			+ "a.EXT_1 from NA_EMPLOYEE_INFO a,NA_TEAM_EMPLOYEE_REL b,NA_TEAM_INFO c "
-			+ "where b.TEAM_ID=c.TEAM_ID and b.EMP_ID=a.ID",nativeQuery=true)
+			+ "a.EXT_1 from NA_EMPLOYEE_INFO a,NA_TEAM_EMPLOYEE_REL b "
+			+ "where b.EMP_ID=a.ID and  TEAM_ID=?1",nativeQuery=true)
 	  List<NaTeamEmployeeRel> selectall(Long teamId);
+	
 }
 

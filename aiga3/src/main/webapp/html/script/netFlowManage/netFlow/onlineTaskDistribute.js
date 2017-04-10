@@ -27,10 +27,10 @@ define(function(require, exports, module) {
 
     // 模板对象
     var Tpl = {
-        getOnlineTaskList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getOnlineTaskList.tpl'),
-        getOnlineTaskDistributeList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getOnlineTaskDistributeList.tpl'),
-        getManualResultList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getManualResultList.tpl'),
-        getAutoResultList: require('tpl/netFlowManage/netFlow/onlineTaskDistribute/getAutoResultList.tpl')
+        getOnlineTaskList: $("#TPL_getOnlineTaskList").html(),
+        getOnlineTaskDistributeList: $("#TPL_getOnlineTaskDistributeList").html(),
+        getManualResultList: $("#TPL_getManualResultList").html(),
+        getAutoResultList: $("#TPL_getAutoResultList").html()
     };
 
     // 容器对象

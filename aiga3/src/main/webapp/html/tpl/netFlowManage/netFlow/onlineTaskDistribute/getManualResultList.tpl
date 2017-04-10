@@ -6,6 +6,8 @@
         <thead>
             <tr>
                 <th>用例名称</th>
+                <th>处理结果</th>
+                <th>缺陷</th>
                 <th>系统大类</th>
                 <th>系统子类</th>
                 <th>功能点</th>
@@ -13,14 +15,14 @@
                 <th>用例操作说明</th>
                 <th>预期结果</th>
                 <th>处理状态</th>
-                <th>处理结果</th>
-                <th>缺陷</th>
             </tr>
         </thead>
         <tbody>
             {{#each content}}
             <tr>
                 <td>{{testName}}</td>
+                <td>{{result}}</td>
+                <td>{{bug}}</td>                
                 <td>{{sysName}}</td>
                 <td>{{subSysName}}</td>
                 <td>{{funName}}</td>
@@ -28,8 +30,6 @@
                 <td>{{testDesc}}</td>
                 <td>{{preResult}}</td>
                 <td>{{caseState}}</td>
-                <td>{{result}}</td>
-                <td>{{bug}}</td>
             </tr>
             {{/each}}
         </tbody>

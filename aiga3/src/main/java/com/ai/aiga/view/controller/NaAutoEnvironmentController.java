@@ -85,4 +85,31 @@ public class NaAutoEnvironmentController {
 		naAutoEnvironmentSv.saveMachine(machineId, envId);
 		return JsonBean.success;
 	}
+	
+	@RequestMapping(path = "/sys/environment/rel")
+	public @ResponseBody JsonBean list(@RequestParam BigDecimal envId){
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoEnvironmentSv.selectall(envId));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/machine/rel")
+	public @ResponseBody JsonBean rel(@RequestParam BigDecimal machineId){
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoEnvironmentSv.select(machineId));
+		return bean;
+	}
+	@RequestMapping(path = "/sys/rel/del")
+	public @ResponseBody JsonBean del(
+			@RequestParam BigDecimal envId,@RequestParam String machineId){
+		naAutoEnvironmentSv.delrel(envId, machineId);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/rel/delete")
+	public @ResponseBody JsonBean delect(
+			@RequestParam BigDecimal machineId,@RequestParam String envId){
+		naAutoEnvironmentSv.delectrel(machineId, envId);
+		return JsonBean.success;
+	}
 }

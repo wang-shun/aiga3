@@ -372,5 +372,41 @@ public class NaAutoEnvironmentSv extends BaseService{
 
 	   return JsonUtil.mapToJson(json);
    }
+   public List<NaAutoMachine> selectall(BigDecimal envId){
+		  if (envId==null) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			}
+		return naAutoMachineEnvDao.selectall(envId);
+		  
+	  }
+   public List<NaAutoEnvironment> select(BigDecimal machineId){
+		  if (machineId==null) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			}
+		return naAutoMachineEnvDao.select(machineId);
+		  
+	  }
+   
+   public void  delrel(BigDecimal envId,String machineId){
+	   if (envId==null&&machineId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	   String[] split = machineId.split(",");
+	   for (int i = 0; i < split.length; i++) {
+          
+		   naAutoMachineEnvDao.delrel(envId, BigDecimal.valueOf((NumberUtils.toLong(split[i]))));
 
+		}
+   }
+   public void  delectrel(BigDecimal machineId,String envId){
+	   if (envId==null&&machineId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	   String[] split = envId.split(",");
+	   for (int i = 0; i < split.length; i++) {
+          
+		   naAutoMachineEnvDao.delrel(machineId, BigDecimal.valueOf((NumberUtils.toLong(split[i]))));
+
+		}
+   }
 }

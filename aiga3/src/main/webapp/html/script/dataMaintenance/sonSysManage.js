@@ -58,7 +58,7 @@ define(function(require, exports, module) {
 			});
 
 		},
-		// 查询自动化用例模板
+		// 查询
 		getCaseTempList: function(cmd) {
 			var self = this;
 			var _cmd = '' || cmd;

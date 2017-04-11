@@ -45,7 +45,7 @@ define(function(require, exports, module) {
 			this.hdbarHelp();
 			this.getFunTaskList("");
 			this.queryFunTask();
-			this.submitResult('');
+			this.submitResult();
 		},
 
 		hdbarHelp: function() {
@@ -110,7 +110,7 @@ define(function(require, exports, module) {
 
 
 		// 提交结果
-		submitResult: function(cmd) {
+		submitResult: function() {
 			var self = this;
 			var btn = $(Dom.btnSubmitRst);
 			btn.unbind('click');

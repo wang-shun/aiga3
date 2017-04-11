@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
-            <th>计划Id</th>
+            <th>计划名称</th>
             <th>类别</th>
             <th>故障级别</th>
             <th>需求名称</th>
@@ -22,7 +22,7 @@
         {{#each this}}
         <tr>
             <td><input type="checkbox" class="minimal" value="{{bugId}}" name="bugId"></td>
-            <td>{{onlinePlan}}</td>
+            <td>{{onlinePlanName}}</td>
             <td>{{td_types bugType}}</td>
             <td>{{bugLevels bugLevel}}</td>   
             <td>{{requireName}}</td>

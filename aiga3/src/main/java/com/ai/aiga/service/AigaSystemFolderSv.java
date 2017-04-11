@@ -1,6 +1,6 @@
 package com.ai.aiga.service;
 
-import java.math.BigDecimal;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +33,7 @@ public class AigaSystemFolderSv extends BaseService {
 	public List<AigaSystemFolder> findSystemFolder() {
 		return aigaSystemFolderDao.findAll();
 	}
-public void deleteSystemFolder(BigDecimal sysId) {
+public void deleteSystemFolder(Long sysId) {
 		
 		if(sysId == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sysId");
@@ -41,7 +41,7 @@ public void deleteSystemFolder(BigDecimal sysId) {
 		
 		aigaSystemFolderDao.delete(sysId);
 	}
-public AigaSystemFolder findOne(BigDecimal sysId) {
+public AigaSystemFolder findOne(Long sysId) {
 	if(sysId == null ){
 		BusinessException.throwBusinessException(ErrorCode.Parameter_null, "sysId");
 	}

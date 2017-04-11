@@ -2,7 +2,9 @@ package com.ai.aiga.domain;
 // Generated 2017-3-15 14:42:25 by Hibernate Tools 3.2.2.GA
 
 
+
 import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.*;
 
@@ -18,8 +20,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class NaAutoEnvironment  implements java.io.Serializable {
 
 
-     private BigDecimal envId;
-     private BigDecimal sysId;
+     private Long envId;
+     private Long sysId;
      private String envName;
      private String envUrl;
      private String sysAccount;
@@ -27,14 +29,14 @@ public class NaAutoEnvironment  implements java.io.Serializable {
      private String database;
      private String dbAccount;
      private String dbPassword;
-     private BigDecimal regionId;
+     private Long regionId;
      private String soId;
      private String svnUrl;
      private String svnAccount;
      private String svnPassword;
-     private BigDecimal envType;
-     private BigDecimal runEnv;
-     private BigDecimal creatorId;
+     private Long envType;
+     private Long runEnv;
+     private Long creatorId;
      private String envCode;
 
      @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -44,10 +46,10 @@ public class NaAutoEnvironment  implements java.io.Serializable {
     }
 
 	
-    public NaAutoEnvironment(BigDecimal envId) {
+    public NaAutoEnvironment(Long envId) {
         this.envId = envId;
     }
-    public NaAutoEnvironment(BigDecimal envId, BigDecimal sysId, String envName, String envUrl, String sysAccount, String sysPassword, String database, String dbAccount, String dbPassword, BigDecimal regionId, String soId, String svnUrl, String svnAccount, String svnPassword, BigDecimal envType, BigDecimal runEnv, BigDecimal creatorId, Date updateTime,String envCode) {
+    public NaAutoEnvironment(Long envId, Long sysId, String envName, String envUrl, String sysAccount, String sysPassword, String database, String dbAccount, String dbPassword, Long regionId, String soId, String svnUrl, String svnAccount, String svnPassword, Long envType, Long runEnv, Long creatorId, Date updateTime,String envCode) {
        this.envId = envId;
        this.sysId = sysId;
        this.envName = envName;
@@ -74,20 +76,20 @@ public class NaAutoEnvironment  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_ENVIRONMENT$SEQ")
      @SequenceGenerator(name="NA_AUTO_ENVIRONMENT$SEQ",sequenceName="NA_AUTO_ENVIRONMENT$SEQ",allocationSize=1)
     @Column(name="ENV_ID", unique=true, nullable=false, precision=22, scale=0)
-    public BigDecimal getEnvId() {
+    public Long getEnvId() {
         return this.envId;
     }
     
-    public void setEnvId(BigDecimal envId) {
+    public void setEnvId(Long envId) {
         this.envId = envId;
     }
     
     @Column(name="SYS_ID", precision=22, scale=0)
-    public BigDecimal getSysId() {
+    public Long getSysId() {
         return this.sysId;
     }
     
-    public void setSysId(BigDecimal sysId) {
+    public void setSysId(Long sysId) {
         this.sysId = sysId;
     }
     
@@ -155,11 +157,11 @@ public class NaAutoEnvironment  implements java.io.Serializable {
     }
     
     @Column(name="REGION_ID", precision=22, scale=0)
-    public BigDecimal getRegionId() {
+    public Long getRegionId() {
         return this.regionId;
     }
     
-    public void setRegionId(BigDecimal regionId) {
+    public void setRegionId(Long regionId) {
         this.regionId = regionId;
     }
     
@@ -200,29 +202,29 @@ public class NaAutoEnvironment  implements java.io.Serializable {
     }
     
     @Column(name="ENV_TYPE", precision=22, scale=0)
-    public BigDecimal getEnvType() {
+    public Long getEnvType() {
         return this.envType;
     }
     
-    public void setEnvType(BigDecimal envType) {
+    public void setEnvType(Long envType) {
         this.envType = envType;
     }
     
     @Column(name="RUN_ENV", precision=22, scale=0)
-    public BigDecimal getRunEnv() {
+    public Long getRunEnv() {
         return this.runEnv;
     }
     
-    public void setRunEnv(BigDecimal runEnv) {
+    public void setRunEnv(Long runEnv) {
         this.runEnv = runEnv;
     }
     
     @Column(name="CREATOR_ID", precision=22, scale=0)
-    public BigDecimal getCreatorId() {
+    public Long getCreatorId() {
         return this.creatorId;
     }
     
-    public void setCreatorId(BigDecimal creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
     @Temporal(TemporalType.TIMESTAMP)

@@ -1,8 +1,7 @@
 {
-    "retCode": "200",
-    "retMessage": "系统异常，请稍后再试",
-    "data": {
-        "content": [{
+    "retCode":"200",
+    "retMessage":null,
+    "data":  [{
             "emId": "1",
             "emName": "啊啊啊",
             "phoneNum": "1781484",
@@ -11,77 +10,20 @@
             "EXT2": "张三",
             "EXT3": "0"
         }, {
-              "emId": "2",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
+            "emId": "2",
+            "emName": "啊啊啊",
+            "phoneNum": "1781484",
+            "email": "1@511.com",
+            "EXT1": "组织",
             "EXT2": "张三",
             "EXT3": "0"
         }, {
             "emId": "3",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
-            "EXT2": "张三",
-            "EXT3": "0"
-        }, {
-            "emId": "4",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
-            "EXT2": "张三",
-            "EXT3": "0"
-        }, {
-            "emId": "5",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
-            "EXT2": "张三",
-            "EXT3": "0"
-        }, {
-              "emId": "6",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
-            "EXT2": "张三",
-            "EXT3": "0"
-        }, {
-              "emId": "7",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
-            "EXT2": "张三",
-            "EXT3": "0"
-        }, {
-             "emId": "8",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
-            "EXT2": "张三",
-            "EXT3": "0"
-        }, {
-             "emId": "9",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
-            "EXT2": "张三",
-            "EXT3": "0"
-        }, {
-              "emId": "10",
-            "emName": "ART20170101",
-            "phoneNum": "用例组1",
-            "email": "1",
-            "EXT1": "######",
+            "emName": "啊啊啊",
+            "phoneNum": "1781484",
+            "email": "1@511.com",
+            "EXT1": "组织",
             "EXT2": "张三",
             "EXT3": "0"
         }]
-    }
 }

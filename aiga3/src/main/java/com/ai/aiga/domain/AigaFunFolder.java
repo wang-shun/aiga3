@@ -1,7 +1,7 @@
 package com.ai.aiga.domain;
 // Generated 2017-3-2 10:38:17 by Hibernate Tools 3.2.2.GA
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,11 +20,11 @@ import javax.persistence.TemporalType;
 @Table(name = "AIGA_FUN_FOLDER")
 public class AigaFunFolder implements java.io.Serializable {
 
-	private BigDecimal funId;
+	private Long funId;
 	private String sysName;
 	private Date createTime;
 	private Date updateTime;
-	private BigDecimal sysId;
+	private Long sysId;
 	private String busiLabel;
 	private String baseFunLabel;
 	private String dataCheckScript;
@@ -33,31 +33,31 @@ public class AigaFunFolder implements java.io.Serializable {
 	private Short funType;
 	private String funDesc;
 	private Short isInvalid;
-	private BigDecimal addReasonType;
+	private Long addReasonType;
 	private String addReason;
 	private Short efficiencyTestType;
 	private Short isEfficiencyTest;
 	private Short devFirm;
 	private String sysIdTemp;
-	private BigDecimal subSysId;
+	private Long subSysId;
 	private String subSysIdTemp;
-	private BigDecimal operatorId;
+	private Long operatorId;
 	private String operatorName;
-	private BigDecimal creatorId;
+	private Long creatorId;
 	private String creatorName;
 
 	public AigaFunFolder() {
 	}
 
-	public AigaFunFolder(BigDecimal funId) {
+	public AigaFunFolder(Long funId) {
 		this.funId = funId;
 	}
 
-	public AigaFunFolder(BigDecimal funId, String sysName, Date createTime, Date updateTime, BigDecimal sysId,
+	public AigaFunFolder(Long funId, String sysName, Date createTime, Date updateTime, Long sysId,
 			String busiLabel, String baseFunLabel, String dataCheckScript, Short importantClass, String menuPath,
-			Short funType, String funDesc, Short isInvalid, BigDecimal addReasonType, String addReason,
-			Short efficiencyTestType, Short isEfficiencyTest, Short devFirm, String sysIdTemp, BigDecimal subSysId,
-			String subSysIdTemp, BigDecimal operatorId, String operatorName, BigDecimal creatorId, String creatorName) {
+			Short funType, String funDesc, Short isInvalid, Long addReasonType, String addReason,
+			Short efficiencyTestType, Short isEfficiencyTest, Short devFirm, String sysIdTemp, Long subSysId,
+			String subSysIdTemp, Long operatorId, String operatorName, Long creatorId, String creatorName) {
 		this.funId = funId;
 		this.sysName = sysName;
 		this.createTime = createTime;
@@ -89,11 +89,11 @@ public class AigaFunFolder implements java.io.Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="AIGA_FUN_FOLDER$SEQ")
 	@SequenceGenerator(name="AIGA_FUN_FOLDER$SEQ",sequenceName="AIGA_FUN_FOLDER$SEQ",allocationSize=1)
 	@Column(name = "FUN_ID", unique = true, nullable = false, precision = 20, scale = 0)
-	public BigDecimal getFunId() {
+	public Long getFunId() {
 		return this.funId;
 	}
 
-	public void setFunId(BigDecimal funId) {
+	public void setFunId(Long funId) {
 		this.funId = funId;
 	}
 
@@ -127,11 +127,11 @@ public class AigaFunFolder implements java.io.Serializable {
 	}
 
 	@Column(name = "SYS_ID", precision = 20, scale = 0)
-	public BigDecimal getSysId() {
+	public Long getSysId() {
 		return this.sysId;
 	}
 
-	public void setSysId(BigDecimal sysId) {
+	public void setSysId(Long sysId) {
 		this.sysId = sysId;
 	}
 
@@ -208,11 +208,11 @@ public class AigaFunFolder implements java.io.Serializable {
 	}
 
 	@Column(name = "ADD_REASON_TYPE", precision = 20, scale = 0)
-	public BigDecimal getAddReasonType() {
+	public Long getAddReasonType() {
 		return this.addReasonType;
 	}
 
-	public void setAddReasonType(BigDecimal addReasonType) {
+	public void setAddReasonType(Long addReasonType) {
 		this.addReasonType = addReasonType;
 	}
 
@@ -262,11 +262,11 @@ public class AigaFunFolder implements java.io.Serializable {
 	}
 
 	@Column(name = "SUB_SYS_ID", precision = 20, scale = 0)
-	public BigDecimal getSubSysId() {
+	public Long getSubSysId() {
 		return this.subSysId;
 	}
 
-	public void setSubSysId(BigDecimal subSysId) {
+	public void setSubSysId(Long subSysId) {
 		this.subSysId = subSysId;
 	}
 
@@ -280,11 +280,11 @@ public class AigaFunFolder implements java.io.Serializable {
 	}
 
 	@Column(name = "OPERATOR_ID", precision = 20, scale = 0)
-	public BigDecimal getOperatorId() {
+	public Long getOperatorId() {
 		return this.operatorId;
 	}
 
-	public void setOperatorId(BigDecimal operatorId) {
+	public void setOperatorId(Long operatorId) {
 		this.operatorId = operatorId;
 	}
 
@@ -298,11 +298,11 @@ public class AigaFunFolder implements java.io.Serializable {
 	}
 
 	@Column(name = "CREATOR_ID", precision = 20, scale = 0)
-	public BigDecimal getCreatorId() {
+	public Long getCreatorId() {
 		return this.creatorId;
 	}
 
-	public void setCreatorId(BigDecimal creatorId) {
+	public void setCreatorId(Long creatorId) {
 		this.creatorId = creatorId;
 	}
 

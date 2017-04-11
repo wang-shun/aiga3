@@ -20,10 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoCaseDao;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
+import com.ai.aiga.dao.NaAutoEnvironmentDao;
 import com.ai.aiga.dao.NaAutoRunPlanCaseDao;
 import com.ai.aiga.dao.NaAutoRunPlanDao;
 import com.ai.aiga.domain.NaAutoCase;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
+import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaAutoRunPlan;
 import com.ai.aiga.domain.NaAutoRunPlanCase;
 import com.ai.aiga.exception.BusinessException;
@@ -48,6 +50,8 @@ public class NaAutoRunPlanSv extends BaseService{
 	@Autowired
 	private NaAutoCollGroupCaseDao naAutoCollGroupCaseDao;
 
+	@Autowired
+	private NaAutoEnvironmentDao everDao;
 	/**
 	 * 保存自动化计划
 	 * @param naAutoRunPlan
@@ -129,9 +133,12 @@ public class NaAutoRunPlanSv extends BaseService{
 				//查询当前用例的信息
 				NaAutoCase  naAutoCase = naAutoCaseDao.findByAutoId(Long.parseLong(id));
 				NaAutoRunPlanCase  naAutoRunPlanCase = new NaAutoRunPlanCase();
+				NaAutoEnvironment  ever= everDao.findBySysIdAndEnvType(naAutoCase.getSysId(), naAutoCase.getEnvironmentType());
 				naAutoRunPlanCase.setAutoId(Long.parseLong(id));
 				naAutoRunPlanCase.setPlanId(planId);
-				naAutoRunPlanCase.setEnvironmentType(naAutoCase.getEnvironmentType());
+				naAutoRunPlanCase.setEnvironmentType(Long.parseLong(ever.getEnvId().toString()));
+				naAutoRunPlanCase.setSortGroup(0L);
+				naAutoRunPlanCase.setSortNumber(0L);
 				if(collectId!=null){
 					naAutoRunPlanCase.setCollectId(collectId);
 				}
@@ -156,7 +163,7 @@ public class NaAutoRunPlanSv extends BaseService{
 					System.out.println("当前计划已经关联过该用例组，无需再次关联");
 				}else{
 					//查询当前用例组包含的用例的信息
-					String sql = "    select b.auto_id, b.Environment_type,a.Group_order  \n"
+					String sql = "    select b.auto_id, b.Environment_type,a.Group_order ,b.sys_id \n"
 										+" 	From na_auto_group_case a , na_auto_case b \n"
 										+" 	 Where a.auto_id = b.auto_id(+)  \n"
 										+" 	And a.group_id= "+Long.parseLong(id);
@@ -167,9 +174,10 @@ public class NaAutoRunPlanSv extends BaseService{
 						for (int i=0;i<caseInfos.size();i++) {
 							Object[] caseInfo = (Object[])caseInfos.get(i);
 							NaAutoRunPlanCase  naAutoRunPlanCase = new NaAutoRunPlanCase();
+							NaAutoEnvironment  ever= everDao.findBySysIdAndEnvType(Long.parseLong(caseInfo[3].toString()), Long.parseLong(caseInfo[1].toString()));
 							naAutoRunPlanCase.setAutoId(Long.parseLong(caseInfo[0].toString()));
 							naAutoRunPlanCase.setPlanId(planId);
-							naAutoRunPlanCase.setEnvironmentType(Long.parseLong(caseInfo[1].toString()));
+							naAutoRunPlanCase.setEnvironmentType(Long.parseLong(ever.getEnvId().toString()));
 							naAutoRunPlanCase.setGroupId(Long.parseLong(id));
 							naAutoRunPlanCase.setSortGroup(Long.parseLong(caseInfo[2].toString()));
 							naAutoRunPlanCase.setSortNumber(Long.parseLong(count.toString())+i+1);

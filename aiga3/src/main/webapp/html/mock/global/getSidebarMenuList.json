@@ -227,5 +227,10 @@
             "name": "功能点管理",
             "viewname": "view/dataMaintenance/functionManage.html"
         }]
+    }, {
+        "funcId": 53,
+        "name": "公用邮件页面",
+        "funcImg": "fa fa-fw fa-envelope-o",
+        "viewname": "view/email/email.html"
     }]
 }

@@ -22,9 +22,9 @@ define(function(require,exports,module){
 	//获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/machine/list");
 	//获取已关联的机器列表
-    srvMap.add('getRelaMachineList',"environment/getRelaMachineList.json", "sys/autoGroup/caseRelatGroupList");
+    srvMap.add('getRelaMachineList',"environment/getMachineList.json", "sys/environment/rel");
 	//删除环境机器关联
-    srvMap.add('delRelaMachine',"environment/deleteEnvironment.json", "sys/autoGroup/caseRelatGroupDel");
+    srvMap.add('delRelaMachine',"environment/deleteEnvironment.json", "sys/rel/del");
 	//关联机器
 	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
@@ -33,9 +33,9 @@ define(function(require,exports,module){
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
-		getMachineList: require('tpl/environment/getMachineList.tpl'),
-		getSysList: require('tpl/caseTempMng/getSysList.tpl'),
-		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')
+		getMachineListInEnvironment: require('tpl/environment/getMachineListInEnvironment.tpl'),
+		getSysList: require('tpl/caseTempMng/getSysList.tpl')/*,
+		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')*/
 	};
 
 	var Dom={
@@ -251,8 +251,7 @@ define(function(require,exports,module){
 					Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
 						if (status) {
 							var _form = $(Dom.connectMachineList);
-							var template = Handlebars.compile(Tpl.getMachineList);
-							/*$("#formName").html("关联机器");*/
+							var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
 							_form.html(template());
 							self.getMachineList();
 							self.getRelaMachineList();
@@ -270,7 +269,6 @@ define(function(require,exports,module){
 									var tdArr = $(this).children();
 									if(tdArr.eq(0).find("input").is(':checked')){
 										machineId += tdArr.eq(0).find("input").val()+",";
-
 									}
 								});
 
@@ -281,9 +279,6 @@ define(function(require,exports,module){
 											XMS.msgbox.show('关联成功！', 'success', 2000)
 											// 关闭弹出层
 											$(Dom.connectMachineModal).modal('hide');
-											/*setTimeout(function(){
-												self.getEnvironmentList();
-											},1000)*/
 									}
 								});
 							});
@@ -296,7 +291,7 @@ define(function(require,exports,module){
             var self = this;
             Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
                 if (status) {
-                    var template = Handlebars.compile(Tpl.getMachineList);
+                    var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
                     /*console.log(json.data.content);*/
                     $("#formName").html("关联机器");
                     $(Dom.connectMachineList).html(template(json.data.content));
@@ -330,9 +325,9 @@ define(function(require,exports,module){
             console.log(cmd);
             Rose.ajax.postJson(srvMap.get('getRelaMachineList'), cmd, function(json, status) {
                 if (status) {
-                    var template = Handlebars.compile(Tpl.getRelaMachineList);
-                    console.log(json.data.content)
-                    $(Dom.getRelaMachineList).html(template(json.data.content));
+                    var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
+                    console.log(json.data)
+                    $(Dom.getRelaMachineList).html(template(json.data));
                     //单击选中
                     /*self.eventClickChecked($(Dom.getRelaMachineList));*/
                     //双击关联用例
@@ -362,12 +357,12 @@ define(function(require,exports,module){
 					_checkObj.each(function (){
 						_envId = $(this).val();
 					})
-                    var _relaIdsArray = [];
+                    var _machineIdsArray = [];
                     _data.each(function() {
-                        _relaIdsArray.push($(this).val());
+                        _machineIdsArray.push($(this).val());
                     })
                     var _cmd = "envId=" + _envId;
-                    var _cmd1 = "&relaIds=" + _relaIdsArray.join(",");
+                    var _cmd1 = "&machineIds=" + _machineIdsArray.join(",");
                     var cmd = _cmd + _cmd1;
                     console.log(cmd);
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -385,13 +380,13 @@ define(function(require,exports,module){
 		//获取选中已关联机器
         getCheckedRelaMachine: function() {
             var _obj = $(Dom.getRelaMachineList).find("input[type='checkbox']:checked").parents("tr");
-            var _relaId = _obj.find("input[name='relaId']");
-            console.log(_relaId);
-            if (_relaId.length == 0) {
+            var _machineId = _obj.find("input[name='machineId']");
+            console.log(_machineId);
+            if (_machineId.length == 0) {
                 window.XMS.msgbox.show('请先选择一个已关联机器！', 'error', 2000);
                 return;
             } else {
-                var _data = $(_relaId);
+                var _data = $(_machineId);
                 data = _data;
                 console.log(data);
             }

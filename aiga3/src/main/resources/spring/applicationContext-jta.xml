@@ -18,7 +18,7 @@
 	<description>Spring jta多数据源配置</description>
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.ai.aiga.jta"/>
+	<context:component-scan base-package="com.ai.process.jta"/>
 	<context:component-scan base-package="com.ai.aiga.dao"/>
 
 	<!-- 在 Spring 配置文件中启用扫描并自动创建代理的功能 -->
@@ -55,13 +55,26 @@
 			</props>
 		</property>
 	</bean>
+
+	<!-- 新炬数据库 -->
+	<bean id="CSHP03" parent="abstractXADataSource">
+		<property name="uniqueResourceName" value="oracle/CSHP03" />
+		<property name="xaProperties">
+			<props>
+				<prop key="URL">jdbc:oracle:thin:@20.26.11.6:1521:CSHP03</prop>
+				<prop key="user">shsnc_xncs</prop>
+				<prop key="password">shsnc_xncs</prop>
+			</props>
+		</property>
+	</bean>
 	<bean name="dynamicDatasource" class="com.ai.aiga.jta.DynamicDataSource">
 		<property name="targetDataSources">
 			<map>
 				<entry key="aiga" value-ref="aiga" />
+				<entry key="CSHP03" value-ref="CSHP03" />
 			</map>
 		</property>
-		<property name="defaultTargetDataSource" ref="aiga" />
+		<property name="defaultTargetDataSource" ref="aiga" /> 
 	</bean>
 
 	<!-- jta -->
@@ -117,6 +130,6 @@
 		entity-manager-factory-ref="entityManagerFactory"
 		base-class="com.ai.aiga.dao.jpa.SearchAndPageRepositoryImpl" />
 	
-	<bean id="dynamicDataSourceListener"  class="com.ai.aiga.jta.DynamicDataSourceListener" /> 
+	<bean id="dynamicDataSourceListener"  class="com.ai.process.jta.DynamicDataSourceListener" /> 
  
 </beans>

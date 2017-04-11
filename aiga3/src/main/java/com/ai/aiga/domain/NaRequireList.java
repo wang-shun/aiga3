@@ -2,7 +2,7 @@ package com.ai.aiga.domain;
 // Generated 2017-3-29 16:33:25 by Hibernate Tools 3.2.2.GA
 
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ import javax.persistence.TemporalType;
 public class NaRequireList  implements java.io.Serializable {
 
 
-     private BigDecimal id;
+     private Long id;
      private String testMan;
      private String testManager;
      private String requireCode;
@@ -34,49 +34,49 @@ public class NaRequireList  implements java.io.Serializable {
      private String devMan;
      private String devManager;
      private String requireMan;
-     private BigDecimal planId;
+     private Long planId;
      private String remarks;
-     private BigDecimal introducedState;
+     private Long introducedState;
      private Byte testResult;
-     private BigDecimal testProgress;
-     private BigDecimal testCondition;
-     private BigDecimal defectNumber;
+     private Long testProgress;
+     private Long testCondition;
+     private Long defectNumber;
      private Date requireDate;
      private String requireSource;
-     private BigDecimal requireLevel;
-     private BigDecimal requirePriority;
+     private Long requireLevel;
+     private Long requirePriority;
      private Byte groupCheck;
-     private BigDecimal requireClassify;
-     private BigDecimal requireType;
-     private BigDecimal requireOnlineType;
+     private Long requireClassify;
+     private Long requireType;
+     private Long requireOnlineType;
      private Date onlineDate;
      private String onlineReason;
      private Date firstTime;
      private Date lastTime;
      private Date upDate;
-     private BigDecimal devTaskId;
+     private Long devTaskId;
      private String devTaskName;
-     private BigDecimal taskState;
-     private BigDecimal isImportantRequire;
+     private Long taskState;
+     private Long isImportantRequire;
      private String testGroup;
      private String requireApplicant;
-     private BigDecimal workloadEvaluation;
+     private Long workloadEvaluation;
      private String situationAnalysis;
-     private BigDecimal isCycleDemand;
-     private BigDecimal isSystemAdjust;
-     private BigDecimal groupDemand;
-     private BigDecimal isDatebaseScript;
-     private BigDecimal reviewState;
+     private Long isCycleDemand;
+     private Long isSystemAdjust;
+     private Long groupDemand;
+     private Long isDatebaseScript;
+     private Long reviewState;
 
     public NaRequireList() {
     }
 
 	
-    public NaRequireList(BigDecimal id, BigDecimal planId) {
+    public NaRequireList(Long id, Long planId) {
         this.id = id;
         this.planId = planId;
     }
-    public NaRequireList(BigDecimal id, String testMan, String testManager, String requireCode, String requireName, String bigSystem, String system, String devMan, String devManager, String requireMan, BigDecimal planId, String remarks, BigDecimal introducedState, Byte testResult, BigDecimal testProgress, BigDecimal testCondition, BigDecimal defectNumber, Date requireDate, String requireSource, BigDecimal requireLevel, BigDecimal requirePriority, Byte groupCheck, BigDecimal requireClassify, BigDecimal requireType, BigDecimal requireOnlineType, Date onlineDate, String onlineReason, Date firstTime, Date lastTime, Date upDate, BigDecimal devTaskId, String devTaskName, BigDecimal taskState, BigDecimal isImportantRequire, String testGroup, String requireApplicant, BigDecimal workloadEvaluation, String situationAnalysis, BigDecimal isCycleDemand, BigDecimal isSystemAdjust, BigDecimal groupDemand, BigDecimal isDatebaseScript, BigDecimal reviewState) {
+    public NaRequireList(Long id, String testMan, String testManager, String requireCode, String requireName, String bigSystem, String system, String devMan, String devManager, String requireMan, Long planId, String remarks, Long introducedState, Byte testResult, Long testProgress, Long testCondition, Long defectNumber, Date requireDate, String requireSource, Long requireLevel, Long requirePriority, Byte groupCheck, Long requireClassify, Long requireType, Long requireOnlineType, Date onlineDate, String onlineReason, Date firstTime, Date lastTime, Date upDate, Long devTaskId, String devTaskName, Long taskState, Long isImportantRequire, String testGroup, String requireApplicant, Long workloadEvaluation, String situationAnalysis, Long isCycleDemand, Long isSystemAdjust, Long groupDemand, Long isDatebaseScript, Long reviewState) {
        this.id = id;
        this.testMan = testMan;
        this.testManager = testManager;
@@ -126,11 +126,11 @@ public class NaRequireList  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_REQUIRE_LIST$SEQ")
      @SequenceGenerator(name="NA_REQUIRE_LIST$SEQ",sequenceName="NA_REQUIRE_LIST$SEQ",allocationSize=1)
     @Column(name="ID", nullable=false, precision=22, scale=0)
-    public BigDecimal getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
@@ -216,11 +216,11 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="PLAN_ID", nullable=false, precision=22, scale=0)
-    public BigDecimal getPlanId() {
+    public Long getPlanId() {
         return this.planId;
     }
     
-    public void setPlanId(BigDecimal planId) {
+    public void setPlanId(Long planId) {
         this.planId = planId;
     }
     
@@ -234,11 +234,11 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="INTRODUCED_STATE", precision=22, scale=0)
-    public BigDecimal getIntroducedState() {
+    public Long getIntroducedState() {
         return this.introducedState;
     }
     
-    public void setIntroducedState(BigDecimal introducedState) {
+    public void setIntroducedState(Long introducedState) {
         this.introducedState = introducedState;
     }
     
@@ -252,29 +252,29 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="TEST_PROGRESS", precision=22, scale=0)
-    public BigDecimal getTestProgress() {
+    public Long getTestProgress() {
         return this.testProgress;
     }
     
-    public void setTestProgress(BigDecimal testProgress) {
+    public void setTestProgress(Long testProgress) {
         this.testProgress = testProgress;
     }
     
     @Column(name="TEST_CONDITION", precision=22, scale=0)
-    public BigDecimal getTestCondition() {
+    public Long getTestCondition() {
         return this.testCondition;
     }
     
-    public void setTestCondition(BigDecimal testCondition) {
+    public void setTestCondition(Long testCondition) {
         this.testCondition = testCondition;
     }
     
     @Column(name="DEFECT_NUMBER", precision=22, scale=0)
-    public BigDecimal getDefectNumber() {
+    public Long getDefectNumber() {
         return this.defectNumber;
     }
     
-    public void setDefectNumber(BigDecimal defectNumber) {
+    public void setDefectNumber(Long defectNumber) {
         this.defectNumber = defectNumber;
     }
     @Temporal(TemporalType.TIMESTAMP)
@@ -297,20 +297,20 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="REQUIRE_LEVEL", precision=22, scale=0)
-    public BigDecimal getRequireLevel() {
+    public Long getRequireLevel() {
         return this.requireLevel;
     }
     
-    public void setRequireLevel(BigDecimal requireLevel) {
+    public void setRequireLevel(Long requireLevel) {
         this.requireLevel = requireLevel;
     }
     
     @Column(name="REQUIRE_PRIORITY", precision=22, scale=0)
-    public BigDecimal getRequirePriority() {
+    public Long getRequirePriority() {
         return this.requirePriority;
     }
     
-    public void setRequirePriority(BigDecimal requirePriority) {
+    public void setRequirePriority(Long requirePriority) {
         this.requirePriority = requirePriority;
     }
     
@@ -324,29 +324,29 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="REQUIRE_CLASSIFY", precision=22, scale=0)
-    public BigDecimal getRequireClassify() {
+    public Long getRequireClassify() {
         return this.requireClassify;
     }
     
-    public void setRequireClassify(BigDecimal requireClassify) {
+    public void setRequireClassify(Long requireClassify) {
         this.requireClassify = requireClassify;
     }
     
     @Column(name="REQUIRE_TYPE", precision=22, scale=0)
-    public BigDecimal getRequireType() {
+    public Long getRequireType() {
         return this.requireType;
     }
     
-    public void setRequireType(BigDecimal requireType) {
+    public void setRequireType(Long requireType) {
         this.requireType = requireType;
     }
     
     @Column(name="REQUIRE_ONLINE_TYPE", precision=22, scale=0)
-    public BigDecimal getRequireOnlineType() {
+    public Long getRequireOnlineType() {
         return this.requireOnlineType;
     }
     
-    public void setRequireOnlineType(BigDecimal requireOnlineType) {
+    public void setRequireOnlineType(Long requireOnlineType) {
         this.requireOnlineType = requireOnlineType;
     }
     @Temporal(TemporalType.TIMESTAMP)
@@ -396,11 +396,11 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="DEV_TASK_ID", precision=22, scale=0)
-    public BigDecimal getDevTaskId() {
+    public Long getDevTaskId() {
         return this.devTaskId;
     }
     
-    public void setDevTaskId(BigDecimal devTaskId) {
+    public void setDevTaskId(Long devTaskId) {
         this.devTaskId = devTaskId;
     }
     
@@ -414,20 +414,20 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="TASK_STATE", precision=22, scale=0)
-    public BigDecimal getTaskState() {
+    public Long getTaskState() {
         return this.taskState;
     }
     
-    public void setTaskState(BigDecimal taskState) {
+    public void setTaskState(Long taskState) {
         this.taskState = taskState;
     }
     
     @Column(name="IS_IMPORTANT_REQUIRE", precision=22, scale=0)
-    public BigDecimal getIsImportantRequire() {
+    public Long getIsImportantRequire() {
         return this.isImportantRequire;
     }
     
-    public void setIsImportantRequire(BigDecimal isImportantRequire) {
+    public void setIsImportantRequire(Long isImportantRequire) {
         this.isImportantRequire = isImportantRequire;
     }
     
@@ -450,11 +450,11 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="WORKLOAD_EVALUATION", precision=22, scale=0)
-    public BigDecimal getWorkloadEvaluation() {
+    public Long getWorkloadEvaluation() {
         return this.workloadEvaluation;
     }
     
-    public void setWorkloadEvaluation(BigDecimal workloadEvaluation) {
+    public void setWorkloadEvaluation(Long workloadEvaluation) {
         this.workloadEvaluation = workloadEvaluation;
     }
     
@@ -468,47 +468,47 @@ public class NaRequireList  implements java.io.Serializable {
     }
     
     @Column(name="IS_CYCLE_DEMAND", precision=22, scale=0)
-    public BigDecimal getIsCycleDemand() {
+    public Long getIsCycleDemand() {
         return this.isCycleDemand;
     }
     
-    public void setIsCycleDemand(BigDecimal isCycleDemand) {
+    public void setIsCycleDemand(Long isCycleDemand) {
         this.isCycleDemand = isCycleDemand;
     }
     
     @Column(name="IS_SYSTEM_ADJUST", precision=22, scale=0)
-    public BigDecimal getIsSystemAdjust() {
+    public Long getIsSystemAdjust() {
         return this.isSystemAdjust;
     }
     
-    public void setIsSystemAdjust(BigDecimal isSystemAdjust) {
+    public void setIsSystemAdjust(Long isSystemAdjust) {
         this.isSystemAdjust = isSystemAdjust;
     }
     
     @Column(name="GROUP_DEMAND", precision=22, scale=0)
-    public BigDecimal getGroupDemand() {
+    public Long getGroupDemand() {
         return this.groupDemand;
     }
     
-    public void setGroupDemand(BigDecimal groupDemand) {
+    public void setGroupDemand(Long groupDemand) {
         this.groupDemand = groupDemand;
     }
     
     @Column(name="IS_DATEBASE_SCRIPT", precision=22, scale=0)
-    public BigDecimal getIsDatebaseScript() {
+    public Long getIsDatebaseScript() {
         return this.isDatebaseScript;
     }
     
-    public void setIsDatebaseScript(BigDecimal isDatebaseScript) {
+    public void setIsDatebaseScript(Long isDatebaseScript) {
         this.isDatebaseScript = isDatebaseScript;
     }
     
     @Column(name="REVIEW_STATE", precision=22, scale=0)
-    public BigDecimal getReviewState() {
+    public Long getReviewState() {
         return this.reviewState;
     }
     
-    public void setReviewState(BigDecimal reviewState) {
+    public void setReviewState(Long reviewState) {
         this.reviewState = reviewState;
     }
 

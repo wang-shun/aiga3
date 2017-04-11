@@ -1,13 +1,13 @@
 package com.ai.aiga.view.json;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class NaAutoEnvironmentRequest {
-	 private BigDecimal envId;
-     private BigDecimal sysId;
+	 private Long envId;
+     private Long sysId;
      private String envName;
      private String envUrl;
      private String sysAccount;
@@ -15,26 +15,26 @@ public class NaAutoEnvironmentRequest {
      private String database;
      private String dbAccount;
      private String dbPassword;
-     private BigDecimal regionId;
+     private Long regionId;
      private String soId;
      private String svnUrl;
      private String svnAccount;
      private String svnPassword;
-     private BigDecimal envType;
-     private BigDecimal runEnv;
-     private BigDecimal creatorId;
+     private Long envType;
+     private Long runEnv;
+     private Long creatorId;
      @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date updateTime;
-	public BigDecimal getEnvId() {
+	public Long getEnvId() {
 		return envId;
 	}
-	public void setEnvId(BigDecimal envId) {
+	public void setEnvId(Long envId) {
 		this.envId = envId;
 	}
-	public BigDecimal getSysId() {
+	public Long getSysId() {
 		return sysId;
 	}
-	public void setSysId(BigDecimal sysId) {
+	public void setSysId(Long sysId) {
 		this.sysId = sysId;
 	}
 	public String getEnvName() {
@@ -79,10 +79,10 @@ public class NaAutoEnvironmentRequest {
 	public void setDbPassword(String dbPassword) {
 		this.dbPassword = dbPassword;
 	}
-	public BigDecimal getRegionId() {
+	public Long getRegionId() {
 		return regionId;
 	}
-	public void setRegionId(BigDecimal regionId) {
+	public void setRegionId(Long regionId) {
 		this.regionId = regionId;
 	}
 	public String getSoId() {
@@ -109,22 +109,22 @@ public class NaAutoEnvironmentRequest {
 	public void setSvnPassword(String svnPassword) {
 		this.svnPassword = svnPassword;
 	}
-	public BigDecimal getEnvType() {
+	public Long getEnvType() {
 		return envType;
 	}
-	public void setEnvType(BigDecimal envType) {
+	public void setEnvType(Long envType) {
 		this.envType = envType;
 	}
-	public BigDecimal getRunEnv() {
+	public Long getRunEnv() {
 		return runEnv;
 	}
-	public void setRunEnv(BigDecimal runEnv) {
+	public void setRunEnv(Long runEnv) {
 		this.runEnv = runEnv;
 	}
-	public BigDecimal getCreatorId() {
+	public Long getCreatorId() {
 		return creatorId;
 	}
-	public void setCreatorId(BigDecimal creatorId) {
+	public void setCreatorId(Long creatorId) {
 		this.creatorId = creatorId;
 	}
 	public Date getUpdateTime() {

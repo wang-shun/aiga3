@@ -33,7 +33,7 @@ public class AigaFunFolderCacheCmpt extends AbstractCache {
 			
 			for(AigaFunFolder bean : list){
 				
-				BigDecimal subSysId = bean.getSubSysId();
+				Long subSysId = bean.getSubSysId();
 				
 				
 				if(subSysId != null){

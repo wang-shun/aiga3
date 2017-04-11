@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoMachineEnv;
 import com.ai.aiga.domain.NaEmployeeInfo;
@@ -26,8 +25,8 @@ SearchAndPageRepository<NaTeamEmployeeRel, Long> {
 	@Query("delete from NaTeamEmployeeRel where teamId= ?1")
 	void deleteTeam(Long teamId);
 	
-	@Query(value="select a.* from NA_EMPLOYEE_INFO a,NA_TEAM_EMPLOYEE_REL b "
-			+ "where b.EMP_ID=a.ID and b.TEAM_ID=?1",nativeQuery=true)
+	@Query("select a from NaEmployeeInfo a,NaTeamEmployeeRel b "
+			+ "where b.empId=a.id and b.teamId=?1")
 	  List<NaEmployeeInfo> selectall(Long teamId);
 	
 }

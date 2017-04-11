@@ -121,7 +121,6 @@ define(function(require, exports, module) {
 				if (data) {
 					console.log(data);
 					var cmd = 'teamId=' + data.teamId;
-					alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delTeamInfo'), cmd, function(json, status) {
 						if (status) {
@@ -205,7 +204,7 @@ define(function(require, exports, module) {
 				});
 				})
 			})
-		},		
+		},
 		//已有团队关联
 		relTeamAndEm: function() {
 			var self = this;
@@ -221,9 +220,9 @@ define(function(require, exports, module) {
 					Data.teamId = data.teamId;
 					//关联新成员
 					self.relEm(Data.teamId);
-					//查询所有员工信息
+					//查询所有员工信息(去除已关联员工)
 					self.queryEmlistForm();
-					self.getEmList();
+					self.getEmList("teamId="+Data.teamId);
 					self.getEmedList(Data.teamId);
 					self.delEmed();
 				}
@@ -253,7 +252,7 @@ define(function(require, exports, module) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getEmList);
-					$(Dom.emList).html(template(json.data.content));
+					$(Dom.emList).html(template(json.data));
 
 
 					Utils.eventTrClickCallback($(Dom.emList));
@@ -268,13 +267,12 @@ define(function(require, exports, module) {
 		getEmedList: function(cmd) {
 			var self = this;
 			var _cmd = 'teamId='+cmd;
-			alert(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.postJson(srvMap.get('getEmedList'), _cmd, function(json, status) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getEmedList);
-					$(Dom.emedList).html(template(json.data.content));
+					$(Dom.emedList).html(template(json.data));
 					Utils.eventTrClickCallback($(Dom.emedList));
 
 					self.initPaging($(Dom.emedList), 5);
@@ -290,7 +288,7 @@ define(function(require, exports, module) {
 			var delBt = $("#JS_delEmedBt");
 			delBt.unbind('click');
 			delBt.bind('click', function(event) {
-				var delEmedIds= "emId="
+				var delEmedIds= "list="
 
 				var data = Utils.getCheckboxCheckedRow(_dom);
 				for (var k in data) {
@@ -298,6 +296,7 @@ define(function(require, exports, module) {
 					//拼接
 					delEmedIds += emId + ",";
 				}
+				
 				//去除最后的逗号
 				delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
 				var _cmd = delEmedIds;
@@ -309,12 +308,11 @@ define(function(require, exports, module) {
 						setTimeout(function() {
 
 							//问题
-							self.getEmedList();
+							self.getEmedList(Data.teamId);
 						}, 1000)
 					}
 				});
 				self.getEmList();
-				self.getEmedList(Data.teamId);
 				//删除参数初始化
 				delEmedIds = "emId:";
 			});
@@ -327,7 +325,7 @@ define(function(require, exports, module) {
 			var _relBtn = _form.find("[name='rel']");
 			_relBtn.unbind('click');
 			_relBtn.bind('click', function() {
-				var relEmIds="emId="
+				var relEmIds="list="
 				var data = Utils.getCheckboxCheckedRow(_dom);
 				for (var k in data) {
 					var emId = data[k];
@@ -345,12 +343,11 @@ define(function(require, exports, module) {
 						setTimeout(function() {
 
 							//问题
-							self.getEmedList();
+							self.getEmedList(Data.teamId);
+							self.getEmList();
 						}, 1000)
 					}
 				});
-				self.getEmList();
-				self.getEmedList(Data.teamId);
 				//删除参数初始化
 				relEmedIds = "emId:";
 			});

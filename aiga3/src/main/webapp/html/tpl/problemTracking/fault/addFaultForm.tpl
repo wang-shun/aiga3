@@ -20,13 +20,13 @@
                     <option value="2">异常</option>
                 </select>
                 <label class="control-label">故障级别:</label>
-                <select name="bugLevel" data-suburl="getSubsysList" data-subname="funId" data-idkey="bugLevel" data-namekey="sysName"  class="form-control select2 input-sm" style="width: 172px" >
+                <select name="bugLevel" class="form-control select2 input-sm" style="width: 172px" disabled="disabled" >
                     <option value="">请选择</option>
                     <option value="1">红色</option>
                     <option value="2">橙色</option>
-                    <option value="1">黄色</option>
-                    <option value="2">蓝色</option>
-                    <option value="2">灰色</option>
+                    <option value="3">黄色</option>
+                    <option value="4">蓝色</option>
+                    <option value="5">灰色</option>
                 </select>
             </div>
             <div class="form-group form-inline">

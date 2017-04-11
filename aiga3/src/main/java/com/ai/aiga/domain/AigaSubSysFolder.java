@@ -1,7 +1,7 @@
 package com.ai.aiga.domain;
 // Generated 2017-3-2 10:38:17 by Hibernate Tools 3.2.2.GA
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,20 +20,20 @@ import javax.persistence.TemporalType;
 @Table(name = "AIGA_SUB_SYS_FOLDER")
 public class AigaSubSysFolder implements java.io.Serializable {
 
-	private BigDecimal subsysId;
+	private Long subsysId;
 	private String sysName;
 	private Date createTime;
 	private Date updateTime;
-	private BigDecimal sysId;
+	private Long sysId;
 
 	public AigaSubSysFolder() {
 	}
 
-	public AigaSubSysFolder(BigDecimal subsysId) {
+	public AigaSubSysFolder(Long subsysId) {
 		this.subsysId = subsysId;
 	}
 
-	public AigaSubSysFolder(BigDecimal subsysId, String sysName, Date createTime, Date updateTime, BigDecimal sysId) {
+	public AigaSubSysFolder(Long subsysId, String sysName, Date createTime, Date updateTime, Long sysId) {
 		this.subsysId = subsysId;
 		this.sysName = sysName;
 		this.createTime = createTime;
@@ -45,11 +45,11 @@ public class AigaSubSysFolder implements java.io.Serializable {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="AIGA_SUB_SYS_FOLDER$SEQ")
 	@SequenceGenerator(name="AIGA_SUB_SYS_FOLDER$SEQ",sequenceName="AIGA_SUB_SYS_FOLDER$SEQ",allocationSize=1)
 	@Column(name = "SUBSYS_ID", unique = true, nullable = false, precision = 20, scale = 0)
-	public BigDecimal getSubsysId() {
+	public Long getSubsysId() {
 		return this.subsysId;
 	}
 
-	public void setSubsysId(BigDecimal subsysId) {
+	public void setSubsysId(Long subsysId) {
 		this.subsysId = subsysId;
 	}
 
@@ -83,11 +83,11 @@ public class AigaSubSysFolder implements java.io.Serializable {
 	}
 
 	@Column(name = "SYS_ID", precision = 20, scale = 0)
-	public BigDecimal getSysId() {
+	public Long getSysId() {
 		return this.sysId;
 	}
 
-	public void setSysId(BigDecimal sysId) {
+	public void setSysId(Long sysId) {
 		this.sysId = sysId;
 	}
 

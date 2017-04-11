@@ -1,14 +1,14 @@
 package com.ai.aiga.view.json;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 public class AigaFunFolderRequest {
-	private BigDecimal funId;
+	private Long funId;
 	private String sysName;
 	private Date createTime;
 	private Date updateTime;
-	private BigDecimal sysId;
+	private Long sysId;
 	private String busiLabel;
 	private String baseFunLabel;
 	private String dataCheckScript;
@@ -17,22 +17,22 @@ public class AigaFunFolderRequest {
 	private Short funType;
 	private String funDesc;
 	private Short isInvalid;
-	private BigDecimal addReasonType;
+	private Long addReasonType;
 	private String addReason;
 	private Short efficiencyTestType;
 	private Short isEfficiencyTest;
 	private Short devFirm;
 	private String sysIdTemp;
-	private BigDecimal subSysId;
+	private Long subSysId;
 	private String subSysIdTemp;
-	private BigDecimal operatorId;
+	private Long operatorId;
 	private String operatorName;
-	private BigDecimal creatorId;
+	private Long creatorId;
 	private String creatorName;
-	public BigDecimal getFunId() {
+	public Long getFunId() {
 		return funId;
 	}
-	public void setFunId(BigDecimal funId) {
+	public void setFunId(Long funId) {
 		this.funId = funId;
 	}
 	public String getSysName() {
@@ -53,10 +53,10 @@ public class AigaFunFolderRequest {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-	public BigDecimal getSysId() {
+	public Long getSysId() {
 		return sysId;
 	}
-	public void setSysId(BigDecimal sysId) {
+	public void setSysId(Long sysId) {
 		this.sysId = sysId;
 	}
 	public String getBusiLabel() {
@@ -107,10 +107,10 @@ public class AigaFunFolderRequest {
 	public void setIsInvalid(Short isInvalid) {
 		this.isInvalid = isInvalid;
 	}
-	public BigDecimal getAddReasonType() {
+	public Long getAddReasonType() {
 		return addReasonType;
 	}
-	public void setAddReasonType(BigDecimal addReasonType) {
+	public void setAddReasonType(Long addReasonType) {
 		this.addReasonType = addReasonType;
 	}
 	public String getAddReason() {
@@ -143,10 +143,10 @@ public class AigaFunFolderRequest {
 	public void setSysIdTemp(String sysIdTemp) {
 		this.sysIdTemp = sysIdTemp;
 	}
-	public BigDecimal getSubSysId() {
+	public Long getSubSysId() {
 		return subSysId;
 	}
-	public void setSubSysId(BigDecimal subSysId) {
+	public void setSubSysId(Long subSysId) {
 		this.subSysId = subSysId;
 	}
 	public String getSubSysIdTemp() {
@@ -155,10 +155,10 @@ public class AigaFunFolderRequest {
 	public void setSubSysIdTemp(String subSysIdTemp) {
 		this.subSysIdTemp = subSysIdTemp;
 	}
-	public BigDecimal getOperatorId() {
+	public Long getOperatorId() {
 		return operatorId;
 	}
-	public void setOperatorId(BigDecimal operatorId) {
+	public void setOperatorId(Long operatorId) {
 		this.operatorId = operatorId;
 	}
 	public String getOperatorName() {
@@ -167,10 +167,10 @@ public class AigaFunFolderRequest {
 	public void setOperatorName(String operatorName) {
 		this.operatorName = operatorName;
 	}
-	public BigDecimal getCreatorId() {
+	public Long getCreatorId() {
 		return creatorId;
 	}
-	public void setCreatorId(BigDecimal creatorId) {
+	public void setCreatorId(Long creatorId) {
 		this.creatorId = creatorId;
 	}
 	public String getCreatorName() {

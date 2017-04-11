@@ -8,8 +8,8 @@ import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoMachine;
 
 
-public interface NaAutoMachineDao extends JpaRepository<NaAutoMachine, BigDecimal>,
-SearchAndPageRepository<NaAutoMachine, BigDecimal> 
+public interface NaAutoMachineDao extends JpaRepository<NaAutoMachine, Long>,
+SearchAndPageRepository<NaAutoMachine, Long> 
 {
 
 }

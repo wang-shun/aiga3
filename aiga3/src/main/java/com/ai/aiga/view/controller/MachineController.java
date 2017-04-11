@@ -1,6 +1,6 @@
 package com.ai.aiga.view.controller;
 
-import java.math.BigDecimal;
+
 import java.text.ParseException;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class MachineController {
 	}
 	@RequestMapping(path = "/sys/machine/del")
 	public @ResponseBody JsonBean del(
-			BigDecimal machineId){
+			Long machineId){
 		naAutoMachineSv.deleteByMachineId(machineId);
 		return JsonBean.success;
 	}
@@ -62,7 +62,7 @@ public class MachineController {
 	 */
 	@RequestMapping(path = "/sys/machineandenv/del")
 	public @ResponseBody JsonBean delmachineandenv(
-			BigDecimal relaId){
+			Long relaId){
 		naAutoMachineSv.delete(relaId);
 		return JsonBean.success;
 	}
@@ -83,7 +83,7 @@ public class MachineController {
 	}
 	@RequestMapping(path = "/sys/machine/findone")
 	public @ResponseBody JsonBean findone(
-				@RequestParam BigDecimal machineId){
+				@RequestParam Long machineId){
 		JsonBean bean = new JsonBean();
 		bean.setData(naAutoMachineSv.findone(machineId));
 		return bean;
@@ -93,7 +93,7 @@ public class MachineController {
 	 */
 	@RequestMapping(path = "/sys/machineandenv/findone")
 	public @ResponseBody JsonBean findOneMachinEnv(
-				@RequestParam BigDecimal relaId){
+				@RequestParam Long relaId){
 		JsonBean bean = new JsonBean();
 		bean.setData(naAutoMachineSv.findOneMachinEnv(relaId));
 		return bean;
@@ -112,7 +112,7 @@ public class MachineController {
 	 * 两个外键ID的增加
 	 */
 	@RequestMapping(path = "/sys/envandmachine/byid")
-	public @ResponseBody JsonBean addid(@RequestParam BigDecimal machineId,@RequestParam BigDecimal envId){
+	public @ResponseBody JsonBean addid(@RequestParam Long machineId,@RequestParam Long envId){
 	  naAutoMachineSv.saveMachineEnv(machineId, envId);
 		return JsonBean.success;
 		
@@ -130,7 +130,7 @@ public class MachineController {
 		return bean;
 	}
 	@RequestMapping(path = "/sys/envandmachine/saveenv")
-	public @ResponseBody JsonBean save(String envId,BigDecimal machineId){
+	public @ResponseBody JsonBean save(String envId,Long machineId){
 		naAutoMachineSv.saveEnv(envId, machineId);
 		return JsonBean.success;
 	}

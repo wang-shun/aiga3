@@ -1,6 +1,6 @@
 package com.ai.aiga.dao;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,8 +12,8 @@ import com.ai.aiga.domain.NaChangeList;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaUiControl;
 
-public interface NaChangeListDao extends JpaRepository<NaChangeList, BigDecimal>,
-SearchAndPageRepository<NaChangeList, BigDecimal>{
+public interface NaChangeListDao extends JpaRepository<NaChangeList, Long>,
+SearchAndPageRepository<NaChangeList, Long>{
 	@Query(value="select a.change_name,a.change_manager,a.change_man,a.change_title,"
 			+ "a.review_state,a.result_state from NA_CHANGE_LIST a where change_name=?1",nativeQuery = true)
 	NaChangeList  select(String changeName);
@@ -29,6 +29,6 @@ SearchAndPageRepository<NaChangeList, BigDecimal>{
 	
 	@Modifying
 	@Query("update NaChangeList set resultState=1 where  changeId=?1")
-	void updateResultState(BigDecimal changeId);
+	void updateResultState(Long changeId);
 	
 }

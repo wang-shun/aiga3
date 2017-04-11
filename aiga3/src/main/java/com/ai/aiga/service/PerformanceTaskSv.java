@@ -115,7 +115,7 @@ public class PerformanceTaskSv extends BaseService{
 		List<Condition> cons = new ArrayList<Condition>();
 		
 		if(condition.getServiceId() != null){
-			cons.add(new Condition("serviceId", condition.getServiceId(), Condition.Type.EQ));
+			cons.add(new Condition("serviceId", "%".concat(condition.getServiceId()).concat("%"), Condition.Type.LIKE));
 		}
 		
 		if(condition.getServiceName() != null && !condition.getServiceName().equals("")){

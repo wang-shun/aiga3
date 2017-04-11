@@ -31,6 +31,7 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
      private Long dealOpId;
      private Long assignId;
      private Date assignDate;
+     private Date createDate;
      private Long dealState;
      private String onlinePlanName;
      private String ext1;
@@ -44,7 +45,7 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
     public NaOnlineTaskDistribute(long taskId) {
         this.taskId = taskId;
     }
-    public NaOnlineTaskDistribute(Long taskId, String taskName, Long parentTaskId, Long onlinePlan, Long taskType, Long dealOpId, Long assignId, Date assignDate, Long dealState, String onlinePlanName, String ext1, String ext2, String ext3) {
+    public NaOnlineTaskDistribute(Long taskId, String taskName, Long parentTaskId, Long onlinePlan, Long taskType, Long dealOpId, Long assignId, Date assignDate, Date createDate, Long dealState, String onlinePlanName, String ext1, String ext2, String ext3) {
        this.taskId = taskId;
        this.taskName = taskName;
        this.parentTaskId = parentTaskId;
@@ -53,6 +54,7 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
        this.dealOpId = dealOpId;
        this.assignId = assignId;
        this.assignDate = assignDate;
+       this.createDate = createDate;
        this.dealState = dealState;
        this.onlinePlanName = onlinePlanName;
        this.ext1 = ext1;
@@ -134,7 +136,19 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
     public void setAssignDate(Date assignDate) {
         this.assignDate = assignDate;
     }
-    
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="CREATE_DATE", length=7)
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+
+	
     @Column(name="DEAL_STATE", precision=14, scale=0)
     public Long getDealState() {
         return this.dealState;

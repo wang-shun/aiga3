@@ -26,7 +26,7 @@
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.7.5</mockito.version>
 		<ehcache.version>2.10.3</ehcache.version>
-		
+
 		<springfox-version>2.6.1</springfox-version>
 		<!-- <cxf.version>2.7.18</cxf.version> -->
 		<cxf.version>3.0.12</cxf.version>
@@ -120,7 +120,7 @@
 			<version>${spring-security.version}</version> </dependency> -->
 
 		<!-- spring -->
-		
+
 		<!-- WS, SOAP -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -149,7 +149,7 @@
 			<version>${jackson.version}</version>
 		</dependency>
 		<!-- WS, SOAP END -->
-		
+
 
 		<!-- PERSISTENCE begin -->
 		<!-- hibernate -->
@@ -228,11 +228,17 @@
 			<artifactId>poi</artifactId>
 			<version>3.15</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.apache.poi</groupId>
-		    <artifactId>poi-ooxml</artifactId>
-		    <version>3.15</version>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.15</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.5.6</version>
 		</dependency>
 
 		<!-- GENERAL UTILS end -->
@@ -322,7 +328,7 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- jta begin -->
 		<dependency>
 			<groupId>com.atomikos</groupId>
@@ -335,26 +341,19 @@
 			<version>1.0</version>
 		</dependency>
 		<!-- jta end -->
-		
+
 		<!-- TEST begin -->
 
 		<!-- help -->
-<!-- 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-core</artifactId>
-			<version>1.5.13</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>io.swagger</groupId> <artifactId>swagger-core</artifactId> 
+			<version>1.5.13</version> </dependency> -->
 		<dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-version}</version>
-        </dependency>
-<!--     <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-version}</version>
-        </dependency> 
- -->   
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox-version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger-ui</artifactId> 
+			<version>${springfox-version}</version> </dependency> -->
 	</dependencies>
 
 

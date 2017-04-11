@@ -104,5 +104,7 @@
 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="ehcache.xml"/>
  -->
 	
+ 	<!-- mail -->
+ 	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl"></bean>
  
 </beans>

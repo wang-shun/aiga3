@@ -82,7 +82,7 @@ public class TeamInfoSv extends BaseService {
 	}
 	
 	
-	public Object listEmployee(int pageNumber, int pageSize, NaEmployeeInfo condition) throws ParseException {
+	public Object listEmployee(int pageNumber, int pageSize, NaEmployeeInfo condition,Long teamId) throws ParseException {
 		List<String> list = new ArrayList<String>();
 		list.add("id");
 		list.add("emName");
@@ -93,7 +93,8 @@ public class TeamInfoSv extends BaseService {
 		//组织
 		list.add("ext1");
 		
-		String sql = "select ID,EM_NAME,PHONE_NUM,EXT_2,EXT_3,EMAIL,EXT_1 from NA_EMPLOYEE_INFO where 1=1";
+		String sql = "select ID,EM_NAME,PHONE_NUM,EXT_2,EXT_3,EMAIL,EXT_1 from NA_EMPLOYEE_INFO where" 
+				+ " ID not in (select distinct(a.emp_id) from NA_TEAM_EMPLOYEE_REL a where  a.team_id="+teamId+")";
 		// 名字
 		if (StringUtils.isNotBlank(condition.getEmName())) {
 			sql += " and EM_NAME like '%" + condition.getEmName() + "%'";

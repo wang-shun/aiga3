@@ -80,10 +80,11 @@ public class TeamInfoController {
 	public @ResponseBody JsonBean findByName(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			NaEmployeeInfo condition) throws ParseException {
+			NaEmployeeInfo condition,
+			Long teamId) throws ParseException {
 		
 		  JsonBean bean = new JsonBean();
-		bean.setData(teamInfoSv.listEmployee(pageNumber, pageSize, condition));
+		bean.setData(teamInfoSv.listEmployee(pageNumber, pageSize, condition,teamId));
 		return bean;
 	}
 	

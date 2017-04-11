@@ -55,9 +55,9 @@ public class ClassUtil {
 		ClassUtil.primitiveWrapperTypeMap.put(Short.class, Short.TYPE);
 	}
 
-	private static final String SETTER_PREFIX = "set";
-	private static final String GETTER_PREFIX = "get";
-	private static final String IS_PREFIX = "is";
+	public static final String SETTER_PREFIX = "set";
+	public static final String GETTER_PREFIX = "get";
+	public static final String IS_PREFIX = "is";
 
 	////////// shortClassName 和 packageName//////////
 	/**
@@ -299,8 +299,8 @@ public class ClassUtil {
 		Validate.notEmpty(methodName, "methodName can't be blank");
 		Class[] theParameterTypes = ArrayUtils.nullToEmpty(parameterTypes);
 
-		// 处理原子类型与对象类型的兼容
-		ClassUtil.wrapClassses(theParameterTypes);
+		// 处理原子类型与对象类型的兼容 -- 这个方法, 神经病啊.
+		//ClassUtil.wrapClassses(theParameterTypes);
 
 		for (Class<?> searchType = clazz; searchType != Object.class; searchType = searchType.getSuperclass()) {
 			try {

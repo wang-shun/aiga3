@@ -121,5 +121,11 @@ public class OnlineTaskController {
 		bean.setData(performanceTaskSv.taskRequireList(taskId, pageNumber, pageSize));
 		return bean;
 	}
+	
+	@RequestMapping(path = "/accept/performanceTask/perTaskDeal")
+	public @ResponseBody JsonBean perTaskDeal(Long taskId, Long dealOpId){
+		performanceTaskSv.perTaskDeal(taskId, dealOpId);
+		return JsonBean.success;
+	}
 }
 

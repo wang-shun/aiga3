@@ -13,5 +13,8 @@ import com.ai.aiga.domain.NaOnlineTaskResult;
  */
 public interface NaOnlineTaskResultDao extends JpaRepository<NaOnlineTaskResult, Long>{
 
+	
+	NaOnlineTaskResult findByTaskId(Long taskId);
+
 }
 

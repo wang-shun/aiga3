@@ -1,6 +1,7 @@
 package com.ai.aiga.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,18 +9,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.NaChangePlanOnileDao;
+import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.domain.NaChangePlanOnile;
+import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.DateUtil;
+import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.json.NaChangePlanOnileRequest;
+import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Service
 @Transactional
 public class NaChangePlanOnileSv extends BaseService{
 	@Autowired
 	private NaChangePlanOnileDao  naChangePlanOnileDao ;
+	
+	@Autowired
+	private PlanDetailManifestDao planDetailManifestDao;
+	
 	@Autowired
 	private NaChangePlanOnileSv   naChangePlanOnileSv;
 	public NaChangePlanOnile saveChangePlanOnile(NaChangePlanOnileRequest request){
@@ -186,5 +197,37 @@ public class NaChangePlanOnileSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
 		}
 		naChangePlanOnileDao.delectChangePlanOnile(onlinePlan);
+	}
+	
+	
+	/**
+	 * @ClassName: NaChangePlanOnileSv :: saveExcel
+	 * @author: taoyf
+	 * @date: 2017年4月11日 下午4:05:15
+	 *
+	 * @Description:
+	 * @param l
+	 * @param list          
+	 */
+	public void saveExcel(Long planId, List<PlanDetailManifestExcel> list) {
+		if(planId == null || planId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+		}
+		
+		if(list == null || list.size() <= 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+		}
+		
+		
+		List<PlanDetailManifest> values = BeanMapper.mapList(list, PlanDetailManifestExcel.class, PlanDetailManifest.class);
+		if(values != null){
+			for(PlanDetailManifest v : values){
+				v.setPlanId(planId);
+				v.setCreatorId(SessionMgrUtil.getStaff().getOpId());
+				v.setCreateTime(DateUtil.getCurrentTime());
+			}
+		}
+		
+		planDetailManifestDao.save(values);
 	}
 }

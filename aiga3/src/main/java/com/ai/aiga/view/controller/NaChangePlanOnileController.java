@@ -1,6 +1,5 @@
 package com.ai.aiga.view.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -77,11 +76,14 @@ public class NaChangePlanOnileController {
 	//查找一个
 	@RequestMapping(path = "/produce/plan/upload")
 	public @ResponseBody JsonBean upload(
+			@RequestParam Long planId,
 			@RequestParam MultipartFile file){
 		JsonBean bean = new JsonBean();
 		try {
 			List<PlanDetailManifestExcel> list = POIExcelUtil.excelToList(file, PlanDetailManifestExcel.class);
-			System.out.println(list.get(0));
+			
+			naChangePlanOnileSv.saveExcel(planId, list);
+			
 		} catch (Exception e) {
 			log.error("解析excel失败", e);
 			bean.fail("解析excel失败!");

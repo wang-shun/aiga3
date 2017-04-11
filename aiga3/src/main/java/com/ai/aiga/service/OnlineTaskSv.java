@@ -123,7 +123,7 @@ public class OnlineTaskSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
 		String sql = "select a.task_id, b.task_name, b.task_type, b.deal_state, c.collect_name, d.name as opName,"
-				+ " a.auto_plan_id, b.deal_op_id, b.assign_date"
+				+ " a.auto_plan_id, b.deal_op_id, b.assign_date, b.cerate_date"
 				+ "  from na_online_task_result a, na_online_task_distribute b, na_auto_collection c,"
 				+ " aiga_staff d where a.task_id = b.task_id and a.auto_plan_id = c.collect_id and b.deal_op_id = d.staff_id"
 				+ " and b.parent_task_id = "+condition.getTaskId();
@@ -140,6 +140,7 @@ public class OnlineTaskSv extends BaseService{
 		list.add("collectId");
 		list.add("dealOpId");
 		list.add("assignDate");
+		list.add("createDate");
 		
 		if(pageNumber < 0){
 			pageNumber = 0;

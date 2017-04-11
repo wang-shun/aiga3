@@ -1,18 +1,25 @@
 package com.ai.aiga.view.controller;
 
+import java.util.List;
+
 import org.apache.shiro.web.util.SavedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.NaInterfaceList;
 import com.ai.aiga.domain.NaOnlinePlanBug;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.service.OnlineTaskSv;
+import com.ai.aiga.service.PerformanceTaskSv;
 import com.ai.aiga.view.json.OnlineTaskRequest;
 import com.ai.aiga.view.json.base.JsonBean;
+
+import springfox.documentation.spring.web.json.Json;
 
 /**
  * @ClassName: OnlineTaskController
@@ -26,6 +33,9 @@ public class OnlineTaskController {
 	
 	@Autowired
 	private OnlineTaskSv onlineTaskSv;
+	
+	@Autowired
+	private PerformanceTaskSv performanceTaskSv;
 	
 	@RequestMapping(path = "/accept/onlineTask/list")
 	public @ResponseBody JsonBean list(
@@ -74,5 +84,42 @@ public class OnlineTaskController {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/accept/performanceTask/save")
+	public @ResponseBody JsonBean save(NaOnlineTaskDistribute naOnlineTaskDistribute){
+		performanceTaskSv.save(naOnlineTaskDistribute);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/accept/performanceTask/interList")
+	public @ResponseBody JsonBean interList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaInterfaceList condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(performanceTaskSv.interList(condition, pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/accept/performanceTask/taskRequireReal")
+	public @ResponseBody JsonBean taskRequireReal(NaOnlineTaskDistribute request, @RequestBody List<NaInterfaceList> list){
+		performanceTaskSv.taskRequireReal(request, list);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/accept/performanceTask/taskRequireDel")
+	public @ResponseBody JsonBean taskRequireDel(Long taskId, String ids){
+		performanceTaskSv.taskRequireDel(taskId, ids);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/accept/performanceTask/taskRequireList")
+	public @ResponseBody JsonBean taskRequireList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long taskId){
+		JsonBean bean = new JsonBean();
+		bean.setData(performanceTaskSv.taskRequireList(taskId, pageNumber, pageSize));
+		return bean;
+	}
 }
 

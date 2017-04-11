@@ -35,7 +35,12 @@ public class FastMethodInvoker {
 	public static FastMethodInvoker create(final Class<?> clz, final String methodName, Class<?>... parameterTypes) {
 		Method method = ClassUtil.getAccessibleMethod(clz, methodName, parameterTypes);
 		if (method == null) {
-			throw new IllegalArgumentException("Could not find method [" + methodName + "] on target [" + clz + ']');
+			StringBuilder sb = new StringBuilder();
+			for(Class clas : parameterTypes){
+				sb.append(clas);
+				sb.append(" ");
+			}
+			throw new IllegalArgumentException("Could not find method [" + methodName + "] parameter [" + sb.toString() + "]  on target [" + clz + ']');
 		}
 		return build(clz, method);
 	}
@@ -81,6 +86,23 @@ public class FastMethodInvoker {
 		
 		return new FastMethodInvoker(fastClz.getMethod(method));
 		
+	}
+	
+	public static FastClass build(final Class<?> clz) {
+		FastClass fastClz = fastClassMap.get(clz);
+		
+		if(fastClz == null){
+			synchronized (FastMethodInvoker.class) {
+				if(fastClz == null){
+					fastClz = FastClass.create(clz);
+					fastClassMap.put(clz, fastClz);
+				}else{
+					fastClz = fastClassMap.get(clz);
+				}
+			}
+		}
+		
+		return fastClz;
 	}
 
 	/**

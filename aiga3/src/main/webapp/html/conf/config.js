@@ -71,7 +71,11 @@ seajs.config({
         'artDialog':'lib/artDialog/4.1.7/artDialog.js',
         'jquery.serializejson':'lib/jquery.serializejson/jquery.serializejson.js',
         'btable-css':'lib/bootstrap-table/bootstrap-table.css',
-        'btable':'lib/bootstrap-table/bootstrap-table.js'
+        'btable':'lib/bootstrap-table/bootstrap-table.js',
+        'bootstrap-summernote-css':'lib/bootstrap-summernote/summernote.css',
+        'bootstrap-summernote':'lib/bootstrap-summernote/summernote.min.js',
+        'select2-css':'lib/select2/select2.min.css',
+        'select2':'lib/select2/select2.full.min.js'
     },
     preload: [
         'json2',
@@ -92,8 +96,11 @@ seajs.config({
         'AdminLTE',
         'jquery.serializejson',
         'btable-css',
-        'btable'
-        
+        'btable',
+        'bootstrap-summernote-css',
+        'bootstrap-summernote',
+        'select2-css',
+        'select2'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

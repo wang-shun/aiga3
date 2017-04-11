@@ -1,5 +1,10 @@
 package com.ai.aiga.view.controller;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,12 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.service.NaChangePlanOnileSv;
-import com.ai.aiga.view.json.ControlRequest;
+import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.json.NaChangePlanOnileRequest;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.aiga.view.util.POIExcelUtil;
 
 @Controller
 public class NaChangePlanOnileController {
+	
+	protected Logger log = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private NaChangePlanOnileSv naChangePlanOnileSv ;
 //保存
@@ -70,7 +79,13 @@ public class NaChangePlanOnileController {
 	public @ResponseBody JsonBean upload(
 			@RequestParam MultipartFile file){
 		JsonBean bean = new JsonBean();
-		System.out.println(file);
+		try {
+			List<PlanDetailManifestExcel> list = POIExcelUtil.excelToList(file, PlanDetailManifestExcel.class);
+			System.out.println(list.get(0));
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
 		return bean;
 	}
 }

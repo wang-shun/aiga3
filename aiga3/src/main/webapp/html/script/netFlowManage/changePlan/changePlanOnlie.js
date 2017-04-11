@@ -13,6 +13,8 @@ define(function(require, exports, module) {
 	srvMap.add("scrap", pathAlias + "scrap.json", "sys/changeplanonile/abandon");
 	//取消计划
 	srvMap.add("cancel", pathAlias + "scrap.json", "sys/changeplanonile/del");
+	//评审交付物
+	srvMap.add("reviewDel", pathAlias + "scrap.json", "");
 	//修改计划
 	srvMap.add("changePlanupdate", pathAlias + "scrap.json", "sys/changeplanonile/update");
 	//保存计划
@@ -68,6 +70,7 @@ define(function(require, exports, module) {
 			//废弃
 			this.scrap();
 			this.cancel();
+			this.reviewDel();
 			this.hdbarHelp();
 
 			//////////////
@@ -214,6 +217,24 @@ define(function(require, exports, module) {
 							setTimeout(function() {
 								self.initChangePlanOnlie();
 							}, 1000)
+						}
+					});
+				}
+			});
+		},
+		//评审交付物
+		reviewDel: function() {
+			var self = this;
+			var _dom = $(Dom.changePlanOnlie);
+			var _scrap = _dom.find("[name='reviewDel']");
+			_scrap.unbind('click');
+			_scrap.bind('click', function() {
+				var _data = self.getTaskRow();
+				if (_data) {
+					var cmd = "onlinePlan=" + _data.onlinePlan;
+					Rose.ajax.postJson(srvMap.get('reviewDel'), cmd, function(json, status) {
+						if (status) {
+							
 						}
 					});
 				}
@@ -463,9 +484,9 @@ define(function(require, exports, module) {
 					self.saveSeeSubmit(a,onlinePlan);
 					// 绑定单机当前行事件
 					self.eventClickChecked($("#JS_changeListab"), function() {
-						
+
 					});
-					
+
 				}
 			});
 		},

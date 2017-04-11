@@ -139,6 +139,10 @@
                     "funcId": 32,
                     "name": "功能验收任务处理",
                     "viewname": "view/netFlowManage/taskProcess/funTaskProcess.html"
+                }, {
+                    "funcId": 54,
+                    "name": "其他验收任务处理",
+                    "viewname": "view/netFlowManage/taskProcess/publicTaskProcess.html"
                 }]
             }, {
                 "funcId": 52,
@@ -227,5 +231,10 @@
             "name": "功能点管理",
             "viewname": "view/dataMaintenance/functionManage.html"
         }]
+    }, {
+        "funcId": 53,
+        "name": "公用邮件页面",
+        "funcImg": "fa fa-fw fa-envelope-o",
+        "viewname": "view/email/email.html"
     }]
 }

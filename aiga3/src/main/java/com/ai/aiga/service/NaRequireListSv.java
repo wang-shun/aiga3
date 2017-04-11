@@ -1,6 +1,5 @@
 package com.ai.aiga.service;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +90,7 @@ public class NaRequireListSv extends BaseService{
 			
 			if(naRequireList.getIntroducedState()==null||naRequireList.getIntroducedState().equals("")){
 				//成功
-				naRequireList1.setIntroducedState(BigDecimal.valueOf((NumberUtils.toLong("1"))));
+				naRequireList1.setIntroducedState(Long.valueOf((NumberUtils.toLong("1"))));
 			}else{
 			naRequireList1.setIntroducedState(naRequireList.getIntroducedState());
 			}

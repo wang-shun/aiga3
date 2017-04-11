@@ -1,6 +1,6 @@
 package com.ai.aiga.view.controller;
 
-import java.math.BigDecimal;
+
 import java.text.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +29,13 @@ public class AigaSystemFolderController {
 	}
 
 	@RequestMapping(path = "/sys/systemfolder/del")
-	public @ResponseBody JsonBean del(@RequestParam BigDecimal sysId) {
+	public @ResponseBody JsonBean del(@RequestParam Long sysId) {
 		aigaSystemFolderSv.deleteSystemFolder(sysId);
 		return JsonBean.success;
 	}
 
 	@RequestMapping(path = "/sys/systemfolder/findone")
-	public @ResponseBody JsonBean findone(@RequestParam BigDecimal sysId) {
+	public @ResponseBody JsonBean findone(@RequestParam Long sysId) {
 		JsonBean bean = new JsonBean();
 		bean.setData(aigaSystemFolderSv.findOne(sysId));
 		return bean;

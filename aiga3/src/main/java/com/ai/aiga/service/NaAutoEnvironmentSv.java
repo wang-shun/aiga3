@@ -1,6 +1,6 @@
 package com.ai.aiga.service;
 
-import java.math.BigDecimal;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -86,9 +86,9 @@ public class NaAutoEnvironmentSv extends BaseService{
 	  /* if(StringUtils.isBlank(request.getUpdateTime().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"updateTime");
    }*/
-	   if(StringUtils.isBlank(request.getRegionId().toString())){
+	   /*if(StringUtils.isBlank(request.getRegionId().toString())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"regionId");
-   }
+   }*/
 	   /*if(StringUtils.isBlank(request.getDatabase())){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null,"database");
    }*/
@@ -143,45 +143,44 @@ public class NaAutoEnvironmentSv extends BaseService{
 		   if(StringUtils.isNotBlank(request.getSysPassword())){
 			   naAutoEnvironment.setSysPassword(request.getSysPassword());
 	   }
-		   if(StringUtils.isNotBlank(request.getSoId())){
+		   
 			   naAutoEnvironment.setSoId(request.getSoId());
-	   }
+	 
 		   if(StringUtils.isNotBlank(request.getSvnUrl())){
 			   naAutoEnvironment.setSvnUrl(request.getSvnUrl());
 	   }
-		   if(StringUtils.isNotBlank(request.getSvnPassword())){
+		 
 			   naAutoEnvironment.setSvnPassword(request.getSvnPassword());
-	   }
-		   if(StringUtils.isNotBlank(request.getSvnAccount())){
+	
+		 
 			   naAutoEnvironment.setSvnAccount(request.getSvnAccount());
-	   }
-		   if(StringUtils.isNotBlank(request.getDbPassword())){
+	
+		  
 			   naAutoEnvironment.setDbPassword(request.getDbPassword());
-	   }
-		   if(StringUtils.isNotBlank(request.getDbAccount())){
+	 
+		  
 			   naAutoEnvironment.setDbAccount(request.getDbAccount());  
-	   }
-		   if(StringUtils.isNotBlank(request.getCreatorId().toString())){
+	
+		  
 			   naAutoEnvironment.setCreatorId(request.getCreatorId());
-	   }
-		   if(StringUtils.isNotBlank(request.getDatabase())){
+
+		  
 			   naAutoEnvironment.setDatabase(request.getDatabase());
-	   }
-		   if(StringUtils.isNotBlank(request.getRegionId().toString())){
+	 
+		  
 			   naAutoEnvironment.setRegionId(request.getRegionId());
-	   }
+	  
 		   if(StringUtils.isNotBlank(request.getRunEnv().toString())){
 			   naAutoEnvironment.setRunEnv(request.getRunEnv());
 	   }
-		   if(StringUtils.isNotBlank(request.getUpdateTime().toString()))
-		   {
+		  
 			   naAutoEnvironment.setUpdateTime(new Date(System.currentTimeMillis()));
-			}
+		
 		  
 		   naAutoEnvironmentDao.save(naAutoEnvironment);
 	   }
 }
-   public void deleteEnvironment(BigDecimal envId) {
+   public void deleteEnvironment(Long envId) {
 		
 		if(envId == null ){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envId");
@@ -192,7 +191,7 @@ public class NaAutoEnvironmentSv extends BaseService{
  public List<NaAutoEnvironment> findall(){
 	 return   naAutoEnvironmentDao.findAll();
  }
-   public NaAutoEnvironment findone(BigDecimal envId){
+   public NaAutoEnvironment findone(Long envId){
 	   if(envId == null ){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envId");
 		}
@@ -301,7 +300,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 					BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 				}
 				if(NumberUtils.toLong(machineId[i])!=0){
-				naAutoMachineEnv.setMachineId(BigDecimal.valueOf((NumberUtils.toLong(machineId[i]))));
+				naAutoMachineEnv.setMachineId(Long.valueOf((NumberUtils.toLong(machineId[i]))));
 				}
 				
 				naAutoMachineEnvDao.save(naAutoMachineEnv);
@@ -318,7 +317,7 @@ public class NaAutoEnvironmentSv extends BaseService{
     * @param list
     * @param envId
     */
-  /* public void saveMachine(List<NaAutoMachine> list,BigDecimal envId) {
+  /* public void saveMachine(List<NaAutoMachine> list,Long envId) {
  		if (list == null&&envId==null) {
  			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
  		}
@@ -336,7 +335,7 @@ public class NaAutoEnvironmentSv extends BaseService{
  			}
  		}
  	}*/
-   public void saveMachine(String machines,BigDecimal envId) {
+   public void saveMachine(String machines,Long envId) {
 		if (machines == null&&envId==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -344,7 +343,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 		for (int i = 0; i < machine.length; i++) {
 				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
 				naAutoMachineEnv.setEnvId(envId);
-				naAutoMachineEnv.setMachineId(BigDecimal.valueOf((NumberUtils.toLong(machine[i]))));
+				naAutoMachineEnv.setMachineId(Long.valueOf((NumberUtils.toLong(machine[i]))));
 				naAutoMachineEnvDao.save(naAutoMachineEnv);
 
 			
@@ -359,7 +358,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 	   if (StringUtils.isBlank(envId)) {
 	             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envId");
 	   }
-	   NaAutoEnvironment environment = naAutoEnvironmentDao.findOne(new BigDecimal(envId));
+	   NaAutoEnvironment environment = naAutoEnvironmentDao.findOne(new Long(envId));
 	   Map<String, String> json = new HashMap<String, String>();
 	   if(environment !=null){
 		   json.put("id", envId);
@@ -373,5 +372,41 @@ public class NaAutoEnvironmentSv extends BaseService{
 
 	   return JsonUtil.mapToJson(json);
    }
+   public List<NaAutoMachine> selectall(Long envId){
+		  if (envId==null) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			}
+		return naAutoMachineEnvDao.selectall(envId);
+		  
+	  }
+   public List<NaAutoEnvironment> select(Long machineId){
+		  if (machineId==null) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			}
+		return naAutoMachineEnvDao.select(machineId);
+		  
+	  }
+   
+   public void  delrel(Long envId,String machineId){
+	   if (envId==null&&machineId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	   String[] split = machineId.split(",");
+	   for (int i = 0; i < split.length; i++) {
+          
+		   naAutoMachineEnvDao.delrel(envId, Long.valueOf((NumberUtils.toLong(split[i]))));
 
+		}
+   }
+   public void  delectrel(Long machineId,String envId){
+	   if (envId==null&&machineId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	   String[] split = envId.split(",");
+	   for (int i = 0; i < split.length; i++) {
+          
+		   naAutoMachineEnvDao.delectrel(machineId, Long.valueOf((NumberUtils.toLong(split[i]))));
+
+		}
+   }
 }

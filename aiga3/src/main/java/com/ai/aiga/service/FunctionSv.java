@@ -17,8 +17,8 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.util.mapper.BeanMapper;
-import com.ai.aiga.view.json.FunctionRequest;
-import com.ai.aiga.view.json.Menu;
+import com.ai.aiga.view.controller.common.dto.Menu;
+import com.ai.aiga.view.controller.function.dto.FunctionRequest;
 
 @Service
 @Transactional

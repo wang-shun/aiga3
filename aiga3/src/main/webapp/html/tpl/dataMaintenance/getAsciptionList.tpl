@@ -2,7 +2,7 @@
     <h3 class="box-title">系统详细信息列表</h3>
     <div class="box-tools">
         <div class="btn-group">
-          <button type="button" class="btn btn-success" name="add" ><i class="fa fa-plus"></i> 新增</button>
+          <button type="button" class="btn btn-success" name="add" ><i class="fa fa-plus"></i> 添加</button>
           <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
         </div>
     </div>

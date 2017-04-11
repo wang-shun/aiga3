@@ -12,4 +12,5 @@
 			<!--  <schema-selection match-schema="AIGA"  match-table="NA_AUTO_RUN_PLAN_CASE"/>-->
 			<schema-selection match-schema="AIGA"  match-table="NA_PLAN_CASE_RESULT_EXP_SUM"/>
 				<schema-selection match-schema="AIGA"  match-table="NA_PLAN_CASE_RESULT_EXP"/>
+
  </hibernate-reverse-engineering>

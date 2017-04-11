@@ -34,7 +34,7 @@ public class AigaSubSysFolderCacheCmpt extends AbstractCache {
 			Map idCache = new HashMap();
 			
 			for(AigaSubSysFolder bean : list){
-				BigDecimal sysId = bean.getSysId();
+				Long sysId = bean.getSysId();
 				
 				if(sysId != null){
 					

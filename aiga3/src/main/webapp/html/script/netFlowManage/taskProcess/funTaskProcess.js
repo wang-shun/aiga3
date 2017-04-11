@@ -50,9 +50,9 @@ define(function(require, exports, module) {
 
 		hdbarHelp: function() {
 			Handlebars.registerHelper("transformatTaskType", function(value) {
-				if (value == 1) {
+				if (value == 2) {
 					return "自动化用例";
-				} else if (value == 2) {
+				} else if (value == 1) {
 					return "手工用例";
 				} else {
 					return "未定义";
@@ -66,6 +66,15 @@ define(function(require, exports, module) {
 				} else if (value == 2) {
 					return "处理完成";
 				} else {
+					return "未定义";
+				}
+			});
+			Handlebars.registerHelper("transformatCaseState", function(value) {
+				if (value == 0) {
+					return "未处理";
+				} else if (value == 1) {
+					return "处理完成";
+				}  else {
 					return "未定义";
 				}
 			});
@@ -123,10 +132,7 @@ define(function(require, exports, module) {
 			var _table = $(Dom.taskProcessList);
 			btn.unbind('click');
 			btn.bind('click', function() {
-				var cmd = {
-					"taskId": taskId,
-					"result": []
-				};
+				var cmd = [];
 				_table.find("tbody").each(function() {
 					$(this).find("tr").each(function() {
 						var paramData = {}
@@ -140,14 +146,14 @@ define(function(require, exports, module) {
 							var value = $(this).val();
 							paramData[key] = value;
 						});
-						cmd.result.push(paramData);
+						cmd.push(paramData);
 					})
 				});
 				Rose.ajax.postJson(srvMap.get('submitRst'), cmd, function(json, status) {
 					if (status) {
-						var template = Handlebars.compile(Tpl.taskProcessList);
-						console.log(json.data)
-						_table.html(template(json.data.content));
+						window.XMS.msgbox.show('保存成功', 'success', 2000);
+						var _modal = $(Dom.modalSubmitResult);
+						_modal.modal('hide');
 					}
 				});
 

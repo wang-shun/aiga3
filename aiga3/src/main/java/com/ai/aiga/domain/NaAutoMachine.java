@@ -2,7 +2,7 @@ package com.ai.aiga.domain;
 // Generated 2017-3-17 15:13:22 by Hibernate Tools 3.2.2.GA
 
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,24 +26,24 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class NaAutoMachine  implements java.io.Serializable {
 
 
-     private BigDecimal machineId;
+     private Long machineId;
      private String machineIp;
      private String machineName;
-     private BigDecimal status;
+     private Long status;
      private String machineAccount;
      private String machinePassword;
      @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date requestTime;
-     private BigDecimal taskId;
+     private Long taskId;
 
     public NaAutoMachine() {
     }
 
 	
-    public NaAutoMachine(BigDecimal machineId) {
+    public NaAutoMachine(Long machineId) {
         this.machineId = machineId;
     }
-    public NaAutoMachine(BigDecimal machineId, String machineIp, String machineName, BigDecimal status, String machineAccount, String machinePassword, Date requestTime, BigDecimal taskId) {
+    public NaAutoMachine(Long machineId, String machineIp, String machineName, Long status, String machineAccount, String machinePassword, Date requestTime, Long taskId) {
        this.machineId = machineId;
        this.machineIp = machineIp;
        this.machineName = machineName;
@@ -58,11 +58,11 @@ public class NaAutoMachine  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_MACHINE$SEQ")
      @SequenceGenerator(name="NA_AUTO_MACHINE$SEQ",sequenceName="NA_AUTO_MACHINE$SEQ",allocationSize=1)
     @Column(name="MACHINE_ID", unique=true, nullable=false, precision=22, scale=0)
-    public BigDecimal getMachineId() {
+    public Long getMachineId() {
         return this.machineId;
     }
     
-    public void setMachineId(BigDecimal machineId) {
+    public void setMachineId(Long machineId) {
         this.machineId = machineId;
     }
     
@@ -85,11 +85,11 @@ public class NaAutoMachine  implements java.io.Serializable {
     }
     
     @Column(name="STATUS", precision=22, scale=0)
-    public BigDecimal getStatus() {
+    public Long getStatus() {
         return this.status;
     }
     
-    public void setStatus(BigDecimal status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
     
@@ -121,11 +121,11 @@ public class NaAutoMachine  implements java.io.Serializable {
     }
     
     @Column(name="TASK_ID", precision=22, scale=0)
-    public BigDecimal getTaskId() {
+    public Long getTaskId() {
         return this.taskId;
     }
     
-    public void setTaskId(BigDecimal taskId) {
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 

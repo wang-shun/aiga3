@@ -1,6 +1,6 @@
 package com.ai.aiga.view.controller;
 
-import java.math.BigDecimal;
+
 import java.text.ParseException;
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class NaAutoEnvironmentController {
 	
 	@RequestMapping(path = "/sys/environment/del")
 	public @ResponseBody JsonBean del(
-			BigDecimal envId){
+			Long envId){
 		naAutoMachineSv.deleteByEnvId(envId);
 		return JsonBean.success;
 	}
@@ -54,7 +54,7 @@ public class NaAutoEnvironmentController {
 
 	@RequestMapping(path = "/sys/environment/findone")
 	public @ResponseBody JsonBean findone(
-				@RequestParam BigDecimal envId){
+				@RequestParam Long envId){
 		JsonBean bean = new JsonBean();
 		bean.setData(naAutoEnvironmentSv.findone(envId));
 		return bean;
@@ -81,8 +81,35 @@ public class NaAutoEnvironmentController {
 		
 	}*/
 	@RequestMapping(path = "/sys/envandmachine/savemachine")
-	public @ResponseBody JsonBean save(String machineId,BigDecimal envId){
+	public @ResponseBody JsonBean save(String machineId,Long envId){
 		naAutoEnvironmentSv.saveMachine(machineId, envId);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/environment/rel")
+	public @ResponseBody JsonBean list(@RequestParam Long envId){
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoEnvironmentSv.selectall(envId));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/machine/rel")
+	public @ResponseBody JsonBean rel(@RequestParam Long machineId){
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoEnvironmentSv.select(machineId));
+		return bean;
+	}
+	@RequestMapping(path = "/sys/rel/del")
+	public @ResponseBody JsonBean del(
+			@RequestParam Long envId,@RequestParam String machineIds){
+		naAutoEnvironmentSv.delrel(envId, machineIds);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/rel/delete")
+	public @ResponseBody JsonBean delect(
+			@RequestParam Long machineId,@RequestParam String envIds){
+		naAutoEnvironmentSv.delectrel(machineId, envIds);
 		return JsonBean.success;
 	}
 }

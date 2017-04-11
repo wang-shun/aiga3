@@ -58,7 +58,7 @@ define(function(require, exports, module) {
 			});
 
 		},
-		// 查询自动化用例模板
+		// 查询
 		getCaseTempList: function(cmd) {
 			var self = this;
 			var _cmd = '' || cmd;
@@ -76,7 +76,7 @@ define(function(require, exports, module) {
 					self.addSubSysInfo();
 					Utils.eventTrClickCallback($(Dom.getsubInfoList));
 
-					self.initPaging($(Dom.getsubInfoList),8);
+					self.initPaging($(Dom.getsubInfoList),3);
 				}
 			});
 
@@ -122,6 +122,7 @@ define(function(require, exports, module) {
 				// 表单提交
 				$("#addSysInfoButton").unbind('click');
 				$("#addSysInfoButton").bind('click', function() {
+						Utils.checkForm(_form, function() {
 					var cmd = _form.serialize();
 					console.log(cmd);
 					Rose.ajax.postJson(srvMap.get('addsubSysInfo'), cmd, function(json, status) {
@@ -136,6 +137,7 @@ define(function(require, exports, module) {
 							}, 1000)
 						}
 					});
+				});
 				})
 			})
 		},

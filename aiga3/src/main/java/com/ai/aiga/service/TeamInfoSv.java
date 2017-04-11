@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.EmployeeInfoDao;
@@ -27,6 +29,7 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.json.TeamEmployeeRelRequest;
+import com.ai.aiga.view.json.base.JsonBean;
 
 /**
  * @ClassName: TeamInfoSv
@@ -259,6 +262,13 @@ public class TeamInfoSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
 	  return teamInfoDao.findOne(teamId);
+  }
+  public List<NaEmployeeInfo> selectall(Long teamId){
+	  if (teamId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	return teamEmployeeRelDao.selectall(teamId);
+	  
   }
   
 }

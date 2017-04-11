@@ -14,11 +14,10 @@
        <li><button type="button" class="btn btn-block btn-info" name="add" style="text-align:left">导入</button></li>
         <li><button type="button" class="btn btn-block btn-info" name="add" style="text-align:left" >下载模板</button></li>
            <li><button type="button" class="btn btn-block btn-info" name="add" style="text-align:left">导出</button></li>
-      <li>Dropdown link</li>
     </ul>
   </div>
 
-          <button type="button" class="btn btn-success" name="add" ><i class="fa fa-plus"></i> 新增</button>
+          <button type="button" class="btn btn-success" name="add" ><i class="fa fa-plus"></i> 添加</button>
           <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
         </div>
     </div>

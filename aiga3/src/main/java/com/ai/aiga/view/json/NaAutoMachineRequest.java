@@ -1,24 +1,24 @@
 package com.ai.aiga.view.json;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class NaAutoMachineRequest {
-	 private BigDecimal machineId;
+	 private Long machineId;
      private String machineIp;
      private String machineName;
-     private BigDecimal status;
+     private Long status;
      private String machineAccount;
      private String machinePassword;
      @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
      private Date requestTime;
-     private BigDecimal taskId;
-	public BigDecimal getMachineId() {
+     private Long taskId;
+	public Long getMachineId() {
 		return machineId;
 	}
-	public void setMachineId(BigDecimal machineId) {
+	public void setMachineId(Long machineId) {
 		this.machineId = machineId;
 	}
 	public String getMachineIp() {
@@ -33,10 +33,10 @@ public class NaAutoMachineRequest {
 	public void setMachineName(String machineName) {
 		this.machineName = machineName;
 	}
-	public BigDecimal getStatus() {
+	public Long getStatus() {
 		return status;
 	}
-	public void setStatus(BigDecimal status) {
+	public void setStatus(Long status) {
 		this.status = status;
 	}
 	public String getMachineAccount() {
@@ -57,10 +57,10 @@ public class NaAutoMachineRequest {
 	public void setRequestTime(Date requestTime) {
 		this.requestTime = requestTime;
 	}
-	public BigDecimal getTaskId() {
+	public Long getTaskId() {
 		return taskId;
 	}
-	public void setTaskId(BigDecimal taskId) {
+	public void setTaskId(Long taskId) {
 		this.taskId = taskId;
 	}
 	@Override

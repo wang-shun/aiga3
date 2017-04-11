@@ -5,7 +5,10 @@
         <div class="box-header with-border">
           <h3 class="box-title">按条件查询</h3>
 
-          <div class="box-tools pull-right"></div>
+           <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
         </div>
 
         <div class="box-body">
@@ -127,13 +130,13 @@
             <!--第一行-->
           <div class="row">
              <div class="col-xs-4 form-group">
-           <label >系统名称:</label><input name="SysName" class="col-xs-6 form-control input-sm" >
+          <i class="text-red">* </i> <label >系统名称:</label><input name="SysName" class="col-xs-6 form-control input-sm" required>
                 </input>
           </div>
 
             <div class="col-md-4">
               <div class="form-group">
-                <label>功能点类型:</label> <select name="funType" class="form-control input-sm">
+               <i class="text-red">* </i> <label>功能点类型:</label> <select name="funType" class="form-control input-sm" required>
                    <option value="">
                     请选择
                   </option>
@@ -163,7 +166,7 @@
             </div>
 
  				 <div class="col-xs-4 form-group">
-                <label class="col-xs-8" style="padding: 0;">重要级别:</label> <input  class="col-xs-6 form-control input-sm" name="importanceClass" disabled="disabled" />
+                <i class="text-red">* </i><label class="col-xs-8" style="padding: 0;">重要级别:</label> <input  class="col-xs-6 form-control input-sm" name="importanceClass" disabled="disabled" required/>
 
             </div>
 
@@ -172,7 +175,7 @@
           <!--第二行-->
           <div class="row">
           <div class="col-xs-4 form-group">
-           <label >归属系统:</label><select name="sysId" class="form-control input-sm" data-url="getSysList" data-idkey="sysId" data-namekey="sysName" >
+          <i class="text-red">* </i> <label >归属系统:</label><select name="sysId" class="form-control input-sm" data-url="getSysList" data-idkey="sysId" data-namekey="sysName" required>
   			<option value="">
                     请选择
                   </option>
@@ -180,7 +183,7 @@
           </div>
 			<div class="col-md-4">
               <div class="form-group">
-                <label>所属子系统:</label> <select name="subSysId" class="form-control input-sm" data-url="getSubsysList" data-idkey="subSysId" data-namekey="sysName">
+               <i class="text-red">* </i> <label>所属子系统:</label> <select name="subSysId" class="form-control input-sm" data-url="getSubsysList" data-idkey="subSysId" data-namekey="sysName" required>
                   <option value="">
                     请选择
                   </option>

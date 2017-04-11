@@ -204,7 +204,7 @@ define(function(require, exports, module) {
 				});
 				})
 			})
-		},		
+		},
 		//已有团队关联
 		relTeamAndEm: function() {
 			var self = this;
@@ -220,9 +220,9 @@ define(function(require, exports, module) {
 					Data.teamId = data.teamId;
 					//关联新成员
 					self.relEm(Data.teamId);
-					//查询所有员工信息
+					//查询所有员工信息(去除已关联员工)
 					self.queryEmlistForm();
-					self.getEmList();
+					self.getEmList("teamId="+Data.teamId);
 					self.getEmedList(Data.teamId);
 					self.delEmed();
 				}

@@ -94,9 +94,10 @@ public class OnlineTaskController {
 	public @ResponseBody JsonBean interList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			NaInterfaceList condition){
+			NaInterfaceList condition,
+			Long onlinePlan){
 		JsonBean bean = new JsonBean();
-		bean.setData(performanceTaskSv.interList(condition, pageNumber, pageSize));
+		bean.setData(performanceTaskSv.interList(condition, onlinePlan, pageNumber, pageSize));
 		return bean;
 	}
 	
@@ -116,9 +117,9 @@ public class OnlineTaskController {
 	public @ResponseBody JsonBean taskRequireList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			Long taskId){
+			Long taskId,Long onlinePlan){
 		JsonBean bean = new JsonBean();
-		bean.setData(performanceTaskSv.taskRequireList(taskId, pageNumber, pageSize));
+		bean.setData(performanceTaskSv.taskRequireList(taskId, onlinePlan, pageNumber, pageSize));
 		return bean;
 	}
 	

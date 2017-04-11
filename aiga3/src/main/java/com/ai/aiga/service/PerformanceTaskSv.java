@@ -106,7 +106,11 @@ public class PerformanceTaskSv extends BaseService{
 	 * @param pageSize
 	 * @return          
 	 */
-	public Page<NaInterfaceList> interList(NaInterfaceList condition, int pageNumber, int pageSize) {
+	public Page<NaInterfaceList> interList(NaInterfaceList condition, Long onlinePlan, int pageNumber, int pageSize) {
+		
+		if(onlinePlan == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
+		}
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
@@ -125,6 +129,8 @@ public class PerformanceTaskSv extends BaseService{
 		if(condition.getRequireMan() != null && !condition.getRequireMan().equals("")){
 			cons.add(new Condition("requireMan", "%".concat(condition.getRequireMan()).concat("%"), Condition.Type.LIKE));
 		}
+		
+		cons.add(new Condition("planId", onlinePlan, Condition.Type.EQ));
 		
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -209,15 +215,19 @@ public class PerformanceTaskSv extends BaseService{
 	 * @param taskId
 	 * @return          
 	 */
-	public Object taskRequireList(Long taskId, int pageNumber, int pageSize) {
+	public Object taskRequireList(Long taskId, Long onlinePlan, int pageNumber, int pageSize) {
 		
 		if(taskId == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
 		
+		if(onlinePlan == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
+		}
+		
 		String sql = "select a.id, a.service_id, a.service_name, a.require_code, a.change_type,"
 				+ " a.state, a.dev_man, a.require_man from na_interface_list a, na_plan_case_result_exp_sum b"
-				+ " where a.id = b.inter_id and b.sub_task_id = "+taskId;
+				+ " where a.id = b.inter_id and b.sub_task_id = "+taskId+" and b.plan_id = "+onlinePlan;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("id");

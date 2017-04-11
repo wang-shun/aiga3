@@ -2,6 +2,7 @@ package com.ai.aiga.domain;
 // Generated 2017-3-15 14:42:25 by Hibernate Tools 3.2.2.GA
 
 
+
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;

@@ -9,4 +9,6 @@ import com.ai.aiga.domain.NaAutoEnvironment;
 
 public interface NaAutoEnvironmentDao extends JpaRepository<NaAutoEnvironment, BigDecimal>,SearchAndPageRepository<NaAutoEnvironment, BigDecimal>{
 
+	
+	NaAutoEnvironment findBySysIdAndEnvType(Long sysId,Long envType);
 }

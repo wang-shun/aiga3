@@ -2,6 +2,7 @@ package com.ai.aiga.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.PlanDetailManifest;
 
 /**
@@ -11,7 +12,8 @@ import com.ai.aiga.domain.PlanDetailManifest;
  * @Description:
  * 
  */
-public interface PlanDetailManifestDao extends JpaRepository<PlanDetailManifest, Long>{
+public interface PlanDetailManifestDao extends JpaRepository<PlanDetailManifest, Long>
+,SearchAndPageRepository<PlanDetailManifest, Long>{
 
 }
 

@@ -252,7 +252,7 @@ define(function(require, exports, module) {
 				if (status) {
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getEmList);
-					$(Dom.emList).html(template(json.data));
+					$(Dom.emList).html(template(json.data.content));
 
 
 					Utils.eventTrClickCallback($(Dom.emList));

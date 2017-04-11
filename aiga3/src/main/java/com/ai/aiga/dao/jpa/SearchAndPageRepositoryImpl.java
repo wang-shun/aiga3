@@ -3,6 +3,7 @@ package com.ai.aiga.dao.jpa;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -295,7 +296,8 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
     public Page<T> searchByNativeSQL(String nativeSQL, Pageable pageable, List<String> keyList) {
         if (!StringUtils.isBlank(nativeSQL)) {
             Query query = entityManager.createNativeQuery(nativeSQL);
-            Long total = (long) query.getMaxResults();//获取总数据行数
+            Query count=entityManager.createNativeQuery("select count(*) from ("+nativeSQL+")");
+            Long total = Long.parseLong(count.getSingleResult().toString());//获取总数据行数
             query.setFirstResult(pageable.getOffset());//设置起始行
             query.setMaxResults(pageable.getPageSize());//设置最大查询结果数
             List reList = new ArrayList();//存放封装后的数据

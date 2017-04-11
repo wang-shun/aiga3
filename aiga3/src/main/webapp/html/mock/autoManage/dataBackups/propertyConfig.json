@@ -1,0 +1,37 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":{"content":
+  [{
+    "cfgId":"cfgId1",
+    "propertyId":"property_id",
+    "propertyName":"propertyId",
+    "dependencyTable":"dependency_table",
+    "dependencyField":"dependencyField",
+    "DB":"so4",
+  },{
+   "cfgId":"cfgId1",
+    "propertyId":"property_id",
+    "propertyName":"propertyId",
+    "dependencyTable":"dependency_table",
+    "DB":"so4",
+  },{
+    "cfgId":"cfgId1",
+    "propertyId":"property_id",
+    "propertyName":"propertyId",
+    "dependencyTable":"dependency_table",
+    "DB":"so4",
+  },{
+    "cfgId":"cfgId1",
+    "propertyId":"property_id",
+    "propertyName":"propertyId",
+    "dependencyTable":"dependency_table",
+    "DB":"so4",
+  },{
+    "cfgId":"cfgId1",
+    "propertyId":"property_id",
+    "propertyName":"propertyId",
+    "dependencyTable":"dependency_table",
+    "DB":"so4",
+  }]}
+}

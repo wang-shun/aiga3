@@ -322,6 +322,47 @@ public class PerformanceTaskSv extends BaseService{
 		TaskMessageClient.sendMessageForCycle(obj[1].toString(), contents.toString());
 	}
 
+	/**
+	 * @ClassName: PerformanceTaskSv :: childList
+	 * @author: dongch
+	 * @date: 2017年4月12日 下午2:24:12
+	 *
+	 * @Description:
+	 * @param taskId
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return          
+	 */
+	public Object childList(Long taskId, int pageNumber, int pageSize) {
+		
+		if(taskId == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		
+		String sql = "select b.task_id, b.task_name, b.task_type, b.deal_state, a.name as opName,"
+				+ " b.create_date, b.assign_date from na_online_task_distribute b left join aiga_staff a"
+				+ " on a.staff_id = b.deal_op_id and b.parent_task_id = "+taskId;
+		
+		List<String> list = new ArrayList<String>();
+		list.add("taskId");
+		list.add("taskName");
+		list.add("taskType");
+		list.add("opName");
+		list.add("createDate");
+		list.add("assignDate");
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naOnlineTaskDistributeDao.searchByNativeSQL(sql, pageable, list);
+	}
+
 	
 
 }

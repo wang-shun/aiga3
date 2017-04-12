@@ -47,8 +47,15 @@ define(function(require, exports, module) {
                     var _subject = _form.find("[name='subject']").val();
                     var markupStr = $('#summernote').summernote('code');
                     var files = _form.find("[name='attachment']")[0].files;
-                    var cmd = "addressee=" + _addressee + "&ccList=" + _ccList + "&subject=" + _subject + "&content=" + markupStr + "&files=" + files;
-                    console.log(cmd)
+                    //var cmd = "addressee=" + _addressee + "&ccList=" + _ccList + "&subject=" + _subject + "&content=" + markupStr + "&files=" + files;
+                    var cmd = {
+                        addressee : _addressee,
+                        ccList : _ccList,
+                        subject : _subject,
+                        content : markupStr,
+                        files : files
+                    } 
+
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     Rose.ajax.postJsonUpload(srvMap.get('send'), cmd, function(json, status) {
                         if (status) {

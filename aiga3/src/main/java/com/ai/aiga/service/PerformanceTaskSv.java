@@ -222,6 +222,8 @@ public class PerformanceTaskSv extends BaseService{
 				+ " a.state, a.dev_man, a.require_man from na_interface_list a";
 		
 		if(distribute.getTaskId() == null){
+			sql += " where a.plan_id = "+distribute.getOnlinePlan();
+			
 			if(interfaceList.getServiceId() != null && !interfaceList.getServiceId().equals("")){
 				sql += " and a.service_id like '%"+interfaceList.getServiceId()+"%'";
 			}
@@ -237,7 +239,7 @@ public class PerformanceTaskSv extends BaseService{
 			if(interfaceList.getRequireMan() != null && !interfaceList.getRequireMan().equals("")){
 				sql += " and a.require_man like '%"+interfaceList.getRequireMan()+"%'";
 			}
-			sql += " and a.plan_id = "+distribute.getOnlinePlan();
+			
 		}else{
 			sql += " na_plan_case_result_exp_sum b where  a.id = b.inter_id and b.sub_task_id = "+distribute.getTaskId();
 		}

@@ -11,7 +11,7 @@ public interface NaAutoPropertyConfigDao extends JpaRepository<NaAutoPropertyCon
 	
 	List<NaAutoPropertyConfig> findByPropertyId(String propertyId);
 	
-	@Query(value="select distinct property_id,property_name from na_auto_property_config",nativeQuery = true)
+	@Query(value="select * from na_auto_property_config where sort_id=1",nativeQuery = true)
 	List<NaAutoPropertyConfig> distinctPropertyConfigList();
 	
 }

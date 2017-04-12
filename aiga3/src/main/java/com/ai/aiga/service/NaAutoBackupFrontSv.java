@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -66,10 +67,10 @@ public class NaAutoBackupFrontSv {
 		list.add("state");
 		list.add("restoreState");
 		String sql = "select * from na_auto_backup_deal where 1=1 ";
-		if (propertyResource != null) {
+		if (StringUtils.isNotEmpty(propertyResource)) {
 			sql += " and PROPERTY_RESOURCE ='" + propertyResource+"'";
 		}
-		if (resourceValue != null) {
+		if (StringUtils.isNotEmpty(resourceValue)) {
 			sql += " and FIELD1 ='" + resourceValue+"'";
 		}
 		if (pageNumber < 0) {

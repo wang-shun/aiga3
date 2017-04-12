@@ -22,7 +22,7 @@
 			<div class="col-xs-2">
 
                                 <div class="form-group">
-                                        <label>归属系统</label> <select name="sysId" class="form-control" data-url="getSysList" data-idkey="sysId" data-namekey="sysName">
+                                        <label>归属系统</label> <select name="sysId" class="form-control" data-url="getSysList" data-subname="sysSubId"  data-idkey="sysId" data-namekey="sysName">
                                             <option value="">
                                                 请选择
                                             </option>
@@ -183,7 +183,7 @@
           </div>
 			<div class="col-md-4">
               <div class="form-group">
-               <i class="text-red">* </i> <label>所属子系统:</label> <select name="subSysId" class="form-control input-sm" data-url="getSubsysList" data-idkey="subSysId" data-namekey="sysName" required>
+               <i class="text-red">* </i> <label>所属子系统:</label> <select name="subSysId" class="form-control input-sm" data-suburl="getSubsysList" data-idkey="subSysId" data-namekey="sysName" required>
                   <option value="">
                     请选择
                   </option>

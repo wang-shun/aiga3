@@ -15,7 +15,8 @@ define(function(require, exports, module) {
 	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyMaintain");
 	//修改备份
 	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyMaintain");
-
+	//属性下拉菜单
+	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/dataBackups/getPropertyName");
 	// 模板对象
 	var Tpl = {
 		getDataMaintainTemp: $('#JS_getDataMaintainTemp'),

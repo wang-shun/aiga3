@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoPropertyConfig;
+import com.ai.aiga.domain.NaAutoPropertyCorrelation;
 import com.ai.aiga.service.NaAutoBackupFrontSv;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -84,6 +85,24 @@ public class NaAutoBackupController {
 		JsonBean bean = new JsonBean();
 		bean.setData(naAutoBackupFrontSv.getPropertyCorrelationList(pageNumber, pageSize, propertyId, correlationTable, correlationField));
 		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/property/addPropertyCorrelation")
+	public @ResponseBody JsonBean addPropertyConfig(@RequestBody NaAutoPropertyCorrelation correlation){
+		naAutoBackupFrontSv.addPropertyCorrelation(correlation);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/property/delPropertyCorrelation")
+	public @ResponseBody JsonBean delPropertyCorrelation(Long correlationId){
+		naAutoBackupFrontSv.deletePropertyCorrelation(correlationId);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/property/updatePropertyCorrelation")
+	public @ResponseBody JsonBean updatePropertyCorrelation(@RequestBody NaAutoPropertyCorrelation correlation){
+		naAutoBackupFrontSv.updatePropertyCorrelation(correlation);
+		return JsonBean.success;
 	}
 	
 }

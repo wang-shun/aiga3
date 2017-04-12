@@ -21,6 +21,7 @@ import com.ai.aiga.dao.NaAutoPropertyCorrelationDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoBackupDeal;
 import com.ai.aiga.domain.NaAutoPropertyConfig;
+import com.ai.aiga.domain.NaAutoPropertyCorrelation;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 
@@ -68,34 +69,12 @@ public class NaAutoBackupFrontSv {
 	}
 	
 	public Object getBackupDealList(int pageNumber, int pageSize, String propertyResource,String resourceValue) throws ParseException {
-		List<String> list = new ArrayList<String>();
-		list.add("dealId");
-		list.add("propertyResource");
-		list.add("field1");
-		list.add("field2");
-		list.add("field3");
-		list.add("field4");
-		list.add("field5");
-		list.add("field6");
-		list.add("field7");
-		list.add("field8");
-		list.add("field9");
-		list.add("field10");
-		list.add("regionId");
-		list.add("createDate");
-		list.add("dealDate");
-		list.add("opId");
-		list.add("orgId");
-		list.add("coverEnv");
-		list.add("errMsg");
-		list.add("state");
-		list.add("restoreState");
-		String sql = "select * from na_auto_backup_deal where 1=1 ";
+		List<Condition> cons = new ArrayList<Condition>();
 		if (StringUtils.isNotEmpty(propertyResource)) {
-			sql += " and PROPERTY_RESOURCE ='" + propertyResource+"'";
+			cons.add(new Condition("propertyResource", propertyResource, Condition.Type.EQ));
 		}
 		if (StringUtils.isNotEmpty(resourceValue)) {
-			sql += " and FIELD1 ='" + resourceValue+"'";
+			cons.add(new Condition("field1", resourceValue, Condition.Type.EQ));
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -104,7 +83,7 @@ public class NaAutoBackupFrontSv {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return autoBackupDealDao.searchByNativeSQL(sql, pageable, list);
+		return autoBackupDealDao.search(cons, pageable);
 	}
 	
 	public void saveBackupDeal(String propertyResource, String resourceValue){
@@ -209,6 +188,60 @@ public class NaAutoBackupFrontSv {
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return autoPropertyCorrelationDao.search(cons, pageable);
+	}
+	
+	public void addPropertyCorrelation(NaAutoPropertyCorrelation correlation){
+		if(correlation.getPropertyCfgId() <= 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "propertyCfgId");
+		}
+		if(StringUtils.isEmpty(correlation.getPropertyId())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "propertyId");
+		}
+		if(StringUtils.isEmpty(correlation.getCorrelationField())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "correlationField");
+		}
+		if(StringUtils.isEmpty(correlation.getCorrelationTable())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "correlationTable");
+		}
+		if(StringUtils.isEmpty(correlation.getDb())){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "db");
+		}
+		correlation.setCreateDate(new Date());
+		autoPropertyCorrelationDao.save(correlation);
+	}
+	
+	public void deletePropertyCorrelation(Long correlationId) {
+		if(correlationId == null || correlationId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "correlationId");
+		}
+		autoPropertyCorrelationDao.delete(correlationId);
+	}
+	
+	public void updatePropertyCorrelation(NaAutoPropertyCorrelation correlation){
+		if(correlation == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+		}
+		if(correlation.getCorrelationId() <= 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "correlationId");
+		}
+		NaAutoPropertyCorrelation up = autoPropertyCorrelationDao.findOne(correlation.getCorrelationId());
+		if(up == null){
+			BusinessException.throwBusinessException("根据correlationId:"+correlation.getCorrelationId()+"查询不到记录");
+		}
+		if(correlation.getPropertyCfgId() > 0){
+			up.setPropertyCfgId(correlation.getPropertyCfgId());
+		}
+		if(StringUtils.isNotEmpty(correlation.getCorrelationField())){
+			up.setCorrelationField(correlation.getCorrelationField());
+		}
+		if(StringUtils.isNotEmpty(correlation.getCorrelationTable())){
+			up.setCorrelationTable(correlation.getCorrelationTable());
+		}
+		if(StringUtils.isNotEmpty(correlation.getDb())){
+			up.setDb(correlation.getDb());
+		}
+		correlation.setDoneDate(new Date());
+		autoPropertyCorrelationDao.save(up);
 	}
 	
 }

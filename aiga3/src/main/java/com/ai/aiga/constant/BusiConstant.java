@@ -9,7 +9,7 @@ public interface BusiConstant {
 	
 	//an_auto_backup_deal.state
 	enum DEAL_STATE {
-		INIT((byte) 0), SUCCESS((byte) 1), FAIL((byte) 2);
+		INIT((byte) 0), SUCCESS((byte) 1), FAIL((byte) 2), TEMP((byte) 3);
 		public final byte value;
 
 		private DEAL_STATE(byte value) {

@@ -39,7 +39,7 @@ public class AutoRestoreTask extends AbstractTask {
 				Thread.sleep(1000);
 				return;
 			}
-			int upNum = autoBackupSv.updateRestoreDeal((byte) 0, DEAL_STATE.FAIL.value, restoreDeal.getDealId());
+			int upNum = autoBackupSv.updateRestoreDeal((byte) 0, DEAL_STATE.TEMP.value, restoreDeal.getDealId());
 			if (upNum == 0) {
 				return;
 			}

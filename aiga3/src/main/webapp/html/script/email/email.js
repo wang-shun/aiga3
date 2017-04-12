@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 
     // 下拉菜单获取所有变更计划
     srvMap.add("getAddresseeList", pathAlias + "getAddresseeList.json", "");
-    srvMap.add("send", pathAlias + "retMessage.json", "/sys/email/send");
+    srvMap.add("send", pathAlias + "retMessage.json", "sys/email/send");
 
 
     // 模板对象
@@ -49,38 +49,49 @@ define(function(require, exports, module) {
                     var files = _form.find("[name='attachment']")[0].files;
                     //var cmd = "addressee=" + _addressee + "&ccList=" + _ccList + "&subject=" + _subject + "&content=" + markupStr + "&files=" + files;
                     var cmd = {
-                        addressee : _addressee,
-                        ccList : _ccList,
-                        subject : _subject,
-                        content : markupStr,
-                        files : files
-                    } 
+                        addressee: _addressee,
+                        ccList: _ccList,
+                        subject: _subject,
+                        content: markupStr,
+                        files: files
+                    }
 
+                    // XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                    // Rose.ajax.postJsonUpload(srvMap.get('send'), cmd, function(json, status) {
+                    //     if (status) {
+                    //         window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                    //     }
+                    // });
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.postJsonUpload(srvMap.get('send'), cmd, function(json, status) {
-                        if (status) {
-                            window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                    $.ajaxUpload({
+                        url: 'sys/email/sends',
+                        data: cmd,
+                        success: function(data, status, xhr) {
+                            console.log(data);
+                            if (status) {
+                                window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                            }
                         }
                     });
                 })
             });
         },
-        checkForm:function(objForm,callback){
+        checkForm: function(objForm, callback) {
             var state = true;
             var text = '';
             $(objForm).find(':input[required]')
-            .not(':button, :submit, :reset, :hidden').each(function(){
-                var _val = $.trim($(this).val());
-                var _text = $.trim($(this).prev().text());
-                if(_val == null || _val == undefined || _val == ''){
-                    state = false;
-                    text = _text;
-                    return false;
-                }
-            })
-            if(state){
-                 callback(state);
-            }else{
+                .not(':button, :submit, :reset, :hidden').each(function() {
+                    var _val = $.trim($(this).val());
+                    var _text = $.trim($(this).prev().text());
+                    if (_val == null || _val == undefined || _val == '') {
+                        state = false;
+                        text = _text;
+                        return false;
+                    }
+                })
+            if (state) {
+                callback(state);
+            } else {
                 XMS.msgbox.show('收件人不能为空！', 'error', 2000);
             }
         },

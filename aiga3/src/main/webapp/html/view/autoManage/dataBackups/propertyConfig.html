@@ -14,7 +14,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>属性名称</label>
-                                <select class="form-control input-sm" name="propertyName" data-url="getPropertyName">
+                                <select class="form-control input-sm" name="propertyName" data-url="getPropertyName" data-idkey="PropertyId" data-namekey="PropertyName">
                                     <option>请选择</option>
                                 </select>
                             </div>
@@ -142,7 +142,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>属性名</label>
-                                        <select name="propertyName" class="form-control " data-url="getPropertyName">
+                                        <select name="propertyName" class="form-control " data-url="getPropertyName" data-idkey="PropertyId" data-namekey="PropertyName">
                                             <option value="0">
                                                 请选择
                                             </option>
@@ -208,13 +208,13 @@
                 {{#each this}}
                 <tr>
                     <td>
-                        <input type="radio" class="minimal" value="{{correlationId}}" name="correlationId">
+                        <input type="radio" class="minimal" value="{{cfgId}}" name="cfgId">
                         <td>{{propertyName}}
-                            <input type="hidden" value="{{correlationId}}" name="correlationId">
+                            <input type="hidden" value="{{cfgId}}" name="cfgId">
                         </td>
-                        <td>{{dependencyTable}}</td>
+                        <td title="{{dependencyTable}}">{{shrink dependencyTable 20}}</td>
                         <td>{{dependencyField}}</td>
-                        <td>{{DB}}</td>
+                        <td>{{db}}</td>
                 </tr>
                 {{/each}}
             </tbody>

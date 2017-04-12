@@ -17,6 +17,7 @@ import com.ai.aiga.dao.ChangeReviewDao;
 import com.ai.aiga.dao.CodePathDao;
 import com.ai.aiga.dao.DatabaseConfiDao;
 import com.ai.aiga.dao.DatabaseScriptListDao;
+import com.ai.aiga.dao.DbScriptListDao;
 import com.ai.aiga.dao.NaRequireListDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.dao.TestLeaveOverDao;
@@ -24,6 +25,7 @@ import com.ai.aiga.domain.NaChangeReview;
 import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaDatabaseConfiScript;
 import com.ai.aiga.domain.NaDatabaseScriptList;
+import com.ai.aiga.domain.NaDbScriptList;
 import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaTestLeaveOver;
@@ -64,6 +66,9 @@ public class ChangeReviewSv extends BaseService{
 	
 	@Autowired
 	private    DatabaseScriptListDao databaseScriptListDao;
+	
+	@Autowired
+	private 	DbScriptListDao dbScriptListDao;
    public  List<NaChangeReview> selectall(Long onlinePlan){
 	   if (onlinePlan==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -89,7 +94,8 @@ public class ChangeReviewSv extends BaseService{
 		   naChangeReview.setRemark(request.getRemark());
 		   naChangeReview.setReviewDate(new Date(System.currentTimeMillis()));
 		   naChangeReview.setReviewer("张三");
-		   naChangeReview.setReviewResult(request.getReviewResult());
+		   if(StringUtils.isNotBlank(request.getReviewResult())){
+		   naChangeReview.setReviewResult(request.getReviewResult());}
 		   //操作
 		   naChangeReview.setExt1(request.getExt1());
 		   changeReviewDao.save(naChangeReview);
@@ -147,6 +153,10 @@ public class ChangeReviewSv extends BaseService{
 	   return databaseScriptListDao.findAll();
 }
  
+ public List<NaDbScriptList> findDbScriptList(){
+	   
+	   return dbScriptListDao.findAll();
+}
  
 }
 

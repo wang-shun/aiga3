@@ -17,6 +17,8 @@ import com.ai.aiga.domain.NaTeamInfo;
  */
 public interface TeamInfoDao extends JpaRepository<NaTeamInfo, Long>,
 SearchAndPageRepository<NaTeamInfo, Long> {
+	
+	
 
 }
 

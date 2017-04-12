@@ -104,4 +104,11 @@ public class NaAutoBackupController {
 		return JsonBean.success;
 	}
 	
+	@RequestMapping(path = "/sys/property/getDbList")
+	public @ResponseBody JsonBean getDbList(){
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoBackupFrontSv.getDbList());
+		return bean;
+	}
+	
 }

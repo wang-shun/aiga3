@@ -20,6 +20,7 @@ import com.ai.aiga.dao.NaAutoPropertyConfigDao;
 import com.ai.aiga.dao.NaAutoPropertyCorrelationDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoBackupDeal;
+import com.ai.aiga.domain.NaAutoDbAcct;
 import com.ai.aiga.domain.NaAutoPropertyConfig;
 import com.ai.aiga.domain.NaAutoPropertyCorrelation;
 import com.ai.aiga.exception.BusinessException;
@@ -41,6 +42,15 @@ public class NaAutoBackupFrontSv {
 	@Autowired
 	private NaAutoDbAcctDao autoDbAcctDao;
 	
+	public List<String> getDbList() {
+		List<NaAutoDbAcct> dbs = autoDbAcctDao.findByState('U');
+		List<String> acctList = new ArrayList<String>();
+		for (NaAutoDbAcct db : dbs) {
+			acctList.add(db.getDbAcctCode());
+		}
+		return acctList;
+	}
+
 	public List<NaAutoPropertyConfig> getDistinctPropertyConfigList(){
 		return autoPropertyConfigDao.distinctPropertyConfigList();
 	}

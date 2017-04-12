@@ -319,7 +319,7 @@ define(function(require, exports, module) {
                     }
                 }
                 var _cmd = _cmd + "page="+index+'&pageSize='+items_per_page;
-                alert(_cmd);
+                Rose.log('服务器端分页入参：'+_cmd);
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 Rose.ajax.postJson(url, _cmd, function(json, status) {
                     if(status) {

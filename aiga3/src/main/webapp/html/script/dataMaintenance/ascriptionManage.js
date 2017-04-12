@@ -53,6 +53,10 @@ define(function(require, exports, module) {
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
 				self.getCaseTempList(cmd);
+				//删除所选条目
+				self.delCaseSysInfo();
+					//新增条目
+				self.addSysInfo();
 			});
 
 		},
@@ -68,10 +72,7 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.getAsciptionList);
 					$(Dom.getAsciptionList).html(template(json.data.content));
 
-					//删除所选条目
-					self.delCaseSysInfo();
-					//新增条目
-					self.addSysInfo();
+
 					Utils.eventTrClickCallback($(Dom.getAsciptionList));
 
 
@@ -109,6 +110,7 @@ define(function(require, exports, module) {
 		},
 		//新增
 		addSysInfo: function() {
+			alert("新增");
 			var self = this;
 			var _dom = $(Dom.getAsciptionList);
 			var _add = _dom.find("[name='add']");

@@ -134,7 +134,18 @@ define(function(require, exports, module) {
 			});
 		},
 		//映射处理
-		hdbarHelp: function() {},
+		hdbarHelp: function() {
+				Handlebars.registerHelper("stateTran", function(value) {
+				if (value == 1) {
+					return "成功";
+				} else if (value == 2) {
+					return "失败";
+				}
+
+			});
+
+
+		},
 		// 事件：分页
 		initPaging: function(obj, length) {
 			obj.find("table").DataTable({

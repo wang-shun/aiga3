@@ -341,7 +341,7 @@ public class PerformanceTaskSv extends BaseService{
 		
 		String sql = "select b.task_id, b.task_name, b.task_type, b.deal_state, a.name as opName,"
 				+ " b.create_date, b.assign_date from na_online_task_distribute b left join aiga_staff a"
-				+ " on a.staff_id = b.deal_op_id and b.parent_task_id = "+taskId;
+				+ " on a.staff_id = b.deal_op_id where b.parent_task_id = "+taskId;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("taskId");

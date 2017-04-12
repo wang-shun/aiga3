@@ -8,11 +8,13 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getDataBackupsList", pathAlias + "dataBackups.json", "sys/dataBackups/list");
+	srvMap.add("getDataBackupsList", pathAlias + "dataBackups.json", "sys/dataBackups/getBackupList");
 	//新增备份
-	srvMap.add("addDataBackups", pathAlias + "retMessage.json", "sys/dataBackups/list");
+	srvMap.add("addDataBackups", pathAlias + "retMessage.json", "sys/dataBackups/addBackup");
 	//删除备份
-	srvMap.add("delDataBackups", pathAlias + "retMessage.json", "sys/dataBackups/list");	
+	srvMap.add("delDataBackups", pathAlias + "retMessage.json", "sys/dataBackups/delBackup");
+	//属性下拉菜单
+	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/dataBackups/getPropertyName");
 
 	// 模板对象
 	var Tpl = {

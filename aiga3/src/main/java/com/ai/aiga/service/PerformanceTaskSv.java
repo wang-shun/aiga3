@@ -25,6 +25,7 @@ import com.ai.aiga.domain.NaPlanCaseResultExpSum;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.TaskRequireRequest;
 import com.ctc.wstx.util.StringUtil;
 import com.huawei.msp.mmap.server.TaskMessageClient;
 
@@ -154,7 +155,7 @@ public class PerformanceTaskSv extends BaseService{
 	 * @param request
 	 * @param list          
 	 */
-	public void taskRequireReal(NaOnlineTaskDistribute request, List<NaInterfaceList> list) {
+	public void taskRequireReal(TaskRequireRequest request) {
 		
 		if(request.getTaskId() == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "TaskId");
@@ -163,9 +164,9 @@ public class PerformanceTaskSv extends BaseService{
 		if(request.getTaskType() == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "TaskType");
 		}
-		if(list != null && list.size() > 0){
-			for(int i = 0; i < list.size(); i++){
-				NaInterfaceList naInterfaceList = list.get(i);
+		if(request.getList() != null && request.getList().size() > 0){
+			for(int i = 0; i < request.getList().size(); i++){
+				NaInterfaceList naInterfaceList = request.getList().get(i);
 				NaPlanCaseResultExpSum exp = new NaPlanCaseResultExpSum();
 				exp.setSubTaskId(request.getTaskId());
 				exp.setCaseType(request.getTaskType());

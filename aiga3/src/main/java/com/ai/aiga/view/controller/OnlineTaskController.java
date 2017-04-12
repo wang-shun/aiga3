@@ -17,6 +17,7 @@ import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.service.OnlineTaskSv;
 import com.ai.aiga.service.PerformanceTaskSv;
 import com.ai.aiga.view.json.OnlineTaskRequest;
+import com.ai.aiga.view.json.TaskRequireRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 import springfox.documentation.spring.web.json.Json;
@@ -102,8 +103,8 @@ public class OnlineTaskController {
 	}
 	
 	@RequestMapping(path = "/accept/performanceTask/taskRequireReal")
-	public @ResponseBody JsonBean taskRequireReal(NaOnlineTaskDistribute request, @RequestBody List<NaInterfaceList> list){
-		performanceTaskSv.taskRequireReal(request, list);
+	public @ResponseBody JsonBean taskRequireReal(@RequestBody TaskRequireRequest request){
+		performanceTaskSv.taskRequireReal(request);
 		return JsonBean.success;
 	}
 	

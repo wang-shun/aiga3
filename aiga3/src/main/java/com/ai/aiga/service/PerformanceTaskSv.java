@@ -122,7 +122,7 @@ public class PerformanceTaskSv extends BaseService{
 			cons.add(new Condition("serviceName", "%".concat(condition.getServiceName()).concat("%"), Condition.Type.LIKE));
 		}
 		
-		if(condition.getState() != null){
+		if(condition.getState() != null && !condition.getState().equals("")){
 			cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
 		}
 		
@@ -227,7 +227,7 @@ public class PerformanceTaskSv extends BaseService{
 		
 		String sql = "select a.id, a.service_id, a.service_name, a.require_code, a.change_type,"
 				+ " a.state, a.dev_man, a.require_man from na_interface_list a, na_plan_case_result_exp_sum b"
-				+ " where a.id = b.inter_id and b.sub_task_id = "+taskId+" and b.plan_id = "+onlinePlan;
+				+ " where a.id = b.inter_id and b.sub_task_id = "+taskId+" and a.plan_id = "+onlinePlan;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("id");

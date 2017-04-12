@@ -44,12 +44,12 @@ public class NaAutoBackupFrontSv {
 		return autoPropertyConfigDao.distinctPropertyConfigList();
 	}
 	
-	public Object getPropertyConfigList(int pageNumber, int pageSize, String propertyID,
+	public Object getPropertyConfigList(int pageNumber, int pageSize, String propertyId,
 			String dependencyTable, String dependencyField)
 			throws ParseException {
 		List<Condition> cons = new ArrayList<Condition>();
-		if (StringUtils.isNotEmpty(propertyID)) {
-			cons.add(new Condition("propertyID", propertyID, Condition.Type.EQ));
+		if (StringUtils.isNotEmpty(propertyId)) {
+			cons.add(new Condition("propertyId", propertyId, Condition.Type.EQ));
 		}
 		if (StringUtils.isNotEmpty(dependencyTable)) {
 			cons.add(new Condition("dependencyTable", dependencyTable, Condition.Type.EQ));
@@ -186,6 +186,29 @@ public class NaAutoBackupFrontSv {
 		}
 		config.setDoneDate(new Date());
 		autoPropertyConfigDao.save(up);
+	}
+	
+	public Object getPropertyCorrelationList(int pageNumber, int pageSize, String propertyId,
+			String correlationTable, String correlationField)
+			throws ParseException {
+		List<Condition> cons = new ArrayList<Condition>();
+		if (StringUtils.isNotEmpty(propertyId)) {
+			cons.add(new Condition("propertyId", propertyId, Condition.Type.EQ));
+		}
+		if (StringUtils.isNotEmpty(correlationTable)) {
+			cons.add(new Condition("correlationTable", correlationTable, Condition.Type.EQ));
+		}
+		if (StringUtils.isNotEmpty(correlationField)) {
+			cons.add(new Condition("correlationField", correlationField, Condition.Type.EQ));
+		}
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return autoPropertyCorrelationDao.search(cons, pageable);
 	}
 	
 }

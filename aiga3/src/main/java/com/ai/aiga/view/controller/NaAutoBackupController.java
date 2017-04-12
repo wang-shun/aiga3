@@ -52,9 +52,9 @@ public class NaAutoBackupController {
 	public @ResponseBody JsonBean getPropertyConfigList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			String propertyID, String dependencyTable, String dependencyField) throws ParseException {
+			String propertyId, String dependencyTable, String dependencyField) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(naAutoBackupFrontSv.getPropertyConfigList(pageNumber, pageSize, propertyID, dependencyTable, dependencyField));
+		bean.setData(naAutoBackupFrontSv.getPropertyConfigList(pageNumber, pageSize, propertyId, dependencyTable, dependencyField));
 		return bean;
 	}
 	
@@ -74,6 +74,16 @@ public class NaAutoBackupController {
 	public @ResponseBody JsonBean updatePropertyConfig(@RequestBody NaAutoPropertyConfig config){
 		naAutoBackupFrontSv.updatePropertyConfig(config);
 		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/property/getPropertyCorrelationList")
+	public @ResponseBody JsonBean getPropertyCorrelationList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			String propertyId, String correlationTable, String correlationField) throws ParseException {
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoBackupFrontSv.getPropertyCorrelationList(pageNumber, pageSize, propertyId, correlationTable, correlationField));
+		return bean;
 	}
 	
 }

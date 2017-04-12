@@ -241,7 +241,7 @@ public class PerformanceTaskSv extends BaseService{
 			}
 			
 		}else{
-			sql += " na_plan_case_result_exp_sum b where  a.id = b.inter_id and b.sub_task_id = "+distribute.getTaskId();
+			sql += " , na_plan_case_result_exp_sum b where  a.id = b.inter_id and b.sub_task_id = "+distribute.getTaskId();
 		}
 		List<String> list = new ArrayList<String>();
 		list.add("id");

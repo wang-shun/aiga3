@@ -24,7 +24,7 @@ define(function(require, exports, module) {
     //查看自动化用例执行结果列表
     srvMap.add("getAutoResultList", pathAlias + "getAutoResultList.json", "accept/subTask/autoResult");
     //查看性能测试子任务列表JS_getInterfaceList
-    srvMap.add("getPerSubtaskAssignmentList", pathAlias + "getOnlineTaskDistributeList.json", "accept/onlineTask/childList");
+    srvMap.add("getPerSubtaskAssignmentList", pathAlias + "getOnlineTaskDistributeList.json", "accept/performanceTask/childList");
     //查看已关联接口addPerSubtaskAssignmentForm
     srvMap.add("getInterfaceList", pathAlias + "getInterfaceList.json", "accept/performanceTask/taskRequireList");
     //保存性能子任务addPerSubtaskAssignmentForm
@@ -195,7 +195,7 @@ define(function(require, exports, module) {
                     window.XMS.msgbox.hide();
                     var _form = $(Dom.addPerSubtaskAssignmentForm);
                     Utils.setSelectData(_form);
-                    _form.find("[name='onlinePlanId']").val(date.onlinePlanId);
+                    _form.find("[name='onlinePlan']").val(date.onlinePlanId);
                     _form.find("[name='onlinePlanName']").val(date.onlinePlanName);
                     _form.find("[name='parentTaskName']").val(date.taskName);
                     _form.find("[name='parentTaskId']").val(date.taskId);
@@ -210,10 +210,10 @@ define(function(require, exports, module) {
                     
                         self.getInterfaceList("onlinePlan="+Data.onlinePlanId);
                         //新增
-                        self.addPerSubtaskAssignmentForm(cmd,date);
-                        //
+                        self.addPerSubtaskAssignmentForm();
+                        //修改
                         self.updatePerSubtaskAssignment();
-                        //
+                        //删除
                         self.delPerSubtaskAssignment(cmd,date);
                         //分派
                         self.processingPerSubtaskAssignment();
@@ -275,7 +275,7 @@ define(function(require, exports, module) {
             });
         },
         //新增性能子任务
-        addPerSubtaskAssignmentForm : function(cmd,date){
+        addPerSubtaskAssignmentForm : function(){
             var self = this;
             var _form = $(Dom.addPerSubtaskAssignmentForm)
             var _save = _form.find("[name='save']");
@@ -286,7 +286,7 @@ define(function(require, exports, module) {
                     if (status) {
                         window.XMS.msgbox.show('保存成功！', 'success', 2000);
                         setTimeout(function() {
-                            self.getPerSubtaskAssignmentList(cmd,date);
+                            self.getPerSubtaskAssignmentList(Data.cm,Data.data);
                         }, 1000)
                     }
                 });

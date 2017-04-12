@@ -325,7 +325,7 @@ define(function(require, exports, module) {
                     if(status) {
                         callback(json);
                         if($(obj).html()== ''){
-                            $(obj).pagination(json.data.totalPages, {
+                            $(obj).pagination(json.data.totalElements, {
                                 items_per_page      : items_per_page, //每页显示的条目数
                                 num_display_entries : 10, //连续分页主体部分显示的分页条目数
                                 num_edge_entries    : 2, //两侧显示的首尾分页的条目数

@@ -249,15 +249,16 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>计划名称</label><i class="text-red">*</i>
-                                                <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}" readonly="readonly">
+                                                <input type="text" class="form-control input-sm" name="onlinePlanName" value="" readonly="readonly">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>父任务名称</label><i class="text-red">*</i>
-                                                <input type="text" class="form-control input-sm" name="parentTaskName" value="{{taskName}}" readonly="readonly">
+                                                <input type="text" class="form-control input-sm" name="parentTaskName" value="" readonly="readonly">
                                                 <input type="hidden" name="onlinePlan" value="">
                                                 <input type="hidden" name="parentTaskId" value="{{taskId}}">
+                                                <input type="hidden" name="taskId" value="{{taskId}}">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -551,7 +552,7 @@
                     <td><input type="hidden" name="taskType" value="{{taskType}}">{{getTaskType taskType}}</td>
                     <td><input type="hidden" name="collectId" value="{{collectId}}">{{collectName}}</td>
                     <td><input type="hidden" name="dealOpId" value="{{dealOpId}}">{{dealOpName}}</td>
-                    <td>{{assignDate}}</td>
+                    <td>{{createDate}}</td>
                     <td>{{assignDate}}</td>
                 </tr>
                 {{/each}}

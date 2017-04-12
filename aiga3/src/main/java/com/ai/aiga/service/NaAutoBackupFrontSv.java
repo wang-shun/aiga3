@@ -123,11 +123,11 @@ public class NaAutoBackupFrontSv {
 		autoBackupDealDao.delete(dealId);
 	}
 	
-	public void deletePropertyConfig(Long propertyId) {
-		if(propertyId == null || propertyId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "propertyId");
+	public void deletePropertyConfig(Long cfgId) {
+		if(cfgId == null || cfgId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "cfgId");
 		}
-		autoPropertyConfigDao.delete(propertyId);
+		autoPropertyConfigDao.delete(cfgId);
 	}
 	
 	public void addPropertyConfig(NaAutoPropertyConfig config){

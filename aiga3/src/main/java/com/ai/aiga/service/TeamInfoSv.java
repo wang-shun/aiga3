@@ -28,6 +28,7 @@ import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.StaffListResponse;
 import com.ai.aiga.view.json.TeamEmployeeRelRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -113,6 +114,7 @@ public class TeamInfoSv extends BaseService {
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
 		return employeeInfoDao.searchByNativeSQL(sql, pageable, list);
+		
 	}
 	public NaTeamInfo save(NaTeamInfo request){
 		if(request == null){ 
@@ -269,6 +271,42 @@ public class TeamInfoSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
 	return teamEmployeeRelDao.selectall(teamId);
+	  
+  }
+  public List<NaEmployeeInfo> email(){
+	  
+	  List<String>  list=(List<String>) teamEmployeeRelDao.email();
+	  List<NaEmployeeInfo>  request= new ArrayList<NaEmployeeInfo>(list.size());
+		for(int i = 0; i < list.size(); i++){
+			NaEmployeeInfo employ  = new NaEmployeeInfo();
+			String string = list.get(i);
+			employ.setEmail(string);
+			request.add(employ);
+		}
+		
+		return request;
+	  
+  }
+  
+  public List<NaEmployeeInfo> emailandname(){
+	 
+	  List<String>  list=(List<String>) teamEmployeeRelDao.nameAndEmail();
+	  List<NaEmployeeInfo>  request= new ArrayList<NaEmployeeInfo>(list.size());
+		for(int i = 0; i < list.size(); i++){
+			NaEmployeeInfo employ  = new NaEmployeeInfo();
+			String string = list.get(i);
+			employ.setExt2(string);
+			request.add(employ);
+		}
+		
+		return request;
+	  
+  }
+  public List<String> team(){
+	   String sql="";
+	  sql+="select distinct(c.ext_1),a.email from NA_EMPLOYEE_INFO a, NA_TEAM_EMPLOYEE_REL b, "
+	  		+ "NA_TEAM_INFO c where b.emp_id=a.id and b.team_id=c.team_id";
+	 return  teamInfoDao.searchformSQL(sql);
 	  
   }
   

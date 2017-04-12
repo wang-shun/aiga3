@@ -17,7 +17,7 @@
             "taskId":"2",
             "onlinePlanName": "用例组1",
             "taskName": "test_后台功能验收",
-            "taskType": "2",
+            "taskType": "3",
             "dealState": "1",
             "assignName": "张三",
             "dealName": "李四",

@@ -1351,6 +1351,16 @@ Rose.ajax = {
 		// callback)},1000);
 		this.ajax(url, 'POST', cmd, dataType, callback);
 	},
+	postJsonUpload : function(url, cmd, callback) {
+		dataType = this.dataType.TEXT;
+//		if(window.parent && window.parent.Rose){
+//			url = window.parent.Rose.ajax.transferUrl(url);
+//		}
+		// var _this = this;
+		// setTimeout( function(){_this.ajax(url, 'POST', cmd, dataType,
+		// callback)},1000);
+		this.ajax(url, 'POST', cmd, dataType, callback, false ,'multipart/form-data');
+	},
 	/**
 	 * loadHtml是对Ajax load的封装,为载入远程 HTML 文件代码并插入至 DOM 中
 	 *
@@ -1434,9 +1444,9 @@ Rose.ajax = {
 	 * @param {Function}
 	 *            callback [optional,default=undefined] 请求成功回调函数,返回数据data和isSuc
 	 */
-	ajax : function(url, type, cmd, dataType, callback, sync) {
+	ajax : function(url, type, cmd, dataType, callback, sync, contentType) {
 		var param = "";
-		var contentType = "application/x-www-form-urlencoded";
+		var contentType = contentType ? contentType : "application/x-www-form-urlencoded";
 		console.log("参数类型："+typeof (cmd));
 		if (typeof (cmd) == "object" && type=="POST"){
 			// param = this.jsonToUrl(cmd);

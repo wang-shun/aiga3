@@ -3,6 +3,45 @@
  */
 define(function(require, exports, module) {
     var Utils = {
+         /**
+         * 初始化页面唯一标识
+         *
+         * @method pageId 页面标识
+         * @return object 闭包方法
+         */
+        initPage:function(pageId){
+            return {
+                id: '#'+pageId,
+                // 查找元素
+                find: function(obj){
+                    return $(this.id).find(obj);
+                },
+                // 查找name元素
+                findId: function(_id){
+                    return $(this.id).find("#JS_"+_id);
+                },
+                // 查找name元素
+                findName: function(name){
+                    return $(this.id).find("[name='"+name+"']");
+                },
+                // 查找tpl，返回值是html代码段
+                findTpl:function(tplId){
+                    return $(this.id).siblings("#TPL_"+tplId).html();
+                },
+                // 查找modal
+                findModal:function(modalId){
+                    return $(this.id).siblings("#Modal_"+modalId);
+                },
+                // 查找findModalChildrenId即findModalCId
+                findModalCId:function(_id){
+                    return $(this.id).siblings('.modal').find("#JS_"+_id);
+                },
+                // 查找菜单ID
+                getFunId: function(){
+                    return $(this.id).parent().data("funid");
+                }
+            }
+        },
         /**
          * 单复选框美化、单机选中、双击执行回调函数
          *
@@ -260,6 +299,51 @@ define(function(require, exports, module) {
                 var _data = $(this).data("selected");
                 $(this).find("option[value='"+_data+"']").attr("selected",true)
             });
+        },
+        getServerPage:function(url,cmd,callback,obj,pageSize){
+            var self = this;
+            var page_index = 0;
+            var items_per_page = 10 || pageSize;
+            $(obj).html(''); // 初始化清空分页
+            function getDataList(index,jq){
+                var _cmd = '';
+                if(!jq){
+                    if(cmd){
+                        _cmd = cmd+'&';
+                        $(obj).data("cmd",cmd);
+                    }
+                }else{
+                    var dataCmd = $(obj).data("cmd");
+                    if(dataCmd){
+                        _cmd = dataCmd+'&';
+                    }
+                }
+                var _cmd = _cmd + "page="+index+'&pageSize='+items_per_page;
+                alert(_cmd);
+                XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                Rose.ajax.postJson(url, _cmd, function(json, status) {
+                    if(status) {
+                        callback(json);
+                        if($(obj).html()== ''){
+                            $(obj).pagination(json.data.totalPages, {
+                                items_per_page      : items_per_page, //每页显示的条目数
+                                num_display_entries : 10, //连续分页主体部分显示的分页条目数
+                                num_edge_entries    : 2, //两侧显示的首尾分页的条目数
+                                prev_text           : "上一页",
+                                next_text           : "下一页",
+                                callback           : pageselectCallback
+                            });
+                        }
+                    }
+                });
+            }
+            // 回调方法
+            function pageselectCallback(page_index,jq){
+                getDataList(page_index,jq);
+            }
+            // 初始化
+            getDataList(page_index);
+
         }
     };
     module.exports = Utils;

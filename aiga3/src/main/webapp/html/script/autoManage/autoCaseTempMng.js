@@ -3,6 +3,9 @@ define(function(require,exports,module){
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 
+	// 初始化页面ID，易于拷贝，不需要带'#'
+	var Page = Utils.initPage('Page_autoCaseTempMng');
+
 	// 路径重命名
 	var pathAlias = "autoManage/autoCaseTempMng/";
 
@@ -35,16 +38,19 @@ define(function(require,exports,module){
 	srvMap.add("getParameterList",pathAlias + "getParameterList.json","sys/component/compParamList");
 	//请求参数列表
 	srvMap.add("saveAutoCompParam",pathAlias + "retMessage.json","auto/case/saveAutoCompParam");
-	// 模板对象
+
+
+    /*// 模板对象
     var Tpl = {
-        getCaseTempList: require('tpl/autoManage/autoCaseTempMng/getCaseTempInfoList.tpl'),
+        getCaseTempList: '#TPL_getCaseTempList',
         getTempCompList: require('tpl/autoManage/autoCaseTempMng/getTempCompList.tpl'),
         getSideTempCompList: require('tpl/autoManage/autoCaseTempMng/getSideTempCompList.tpl'),
         getCaseTempInfo: require('tpl/autoManage/autoCaseTempMng/getCaseTempInfo.tpl'),
         getParameterList: require('tpl/autoManage/autoCaseTempMng/getParameterList.tpl')
-    };
+    };*/
 
-    // 容器对象
+
+    /*// 容器对象
     var Dom = {
         queryCaseTempForm: '#JS_queryCaseTempForm',
         getCaseTempList: '#JS_getCaseTempList',
@@ -54,7 +60,7 @@ define(function(require,exports,module){
         updateCaseTempInfoModal: '#JS_updateCaseTempInfoModal',
         generateCaseInfoModal:'#JS_generateCaseInfoModal',
         getParameterList:'#JS_getParameterList'
-    };
+    };*/
 
     var Data = {
     	queryListCmd: null
@@ -70,7 +76,7 @@ define(function(require,exports,module){
 		// 按条件查询
 		queryCaseTempForm: function(){
 			var self = this;
-			var _form = $(Dom.queryCaseTempForm);
+			var _form = Page.findId('queryCaseTempForm');
 			Utils.setSelectData(_form);
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -81,62 +87,42 @@ define(function(require,exports,module){
 		// 查询自动化用例模板
 		getCaseTempList: function(cmd){
 			var self = this;
-			var _cmd = '' || cmd;
+			var _cmd = '' ;
+			if(cmd){
+				var _cmd = cmd;
+			}
 			Data.queryListCmd = _cmd;
-			//alert(_cmd);
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getCaseTempList'), _cmd, function(json, status) {
-				if(status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getCaseTempList);
-            		$(Dom.getCaseTempList).html(template(json.data.content))
+			var _dom = Page.findId('getCaseTempList');
+			var _domPagination = _dom.find("[name='pagination']");
 
-            		// 编辑模板
-            		self.updateCaseTempInfo();
-            		// 生成用例
-            		self.generateCaseInfo();
-            		// 废弃模板
-            		self.delCaseTempInfo();
-            		Utils.eventTrClickCallback($(Dom.getCaseTempList));
-				}
-  			});
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getCaseTempList'),_cmd,function(json){
+				window.XMS.msgbox.hide();
 
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+				var template = Handlebars.compile(Page.findTpl('getCaseTempList'));
+        		_dom.find("[name='content']").html(template(json.data.content));
+
+        		// 编辑模板
+        		self.updateCaseTempInfo();
+        		// 生成用例
+        		self.generateCaseInfo();
+        		// 废弃模板
+        		self.delCaseTempInfo();
+        		Utils.eventTrClickCallback(_dom);
+			},_domPagination);
 		},
-		// 删除自动化用例模板信息
-		delCaseTempInfo: function(){
-			var self = this;
-			var _dom = $(Dom.getCaseTempList);
-			var _del = _dom.find("[name='del']");
-			_del.unbind('click');
-			_del.bind('click', function() {
-				var data = Utils.getRadioCheckedRow(_dom);
-				if(data){
-					console.log(data);
-					var cmd = 'tempId='+data.tempId;
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('delCaseTempInfo'), cmd, function(json, status) {
-						if(status) {
-							window.XMS.msgbox.show('删除成功！', 'success', 2000)
-							setTimeout(function(){
-								self.getCaseTempList(Data.queryListCmd);
-							},1000)
-						}
-		  			});
-				}
-			});
-
-		},
-		// 变价模板
+		// 编辑模板
 		updateCaseTempInfo:function(){
 			var self = this;
-			var _dom = $(Dom.getCaseTempList);
+			var _dom = Page.findId('getCaseTempList');
 			var _edit = _dom.find("[name='edit']");
 			_edit.unbind('click');
 			_edit.bind('click', function() {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if(data){
 					var cmd = 'tempId='+data.tempId;
-					var _modal = $(Dom.updateCaseTempInfoModal);
+					var _modal = Page.findModal('updateCaseTempInfo');
 					// 赋值模板名称
 					_modal.find("[name='tempName']").val(data.tempName);
 					// 显示弹框
@@ -155,11 +141,11 @@ define(function(require,exports,module){
 		//保存模板
 		saveTempCompList:function(_caseId,_tempId){
 			var self = this;
-			var _dom = $(Dom.updateCaseTempInfoModal);
+			var _dom = Page.findModal('updateCaseTempInfo');
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				var _table = $(Dom.getTempCompList).find("table");
+				var _table = Page.findModalCId('getTempCompList').find("table");
 				var _tempName = _dom.find("[name='tempName']").val();
 				if(_tempName==''){
 					XMS.msgbox.show('用例模板名称不能为空！', 'error',2000);
@@ -189,14 +175,14 @@ define(function(require,exports,module){
 		// 生成用例信息
 		generateCaseInfo:function(cmd){
 			var self = this;
-			var _dom = $(Dom.getCaseTempList);
+			var _dom = Page.findId('getCaseTempList');
 			var _edit = _dom.find("[name='generate']");
 			_edit.unbind('click');
 			_edit.bind('click', function() {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if(data){
 					var cmd = 'tempId='+data.tempId;
-					var _modal = $(Dom.generateCaseInfoModal);
+					var _modal = Page.findModal('generateCaseInfo');
 			        _modal.modal('show');
 			        _modal.find("[name='autoName']").val('');
 			        // 获取组件列表
@@ -204,7 +190,7 @@ define(function(require,exports,module){
 			        //保存组件
 			        self.saveAutoCompParam(data.tempId);
 			        // 先清空
-			        $(Dom.getParameterList).find("tbody").remove();
+			        Page.findModalCId('getParameterList').find("tbody").remove();
 		    	}
 			});
 		},
@@ -216,8 +202,8 @@ define(function(require,exports,module){
 			Rose.ajax.getJson(srvMap.get('getTempCompList'), cmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
-					var _dom = $(Dom.getSideTempCompList);
-					var template = Handlebars.compile(Tpl.getSideTempCompList);
+					var _dom = Page.findModalCId('getSideTempCompList');
+					var template = Handlebars.compile(Page.findTpl('getSideTempCompList'));
             		_dom.html(template(json.data));
             		Utils.eventClickChecked(_dom,function(isChecked,thisDom){
             			var _name = thisDom.attr("name");
@@ -227,7 +213,7 @@ define(function(require,exports,module){
 					        // 获取参数列表
 					        self.getParameterList(cmd,_val);
             			}else{
-            				var _table = $(Dom.getParameterList);
+            				var _table = Page.findModalCId('getParameterList');
             				_table.find("tbody[name=compId_"+_val+"]").remove();
             				// 设置滚动条高度
             				Utils.setScroll(_table.parent(".box-body"),'250px');
@@ -245,8 +231,8 @@ define(function(require,exports,module){
 				if(status) {
 					window.XMS.msgbox.hide();
 					json.data["compId"] = compId;
-					var template = Handlebars.compile(Tpl.getParameterList);
-            		var _table = $(Dom.getParameterList);
+					var template = Handlebars.compile(Page.findTpl('getParameterList'));
+            		var _table = Page.findModalCId('getParameterList');
             		_table.append(template(json.data))
             		// 设置滚动条高度
     				Utils.setScroll(_table.parent(".box-body"),'250px');
@@ -257,8 +243,8 @@ define(function(require,exports,module){
 		// 保存生成用例
 		saveAutoCompParam:function(_tempId){
 			var self = this;
-			var _dom = $(Dom.generateCaseInfoModal);
-			var _table = $(Dom.getParameterList);
+			var _dom = Page.findModal('generateCaseInfo');
+			var _table = Page.findModal('getParameterList');
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
@@ -272,7 +258,7 @@ define(function(require,exports,module){
 					XMS.msgbox.show('请选择环境类型！', 'error',2000);
 					return;
 				}
-				var hasData = Utils.getCheckboxCheckedRow($(Dom.getSideTempCompList));
+				var hasData = Utils.getCheckboxCheckedRow(Page.findModalCId('getSideTempCompList'));
 				if(hasData){
 					var cmd = {
 						"tempId":_tempId,
@@ -318,8 +304,8 @@ define(function(require,exports,module){
 			Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getCaseTempInfo);
-            		$(Dom.getCaseTempInfo).html(template(json.data))
+					var template = Handlebars.compile(Page.findTpl('getCaseTempInfo'));
+            		Page.findModalCId('getCaseTempInfo').html(template(json.data))
 				}
   			});
 		},
@@ -329,9 +315,9 @@ define(function(require,exports,module){
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.getJson(srvMap.get('getTempCompList'), cmd, function(json, status) {
 				if(status) {
-					var _dom = $(Dom.getTempCompList);
+					var _dom = Page.findModalCId('getTempCompList');
 					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getTempCompList);
+					var template = Handlebars.compile(Page.findTpl('getTempCompList'));
             		_dom.html(template(json.data))
 
             		Utils.eventTrClickCallback(_dom);
@@ -344,7 +330,7 @@ define(function(require,exports,module){
 		},
 		setCompListScroll:function(){
 			// 设置滚动条高度
-            Utils.setScroll($(Dom.getTempCompList).find(".box-body"),'200px');
+            Utils.setScroll(Page.findModalCId('getTempCompList').find(".box-body"),'200px');
 		},
 		getTempCompInfo:function(cmd){
 			var self = this;
@@ -352,25 +338,25 @@ define(function(require,exports,module){
 			Rose.ajax.getJson(srvMap.get('getTempCompInfo'), cmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
-					var _dom = $(Dom.getTempCompList);
-					var template = Handlebars.compile(Tpl.getTempCompList);
+					var _dom = Page.findModalCId('getTempCompList');
+					var template = Handlebars.compile(Page.findTpl('getTempCompList'));
 					var dataArray = Utils.getTableDataRows(_dom);
 					if(dataArray){
 						json.data["compOrder"] = dataArray.length+1;
 						dataArray.push(json.data);
 						console.log(dataArray);
-	            		$(Dom.getTempCompList).html(template(dataArray))
+	            		_dom.html(template(dataArray))
 						// 设置滚动条
 	            		self.setCompListScroll();
 	            		self.delTempCompInfo();
-	            		Utils.eventTrClickCallback($(Dom.getTempCompList));
+	            		Utils.eventTrClickCallback(_dom);
 					}
 				}
   			});
 		},
 		delTempCompInfo:function(){
 			var self = this;
-			var _dom = $(Dom.getTempCompList);
+			var _dom = Page.findModalCId('getTempCompList');
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -413,6 +399,30 @@ define(function(require,exports,module){
             		Utils.setScroll(obj.find("[name='scroll']"),'370px');
 				}
 	  		});
+		},
+		// 删除自动化用例模板信息
+		delCaseTempInfo: function(){
+			var self = this;
+			var _dom = Page.findId('getCaseTempList');
+			var _del = _dom.find("[name='del']");
+			_del.unbind('click');
+			_del.bind('click', function() {
+				var data = Utils.getRadioCheckedRow(_dom);
+				if(data){
+					console.log(data);
+					var cmd = 'tempId='+data.tempId;
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+					Rose.ajax.getJson(srvMap.get('delCaseTempInfo'), cmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.show('删除成功！', 'success', 2000)
+							setTimeout(function(){
+								self.getCaseTempList(Data.queryListCmd);
+							},1000)
+						}
+		  			});
+				}
+			});
+
 		}
 	};
 	module.exports = Query;

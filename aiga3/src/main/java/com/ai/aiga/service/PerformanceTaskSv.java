@@ -347,6 +347,7 @@ public class PerformanceTaskSv extends BaseService{
 		list.add("taskId");
 		list.add("taskName");
 		list.add("taskType");
+		list.add("dealState");
 		list.add("opName");
 		list.add("createDate");
 		list.add("assignDate");

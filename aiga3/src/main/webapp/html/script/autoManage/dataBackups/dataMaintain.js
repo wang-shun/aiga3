@@ -8,13 +8,13 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyMaintainList");
+	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
 	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyMaintain");
+	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyCorrelation");
 	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyMaintain");
+	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyCorrelation");
 	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyMaintain");
+	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyCorrelation");
 	//属性下拉菜单
 	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
 	// 模板对象

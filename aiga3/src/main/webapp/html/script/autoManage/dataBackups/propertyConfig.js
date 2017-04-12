@@ -33,7 +33,8 @@ define(function(require, exports, module) {
 	};
 
 	var Data = {
-		queryListCmd: null
+		queryListCmd: null,
+		cfgId:null
 	}
 
 	var Query = {
@@ -79,7 +80,7 @@ define(function(require, exports, module) {
 						var _dom = $(Dom.getPropertyConfigList);
 						//获得当前单选框值
 						var data = Utils.getRadioCheckedRow(_dom);
-						self.updatePropertyConfig(data.correlationId);
+						self.updatePropertyConfig(data.cfgId);
 					});
 				}
 			});
@@ -146,7 +147,9 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+		//修改
 		updatePropertyConfig: function(Id) {
+			var self = this;
 			var _dom = Dom.updatePropertyConfigModal;
 			$(_dom).modal('show');
 			var _save = $(_dom).find("[name='save']");
@@ -154,14 +157,15 @@ define(function(require, exports, module) {
 			_save.bind('click', function() {
 				var _form = Dom.updateMaintainInfo;
 				var _cmd = $(_form).serialize();
-				alert(_cmd);
+				_cmd+='&cfgId='+Id;
 					XMS.msgbox.show('执行中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('updatePropertyConfig'), _cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('更新成功！', 'success', 2000)
 							setTimeout(function() {
-								self.queryPropertyConfigForm(Data.queryListCmd);
-							}, 1000)
+								self.getPropertyConfigList(Data.queryListCmd);
+							}, 1000);
+							$(_dom).modal('hide');
 						}
 					});
 			});

@@ -2,7 +2,7 @@
  <input type="hidden" name="compId" value="{{compId}}">
  <input type="hidden" name="compOrder" value="{{compOrder}}">
  <tr class="bg-light-blue color-palette">
-	<td ><input type="hidden" name="paramId" value="{{compName}}">组件名：{{compName}}</td>
+	<td >组件名：{{compName}}</td>
 	<td></td>
 	<td></td>
 	<td></td>

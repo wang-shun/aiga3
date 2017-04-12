@@ -14,8 +14,10 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>属性名称</label>
-                                <select class="form-control input-sm" name="propertyName" data-url="getPropertyName" data-idkey="PropertyId" data-namekey="PropertyName">
-                                    <option>请选择</option>
+                                <select data-idkey="propertyId" name="propertyResource" data-namekey="propertyName" class="form-control " data-url="getPropertyName" required>
+                                    <option value="">
+                                        请选择
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -93,7 +95,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>依赖表</label>
-                                        <input name="propertyId" class="form-control " placeholder="请输入依赖表"  required>
+                                        <input name="dependencyTable" class="form-control " placeholder="请输入依赖表" required>
                                         </input>
                                     </div>
                                 </div>
@@ -101,7 +103,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>依赖字段</label>
-                                        <input name="alias" class="form-control " placeholder="请输入依赖字段"  required>
+                                        <input name="dependencyField" class="form-control " placeholder="请输入依赖字段" required>
                                         </input>
                                     </div>
                                 </div>
@@ -109,7 +111,17 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>数据库</label>
-                                        <input name="propertyName" class="form-control" placeholder="请输入数据库" required>
+                                        <input name="db" class="form-control" placeholder="请输入数据库" required>
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>属性字段</label>
+                                        <input name="propertyField" class="form-control" placeholder="请输入属性字段" required>
                                         </input>
                                     </div>
                                 </div>

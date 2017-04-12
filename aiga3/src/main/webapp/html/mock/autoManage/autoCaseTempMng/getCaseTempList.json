@@ -2,6 +2,7 @@
     "retCode":"200",
     "retMessage":null,
     "data":{
+        "totalPages":12, //每页显示数量
         "content":[
             {
                 "tempId":"T100",
@@ -15,7 +16,7 @@
             {
                 "tempId":"T101",
                 "caseId":"C101",
-                "tempName":"用例模板1",
+                "tempName":"用例模板2",
                 "sysName":"系统大类1",
                 "sysSubName":"子类名称1",
                 "funName":"功能点1",
@@ -24,20 +25,40 @@
             {
                 "tempId":"T102",
                 "caseId":"C102",
-                "tempName":"用例模板1",
+                "tempName":"用例模板3",
+                "sysName":"系统大类1",
+                "sysSubName":"子类名称1",
+                "funName":"功能点1",
+                "important":"一级用例"
+            },
+            {
+                "tempId":"T103",
+                "caseId":"C102",
+                "tempName":"用例模板4",
+                "sysName":"系统大类1",
+                "sysSubName":"子类名称1",
+                "funName":"功能点1",
+                "important":"一级用例"
+            },
+            {
+                "tempId":"T104",
+                "caseId":"C102",
+                "tempName":"用例模板5",
+                "sysName":"系统大类1",
+                "sysSubName":"子类名称1",
+                "funName":"功能点1",
+                "important":"一级用例"
+            },
+            {
+                "tempId":"T105",
+                "caseId":"C102",
+                "tempName":"用例模板6",
                 "sysName":"系统大类1",
                 "sysSubName":"子类名称1",
                 "funName":"功能点1",
                 "important":"一级用例"
             }
         ],
-        "totalPages":1,
-        "totalElements":3,
-        "last":true,
-        "number":0,
-        "size":10,
-        "sort":null,
-        "first":true,
-        "numberOfElements":3
+       
     }
 }

@@ -39,7 +39,7 @@ public class AutoBackupTask extends AbstractTask {
 				Thread.sleep(1000);
 				return;
 			}
-			int upNum = autoBackupSv.updateBackupDeal((byte) 0, DEAL_STATE.FAIL.value, backupDeal.getDealId());
+			int upNum = autoBackupSv.updateBackupDeal((byte) 0, DEAL_STATE.TEMP.value, backupDeal.getDealId());
 			if (upNum == 0) {
 				return;
 			}

@@ -24,4 +24,7 @@ public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDis
 	@Query("delete from NaOnlineTaskDistribute where taskId in (?1)")
 	void delete(List<Long> list);
 
+	
+	List<NaOnlineTaskDistribute> findByParentTaskId(Long taskId);
+
 }

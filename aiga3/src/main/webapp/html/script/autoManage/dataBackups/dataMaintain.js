@@ -8,14 +8,15 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/dataBackups/list");
+	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyMaintainList");
 	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/dataBackups/list");
+	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyMaintain");
 	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/dataBackups/list");
+	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyMaintain");
 	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/dataBackups/list");
-
+	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyMaintain");
+	//属性下拉菜单
+	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
 	// 模板对象
 	var Tpl = {
 		getDataMaintainTemp: $('#JS_getDataMaintainTemp'),

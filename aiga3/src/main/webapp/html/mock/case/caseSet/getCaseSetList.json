@@ -1,7 +1,8 @@
 {
     "retCode": "200",
     "retMessage": null,
-    "data":[{
+    "data":{
+        "content":[{
         "collectId":"001",
         "collectName": "1001",
         "caseType": "001",
@@ -42,4 +43,5 @@
         "createTime": "呀",
         "repairsName": "呀"
     }]
+    }
 }

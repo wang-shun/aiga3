@@ -255,7 +255,7 @@ public class NaAutoBackupSv extends AbstractJatService {
 		Connection backupConn = null;
 		try {
 			backupConn = getConnection(BACKUP_DB_KEY);
-			String updateSql = "UPDATE NA_AUTO_BACKUP_DEAL SET ERR_MSG=?,DEAL_DATE=SYSDATE WHERE DEAL_ID=?";
+			String updateSql = "UPDATE NA_AUTO_BACKUP_DEAL SET ERR_MSG=?,STATE=2,DEAL_DATE=SYSDATE WHERE DEAL_ID=?";
 			PreparedStatement psUpdate = backupConn.prepareStatement(updateSql);
 			psUpdate.setString(1, errMsg);
 			psUpdate.setLong(2, dealId);
@@ -326,7 +326,30 @@ public class NaAutoBackupSv extends AbstractJatService {
 	
 	@Transactional
 	public int updateRestoreDealMsg(String errMsg, long dealId) {
-		return updateBackupDealMsg(errMsg, dealId);
+		if (errMsg == null) {
+			return 0;
+		}
+		errMsg = substr(errMsg, 2000);
+		Connection backupConn = null;
+		try {
+			backupConn = getConnection(BACKUP_DB_KEY);
+			String updateSql = "UPDATE NA_AUTO_BACKUP_DEAL SET ERR_MSG=?,RESTORE_STATE=2,DEAL_DATE=SYSDATE WHERE DEAL_ID=?";
+			PreparedStatement psUpdate = backupConn.prepareStatement(updateSql);
+			psUpdate.setString(1, errMsg);
+			psUpdate.setLong(2, dealId);
+			int upNum = psUpdate.executeUpdate();
+			return upNum;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			ExceptionUtil.uncheckedAndWrap(e);
+		} finally {
+			try {
+				closeConnection(backupConn);
+			} catch (SQLException e) {
+				log.error(e.getMessage(), e);
+			}
+		}
+		return 0;
 	}
 
 }

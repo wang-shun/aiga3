@@ -128,5 +128,15 @@ public class OnlineTaskController {
 		performanceTaskSv.perTaskDeal(taskId, dealOpId);
 		return JsonBean.success;
 	}
+	
+	@RequestMapping(path = "/accept/performanceTask/childList")
+	public @ResponseBody JsonBean childList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long taskId){
+		JsonBean bean = new JsonBean();
+		bean.setData(performanceTaskSv.childList(taskId, pageNumber, pageSize));
+		return bean;
+	}
 }
 

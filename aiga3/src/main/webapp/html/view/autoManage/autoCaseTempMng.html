@@ -1,4 +1,5 @@
-<div class="row">
+<!--Page Start-->
+<div class="row" id="Page_autoCaseTempMng">
     <div class="col-md-12">
         <div class="box">
             <form id="JS_queryCaseTempForm">
@@ -65,16 +66,44 @@
                 </div>
             </form>
         </div>
-        <div class="box" id="JS_getCaseTempList" style="min-height:100px;">
-            <div style="text-align: center; padding: 50px 0;">
-                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+        <div class="box" id="JS_getCaseTempList">
+            <div class="box-header" >
+                <h3 class="box-title">自动化用例模板列表</h3>
+                <div class="box-tools">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-primary" name="edit"><i class="fa fa-edit"></i> 编辑模板</button>
+                      <button type="button" class="btn btn-success" name="generate"><i class="fa fa-hourglass-end"></i> 生成用例</button>
+                      <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 废弃模板</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" >
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>用例模板名称</th>
+                            <th>系统大类</th>
+                            <th>系统子类</th>
+                            <th>功能点</th>
+                            <th>重要级别</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <div class="dataTables_paginate" name="pagination"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="JS_updateCaseTempInfoModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="Modal_updateCaseTempInfo" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <div class="modal-header">
@@ -134,8 +163,7 @@
     </div>
 </div>
 <!-- Modal -->
-<!-- Modal -->
-<div class="modal fade" id="JS_generateCaseInfoModal" tabindex="-1" role="dialog">
+<div class="modal fade" id="Modal_generateCaseInfo" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <div class="modal-header">
@@ -214,7 +242,142 @@
         </div>
     </div>
 </div>
-<!-- Modal -->
+<!-- handlebars/自动化用例模板列表 -->
+<script id="TPL_getCaseTempList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId">
+    <input type="hidden" value="{{caseId}}" name="caseId"></td>
+    <td>{{tempName}}<input type="hidden" value="{{tempName}}" name="tempName"></td>
+    <td>{{sysName}}</td>
+    <td>{{sysSubName}}</td>
+    <td>{{funName}}</td>
+    <td>{{important}}</td>
+</tr>
+{{/each}}
+</script>
+<!-- handlebars/自动化用例模板列表 -->
+<script id="TPL_getCaseTempList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId">
+    <input type="hidden" value="{{caseId}}" name="caseId"></td>
+    <td>{{tempName}}<input type="hidden" value="{{tempName}}" name="tempName"></td>
+    <td>{{sysName}}</td>
+    <td>{{sysSubName}}</td>
+    <td>{{funName}}</td>
+    <td>{{important}}</td>
+</tr>
+{{/each}}
+</script>
+<!-- handlebars/已选组件列表 -->
+<script id="TPL_getTempCompList" type="text/x-handlebars-template">
+<div class="box-header ">
+    <h3 class="box-title">已选组件列表</h3>
+    <div class="box-tools">
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" name="del">删除</button>
+        </div>
+    </div>
+</div>
+<div class="box-body" >
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="iCheckbox" width="15"></th>
+                <th>组件名称</th>
+                <th>用例步骤描述</th>
+                <th>组件顺序</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this}}
+            <tr>
+                <td><input type="radio" class="minimal" value="{{compId}}" name="compId"></td>
+                <td>{{compName}}<input type="hidden"  value="{{compName}}" name="compName"></td>
+                <td>{{compDesc}}<input type="hidden"  value="{{compDesc}}" name="compDesc"></td>
+                <td><input name="compOrder" value="{{compOrder}}"></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+</script>
+<!-- handlebars/已选组件列表 -->
+<script id="TPL_getSideTempCompList" type="text/x-handlebars-template">
+<table class="table table-bordered table-hover">
+    <tbody>
+        {{#each this}}
+        <tr>
+            <td width="15"><input type="checkbox" class="minimal" value="{{compId}}" name="compId"></td>
+            <td>{{compName}}<input type="hidden"  value="{{compName}}" name="compName"></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</script>
+<!-- handlebars/模板基本信息 -->
+<script id="TPL_getCaseTempInfo" type="text/x-handlebars-template">
+<div class="box-header with-border">
+    <h3 class="box-title">基本信息</h3>
+     <div class="box-tools pull-right">
+        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+        </button>
+        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+    </div>
+</div>
+<div class="box-body" style="display: none;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+              <label>模板名称：</label>
+              <input type="text" class="form-control input-sm" value="{{caseName}}" readonly="readonly">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {{#each factors}}
+        <div class="col-md-6">
+            <div class="form-group">
+              <label>因子名称：</label>
+              <input type="text" class="form-control input-sm" readonly="readonly" value="{{factorName}}">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+              <label>因子描述：</label>
+              <input type="text" class="form-control input-sm" readonly="readonly" value="{{remark}}">
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+              <label>模板应用：</label>
+              <input type="text" class="form-control input-sm" value="{{operateDesc}}" readonly="readonly">
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<!-- handlebars/参数列表 -->
+<script id="TPL_getParameterList" type="text/x-handlebars-template">
+<tbody name="compId_{{compId}}">
+<input type="hidden" name="compId" value="{{compId}}">
+{{#each this}}
+<tr>
+    <td>
+    <input type="hidden" name="paramId" value="{{paramId}}"><input type="text" name="paramName" value="{{paramName}}" style="width: 100px;"></td>
+    <td><input type="text" name="paramValue" value="{{paramValue}}" style="width: 100px;"></td>
+    <td><input type="text" name="paramDesc" value="{{paramDesc}}" style="width: 100px;"></td>
+    <td><input type="text" name="paramSql" value="{{paramSql}}" style="width: 100px;"></td>
+    <td><input type="text" name="paramExpect" value="{{paramExpect}}" style="width: 100px;"></td>
+</tr>
+{{/each}}
+</tbody>
+</script>
 <script>
 seajs.use("script/autoManage/autoCaseTempMng", function(Query) {
     Query.init();

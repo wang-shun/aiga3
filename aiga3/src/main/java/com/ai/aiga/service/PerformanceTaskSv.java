@@ -114,7 +114,7 @@ public class PerformanceTaskSv extends BaseService{
 		
 		List<Condition> cons = new ArrayList<Condition>();
 		
-		if(condition.getServiceId() != null){
+		if(condition.getServiceId() != null && !condition.getServiceId().equals("")){
 			cons.add(new Condition("serviceId", "%".concat(condition.getServiceId()).concat("%"), Condition.Type.LIKE));
 		}
 		
@@ -122,7 +122,7 @@ public class PerformanceTaskSv extends BaseService{
 			cons.add(new Condition("serviceName", "%".concat(condition.getServiceName()).concat("%"), Condition.Type.LIKE));
 		}
 		
-		if(condition.getState() != null){
+		if(condition.getState() != null && !condition.getState().equals("")){
 			cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
 		}
 		
@@ -227,7 +227,7 @@ public class PerformanceTaskSv extends BaseService{
 		
 		String sql = "select a.id, a.service_id, a.service_name, a.require_code, a.change_type,"
 				+ " a.state, a.dev_man, a.require_man from na_interface_list a, na_plan_case_result_exp_sum b"
-				+ " where a.id = b.inter_id and b.sub_task_id = "+taskId+" and b.plan_id = "+onlinePlan;
+				+ " where a.id = b.inter_id and b.sub_task_id = "+taskId+" and a.plan_id = "+onlinePlan;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("id");
@@ -320,6 +320,47 @@ public class PerformanceTaskSv extends BaseService{
 		.append("在").append(obj[3].toString()).append("给您分派了").append(obj[2].toString())
 		.append("子任务,请您及时处理！");
 		TaskMessageClient.sendMessageForCycle(obj[1].toString(), contents.toString());
+	}
+
+	/**
+	 * @ClassName: PerformanceTaskSv :: childList
+	 * @author: dongch
+	 * @date: 2017年4月12日 下午2:24:12
+	 *
+	 * @Description:
+	 * @param taskId
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return          
+	 */
+	public Object childList(Long taskId, int pageNumber, int pageSize) {
+		
+		if(taskId == null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+		}
+		
+		String sql = "select b.task_id, b.task_name, b.task_type, b.deal_state, a.name as opName,"
+				+ " b.create_date, b.assign_date from na_online_task_distribute b left join aiga_staff a"
+				+ " on a.staff_id = b.deal_op_id and b.parent_task_id = "+taskId;
+		
+		List<String> list = new ArrayList<String>();
+		list.add("taskId");
+		list.add("taskName");
+		list.add("taskType");
+		list.add("opName");
+		list.add("createDate");
+		list.add("assignDate");
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naOnlineTaskDistributeDao.searchByNativeSQL(sql, pageable, list);
 	}
 
 	

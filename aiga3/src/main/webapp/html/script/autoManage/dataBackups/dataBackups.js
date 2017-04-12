@@ -8,13 +8,13 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getDataBackupsList", pathAlias + "dataBackups.json", "sys/dataBackups/getBackupList");
+	srvMap.add("getDataBackupsList", pathAlias + "dataBackups.json", "sys/backup/getBackupDealList");
 	//新增备份
-	srvMap.add("addDataBackups", pathAlias + "retMessage.json", "sys/dataBackups/addBackup");
+	srvMap.add("addDataBackups", pathAlias + "retMessage.json", "sys/backup/addBackup");
 	//删除备份
-	srvMap.add("delDataBackups", pathAlias + "retMessage.json", "sys/dataBackups/delBackup");
+	srvMap.add("delDataBackups", pathAlias + "retMessage.json", "sys/backup/delBackup");
 	//属性下拉菜单
-	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/dataBackups/getPropertyName");
+	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
 
 	// 模板对象
 	var Tpl = {
@@ -83,7 +83,7 @@ define(function(require, exports, module) {
 			_addBt.bind('click', function() {
 				$(Dom.addDataBackupsModal).modal('show');
 				var _form = $(Dom.addDataBackupInfo);
-
+				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addDataBackupsModal).find("[name = 'save']");
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {

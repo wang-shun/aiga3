@@ -64,7 +64,7 @@ define(function(require, exports, module) {
 	        						Rose.string.substr(objData.name,6) + _delDom +
 	                        	'</a>'+
 	                    	'</li>');
-	        		$(Dom.mainTabsContent).children('div.active').removeClass('active').end().append('<div class="tab-pane active" id="JS_childTab_'+objData.id+'"></div>');
+	        		$(Dom.mainTabsContent).children('div.active').removeClass('active').end().append('<div class="tab-pane active" id="JS_childTab_'+objData.id+'" data-funid ="'+objData.id+'"></div>');
 	        		Rose.ajax.loadHtml($('#JS_childTab_'+objData.id),objData.href);
 
 	        		// 绑定删除事件

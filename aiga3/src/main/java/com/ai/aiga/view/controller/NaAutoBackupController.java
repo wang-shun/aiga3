@@ -65,8 +65,8 @@ public class NaAutoBackupController {
 	}
 	
 	@RequestMapping(path = "/sys/property/delPropertyConfig")
-	public @ResponseBody JsonBean delPropertyConfig(Long propertyId){
-		naAutoBackupFrontSv.deletePropertyConfig(propertyId);
+	public @ResponseBody JsonBean delPropertyConfig(Long cfgId){
+		naAutoBackupFrontSv.deletePropertyConfig(cfgId);
 		return JsonBean.success;
 	}
 	

@@ -46,10 +46,7 @@ define(function(require, exports, module) {
                     var _ccList = _form.find("[name='ccList']").val();
                     var _subject = _form.find("[name='subject']").val();
                     var markupStr = $('#summernote').summernote('code');
-                    var files = _form.find("[name='attachment']").val();
-                    alert(typeof markupStr);
-                    alert(markupStr);
-                    alert(Rose.htmlFilter(markupStr));
+                    var files = _form.find("[name='attachment']")[0].files;
                     var cmd = "addressee=" + _addressee + "&ccList=" + _ccList + "&subject=" + _subject + "&content=" + markupStr + "&files=" + files;
                     console.log(cmd)
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');

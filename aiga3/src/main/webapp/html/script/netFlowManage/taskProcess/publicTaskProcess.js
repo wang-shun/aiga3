@@ -51,35 +51,16 @@ define(function(require, exports, module) {
 		},
 
 		hdbarHelp: function() {
-			Handlebars.registerHelper("transformatTaskType", function(value) {
-				if (value == 2) {
-					return "自动化用例";
-				} else if (value == 1) {
-					return "手工用例";
-				} else {
-					return "未定义";
-				}
-			});
-			Handlebars.registerHelper("transformatState", function(value) {
+			Handlebars.registerHelper("transformatIf", function(value) {
 				if (value == 0) {
-					return "未处理";
+					return "否";
 				} else if (value == 1) {
-					return "处理中";
-				} else if (value == 2) {
-					return "处理完成";
+					return "是";
 				} else {
-					return "未定义";
+					return " ";
 				}
 			});
-			Handlebars.registerHelper("transformatCaseState", function(value) {
-				if (value == 0) {
-					return "未处理";
-				} else if (value == 1) {
-					return "处理完成";
-				} else {
-					return "未定义";
-				}
-			});
+			
 		},
 		getpublicTaskList: function(cmd) {
 			var self = this;
@@ -99,6 +80,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var _form = $(Dom.QueryTaskForm);
 			// 表单提交
+			
 			_form.find('button[name="query"]').bind('click', function() {
 					var cmd = _form.serialize();
 					self.getpublicTaskList(cmd);
@@ -138,6 +120,7 @@ define(function(require, exports, module) {
 					_modal.modal('show');
 					var template = Handlebars.compile(Tpl.testReportForm);
 					$(Dom.testReportForm).find(".modal-body").html(template(data));
+					self.setSelectData(_modal,data);
 					self.saveTestReport();
 				}
 			});
@@ -184,6 +167,16 @@ define(function(require, exports, module) {
 				var _modal = $(Dom.modalTestReport);
 				_modal.modal('hide');
 			})
+		},
+
+		setSelectData:function(obj,data) {
+			var sel = obj.find("select");
+
+			sel.each(function(index, el) {
+				var key = $(el).attr("name");
+				$(el).val(data[key]);
+			});
+
 		},
 
 		initPaging: function(obj, length, scrollX) {

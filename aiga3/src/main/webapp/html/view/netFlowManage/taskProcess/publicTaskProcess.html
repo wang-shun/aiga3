@@ -134,7 +134,7 @@
             </div>
             <div class="col-md-4 form-group">
                 <label class="control-label">是否解决:</label>
-                <select name="ifSolve" class="form-control select2 input-sm" data-url="getSysList" data-subname="bugLevel" data-idkey="bugType" data-namekey="sysName">
+                <select name="ifSolve" class="form-control select2 input-sm">
                     <option value="">请选择</option>
                     <option value="1">是</option>
                     <option value="2">否</option>
@@ -146,7 +146,7 @@
             </div>
             <div class="col-md-4 form-group">
                 <label class="control-label">具备上线条件:</label>
-                <select name="onlineCondition" class="form-control select2 input-sm" data-url="" data-subname="" data-idkey="" data-namekey="">
+                <select name="onlineCondition" class="form-control select2 input-sm">
                     <option value="">请选择</option>
                     <option value="1">是</option>
                     <option value="2">否</option>
@@ -201,16 +201,16 @@
                 <td>
                     <input type="radio" class="minimal" value="{{resultId}}" name="resultId">
                 </td>
-                <td>
+                <td title="{{onlinePlanName}}">
                     <input type="hidden" name="onlinePlanId" value="{{onlinePlanId}}">{{onlinePlanName}}</td>
-                <td>
+                <td title="{{taskName}}">
                     <input type="hidden" name="taskId" value="{{taskId}}">{{taskName}}</td>
-                <td>
+                <td title="{{bossName}}">
                     {{shrink bossName 15}}</td>
                 <td>
                     <input type="hidden" name="onlineTime" value="{{onlineTime}}">{{onlineTime}}</td>
-                <td>
-                    <input type="hidden" name="testRemark" value="{{testRemark}}" >{{shrink testRemark 10}}</td>
+                <td title="{{testRemark}}">
+                    <input type="hidden" name="testRemark" value="{{testRemark}}">{{shrink testRemark 10}}</td>
                 <td>
                     <input type="hidden" name="execTimeCount" value="{{execTimeCount}}">{{execTimeCount}}</td>
                 <td>
@@ -221,19 +221,19 @@
                     <input type="hidden" name="execCount" value="{{execCount}}">{{execCount}}</td>
                 <td>
                     <input type="hidden" name="bugCount" value="{{bugCount}}">{{bugCount}}</td>
-                <td>
+                <td title="{{bugRemark}}">
                     <input type="hidden" name="bugRemark" value="{{bugRemark}}">{{shrink bugRemark 10}}</td>
-                <td>
+                <td title="{{reason}}">
                     <input type="hidden" name="reason" value="{{reason}}">{{shrink reason 10}}</td>
-                <td>
+                <td title="{{solution}}">
                     <input type="hidden" name="solution" value="{{solution}}">{{solution}}</td>
                 <td>
-                    <input type="hidden" name="ifSolve" value="{{ifSolve}}">{{ifSolve}}</td>
+                    <input type="hidden" name="ifSolve" value="{{ifSolve}}">{{transformatIf ifSolve}}</td>
                 <td>
                     <input type="hidden" name="bugStatus" value="{{bugStatus}}">{{bugStatus}}</td>
                 <td>
-                    <input type="hidden" name="onlineCondition" value="{{onlineCondition}}">{{onlineCondition}}</td>
-                <td>
+                    <input type="hidden" name="onlineCondition" value="{{onlineCondition}}">{{transformatIf onlineCondition}}</td>
+                <td title="{{remark}}">
                     <input type="hidden" name="remark" value="{{remark}}">{{shrink remark 10}}</td>
             </tr>
             {{/each}}

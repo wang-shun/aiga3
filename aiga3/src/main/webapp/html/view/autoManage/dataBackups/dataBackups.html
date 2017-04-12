@@ -14,7 +14,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>属性名称</label>
-                                <select class="form-control input-sm" name="propertyName" placeholder="请输入属性名称">
+                                <select class="form-control input-sm"  data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
                                     <option>请选择</option>
                                 </select>
                             </div>
@@ -60,7 +60,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>属性</label>
-                                        <select name="propertyName" class="form-control " required>
+                                        <select name="propertyName" class="form-control " data-url="getPropertyName" required>
                                             <option value="0">
                                                 请选择
                                             </option>

@@ -8,14 +8,15 @@ define(function(require, exports, module) {
 
 
 	//分页根据条件查询功能点归属
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/dataBackups/list");
+	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/propertyConfig/getpropertyConfig");
 	//新增备份
 	srvMap.add("addPropertyConfig", pathAlias + "retMessage.json", "sys/dataBackups/list");
 	//删除备份
 	srvMap.add("delPropertyConfig", pathAlias + "retMessage.json", "sys/dataBackups/list");
 	//修改备份
 	srvMap.add("updatePropertyConfig", pathAlias + "retMessage.json", "sys/dataBackups/list");
-
+	//属性下拉菜单
+	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
 	// 模板对象
 	var Tpl = {
 		getPropertyConfigTemp: $('#JS_getPropertyConfigTemp'),

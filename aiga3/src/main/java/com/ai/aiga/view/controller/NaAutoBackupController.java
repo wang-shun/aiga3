@@ -1,7 +1,6 @@
 package com.ai.aiga.view.controller;
 
 import java.text.ParseException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,31 @@ public class NaAutoBackupController {
 		return JsonBean.success;
 	}
 	
-	public @ResponseBody JsonBean save(@RequestBody List<NaAutoPropertyConfig> saveState){
+	@RequestMapping(path = "/sys/property/getPropertyConfigList")
+	public @ResponseBody JsonBean getPropertyConfigList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			String propertyID, String dependencyTable, String dependencyField) throws ParseException {
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoBackupFrontSv.getPropertyConfigList(pageNumber, pageSize, propertyID, dependencyTable, dependencyField));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/property/addPropertyConfig")
+	public @ResponseBody JsonBean addPropertyConfig(@RequestBody NaAutoPropertyConfig config){
+		naAutoBackupFrontSv.addPropertyConfig(config);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/property/delPropertyConfig")
+	public @ResponseBody JsonBean delPropertyConfig(Long propertyId){
+		naAutoBackupFrontSv.deletePropertyConfig(propertyId);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/sys/property/updatePropertyConfig")
+	public @ResponseBody JsonBean updatePropertyConfig(@RequestBody NaAutoPropertyConfig config){
+		naAutoBackupFrontSv.updatePropertyConfig(config);
 		return JsonBean.success;
 	}
 	

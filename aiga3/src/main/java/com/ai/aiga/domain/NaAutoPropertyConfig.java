@@ -3,9 +3,13 @@ package com.ai.aiga.domain;
 
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -58,7 +62,8 @@ public class NaAutoPropertyConfig  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_AUTO_PROPERTY_CONFIG$SEQ")
+     @SequenceGenerator(name="NA_AUTO_PROPERTY_CONFIG$SEQ",sequenceName="NA_AUTO_PROPERTY_CONFIG$SEQ",allocationSize=1)
     @Column(name="CFG_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getCfgId() {
         return this.cfgId;

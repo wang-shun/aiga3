@@ -7,14 +7,14 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 
 
-	//分页根据条件查询功能点归属
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/propertyConfig/getpropertyConfig");
+	//分页根据条件查询
+	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyConfigList");
 	//新增备份
-	srvMap.add("addPropertyConfig", pathAlias + "retMessage.json", "sys/dataBackups/list");
+	srvMap.add("addPropertyConfig", pathAlias + "retMessage.json", "sys/property/addPropertyConfig");
 	//删除备份
-	srvMap.add("delPropertyConfig", pathAlias + "retMessage.json", "sys/dataBackups/list");
+	srvMap.add("delPropertyConfig", pathAlias + "retMessage.json", "sys/property/delPropertyConfig");
 	//修改备份
-	srvMap.add("updatePropertyConfig", pathAlias + "retMessage.json", "sys/dataBackups/list");
+	srvMap.add("updatePropertyConfig", pathAlias + "retMessage.json", "sys/property/updatePropertyConfig");
 	//属性下拉菜单
 	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
 	// 模板对象
@@ -131,14 +131,15 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					console.log(data);
-					var cmd = 'correlationId=' + data.correlationId;
+					var cmd = 'cfgId=' + data.cfgId;
+					alert(cmd);
 					//alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delPropertyConfig'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
-								self.queryPropertyConfigForm(Data.queryListCmd);
+								self.getPropertyConfigList(Data.queryListCmd);
 							}, 1000)
 						}
 					});

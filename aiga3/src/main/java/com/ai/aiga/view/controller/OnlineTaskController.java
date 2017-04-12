@@ -118,9 +118,10 @@ public class OnlineTaskController {
 	public @ResponseBody JsonBean taskRequireList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			Long taskId,Long onlinePlan){
+			NaInterfaceList interfaceList,
+			NaOnlineTaskDistribute distribute){
 		JsonBean bean = new JsonBean();
-		bean.setData(performanceTaskSv.taskRequireList(taskId, onlinePlan, pageNumber, pageSize));
+		bean.setData(performanceTaskSv.taskRequireList(interfaceList, distribute, pageNumber, pageSize));
 		return bean;
 	}
 	

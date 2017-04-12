@@ -162,11 +162,30 @@ public class NaAutoBackupFrontSv {
 		if(config == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
 		}
-		if(StringUtils.isEmpty(config.getPropertyId())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "propertyId");
+		if(config.getCfgId() <= 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "cfgId");
+		}
+		NaAutoPropertyConfig up = autoPropertyConfigDao.findOne(config.getCfgId());
+		if(up == null){
+			BusinessException.throwBusinessException("根据cfgId:"+config.getCfgId()+"查询不到记录");
+		}
+		if(StringUtils.isNotEmpty(config.getPropertyName())){
+			up.setPropertyName(config.getPropertyName());
+		}
+		if(StringUtils.isNotEmpty(config.getPropertyField())){
+			up.setPropertyField(config.getPropertyField());
+		}
+		if(StringUtils.isNotEmpty(config.getDependencyField())){
+			up.setDependencyField(config.getDependencyField());
+		}
+		if(StringUtils.isNotEmpty(config.getDependencyTable())){
+			up.setDependencyTable(config.getDependencyTable());
+		}
+		if(StringUtils.isNotEmpty(config.getDb())){
+			up.setDb(config.getDb());
 		}
 		config.setDoneDate(new Date());
-		autoPropertyConfigDao.save(config);
+		autoPropertyConfigDao.save(up);
 	}
 	
 }

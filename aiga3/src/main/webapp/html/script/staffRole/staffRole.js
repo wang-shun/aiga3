@@ -1,30 +1,28 @@
 define(function(require, exports, module) {
 
-    //引入公用模块
+    // 通用工具模块
+    var Utils = require("global/utils.js");
+
     //路径重命名
     var pathAlias = "staffRole/";
     // 查询所有员工
-    srvMap.add("getUserinfoList", "staffRole/getUserinfoList.json", "aiga/staff/list");
+    srvMap.add("getUserinfoList", pathAlias + "getUserinfoList.json", "aiga/staff/list");
     //查询所有岗位信息
-    srvMap.add("getStaffRoleList", "staffRole/getStaffRoleList.json", "sys/role/list");
+    srvMap.add("getStaffRoleList", pathAlias + "getStaffRoleList.json", "sys/role/list");
     //根据当前员工ID调取已选择的岗位信息roleAuthorID,roleID
-    srvMap.add("getStaffRoleCheckedList", "staffRole/getStaffRoleCheckedList.json", "sys/staffrole/list");
+    srvMap.add("getStaffRoleCheckedList", pathAlias + "getStaffRoleCheckedList.json", "sys/staffrole/list");
     //修改员工角色
     srvMap.add("saveStaffRole", pathAlias + "retMessage.json", "sys/staffrole/update");
 
     // 模板对象
-    var Tpl1 = {
-        getUserinfoList: require('tpl/staffRole/getUserinfoList.tpl')
-    };
-    var Tpl2 = {
+    var Tpl = {
+        getUserinfoList: require('tpl/staffRole/getUserinfoList.tpl'),
         getStaffRoleList: require('tpl/staffRole/getStaffRoleList.tpl')
     };
 
     // 容器对象
-    var Mod1 = {
-        getUserinfoList: '#Page_getUserinfoList'
-    };
-    var Mod2 = {
+    var Mod = {
+        getUserinfoList: '#Page_getUserinfoList',
         getStaffRoleList: '#Page_getStaffRoleList'
     };
     var Dom = {
@@ -68,15 +66,11 @@ define(function(require, exports, module) {
             Data.queryListCmd = _cmd;
             Rose.ajax.postJson(srvMap.get('getUserinfoList'), _cmd, function(json, status) {
                 if (status) {
-                    var template = Handlebars.compile(Tpl1.getUserinfoList);
+                    var template = Handlebars.compile(Tpl.getUserinfoList);
                     console.log(json.data)
-                    $(Mod1.getUserinfoList).html(template(json.data));
+                    $(Mod.getUserinfoList).html(template(json.data));
 
-                    //iCheck
-                    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                        checkboxClass: 'icheckbox_minimal-blue',
-                        radioClass: 'iradio_minimal-blue'
-                    });
+                    Utils.eventTrClickCallback($(Dom.getUserinfoListTable))
 
                     $(Dom.getUserinfoListTable).find("tr").bind('click', function(event) {
                         $(this).find('.minimal').iCheck('check');
@@ -113,9 +107,9 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getStaffRoleList'), cmd, function(json, status) {
                 var self = this;
                 if (status) {
-                    var template = Handlebars.compile(Tpl2.getStaffRoleList);
+                    var template = Handlebars.compile(Tpl.getStaffRoleList);
                     console.log(json.data)
-                    $(Mod2.getStaffRoleList).html(template(json.data));
+                    $(Mod.getStaffRoleList).html(template(json.data));
                     //iCheck
                     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                         checkboxClass: 'icheckbox_minimal-blue',

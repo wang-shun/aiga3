@@ -136,9 +136,28 @@ public class ChangeReviewSv extends BaseService{
 
 		return planDetailManifestDao.searchByNativeSQL(sql, pageable, list);
 	}
-   public List<NaCodePath> findCodePath() {
+   public Object findCodePath(int pageNumber, int pageSize, NaCodePath condition) {
 	   
-		return  codePathDao.findAll();
+	List<Condition> cons = new ArrayList<Condition>();
+		
+		if(condition != null){
+			if(condition.getPlanId()!= 0){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return codePathDao.search(cons, pageable);
+		
 	}
    //测试情况
    public Object list1(int pageNumber, int pageSize, PlanDetailManifest condition) throws ParseException {

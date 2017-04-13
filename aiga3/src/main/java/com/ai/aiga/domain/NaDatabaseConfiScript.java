@@ -2,10 +2,13 @@ package com.ai.aiga.domain;
 // Generated 2017-4-11 19:38:50 by Hibernate Tools 3.2.2.GA
 
 
-import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,7 +18,6 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name="NA_DATABASE_CONFI_SCRIPT"
-    ,schema="AIGA"
 )
 public class NaDatabaseConfiScript  implements java.io.Serializable {
 
@@ -23,7 +25,7 @@ public class NaDatabaseConfiScript  implements java.io.Serializable {
      private Long id;
      private String database;
      private Long scriptNumber;
-     private Date executeTime;
+     private String executeTime;
      private String ext1;
      private String ext2;
      private String ext3;
@@ -45,7 +47,7 @@ public class NaDatabaseConfiScript  implements java.io.Serializable {
     public NaDatabaseConfiScript(Long id) {
         this.id = id;
     }
-    public NaDatabaseConfiScript(Long id, String database, Long scriptNumber, Date executeTime, String ext1, String ext2, String ext3) {
+    public NaDatabaseConfiScript(Long id, String database, Long scriptNumber, String executeTime, String ext1, String ext2, String ext3) {
        this.id = id;
        this.database = database;
        this.scriptNumber = scriptNumber;
@@ -56,7 +58,8 @@ public class NaDatabaseConfiScript  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_DATABASE_CONFI_SCRIPT$SEQ")
+     @SequenceGenerator(name="NA_DATABASE_CONFI_SCRIPT$SEQ",sequenceName="NA_DATABASE_CONFI_SCRIPT$SEQ",allocationSize=1)
     @Column(name="ID", unique=true, nullable=false, precision=12, scale=0)
     public Long getId() {
         return this.id;
@@ -83,13 +86,13 @@ public class NaDatabaseConfiScript  implements java.io.Serializable {
     public void setScriptNumber(Long scriptNumber) {
         this.scriptNumber = scriptNumber;
     }
-    @Temporal(TemporalType.TIMESTAMP)
+    
     @Column(name="EXECUTE_TIME", length=7)
-    public Date getExecuteTime() {
+    public String getExecuteTime() {
         return this.executeTime;
     }
     
-    public void setExecuteTime(Date executeTime) {
+    public void setExecuteTime(String executeTime) {
         this.executeTime = executeTime;
     }
     

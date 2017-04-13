@@ -77,10 +77,15 @@ public class ChangeReviewController {
 	
 	//代码包清单
 	@RequestMapping(path = "/sys/codepath/list")
-	public @ResponseBody JsonBean codepath(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.findCodePath());
-		return bean;
+	public @ResponseBody JsonBean codepath(
+		@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+		@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+		NaCodePath condition
+		) throws ParseException {
+	
+	  JsonBean bean = new JsonBean();
+	bean.setData(changeReviewSv.findCodePath(pageNumber, pageSize, condition));
+	return bean;
 	}   
 	//测试遗留情况
 	@RequestMapping(path = "/sys/testLeaveOver/list")

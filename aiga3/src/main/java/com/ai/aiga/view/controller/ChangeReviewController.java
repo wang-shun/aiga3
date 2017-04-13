@@ -38,12 +38,14 @@ import com.ai.aiga.view.json.base.JsonBean;
 public class ChangeReviewController {
 	@Autowired
 	private  ChangeReviewSv changeReviewSv;
+	//交互物变更评审
 	@RequestMapping(path = "/sys/changerevier/list")
 	public @ResponseBody JsonBean changerevier(Long onlinePlan){
 		JsonBean bean = new JsonBean();
 		bean.setData(changeReviewSv.selectall(onlinePlan));
 		return bean;
-	}            
+	}    
+	//交互物变更评审保存
 	@RequestMapping(path = "/sys/changerevier/save")
 	public @ResponseBody JsonBean save(NaChangeReview request){
 		changeReviewSv.save(request);;
@@ -54,14 +56,19 @@ public class ChangeReviewController {
 		changeReviewSv.saveCodePath(saveState);
 		return JsonBean.success;
 	}
+	//需求清单
 	@RequestMapping(path = "/sys/detailManifest/list")
-	public @ResponseBody JsonBean planDetailManifest(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.findPlanDetailManifest());
+	public @ResponseBody JsonBean list(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			PlanDetailManifest condition) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findPlanDetailManifest(pageNumber, pageSize, condition));
 		return bean;
-	}     
+	}
 	
-	
+	//代码包清单
 	@RequestMapping(path = "/sys/codepath/list")
 	public @ResponseBody JsonBean codepath(){
 		JsonBean bean = new JsonBean();

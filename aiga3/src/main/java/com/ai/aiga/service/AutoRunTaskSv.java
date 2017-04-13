@@ -3,8 +3,7 @@ package com.ai.aiga.service;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoRunPlanDao;
 import com.ai.aiga.dao.NaAutoRunTaskDao;
-import com.ai.aiga.domain.NaAutoRunPlan;
-import com.ai.aiga.domain.NaAutoRunTask;
+import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.enums.AutoRunEnum;
@@ -121,61 +120,6 @@ public class AutoRunTaskSv {
         return autoRunTask;
     }
 
-
-    /**
-     * 生成任务
-     * @param autoRunTask
-     * @return
-     */
-    private NaAutoRunTask createTask(NaAutoRunTask autoRunTask){
-        if (autoRunTask == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
-        if (autoRunTask.getPlanId() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
-        }
-        //保存任务
-        autoRunTask= this.save(autoRunTask);
-        //生成任务与用例关联关系
-        autoRunTaskCaseSv.saveListByPlanId(autoRunTask.getPlanId(),autoRunTask.getTaskId());
-        return autoRunTask;
-    }
-
-    /**
-     * 通过任务请求发起页面参数生成任务
-     * @param runTaskRequest
-     * @return
-     */
-    public NaAutoRunTask createTaskByRequest(AutoRunTaskRequest runTaskRequest){
-        if (runTaskRequest == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
-        NaAutoRunTask autoRunTask= BeanMapper.map(runTaskRequest,NaAutoRunTask.class);
-        this.createTask(autoRunTask);
-        return autoRunTask;
-    }
-
-
-
-    /**
-     * 根据计划ID默认生成任务
-     * @param planId
-     * @return
-     */
-    private NaAutoRunTask createTaskByPlanId(Long planId){
-        if (planId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
-        }
-        NaAutoRunPlan plan=autoRunPlanDao.findByPlanId(planId);
-        if (plan == null) {
-            BusinessException.throwBusinessException("could not found the plan! please make sure the planId:"+planId);
-        }
-        NaAutoRunTask autoRunTask=BeanMapper.map(plan,NaAutoRunTask.class);
-        autoRunTask.setTaskName(plan.getPlanName()+ DateUtil.getCurrTimeString());
-        this.createTask(autoRunTask);
-        return autoRunTask;
-    }
-
     /**
      * 根据任务请求发起页面参数初始化任务
      * @param taskRequest
@@ -212,76 +156,6 @@ public class AutoRunTaskSv {
         //生成预执行结果信息
         autoRunResultSv.createResultByTaskId(autoRunTask.getTaskId());
         this.startTask(autoRunTask);
-    }
-
-    /**
-     * 启动任务
-     * @param autoRunTask
-     */
-    private void startTask(NaAutoRunTask autoRunTask){
-        if (autoRunTask == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
-        if (autoRunTask.getRunType() == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runType");
-        }
-        //根据执行类型不同选择不同方式
-        Long runType=autoRunTask.getRunType();
-        //更新任务信息
-        autoRunTask.setBeginRunTime(DateUtil.getCurrentTime());
-        autoRunTask.setTaskResult(AutoRunEnum.TaskResult_running.getValue());//执行中
-//            autoRunTask.setLastRunner();//执行者
-        //立即执行
-        if(runType==AutoRunEnum.RunType_timing.getValue()){
-
-        }else//分布式执行
-            if(runType==AutoRunEnum.RunType_distributed.getValue()){
-
-            }
-    }
-
-    /**
-     * 根据机器IP，任务ID，环境配置信息访问云桌面代理程序服务接口
-     * @param machineIp
-     * @param taskId
-     * @param envConfigId
-     * @return
-     */
-    public String accessProxy(String machineIp,String taskId,String envConfigId){
-        if (StringUtils.isBlank(machineIp)) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
-        }
-        if (StringUtils.isBlank(taskId)) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
-        }
-        if (StringUtils.isBlank(envConfigId)) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envConfigId");
-        }
-        //获取解析后的URL配置类
-        UrlConfigTypes urlConfigTypes= UrlConfigTypes.getInstance(UrlConfigTypes.SENDTASK);
-        //设置传递参数
-        String param="taskId="+taskId+"&sceneId="+envConfigId;
-        //拼接url
-        String url="http://"+machineIp+":"+urlConfigTypes.getPort()+urlConfigTypes.getPath();
-        //发送请求，并获取返回消息
-        String msg= HttpConnectionUtil.requestMethod(HttpConnectionUtil.HTTP_POST,url,param);
-        return msg;
-    }
-
-
-    /**
-     * 根据主键删除(唯一入口)
-     * @param taskId
-     */
-    private void delete(Long taskId){
-        if (taskId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
-        }
-        autoRunTaskDao.delete(taskId);
-        //删除任务与用例的关联关系
-        autoRunTaskCaseSv.deleteByTaskId(taskId);
-        //删除任务结果信息
-        autoRunResultSv.deleteByTaskId(taskId);
     }
 
     public void delete(AutoRunTaskRequest request){
@@ -417,5 +291,146 @@ public class AutoRunTaskSv {
         return JsonUtil.mapToJson(taskMap);
     }
 
+    /**
+     * 启动任务
+     * @param autoRunTask
+     */
+    private void startTask(NaAutoRunTask autoRunTask){
+        if (autoRunTask == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        if (autoRunTask.getRunType() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runType");
+        }
+        //根据执行类型不同选择不同方式
+        Long runType=autoRunTask.getRunType();
+        //更新任务信息
+        autoRunTask.setBeginRunTime(DateUtil.getCurrentTime());
+        autoRunTask.setTaskResult(AutoRunEnum.TaskResult_running.getValue());//执行中
+//            autoRunTask.setLastRunner();//执行者
+        this.save(autoRunTask);
+        //立即执行
+        if (runType == AutoRunEnum.RunType_timing.getValue()) {
+            //访问云桌面
+            this.accessProxy(autoRunTask.getMachineIp(), autoRunTask.getTaskId().toString(), autoRunTaskCaseSv.getEnvByTaskId(autoRunTask.getTaskId()));
+        } else {
+            //分布式执行
+            if (runType == AutoRunEnum.RunType_distributed.getValue()) {
+                //获取该任务分布式执行总共需多少台机器
+                int distributeMachineNum=this.autoRunTaskCaseSv.getDistributeNumByTaskId(autoRunTask.getTaskId());
+                //获取所有可执行机器
+                List<NaAutoMachine> machineList = this.autoRunTaskCaseSv.getMachineByTaskId(autoRunTask.getTaskId());
+                int exeMachineNum=1;
+                for (NaAutoMachine machine : machineList) {
+                    //访问云桌面
+                    this.accessProxy(machine.getMachineIp(), autoRunTask.getTaskId().toString(), autoRunTaskCaseSv.getEnvByTaskId(autoRunTask.getTaskId()));
+                    //判断分发的机器是否达到可执行上限
+                    if(exeMachineNum==distributeMachineNum){
+                        break;
+                    }else{
+                        exeMachineNum++;
+                    }
+                }
+            }
+        }
 
+    }
+
+
+    /**
+     * 通过任务请求发起页面参数生成任务
+     * @param runTaskRequest
+     * @return
+     */
+    private NaAutoRunTask createTaskByRequest(AutoRunTaskRequest runTaskRequest){
+        if (runTaskRequest == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        NaAutoRunTask autoRunTask= BeanMapper.map(runTaskRequest,NaAutoRunTask.class);
+        this.createTask(autoRunTask);
+        return autoRunTask;
+    }
+
+
+
+    /**
+     * 根据计划ID默认生成任务
+     * @param planId
+     * @return
+     */
+    private NaAutoRunTask createTaskByPlanId(Long planId){
+        if (planId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+        }
+        NaAutoRunPlan plan=autoRunPlanDao.findByPlanId(planId);
+        if (plan == null) {
+            BusinessException.throwBusinessException("could not found the plan! please make sure the planId:"+planId);
+        }
+        NaAutoRunTask autoRunTask=BeanMapper.map(plan,NaAutoRunTask.class);
+        autoRunTask.setTaskName(plan.getPlanName()+ DateUtil.getCurrTimeString());
+        this.createTask(autoRunTask);
+        return autoRunTask;
+    }
+
+    /**
+     * 生成任务
+     * @param autoRunTask
+     * @return
+     */
+    private NaAutoRunTask createTask(NaAutoRunTask autoRunTask){
+        if (autoRunTask == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        if (autoRunTask.getPlanId() == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+        }
+        //保存任务
+        autoRunTask= this.save(autoRunTask);
+        //生成任务与用例关联关系
+        autoRunTaskCaseSv.saveListByPlanId(autoRunTask.getPlanId(),autoRunTask.getTaskId());
+        return autoRunTask;
+    }
+
+    /**
+     * 根据机器IP，任务ID，环境配置信息访问云桌面代理程序服务接口
+     * @param machineIp
+     * @param taskId
+     * @param envConfigId
+     * @return
+     */
+    private String accessProxy(String machineIp,String taskId,String envConfigId){
+        if (StringUtils.isBlank(machineIp)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
+        }
+        if (StringUtils.isBlank(taskId)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+        }
+        if (StringUtils.isBlank(envConfigId)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envConfigId");
+        }
+        //获取解析后的URL配置类
+        UrlConfigTypes urlConfigTypes= UrlConfigTypes.getInstance(UrlConfigTypes.SENDTASK);
+        //设置传递参数
+        String param="taskId="+taskId+"&sceneId="+envConfigId;
+        //拼接url
+        String url="http://"+machineIp+":"+urlConfigTypes.getPort()+urlConfigTypes.getPath();
+        //发送请求，并获取返回消息
+        String msg= HttpConnectionUtil.requestMethod(HttpConnectionUtil.HTTP_POST,url,param);
+        return msg;
+    }
+
+    /**
+     * 根据主键删除(唯一入口)
+     * @param taskId
+     */
+    private void delete(Long taskId){
+        if (taskId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+        }
+        autoRunTaskDao.delete(taskId);
+        //删除任务与用例的关联关系
+        autoRunTaskCaseSv.deleteByTaskId(taskId);
+        //删除任务结果信息
+        autoRunResultSv.deleteByTaskId(taskId);
+    }
 }

@@ -7,39 +7,39 @@ define(function(require,exports,module){
 	var Page  = Utils.initPage('deliverableReview');
 
 	//交付物评审结论
-	srvMap.add("getDeliverableReviewConclusion", "netFlowManage/deliverableReview/getDeliverableReviewConclusion.json", "");
+	srvMap.add("getDeliverableReviewConclusion", "netFlowManage/deliverableReview/getDeliverableReviewConclusion.json", "sys/changerevier/list");
 	//保存结论
-	srvMap.add("saveConclusion", "netFlowManage/deliverableReview/retMessage.json", "");
+	srvMap.add("saveConclusion", "netFlowManage/deliverableReview/retMessage.json", "sys/changerevier/save");
 	//计划上线需求概况列表
-	srvMap.add("getPlanList", "netFlowManage/deliverableReview/getPlanList.json", "");
+	srvMap.add("getPlanList", "netFlowManage/deliverableReview/getPlanList.json", "sys/planDetailManifest/list");
 	//上线系统模块清单
-	srvMap.add("getModelList", "netFlowManage/deliverableReview/getModelList.json", "");
+	srvMap.add("getModelList", "netFlowManage/deliverableReview/getModelList.json", "sys/codepath/list");
 	//保存模块
-	srvMap.add("saveModel", "netFlowManage/deliverableReview/retMessage.json", "");
+	srvMap.add("saveModel", "netFlowManage/deliverableReview/retMessage.json", "sys/codepath/save");
 	//计划上线清单列表
-	srvMap.add("getOnlineList", "netFlowManage/deliverableReview/getOnlineList.json", "");
+	srvMap.add("getOnlineList", "netFlowManage/deliverableReview/getOnlineList.json", "sys/detailManifest/list");
 	//测试执行情况列表
-	srvMap.add("getTestList", "netFlowManage/deliverableReview/getTestList.json", "");
+	srvMap.add("getTestList", "netFlowManage/deliverableReview/getTestList.json", "sys/testSituation/list");
 	//保存测试
-	srvMap.add("saveTest", "netFlowManage/deliverableReview/retMessage.json", "");
+	srvMap.add("saveTest", "netFlowManage/deliverableReview/retMessage.json", "sys/testSituation/save");
 	//测试遗留情况列表
-	srvMap.add("getRemnantList", "netFlowManage/deliverableReview/getRemnantList.json", "");
+	srvMap.add("getRemnantList", "netFlowManage/deliverableReview/getRemnantList.json", "sys/testLeaveOver/list");
 	//功能测试报告列表
-	srvMap.add("getReportList", "netFlowManage/deliverableReview/getReportList.json", "");
+	srvMap.add("getReportList", "netFlowManage/deliverableReview/getReportList.json", "sys/requireList/list");
 	//数据库配置脚本列表
-	srvMap.add("getDatabaseList", "netFlowManage/deliverableReview/getDatabaseList.json", "");
+	srvMap.add("getDatabaseList", "netFlowManage/deliverableReview/getDatabaseList.json", "sys/databaseConfiScript/list");
 	//数据库脚本清单
-	srvMap.add("getJavascriptList", "netFlowManage/deliverableReview/getJavascriptList.json", "");
+	srvMap.add("getJavascriptList", "netFlowManage/deliverableReview/getJavascriptList.json", "sys/databaseScriptList/list");
 	//数据库割接脚本清单
-	srvMap.add("getDeliverList", "netFlowManage/deliverableReview/getDeliverList.json", "");
+	srvMap.add("getDeliverList", "netFlowManage/deliverableReview/getDeliverList.json", "sys/dbScriptList/list");
 	//系统架构变更清单列表
-	srvMap.add("getStructureList", "netFlowManage/deliverableReview/getStructureList.json", "");
+	/*srvMap.add("getStructureList", "netFlowManage/deliverableReview/getStructureList.json", "");
 	//进程变更清单列表
 	srvMap.add("getProgressList", "netFlowManage/deliverableReview/getProgressList.json", "");
 	//服务变更上线清单列表
 	srvMap.add("getServiceList", "netFlowManage/deliverableReview/getServiceList.json", "");
 	//主机配置列表
-	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "");
+	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "");*/
 
 	//模板对象
 	var Tpl={

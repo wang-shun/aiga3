@@ -15,6 +15,8 @@ public interface NaCodePathDao extends JpaRepository<NaCodePath, Long>, SearchAn
 
 	NaCodePath findById(Long id);
 	
+	List<NaCodePath> findBySysName(String sysName);
+	
 	@Query(value="select  *   from Na_Code_Path where to_char(plan_Date,'yyyy-MM-dd')  like ?1  " , nativeQuery=true)
 	List<NaCodePath> findByPlanDate(String planDate);
 	

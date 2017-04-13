@@ -160,6 +160,95 @@ public class ChangeReviewController {
 		return bean;
 	}
 	
+
+	//
+	@RequestMapping(path = "/sys/review/findNaHostConfigListByPlanId")
+	public @ResponseBody JsonBean findNaHostConfigListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaHostConfigListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaGroupAdjustListByPlanId")
+	public @ResponseBody JsonBean findNaGroupAdjustListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaGroupAdjustListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaGroupRequireListByPlanId")
+	public @ResponseBody JsonBean findNaGroupRequireListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaGroupRequireListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaHasDeployMenuListByPlanId")
+	public @ResponseBody JsonBean findNaHasDeployMenuListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaHasDeployMenuListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaProcessChangeListByPlanId")
+	public @ResponseBody JsonBean findNaProcessChangeListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaProcessChangeListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	
+	@RequestMapping(path = "/sys/review/findNaServiceChangeOnlineListByPlanId")
+	public @ResponseBody JsonBean findNaServiceChangeOnlineListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaServiceChangeOnlineListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaSystemArchitectureListByPlanId")
+	public @ResponseBody JsonBean findNaSystemArchitectureListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaSystemArchitectureListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	 
+
 	//测试情况
 		@RequestMapping(path = "/sys/testSituation/list")
 		public @ResponseBody JsonBean findtestSituation(
@@ -178,6 +267,6 @@ public class ChangeReviewController {
 			changeReviewSv.saveTestSituation(request);
 			return JsonBean.success;
 		}	
-		
+
 }
 

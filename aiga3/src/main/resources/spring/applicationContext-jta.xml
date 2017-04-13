@@ -55,14 +55,10 @@
 			</props>
 		</property>
 	</bean>
-
-	
-
 	<bean name="dynamicDatasource" class="com.ai.aiga.jta.DynamicDataSource">
 		<property name="targetDataSources">
 			<map>
 				<entry key="aiga" value-ref="aiga" />
-				<entry key="CSHP03" value-ref="CSHP03" />
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="aiga" /> 

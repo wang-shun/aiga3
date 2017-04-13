@@ -104,16 +104,16 @@ public class reviewPlanSv  extends BaseService{
 					naCodePathAiga.setState((naCodePath.getState()));
 					naCodePathAiga.setPlanDate(new SimpleDateFormat("yyyy-MM-dd").parse(naCodePath.getPlanDate()));
 					naCodePathAiga.setRemark(naCodePath.getRemark());
-					naCodePathAiga.setResult(naCodePath.getResult());
 					naCodePathAiga.setIsFinished(1L);
-					naCodePathAiga.setComplimeCount(1L);
 					NaCodePath naCodePathss = 	naCodePathDao.findById(naCodePath.getId());
 					//如果是新增状态，那么修改次数设置为0
 					if(naCodePath.getState()==1||naCodePathss==null){
 						naCodePathAiga.setUpdateCount(0L);
+						naCodePathAiga.setComplimeCount(0L);
 					}//如果是修改或者删除，记录修改的次数
 					else if(naCodePathss!=null&&naCodePath.getState()!=1){
 						naCodePathAiga.setUpdateCount(naCodePathss.getUpdateCount()+1);
+						naCodePathAiga.setComplimeCount(naCodePathss.getComplimeCount());
 					}
 					naCodePathDao.save(naCodePathAiga);
 					msg= "success";
@@ -123,7 +123,11 @@ public class reviewPlanSv  extends BaseService{
 		return returnmap;
 	}
 	
-	
+	/**
+	 * 获取BMC编译信息
+	 * @param obj
+	 * @return
+	 */
 	public Map<String, String> copytNaCodePathComplieFromBMC(BMCArgs  obj) {
 	    String msg= "";
 	    Map<String, String>  returnmap  = new HashMap<String, String>();
@@ -150,6 +154,24 @@ public class reviewPlanSv  extends BaseService{
 	    }
 	    returnmap.put("info", msg);
 	    return returnmap;
+	}
+	
+	
+	/**
+	 * 将na_code_path评审不合格的回退给ADClod进行修改
+	 * @param planDate计划上线时间
+	 */
+	public Map<Object, Object> NaCodePathCompileToBmc(String planDate){
+		Map<Object, Object> mapreturn  = new HashMap<Object, Object>();
+		//查询最新修改的上线系统信息
+		List<NaCodePath>  datas = naCodePathDao.findByPlanDateAndIsFinished(planDate);//存放客户端返回信息
+		if(datas!=null&&!datas.isEmpty()){
+			
+			}
+			//通过http发送post请求
+		
+			return mapreturn;
+		
 	}
 	
 }

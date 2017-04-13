@@ -18,7 +18,14 @@ import com.ai.aiga.dao.CodePathDao;
 import com.ai.aiga.dao.DatabaseConfiDao;
 import com.ai.aiga.dao.DatabaseScriptListDao;
 import com.ai.aiga.dao.DbScriptListDao;
+import com.ai.aiga.dao.NaGroupAdjustListDao;
+import com.ai.aiga.dao.NaGroupRequireListDao;
+import com.ai.aiga.dao.NaHasDeployMenuListDao;
+import com.ai.aiga.dao.NaHostConfigListDao;
+import com.ai.aiga.dao.NaProcessChangeListDao;
 import com.ai.aiga.dao.NaRequireListDao;
+import com.ai.aiga.dao.NaServiceChangeOnlineListDao;
+import com.ai.aiga.dao.NaSystemArchitectureListDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.dao.TestLeaveOverDao;
 import com.ai.aiga.dao.TestSituationDao;
@@ -75,13 +82,37 @@ public class ChangeReviewSv extends BaseService{
 	@Autowired
 	private 	DbScriptListDao dbScriptListDao;
 	
+
+	@Autowired
+	private NaHostConfigListDao naHostConfigListDao;
+	
+	@Autowired 
+	private NaGroupAdjustListDao naGroupAdjustListDao;
+	
+	@Autowired
+	private NaGroupRequireListDao naGroupRequireListDao;
+	
+	@Autowired
+	private NaHasDeployMenuListDao naHasDeployMenuListDao;
+	
+	@Autowired
+	private NaProcessChangeListDao  naProcessChangeListDao;
+	
+	@Autowired
+	private NaServiceChangeOnlineListDao naServiceChangeOnlineListDao;
+	
+	@Autowired
+	private NaSystemArchitectureListDao  naSystemArchitectureListDao;
+
 	
 	@Autowired
 	private           TestSituationDao   testSituationDao;
+
    public  List<NaChangeReview> selectall(Long onlinePlan){
 	   if (onlinePlan==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
+	
 	   return changeReviewDao.selectall(onlinePlan);
 	   
    }
@@ -367,5 +398,198 @@ public class ChangeReviewSv extends BaseService{
 	   
 
 
-}
+ 
+ /**
+  * 根据计划查询组织配置清单
+  * @param planId计划id
+  * @param pageNumber
+  * @param pageSize
+  * @return
+  */
+ public Object  findNaHostConfigListByPlanId(Long planId,int pageNumber, int pageSize){
+	 if(planId==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null+"计划id为空");
+	 }
+		List<Condition> cons = new ArrayList<Condition>();
+       cons.add(new Condition("planId",planId,Condition.Type.EQ));
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naHostConfigListDao.search(cons, pageable);
+		
+ 	}	
+ 
+ 
+ /**
+  * 根据计划查询需要联调需求清单
+  * @param planId计划id
+  * @param pageNumber
+  * @param pageSize
+  * @return
+  */
+ public Object  findNaGroupAdjustListByPlanId(Long planId,int pageNumber, int pageSize){
+	 if(planId==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null+"计划id为空");
+	 }
+		List<Condition> cons = new ArrayList<Condition>();
+       cons.add(new Condition("planId",planId,Condition.Type.EQ));
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naGroupAdjustListDao.search(cons, pageable);
+		
+}	
+ 
+ 
+ /**
+  * 根据计划查询集团需求清单
+  * @param planId计划id
+  * @param pageNumber
+  * @param pageSize
+  * @return
+  */
+ public Object  findNaGroupRequireListByPlanId(Long planId,int pageNumber, int pageSize){
+	 if(planId==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null+"计划id为空");
+	 }
+		List<Condition> cons = new ArrayList<Condition>();
+       cons.add(new Condition("planId",planId,Condition.Type.EQ));
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naGroupRequireListDao.search(cons, pageable);
+		
+ }	
+ 
+ 
+ /**
+  * 根据计划查询生产环境需要配置菜单需求清单
+  * @param planId计划id
+  * @param pageNumber
+  * @param pageSize
+  * @return
+  */
+ public Object  findNaHasDeployMenuListByPlanId(Long planId,int pageNumber, int pageSize){
+	 if(planId==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null+"计划id为空");
+	 }
+		List<Condition> cons = new ArrayList<Condition>();
+       cons.add(new Condition("planId",planId,Condition.Type.EQ));
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naHasDeployMenuListDao.search(cons, pageable);
+		
+  }	
+ 
+	 /**
+	  * 根据计划查询进程变更清单
+	  * @param planId计划id
+	  * @param pageNumber
+	  * @param pageSize
+	  * @return
+	  */
+	 public Object  findNaProcessChangeListByPlanId(Long planId,int pageNumber, int pageSize){
+		 if(planId==null){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null+"计划id为空");
+		 }
+			List<Condition> cons = new ArrayList<Condition>();
+	       cons.add(new Condition("planId",planId,Condition.Type.EQ));
+			if(pageNumber < 0){
+				pageNumber = 0;
+			}
+			
+			if(pageSize <= 0){
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+	
+			Pageable pageable = new PageRequest(pageNumber, pageSize);
+			
+			return naProcessChangeListDao.search(cons, pageable);
+			
+	 }	
+	 
+	 
+	 /**
+	  * 根据计划查询服务进程上线清单
+	  * @param planId计划id
+	  * @param pageNumber
+	  * @param pageSize
+	  * @return
+	  */
+	 public Object  findNaServiceChangeOnlineListByPlanId(Long planId,int pageNumber, int pageSize){
+		 if(planId==null){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null+"计划id为空");
+		 }
+			List<Condition> cons = new ArrayList<Condition>();
+	       cons.add(new Condition("planId",planId,Condition.Type.EQ));
+			if(pageNumber < 0){
+				pageNumber = 0;
+			}
+			
+			if(pageSize <= 0){
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+	
+			Pageable pageable = new PageRequest(pageNumber, pageSize);
+			
+			return naServiceChangeOnlineListDao.search(cons, pageable);
+			
+	 }	
+	 
+	 
+	 /**
+	  * 根据计划查询系统架构清单
+	  * @param planId计划id
+	  * @param pageNumber
+	  * @param pageSize
+	  * @return
+	  */
+	 public Object  findNaSystemArchitectureListByPlanId(Long planId,int pageNumber, int pageSize){
+		 if(planId==null){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null+"计划id为空");
+		 }
+			List<Condition> cons = new ArrayList<Condition>();
+	       cons.add(new Condition("planId",planId,Condition.Type.EQ));
+			if(pageNumber < 0){
+				pageNumber = 0;
+			}
+			
+			if(pageSize <= 0){
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+	
+			Pageable pageable = new PageRequest(pageNumber, pageSize);
+			
+			return naSystemArchitectureListDao.search(cons, pageable);
+	 }}
+
 

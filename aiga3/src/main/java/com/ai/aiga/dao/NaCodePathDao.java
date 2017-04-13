@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 
@@ -20,6 +21,7 @@ public interface NaCodePathDao extends JpaRepository<NaCodePath, Long>, SearchAn
 	@Query(value="select  *   from Na_Code_Path where to_char(plan_Date,'yyyy-MM-dd')  like ?1  " , nativeQuery=true)
 	List<NaCodePath> findByPlanDate(String planDate);
 	
+	@Modifying
 	@Query(value="update Na_Code_Path set is_finished = 0  where to_char(plan_date,'yyyy-MM-dd') like ?1 " , nativeQuery=true)
 	void updateIsFinished(String planDate);
     

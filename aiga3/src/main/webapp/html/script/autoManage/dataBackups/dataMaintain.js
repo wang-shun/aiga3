@@ -96,9 +96,13 @@ define(function(require, exports, module) {
 			var self = this;
 			var _list = $(Dom.getDataMaintainList);
 			var _addBt = _list.find("[name='add']");
+
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
 				$(Dom.addDataMaintainModal).modal('show');
+				$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
+					Utils.resetForm(Dom.addDataMaintainInfo);
+				});
 				var _form = $(Dom.addDataMaintainInfo);
 				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addDataMaintainModal).find("[name = 'save']");

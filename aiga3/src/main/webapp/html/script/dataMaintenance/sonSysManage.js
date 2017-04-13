@@ -75,10 +75,10 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile($("#TPL_getSonSysTemp").html());
 				_dom.find("[name='content']").html(template(json.data.content));
 				//删除所选条目
-					self.delSubCaseSysInfo();
-					//新增条目
-					self.addSubSysInfo();
-					Utils.eventTrClickCallback($(Dom.getsubInfoList));
+				self.delSubCaseSysInfo();
+				//新增条目
+				self.addSubSysInfo();
+				Utils.eventTrClickCallback($(Dom.getsubInfoList));
 			}, _domPagination);
 
 
@@ -120,6 +120,9 @@ define(function(require, exports, module) {
 				//组件表单校验初始化
 				var _form = $(Dom.addSysInfo);
 				Utils.setSelectData(_form);
+				$(Dom.addsubSysInfoModel).on('hide.bs.modal', function() {
+					Utils.resetForm('#JS_addSysInfo');
+				});
 				// 表单提交
 				$("#addSysInfoButton").unbind('click');
 				$("#addSysInfoButton").bind('click', function() {

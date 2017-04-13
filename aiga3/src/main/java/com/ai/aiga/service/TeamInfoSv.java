@@ -300,7 +300,7 @@ public class TeamInfoSv extends BaseService {
 			}
 		}
 		
-		String empsql = "select em_name||'<'||email||'>' as name ,email  from NA_EMPLOYEE_INFO";
+		String empsql = "select em_name||'&lt;'||email||'&gt;' as name ,email  from NA_EMPLOYEE_INFO";
 		List<Object> emps = teamEmployeeRelDao.searchformSQL(empsql);
 		System.out.println("emps"+emps);
 		if(emps!=null&&emps.size()>0){

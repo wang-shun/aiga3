@@ -121,6 +121,9 @@ public class ChangeReviewSv extends BaseService{
 		String sql = "select manifest_id,sys_name, sub_sys_name, count(sub_sys_name) nu from plan_detail_manifest "
 				+ "group by sys_name,sub_sys_name";
 		
+		if (condition.getPlanId()!=0) {
+			sql += " and plan_id ="+ condition.getPlanId() ;
+		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -143,7 +146,9 @@ public class ChangeReviewSv extends BaseService{
 		list.add("sysName");
 		list.add("subSysName");
 		String sql = "select distinct sys_name, sub_sys_name from plan_detail_manifest ";
-		
+		if (condition.getPlanId()!=0) {
+			sql += " and plan_id ="+ condition.getPlanId() ;
+		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -186,10 +191,10 @@ public class ChangeReviewSv extends BaseService{
 
 			if (naCodePath != null) {
 				
-//				NaCodePath naCodePath1=codePathDao.findOne(naCodePath.getId());
-//				naCodePath1.setResult(naCodePath.getResult());
-//				naCodePath1.set
-//				codePathDao.save(naCodePath1);
+			NaCodePath naCodePath1=codePathDao.findOne(naCodePath.getId());
+				naCodePath1.setResult(naCodePath.getResult());
+				
+			codePathDao.save(naCodePath1);
 				
 
 			}
@@ -201,7 +206,11 @@ public class ChangeReviewSv extends BaseService{
    public Object  findPlanDetailManifest(int pageNumber, int pageSize,PlanDetailManifest condition){
 		List<Condition> cons = new ArrayList<Condition>();
 		
-		
+		if(condition != null){
+			if(condition.getPlanId()!= 0){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
 		
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -216,36 +225,128 @@ public class ChangeReviewSv extends BaseService{
 		return planDetailManifestDao.search(cons, pageable);
 		
    }	
-		//return responses;
  
-   public List<PlanDetailManifest> findPlanDetailManifest(){
+ 
+ public Object findTestLeaveOver(int pageNumber, int pageSize,NaTestLeaveOver condition){
 	   
-	   return planDetailManifestDao.findAll();
+	 List<Condition> cons = new ArrayList<Condition>();
+		
+	 if(condition != null){
+			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return testLeaveOverDao.search(cons, pageable);
+		
    }
-   
- public List<NaTestLeaveOver> findTestLeaveOver(){
+ public Object findRequireList(int pageNumber, int pageSize,NaRequireList condition){
 	   
-	   return testLeaveOverDao.findAll();
+	 List<Condition> cons = new ArrayList<Condition>();
+		
+	 if(condition != null){
+			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naRequireListDao.search(cons, pageable);
+		
    }
- 
- public List<NaRequireList> findRequireList(){
+ public Object findDatabaseScriptList(int pageNumber, int pageSize,NaDatabaseScriptList condition){
 	   
-	   return naRequireListDao.findAll();
- }
- public List<NaDatabaseConfiScript> findDatabaseConfi(){
-	   
-	   return databaseConfiDao.findAll();
-}
+	 List<Condition> cons = new ArrayList<Condition>();
+		
+	 if(condition != null){
+			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return databaseScriptListDao.search(cons, pageable);
+		
+   }
+
  
- public List<NaDatabaseScriptList> findDatabaseScriptList(){
+
+ public Object findDatabaseConfi(int pageNumber, int pageSize,NaDatabaseConfiScript condition){
 	   
-	   return databaseScriptListDao.findAll();
-}
- 
- public List<NaDbScriptList> findDbScriptList(){
+	 List<Condition> cons = new ArrayList<Condition>();
+		
+	 if(condition != null){
+			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return databaseConfiDao.search(cons, pageable);
+		
+   }
+ public Object findDbScriptList(int pageNumber, int pageSize,NaDbScriptList condition){
+	 
+	 List<Condition> cons = new ArrayList<Condition>();
+		
+	 if(condition != null){
+			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return dbScriptListDao.search(cons, pageable);
+		
+   }
 	   
-	   return dbScriptListDao.findAll();
-}
- 
+
+
 }
 

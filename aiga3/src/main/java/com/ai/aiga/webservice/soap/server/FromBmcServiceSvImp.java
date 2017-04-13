@@ -65,22 +65,17 @@ public class FromBmcServiceSvImp implements FromBmcWebServiceSv {
 	    	for (FromBmcDTO date : fromData) {
 	    		NaCodePathCompile naCodePathCompile = new NaCodePathCompile();
 	    		//查询
-	    		List<NaCodePathCompile> list = dao.findByCodeId(date.getCodeId());
-	    		NaCodePath  nacodepath =	naCodePathDao.findById(date.getCodeId());
-	    		naCodePathCompile.setCodeId(date.getCodeId());System.out.println("1111"+list.size());
-	    		naCodePathCompile.setStartTime(date.getStartTime());
-	    		naCodePathCompile.setFinishedTime(date.getFinishedTime());
-	    		naCodePathCompile.setResult(date.getResult());
-	    		naCodePathCompile.setReason(date.getReason());
-	    		naCodePathCompile.setStep(date.getStep());
-	    		naCodePathCompile.setExt2(date.getExt2());
-//	    		if(list==null||list.isEmpty()){
-//	    			naCodePathCompile.setExt1("1");
-//	    		}else{
-//	    			naCodePathCompile.setExt1(String.valueOf(Integer.parseInt(list.get(0).getExt1())+1));
-//	    		}
-	    		naCodePathCompile.setExt1(String.valueOf(nacodepath.getComplimeCount()));
-	    		dao.save(naCodePathCompile);
+	    		List<NaCodePath>  nacodepath =	naCodePathDao.findBySysName(date.getExt1());
+	    		if(nacodepath!=null){
+		    		naCodePathCompile.setStartTime(date.getStartTime());
+		    		naCodePathCompile.setFinishedTime(date.getFinishedTime());
+		    		naCodePathCompile.setResult(date.getResult());
+		    		naCodePathCompile.setReason(date.getReason());
+		    		naCodePathCompile.setStep(date.getStep());
+		    		naCodePathCompile.setExt2(date.getExt2());
+		    		naCodePathCompile.setExt1(String.valueOf(nacodepath.get(0).getComplimeCount()));
+		    		dao.save(naCodePathCompile);
+	    		}
 	    		msg="success";
 			}
 	    }

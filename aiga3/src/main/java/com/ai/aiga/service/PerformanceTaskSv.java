@@ -25,6 +25,7 @@ import com.ai.aiga.domain.NaPlanCaseResultExpSum;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.TaskRequireRequest;
 import com.ctc.wstx.util.StringUtil;
 import com.huawei.msp.mmap.server.TaskMessageClient;
 
@@ -154,7 +155,7 @@ public class PerformanceTaskSv extends BaseService{
 	 * @param request
 	 * @param list          
 	 */
-	public void taskRequireReal(NaOnlineTaskDistribute request, List<NaInterfaceList> list) {
+	public void taskRequireReal(TaskRequireRequest request) {
 		
 		if(request.getTaskId() == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "TaskId");
@@ -163,9 +164,9 @@ public class PerformanceTaskSv extends BaseService{
 		if(request.getTaskType() == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "TaskType");
 		}
-		if(list != null && list.size() > 0){
-			for(int i = 0; i < list.size(); i++){
-				NaInterfaceList naInterfaceList = list.get(i);
+		if(request.getList() != null && request.getList().size() > 0){
+			for(int i = 0; i < request.getList().size(); i++){
+				NaInterfaceList naInterfaceList = request.getList().get(i);
 				NaPlanCaseResultExpSum exp = new NaPlanCaseResultExpSum();
 				exp.setSubTaskId(request.getTaskId());
 				exp.setCaseType(request.getTaskType());
@@ -215,20 +216,33 @@ public class PerformanceTaskSv extends BaseService{
 	 * @param taskId
 	 * @return          
 	 */
-	public Object taskRequireList(Long taskId, Long onlinePlan, int pageNumber, int pageSize) {
-		
-		if(taskId == null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
-		}
-		
-		if(onlinePlan == null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
-		}
+	public Object taskRequireList(NaInterfaceList interfaceList, NaOnlineTaskDistribute distribute, int pageNumber, int pageSize) {
 		
 		String sql = "select a.id, a.service_id, a.service_name, a.require_code, a.change_type,"
-				+ " a.state, a.dev_man, a.require_man from na_interface_list a, na_plan_case_result_exp_sum b"
-				+ " where a.id = b.inter_id and b.sub_task_id = "+taskId+" and a.plan_id = "+onlinePlan;
+				+ " a.state, a.dev_man, a.require_man from na_interface_list a";
 		
+		if(distribute.getTaskId() == null){
+			sql += " where a.plan_id = "+distribute.getOnlinePlan();
+			
+			if(interfaceList.getServiceId() != null && !interfaceList.getServiceId().equals("")){
+				sql += " and a.service_id like '%"+interfaceList.getServiceId()+"%'";
+			}
+			
+			if(interfaceList.getServiceName() != null && !interfaceList.getServiceName().equals("")){
+				sql += " and a.service_name like '%"+interfaceList.getServiceName()+"%'";
+			}
+			
+			if(interfaceList.getState() != null && !interfaceList.getState().equals("")){
+				sql += "and a.state = "+interfaceList.getState();
+			}
+			
+			if(interfaceList.getRequireMan() != null && !interfaceList.getRequireMan().equals("")){
+				sql += " and a.require_man like '%"+interfaceList.getRequireMan()+"%'";
+			}
+			
+		}else{
+			sql += " , na_plan_case_result_exp_sum b where  a.id = b.inter_id and b.sub_task_id = "+distribute.getTaskId();
+		}
 		List<String> list = new ArrayList<String>();
 		list.add("id");
 		list.add("serviceId");
@@ -341,12 +355,13 @@ public class PerformanceTaskSv extends BaseService{
 		
 		String sql = "select b.task_id, b.task_name, b.task_type, b.deal_state, a.name as opName,"
 				+ " b.create_date, b.assign_date from na_online_task_distribute b left join aiga_staff a"
-				+ " on a.staff_id = b.deal_op_id and b.parent_task_id = "+taskId;
+				+ " on a.staff_id = b.deal_op_id where b.parent_task_id = "+taskId;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("taskId");
 		list.add("taskName");
 		list.add("taskType");
+		list.add("dealState");
 		list.add("opName");
 		list.add("createDate");
 		list.add("assignDate");

@@ -1446,12 +1446,12 @@ Rose.ajax = {
 	 */
 	ajax : function(url, type, cmd, dataType, callback, sync, contentType) {
 		var param = "";
-		var contentType = contentType ? contentType : "application/x-www-form-urlencoded";
+		var _contentType = contentType ? contentType : "application/x-www-form-urlencoded";
 		console.log("参数类型："+typeof (cmd));
 		if (typeof (cmd) == "object" && type=="POST"){
 			// param = this.jsonToUrl(cmd);
 			param = JSON.stringify(cmd);
-			contentType = "application/json";
+			_contentType = contentType ? contentType : "application/json";
 		}else if (typeof (cmd) == "object" && type=="GET"){
 			param = this.jsonToUrl(cmd);
 			// param = JSON.stringify(cmd);
@@ -1468,7 +1468,7 @@ Rose.ajax = {
 			data : param,
 			cache : cache,
 			dataType : dataType,
-			contentType : contentType,
+			contentType : _contentType,
 			async : async,
 			timeout : thiz.TIME_OUT,
 			beforeSend : function(xhr) {

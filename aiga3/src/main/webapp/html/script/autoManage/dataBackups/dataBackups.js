@@ -6,6 +6,8 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "autoManage/dataBackups/";
 
+	// 初始化页面ID，易于拷贝，不需要带'#'
+	var Page = Utils.initPage('dataBackupsView');
 
 	//分页根据条件查询功能点归属
 	srvMap.add("getDataBackupsList", pathAlias + "dataBackups.json", "sys/backup/getBackupDealList");
@@ -50,7 +52,6 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
-				alert(cmd);
 				self.getDataBackupList(cmd);
 			});
 
@@ -61,19 +62,20 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getDataBackupsList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getDataBackupsTemp.html());
-					$(Dom.getDataBackupsList).html(template(json.data.content));
-
-					Utils.eventTrClickCallback($(Dom.getDataBackupsList));
+			var _dom = Page.findId('getDataBackupsList');
+			var _domPagination = _dom.find("[name='pagination']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getDataBackupsList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+					var template = Handlebars.compile($("#TPL_getDataBackupsTemp").html());
+					_dom.find("[name='content']").html(template(json.data.content));
+					// 添加
 					self.addDataBackup();
+					// 废弃删除
 					self.delDataBackups();
-				}
-			});
-			//设置分页
-			self.initPaging($(Dom.getDataBackupsList), 3)
+					Utils.eventTrClickCallback(_dom);
+			}, _domPagination);
+
 		},
 		//新增备份
 		addDataBackup: function() {
@@ -110,7 +112,7 @@ define(function(require, exports, module) {
 
 		},
 		//删除备份
-		delDataBackups:function(){
+		delDataBackups: function() {
 			var self = this;
 			var _dom = $(Dom.getDataBackupsList);
 			var _del = _dom.find("[name='del']");
@@ -136,7 +138,7 @@ define(function(require, exports, module) {
 		},
 		//映射处理
 		hdbarHelp: function() {
-				Handlebars.registerHelper("stateTran", function(value) {
+			Handlebars.registerHelper("stateTran", function(value) {
 				if (value == 1) {
 					return "成功";
 				} else if (value == 2) {

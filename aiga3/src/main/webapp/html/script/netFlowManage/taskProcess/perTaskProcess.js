@@ -4,6 +4,8 @@ define(function(require, exports, module) {
 
 	var Utils = require("global/utils.js");
 
+	// 下拉菜单获取所有变更计划
+    srvMap.add("getOnlinePlanList", "netFlowManage/changePlan/changePlanStart/getOnlinePlanList.json", "sys/cache/changePlan");
 	// 功能验收子任务列表显示
 	srvMap.add("perTaskList", "netFlowManage/taskProcess/funTaskProcess/funTaskList.json", "accept/subTask/list");
 	//关联接口列表显示
@@ -95,6 +97,7 @@ define(function(require, exports, module) {
 			}else{
 
 			}
+			Utils.eventTrClickCallback($(Dom.queryPerTaskForm));
 			var cm = "taskType=2&"+cmd;
 			Rose.ajax.postJson(srvMap.get('perTaskList'), cm, function(json, status) {
 				if (status) {
@@ -103,6 +106,8 @@ define(function(require, exports, module) {
 					console.log(json.data)
 					$(Dom.perTaskList).html(template(json.data.content));
 					Utils.eventTrClickCallback($(Dom.perTaskList));
+					
+					
 					//查找按钮
 					self.queryPerTaskList();
 					//同步测试结果
@@ -115,7 +120,7 @@ define(function(require, exports, module) {
                     	var data = self.getSelectedInfo();
                         self.getInterfaceList(data.taskId);
                     })
-
+                    Utils.setSelectData($(Dom.queryPerTaskForm));
 					self.initPaging($(Dom.perTaskList), 5, true);
 				}
 			});
@@ -230,7 +235,6 @@ define(function(require, exports, module) {
                 var remark;
                 var list = [];
                 var cmd={
-                    "taskId":cm,
                     "list" :[]
                 };
                 var _checkObj =	$(Dom.perTaskProcessList).find("input[type='checkbox']:checked");
@@ -244,7 +248,8 @@ define(function(require, exports, module) {
                         id = tdArr.eq(0).find("input").val();
                         remark = tdArr.eq(1).find("input").val();
                         cmd.list.push({
-                            "id" : id,
+                        	"taskId":cm,
+                            "resultId" : id,
                             "remark" : remark
                         });
                     }

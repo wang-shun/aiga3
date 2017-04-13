@@ -77,7 +77,6 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
-
 				var cmd = _form.serialize();
 				self.getTeamList(cmd);
 			});
@@ -89,9 +88,7 @@ define(function(require, exports, module) {
 			Data.queryListCmd = _cmd;
 			console.log(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-
-
-			var _dom = Page.findId("teamList");
+			var _dom = $("#JS_teamList");
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getTeamList'), _cmd, function(json, status) {

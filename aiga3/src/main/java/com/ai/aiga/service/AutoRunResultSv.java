@@ -455,27 +455,6 @@ public class AutoRunResultSv {
 	}
 
 	/**
-	 * 初始化结果表数据
-	 * @param resultList
-	 */
-	private void initResult(List<NaAutoRunResult> resultList){
-		if(resultList!=null&&resultList.size()>0) {
-			for (NaAutoRunResult result : resultList) {
-				result.setResultType( AutoRunEnum.ResultType_none.getValue());//默认未执行
-				result.setRunType(AutoRunEnum.RunStatus_none.getValue());//默认未执行
-				result.setBeginTime(null);
-				result.setEndTime(null);
-				result.setFailReason(null);
-				result.setRunInfo(null);
-				result.setRunLog(null);
-				entityManager.persist(result);
-			}
-			entityManager.flush();
-			entityManager.clear();
-		}
-	}
-
-	/**
 	 * 根据任务ID初始化结果表数据（任务下所有数据）
 	 * @param taskId
 	 */
@@ -553,24 +532,21 @@ public class AutoRunResultSv {
 	 * @return
 	 */
 	public String getResultByTaskIdToJson(Long taskId){
-		List<NaAutoRunResult> resultList = naAutoRunResultDao
-				.findByTaskIdAndResultTypeOrderBySortGroupAscSortNumberAsc(taskId, 2L);
-		List<String> results=new ArrayList<String>();
-		for (NaAutoRunResult result : resultList) {
-			NaAutoCase autoCase = this.autoCaseSv.findById(result.getAutoId());
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("id",result.getResultId().toString());
-			map.put("testcaseid", autoCase.getAutoName());
-			map.put("datasetid",result.getTaskId()+"_"+result.getAutoId());
-			map.put("sceneId",result.getEnvironmentType().toString());
-			map.put("caseGroup",result.getSortGroup()==null?"0":result.getSortGroup().toString());
-			results.add(JsonUtil.mapToJson(map));
+		NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(taskId);
+		String result="";
+		if(autoRunTask.getRunType().equals(AutoRunEnum.RunType_immediately)){
+			result=this.getResultImmediatelyToJson(taskId);
+		}else{
+			result=this.getResultDistributeToJson(taskId);
 		}
-		//更新发送到云桌面的执行用例的runType为执行中
-		naAutoRunResultDao.updateRunTypeByTaskIdAndResultType(taskId, AutoRunEnum.RunStatus_running.getValue(),AutoRunEnum.ResultType_none.getValue());
-		return JsonUtil.listToJson(results);
+		return result;
 	}
 
+	/**
+	 * 获取云桌面的返回日志并更新用例执行结果和任务信息
+	 * @param resultJson
+	 * @throws Exception
+	 */
 	public void saveAutoRunResult(String resultJson)throws Exception{
 		List<AutoReportRequest> reportList=JsonUtil.jsonToList(JsonUtil.jsonToArray(resultJson)[0], AutoReportRequest.class);
 		if (reportList == null || reportList.size()==0) {
@@ -615,9 +591,89 @@ public class AutoRunResultSv {
 			//更新机器状态
 
 		}
-
-
-
 	}
 
+	/**
+	 * 初始化结果表数据
+	 * @param resultList
+	 */
+	private void initResult(List<NaAutoRunResult> resultList){
+		if(resultList!=null&&resultList.size()>0) {
+			for (NaAutoRunResult result : resultList) {
+				result.setResultType( AutoRunEnum.ResultType_none.getValue());//默认未执行
+				result.setRunType(AutoRunEnum.RunStatus_none.getValue());//默认未执行
+				result.setBeginTime(null);
+				result.setEndTime(null);
+				result.setFailReason(null);
+				result.setRunInfo(null);
+				result.setRunLog(null);
+				entityManager.persist(result);
+			}
+			entityManager.flush();
+			entityManager.clear();
+		}
+	}
+
+	/**
+	 * （立即执行）返回用例执行结果信息
+	 * @param taskId
+	 * @return
+	 */
+	private String getResultImmediatelyToJson(Long taskId){
+		List<NaAutoRunResult> resultList = naAutoRunResultDao
+				.findByTaskIdAndResultTypeOrderBySortGroupAscSortNumberAsc(taskId, 2L);
+		List<String> results=new ArrayList<String>();
+		for (NaAutoRunResult result : resultList) {
+			results.add(this.getSingleResultToJson(result));
+		}
+		//更新发送到云桌面的执行用例的runType为执行中
+		naAutoRunResultDao.updateRunTypeByTaskIdAndResultType(taskId, AutoRunEnum.RunStatus_running.getValue(),AutoRunEnum.ResultType_none.getValue());
+		return JsonUtil.listToJson(results);
+	}
+
+	/**
+	 * （分布式执行）返回用例执行结果信息(防止分布式获取用例结果信息冲突，需加同步锁)
+	 * @param taskId
+	 * @return
+	 */
+	private synchronized String getResultDistributeToJson(Long taskId){
+		NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(taskId);
+		List<NaAutoRunResult> resultList = this.naAutoRunResultDao.findByTaskIdAndRunTypeAndSortGroupOrderBySortNumberAsc(taskId, AutoRunEnum.RunStatus_none.getValue(), 0L);
+		List<String> results=new ArrayList<String>();
+		//先分配执行未分组用例，最后在按照组顺序分配执行
+		if (resultList != null && resultList.size() > 0) {
+			//分配执行用例数量不得大于每台机器可执行数量
+			for (int i = 0; i < autoRunTask.getDistributeNum() || i < resultList.size(); i++) {
+				NaAutoRunResult result=resultList.get(i);
+				results.add(this.getSingleResultToJson(result));
+			}
+		} else {//获取分组用例
+			List<Object> minGroup=this.naAutoRunResultDao.findMinGroupNoneExecByTaskId(taskId);
+			if (minGroup != null && minGroup.size() > 0) {
+				Long sortGroup=Long.parseLong(minGroup.get(0).toString());
+				//同一组用例需在同一机器上执行，所以每组用例对应一个机器执行且不受可分布式执行数量上限限制
+				resultList = this.naAutoRunResultDao.findByTaskIdAndRunTypeAndSortGroupOrderBySortNumberAsc(taskId, AutoRunEnum.RunStatus_none.getValue(), sortGroup);
+				for(NaAutoRunResult result:resultList){
+					results.add(this.getSingleResultToJson(result));
+				}
+			}
+		}
+		return JsonUtil.listToJson(results);
+	}
+
+	/**
+	 * 将用例执行结果信息转化为云桌面接收的json串信息
+	 * @param result
+	 * @return
+	 */
+	private String getSingleResultToJson(NaAutoRunResult result){
+		NaAutoCase autoCase = this.autoCaseSv.findById(result.getAutoId());
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id",result.getResultId().toString());
+		map.put("testcaseid", autoCase.getAutoName());
+		map.put("datasetid",result.getTaskId()+"_"+result.getAutoId());
+		map.put("sceneId",result.getEnvironmentType().toString());
+		map.put("caseGroup",result.getSortGroup()==null?"0":result.getSortGroup().toString());
+		return JsonUtil.mapToJson(map);
+	}
 }

@@ -21,4 +21,12 @@ public interface NaAutoRunTaskCaseDao extends SearchAndPageRepository<NaAutoRunT
     int deleteByTaskId(Long TaskId);
 
     List<NaAutoRunTaskCase> findByTaskId(Long taskId);
+
+    @Query(value = "select distinct environment_Type from na_auto_run_task_case where task_id=?1", nativeQuery = true)
+    List<Object> findEnvByTaskId(Long taskId);
+
+    @Query(value = "select  sort_group,count(*) from na_auto_run_task_case where taskId=?1 and sort_group<>0 group by sort_group",nativeQuery = true)
+    List<Object> findGroupByTaskId(Long taskId);
+
+    List<NaAutoRunTaskCase> findByTaskIdAndSortGroup(Long taskId,Long sortGroup);
 }

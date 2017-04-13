@@ -1,26 +1,171 @@
-<div class="box">
-    <div class="box-header with-border">
-        <h3 class="box-title">Welcome to Presence！</h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                <i class="fa fa-times"></i></button>
+<div id="Page_welcome">
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">验收环境用例数</span>
+                    <span class="info-box-number">4589</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-pie-chart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">生产环境用例数</span>
+                    <span class="info-box-number">789</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <!-- fix for small devices only -->
+        <div class="clearfix visible-sm-block"></div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="fa fa-line-chart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">验收环境自动转换率</span>
+                    <span class="info-box-number">79<small>%</small></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-area-chart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">生产环境自动转换率</span>
+                    <span class="info-box-number">99<small>%</small></span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header">
+                    <i class="fa fa-calendar"></i>
+                    <h3 class="box-title">上线日历</h3>
+                    <div class="pull-right">2017年4月13日</div>
+                </div>
+                <div class="box-body no-padding">
+                    <!--The calendar -->
+                    <div id="JS_onlineCalendar" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-header">
+                    <i class="fa fa-line-chart"></i>
+                    <h3 class="box-title">近半年入网信息分析</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <!--The calendar -->
+                    <div id="JS_onlineCharts" style="width: 100%; height:300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header">
+                    <i class="fa fa-file-text-o"></i>
+                    <h3 class="box-title">上线流水</h3>
+                </div>
+                <div class="box-body" id="JS_onlineLog" style="padding: 10px 0;">
+                    <ul class="timeline">
+                        <li>
+                            <i class="fa fa-calendar bg-aqua"></i>
+                                <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
+                                <h3 class="timeline-header">计划上线时间</h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope bg-blue"></i>
+                            <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-15 12:38:24</span>
+                                <h3 class="timeline-header">交付物获取</h3>
+                                <div class="timeline-body">
+                                    <p>获取交付物5个，代码包3个。</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-bolt bg-orange"></i>
+                            <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-16 18:28:44</span>
+                                <h3 class="timeline-header">上线启动-编译发布</h3>
+                                <div class="timeline-body">
+                                    <p>编译发布成功5个环境，失败1个，耗时4个小时。</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-retweet bg-green"></i>
+                            <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-16 18:28:44</span>
+                                <h3 class="timeline-header">计划上线-验收测试</h3>
+                                <div class="timeline-body">
+                                    <p>前台功能验收已耗时12时，缺陷数5。</p>
+                                    <p>后台功能验收已耗时5时，缺陷数1。</p>
+                                    <p>非功能验收已耗时12时，缺陷数0。</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope bg-blue"></i>
+                                <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
+                                <h3 class="timeline-header">计划上线-上线评审</h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope bg-blue"></i>
+                                <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
+                                <h3 class="timeline-header">计划上线-上线发布</h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope bg-blue"></i>
+                                <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
+                                <h3 class="timeline-header">计划上线-生产验证</h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope bg-blue"></i>
+                                <div class="timeline-item">
+                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
+                                <h3 class="timeline-header">计划上线-总结</h3>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa fa-clock-o bg-gray"></i>
+                        </li>
+                      </ul>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="box-body">
-        <p>欢迎来到浙江移动测试管理平台</p>
-        <div style="text-align: center; padding: 100px 0;">
-            <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-yellow"></i></p>
-            <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
-        </div>
-    </div>
-    <!-- /.box-body -->
-    <div class="box-footer">
-        亚信软件
-    </div>
-    <!-- /.box-footer-->
 </div>
+<style>
+    #Page_welcome .box .timeline-item{
+        box-shadow:none;
+    }
+</style>
 <script>
-seajs.use("script/index");
+seajs.use("script/welcome", function(Query) {
+    Query.init();
+});
 </script>

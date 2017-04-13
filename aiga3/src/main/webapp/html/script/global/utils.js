@@ -11,7 +11,7 @@ define(function(require, exports, module) {
          */
         initPage:function(pageId){
             return {
-                id: '#'+pageId,
+                id: '#Page_'+pageId,
                 // 查找元素
                 find: function(obj){
                     return $(this.id).find(obj);

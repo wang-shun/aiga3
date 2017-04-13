@@ -141,7 +141,7 @@ define(function(require, exports, module) {
                 })
                 // 表单重置
             _form.find('button[name="reset"]').bind('click', function() {
-
+                alert();
             });
         },
 

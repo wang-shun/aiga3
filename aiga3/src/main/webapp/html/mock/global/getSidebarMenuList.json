@@ -142,7 +142,7 @@
                 }, {
                     "funcId": 55,
                     "name": "性能验收任务处理",
-                    "viewname": "view/netFlowManage/taskProcess/publicTaskProcess.html"
+                    "viewname": "view/netFlowManage/taskProcess/perTaskProcess.html"
                 }, {
                     "funcId": 54,
                     "name": "其他验收任务处理",

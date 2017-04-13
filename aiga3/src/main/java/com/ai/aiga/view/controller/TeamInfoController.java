@@ -113,11 +113,6 @@ public class TeamInfoController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/aiga/employee/emailandname")
-	public @ResponseBody JsonBean emailandname(){
-		JsonBean bean = new JsonBean();
-		bean.setData(teamInfoSv.emailandname());
-		return bean;
-	}
+	
 }
 

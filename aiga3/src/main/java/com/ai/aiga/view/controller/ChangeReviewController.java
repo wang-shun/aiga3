@@ -1,9 +1,11 @@
 package com.ai.aiga.view.controller;
 
 import java.text.ParseException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +18,9 @@ import com.ai.aiga.dao.DatabaseScriptListDao;
 import com.ai.aiga.dao.NaRequireListDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.dao.TestLeaveOverDao;
+import com.ai.aiga.domain.NaChangeList;
 import com.ai.aiga.domain.NaChangeReview;
+import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.domain.PlanDetailManifest;
@@ -43,6 +47,11 @@ public class ChangeReviewController {
 	@RequestMapping(path = "/sys/changerevier/save")
 	public @ResponseBody JsonBean save(NaChangeReview request){
 		changeReviewSv.save(request);;
+		return JsonBean.success;
+	}
+	@RequestMapping(path = "/sys/codepath/save")
+	public @ResponseBody JsonBean save(@RequestBody List<NaCodePath> saveState){
+		changeReviewSv.saveCodePath(saveState);
 		return JsonBean.success;
 	}
 	@RequestMapping(path = "/sys/detailManifest/list")

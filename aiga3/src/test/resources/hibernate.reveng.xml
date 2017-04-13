@@ -10,7 +10,7 @@
 		<!--  <schema-selection match-schema="AIGA" match-table="AIGA_ONLINE_CASE_COLLECTION"/>--> 
 		<!-- <schema-selection match-schema="AIGA"  match-table="NA_AUTO_RUN_PLAN"/> -->
 			<!--  <schema-selection match-schema="AIGA"  match-table="NA_AUTO_RUN_PLAN_CASE"/>-->
-			<schema-selection match-schema="AIGA"  match-table="NA_PLAN_CASE_RESULT_EXP_SUM"/>
-				<schema-selection match-schema="AIGA"  match-table="NA_PLAN_CASE_RESULT_EXP"/>
+			<!-- <schema-selection match-schema="AIGA"  match-table="NA_PLAN_CASE_RESULT_EXP_SUM"/> -->
+				<schema-selection match-schema="AIGA"  match-table="NA_DB_SCRIPT_LIST"/>
 
  </hibernate-reverse-engineering>

@@ -53,18 +53,20 @@ define(function(require, exports, module) {
     		var objId = '#JS_childTab_'+objData.id;
         	if($(objId).length > 0){
         		$("a[href='"+objId+"']").click();
+                Rose.ajax.loadHtml($('#JS_childTab_'+objData.id),objData.href);
         	}else{
         		if($(Dom.mainTabs).children("li").length < 8){
         			var _delDom = '';
         			if(objData.name!="首页"){
         				_delDom = '<i class="fa fa-remove"></i>';
         			}
+                    var _dataCmd = objData.cmd || '';
 	        		$(Dom.mainTabs).children('li.active').removeClass('active').end().append('<li class="active">'+
 	        					'<a href="#JS_childTab_'+objData.id+'" data-toggle="tab" title="'+objData.name+'" data-id="'+objData.id+'">'+
 	        						Rose.string.substr(objData.name,6) + _delDom +
 	                        	'</a>'+
 	                    	'</li>');
-	        		$(Dom.mainTabsContent).children('div.active').removeClass('active').end().append('<div class="tab-pane active" id="JS_childTab_'+objData.id+'" data-funid ="'+objData.id+'"></div>');
+	        		$(Dom.mainTabsContent).children('div.active').removeClass('active').end().append('<div class="tab-pane active" id="JS_childTab_'+objData.id+'" data-funid ="'+objData.id+'" data-cmd ="'+_dataCmd+'"></div>');
 	        		Rose.ajax.loadHtml($('#JS_childTab_'+objData.id),objData.href);
 
 	        		// 绑定删除事件

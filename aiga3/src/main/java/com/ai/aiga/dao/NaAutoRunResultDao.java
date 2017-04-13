@@ -23,6 +23,11 @@ public interface NaAutoRunResultDao extends JpaRepository<NaAutoRunResult, Long>
 
 	List<NaAutoRunResult> findByTaskIdAndResultTypeOrderBySortGroupAscSortNumberAsc(Long taskId,Long resultType);
 
+	List<NaAutoRunResult> findByTaskIdAndRunTypeAndSortGroupOrderBySortNumberAsc(Long taskId,Long runType,Long sortGroup);
+
+	@Query(value = "select min(sort_group) from na_auto_run_result where task_id=?1 and sort_group<>0 and run_type=1 ",nativeQuery = true)
+	List<Object> findMinGroupNoneExecByTaskId(Long taskId);
+	
 	@Modifying
 	@Query(value = "delete from na_auto_run_result where task_id=?1",nativeQuery = true)
 	int deleteByTaskId(Long taskId);

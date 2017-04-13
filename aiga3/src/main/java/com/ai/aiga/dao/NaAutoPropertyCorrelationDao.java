@@ -12,4 +12,5 @@ public interface NaAutoPropertyCorrelationDao extends SearchAndPageRepository<Na
 
 	List<NaAutoPropertyCorrelation> findByPropertyId(String propertyId);
 	
+	
 }

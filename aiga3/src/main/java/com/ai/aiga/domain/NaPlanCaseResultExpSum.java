@@ -68,10 +68,8 @@ public class NaPlanCaseResultExpSum  implements java.io.Serializable {
     }
    
      @Id 
-     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_PLAN_CASE_RESULT_EXP_S$SEQ")
      @SequenceGenerator(name="NA_PLAN_CASE_RESULT_EXP_S$SEQ",sequenceName="NA_PLAN_CASE_RESULT_EXP_S$SEQ",allocationSize=1)
-
-    @Column(name="RESULT_ID", unique=true, nullable=false, precision=22, scale=0)
+     @Column(name="RESULT_ID", unique=true, nullable=false, precision=22, scale=0)
     public Long getResultId() {
         return this.resultId;
     }

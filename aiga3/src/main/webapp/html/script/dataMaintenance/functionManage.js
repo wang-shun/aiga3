@@ -5,20 +5,22 @@ define(function(require, exports, module) {
 
 	// 路径重命名
 	var pathAlias = "dataMaintenance/";
+	// 初始化页面ID，易于拷贝，不需要带'#'
+	var Page = Utils.initPage('fnctionMNGView');
 
 	//分页根据条件查询功能点归属
 	srvMap.add("getFunList", pathAlias + "getFunctionList.json", "sys/funfolder/listByName");
 	//归属系统
 	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
 	//系统子类下拉框
-	srvMap.add("getSubsysList","autoManage/autoCaseTempMng/getSubsysList.json", "sys/cache/listSubsysid");
+	srvMap.add("getSubsysList", "autoManage/autoCaseTempMng/getSubsysList.json", "sys/cache/listSubsysid");
 	//删除
-	srvMap.add("delFunction",pathAlias+"retMessage.json","sys/funfolder/del");
+	srvMap.add("delFunction", pathAlias + "retMessage.json", "sys/funfolder/del");
 	//增加功能
-	srvMap.add("addFunction",pathAlias+"retMessage.json","sys/funfolder/save");
+	srvMap.add("addFunction", pathAlias + "retMessage.json", "sys/funfolder/save");
 
 	//功能点类型
-	srvMap.add("getFuntypeList",pathAlias,"");
+	srvMap.add("getFuntypeList", pathAlias, "");
 	// 模板对象
 	var Tpl = {
 		getFunList: require('tpl/dataMaintenance/getFunList.tpl'),
@@ -60,7 +62,6 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				self.getCaseTempList(cmd);
 			});
-			self.initPaging($(Dom.getFunList),3);
 		},
 		// 查询功能点
 		getCaseTempList: function(cmd) {
@@ -68,22 +69,20 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-
-			Rose.ajax.postJson(srvMap.get('getFunList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getFunList);
-					$(Dom.getFunList).html(template(json.data.content));
-
-					//删除所选条目
+			var _dom = Page.findId('getFunList');
+			var _domPagination = _dom.find("[name='pagination']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getFunList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile($("#TPL_getFunctionTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				//删除所选条目
 					self.delCaseSysInfo();
 					//新增条目
 					self.addFunInfo();
 					Utils.eventTrClickCallback($(Dom.getFunList));
+			}, _domPagination);
 
-					self.initPaging($(Dom.getFunList),2);
-				}
-			});
 
 
 		},
@@ -126,28 +125,28 @@ define(function(require, exports, module) {
 				// 表单提交
 				$("#addFunInfoButton").unbind('click');
 				$("#addFunInfoButton").bind('click', function() {
-					Utils.checkForm(_form, function() {
-					var cmd = _form.serialize();
-					console.log(cmd);
-					Rose.ajax.postJson(srvMap.get('addFunction'), cmd, function(json, status) {
-						if (status) {
-							// 添加用户成功后，刷新用户列表页
-							XMS.msgbox.show('添加成功！', 'success', 2000)
-								// 关闭弹出层
-							$(Dom.addFunInfoModel).modal('hide');
+						Utils.checkForm(_form, function() {
+							var cmd = _form.serialize();
+							console.log(cmd);
+							Rose.ajax.postJson(srvMap.get('addFunction'), cmd, function(json, status) {
+								if (status) {
+									// 添加用户成功后，刷新用户列表页
+									XMS.msgbox.show('添加成功！', 'success', 2000)
+										// 关闭弹出层
+									$(Dom.addFunInfoModel).modal('hide');
 
-							setTimeout(function() {
-								self.getCaseTempList(Data.queryListCmd);
-							}, 1000)
-						}
-					});
-				});
-				})
-	// 清除表单所有内容
+									setTimeout(function() {
+										self.getCaseTempList(Data.queryListCmd);
+									}, 1000)
+								}
+							});
+						});
+					})
+					// 清除表单所有内容
 				_domReset = _form.find("[name='reset']");
 				_domReset.bind('click', function() {
 					Utils.resetForm(_form);
-				});				
+				});
 			})
 		},
 		//映射处理
@@ -181,18 +180,18 @@ define(function(require, exports, module) {
 
 			});
 		},
-        // 事件：分页
-        initPaging: function(obj, length) {
-            obj.find("table").DataTable({
-                "iDisplayLength": length,
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false
-            });
-        }
+		// 事件：分页
+		initPaging: function(obj, length) {
+			obj.find("table").DataTable({
+				"iDisplayLength": length,
+				"paging": true,
+				"lengthChange": false,
+				"searching": false,
+				"ordering": false,
+				"info": true,
+				"autoWidth": false
+			});
+		}
 	};
 	module.exports = Query;
 });

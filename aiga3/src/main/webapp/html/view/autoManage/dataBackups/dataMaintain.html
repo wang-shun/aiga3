@@ -1,3 +1,4 @@
+<div class="row" id="dataMaintainView">
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -42,9 +43,36 @@
             </form>
         </div>
         <div class="box" id="JS_getDataMaintainList" style="min-height:100px;">
-            <div style="text-align: center; padding: 50px 0;">
-                <p style="font-size: 38px;"></p>
-                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+            <div class="box-header ">
+                <h3 class="box-title">属性维护列表</h3>
+                <div class="box-tools">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" name="add"><i class="fa fa-plus"></i> 添加</button>
+                        <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>属性</th>
+                            <th>相关表</th>
+                            <th>关联字段</th>
+                            <th>别名</th>
+                            <th>数据库</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                </table>
             </div>
         </div>
     </div>
@@ -52,7 +80,7 @@
 <!-- Modal -->
 <!-- 新增弹框 -->
 <div class="modal fade" id="JS_addDataMaintainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -63,7 +91,7 @@
                     <div class="box-body">
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>属性ID</label>
@@ -71,7 +99,7 @@
                                         </input>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>相关表</label>
@@ -79,7 +107,7 @@
                                         </input>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>相关字段</label>
@@ -87,12 +115,26 @@
                                         </input>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>数据配置ID</label>
+                                        <select name="propertyCfgId" class="form-control " data-url="getCfgIdList" data-idkey="cigId" data-namekey="cigId">
+                                            <option value="0">
+                                                请选择
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>数据库</label>
-                                        <input name="DB" class="form-control" placeholder="请输入数据库名" required>
-                                        </input>
+                                        <select name="db" class="form-control " data-url="getDbList" data-idkey="db" data-namekey="db">
+                                            <option value="0">
+                                                请选择
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -157,8 +199,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>数据库</label>
-                                        <input name="DB" class="form-control" placeholder="请输入数据库">
-                                        </input>
+                                        <select name="db" class="form-control " data-url="getDbList" data-idkey="db" data-namekey="db">
+                                            <option value="0">
+                                                请选择
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -174,45 +219,20 @@
     </div>
 </div>
 <!-- Modal -->
-<script id="JS_getDataMaintainTemp" type="text/x-handlebars-template">
-    <div class="box-header ">
-        <h3 class="box-title">属性维护列表</h3>
-        <div class="box-tools">
-            <div class="btn-group">
-                <button type="button" class="btn btn-success" name="add"><i class="fa fa-plus"></i> 添加</button>
-                <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
-            </div>
-        </div>
-    </div>
-    <div class="box-body">
-        <table class="table table-bordered table-hover" id="dataMaintainListTable">
-            <thead>
-                <tr>
-                    <th class="iCheckbox" width="15"></th>
-                    <th>属性</th>
-                    <th>相关表</th>
-                    <th>关联字段</th>
-                    <th>别名</th>
-                    <th>数据库</th>
-                </tr>
-            </thead>
-            <tbody>
+<script id="TPL_getDataMaintainTemp" type="text/x-handlebars-template">
                 {{#each this}}
                 <tr>
                     <td>
                         <input type="radio" class="minimal" value="{{correlationId}}" name="correlationId">
-                        <td>{{propertyName}}
+                        <td>{{propertyId}}
                             <input type="hidden" value="{{correlationId}}" name="correlationId">
                         </td>
                         <td>{{correlationTable}}</td>
                         <td>{{correlationField}}</td>
                         <td>{{alias}}</td>
-                        <td>{{DB}}</td>
+                        <td>{{db}}</td>
                 </tr>
                 {{/each}}
-            </tbody>
-        </table>
-    </div>
 </script>
 <script type="text/javascript">
 //<![CDATA[

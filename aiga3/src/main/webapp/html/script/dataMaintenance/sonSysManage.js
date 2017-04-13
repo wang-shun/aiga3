@@ -5,7 +5,8 @@ define(function(require, exports, module) {
 
 	// 路径重命名
 	var pathAlias = "dataMaintenance/";
-
+	//分页
+	var Page = Utils.initPage('sonSysView');
 
 	//分页根据条件查询功能点归属
 	srvMap.add("getSubAsciptionList", pathAlias + "getAsciptionList.json", "sys/subsysfolder/listByName");
@@ -13,7 +14,7 @@ define(function(require, exports, module) {
 	srvMap.add("delsubSysInfo", pathAlias + "retMessage.json", "sys/subsysfolder/del");
 	//新增条目
 	srvMap.add("addsubSysInfo", pathAlias + "retMessage.json", "sys/subsysfolder/save");
-    //归属系统
+	//归属系统
 	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
 
 	// 模板对象
@@ -64,21 +65,21 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getSubAsciptionList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getSonSysList);
-					$(Dom.getsubInfoList).html(template(json.data.content));
 
-					//删除所选条目
+			var _dom = Page.findId('getsubInfoList');
+			var _domPagination = _dom.find("[name='pagination']");
+
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getSubAsciptionList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile($("#TPL_getSonSysTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				//删除所选条目
 					self.delSubCaseSysInfo();
 					//新增条目
 					self.addSubSysInfo();
 					Utils.eventTrClickCallback($(Dom.getsubInfoList));
-
-					self.initPaging($(Dom.getsubInfoList),3);
-				}
-			});
+			}, _domPagination);
 
 
 		},
@@ -93,7 +94,7 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					console.log(data);
-					var cmd = 'subsysId='+data.subsysId;
+					var cmd = 'subsysId=' + data.subsysId;
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('delsubSysInfo'), cmd, function(json, status) {
 						if (status) {
@@ -122,37 +123,37 @@ define(function(require, exports, module) {
 				// 表单提交
 				$("#addSysInfoButton").unbind('click');
 				$("#addSysInfoButton").bind('click', function() {
-						Utils.checkForm(_form, function() {
-					var cmd = _form.serialize();
-					console.log(cmd);
-					Rose.ajax.postJson(srvMap.get('addsubSysInfo'), cmd, function(json, status) {
-						if (status) {
-							// 添加用户成功后，刷新用户列表页
-							XMS.msgbox.show('添加成功！', 'success', 2000)
-								// 关闭弹出层
-							$(Dom.addsubSysInfoModel).modal('hide');
+					Utils.checkForm(_form, function() {
+						var cmd = _form.serialize();
+						console.log(cmd);
+						Rose.ajax.postJson(srvMap.get('addsubSysInfo'), cmd, function(json, status) {
+							if (status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('添加成功！', 'success', 2000)
+									// 关闭弹出层
+								$(Dom.addsubSysInfoModel).modal('hide');
 
-							setTimeout(function() {
-								self.getCaseTempList();
-							}, 1000)
-						}
+								setTimeout(function() {
+									self.getCaseTempList();
+								}, 1000)
+							}
+						});
 					});
-				});
 				})
 			})
 		},
-        // 事件：分页
-        initPaging: function(obj, length) {
-            obj.find("table").DataTable({
-                "iDisplayLength": length,
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false
-            });
-        }
+		// 事件：分页
+		initPaging: function(obj, length) {
+			obj.find("table").DataTable({
+				"iDisplayLength": length,
+				"paging": true,
+				"lengthChange": false,
+				"searching": false,
+				"ordering": false,
+				"info": true,
+				"autoWidth": false
+			});
+		}
 	};
 	module.exports = Query;
 });

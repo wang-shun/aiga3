@@ -277,28 +277,45 @@ public class TeamInfoSv extends BaseService {
 	return teamEmployeeRelDao.selectall(teamId);
 	  
   }
-  public Map<String,String> email(){
-		Map<String, String> map = new HashMap<String, String>();
-		List<Object[]> list = teamEmployeeRelDao.email();
+  
+  
+  public List<Object> email(){
 		
-		for (int i = 0; i < list.size(); i++) {
-
-			
-			Object[] object = (Object[]) list.get(i);
-			map.put(object[0].toString(), object[1].toString());
-
+		List result = new ArrayList<String>();
+		
+		String teamSql = "select distinct a.ext_1, replace(to_char(WMSYS.WM_CONCAT(c.email)),',',',') as emails "
+		 		+ "from NA_TEAM_INFO  a, NA_TEAM_EMPLOYEE_REL b,NA_EMPLOYEE_INFO c "
+		 		+ "where a.team_id=b.team_id and b.emp_id = c.id  group by a.ext_1  ";
+		List<Object> teams = teamEmployeeRelDao.searchformSQL(teamSql);
+		
+		if(teams!=null&&teams.size()>0){
+			for (int i = 0; i < teams.size(); i++) {
+				Map<String, String> mapteam = new HashMap<String, String>();
+				Object[] object = (Object[]) teams.get(i);
+				System.out.println("object[0].toString()"+object[0].toString());
+				System.out.println("object[1].toString()"+object[1].toString());
+				mapteam.put("name", object[0].toString());
+				mapteam.put("email", object[1].toString());
+				result.add(mapteam);
+			}
+		}
+		
+		String empsql = "select em_name||'&lt;'||email||'&gt;' as name ,email  from NA_EMPLOYEE_INFO";
+		List<Object> emps = teamEmployeeRelDao.searchformSQL(empsql);
+		System.out.println("emps"+emps);
+		if(emps!=null&&emps.size()>0){
+			for (int i = 0; i < emps.size(); i++) {
+				Map<String, String> mapemp = new HashMap<String, String>();
+				Object[] object = (Object[]) emps.get(i);
+				mapemp.put("name", object[0].toString());
+				mapemp.put("email", object[1].toString());
+				result.add(mapemp);
+			}
 		}
 
-		List<Object[]> list2 = teamEmployeeRelDao.nameAndEmail();
-
-		for (int i = 0; i < list2.size(); i++) {
-
-			Object[] object = (Object[]) list2.get(i);
-			map.put(object[1].toString(), object[0].toString());
-			
-		}
-
-		return map;
+		System.out.println("test"+result);
+		return result;
+		
 	}
   
 }

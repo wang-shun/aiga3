@@ -6,7 +6,7 @@ define(function(require, exports, module) {
     var pathAlias = "email/";
 
     // 下拉菜单获取所有变更计划
-    srvMap.add("getAddresseeList", pathAlias + "getAddresseeList.json", "");
+    srvMap.add("getAddresseeList", pathAlias + "getAddresseeList.json", "aiga/employee/email");
     srvMap.add("send", pathAlias + "retMessage.json", "sys/email/send");
 
 
@@ -46,14 +46,22 @@ define(function(require, exports, module) {
                     var _ccList = _form.find("[name='ccList']").val();
                     var _subject = _form.find("[name='subject']").val();
                     var markupStr = $('#summernote').summernote('code');
-                    var files = _form.find("[name='attachment']")[0].files[0];
+                    var _content = encodeURI(markupStr);
+                    console.log(_content)
+                    var files = _form.find("[name='attachment']")[0].files;
+                    console.log(files);
+                    var fileList = [];
+                    for (i = 0; i < files.length; i++) {
+                        fileList.push(files[i]);    
+                    }
+                    console.log(fileList);
                     //var cmd = "addressee=" + _addressee + "&ccList=" + _ccList + "&subject=" + _subject + "&content=" + markupStr + "&files=" + files;
                     var cmd = {
                         addressee: _addressee,
                         ccList: _ccList,
                         subject: _subject,
-                        content: markupStr,
-                        files: files
+                        content: _content,
+                        files: fileList
                     }
 
                     // XMS.msgbox.show('数据加载中，请稍候...', 'loading');

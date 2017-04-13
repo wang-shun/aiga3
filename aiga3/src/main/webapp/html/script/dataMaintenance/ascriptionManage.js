@@ -6,6 +6,9 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "dataMaintenance/";
 
+	// 初始化页面ID，易于拷贝，不需要带'#'
+	var Page = Utils.initPage('AsciptionView');
+
 
 	//分页根据条件查询功能点归属
 	srvMap.add("getAsciptionList", pathAlias + "getAsciptionList.json", "sys/systemfolder/listByName");
@@ -25,7 +28,6 @@ define(function(require, exports, module) {
 	var Dom = {
 		queryCaseTempForm: '#JS_queryCaseTempForm',
 		getAsciptionList: '#JS_getAsciptionList',
-
 		addSysInfoModel: '#JS_addSysInfoModel',
 		addSysInfo: '#JS_addSysInfo'
 
@@ -43,6 +45,7 @@ define(function(require, exports, module) {
 			this.queryCaseTempForm();
 			//映射
 			this.hdbarHelp();
+
 		},
 		// 按条件查询
 		queryCaseTempForm: function() {
@@ -53,12 +56,7 @@ define(function(require, exports, module) {
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
 				self.getCaseTempList(cmd);
-				//删除所选条目
-				self.delCaseSysInfo();
-					//新增条目
-				self.addSysInfo();
 			});
-
 		},
 		// 查询自动化用例模板
 		getCaseTempList: function(cmd) {
@@ -66,21 +64,19 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getAsciptionList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getAsciptionList);
-					$(Dom.getAsciptionList).html(template(json.data.content));
-
-
-					Utils.eventTrClickCallback($(Dom.getAsciptionList));
-
-
-				}
-				//设置分页
-				self.initPaging($(Dom.getAsciptionList), 3)
-			});
-
+			var _dom = Page.findId('getAsciptionList');
+			var _domPagination = _dom.find("[name='pagination']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getAsciptionList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile($("#TPL_asciptionManageTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				//删除所选条目
+				self.delCaseSysInfo();
+				//新增条目
+				self.addSysInfo();
+				Utils.eventTrClickCallback(_dom);
+			}, _domPagination);
 
 		},
 		// 删除所选条目
@@ -110,7 +106,6 @@ define(function(require, exports, module) {
 		},
 		//新增
 		addSysInfo: function() {
-			alert("新增");
 			var self = this;
 			var _dom = $(Dom.getAsciptionList);
 			var _add = _dom.find("[name='add']");
@@ -120,6 +115,9 @@ define(function(require, exports, module) {
 				$(Dom.addSysInfoModel).modal('show');
 				//组件表单校验初始化
 				var _form = $(Dom.addSysInfo);
+				$(Dom.addSysInfoModel).on('hide.bs.modal', function() {
+					Utils.resetForm('#JS_addSysInfo');
+				});
 				// 表单提交
 				$("#addSysInfoButton").unbind('click');
 				$("#addSysInfoButton").bind('click', function() {
@@ -136,11 +134,10 @@ define(function(require, exports, module) {
 								}, 1000);
 								// 关闭弹出层
 								$(Dom.addSysInfoModel).modal('hide');
-					}
-		  			});
-    			})
-  			});
-
+							}
+						});
+					})
+				});
 			});
 		},
 		//映射处理

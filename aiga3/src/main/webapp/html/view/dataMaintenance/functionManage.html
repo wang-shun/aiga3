@@ -1,238 +1,290 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="box">
-      <form id="JS_queryCaseTempForm">
-        <div class="box-header with-border">
-          <h3 class="box-title">按条件查询</h3>
-
-           <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
+<div class="row" id="Page_fnctionMNGView">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <form id="JS_queryCaseTempForm">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">按条件查询</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
                     </div>
-        </div>
-
-        <div class="box-body">
-          <div class="row">
-            <div class="col-xs-2">
-              <div class="form-group">
-                <label>功能点名称</label> <input type="email" class="form-control" name="sysName" placeholder="请输入系统名称" />
-              </div>
-            </div>
-
-			<div class="col-xs-2">
-
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-xs-2">
                                 <div class="form-group">
-                                        <label>归属系统</label> <select name="sysId" class="form-control" data-url="getSysList" data-subname="sysSubId"  data-idkey="sysId" data-namekey="sysName">
-                                            <option value="">
-                                                请选择
-                                            </option>
-                                        </select>
-                                    </div>
+                                    <label>功能点名称</label>
+                                    <input type="email" class="form-control" name="sysName" placeholder="请输入系统名称" />
                                 </div>
-			<div class="col-xs-2">
-
+                            </div>
+                            <div class="col-xs-2">
                                 <div class="form-group">
-                                        <label>所属子系统</label> <select name="sysSubId" class="form-control" data-suburl="getSubsysList" data-subname="funId">
-                                            <option value="">
-                                                请选择
-                                            </option>
-                                        </select>
-                                    </div>
+                                    <label>归属系统</label>
+                                    <select name="sysId" class="form-control" data-url="getSysList" data-subname="sysSubId" data-idkey="sysId" data-namekey="sysName">
+                                        <option value="">
+                                            请选择
+                                        </option>
+                                    </select>
                                 </div>
-            <div class="col-xs-2">
-              <div class="form-group">
-                <label>重要级别</label> <select name="importantClass" class="form-control">
-                  <option value="">
-                    请选择
-                  </option>
-
-                  <option value="1">
-                    一般系统
-                  </option>
-
-                  <option value="2">
-                    核心系统
-                  </option>
-
-                  <option value="3">
-                    重要系统
-                  </option>
-                </select>
-              </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    <label>所属子系统</label>
+                                    <select name="sysSubId" class="form-control" data-suburl="getSubsysList" data-subname="funId">
+                                        <option value="">
+                                            请选择
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    <label>重要级别</label>
+                                    <select name="importantClass" class="form-control">
+                                        <option value="">
+                                            请选择
+                                        </option>
+                                        <option value="1">
+                                            一般系统
+                                        </option>
+                                        <option value="2">
+                                            核心系统
+                                        </option>
+                                        <option value="3">
+                                            重要系统
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-2">
+                                <div class="form-group">
+                                    <label>功能点类型</label>
+                                    <select name="funType" class="form-control" data-url="">
+                                        <option value="">
+                                            请选择
+                                        </option>
+                                        <option value="1">
+                                            —全部—
+                                        </option>
+                                        <option value="2">
+                                            前台类
+                                        </option>
+                                        <option value="3">
+                                            储存过程类
+                                        </option>
+                                        <option value="4">
+                                            接口类
+                                        </option>
+                                        <option value="5">
+                                            进程类
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="text-center">
+                            <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <div class="col-xs-2">
-              <div class="form-group">
-                <label>功能点类型</label> <select name="funType" class="form-control" data-url="" >
-                  <option value="">
-                    请选择
-                  </option>
-
-                  <option value="1">
-                    —全部—
-                  </option>
-
-                  <option value="2">
-                   	前台类
-                  </option>
-
-                  <option value="3">
-                    储存过程类
-                  </option>
-
-                  <option value="4">
-                    接口类
-                  </option>
-
-                  <option value="5">
-                    进程类
-                  </option>
-                </select>
-              </div>
+            <div class="box" id="JS_getFunList" style="min-height:100px;">
+                <div class="box-header ">
+                    <h3 class="box-title">子系统详细信息列表</h3>
+                    <div class="box-tools">
+                        <div class="btn-group">
+                            <!--文件操作-->
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-block btn-info " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-folder"></i> 导入/导出
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <button type="button" class="btn btn-block btn-info" name="add" style="text-align:left">
+                                            </i>批量导入</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="btn btn-block btn-info" name="add" style="text-align:left">导入</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="btn btn-block btn-info" name="add" style="text-align:left">下载模板</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="btn btn-block btn-info" name="add" style="text-align:left">导出</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button type="button" class="btn btn-success" name="add"><i class="fa fa-plus"></i> 添加</button>
+                            <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-body" style="overflow: auto">
+                    <table class="table table-bordered table-hover" id="funList" style="width: 2160px;">
+                        <thead>
+                            <tr>
+                                <th class="iCheckbox" width="15"></th>
+                                <th>功能点名称</th>
+                                <th>功能点类型</th>
+                                <th>所属系统</th>
+                                <th>所属子系统</th>
+                                <th>重要级别</th>
+                                <th>是否性能测试</th>
+                                <th>性能测试类型</th>
+                                <th>维护厂商</th>
+                                <th>业务标签</th>
+                                <th>基础业务标签</th>
+                                <th>菜单路径</th>
+                                <th>功能点描述</th>
+                                <th>数据检查脚本</th>
+                            </tr>
+                        </thead>
+                          <tbody name="content"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
-          </div>
         </div>
-
-        <div class="box-footer">
-          <div class="text-center">
-            <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp; <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-          </div>
-        </div>
-      </form>
     </div>
-
-    <div class="box" id="JS_getFunList" style="min-height:100px;">
-      <div style="text-align: center; padding: 50px 0;">
-        <p style="font-size: 38px;"></p>
-
-        <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
-      </div>
-    </div>
-  </div>
-</div><!-- Modal -->
-<!-- 新增弹框 -->
-
-<div class="modal fade " id="JS_addFunInfoModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-        <h4 class="modal-title" id="myModalLabel">新增功能点信息</h4>
-      </div>
-      <div class="modal-body" style="padding-bottom: 0">
-        <form id="JS_addFunInfo" class="form">
-          <div class="box-body">
-
-
-            <div class="box-body">
-
-            <!--第一行-->
-          <div class="row">
-             <div class="col-xs-4 form-group">
-          <i class="text-red">* </i> <label >系统名称:</label><input name="SysName" class="col-xs-6 form-control input-sm" required>
-                </input>
-          </div>
-
-            <div class="col-md-4">
-              <div class="form-group">
-               <i class="text-red">* </i> <label>功能点类型:</label> <select name="funType" class="form-control input-sm" required>
-                   <option value="">
-                    请选择
-                  </option>
-
-                  <option value="1">
-                    —全部—
-                  </option>
-
-                  <option value="2">
-                    前台类
-                  </option>
-
-                  <option value="3">
-                    储存过程类
-                  </option>
-
-                  <option value="4">
-                    接口类
-                  </option>
-
-                  <option value="5">
-                    进程类
-                  </option>
-
-                </select>
-              </div>
-            </div>
-
- 				 <div class="col-xs-4 form-group">
-                <i class="text-red">* </i><label class="col-xs-8" style="padding: 0;">重要级别:</label> <input  class="col-xs-6 form-control input-sm" name="importanceClass" disabled="disabled" required/>
-
-            </div>
-
-          </div>
-         
-          <!--第二行-->
-          <div class="row">
-          <div class="col-xs-4 form-group">
-          <i class="text-red">* </i> <label >归属系统:</label><select name="sysId" class="form-control input-sm" data-url="getSysList" data-idkey="sysId" data-namekey="sysName" required>
-  			<option value="">
-                    请选择
-                  </option>
-                </select>
-          </div>
-			<div class="col-md-4">
-              <div class="form-group">
-               <i class="text-red">* </i> <label>所属子系统:</label> <select name="subSysId" class="form-control input-sm" data-suburl="getSubsysList" data-idkey="subSysId" data-namekey="sysName" required>
-                  <option value="">
-                    请选择
-                  </option>
-
-                </select>
-              </div>
-            </div>
-
-	
-	
-
-          </div>
-<!--第四行-->
-
-            <div class="row">
-            <div class="form-group col-xs-12">
-              <label class="col-sm-5">菜单路径:</label>
-              <input name="menuPath" class="col-sm-6 form-control" rows="1"></input>
-            </div>
-            </div>
-
-             <!--第六行-->
-
-            <div class="row">
-            <div class="form-group col-sm-12">
-              <label class="col-sm-5 ">功能点描述：</label> 
-              <textarea name="funDesc" class="col-sm-7 form-control" rows="3"></textarea>
-            </div>
-            </div>
-
-          </div>
-
-
-          </div>
-        </form>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button> <button type="button" class="btn btn-primary pull-right" id="addFunInfoButton" name="addFunInfoButton">保存</button>
-      </div>
-
-
-    </div>
-  </div>
 </div>
 <!-- Modal -->
-<script type="text/javascript">
-//<![CDATA[
-seajs.use("script/dataMaintenance/functionManage", function(Init) {
-    Init.init();
-});
-//]]>
-</script>
+<!-- 新增弹框 -->
+<div class="modal fade " id="JS_addFunInfoModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增功能点信息</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <form id="JS_addFunInfo" class="form">
+                    <div class="box-body">
+                        <div class="box-body">
+                            <!--第一行-->
+                            <div class="row">
+                                <div class="col-xs-4 form-group">
+                                    <i class="text-red">* </i>
+                                    <label>系统名称:</label>
+                                    <input name="SysName" class="col-xs-6 form-control input-sm" required>
+                                    </input>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>功能点类型:</label>
+                                        <select name="funType" class="form-control input-sm" required>
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                            <option value="1">
+                                                —全部—
+                                            </option>
+                                            <option value="2">
+                                                前台类
+                                            </option>
+                                            <option value="3">
+                                                储存过程类
+                                            </option>
+                                            <option value="4">
+                                                接口类
+                                            </option>
+                                            <option value="5">
+                                                进程类
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 form-group">
+                                    <i class="text-red">* </i>
+                                    <label class="col-xs-8" style="padding: 0;">重要级别:</label>
+                                    <input class="col-xs-6 form-control input-sm" name="importanceClass" disabled="disabled" required/>
+                                </div>
+                            </div>
+                            <!--第二行-->
+                            <div class="row">
+                                <div class="col-xs-4 form-group">
+                                    <i class="text-red">* </i>
+                                    <label>归属系统:</label>
+                                    <select name="sysId" class="form-control input-sm" data-url="getSysList" data-idkey="sysId" data-namekey="sysName" required>
+                                        <option value="">
+                                            请选择
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>所属子系统:</label>
+                                        <select name="subSysId" class="form-control input-sm" data-suburl="getSubsysList" data-idkey="subSysId" data-namekey="sysName" required>
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--第四行-->
+                            <div class="row">
+                                <div class="form-group col-xs-12">
+                                    <label class="col-sm-5">菜单路径:</label>
+                                    <input name="menuPath" class="col-sm-6 form-control" rows="1"></input>
+                                </div>
+                            </div>
+                            <!--第六行-->
+                            <div class="row">
+                                <div class="form-group col-sm-12">
+                                    <label class="col-sm-5 ">功能点描述：</label>
+                                    <textarea name="funDesc" class="col-sm-7 form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary pull-right" id="addFunInfoButton" name="addFunInfoButton">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <script id="TPL_getFunctionTemp" type="text/x-handlebars-template">
+ {{#each this}}
+                            <tr>
+                                <td>
+                                    <input type="radio" class="minimal" value="{{funId}}" name="funId">
+                                    <td>{{sysName}}</td>
+                                    <input type="hidden" value="{{funId}}" name="funId">
+                                </td>
+                                <td>{{funType}}</td>
+                                <td>{{sysId}}</td>
+                                <td>{{subSysId}}</td>
+                                <td>{{funType}}</td>
+                                <td>{{importantClass}}</td>
+                                <td>{{isEfficiencyTest}}</td>
+                                <td>{{devFirm}}</td>
+                                <td>{{busiLabel}}</td>
+                                <td>{{baseFunLabel}}</td>
+                                <td>{{menuPath}}</td>
+                                <td>{{funDesc}}</td>
+                                <td>{{dataCheakScript}}</td>
+                            </tr>
+                            {{/each}}    
+    </script>
+    <script type="text/javascript">
+    //<![CDATA[
+    seajs.use("script/dataMaintenance/functionManage", function(Init) {
+        Init.init();
+    });
+    //]]>
+    </script>

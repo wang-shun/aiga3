@@ -3,8 +3,8 @@ define(function(require,exports,module){
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 
-	// 初始化页面ID，易于拷贝，不需要带'#'
-	var Page = Utils.initPage('Page_autoCaseTempMng');
+	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
+	var Page = Utils.initPage('autoCaseTempMng');
 
 	// 路径重命名
 	var pathAlias = "autoManage/autoCaseTempMng/";

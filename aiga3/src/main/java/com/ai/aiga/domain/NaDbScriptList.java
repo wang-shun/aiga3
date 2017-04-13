@@ -24,6 +24,16 @@ public class NaDbScriptList  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
+     private Long planId;
+     @Column(name="PLAN_ID", unique=true, nullable=false, precision=14, scale=0)
+   public Long getPlanId() {
+		return planId;
+	}
+
+
+	public void setPlanId(Long planId) {
+		this.planId = planId;
+	}
 
     public NaDbScriptList() {
     }

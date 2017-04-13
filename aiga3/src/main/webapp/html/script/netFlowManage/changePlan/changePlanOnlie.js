@@ -1,8 +1,6 @@
 define(function(require, exports, module) {
 
-	//引入公用模块
-	require('global/header.js');
-	require('global/sidebar.js');
+	var Sidebar = require('global/sidebar.js');
 
 	var pathAlias = "netFlowManage/changePlan/changePlanManage/";
 	// 显示变更计划
@@ -231,10 +229,15 @@ define(function(require, exports, module) {
 			_scrap.bind('click', function() {
 				var _data = self.getTaskRow();
 				if (_data) {
-					var cmd = "onlinePlan=" + _data.onlinePlan;
-					Rose.ajax.postJson(srvMap.get('reviewDel'), cmd, function(json, status) {
+					var _cmd = "onlinePlan=" + _data.onlinePlan;
+					Rose.ajax.postJson(srvMap.get('reviewDel'), _cmd, function(json, status) {
 						if (status) {
-							
+							Sidebar.creatTab({
+								id:"bh897578",
+								name:'交付物评审',
+								href:'view/netFlowManage/deliverableReview/deliverableReview.html',
+								cmd:_cmd
+							})
 						}
 					});
 				}

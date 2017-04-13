@@ -5,7 +5,8 @@ define(function(require, exports, module) {
 
 	// 路径重命名
 	var pathAlias = "autoManage/dataBackups/";
-
+	// 初始化页面ID，易于拷贝，不需要带'#'
+	var Page = Utils.initPage('propertyConfigView');
 
 	//分页根据条件查询
 	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyConfigList");
@@ -17,6 +18,8 @@ define(function(require, exports, module) {
 	srvMap.add("updatePropertyConfig", pathAlias + "retMessage.json", "sys/property/updatePropertyConfig");
 	//属性下拉菜单
 	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
+	//数据库下拉菜单
+	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
 	// 模板对象
 	var Tpl = {
 		getPropertyConfigTemp: $('#JS_getPropertyConfigTemp'),
@@ -34,7 +37,7 @@ define(function(require, exports, module) {
 
 	var Data = {
 		queryListCmd: null,
-		cfgId:null
+		cfgId: null
 	}
 
 	var Query = {
@@ -64,28 +67,29 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getPropertyConfigList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getPropertyConfigTemp.html());
-					$(Dom.getPropertyConfigList).html(template(json.data.content));
-					//美化单机
-					Utils.eventTrClickCallback($(Dom.getPropertyConfigList));
-					//新增
-					self.addPropertyConfig();
-					//删除
-					self.delPropertyConfig();
-					//双击修改
-					self.eventDClickCallback($(Dom.getPropertyConfigList), function() {
-						var _dom = $(Dom.getPropertyConfigList);
-						//获得当前单选框值
-						var data = Utils.getRadioCheckedRow(_dom);
-						self.updatePropertyConfig(data.cfgId);
-					});
-				}
-			});
-			//设置分页
-			self.initPaging($(Dom.getPropertyConfigList), 3)
+			var _dom = Page.findId('getPropertyConfigList');
+			var _domPagination = _dom.find("[name='pagination']");
+
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getPropertyConfigList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile($("#JS_getPropertyConfigTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				//美化单机
+				Utils.eventTrClickCallback($(Dom.getPropertyConfigList));
+				//新增
+				self.addPropertyConfig();
+				//删除
+				self.delPropertyConfig();
+				//双击修改
+				self.eventDClickCallback($(Dom.getPropertyConfigList), function() {
+					//获得当前单选框值
+					var data = Utils.getRadioCheckedRow(_dom);
+					self.updatePropertyConfig(data.cfgId);
+				});
+			}, _domPagination);
+
+
 		},
 		//新增数据备份
 		addPropertyConfig: function() {
@@ -96,7 +100,10 @@ define(function(require, exports, module) {
 			_addBt.bind('click', function() {
 				$(Dom.addPropertyConfigModal).modal('show');
 				var _form = $(Dom.addPropertyConfigInfo);
-
+				$(Dom.addPropertyConfigModal).on('hide.bs.modal', function() {
+					Utils.resetForm(Dom.addPropertyConfigInfo);
+				});
+				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addPropertyConfigModal).find("[name = 'save']");
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
@@ -155,19 +162,20 @@ define(function(require, exports, module) {
 			var _save = $(_dom).find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				var _form = Dom.updateMaintainInfo;
+				var _form = Dom.updatePropertyConfigInfo;
 				var _cmd = $(_form).serialize();
-				_cmd+='&cfgId='+Id;
-					XMS.msgbox.show('执行中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('updatePropertyConfig'), _cmd, function(json, status) {
-						if (status) {
-							window.XMS.msgbox.show('更新成功！', 'success', 2000)
-							setTimeout(function() {
-								self.getPropertyConfigList(Data.queryListCmd);
-							}, 1000);
-							$(_dom).modal('hide');
-						}
-					});
+				Utils.setSelectData(_form);
+				_cmd += '&cfgId=' + Id;
+				XMS.msgbox.show('执行中，请稍候...', 'loading');
+				Rose.ajax.getJson(srvMap.get('updatePropertyConfig'), _cmd, function(json, status) {
+					if (status) {
+						window.XMS.msgbox.show('更新成功！', 'success', 2000)
+						setTimeout(function() {
+							self.getPropertyConfigList(Data.queryListCmd);
+						}, 1000);
+						$(_dom).modal('hide');
+					}
+				});
 			});
 
 		},

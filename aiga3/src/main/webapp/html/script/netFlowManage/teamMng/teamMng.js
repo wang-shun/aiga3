@@ -2,7 +2,8 @@ define(function(require, exports, module) {
 
 	// 通用工具模块
 	var Utils = require("global/utils.js");
-
+	// 初始化页面ID，易于拷贝，不需要带'#'
+	var Page = Utils.initPage('teamMngView');
 	// 路径重命名
 	var pathAlias = "netFlowManage/teamMng/";
 
@@ -13,7 +14,7 @@ define(function(require, exports, module) {
 	//新增团队
 	srvMap.add("addTeamInfo", pathAlias + "retMessage.json", "sys/team/save");
 	//新增员工
-	srvMap.add("addEmInfo", pathAlias + "retMessage.json", "sys/employee/save");	
+	srvMap.add("addEmInfo", pathAlias + "retMessage.json", "sys/employee/save");
 	//查询所有员工列表
 	srvMap.add("getEmList", pathAlias + "emList.json", "sys/employee/findByName");
 	//查询已关联员工列表
@@ -44,13 +45,13 @@ define(function(require, exports, module) {
 		emedList: '#JS_EmedList',
 		queryEmForm: '#JS_queryEmForm',
 		//新增团队弹出框
-		addTeamModal:'#JS_addTeamModal',
+		addTeamModal: '#JS_addTeamModal',
 		addTeamInfo: '#JS_addTeamInfo',
 		//新增员工弹出框
-		addEmModal:'#JS_addEmModal',
+		addEmModal: '#JS_addEmModal',
 		addTeamInfo: '#JS_addEmInfo',
 		//关联弹出框
-		relTeamerModal:'#JS_relTeamerModal',
+		relTeamerModal: '#JS_relTeamerModal',
 
 	};
 
@@ -88,24 +89,26 @@ define(function(require, exports, module) {
 			Data.queryListCmd = _cmd;
 			console.log(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getTeamList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getTeamList);
-					$(Dom.teamList).html(template(json.data.content));
-					//删除所选条目
-					self.delTeamInfo();
-					//新增团队
-					self.addTeamInfo();
-					//新增员工
-					self.addEmInfo();
-					//关联
-					self.relTeamAndEm();
-					Utils.eventTrClickCallback($(Dom.teamList));
 
-					self.initPaging($(Dom.teamList), 2);
-				}
-			});
+
+			var _dom = Page.findId("teamList");
+			var _domPagination = _dom.find("[name='pagination']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getTeamList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile($("#TPL_getTeamListTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				//删除所选条目
+				self.delTeamInfo();
+				//新增团队
+				self.addTeamInfo();
+				//新增员工
+				self.addEmInfo();
+				//关联
+				self.relTeamAndEm();
+				Utils.eventTrClickCallback($(Dom.teamList));
+			}, _domPagination);
+
 
 
 		},
@@ -144,29 +147,33 @@ define(function(require, exports, module) {
 				// 弹出层
 				$(Dom.addTeamModal).modal('show');
 				//组件表单校验初始化
-				var _form =  $('#JS_addTeamInfo');
+				var _form = $('#JS_addTeamInfo');
 				_saveBt = $(Dom.addTeamModal).find("[name='save']");
 				Utils.setSelectData(_form);
+				$(Dom.addTeamModal).on('hide.bs.modal', function() {
+					Utils.resetForm('#JS_addTeamInfo');
+				});
+
 				// 表单提交
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
-						Utils.checkForm(_form, function() {
-					var cmd = _form.serialize();
-					cmd+="&createOpId=12";
-					console.log(cmd);
-					Rose.ajax.postJson(srvMap.get('addTeamInfo'), cmd, function(json, status) {
-						if (status) {
-							// 添加用户成功后，刷新用户列表页
-							XMS.msgbox.show('添加成功！', 'success', 2000)
-								// 关闭弹出层
-							$(Dom.addTeamModal).modal('hide');
+					Utils.checkForm(_form, function() {
+						var cmd = _form.serialize();
+						cmd += "&createOpId=12";
+						console.log(cmd);
+						Rose.ajax.postJson(srvMap.get('addTeamInfo'), cmd, function(json, status) {
+							if (status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('添加成功！', 'success', 2000)
+									// 关闭弹出层
+								$(Dom.addTeamModal).modal('hide');
 
-							setTimeout(function() {
-								self.getTeamList();
-							}, 1000)
-						}
+								setTimeout(function() {
+									self.getTeamList();
+								}, 1000)
+							}
+						});
 					});
-				});
 				})
 			})
 		},
@@ -180,28 +187,31 @@ define(function(require, exports, module) {
 				// 弹出层
 				$(Dom.addEmModal).modal('show');
 				//组件表单校验初始化
-				var _form =  $('#JS_addEmInfo');
+				var _form = $('#JS_addEmInfo');
 				_saveBt = $(Dom.addEmModal).find("[name='save']");
 				Utils.setSelectData(_form);
+				$(Dom.addEmModal).on('hide.bs.modal', function() {
+					Utils.resetForm('#JS_addEmInfo');
+				});
 				// 表单提交
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
-						Utils.checkForm(_form, function() {
-					var cmd = _form.serialize();
-					console.log(cmd);
-					Rose.ajax.postJson(srvMap.get('addEmInfo'), cmd, function(json, status) {
-						if (status) {
-							// 添加用户成功后，刷新用户列表页
-							XMS.msgbox.show('添加成功！', 'success', 2000)
-								// 关闭弹出层
-							$(Dom.addEmModal).modal('hide');
+					Utils.checkForm(_form, function() {
+						var cmd = _form.serialize();
+						console.log(cmd);
+						Rose.ajax.postJson(srvMap.get('addEmInfo'), cmd, function(json, status) {
+							if (status) {
+								// 添加用户成功后，刷新用户列表页
+								XMS.msgbox.show('添加成功！', 'success', 2000)
+									// 关闭弹出层
+								$(Dom.addEmModal).modal('hide');
 
-							setTimeout(function() {
-								self.getTeamList();
-							}, 1000)
-						}
+								setTimeout(function() {
+									self.getTeamList();
+								}, 1000)
+							}
+						});
 					});
-				});
 				})
 			})
 		},
@@ -218,11 +228,12 @@ define(function(require, exports, module) {
 					//跳转
 					$(Dom.relTeamerModal).modal('show');
 					Data.teamId = data.teamId;
+
+					//查询所有员工信息(去除已关联员工)
+					self.getEmList('teamId=' + Data.teamId);
 					//关联新成员
 					self.relEm(Data.teamId);
-					//查询所有员工信息(去除已关联员工)
-					self.queryEmlistForm();
-					self.getEmList("teamId="+Data.teamId);
+
 					self.getEmedList(Data.teamId);
 					self.delEmed();
 				}
@@ -248,36 +259,34 @@ define(function(require, exports, module) {
 			Data.queryListCmd = _cmd;
 			console.log(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getEmList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getEmList);
-					$(Dom.emList).html(template(json.data.content));
+			var _dom = $('#JS_emList');
+			var _domPagination = _dom.find("[name='pagination']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getEmList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile($("#TPL_getEmListTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				Utils.eventTrClickCallback($(Dom.emList));
+			}, _domPagination);
 
-
-					Utils.eventTrClickCallback($(Dom.emList));
-
-					self.initPaging($(Dom.emList), 5);
-				}
-			});
 
 
 		},
 		// 查询已关联员工信息
 		getEmedList: function(cmd) {
 			var self = this;
-			var _cmd = 'teamId='+cmd;
+			var _cmd = 'teamId=' + cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getEmedList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getEmedList);
-					$(Dom.emedList).html(template(json.data));
-					Utils.eventTrClickCallback($(Dom.emedList));
+			var _dom = $('#JS_EmedList');
+			var _domPagination = _dom.find("[name='pagination']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getEmedList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile($("#TPL_getEmedListTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				Utils.eventTrClickCallback($(Dom.emedList));
+			}, _domPagination);
 
-					self.initPaging($(Dom.emedList), 5);
-				}
-			});
 
 
 		},
@@ -288,33 +297,33 @@ define(function(require, exports, module) {
 			var delBt = $("#JS_delEmedBt");
 			delBt.unbind('click');
 			delBt.bind('click', function(event) {
-				var delEmedIds= "list="
+				var delEmedIds = "list="
 
 				var data = Utils.getCheckboxCheckedRow(_dom);
-				for (var k in data) {
-					var emId = data[k];
-					//拼接
-					delEmedIds += emId + ",";
-				}
-				
-				//去除最后的逗号
-				delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
-				var _cmd = delEmedIds;
-				console.log(_cmd);
-				//批量删除接口
-				Rose.ajax.postJson(srvMap.get('delEmed'), _cmd, function(json, status) {
-					if (status) {
-						window.XMS.msgbox.show('删除成功！', 'success', 2000)
-						setTimeout(function() {
-
-							//问题
-							self.getEmedList(Data.teamId);
-						}, 1000)
+				if (data) {
+					for (var k in data) {
+						var emId = data[k];
+						//拼接
+						delEmedIds += emId + ",";
 					}
-				});
-				self.getEmList();
-				//删除参数初始化
-				delEmedIds = "emId:";
+
+					//去除最后的逗号
+					delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
+					var _cmd = delEmedIds;
+					console.log(_cmd);
+					//批量删除接口
+					Rose.ajax.postJson(srvMap.get('delEmed'), _cmd, function(json, status) {
+						if (status) {
+							window.XMS.msgbox.show('删除成功！', 'success', 2000)
+							setTimeout(function() {
+
+								//问题
+								self.getEmedList(Data.teamId);
+							}, 1000)
+						}
+					});
+					self.getEmList("teamId=" + data.teamId);
+				}
 			});
 		},
 		//员工关联
@@ -325,31 +334,31 @@ define(function(require, exports, module) {
 			var _relBtn = _form.find("[name='rel']");
 			_relBtn.unbind('click');
 			_relBtn.bind('click', function() {
-				var relEmIds="list="
+				var relEmIds = "list="
 				var data = Utils.getCheckboxCheckedRow(_dom);
-				for (var k in data) {
-					var emId = data[k];
-					//拼接
-					relEmIds += emId + ",";
-				}
-				//去除最后的逗号
-				relEmIds = relEmIds.substring(0, relEmIds.length - 1);
-				var _cmd = relEmIds+'&teamId='+Data.teamId;
-				console.log(_cmd);
-				//批量关联接口
-				Rose.ajax.postJson(srvMap.get('relEmed'),_cmd, function(json, status) {
-					if (status) {
-						window.XMS.msgbox.show('关联成功！', 'success', 2000)
-						setTimeout(function() {
-
-							//问题
-							self.getEmedList(Data.teamId);
-							self.getEmList();
-						}, 1000)
+				if (data) {
+					for (var k in data) {
+						var emId = data[k];
+						//拼接
+						relEmIds += emId + ",";
 					}
-				});
-				//删除参数初始化
-				relEmedIds = "emId:";
+					//去除最后的逗号
+					relEmIds = relEmIds.substring(0, relEmIds.length - 1);
+					var _cmd = relEmIds + '&teamId=' + Data.teamId;
+					console.log(_cmd);
+					//批量关联接口
+					Rose.ajax.postJson(srvMap.get('relEmed'), _cmd, function(json, status) {
+						if (status) {
+							window.XMS.msgbox.show('关联成功！', 'success', 2000)
+							setTimeout(function() {
+
+								//问题
+								self.getEmedList(Data.teamId);
+								self.getEmList("teamId=" + Data.teamId);
+							}, 1000)
+						}
+					});
+				}
 			});
 		},
 		//页面跳转

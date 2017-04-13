@@ -30,8 +30,19 @@ public class NaTestLeaveOver  implements java.io.Serializable {
      private Long requireId;
      private Long devTaskId;
      private String requireName;
+      private Long planId;
+      @Column(name="PLAN_ID", unique=true, nullable=false, precision=14, scale=0)
+    public Long getPlanId() {
+		return planId;
+	}
 
-    public NaTestLeaveOver() {
+
+	public void setPlanId(Long planId) {
+		this.planId = planId;
+	}
+
+
+	public NaTestLeaveOver() {
     }
 
 	

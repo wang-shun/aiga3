@@ -103,8 +103,10 @@ define(function(require, exports, module) {
 					console.log(json.data)
 					$(Dom.perTaskList).html(template(json.data.content));
 					Utils.eventTrClickCallback($(Dom.perTaskList));
+					//查找按钮
+					self.queryPerTaskList();
 					//同步测试结果
-					self.synTestResults();
+					self.synTestResults("");
 					//queTestResults查看测试结果
 					self.queTestResults();
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
@@ -118,10 +120,12 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+		//查询按钮
 		queryPerTaskList:function(){
 			var self = this;
 			var _form = $(Dom.queryPerTaskForm);
 			// 表单提交
+			_form.find('button[name="query"]').unbind('click');
 			_form.find('button[name="query"]').bind('click', function() {
 
 					var cmd = _form.serialize();

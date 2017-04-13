@@ -11,8 +11,6 @@ define(function(require, exports, module) {
 	srvMap.add("scrap", pathAlias + "scrap.json", "sys/changeplanonile/abandon");
 	//取消计划
 	srvMap.add("cancel", pathAlias + "scrap.json", "sys/changeplanonile/del");
-	//评审交付物
-	srvMap.add("reviewDel", pathAlias + "scrap.json", "");
 	//修改计划
 	srvMap.add("changePlanupdate", pathAlias + "scrap.json", "sys/changeplanonile/update");
 	//保存计划
@@ -230,16 +228,16 @@ define(function(require, exports, module) {
 				var _data = self.getTaskRow();
 				if (_data) {
 					var _cmd = "onlinePlan=" + _data.onlinePlan;
-					Rose.ajax.postJson(srvMap.get('reviewDel'), _cmd, function(json, status) {
-						if (status) {
+					/*Rose.ajax.postJson(srvMap.get('reviewDel'), _cmd, function(json, status) {
+						if (status) {*/
 							Sidebar.creatTab({
 								id:"bh897578",
 								name:'交付物评审',
 								href:'view/netFlowManage/deliverableReview/deliverableReview.html',
 								cmd:_cmd
 							})
-						}
-					});
+					/*	}
+					});*/
 				}
 			});
 		},

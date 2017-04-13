@@ -231,7 +231,7 @@ define(function(require, exports, module) {
                             var cmd = "onlinePlan=" + Data.onlinePlanId +"&taskId="+_date.taskId;
                             // 请求：用户基本信息
                             alert(cmd)
-                            self.relationInterfaceList(cmd);
+                            self.getInterfaceList(cmd);
                         })
                         Utils.eventTrClickCallback($(Dom.getPerSubtaskAssignmentList))
                             //设置分页
@@ -243,7 +243,7 @@ define(function(require, exports, module) {
         //显示(查找)接口列表
         getInterfaceList: function(cmd){
             var self = this;
-            Rose.ajax.postJson(srvMap.get('queInterfaceList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getInterfaceList'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
                     // Utils.setSelectData(_form);
@@ -255,7 +255,7 @@ define(function(require, exports, module) {
                     self.search();
                     //
                     self.relation();
-                    //
+                    //删除关联关系
                     self.delRelation();
                     //设置分页
                     self.initPaging(_dom, 5, true);
@@ -263,18 +263,20 @@ define(function(require, exports, module) {
             });
         },
         //已关联接口查看
-        relationInterfaceList: function(cmd){
-            var self = this;
-            Rose.ajax.postJson(srvMap.get('getInterfaceList'), cmd, function(json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getInterfaceList);
-                    var _dom = $(Dom.getInterfaceList);
-                    _dom.html(template(json.data));
-                    // Utils.eventTrClickCallback($(Dom.getInterfaceList))
-                }
-            });
-        },
+        // relationInterfaceList: function(cmd){
+        //     var self = this;
+        //     Rose.ajax.postJson(srvMap.get('getInterfaceList'), cmd, function(json, status) {
+        //         if (status) {
+        //             window.XMS.msgbox.hide();
+        //             var template = Handlebars.compile(Tpl.getInterfaceList);
+        //             var _dom = $(Dom.getInterfaceList);
+        //             _dom.html(template(json.data));
+        //             Utils.eventTrClickCallback($(Dom.getInterfaceList))
+        //              //设置分页
+        //             self.initPaging(_dom, 5, true);
+        //         }
+        //     });
+        // },
         //新增性能子任务
         addPerSubtaskAssignmentForm : function(){
             var self = this;
@@ -359,7 +361,7 @@ define(function(require, exports, module) {
                 var _date = self.getRadioCheckedRow(_dom);
                 if (_date) {
                     var cm = "taskId=" + _date.taskId+"&parentId=" + Data.data.taskId;
-                    Rose.ajax.postJson(srvMap.get('addPerSubtaskAssignment'), cm, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('delPerSubtaskAssignment'), cm, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功！', 'success', 2000);
                             setTimeout(function() {
@@ -427,6 +429,7 @@ define(function(require, exports, module) {
             var _delRelation = $(Dom.queInterfaceForm).find("[name='delRelation']");
             _delRelation.unbind('click');
             _delRelation.bind('click',function(){
+                alert("1")
                 var _date = self.getRadioCheckedRow($(Dom.getPerSubtaskAssignmentList));
                 if (_date) {
                 var id="";
@@ -444,7 +447,7 @@ define(function(require, exports, module) {
                    }
                    num ++;
                 });
-                cmd = "taskId="+ _date.taskId+"&id="+id;
+                cmd = "taskId="+ _date.taskId+"&ids="+id;
                 Rose.ajax.postJson(srvMap.get('delRelation'), cmd, function(json, status) {
                     if (status) {
                         window.XMS.msgbox.show('删除成功！', 'success', 2000);

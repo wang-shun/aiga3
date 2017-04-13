@@ -90,7 +90,6 @@ define(function(require, exports, module) {
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			var _dom = $("#JS_teamList");
 			var _domPagination = _dom.find("[name='pagination']");
-			alert(_dom.html());
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getTeamList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();

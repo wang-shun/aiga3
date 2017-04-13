@@ -1,0 +1,102 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary" id="JS_emailForm">
+            <form>
+                <div class="box-header with-border">
+                    <h3 class="box-title">发送邮件</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="form-group">
+                        <select id="addressee" class="form-control select2" multiple="multiple" data-placeholder="收件人:" name="addressee" data-url="getAddresseeList" data-idkey="email" data-namekey="name" style="width: 100%;" required>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select id="ccList" class="form-control select2" multiple="multiple" data-placeholder="抄送人:" name="ccList" data-url="getAddresseeList" data-idkey="email" data-namekey="name" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="subject" placeholder="主题:">
+                    </div>
+                    <!-- 富文本编辑框 -->
+                    <div class="form-group">
+                        <div id="summernote"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="btn btn-default btn-file">
+                            <i class="fa fa-paperclip"></i> 附件
+                            <input type="file" id="file" name="attachment" multiple="multiple">
+                        </div>
+                        <p class="help-block">Max. 32MB</p>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default"><i class="fa fa-pencil"></i> Draft</button>
+                        <button type="button" name="send" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+                    </div>
+                    <button type="reset" class="btn btn-default"><i class="fa fa-times"></i> Discard</button>
+                </div>
+            </form>
+            <!-- /.box-footer -->
+        </div>
+        <!-- /. box -->
+    </div>
+</div>
+<script>
+$(function() {
+
+    var OnlineModalButton = function(context) {
+        var ui = $.summernote.ui;
+
+        // create button
+        var button = ui.button({
+            contents: '<i class="fa fa-child"/> 上线总结模板',
+            tooltip: '添加模板',
+            click: function() {
+                var markupStr = '<br><br>1.计划上线新业务需求0个,实际上线成功0个.<br>2.新业务需求上线过程共发现异常事件0个,其中开发测试类异常事件0个,维护类异常事件0个,外部类异常事件0个;发现的问题现场解决0个,需最终确认或遗留暂不解决的问题0个 <br>3.本次共配合重启系统0个,其中一次重启成功0个.终端管理系统、客服业务服务请求模块及OSB接口编排进行了二次发布.<br>4.本次上线总计执行脚本0个脚本,提交及时率0%,一次执行成功率达0%,修改脚本0个,补提脚本0个,经脚本修改、确认后,最终执行成功率0%,发现的问题现场全部解决.';
+                $('#summernote').summernote('code', markupStr);
+            }
+        });
+
+        return button.render(); // return button as jquery object 
+    }
+
+
+    //Add text editor
+    $('#summernote').summernote({
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['style']],
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['fontname']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['misc', ['fullscreen', 'codeview', 'undo', 'redo']],
+            ['mybutton', ['onlineModalbtn']]
+        ],
+        buttons: {
+            onlineModalbtn: OnlineModalButton
+        },
+        placeholder: '请填写邮件内容...',
+        lang: 'zh-CN', // default: 'en-US'
+        height: 300, // set editor height
+        minHeight: null, // set minimum height of editor
+        maxHeight: null, // set maximum height of editor
+        focus: true // set focus to editable area after initializing summernote
+    });
+});
+</script>
+<script type="text/javascript">
+$(".select2").select2({
+    separator: ';',
+    tags: true
+});
+</script>
+<script type="text/javascript">
+seajs.use("script/email/email.js", function(Query) {
+    Query.init();
+});
+</script>

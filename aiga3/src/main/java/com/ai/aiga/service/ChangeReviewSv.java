@@ -17,16 +17,23 @@ import com.ai.aiga.dao.ChangeReviewDao;
 import com.ai.aiga.dao.CodePathDao;
 import com.ai.aiga.dao.DatabaseConfiDao;
 import com.ai.aiga.dao.DatabaseScriptListDao;
+import com.ai.aiga.dao.DbScriptListDao;
 import com.ai.aiga.dao.NaRequireListDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.dao.TestLeaveOverDao;
+import com.ai.aiga.dao.TestSituationDao;
+import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.NaChangeList;
 import com.ai.aiga.domain.NaChangeReview;
 import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaDatabaseConfiScript;
 import com.ai.aiga.domain.NaDatabaseScriptList;
+import com.ai.aiga.domain.NaDbScriptList;
 import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaTestLeaveOver;
+import com.ai.aiga.domain.NaTestSituation;
+import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
@@ -64,6 +71,13 @@ public class ChangeReviewSv extends BaseService{
 	
 	@Autowired
 	private    DatabaseScriptListDao databaseScriptListDao;
+	
+	@Autowired
+	private 	DbScriptListDao dbScriptListDao;
+	
+	
+	@Autowired
+	private           TestSituationDao   testSituationDao;
    public  List<NaChangeReview> selectall(Long onlinePlan){
 	   if (onlinePlan==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -77,7 +91,7 @@ public class ChangeReviewSv extends BaseService{
 	   if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-	   NaChangeReview naChangeReview=new NaChangeReview(request.getReviewId());
+	   NaChangeReview naChangeReview=changeReviewDao.findOne(request.getReviewId());
 	   if(naChangeReview == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 	   }
@@ -89,7 +103,8 @@ public class ChangeReviewSv extends BaseService{
 		   naChangeReview.setRemark(request.getRemark());
 		   naChangeReview.setReviewDate(new Date(System.currentTimeMillis()));
 		   naChangeReview.setReviewer("张三");
-		   naChangeReview.setReviewResult(request.getReviewResult());
+		   if(StringUtils.isNotBlank(request.getReviewResult())){
+		   naChangeReview.setReviewResult(request.getReviewResult());}
 		   //操作
 		   naChangeReview.setExt1(request.getExt1());
 		   changeReviewDao.save(naChangeReview);
@@ -122,7 +137,87 @@ public class ChangeReviewSv extends BaseService{
 	   
 		return  codePathDao.findAll();
 	}
+   //测试情况
+   public Object list1(int pageNumber, int pageSize, PlanDetailManifest condition) throws ParseException {
+		List<String> list = new ArrayList<String>();
+		list.add("sysName");
+		list.add("subSysName");
+		String sql = "select distinct sys_name, sub_sys_name from plan_detail_manifest ";
+		
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return planDetailManifestDao.searchByNativeSQL(sql, pageable, list);
+	}
+   //保存测试情况
+   public void saveTestSituation(List<NaTestSituation> list){
+	   if(list == null){ 
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	   for (int i = 0; i < list.size(); i++) {
+
+		   NaTestSituation NaTestSituation = list.get(i);
+
+			if (NaTestSituation != null) {
+				NaTestSituation NaTestSituation1=new NaTestSituation();
+				NaTestSituation1.setSysName(NaTestSituation.getSysName());
+				NaTestSituation1.setSubSysName(NaTestSituation.getSubSysName());
+				NaTestSituation1.setTestSituation(NaTestSituation.getTestSituation());
+				testSituationDao.save(NaTestSituation1);
+					
+			}
+		}
+	   
+   }
+   public void saveCodePath(List<NaCodePath> list){
+	   if(list == null){ 
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	   for (int i = 0; i < list.size(); i++) {
+
+		   NaCodePath naCodePath = list.get(i);
+
+			if (naCodePath != null) {
+				
+//				NaCodePath naCodePath1=codePathDao.findOne(naCodePath.getId());
+//				naCodePath1.setResult(naCodePath.getResult());
+//				naCodePath1.set
+//				codePathDao.save(naCodePath1);
+				
+
+			}
+		}
+	   
+	   
+   }
    
+   public Object  findPlanDetailManifest(int pageNumber, int pageSize,PlanDetailManifest condition){
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return planDetailManifestDao.search(cons, pageable);
+		
+   }	
+		//return responses;
+ 
    public List<PlanDetailManifest> findPlanDetailManifest(){
 	   
 	   return planDetailManifestDao.findAll();
@@ -147,6 +242,10 @@ public class ChangeReviewSv extends BaseService{
 	   return databaseScriptListDao.findAll();
 }
  
+ public List<NaDbScriptList> findDbScriptList(){
+	   
+	   return dbScriptListDao.findAll();
+}
  
 }
 

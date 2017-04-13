@@ -3,7 +3,9 @@ package com.ai.aiga.service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -28,6 +30,9 @@ import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.json.EmployeeRequest;
+import com.ai.aiga.view.json.NaEmployeeRequest;
+import com.ai.aiga.view.json.StaffListResponse;
 import com.ai.aiga.view.json.TeamEmployeeRelRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -113,6 +118,7 @@ public class TeamInfoSv extends BaseService {
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
 		return employeeInfoDao.searchByNativeSQL(sql, pageable, list);
+		
 	}
 	public NaTeamInfo save(NaTeamInfo request){
 		if(request == null){ 
@@ -271,5 +277,45 @@ public class TeamInfoSv extends BaseService {
 	return teamEmployeeRelDao.selectall(teamId);
 	  
   }
+  
+  
+  public List<Object> email(){
+		
+		List result = new ArrayList<String>();
+		
+		String teamSql = "select distinct a.ext_1, replace(to_char(WMSYS.WM_CONCAT(c.email)),',',',') as emails "
+		 		+ "from NA_TEAM_INFO  a, NA_TEAM_EMPLOYEE_REL b,NA_EMPLOYEE_INFO c "
+		 		+ "where a.team_id=b.team_id and b.emp_id = c.id  group by a.ext_1  ";
+		List<Object> teams = teamEmployeeRelDao.searchformSQL(teamSql);
+		
+		if(teams!=null&&teams.size()>0){
+			for (int i = 0; i < teams.size(); i++) {
+				Map<String, String> mapteam = new HashMap<String, String>();
+				Object[] object = (Object[]) teams.get(i);
+				System.out.println("object[0].toString()"+object[0].toString());
+				System.out.println("object[1].toString()"+object[1].toString());
+				mapteam.put("name", object[0].toString());
+				mapteam.put("email", object[1].toString());
+				result.add(mapteam);
+			}
+		}
+		
+		String empsql = "select em_name||'<'||email||'>' as name ,email  from NA_EMPLOYEE_INFO";
+		List<Object> emps = teamEmployeeRelDao.searchformSQL(empsql);
+		System.out.println("emps"+emps);
+		if(emps!=null&&emps.size()>0){
+			for (int i = 0; i < emps.size(); i++) {
+				Map<String, String> mapemp = new HashMap<String, String>();
+				Object[] object = (Object[]) emps.get(i);
+				mapemp.put("name", object[0].toString());
+				mapemp.put("email", object[1].toString());
+				result.add(mapemp);
+			}
+		}
+
+		System.out.println("test"+result);
+		return result;
+		
+	}
   
 }

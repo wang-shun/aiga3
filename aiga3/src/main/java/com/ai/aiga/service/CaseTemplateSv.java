@@ -111,17 +111,31 @@ public class CaseTemplateSv extends BaseService{
 				NaCaseTemplateResponse rep = BeanMapper.map(one, NaCaseTemplateResponse.class);
 				if(one.getSysId() != null){
 					AigaSystemFolder asf = sysCache.getSysFolder(one.getSysId());
-					rep.setSysName(asf.getSysName());
+					if(asf == null){
+						rep.setSysName(String.valueOf(one.getSysId()));
+					}else{
+						rep.setSysName(asf.getSysName());
+					}
+					
 				}
 				
 				if(one.getSysSubId() != null){
 					AigaSubSysFolder assf = subSysCache.getSubSys(one.getSysSubId());
-					rep.setSysSubName(assf.getSysName());
+					if(assf == null){
+						rep.setSysSubName(String.valueOf(one.getSysSubId()));
+					}else{
+						rep.setSysSubName(assf.getSysName());
+					}
 				}
 				
 				if(one.getFunId() != null){
 					AigaFunFolder fun = funSysCache.getFunsByFunid(one.getFunId());
-					rep.setFunName(fun.getBusiLabel());
+					
+					if(fun == null){
+						rep.setFunName(String.valueOf(one.getFunId()));
+					}else{
+						rep.setFunName(fun.getBusiLabel());
+					}
 				}
 				
 				list.add(rep);

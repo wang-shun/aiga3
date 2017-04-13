@@ -1,6 +1,5 @@
 package com.ai.aiga.dao;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,6 +27,19 @@ SearchAndPageRepository<NaTeamEmployeeRel, Long> {
 	@Query("select a from NaEmployeeInfo a,NaTeamEmployeeRel b "
 			+ "where b.empId=a.id and b.teamId=?1")
 	  List<NaEmployeeInfo> selectall(Long teamId);
+	
+	/*
+	@Query(value="select c.ext1,a.email from NaEmployeeInfo a, NaTeamEmployeeRel b, "
+			+ " NaTeamInfo c where b.empId=a.id and b.teamId=c.teamId ")
+	 List<object[]> email();*/
+	 
+	 @Query(value="select distinct a.ext_1, replace(to_char(WMSYS.WM_CONCAT(c.email)),',',',') as emails "
+	 		+ "from NA_TEAM_INFO  a, NA_TEAM_EMPLOYEE_REL b,NA_EMPLOYEE_INFO c "
+	 		+ "where a.team_id=b.team_id and b.emp_id = c.id  group by a.ext_1  ",nativeQuery=true)
+	 List<Object[]> email();
+	
+	 @Query(value="select em_name||'<'||email||'>' as name ,email  from NA_EMPLOYEE_INFO", nativeQuery=true)
+	 List<Object[]> nameAndEmail();
 	
 }
 

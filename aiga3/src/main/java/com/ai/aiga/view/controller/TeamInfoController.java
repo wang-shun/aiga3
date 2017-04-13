@@ -105,5 +105,14 @@ public class TeamInfoController {
 		bean.setData(teamInfoSv.selectall(teamId));
 		return bean;
 	}
+	
+	@RequestMapping(path = "/aiga/employee/email")
+	public @ResponseBody JsonBean email(){
+		JsonBean bean = new JsonBean();
+		bean.setData(teamInfoSv.email());
+		return bean;
+	}
+	
+	
 }
 

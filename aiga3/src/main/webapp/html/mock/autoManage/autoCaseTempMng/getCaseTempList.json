@@ -2,7 +2,7 @@
     "retCode":"200",
     "retMessage":null,
     "data":{
-        "totalPages":12, //每页显示数量
+        "totalElements":12, //总条数
         "content":[
             {
                 "tempId":"T100",

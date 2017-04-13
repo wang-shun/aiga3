@@ -18,7 +18,7 @@
 		http://cxf.apache.org/jaxws https://cxf.apache.org/schemas/jaxws.xsd">
 
 	<description>Spring公共配置 </description>
-
+	
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
 	<context:component-scan base-package="com.ai.aiga">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
@@ -26,11 +26,7 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
-	<!-- 在 Spring 配置文件中启用扫描并自动创建代理的功能 -->
-	<!-- 需要在 <beans> 标签中增加对 jpa 命名空间的引用 -->
-
-	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/*.properties" />
-	
+	<!-- 数据源 -->
 	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
 		<!-- Connection Info -->
 		<property name="driverClassName" value="${jdbc.dev.driver}" />
@@ -83,13 +79,13 @@
 	<!-- 使用annotation定义事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
-	<cache:annotation-driven />
-	
 <!-- 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
-	 -->
-<!-- 	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>	 
-	 -->
+		<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>	 
+-->
 	
+	<cache:annotation-driven />
+	<!-- simple cache manager -->
+	<!-- 
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
 	   	 <property name="caches">
 	        <set>
@@ -97,14 +93,34 @@
 	            <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="SysConstant"/>
 	        </set>
 	    </property>
-	</bean>
+	</bean> -->
 	
-<!-- 	<bean id="cacheManager"  class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
-	EhCache library setup
-	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="ehcache.xml"/>
- -->
+	<bean id="cacheManager"  class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
 	
- 	<!-- mail -->
- 	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl"></bean>
+	<import resource="spring-soap-server.xml"/>
+	<import resource="spring-shiro.xml"/>
+	
+	<!-- 定义开发的profile -->
+    <beans profile="dev">
+    	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/dev/*.properties" />
+    	
+    	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    		<property name="configLocation" value="classpath:/dev/ehcache.xml"></property>
+    	</bean>
+        
+        <import resource="dev/spring-mail.xml"/>
+    </beans>
+
+	<!-- 定义测试的profile -->
+    <beans profile="qa">
+        <import resource="qa/spring-mail.xml"/>
+    </beans>
+
+	<!-- 定义生产的profile -->
+    <beans profile="prod">
+        <import resource="prod/spring-mail.xml"/>
+    </beans>
+	
+	
  
 </beans>

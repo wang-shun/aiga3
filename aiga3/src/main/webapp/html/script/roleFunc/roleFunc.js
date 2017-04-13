@@ -17,7 +17,7 @@ define(function(require, exports, module) {
         getStaffRoleList: require('tpl/roleFunc/getStaffRoleList.tpl')
     };
     var Mod2 = {
-        getStaffRoleList: '#Page_getStaffRoleList'
+        getStaffRoleList: '#Page_getStaffRoleListr'
     };
     var Dom = {
         getRoleFuncTable: "#JS_getRoleFuncTable",

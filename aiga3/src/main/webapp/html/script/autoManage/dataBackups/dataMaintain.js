@@ -5,18 +5,22 @@ define(function(require, exports, module) {
 
 	// 路径重命名
 	var pathAlias = "autoManage/dataBackups/";
-
-
+	// 初始化页面ID，易于拷贝，不需要带'#'
+	var Page = Utils.initPage('dataMaintainView');
 	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyMaintainList");
+	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
 	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyMaintain");
+	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyCorrelation");
 	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyMaintain");
+	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyCorrelation");
 	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyMaintain");
+	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyCorrelation");
 	//属性下拉菜单
 	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
+	//数据库下拉菜单
+	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
+	//cfgId下拉菜单
+	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
 	// 模板对象
 	var Tpl = {
 		getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -63,30 +67,31 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getDataMaintainList'), _cmd, function(json, status) {
-				if (status) {
-					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Tpl.getDataMaintainTemp.html());
-					$(Dom.getDataMaintainList).html(template(json.data.content));
-					//美化单机
-					Utils.eventTrClickCallback($(Dom.getDataMaintainList));
-					//新增
-					self.addDataMaintain();
-					//删除
-					self.delDataMaintain();
-					//双击修改
-					self.eventDClickCallback($(Dom.getDataMaintainList), function() {
-						var _dom = $(Dom.getDataMaintainList);
-						//获得当前单选框值
-						var data = Utils.getRadioCheckedRow(_dom);
-						self.updateDataMaintain(data.correlationId);
-					});
-				}
-			});
-			//设置分页
-			self.initPaging($(Dom.getDataMaintainList), 3)
+
+			var _dom = Page.findId('getDataMaintainList');
+			var _domPagination = _dom.find("[name='pagination']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getDataMaintainList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+				var template = Handlebars.compile($("#TPL_getDataMaintainTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				//美化单机
+				Utils.eventTrClickCallback($(Dom.getDataMaintainList));
+				//新增
+				self.addDataMaintain();
+				//删除
+				self.delDataMaintain();
+				//双击修改
+				self.eventDClickCallback($(Dom.getDataMaintainList), function() {
+					var _dom = $(Dom.getDataMaintainList);
+					//获得当前单选框值
+					var data = Utils.getRadioCheckedRow(_dom);
+					self.updateDataMaintain(data.correlationId);
+				});
+			}, _domPagination);
 		},
-		//新增数据备份
+		//新增数据维护
 		addDataMaintain: function() {
 			var self = this;
 			var _list = $(Dom.getDataMaintainList);
@@ -95,7 +100,7 @@ define(function(require, exports, module) {
 			_addBt.bind('click', function() {
 				$(Dom.addDataMaintainModal).modal('show');
 				var _form = $(Dom.addDataMaintainInfo);
-
+				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addDataMaintainModal).find("[name = 'save']");
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
@@ -152,17 +157,17 @@ define(function(require, exports, module) {
 			_save.unbind('click');
 			_save.bind('click', function() {
 				var _form = Dom.updateMaintainInfo;
+				Utils.setSelectData(_form);
 				var _cmd = $(_form).serialize();
-				alert(_cmd);
-					XMS.msgbox.show('执行中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('updateDataMaintain'), _cmd, function(json, status) {
-						if (status) {
-							window.XMS.msgbox.show('更新成功！', 'success', 2000)
-							setTimeout(function() {
-								self.queryDataMaintainForm(Data.queryListCmd);
-							}, 1000)
-						}
-					});
+				XMS.msgbox.show('执行中，请稍候...', 'loading');
+				Rose.ajax.getJson(srvMap.get('updateDataMaintain'), _cmd, function(json, status) {
+					if (status) {
+						window.XMS.msgbox.show('更新成功！', 'success', 2000)
+						setTimeout(function() {
+							self.queryDataMaintainForm(Data.queryListCmd);
+						}, 1000)
+					}
+				});
 			});
 
 		},

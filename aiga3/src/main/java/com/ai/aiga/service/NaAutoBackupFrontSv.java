@@ -3,7 +3,9 @@ package com.ai.aiga.service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +44,28 @@ public class NaAutoBackupFrontSv {
 	@Autowired
 	private NaAutoDbAcctDao autoDbAcctDao;
 	
-	public List<String> getDbList() {
+	public List<Map> getDbList() {
 		List<NaAutoDbAcct> dbs = autoDbAcctDao.findByState('U');
-		List<String> acctList = new ArrayList<String>();
+		List<Map> acctList = new ArrayList<Map>();
 		for (NaAutoDbAcct db : dbs) {
-			acctList.add(db.getDbAcctCode());
+			Map acct = new HashMap();
+			acct.put("db",db.getDbAcctCode());
+			acctList.add(acct);
 		}
 		return acctList;
 	}
-
+	
+	public List<Map> getPropertyCfgIdList() {
+		List<NaAutoPropertyCorrelation> cigIds = autoPropertyCorrelationDao.findAll();
+		List<Map> CfgIdList = new ArrayList<Map>();
+		for (NaAutoPropertyCorrelation cigId : cigIds) {
+			Map acct = new HashMap();
+			acct.put("cigId",cigId.getPropertyCfgId());
+			CfgIdList.add(acct);
+		}
+		return CfgIdList;
+	}
+	
 	public List<NaAutoPropertyConfig> getDistinctPropertyConfigList(){
 		return autoPropertyConfigDao.distinctPropertyConfigList();
 	}

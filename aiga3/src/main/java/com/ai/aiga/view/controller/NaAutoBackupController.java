@@ -110,5 +110,10 @@ public class NaAutoBackupController {
 		bean.setData(naAutoBackupFrontSv.getDbList());
 		return bean;
 	}
-	
+	@RequestMapping(path = "/sys/property/getCigIdList")
+	public @ResponseBody JsonBean getCigIdList(){
+		JsonBean bean = new JsonBean();
+		bean.setData(naAutoBackupFrontSv.getPropertyCfgIdList());
+		return bean;
+	}
 }

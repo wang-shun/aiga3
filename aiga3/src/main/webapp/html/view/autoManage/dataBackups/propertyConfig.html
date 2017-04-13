@@ -1,3 +1,4 @@
+<div class="row" id="propertyConfigView">
 <div class="row">
     <div class="col-md-12">
         <div class="box">
@@ -44,12 +45,41 @@
             </form>
         </div>
         <div class="box" id="JS_getPropertyConfigList" style="min-height:100px;">
-            <div style="text-align: center; padding: 50px 0;">
-                <p style="font-size: 38px;"></p>
-                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+            <div class="box-header ">
+                <h3 class="box-title">属性配置列表</h3>
+                <div class="box-tools">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" name="add"><i class="fa fa-plus"></i> 添加</button>
+                        <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="PropertyConfigListTable">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>属性</th>
+                            <th>依赖表</th>
+                            <th>依赖字段</th>
+                            <th>数据库</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tbody name="content"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 </div>
 <!-- Modal -->
 <!-- 新增弹框 -->
@@ -111,8 +141,11 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>数据库</label>
-                                        <input name="db" class="form-control" placeholder="请输入数据库" required>
-                                        </input>
+                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList" required>
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -178,8 +211,11 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>数据库</label>
-                                        <input name="DB" class="form-control" placeholder="请输入数据库">
-                                        </input>
+                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList" required>
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -196,27 +232,6 @@
 </div>
 <!-- Modal -->
 <script id="JS_getPropertyConfigTemp" type="text/x-handlebars-template">
-    <div class="box-header ">
-        <h3 class="box-title">属性配置列表</h3>
-        <div class="box-tools">
-            <div class="btn-group">
-                <button type="button" class="btn btn-success" name="add"><i class="fa fa-plus"></i> 添加</button>
-                <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
-            </div>
-        </div>
-    </div>
-    <div class="box-body">
-        <table class="table table-bordered table-hover" id="PropertyConfigListTable">
-            <thead>
-                <tr>
-                    <th class="iCheckbox" width="15"></th>
-                    <th>属性</th>
-                    <th>依赖表</th>
-                    <th>依赖字段</th>
-                    <th>数据库</th>
-                </tr>
-            </thead>
-            <tbody>
                 {{#each this}}
                 <tr>
                     <td>
@@ -229,9 +244,7 @@
                         <td>{{db}}</td>
                 </tr>
                 {{/each}}
-            </tbody>
-        </table>
-    </div>
+
 </script>
 <script type="text/javascript">
 //<![CDATA[

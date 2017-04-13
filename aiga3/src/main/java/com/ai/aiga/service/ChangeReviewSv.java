@@ -21,6 +21,8 @@ import com.ai.aiga.dao.DbScriptListDao;
 import com.ai.aiga.dao.NaRequireListDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.dao.TestLeaveOverDao;
+import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.NaChangeList;
 import com.ai.aiga.domain.NaChangeReview;
 import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaDatabaseConfiScript;
@@ -29,6 +31,7 @@ import com.ai.aiga.domain.NaDbScriptList;
 import com.ai.aiga.domain.NaEmployeeInfo;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaTestLeaveOver;
+import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
@@ -82,7 +85,7 @@ public class ChangeReviewSv extends BaseService{
 	   if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-	   NaChangeReview naChangeReview=new NaChangeReview(request.getReviewId());
+	   NaChangeReview naChangeReview=changeReviewDao.findOne(request.getReviewId());
 	   if(naChangeReview == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 	   }
@@ -129,6 +132,49 @@ public class ChangeReviewSv extends BaseService{
 		return  codePathDao.findAll();
 	}
    
+   
+   public void saveCodePath(List<NaCodePath> list){
+	   if(list == null){ 
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+	   for (int i = 0; i < list.size(); i++) {
+
+		   NaCodePath naCodePath = list.get(i);
+
+			if (naCodePath != null) {
+				
+				NaCodePath naCodePath1=codePathDao.findOne(naCodePath.getId());
+				naCodePath1.setResult(naCodePath.getResult());
+				
+				codePathDao.save(naCodePath1);
+				
+
+			}
+		}
+	   
+	   
+   }
+   
+   public Object  findPlanDetailManifest(PlanDetailManifest condition,int pageNumber, int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return planDetailManifestDao.search(cons, pageable);
+		
+   }	
+		//return responses;
+ 
    public List<PlanDetailManifest> findPlanDetailManifest(){
 	   
 	   return planDetailManifestDao.findAll();

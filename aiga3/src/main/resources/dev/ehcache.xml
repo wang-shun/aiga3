@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<ehcache updateCheck="false" name="shiroCache">
+<ehcache>
+
+	<!-- 指定一个文件目录，当EhCache把数据写到硬盘上时，将把数据写到这个文件目录下 -->
+    <diskStore path="java.io.tmpdir"/>
+
 	<!-- http://ehcache.org/ehcache.xml -->
     <defaultCache
             maxElementsInMemory="10000"
@@ -11,4 +15,12 @@
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120"
             />
+
+    <cache name="cacheTest"
+        maxElementsInMemory="1000"
+        eternal="false"
+        overflowToDisk="true"
+        timeToIdleSeconds="10"
+        timeToLiveSeconds="20"/>       
+     
 </ehcache>

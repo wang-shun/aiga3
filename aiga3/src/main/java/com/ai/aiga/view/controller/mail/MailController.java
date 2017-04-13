@@ -1,5 +1,8 @@
 package com.ai.aiga.view.controller.mail;
 
+import java.net.URLDecoder;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,19 +25,17 @@ public class MailController {
 	@RequestMapping(path = "/sys/email/send")
 	public @ResponseBody JsonBean send(
 			@RequestParam String addressee,
-			@RequestParam String ccList,
+			@RequestParam(required=false) String ccList,
 			@RequestParam String subject,
-			@RequestParam String content,
-			@RequestParam MultipartFile[] files){
+			@RequestParam(required=false) String content,
+			@RequestParam(required=false) MultipartFile[] files){
 		JsonBean bean = new JsonBean();
 		
-		mailCmpt.sendMail(addressee, ccList, subject, content, files);
+		if(StringUtils.isNotBlank(content)){
+			content = URLDecoder.decode(content);
+		}
 		
-		System.out.println(addressee);
-		System.out.println(ccList);
-		System.out.println(subject);
-		System.out.println(content);
-		System.out.println(files);
+		mailCmpt.sendMail(addressee, ccList, subject, content, files);
 		return bean;
 	}
 	

@@ -1,6 +1,8 @@
 package com.ai.aiga.service;
 
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.view.json.PlanCaseResultExpRequest;
 import com.ai.aiga.view.json.PlanCaseResultExpSumRequest;
 import com.ai.process.jta.DatabaseContextHolder;
+import com.ai.process.jta.service.AbstractJatService;
 
 /**
  * 性能子任务处理
@@ -28,7 +31,7 @@ import com.ai.process.jta.DatabaseContextHolder;
  */
 @Service
 @Transactional
-public class PlanCaseResultExpSv {
+public class PlanCaseResultExpSv  {
 
 	@Autowired
 	private NaPlanCaseResultExtDao extDao;
@@ -42,7 +45,7 @@ public class PlanCaseResultExpSv {
 	 * @param result
 	 */
 	public  void  saveOperatId(List<PlanCaseResultExpSumRequest> result){
-		if(extDao==null){
+		if(result==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
 		}
 		for (PlanCaseResultExpSumRequest data : result) {
@@ -56,7 +59,7 @@ public class PlanCaseResultExpSv {
 	 * @param result
 	 */
 	public  void  saveRemark(List<PlanCaseResultExpRequest> result){
-		if(extDao==null){
+		if(result==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
 		}
 		for (PlanCaseResultExpRequest data : result) {
@@ -196,6 +199,7 @@ public class PlanCaseResultExpSv {
 	
 	
 	public void copyDataFromCSHP03(Long  taskId){
+		Connection con =null;
 		//查询新炬数据库数据sql
 		String querySql = 
 				"select INFCODE,INFNAME,VER,TO_CHAR(EXDATE, 'yyyy-mm-dd'),TO_CHAR(EXSTARTTIME, 'yyyy-mm-dd HH24:mi:ss'),TO_CHAR(EXENDTIME, 'yyyy-mm-dd HH24:mi:ss'),DURTIME,ISNEW,CURNUM,SCENE,TESTTIMES,RTMIN,RTAVG,RTMAX,STD_DEVIATION,RT90_PERCENT,LRPASS,LRFAIL,LRSTOP,\n" +
@@ -209,6 +213,7 @@ public class PlanCaseResultExpSv {
 		//更新任务子任务表处理状态字段
 		String updateSql=" update na_online_task_distribute p set p.deal_state = (select case when count(*) = 0 then 2 else 1 end from na_online_task_result t where t.state <> 2 and task_id in (select task_id from na_online_task_distribute b where b.parent_task_id = (select a.parent_task_id from na_online_task_distribute a where a.task_id = " + taskId + "))) where p.task_id = (select o.parent_task_id from na_online_task_distribute o where o.task_id = " + taskId + ")";
 		DatabaseContextHolder.setDBType(DatabaseContextHolder.DATASOURCE_CSHP03);
+		
 	}
 	
 	

@@ -16,19 +16,20 @@
 	default-lazy-init="true">
 
  	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
- 		<property name="protocol" value="smtp"/>
- 		<property name="host" value="smtp.qq.com"/>
- 		<property name="port" value="465"/>
- 		<property name="username" value="289932828@qq.com"/>
- 		<property name="password" value="huan881221"/>
- 		<property name="javaMailProperties">  
+ 		<property name="protocol" value="${app.email.protocol}"/>
+ 		<property name="host" value="${app.email.host}"/>
+ 		<property name="port" value="${app.email.port}"/>
+ 		<property name="username" value="${app.email.username}"/>
+ 		<property name="password" value="${app.email.password}"/>
+ 		
+ 		
+<!--  		<property name="javaMailProperties">  
             <props>  
                 <prop key="mail.smtp.auth">true</prop>  
-                <!-- 如果是网易邮箱， mail.smtp.starttls.enable 设置为 false-->  
                 <prop key="mail.smtp.starttls.enable">true</prop>  
                 <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>  
             </props>  
-        </property> 
+        </property>  -->
  	</bean>
  
 </beans>

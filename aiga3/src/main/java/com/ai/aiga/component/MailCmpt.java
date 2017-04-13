@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -27,6 +28,9 @@ import com.ai.aiga.exception.ErrorCode;
 public class MailCmpt {
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
+	
+	@Value("${app.email.username}")
+	private String fromEmail;
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -50,7 +54,7 @@ public class MailCmpt {
 				helper = new MimeMessageHelper(message, "utf-8");
 			}
 			
-			helper.setFrom("289932828@qq.com");
+			helper.setFrom("taoyf@asiainfo.com");
 			helper.setTo(toAddress.split(","));
 			if(StringUtils.isNotBlank(ccList)){
 				helper.setCc(ccList.split(","));

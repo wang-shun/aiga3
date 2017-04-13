@@ -39,6 +39,10 @@ define(function(require, exports, module) {
                 // 查找菜单ID
                 getFunId: function(){
                     return $(this.id).parent().data("funid");
+                },
+                // 获取父窗口入参
+                getParentCmd: function(){
+                    return Rose.browser.mapQuery($(this.id).parent().data("cmd"));
                 }
             }
         },

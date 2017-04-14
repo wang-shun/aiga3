@@ -26,11 +26,10 @@ define(function(require, exports, module) {
 
     // 模板对象
     var Tpl = {
-        getChangePlanList: require('tpl/netFlowManage/changePlan/changePlanStart/getChangePlanList.tpl'),
-        getAutoResultList: require('tpl/netFlowManage/changePlan/changePlanStart/getAutoResultList.tpl'),
-        getTaskResultList: require('tpl/netFlowManage/changePlan/changePlanStart/getTaskResultList.tpl'),
-        getPublishResultList: require('tpl/netFlowManage/changePlan/changePlanStart/getPublishResultList.tpl')
-
+        getChangePlanList: $("#TPL_getChangePlanList").html(),
+        getAutoResultList: $("#TPL_getAutoResultList").html(),
+        getTaskResultList: $("#TPL_getTaskResultList").html(),
+        getPublishResultList: $("#TPL_getPublishResultList").html()
     };
 
     // 容器对象

@@ -10,7 +10,7 @@
     {{#each this}}
         <tr>
             <td>{{cuttingScript}}</td>
-            <td>{{execute}}</td>
+            <td>{{executesss execute}}</td>
             <td>{{executeTime}}</td>
         </tr>
     {{/each}}

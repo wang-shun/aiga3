@@ -106,7 +106,33 @@ define(function(require,exports,module){
 			this.getDatabaseList();
 			this.getJavascriptList();
     		this.getDeliverList();
+    		this.hdbarHelp();
     	},
+		hdbarHelp: function() {
+			Handlebars.registerHelper("states", function(value) {
+				if (value == 1) {
+					return "新增";
+				} else if (value == 2) {
+					return "修改";
+				} else if (value == 3) {
+					return "删除";
+				}
+			});
+			Handlebars.registerHelper("isFinishedsss", function(value) {
+				if (value == 0) {
+					return "否";
+				} else if (value == 1) {
+					return "是";
+				}
+			});
+			Handlebars.registerHelper("executesss", function(value) {
+				if (value == 0) {
+					return "否";
+				} else if (value == 1) {
+					return "是";
+				}
+			});
+		},
     	getDeliverableReviewConclusion:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();

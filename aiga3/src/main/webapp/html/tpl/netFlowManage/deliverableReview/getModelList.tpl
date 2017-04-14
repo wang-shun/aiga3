@@ -20,10 +20,10 @@
             <td>{{sysName}}</td>
 			<td>{{modelName}}</td>
             <td>{{packageName}}</td>
-			<td>{{state}}</td>
+			<td>{{states state}}</td>
             <td>{{remark}}</td>
 			<td>{{planDate}}</td>
-			<td>{{isFinished}}</td>
+			<td>{{isFinishedsss isFinished}}</td>
             <td>{{updateCount}}</td>
             <td>
                 <div class="col-xs-1">

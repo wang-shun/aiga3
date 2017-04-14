@@ -40,12 +40,12 @@ define(function(require,exports,module){
 	srvMap.add("getServiceList", "netFlowManage/deliverableReview/getServiceList.json", "sys/review/findNaServiceChangeOnlineListByPlanId");
 	//主机配置列表
 	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "sys/review/findNaHostConfigListByPlanId");
-	//上线特殊需求列表
-	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "");
+	//集团需求列表
+	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "sys/review/findNaGroupRequireListByPlanId");
 	//需联调需求列表
-	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "");
+	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "sys/review/findNaGroupAdjustListByPlanId");
 	//生产环境需配置菜单需求列表
-	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "");
+	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "sys/review/findNaHasDeployMenuListByPlanId");
 
 	//模板对象
 	var Tpl={

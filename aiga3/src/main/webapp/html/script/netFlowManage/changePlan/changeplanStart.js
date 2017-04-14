@@ -27,7 +27,7 @@ define(function(require, exports, module) {
     // 模板对象
     var Tpl = {
         getChangePlanList: $("#TPL_getChangePlanList").html(),
-        getAutoResultList: $("#TPL_getAutoResultList").html(),
+        getAutoResultList: $("#TPL_getAutoResultListC").html(),
         getTaskResultList: $("#TPL_getTaskResultList").html(),
         getPublishResultList: $("#TPL_getPublishResultList").html()
     };

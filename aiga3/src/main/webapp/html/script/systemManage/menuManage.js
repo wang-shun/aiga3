@@ -23,8 +23,7 @@ define(function(require, exports, module) {
 		getMenuinfo: '#JS_menuInfo',
 		getMenuinfoForm: '#JS_getMenuinfoForm',
 		getTree: "#JS_menuTree",
-
-		btnMenuAdd: "JS_btnMenuAdd",
+		btnMenuAdd: "#JS_btnMenuAdd"
 
 	};
 	//操作状态
@@ -106,6 +105,7 @@ define(function(require, exports, module) {
 		},
 
 		menuAdd: function() {
+			var self = this
 			$(Dom.btnMenuAdd).bind('click', function() {
 				OperateState = "new";
 				var _form = $(Dom.getMenuinfoForm);

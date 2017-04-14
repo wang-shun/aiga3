@@ -1,8 +1,7 @@
 {
     "retCode": "200",
     "retMessage": null,
-    "data":{
-        "content":[{
+    "data":[{
         "id":"001",
         "serviceId": "1001",
         "serviceName": "001",
@@ -83,5 +82,4 @@
         "afprodData":"001",
         "isMatching": "1001"
     }]
-}
 }

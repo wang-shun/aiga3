@@ -62,17 +62,17 @@ public class SubTaskDealSv extends BaseService{
 		if(condition.getOnlinePlan() != null){
 			sql += " and a.online_plan = "+condition.getOnlinePlan();
 		}
-		if(condition.getTaskName() != null){
+		if(condition.getTaskName() != null&&!"".equals(condition.getSubTaskName())){
 			sql += " and b.task_name like '%"+condition.getTaskName()+"%'";
 		}
-		if(condition.getSubTaskName() != null){
+		if(condition.getSubTaskName() != null&&!"".equals(condition.getSubTaskName()) ){
 			sql += " and a.task_name like '%"+condition.getSubTaskName()+"%'";
 		}
 		
 		if(condition.getDealState() != null){
-			sql += " and a.deal_state = "+condition.getDealState();
+			sql += " and c.state = "+condition.getDealState();
 		}
-		sql += "order by a.assign_date";
+		sql += " order by a.assign_date";
 		 List<String> list = new ArrayList<String>();
 		 list.add("taskId");
 		 list.add("taskName");

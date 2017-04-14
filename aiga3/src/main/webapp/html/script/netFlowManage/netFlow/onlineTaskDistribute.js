@@ -76,6 +76,8 @@ define(function(require, exports, module) {
         opreation: "new",
         data:[],
         cm:"",
+        taskIdl:"0",
+        taskid:null,
     }
 
     var Query = {
@@ -285,6 +287,10 @@ define(function(require, exports, module) {
             _save.unbind('click');
             _save.bind('click', function() {
                 var cmd = _form.serialize();
+                if (dom.taskIdl=="1") {
+                    dom.taskIdl="0";
+                    cmd += "&taskId="+dom.taskid;
+                }
                 Rose.ajax.postJson(srvMap.get('addPerSubtaskAssignment'), cmd, function(json, status) {
                     if (status) {
                         window.XMS.msgbox.show('保存成功！', 'success', 2000);
@@ -305,9 +311,10 @@ define(function(require, exports, module) {
             _update.bind('click', function() {
                 var _date = self.getRadioCheckedRow(_dom);
                 if (_date) {
+                    dom.taskIdl = "1";
                     _form.find("[name='taskName']").val(_date.taskName);
                     _form.find("[name='taskType']").val(_date.taskType);
-                    _form.find("[name='taskId']").val(_date.taskId);
+                     dom.taskid=_date.taskId
                     // Data.opreation = "update";
                 }
             });

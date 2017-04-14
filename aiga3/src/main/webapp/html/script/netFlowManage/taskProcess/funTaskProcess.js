@@ -99,6 +99,7 @@ define(function(require, exports, module) {
 			_form.find('button[name="query"]').bind('click', function() {
 
 					var cmd = _form.serialize();
+					cmd = cmd+"&taskType=1";
 					self.getFunTaskList(cmd);
 				})
 				// 表单重置
@@ -152,8 +153,8 @@ define(function(require, exports, module) {
 				Rose.ajax.postJson(srvMap.get('submitRst'), cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('保存成功', 'success', 2000);
-						var _modal = $(Dom.modalSubmitResult);
-						_modal.modal('hide');
+//						var _modal = $(Dom.modalSubmitResult);
+//						_modal.modal('hide');
 					}
 				});
 
@@ -167,7 +168,7 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('caseResultList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.taskProcessList);
-					console.log(json.data)
+					alert("liuxx"+json.data[0].result);
 					_table.html(template(json.data.content));
 
 

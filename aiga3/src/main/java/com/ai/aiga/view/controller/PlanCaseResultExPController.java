@@ -85,8 +85,8 @@ public @ResponseBody JsonBean saveRemark(@RequestBody List<PlanCaseResultExpRequ
 	@ApiImplicitParam(value="主键",name="resultId", paramType="query"),
 	@ApiImplicitParam(value="子任务id",name="taskId", paramType="query")
 })
-public @ResponseBody JsonBean deleteNaPlanCaseResultExt(String resultId, Long taskId){
-	planCaseResultExpSv.deleteNaPlanCaseResultExt(resultId,taskId);
+public @ResponseBody JsonBean deleteNaPlanCaseResultExt(String resultIds, Long taskId){
+	planCaseResultExpSv.deleteNaPlanCaseResultExt(resultIds,taskId);
 	return JsonBean.success;
 }
 

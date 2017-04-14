@@ -317,5 +317,29 @@ public class TeamInfoSv extends BaseService {
 		return result;
 		
 	}
-  
+  public Object list(int pageNumber, int pageSize,Long teamId) throws ParseException {
+		List<String> list = new ArrayList<String>();
+		list.add("id");
+		list.add("emName");
+		list.add("phoneNum");
+		list.add("ext2");
+		list.add("ext3");
+		list.add("email");
+		list.add("ext1");
+		
+		String sql = "select a.* from Na_Employee_Info a,Na_Team_Employee_Rel b where b.team_Id="+teamId+" and b.emp_Id=a.id  ";
+		
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return employeeInfoDao.searchByNativeSQL(sql, pageable, list);
+		
+	}
 }

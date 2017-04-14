@@ -18,7 +18,7 @@ define(function(require,exports,module){
 	//修改机器
 	srvMap.add("updateMachineInfo","machine/updateMachineInfo.json","sys/machine/update");
 	//获取环境列表
-	srvMap.add("getEnvironmentListInMachine","machine/getEnvironmentList.json","sys/environment/list");
+	srvMap.add("getEnvironmentListInMachine","machine/getEnvironmentList.json","sys/machineandenv/envrel");
 	//获取已关联的环境列表
     srvMap.add('getRelaEnvironmentList',"machine/getEnvironmentList.json", "sys/machine/rel");
 	//删除环境机器关联

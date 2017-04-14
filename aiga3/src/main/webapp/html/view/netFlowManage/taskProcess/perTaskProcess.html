@@ -178,14 +178,14 @@
             {{#each this}}
             <tr>
                 <td>
-                    <input type="checkbox" class="minimal" value="{{id}}" name="id">
+                    <input type="checkbox" class="minimal" value="{{resultId}}" name="resultId">
                 </td>
                 <td>
-                    <input type="hidden" name="serviceId" value="{{serviceId}}">{{serviceId}}</td>
+                    <input type="hidden" name="serviceId" value="{{interId}}">{{interId}}</td>
                 <td>
-                    <input type="hidden" name="serviceName" value="{{serviceName}}">{{serviceName}}</td>
+                    <input type="hidden" name="serviceName" value="{{interCode}}">{{interCode}}</td>
                 <td>
-                    {{changeType}}</td>
+                    {{caseType}}</td>
                 <td>
                     <select name="operatId" class="form-control input-sm" data-url="getDealOpIdList" data-idkey="dealOpId" data-namekey="dealOpName">
                                                     <option value="">请选择</option>

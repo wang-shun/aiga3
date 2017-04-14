@@ -286,7 +286,7 @@ define(function(require, exports, module) {
                         id = tdArr.eq(0).find("input").val();
                         remark = tdArr.eq(4).find("select").val();
                         list.push({
-                            "id" : id,
+                            "resultId" : id,
                             "operatId" : remark
                         });
                     }
@@ -312,7 +312,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.interfaceList);
 					console.log(json.data)
-					$(Dom.interfaceList).html(template(json.data.content));
+					$(Dom.interfaceList).html(template(json.data));
 					Utils.eventTrClickCallback($(Dom.interfaceList));
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
 					Utils.setSelectData($(Dom.interfaceList));

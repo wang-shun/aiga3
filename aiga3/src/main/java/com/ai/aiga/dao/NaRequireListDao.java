@@ -24,4 +24,5 @@ SearchAndPageRepository<NaRequireList, Long> {
 	@Query(value="select a.* from NA_REQUIRE_LIST a,NA_CHANGE_PLAN_ONILE b "
 			+ "where a.PLAN_ID=b.ONLINE_PLAN ",nativeQuery = true)
 			List<NaRequireList>  selectList();
+	
 }

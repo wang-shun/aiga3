@@ -183,18 +183,18 @@ define(function(require,exports,module){
 						$("#JS_saveModel").unbind('click');
 						//点击保存
 						$("#JS_saveModel").bind('click',function(){
-							var listId;
-							var state;
+							var id;
+							var result;
 							var saveState = [];
 							var cmd;
 							$(Dom.getModelList).find("tbody").find("tr").each(function(){
 								var tdArr = $(this).children();
 								if(tdArr.eq(0).find("input").is(':checked')){
-									listId = tdArr.eq(0).find("input").val();
-									state = tdArr.eq(9).find("select").val();
+									id = tdArr.eq(0).find("input").val();
+									result = tdArr.eq(9).find("select").val();
 									saveState.push({
-										"listId" : listId,
-										"state" : state,
+										"id" : id,
+										"result" : result,
 										"planId" : data.onlinePlan
 									});
 								}

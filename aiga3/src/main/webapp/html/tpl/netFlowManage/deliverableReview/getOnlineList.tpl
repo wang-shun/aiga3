@@ -1,4 +1,4 @@
-<table class="table table-bordered table-condensed table-hover">
+<table class="table table-bordered table-hover" style="width: 3000px;" >
     <thead>
         <tr>
             <th>需求提出时间</th>

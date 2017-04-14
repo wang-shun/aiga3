@@ -81,7 +81,7 @@ define(function(require, exports, module) {
 		},
 		getFunTaskList: function(cmd) {
 			var self = this;
-			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd+"&taskType=1", function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.funTaskList);
 					console.log(json.data)
@@ -169,7 +169,13 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.taskProcessList);
 					console.log(json.data)
 					_table.html(template(json.data.content));
-
+					var da=json.data.content;
+					var i=0
+					_table.find("tbody").find("tr").each(function(){
+						var tdArr = $(this).children();
+						tdArr.eq(2).find("select").val(da[i].result);
+						i++;
+					});
 
 				}
 			});

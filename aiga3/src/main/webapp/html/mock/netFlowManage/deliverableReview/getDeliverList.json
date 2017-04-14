@@ -1,0 +1,12 @@
+{
+	"retCode":"200",
+  	"retMessage":null,
+  	"data":{
+  		"content":
+  		[{
+	    	"cuttingScript": "ZJCRMA_SO1_BACKUP_TSK2015020630010102_朱卫炯_移动视频机顶盒实现押金模式的需求[固网业务].sql",
+	    	"execute":"是",
+			"executeTime": "2小时以内"
+		}]
+	}
+}

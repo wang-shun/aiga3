@@ -1,8 +1,6 @@
 define(function(require, exports, module) {
 
-	//引入公用模块
-	require('global/header.js');
-	require('global/sidebar.js');
+	var Sidebar = require('global/sidebar.js');
 
 	var pathAlias = "netFlowManage/changePlan/changePlanManage/";
 	// 显示变更计划
@@ -13,8 +11,6 @@ define(function(require, exports, module) {
 	srvMap.add("scrap", pathAlias + "scrap.json", "sys/changeplanonile/abandon");
 	//取消计划
 	srvMap.add("cancel", pathAlias + "scrap.json", "sys/changeplanonile/del");
-	//评审交付物
-	srvMap.add("reviewDel", pathAlias + "scrap.json", "");
 	//修改计划
 	srvMap.add("changePlanupdate", pathAlias + "scrap.json", "sys/changeplanonile/update");
 	//保存计划
@@ -35,11 +31,10 @@ define(function(require, exports, module) {
 
 	// 模板对象
 	var Tpl = {
-		getChangePlanOnlieList: require('tpl/netFlowManage/changePlan/changePlanManage/getChangePlanOnlieList.tpl'),
+		getChangePlanOnlieList: $("#TPL_getChangPlanOnlieList").html(),
 		queryOnlinePlanName: require('tpl/netFlowManage/changePlan/changePlanManage/queryOnlinePlanName.tpl'),
 		addChangePlanResulForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanResulForm.tpl'),
 		addChangePlanForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanForm.tpl'),
-
 		seeRequForm: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequForm.tpl'),
 		seerequList: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequList.tpl'),
 		seeChangeList: require('tpl/netFlowManage/changePlan/changePlanManage/seeChangeList.tpl'),
@@ -231,12 +226,17 @@ define(function(require, exports, module) {
 			_scrap.bind('click', function() {
 				var _data = self.getTaskRow();
 				if (_data) {
-					var cmd = "onlinePlan=" + _data.onlinePlan;
-					Rose.ajax.postJson(srvMap.get('reviewDel'), cmd, function(json, status) {
-						if (status) {
-							
-						}
-					});
+					var _cmd = "onlinePlan=" + _data.onlinePlan;
+					/*Rose.ajax.postJson(srvMap.get('reviewDel'), _cmd, function(json, status) {
+						if (status) {*/
+							Sidebar.creatTab({
+								id:"100",
+								name:'交付物评审',
+								href:'view/netFlowManage/deliverableReview/deliverableReview.html',
+								cmd:_cmd
+							})
+					/*	}
+					});*/
 				}
 			});
 		},
@@ -353,6 +353,12 @@ define(function(require, exports, module) {
 							_form.html(template(json.data));
 							_form.find("[name='planState']").val(json.data.planState);
 							_form.find("[name='types']").val(json.data.types);
+							if(json.data.ext3=="2"){
+								_form.find("[name='update']").attr("disabled", true);
+							}else{
+								_form.find("[name='update']").removeAttr("disabled");
+							}
+							$("#submit-button").attr("disabled", true);
 							self.resultUpdate();
 							self.resultSubmit();
 						}
@@ -363,6 +369,7 @@ define(function(require, exports, module) {
 
 		//修改总结
 		resultUpdate: function() {
+			var self = this;
 			var _addResult = $(Dom.addChangePlanResultForm);
 			var _update = _addResult.find("[name='update']");
 			_update.unbind('click');
@@ -383,6 +390,7 @@ define(function(require, exports, module) {
 		},
 		//提交总结
 		resultSubmit: function() {
+			var self = this;
 			var _addResult = $(Dom.addChangePlanResultForm);
 			var _submit = _addResult.find("[name='submit']");
 			_submit.unbind('click');
@@ -432,7 +440,7 @@ define(function(require, exports, module) {
 		},
 		//查找需求列表
 		seerequList: function(a,onlinePlan) {
-			var self = this;
+			var self = this;	
 			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
 			var _dom = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
 			var cmd = "onlinePlan=" + onlinePlan + "&"+_dom.serialize();
@@ -440,7 +448,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seerequList);
 					console.log(json.data.content)
-					_form.html(template(json.data.content));
+					_form.html(template(json.data.content));				
 					var da=json.data.content;
 					var i=0
 					$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
@@ -463,6 +471,7 @@ define(function(require, exports, module) {
 		//查找变更列表
 		seeChangeList: function(a,onlinePlan) {
 			var self = this;
+			var changname=$(Dom.addChangePlanForm).find("[name='changeName']").val();
 			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
 			var _dom = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
 			var cmd = "onlinePlan=" + onlinePlan + "&" + _dom.serialize();
@@ -471,6 +480,7 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.seeChangeList);
 					console.log(json.data.content)
 					_form.html(template(json.data.content));
+					$(Dom.addChangePlanForm).find("[name='changeName']").val(changname);
 					var da=json.data.content;
 					var i=0
 					$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){

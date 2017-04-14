@@ -1,0 +1,48 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":{
+  	"content":
+  	[{
+    "sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  },{
+  	"sysName": "系统大类1",
+    "subSysName":"系统子类1",
+	   "nu": "1"
+  }]
+}
+}

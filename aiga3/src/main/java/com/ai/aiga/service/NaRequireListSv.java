@@ -68,6 +68,7 @@ public class NaRequireListSv extends BaseService{
 				Pageable pageable = new PageRequest(pageNumber, pageSize);
 				
 				return naRequireListDao.searchByNativeSQL(sql, pageable, list);
+
 			}
 
 		

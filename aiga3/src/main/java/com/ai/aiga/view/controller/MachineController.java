@@ -134,4 +134,17 @@ public class MachineController {
 		naAutoMachineSv.saveEnv(envId, machineId);
 		return JsonBean.success;
 	}
+	
+	@RequestMapping(path = "/sys/machineandenv/envrel")
+	public @ResponseBody JsonBean envrel(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaAutoEnvironment condition,
+			Long machineId) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(naAutoMachineSv.list(pageNumber, pageSize, condition, machineId));
+		
+		return bean;
+	}
 }

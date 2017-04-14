@@ -1,0 +1,255 @@
+<div class="row" id="Page_deliverableReview">
+    <div class="col-md-12">
+		<div class="box box-primary">
+	      	<div class="box-header with-border">
+	        	<h3 class="box-title">交付物评审结论</h3>
+				<div class="box-tools">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveConclusion"><i class="fa fa-plus"></i> 保存结论</button>
+                </div>
+	      	</div>
+			<div class="box-body">
+      	        <form id="JS_getDeliverableReviewConclusion" class="form-horizontal" role = "form">
+
+      	        </form>
+        	</div>
+		</div>
+
+		<div class="nav-tabs-custom">
+		    <ul class="nav nav-tabs">
+		        <li class="active"><a href="#deliverableTab_1" data-toggle="tab" aria-expanded="false">计划上线需求概况</a>
+		        </li>
+		        <li class=""><a href="#deliverableTab_2" data-toggle="tab" aria-expanded="false">测试执行情况</a></li>
+				<li class=""><a href="#deliverableTab_3" data-toggle="tab" aria-expanded="false">数据库配置脚本</a>
+		        </li>
+		        <li class=""><a href="#deliverableTab_4" data-toggle="tab" aria-expanded="false">应用变更</a></li>
+		        <li class=""><a href="#deliverableTab_5" data-toggle="tab" aria-expanded="false">上线特殊需求</a></li>
+		    </ul>
+			<div class="tab-content">
+		        <!-- tab页签1 -->
+		        <div class="tab-pane active" id="deliverableTab_1">
+		            <div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+			                    <div class="box-header">
+			                        <div class="box-title">计划上线需求概况</div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_planList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">上线系统模块清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveModel"><i class="fa fa-plus"></i> 保存更改</button>
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_modelList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">计划上线清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px; overflow: auto" id="JS_onlineList"></div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+		        <!-- tab页签2 -->
+		        <div class="tab-pane" id="deliverableTab_2">
+		            <div class="row">
+		            	<div class="col-md-12">
+			                <div class="box" id="">
+			                    <div class="box-header">
+			                        <div class="box-title">测试执行情况</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveTest"><i class="fa fa-plus"></i> 保存更改</button>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_testList"></div>
+			                </div>
+		                </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">测试遗留情况</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_remnantList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">功能测试报告</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_reportList"></div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+				<!-- tab页签3 -->
+		        <div class="tab-pane" id="deliverableTab_3">
+		            <div class="row">
+		            	<div class="col-md-12">
+			                <div class="box" id="">
+			                    <div class="box-header">
+			                        <div class="box-title">数据库配置脚本</div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_databaseList"></div>
+			                </div>
+		                </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">数据库脚本清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_javascriptList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">数据库割接脚本清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_deliverList"></div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+				<!-- tab页签4 -->
+		        <div class="tab-pane" id="deliverableTab_4">
+		            <div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+			                    <div class="box-header">
+			                        <div class="box-title">系统架构变更清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_structureList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">进程变更清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_progressList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">服务变更上线清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_serviceList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">主机配置</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_ipConfiguration"></div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+				<!-- tab页签5 -->
+		        <div class="tab-pane" id="deliverableTab_5">
+		            <div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+			                    <div class="box-header">
+			                        <div class="box-title">上线特殊需求</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_needList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">需联调需求</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_combineList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">生产环境需配置菜单需求</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_configureList"></div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<script>
+    seajs.use("script/netFlowManage/deliverableReview/deliverableReview", function(deliverableReview) {
+        deliverableReview.init();
+    });
+</script>

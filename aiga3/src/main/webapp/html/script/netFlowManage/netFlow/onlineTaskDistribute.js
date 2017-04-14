@@ -76,6 +76,8 @@ define(function(require, exports, module) {
         opreation: "new",
         data:[],
         cm:"",
+        taskIdl:"0",
+        taskid:null,
     }
 
     var Query = {
@@ -285,6 +287,10 @@ define(function(require, exports, module) {
             _save.unbind('click');
             _save.bind('click', function() {
                 var cmd = _form.serialize();
+                if (dom.taskIdl=="1") {
+                    dom.taskIdl="0";
+                    cmd += "&taskId="+dom.taskid;
+                }
                 Rose.ajax.postJson(srvMap.get('addPerSubtaskAssignment'), cmd, function(json, status) {
                     if (status) {
                         window.XMS.msgbox.show('保存成功！', 'success', 2000);
@@ -305,9 +311,10 @@ define(function(require, exports, module) {
             _update.bind('click', function() {
                 var _date = self.getRadioCheckedRow(_dom);
                 if (_date) {
+                    dom.taskIdl = "1";
                     _form.find("[name='taskName']").val(_date.taskName);
                     _form.find("[name='taskType']").val(_date.taskType);
-                    _form.find("[name='taskId']").val(_date.taskId);
+                     dom.taskid=_date.taskId
                     // Data.opreation = "update";
                 }
             });
@@ -748,6 +755,22 @@ define(function(require, exports, module) {
                 }
                 if (value == "2") {
                     return "自动化用例";
+                }
+            });
+            Handlebars.registerHelper('TaskTypes', function(value, fn) {
+                if (value == "4") {
+                    return "按需测试";
+                }
+            });
+            Handlebars.registerHelper('getCollectName', function(value, fn) {
+                if (value == "0") {
+                    return "未分派";
+                }
+                if (value == "1") {
+                    return "处理中";
+                }
+                if (value == "2") {
+                    return "完成";
                 }
             });
         },

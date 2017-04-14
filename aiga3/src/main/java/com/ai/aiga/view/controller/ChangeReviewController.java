@@ -21,8 +21,14 @@ import com.ai.aiga.dao.TestLeaveOverDao;
 import com.ai.aiga.domain.NaChangeList;
 import com.ai.aiga.domain.NaChangeReview;
 import com.ai.aiga.domain.NaCodePath;
+import com.ai.aiga.domain.NaDatabaseConfiScript;
+import com.ai.aiga.domain.NaDatabaseScriptList;
+import com.ai.aiga.domain.NaDbScriptList;
 import com.ai.aiga.domain.NaEmployeeInfo;
+import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaTeamInfo;
+import com.ai.aiga.domain.NaTestLeaveOver;
+import com.ai.aiga.domain.NaTestSituation;
 import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.service.ChangeReviewSv;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -51,6 +57,7 @@ public class ChangeReviewController {
 		changeReviewSv.save(request);;
 		return JsonBean.success;
 	}
+	//保存代码包清单
 	@RequestMapping(path = "/sys/codepath/save")
 	public @ResponseBody JsonBean save(@RequestBody List<NaCodePath> saveState){
 		changeReviewSv.saveCodePath(saveState);
@@ -70,40 +77,77 @@ public class ChangeReviewController {
 	
 	//代码包清单
 	@RequestMapping(path = "/sys/codepath/list")
-	public @ResponseBody JsonBean codepath(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.findCodePath());
-		return bean;
-	}   
+	public @ResponseBody JsonBean codepath(
+		@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+		@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+		NaCodePath condition
+		) throws ParseException {
 	
+	  JsonBean bean = new JsonBean();
+	bean.setData(changeReviewSv.findCodePath(pageNumber, pageSize, condition));
+	return bean;
+	}   
+	//测试遗留情况
 	@RequestMapping(path = "/sys/testLeaveOver/list")
-	public @ResponseBody JsonBean testLeaveOver(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.findTestLeaveOver());
+	public @ResponseBody JsonBean findtestLeaveOver(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaTestLeaveOver condition
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findTestLeaveOver(pageNumber, pageSize, condition));
 		return bean;
-	}   
-	
+	}
+	//功能测试报告
 	@RequestMapping(path = "/sys/requireList/list")
-	public @ResponseBody JsonBean requireList(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.findRequireList());
+	public @ResponseBody JsonBean findrequireList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaRequireList condition
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findRequireList(pageNumber, pageSize, condition));
 		return bean;
-	}   
-	
+	}
+	//数据库配置脚本
+	@RequestMapping(path = "/sys/databaseConfiScript/list")
+	public @ResponseBody JsonBean databaseScriptList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaDatabaseConfiScript condition
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findDatabaseConfi(pageNumber, pageSize, condition));
+		return bean;
+	}
+	//数据库脚本清单
 	@RequestMapping(path = "/sys/databaseScriptList/list")
-	public @ResponseBody JsonBean databaseScriptList(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.findDatabaseScriptList());
-		return bean;
-	}     
+	public @ResponseBody JsonBean databaseConfi(
+		@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+		@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+		NaDatabaseScriptList condition
+		) throws ParseException {
 	
+	  JsonBean bean = new JsonBean();
+	bean.setData(changeReviewSv.findDatabaseScriptList(pageNumber, pageSize, condition));
+	return bean;
+}
 	
-	@RequestMapping(path = "/sys/databaseConfi/list")
-	public @ResponseBody JsonBean databaseConfi(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.findDatabaseConfi());
-		return bean;
-	}     
+	//数据库脚本
+		@RequestMapping(path = "/sys/dbScriptList/list")
+		public @ResponseBody JsonBean DbScriptList(@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+				@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+				NaDbScriptList condition
+				) throws ParseException {
+			
+			  JsonBean bean = new JsonBean();
+			bean.setData(changeReviewSv.findDbScriptList(pageNumber, pageSize, condition));
+			return bean;
+		}     
+	//上线需求概述
 	@RequestMapping(path = "/sys/planDetailManifest/list")
 	public @ResponseBody JsonBean findByName(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -115,5 +159,114 @@ public class ChangeReviewController {
 		bean.setData(changeReviewSv.list(pageNumber, pageSize, condition));
 		return bean;
 	}
+	
+
+	//
+	@RequestMapping(path = "/sys/review/findNaHostConfigListByPlanId")
+	public @ResponseBody JsonBean findNaHostConfigListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaHostConfigListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaGroupAdjustListByPlanId")
+	public @ResponseBody JsonBean findNaGroupAdjustListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaGroupAdjustListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaGroupRequireListByPlanId")
+	public @ResponseBody JsonBean findNaGroupRequireListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaGroupRequireListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaHasDeployMenuListByPlanId")
+	public @ResponseBody JsonBean findNaHasDeployMenuListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaHasDeployMenuListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaProcessChangeListByPlanId")
+	public @ResponseBody JsonBean findNaProcessChangeListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaProcessChangeListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	
+	@RequestMapping(path = "/sys/review/findNaServiceChangeOnlineListByPlanId")
+	public @ResponseBody JsonBean findNaServiceChangeOnlineListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaServiceChangeOnlineListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/review/findNaSystemArchitectureListByPlanId")
+	public @ResponseBody JsonBean findNaSystemArchitectureListByPlanId(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long planId
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.findNaSystemArchitectureListByPlanId(planId,pageNumber, pageSize));
+		return bean;
+	}
+	
+	 
+
+	//测试情况
+		@RequestMapping(path = "/sys/testSituation/list")
+		public @ResponseBody JsonBean findtestSituation(
+				@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+				@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+				PlanDetailManifest condition
+				) throws ParseException {
+			
+			  JsonBean bean = new JsonBean();
+			bean.setData(changeReviewSv.list1(pageNumber, pageSize, condition));
+			return bean;
+		}
+		//测试情况保存
+		@RequestMapping(path = "/sys/testSituation/save")
+		public @ResponseBody JsonBean savetestSituation(@RequestBody List<NaTestSituation> request){
+			changeReviewSv.saveTestSituation(request);
+			return JsonBean.success;
+		}	
+
 }
 

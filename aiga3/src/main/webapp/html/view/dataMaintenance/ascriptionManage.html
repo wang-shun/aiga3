@@ -1,118 +1,115 @@
-<div class="row" id="AsciptionView">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <form id="JS_queryCaseTempForm">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">按条件查询</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>系统名称</label>
-                                    <input class="form-control input-sm" name="sysName" placeholder="请输入系统名称" />
-                                </div>
-                            </div>
-                            <div class="col-md-2 .col-md-offset-4">
-                                <div class="form-group">
-                                    <label>重要级别</label>
-                                    <select name="importantClass" class="form-control">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="1">
-                                            一般系统
-                                        </option>
-                                        <option value="2">
-                                            核心系统
-                                        </option>
-                                        <option value="3">
-                                            重要系统
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>归属域</label>
-                                    <select name="sysOfDomain" class="form-control">
-                                        <option value="">
-                                            请选择
-                                        </option>
-                                        <option value="1">
-                                            —全部—
-                                        </option>
-                                        <option value="2">
-                                            基础域
-                                        </option>
-                                        <option value="3">
-                                            电子渠道
-                                        </option>
-                                        <option value="4">
-                                            BOSS
-                                        </option>
-                                        <option value="5">
-                                            CRM
-                                        </option>
-                                        <option value="6">
-                                            渠道接入
-                                        </option>
-                                        <option value="7">
-                                            接口域
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box-footer">
-                        <div class="text-center">
-                            <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="box" id="JS_getAsciptionList" style="min-height:100px;">
-        <div class="box-header ">
-            <h3 class="box-title">系统详细信息列表</h3>
-            <div class="box-tools">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-success" name="add"><i class="fa fa-plus"></i> 添加</button>
-                    <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
+<div class="row" id="Page_AsciptionView">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                                按条件查询
+                            </h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
                 </div>
             </div>
+            <form id="JS_queryCaseTempForm">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>系统名称</label>
+                                <input class="form-control input-sm" name="sysName" placeholder="请输入系统名称" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 .col-md-offset-4">
+                            <div class="form-group">
+                                <label>重要级别</label>
+                                <select name="importantClass" class="form-control">
+                                    <option value="">
+                                        请选择
+                                    </option>
+                                    <option value="1">
+                                        一般系统
+                                    </option>
+                                    <option value="2">
+                                        核心系统
+                                    </option>
+                                    <option value="3">
+                                        重要系统
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>归属域</label>
+                                <select name="sysOfDomain" class="form-control">
+                                    <option value="">
+                                        请选择
+                                    </option>
+                                    <option value="1">
+                                        —全部—
+                                    </option>
+                                    <option value="2">
+                                        基础域
+                                    </option>
+                                    <option value="3">
+                                        电子渠道
+                                    </option>
+                                    <option value="4">
+                                        BOSS
+                                    </option>
+                                    <option value="5">
+                                        CRM
+                                    </option>
+                                    <option value="6">
+                                        渠道接入
+                                    </option>
+                                    <option value="7">
+                                        接口域
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="box-body">
-            <table class="table table-bordered table-hover" id="AsciptionListTable">
-                <thead>
-                    <tr>
-                        <th class="iCheckbox" width="15"></th>
-                        <th>系统名称</th>
-                        <th>创建时间</th>
-                        <th>更新时间</th>
-                        <th>重要级別</th>
-                        <th>开发厂商</th>
-                        <th>归属域</th>
-                        <th>备注</th>
-                    </tr>
-                </thead>
-                <tbody name="content"></tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <div class="dataTables_paginate" name="pagination"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+        <div class="box" id="JS_getsubInfoList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">子系统详细信息列表</h3>
+                <div class="box-tools">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" name="add"><i class="fa fa-plus"></i> 添加</button>
+                        <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="AsciptionListTable">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>子系统名称</th>
+                            <th>创建时间</th>
+                            <th>更新时间</th>
+                            <th>归属系统</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <div class="dataTables_paginate" name="pagination"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 </div>

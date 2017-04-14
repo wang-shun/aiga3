@@ -33,8 +33,8 @@
     </div>
 	<div class="box-footer">
     	<div class=" text-center">
-        <button type="button" class="btn btn-default" name="reset">重置</button>&nbsp;&nbsp;&nbsp;&nbsp;
-	    <button type="button" class="btn btn-primary" id="queryBtn" name="submit">查询</button>
+            <button type="button" class="btn btn-default" name="reset">重置</button>&nbsp;&nbsp;&nbsp;&nbsp;
+    	    <button type="button" class="btn btn-primary" id="queryBtn" name="submit">查询</button>
 	    </div>
     </div>
 </div>

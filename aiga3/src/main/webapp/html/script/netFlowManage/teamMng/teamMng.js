@@ -77,7 +77,6 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
-
 				var cmd = _form.serialize();
 				self.getTeamList(cmd);
 			});
@@ -89,9 +88,7 @@ define(function(require, exports, module) {
 			Data.queryListCmd = _cmd;
 			console.log(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-
-
-			var _dom = Page.findId("teamList");
+			var _dom = $("#JS_teamList");
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getTeamList'), _cmd, function(json, status) {
@@ -150,6 +147,10 @@ define(function(require, exports, module) {
 				var _form = $('#JS_addTeamInfo');
 				_saveBt = $(Dom.addTeamModal).find("[name='save']");
 				Utils.setSelectData(_form);
+				$(Dom.addTeamModal).on('hide.bs.modal', function() {
+					Utils.resetForm('#JS_addTeamInfo');
+				});
+
 				// 表单提交
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
@@ -186,6 +187,9 @@ define(function(require, exports, module) {
 				var _form = $('#JS_addEmInfo');
 				_saveBt = $(Dom.addEmModal).find("[name='save']");
 				Utils.setSelectData(_form);
+				$(Dom.addEmModal).on('hide.bs.modal', function() {
+					Utils.resetForm('#JS_addEmInfo');
+				});
 				// 表单提交
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
@@ -223,7 +227,7 @@ define(function(require, exports, module) {
 					Data.teamId = data.teamId;
 
 					//查询所有员工信息(去除已关联员工)
-					self.getEmList('teamId='+Data.teamId);
+					self.getEmList('teamId=' + Data.teamId);
 					//关联新成员
 					self.relEm(Data.teamId);
 
@@ -293,30 +297,30 @@ define(function(require, exports, module) {
 				var delEmedIds = "list="
 
 				var data = Utils.getCheckboxCheckedRow(_dom);
-				if(data){
-				for (var k in data) {
-					var emId = data[k];
-					//拼接
-					delEmedIds += emId + ",";
-				}
-
-				//去除最后的逗号
-				delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
-				var _cmd = delEmedIds;
-				console.log(_cmd);
-				//批量删除接口
-				Rose.ajax.postJson(srvMap.get('delEmed'), _cmd, function(json, status) {
-					if (status) {
-						window.XMS.msgbox.show('删除成功！', 'success', 2000)
-						setTimeout(function() {
-
-							//问题
-							self.getEmedList(Data.teamId);
-						}, 1000)
+				if (data) {
+					for (var k in data) {
+						var emId = data[k];
+						//拼接
+						delEmedIds += emId + ",";
 					}
-				});
-				self.getEmList("teamId="+data.teamId);
-			}
+
+					//去除最后的逗号
+					delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
+					var _cmd = delEmedIds;
+					console.log(_cmd);
+					//批量删除接口
+					Rose.ajax.postJson(srvMap.get('delEmed'), _cmd, function(json, status) {
+						if (status) {
+							window.XMS.msgbox.show('删除成功！', 'success', 2000)
+							setTimeout(function() {
+
+								//问题
+								self.getEmedList(Data.teamId);
+							}, 1000)
+						}
+					});
+					self.getEmList("teamId=" + data.teamId);
+				}
 			});
 		},
 		//员工关联
@@ -347,7 +351,7 @@ define(function(require, exports, module) {
 
 								//问题
 								self.getEmedList(Data.teamId);
-								self.getEmList("teamId="+Data.teamId);
+								self.getEmList("teamId=" + Data.teamId);
 							}, 1000)
 						}
 					});

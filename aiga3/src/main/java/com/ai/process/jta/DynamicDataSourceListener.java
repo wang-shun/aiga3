@@ -57,7 +57,7 @@ public class DynamicDataSourceListener implements ApplicationContextAware, Appli
 	}
 
 	/**
-	 * 功能说明：根据DataSource创建bean并注册到容器中
+	 * 功能说明：根据DataSource创建bean(dataSource)并注册到容器中
 	 *
 	 * @param acf
 	 * @param dsData
@@ -65,7 +65,7 @@ public class DynamicDataSourceListener implements ApplicationContextAware, Appli
 	private void addDataSourceToApp(Map<String, DataSourceInfo> dsData) {
 		DefaultListableBeanFactory acf = (DefaultListableBeanFactory) appContext.getAutowireCapableBeanFactory();
 		Map<Object, Object> targetDataSources = new LinkedHashMap<Object, Object>();
-		targetDataSources.put(DatabaseContextHolder.DEFAULT_DB_TYPE, appContext.getBean("aiga"));
+		targetDataSources.put(DatabaseContextHolder.DEFAULT_DB_TYPE, appContext.getBean("aiga"));//dataSource
 		Iterator<String> iter = dsData.keySet().iterator();
 		while (iter.hasNext()) {
 			String dsKey = iter.next();

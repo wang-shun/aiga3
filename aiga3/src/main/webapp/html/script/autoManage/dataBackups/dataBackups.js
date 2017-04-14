@@ -67,13 +67,13 @@ define(function(require, exports, module) {
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getDataBackupsList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
-					var template = Handlebars.compile($("#TPL_getDataBackupsTemp").html());
-					_dom.find("[name='content']").html(template(json.data.content));
-					// 添加
-					self.addDataBackup();
-					// 废弃删除
-					self.delDataBackups();
-					Utils.eventTrClickCallback(_dom);
+				var template = Handlebars.compile($("#TPL_getDataBackupsTemp").html());
+				_dom.find("[name='content']").html(template(json.data.content));
+				// 添加
+				self.addDataBackup();
+				// 废弃删除
+				self.delDataBackups();
+				Utils.eventTrClickCallback(_dom);
 			}, _domPagination);
 
 		},
@@ -86,6 +86,9 @@ define(function(require, exports, module) {
 			_addBt.bind('click', function() {
 				$(Dom.addDataBackupsModal).modal('show');
 				var _form = $(Dom.addDataBackupInfo);
+				$(Dom.addDataBackupsModal).on('hide.bs.modal', function() {
+					Utils.resetForm(Dom.addDataBackupInfo);
+				});
 				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addDataBackupsModal).find("[name = 'save']");
 				_saveBt.unbind('click');

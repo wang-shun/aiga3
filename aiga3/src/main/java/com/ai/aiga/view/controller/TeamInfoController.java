@@ -99,12 +99,12 @@ public class TeamInfoController {
 		teamInfoSv.saveEmployee(request);
 		return JsonBean.success;
 	}
-	@RequestMapping(path = "/sys/employee/list")
+	/*@RequestMapping(path = "/sys/employee/list")
 	public @ResponseBody JsonBean list(@RequestParam Long teamId){
 		JsonBean bean = new JsonBean();
 		bean.setData(teamInfoSv.selectall(teamId));
 		return bean;
-	}
+	}*/
 	
 	@RequestMapping(path = "/aiga/employee/email")
 	public @ResponseBody JsonBean email(){
@@ -113,6 +113,15 @@ public class TeamInfoController {
 		return bean;
 	}
 	
-	
+	@RequestMapping(path = "/sys/employee/list")
+	public @ResponseBody JsonBean list(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long teamId) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(teamInfoSv.list(pageNumber, pageSize,teamId));
+		return bean;
+	}
 }
 

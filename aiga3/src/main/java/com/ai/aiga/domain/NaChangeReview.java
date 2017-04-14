@@ -5,7 +5,10 @@ package com.ai.aiga.domain;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,7 +55,8 @@ public class NaChangeReview  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_CHANGE_REVIEW$SEQ")
+     @SequenceGenerator(name="NA_CHANGE_REVIEW$SEQ",sequenceName="NA_CHANGE_REVIEW$SEQ",allocationSize=1)
     @Column(name="REVIEW_ID", unique=true, nullable=false, precision=12, scale=0)
     public Long getReviewId() {
         return this.reviewId;

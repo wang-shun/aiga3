@@ -72,14 +72,19 @@ public class NaAutoEnvironmentController {
 		return bean;
 	}
 	
-
-/*	@RequestMapping(path = "/sys/envandmachine/add")
-	public @ResponseBody JsonBean add1(NaAutoEnvironmentRequest request,String machineIds){
+   //环境未关联的机械
+	@RequestMapping(path = "/sys/envandmachine/rel")
+	public @ResponseBody JsonBean machinerel(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaAutoMachine condition,
+			@RequestParam Long envId) throws ParseException {
 		
-		naAutoEnvironmentSv.addMachineandEnv(request, machineIds);
-		return JsonBean.success;
+		  JsonBean bean = new JsonBean();
+		bean.setData(naAutoEnvironmentSv.list(pageNumber, pageSize, condition, envId));
 		
-	}*/
+		return bean;
+	}
 	@RequestMapping(path = "/sys/envandmachine/savemachine")
 	public @ResponseBody JsonBean save(String machineId,Long envId){
 		naAutoEnvironmentSv.saveMachine(machineId, envId);

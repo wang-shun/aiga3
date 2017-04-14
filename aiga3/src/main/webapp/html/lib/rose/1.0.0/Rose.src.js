@@ -1864,9 +1864,9 @@ Rose.browser = {
 		var i, key, value, uri = uri && uri.split('#')[0]
 				|| window.location.search, // remove hash
 		index = uri.indexOf("?"), pieces = uri.substring(index + 1).split("&"), params = {};
-		if (index === -1) {// 如果连?号都没有,直接返回,不再进行处理.
+		/*if (index === -1) {// 如果连?号都没有,直接返回,不再进行处理.
 			return params;
-		}
+		}*/
 		for (i = 0; i < pieces.length; i++) {
 			try {
 				index = pieces[i].indexOf("=");

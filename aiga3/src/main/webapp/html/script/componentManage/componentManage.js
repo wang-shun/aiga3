@@ -1,4 +1,10 @@
 define(function(require, exports, module) {
+    // 通用工具模块
+    var Utils = require("global/utils.js");
+
+    // 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('componentManage');
+
     //路径重命名
     var pathAlias = "componentManage/";
     //获取所有功能菜单	
@@ -28,10 +34,10 @@ define(function(require, exports, module) {
     //删除参数
     srvMap.add("delParamInfo", pathAlias + "retMessage.json", "sys/component/compParamDel");
     var Tpl = {
-        getQueryInfo: require('tpl/componentManage/getQueryInfo.tpl'),
-        getCompInfoForm: require('tpl/componentManage/getCompInfoForm.tpl'),
-        getParameterList: require('tpl/componentManage/getParameterList.tpl'),
-        addParameterForm: require('tpl/componentManage/addParameterForm.tpl')
+        getQueryInfo: $("#TPL_getQueryInfo").html(),
+        getCompInfoForm: $("#TPL_getCompInfoForm").html(),
+        getParameterList: $("#TPL_getParameterList").html(),
+        addParameterForm: $("#TPL_addParameterForm").html()
     };
     var Mod = {
         getQueryInfo: '#JS_getQueryInfo',

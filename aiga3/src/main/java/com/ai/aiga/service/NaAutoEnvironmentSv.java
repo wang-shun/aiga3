@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoEnvironmentDao;
+import com.ai.aiga.dao.NaAutoMachineDao;
 import com.ai.aiga.dao.NaAutoMachineEnvDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoEnvironment;
@@ -37,6 +38,9 @@ public class NaAutoEnvironmentSv extends BaseService{
 	private NaAutoMachineEnvDao naAutoMachineEnvDao;
 	@Autowired
 	private NaAutoEnvironmentDao naAutoEnvironmentDao ;
+	@Autowired
+	private NaAutoMachineDao naAutoMachineDao;
+	
    public NaAutoEnvironment saveEnvironment(NaAutoEnvironmentRequest request){
 	   if(request==null){
 		   BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -197,41 +201,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 		}
 	   return naAutoEnvironmentDao.findOne(envId);
    }
-/*   public Object listEnvironment(int pageNumber, int pageSize ,NaAutoEnvironment condition ) throws ParseException {
-		
-		List<Condition> cons = new ArrayList<Condition>();
-		
-		if(condition != null){
-			
-			
-			
-			if(condition.getRunEnv()!= null){
-				cons.add(new Condition("runEnv", condition.getRunEnv(), Condition.Type.EQ));
-			}
-			
-			if(condition.getEnvName()!= null&&!condition.getEnvName().equals("")){
-				cons.add(new Condition("envName","%".concat( condition.getEnvName()).concat("%"), Condition.Type.LIKE));
-			}
-			if(condition.getSysId()!= null){
-				cons.add(new Condition("sysId", condition.getSysId(), Condition.Type.EQ));
-			}
-			
-			
-		}
-		
-		
-		if(pageNumber < 0){
-			pageNumber = 0;
-		}
-		
-		if(pageSize <= 0){
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
 
-		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		
-		return naAutoEnvironmentDao.search(cons, pageable);
-	}*/
 	public Object listEnvironment(int pageNumber, int pageSize, NaAutoEnvironment condition) throws ParseException {
 		List<String> list = new ArrayList<String>();
 		list.add("envId");
@@ -282,59 +252,8 @@ public class NaAutoEnvironmentSv extends BaseService{
 		return naAutoEnvironmentDao.searchByNativeSQL(sql, pageable, list);
 	}
    
-   /*public void addMachineandEnv(NaAutoEnvironmentRequest  request,String machineIds){
-	  
-	   NaAutoEnvironment naAutoEnvironment=saveEnvironment(request);
-	   if(naAutoEnvironment==null){
-		   BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");   
-	   }
-	   if(naAutoEnvironment.getEnvId()==null)  { 
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
-	   if(machineIds != null && !machineIds.equals("")){
-			String[] machineId = machineIds.split(",");
-			for(int i = 0; i < machineId.length; i++){
-				NaAutoMachineEnv naAutoMachineEnv = new NaAutoMachineEnv();
-				naAutoMachineEnv.setEnvId(naAutoEnvironment.getEnvId());
-				if(NumberUtils.toLong(machineId[i])==0){
-					BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-				}
-				if(NumberUtils.toLong(machineId[i])!=0){
-				naAutoMachineEnv.setMachineId(Long.valueOf((NumberUtils.toLong(machineId[i]))));
-				}
-				
-				naAutoMachineEnvDao.save(naAutoMachineEnv);
-			}
-		}
-   }*/
-   /**
-    * 
-    * @ClassName: NaAutoEnvironmentSv :: saveMachine
-    * @author: liujinfang
-    * @date: 2017年4月6日 上午10:07:20
-    *
-    * @Description:
-    * @param list
-    * @param envId
-    */
-  /* public void saveMachine(List<NaAutoMachine> list,Long envId) {
- 		if (list == null&&envId==null) {
- 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
- 		}
- 		
- 		for (int i = 0; i < list.size(); i++) {
-
- 			NaAutoMachine  naAutoMachine= list.get(i);
-
- 			if (naAutoMachine != null) {
- 				NaAutoMachineEnv naAutoMachineEnv=new NaAutoMachineEnv();
- 				naAutoMachineEnv.setEnvId(envId);
- 				naAutoMachineEnv.setMachineId(naAutoMachine.getMachineId());
- 				naAutoMachineEnvDao.save(naAutoMachineEnv);
-
- 			}
- 		}
- 	}*/
+   
+   
    public void saveMachine(String machines,Long envId) {
 		if (machines == null&&envId==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -409,4 +328,32 @@ public class NaAutoEnvironmentSv extends BaseService{
 
 		}
    }
+  
+	public Object list(int pageNumber, int pageSize, NaAutoMachine condition,Long envId) throws ParseException {
+		List<String> list = new ArrayList<String>();
+		list.add("machineId");
+		list.add("machineIp");
+		list.add("machineName");
+		list.add("status");
+	
+		String sql ="select machine_id,machine_ip,machine_name,status from na_auto_machine where machine_id not in (select distinct(a.machine_id) "
+				+ "from na_auto_machine_env a where  a.env_id="+envId+")";
+		
+		
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return naAutoMachineDao.searchByNativeSQL(sql, pageable, list);
+		
+	}
+   
+	
+   
 }

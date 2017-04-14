@@ -113,9 +113,11 @@ define(function(require, exports, module) {
 			_add.bind('click', function() {
 				// 弹出层
 				$(Dom.addSysInfoModel).modal('show');
-				Utils.resetForm('JS_addSysInfo');
 				//组件表单校验初始化
 				var _form = $(Dom.addSysInfo);
+				$(Dom.addSysInfoModel).on('hide.bs.modal', function() {
+					Utils.resetForm('#JS_addSysInfo');
+				});
 				// 表单提交
 				$("#addSysInfoButton").unbind('click');
 				$("#addSysInfoButton").bind('click', function() {
@@ -132,12 +134,10 @@ define(function(require, exports, module) {
 								}, 1000);
 								// 关闭弹出层
 								$(Dom.addSysInfoModel).modal('hide');
-
 							}
 						});
 					})
 				});
-
 			});
 		},
 		//映射处理

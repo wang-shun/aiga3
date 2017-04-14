@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id="Page_componentManage">
     <div class="col-md-3">
         <div class="box">
             <div class="box-header">
@@ -73,7 +73,6 @@
             <div class="box-body" style="min-height: 100px;" id="JS_getQueryInfo"></div>
         </div>
     </div>
-</div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="JS_addCompModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -151,6 +150,164 @@
         </div>
     </script>
     <!-- Modal -->
+    <script id="TPL_getQueryInfo" type="text/x-handlebars-template">
+        <table id="JS_getQueryInfo" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>组件名</th>
+                    <th>创建人</th>
+                    <th>最后修改人</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each content}}
+                <tr>
+                    <td>
+                        <input type="radio" class="minimal" name="compId" value="{{compId}}">
+                        <!-- <input type="hidden" value="" name="creatorId">
+                        <input type="hidden" value="" name="updateId"> -->
+                    </td>
+                    <td>{{compName}}</td>
+                    <td>{{creatorName}}</td>
+                    <td>{{updateName}}</td>
+                    <td>{{createTime}}</td>
+                    <td>{{updateTime}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>
+    <script id="TPL_getCompInfoForm" type="text/x-handlebars-template">
+        <div id="JS_addCompInfoScroll" style="padding-right: 15px;">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group input-group-sm">
+                        <label>组件名<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="compName" value="{{compName}}" required>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group input-group-sm">
+                        <label>等待时间<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="waitTime" value="8" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group input-group-sm">
+                        <label>创建时间<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="createTime" value="{{createTime}}" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group input-group-sm">
+                        <label>最后修改人<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="updateId" value="{{updateId}}" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group input-group-sm">
+                        <label>组件创建人<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="creatorId" value="{{creatorId}}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group input-group-sm">
+                        <label>组件描述<i class="text-red">*</i></label>
+                        <input type="text" class="form-control" name="compDesc" value="{{compDesc}}" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>脚本编辑<i class="text-red">*</i></label>
+                        <textarea id="compScript" class="form-control" rows="5" name="compScript"></textarea>
+                    </div>
+                </div>
+            </div>
+    </script>
+    <script id="TPL_getParameterList" type="text/x-handlebars-template">
+        <table name="table" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>参数名</th>
+                    <th>参数值</th>
+                    <th>参数描述</th>
+                    <th>取值SQL</th>
+                    <th>预期值</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this}}
+                <tr>
+                    <td>
+                        <input type="radio" class="minimal" value="{{paramId}}" name="paramId">
+                    </td>
+                    <td>{{paramName}}</td>
+                    <td>{{paramValue}}</td>
+                    <td>{{paramDesc}}</td>
+                    <td>{{paramSql}}</td>
+                    <td>{{paramExpect}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>
+    <script id="TPL_addParameterForm" type="text/x-handlebars-template">
+        <form>
+            <div class="box-header">
+                <h3 class="box-title">{{type}}</h3>
+            </div>
+            <div class="box-body" style="min-height: 100px;">
+                <div class="row">
+                    <input type="hidden" name="paramId" value="{{paramId}}">
+                    <div class="col-md-12">
+                        <div class="form-group input-group-sm">
+                            <label>参数名<i class="text-red">*</i></label>
+                            <input type="text" class="form-control" name="paramName" value="{{paramName}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group-sm">
+                            <label>参数值<i class="text-red">*</i></label>
+                            <input type="text" class="form-control" name="paramValue" value="{{paramValue}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group-sm">
+                            <label>参数描述<i class="text-red">*</i></label>
+                            <input type="text" class="form-control" name="paramDesc" value="{{paramDesc}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group-sm">
+                            <label>取值SQL<i class="text-red">*</i></label>
+                            <input type="text" class="form-control" name="paramSql" value="{{paramSql}}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group input-group-sm">
+                            <label>预期值<i class="text-red">*</i></label>
+                            <input type="text" class="form-control" name="paramExpect" value="{{paramExpect}}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="reset" class="btn btn-default" name="reset">重置</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            </div>
+            <!-- Modal -->
+        </form>
+    </script>
     <script>
     seajs.use("script/componentManage/componentManage.js", function(indexQuery) {
         indexQuery.init();

@@ -20,8 +20,8 @@ define(function(require, exports, module) {
 
     // 模板对象
     var Tpl = {
-        getAutoResultList: require('tpl/autoManage/autoResult/getAutoResultList.tpl'),
-        getAutoResultInfoList: require('tpl/autoManage/autoResult/getAutoResultInfoList.tpl')
+        getAutoResultList: $("#TPL_getAutoResultListA").html(),
+        getAutoResultInfoList: $("#TPL_getAutoResultInfoList").html()
 
     };
 

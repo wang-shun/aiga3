@@ -26,6 +26,7 @@
 		<junit.version>4.12</junit.version>
 		<mockito.version>2.7.5</mockito.version>
 		<ehcache.version>2.10.3</ehcache.version>
+		<quartz.version>2.2.1</quartz.version>
 
 		<springfox-version>2.6.1</springfox-version>
 		<!-- <cxf.version>2.7.18</cxf.version> -->
@@ -261,6 +262,19 @@
 		</dependency>
 		<!-- JSON end -->
 
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz-jobs</artifactId>
+			<version>${quartz.version}</version>
+		</dependency>
+
+
 		<!-- 日志, -->
 		<!-- LOGGING begin -->
 		<!-- slf4j -->
@@ -354,6 +368,16 @@
 		</dependency>
 		<!-- <dependency> <groupId>io.springfox</groupId> <artifactId>springfox-swagger-ui</artifactId> 
 			<version>${springfox-version}</version> </dependency> -->
+			
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.16</version>
+			<scope>provided</scope>
+		</dependency>
+		
+			
+			
 	</dependencies>
 
 

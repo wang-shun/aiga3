@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
-            <th>上线计划</th>
+            <th  style="display:none;">上线计划</th>
             <th>结论</th>
             <th>评审结果</th>
             <th>评审时间</th>
@@ -15,7 +15,7 @@
     {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" value="{{reviewId}}" name="reviewId"></td>
-            <td>{{onlinePlanId}}</td>
+            <td  style="display:none;">{{onlinePlan}}</td>
             <td>
                 <div class="col-xs-1">
                     <!-- <input type="text" size="" class="" name="conclusion" value="{{conclusion}}" placeholder=""> -->

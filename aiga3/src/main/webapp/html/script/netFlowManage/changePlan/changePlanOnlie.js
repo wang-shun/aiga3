@@ -231,7 +231,7 @@ define(function(require, exports, module) {
 					/*Rose.ajax.postJson(srvMap.get('reviewDel'), _cmd, function(json, status) {
 						if (status) {*/
 							Sidebar.creatTab({
-								id:"bh897578",
+								id:"100",
 								name:'交付物评审',
 								href:'view/netFlowManage/deliverableReview/deliverableReview.html',
 								cmd:_cmd

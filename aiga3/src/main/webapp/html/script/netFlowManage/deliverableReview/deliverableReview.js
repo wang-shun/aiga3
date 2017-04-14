@@ -4,7 +4,7 @@ define(function(require,exports,module){
 	require('global/header.js');
 	require('global/sidebar.js');
 	var Utils = require('global/utils.js');
-	var Page  = Utils.initPage('deliverableReview');
+	var Page = Utils.initPage('deliverableReview');
 
 	//交付物评审结论
 	srvMap.add("getDeliverableReviewConclusion", "netFlowManage/deliverableReview/getDeliverableReviewConclusion.json", "sys/changerevier/list");
@@ -92,8 +92,8 @@ define(function(require,exports,module){
     var deliverableReview={
     	init:function(){
     		this._render();
-    		var data = Data.getParentCmd();
-    		alert(data.onlinePlan);
+    		/*var data = Data.getParentCmd();
+    		alert(data.onlinePlan);*/
     	},
     	_render:function(){
     		this.getDeliverableReviewConclusion();
@@ -109,7 +109,8 @@ define(function(require,exports,module){
     	},
     	getDeliverableReviewConclusion:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getDeliverableReviewConclusion);
 			    		console.log(json.data)
@@ -128,7 +129,7 @@ define(function(require,exports,module){
 							   return false;
 						    }
 							var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
-							/*cmd = cmd + "&reviewId=" +_reviewId;*/
+							cmd = cmd + "&planId=" +data.onlinePlan;
 							console.log(cmd);
 							Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
 								if(status) {
@@ -145,7 +146,8 @@ define(function(require,exports,module){
     	},
 		getPlanList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getPlanList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getPlanList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getPlanList);
 			    		console.log(json.data.content)
@@ -157,7 +159,8 @@ define(function(require,exports,module){
     	},
 		getModelList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getModelList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getModelList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getModelList);
 			    		console.log(json.data.content)
@@ -190,7 +193,8 @@ define(function(require,exports,module){
 									state = tdArr.eq(9).find("select").val();
 									saveState.push({
 										"listId" : listId,
-										"state" : state
+										"state" : state,
+										"planId" : data.onlinePlan
 									});
 								}
 							});
@@ -210,7 +214,8 @@ define(function(require,exports,module){
     	},
 		getOnlineList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getOnlineList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getOnlineList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getOnlineList);
 			    		console.log(json.data.content)
@@ -222,19 +227,12 @@ define(function(require,exports,module){
     	},
 		getTestList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getTestList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getTestList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getTestList);
 			    		console.log(json.data.content)
 			    		$(Dom.getTestList).html(template(json.data.content));
-			    		/*var _result = $('#JS_modelList').find("select[name='result']");
-						var i=0;
-    					var da=json.data.content;
-						$(Dom.getModelList).find("tbody").find("tr").each(function(){
-							var tdArr = $(this).children();
-							tdArr.eq(9).find("select").val(da[i].result);
-							i++;
-						});*/
 						//引入多选框样式
 						Utils.eventTrClickCallback($(Dom.getTestList), function() {
 
@@ -261,7 +259,8 @@ define(function(require,exports,module){
 										"testId" : testId,
 										"sysName" : sysName,
 										"subSysName" : subSysName,
-										"testSituation" : testSituation
+										"testSituation" : testSituation,
+										"planId" : data.onlinePlan
 									});
 								}
 							});
@@ -281,7 +280,8 @@ define(function(require,exports,module){
     	},
 		getRemnantList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getRemnantList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getRemnantList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getRemnantList);
 			    		console.log(json.data.content)
@@ -293,7 +293,8 @@ define(function(require,exports,module){
     	},
 		getReportList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getReportList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getReportList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getReportList);
 			    		console.log(json.data.content)
@@ -305,7 +306,8 @@ define(function(require,exports,module){
     	},
 		getDatabaseList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getDatabaseList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getDatabaseList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getDatabaseList);
 			    		console.log(json.data.content)
@@ -317,7 +319,8 @@ define(function(require,exports,module){
     	},
 		getJavascriptList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getJavascriptList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getJavascriptList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getJavascriptList);
 			    		console.log(json.data.content)
@@ -329,7 +332,8 @@ define(function(require,exports,module){
     	},
 		getDeliverList:function(){
 	    		var self=this;
-	    		Rose.ajax.postJson(srvMap.get('getDeliverList'), "", function(json, status) {
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getDeliverList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getDeliverList);
 			    		console.log(json.data.content)

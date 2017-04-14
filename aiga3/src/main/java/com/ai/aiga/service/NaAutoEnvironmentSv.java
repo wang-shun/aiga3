@@ -197,41 +197,7 @@ public class NaAutoEnvironmentSv extends BaseService{
 		}
 	   return naAutoEnvironmentDao.findOne(envId);
    }
-/*   public Object listEnvironment(int pageNumber, int pageSize ,NaAutoEnvironment condition ) throws ParseException {
-		
-		List<Condition> cons = new ArrayList<Condition>();
-		
-		if(condition != null){
-			
-			
-			
-			if(condition.getRunEnv()!= null){
-				cons.add(new Condition("runEnv", condition.getRunEnv(), Condition.Type.EQ));
-			}
-			
-			if(condition.getEnvName()!= null&&!condition.getEnvName().equals("")){
-				cons.add(new Condition("envName","%".concat( condition.getEnvName()).concat("%"), Condition.Type.LIKE));
-			}
-			if(condition.getSysId()!= null){
-				cons.add(new Condition("sysId", condition.getSysId(), Condition.Type.EQ));
-			}
-			
-			
-		}
-		
-		
-		if(pageNumber < 0){
-			pageNumber = 0;
-		}
-		
-		if(pageSize <= 0){
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
 
-		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		
-		return naAutoEnvironmentDao.search(cons, pageable);
-	}*/
 	public Object listEnvironment(int pageNumber, int pageSize, NaAutoEnvironment condition) throws ParseException {
 		List<String> list = new ArrayList<String>();
 		list.add("envId");

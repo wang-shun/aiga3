@@ -1,4 +1,4 @@
-<table class="table table-bordered table-condensed table-hover">
+<table class="table table-bordered table-condensed table-hover" style="width:3000px;">
     <thead>
         <tr>
             <th>需求提出时间</th>
@@ -11,26 +11,26 @@
             <th>需求分类</th>
             <th>需求类型</th>
 			<th>需求变更类型</th>
-            <th style="display:none;">变更原因</th>
-            <th style="display:none;">初排时间</th>
-			<th style="display:none;">终排时间</th>
-            <th style="display:none;">上线时间</th>
+            <th>变更原因</th>
+            <th>初排时间</th>
+			<th>终排时间</th>
+            <th>上线时间</th>
             <th style="display:none;">开发任务编号</th>
-			<th style="display:none;">开发任务名称</th>
-            <th style="display:none;">任务状态</th>
-            <th style="display:none;">系统大类</th>
-			<th style="display:none;">系统子类</th>
-            <th style="display:none;">开发人员</th>
-            <th style="display:none;">开发管理员</th>
-			<th style="display:none;">需求管理员</th>
-            <th style="display:none;">需求申请人</th>
-            <th style="display:none;">工作量评估</th>
-			<th style="display:none;">初步情况分析</th>
-            <th style="display:none;">是否跨周期需求</th>
-            <th style="display:none;">是否跨系统联调</th>
-			<th style="display:none;">重点需求</th>
-            <th style="display:none;">集团需求</th>
-            <th style="display:none;">存在数据库脚本</th>
+			<th>开发任务名称</th>
+            <th>任务状态</th>
+            <th>系统大类</th>
+			<th>系统子类</th>
+            <th>开发人员</th>
+            <th>开发管理员</th>
+			<th>需求管理员</th>
+            <th>需求申请人</th>
+            <th>工作量评估</th>
+			<th>初步情况分析</th>
+            <th>是否跨周期需求</th>
+            <th>是否跨系统联调</th>
+			<th>重点需求</th>
+            <th>集团需求</th>
+            <th>存在数据库脚本</th>
         </tr>
     </thead>
     <tbody>
@@ -46,26 +46,26 @@
             <td>{{reqCategory}}</td>
             <td>{{reqType}}</td>
             <td>{{reqUpdate}}</td>
-			<td style="display:none;">{{reqReason}}</td>
-            <td style="display:none;">{{reqFirstDate}}</td>
-            <td style="display:none;">{{reqLastDate}}</td>
-			<td style="display:none;">{{reqOnlineDate}}</td>
+			<td>{{reqReason}}</td>
+            <td>{{reqFirstDate}}</td>
+            <td>{{reqLastDate}}</td>
+			<td>{{reqOnlineDate}}</td>
             <td style="display:none;">{{devNo}}</td>
-            <td style="display:none;">{{devName}}</td>
-			<td style="display:none;">{{devStatus}}</td>
-            <td style="display:none;">{{sysName}}</td>
-            <td style="display:none;">{{subSysName}}</td>
-            <td style="display:none;">{{devStaff}}</td>
-			<td style="display:none;">{{devManager}}</td>
-            <td style="display:none;">{{reqManager}}</td>
-            <td style="display:none;">{{reqStaff}}</td>
-			<td style="display:none;">{{devWorkload}}</td>
-            <td style="display:none;">{{devAnalyse}}</td>
-            <td style="display:none;">{{reqSkippingCycle}}</td>
-			<td style="display:none;">{{qaCrossSystem}}</td>
-            <td style="display:none;">{{reqImportant}}</td>
-            <td style="display:none;">{{reqGroup}}</td>
-            <td style="display:none;">{{devDataScript}}</td>
+            <td>{{devName}}</td>
+			<td>{{devStatus}}</td>
+            <td>{{sysName}}</td>
+            <td>{{subSysName}}</td>
+            <td>{{devStaff}}</td>
+			<td>{{devManager}}</td>
+            <td>{{reqManager}}</td>
+            <td>{{reqStaff}}</td>
+			<td>{{devWorkload}}</td>
+            <td>{{devAnalyse}}</td>
+            <td>{{reqSkippingCycle}}</td>
+			<td>{{qaCrossSystem}}</td>
+            <td>{{reqImportant}}</td>
+            <td>{{reqGroup}}</td>
+            <td>{{devDataScript}}</td>
         </tr>
     {{/each}}
     </tbody>

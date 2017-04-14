@@ -33,13 +33,19 @@ define(function(require,exports,module){
 	//数据库割接脚本清单
 	srvMap.add("getDeliverList", "netFlowManage/deliverableReview/getDeliverList.json", "sys/dbScriptList/list");
 	//系统架构变更清单列表
-	/*srvMap.add("getStructureList", "netFlowManage/deliverableReview/getStructureList.json", "");
+	srvMap.add("getStructureList", "netFlowManage/deliverableReview/getStructureList.json", "sys/review/findNaSystemArchitectureListByPlanId");
 	//进程变更清单列表
-	srvMap.add("getProgressList", "netFlowManage/deliverableReview/getProgressList.json", "");
+	srvMap.add("getProgressList", "netFlowManage/deliverableReview/getProgressList.json", "sys/review/findNaProcessChangeListByPlanId");
 	//服务变更上线清单列表
-	srvMap.add("getServiceList", "netFlowManage/deliverableReview/getServiceList.json", "");
+	srvMap.add("getServiceList", "netFlowManage/deliverableReview/getServiceList.json", "sys/review/findNaServiceChangeOnlineListByPlanId");
 	//主机配置列表
-	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "");*/
+	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "sys/review/findNaHostConfigListByPlanId");
+	//上线特殊需求列表
+	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "");
+	//需联调需求列表
+	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "");
+	//生产环境需配置菜单需求列表
+	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "");
 
 	//模板对象
 	var Tpl={
@@ -56,7 +62,10 @@ define(function(require,exports,module){
 		getStructureList:require('tpl/netFlowManage/deliverableReview/getStructureList.tpl'),
 		getProgressList:require('tpl/netFlowManage/deliverableReview/getProgressList.tpl'),
 		getServiceList:require('tpl/netFlowManage/deliverableReview/getServiceList.tpl'),
-		getIpConfigurationList:require('tpl/netFlowManage/deliverableReview/getIpConfigurationList.tpl')
+		getIpConfigurationList:require('tpl/netFlowManage/deliverableReview/getIpConfigurationList.tpl'),
+		getNeedList:require('tpl/netFlowManage/deliverableReview/getNeedList.tpl'),
+		getCombineList:require('tpl/netFlowManage/deliverableReview/getCombineList.tpl'),
+		getConfigureList:require('tpl/netFlowManage/deliverableReview/getConfigureList.tpl')
 	};
 
 	var Dom={
@@ -73,7 +82,10 @@ define(function(require,exports,module){
 		getStructureList:'#JS_structureList',
 		getProgressList:'#JS_progressList',
 		getServiceList:'#JS_serviceList',
-		getIpConfigurationList:'#JS_ipConfiguration'
+		getIpConfigurationList:'#JS_ipConfiguration',
+		getNeedList:'#JS_needList',
+		getCombineList:'#JS_combineList',
+		getConfigureList:'#JS_configureList'
 	}
 
 	var Data = {
@@ -106,6 +118,13 @@ define(function(require,exports,module){
 			this.getDatabaseList();
 			this.getJavascriptList();
     		this.getDeliverList();
+			this.getStructureList();
+			this.getProgressList();
+			this.getServiceList();
+    		this.getIpConfigurationList();
+			this.getNeedList();
+			this.getCombineList();
+    		this.getConfigureList();
     		this.hdbarHelp();
     	},
 		hdbarHelp: function() {
@@ -367,6 +386,97 @@ define(function(require,exports,module){
 			    		$(Dom.getDeliverList).html(template(json.data.content));
 						// 分页
 						self.initPaging($(Dom.getDeliverList),10);
+		    		}
+	    		});
+    	},
+		getStructureList:function(){
+	    		var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getStructureList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    			if (status) {
+			    		var template=Handlebars.compile(Tpl.getStructureList);
+			    		console.log(json.data.content)
+			    		$(Dom.getStructureList).html(template(json.data.content));
+						// 分页
+						self.initPaging($(Dom.getStructureList),10);
+		    		}
+	    		});
+    	},
+		getProgressList:function(){
+	    		var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getProgressList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    			if (status) {
+			    		var template=Handlebars.compile(Tpl.getProgressList);
+			    		console.log(json.data.content)
+			    		$(Dom.getProgressList).html(template(json.data.content));
+						// 分页
+						self.initPaging($(Dom.getProgressList),10);
+		    		}
+	    		});
+    	},
+		getServiceList:function(){
+	    		var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getServiceList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    			if (status) {
+			    		var template=Handlebars.compile(Tpl.getServiceList);
+			    		console.log(json.data.content)
+			    		$(Dom.getServiceList).html(template(json.data.content));
+						// 分页
+						self.initPaging($(Dom.getServiceList),10);
+		    		}
+	    		});
+    	},
+		getIpConfigurationList:function(){
+	    		var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getIpConfigurationList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    			if (status) {
+			    		var template=Handlebars.compile(Tpl.getIpConfigurationList);
+			    		console.log(json.data.content)
+			    		$(Dom.getIpConfigurationList).html(template(json.data.content));
+						// 分页
+						self.initPaging($(Dom.getIpConfigurationList),10);
+		    		}
+	    		});
+    	},
+		getNeedList:function(){
+	    		var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getNeedList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    			if (status) {
+			    		var template=Handlebars.compile(Tpl.getNeedList);
+			    		console.log(json.data.content)
+			    		$(Dom.getNeedList).html(template(json.data.content));
+						// 分页
+						self.initPaging($(Dom.getNeedList),10);
+		    		}
+	    		});
+    	},
+		getCombineList:function(){
+	    		var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getCombineList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    			if (status) {
+			    		var template=Handlebars.compile(Tpl.getCombineList);
+			    		console.log(json.data.content)
+			    		$(Dom.getCombineList).html(template(json.data.content));
+						// 分页
+						self.initPaging($(Dom.getCombineList),10);
+		    		}
+	    		});
+    	},
+		getConfigureList:function(){
+	    		var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getConfigureList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    			if (status) {
+			    		var template=Handlebars.compile(Tpl.getConfigureList);
+			    		console.log(json.data.content)
+			    		$(Dom.getConfigureList).html(template(json.data.content));
+						// 分页
+						self.initPaging($(Dom.getConfigureList),10);
 		    		}
 	    		});
     	},

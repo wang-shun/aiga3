@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="iCheckbox" width="15"></th>
-            <th  style="display:none;">上线计划</th>
+            <th style="display:none;">上线计划</th>
             <th>结论</th>
             <th>评审结果</th>
             <th>评审时间</th>

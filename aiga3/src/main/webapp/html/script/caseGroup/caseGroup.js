@@ -1,4 +1,10 @@
 define(function(require, exports, module) {
+    // 通用工具模块
+    var Utils = require("global/utils.js");
+    
+    // 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('caseGroup');
+    
     // 路径重命名
     var pathAlias = "caseGroup/";
 
@@ -31,13 +37,10 @@ define(function(require, exports, module) {
 
     // 模板对象
     var Tpl = {
-        getCaseGroupList: require('tpl/caseGroup/getCaseGroupList.tpl'), //获取用例组列表
-        addCaseGroupInfo: require('tpl/caseGroup/addCaseInfo.tpl'), //获取添加用例组表单
-        getSysList: require('tpl/caseGroup/getSysList.tpl'), //获取系统大类下拉
-        getSubSysList: require('tpl/caseGroup/getSubSysList.tpl'), //获取系统子类下拉
-        getFunList: require('tpl/caseGroup/getFunList.tpl'), //获取功能点下拉  
-        getCaseList: require('tpl/caseGroup/getCaseList.tpl'), //获取用例列表
-        getRelaCaseList: require('tpl/caseGroup/getRelaCaseList.tpl'),
+        getCaseGroupList: $("#TPL_getCaseGroupList").html(), //获取用例组列表
+        addCaseGroupInfo: $("#TPL_addCaseGroupInfo").html(), //获取添加用例组表单 
+        getCaseList: $("#TPL_getCaseList").html(), //获取用例列表
+        getRelaCaseList: $("#TPL_getRelaCaseList").html()
     };
 
     // 容器对象
@@ -61,11 +64,6 @@ define(function(require, exports, module) {
         queryCaseList: '#JS_queryCaseList', //获取用例列表(搜索)
         //查询用例组
         queryCaseGroup: '#JS_queryCaseGroup' //抓取表单搜索用例组
-    };
-    var dropChoice1 = {
-        getSysList: '#JS_sysId',
-        getSubsysList: '#JS_subSysId',
-        getFunList: '#JS_funId',
     };
 
     var Data = {
@@ -191,10 +189,11 @@ define(function(require, exports, module) {
                 if (status) {
                     // 表单校验初始化
                     var _form = $(Dom.updateCaseGroupInfo);
+                    var _formSelect = $(Dom.queryCaseList);
+                    Utils.setSelectData(_formSelect);
                     var template = Handlebars.compile(Tpl.addCaseGroupInfo);
                     console.log(json.data);
                     _form.html(template(json.data));
-                    self.getSysList(dropChoice1)
                     self.getCaseList();
                     self.queryCaseList();
                     self.getRelaCaseList();
@@ -384,66 +383,7 @@ define(function(require, exports, module) {
                 }
             });
         },
-        //系统大类下拉框
-        getSysList: function(obj, callback) {
-            var self = this;
-            Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getSysList);
-                    $(obj.getSysList).html(template(json.data));
-                    if (callback) {
-                        callback();
 
-                    }
-                    console.log(json.data)
-                }
-                self.sysSelected(obj);
-
-
-            });
-        },
-
-        //系统大类下拉框选择事件
-        sysSelected: function(obj) {
-            var self = this;
-            $(obj.getSysList).find("select").change(function() {
-                var id = $(obj.getSysList).find("select").val();
-                console.log(id);
-                self.getSubSysList(id, obj);
-            });
-
-        },
-
-        //系统子类下拉框选择事件
-        subsysSelected: function(obj) {
-            var self = this;
-            $(obj.getSubsysList).find("select").change(function() {
-                var id = $(obj.getSubsysList).find("select").val();
-                self.getFunList(id, obj);
-            });
-        },
-        //系统子类下拉框
-        getSubSysList: function(id, obj) {
-            var self = this;
-            Rose.ajax.postJson(srvMap.get('getSubsysList'), 'sysid=' + id, function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getSubSysList);
-                    $(obj.getSubsysList).html(template(json.data));
-                    console.log(json.data)
-                    self.subsysSelected(obj);
-                }
-            });
-        },
-        //功能点下拉框
-        getFunList: function(id, obj) {
-            Rose.ajax.postJson(srvMap.get('getFunList'), 'subsysid=' + id, function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getFunList);
-                    $(obj.getFunList).html(template(json.data));
-                    console.log(json.data)
-                }
-            });
-        },
         //获取选中用例组
         getCheckedCaseGroup: function() {
             var _obj = $(Dom.getCaseGroupList).find("input[type='radio']:checked").parents("tr");

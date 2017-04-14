@@ -313,6 +313,13 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.interfaceList);
 					console.log(json.data)
 					$(Dom.interfaceList).html(template(json.data));
+					var da=json.data;
+					var i=0
+					$(Dom.interfaceList).find("tbody").find("tr").each(function(){
+						var tdArr = $(this).children();
+						tdArr.eq(4).find("select").val(da[i].operatId);
+						i++;
+					});
 					Utils.eventTrClickCallback($(Dom.interfaceList));
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
 					Utils.setSelectData($(Dom.interfaceList));

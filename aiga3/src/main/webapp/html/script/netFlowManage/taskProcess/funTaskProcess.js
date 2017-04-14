@@ -81,7 +81,7 @@ define(function(require, exports, module) {
 		},
 		getFunTaskList: function(cmd) {
 			var self = this;
-			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd+"&taskType=1", function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.funTaskList);
 					console.log(json.data)
@@ -99,7 +99,6 @@ define(function(require, exports, module) {
 			_form.find('button[name="query"]').bind('click', function() {
 
 					var cmd = _form.serialize();
-					cmd = cmd+"&taskType=1";
 					self.getFunTaskList(cmd);
 				})
 				// 表单重置
@@ -153,8 +152,8 @@ define(function(require, exports, module) {
 				Rose.ajax.postJson(srvMap.get('submitRst'), cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('保存成功', 'success', 2000);
-//						var _modal = $(Dom.modalSubmitResult);
-//						_modal.modal('hide');
+						var _modal = $(Dom.modalSubmitResult);
+						_modal.modal('hide');
 					}
 				});
 
@@ -168,9 +167,15 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('caseResultList'), cmd, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.taskProcessList);
-					alert("liuxx"+json.data[0].result);
+					console.log(json.data)
 					_table.html(template(json.data.content));
-
+					var da=json.data.content;
+					var i=0
+					_table.find("tbody").find("tr").each(function(){
+						var tdArr = $(this).children();
+						tdArr.eq(2).find("select").val(da[i].result);
+						i++;
+					});
 
 				}
 			});

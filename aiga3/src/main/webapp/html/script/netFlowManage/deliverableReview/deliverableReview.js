@@ -147,7 +147,7 @@ define(function(require,exports,module){
 		getPlanList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getPlanList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getPlanList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getPlanList);
 			    		console.log(json.data.content)
@@ -160,7 +160,7 @@ define(function(require,exports,module){
 		getModelList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getModelList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getModelList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getModelList);
 			    		console.log(json.data.content)
@@ -215,7 +215,7 @@ define(function(require,exports,module){
 		getOnlineList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getOnlineList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getOnlineList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getOnlineList);
 			    		console.log(json.data.content)
@@ -228,7 +228,7 @@ define(function(require,exports,module){
 		getTestList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getTestList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getTestList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getTestList);
 			    		console.log(json.data.content)
@@ -281,7 +281,7 @@ define(function(require,exports,module){
 		getRemnantList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getRemnantList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getRemnantList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getRemnantList);
 			    		console.log(json.data.content)
@@ -294,7 +294,7 @@ define(function(require,exports,module){
 		getReportList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getReportList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getReportList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getReportList);
 			    		console.log(json.data.content)
@@ -307,7 +307,7 @@ define(function(require,exports,module){
 		getDatabaseList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getDatabaseList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getDatabaseList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getDatabaseList);
 			    		console.log(json.data.content)
@@ -320,7 +320,7 @@ define(function(require,exports,module){
 		getJavascriptList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getJavascriptList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getJavascriptList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getJavascriptList);
 			    		console.log(json.data.content)
@@ -333,7 +333,7 @@ define(function(require,exports,module){
 		getDeliverList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getDeliverList'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getDeliverList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getDeliverList);
 			    		console.log(json.data.content)

@@ -16,5 +16,7 @@ SearchAndPageRepository<NaAutoMachine, Long>
     @Query(value = "select a from NaAutoMachine a,NaAutoMachineEnv b,NaAutoRunTaskCase c " +
             " where a.machineId=b.machineId and b.envId=c.environmentType and a.status=2 and c.taskId=?1")
     List<NaAutoMachine> findMachineIpByTaskId(Long taskId);
+    
+    NaAutoMachine findByMachineIp(String machineIp);
 
 }

@@ -757,6 +757,22 @@ define(function(require, exports, module) {
                     return "自动化用例";
                 }
             });
+            Handlebars.registerHelper('TaskTypes', function(value, fn) {
+                if (value == "4") {
+                    return "按需测试";
+                }
+            });
+            Handlebars.registerHelper('getCollectName', function(value, fn) {
+                if (value == "0") {
+                    return "未分派";
+                }
+                if (value == "1") {
+                    return "处理中";
+                }
+                if (value == "2") {
+                    return "完成";
+                }
+            });
         },
 
     };

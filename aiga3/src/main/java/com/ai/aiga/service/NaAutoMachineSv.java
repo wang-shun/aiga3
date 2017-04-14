@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.ai.aiga.service.enums.AutoRunEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -297,18 +298,18 @@ public class NaAutoMachineSv extends BaseService {
 		
 		return naAutoMachineDao.search(cons, pageable);
 	}
-  
-   public Object list(int pageNumber, int pageSize, NaAutoEnvironment condition,Long machineId) throws ParseException {
+
+	public Object list(int pageNumber, int pageSize, NaAutoEnvironment condition,Long machineId) throws ParseException {
 		List<String> list = new ArrayList<String>();
 		list.add("envId");
 		list.add("sysName");
 		list.add("envName");
 		list.add("envUrl");
-	
+
 		String sql ="select c.env_id,b.sys_name,c.env_name,c.env_url from na_auto_environment c,AIGA_SYSTEM_FOLDER b where env_id not in  "
 				+ "(select distinct(a.env_id) from na_auto_machine_env a where a.machine_id="+machineId+") and c.SYS_ID=b.SYS_ID";
-		
-		
+
+
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -320,7 +321,21 @@ public class NaAutoMachineSv extends BaseService {
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
 		return naAutoEnvironmentDao.searchByNativeSQL(sql, pageable, list);
-		
+
+	}
+	
+	/**
+	 * 根据机器IP修改机器状态为空闲
+	 * @param machineIp
+	 * @return
+	 */
+	public NaAutoMachine updateMachineStatusToFree(String machineIp){
+   		if (StringUtils.isBlank(machineIp)) {
+   		          BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
+   		}
+   		NaAutoMachine autoMachine=this.naAutoMachineDao.findByMachineIp(machineIp);
+   		autoMachine.setStatus(AutoRunEnum.MachineStatus_free.getValue());
+   		return this.naAutoMachineDao.save(autoMachine);
 	}
   
 

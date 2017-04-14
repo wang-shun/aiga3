@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ai.aiga.dao.*;
 import com.ai.aiga.domain.*;
 import com.ai.aiga.service.enums.AutoRunEnum;
 import com.ai.aiga.util.DateUtil;
@@ -23,10 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.dao.NaAutoRunResultDao;
-import com.ai.aiga.dao.NaAutoRunTaskDao;
-import com.ai.aiga.dao.NaAutoRunTaskReportDao;
-import com.ai.aiga.dao.NaAutoTaskReportDetailDao;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 
@@ -60,7 +57,10 @@ public class AutoRunResultSv {
 	@Autowired
 	private AutoRunTaskSv autoRunTaskSv;
 
-	public void save(NaAutoRunResult naAutoRunResult) {
+	@Autowired
+	private NaAutoMachineSv autoMachineSv;
+	
+	public NaAutoRunResult save(NaAutoRunResult naAutoRunResult) {
 		
 		if(naAutoRunResult == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -74,7 +74,7 @@ public class AutoRunResultSv {
 		if(StringUtils.isBlank(naAutoRunResult.getEnvironmentType().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "environmenttType");
 		}
-		naAutoRunResultDao.save(naAutoRunResult);
+		return naAutoRunResultDao.save(naAutoRunResult);
 	}
 
 	public Object caseByTaskList(AutoRunResultRequest condition,int pageNumber,int pageSize) {
@@ -533,26 +533,60 @@ public class AutoRunResultSv {
 	 */
 	public String getResultByTaskIdToJson(Long taskId){
 		NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(taskId);
-		String result="";
-		if(autoRunTask.getRunType().equals(AutoRunEnum.RunType_immediately)){
-			result=this.getResultImmediatelyToJson(taskId);
-		}else{
+		String result;
+		if(autoRunTask.getRunType().equals(AutoRunEnum.RunType_distributed.getValue())){
 			result=this.getResultDistributeToJson(taskId);
+		}else{
+			result=this.getResultImmediatelyToJson(taskId);
 		}
 		return result;
 	}
 
 	/**
-	 * 获取云桌面的返回日志并更新用例执行结果和任务信息
+	 * 获取云桌面返回的结果日志，并根据日志、任务、用例信息执行后续步骤
 	 * @param resultJson
 	 * @throws Exception
 	 */
-	public void saveAutoRunResult(String resultJson)throws Exception{
+	public void fetchResultLog(String resultJson)throws Exception{
 		List<AutoReportRequest> reportList=JsonUtil.jsonToList(JsonUtil.jsonToArray(resultJson)[0], AutoReportRequest.class);
 		if (reportList == null || reportList.size()==0) {
 			BusinessException.throwBusinessException("saveAutoRunResult report is null !");
 		}
 		AutoReportRequest report=reportList.get(0);
+		//解析日志，保存用例执行结果
+		NaAutoRunResult result=this.parseReportSaveResult(report);
+		//是否最后一个用例
+		boolean isFinalNum = report.getFinalNum().equals(AutoRunEnum.FinalNum_yes.getValue());
+		NaAutoRunTask autoRunTask = this.autoRunTaskSv.findById(result.getTaskId());
+		//是否分布式
+		boolean isDistribute = autoRunTask.getRunType().equals(AutoRunEnum.RunType_distributed.getValue());
+		List<NaAutoRunResult> resultList=naAutoRunResultDao.findByTaskIdAndRunTypeNot(result.getTaskId(),AutoRunEnum.RunStatus_complete.getValue());
+		//查询用例是否全部执行完成
+		boolean isComplete = resultList != null && resultList.size() == 0;
+		//用例全部执行完成 或 最后一个用例且不是分布式
+		if (isComplete || (isFinalNum && !isDistribute)) {
+			//更新任务信息
+			this.autoRunTaskSv.taskComplete(result.getTaskId());
+			//更新机器状态
+			this.autoMachineSv.updateMachineStatusToFree(report.getMachineIp());
+		}
+		//判断是否为最后一个用例且是分布式
+		if (!isComplete && isFinalNum && isDistribute) {
+			//判断是否还有未执行用例
+			resultList = naAutoRunResultDao.findByTaskIdAndRunType(result.getTaskId(), AutoRunEnum.RunStatus_none.getValue());
+			if (resultList != null && resultList.size() > 0) {
+				//访问云桌面
+				this.autoRunTaskSv.accessProxy(report.getMachineIp(), result.getTaskId().toString(), this.autoRunTaskCaseSv.getEnvByTaskId(result.getTaskId()));
+			}
+		}
+	}
+
+	/**
+	 * 解析云桌面返回日志，并保存用例执行结果信息
+	 * @param report
+	 * @return
+	 */
+	private NaAutoRunResult parseReportSaveResult(AutoReportRequest report){
 		Long resultType=report.getResult();//获取结果状态
 		Long resultId=report.getPlanid();//获取结果唯一主键
 		NaAutoRunResult result=naAutoRunResultDao.findOne(resultId);
@@ -568,29 +602,12 @@ public class AutoRunResultSv {
 		}else{//失败
 			result.setResultType(AutoRunEnum.ResultType_fail.getValue());
 		}
+		result.setRunInfo(report.getReport());//用例执行日志
+		result.setRunLog(report.getRunLog());//ruby执行日志
 		result.setBeginTime(DateUtil.getDate(report.getStarttime(),DateUtil.YYYYMMDDHHMMSS));//设置开始时间
 		result.setEndTime(DateUtil.getDate(report.getFinishtime(),DateUtil.YYYYMMDDHHMMSS));//设置结束时间
 		result.setRunType(AutoRunEnum.RunStatus_complete.getValue());//设置执行状态已完成
-		this.save(result);//保存执行结果信息
-
-		//查询用例是否执行完成
-		List<NaAutoRunResult> resultList=naAutoRunResultDao.findByTaskIdAndRunTypeNot(result.getTaskId(),AutoRunEnum.RunStatus_complete.getValue());
-		if (resultList.size() == 0) {
-			//获取任务信息
-			NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(result.getTaskId());
-			autoRunTask.setEndRunTime(DateUtil.getCurrentTime());//结束时间
-			autoRunTask.setSpendTime(DateUtil.getIntervalMinute(autoRunTask.getBeginRunTime(),autoRunTask.getEndRunTime()));//花费时间
-			//查询未成功的用例
-			resultList = naAutoRunResultDao.findByTaskIdAndResultTypeNot(autoRunTask.getTaskId(), AutoRunEnum.ResultType_success.getValue());
-			if (resultList != null && resultList.size() > 0) {
-				autoRunTask.setTaskResult(AutoRunEnum.TaskResult_fail.getValue());//有未成功的用例则失败
-			} else {
-				autoRunTask.setTaskResult(AutoRunEnum.TaskResult_success.getValue());//没有则成功
-			}
-			this.autoRunTaskSv.save(autoRunTask);
-			//更新机器状态
-
-		}
+		return this.save(result);//保存执行结果信息
 	}
 
 	/**

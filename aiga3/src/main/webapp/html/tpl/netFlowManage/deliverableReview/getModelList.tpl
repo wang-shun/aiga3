@@ -16,7 +16,7 @@
     <tbody>
     {{#each this}}
         <tr>
-            <td><input type="checkbox" class="minimal" value="{{listId}}" name="listId"></td>
+            <td><input type="checkbox" class="minimal" value="{{id}}" name="id"></td>
             <td>{{sysName}}</td>
 			<td>{{modelName}}</td>
             <td>{{packageName}}</td>

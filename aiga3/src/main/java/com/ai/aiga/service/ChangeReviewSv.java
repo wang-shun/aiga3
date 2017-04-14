@@ -198,9 +198,10 @@ public class ChangeReviewSv extends BaseService{
 		List<String> list = new ArrayList<String>();
 		list.add("sysName");
 		list.add("subSysName");
-		String sql = "select distinct sys_name, sub_sys_name from plan_detail_manifest ";
+		list.add("testSituation");
+		String sql = " select distinct A.sys_name,A.sub_sys_name, B.TEST_SITUATION from plan_detail_manifest A  LEFT JOIN NA_TEST_SITUATION  B ON A.SYS_NAME= B.SYS_NAME AND A.SUB_SYS_NAME = B.SUB_SYS_NAME  ";
 		if (condition.getPlanId()!=0) {
-			sql += " and plan_id ="+ condition.getPlanId() ;
+			sql += " where A.plan_id ="+ condition.getPlanId() ;
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;

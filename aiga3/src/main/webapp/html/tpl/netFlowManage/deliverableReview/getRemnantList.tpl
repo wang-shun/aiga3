@@ -1,8 +1,8 @@
 <table class="table table-bordered table-condensed table-hover">
     <thead>
         <tr>
-            <th>编号</th>
-            <th>缺陷编号</th>
+            <th style="display:none;">编号</th>
+            <th style="display:none;">缺陷编号</th>
             <th>问题描述(具体描述缺陷的现象)</th>
 			<th>测试阶段</th>
             <th>缺陷类型</th>
@@ -19,8 +19,8 @@
     <tbody>
     {{#each this}}
         <tr>
-            <td>{{id}}</td>
-            <td>{{defectId}}</td>
+            <td style="display:none;">{{id}}</td>
+            <td style="display:none;">{{defectId}}</td>
             <td>{{problemDescription}}</td>
 			<td>{{testStage}}</td>
             <td>{{defectType}}</td>

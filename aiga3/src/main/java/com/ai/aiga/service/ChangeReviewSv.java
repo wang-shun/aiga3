@@ -130,31 +130,34 @@ public class ChangeReviewSv extends BaseService{
 		   if(request.getConclusion()!=null){
 			   naChangeReview.setConclusion(request.getConclusion());
 			}
-		   naChangeReview.setOnlinePlanId(request.getOnlinePlanId());
+		   if(request.getRemark()!=null){
 		   naChangeReview.setRemark(request.getRemark());
+		   }
+		   
 		   naChangeReview.setReviewDate(new Date(System.currentTimeMillis()));
 		   naChangeReview.setReviewer("张三");
+		   
 		   if(StringUtils.isNotBlank(request.getReviewResult())){
 		   naChangeReview.setReviewResult(request.getReviewResult());}
-		   //操作
-		   naChangeReview.setExt1(request.getExt1());
+		  
 		   changeReviewDao.save(naChangeReview);
 	 
 	   }
    }
    public Object list(int pageNumber, int pageSize, PlanDetailManifest condition) throws ParseException {
 		List<String> list = new ArrayList<String>();
-		list.add("manifestId");
+		
 		list.add("sysName");
 		list.add("subSysName");
 		list.add("nu");
 		
-		String sql = "select manifest_id,sys_name, sub_sys_name, count(sub_sys_name) nu from plan_detail_manifest "
-				+ "group by sys_name,sub_sys_name";
+		String sql = "select sys_name, sub_sys_name, count(sub_sys_name) nu from plan_detail_manifest ";
+				
 		
 		if (condition.getPlanId()!=0) {
-			sql += " and plan_id ="+ condition.getPlanId() ;
+			sql += " where  plan_id ="+ condition.getPlanId() ;
 		}
+		sql+=" group by sys_name,sub_sys_name";
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
@@ -282,7 +285,7 @@ public class ChangeReviewSv extends BaseService{
 	 List<Condition> cons = new ArrayList<Condition>();
 		
 	 if(condition != null){
-			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+			if(condition.getPlanId()!=null||condition.getPlanId().equals("")){
 				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 			}
 		}
@@ -305,7 +308,7 @@ public class ChangeReviewSv extends BaseService{
 	 List<Condition> cons = new ArrayList<Condition>();
 		
 	 if(condition != null){
-			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+			if(condition.getPlanId()!=null||condition.getPlanId().equals("")){
 				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 			}
 		}
@@ -328,7 +331,7 @@ public class ChangeReviewSv extends BaseService{
 	 List<Condition> cons = new ArrayList<Condition>();
 		
 	 if(condition != null){
-			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+			if(condition.getPlanId()!=null||condition.getPlanId().equals("")){
 				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 			}
 		}
@@ -354,7 +357,7 @@ public class ChangeReviewSv extends BaseService{
 	 List<Condition> cons = new ArrayList<Condition>();
 		
 	 if(condition != null){
-			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+			if(condition.getPlanId()!=null||condition.getPlanId().equals("")){
 				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 			}
 		}
@@ -377,7 +380,7 @@ public class ChangeReviewSv extends BaseService{
 	 List<Condition> cons = new ArrayList<Condition>();
 		
 	 if(condition != null){
-			if(condition.getPlanId().equals("")||condition.getPlanId()!=null){
+			if(condition.getPlanId()!=null||condition.getPlanId().equals("")){
 				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 			}
 		}

@@ -37,6 +37,7 @@ public class NaCodePath  implements java.io.Serializable {
      private Long result;
      private Long complimeCount;
      private Long planId;
+     
      @Column(name="PLAN_ID", unique=true, nullable=false, precision=14, scale=0)
    public Long getPlanId() {
 		return planId;

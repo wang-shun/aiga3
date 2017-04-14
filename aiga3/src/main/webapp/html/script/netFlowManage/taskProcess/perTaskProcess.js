@@ -266,7 +266,6 @@ define(function(require, exports, module) {
 		},
 		//保存处理人
 		savInMan : function(cm){
-			alert("1")
 			var self = this;
             var _savInMan = $(Dom.savInMan)
             _savInMan.unbind('click');
@@ -308,27 +307,41 @@ define(function(require, exports, module) {
 		getInterfaceList:function(cmd) {
 			var self = this;
 			var cm = "taskId="+cmd
+			
 			Rose.ajax.postJson(srvMap.get('interfaceList'), cm, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.interfaceList);
 					console.log(json.data)
 					$(Dom.interfaceList).html(template(json.data));
-					var da=json.data;
-					var i=0
-					$(Dom.interfaceList).find("tbody").find("tr").each(function(){
-						var tdArr = $(this).children();
-						tdArr.eq(4).find("select").val(da[i].operatId);
-						i++;
-					});
+					
 					Utils.eventTrClickCallback($(Dom.interfaceList));
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
 					Utils.setSelectData($(Dom.interfaceList));
+					var da=json.data;
+					// var i=0
+					// $(Dom.interfaceList).find("tbody").find("tr").each(function(){
+					// 	var tdArr = $(this).children();
+					// 	alert(da[i].operatId);
+					// 	console.log(i+"operatId"+da[i].operatId)
+					// 	tdArr.eq(4).find("select").val(da[i].operatId);
+					// 	i++;
+					// });
+
 					self.savInMan(cmd);
 					self.initPaging($(Dom.interfaceList), 5, true);
 				}
+				self.ade(da);
 			});
 		},
-
+		ade:function(da){
+			var i=0
+			$(Dom.interfaceList).find("tbody").find("tr").each(function(){
+				var tdArr = $(this).children();
+				console.log(i+"operatId"+da[i].operatId)
+				tdArr.eq(4).find("select").val(da[i].operatId);
+				i++;
+			});
+		},
 		//获取选中当前行数据
 		getSelectedInfo: function() {
 			var obj = this.getCheckedRow(Dom.perTaskList);

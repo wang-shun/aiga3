@@ -55,7 +55,7 @@ define(function(require, exports, module) {
 
 			this.hdbarHelp();
 			this.getPerTaskList("");
-			
+			this.getInterfaceList("");
 		},
 
 		hdbarHelp: function() {

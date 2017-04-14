@@ -196,10 +196,12 @@ public class ChangeReviewSv extends BaseService{
    //测试情况
    public Object list1(int pageNumber, int pageSize, PlanDetailManifest condition) throws ParseException {
 		List<String> list = new ArrayList<String>();
+		
 		list.add("sysName");
 		list.add("subSysName");
 		list.add("testSituation");
-		String sql = " select distinct A.sys_name,A.sub_sys_name, B.TEST_SITUATION from plan_detail_manifest A  LEFT JOIN NA_TEST_SITUATION  B ON A.SYS_NAME= B.SYS_NAME AND A.SUB_SYS_NAME = B.SUB_SYS_NAME  ";
+		list.add("testId");
+		String sql = " select distinct A.sys_name,A.sub_sys_name, B.TEST_SITUATION ,B.Test_Id from plan_detail_manifest A  LEFT JOIN NA_TEST_SITUATION  B ON A.SYS_NAME= B.SYS_NAME AND A.SUB_SYS_NAME = B.SUB_SYS_NAME  ";
 		if (condition.getPlanId()!=0) {
 			sql += " where A.plan_id ="+ condition.getPlanId() ;
 		}
@@ -225,9 +227,10 @@ public class ChangeReviewSv extends BaseService{
 		   NaTestSituation NaTestSituation = list.get(i);
 
 			if (NaTestSituation != null) {
-				NaTestSituation NaTestSituation1=new NaTestSituation();
-				NaTestSituation1.setSysName(NaTestSituation.getSysName());
-				NaTestSituation1.setSubSysName(NaTestSituation.getSubSysName());
+				NaTestSituation NaTestSituation1 =testSituationDao.findOne(NaTestSituation.getTestId());
+				
+				//NaTestSituation1.setSysName(NaTestSituation.getSysName());
+				//NaTestSituation1.setSubSysName(NaTestSituation.getSubSysName());
 				NaTestSituation1.setTestSituation(NaTestSituation.getTestSituation());
 				testSituationDao.save(NaTestSituation1);
 					

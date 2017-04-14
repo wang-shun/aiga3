@@ -82,12 +82,6 @@ public class NaRequireListSv extends BaseService{
 			
 			if(naRequireList!=null){
 			NaRequireList naRequireList1=naRequireListDao.findOne(naRequireList.getId());
-			naRequireList1.setRequireCode(naRequireList.getRequireCode());
-			naRequireList1.setRequireName(naRequireList.getRequireName());
-			naRequireList1.setRequireMan(naRequireList.getRequireMan());
-			naRequireList1.setDevManager(naRequireList.getDevManager());
-			naRequireList1.setTestManager(naRequireList.getTestManager());
-			naRequireList1.setReviewState(naRequireList.getReviewState());
 			
 			if(naRequireList.getIntroducedState()==null||naRequireList.getIntroducedState().equals("")){
 				//成功

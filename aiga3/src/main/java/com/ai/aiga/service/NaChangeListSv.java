@@ -81,21 +81,11 @@ public class NaChangeListSv extends BaseService {
 			NaChangeList naChangeList = list.get(i);
 
 			if (naChangeList != null) {
-				/*NaChangeList nachangeList1 = naChangeListDao.findOne(naChangeList.getChangeId());
-				nachangeList1.setChangeMan(naChangeList.getChangeMan());
-				nachangeList1.setChangeManager(naChangeList.getChangeManager());
-				nachangeList1.setChangeName(naChangeList.getChangeName());
-				nachangeList1.setChangeTitle(naChangeList.getChangeTitle());
-				nachangeList1.setReviewState(naChangeList.getReviewState());*/
-
-				if (naChangeList.getResultState() == null || naChangeList.getResultState().equals("")) {
-					naChangeListDao.updateResultState(naChangeList.getChangeId());
-					naChangeListDao.save(naChangeList);
-				} else {
-					naChangeListDao.save(naChangeList);
-				}
-				
-
+                  Long state = 1L;
+				if (naChangeList.getResultState()!= null && !naChangeList.getResultState().equals("")) {
+					state = Long.parseLong(naChangeList.getResultState());
+				} 
+				naChangeListDao.updateResultState(state,naChangeList.getChangeId());
 			}
 		}
 	}

@@ -47,67 +47,26 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
 		naChangePlanOnile.setPlanDate(request.getPlanDate());
 		naChangePlanOnile.setTypes(request.getTypes());
+		naChangePlanOnile.setCreateDate(new Date());
 		naChangePlanOnile.setTimely(request.getTimely());
 		naChangePlanOnile.setRemark(request.getRemark());
 		naChangePlanOnile.setSign(Byte.parseByte("0"));
-		naChangePlanOnile.setPlanState(request.getPlanState());
+		//处理状态默认是1
+		naChangePlanOnile.setPlanState(1L);
 		naChangePlanOnile.setCreateOpId(request.getCreateOpId());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			
 	}
-	/*
-	public void  updatesummaryChangePlanOnile(NaChangePlanOnileRequest request){
-		if(request == null){ 
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		NaChangePlanOnile naChangePlanOnile=naChangePlanOnileDao.findById(request.getOnlinePlan());
-		if(naChangePlanOnile == null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid);
-		}
-		
-		if(naChangePlanOnile != null){
-			if(StringUtils.isNotBlank(request.getResult().toString())){
-				naChangePlanOnile.setResult(request.getResult());
-			}
-			naChangePlanOnile.setOnlinePlan(request.getOnlinePlan());
-			naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
-			naChangePlanOnile.setPlanDate(request.getPlanDate());
-			naChangePlanOnile.setTypes(request.getTypes());
-			naChangePlanOnile.setTimely(request.getTimely());
-			naChangePlanOnile.setRemark(request.getRemark());
-			naChangePlanOnile.setExt1(request.getExt1());
-			naChangePlanOnile.setDoneDate(request.getDoneDate());
-			naChangePlanOnileDao.save(naChangePlanOnile);
-		}	
-	}*/
+
+	
 	//修改
 	public NaChangePlanOnile  summaryChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
 		
-	/*if(StringUtils.isBlank(request.getOnlinePlan().toString())){
-			
-		}*/
-	/*if(StringUtils.isBlank(request.getOnlinePlanName())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlanName");
-		}
-		if(request.getPlanState()<0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");
-		}
-		if(StringUtils.isBlank(request.getTypes().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "types");
-		}
-		if(StringUtils.isBlank(request.getPlanDate().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");
-		}
-		if(StringUtils.isBlank(request.getTimely().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");
-		}
-		if(StringUtils.isBlank(request.getDoneDate().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");
-		}*/
+	
 		if(StringUtils.isBlank(request.getResult().toString())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");
 		}
@@ -121,16 +80,19 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setExt3(request.getExt3());
 		naChangePlanOnile.setResult(request.getResult());
 		naChangePlanOnile.setDoneDate(request.getDoneDate());
+		naChangePlanOnile.setCreateDate(request.getCreateDate());
 		naChangePlanOnile.setPlanState(request.getPlanState());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			
 	}
+	
+	
+	
 	public String  select( NaChangePlanOnileRequest request){
 		//修改
 		if(request.getExt3().equals("1")){
 			NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
-			System.out.println("======="+naChangePlanOnile.getExt3());
 				naChangePlanOnileSv.summaryChangePlanOnile(request);
 				return "true";
 		}else{
@@ -163,9 +125,6 @@ public class NaChangePlanOnileSv extends BaseService{
 			if(StringUtils.isBlank(request.getOnlinePlanName())){
 				naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
 			}
-			/*if(StringUtils.isBlank(request.getTypes().toString())){
-				naChangePlanOnile.setTypes(request.getTypes());
-			}*/
 			naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
 
 			naChangePlanOnile.setCreateDate(new Date(System.currentTimeMillis()));
@@ -173,6 +132,7 @@ public class NaChangePlanOnileSv extends BaseService{
 			naChangePlanOnile.setTimely(request.getTimely());
 			naChangePlanOnile.setRemark(request.getRemark());
 			naChangePlanOnile.setPlanDate(request.getPlanDate());
+			naChangePlanOnile.setPlanState(request.getPlanState());
 			naChangePlanOnile.setResult(request.getResult());
 			naChangePlanOnile.setPlanState(request.getPlanState());
 			naChangePlanOnileDao.save(naChangePlanOnile);

@@ -66,8 +66,8 @@ public class OnlineTaskController {
 	}
 	
 	@RequestMapping(path = "/accept/onlineTask/delete")
-	public @ResponseBody JsonBean delete(String taskIds){
-		onlineTaskSv.delete(taskIds);
+	public @ResponseBody JsonBean delete(Long taskId){
+		onlineTaskSv.delete(taskId);
 		return JsonBean.success;
 	}
 	

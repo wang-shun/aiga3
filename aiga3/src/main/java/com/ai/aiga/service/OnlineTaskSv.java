@@ -161,17 +161,12 @@ public class OnlineTaskSv extends BaseService{
 	 * @Description:
 	 * @param taskIds          
 	 */
-	public void delete(String taskIds) {
+	public void delete(Long taskIds) {
 		
 		if(taskIds == null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskIds");
 		}
-		String [] taskId = taskIds.split(",");
-		List<Long> list = new ArrayList<Long>();
-		for(int i = 0; i < taskId.length; i++){
-			list.add(Long.valueOf(taskId[i]).longValue());
-		}
-		naOnlineTaskDistributeDao.delete(list);
+		naOnlineTaskDistributeDao.delete(taskIds);
 	}
 
 	/**

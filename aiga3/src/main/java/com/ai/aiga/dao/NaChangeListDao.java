@@ -28,7 +28,7 @@ SearchAndPageRepository<NaChangeList, Long>{
 			List<NaChangeList>  selectList();
 	
 	@Modifying
-	@Query("update NaChangeList set resultState=1 where  changeId=?1")
-	void updateResultState(Long changeId);
+	@Query("update NaChangeList set resultState=?1 where  changeId=?2")
+	void updateResultState( Long state,Long changeId);
 	
 }

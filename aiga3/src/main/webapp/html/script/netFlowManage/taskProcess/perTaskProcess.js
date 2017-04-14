@@ -4,6 +4,8 @@ define(function(require, exports, module) {
 
 	var Utils = require("global/utils.js");
 
+	// 下拉菜单获取所有变更计划
+    srvMap.add("getOnlinePlanList", "netFlowManage/changePlan/changePlanStart/getOnlinePlanList.json", "sys/cache/changePlan");
 	// 功能验收子任务列表显示
 	srvMap.add("perTaskList", "netFlowManage/taskProcess/funTaskProcess/funTaskList.json", "accept/subTask/list");
 	//关联接口列表显示
@@ -95,6 +97,7 @@ define(function(require, exports, module) {
 			}else{
 
 			}
+			Utils.eventTrClickCallback($(Dom.queryPerTaskForm));
 			var cm = "taskType=2&"+cmd;
 			Rose.ajax.postJson(srvMap.get('perTaskList'), cm, function(json, status) {
 				if (status) {
@@ -103,6 +106,8 @@ define(function(require, exports, module) {
 					console.log(json.data)
 					$(Dom.perTaskList).html(template(json.data.content));
 					Utils.eventTrClickCallback($(Dom.perTaskList));
+					
+					
 					//查找按钮
 					self.queryPerTaskList();
 					//同步测试结果
@@ -115,7 +120,7 @@ define(function(require, exports, module) {
                     	var data = self.getSelectedInfo();
                         self.getInterfaceList(data.taskId);
                     })
-
+                    Utils.setSelectData($(Dom.queryPerTaskForm));
 					self.initPaging($(Dom.perTaskList), 5, true);
 				}
 			});
@@ -229,10 +234,7 @@ define(function(require, exports, module) {
                 var id;
                 var remark;
                 var list = [];
-                var cmd={
-                    "taskId":cm,
-                    "list" :[]
-                };
+                var cmd;
                 var _checkObj =	$(Dom.perTaskProcessList).find("input[type='checkbox']:checked");
 			    if(_checkObj.length==0){
 				   window.XMS.msgbox.show('请选择要保存的测试结果！', 'error', 2000);
@@ -243,12 +245,13 @@ define(function(require, exports, module) {
                     if(tdArr.eq(0).find("input").is(':checked')){
                         id = tdArr.eq(0).find("input").val();
                         remark = tdArr.eq(1).find("input").val();
-                        cmd.list.push({
-                            "id" : id,
+                        list.push({
+                            "resultId" : id,
                             "remark" : remark
                         });
                     }
                 });
+                cmd = list;
                 // cmd.list.push(list);
                 Rose.ajax.postJson(srvMap.get('savTR'), cmd, function(json, status) {
                     if (status) {
@@ -271,10 +274,7 @@ define(function(require, exports, module) {
                 var id;
                 var remark;
                 var list = [];
-                var cmd={
-                    "taskId":cm,
-                    "list" :[]
-                };
+                var cmd;
                 var _checkObj =	$(Dom.interfaceList).find("input[type='checkbox']:checked");
 			    if(_checkObj.length==0){
 				   window.XMS.msgbox.show('请选择要保存的关联结果！', 'error', 2000);
@@ -285,12 +285,13 @@ define(function(require, exports, module) {
                     if(tdArr.eq(0).find("input").is(':checked')){
                         id = tdArr.eq(0).find("input").val();
                         remark = tdArr.eq(4).find("select").val();
-                        cmd.list.push({
+                        list.push({
                             "id" : id,
                             "operatId" : remark
                         });
                     }
                 });
+                cmd = list;
                 // cmd.list.push(list);
                 Rose.ajax.postJson(srvMap.get('savInMan'), cmd, function(json, status) {
                     if (status) {

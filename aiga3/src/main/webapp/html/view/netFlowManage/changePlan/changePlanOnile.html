@@ -99,8 +99,12 @@
 <!-- 弹框，新增 -->
 <div class="modal fade" id="JS_addChangePlanFormModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="JS_addChangePlanForm" >
-            
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" id="JS_addChangePlanForm" >
+            </div>
         </div>
     </div>
 </div>
@@ -109,12 +113,17 @@
 <div class="modal fade" id="JS_addChangePlanResultFormModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content" >
+        	<div class="modal-header">
+                <div class="box-tools pull-right">
+			    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+			  	  </div>
+            </div>
+            <div class="modal-body" id="JS_addChangePlanForm" >
+            
         	<div class="box"  style="min-height: 100px">
 			    <div class="box-header with-border">
 			      <h3 class="box-title">条件查询</h3>
-			      <div class="box-tools pull-right">
-			    	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-			  	  </div>
+			      
 			    </div>
 			    <div class="box-body">
 			    <form class="form-horizontal" id="JS_addChangePlanResulForm"  role = "form">
@@ -125,13 +134,11 @@
             <div class="box"   style="min-height: 100px" id="JS_addChangePlanResulList">
 			    <div class="box-header">
 			        <form>
-		                <div class="col-sm-4 form-group">
-		                    <label class="col-sm-3 control-label">选择文件：</label>
-		                    <div class="col-sm-9">
-		                        <input type="text" class="form-control input-sm" name="fileName">
-		                    </div>
+		                <div class="form-group form-inline">
+		                    <label >选择文件：</label>
+		                    <input type="text" class="form-control input-sm" name="fileName">
+		                    <button type="reset" class="btn btn-default" name="reset">上传文档</button>
 		                </div>
-		                <button type="reset" class="btn btn-default" name="reset">上传文档</button>
 		            </form>
 			        <div class="box-tools">
 			            <div class="btn-group">
@@ -145,13 +152,51 @@
 			      
 			    </div>
 			</div>
+			</div>
             <div class="modal-footer">
                 <button type="reset" class="btn btn-default pull-left" id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="JS_addCaseSetinfoSubmit">确认</button>
             </div>
+            
         </div>
     </div>
 </div>
+<script id="TPL_getChangPlanOnlieList" type="text/x-handlebars-template">
+<table class="table table-bordered table-hover" style="width: 2400px;">
+    <thead>
+        <tr>
+            <th class="iCheckbox" width="15"></th>
+            <th>变更计划名称</th>
+			<th>类型</th>
+            <th>计划状态</th>
+            <th>计划上线时间</th>
+            <th>上线结论</th>
+            <th>上线申请是否及时</th>
+			<th>创建人</th>
+            <th>创建时间</th>
+            <th>完成时间</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each this}}
+        <tr>
+            <td><input type="radio" class="minimal" value="{{onlinePlan}}" name="onlinePlan"></td>
+            <td>{{onlinePlanName}}</td>
+			<td>{{type types}}</td>
+            <td>{{plan_state planState}}</td>
+            <td>{{planDate}}</td>
+            <td>{{results result}}</td>
+            <td>{{timelys timely}}</td>
+			<td>{{createOpId}}</td>   
+            <td>{{createDate}}</td>
+            <td>{{doneDate}}</td>
+            <td>{{remark}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</script>
 <script>
     seajs.use("script/netFlowManage/changePlan/changePlanOnlie.js", function(getChangePlanOnlie) {
         getChangePlanOnlie.init();

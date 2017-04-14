@@ -115,6 +115,7 @@ define(function(require,exports,module){
 			    		var template=Handlebars.compile(Tpl.getDeliverableReviewConclusion);
 			    		console.log(json.data)
 			    		$(Dom.getDeliverableReviewConclusion).html(template(json.data));
+			    		/*Page.findId('JS_conclusion').val()*/
 			    		$("#conclusion").val(json.data[0].conclusion);
 						//引入单选框样式
 						Utils.eventTrClickCallback($(Dom.getDeliverableReviewConclusion), function() {

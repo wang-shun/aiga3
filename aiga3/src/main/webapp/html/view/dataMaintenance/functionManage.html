@@ -4,12 +4,14 @@
             <div class="box">
             
                     <div class="box-header with-border">
-                        <form id="JS_queryCaseTempForm">
+                        
                         <h3 class="box-title">按条件查询</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                             </button>
                         </div>
+                        </div>
+                        <form id="JS_queryCaseTempForm">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-xs-2">
@@ -21,7 +23,7 @@
                             <div class="col-xs-2">
                                 <div class="form-group">
                                     <label>归属系统</label>
-                                    <select name="sysId" class="form-control" data-url="getSysList" data-subname="sysSubId" data-idkey="sysId" data-namekey="sysName">
+                                    <select name="sysId" class="form-control" data-url="getSysList" data-idkey="sysId" data-subname="sysName">
                                         <option value="">
                                             请选择
                                         </option>
@@ -31,7 +33,7 @@
                             <div class="col-xs-2">
                                 <div class="form-group">
                                     <label>所属子系统</label>
-                                    <select name="sysSubId" class="form-control" data-suburl="getSubsysList" data-subname="funId">
+                                    <select name="sysSubId" class="form-control" data-suburl="getSubsysList" data-subname="sysName">
                                         <option value="">
                                             请选择
                                         </option>
@@ -267,8 +269,8 @@
                                     <input type="hidden" value="{{funId}}" name="funId">
                                 </td>
                                 <td>{{transformatDomain funType}}</td>
-                                <td>{{sysId}}</td>
-                                <td>{{subSysId}}</td>
+                                <td>{{name}}</td>
+                                <td>{{subName}}</td>
                                 <td>{{transformatImc importantClass}}</td>
                                 <td>{{transformatIsTest isEfficiencyTest}}</td>
                                  <td></td>

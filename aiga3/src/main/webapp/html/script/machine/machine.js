@@ -259,8 +259,10 @@ define(function(require,exports,module){
 									if(status) {
 											// 关联环境成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)
-											// 关闭弹出层
-											$(Dom.connectEnvironmentModal).modal('hide');
+											setTimeout(function() {
+												self.getEnvironmentListInMachine("machineId=" + _machineId);
+				                                self.getRelaEnvironmentList("machineId=" + _machineId);
+				                            }, 1000)
 									}
 								});
 							});
@@ -364,6 +366,7 @@ define(function(require,exports,module){
                             window.XMS.msgbox.show('删除已关联环境成功！', 'success', 2000)
                             setTimeout(function() {
                                 self.getRelaEnvironmentList("machineId=" + _machineId);
+                                self.getEnvironmentListInMachine("machineId=" + _machineId);
                             }, 1000)
                         }
                     });

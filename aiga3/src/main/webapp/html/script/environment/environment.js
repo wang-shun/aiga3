@@ -70,8 +70,8 @@ define(function(require,exports,module){
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
     		this.hdbarHelp();
-    		/*this.getSysList();*/
-    		/*Utils.setSelectData($(Dom.queryEnvironmentForm));*/
+    		/*this.getSysList();
+    		Utils.setSelectData($(Dom.queryEnvironmentForm));*/
     	},
 		hdbarHelp: function() {
 			Handlebars.registerHelper("envTypes", function(value) {
@@ -277,8 +277,10 @@ define(function(require,exports,module){
 									if(status) {
 											// 关联机器成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)
-											// 关闭弹出层
-											$(Dom.connectMachineModal).modal('hide');
+											setTimeout(function() {
+				                                self.getMachineList("envId=" + _envId);
+				                                self.getRelaMachineList("envId=" + _envId);
+				                            }, 1000)
 									}
 								});
 							});
@@ -347,7 +349,7 @@ define(function(require,exports,module){
 
 					})
                     //设置分页
-                    self.initPaging($(Dom.getRelaMachineList), 4)
+                    self.initPaging($(Dom.getRelaMachineList), 10)
                 }
             });
         },
@@ -377,6 +379,7 @@ define(function(require,exports,module){
                             window.XMS.msgbox.show('删除已关联机器成功！', 'success', 2000)
                             setTimeout(function() {
                                 self.getRelaMachineList("envId=" + _envId);
+                                self.getMachineList("envId=" + _envId);
                             }, 1000)
                         }
                     });

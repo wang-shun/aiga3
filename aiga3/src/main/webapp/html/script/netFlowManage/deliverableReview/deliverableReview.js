@@ -46,6 +46,10 @@ define(function(require,exports,module){
 	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "sys/review/findNaGroupAdjustListByPlanId");
 	//生产环境需配置菜单需求列表
 	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "sys/review/findNaHasDeployMenuListByPlanId");
+	//编译发布
+	/*srvMap.add("publish", "netFlowManage/deliverableReview/retMessage.json", "");*/
+	//回退
+	srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
 
 	//模板对象
 	var Tpl={
@@ -104,8 +108,6 @@ define(function(require,exports,module){
     var deliverableReview={
     	init:function(){
     		this._render();
-    		/*var data = Data.getParentCmd();
-    		alert(data.onlinePlan);*/
     	},
     	_render:function(){
     		this.getDeliverableReviewConclusion();
@@ -184,6 +186,34 @@ define(function(require,exports,module){
 										setTimeout(function(){
 											self.getDeliverableReviewConclusion();
 										},1000)
+								}
+							});
+						});
+						//点击编译发布
+						$("#JS_publish").bind('click',function(){
+							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
+							cmd = cmd + "&planId=" +data.onlinePlan;*/
+							console.log(cmd);
+							Rose.ajax.postJson(srvMap.get('publish'), cmd, function(json, status) {
+								if(status) {
+										/*XMS.msgbox.show('保存成功！', 'success', 2000)
+										setTimeout(function(){
+											self.getDeliverableReviewConclusion();
+										},1000)*/
+								}
+							});
+						});
+						//点击回退
+						$("#JS_rollback").bind('click',function(){
+							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
+							cmd = cmd + "&planId=" +data.onlinePlan;*/
+							console.log(cmd);
+							Rose.ajax.postJson(srvMap.get('rollback'), cmd, function(json, status) {
+								if(status) {
+										/*XMS.msgbox.show('保存成功！', 'success', 2000)
+										setTimeout(function(){
+											self.getDeliverableReviewConclusion();
+										},1000)*/
 								}
 							});
 						});

@@ -189,31 +189,16 @@ define(function(require,exports,module){
 								}
 							});
 						});
-						//点击编译发布
-						$("#JS_publish").bind('click',function(){
-							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
-							cmd = cmd + "&planId=" +data.onlinePlan;*/
-							console.log(cmd);
-							Rose.ajax.postJson(srvMap.get('publish'), cmd, function(json, status) {
-								if(status) {
-										/*XMS.msgbox.show('保存成功！', 'success', 2000)
-										setTimeout(function(){
-											self.getDeliverableReviewConclusion();
-										},1000)*/
-								}
-							});
-						});
 						//点击回退
 						$("#JS_rollback").bind('click',function(){
 							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
 							cmd = cmd + "&planId=" +data.onlinePlan;*/
-							console.log(cmd);
-							Rose.ajax.postJson(srvMap.get('rollback'), cmd, function(json, status) {
+							Rose.ajax.postJson(srvMap.get('rollback'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 								if(status) {
-										/*XMS.msgbox.show('保存成功！', 'success', 2000)
-										setTimeout(function(){
-											self.getDeliverableReviewConclusion();
-										},1000)*/
+									XMS.msgbox.show('回退成功！', 'success', 2000)
+									/*setTimeout(function(){
+										self.getDeliverableReviewConclusion();
+									},1000)*/
 								}
 							});
 						});

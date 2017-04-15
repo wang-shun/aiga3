@@ -243,6 +243,11 @@ define(function(require,exports,module){
 						$("#JS_saveModel").unbind('click');
 						//点击保存
 						$("#JS_saveModel").bind('click',function(){
+						   	var _checkObj =	$(Dom.getModelList).find("input[type='checkbox']:checked");
+						   	if(_checkObj.length==0){
+							   	window.XMS.msgbox.show('请选择要保存的模块！', 'error', 2000);
+							   	return false;
+						   	}
 							var id;
 							var result;
 							var saveState = [];

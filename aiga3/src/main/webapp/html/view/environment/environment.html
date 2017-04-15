@@ -68,14 +68,45 @@
                 <h4 id="formName" class="modal-title">关联机器</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
-                <div class="nav-tabs-custom">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">机器列表</h3>
+                                <div class="box-tools">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_connectMachineSubmit"><i class="fa fa-plus"></i> 关联环境</button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="min-height: 100px;" id="JS_connectMachineList">
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">已关联机器列表</h3>
+                                <div class="box-tools">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_deleteConnectMachine" name="del"><i class="fa fa-plus"></i> 删除关联</button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body" style="min-height: 100px;" id="JS_getRelaMachineList">
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                </div>
+                <!-- <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#environmentTab_1" data-toggle="tab" aria-expanded="false">机器列表</a>
                         </li>
                         <li class=""><a href="#environmentTab_2" data-toggle="tab" aria-expanded="false">已关联机器列表</a></li>
                     </ul>
                     <div class="tab-content">
-                        <!-- tab页签1 -->
+                        tab页签1
                         <div class="tab-pane active" id="environmentTab_1">
                             <div class="row">
                                 <div class="box" id="">
@@ -89,7 +120,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- tab页签2 -->
+                        tab页签2
                         <div class="tab-pane" id="environmentTab_2">
                             <div class="row">
                                 <div class="box" id="">
@@ -103,10 +134,10 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.tab-pane -->
+                        /.tab-pane
                     </div>
-                    <!-- /.tab-content -->
-                </div>
+                    /.tab-content
+                </div> -->
             </div>
         </div>
     </div>

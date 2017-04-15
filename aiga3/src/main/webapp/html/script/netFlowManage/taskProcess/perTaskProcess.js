@@ -5,7 +5,7 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 
 	// 下拉菜单获取所有变更计划
-    srvMap.add("getOnlinePlanList", "netFlowManage/changePlan/changePlanStart/getOnlinePlanList.json", "sys/cache/changePlan");
+	srvMap.add("getOnlinePlanList", "netFlowManage/changePlan/changePlanStart/getOnlinePlanList.json", "sys/cache/changePlan");
 	// 功能验收子任务列表显示
 	srvMap.add("perTaskList", "netFlowManage/taskProcess/funTaskProcess/funTaskList.json", "accept/subTask/list");
 	//关联接口列表显示
@@ -34,15 +34,15 @@ define(function(require, exports, module) {
 	// 容器对象
 	var Dom = {
 		perTaskList: '#Js_perTaskList',
-		interfaceList: '#Js_interfaceList', 
-		queryPerTaskForm:'#Js_queryPerTaskForm',
-		synTestResults:"#JS_synTestResults",//同步测试结果
-		queTestResults:"#Js_queTestResults",//查看测试结果
-		modalTestResults:"#modal_getTestResults",
-		perTaskProcessList:"#Js_perTaskProcessList",
-		delTR:"#JS_delTR",
-		savTR:"#Js_savTR",
-		savInMan:"#Js_savInMan",
+		interfaceList: '#Js_interfaceList',
+		queryPerTaskForm: '#Js_queryPerTaskForm',
+		synTestResults: "#JS_synTestResults", //同步测试结果
+		queTestResults: "#Js_queTestResults", //查看测试结果
+		modalTestResults: "#modal_getTestResults",
+		perTaskProcessList: "#Js_perTaskProcessList",
+		delTR: "#JS_delTR",
+		savTR: "#Js_savTR",
+		savInMan: "#Js_savInMan",
 
 	};
 	var busiData;
@@ -84,7 +84,7 @@ define(function(require, exports, module) {
 					return "未处理";
 				} else if (value == 1) {
 					return "处理完成";
-				}  else {
+				} else {
 					return "未定义";
 				}
 			});
@@ -92,13 +92,13 @@ define(function(require, exports, module) {
 		//显示任务列表
 		getPerTaskList: function(cmd) {
 			var self = this;
-			if (cmd=="") {
+			if (cmd == "") {
 				var cm = "taskType=2";
-			}else{
+			} else {
 
 			}
 			Utils.eventTrClickCallback($(Dom.queryPerTaskForm));
-			var cm = "taskType=2&"+cmd;
+			var cm = "taskType=2&" + cmd;
 			Rose.ajax.postJson(srvMap.get('perTaskList'), cm, function(json, status) {
 				if (status) {
 
@@ -106,8 +106,8 @@ define(function(require, exports, module) {
 					console.log(json.data)
 					$(Dom.perTaskList).html(template(json.data.content));
 					Utils.eventTrClickCallback($(Dom.perTaskList));
-					
-					
+
+
 					//查找按钮
 					self.queryPerTaskList();
 					//同步测试结果
@@ -116,17 +116,17 @@ define(function(require, exports, module) {
 					self.queTestResults();
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
 					// 绑定双击当前行事件
-                    self.eventDClickCallback($(Dom.perTaskList),function(){
-                    	var data = self.getSelectedInfo();
-                        self.getInterfaceList(data.taskId);
-                    })
-                    Utils.setSelectData($(Dom.queryPerTaskForm));
+					self.eventDClickCallback($(Dom.perTaskList), function() {
+						var data = self.getSelectedInfo();
+						self.getInterfaceList(data.taskId);
+					})
+					Utils.setSelectData($(Dom.queryPerTaskForm));
 					self.initPaging($(Dom.perTaskList), 5, true);
 				}
 			});
 		},
 		//查询按钮
-		queryPerTaskList:function(){
+		queryPerTaskList: function() {
 			var self = this;
 			var _form = $(Dom.queryPerTaskForm);
 			// 表单提交
@@ -142,7 +142,7 @@ define(function(require, exports, module) {
 			});
 		},
 		//同步测试结果
-		synTestResults:function(){
+		synTestResults: function() {
 			var self = this;
 			$(Dom.synTestResults).bind('click', function() {
 				Rose.ajax.postJson(srvMap.get('synTestResults'), cmd, function(json, status) {
@@ -156,7 +156,7 @@ define(function(require, exports, module) {
 			})
 		},
 		//查看测试结果
-		queTestResults : function(){
+		queTestResults: function() {
 			var self = this;
 			var btn = $(Dom.queTestResults);
 			btn.unbind('click');
@@ -193,28 +193,28 @@ define(function(require, exports, module) {
 			});
 		},
 		//测试数据删除
-		delTR : function(cmd){
+		delTR: function(cmd) {
 			var self = this;
 			var _delete = $(Dom.delTR)
 			_delete.unbind('click');
 			_delete.bind('click', function() {
-				var resultId="";
-				var num =0 ;
-			    var _checkObj =	$(Dom.perTaskProcessList).find("input[type='checkbox']:checked");
-			    if(_checkObj.length==0){
-				   window.XMS.msgbox.show('请选择要删除的测试结果！', 'error', 2000);
-				   return false;
-			    }
-			    _checkObj.each(function (){
-				   if(num!=(_checkObj.length-1)){
-					   resultId += $(this).val()+",";		
-				   }else{
-					   resultId += $(this).val();		
-				   }
-				   num ++;
+				var resultId = "";
+				var num = 0;
+				var _checkObj = $(Dom.perTaskProcessList).find("input[type='checkbox']:checked");
+				if (_checkObj.length == 0) {
+					window.XMS.msgbox.show('请选择要删除的测试结果！', 'error', 2000);
+					return false;
+				}
+				_checkObj.each(function() {
+					if (num != (_checkObj.length - 1)) {
+						resultId += $(this).val() + ",";
+					} else {
+						resultId += $(this).val();
+					}
+					num++;
 				});
 				console.log(resultId);
-				Rose.ajax.postJson(srvMap.get('delTR'), "taskId=" + cmd+"&resultIds="+resultId, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('delTR'), "taskId=" + cmd + "&resultIds=" + resultId, function(json, status) {
 					if (status) {
 						XMS.msgbox.show('删除成功！', 'success', 2000)
 						setTimeout(function() {
@@ -225,119 +225,115 @@ define(function(require, exports, module) {
 			});
 		},
 		//保存测试数据备注
-		savTR : function(cm){
+		savTR: function(cm) {
 			var self = this;
-            var _savTR = $(Dom.savTR)
-            _savTR.unbind('click');
-            _savTR.bind('click',function(){
+			var _savTR = $(Dom.savTR)
+			_savTR.unbind('click');
+			_savTR.bind('click', function() {
 
-                var id;
-                var remark;
-                var list = [];
-                var cmd;
-                var _checkObj =	$(Dom.perTaskProcessList).find("input[type='checkbox']:checked");
-			    if(_checkObj.length==0){
-				   window.XMS.msgbox.show('请选择要保存的测试结果！', 'error', 2000);
-				   return false;
-			    }
-                $(Dom.perTaskProcessList).find("tbody").find("tr").each(function(){
-                    var tdArr = $(this).children();
-                    if(tdArr.eq(0).find("input").is(':checked')){
-                        id = tdArr.eq(0).find("input").val();
-                        remark = tdArr.eq(1).find("input").val();
-                        list.push({
-                            "resultId" : id,
-                            "remark" : remark
-                        });
-                    }
-                });
-                cmd = list;
-                // cmd.list.push(list);
-                Rose.ajax.postJson(srvMap.get('savTR'), cmd, function(json, status) {
-                    if (status) {
-                        window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                        setTimeout(function() {
-                            self.getTestResults(cm);
-                        }, 1000)
-                    }
-                });
+				var id;
+				var remark;
+				var list = [];
+				var cmd;
+				var _checkObj = $(Dom.perTaskProcessList).find("input[type='checkbox']:checked");
+				if (_checkObj.length == 0) {
+					window.XMS.msgbox.show('请选择要保存的测试结果！', 'error', 2000);
+					return false;
+				}
+				$(Dom.perTaskProcessList).find("tbody").find("tr").each(function() {
+					var tdArr = $(this).children();
+					if (tdArr.eq(0).find("input").is(':checked')) {
+						id = tdArr.eq(0).find("input").val();
+						remark = tdArr.eq(1).find("input").val();
+						list.push({
+							"resultId": id,
+							"remark": remark
+						});
+					}
+				});
+				cmd = list;
+				// cmd.list.push(list);
+				Rose.ajax.postJson(srvMap.get('savTR'), cmd, function(json, status) {
+					if (status) {
+						window.XMS.msgbox.show('保存成功！', 'success', 2000);
+						setTimeout(function() {
+							self.getTestResults(cm);
+						}, 1000)
+					}
+				});
 
-            });
+			});
 		},
 		//保存处理人
-		savInMan : function(cm){
+		savInMan: function(cm) {
 			var self = this;
-            var _savInMan = $(Dom.savInMan)
-            _savInMan.unbind('click');
-            _savInMan.bind('click',function(){
-                var id;
-                var remark;
-                var list = [];
-                var cmd;
-                var _checkObj =	$(Dom.interfaceList).find("input[type='checkbox']:checked");
-			    if(_checkObj.length==0){
-				   window.XMS.msgbox.show('请选择要保存的关联结果！', 'error', 2000);
-				   return false;
-			    }
-                $(Dom.interfaceList).find("tbody").find("tr").each(function(){
-                    var tdArr = $(this).children();
-                    if(tdArr.eq(0).find("input").is(':checked')){
-                        id = tdArr.eq(0).find("input").val();
-                        remark = tdArr.eq(4).find("select").val();
-                        list.push({
-                            "resultId" : id,
-                            "operatId" : remark
-                        });
-                    }
-                });
-                cmd = list;
-                // cmd.list.push(list);
-                Rose.ajax.postJson(srvMap.get('savInMan'), cmd, function(json, status) {
-                    if (status) {
-                        window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                        setTimeout(function() {
-                            self.getTestResults(cm);
-                        }, 1000)
-                    }
-                });
+			var _savInMan = $(Dom.savInMan)
+			_savInMan.unbind('click');
+			_savInMan.bind('click', function() {
+				var id;
+				var remark;
+				var list = [];
+				var cmd;
+				var _checkObj = $(Dom.interfaceList).find("input[type='checkbox']:checked");
+				if (_checkObj.length == 0) {
+					window.XMS.msgbox.show('请选择要保存的关联结果！', 'error', 2000);
+					return false;
+				}
+				$(Dom.interfaceList).find("tbody").find("tr").each(function() {
+					var tdArr = $(this).children();
+					if (tdArr.eq(0).find("input").is(':checked')) {
+						id = tdArr.eq(0).find("input").val();
+						remark = tdArr.eq(4).find("select").val();
+						list.push({
+							"resultId": id,
+							"operatId": remark
+						});
+					}
+				});
+				cmd = list;
+				// cmd.list.push(list);
+				Rose.ajax.postJson(srvMap.get('savInMan'), cmd, function(json, status) {
+					if (status) {
+						window.XMS.msgbox.show('保存成功！', 'success', 2000);
+						setTimeout(function() {
+							self.getTestResults(cm);
+						}, 1000)
+					}
+				});
 
-            });
+			});
 		},
 		//显示接口列表
-		getInterfaceList:function(cmd) {
+		getInterfaceList: function(cmd) {
 			var self = this;
-			var cm = "taskId="+cmd
-			
+			var cm = "taskId=" + cmd
+
 			Rose.ajax.postJson(srvMap.get('interfaceList'), cm, function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.interfaceList);
 					console.log(json.data)
 					$(Dom.interfaceList).html(template(json.data));
-					
+
 					Utils.eventTrClickCallback($(Dom.interfaceList));
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
-					Utils.setSelectData($(Dom.interfaceList));
-					var da=json.data;
-					// var i=0
-					// $(Dom.interfaceList).find("tbody").find("tr").each(function(){
-					// 	var tdArr = $(this).children();
-					// 	alert(da[i].operatId);
-					// 	console.log(i+"operatId"+da[i].operatId)
-					// 	tdArr.eq(4).find("select").val(da[i].operatId);
-					// 	i++;
-					// });
-
+					var da = json.data;
+						var i = 0
+					Utils.setSelectData($(Dom.interfaceList), function() {
+						
+						$(Dom.interfaceList).find("tbody").find("select").val(da[i].operatId);
+							i++;
+						
+					});
 					self.savInMan(cmd);
 					self.initPaging($(Dom.interfaceList), 5, true);
 				}
-				self.ade(da);
 			});
 		},
-		ade:function(da){
-			var i=0
-			$(Dom.interfaceList).find("tbody").find("tr").each(function(){
+		ade: function(da) {
+			var i = 0
+			$(Dom.interfaceList).find("tbody").find("tr").each(function() {
 				var tdArr = $(this).children();
-				console.log(i+"operatId"+da[i].operatId)
+				console.log(i + "operatId" + da[i].operatId)
 				tdArr.eq(4).find("select").val(da[i].operatId);
 				i++;
 			});
@@ -362,13 +358,13 @@ define(function(require, exports, module) {
 			return _obj;
 		},
 		// 事件：双击绑定事件
-        eventDClickCallback:function(obj,callback){
-            obj.find("tr").bind('dblclick ', function(event) {
-                    if (callback) {
-                        callback();
-                    }
-            });
-        },
+		eventDClickCallback: function(obj, callback) {
+			obj.find("tr").bind('dblclick ', function(event) {
+				if (callback) {
+					callback();
+				}
+			});
+		},
 		initPaging: function(obj, length, scrollX) {
 			obj.find("table").DataTable({
 				"iDisplayLength": length,

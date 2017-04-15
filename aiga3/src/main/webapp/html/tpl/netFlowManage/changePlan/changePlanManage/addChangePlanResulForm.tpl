@@ -5,7 +5,7 @@
             <input readonly="readonly" type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}">
             <input type="hidden" name="onlinePlan" value="{{onlinePlan}}">
             <label>计划状态：</label>
-        	<select disabled="disabled" name="planState" class="form-control input-sm" style="width: 172px">
+        	<select readonly="readonly" name="planState" class="form-control input-sm" style="width: 172px">
                 <option value="">请选择</option>
                 <option value="1">新建</option>
                 <option value="2">处理中</option>
@@ -13,7 +13,7 @@
                 <option value="4">取消</option>
             </select>
             <label>类型：</label>
-            <select disabled="disabled" name="types" class="form-control input-sm" style="width: 172px" >
+            <select readonly="readonly" name="types" class="form-control input-sm" style="width: 172px" >
                 <option value="">请选择</option>
                 <option value="0">计划上线</option>
                 <option value="1">紧急上线</option>
@@ -33,7 +33,7 @@
     </div>
     <div class="row">
             <label class="col-sm-2 control-label">上线总结：</label>
-            <textarea class="form-control" rows="3" name="compScript" value="{{compScript}}" style="width: 70%"></textarea>
+            <textarea class="form-control" rows="3" name="ext2" value="{{ext2}}" style="width: 70%"></textarea>
     </div>
          <div class="box-footer">
             <div class="text-center">

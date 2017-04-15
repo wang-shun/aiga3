@@ -206,14 +206,14 @@ define(function(require, exports, module) {
          *
          * @method obj 表单父元素
          */
-        setSelectData:function(obj){
+        setSelectData:function(obj,callback){
             var self = this;
             obj.find("select").each(function(index) {
                 var _this = $(this);
                 var _url = _this.data("url");
                 var _cmd = _this.data("cmd") || '';
                 if(_url){
-                    self.setSelectHtml(_this,_url,_cmd);
+                    self.setSelectHtml(_this,_url,_cmd,callback());
                 }
 
             });
@@ -256,7 +256,7 @@ define(function(require, exports, module) {
          * @method obj 接口
          * @method obj 接口参数
          */
-        setSelectHtml:function(obj,url,cmd){
+        setSelectHtml:function(obj,url,cmd,callback){
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             Rose.ajax.getJson(srvMap.get(url),cmd, function(json, status) {
@@ -289,6 +289,7 @@ define(function(require, exports, module) {
 
                     }
                     obj.html(_html);
+                    callback();
                     self.clearSubOptions(obj);
                 }
             });

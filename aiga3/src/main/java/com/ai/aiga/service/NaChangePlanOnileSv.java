@@ -89,21 +89,22 @@ public class NaChangePlanOnileSv extends BaseService{
 	
 	
 	
-	public String  select( NaChangePlanOnileRequest request){
+	public void  select( NaChangePlanOnileRequest request){
 		//修改
-		if(request.getExt3().equals("1")){
-			NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
-				naChangePlanOnileSv.summaryChangePlanOnile(request);
-				return "true";
-		}else{
-			NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
-			naChangePlanOnile.setExt3(request.getExt3());
+		NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
+		System.out.println("request.getExt3()"+request.getExt3());
+		naChangePlanOnile.setExt3(request.getExt3());
+		if(!request.getExt3().equals("1")){
 			naChangePlanOnile.setPlanState(3L);
-			naChangePlanOnileDao.save(naChangePlanOnile);
-			return "true";
+			naChangePlanOnile.setDoneDate( new Date());
 		}
-		
+		naChangePlanOnile.setRemark(request.getRemark());
+		naChangePlanOnile.setResult(request.getResult());
+		naChangePlanOnileDao.save(naChangePlanOnile);
 	}
+	
+	
+	
 	public  NaChangePlanOnile findOne1(Long onlinePlan) {
 		if(onlinePlan == null || onlinePlan < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");

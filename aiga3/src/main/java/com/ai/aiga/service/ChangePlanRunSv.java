@@ -66,10 +66,10 @@ public class ChangePlanRunSv extends BaseService{
 				sql += " and a.types = "+condition.getTypes();
 			}
 			if(StringUtils.isNoneBlank(time1)){
-				sql += " and a.create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.plan_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
 			}
 			if(StringUtils.isNotBlank(time2)){
-				sql += " and a.create_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.plan_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
 			}
 			sql += "  order by a.create_date desc ";
 		}

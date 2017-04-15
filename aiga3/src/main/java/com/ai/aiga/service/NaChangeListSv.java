@@ -81,9 +81,9 @@ public class NaChangeListSv extends BaseService {
 			NaChangeList naChangeList = list.get(i);
 
 			if (naChangeList != null) {
-                  Long state = 1L;
+                  String state = "1";
 				if (naChangeList.getResultState()!= null && !naChangeList.getResultState().equals("")) {
-					state = Long.parseLong(naChangeList.getResultState());
+					state =naChangeList.getResultState();
 				} 
 				naChangeListDao.updateResultState(state,naChangeList.getChangeId());
 			}

@@ -34,7 +34,7 @@ define(function(require,exports,module){
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
 		getMachineListInEnvironment: require('tpl/environment/getMachineListInEnvironment.tpl'),
-		getSysList: require('tpl/caseTempMng/getSysList.tpl')/*,
+		/*getSysList: require('tpl/caseTempMng/getSysList.tpl'),
 		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')*/
 	};
 
@@ -289,7 +289,13 @@ define(function(require,exports,module){
         //机器列表
         getMachineList: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+            var _envId ="";
+			_checkObj.each(function (){
+				_envId = $(this).val();
+			})
+            var _cmd = "envId=" + _envId;
+            Rose.ajax.postJson(srvMap.get('getMachineList'), _cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
                     /*console.log(json.data.content);*/

@@ -8,6 +8,10 @@ package com.ai.aiga.service.enums;
  */
 public enum AutoRunEnum {
 
+    //是否最后一个用例
+    FinalNum_no(0L,"否"),
+    FinalNum_yes(1L,"否"),
+    
     //机器状态(NaAutoMachine中的status字段)
     MachineStatus_off(1L,"离线"),
     MachineStatus_free(2L,"空闲"),

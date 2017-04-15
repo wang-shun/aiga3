@@ -56,6 +56,9 @@ public class PerformanceTaskSv extends BaseService{
 	
 	@Autowired
 	private NaPlanCaseResultDao naPlanCaseResultDao;
+	
+	
+	
 	/**
 	 * @ClassName: PerformanceTaskSv :: save
 	 * @author: dongch
@@ -81,6 +84,7 @@ public class PerformanceTaskSv extends BaseService{
 			NaOnlineTaskDistribute parentTask = naOnlineTaskDistributeDao.findOne(naOnlineTaskDistribute.getParentTaskId());
 			naOnlineTaskDistribute.setAssignId(parentTask.getDealOpId());
 			naOnlineTaskDistribute.setOnlinePlan(parentTask.getOnlinePlan());
+			naOnlineTaskDistribute.setTaskType(naOnlineTaskDistribute.getTaskType());
 			naOnlineTaskDistribute.setDealState(0L);
 			naOnlineTaskDistribute.setCreateDate(new Date());
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
@@ -93,6 +97,10 @@ public class PerformanceTaskSv extends BaseService{
 				distribute.setTaskType(naOnlineTaskDistribute.getTaskType());
 			}
 			naOnlineTaskDistributeDao.save(distribute);
+			
+			//更新父任务状态是处理中1
+			System.out.println("naOnlineTaskDistribute.getParentTaskId()"+naOnlineTaskDistribute.getParentTaskId());
+			naOnlineTaskDistributeDao.updateParentTaskDealState(naOnlineTaskDistribute.getParentTaskId());
 		}
 	}
 
@@ -355,7 +363,7 @@ public class PerformanceTaskSv extends BaseService{
 		
 		String sql = "select b.task_id, b.task_name, b.task_type, b.deal_state, a.name as opName,"
 				+ " b.create_date, b.assign_date from na_online_task_distribute b left join aiga_staff a"
-				+ " on a.staff_id = b.deal_op_id where b.parent_task_id = "+taskId;
+				+ " on a.staff_id = b.deal_op_id where b.parent_task_id = "+taskId+" order by  b.create_date desc";
 		
 		List<String> list = new ArrayList<String>();
 		list.add("taskId");

@@ -292,6 +292,30 @@ public class AutoRunTaskSv {
     }
 
     /**
+     * 任务下用例全部执行完成后操作
+     * @param taskId
+     * @return
+     */
+    public NaAutoRunTask taskComplete(Long taskId){
+        if (taskId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+        }
+        //获取任务信息
+        NaAutoRunTask autoRunTask=this.findById(taskId);
+        autoRunTask.setEndRunTime(DateUtil.getCurrentTime());//结束时间
+        autoRunTask.setSpendTime(DateUtil.getIntervalMinute(autoRunTask.getBeginRunTime(),autoRunTask.getEndRunTime()));//花费时间
+        //查询未成功的用例
+        List<NaAutoRunResult> resultList = this.autoRunResultSv.getListByTaskIdResultTypeNot(taskId, AutoRunEnum.ResultType_success.getValue());
+        if (resultList != null && resultList.size() > 0) {
+            autoRunTask.setTaskResult(AutoRunEnum.TaskResult_fail.getValue());//有未成功的用例则失败
+        } else {
+            autoRunTask.setTaskResult(AutoRunEnum.TaskResult_success.getValue());//没有则成功
+        }
+        return this.save(autoRunTask);
+    }
+    
+
+    /**
      * 启动任务
      * @param autoRunTask
      */
@@ -398,7 +422,7 @@ public class AutoRunTaskSv {
      * @param envConfigId
      * @return
      */
-    private String accessProxy(String machineIp,String taskId,String envConfigId){
+    public String accessProxy(String machineIp,String taskId,String envConfigId){
         if (StringUtils.isBlank(machineIp)) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
         }

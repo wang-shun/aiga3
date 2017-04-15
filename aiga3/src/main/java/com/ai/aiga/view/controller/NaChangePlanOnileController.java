@@ -57,6 +57,8 @@ public class NaChangePlanOnileController {
 		naChangePlanOnileSv.summaryChangePlanOnile(request);
 		return JsonBean.success;
 	}
+	
+	
 	//添加上线总结提交
 	@RequestMapping(path = "/sys/changeplanonile/resultupdate")
 	public @ResponseBody JsonBean resultupdate(NaChangePlanOnileRequest request){

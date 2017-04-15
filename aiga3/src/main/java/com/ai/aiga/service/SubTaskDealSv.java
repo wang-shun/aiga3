@@ -111,11 +111,27 @@ public class SubTaskDealSv extends BaseService{
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		String sql = "select b.result_id, b.case_state, b.result, b.bug, a.test_name, c.sys_name, d.sys_name as subSysName,"
-				+ " e.sys_name as funName, a.important, a.test_desc, a.pre_result  from "
-				+ " na_test_case a, na_plan_case_result b, aiga_system_folder c, aiga_sub_sys_folder d, aiga_fun_folder e"
-				+ " where a.test_id = b.case_id and a.sys_id = c.sys_id and a.sys_sub_id = d.subsys_id and a.fun_id = e.fun_id"
-				+ " and b.sub_task_id = "+taskId;
+		String sql = "select b.result_id, "
+							+ "       b.case_state,"
+							+ " 	       b.result,"
+							+ "        b.bug,"
+							+ " 	       a.test_name,"
+							+ " 	       c.sys_name,"
+							+ " 	       d.sys_name   as subSysName,"
+							+ " 	       e.sys_name   as funName,"
+							+ " 	       a.important,"
+							+ " 	       a.test_desc,"
+							+ " 	       a.pre_result"
+							+ " 	  from  na_plan_case_result b"
+							+ " 	  left join na_test_case a "
+							+ " 	    on a.test_id = b.case_id"
+							+ " 	  left join aiga_system_folder c"
+							+ " 	    on a.sys_id = c.sys_id"
+							+ "   left join aiga_sub_sys_folder d"
+							+ " 	    on  a.sys_sub_id = d.subsys_id "
+							+ " 	  left join aiga_fun_folder e"
+							+ " 	    on a.fun_id = e.fun_id"
+							+ "    where b.sub_task_id = "+taskId;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("resultId");

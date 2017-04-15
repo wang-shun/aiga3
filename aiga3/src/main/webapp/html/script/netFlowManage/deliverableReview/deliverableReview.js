@@ -40,12 +40,16 @@ define(function(require,exports,module){
 	srvMap.add("getServiceList", "netFlowManage/deliverableReview/getServiceList.json", "sys/review/findNaServiceChangeOnlineListByPlanId");
 	//主机配置列表
 	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "sys/review/findNaHostConfigListByPlanId");
-	//上线特殊需求列表
-	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "");
+	//集团需求列表
+	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "sys/review/findNaGroupRequireListByPlanId");
 	//需联调需求列表
-	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "");
+	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "sys/review/findNaGroupAdjustListByPlanId");
 	//生产环境需配置菜单需求列表
-	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "");
+	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "sys/review/findNaHasDeployMenuListByPlanId");
+	//编译发布
+	/*srvMap.add("publish", "netFlowManage/deliverableReview/retMessage.json", "");*/
+	//回退
+	srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
 
 	//模板对象
 	var Tpl={
@@ -104,8 +108,6 @@ define(function(require,exports,module){
     var deliverableReview={
     	init:function(){
     		this._render();
-    		/*var data = Data.getParentCmd();
-    		alert(data.onlinePlan);*/
     	},
     	_render:function(){
     		this.getDeliverableReviewConclusion();
@@ -184,6 +186,34 @@ define(function(require,exports,module){
 										setTimeout(function(){
 											self.getDeliverableReviewConclusion();
 										},1000)
+								}
+							});
+						});
+						//点击编译发布
+						$("#JS_publish").bind('click',function(){
+							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
+							cmd = cmd + "&planId=" +data.onlinePlan;*/
+							console.log(cmd);
+							Rose.ajax.postJson(srvMap.get('publish'), cmd, function(json, status) {
+								if(status) {
+										/*XMS.msgbox.show('保存成功！', 'success', 2000)
+										setTimeout(function(){
+											self.getDeliverableReviewConclusion();
+										},1000)*/
+								}
+							});
+						});
+						//点击回退
+						$("#JS_rollback").bind('click',function(){
+							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
+							cmd = cmd + "&planId=" +data.onlinePlan;*/
+							console.log(cmd);
+							Rose.ajax.postJson(srvMap.get('rollback'), cmd, function(json, status) {
+								if(status) {
+										/*XMS.msgbox.show('保存成功！', 'success', 2000)
+										setTimeout(function(){
+											self.getDeliverableReviewConclusion();
+										},1000)*/
 								}
 							});
 						});

@@ -14,13 +14,22 @@ public class AutoReportRequest {
     private String finishtime;//结束时间
     private Long finalNum;//是否最后一个用例
     private String runLog;//ruby执行日志
+    private String machineIp;//机器IP
 
-    public String getRunLog() {
-        return runLog;
+    public Long getPlanid() {
+        return planid;
     }
 
-    public void setRunLog(String runLog) {
-        this.runLog = runLog;
+    public void setPlanid(Long planid) {
+        this.planid = planid;
+    }
+
+    public Long getResult() {
+        return result;
+    }
+
+    public void setResult(Long result) {
+        this.result = result;
     }
 
     public String getReport() {
@@ -47,27 +56,27 @@ public class AutoReportRequest {
         this.finishtime = finishtime;
     }
 
-    public Long getPlanid() {
-        return planid;
-    }
-
-    public void setPlanid(Long planid) {
-        this.planid = planid;
-    }
-
-    public Long getResult() {
-        return result;
-    }
-
-    public void setResult(Long result) {
-        this.result = result;
-    }
-
     public Long getFinalNum() {
         return finalNum;
     }
 
     public void setFinalNum(Long finalNum) {
         this.finalNum = finalNum;
+    }
+
+    public String getRunLog() {
+        return runLog;
+    }
+
+    public void setRunLog(String runLog) {
+        this.runLog = runLog;
+    }
+
+    public String getMachineIp() {
+        return machineIp;
+    }
+
+    public void setMachineIp(String machineIp) {
+        this.machineIp = machineIp;
     }
 }

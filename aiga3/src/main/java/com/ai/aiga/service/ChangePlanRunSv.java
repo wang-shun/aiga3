@@ -53,7 +53,7 @@ public class ChangePlanRunSv extends BaseService{
 		
 		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, to_char(a.create_date,'YYYY-MM-DD HH24:MI:SS'), a.types,"
 				+ " to_char(a.done_date,'YYYY-MM-DD HH24:MI:SS'), to_char(a.plan_date,'YYYY-MM-DD HH24:MI:SS'), a.timely, a.result, a.remark, is_finished, a.auto_run_result from "
-				+ "na_change_plan_onile a, aiga_staff b where a.create_op_id = b.staff_id and a.sign = 0 ";
+				+ "  na_change_plan_onile a left join aiga_staff b  on a.create_op_id = b.staff_id  where  a.sign = 0 ";
 		
 		if(condition != null){
 			if(condition.getOnlinePlan() != null){
@@ -66,11 +66,12 @@ public class ChangePlanRunSv extends BaseService{
 				sql += " and a.types = "+condition.getTypes();
 			}
 			if(StringUtils.isNoneBlank(time1)){
-				sql += " and a.create_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.plan_date > to_date('"+time1+"','YYYY-MM-DD HH24:MI:SS')";
 			}
 			if(StringUtils.isNotBlank(time2)){
-				sql += " and a.create_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
+				sql += " and a.plan_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
 			}
+			sql += "  order by a.create_date desc ";
 		}
 		List<String> list = new ArrayList<String>();
 		list.add("onlinePlan");
@@ -134,6 +135,7 @@ public class ChangePlanRunSv extends BaseService{
 			naOnlineTaskDistribute.setAssignId(1L);;
 			naOnlineTaskDistribute.setAssignDate(new Date());
 			naOnlineTaskDistribute.setDealState(1L);
+			naOnlineTaskDistribute.setCreateDate(new Date());
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
 			if(naOnlineTaskDistribute.getDealOpId() != null){
 				sendMessageForCycle(naOnlineTaskDistribute.getTaskId(), info);
@@ -172,7 +174,7 @@ public class ChangePlanRunSv extends BaseService{
 		if(onlinePlan == null || onlinePlan < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
 		}
-		List<Object[]> list = naOnlineTaskDistributeDao.findByOnlinePlan(onlinePlan);
+		List<Object[]> list = naOnlineTaskDistributeDao.findByOnlinePlanAndParentTaskId(onlinePlan);
 		List<NaOnlineTaskDistributeResponse> responses = new ArrayList<NaOnlineTaskDistributeResponse>(list.size());
 		if(list != null && list.size() > 0){
 			for(int i = 0; i < list.size(); i++){

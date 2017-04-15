@@ -287,9 +287,9 @@ define(function(require, exports, module) {
             _save.unbind('click');
             _save.bind('click', function() {
                 var cmd = _form.serialize();
-                if (dom.taskIdl=="1") {
-                    dom.taskIdl="0";
-                    cmd += "&taskId="+dom.taskid;
+                if (Dom.taskIdl=="1") {
+                    Dom.taskIdl="0";
+                    cmd += "&taskId="+Dom.taskid;
                 }
                 Rose.ajax.postJson(srvMap.get('addPerSubtaskAssignment'), cmd, function(json, status) {
                     if (status) {
@@ -311,10 +311,10 @@ define(function(require, exports, module) {
             _update.bind('click', function() {
                 var _date = self.getRadioCheckedRow(_dom);
                 if (_date) {
-                    dom.taskIdl = "1";
+                    Dom.taskIdl = "1";
                     _form.find("[name='taskName']").val(_date.taskName);
                     _form.find("[name='taskType']").val(_date.taskType);
-                     dom.taskid=_date.taskId
+                     Dom.taskid=_date.taskId
                     // Data.opreation = "update";
                 }
             });

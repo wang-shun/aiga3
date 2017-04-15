@@ -165,20 +165,24 @@ define(function(require, exports, module) {
 
 			});
 			Handlebars.registerHelper("transformatDomain", function(value) {
-				if (value == "1") {
+				if (value == 1) {
 					return "—全部—";
 				} else if (value == 2) {
-					return "基础域";
+					return "前台类";
 				} else if (value == 3) {
-					return "电子渠道";
+					return "储存过程类";
 				} else if (value == 4) {
-					return "BOSS";
+					return "接口类";
 				} else if (value == 5) {
-					return "CRM";
-				} else if (value == 6) {
-					return "渠道接入";
-				} else if (value == 7) {
-					return "接口域";
+					return "进程类";
+				} 
+
+			});
+			Handlebars.registerHelper("transformatIsTest", function(value) {
+				if (value == "1") {
+					return "是";
+				} else if (value == 0) {
+					return "否";
 				}
 
 			});

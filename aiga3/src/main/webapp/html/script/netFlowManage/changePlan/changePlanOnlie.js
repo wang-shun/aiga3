@@ -227,16 +227,12 @@ define(function(require, exports, module) {
 				var _data = self.getTaskRow();
 				if (_data) {
 					var _cmd = "onlinePlan=" + _data.onlinePlan;
-					/*Rose.ajax.postJson(srvMap.get('reviewDel'), _cmd, function(json, status) {
-						if (status) {*/
-							Sidebar.creatTab({
-								id:"100",
-								name:'交付物评审',
-								href:'view/netFlowManage/deliverableReview/deliverableReview.html',
-								cmd:_cmd
-							})
-					/*	}
-					});*/
+					Sidebar.creatTab({
+						id:"100",
+						name:'交付物评审',
+						href:'view/netFlowManage/deliverableReview/deliverableReview.html',
+						cmd:_cmd
+					})
 				}
 			});
 		},

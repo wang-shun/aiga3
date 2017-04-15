@@ -70,8 +70,8 @@ define(function(require,exports,module){
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
     		this.hdbarHelp();
-    		this.getSysList();
-    		Utils.setSelectData($(Dom.queryEnvironmentForm));
+    		/*this.getSysList();*/
+    		/*Utils.setSelectData($(Dom.queryEnvironmentForm));*/
     	},
 		hdbarHelp: function() {
 			Handlebars.registerHelper("envTypes", function(value) {
@@ -439,7 +439,7 @@ define(function(require,exports,module){
 			});
 
 		},
-		getSysList: function() {
+		/*getSysList: function() {
 			var self = this;
 			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
 				if (status) {
@@ -448,7 +448,7 @@ define(function(require,exports,module){
 					console.log(json.data)
 				}
 			});
-		},
+		},*/
 		// 事件：分页
         initPaging: function(obj, length) {
             obj.find("table").DataTable({

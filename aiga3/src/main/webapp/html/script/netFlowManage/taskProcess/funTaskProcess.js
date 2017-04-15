@@ -173,7 +173,8 @@ define(function(require, exports, module) {
 					var i=0
 					_table.find("tbody").find("tr").each(function(){
 						var tdArr = $(this).children();
-						tdArr.eq(2).find("select").val(da[i].result);
+
+						tdArr.eq(1).find("select").val(da[i].result);
 						i++;
 					});
 

@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 	//查询所有员工列表
 	srvMap.add("getEmList", pathAlias + "emList.json", "sys/employee/findByName");
 	//查询已关联员工列表
-	srvMap.add("getEmedList", pathAlias + "emedList.json", "sys/employee/list");
+	srvMap.add("getEmedList", pathAlias + "emList.json", "sys/employee/list");
 
 	//批量删除已关联员工
 	srvMap.add("delEmed", pathAlias + "retMessage.json", "sys/employee/del");
@@ -316,10 +316,11 @@ define(function(require, exports, module) {
 
 								//问题
 								self.getEmedList(Data.teamId);
+								self.getEmList("teamId=" + Data.teamId);
 							}, 1000)
 						}
 					});
-					self.getEmList("teamId=" + data.teamId);
+
 				}
 			});
 		},

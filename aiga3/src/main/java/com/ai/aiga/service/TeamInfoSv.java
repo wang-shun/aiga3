@@ -217,7 +217,7 @@ public class TeamInfoSv extends BaseService {
 		String[] split = list.split(",");
 		for (int i = 0; i < split.length; i++) {
 
-			employeeInfoDao.delete(Long.parseLong(split[i]));
+			//employeeInfoDao.delete(Long.parseLong(split[i]));
 			employeeInfoDao.deleteById(Long.parseLong(split[i]));
 
 		}

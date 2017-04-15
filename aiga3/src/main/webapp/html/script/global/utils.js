@@ -294,7 +294,9 @@ define(function(require, exports, module) {
 
                     }
                     obj.html(_html);
-                    callback();
+                    if(callback){
+                        callback();
+                    }
                     self.clearSubOptions(obj);
                 }
             });

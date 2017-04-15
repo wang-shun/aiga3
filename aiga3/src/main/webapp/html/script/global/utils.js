@@ -213,7 +213,12 @@ define(function(require, exports, module) {
                 var _url = _this.data("url");
                 var _cmd = _this.data("cmd") || '';
                 if(_url){
-                    self.setSelectHtml(_this,_url,_cmd,callback());
+                    if(callback){
+                        self.setSelectHtml(_this,_url,_cmd,callback());
+                    }else{
+                        self.setSelectHtml(_this,_url,_cmd);
+                    }
+                    
                 }
 
             });

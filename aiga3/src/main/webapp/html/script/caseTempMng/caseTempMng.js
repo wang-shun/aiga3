@@ -16,9 +16,9 @@ define(function(require, exports, module) {
     //获取模板信息 ok
     srvMap.add("getCaseTempInfo", pathAlias + "getCaseTempInfo.json", "case/template/get");
     //新增用例模板 Ok
-    srvMap.add("addCaseTemp", pathAlias + "getCaseTempList.json", "case/template/save");
+    srvMap.add("addCaseTemp", pathAlias + "caseTempList.json", "case/template/save");
     //修改用例模板 
-    srvMap.add("updateCaseTemp", pathAlias + "getCaseTempList.json", "case/template/update");
+    srvMap.add("updateCaseTemp", pathAlias + "caseTempList.json", "case/template/update");
     //获取组件树 
     srvMap.add("getCompTree", pathAlias + "getCompTree.json", "sys/cache/commenCompTree");
     //获取组件信息 OK
@@ -41,7 +41,7 @@ define(function(require, exports, module) {
         getCaseTempForm: $("#TPL_getCaseTempForm").html(),
         getFactorList: $("#TPL_getFactorList").html(),
         compList: $("#TPL_compList").html(),
-        getFactorForm: $("#TPL_getFactorForm").html(),
+        // getFactorForm: $("#TPL_getFactorForm").html(),
         getTestFactorList: $("#TPL_getTestFactorList").html(),
         getCaseTempInfo: $("#TPL_getCaseTempInfo").html(),
 
@@ -256,10 +256,10 @@ define(function(require, exports, module) {
             });
 
             Utils.getServerPage(srvMap.get('getCaseTempList'), cmd, function(json) {
-
+                var _tbody = $(Dom.getCaseTempList).find("tbody");
                 var template = Handlebars.compile(Tpl.getCaseTempList);
                 console.log(json.data)
-                $(Dom.getCaseTempList).html(template(json.data.content));
+                _tbody.html(template(json.data.content));
                 var ddd = $("#JS_caseTempList").find("table");
                 console.log(ddd);
                 self.deleCaseTemp();
@@ -296,8 +296,9 @@ define(function(require, exports, module) {
                     "height": '280px'
                 });
                 // 弹出层
-                $(Dom.modalCaseTempForm).modal('show');
-                $("#myModalLabel").html("新增模板");
+                var _modal = $(Dom.modalCaseTempForm);
+                _modal.modal('show');
+                _modal.find(".modal-title").html("新增模板");
                 //加载form表单
                 var template = Handlebars.compile(Tpl.getCaseTempForm);
                 $(Dom.caseTempForm).html(template());
@@ -313,40 +314,40 @@ define(function(require, exports, module) {
                     'data': ''
                 };
                 $("#JS_messageAddFactor").hide();
-                $('#factorThead').show();
-                $('#JS_factorList').show();
+                _modal.find("table").show();
                 $(Dom.factorList).append(factor_template(empty));
                 $(Dom.factorList).append(factor_template(empty));
                 $(Dom.factorList).append(factor_template(empty));
-                self.eventClickChecked($(Dom.factorList), function() {})
+                self.eventClickChecked($(Dom.factorList));
 
                 var _form = $(Dom.caseTempForm);
                 $("#JS_SaveCaseTemp").unbind('click');
                 $("#JS_SaveCaseTemp").bind('click', function() {
-                    var cmd = _form.serialize();
-                    var factors = [];
-                    $(Dom.factorList).find("tr").each(function() {
-                        var tdArr = $(this).children();
-                        //							    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-                        //							    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();							    
-                        factors.push({
-                            "factorName": tdArr.eq(1).find("input").val(),
-                            "remark": tdArr.eq(2).find("input").val()
+                    self.checkForm(_form, function() {
+                        var cmd = _form.serialize();
+                        var factors = [];
+                        $(Dom.factorList).find("tr").each(function() {
+                            var tdArr = $(this).children();
+                            factors.push({
+                                "factorName": tdArr.eq(1).find("input").val(),
+                                "remark": tdArr.eq(2).find("input").val()
+                            });
                         });
-                    });
-                    cmd += "&factors=" + JSON.stringify(factors);
-                    console.log(cmd);
-                    Rose.ajax.postJson(srvMap.get('addCaseTemp'), cmd, function(json, status) {
-                        if (status) {
-                            // 添加用户成功后，刷新用户列表页
-                            XMS.msgbox.show('添加模板成功！', 'success', 2000)
-                                // 关闭弹出层
-                            $(Dom.modalCaseTempForm).modal('hide')
-                            setTimeout(function() {
-                                self.getCaseTempList();
-                            }, 1000)
-                        }
-                    });
+                        cmd += "&factors=" + JSON.stringify(factors);
+                        console.log(cmd);
+                        Rose.ajax.postJson(srvMap.get('addCaseTemp'), cmd, function(json, status) {
+                            if (status) {
+                                // 添加用户成功后，刷新用户列表页
+                                XMS.msgbox.show('添加模板成功！', 'success', 2000)
+                                    // 关闭弹出层
+                                $(Dom.modalCaseTempForm).modal('hide')
+                                setTimeout(function() {
+                                    self.getCaseTempList();
+                                }, 1000)
+                            }
+                        });
+                    })
+
                     // });
                 })
             });
@@ -363,8 +364,9 @@ define(function(require, exports, module) {
 
                 var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
                 if (_data) {
-                    $(Dom.modalCaseTempForm).modal('show');
-                    $("#myModalLabel").html("查看编辑模板");
+                    var _modal = $(Dom.modalCaseTempForm);
+                    _modal.modal('show');
+                    _modal.find(".modal-title").html("查看编辑模板");
                     //加载form表单
                     self.getCaseTempInfo("caseId=" + _data.caseId);
                     self.addFactor();
@@ -528,13 +530,6 @@ define(function(require, exports, module) {
                 $(Dom.testFactorList).find("tr").each(function() {
                     var tdArr = $(this).children();
                     if (tdArr.eq(0).find("input").is(':checked')) {
-
-                        //					    cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
-                        //					    cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-                        //					    cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
-                        //					    cmd = cmd+"&factorValue="+tdArr.eq(3).find("input").val();
-                        //					    cmd = cmd+"&factorOrder="+tdArr.eq(4).find("input").val();
-
                         factors.push({
                             "factorId": tdArr.eq(0).find("input").val(),
                             "factorName": tdArr.eq(1).find("input").val(),
@@ -636,15 +631,15 @@ define(function(require, exports, module) {
                 $(Dom.factorList).append(factor_template(empty));
                 self.eventClickChecked($(Dom.factorList), function() {})
                     // $("#compTable").slimScroll({
-                    // 	"height": '300px',
-                    // 	alwaysVisible: true,
-                    // });				
+                    //  "height": '300px',
+                    //  alwaysVisible: true,
+                    // });              
             });
         },
         //删除因子
         deleFactor: function(cmd) {
-
             var self = this;
+            var _modal = $(Dom.modalCaseTempForm);
             $('#JS_delFactor').unbind('click');
             $('#JS_delFactor').bind('click', function() {
                 var factor = self.getCheckedRow(Dom.factorList);
@@ -656,8 +651,7 @@ define(function(require, exports, module) {
                 }
                 if ($(Dom.factorList + " tr").length == 0) {
                     $("#JS_messageAddFactor").show();
-                    $('#factorThead').hide();
-                    $('#JS_factorList').hide();
+                    modal.find("table").hide();
                 };
             });
 
@@ -807,7 +801,26 @@ define(function(require, exports, module) {
                     callback();
                 }
             });
-        }
+        },
+        checkForm: function(objForm, callback) {
+            var state = true;
+            var text = '';
+            $(objForm).find(':input[required]')
+                .not(':button, :submit, :reset, :hidden').each(function() {
+                    var _val = $.trim($(this).val());
+                    var _text = $.trim($(this).parent().prev().text());
+                    if (_val == null || _val == undefined || _val == '') {
+                        state = false;
+                        text = _text.replace(/\：/, '');
+                        return false;
+                    }
+                })
+            if (state) {
+                callback(state);
+            } else {
+                XMS.msgbox.show(text.trimStar() + '不能为空！', 'error', 2000);
+            }
+        },
     };
     module.exports = Init;
 });

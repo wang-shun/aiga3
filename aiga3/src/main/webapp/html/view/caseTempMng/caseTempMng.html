@@ -91,6 +91,33 @@
         </div>
     </div>
     <div id="JS_caseTempList" class="box-body" style="min-height: 100px;">
+        <table id="Tab_getCaseTemp" class="table table-bordered table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>用例模板名称</th>
+                    <th style="display:none;">模板应用</th>
+                    <th>用例类型</th>
+                    <th>创建人</th>
+                    <th>更新时间</th>
+                    <th>最后修改人</th>
+                    <th>重要等级</th>
+                    <th>系统大类</th>
+                    <th>系统子类</th>
+                    <th>功能点</th>
+                    <th>业务</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="12">
+                        <div class="dataTables_paginate" name="pagination"></div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 </div>
 <!-- 新增测试用例 -->
@@ -99,7 +126,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"></h4>
+                <h4 class="modal-title"></h4>
             </div>
             <div class="modal-body">
                 <div class="nav-tabs-custom">
@@ -135,11 +162,11 @@
                                             </div>
                                         </div>
                                         <div id="JS_factoryBody" class="box-body">
+                                            <div id="JS_messageAddFactor" style="text-align: center; padding: 100px 0;">
+                                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                                <p style="color: #333;"><span>没有因子数据</span></p>
+                                            </div>
                                             <table id="facTable" class="table  table-hover">
-                                                <div id="JS_messageAddFactor" style="text-align: center; padding: 100px 0;">
-                                                    <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-                                                    <p style="color: #333;"><span>请添加因子</span></p>
-                                                </div>
                                                 <thead id="factorThead">
                                                     <tr>
                                                         <th class="iCheckbox" width="15"></th>
@@ -152,8 +179,6 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-3">
                                 </div>
                             </div>
                         </div>
@@ -302,53 +327,26 @@
 </div>
 <!-- 模板 -->
 <script id="TPL_caseTempList" type="text/x-handlebars-template">
-    <table id="Tab_getCaseTemp" class="table table-bordered table-condensed table-hover">
-        <thead>
-            <tr>
-                <th class="iCheckbox" width="15"></th>
-                <th>用例模板名称</th>
-                <th style="display:none;">模板应用</th>
-                <th>用例类型</th>
-                <th>创建人</th>
-                <th>更新时间</th>
-                <th>最后修改人</th>
-                <th>重要等级</th>
-                <th>系统大类</th>
-                <th>系统子类</th>
-                <th>功能点</th>
-                <th>业务</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each this}}
-            <tr>
-                <td>
-                    <input type="radio" class="minimal" value="{{caseId}}" name="caseId">
-                </td>
-                <td>{{caseName}}
-                    <input type="hidden" value="{{caseName}}" name="caseName">
-                </td>
-                <td>{{transformatType caseType}}</td>
-                <td style="display:none;"></td>
-                <td>{{creator}}</td>
-                <td>{{updateTime}}</td>
-                <td>{{update}}</td>
-                <td>{{transformatImp important}}</td>
-                <td>{{sysName}}</td>
-                <td>{{sysSubName}}</td>
-                <td>{{funName}}</td>
-                <td>{{transformatBusi busiId}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="12">
-                    <div class="dataTables_paginate" name="pagination"></div>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{caseId}}" name="caseId">
+        </td>
+        <td>{{caseName}}
+            <input type="hidden" value="{{caseName}}" name="caseName">
+        </td>
+        <td>{{transformatType caseType}}</td>
+        <td style="display:none;"></td>
+        <td>{{creator}}</td>
+        <td>{{updateTime}}</td>
+        <td>{{update}}</td>
+        <td>{{transformatImp important}}</td>
+        <td>{{sysName}}</td>
+        <td>{{sysSubName}}</td>
+        <td>{{funName}}</td>
+        <td>{{transformatBusi busiId}}</td>
+    </tr>
+    {{/each}}
     <!-- /.box-body -->
 </script>
 <script id="TPL_getSysList" type="text/x-handlebars-template">
@@ -388,13 +386,13 @@
         <div class="col-sm-6 form-group">
             <label for="queryCaseName" class="col-sm-4 control-label"><i class="text-red">* </i>模板名称：</label>
             <div class="col-sm-8">
-                <input type="text" class="form-control input-sm" name="caseName" id="add_caseName" value="{{caseName}}">
+                <input type="text" class="form-control input-sm" name="caseName" id="add_caseName" value="{{caseName}}" required>
             </div>
         </div>
         <div class="col-sm-6 form-group">
             <label class="col-sm-4 control-label"><i class="text-red">* </i>重要程度：</label>
             <div class="col-sm-8">
-                <select id="add_important" name="important" class="form-control input-sm">
+                <select id="add_important" name="important" class="form-control input-sm" required>
                     <option> </option>
                     <option value="1">一级用例</option>
                     <option value="2">二级用例</option>
@@ -440,7 +438,7 @@
         <div class="col-sm-6 form-group">
             <label class="col-sm-4 control-label"><i class="text-red">* </i>用例类型：</label>
             <div id="add_caseType" class="col-sm-8 pull-left">
-                <select name="caseType" class="form-control select2 input-sm">
+                <select name="caseType" class="form-control select2 input-sm" required>
                     <option> </option>
                     <option value="1">UI类</option>
                     <option value="2">接口类</option>
@@ -453,7 +451,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2"><i class="text-red">* </i>模板应用：</label>
             <div class="col-sm-9">
-                <textarea type="text" class="form-control input-sm" id="JS_add_operateDesc" name="operateDesc" style="resize: none;height: 150px"></textarea>
+                <textarea type="text" class="form-control input-sm" id="JS_add_operateDesc" name="operateDesc" style="resize: none;height: 150px" required></textarea>
             </div>
         </div>
     </div>
@@ -487,11 +485,11 @@
         </td>
     </tr>
 </script>
-<script id="TPL_getFactorForm" type="text/x-handlebars-template">
+<!-- <script id="TPL_getFactorForm" type="text/x-handlebars-template">
     <div class="box-header">
         <h3 id="JS_facorFormTitle" class="box-title"></h3>
     </div>
-    <!-- /.box-header -->
+
     <div class="box-body" style="min-height: 100px;">
         <div class="row">
             <input type="hidden" name="factorId" value="{{factorId}}">
@@ -508,14 +506,14 @@
                 </div>
             </div>
         </div>
-        <!-- /.box-body -->
+
     </div>
     <div class="box-footer">
         <button type="reset" class="btn btn-default" name="reset">重置</button>
         <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
     </div>
-    <!-- Modal -->
-</script>
+
+</script> -->
 <script id="TPL_getTestFactorList" type="text/x-handlebars-template">
     {{#each this}}
     <tr>

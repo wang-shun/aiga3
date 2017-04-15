@@ -154,6 +154,7 @@ define(function(require, exports, module) {
 						window.XMS.msgbox.show('保存成功', 'success', 2000);
 						var _modal = $(Dom.modalSubmitResult);
 						_modal.modal('hide');
+						self.queryFunTask();
 					}
 				});
 
@@ -173,7 +174,6 @@ define(function(require, exports, module) {
 					var i=0
 					_table.find("tbody").find("tr").each(function(){
 						var tdArr = $(this).children();
-
 						tdArr.eq(1).find("select").val(da[i].result);
 						i++;
 					});

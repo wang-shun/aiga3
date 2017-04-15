@@ -756,6 +756,9 @@ define(function(require, exports, module) {
                 if (value == "2") {
                     return "自动化用例";
                 }
+                if (value == "3") {
+                    return "用例组";
+                }
             });
             Handlebars.registerHelper('TaskTypes', function(value, fn) {
                 if (value == "4") {

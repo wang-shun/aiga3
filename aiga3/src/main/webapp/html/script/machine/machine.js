@@ -259,8 +259,10 @@ define(function(require,exports,module){
 									if(status) {
 											// 关联环境成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)
-											// 关闭弹出层
-											$(Dom.connectEnvironmentModal).modal('hide');
+											setTimeout(function() {
+												self.getEnvironmentListInMachine("machineId=" + _machineId);
+				                                self.getRelaEnvironmentList("machineId=" + _machineId);
+				                            }, 1000)
 									}
 								});
 							});
@@ -271,7 +273,13 @@ define(function(require,exports,module){
         //环境列表
         getEnvironmentListInMachine: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getEnvironmentListInMachine'), cmd, function(json, status) {
+			var _checkObj =	$('#JS_getMachineList').find("input[type='radio']:checked");
+            var _machineId ="";
+			_checkObj.each(function (){
+				_machineId = $(this).val();
+			})
+            var _cmd = "machineId=" + _machineId;
+            Rose.ajax.postJson(srvMap.get('getEnvironmentListInMachine'), _cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getEnvironmentListInMachine);
                     /*console.log(json.data.content);*/
@@ -358,6 +366,7 @@ define(function(require,exports,module){
                             window.XMS.msgbox.show('删除已关联环境成功！', 'success', 2000)
                             setTimeout(function() {
                                 self.getRelaEnvironmentList("machineId=" + _machineId);
+                                self.getEnvironmentListInMachine("machineId=" + _machineId);
                             }, 1000)
                         }
                     });

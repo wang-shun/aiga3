@@ -189,31 +189,16 @@ define(function(require,exports,module){
 								}
 							});
 						});
-						//点击编译发布
-						$("#JS_publish").bind('click',function(){
-							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
-							cmd = cmd + "&planId=" +data.onlinePlan;*/
-							console.log(cmd);
-							Rose.ajax.postJson(srvMap.get('publish'), cmd, function(json, status) {
-								if(status) {
-										/*XMS.msgbox.show('保存成功！', 'success', 2000)
-										setTimeout(function(){
-											self.getDeliverableReviewConclusion();
-										},1000)*/
-								}
-							});
-						});
 						//点击回退
 						$("#JS_rollback").bind('click',function(){
 							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
 							cmd = cmd + "&planId=" +data.onlinePlan;*/
-							console.log(cmd);
-							Rose.ajax.postJson(srvMap.get('rollback'), cmd, function(json, status) {
+							Rose.ajax.postJson(srvMap.get('rollback'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
 								if(status) {
-										/*XMS.msgbox.show('保存成功！', 'success', 2000)
-										setTimeout(function(){
-											self.getDeliverableReviewConclusion();
-										},1000)*/
+									XMS.msgbox.show('回退成功！', 'success', 2000)
+									/*setTimeout(function(){
+										self.getDeliverableReviewConclusion();
+									},1000)*/
 								}
 							});
 						});
@@ -258,6 +243,11 @@ define(function(require,exports,module){
 						$("#JS_saveModel").unbind('click');
 						//点击保存
 						$("#JS_saveModel").bind('click',function(){
+						   	var _checkObj =	$(Dom.getModelList).find("input[type='checkbox']:checked");
+						   	if(_checkObj.length==0){
+							   	window.XMS.msgbox.show('请选择要保存的模块！', 'error', 2000);
+							   	return false;
+						   	}
 							var id;
 							var result;
 							var saveState = [];

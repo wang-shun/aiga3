@@ -34,7 +34,7 @@ define(function(require,exports,module){
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
 		getMachineListInEnvironment: require('tpl/environment/getMachineListInEnvironment.tpl'),
-		getSysList: require('tpl/caseTempMng/getSysList.tpl')/*,
+		/*getSysList: require('tpl/caseTempMng/getSysList.tpl'),
 		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')*/
 	};
 
@@ -70,7 +70,7 @@ define(function(require,exports,module){
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
     		this.hdbarHelp();
-    		this.getSysList();
+    		/*this.getSysList();*/
     		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
 		hdbarHelp: function() {
@@ -277,8 +277,10 @@ define(function(require,exports,module){
 									if(status) {
 											// 关联机器成功
 											XMS.msgbox.show('关联成功！', 'success', 2000)
-											// 关闭弹出层
-											$(Dom.connectMachineModal).modal('hide');
+											setTimeout(function() {
+				                                self.getMachineList("envId=" + _envId);
+				                                self.getRelaMachineList("envId=" + _envId);
+				                            }, 1000)
 									}
 								});
 							});
@@ -289,7 +291,13 @@ define(function(require,exports,module){
         //机器列表
         getMachineList: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getMachineList'), cmd, function(json, status) {
+			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+            var _envId ="";
+			_checkObj.each(function (){
+				_envId = $(this).val();
+			})
+            var _cmd = "envId=" + _envId;
+            Rose.ajax.postJson(srvMap.get('getMachineList'), _cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
                     /*console.log(json.data.content);*/
@@ -341,7 +349,7 @@ define(function(require,exports,module){
 
 					})
                     //设置分页
-                    self.initPaging($(Dom.getRelaMachineList), 4)
+                    self.initPaging($(Dom.getRelaMachineList), 10)
                 }
             });
         },
@@ -371,6 +379,7 @@ define(function(require,exports,module){
                             window.XMS.msgbox.show('删除已关联机器成功！', 'success', 2000)
                             setTimeout(function() {
                                 self.getRelaMachineList("envId=" + _envId);
+                                self.getMachineList("envId=" + _envId);
                             }, 1000)
                         }
                     });
@@ -433,7 +442,7 @@ define(function(require,exports,module){
 			});
 
 		},
-		getSysList: function() {
+		/*getSysList: function() {
 			var self = this;
 			Rose.ajax.postJson(srvMap.get('getSysList'), '', function(json, status) {
 				if (status) {
@@ -442,7 +451,7 @@ define(function(require,exports,module){
 					console.log(json.data)
 				}
 			});
-		},
+		},*/
 		// 事件：分页
         initPaging: function(obj, length) {
             obj.find("table").DataTable({

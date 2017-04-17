@@ -2,6 +2,9 @@ define(function(require, exports, module) {
     // 通用工具模块
     var Utils = require("global/utils.js");
 
+    // 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('changePlanStart');
+
     // 路径重命名
     var pathAlias = "netFlowManage/changePlan/changePlanStart/";
 

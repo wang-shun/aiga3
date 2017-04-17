@@ -26,7 +26,7 @@
             <td>{{createOpId}}</td>   
             <td>{{createDate}}</td>
             <td>{{doneDate}}</td>
-            <td><input type="hidden" value="{{planDate}}" name="planDate">{{planDate}}</td>
+            <td>{{planDate}}</td>
             <td>{{results result}}</td>
             <td>{{timelys timely}}</td>
             <td>{{sign}}</td>   

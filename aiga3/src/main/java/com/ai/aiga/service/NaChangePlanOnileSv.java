@@ -92,13 +92,14 @@ public class NaChangePlanOnileSv extends BaseService{
 	public void  select( NaChangePlanOnileRequest request){
 		//修改
 		NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
-		System.out.println("request.getExt3()"+request.getExt3());
-		naChangePlanOnile.setExt3(request.getExt3());
+		
 		if(!request.getExt3().equals("1")){
 			naChangePlanOnile.setPlanState(3L);
 			naChangePlanOnile.setDoneDate( new Date());
 		}
-		naChangePlanOnile.setRemark(request.getRemark());
+		//System.out.println("22222"+request.getExt2());
+		naChangePlanOnile.setExt2(request.getExt2());
+		
 		naChangePlanOnile.setResult(request.getResult());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 	}

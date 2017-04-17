@@ -468,7 +468,6 @@ define(function(require, exports, module) {
 					self.eventClickChecked($("#JS_requListab"), function() {
 
 					});
-
 				}
 			});
 		},

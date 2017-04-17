@@ -55,7 +55,7 @@ define(function(require, exports, module) {
 				} else if (value == 1) {
 					return "手工用例";
 				} else {
-					return "未定义";
+					return "用例组";
 				}
 			});
 			Handlebars.registerHelper("transformatState", function(value) {

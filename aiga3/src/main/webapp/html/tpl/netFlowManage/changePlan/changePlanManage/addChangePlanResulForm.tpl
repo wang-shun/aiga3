@@ -33,7 +33,7 @@
     </div>
     <div class="row">
             <label class="col-sm-2 control-label">上线总结：</label>
-            <textarea class="form-control" rows="3" name="ext2" value="{{ext2}}" style="width: 70%"></textarea>
+            <textarea class="form-control" rows="3" name="ext2" style="width: 70%">{{ext2}}</textarea>
     </div>
          <div class="box-footer">
             <div class="text-center">

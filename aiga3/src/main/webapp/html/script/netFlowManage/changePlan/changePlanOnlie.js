@@ -350,10 +350,17 @@ define(function(require, exports, module) {
 							_form.html(template(json.data));
 							_form.find("[name='planState']").val(json.data.planState);
 							_form.find("[name='types']").val(json.data.types);
+							_form.find("[name='result']").val(json.data.result);
 							if(json.data.ext3=="2"){
 								_form.find("[name='update']").attr("disabled", true);
+								_form.find("[name='submit']").attr("disabled", true);
+								_form.find("[name='result']").attr("readonly", readonly);
+								_form.find("[name='ext2']").attr("readonly", readonly);
 							}else{
 								_form.find("[name='update']").removeAttr("disabled");
+								_form.find("[name='submit']").removeAttr("disabled");
+								_form.find("[name='submit']").removeAttr("readonly");
+								_form.find("[name='submit']").removeAttr("readonly");
 							}
 							$("#submit-button").attr("disabled", true);
 							self.resultUpdate();

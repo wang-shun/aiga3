@@ -362,8 +362,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID查询结果信息
-	 * @param taskId
-	 * @return
+	 * @param taskId 任务ID
+	 * @return NaAutoRunResult集合
 	 */
 	public List<NaAutoRunResult> getListByTaskId(Long taskId){
 		if (taskId == null) {
@@ -378,8 +378,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID和结果类型查询结果信息 (结果类型按 not 查询)
-	 * @param taskId
-	 * @return
+	 * @param taskId 任务ID
+	 * @return NaAutoRunResult集合
 	 */
 	public List<NaAutoRunResult> getListByTaskIdResultTypeNot(Long taskId,Long resultType){
 		if (taskId == null) {
@@ -397,9 +397,9 @@ public class AutoRunResultSv {
 
 	/**
 	 *根据任务ID和结果类型查询结果信息
-	 * @param taskId
-	 * @param resultType
-	 * @return
+	 * @param taskId 任务ID
+	 * @param resultType 结果类型
+	 * @return NaAutoRunResult集合
 	 */
 	public List<NaAutoRunResult> getListByTaskIdResultType(Long taskId,Long resultType){
 		if (taskId == null) {
@@ -417,9 +417,9 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID和执行状态查询结果信息
-	 * @param taskId
-	 * @param runType
-	 * @return
+	 * @param taskId 任务ID
+	 * @param runType 执行状态
+	 * @return NaAutoRunResult集合
 	 */
 	public List<NaAutoRunResult> getListByTaskIdRunType(Long taskId,Long runType){
 		if (taskId == null) {
@@ -434,7 +434,7 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID预生成执行结果
-	 * @param taskId
+	 * @param taskId 任务ID
 	 */
 	public void createResultByTaskId(Long taskId){
 		if (taskId == null) {
@@ -456,7 +456,7 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID初始化结果表数据（任务下所有数据）
-	 * @param taskId
+	 * @param taskId 任务ID
 	 */
 	public void initResultAll(Long taskId){
 		List<NaAutoRunResult> resultList=this.getListByTaskId(taskId);
@@ -465,6 +465,7 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID初始化结果表数据（初始化条件：结果状态为未成功）
+	 * @param taskId 任务ID
 	 */
 	public void initResultByFail(Long taskId){
 		List<NaAutoRunResult> resultList=this.getListByTaskIdResultTypeNot(taskId,AutoRunEnum.ResultType_success.getValue());
@@ -473,6 +474,7 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID初始化结果表数据（初始化条件：执行状态为执行中）
+	 * @param taskId 任务ID
 	 */
 	public void initResultByExec(Long taskId){
 		List<NaAutoRunResult> resultList=this.getListByTaskIdRunType(taskId,AutoRunEnum.RunStatus_running.getValue());
@@ -480,8 +482,9 @@ public class AutoRunResultSv {
 	}
 
 	/**
-	 * 根据任务ID删除
-	 * @param taskId
+	 * * 根据任务ID删除
+	 * @param taskId 任务ID
+	 * @return 删除结果状态
 	 */
 	public int deleteByTaskId(Long taskId){
 		if (taskId == null) {
@@ -489,7 +492,7 @@ public class AutoRunResultSv {
 		}
 		return naAutoRunResultDao.deleteByTaskId(taskId);
 	}
-
+	
 	public Object reportDetailList(Long taskId, int pageNumber, int pageSize) {
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
@@ -528,8 +531,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * 根据任务ID返回任务关联用例的JSON数据
-	 * @param taskId
-	 * @return
+	 * @param taskId 任务ID
+	 * @return JSON串
 	 */
 	public String getResultByTaskIdToJson(Long taskId){
 		NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(taskId);
@@ -544,8 +547,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * 获取云桌面返回的结果日志，并根据日志、任务、用例信息执行后续步骤
-	 * @param resultJson
-	 * @throws Exception
+	 * @param resultJson 云桌面返回信息
+	 * @throws Exception JSON转换异常信息
 	 */
 	public void fetchResultLog(String resultJson)throws Exception{
 		List<AutoReportRequest> reportList=JsonUtil.jsonToList(JsonUtil.jsonToArray(resultJson)[0], AutoReportRequest.class);
@@ -583,8 +586,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * 解析云桌面返回日志，并保存用例执行结果信息
-	 * @param report
-	 * @return
+	 * @param report 云桌面返回信息
+	 * @return NaAutoRunResult
 	 */
 	private NaAutoRunResult parseReportSaveResult(AutoReportRequest report){
 		Long resultType=report.getResult();//获取结果状态
@@ -612,7 +615,7 @@ public class AutoRunResultSv {
 
 	/**
 	 * 初始化结果表数据
-	 * @param resultList
+	 * @param resultList NaAutoRunResult集合
 	 */
 	private void initResult(List<NaAutoRunResult> resultList){
 		if(resultList!=null&&resultList.size()>0) {
@@ -633,8 +636,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * （立即执行）返回用例执行结果信息
-	 * @param taskId
-	 * @return
+	 * @param taskId 任务ID
+	 * @return JSON
 	 */
 	private String getResultImmediatelyToJson(Long taskId){
 		List<NaAutoRunResult> resultList = naAutoRunResultDao
@@ -650,8 +653,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * （分布式执行）返回用例执行结果信息(防止分布式获取用例结果信息冲突，需加同步锁)
-	 * @param taskId
-	 * @return
+	 * @param taskId 任务ID
+	 * @return JSON
 	 */
 	private synchronized String getResultDistributeToJson(Long taskId){
 		NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(taskId);
@@ -680,8 +683,8 @@ public class AutoRunResultSv {
 
 	/**
 	 * 将用例执行结果信息转化为云桌面接收的json串信息
-	 * @param result
-	 * @return
+	 * @param result NaAutoRunResult
+	 * @return JSON
 	 */
 	private String getSingleResultToJson(NaAutoRunResult result){
 		NaAutoCase autoCase = this.autoCaseSv.findById(result.getAutoId());

@@ -44,10 +44,14 @@ public class AutoRunTaskSv {
 
     @Autowired
     private NaAutoRunPlanDao autoRunPlanDao;
+    
+    @Autowired
+    private NaAutoMachineSv autoMachineSv;
+    
     /**
      * 保存操作(唯一入口)
-     * @param autoRunTask
-     * @return
+     * @param autoRunTask 任务对象
+     * @return 保存后的任务对象
      */
     public NaAutoRunTask save(NaAutoRunTask autoRunTask){
         if (autoRunTask == null) {
@@ -106,8 +110,8 @@ public class AutoRunTaskSv {
 
     /**
      * 根据主键查询(唯一入口)
-     * @param taskId
-     * @return
+     * @param taskId 任务ID
+     * @return 任务对象
      */
     public NaAutoRunTask findById(Long taskId){
         if (taskId == null) {
@@ -122,7 +126,7 @@ public class AutoRunTaskSv {
 
     /**
      * 根据任务请求发起页面参数初始化任务
-     * @param taskRequest
+     * @param taskRequest 页面请求参数
      */
     public void initTaskByRequest(AutoRunTaskRequest taskRequest){
         if (taskRequest == null) {
@@ -145,7 +149,7 @@ public class AutoRunTaskSv {
 
     /**
      * 根据计划ID默认初始化任务
-     * @param taskRequest
+     * @param taskRequest 页面请求参数
      */
     public void initTaskByPlan(AutoRunTaskRequest taskRequest){
         if (taskRequest == null) {
@@ -167,7 +171,7 @@ public class AutoRunTaskSv {
 
     /**
      * 终止任务
-     * @param taskId
+     * @param taskId 任务ID
      */
     public void stop(Long taskId){
         if (taskId == null) {
@@ -195,10 +199,10 @@ public class AutoRunTaskSv {
 
     /**
      * 根据原生SQL查询任务列表信息
-     * @param condition
-     * @param pageNumber
-     * @param pageSize
-     * @return
+     * @param condition 查询条件对象
+     * @param pageNumber 页数
+     * @param pageSize 每页数量
+     * @return 返回分页的数据
      */
     public Object listbyNativeSQL(AutoRunTaskRequest condition,int pageNumber, int pageSize){
         StringBuilder nativeSql=new StringBuilder(
@@ -221,13 +225,13 @@ public class AutoRunTaskSv {
                 nativeSql.append(" and a.task_tag like '%").append(condition.getTaskTag()).append("%' ");
             }
             if(condition.getCreatorId() !=null){
-                nativeSql.append(" and a.creator_id=" + condition.getCreatorId());
+                nativeSql.append(" and a.creator_id=" ).append( condition.getCreatorId());
             }
             if(condition.getRunType() !=null){
-                nativeSql.append(" and a.run_type="+condition.getRunType());
+                nativeSql.append(" and a.run_type=").append(condition.getRunType());
             }
             if(condition.getTaskResult() !=null){
-                nativeSql.append(" and a.task_result="+condition.getTaskResult());
+                nativeSql.append(" and a.task_result=").append(condition.getTaskResult());
             }
             if (StringUtils.isNoneBlank(condition.getMachineIp())) {
                 nativeSql.append(" and a.machine_ip ='").append(condition.getMachineIp()).append("'");
@@ -273,8 +277,8 @@ public class AutoRunTaskSv {
 
     /**
      * 根据任务ID返回任务数据以及任务关联用例的JSON数据(供云桌面使用)
-     * @param taskId
-     * @return
+     * @param taskId 任务ID
+     * @return JSON串
      */
     public String getTaskByTaskIdToJson(String taskId){
         if (StringUtils.isBlank(taskId)) {
@@ -293,8 +297,8 @@ public class AutoRunTaskSv {
 
     /**
      * 任务下用例全部执行完成后操作
-     * @param taskId
-     * @return
+     * @param taskId 任务ID
+     * @return 更新后的任务对象
      */
     public NaAutoRunTask taskComplete(Long taskId){
         if (taskId == null) {
@@ -317,7 +321,7 @@ public class AutoRunTaskSv {
 
     /**
      * 启动任务
-     * @param autoRunTask
+     * @param autoRunTask 要启动的任务
      */
     private void startTask(NaAutoRunTask autoRunTask){
         if (autoRunTask == null) {
@@ -334,12 +338,12 @@ public class AutoRunTaskSv {
 //            autoRunTask.setLastRunner();//执行者
         this.save(autoRunTask);
         //立即执行
-        if (runType == AutoRunEnum.RunType_timing.getValue()) {
+        if (runType .equals(AutoRunEnum.RunType_timing.getValue())) {
             //访问云桌面
             this.accessProxy(autoRunTask.getMachineIp(), autoRunTask.getTaskId().toString(), autoRunTaskCaseSv.getEnvByTaskId(autoRunTask.getTaskId()));
         } else {
             //分布式执行
-            if (runType == AutoRunEnum.RunType_distributed.getValue()) {
+            if (runType.equals(AutoRunEnum.RunType_distributed.getValue())) {
                 //获取该任务分布式执行总共需多少台机器
                 int distributeMachineNum=this.autoRunTaskCaseSv.getDistributeNumByTaskId(autoRunTask.getTaskId());
                 //获取所有可执行机器
@@ -363,8 +367,8 @@ public class AutoRunTaskSv {
 
     /**
      * 通过任务请求发起页面参数生成任务
-     * @param runTaskRequest
-     * @return
+     * @param runTaskRequest 页面任务请求参数
+     * @return 生成的任务对象
      */
     private NaAutoRunTask createTaskByRequest(AutoRunTaskRequest runTaskRequest){
         if (runTaskRequest == null) {
@@ -379,8 +383,8 @@ public class AutoRunTaskSv {
 
     /**
      * 根据计划ID默认生成任务
-     * @param planId
-     * @return
+     * @param planId 计划ID
+     * @return 生成的任务对象
      */
     private NaAutoRunTask createTaskByPlanId(Long planId){
         if (planId == null) {
@@ -398,8 +402,8 @@ public class AutoRunTaskSv {
 
     /**
      * 生成任务
-     * @param autoRunTask
-     * @return
+     * @param autoRunTask 不含主键只含任务属性  
+     * @return 包含主键的对象
      */
     private NaAutoRunTask createTask(NaAutoRunTask autoRunTask){
         if (autoRunTask == null) {
@@ -417,10 +421,10 @@ public class AutoRunTaskSv {
 
     /**
      * 根据机器IP，任务ID，环境配置信息访问云桌面代理程序服务接口
-     * @param machineIp
-     * @param taskId
-     * @param envConfigId
-     * @return
+     * @param machineIp 机器IP
+     * @param taskId 任务ID
+     * @param envConfigId 环境集合（以_拼接）
+     * @return 返回云桌面消息
      */
     public String accessProxy(String machineIp,String taskId,String envConfigId){
         if (StringUtils.isBlank(machineIp)) {
@@ -440,12 +444,14 @@ public class AutoRunTaskSv {
         String url="http://"+machineIp+":"+urlConfigTypes.getPort()+urlConfigTypes.getPath();
         //发送请求，并获取返回消息
         String msg= HttpConnectionUtil.requestMethod(HttpConnectionUtil.HTTP_POST,url,param);
+        //更新机器状态
+        this.autoMachineSv.updateMachineStatusToOn(machineIp);
         return msg;
     }
 
     /**
      * 根据主键删除(唯一入口)
-     * @param taskId
+     * @param taskId 任务ID
      */
     private void delete(Long taskId){
         if (taskId == null) {

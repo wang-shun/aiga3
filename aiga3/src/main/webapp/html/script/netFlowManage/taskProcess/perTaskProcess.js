@@ -92,13 +92,13 @@ define(function(require, exports, module) {
 		//显示任务列表
 		getPerTaskList: function(cmd) {
 			var self = this;
-			if (cmd == "") {
-				var cm = "taskType=2";
-			} else {
+			if (cmd=="") {
+				var cm = "taskType=3";
+			}else{
 
 			}
 			Utils.eventTrClickCallback($(Dom.queryPerTaskForm));
-			var cm = "taskType=2&" + cmd;
+			var cm = "taskType=3&"+cmd;
 			Rose.ajax.postJson(srvMap.get('perTaskList'), cm, function(json, status) {
 				if (status) {
 

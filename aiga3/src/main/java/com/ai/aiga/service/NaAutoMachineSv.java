@@ -326,8 +326,8 @@ public class NaAutoMachineSv extends BaseService {
 	
 	/**
 	 * 根据机器IP修改机器状态为空闲
-	 * @param machineIp
-	 * @return
+	 * @param machineIp 机器IP
+	 * @return NaAutoMachine
 	 */
 	public NaAutoMachine updateMachineStatusToFree(String machineIp){
    		if (StringUtils.isBlank(machineIp)) {
@@ -337,6 +337,19 @@ public class NaAutoMachineSv extends BaseService {
    		autoMachine.setStatus(AutoRunEnum.MachineStatus_free.getValue());
    		return this.naAutoMachineDao.save(autoMachine);
 	}
-  
+
+	/**
+	 * 根据机器IP修改机器状态为占用
+	 * @param machineIp 机器IP
+	 * @return NaAutoMachine
+	 */
+	public NaAutoMachine updateMachineStatusToOn(String machineIp){
+		if (StringUtils.isBlank(machineIp)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
+		}
+		NaAutoMachine autoMachine=this.naAutoMachineDao.findByMachineIp(machineIp);
+		autoMachine.setStatus(AutoRunEnum.MachineStatus_on.getValue());
+		return this.naAutoMachineDao.save(autoMachine);
+	}
 
 }

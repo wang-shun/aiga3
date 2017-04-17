@@ -70,8 +70,8 @@ define(function(require,exports,module){
     		this.queryEnvironment();
     		this.addEnvironmentInfo();
     		this.hdbarHelp();
-    		/*this.getSysList();
-    		Utils.setSelectData($(Dom.queryEnvironmentForm));*/
+    		/*this.getSysList();*/
+    		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
 		hdbarHelp: function() {
 			Handlebars.registerHelper("envTypes", function(value) {

@@ -2,6 +2,9 @@ define(function(require, exports, module) {
     // 通用工具模块
     var Utils = require("global/utils.js");
 
+    // 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('onlineTaskDistribute');
+
     // 路径重命名
     var pathAlias = "netFlowManage/netFlow/onlineTaskDistribute/";
 
@@ -749,16 +752,16 @@ define(function(require, exports, module) {
 
             });
             Handlebars.registerHelper('getDealState', function(value, fn) {
-                if (value == "0") {
+                if (value == "1") {
                     return "未分派";
                 }
-                if (value == "1") {
+                if (value == "2") {
                     return "处理中";
                 }
-                if (value == "2") {
+                if (value == "3") {
                     return "完成";
                 }
-                if (value == "3") {
+                if (value == "4") {
                     return "不需分派";
                 }
 

@@ -4,6 +4,8 @@ package com.ai.aiga.dao;
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoCollection;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,6 +25,8 @@ public interface NaAutoCollectionDao extends SearchAndPageRepository<NaAutoColle
 		public NaAutoCollection findByCollectId(Long collectId);
 		
 		
+		
+		public  List<NaAutoCollection> findByCaseType(Long caseType);
 	
 		
 		/**

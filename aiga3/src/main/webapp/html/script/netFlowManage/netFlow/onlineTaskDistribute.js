@@ -737,16 +737,16 @@ define(function(require, exports, module) {
         },
         registerHelper: function() {
             Handlebars.registerHelper('getState', function(value, fn) {
-                if (value == "0") {
-                    return "未分派";
-                }
                 if (value == "1") {
-                    return "处理中";
+                    return "新增";
                 }
                 if (value == "2") {
-                    return "完成";
+                    return "处理中";
                 }
                 if (value == "3") {
+                    return "完成";
+                }
+                if (value == "4") {
                     return "不需分派";
                 }
 

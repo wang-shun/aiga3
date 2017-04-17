@@ -168,7 +168,7 @@ define(function(require, exports, module) {
                                                 // _dom.find("[name='dealOpId']");
                                                 console.log(json.data);
                                                 var template = Handlebars.compile(Tpl.getCollectId);
-                                                (Dom.collectIdss).html(template(json.data));
+                                               $ (Dom.collectIdss).html(template(json.data));
                                             }
                                         });
                                         

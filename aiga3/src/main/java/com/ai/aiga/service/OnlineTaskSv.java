@@ -306,7 +306,7 @@ public class OnlineTaskSv extends BaseService{
 				//发短信
 				//sendMessageForCycle(subTaskAuto.getTaskId());
 				
-				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
+				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 2L);
 			}
 			if(listGroup != null && listGroup.size() > 0){
 				naOnlineTaskDistributeDao.save(subTaskGroup);

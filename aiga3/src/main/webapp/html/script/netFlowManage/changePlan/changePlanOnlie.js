@@ -143,6 +143,7 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+		//变更计划名称下拉框
 		queryOnlinePlanName: function() {
 			var self = this;
 			Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {

@@ -88,8 +88,8 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>关联用例集</label><i class="text-red">*</i>
-                                                <select name="collectId" class="form-control input-sm" data-url="getCollectIdList" data-idkey="collectId" data-namekey="collectName">
-                                                    <option value="">请选择</option>
+                                                <select name="collectId" id="SELT_collectIdss" class="form-control select2" style="width: 100%;">
+                                                    
                                                 </select>
                                                 <input type="hidden" name="onlinePlan" value="">
                                                 <input type="hidden" name="taskId" value="">
@@ -346,6 +346,12 @@
     </div>
 </div>
 <!--22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222-->
+<script id="TPL_getCollectId" type="text/x-handlebars-template">
+    <option value="">请选择</option>
+    {{#each this}}
+    <option value="{{collectId}}">{{collectName}}</option>
+    {{/each}}
+</script>
 <script id="TPL_getOnlineTaskList" type="text/x-handlebars-template">
     <div class="box-header ">
         <h3 class="box-title">变更计划列表</h3>

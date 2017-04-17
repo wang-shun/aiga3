@@ -193,7 +193,7 @@ define(function(require,exports,module){
 						$("#JS_rollback").bind('click',function(){
 							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
 							cmd = cmd + "&planId=" +data.onlinePlan;*/
-							Rose.ajax.postJson(srvMap.get('rollback'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+							Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
 								if(status) {
 									XMS.msgbox.show('回退成功！', 'success', 2000)
 									/*setTimeout(function(){

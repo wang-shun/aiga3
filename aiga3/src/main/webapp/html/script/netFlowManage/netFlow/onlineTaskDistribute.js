@@ -727,16 +727,16 @@ define(function(require, exports, module) {
 
             });
             Handlebars.registerHelper('getDealState', function(value, fn) {
-                if (value == "0") {
+                if (value == "1") {
                     return "未分派";
                 }
-                if (value == "1") {
+                if (value == "2") {
                     return "处理中";
                 }
-                if (value == "2") {
+                if (value == "3") {
                     return "完成";
                 }
-                if (value == "3") {
+                if (value == "4") {
                     return "不需分派";
                 }
 

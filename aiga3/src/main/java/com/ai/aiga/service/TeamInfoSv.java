@@ -317,7 +317,7 @@ public class TeamInfoSv extends BaseService {
 		return result;
 		
 	}
-  public Object list(int pageNumber, int pageSize,Long teamId) throws ParseException {
+  public Object list(int pageNumber, int pageSize,Long teamId,NaEmployeeInfo condition) throws ParseException {
 		List<String> list = new ArrayList<String>();
 		list.add("id");
 		list.add("emName");
@@ -328,7 +328,13 @@ public class TeamInfoSv extends BaseService {
 		list.add("ext1");
 		
 		String sql = "select a.* from Na_Employee_Info a,Na_Team_Employee_Rel b where b.team_Id="+teamId+" and b.emp_Id=a.id  ";
-		
+		if(condition.getId()!=null){
+			sql+=" and a.id="+condition.getId();
+		}
+		if(StringUtils.isNotBlank(condition.getEmName())){
+			sql+=" and a.em_name like '%"+condition.getEmName()+"%'";
+			
+		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}

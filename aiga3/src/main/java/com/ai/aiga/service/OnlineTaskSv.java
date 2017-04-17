@@ -71,9 +71,26 @@ public class OnlineTaskSv extends BaseService{
 	 */
 	public Object list(NaOnlineTaskDistribute condition, int pageNumber, int pageSize) {
 		
-		String sql = "select a.online_plan, a.online_plan_name, a.task_id, a.task_name, a.task_type, a.deal_state,"
-				+ " a.assign_date, b.name as assign_name, (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
-				+ " from na_online_task_distribute a, aiga_staff b where a.assign_id = b.staff_id  and a.parent_task_id = 0";
+		String sql = "select a.online_plan,"
+						    +" a.online_plan_name,"
+						      +"  a.task_id,"
+						      +"   a.task_name,"
+						      +"    a.task_type,"
+						      +"     a.deal_state,"
+						      +"  a.assign_date,"
+						      +"   (select name from aiga_staff where staff_id = a.assign_id) as assign_name,"
+						     +"    (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
+						     +"  from na_online_task_distribute a"
+						    +"  where a.parent_task_id = 0"
+					       +"	  group by a.online_plan,"
+						   +"         a.online_plan_name,"
+						   +"         a.task_id,"
+						   +"          a.task_name,"
+						    +"      a.task_type,"
+						    +"      a.deal_state,"
+						    +"        a.assign_date,"
+						     +"        a.assign_id,"
+						     +"      a.deal_op_id ";
 		if(condition.getTaskName() != null){
 			sql += " and a.task_name like '%"+condition.getTaskName()+"%'";
 		}
@@ -161,12 +178,16 @@ public class OnlineTaskSv extends BaseService{
 	 * @Description:
 	 * @param taskIds          
 	 */
-	public void delete(Long taskIds) {
+	public void delete(String taskIds) {
 		
 		if(taskIds == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskIds");
 		}
-		naOnlineTaskDistributeDao.delete(taskIds);
+		String taskId[] = taskIds.split(",");
+		for (String id : taskId) {
+			naOnlineTaskDistributeDao.delete(Long.parseLong(id));
+		}
+
 	}
 
 	/**
@@ -226,7 +247,7 @@ public class OnlineTaskSv extends BaseService{
 			subTaskGroup.setTaskName(onlineTaskRequest.getTaskName()+"_用例组");
 			subTaskGroup.setParentTaskId(onlineTaskRequest.getParentTaskId());
 			subTaskGroup.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTaskGroup.setTaskType(2L);
+			subTaskGroup.setTaskType(3L);
 			subTaskGroup.setDealState(1L);
 			subTaskGroup.setAssignDate(new Date());
 			
@@ -272,7 +293,7 @@ public class OnlineTaskSv extends BaseService{
 			planResultGroup.setState((byte) 0);
 			
 			//将选中用例集下手工用例关联到回归子任务处理结果表
-			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 2L);
+			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
 			//判断是否需要生成自动化子任务
 			List<NaAutoCollGroupCase> list = naAutoCollGroupCaseDao.findByCollectIdAndElementType(onlineTaskRequest.getCollectId(), 2L);
 			//判断是否需要生成用例组子任务
@@ -296,7 +317,7 @@ public class OnlineTaskSv extends BaseService{
 				
 				naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId(), 0L);
 			}
-			
+			naOnlineTaskDistributeDao.updateParentTaskDealState(onlineTaskRequest.getParentTaskId());
 		}
 	}
 
@@ -328,9 +349,9 @@ public class OnlineTaskSv extends BaseService{
 	 * @Description:
 	 * @return          
 	 */
-	public List<NaAutoCollection> collect() {
+	public List<NaAutoCollection> collect(Long caseType) {
 		
-		List<NaAutoCollection> list = naAutoCollectionDao.findAll();
+		List<NaAutoCollection> list = naAutoCollectionDao.findByCaseType(caseType);
 		return list;
 	}
 

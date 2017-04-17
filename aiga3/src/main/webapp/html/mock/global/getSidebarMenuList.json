@@ -136,15 +136,15 @@
                 "name": "验收任务处理",
                 "viewname": "#",
                 "subMenus": [{
-                    "funcId": 32,
+                    "funcId": 311,
                     "name": "功能验收任务处理",
                     "viewname": "view/netFlowManage/taskProcess/funTaskProcess.html"
                 }, {
-                    "funcId": 55,
+                    "funcId": 312,
                     "name": "性能验收任务处理",
                     "viewname": "view/netFlowManage/taskProcess/perTaskProcess.html"
                 }, {
-                    "funcId": 54,
+                    "funcId": 313,
                     "name": "其他验收任务处理",
                     "viewname": "view/netFlowManage/taskProcess/publicTaskProcess.html"
                 }]
@@ -156,7 +156,12 @@
         }, {
             "funcId": 33,
             "name": "变更评审",
-            "viewname": "#"
+            "viewname": "#",
+            "subMenus": [{
+                "funcId": 331,
+                "name": "变更评审任务分派",
+                "viewname": "view/netFlowManage/changeReview/changeReview.html"
+            }]
         }, {
             "funcId": 34,
             "name": "变更发布",

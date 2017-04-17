@@ -66,15 +66,15 @@ public class OnlineTaskController {
 	}
 	
 	@RequestMapping(path = "/accept/onlineTask/delete")
-	public @ResponseBody JsonBean delete(Long taskId){
-		onlineTaskSv.delete(taskId);
+	public @ResponseBody JsonBean delete(String taskIds){
+		onlineTaskSv.delete(taskIds);
 		return JsonBean.success;
 	}
 	
 	@RequestMapping(path = "/accept/onlineTask/collect")
-	public @ResponseBody JsonBean collect(){
+	public @ResponseBody JsonBean collect(Long caseType){
 		JsonBean bean = new JsonBean();
-		bean.setData(onlineTaskSv.collect());
+		bean.setData(onlineTaskSv.collect(1L));//暂时写死
 		return bean;
 	}
 	

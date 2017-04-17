@@ -56,8 +56,8 @@ public class AutoCaseSv {
     private NaUiControlDao controlDao;
     /**
      * 保存操作(唯一入口)
-     * @param autoCase
-     * @return
+     * @param autoCase 自动化用例对象
+     * @return NaAutoCase
      */
     public NaAutoCase save(NaAutoCase autoCase){
         if (autoCase == null) {
@@ -96,8 +96,8 @@ public class AutoCaseSv {
 
     /**
      * 根据自动化用例模板ID复制数据生成自动化用例基础信息(只复制用例基础属性，不复制组件参数)
-     * @param tempId
-     * @return
+     * @param tempId  自动化用例模板ID
+     * @return NaAutoCase
      */
     private NaAutoCase copyCaseByTempId(Long tempId){
         if (tempId == null) {
@@ -113,7 +113,7 @@ public class AutoCaseSv {
 
     /**
      * 根据自动化用例模板ID复制用例数据和组件参数信息
-     * @param tempId
+     * @param tempId 自动化用例模板ID
      */
     private NaAutoCase copyCaseCompByTempId(Long tempId){
         if (tempId == null) {
@@ -128,8 +128,8 @@ public class AutoCaseSv {
 
     /**
      * 通过测试用例主键复制数据生成自动化用例基础信息
-     * @param testId
-     * @return
+     * @param testId 测试用例ID
+     * @return NaAutoCase
      */
     private NaAutoCase copyCaseByTestId(Long testId){
         if (testId == null) {
@@ -148,8 +148,8 @@ public class AutoCaseSv {
 
     /**
      * 根据传递的请求参数信息保存用例、组件、参数(带有autoId则修改，不带则新增)
-     * @param autoCaseRequest
-     * @return
+     * @param autoCaseRequest 页面请求参数
+     * @return NaAutoCase
      */
     public NaAutoCase saveAutoCaseCompParam(AutoCaseRequest autoCaseRequest){
         if (autoCaseRequest == null) {
@@ -194,7 +194,7 @@ public class AutoCaseSv {
 
     /**
      * 先复制数据到删除备份表，在删除原数据（唯一入口）
-     * @param autoId
+     * @param autoId 自动化用例ID
      */
     public void delete(Long autoId){
         if (autoId == null) {
@@ -206,7 +206,7 @@ public class AutoCaseSv {
 
     /**
      * 通过请求参数删除
-     * @param autoCaseRequest
+     * @param autoCaseRequest 页面请求参数
      */
     public void delete(AutoCaseRequest autoCaseRequest){
         if (autoCaseRequest == null) {
@@ -217,8 +217,8 @@ public class AutoCaseSv {
 
     /**
      * 根据主键ID查询自动化用例信息（唯一入口）
-     * @param autoId
-     * @return
+     * @param autoId 自动化用例ID
+     * @return NaAutoCase
      */
     public NaAutoCase findById(Long autoId){
         if (autoId == null) {
@@ -233,8 +233,8 @@ public class AutoCaseSv {
 
     /**
      * 根据用例名称查询
-     * @param autoName
-     * @return
+     * @param autoName 自动化用例名称
+     * @return NaAutoCase
      */
     public NaAutoCase findByAutoName(String autoName){
         if (StringUtils.isBlank(autoName)) {
@@ -249,8 +249,8 @@ public class AutoCaseSv {
 
     /**
      * 根据主键ID查询自动化用例信息（包括用例信息、组件、参数）
-     * @param autoCaseRequest
-     * @return
+     * @param autoCaseRequest 页面请求参数
+     * @return 查询到具体信息
      */
     public AutoCaseRequest findById(AutoCaseRequest autoCaseRequest){
         if (autoCaseRequest == null) {
@@ -267,10 +267,10 @@ public class AutoCaseSv {
 
     /**
      * 根据原生SQL分页查询自动化用例信息(包括属性ID的描述信息)
-     * @param condition
-     * @param pageNumber
-     * @param pageSize
-     * @return
+     * @param condition 查询条件对象
+     * @param pageNumber 页数
+     * @param pageSize 每页数量
+     * @return 分页的数据
      */
     public Object listbyNativeSQL(AutoCaseRequest condition,int pageNumber, int pageSize){
         StringBuilder nativeSql=new StringBuilder("select a.auto_id,a.test_id,a.temp_id,a.test_type,a.case_type,a.auto_name,\n" +
@@ -362,19 +362,19 @@ public class AutoCaseSv {
 
     /**
      * 判断是否存在重复名称的自动化用例(存在返回true，不存在false)
-     * @param autoName
-     * @param autoId
-     * @return
+     * @param autoName 自动化用例名称
+     * @param autoId 自动化用例ID
+     * @return boolean
      */
-    public boolean isExisting(String autoName,Long autoId){
+    private boolean isExisting(String autoName,Long autoId){
         NaAutoCase autoCase=autoCaseDao.findByAutoName(autoName);
-        return autoCase!=null ? !autoCase.getAutoId().equals(autoId) : false;
+        return autoCase != null && autoCase.getAutoId().equals(autoId);
     }
 
     /**
      * 根据任务ID和用例名称返回json信息
-     * @param autoName
-     * @return
+     * @param autoName 任务ID_自动化用例名称
+     * @return JSON串
      */
     public String getCaseByAutoNameToJson(String autoName){
         if (StringUtils.isBlank(autoName)) {
@@ -417,7 +417,7 @@ public class AutoCaseSv {
     /**
      * 获取自动化用例的参数值
      * @param taskIdAutoId 传入参数为taskId_autoId格式字符串，需解析出autoId
-     * @return
+     * @return JSON串
      */
     public String getParamValueByautoIdToJson(String taskIdAutoId){
         if (StringUtils.isBlank(taskIdAutoId)) {

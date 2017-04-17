@@ -42,8 +42,8 @@ public class AutoTemplateSv {
 
     /**
      * 保存操作（唯一入口）
-     * @param autoTemplate
-     * @return
+     * @param autoTemplate 自动化用例模板对象
+     * @return NaAutoTemplate
      */
     public NaAutoTemplate save(NaAutoTemplate autoTemplate){
         if (autoTemplate == null) {
@@ -75,8 +75,8 @@ public class AutoTemplateSv {
     
     /**
      * 通过请求参数保存自动化用例模板信息
-     * @param autoTemplateRequest
-     * @return
+     * @param autoTemplateRequest 页面请求参数
+     * @return NaAutoTemplate
      */
     public NaAutoTemplate saveOrUpdate(AutoTemplateRequest autoTemplateRequest){
         if (autoTemplateRequest == null) {
@@ -87,8 +87,8 @@ public class AutoTemplateSv {
 
     /**
      * 根据主键获取单个自动化用例模板信息，并将属性ID转为具体值
-     * @param autoTemplateRequest
-     * @return
+     * @param autoTemplateRequest 页面请求参数
+     * @return 返回具体对象
      */
     public AutoTemplateRequest findById(AutoTemplateRequest autoTemplateRequest){
         if (autoTemplateRequest == null) {
@@ -108,8 +108,8 @@ public class AutoTemplateSv {
 
     /**
      * 根据主键查询自动化用例模板信息（唯一入口）
-     * @param tempId
-     * @return
+     * @param tempId 自动化用例模板ID
+     * @return NaAutoTemplate
      */
     public NaAutoTemplate findById(Long tempId){
         if (tempId == null) {
@@ -124,7 +124,7 @@ public class AutoTemplateSv {
 
     /**
      * 查询所有自动化用例模板信息（唯一入口）
-     * @return
+     * @return NaAutoTemplate集合
      */
     public List<NaAutoTemplate> list(){
         return autoTemplateDao.findAll();
@@ -132,10 +132,10 @@ public class AutoTemplateSv {
 
     /**
      * 分页根据条件查询自动化用例模板(属性都是ID，不转换为描述)
-     * @param condition
-     * @param pageNumber
-     * @param pageSize
-     * @return
+     * @param condition 查询条件对象
+     * @param pageNumber 页数
+     * @param pageSize 每页数量
+     * @return 分页的数据
      */
     public Object listTemplate(AutoTemplateRequest condition, int pageNumber, int pageSize) {
 
@@ -187,10 +187,10 @@ public class AutoTemplateSv {
 
     /**
      * 根据原生SQL分页查询自动化用例模板信息(包括属性ID的描述信息)
-     * @param condition
-     * @param pageNumber
-     * @param pageSize
-     * @return
+     * @param condition 查询条件对象
+     * @param pageNumber 页数
+     * @param pageSize 每页数量
+     * @return 分页数据
      */
     public Object listbyNativeSQL(AutoTemplateRequest condition, int pageNumber, int pageSize){
         StringBuilder nativeSql=new StringBuilder("select a.temp_Id,a.case_Id,e.case_Name,a.case_Type,a.test_Type,\n" +
@@ -265,7 +265,7 @@ public class AutoTemplateSv {
 
     /**
      * 通过请求参数先复制数据到删除记录表，再执行删除操作
-     * @param request
+     * @param request 页面请求参数
      */
     public void delete(AutoTemplateRequest request){
         if (request == null) {
@@ -276,7 +276,7 @@ public class AutoTemplateSv {
 
     /**
      * 根据主键先复制数据到删除记录表，再执行删除操作（唯一入口）
-     * @param tempId
+     * @param tempId 自动化用例模板ID
      */
     public void delete(Long tempId){
         if (tempId == null) {
@@ -293,9 +293,9 @@ public class AutoTemplateSv {
 
     /**
      * 根据用例模板ID和自动化用例模板名称复制数据
-     * @param caseId
-     * @param tempName
-     * @return
+     * @param caseId 用例模板ID
+     * @param tempName 自动化用例模板名称
+     * @return NaAutoTemplate
      */
     private NaAutoTemplate copyCaseToAuto(Long caseId,String tempName){
         //校验用例模板数据是否存在
@@ -310,8 +310,8 @@ public class AutoTemplateSv {
 
     /**
      * 保存自动化用例模板与组件关系
-     * @param templateRequest
-     * @return
+     * @param templateRequest 页面请求参数
+     * @return NaAutoTemplate
      */
     public NaAutoTemplate saveList(AutoTemplateRequest templateRequest){
         if (templateRequest == null) {
@@ -345,12 +345,12 @@ public class AutoTemplateSv {
 
     /**
      * 判断是否存在重复名称的自动化用例模板(存在返回true，不存在false)
-     * @param tempName
-     * @param tempId
-     * @return
+     * @param tempName 自动化用例模板名称
+     * @param tempId 模板ID
+     * @return boolean
      */
-    public boolean isExisting(String tempName,Long tempId){
+    private boolean isExisting(String tempName,Long tempId){
         NaAutoTemplate template=autoTemplateDao.findByTempName(tempName);
-        return template!=null ? !template.getTempId().equals(tempId) : false;
+        return template != null && template.getTempId().equals(tempId);
     }
 }

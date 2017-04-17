@@ -177,8 +177,11 @@ public class SubTaskDealSv extends BaseService{
 			if(request.getBug() != null){
 				result.setBug(request.getBug());
 			}
+			//修改用例状态为已处理
+			result.setCaseState((byte)1);
 			naPlanCaseResultDao.save(result);
 		}
+		//修改子任务状态是处理中
 	}
 
 	/**

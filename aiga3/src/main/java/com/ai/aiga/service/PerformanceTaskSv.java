@@ -173,15 +173,18 @@ public class PerformanceTaskSv extends BaseService{
 		}
 		if(request.getList() != null && request.getList().size() > 0){
 			for(int i = 0; i < request.getList().size(); i++){
-				NaInterfaceList naInterfaceList = request.getList().get(i);
-				NaPlanCaseResultExpSum exp = new NaPlanCaseResultExpSum();
-				exp.setSubTaskId(request.getTaskId());
-				exp.setCaseType(request.getTaskType());
-				exp.setInterId(naInterfaceList.getId());
-				exp.setInterCode(naInterfaceList.getServiceId());
-				exp.setCaseState(0L);
-				naPlanCaseResultExtSumDao.save(exp);
-				naInterfaceListDao.updateState(naInterfaceList.getId());
+				NaInterfaceList naInterfaceList = request.getList().get(i);;
+				NaPlanCaseResultExpSum sum = naPlanCaseResultExtSumDao.findBySubTaskIdAndInterId(request.getTaskId(),naInterfaceList.getId());
+				if(sum == null){
+					NaPlanCaseResultExpSum exp = new NaPlanCaseResultExpSum();
+					exp.setSubTaskId(request.getTaskId());
+					exp.setCaseType(request.getTaskType());
+					exp.setInterId(naInterfaceList.getId());
+					exp.setInterCode(naInterfaceList.getServiceId());
+					exp.setCaseState(0L);
+					naPlanCaseResultExtSumDao.save(exp);
+					naInterfaceListDao.updateState(naInterfaceList.getId());
+				}	
 			}
 		}
 	}

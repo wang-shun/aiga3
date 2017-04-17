@@ -98,10 +98,9 @@ public class PerformanceTaskSv extends BaseService{
 			}
 			naOnlineTaskDistributeDao.save(distribute);
 			
-			//更新父任务状态是处理中1
-			System.out.println("naOnlineTaskDistribute.getParentTaskId()"+naOnlineTaskDistribute.getParentTaskId());
-			naOnlineTaskDistributeDao.updateParentTaskDealState(naOnlineTaskDistribute.getParentTaskId());
 		}
+		//更新父任务状态是处理中1
+		naOnlineTaskDistributeDao.updateParentTaskDealState(naOnlineTaskDistribute.getParentTaskId());
 	}
 
 	/**

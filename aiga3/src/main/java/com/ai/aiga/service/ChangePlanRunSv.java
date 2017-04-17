@@ -71,7 +71,7 @@ public class ChangePlanRunSv extends BaseService{
 			if(StringUtils.isNotBlank(time2)){
 				sql += " and a.plan_date < to_date('"+time2+"','YYYY-MM-DD HH24:MI:SS')";
 			}
-			sql += "  order by a.create_date desc ";
+			sql += "  order by a.plan_date desc ";
 		}
 		List<String> list = new ArrayList<String>();
 		list.add("onlinePlan");
@@ -184,7 +184,7 @@ public class ChangePlanRunSv extends BaseService{
 				distribute.setTaskName(object[1].toString());
 				distribute.setTaskType(((BigDecimal) object[2]).longValue());
 				distribute.setDealState(((BigDecimal) object[3]).longValue());
-				distribute.setDealName(object[4].toString());
+				distribute.setDealName(object[4]==null?"":object[4].toString());
 				responses.add(distribute);
 			}
 		}

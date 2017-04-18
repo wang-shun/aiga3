@@ -3,13 +3,13 @@ package test;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepositoryImpl;
+
 public class Test {
 	
 	public static void main(String[] args) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("a", "cd");
-		map.put("a", "qa");
-		System.out.println(map.get("a"));
+	
+   
 	}
 
 }

@@ -62,7 +62,7 @@ public class SubTaskDealSv extends BaseService{
 				+ " from na_online_task_distribute a "
 				+ "left join na_online_task_distribute b on  a.parent_task_id = b.task_id "
 				+ "left join na_online_task_result c on a.task_id = c.task_id"
-				+ " and a.parent_task_id <> 0";
+				+ " where a.parent_task_id <> 0 ";
 		
 		if(condition.getTaskType() != null){
 			sql += " and b.task_type = "+condition.getTaskType();

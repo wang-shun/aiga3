@@ -51,15 +51,15 @@ public class NaChangePlanOnileController {
 		return JsonBean.success;
 	}
 	
-	//添加上线总结修改
+	/*//添加上线总结修改
 	@RequestMapping(path = "/sys/changeplanonile/resultsave")
 	public @ResponseBody JsonBean resultsave(NaChangePlanOnileRequest request){
 		naChangePlanOnileSv.summaryChangePlanOnile(request);
 		return JsonBean.success;
 	}
+	*/
 	
-	
-	//添加上线总结提交
+	//添加上线总结
 	@RequestMapping(path = "/sys/changeplanonile/resultupdate")
 	public @ResponseBody JsonBean resultupdate(NaChangePlanOnileRequest request){
 		naChangePlanOnileSv.select(request);

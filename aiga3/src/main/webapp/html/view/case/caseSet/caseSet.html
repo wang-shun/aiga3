@@ -73,7 +73,38 @@
     </div>
 </div>
 <!-- -->
-
+<script id="TPL_getCaseSetSysList" type="text/x-handlebars-template">
+    <select name="sysId" class="form-control select2 input-sm">
+        <option value=""></option>
+        {{#each this}}
+        <option value="{{sysId}}">{{sysName}}</option>
+        {{/each}}
+    </select>
+</script>
+<script id="TPL_getCaseSetSubSysList" type="text/x-handlebars-template">
+    <select name="subSysId" class="form-control select2 input-sm">
+        <option value=""></option>
+        {{#each this}}
+        <option value="{{subsysId}}">{{sysName}}</option>
+        {{/each}}
+    </select>
+</script>
+<script id="TPL_getCaseSetBusiList" type="text/x-handlebars-template">
+    <select name="busiId" class="form-control select2 input-sm">
+        <option value=""></option>
+        {{#each this}}
+        <option value="{{busiId}}">{{busiName}}</option>
+        {{/each}}
+    </select>
+</script>
+<script id="TPL_getCaseSetFunList" type="text/x-handlebars-template">
+    <select name="funId" class="form-control select2 input-sm">
+        <option value=""></option>
+        {{#each this}}
+        <option value="{{funId}}">{{sysName}}</option>
+        {{/each}}
+    </select>
+</script>
 <script>
     seajs.use("script/case/caseSet/getCaseSet", function(init) {
         init.init();

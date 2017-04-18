@@ -54,9 +54,13 @@ public class ChangePlanRunController {
 	/**
 	 * 变更计划下父任务分派情况*/
 	@RequestMapping(path = "/accept/changePlanRun/taskList")
-	public @ResponseBody JsonBean taskList(Long onlinePlan){
+	public @ResponseBody JsonBean taskList(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			Long onlinePlan,
+			String type){
 		JsonBean bean = new JsonBean();
-		bean.setData(changePlanRunSv.taskList(onlinePlan));
+		bean.setData(changePlanRunSv.taskList(onlinePlan, type, pageNumber, pageSize));
 		return bean;
 	}
 	/**

@@ -111,7 +111,7 @@ define(function(require, exports, module) {
 					//查找按钮
 					self.queryPerTaskList();
 					//同步测试结果
-					self.synTestResults("");
+					self.synTestResults();
 					//queTestResults查看测试结果
 					self.queTestResults();
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
@@ -145,7 +145,7 @@ define(function(require, exports, module) {
 		synTestResults: function() {
 			var self = this;
 			$(Dom.synTestResults).bind('click', function() {
-				Rose.ajax.postJson(srvMap.get('synTestResults'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('synTestResults'), '', function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('同步成功', 'success', 2000);
 						setTimeout(function() {

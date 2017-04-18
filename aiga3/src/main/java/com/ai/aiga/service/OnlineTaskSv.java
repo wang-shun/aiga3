@@ -14,12 +14,14 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoCollectionDao;
+import com.ai.aiga.dao.NaAutoGroupCaseDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.NaOnlineTaskResultDao;
 import com.ai.aiga.dao.NaPlanCaseResultDao;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
 import com.ai.aiga.domain.NaAutoCollection;
+import com.ai.aiga.domain.NaAutoGroupCase;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.domain.NaOnlineTaskResult;
 import com.ai.aiga.exception.BusinessException;
@@ -58,6 +60,10 @@ public class OnlineTaskSv extends BaseService{
 	@Autowired
 	private NaPlanCaseResultDao naPlanCaseResultDao;
 	
+	@Autowired
+	private NaAutoGroupCaseDao naAutoGroupCaseDao;
+	
+	
 	/**
 	 * @ClassName: OnlineTaskSv :: list
 	 * @author: dongch
@@ -81,17 +87,9 @@ public class OnlineTaskSv extends BaseService{
 						      +"   (select name from aiga_staff where staff_id = a.assign_id) as assign_name,"
 						     +"    (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
 						     +"  from na_online_task_distribute a"
-						    +"  where a.parent_task_id = 0"
-					       +"	  group by a.online_plan,"
-						   +"         a.online_plan_name,"
-						   +"         a.task_id,"
-						   +"          a.task_name,"
-						    +"      a.task_type,"
-						    +"      a.deal_state,"
-						    +"        a.assign_date,"
-						     +"        a.assign_id,"
-						     +"      a.deal_op_id ";
-		if(condition.getTaskName() != null){
+						    +"  where a.parent_task_id = 0";
+		
+		if(condition.getTaskName() != null && !condition.getTaskName().equals("")){
 			sql += " and a.task_name like '%"+condition.getTaskName()+"%'";
 		}
 		if(condition.getOnlinePlan() != null){
@@ -100,6 +98,15 @@ public class OnlineTaskSv extends BaseService{
 		if(condition.getDealState() != null){
 			sql += " and a.deal_state = "+condition.getDealState();
 		}
+		sql += " group by a.online_plan,"
+				+ " a.online_plan_name,"
+				+ " a.task_id,"
+				+ " a.task_name,"
+				+ " a.task_type,"
+				+ " a.deal_state,"
+				+ " a.assign_date,"
+				+ " a.assign_id,"
+				+ "  a.deal_op_id";
 		
 		List<String> list = new ArrayList<String>();
 		list.add("onlinePlan");
@@ -186,6 +193,7 @@ public class OnlineTaskSv extends BaseService{
 		String taskId[] = taskIds.split(",");
 		for (String id : taskId) {
 			naOnlineTaskDistributeDao.delete(Long.parseLong(id));
+			naPlanCaseResultDao.deleteBySubTaskId(Long.parseLong(id));
 		}
 
 	}
@@ -271,7 +279,7 @@ public class OnlineTaskSv extends BaseService{
 			planResult.setCreateDate(new Date());
 			planResult.setOpId(onlineTaskRequest.getDealOpId());
 			planResult.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResult.setDealType((byte) 2);
+			planResult.setDealType((byte) 2);//手工用例
 			planResult.setState((byte) 0);
 			planResult.setTaskId(subTask.getTaskId());
 			naOnlineTaskResultDao.save(planResult);
@@ -281,7 +289,7 @@ public class OnlineTaskSv extends BaseService{
 			planResultAuto.setCreateDate(new Date());
 			planResultAuto.setOpId(onlineTaskRequest.getDealOpId());
 			planResultAuto.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultAuto.setDealType((byte) 1);
+			planResultAuto.setDealType((byte) 1);//自动化用例
 			planResultAuto.setState((byte) 0);
 			
 			//创建用例组类型子任务结果
@@ -289,8 +297,8 @@ public class OnlineTaskSv extends BaseService{
 			planResultGroup.setCreateDate(new Date());
 			planResultGroup.setOpId(onlineTaskRequest.getDealOpId());
 			planResultGroup.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultGroup.setDealType((byte) 0);
-			planResultGroup.setState((byte) 0);
+			planResultGroup.setDealType((byte) 0);//用例组
+			planResultGroup.setState((byte) 0);//未处理
 			
 			//将选中用例集下手工用例关联到回归子任务处理结果表
 			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
@@ -306,7 +314,7 @@ public class OnlineTaskSv extends BaseService{
 				//发短信
 				//sendMessageForCycle(subTaskAuto.getTaskId());
 				
-				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
+				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 2L);
 			}
 			if(listGroup != null && listGroup.size() > 0){
 				naOnlineTaskDistributeDao.save(subTaskGroup);
@@ -314,8 +322,9 @@ public class OnlineTaskSv extends BaseService{
 				naOnlineTaskResultDao.save(planResultGroup);
 				//发短信
 				//sendMessageForCycle(subTaskGroup.getTaskId());
-				
-				naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId(), 0L);
+
+				naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId());
+
 			}
 			naOnlineTaskDistributeDao.updateParentTaskDealState(onlineTaskRequest.getParentTaskId());
 		}

@@ -117,10 +117,12 @@ public class TeamInfoController {
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			Long teamId) throws ParseException {
+			Long teamId,
+			NaEmployeeInfo  condition
+		) throws ParseException {
 		
 		  JsonBean bean = new JsonBean();
-		bean.setData(teamInfoSv.list(pageNumber, pageSize,teamId));
+		bean.setData(teamInfoSv.list(pageNumber, pageSize,teamId,condition));
 		return bean;
 	}
 }

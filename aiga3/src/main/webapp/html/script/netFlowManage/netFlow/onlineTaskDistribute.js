@@ -50,7 +50,9 @@ define(function(require, exports, module) {
         getManualResultList: $("#TPL_getManualResultList").html(),
         getAutoResultList: $("#TPL_getAutoResultList").html(),
         getPerSubtaskAssignmentList: $("#TPL_getPerSubtaskAssignmentList").html(),
-        getInterfaceList:$("#TPL_getInterfaceList").html()
+        getInterfaceList:$("#TPL_getInterfaceList").html(),
+        getCollectId:$("#TPL_getCollectId").html()
+        
 
     };
 
@@ -69,7 +71,8 @@ define(function(require, exports, module) {
         getPerSubtaskAssignmentList:'#JS_getPerSubtaskAssignmentList',
         addPerSubtaskAssignmentForm:'#JS_addPerSubtaskAssignmentForm',
         getInterfaceList:"#JS_getInterfaceList",
-        queInterfaceForm:"#JS_queInterfaceForm"
+        queInterfaceForm:"#JS_queInterfaceForm",
+        collectIdss:'#SELT_collectIdss'
 
     };
 
@@ -140,13 +143,25 @@ define(function(require, exports, module) {
                                     //_form.find("[name='onlinePlanId']").val(data.onlinePlanId);
                                     // 显示弹框
 
+
                                     var _modal = $(Dom.getOnlineTaskDistributeModal);
                                     _modal.modal('show').on('shown.bs.modal', function() {
                                         var template = Handlebars.compile(Tpl.getOnlineTaskDistributeList);
                                         var _dom = $(Dom.getOnlineTaskDistributeList);
+                                        
                                         _dom.html(template(json.data));
                                         // 初始化步骤
                                         Utils.initStep(_modal);
+                                        //加载用例集类型下拉框
+                                        Rose.ajax.postJson(srvMap.get('getCollectIdList'), "caseType=1", function(json, status) {
+                                            if (true) {
+                                                // _dom.find("[name='dealOpId']");
+                                                console.log(json.data);
+                                                var template = Handlebars.compile(Tpl.getCollectId);
+                                               $ (Dom.collectIdss).html(template(json.data));
+                                            }
+                                        });
+                                        
                                         self.addOnlineTask();
                                         self.updateOnlineTask();
                                         self.delOnlineTask();
@@ -712,31 +727,31 @@ define(function(require, exports, module) {
         },
         registerHelper: function() {
             Handlebars.registerHelper('getState', function(value, fn) {
-                if (value == "0") {
-                    return "未分派";
-                }
                 if (value == "1") {
-                    return "处理中";
+                    return "新增";
                 }
                 if (value == "2") {
-                    return "完成";
+                    return "处理中";
                 }
                 if (value == "3") {
+                    return "完成";
+                }
+                if (value == "4") {
                     return "不需分派";
                 }
 
             });
             Handlebars.registerHelper('getDealState', function(value, fn) {
-                if (value == "0") {
+                if (value == "1") {
                     return "未分派";
                 }
-                if (value == "1") {
+                if (value == "2") {
                     return "处理中";
                 }
-                if (value == "2") {
+                if (value == "3") {
                     return "完成";
                 }
-                if (value == "3") {
+                if (value == "4") {
                     return "不需分派";
                 }
 

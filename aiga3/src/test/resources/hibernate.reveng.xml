@@ -18,8 +18,7 @@
 
 				<!-- <schema-selection match-schema="AIGA"  match-table="NA_SYSTEM_ARCHITECTURE_LIST"/>
 
-				<!--	<schema-selection match-schema="AIGA"  match-table="NA_SYSTEM_ARCHITECTURE_LIST"/>
-
+				
 				<schema-selection match-schema="AIGA"  match-table="NA_GROUP_REQUIRE_LIST"/>
 				<schema-selection match-schema="AIGA"  match-table="NA_GROUP_ADJUST_LIST"/>
 				<schema-selection match-schema="AIGA"  match-table="NA_HAS_DEPLOY_MENU_LIST"/>

@@ -172,7 +172,7 @@ public class ReleaseReportSv extends BaseService{
 			List<Condition> cons = new ArrayList<Condition>();
 				
 				if(condition != null){
-					if(condition.getPlanId()!= 0){
+					if(condition.getPlanId()!= null){
 						cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 					}
 				}
@@ -196,7 +196,7 @@ public class ReleaseReportSv extends BaseService{
 			List<Condition> cons = new ArrayList<Condition>();
 				
 				if(condition != null){
-					if(condition.getPlanId()!= 0){
+					if(condition.getPlanId()!= null){
 						cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 					}
 				}
@@ -220,7 +220,7 @@ public class ReleaseReportSv extends BaseService{
 			List<Condition> cons = new ArrayList<Condition>();
 				
 				if(condition != null){
-					if(condition.getPlanId()!= 0){
+					if(condition.getPlanId()!= null){
 						cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 					}
 				}
@@ -245,7 +245,7 @@ public class ReleaseReportSv extends BaseService{
 			List<Condition> cons = new ArrayList<Condition>();
 				
 				if(condition != null){
-					if(condition.getPlanId()!= 0){
+					if(condition.getPlanId()!= null){
 						cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
 					}
 				}

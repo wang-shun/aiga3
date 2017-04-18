@@ -3,6 +3,9 @@ package com.ai.aiga.dao.jpa;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.jpa.internal.QueryImpl;
+import org.hibernate.transform.Transformers;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,7 +18,12 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
         SimpleJpaRepository<T, ID> implements SearchAndPageRepository<T, ID> {
@@ -322,29 +330,69 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
     
     
     @Override
-    public Page<T> searchByNativeSQLS(String nativeSQL, Pageable pageable) {
+    public List<Object> searchBySql(String nativeSQL) throws Exception {
+    	List<Object>  result = new ArrayList<Object>();
         if (!StringUtils.isBlank(nativeSQL)) {
-            Query query = entityManager.createNativeQuery(nativeSQL);
-            Query count=entityManager.createNativeQuery("select count(*) from ("+nativeSQL+")");
-            Long total = Long.parseLong(count.getSingleResult().toString());//获取总数据行数
-            query.setFirstResult(pageable.getOffset());//设置起始行
-            query.setMaxResults(pageable.getPageSize());//设置最大查询结果数
-            List reList = new ArrayList();//存放封装后的数据
-            List<Object> content = total > pageable.getOffset() ? query.getResultList() : reList;
-            //根据keyList键值封装数据，keyList键值必须与SQL里数量和顺序一致
-            if (content != null && content.size() > 0) {
-//                for (Object obj : content) {
-//                    Object[] ary = (Object[]) obj;
-//                    Map<String, String> map = new HashMap<String, String>();
-//                    for (int i = 0; i < keyList.size(); i++) {
-//                        map.put(keyList.get(i), ary[i] != null ? ary[i].toString() : "");
-//                    }
-//                    reList.add(map);
-  //              }
+        	SessionImplementor session =entityManager.unwrap(SessionImplementor.class);
+            Connection con =session.connection();
+            ResultSet rs = con.createStatement().executeQuery(nativeSQL);
+            ResultSetMetaData date =  rs.getMetaData();
+            while(rs.next()){
+            	Map<String, Object> map = new HashMap<String, Object>();
+            	for (int i=1; i<date.getColumnCount();i++) {
+            		map.put(getColumnName(date.getColumnName(i).toString()), rs.getObject(date.getColumnName(i).toString()));
+				}
+            	result.add(map);
             }
-            return new PageImpl<T>(reList, pageable, total);
-        } else {
-            return new PageImpl<T>(new ArrayList<T>());
+        }
+          return result;
+    }
+    
+    /**
+     * 将数据库列名转换成对象属性
+     * @param name
+     * @return
+     */
+			public String getColumnName(String name){
+				StringBuilder s = new StringBuilder();
+				if(name!=null&&!"".equals(name)){
+					String[] content = name.split("_");
+					s.append(content[0].toLowerCase());
+					for(int i=1;i<content.length;i++){
+						s.append(content[i].substring(0, 1));
+						s.append(content[i].substring(1).toLowerCase());
+					}
+					return s.toString();
+				}
+				return "";
+			}
+    
+    @Override
+    public Page<T> searchByNativeSQLS(String nativeSQL, Pageable pageable) throws Exception {
+        if (!StringUtils.isBlank(nativeSQL)) {
+        	 Long  counts = 0L;
+        	List result = new ArrayList();
+            if (!StringUtils.isBlank(nativeSQL)) {
+            	SessionImplementor session =entityManager.unwrap(SessionImplementor.class);
+                Connection con =session.connection();
+                String sql = "SELECT * FROM   (  SELECT A.*, ROWNUM RN   FROM ("+nativeSQL+") A   WHERE ROWNUM <= "+pageable.getPageSize()*(pageable.getPageNumber()+1)+"  )  WHERE RN >= "+pageable.getPageSize()*pageable.getPageNumber();
+                ResultSet rs = con.createStatement().executeQuery(sql);
+                ResultSet rscounts = con.createStatement().executeQuery("select count(*) from ("+nativeSQL+")");
+                while(rscounts.next()){
+                	counts = rscounts.getLong(1);
+                }
+                ResultSetMetaData date =  rs.getMetaData();
+                while(rs.next()){
+                	Map<String, Object> map = new HashMap<String, Object>();
+                	for (int i=1; i<date.getColumnCount();i++) {
+                		map.put(getColumnName(date.getColumnName(i).toString()), rs.getObject(date.getColumnName(i).toString()));
+    				}
+                	result.add(map);
+                }
+            }
+            return new PageImpl<T>(result, pageable, counts);
+        }else{ 
+          return new PageImpl<T>(new ArrayList<T>());
         }
     }
 

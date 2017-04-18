@@ -1,13 +1,10 @@
 package com.ai.aiga.domain;
-// Generated 2017-4-13 14:18:43 by Hibernate Tools 3.2.2.GA
+// Generated 2017-4-17 19:14:39 by Hibernate Tools 3.2.2.GA
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -20,7 +17,7 @@ import javax.persistence.Table;
 public class NaTestSituation  implements java.io.Serializable {
 
 
-     private Long testId;
+     private long testId;
      private String sysName;
      private String subSysName;
      private String testSituation;
@@ -28,24 +25,17 @@ public class NaTestSituation  implements java.io.Serializable {
      private String ext2;
      private String ext3;
      private Long planId;
-     @Column(name="PLAN_ID", unique=true, nullable=false, precision=14, scale=0)
-   public Long getPlanId() {
-		return planId;
-	}
-
-
-	public void setPlanId(Long planId) {
-		this.planId = planId;
-	}
+     private String ext4;
+     private String ext5;
 
     public NaTestSituation() {
     }
 
 	
-    public NaTestSituation(Long testId) {
+    public NaTestSituation(long testId) {
         this.testId = testId;
     }
-    public NaTestSituation(Long testId, String sysName, String subSysName, String testSituation, String ext1, String ext2, String ext3) {
+    public NaTestSituation(long testId, String sysName, String subSysName, String testSituation, String ext1, String ext2, String ext3, Long planId, String ext4, String ext5) {
        this.testId = testId;
        this.sysName = sysName;
        this.subSysName = subSysName;
@@ -53,17 +43,19 @@ public class NaTestSituation  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
+       this.planId = planId;
+       this.ext4 = ext4;
+       this.ext5 = ext5;
     }
    
      @Id 
-     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_TEST_SITUATION$SEQ")
-     @SequenceGenerator(name="NA_TEST_SITUATION$SEQ",sequenceName="NA_TEST_SITUATION$SEQ",allocationSize=1)
+    
     @Column(name="TEST_ID", unique=true, nullable=false, precision=12, scale=0)
-    public Long getTestId() {
+    public long getTestId() {
         return this.testId;
     }
     
-    public void setTestId(Long testId) {
+    public void setTestId(long testId) {
         this.testId = testId;
     }
     
@@ -119,6 +111,33 @@ public class NaTestSituation  implements java.io.Serializable {
     
     public void setExt3(String ext3) {
         this.ext3 = ext3;
+    }
+    
+    @Column(name="PLAN_ID", precision=14, scale=0)
+    public Long getPlanId() {
+        return this.planId;
+    }
+    
+    public void setPlanId(Long planId) {
+        this.planId = planId;
+    }
+    
+    @Column(name="EXT_4", length=20)
+    public String getExt4() {
+        return this.ext4;
+    }
+    
+    public void setExt4(String ext4) {
+        this.ext4 = ext4;
+    }
+    
+    @Column(name="EXT_5", length=20)
+    public String getExt5() {
+        return this.ext5;
+    }
+    
+    public void setExt5(String ext5) {
+        this.ext5 = ext5;
     }
 
 

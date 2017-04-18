@@ -87,17 +87,9 @@ public class OnlineTaskSv extends BaseService{
 						      +"   (select name from aiga_staff where staff_id = a.assign_id) as assign_name,"
 						     +"    (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
 						     +"  from na_online_task_distribute a"
-						    +"  where a.parent_task_id = 0"
-					       +"	  group by a.online_plan,"
-						   +"         a.online_plan_name,"
-						   +"         a.task_id,"
-						   +"          a.task_name,"
-						    +"      a.task_type,"
-						    +"      a.deal_state,"
-						    +"        a.assign_date,"
-						     +"        a.assign_id,"
-						     +"      a.deal_op_id ";
-		if(condition.getTaskName() != null){
+						    +"  where a.parent_task_id = 0";
+		
+		if(condition.getTaskName() != null && !condition.getTaskName().equals("")){
 			sql += " and a.task_name like '%"+condition.getTaskName()+"%'";
 		}
 		if(condition.getOnlinePlan() != null){
@@ -106,6 +98,15 @@ public class OnlineTaskSv extends BaseService{
 		if(condition.getDealState() != null){
 			sql += " and a.deal_state = "+condition.getDealState();
 		}
+		sql += " group by a.online_plan,"
+				+ " a.online_plan_name,"
+				+ " a.task_id,"
+				+ " a.task_name,"
+				+ " a.task_type,"
+				+ " a.deal_state,"
+				+ " a.assign_date,"
+				+ " a.assign_id,"
+				+ "  a.deal_op_id";
 		
 		List<String> list = new ArrayList<String>();
 		list.add("onlinePlan");

@@ -138,7 +138,7 @@ public class ChangePlanRunSv extends BaseService{
 		if(naOnlineTaskDistribute.getTaskId() == null || naOnlineTaskDistribute.getTaskId().equals("")){
 			naOnlineTaskDistribute.setParentTaskId(0L);
 			naOnlineTaskDistribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
-			naOnlineTaskDistribute.setAssignId(1L);;
+			naOnlineTaskDistribute.setAssignId(1L);
 			naOnlineTaskDistribute.setAssignDate(new Date());
 			naOnlineTaskDistribute.setDealState(1L);
 			naOnlineTaskDistribute.setCreateDate(new Date());
@@ -182,8 +182,8 @@ public class ChangePlanRunSv extends BaseService{
 		}
 		String sql = "select a.task_id, a.task_name, a.task_type, a.deal_state, b.name as creator_name from "
 				+ "na_online_task_distribute a left join aiga_staff b on a.deal_op_id = b.staff_id "
-				 +"  and a.online_plan = "+onlinePlan
-				 + " and a.parent_task_id=0 ";
+				 +"  where a.online_plan = "+onlinePlan
+				 + " and a.parent_task_id= 0 ";
 		if(type != null && type.equals("1")){
 			sql += " and a.task_type > 3";
 		}else{
@@ -248,9 +248,12 @@ public class ChangePlanRunSv extends BaseService{
 		}
 		
 		String sql = "select a.case_id, b.auto_name, a.resulr, c.sys_name, d.sys_name as sub_sys_name, e.sys_name as fun_name "
-				+ " from na_auto_case_result_flow a, na_auto_case b, aiga_system_folder c, aiga_sub_sys_folder d,"
-				+ " aiga_fun_folder e where a.case_id = b.auto_id and b.sys_id = c.sys_id and b.sys_sub_id = d.subsys_id"
-				+ " and b.fun_id = e.fun_id and a.plan_id = "+onlinePlan;
+				+ " from na_auto_case_result_flow a "
+				+ " left join na_auto_case b on a.case_id = b.auto_id "
+				+ " left join aiga_system_folder c on b.sys_id = c.sys_id"
+				+ " left join  aiga_sub_sys_folder d on b.sys_sub_id = d.subsys_id"
+				+ " left join aiga_fun_folder e on b.fun_id = e.fun_id"
+				+ " and a.plan_id = "+onlinePlan;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("caseId");

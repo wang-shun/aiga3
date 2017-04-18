@@ -15,6 +15,6 @@ public interface AigaBossTestResultDao extends SearchAndPageRepository<AigaBossT
 	List<AigaBossTestResult> findByType(Long type);
 	
 	@Modifying
-	@Query(value="delete from AIGA_BOSS_TEST_RESULT where result_id in (?1)")
+	@Query(value="delete from AIGA_BOSS_TEST_RESULT where result_id in (?1)",nativeQuery=true)
 	public void deleteByIds(List<Long> list);
 }

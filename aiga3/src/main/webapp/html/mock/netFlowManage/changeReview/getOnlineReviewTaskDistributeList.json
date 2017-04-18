@@ -7,14 +7,14 @@
             "taskId": "1",
             "taskName": "100_生产回归",
             "taskType": "4",
-            "state": "0",
+            "dealState": "0",
             "dealOpId": "11",
             "dealOpName": "张三"
         }, {
             "taskId": "2",
             "taskName": "111_发布任务分派",
             "taskType": "9",
-            "state": "1",
+            "dealState": "1",
             "dealOpId": "22",
             "dealOpName": "李四"
         }]

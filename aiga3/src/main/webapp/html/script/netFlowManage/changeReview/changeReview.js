@@ -10,16 +10,16 @@ define(function(require, exports, module) {
 
     // 下拉菜单获取所有变更计划
     srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
-    //获取验收任务列表
-    srvMap.add("getOnlineReviewTaskList", pathAlias + "getOnlineReviewTaskList.json", "accept/onlineTask/list");
-    //获取子任务分派列表
-    srvMap.add("getOnlineReviewTaskDistributeList", pathAlias + "getOnlineReviewTaskDistributeList.json", "accept/onlineTask/childList");
+    //获取变更计划列表
+    srvMap.add("getOnlineReviewTaskList", pathAlias + "getOnlineReviewTaskList.json", "accept/changePlan/list");
+    //获取任务分派列表
+    srvMap.add("getOnlineReviewTaskDistributeList", pathAlias + "getOnlineReviewTaskDistributeList.json", "accept/changePlanRun/taskList");
     //下拉菜单获取所有处理人
     srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
-    //保存回归子任务
-    srvMap.add("saveOnlineReviewTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
-    //删除回归子任务
-    srvMap.add("delOnlineReviewTask", pathAlias + "retMessage.json", "accept/onlineTask/delete");
+    //保存或修改分派任务
+    srvMap.add("saveOnlineReviewTask", pathAlias + "retMessage.json", "accept/changePlanRun/save");
+    //删除任务
+    srvMap.add("delOnlineReviewTask", pathAlias + "retMessage.json", "accept/changePlanRun/delete");
 
     // // 模板对象
     // var Tpl = {
@@ -100,7 +100,7 @@ define(function(require, exports, module) {
                 // alert($(dom).html())
                 var data = self.getRadioCheckedRow($(dom));
                 if (data) {
-                    var cmd = 'onlinePlanId=' + data.onlinePlan + '&type=1';
+                    var cmd = 'onlinePlan=' + data.onlinePlan + '&type=1';
                     //存储到全局变量
                     Data.onlinePlan = data.onlinePlan;
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');

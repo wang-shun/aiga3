@@ -15,13 +15,22 @@
 				<!--	<schema-selection match-schema="AIGA"  match-table="NA_TEST_SITUATION"/>-->
 
 				<!--<schema-selection match-schema="AIGA"  match-table="NA_DB_SCRIPT_LIST"/>-->
+
+				<!-- <schema-selection match-schema="AIGA"  match-table="NA_SYSTEM_ARCHITECTURE_LIST"/>
+
 				<!--	<schema-selection match-schema="AIGA"  match-table="NA_SYSTEM_ARCHITECTURE_LIST"/>
+
 				<schema-selection match-schema="AIGA"  match-table="NA_GROUP_REQUIRE_LIST"/>
 				<schema-selection match-schema="AIGA"  match-table="NA_GROUP_ADJUST_LIST"/>
 				<schema-selection match-schema="AIGA"  match-table="NA_HAS_DEPLOY_MENU_LIST"/>
 				<schema-selection match-schema="AIGA"  match-table="NA_SERVICE_CHANGE_ONLINE_LIST"/>
+
+				<schema-selection match-schema="AIGA"  match-table="NA_HOST_CONFIG_LIST"/> -->
+				<schema-selection match-schema="AIGA"  match-table="NA_TEST_PROCESS"/>
+
 				<schema-selection match-schema="AIGA"  match-table="NA_HOST_CONFIG_LIST"/>-->
 				<schema-selection match-schema="AIGA"  match-table="AIGA_BOSS_TEST_RESULT"/>
+
 				
 
 

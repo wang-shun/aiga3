@@ -195,7 +195,7 @@ public class ChangePlanRunSv extends BaseService{
 		list.add("taskName");
 		list.add("taskType");
 		list.add("dealState");
-		list.add("creatorName");
+		list.add("dealOpName");
 		
 		if(pageNumber < 0){
 			pageNumber = 0;

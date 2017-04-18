@@ -156,7 +156,7 @@ define(function(require, exports, module) {
             var _domPagination = _dom.find("[name='pagination']");
             var data = self.getRadioCheckedRow(_dom);
             if (data) {
-                var cmd = 'onlinePlanId=' + data.onlinePlan + '&type=1';
+                var cmd = 'onlinePlan=' + data.onlinePlan + '&type=1';
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 Utils.getServerPage(srvMap.get('getOnlineReviewTaskDistributeList'), cmd, function(json) {
                     window.XMS.msgbox.hide();
@@ -194,7 +194,7 @@ define(function(require, exports, module) {
                     var taskType = _form.find("[name='taskType']").val();
                     var dealOpId = _form.find("[name='dealOpId']").val();
                     var taskId = _form.find("[name='taskId']").val();
-                    cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + data.onlinePlan;
+                    cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + data.onlinePlan + "&onlinePlanName=" + data.onlinePlanName;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
                     }

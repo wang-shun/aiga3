@@ -138,13 +138,13 @@ public class AutoTemplateCompSv {
         //根据tempId删除旧关联关系
         this.deleteByTempId(tempId);
         //批量保存新的组件关系
-        List<Object> compList=new ArrayList<Object>();
+        List<NaAutoTemplateComp> compList=new ArrayList<NaAutoTemplateComp>();
         for (AutoTemplateCompRequest request:requestList){
             NaAutoTemplateComp comp=BeanMapper.map(request,NaAutoTemplateComp.class);
             comp.setTempId(tempId);
             compList.add(comp);
         }
-        templateCompDao.saveList(compList);
+        templateCompDao.save(compList);
     }
 
     /**

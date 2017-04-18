@@ -140,7 +140,7 @@ public class ChangePlanRunSv extends BaseService{
 			naOnlineTaskDistribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
 			naOnlineTaskDistribute.setAssignId(1L);
 			naOnlineTaskDistribute.setAssignDate(new Date());
-			naOnlineTaskDistribute.setDealState(1L);
+			naOnlineTaskDistribute.setDealState(0L);//新增
 			naOnlineTaskDistribute.setCreateDate(new Date());
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
 			if(naOnlineTaskDistribute.getDealOpId() != null){

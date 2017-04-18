@@ -176,31 +176,38 @@ public class ChangePlanRunSv extends BaseService{
 		//TaskMessageClient.sendMessageForCycle("13567177436", "666");
 	}
 
-	public List<NaOnlineTaskDistributeResponse> taskList(Long onlinePlan, String type) {
+	public Object taskList(Long onlinePlan, String type, int pageNumber, int pageSize) {
 		if(onlinePlan == null || onlinePlan < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
 		}
-		List<Object[]> list = null;
+		String sql = "select a.task_id, a.task_name, a.task_type, a.deal_state, b.name as creator_name from "
+				+ "na_online_task_distribute a left join aiga_staff b on a.deal_op_id = b.staff_id "
+				 +"  and a.online_plan = "+onlinePlan
+				 + " and a.parent_task_id=0 ";
 		if(type != null && type.equals("1")){
-			list = naOnlineTaskDistributeDao.findParentTask(onlinePlan);
+			sql += " and a.task_type > 3";
 		}else{
-			list = naOnlineTaskDistributeDao.findByOnlinePlanAndParentTaskId(onlinePlan);
+			sql += " and a.task_type < 4";
 		}
 		
-		List<NaOnlineTaskDistributeResponse> responses = new ArrayList<NaOnlineTaskDistributeResponse>(list.size());
-		if(list != null && list.size() > 0){
-			for(int i = 0; i < list.size(); i++){
-				NaOnlineTaskDistributeResponse distribute = new NaOnlineTaskDistributeResponse();
-				Object[] object = list.get(i);
-				distribute.setTaskId(((BigDecimal) object[0]).longValue());
-				distribute.setTaskName(object[1].toString());
-				distribute.setTaskType(((BigDecimal) object[2]).longValue());
-				distribute.setDealState(((BigDecimal) object[3]).longValue());
-				distribute.setDealName(object[4]==null?"":object[4].toString());
-				responses.add(distribute);
-			}
+		List<String> list = new ArrayList<String>();
+		list.add("taskId");
+		list.add("taskName");
+		list.add("taskType");
+		list.add("dealState");
+		list.add("creatorName");
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
 		}
-		return responses;
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naOnlineTaskDistributeDao.searchByNativeSQL(sql, pageable, list);
 	}
 
 	public void delete(Long taskId) {

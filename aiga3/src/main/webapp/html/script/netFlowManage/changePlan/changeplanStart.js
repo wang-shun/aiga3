@@ -361,6 +361,7 @@ define(function(require, exports, module) {
             });
         },
         registerHelper: function() {
+            alert()
             Handlebars.registerHelper('getPlanState', function(value, fn) {
                 if (value == "1") {
                     return "新建";

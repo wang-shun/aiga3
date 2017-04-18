@@ -5,7 +5,7 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 
 	// 功能验收子任务列表显示
-	srvMap.add("funTaskList", pathAlias + "funTaskList.json", "accept/subTask/list");
+	srvMap.add("productTaskList", pathAlias + "funTaskList.json", "accept/subTask/list");
 
 	srvMap.add("caseResultList", pathAlias + "funTaskList.json", "accept/subTask/caseResult");
 
@@ -14,23 +14,23 @@ define(function(require, exports, module) {
 	var taskType = "&taskType = " + 1;
 	// 模板对象
 	var Tpl = {
-		funTaskList: $("#TPL_funTaskList").html(), //计划列表
-		taskProcessList: $("#TPL_taskProcessList").html()
+		productTaskList: $("#TPL_productTaskList").html(), //计划列表
+		taskProcessList: $("#TPL_proTaskProcessList").html()
 
 	};
 
 	// 容器对象
 	var Dom = {
-		funTaskList: '#Js_funTaskList',
-		QueryTaskForm: '#Js_queryTaskForm', //查询表单
+		productTaskList: '#JS_productTaskList',
+		QueryTaskForm: '#JS_queryProTaskForm', //查询表单
 
-		taskProcessList: '#Js_taskProcessList',
-		modalSubmitResult: '#modal_submitResult', //modal
+		taskProcessList: '#JS_proTaskProcessList',
+		modalSubmitResult: '#Modal_submitProResult', //modal
 
 		//提交结果按钮
-		btnSubmitRst: '#Js_submitRst',
-		btnSaveRst: "#Js_saveRst",
-		btnDealAutoCase: 'Js_dealAutoCase',
+		btnSubmitRst: '#JS_submitProRst',
+		btnSaveRst: "#JS_saveProRst",
+		btnDealAutoCase: 'JS_dealProAutoCase',
 
 
 	};
@@ -43,7 +43,7 @@ define(function(require, exports, module) {
 		_render: function() {
 
 			this.hdbarHelp();
-			this.getFunTaskList("");
+			this.getproductTaskList("");
 			this.queryFunTask();
 			this.submitResult();
 		},
@@ -79,16 +79,16 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		getFunTaskList: function(cmd) {
+		getproductTaskList: function(cmd) {
 			var self = this;
-			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd+"&taskType=1", function(json, status) {
+			Rose.ajax.postJson(srvMap.get('productTaskList'), cmd+"&taskType=4", function(json, status) {
 				if (status) {
-					var template = Handlebars.compile(Tpl.funTaskList);
+					var template = Handlebars.compile(Tpl.productTaskList);
 					console.log(json.data)
-					$(Dom.funTaskList).html(template(json.data.content));
-					Utils.eventTrClickCallback($(Dom.funTaskList));
+					$(Dom.productTaskList).html(template(json.data.content));
+					Utils.eventTrClickCallback($(Dom.productTaskList));
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);
-					self.initPaging($(Dom.funTaskList), 5, true);
+					self.initPaging($(Dom.productTaskList), 5, true);
 				}
 			});
 		},
@@ -99,7 +99,7 @@ define(function(require, exports, module) {
 			_form.find('button[name="query"]').bind('click', function() {
 
 					var cmd = _form.serialize();
-					self.getFunTaskList(cmd);
+					self.getproductTaskList(cmd);
 				})
 				// 表单重置
 			_form.find('button[name="reset"]').bind('click', function() {
@@ -187,7 +187,7 @@ define(function(require, exports, module) {
 
 		//获取选中当前行数据
 		getSelectedInfo: function() {
-			var obj = this.getCheckedRow(Dom.funTaskList);
+			var obj = this.getCheckedRow(Dom.productTaskList);
 			var data = {
 				taskId: "",
 				dealState: "",

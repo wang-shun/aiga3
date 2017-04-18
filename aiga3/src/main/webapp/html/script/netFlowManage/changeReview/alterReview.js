@@ -123,12 +123,12 @@ define(function(require,exports,module){
     		this.getOnlineList();
     		this.getTestList();
     		this.getRunList();
-			/*this.getRemnantList();
+			this.getRemnantList();
     		this.getReportList();
 			this.getDatabaseList();
 			this.getJavascriptList();
     		this.getDeliverList();
-			this.getStructureList();
+			/*this.getStructureList();
 			this.getProgressList();
 			this.getServiceList();
     		this.getIpConfigurationList();
@@ -185,9 +185,6 @@ define(function(require,exports,module){
 							   window.XMS.msgbox.show('请选中结论！', 'error', 2000);
 							   return false;
 						    }
-							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
-							cmd = cmd + "&planId=" +data.onlinePlan;
-							console.log(cmd);*/
 							var reviewId;
 							var conclusion;
 							var reviewResult;
@@ -449,69 +446,79 @@ define(function(require,exports,module){
 				},_domPagination);
     	},
 		getRemnantList:function(){
-	    		var self=this;
+				var self=this;
+				var _dom = Page.findId('getRemnantList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getRemnantList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getRemnantList);
-			    		console.log(json.data.content)
-			    		$(Dom.getRemnantList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getRemnantList),10);
-		    		}
-	    		});
+
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getRemnantList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getRemnantList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getReportList:function(){
-	    		var self=this;
+				var self=this;
+				var _dom = Page.findId('getReportList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getReportList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getReportList);
-			    		console.log(json.data.content)
-			    		$(Dom.getReportList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getReportList),10);
-		    		}
-	    		});
+
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getReportList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getReportList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getDatabaseList:function(){
-	    		var self=this;
+				var self=this;
+				var _dom = Page.findId('getDatabaseList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getDatabaseList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getDatabaseList);
-			    		console.log(json.data.content)
-			    		$(Dom.getDatabaseList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getDatabaseList),10);
-		    		}
-	    		});
+
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getDatabaseList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getDatabaseList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getJavascriptList:function(){
 	    		var self=this;
+				var _dom = Page.findId('getJavascriptList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getJavascriptList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getJavascriptList);
-			    		console.log(json.data.content)
-			    		$(Dom.getJavascriptList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getJavascriptList),10);
-		    		}
-	    		});
+
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getJavascriptList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getJavascriptList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getDeliverList:function(){
 	    		var self=this;
+				var _dom = Page.findId('getDeliverList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getDeliverList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getDeliverList);
-			    		console.log(json.data.content)
-			    		$(Dom.getDeliverList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getDeliverList),10);
-		    		}
-	    		});
+
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getDeliverList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getDeliverList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getStructureList:function(){
 	    		var self=this;

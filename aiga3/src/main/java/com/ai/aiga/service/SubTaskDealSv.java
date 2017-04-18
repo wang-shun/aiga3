@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
+import com.ai.aiga.dao.NaOnlineTaskResultDao;
 import com.ai.aiga.dao.NaPlanCaseResultDao;
 import com.ai.aiga.domain.NaPlanCaseResult;
 import com.ai.aiga.exception.BusinessException;
@@ -34,6 +35,9 @@ public class SubTaskDealSv extends BaseService{
 	
 	@Autowired
 	private NaPlanCaseResultDao naPlanCaseResultDao;
+	
+	@Autowired
+	private NaOnlineTaskResultDao  naOnlineTaskResultDao;
 	/**
 	 * @ClassName: SubTaskDealSv :: list
 	 * @author: dongch
@@ -180,8 +184,19 @@ public class SubTaskDealSv extends BaseService{
 			//修改用例状态为已处理
 			result.setCaseState((byte)1);
 			naPlanCaseResultDao.save(result);
+			//修改子任务状态是处理中/处理完
+			Object  count = naPlanCaseResultDao.findCountBySubTaskId(result.getSubTaskId());
+			if(!"0".equals(count.toString())){
+				//处理中
+				naOnlineTaskDistributeDao.updateSubTaskDealState(result.getSubTaskId(),2L);
+				naOnlineTaskResultDao.updateParentTaskDealState(result.getSubTaskId(), 1L);
+			}else{
+				//处理完
+				naOnlineTaskDistributeDao.updateSubTaskDealState(result.getSubTaskId(),3L);
+				naOnlineTaskResultDao.updateParentTaskDealState(result.getSubTaskId(), 2L);
+			}
 		}
-		//修改子任务状态是处理中
+
 	}
 
 	/**
@@ -199,11 +214,27 @@ public class SubTaskDealSv extends BaseService{
 		if(taskId == null || taskId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		String sql = "select  b.result_id, b.case_state, b.result, b.bug, a.auto_name, c.sys_name, d.sys_name as subSysName,"
-				+ " e.sys_name as funName, a.important, b.auto_code, b.auto_result from "
-				+ " na_auto_case a, na_plan_case_result b, aiga_system_folder c, aiga_sub_sys_folder d, aiga_fun_folder e"
-				+ " where a.auto_id = b.case_id and a.sys_id = c.sys_id and a.sys_sub_id = d.subsys_id and a.fun_id = e.fun_id"
-				+ " and b.sub_task_id = "+taskId;
+		String sql = " select b.result_id,"
+				    	+"	      b.case_state, "
+						 	+"	           b.result,"
+						 	+"	           b.bug,"
+							+"	            a.auto_name,"
+							+"	            c.sys_name,"
+							+"	            d.sys_name    as subSysName,"
+							+"	            e.sys_name    as funName,"
+							+"	            a.important,"
+						 	+"	           b.auto_code,"
+							+"	            b.auto_result"
+						  	+"	     from na_plan_case_result b"
+						   	+"	    left join na_auto_case a"
+						    +"	     on a.auto_id = b.case_id"
+						  	+"	     left join aiga_system_folder c"
+						 	+"	        on a.sys_id = c.sys_id"
+						  	+"	     left join aiga_sub_sys_folder d"
+						   	+"	      on a.sys_sub_id = d.subsys_id"
+						   	+"	    left join aiga_fun_folder e"
+					    	+"	 	     on a.fun_id = e.fun_id"
+						    +"	  where b.sub_task_id =  "+taskId;
 		
 		List<String> list = new ArrayList<String>();
 		list.add("resultId");

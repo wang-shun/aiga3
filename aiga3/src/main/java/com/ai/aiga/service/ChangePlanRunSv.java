@@ -197,6 +197,7 @@ public class ChangePlanRunSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
 		naOnlineTaskDistributeDao.delete(taskId);
+		naOnlineTaskDistributeDao.deleteByParentTaskId(taskId);
 	}
 
 	public Page<NaCodePath> compileList(NaCodePath condition, int pageNumber, int pageSize) {

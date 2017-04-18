@@ -33,7 +33,15 @@ public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDis
 	@Query("update  NaOnlineTaskDistribute set dealState =2 where taskId = ?1")
 	void updateParentTaskDealState(Long taskId);
 	
+	@Modifying
+	@Query("update  NaOnlineTaskDistribute set dealState =?2 where taskId = ?1")
+	void updateSubTaskDealState(Long taskId,Long dealState);
+	
 	
 	List<NaOnlineTaskDistribute> findByParentTaskId(Long taskId);
+	
+	@Modifying
+	@Query("delete  from NaOnlineTaskDistribute  where parentTaskId = ?1")
+	void deleteByParentTaskId(Long parentTaskId);
 
 }

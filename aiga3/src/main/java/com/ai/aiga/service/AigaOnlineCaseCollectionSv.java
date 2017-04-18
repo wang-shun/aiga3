@@ -634,11 +634,11 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	
 	
 	
-	public List<Object> repairMan(){
-		List<Object>    repaireLists = new  ArrayList<Object>();
+	public List<Map> repairMan(){
+		List<Map>    repaireLists = new  ArrayList<Map>();
 		String sql = " select distinct staff.staff_id, staff.name, staff.code  from aiga_staff staff";
 	    try {
-	    	repaireLists = 	groupDao.searchBySql(sql);
+	    	repaireLists = 	groupDao.searchByNativeSQL(sql);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

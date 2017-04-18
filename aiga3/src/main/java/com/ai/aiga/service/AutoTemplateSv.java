@@ -260,7 +260,7 @@ public class AutoTemplateSv {
             pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
         }
         Pageable pageable = new PageRequest(pageNumber, pageSize);
-        return autoTemplateDao.search(nativeSql.toString(),pageable);
+        return autoTemplateDao.searchByNativeSQL(nativeSql.toString(), pageable, keyList);
     }
 
     /**

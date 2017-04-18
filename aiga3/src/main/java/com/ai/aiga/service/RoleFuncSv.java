@@ -62,13 +62,13 @@ public class RoleFuncSv {
         /*根据 , 解析funcIds*/
         String[]funIdAry=roleFuncRequest.getFuncIds().split(",");
         /*批量保存*/
-        List<Object> funcList=new ArrayList<Object>();
+        List<AigaRoleFunc> funcList=new ArrayList<AigaRoleFunc>();
         for (String funcId:funIdAry) {
             AigaRoleFunc aigaRoleFunc=new AigaRoleFunc();
             aigaRoleFunc.setRoleId(roleFuncRequest.getRoleId());
             aigaRoleFunc.setFuncId(Long.parseLong(funcId));
             funcList.add(aigaRoleFunc);
         }
-        aigaRoleFuncDao.saveList(funcList);
+        aigaRoleFuncDao.save(funcList);
     }
 }

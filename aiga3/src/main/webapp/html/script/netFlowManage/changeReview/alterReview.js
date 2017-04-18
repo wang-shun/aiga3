@@ -20,10 +20,14 @@ define(function(require,exports,module){
 	srvMap.add("saveModel", "netFlowManage/deliverableReview/retMessage.json", "sys/codepath/save");
 	//计划上线清单列表
 	srvMap.add("getOnlineList", "netFlowManage/deliverableReview/getOnlineList.json", "sys/detailManifest/list");
-	//测试执行情况列表
+	//功能测试执行情况列表
 	srvMap.add("getTestList", "netFlowManage/deliverableReview/getTestList.json", "sys/testSituation/list");
 	//保存测试
 	srvMap.add("saveTest", "netFlowManage/deliverableReview/retMessage.json", "sys/testSituation/save");
+	//测试执行情况列表
+	srvMap.add("getRunList", "netFlowManage/deliverableReview/getRunList.json", "sys/testSituation/list");
+	//保存测试执行
+	srvMap.add("saveRun", "netFlowManage/deliverableReview/retMessage.json", "sys/testSituation/save");
 	//测试遗留情况列表
 	srvMap.add("getRemnantList", "netFlowManage/deliverableReview/getRemnantList.json", "sys/testLeaveOver/list");
 	//功能测试报告列表
@@ -118,6 +122,7 @@ define(function(require,exports,module){
     		this.getModelList();
     		this.getOnlineList();
     		this.getTestList();
+    		this.getRunList();
 			/*this.getRemnantList();
     		this.getReportList();
 			this.getDatabaseList();
@@ -171,7 +176,7 @@ define(function(require,exports,module){
 			    		_conclusion.val(json.data[0].conclusion);
 						//引入单选框样式
 						Utils.eventTrClickCallback(_dom);
-						var _saveConclusion =  _dom.find("[name='saveConclusion']");
+						var _saveConclusion =  Page.findId('getChangeReviewConclusion').find("[name='saveConclusion']");
 						_saveConclusion.unbind('click');
 						//点击保存
 						_saveConclusion.bind('click',function(){
@@ -221,7 +226,8 @@ define(function(require,exports,module){
 							});
 						});
 						//点击回退
-						Page.findId('rollback').bind('click',function(){
+						var _rollback =  _dom.find("[name='rollback']");
+						_rollback.bind('click',function(){
 							Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
 								if(status) {
 									XMS.msgbox.show('回退成功！', 'success', 2000)
@@ -259,7 +265,7 @@ define(function(require,exports,module){
 					// 查找页面内的Tpl，返回值html代码段
 					var template = Handlebars.compile(Page.findTpl('getModelList'));
 	        		_dom.find("[name='content']").html(template(json.data.content));
-					var _result = Page.findId('modelList').find("select[name='result']");
+					var _result = _dom.find("select[name='result']");
 					var i=0;
 					var da=json.data.content;
 					_dom.find("tbody").find("tr").each(function(){
@@ -267,9 +273,10 @@ define(function(require,exports,module){
 						tdArr.eq(9).find("select").val(da[i].result);
 						i++;
 					});
-					Page.findId('saveModel').unbind('click');
+					var _saveModel =  _dom.find("[name='saveModel']");
+					_saveModel.unbind('click');
 					//点击保存
-					Page.findId('saveModel').bind('click',function(){
+					_saveModel.bind('click',function(){
 					   	var _checkObj =	_dom.find("input[type='checkbox']:checked");
 					   	if(_checkObj.length==0){
 						   	window.XMS.msgbox.show('请选择要保存的模块！', 'error', 2000);
@@ -384,38 +391,56 @@ define(function(require,exports,module){
 					// 查找页面内的Tpl，返回值html代码段
 					var template = Handlebars.compile(Page.findTpl('getTestList'));
 	        		_dom.find("[name='content']").html(template(json.data.content));
-	        		var _queryBtn =  _dom.find("[name='query']");
-					Page.findId('saveModel').unbind('click');
+				},_domPagination);
+    	},
+		getRunList:function(){
+	    		var self=this;
+				var _dom = Page.findId('getRunList');
+				var _domPagination = _dom.find("[name='pagination']");
+	    		var data = Data.getParentCmd();
+
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getRunList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getRunList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+					var _saveRun =  _dom.find("[name='saveRun']");
+					_saveRun.unbind('click');
 					//点击保存
-					Page.findId('saveModel').bind('click',function(){
+					_saveRun.bind('click',function(){
 					   	var _checkObj =	_dom.find("input[type='checkbox']:checked");
 					   	if(_checkObj.length==0){
-						   	window.XMS.msgbox.show('请选择要保存的模块！', 'error', 2000);
+						   	window.XMS.msgbox.show('请选择要保存的情况！', 'error', 2000);
 						   	return false;
 					   	}
-						var id;
-						var result;
+						var testId;
+						var ext1;
+						var ext2;
 						var saveState = [];
 						var cmd;
 						_dom.find("tbody").find("tr").each(function(){
 							var tdArr = $(this).children();
 							if(tdArr.eq(0).find("input").is(':checked')){
-								id = tdArr.eq(0).find("input").val();
-								result = tdArr.eq(9).find("select").val();
+								testId = tdArr.eq(0).find("input").val();
+								ext1 = tdArr.eq(1).find("input").val();
+								ext2 = tdArr.eq(2).find("input").val();
 								saveState.push({
-									"id" : id,
-									"result" : result,
+									"testId" : testId,
+									"ext1" : ext1,
+									"ext2" : ext2,
 									"planId" : "1"/*data.onlinePlan*/
 								});
 							}
 						});
 						cmd = saveState;
 						console.log(cmd);
-						Rose.ajax.postJson(srvMap.get('saveModel'), cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('saveRun'), cmd, function(json, status) {
 							if (status) {
 								XMS.msgbox.show('保存成功！', 'success', 2000)
 								setTimeout(function() {
-									self.getModelList();
+									self.getRunList();
 								}, 1000)
 							}
 						});

@@ -199,7 +199,7 @@ public class NaPlanCaseResult  implements java.io.Serializable {
         this.ext3 = ext3;
     }
 
-    @Column(name="EXT3", length=200)
+    @Column(name="AUTOCODE", length=200)
 	public String getAutoCode() {
 		return autoCode;
 	}
@@ -209,7 +209,7 @@ public class NaPlanCaseResult  implements java.io.Serializable {
 		this.autoCode = autoCode;
 	}
 
-	@Column(name="EXT3", length=200)
+	@Column(name="REMARKS", length=200)
 	public String getRemarks() {
 		return remarks;
 	}

@@ -33,7 +33,7 @@
 			                        <div class="box-title">计划上线需求概况</div>
 			                    </div>
 			                    <!-- <div class="box-body" style="min-height: 100px;" id="JS_planList"></div> -->
-								<div class="box-body" >
+								<div class="box-body">
 					                <table class="table table-bordered table-hover">
 									    <thead>
 									        <tr>
@@ -61,11 +61,11 @@
 								<div class="box-header">
 			                        <div class="box-title">上线系统模块清单</div>
 									<div class="box-tools">
-					                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveModel"><i class="fa fa-plus"></i> 保存更改</button>
+					                    <button type="button" class="btn btn-primary" data-toggle="modal" name="saveModel"><i class="fa fa-plus"></i> 保存更改</button>
 					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 					                </div>
 			                    </div>
-			                    <div class="box-body" >
+			                    <div class="box-body">
 					                <table class="table table-bordered table-hover">
 									    <thead>
 									        <tr>
@@ -104,7 +104,7 @@
 					                </div>
 			                    </div>
 			                    <!-- <div class="box-body" style="min-height: 100px; overflow: auto" id="JS_onlineList"></div> -->
-								<div class="box-body" >
+								<div class="box-body">
 					                <table class="table table-bordered table-hover">
 									    <thead>
 									        <tr>
@@ -160,13 +160,11 @@
 		            	<div class="col-md-12">
 			                <div class="box" id="JS_getTestList">
 			                    <div class="box-header">
-			                        <div class="box-title">测试执行情况</div>
+			                        <div class="box-title">功能测试执行情况</div>
 									<!-- <div class="box-tools">
 														                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveTest"><i class="fa fa-plus"></i> 保存更改</button>
 														                </div> -->
-			                    </div>
-			                    <!-- <div class="box-body" style="min-height: 100px;" id="JS_testList"></div> -->
-								<div class="box-body" >
+			                    </div>								<div class="box-body">
 					                <table class="table table-bordered table-hover">
 									    <thead>
 									        <tr>
@@ -190,15 +188,65 @@
 		                </div>
 		            </div>
 					<div class="row">
+		            	<div class="col-md-12">
+			                <div class="box" id="JS_getRunList">
+			                    <div class="box-header">
+			                        <div class="box-title">测试执行情况</div>
+									<div class="box-tools">
+										<button type="button" class="btn btn-primary" data-toggle="modal" name="saveRun"><i class="fa fa-plus"></i> 保存更改</button>
+									</div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									        	<th class="iCheckbox" width="15"></th>
+									            <th>测试执行类型</th>
+									            <th>测试执行情况</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+		                </div>
+		            </div>
+					<div class="row">
 			            <div class="col-md-12">
-			                <div class="box" id="">
+			                <div class="box" id="JS_getRemnantList">
 								<div class="box-header">
 			                        <div class="box-title">测试遗留情况</div>
 									<div class="box-tools">
 					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 					                </div>
 			                    </div>
-			                    <div class="box-body" style="min-height: 100px;" id="JS_remnantList"></div>
+			                    <!-- <div class="box-body" style="min-height: 100px;" id="JS_remnantList"></div> -->
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									        	<th class="iCheckbox" width="15"></th>
+									            <th>测试执行类型</th>
+									            <th>测试执行情况</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
 			                </div>
 			            </div>
 		            </div>
@@ -476,7 +524,7 @@
         </tr>
     {{/each}}
 </script>
-<!-- handlebars/测试执行情况列表 -->
+<!-- handlebars/功能测试执行情况列表 -->
 <script id="TPL_getTestList" type="text/x-handlebars-template">
 	{{#each this}}
         <tr>
@@ -484,6 +532,16 @@
         	<td><input type="hidden" value="{{sysName}}" name="sysName">{{sysName}}</td>
         	<td><input type="hidden" value="{{subSysName}}" name="subSysName">{{subSysName}}</td>
             <td><!-- <div class="col-xs-1"><input type="text" size="" class="form-control" name="testSituation" value="{{testSituation}}" placeholder=""></div> -->{{testSituation}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/测试执行情况列表 -->
+<script id="TPL_getRunList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="{{ext1}}" name="ext1">{{ext1}}</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{ext2}}" placeholder=""></div></td>
         </tr>
     {{/each}}
 </script>

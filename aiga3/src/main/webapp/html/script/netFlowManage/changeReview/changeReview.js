@@ -194,7 +194,7 @@ define(function(require, exports, module) {
                     var taskType = _form.find("[name='taskType']").val();
                     var dealOpId = _form.find("[name='dealOpId']").val();
                     var taskId = _form.find("[name='taskId']").val();
-                    cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId;
+                    cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + data.onlinePlan;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
                     }

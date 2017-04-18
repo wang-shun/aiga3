@@ -52,9 +52,9 @@ public class reviewPlanSv  extends BaseService{
 		Map<String, Object>  map = new HashMap<String, Object>();
 		Map<Object, Object> mapreturn  = new HashMap<Object, Object>();
 		//ADCLOD服务端地址
-		String url = "http://10.73.129.171:8090/netAccept/updateAcceptResult";
+		String url = "http://10.73.129.171:8090/netAccept/updateAcceptResult"; // http://20.26.28.25:20011
 		//查询本次上线计划代码包清单
-		List<NaCodePath> naCodePathS =  naCodePathDao.findByPlanDate(planDate);
+		List<NaCodePath> naCodePathS =  naCodePathDao.findByPlanDate(planDate.substring(0,10));
 		if(naCodePathS!=null&&!naCodePathS.isEmpty()){
 			for(NaCodePath naCodePath:naCodePathS){
 				NaCodePathDTO dto = new NaCodePathDTO();

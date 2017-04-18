@@ -319,6 +319,38 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
         }
     }
 
+    
+    
+    @Override
+    public Page<T> searchByNativeSQLS(String nativeSQL, Pageable pageable) {
+        if (!StringUtils.isBlank(nativeSQL)) {
+            Query query = entityManager.createNativeQuery(nativeSQL);
+            Query count=entityManager.createNativeQuery("select count(*) from ("+nativeSQL+")");
+            Long total = Long.parseLong(count.getSingleResult().toString());//获取总数据行数
+            query.setFirstResult(pageable.getOffset());//设置起始行
+            query.setMaxResults(pageable.getPageSize());//设置最大查询结果数
+            List reList = new ArrayList();//存放封装后的数据
+            List<Object> content = total > pageable.getOffset() ? query.getResultList() : reList;
+            //根据keyList键值封装数据，keyList键值必须与SQL里数量和顺序一致
+            if (content != null && content.size() > 0) {
+//                for (Object obj : content) {
+//                    Object[] ary = (Object[]) obj;
+//                    Map<String, String> map = new HashMap<String, String>();
+//                    for (int i = 0; i < keyList.size(); i++) {
+//                        map.put(keyList.get(i), ary[i] != null ? ary[i].toString() : "");
+//                    }
+//                    reList.add(map);
+  //              }
+            }
+            return new PageImpl<T>(reList, pageable, total);
+        } else {
+            return new PageImpl<T>(new ArrayList<T>());
+        }
+    }
+
+    
+    
+    
     /**
      * 批量保存
      * @param list

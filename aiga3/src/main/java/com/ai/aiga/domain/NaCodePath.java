@@ -70,8 +70,8 @@ public class NaCodePath  implements java.io.Serializable {
     }
    
      @Id 
-     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_CODE_PATH$SEQ")
-     @SequenceGenerator(name="NA_CODE_PATH$SEQ",sequenceName="NA_CODE_PATH$SEQ",allocationSize=1)
+//     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_CODE_PATH$SEQ")
+//     @SequenceGenerator(name="NA_CODE_PATH$SEQ",sequenceName="NA_CODE_PATH$SEQ",allocationSize=1)
     @Column(name="ID", unique=true, nullable=false, precision=22, scale=0)
     public Long getId() {
         return this.id;

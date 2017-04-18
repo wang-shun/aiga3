@@ -14,12 +14,14 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoCollectionDao;
+import com.ai.aiga.dao.NaAutoGroupCaseDao;
 import com.ai.aiga.dao.NaOnlineTaskDistributeDao;
 import com.ai.aiga.dao.NaOnlineTaskResultDao;
 import com.ai.aiga.dao.NaPlanCaseResultDao;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
 import com.ai.aiga.domain.NaAutoCollection;
+import com.ai.aiga.domain.NaAutoGroupCase;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.domain.NaOnlineTaskResult;
 import com.ai.aiga.exception.BusinessException;
@@ -57,6 +59,10 @@ public class OnlineTaskSv extends BaseService{
 	
 	@Autowired
 	private NaPlanCaseResultDao naPlanCaseResultDao;
+	
+	@Autowired
+	private NaAutoGroupCaseDao naAutoGroupCaseDao;
+	
 	
 	/**
 	 * @ClassName: OnlineTaskSv :: list
@@ -186,6 +192,7 @@ public class OnlineTaskSv extends BaseService{
 		String taskId[] = taskIds.split(",");
 		for (String id : taskId) {
 			naOnlineTaskDistributeDao.delete(Long.parseLong(id));
+			naPlanCaseResultDao.deleteBySubTaskId(Long.parseLong(id));
 		}
 
 	}
@@ -306,7 +313,7 @@ public class OnlineTaskSv extends BaseService{
 				//发短信
 				//sendMessageForCycle(subTaskAuto.getTaskId());
 				
-				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
+				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 2L);
 			}
 			if(listGroup != null && listGroup.size() > 0){
 				naOnlineTaskDistributeDao.save(subTaskGroup);
@@ -314,8 +321,9 @@ public class OnlineTaskSv extends BaseService{
 				naOnlineTaskResultDao.save(planResultGroup);
 				//发短信
 				//sendMessageForCycle(subTaskGroup.getTaskId());
-				
-				naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId(), 0L);
+
+				naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId());
+
 			}
 			naOnlineTaskDistributeDao.updateParentTaskDealState(onlineTaskRequest.getParentTaskId());
 		}

@@ -50,5 +50,7 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	Page<T> searchByNativeSQL(String nativeSQL,Pageable pageable,List<String> keyList);
 
 	void saveList(List<Object> list);
+
+	Page<T> searchByNativeSQLS(String nativeSQL, Pageable pageable);
 	
 }

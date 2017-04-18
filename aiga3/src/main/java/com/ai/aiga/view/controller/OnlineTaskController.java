@@ -74,7 +74,7 @@ public class OnlineTaskController {
 	@RequestMapping(path = "/accept/onlineTask/collect")
 	public @ResponseBody JsonBean collect(Long caseType){
 		JsonBean bean = new JsonBean();
-		bean.setData(onlineTaskSv.collect(1L));//暂时写死
+		bean.setData(onlineTaskSv.collect(caseType));//暂时写死
 		return bean;
 	}
 	

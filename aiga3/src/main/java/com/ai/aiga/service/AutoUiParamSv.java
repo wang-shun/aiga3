@@ -48,7 +48,7 @@ public class AutoUiParamSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
         //批量保存
-        List<Object> paramList=new ArrayList<Object>();
+        List<NaAutoUiParam> paramList=new ArrayList<NaAutoUiParam>();
         for (AutoUiParamRequest paramRequest:paramRequestList){
             NaAutoUiParam param= BeanMapper.map(paramRequest,NaAutoUiParam.class);
             //将主键置为空
@@ -60,7 +60,7 @@ public class AutoUiParamSv {
 //            param.setCreatorId();
             paramList.add(param);
         }
-        autoUiParamDao.saveList(paramList);
+        autoUiParamDao.save(paramList);
     }
 
     /**
@@ -111,7 +111,7 @@ public class AutoUiParamSv {
         }
         List<NaUiParam>paramList=uiParamDao.findByCompId(autoUiComp.getCompId());
         //复制参数
-        List<Object> list = new ArrayList<Object>();
+        List<NaAutoUiParam> list = new ArrayList<NaAutoUiParam>();
         if(paramList!=null&&paramList.size()>0){
             for (NaUiParam uiParam:paramList){
                 NaAutoUiParam autoUiParam=BeanMapper.map(uiParam,NaAutoUiParam.class);
@@ -127,7 +127,7 @@ public class AutoUiParamSv {
                 list.add(autoUiParam);
             }
         }
-        autoUiParamDao.saveList(list);
+        autoUiParamDao.save(list);
     }
 
     /**

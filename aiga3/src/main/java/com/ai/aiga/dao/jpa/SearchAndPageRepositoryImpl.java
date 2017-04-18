@@ -24,33 +24,21 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 
     protected final EntityManager entityManager;
 
-    //public SearchAndPageRepositoryImpl(){
-    //	super((Class<T>)null, null);
-    //}
-
     public SearchAndPageRepositoryImpl(JpaEntityInformation entityInformation,
                                        EntityManager entityManager) {
         super(entityInformation, entityManager);
         domainClass = entityInformation.getJavaType();
-        // Keep the EntityManager around to used from the newly introduced methods.
         this.entityManager = entityManager;
     }
 
-    // There are two constructors to choose from, either can be used.
     public SearchAndPageRepositoryImpl(Class<T> domainClass,
                                        EntityManager entityManager) {
         super(domainClass, entityManager);
 
-        // This is the recommended method for accessing inherited class
-        // dependencies.
         this.domainClass = domainClass;
         this.entityManager = entityManager;
     }
 
-    @Override
-    public List<T> search() {
-        return null;
-    }
 
     @Override
     public Page<T> search(List<Condition> cons, Pageable pageable) {
@@ -123,12 +111,6 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
         }
 
         return entityManager.createQuery(query);
-    }
-
-    @Override
-    public Page<T> search(Pageable pageable) {
-        System.out.println("search(Pageable pageable)");
-        return null;
     }
 
     @Override
@@ -349,20 +331,4 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
     }
 
     
-    
-    
-    /**
-     * 批量保存
-     * @param list
-     */
-    @Override
-    public void saveList(List<Object> list){
-        if (list != null&&list.size()>0) {
-            for (Object obj:list){
-                this.entityManager.persist(obj);
-            }
-            this.entityManager.flush();
-            this.entityManager.clear();
-        }
-    }
 }

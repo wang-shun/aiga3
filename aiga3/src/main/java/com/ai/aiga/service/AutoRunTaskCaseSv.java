@@ -77,7 +77,7 @@ public class AutoRunTaskCaseSv {
         if (planCaseList ==null || planCaseList.size()==0) {
             BusinessException.throwBusinessException("the plan without autoCase! please make sure the planId: "+planId);
         }
-        List<Object> list=new ArrayList<Object>();
+        List<NaAutoRunTaskCase> list=new ArrayList<NaAutoRunTaskCase>();
         for (NaAutoRunPlanCase planCase:planCaseList){
             NaAutoRunTaskCase taskCase= BeanMapper.map(planCase,NaAutoRunTaskCase.class);
             //将映射的主键值置为null
@@ -85,7 +85,8 @@ public class AutoRunTaskCaseSv {
             taskCase.setTaskId(taskId);
             list.add(taskCase);
         }
-        autoRunTaskCaseDao.saveList(list);
+        autoRunTaskCaseDao.save(list);
+        //autoRunTaskCaseDao.saveList(list);
     }
 
     /**

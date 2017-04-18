@@ -11,13 +11,33 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface SearchAndPageRepository<T, ID extends Serializable> extends JpaRepository<T, ID>{
 	
-	List<T> search();
 	
-	Page<T> search(Pageable pageable);
+	/**
+	 * 单表操作 -- 赞不收拾
+	 * @ClassName: SearchAndPageRepository :: search
+	 * @author: taoyf
+	 * @date: 2017年4月14日 下午5:48:06
+	 *
+	 * @Description: 根据条件信息, 查询单表信息
+	 * @param cons 属性条件
+	 * @return
+	 */
+	List<T> search(List<Condition> cons);
 	
+	/**
+	 * 单表操作 -- 赞不收拾
+	 * @ClassName: SearchAndPageRepository :: search
+	 * @author: taoyf
+	 * @date: 2017年4月14日 下午5:41:29
+	 *
+	 * @Description: 根据条件和分页信息, 查询单表信息
+	 * @param cons 属性条件
+	 * @param pageable 分页信息
+	 * @return
+	 */
 	Page<T> search(List<Condition> cons, Pageable pageable);
 	
-	List<T> search(List<Condition> cons);
+
 	
 	/**
 	 * 为支持多表的条件查询
@@ -27,6 +47,7 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @return
 	 */
 	Page<T> search(List<String> sql, List<Condition> cons, Pageable pageable);
+	
 	
 	/**
 	 * 直接用sql查询
@@ -48,8 +69,6 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @return
 	 */
 	Page<T> searchByNativeSQL(String nativeSQL,Pageable pageable,List<String> keyList);
-
-	void saveList(List<Object> list);
 
 	Page<T> searchByNativeSQLS(String nativeSQL, Pageable pageable);
 	

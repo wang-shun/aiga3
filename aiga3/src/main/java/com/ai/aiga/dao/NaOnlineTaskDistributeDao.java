@@ -17,7 +17,7 @@ public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDis
 	
 	
 	@Query(value = "select a.task_id, a.task_name, a.task_type, a.deal_state, b.name as creator_name from na_online_task_distribute a left join "
- +" aiga_staff b  on  a.deal_op_id = b.staff_id where a.online_plan =?1 and a.parent_task_id=0", nativeQuery = true)
+ +" aiga_staff b  on  a.deal_op_id = b.staff_id where a.online_plan =?1 and a.parent_task_id=0 and a.task_type < 4", nativeQuery = true)
 	List<Object[]> findByOnlinePlanAndParentTaskId(Long onlinePlan);
 
 	@Query(value = "select (select name from aiga_staff where staff_id = a.assign_id) as assign,"
@@ -43,5 +43,11 @@ public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDis
 	@Modifying
 	@Query("delete  from NaOnlineTaskDistribute  where parentTaskId = ?1")
 	void deleteByParentTaskId(Long parentTaskId);
+
+
+
+	@Query(value = "select a.task_id, a.task_name, a.task_type, a.deal_state, b.name as creator_name from na_online_task_distribute a left join "
+ +" aiga_staff b  on  a.deal_op_id = b.staff_id where a.online_plan =?1 and a.parent_task_id=0 and a.task_type > 4", nativeQuery = true)
+	List<Object[]> findParentTask(Long onlinePlan);
 
 }

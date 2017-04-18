@@ -126,8 +126,14 @@ public class ChangePlanRunSv extends BaseService{
 			info = "前台功能验收";
 		}else if(naOnlineTaskDistribute.getTaskType() == 2){
 			info = "后台功能验收";
-		}else{
+		}else if(naOnlineTaskDistribute.getTaskType() == 3){
 			info = "非功能验收";
+		}else if(naOnlineTaskDistribute.getTaskType() == 4){
+			info = "生产回归";
+		}else if(naOnlineTaskDistribute.getTaskType() == 9){
+			info = "发布任务分派";
+		}else{
+			info = "部署监控";
 		}
 		if(naOnlineTaskDistribute.getTaskId() == null || naOnlineTaskDistribute.getTaskId().equals("")){
 			naOnlineTaskDistribute.setParentTaskId(0L);
@@ -170,11 +176,17 @@ public class ChangePlanRunSv extends BaseService{
 		//TaskMessageClient.sendMessageForCycle("13567177436", "666");
 	}
 
-	public List<NaOnlineTaskDistributeResponse> taskList(Long onlinePlan) {
+	public List<NaOnlineTaskDistributeResponse> taskList(Long onlinePlan, String type) {
 		if(onlinePlan == null || onlinePlan < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
 		}
-		List<Object[]> list = naOnlineTaskDistributeDao.findByOnlinePlanAndParentTaskId(onlinePlan);
+		List<Object[]> list = null;
+		if(type != null && type.equals("1")){
+			list = naOnlineTaskDistributeDao.findParentTask(onlinePlan);
+		}else{
+			list = naOnlineTaskDistributeDao.findByOnlinePlanAndParentTaskId(onlinePlan);
+		}
+		
 		List<NaOnlineTaskDistributeResponse> responses = new ArrayList<NaOnlineTaskDistributeResponse>(list.size());
 		if(list != null && list.size() > 0){
 			for(int i = 0; i < list.size(); i++){

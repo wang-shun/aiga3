@@ -2,6 +2,7 @@
   "retCode":"200",
   "retMessage":null,
   "data":{
+  	"totalElements":12, //总条数
   	"content":
   	[{
     	"reqDate": "2017-2-02 08:00:00",

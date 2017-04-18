@@ -165,11 +165,25 @@
         }, {
             "funcId": 34,
             "name": "变更发布",
-            "viewname": "#"
+            "viewname": "#",
+            "subMenus": [{
+                "funcId": 341,
+                "name": "监控任务",
+                "viewname": "view/netFlowManage/changeRelease/taskMonitoring.html"
+            }]
         }, {
             "funcId": 35,
             "name": "生产验证",
-            "viewname": "#"
+            "viewname": "#",
+            "subMenus": [{
+                "funcId": 351,
+                "name": "生产验证任务",
+                "viewname": "view/productionValidate/productionTask.html"
+            },{
+                "funcId": 352,
+                "name": "生产验证任务处理",
+                "viewname": "view/productionValidate/productionTaskProcess.html"
+            }]
         }, {
             "funcId": 36,
             "name": "问题跟踪",

@@ -108,12 +108,12 @@ public class ChangeReviewSv extends BaseService{
 	@Autowired
 	private           TestSituationDao   testSituationDao;
 
-   public  List<NaChangeReview> selectall(Long onlinePlan){
+   public  List<NaChangeReview> selectall(Long onlinePlan,String ext1){
 	   if (onlinePlan==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
 	
-	   return changeReviewDao.selectall(onlinePlan);
+	   return changeReviewDao.selectall(onlinePlan,ext1);
 	   
    }
    
@@ -139,7 +139,8 @@ public class ChangeReviewSv extends BaseService{
 		   
 		   if(StringUtils.isNotBlank(request.getReviewResult())){
 		   naChangeReview.setReviewResult(request.getReviewResult());}
-		  
+		   naChangeReview.setExt2(request.getExt2());
+		   naChangeReview.setExt1(request.getExt2());
 		   changeReviewDao.save(naChangeReview);
 	 
 	   }
@@ -194,8 +195,9 @@ public class ChangeReviewSv extends BaseService{
 		
 	}
    //测试情况
-   public Object list1(int pageNumber, int pageSize, PlanDetailManifest condition) throws ParseException {
-		List<String> list = new ArrayList<String>();
+   public Object list1(int pageNumber, int pageSize, NaTestSituation condition) throws ParseException {
+	
+		/*List<String> list = new ArrayList<String>();
 		
 		list.add("sysName");
 		list.add("subSysName");
@@ -215,7 +217,27 @@ public class ChangeReviewSv extends BaseService{
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return planDetailManifestDao.searchByNativeSQL(sql, pageable, list);
+		return planDetailManifestDao.searchByNativeSQL(sql, pageable, list);*/
+	   List<Condition> cons = new ArrayList<Condition>();
+		
+		if(condition != null){
+			if(condition.getPlanId()!= 0){
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return testSituationDao.search(cons, pageable);
+	   
 	}
    //保存测试情况
    public void saveTestSituation(List<NaTestSituation> list){
@@ -232,6 +254,11 @@ public class ChangeReviewSv extends BaseService{
 				//NaTestSituation1.setSysName(NaTestSituation.getSysName());
 				//NaTestSituation1.setSubSysName(NaTestSituation.getSubSysName());
 				NaTestSituation1.setTestSituation(NaTestSituation.getTestSituation());
+				NaTestSituation1.setExt1(NaTestSituation.getExt1());
+				NaTestSituation1.setExt2(NaTestSituation.getExt2());
+				NaTestSituation1.setExt3(NaTestSituation.getExt3());
+				NaTestSituation1.setExt4(NaTestSituation.getExt4());
+				
 				testSituationDao.save(NaTestSituation1);
 					
 			}

@@ -1,0 +1,761 @@
+<!-- Page Start -->
+<div class="row" id="Page_alterReview">
+    <div class="col-md-12">
+		<div class="box" id="JS_getChangeReviewConclusion">
+	      	<div class="box-header">
+	        	<h3 class="box-title">交付物评审结论</h3>
+				<div class="box-tools pull-right">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" name="saveConclusion"><i class="fa fa-plus"></i> 保存结论</button>
+                </div>
+	      	</div>
+			<div class="box-body" id="JS_getDeliverableReviewConclusion"></div>
+		</div>
+
+		<div class="nav-tabs-custom">
+		    <ul class="nav nav-tabs">
+		        <li class="active"><a href="#deliverableTab_1" data-toggle="tab" aria-expanded="false">计划上线需求概况</a>
+		        </li>
+		        <li class=""><a href="#deliverableTab_2" data-toggle="tab" aria-expanded="false">测试执行情况</a></li>
+				<li class=""><a href="#deliverableTab_3" data-toggle="tab" aria-expanded="false">数据库配置脚本</a>
+		        </li>
+		        <li class=""><a href="#deliverableTab_4" data-toggle="tab" aria-expanded="false">应用变更</a></li>
+				<li class=""><a href="#deliverableTab_5" data-toggle="tab" aria-expanded="false">告警屏蔽主机清单</a></li>
+		        <li class=""><a href="#deliverableTab_6" data-toggle="tab" aria-expanded="false">上线步骤和回退步骤</a></li>
+		        <li class=""><a href="#deliverableTab_7" data-toggle="tab" aria-expanded="false">上线特殊需求</a></li>
+		    </ul>
+			<div class="tab-content">
+		        <!-- tab页签1 -->
+		        <div class="tab-pane active" id="deliverableTab_1">
+		            <div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getPlanList">
+			                    <div class="box-header">
+			                        <div class="box-title">计划上线需求概况</div>
+			                    </div>
+			                    <!-- <div class="box-body" style="min-height: 100px;" id="JS_planList"></div> -->
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>系统大类</th>
+									            <th>系统子类</th>
+									            <th>上线数量</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getModelList">
+								<div class="box-header">
+			                        <div class="box-title">上线系统模块清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-primary" data-toggle="modal" name="saveModel"><i class="fa fa-plus"></i> 保存更改</button>
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th class="iCheckbox" width="15"></th>
+									            <th>系统大类</th>
+									            <th>模块名称</th>
+									            <th>交付包名称</th>
+									            <th style="display:none;">状态</th>
+									            <th style="display:none;">备注</th>
+									            <th style="display:none;">上线时间</th>
+									            <th style="display:none;">是否是最新修改记录</th>
+												<th style="display:none;">修改次数</th>
+									            <th>评审结果</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getOnlineList">
+								<div class="box-header">
+			                        <div class="box-title">计划上线清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <!-- <div class="box-body" style="min-height: 100px; overflow: auto" id="JS_onlineList"></div> -->
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>需求提出时间</th>
+									            <th style="display:none;">软件需求编号</th>
+									            <th>软件需求名称</th>
+												<th>需求来源</th>
+									            <th>需求级别</th>
+									            <th>需求优先级</th>
+												<th>集团考核</th>
+									            <th style="display:none;">需求分类</th>
+									            <th style="display:none;">需求类型</th>
+												<th style="display:none;">需求变更类型</th>
+									            <th style="display:none;">变更原因</th>
+									            <th style="display:none;">初排时间</th>
+												<th style="display:none;">终排时间</th>
+									            <th style="display:none;">上线时间</th>
+									            <th style="display:none;">开发任务编号</th>
+												<th style="display:none;">开发任务名称</th>
+									            <th style="display:none;">任务状态</th>
+									            <th style="display:none;">系统大类</th>
+												<th style="display:none;">系统子类</th>
+									            <th style="display:none;">开发人员</th>
+									            <th style="display:none;">开发管理员</th>
+												<th style="display:none;">需求管理员</th>
+									            <th style="display:none;">需求申请人</th>
+									            <th style="display:none;">工作量评估</th>
+												<th style="display:none;">初步情况分析</th>
+									            <th style="display:none;">是否跨周期需求</th>
+									            <th style="display:none;">是否跨系统联调</th>
+												<th style="display:none;">重点需求</th>
+									            <th style="display:none;">集团需求</th>
+									            <th style="display:none;">存在数据库脚本</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+		        <!-- tab页签2 -->
+		        <div class="tab-pane" id="deliverableTab_2">
+		            <div class="row">
+		            	<div class="col-md-12">
+			                <div class="box" id="JS_getTestList">
+			                    <div class="box-header">
+			                        <div class="box-title">功能测试执行情况</div>
+									<!-- <div class="box-tools">
+														                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveTest"><i class="fa fa-plus"></i> 保存更改</button>
+														                </div> -->
+			                    </div>
+			                    <div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									        	<!-- <th class="iCheckbox" width="15"></th> -->
+									            <th>系统大类</th>
+									            <th>系统子类</th>
+									            <th>测试情况</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+		                </div>
+		            </div>
+					<div class="row">
+		            	<div class="col-md-12">
+			                <div class="box" id="JS_getRunList">
+			                    <div class="box-header">
+			                        <div class="box-title">测试执行情况</div>
+									<div class="box-tools">
+										<button type="button" class="btn btn-primary" data-toggle="modal" name="saveRun"><i class="fa fa-plus"></i> 保存更改</button>
+									</div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									        	<th class="iCheckbox" width="15"></th>
+									            <th>测试执行类型</th>
+									            <th>测试执行情况</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+		                </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getRemnantList">
+								<div class="box-header">
+			                        <div class="box-title">测试遗留情况</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th style="display:none;">编号</th>
+									            <th style="display:none;">缺陷编号</th>
+									            <th>问题描述(具体描述缺陷的现象)</th>
+												<th>测试阶段</th>
+									            <th>缺陷类型</th>
+									            <th>影响分析(描述缺陷对系统可能产生的影响)</th>
+												<th style="display:none;">评审结论</th>
+									            <th style="display:none;">开发人员</th>
+									            <th style="display:none;">测试人员</th>
+												<th style="display:none;">需求管理员</th>
+									            <th style="display:none;">需求编号</th>
+									            <th style="display:none;">开发任务编号</th>
+												<th style="display:none;">需求名称</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getReportList">
+								<div class="box-header">
+			                        <div class="box-title">功能测试报告</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>测试结果</th>
+									            <th>测试进度</th>
+									            <th>测试情况</th>
+												<th>测试人员</th>
+									            <th>测试管理员</th>
+									            <th>缺陷数量</th>
+												<th>需求提出时间</th>
+									            <th>软件需求编号</th>
+									            <th style="display:none;">软件需求名称</th>
+												<th style="display:none;">需求来源</th>
+									            <th style="display:none;">需求级别</th>
+									            <th style="display:none;">需求优先级</th>
+												<th style="display:none;">集团考核</th>
+									            <th style="display:none;">需求分类</th>
+									            <th style="display:none;">需求类型</th>
+												<th style="display:none;">需求变更类型</th>
+									            <th style="display:none;">变更时间</th>
+									            <th style="display:none;">变更原因</th>
+												<th style="display:none;">初排时间</th>
+									            <th style="display:none;">终排时间</th>
+									            <th style="display:none;">上线时间</th>
+												<th style="display:none;">开发任务编号</th>
+									            <th style="display:none;">开发任务名称</th>
+									            <th style="display:none;">任务状态</th>
+												<th style="display:none;">系统大类</th>
+									            <th style="display:none;">系统子类</th>
+									            <th style="display:none;">开发人员</th>
+												<th style="display:none;">开发管理员</th>
+									            <th style="display:none;">需求管理员</th>
+									            <th style="display:none;">需求申请人</th>
+												<th style="display:none;">工作量评估</th>
+												<th style="display:none;">初步情况分析</th>
+									            <th style="display:none;">是否跨周期需求</th>
+									            <th style="display:none;">是否跨系统联调</th>
+												<th style="display:none;">重点需求</th>
+									            <th style="display:none;">集团需求</th>
+									            <th style="display:none;">存在数据库脚本</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="8">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+				<!-- tab页签3 -->
+		        <div class="tab-pane" id="deliverableTab_3">
+		            <div class="row">
+		            	<div class="col-md-12">
+			                <div class="box" id="JS_getDatabaseList">
+			                    <div class="box-header">
+			                        <div class="box-title">数据库配置脚本</div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>数据库</th>
+									            <th>脚本数量</th>
+									            <th>执行时间</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+		                </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getJavascriptList">
+								<div class="box-header">
+			                        <div class="box-title">数据库脚本清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>需求管理平台导入</th>
+									            <th>新增代码中内嵌的SQL语句</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getDeliverList">
+								<div class="box-header">
+			                        <div class="box-title">数据库割接脚本清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>割接脚本</th>
+									            <th>是否可以提前执行</th>
+									            <th>执行耗时</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+										<tfoot>
+					                        <tr>
+					                            <td colspan="6">
+					                                <div class="dataTables_paginate" name="pagination"></div>
+					                            </td>
+					                        </tr>
+					                    </tfoot>
+									</table>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+				<!-- tab页签4 -->
+		        <div class="tab-pane" id="deliverableTab_4">
+		            <div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+			                    <div class="box-header">
+			                        <div class="box-title">系统架构变更清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_structureList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">进程变更清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_progressList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">服务变更上线清单</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_serviceList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">主机配置</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_ipConfiguration"></div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+				<!-- tab页签7 -->
+		        <div class="tab-pane" id="deliverableTab_7">
+		            <div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+			                    <div class="box-header">
+			                        <div class="box-title">集团需求</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_needList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">需联调需求</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_combineList"></div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="">
+								<div class="box-header">
+			                        <div class="box-title">生产环境需配置菜单需求</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body" style="min-height: 100px;" id="JS_configureList"></div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+<!-- handlebars/交付物评审结论 -->
+<script id="TPL_getDeliverableReviewConclusion" type="text/x-handlebars-template">
+	<table class="table table-bordered table-hover">
+	    <thead>
+	        <tr>
+	            <th class="iCheckbox" width="15"></th>
+	            <th style="display:none;">上线计划</th>
+	            <th>结论</th>
+	            <th>评审结果</th>
+	            <th>评审时间</th>
+	            <th>评审人</th>
+	            <th>备注</th>
+	            <th>操作</th>
+	            <th style="display:none;">扩张字段</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	    {{#each this}}
+	        <tr>
+	            <td><input type="radio" class="minimal" value="{{reviewId}}" name="reviewId"></td>
+	            <td style="display:none;">{{onlinePlan}}</td>
+	            <td>
+	                <div class="col-xs-1">
+	                    <!-- <input type="text" size="" class="" name="conclusion" value="{{conclusion}}" placeholder=""> -->
+	                    <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
+	                        <option value="">请选择</option>
+	                        <option value="1">通过</option>
+	                        <option value="2">未通过</option>
+	                    </select>
+	                </div>
+	            </td>
+	            <td><div class="col-xs-1"><input type="text" size="" class="" name="reviewResult" value="{{reviewResult}}" placeholder=""></div></td>
+	            <td>{{reviewDate}}</td>
+	            <td>{{reviewer}}</td>
+	            <td><div class="col-xs-1"><input type="text" size="" class="" name="remark" value="{{remark}}" placeholder=""></div></td>
+	            <td>
+	                <div class="text-center">
+	                    <button type="button" class="btn btn-primary" id="JS_publish" name="publish">编译发布</button>
+	                    <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
+	                </div>
+	            </td>
+	            <td style="display:none;"><input type="hidden" value="{{ext2}}" name="ext2">{{ext2}}</td>
+	        </tr>
+	    {{/each}}
+	    </tbody>
+	</table>
+</script>
+<!-- handlebars/计划上线需求概况列表 -->
+<script id="TPL_getPlanList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{sysName}}</td>
+            <td>{{subSysName}}</td>
+            <td>{{nu}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/上线系统模块清单 -->
+<script id="TPL_getModelList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td><input type="checkbox" class="minimal" value="{{id}}" name="id"></td>
+            <td>{{sysName}}</td>
+			<td>{{modelName}}</td>
+            <td>{{packageName}}</td>
+			<td style="display:none;">{{states state}}</td>
+            <td style="display:none;">{{remark}}</td>
+			<td style="display:none;">{{planDate}}</td>
+			<td style="display:none;">{{isFinishedsss isFinished}}</td>
+            <td style="display:none;">{{updateCount}}</td>
+            <td>
+                <div class="col-xs-1">
+                    <select name="result" class="" value="{{result}}">
+                        <option value="">请选择</option>
+                        <option value="0">不合格</option>
+                        <option value="1">合格</option>
+                    </select>
+                </div>
+            </td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/计划上线清单列表 -->
+<script id="TPL_getOnlineList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{reqDate}}</td>
+            <td style="display:none;">{{reqNo}}</td>
+            <td>{{reqName}}</td>
+			<td>{{reqOrigin}}</td>
+            <td>{{reqLevel}}</td>
+            <td>{{reqPriority}}</td>
+			<td>{{reqGroupFocus}}</td>
+            <td style="display:none;">{{reqCategory}}</td>
+            <td style="display:none;">{{reqType}}</td>
+            <td style="display:none;">{{reqUpdate}}</td>
+			<td style="display:none;">{{reqReason}}</td>
+            <td style="display:none;">{{reqFirstDate}}</td>
+            <td style="display:none;">{{reqLastDate}}</td>
+			<td style="display:none;">{{reqOnlineDate}}</td>
+            <td style="display:none;">{{devNo}}</td>
+            <td style="display:none;">{{devName}}</td>
+			<td style="display:none;">{{devStatus}}</td>
+            <td style="display:none;">{{sysName}}</td>
+            <td style="display:none;">{{subSysName}}</td>
+            <td style="display:none;">{{devStaff}}</td>
+			<td style="display:none;">{{devManager}}</td>
+            <td style="display:none;">{{reqManager}}</td>
+            <td style="display:none;">{{reqStaff}}</td>
+			<td style="display:none;">{{devWorkload}}</td>
+            <td style="display:none;">{{devAnalyse}}</td>
+            <td style="display:none;">{{reqSkippingCycle}}</td>
+			<td style="display:none;">{{qaCrossSystem}}</td>
+            <td style="display:none;">{{reqImportant}}</td>
+            <td style="display:none;">{{reqGroup}}</td>
+            <td style="display:none;">{{devDataScript}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/功能测试执行情况列表 -->
+<script id="TPL_getTestList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+        	<!-- <td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td> -->
+        	<td><input type="hidden" value="{{sysName}}" name="sysName">{{sysName}}</td>
+        	<td><input type="hidden" value="{{subSysName}}" name="subSysName">{{subSysName}}</td>
+            <td><!-- <div class="col-xs-1"><input type="text" size="" class="form-control" name="testSituation" value="{{testSituation}}" placeholder=""></div> -->{{testSituation}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/测试执行情况列表 -->
+<script id="TPL_getRunList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="{{ext1}}" name="ext1">{{ext1}}</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{ext2}}" placeholder="" style="width:600px;"></div></td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/测试遗留情况列表 -->
+<script id="TPL_getRemnantList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td style="display:none;">{{id}}</td>
+            <td style="display:none;">{{defectId}}</td>
+            <td>{{problemDescription}}</td>
+			<td>{{testStage}}</td>
+            <td>{{defectType}}</td>
+            <td>{{influence}}</td>
+			<td style="display:none;">{{reviewResult}}</td>
+            <td style="display:none;">{{devMan}}</td>
+            <td style="display:none;">{{testMan}}</td>
+            <td style="display:none;">{{requireManager}}</td>
+			<td style="display:none;">{{requireId}}</td>
+            <td style="display:none;">{{devTaskId}}</td>
+            <td style="display:none;">{{requireName}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/功能测试报告列表 -->
+<script id="TPL_getReportList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{testResult}}</td>
+            <td>{{testProgress}}</td>
+            <td>{{testCondition}}</td>
+			<td>{{testMan}}</td>
+            <td>{{testManager}}</td>
+            <td>{{defectNumber}}</td>
+			<td>{{requireDate}}</td>
+            <td>{{requireCode}}</td>
+            <td style="display:none;">{{requireName}}</td>
+            <td style="display:none;">{{requireSource}}</td>
+			<td style="display:none;">{{requireLevel}}</td>
+            <td style="display:none;">{{requirePriority}}</td>
+            <td style="display:none;">{{groupCheck}}</td>
+			<td style="display:none;">{{requireClassify}}</td>
+            <td style="display:none;">{{requireType}}</td>
+            <td style="display:none;">{{requireOnlineType}}</td>
+			<td style="display:none;">{{onlineDate}}</td>
+            <td style="display:none;">{{onlineReason}}</td>
+            <td style="display:none;">{{firstTime}}</td>
+            <td style="display:none;">{{lastTime}}</td>
+			<td style="display:none;">{{upDate}}</td>
+            <td style="display:none;">{{devTaskId}}</td>
+            <td style="display:none;">{{devTaskName}}</td>
+			<td style="display:none;">{{taskState}}</td>
+            <td style="display:none;">{{bigSystem}}</td>
+            <td style="display:none;">{{system}}</td>
+			<td style="display:none;">{{devMan}}</td>
+            <td style="display:none;">{{devManager}}</td>
+            <td style="display:none;">{{requireMan}}</td>
+            <td style="display:none;">{{requireApplicant}}</td>
+			<td style="display:none;">{{workloadEvaluation}}</td>
+            <td style="display:none;">{{situationAnalysis}}</td>
+            <td style="display:none;">{{isCycleDemand}}</td>
+			<td style="display:none;">{{isSystemAdjust}}</td>
+            <td style="display:none;">{{isImportantRequire}}</td>
+            <td style="display:none;">{{groupDemand}}</td>
+            <td style="display:none;">{{isDatebaseScript}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/数据库配置脚本列表 -->
+<script id="TPL_getDatabaseList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{database}}</td>
+            <td>{{scriptNumber}}</td>
+            <td>{{executeTime}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/数据库脚本清单 -->
+<script id="TPL_getJavascriptList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{requireImport}}</td>
+            <td>{{sql}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/数据库割接脚本清单 -->
+<script id="TPL_getDeliverList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{cuttingScript}}</td>
+            <td>{{executesss execute}}</td>
+            <td>{{executeTime}}</td>
+        </tr>
+    {{/each}}
+</script>
+
+<script>
+    seajs.use("script/netFlowManage/changeReview/alterReview", function(alterReview) {
+        alterReview.init();
+    });
+</script>

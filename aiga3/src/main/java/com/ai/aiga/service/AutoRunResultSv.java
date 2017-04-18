@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.ai.aiga.dao.*;
 import com.ai.aiga.domain.*;
@@ -60,6 +63,9 @@ public class AutoRunResultSv {
 	@Autowired
 	private NaAutoMachineSv autoMachineSv;
 	
+	@Autowired
+	private AutoDistributeMachineSv autoDistributeMachineSv;
+	
 	public NaAutoRunResult save(NaAutoRunResult naAutoRunResult) {
 		
 		if(naAutoRunResult == null){
@@ -72,7 +78,7 @@ public class AutoRunResultSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
 		}
 		if(StringUtils.isBlank(naAutoRunResult.getEnvironmentType().toString())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "environmenttType");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "environmentType");
 		}
 		return naAutoRunResultDao.save(naAutoRunResult);
 	}
@@ -428,8 +434,7 @@ public class AutoRunResultSv {
 		if (runType==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "runType");
 		}
-		List<NaAutoRunResult> resultList=this.naAutoRunResultDao.findByTaskIdAndRunType(taskId,runType);
-		return resultList;
+		return this.naAutoRunResultDao.findByTaskIdAndRunType(taskId,runType);
 	}
 
 	/**
@@ -471,6 +476,8 @@ public class AutoRunResultSv {
 		List<NaAutoRunResult> resultList=this.getListByTaskIdResultTypeNot(taskId,AutoRunEnum.ResultType_success.getValue());
 		this.initResult(resultList);
 	}
+
+	
 
 	/**
 	 * 根据任务ID初始化结果表数据（初始化条件：执行状态为执行中）
@@ -534,11 +541,12 @@ public class AutoRunResultSv {
 	 * @param taskId 任务ID
 	 * @return JSON串
 	 */
-	public String getResultByTaskIdToJson(Long taskId){
+	public String getResultByTaskIdToJson(Long taskId,String machineIp){
 		NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(taskId);
 		String result;
+		//分布式获取
 		if(autoRunTask.getRunType().equals(AutoRunEnum.RunType_distributed.getValue())){
-			result=this.getResultDistributeToJson(taskId);
+			result=this.getResultDistributeToJson(taskId,machineIp);
 		}else{
 			result=this.getResultImmediatelyToJson(taskId);
 		}
@@ -558,28 +566,64 @@ public class AutoRunResultSv {
 		AutoReportRequest report=reportList.get(0);
 		//解析日志，保存用例执行结果
 		NaAutoRunResult result=this.parseReportSaveResult(report);
+		final Long taskId=result.getTaskId();
+		String machineIp=report.getMachineIp();
 		//是否最后一个用例
 		boolean isFinalNum = report.getFinalNum().equals(AutoRunEnum.FinalNum_yes.getValue());
-		NaAutoRunTask autoRunTask = this.autoRunTaskSv.findById(result.getTaskId());
+		NaAutoRunTask autoRunTask = this.autoRunTaskSv.findById(taskId);
 		//是否分布式
 		boolean isDistribute = autoRunTask.getRunType().equals(AutoRunEnum.RunType_distributed.getValue());
-		List<NaAutoRunResult> resultList=naAutoRunResultDao.findByTaskIdAndRunTypeNot(result.getTaskId(),AutoRunEnum.RunStatus_complete.getValue());
-		//查询用例是否全部执行完成
+		List<NaAutoRunResult> resultList=naAutoRunResultDao.findByTaskIdAndRunTypeNot(taskId,AutoRunEnum.RunStatus_complete.getValue());
+		//是否全部执行完成
 		boolean isComplete = resultList != null && resultList.size() == 0;
-		//用例全部执行完成 或 最后一个用例且不是分布式
-		if (isComplete || (isFinalNum && !isDistribute)) {
-			//更新任务信息
-			this.autoRunTaskSv.taskComplete(result.getTaskId());
-			//更新机器状态
-			this.autoMachineSv.updateMachineStatusToFree(report.getMachineIp());
+		//是否轮循
+		boolean isCycle=autoRunTask.getCycleType().equals(AutoRunEnum.CycleType_cycle.getValue());
+		// 用例全部执行完成
+		if (isComplete) {
+			boolean isEnd=false;
+			//轮循执行
+			if(isCycle){
+				autoRunTask.setRunTimes(autoRunTask.getRunTimes()+1);
+				this.autoRunTaskSv.save(autoRunTask);
+				//判断是否轮循结束
+				isEnd=autoRunTask.getEndTimes()<=autoRunTask.getRunTimes();
+			}
+			//非轮循或者轮循结束
+			if (!isCycle || isEnd) {
+				//更新任务信息
+				this.autoRunTaskSv.taskComplete(taskId);
+				//更新机器状态
+				this.autoMachineSv.updateMachineStatusToFree(machineIp);
+				if (isDistribute) {
+					//更新任务与机器关系表状态为空闲
+					this.autoDistributeMachineSv.updateMachineStatus(taskId, machineIp, AutoRunEnum.MachineStatus_free.getValue());
+				}
+			}else{//轮循未结束
+				Long intervalTime=autoRunTask.getIntervalTime();//轮循间隔时间
+				ScheduledExecutorService service= Executors.newSingleThreadScheduledExecutor();
+				//延迟间隔时间轮循
+				service.schedule(new Runnable() {
+					@Override
+					public void run() {
+						//重启任务
+						autoRunTaskSv.reStartTask(taskId,true);
+					}
+				},intervalTime, TimeUnit.SECONDS);
+			}
 		}
-		//判断是否为最后一个用例且是分布式
+		//用例未执行完，但是最后一个用例且为分布式
 		if (!isComplete && isFinalNum && isDistribute) {
-			//判断是否还有未执行用例
-			resultList = naAutoRunResultDao.findByTaskIdAndRunType(result.getTaskId(), AutoRunEnum.RunStatus_none.getValue());
-			if (resultList != null && resultList.size() > 0) {
+			resultList = naAutoRunResultDao.findByTaskIdAndRunType(taskId, AutoRunEnum.RunStatus_none.getValue());
+			//是否还有未执行用例
+			boolean isNone=resultList != null && resultList.size() > 0;
+			if (isNone) {
 				//访问云桌面
-				this.autoRunTaskSv.accessProxy(report.getMachineIp(), result.getTaskId().toString(), this.autoRunTaskCaseSv.getEnvByTaskId(result.getTaskId()));
+				this.autoRunTaskSv.accessProxy(machineIp, taskId.toString(), this.autoRunTaskCaseSv.getEnvByTaskId(taskId));
+			}else{
+				//更新机器状态
+				this.autoMachineSv.updateMachineStatusToFree(machineIp);
+				//更新任务与机器关系表状态为空闲
+				this.autoDistributeMachineSv.updateMachineStatus(taskId, machineIp, AutoRunEnum.MachineStatus_free.getValue());
 			}
 		}
 	}
@@ -604,6 +648,11 @@ public class AutoRunResultSv {
 			result.setResultType(AutoRunEnum.ResultType_interrupt.getValue());
 		}else{//失败
 			result.setResultType(AutoRunEnum.ResultType_fail.getValue());
+			//失败上传图片
+			
+			//发送邮件
+			
+			//发送短信
 		}
 		result.setRunInfo(report.getReport());//用例执行日志
 		result.setRunLog(report.getRunLog());//ruby执行日志
@@ -646,17 +695,16 @@ public class AutoRunResultSv {
 		for (NaAutoRunResult result : resultList) {
 			results.add(this.getSingleResultToJson(result));
 		}
-		//更新发送到云桌面的执行用例的runType为执行中
-		naAutoRunResultDao.updateRunTypeByTaskIdAndResultType(taskId, AutoRunEnum.RunStatus_running.getValue(),AutoRunEnum.ResultType_none.getValue());
 		return JsonUtil.listToJson(results);
 	}
 
 	/**
 	 * （分布式执行）返回用例执行结果信息(防止分布式获取用例结果信息冲突，需加同步锁)
 	 * @param taskId 任务ID
+	 * @param machineIp 机器IP               
 	 * @return JSON
 	 */
-	private synchronized String getResultDistributeToJson(Long taskId){
+	private synchronized String getResultDistributeToJson(Long taskId,String machineIp){
 		NaAutoRunTask autoRunTask=this.autoRunTaskSv.findById(taskId);
 		List<NaAutoRunResult> resultList = this.naAutoRunResultDao.findByTaskIdAndRunTypeAndSortGroupOrderBySortNumberAsc(taskId, AutoRunEnum.RunStatus_none.getValue(), 0L);
 		List<String> results=new ArrayList<String>();
@@ -676,6 +724,11 @@ public class AutoRunResultSv {
 				for(NaAutoRunResult result:resultList){
 					results.add(this.getSingleResultToJson(result));
 				}
+			}else{
+				//如果没有用例可执行，则更新机器状态为休闲
+				this.autoMachineSv.updateMachineStatusToFree(machineIp);
+				//更新任务与机器关系表状态为空闲
+				this.autoDistributeMachineSv.updateMachineStatus(taskId,machineIp,AutoRunEnum.MachineStatus_free.getValue());
 			}
 		}
 		return JsonUtil.listToJson(results);
@@ -694,6 +747,9 @@ public class AutoRunResultSv {
 		map.put("datasetid",result.getTaskId()+"_"+result.getAutoId());
 		map.put("sceneId",result.getEnvironmentType().toString());
 		map.put("caseGroup",result.getSortGroup()==null?"0":result.getSortGroup().toString());
+		//更新执行结果用例状态为执行中
+		result.setRunType(AutoRunEnum.RunStatus_running.getValue());
+		this.save(result);
 		return JsonUtil.mapToJson(map);
 	}
 }

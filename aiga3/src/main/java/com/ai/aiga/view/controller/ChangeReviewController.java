@@ -46,9 +46,9 @@ public class ChangeReviewController {
 	private  ChangeReviewSv changeReviewSv;
 	//交互物变更评审
 	@RequestMapping(path = "/sys/changerevier/list")
-	public @ResponseBody JsonBean changerevier(Long onlinePlan){
+	public @ResponseBody JsonBean changerevier(Long onlinePlan,String ext1){
 		JsonBean bean = new JsonBean();
-		bean.setData(changeReviewSv.selectall(onlinePlan));
+		bean.setData(changeReviewSv.selectall(onlinePlan,ext1));
 		return bean;
 	}    
 	//交互物变更评审保存
@@ -254,7 +254,7 @@ public class ChangeReviewController {
 		public @ResponseBody JsonBean findtestSituation(
 				@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 				@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-				PlanDetailManifest condition
+				NaTestSituation condition
 				) throws ParseException {
 			
 			  JsonBean bean = new JsonBean();

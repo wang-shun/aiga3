@@ -37,7 +37,8 @@ public class NaPlanCaseResult  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
-
+     private String autoCode;
+     private String remarks;
     public NaPlanCaseResult() {
     }
 
@@ -45,24 +46,31 @@ public class NaPlanCaseResult  implements java.io.Serializable {
     public NaPlanCaseResult(long resultId) {
         this.resultId = resultId;
     }
-    public NaPlanCaseResult(Long resultId, Long subTaskId, Long caseId, Byte caseType, Byte caseState, String result, String bug, Long operatId, Date doneDate, Byte autoResult, String userAutoResult, String ext1, String ext2, String ext3) {
-       this.resultId = resultId;
-       this.subTaskId = subTaskId;
-       this.caseId = caseId;
-       this.caseType = caseType;
-       this.caseState = caseState;
-       this.result = result;
-       this.bug = bug;
-       this.operatId = operatId;
-       this.doneDate = doneDate;
-       this.autoResult = autoResult;
-       this.userAutoResult = userAutoResult;
-       this.ext1 = ext1;
-       this.ext2 = ext2;
-       this.ext3 = ext3;
-    }
    
-    @Id 
+   
+    public NaPlanCaseResult(Long resultId, Long subTaskId, Long caseId, Byte caseType, Byte caseState, String result,
+			String bug, Long operatId, Date doneDate, Byte autoResult, String userAutoResult, String ext1, String ext2,
+			String ext3, String autoCode, String remarks) {
+		this.resultId = resultId;
+		this.subTaskId = subTaskId;
+		this.caseId = caseId;
+		this.caseType = caseType;
+		this.caseState = caseState;
+		this.result = result;
+		this.bug = bug;
+		this.operatId = operatId;
+		this.doneDate = doneDate;
+		this.autoResult = autoResult;
+		this.userAutoResult = userAutoResult;
+		this.ext1 = ext1;
+		this.ext2 = ext2;
+		this.ext3 = ext3;
+		this.autoCode = autoCode;
+		this.remarks = remarks;
+	}
+
+
+	@Id 
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_PLAN_CASE_RESULT$SEQ")
     @SequenceGenerator(name="NA_PLAN_CASE_RESULT$SEQ",sequenceName="NA_PLAN_CASE_RESULT$SEQ",allocationSize=1)
     @Column(name="RESULT_ID", unique=true, nullable=false, precision=14, scale=0)
@@ -191,7 +199,27 @@ public class NaPlanCaseResult  implements java.io.Serializable {
         this.ext3 = ext3;
     }
 
+    @Column(name="EXT3", length=200)
+	public String getAutoCode() {
+		return autoCode;
+	}
 
+
+	public void setAutoCode(String autoCode) {
+		this.autoCode = autoCode;
+	}
+
+	@Column(name="EXT3", length=200)
+	public String getRemarks() {
+		return remarks;
+	}
+
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+    
 
 
 }

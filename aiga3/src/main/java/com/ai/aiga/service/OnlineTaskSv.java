@@ -87,17 +87,14 @@ public class OnlineTaskSv extends BaseService{
 						      +"   (select name from aiga_staff where staff_id = a.assign_id) as assign_name,"
 						     +"    (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
 						     +"  from na_online_task_distribute a"
-						    +"  where a.parent_task_id = 0"
-					       +"	  group by a.online_plan,"
-						   +"         a.online_plan_name,"
-						   +"         a.task_id,"
-						   +"          a.task_name,"
-						    +"      a.task_type,"
-						    +"      a.deal_state,"
-						    +"        a.assign_date,"
-						     +"        a.assign_id,"
-						     +"      a.deal_op_id ";
-		if(condition.getTaskName() != null){
+						    +"  where a.parent_task_id = 0";
+		
+		if(condition.getTaskType() != null && condition.getTaskType().equals("4")){
+			sql += " and a.task_type = "+condition.getTaskType();
+		}else{
+			sql += " and a.task_type < 4 ";
+		}
+		if(condition.getTaskName() != null && !condition.getTaskName().equals("")){
 			sql += " and a.task_name like '%"+condition.getTaskName()+"%'";
 		}
 		if(condition.getOnlinePlan() != null){
@@ -106,6 +103,15 @@ public class OnlineTaskSv extends BaseService{
 		if(condition.getDealState() != null){
 			sql += " and a.deal_state = "+condition.getDealState();
 		}
+		sql += " group by a.online_plan,"
+				+ " a.online_plan_name,"
+				+ " a.task_id,"
+				+ " a.task_name,"
+				+ " a.task_type,"
+				+ " a.deal_state,"
+				+ " a.assign_date,"
+				+ " a.assign_id,"
+				+ "  a.deal_op_id";
 		
 		List<String> list = new ArrayList<String>();
 		list.add("onlinePlan");
@@ -278,7 +284,7 @@ public class OnlineTaskSv extends BaseService{
 			planResult.setCreateDate(new Date());
 			planResult.setOpId(onlineTaskRequest.getDealOpId());
 			planResult.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResult.setDealType((byte) 2);
+			planResult.setDealType((byte) 2);//手工用例
 			planResult.setState((byte) 0);
 			planResult.setTaskId(subTask.getTaskId());
 			naOnlineTaskResultDao.save(planResult);
@@ -288,7 +294,7 @@ public class OnlineTaskSv extends BaseService{
 			planResultAuto.setCreateDate(new Date());
 			planResultAuto.setOpId(onlineTaskRequest.getDealOpId());
 			planResultAuto.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultAuto.setDealType((byte) 1);
+			planResultAuto.setDealType((byte) 1);//自动化用例
 			planResultAuto.setState((byte) 0);
 			
 			//创建用例组类型子任务结果
@@ -296,8 +302,8 @@ public class OnlineTaskSv extends BaseService{
 			planResultGroup.setCreateDate(new Date());
 			planResultGroup.setOpId(onlineTaskRequest.getDealOpId());
 			planResultGroup.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultGroup.setDealType((byte) 0);
-			planResultGroup.setState((byte) 0);
+			planResultGroup.setDealType((byte) 0);//用例组
+			planResultGroup.setState((byte) 0);//未处理
 			
 			//将选中用例集下手工用例关联到回归子任务处理结果表
 			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 1L);

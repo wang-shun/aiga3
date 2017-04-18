@@ -50,6 +50,7 @@ public class SubTaskDealSv extends BaseService{
 	 * @return          
 	 */
 	public Object list(SubTaskRequest condition, int pageNumber, int pageSize) {
+		
 		String sql = "select a.task_id, b.task_name as taskName, a.task_name as subTaskName, a.task_type, c.state,"
 				+ " to_char(c.create_date,'yyyy-MM-dd HH24:MI:SS'),"
 				+ " to_char(c.done_date,'yyyy-MM-dd HH24:MI:SS'),"
@@ -58,8 +59,11 @@ public class SubTaskDealSv extends BaseService{
 				+ " (select e.collect_name from na_auto_collection e where e.collect_id = c.auto_plan_id) as collectName,"
 				+ " (select d.name from aiga_staff d where d.staff_id = a.assign_id) as assignName,"
 				+ " (select d.name from aiga_staff d where d.staff_id = a.deal_op_id) as dealName"
-				+ " from na_online_task_distribute a, na_online_task_distribute b, na_online_task_result c"
-				+ " where a.parent_task_id = b.task_id and a.task_id = c.task_id and a.parent_task_id <> 0";
+				+ " from na_online_task_distribute a "
+				+ "left join na_online_task_distribute b on  a.parent_task_id = b.task_id "
+				+ "left join na_online_task_result c on a.task_id = c.task_id"
+				+ " where a.parent_task_id <> 0 ";
+		
 		if(condition.getTaskType() != null){
 			sql += " and b.task_type = "+condition.getTaskType();
 		}

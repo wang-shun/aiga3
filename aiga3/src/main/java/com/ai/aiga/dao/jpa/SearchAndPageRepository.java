@@ -2,6 +2,7 @@ package com.ai.aiga.dao.jpa;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,30 +38,25 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 */
 	Page<T> search(List<Condition> cons, Pageable pageable);
 	
+//	/**
+//	 * @Description: 根据HSL多表关联查询, 查询结果以domainClass返回
+//	 * @ClassName: SearchAndPageRepository :: search
+//	 * @author: taoyf
+//	 * @date: 2017年4月18日 上午11:18:37
+//	 *
+//	 * @param sql
+//	 * @param cons
+//	 * @param domainClass
+//	 * @return
+//	 */
+//	<R> List<R> search(String jpaSql, Class<R> domainClass);
 
+//	/**
+//	 * @Description: 根据HSL多表关联查询, 查询结果以domainClass返回
+//	 * @return
+//	 */
+//	<R> Page<R> search(String jpaSql, Class<R> domainClass, Pageable pageable);
 	
-	/**
-	 * 为支持多表的条件查询
-	 * @param sql : 需要联合查询的实体名
-	 * @param cons
-	 * @param pageable
-	 * @return
-	 */
-	Page<T> search(List<String> sql, List<Condition> cons, Pageable pageable);
-	
-	
-	/**
-	 * 直接用sql查询
-	 * @param sql
-	 * @param pageable
-	 * @return
-	 */
-	Page<T> search(String sql, Pageable pageable);
-	
-	Page<T> searchBySql(String sql, Class<T> domainClass, Pageable pageable);
-	
-	List searchformSQL(String sql);
-
 	/**
 	 * 根据原生SQL按照分页查询
 	 * @param nativeSQL
@@ -68,10 +64,62 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @param keyList
 	 * @return
 	 */
-	Page<T> searchByNativeSQL(String nativeSQL,Pageable pageable,List<String> keyList);
+	Page<Map> searchByNativeSQL(String nativeSQL, Pageable pageable, List<String> keyList);
 
-	Page<T> searchByNativeSQLS(String nativeSQL, Pageable pageable)  throws Exception;
-
-	List<Object> searchBySql(String nativeSQL)  throws Exception;
+	/**
+	 * 根据原生SQL按照分页查询, 返回Page<Map<String, Object>> 
+	 * @ClassName: SearchAndPageRepository :: searchByNativeSQL
+	 * @author: taoyf
+	 * @date: 2017年4月18日 下午8:01:54
+	 *
+	 * @Description:
+	 * @param nativeSQL
+	 * @param pageable
+	 * @return
+	 */
+	Page<Map> searchByNativeSQL(String nativeSQL, Pageable pageable);
+	
+	/**
+	 * 根据原生SQL查询, 返回List<Map<String, Object>>  
+	 * @ClassName: SearchAndPageRepository :: searchByNativeSQL
+	 * @author: taoyf
+	 * @date: 2017年4月18日 下午8:02:35
+	 *
+	 * @Description:
+	 * @param nativeSQL
+	 * @return
+	 */
+	List<Map> searchByNativeSQL(String nativeSQL);
+	
+	/**
+	 * 根据原生SQL查询, PageList<R> , R代表返回类型Class
+	 * @ClassName: SearchAndPageRepository :: searchByNativeSQL
+	 * @author: taoyf
+	 * @date: 2017年4月18日 下午8:04:16
+	 *
+	 * @Description:
+	 * @param nativeSQL
+	 * @param domainClass
+	 * @param pageable
+	 * @return
+	 */
+	<R> Page<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass, Pageable pageable);
+	
+	/**
+	 * 	 * 根据原生SQL查询, PageList<R> , R代表返回类型Class
+	 * @ClassName: SearchAndPageRepository :: searchByNativeSQL
+	 * @author: taoyf
+	 * @date: 2017年4月18日 下午8:05:03
+	 *
+	 * @Description:
+	 * @param nativeSQL
+	 * @param domainClass
+	 * @return
+	 */
+	<R> List<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass);
+	
+	/*准备删除*/
+	@Deprecated
+	List searchformSQL(String sql);
 	
 }

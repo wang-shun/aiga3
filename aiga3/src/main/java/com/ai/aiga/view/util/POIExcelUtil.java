@@ -26,6 +26,7 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.reflect.ClassUtil;
 import com.ai.aiga.util.reflect.FastMethodInvoker;
+import com.ai.aiga.util.reflect.FieldAndFastMethodInvoker;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.google.common.io.Files;
 
@@ -207,7 +208,7 @@ public class POIExcelUtil {
 				String setterMethodName = ClassUtil.SETTER_PREFIX + StringUtils.capitalize(name);
 				
 				FastMethodInvoker invoker = FastMethodInvoker.create(clazz, setterMethodName, filedType);
-				FieldAndFastMethodInvoker ff = new FieldAndFastMethodInvoker(invoker, filedType);
+				FieldAndFastMethodInvoker ff = new FieldAndFastMethodInvoker(invoker, name, filedType);
 				
 				list.add(ff);
 			}
@@ -318,40 +319,6 @@ public class POIExcelUtil {
 //		System.out.println(invoker);
 		
 		System.out.println(int.class);
-	}
-
-	
-	public static class FieldAndFastMethodInvoker{
-		
-		private FastMethodInvoker fastMethodInvoker;
-		private Class fieldType;
-		
-		public FieldAndFastMethodInvoker() {
-		}
-		
-		/**
-		 * @param fastMethodInvoker
-		 * @param fieldType
-		 */
-		public FieldAndFastMethodInvoker(FastMethodInvoker fastMethodInvoker, Class fieldType) {
-			this.fastMethodInvoker = fastMethodInvoker;
-			this.fieldType = fieldType;
-		}
-		
-		public FastMethodInvoker getFastMethodInvoker() {
-			return fastMethodInvoker;
-		}
-		public void setFastMethodInvoker(FastMethodInvoker fastMethodInvoker) {
-			this.fastMethodInvoker = fastMethodInvoker;
-		}
-		
-		public Class getFieldType() {
-			return fieldType;
-		}
-		public void setFieldType(Class fieldType) {
-			this.fieldType = fieldType;
-		}
-		
 	}
 	
 }

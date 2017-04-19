@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import com.ai.aiga.dao.*;
 import com.ai.aiga.domain.*;
 import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.service.enums.GeneralEnum;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
@@ -580,16 +581,18 @@ public class AutoRunResultSv {
 		boolean isCycle=autoRunTask.getCycleType().equals(AutoRunEnum.CycleType_cycle.getValue());
 		// 用例全部执行完成
 		if (isComplete) {
+			//是否停止任务
+			boolean isStop=autoRunTask.getStopFlag().equals(GeneralEnum.Logic_yes.getValue());
+			//是否轮循结束
 			boolean isEnd=false;
 			//轮循执行
 			if(isCycle){
 				autoRunTask.setRunTimes(autoRunTask.getRunTimes()+1);
 				this.autoRunTaskSv.save(autoRunTask);
-				//判断是否轮循结束
 				isEnd=autoRunTask.getEndTimes()<=autoRunTask.getRunTimes();
 			}
-			//非轮循或者轮循结束
-			if (!isCycle || isEnd) {
+			//非轮循 或 轮循结束 或 停止任务
+			if (!isCycle || isEnd || isStop) {
 				//更新任务信息
 				this.autoRunTaskSv.taskComplete(taskId);
 				//更新机器状态
@@ -600,15 +603,8 @@ public class AutoRunResultSv {
 				}
 			}else{//轮循未结束
 				Long intervalTime=autoRunTask.getIntervalTime();//轮循间隔时间
-				ScheduledExecutorService service= Executors.newSingleThreadScheduledExecutor();
-				//延迟间隔时间轮循
-				service.schedule(new Runnable() {
-					@Override
-					public void run() {
-						//重启任务
-						autoRunTaskSv.reStartTask(taskId,true);
-					}
-				},intervalTime, TimeUnit.SECONDS);
+				//延迟执行
+				this.autoRunTaskSv.scheduleExecTask(taskId,intervalTime,TimeUnit.SECONDS);
 			}
 		}
 		//用例未执行完，但是最后一个用例且为分布式

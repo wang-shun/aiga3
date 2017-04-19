@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 自动化执行任务
@@ -167,7 +170,7 @@ public class AutoRunTaskSv {
             autoRunResultSv.initResultByFail(taskId);
         }
         //如果是分布式任务，则清除任务与机器关联关系
-        if (autoRunTask.getRunType().equals(AutoRunEnum.RunType_distributed)) {
+        if (autoRunTask.getRunType().equals(AutoRunEnum.RunType_distributed.getValue())) {
             autoDistributeMachineSv.deleteByTaskId(taskId);
         }
         //启动任务
@@ -348,6 +351,47 @@ public class AutoRunTaskSv {
     }
 
     /**
+     * 根据延迟时间重新启动任务
+     * @param taskId 任务ID
+     * @param delayTime 延迟时间
+     * @param timeUnit 时间类型
+     */
+    public void scheduleExecTask(Long taskId, Long delayTime, TimeUnit timeUnit){
+        ScheduledExecutorService service= Executors.newSingleThreadScheduledExecutor();
+        final Long taskIdTemp=taskId;
+        //延迟间隔时间轮循
+        service.schedule(new Runnable() {
+            @Override
+            public void run() {
+                //重启任务
+                reStartTask(taskIdTemp,true);
+            }
+        },delayTime, timeUnit);
+        service.shutdown();
+    }
+
+    /**
+     * 延迟访问云桌面
+     * @param autoRunTask 任务对象
+     * @param delayTime 延迟时间
+     * @param timeUnit 时间类型
+     */
+    public void scheduleAccessProxy(NaAutoRunTask autoRunTask,Long delayTime,TimeUnit timeUnit){
+        ScheduledExecutorService service= Executors.newSingleThreadScheduledExecutor();
+        final String machineIp=autoRunTask.getMachineIp();
+        final Long taskId=autoRunTask.getTaskId();
+        //延迟间隔时间轮循
+        service.schedule(new Runnable() {
+            @Override
+            public void run() {
+                //访问云桌面
+                accessProxy(machineIp, taskId.toString(), autoRunTaskCaseSv.getEnvByTaskId(taskId));
+            }
+        },delayTime, timeUnit);
+        service.shutdown();
+    }
+    
+    /**
      * 根据机器IP，任务ID，环境配置信息访问云桌面代理程序服务接口
      * @param machineIp 机器IP
      * @param taskId 任务ID
@@ -397,21 +441,37 @@ public class AutoRunTaskSv {
 //            autoRunTask.setLastRunner();//执行者
         this.save(autoRunTask);
         //立即执行
-        if (runType .equals(AutoRunEnum.RunType_timing.getValue())) {
+        if (runType .equals(AutoRunEnum.RunType_immediately.getValue())) {
             //访问云桌面
             this.accessProxy(autoRunTask.getMachineIp(), taskId.toString(), autoRunTaskCaseSv.getEnvByTaskId(taskId));
         }
         //定时执行
         if(runType.equals(AutoRunEnum.RunType_timing.getValue())){
-             
+            this.timingStartTask(autoRunTask);
         }
         //分布式执行
         if (runType.equals(AutoRunEnum.RunType_distributed.getValue())) {
             this.distributeStartTask(autoRunTask);
-        }   
-
+        }
+        
     }
 
+    /**
+     * 定时启动任务
+     * @param autoRunTask 任务对象
+     */
+    private void timingStartTask(NaAutoRunTask autoRunTask) {
+        //是否轮循
+        boolean isCycle = autoRunTask.getCycleType().equals(AutoRunEnum.CycleType_cycle.getValue());
+        if (!isCycle) {
+            Date timingRunTime = autoRunTask.getTimingRunTime();
+            //获取延迟时间
+            Long delayTime = timingRunTime == null ? 0L : (timingRunTime.getTime() - System.currentTimeMillis()) / 1000;
+            if(delayTime>=0L) {
+                this.scheduleAccessProxy(autoRunTask, delayTime, TimeUnit.SECONDS);
+            }
+        }
+    }
     /**
      * 分布式启动任务
      * @param autoRunTask 任务对象

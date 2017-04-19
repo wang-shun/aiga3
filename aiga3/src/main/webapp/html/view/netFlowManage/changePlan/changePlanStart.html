@@ -76,7 +76,7 @@
     </div>
 </div>
 <!-- 查看自动化执行结果详细信息弹出框 -->
-<div class="modal fade" id="JS_getAutoResultModal">
+<div class="modal fade" id="Modal_getAutoResultModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -100,7 +100,7 @@
 </div>
 <!-- Modal -->
 <!-- 查看编译发布详细信息弹出框 -->
-<div class="modal fade" id="JS_getPublishResultModal">
+<div class="modal fade" id="Modal_getPublishResultModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -124,7 +124,7 @@
 </div>
 <!-- Modal -->
 <!-- 启动弹出框 -->
-<div class="modal fade" id="JS_getTaskResultModal">
+<div class="modal fade" id="Modal_getTaskResultModal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -201,12 +201,10 @@
     <div class="box-header ">
         <h3 class="box-title">变更计划列表</h3>
         <div class="box-tools">
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary" name="generate"><i class="fa fa-gears"></i> 编译发布</button>
-                <button type="button" class="btn btn-success" name="start"><i class="fa fa-flash"></i> 启动</button>
-                <button type="button" class="btn btn-info" name="checkResultA"><i class="fa fa-search"></i> 查看用例执行结果</button>
-                <button type="button" class="btn btn-info" name="checkResultC"><i class="fa fa-search"></i> 查看编译发布结果</button>
-            </div>
+            <button type="button" class="btn btn-primary" name="generate"><i class="fa fa-gears"></i> 编译发布</button>
+            <button type="button" class="btn btn-primary" name="start"><i class="fa fa-flash"></i> 启动</button>
+            <button type="button" class="btn btn-primary" name="checkResultA"><i class="fa fa-search"></i> 查看用例执行结果</button>
+            <button type="button" class="btn btn-primary" name="checkResultC"><i class="fa fa-search"></i> 查看编译发布结果</button>
         </div>
     </div>
     <div class="box-body">
@@ -285,10 +283,8 @@
     <div class="box-header ">
         <h3 class="box-title">验收任务列表</h3>
         <div class="box-tools">
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary" name="update"><i class="fa fa-gears"></i> 修改</button>
-                <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
-            </div>
+            <button type="button" class="btn btn-primary" name="update"><i class="fa fa-gears"></i> 修改</button>
+            <button type="button" class="btn btn-primary" name="del"><i class="fa fa-remove"></i> 删除</button>
         </div>
     </div>
     <div class="box-body">

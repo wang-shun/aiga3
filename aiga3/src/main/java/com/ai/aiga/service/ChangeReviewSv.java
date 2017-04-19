@@ -124,6 +124,7 @@ public class ChangeReviewSv extends BaseService{
 	   if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
+	 
 	   NaChangeReview naChangeReview=changeReviewDao.findOne(request.getReviewId());
 	   if(naChangeReview == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -253,13 +254,13 @@ public class ChangeReviewSv extends BaseService{
 			if (NaTestSituation != null) {
 				NaTestSituation NaTestSituation1 =testSituationDao.findOne(NaTestSituation.getTestId());
 				
-				//NaTestSituation1.setSysName(NaTestSituation.getSysName());
-				//NaTestSituation1.setSubSysName(NaTestSituation.getSubSysName());
-				NaTestSituation1.setTestSituation(NaTestSituation.getTestSituation());
+				
+				if(StringUtils.isNotBlank(NaTestSituation.getExt1())){
 				NaTestSituation1.setExt1(NaTestSituation.getExt1());
+				}
+				if(StringUtils.isNotBlank(NaTestSituation.getExt2())){
 				NaTestSituation1.setExt2(NaTestSituation.getExt2());
-				/*NaTestSituation1.setExt3(NaTestSituation.getExt3());
-				NaTestSituation1.setExt4(NaTestSituation.getExt4());*/
+				}
 				
 				testSituationDao.save(NaTestSituation1);
 					

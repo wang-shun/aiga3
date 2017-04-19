@@ -1,8 +1,9 @@
 package com.ai.aiga.view.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,11 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.CourseChangList;
-import com.ai.aiga.domain.NaAutoCase;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.CourseChangSv;
-import com.ai.aiga.view.json.AutoCaseRequest;
 import com.ai.aiga.view.json.CourseChangListRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -36,7 +35,8 @@ public class CourseChangController {
     public @ResponseBody JsonBean seachDeployTask(
     		@ApiParam(name="page",value="页码")@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @ApiParam(name="pageSize",value="页数")@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            @ApiParam(name="CourseChangListRequest",value="查询条件") CourseChangList condition){
+            @ApiParam(name="CourseChangListRequest",value="查询条件") CourseChangListRequest condition){
+    	
     	Object CourseChangList = courseChangeSv.find(condition, pageNumber, pageSize); 	
         JsonBean jsonBean=new JsonBean();
        jsonBean.setData(CourseChangList);
@@ -54,9 +54,9 @@ public class CourseChangController {
    public @ResponseBody JsonBean saveAutoCompParam(
    		@ApiParam(name="page",value="页码")@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
            @ApiParam(name="pageSize",value="页数")@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-           @ApiParam(name="CourseChangListRequest",value="查询条件") CourseChangList condition){
+           @ApiParam(name="CourseChangListRequest",value="查询条件") CourseChangListRequest condition){
 	   //值查询修改过状态的任务
-	   condition.setDeployState(1);
+	   condition.setDeployState((long) 1);
    	Object CourseChangList = courseChangeSv.find(condition, pageNumber, pageSize); 	
        JsonBean jsonBean=new JsonBean();
       jsonBean.setData(CourseChangList);
@@ -77,18 +77,6 @@ public class CourseChangController {
        return new JsonBean();
    }
    /**
-    * 新增部署任务
-    * @param autoCaseRequest
-    * @return
-    */
-   @RequestMapping(path="/auto/task/addDeployTask",method = RequestMethod.POST)
-   @ApiOperation(value = "",response = CourseChangList.class,notes = "新增部署任务")
-   @ApiParam(name="CourseChangListRequest",value = "",required = true)
-   public @ResponseBody JsonBean addDeploy(@RequestParam CourseChangList condition){
-	   courseChangeSv.saveTask(condition);
-       return new JsonBean();
-   }
-   /**
     * 修改任务
     * @param autoCaseRequest
     * @return
@@ -96,11 +84,13 @@ public class CourseChangController {
    @RequestMapping(path="/auto/task/saveTask",method = RequestMethod.POST)
    @ApiOperation(value = "",response = CourseChangList.class,notes = "保存部署任务")
    @ApiParam(name="CourseChangListRequest",value = "",required = true)
-   public @ResponseBody JsonBean saveTask(@RequestParam CourseChangList condition){
-	   if (condition.getId() == null) {
-           BusinessException.throwBusinessException(ErrorCode.Parameter_com_null,"Id");
-       }
-	   courseChangeSv.saveTask(condition);
+   public @ResponseBody JsonBean saveTask(@RequestParam List<CourseChangList> courseChangList){
+	   for(CourseChangList course : courseChangList){
+		   if (course.getId() == null) {
+			   BusinessException.throwBusinessException(ErrorCode.Parameter_com_null,"Id");
+		   }
+	   }
+	   courseChangeSv.saveTask(courseChangList);
        return new JsonBean();
    }
 

@@ -170,7 +170,7 @@
                 "funcId": 341,
                 "name": "发布结果反馈",
                 "viewname": "view/netFlowManage/changeRelease/releaseResults.html"
-            }{
+            },{
                 "funcId": 342,
                 "name": "部署任务",
                 "viewname": "view/netFlowManage/changeRelease/taskDeploying.html"

@@ -83,7 +83,7 @@ public class OnlineTaskSv extends BaseService{
 						      +"   a.task_name,"
 						      +"    a.task_type,"
 						      +"     a.deal_state,"
-						      +"  a.assign_date,"
+						      +"  to_char(a.assign_date,'yyyy-MM-dd HH:MM:SS') as assign_date,"
 						      +"   (select name from aiga_staff where staff_id = a.assign_id) as assign_name,"
 						     +"    (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
 						     +"  from na_online_task_distribute a"
@@ -109,7 +109,7 @@ public class OnlineTaskSv extends BaseService{
 				+ " a.task_name,"
 				+ " a.task_type,"
 				+ " a.deal_state,"
-				+ " a.assign_date,"
+				+ " assign_date,"
 				+ " a.assign_id,"
 				+ "  a.deal_op_id";
 		
@@ -134,6 +134,7 @@ public class OnlineTaskSv extends BaseService{
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		
 		return naOnlineTaskDistributeDao.searchByNativeSQL(sql, pageable, list);
+		//return naOnlineTaskDistributeDao.searchByNativeSQL(sql, pageable);
 	}
 
 	/**
@@ -152,10 +153,12 @@ public class OnlineTaskSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
 		String sql = "select a.task_id, b.task_name, b.task_type, b.deal_state, c.collect_name, d.name as opName,"
-				+ " a.auto_plan_id, b.deal_op_id, b.assign_date, b.create_date"
-				+ "  from na_online_task_result a, na_online_task_distribute b, na_auto_collection c,"
-				+ " aiga_staff d where a.task_id = b.task_id and a.auto_plan_id = c.collect_id and b.deal_op_id = d.staff_id"
-				+ " and b.parent_task_id = "+condition.getTaskId();
+				+ " a.auto_plan_id, b.deal_op_id, to_char(b.assign_date,'YYYY-MM-DD HH24:MI:SS'), to_char(b.create_date,'YYYY-MM-DD HH24:MI:SS')"
+				+ "  from  na_online_task_distribute b left join na_online_task_result a on a.task_id = b.task_id"
+				+ " left join na_auto_collection c on a.auto_plan_id = c.collect_id"
+				+ " left join aiga_staff d on b.deal_op_id = d.staff_id "
+				+ " where b.parent_task_id = "+condition.getTaskId();
+				
 		if(condition.getTaskName() != null){
 			sql += " and b.task_name like '%"+condition.getTaskName()+"%'";
 		}

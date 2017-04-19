@@ -66,8 +66,8 @@ public class ChangePlanRunController {
 	/**
 	 * 删除已分派任务*/
 	@RequestMapping(path = "/accept/changePlanRun/delete")
-	public @ResponseBody JsonBean delete(Long taskId){
-		changePlanRunSv.delete(taskId);
+	public @ResponseBody JsonBean delete(String taskIds){
+		changePlanRunSv.delete(taskIds);
 		return JsonBean.success;
 	}
 	/**

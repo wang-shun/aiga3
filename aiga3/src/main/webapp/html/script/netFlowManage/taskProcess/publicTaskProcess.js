@@ -11,6 +11,13 @@ define(function(require, exports, module) {
 
 	srvMap.add("submitPublicRst", pathAlias + "publicTaskList.json", "accept/otherTask/saveOtherTask");
 
+	//变更计划下拉框
+	srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
+
+	srvMap.add("getOtherPlan", pathAlias + "getOnlinePlanList.json", "accept/otherTask/getOtherPlan");
+	srvMap.add("getOtherTaskInfo", pathAlias + "getOnlinePlanList.json", "accept/otherTask/getOtherTaskInfo");
+	srvMap.add("getOtherFlowName", pathAlias + "getOnlinePlanList.json", "accept/otherTask/getOtherFlowName");
+
 
 	// 模板对象
 	var Tpl = {
@@ -60,7 +67,7 @@ define(function(require, exports, module) {
 					return " ";
 				}
 			});
-			
+
 		},
 		getpublicTaskList: function(cmd) {
 			var self = this;
@@ -79,8 +86,9 @@ define(function(require, exports, module) {
 		querypublicTask: function() {
 			var self = this;
 			var _form = $(Dom.QueryTaskForm);
+			Utils.setSelectData(_form);
 			// 表单提交
-			
+
 			_form.find('button[name="query"]').bind('click', function() {
 					var cmd = _form.serialize();
 					self.getpublicTaskList(cmd);
@@ -100,6 +108,7 @@ define(function(require, exports, module) {
 				var _modal = $(Dom.modalTestReport);
 				_modal.find(".modal-title").html("新增测试结果报告");
 				_modal.modal('show');
+				Utils.setSelectData(_modal,"state=0")
 				var template = Handlebars.compile(Tpl.testReportForm);
 				$(Dom.testReportForm).find(".modal-body").html(template());
 				self.saveTestReport();
@@ -118,9 +127,10 @@ define(function(require, exports, module) {
 					var _modal = $(Dom.modalTestReport);
 					_modal.find(".modal-title").html("修改测试结果报告");
 					_modal.modal('show');
+					Utils.setSelectData(_modal,"state=1")
 					var template = Handlebars.compile(Tpl.testReportForm);
 					$(Dom.testReportForm).find(".modal-body").html(template(data));
-					self.setSelectData(_modal,data);
+					self.setSelectData(_modal, data);
 					self.saveTestReport();
 				}
 			});
@@ -134,7 +144,7 @@ define(function(require, exports, module) {
 				/* Act on the event */
 				var data = Utils.getRadioCheckedRow($(Dom.publicTaskList).find("table"));
 				if (data) {
-					var cmd = "resultId="+data.resultId;
+					var cmd = "resultId=" + data.resultId;
 					Rose.ajax.postJson(srvMap.get('deleResult'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功', 'success', 2000);
@@ -169,7 +179,7 @@ define(function(require, exports, module) {
 			})
 		},
 
-		setSelectData:function(obj,data) {
+		setSelectData: function(obj, data) {
 			var sel = obj.find("select");
 
 			sel.each(function(index, el) {

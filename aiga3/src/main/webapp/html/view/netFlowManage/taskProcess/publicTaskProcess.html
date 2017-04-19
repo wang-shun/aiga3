@@ -13,7 +13,9 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>变更计划名称</label>
-                        <input name="onlinePlanName" class="form-control input-sm">
+                        <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList" data-idkey="onlinePlan" data-namekey="onlinePlanName">
+                            <option value="">请选择</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -107,33 +109,33 @@
     <form name="addFaultForm">
         <div class="col-md-12">
             <div class="col-md-4 form-group">
-                <label class="control-label"><i class="text-red">* </i>变更计划名称:</label>
-                <select name="onlinePlanId" class="form-control input-sm">
+                <label class="control-label"><i class="text-red">* </i>变更计划名称</label>
+                <select name="onlinePlanId" class="form-control input-sm" data-url="getOtherPlan" data-subname="taskId" data-idkey="onlinePlanId" data-namekey="onlinePlanName"  required>
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label"><i class="text-red">* </i>任务名称:</label>
-                <select name="taskId" class="form-control input-sm">
+                <label class="control-label"><i class="text-red">* </i>任务名称</label>
+                <select name="taskId" class="form-control input-sm" data-url="getOtherTaskInfo" data-subname="planId" data-idkey="taskId" data-namekey="taskName"  required>
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label"><i class="text-red">* </i>Boss任务名称:</label>
-                <select name="planId" class="form-control input-sm">
+                <label class="control-label"><i class="text-red">* </i>Boss任务名称</label>
+                <select name="planId" class="form-control input-sm" data-url="getOtherFlowName"  data-idkey="planId" data-namekey="planName" required>
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label">测试范围:</label>
+                <label class="control-label">测试范围</label>
                 <input type="text" class="form-control input-sm" value="{{testRemark}}" name="testRemark">
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label">缺陷数量:</label>
+                <label class="control-label">缺陷数量</label>
                 <input type="text" class="form-control input-sm " value="{{bugCount}}" name="bugCount">
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label">是否解决:</label>
+                <label class="control-label">是否解决</label>
                 <select name="ifSolve" class="form-control select2 input-sm">
                     <option value="">请选择</option>
                     <option value="1">是</option>
@@ -141,11 +143,11 @@
                 </select>
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label">缺陷状态:</label>
+                <label class="control-label">缺陷状态</label>
                 <input type="text" class="form-control input-sm " name="bugStatus" value="{{bugStatus}}">
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label">具备上线条件:</label>
+                <label class="control-label">具备上线条件</label>
                 <select name="onlineCondition" class="form-control select2 input-sm">
                     <option value="">请选择</option>
                     <option value="1">是</option>
@@ -153,19 +155,19 @@
                 </select>
             </div>
             <div class="col-md-12 form-group">
-                <label class="control-label">缺陷具体描述：</label>
+                <label class="control-label">缺陷具体描述</label>
                 <textarea class="form-control" name="bugRemark">{{bugRemark}}</textarea>
             </div>
             <div class="col-md-12 form-group">
-                <label class="control-label">问题原因：</label>
+                <label class="control-label">问题原因</label>
                 <textarea class="form-control" name="reason">{{reason}}</textarea>
             </div>
             <div class="col-md-12 form-group">
-                <label class="control-label">解决方法：</label>
+                <label class="control-label">解决方法</label>
                 <textarea class="form-control" name="solution">{{solution}}</textarea>
             </div>
             <div class="col-md-12 form-group">
-                <label class="control-label">备注：</label>
+                <label class="control-label">备注</label>
                 <textarea class="form-control" name="remark">{{remark}}</textarea>
             </div>
         </div>

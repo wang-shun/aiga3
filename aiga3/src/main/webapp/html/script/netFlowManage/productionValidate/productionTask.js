@@ -117,11 +117,8 @@ define(function(require, exports, module) {
                                 self.updateProductionTask();
                                 self.delProductionTask();
                                 self.getRunResultList();
-                                // var _close = _modal.find("[name='close']");
-                                // _close.unbind('click');
-                                // _close.bind('click', function() {
-                                //     self.getProductionTaskList();
-                                // })
+
+
                                 Utils.eventTrClickCallback($(Dom.getProductionTaskDistributeList))
                                     //设置分页
                                 self.initPaging(_dom, 5, true);
@@ -137,6 +134,11 @@ define(function(require, exports, module) {
                                 }
                             });
 
+                            var _close = _modal.find("[name='close']");
+                            _close.unbind('click');
+                            _close.bind('click', function() {
+                                self.getProductionTaskList();
+                            })
 
                             _rest.unbind();
                             _rest.bind('click', function() {
@@ -285,9 +287,9 @@ define(function(require, exports, module) {
                         Rose.ajax.postJson(srvMap.get("delProductionTask"), cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.show('删除成功！', 'success', 2000);
-
                                 setTimeout(function() {
-                                    self.getProductionTaskDistributeList();;
+                                    self.getProductionTaskDistributeList();
+                                    _form.find("[name='reset']").click();
                                 }, 1000)
                             }
                         });

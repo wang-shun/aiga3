@@ -13,7 +13,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>变更计划名称</label>
-                        <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList" data-idkey="onlinePlan" data-namekey="onlinePlanName">
+                        <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList"  data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName">
                             <option value="">请选择</option>
                         </select>
                     </div>
@@ -31,7 +31,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>任务名称</label>
-                        <input name="taskName" class="form-control input-sm">
+                        <select name="taskId" class="form-control input-sm" data-url="getOtherTaskInfo" data-idkey="taskId" data-namekey="taskName"> </select>
                     </div>
                 </div>
                 <div class="col-md-2">

@@ -12,11 +12,11 @@ define(function(require, exports, module) {
 	srvMap.add("submitPublicRst", pathAlias + "publicTaskList.json", "accept/otherTask/saveOtherTask");
 
 	//变更计划下拉框
-	srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
+	srvMap.add("getOnlinePlanList", pathAlias + "publicTaskList.json", "sys/cache/changePlan");
 
-	srvMap.add("getOtherPlan", pathAlias + "getOnlinePlanList.json", "accept/otherTask/getOtherPlan");
-	srvMap.add("getOtherTaskInfo", pathAlias + "getOnlinePlanList.json", "accept/otherTask/getOtherTaskInfo");
-	srvMap.add("getOtherFlowName", pathAlias + "getOnlinePlanList.json", "accept/otherTask/getOtherFlowName");
+	srvMap.add("getOtherPlan", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherPlan");
+	srvMap.add("getOtherTaskInfo", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherTaskInfo");
+	srvMap.add("getOtherFlowName", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherFlowName");
 
 
 	// 模板对象
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 		_render: function() {
 
 			this.hdbarHelp();
-			this.getpublicTaskList("");
+			this.getpublicTaskList("taskType=1");
 			this.querypublicTask();
 			this.addReport();
 			this.updateReport();
@@ -108,7 +108,7 @@ define(function(require, exports, module) {
 				var _modal = $(Dom.modalTestReport);
 				_modal.find(".modal-title").html("新增测试结果报告");
 				_modal.modal('show');
-				Utils.setSelectData(_modal,"state=0")
+				Utils.setSelectData(_modal,"type=0")
 				var template = Handlebars.compile(Tpl.testReportForm);
 				$(Dom.testReportForm).find(".modal-body").html(template());
 				self.saveTestReport();
@@ -127,7 +127,7 @@ define(function(require, exports, module) {
 					var _modal = $(Dom.modalTestReport);
 					_modal.find(".modal-title").html("修改测试结果报告");
 					_modal.modal('show');
-					Utils.setSelectData(_modal,"state=1")
+					Utils.setSelectData(_modal,"type=1")
 					var template = Handlebars.compile(Tpl.testReportForm);
 					$(Dom.testReportForm).find(".modal-body").html(template(data));
 					self.setSelectData(_modal, data);

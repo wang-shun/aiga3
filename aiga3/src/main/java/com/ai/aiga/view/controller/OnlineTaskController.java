@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -14,8 +15,11 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaInterfaceList;
 import com.ai.aiga.domain.NaOnlinePlanBug;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
+import com.ai.aiga.service.AigaBossTestResultSv;
 import com.ai.aiga.service.OnlineTaskSv;
 import com.ai.aiga.service.PerformanceTaskSv;
+import com.ai.aiga.view.json.BossTestResultRequest;
+import com.ai.aiga.view.json.NaOtherTaskRequest;
 import com.ai.aiga.view.json.OnlineTaskRequest;
 import com.ai.aiga.view.json.TaskRequireRequest;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -37,6 +41,9 @@ public class OnlineTaskController {
 	
 	@Autowired
 	private PerformanceTaskSv performanceTaskSv;
+	
+	@Autowired
+	private AigaBossTestResultSv aigaBossTestResultSv;
 	
 	@RequestMapping(path = "/accept/onlineTask/list")
 	public @ResponseBody JsonBean list(
@@ -74,7 +81,7 @@ public class OnlineTaskController {
 	@RequestMapping(path = "/accept/onlineTask/collect")
 	public @ResponseBody JsonBean collect(Long caseType){
 		JsonBean bean = new JsonBean();
-		bean.setData(onlineTaskSv.collect(caseType));//暂时写死
+		bean.setData(onlineTaskSv.collect(caseType));
 		return bean;
 	}
 	
@@ -131,7 +138,7 @@ public class OnlineTaskController {
 		return JsonBean.success;
 	}
 	
-	@RequestMapping(path = "/accept/performanceTask/childList")
+	@RequestMapping(path = "/accept/performanceTask/childList",method=RequestMethod.POST)
 	public @ResponseBody JsonBean childList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
@@ -140,5 +147,57 @@ public class OnlineTaskController {
 		bean.setData(performanceTaskSv.childList(taskId, pageNumber, pageSize));
 		return bean;
 	}
+	
+	
+	@RequestMapping(path = "/accept/otherTask/saveOtherTask",method=RequestMethod.POST)
+	public @ResponseBody JsonBean saveOtherTask(BossTestResultRequest request){
+		aigaBossTestResultSv.saveOtherTestResult(request);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/accept/otherTask/getOtherTask",method=RequestMethod.POST)
+	public @ResponseBody JsonBean getOtherTask(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaOtherTaskRequest rquest){
+		JsonBean bean = new JsonBean();
+		bean.setData(aigaBossTestResultSv.findAigaBossTestResult(rquest, pageNumber, pageSize));
+		return bean;
+	}
+	
+	
+	@RequestMapping(path = "/accept/otherTask/deleteOtherTask")
+	public @ResponseBody JsonBean deleteOtherTask(Long  resultId){
+		aigaBossTestResultSv.deleteAigaBossTestResult(resultId);
+		return JsonBean.success;
+	}
+	
+	
+	
+	@RequestMapping(path = "/accept/otherTask/getOtherPlan",method=RequestMethod.POST)
+	public @ResponseBody JsonBean getOtherPlan(Long type){
+		JsonBean bean = new JsonBean();
+		bean.setData(aigaBossTestResultSv.getOtherPlan(type));
+		return bean;
+	}
+	
+	
+
+	@RequestMapping(path = "/accept/otherTask/getOtherFlowName",method=RequestMethod.POST)
+	public @ResponseBody JsonBean getOtherFlowName(Long type){
+		JsonBean bean = new JsonBean();
+		bean.setData(aigaBossTestResultSv.getOtherFlowName(type));
+		return bean;
+	}
+	
+	
+	
+	@RequestMapping(path = "/accept/otherTask/getOtherTaskInfo",method=RequestMethod.POST)
+	public @ResponseBody JsonBean getOtherTaskInfo(Long onlinePlan){
+		JsonBean bean = new JsonBean();
+		bean.setData(aigaBossTestResultSv.getOtherTaskInfo(onlinePlan));
+		return bean;
+	}
+	
 }
 

@@ -37,12 +37,12 @@ public class AigaBossTestResult  implements java.io.Serializable {
      private String remark;
      private String solution;
      private Long planId;
-     private Long execTimeCount;
-     private Long totalTimeCount;
+     private Double execTimeCount;
+     private Double totalTimeCount;
      private String bossName;
      private Long taskId;
-     private Long execCount;
-     private Long analyTimeCount;
+     private Integer execCount;
+     private Double analyTimeCount;
      private Long type;
 
     public AigaBossTestResult() {
@@ -52,7 +52,7 @@ public class AigaBossTestResult  implements java.io.Serializable {
     public AigaBossTestResult(Long resultId) {
         this.resultId = resultId;
     }
-    public AigaBossTestResult(Long resultId, Long onlinePlan, String onlinePlanName, Date onlineDate, String testRemark, Long bugCount, String bugRemark, String reason, Long ifSolve, String bugStatus, Long onlineCondition, String remark, String solution, Long planId, Long execTimeCount, Long totalTimeCount, String bossName, Long taskId, Long execCount, Long analyTimeCount, Long type) {
+    public AigaBossTestResult(Long resultId, Long onlinePlan, String onlinePlanName, Date onlineDate, String testRemark, Long bugCount, String bugRemark, String reason, Long ifSolve, String bugStatus, Long onlineCondition, String remark, String solution, Long planId, Double execTimeCount, Double totalTimeCount, String bossName, Long taskId, Integer execCount, Double analyTimeCount, Long type) {
        this.resultId = resultId;
        this.onlinePlan = onlinePlan;
        this.onlinePlanName = onlinePlanName;
@@ -206,20 +206,20 @@ public class AigaBossTestResult  implements java.io.Serializable {
     }
     
     @Column(name="EXEC_TIME_COUNT", precision=22, scale=0)
-    public Long getExecTimeCount() {
+    public Double getExecTimeCount() {
         return this.execTimeCount;
     }
     
-    public void setExecTimeCount(Long execTimeCount) {
+    public void setExecTimeCount(Double execTimeCount) {
         this.execTimeCount = execTimeCount;
     }
     
     @Column(name="TOTAL_TIME_COUNT", precision=22, scale=0)
-    public Long getTotalTimeCount() {
+    public Double getTotalTimeCount() {
         return this.totalTimeCount;
     }
     
-    public void setTotalTimeCount(Long totalTimeCount) {
+    public void setTotalTimeCount(Double totalTimeCount) {
         this.totalTimeCount = totalTimeCount;
     }
     
@@ -242,20 +242,20 @@ public class AigaBossTestResult  implements java.io.Serializable {
     }
     
     @Column(name="EXEC_COUNT", precision=22, scale=0)
-    public Long getExecCount() {
+    public Integer getExecCount() {
         return this.execCount;
     }
     
-    public void setExecCount(Long execCount) {
+    public void setExecCount(Integer execCount) {
         this.execCount = execCount;
     }
     
     @Column(name="ANALY_TIME_COUNT", precision=22, scale=0)
-    public Long getAnalyTimeCount() {
+    public Double getAnalyTimeCount() {
         return this.analyTimeCount;
     }
     
-    public void setAnalyTimeCount(Long analyTimeCount) {
+    public void setAnalyTimeCount(Double analyTimeCount) {
         this.analyTimeCount = analyTimeCount;
     }
     

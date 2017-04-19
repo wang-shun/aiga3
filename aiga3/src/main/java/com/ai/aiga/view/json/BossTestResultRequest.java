@@ -21,12 +21,8 @@ public class BossTestResultRequest  implements java.io.Serializable {
      private String remark;
      private String solution;
      private Long planId;
-     private Long execTimeCount;
-     private Long totalTimeCount;
      private String bossName;
      private Long taskId;
-     private Long execCount;
-     private Long analyTimeCount;
      private Long type;
 
     public BossTestResultRequest() {
@@ -144,21 +140,6 @@ public class BossTestResultRequest  implements java.io.Serializable {
 		this.planId = planId;
 	}
 
-	public Long getExecTimeCount() {
-		return execTimeCount;
-	}
-
-	public void setExecTimeCount(Long execTimeCount) {
-		this.execTimeCount = execTimeCount;
-	}
-
-	public Long getTotalTimeCount() {
-		return totalTimeCount;
-	}
-
-	public void setTotalTimeCount(Long totalTimeCount) {
-		this.totalTimeCount = totalTimeCount;
-	}
 
 	public String getBossName() {
 		return bossName;
@@ -176,21 +157,6 @@ public class BossTestResultRequest  implements java.io.Serializable {
 		this.taskId = taskId;
 	}
 
-	public Long getExecCount() {
-		return execCount;
-	}
-
-	public void setExecCount(Long execCount) {
-		this.execCount = execCount;
-	}
-
-	public Long getAnalyTimeCount() {
-		return analyTimeCount;
-	}
-
-	public void setAnalyTimeCount(Long analyTimeCount) {
-		this.analyTimeCount = analyTimeCount;
-	}
 
 	public Long getType() {
 		return type;

@@ -16,6 +16,7 @@ import com.ai.aiga.domain.NaChangeReview;
 import com.ai.aiga.domain.NaDbExecutionException;
 import com.ai.aiga.domain.NaDbScriptExecutionProcess;
 import com.ai.aiga.domain.NaEmployeeInfo;
+import com.ai.aiga.domain.NaOnlineGeneralSteps;
 import com.ai.aiga.domain.NaOnlineStaffArrange;
 import com.ai.aiga.domain.NaOnlineSysRelease;
 import com.ai.aiga.domain.NaOnlineSystemReleaseStage;
@@ -247,5 +248,21 @@ public class ReleaseReportController {
 					bean.setData(releaseReportSv.findStaffArrange(pageNumber, pageSize, condition));
 					return bean;
 				}
+				
+				//总体步骤
+				
+				@RequestMapping(path = "/online/general/steps")
+				public @ResponseBody JsonBean findOnlineGeneralSteps(
+						@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+						@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+						NaOnlineGeneralSteps condition
+						
+						) throws ParseException {
+					
+					  JsonBean bean = new JsonBean();
+					bean.setData(releaseReportSv.findOnlineGeneralSteps(pageNumber, pageSize, condition));
+					return bean;
+				}
+				
 }
 

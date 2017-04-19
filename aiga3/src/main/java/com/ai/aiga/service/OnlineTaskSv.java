@@ -399,7 +399,7 @@ public class OnlineTaskSv extends BaseService{
 		return responses;
 	}
 
-	 @Cacheable(value = "task")
+
 	public Object getOtherTaskInfo(Long onlinePlan) {
 		if(onlinePlan==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");

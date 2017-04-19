@@ -172,7 +172,7 @@ public class AigaBossTestResultSv  extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
 		}
 		StringBuilder s = new StringBuilder();
-		s.append(" select planTask_name,planTask_id from aiga_product_plan_info and type =  "+type);
+		s.append(" select planTask_name,planTask_id from na_product_plan_info where  type =  "+type);
 		s.append(" order by create_time desc");
 			
 		return aigaBossTestResultDao.searchByNativeSQL(s.toString());

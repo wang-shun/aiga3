@@ -74,17 +74,4 @@ public class AutoRestoreTask extends AbstractTask {
 		}
 	}
 
-	public static void main(String[] a) {
-		ApplicationContext appContext = JtaSpringContext.getInstance().getApplicationContext();
-		AutoRestoreTask task = (AutoRestoreTask) appContext.getBean("autoRestoreTask");
-		while (true) {
-			try {
-				// task.doTask(111);
-				task.doBusiness();
-			} catch (Exception e) {
-				log.error(e.getMessage(), e);
-			}
-		}
-	}
-
 }

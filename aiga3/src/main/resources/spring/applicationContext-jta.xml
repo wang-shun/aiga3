@@ -55,7 +55,7 @@
 			</props>
 		</property>
 	</bean>
-	<bean name="dynamicDatasource" class="com.ai.aiga.jta.DynamicDataSource">
+	<bean name="dynamicDatasource" class="com.ai.process.jta.DynamicDataSource">
 		<property name="targetDataSources">
 			<map>
 				<entry key="aiga" value-ref="aiga" />

@@ -35,8 +35,8 @@ public class NaAutoBackupSv extends AbstractJatService {
 			try {
 				srcConn = getConnection(dbKey);
 				destConn = getConnection(BACKUP_DB_KEY);
-				String srcTableName = correlation.getCorrelationTable();
-				String destTableName = srcTableName + "$" + correlation.getDb();
+				String srcTableName = correlation.getCorrelationTable().toUpperCase();
+				String destTableName = (srcTableName + "$" + correlation.getDb()).toUpperCase();
 				try {
 					String testSql = "SELECT 1 FROM " + destTableName + " WHERE ROWID=null";
 					destConn.createStatement().execute(testSql);
@@ -68,6 +68,68 @@ public class NaAutoBackupSv extends AbstractJatService {
 	}
 	
 	@Transactional
+	public void prepareBackupDealData(NaAutoBackupDeal backupDeal, Map<Long, NaAutoPropertyConfig> propertyConfigMap) {
+		for(NaAutoPropertyConfig propertyConfig : propertyConfigMap.values()){
+			int sortId = propertyConfig.getSortId();
+			if (sortId < 1 || sortId > 10) {
+				BusinessException.throwBusinessException("na_auto_property_config表中的sort_id值不在1~10范围内");
+			}
+			if(sortId == 1){
+				continue;
+			}
+			String dbKey = propertyConfig.getDb();
+			Connection srcDataConn = null;
+			Connection backupConn = null;
+			try{
+				srcDataConn =  getConnection(dbKey);
+				backupConn = getConnection(BACKUP_DB_KEY);
+				String dependencyTable = propertyConfig.getDependencyTable().toUpperCase();
+				String dependencyField = propertyConfig.getDependencyField().toUpperCase();
+				String querySql = "SELECT T_." + propertyConfig.getPropertyField() + " FROM (" + dependencyTable
+						+ ") T_ WHERE T_." + dependencyField + "=?";
+				PreparedStatement psQuery = srcDataConn.prepareStatement(querySql);
+				String fieldTypeName = ColumnTypeEnum.VARCHAR2.getDbType();
+				if(dependencyTable.trim().matches("[a-zA-z0-9_]+")){
+					Map<String, ColumnModel> tableStructure = TableUtils.getTableStructure(dependencyTable, srcDataConn);
+					fieldTypeName = tableStructure.get(dependencyField).getTypeName();
+				}
+				if (fieldTypeName.equals(ColumnTypeEnum.NUMBER.getDbType())) {
+					psQuery.setLong(1, Long.parseLong(backupDeal.getField1()));
+				} else {
+					psQuery.setString(1, backupDeal.getField1());
+				}
+				ResultSet rs = psQuery.executeQuery();
+				String fieldValue = null;
+				if (rs.next()) {
+					fieldValue = rs.getString(1);
+				}
+				rs.close();
+				if(fieldValue != null){
+					String updateSql = "UPDATE NA_AUTO_BACKUP_DEAL SET FIELD"+sortId+"=? WHERE DEAL_ID=?";
+					PreparedStatement psUpdate = backupConn.prepareStatement(updateSql);
+					psUpdate.setString(1, fieldValue);
+					psUpdate.setLong(2, backupDeal.getDealId());
+					psUpdate.executeUpdate();
+				}
+			}catch(Exception e){
+				log.error(e.getMessage(), e);
+				ExceptionUtil.uncheckedAndWrap(e);
+			}finally {
+				try {
+					closeConnection(srcDataConn);
+				} catch (SQLException e) {
+					log.error(e.getMessage(), e);
+				}
+				try {
+					closeConnection(backupConn);
+				} catch (SQLException e) {
+					log.error(e.getMessage(), e);
+				}
+			}
+		}
+	}
+	
+	@Transactional
 	public void backup(NaAutoBackupDeal backupDeal, 
 			List<NaAutoPropertyCorrelation> propertyCorrelationList, 
 			Map<Long, NaAutoPropertyConfig> propertyConfigMap) {
@@ -84,9 +146,9 @@ public class NaAutoBackupSv extends AbstractJatService {
 			} catch (Exception e) {
 				ExceptionUtil.uncheckedAndWrap(e);
 			}
-			String srcTableName = correlation.getCorrelationTable();
-			String conditionField = correlation.getCorrelationField();
-			String destTableName = srcTableName + "$" + correlation.getDb();
+			String srcTableName = correlation.getCorrelationTable().toUpperCase();
+			String conditionField = correlation.getCorrelationField().toUpperCase();
+			String destTableName = (srcTableName + "$" + correlation.getDb()).toUpperCase();
 			String dbKey = correlation.getDb();
 			Connection srcConn = null;
 			Connection destConn = null;
@@ -154,9 +216,9 @@ public class NaAutoBackupSv extends AbstractJatService {
 			} catch (Exception e) {
 				ExceptionUtil.uncheckedAndWrap(e);
 			}
-			String restoreDestTableName = correlation.getCorrelationTable();
-			String conditionField = correlation.getCorrelationField();
-			String restoreSrcTableName = restoreDestTableName + "$" + correlation.getDb();
+			String restoreDestTableName = correlation.getCorrelationTable().toUpperCase();
+			String conditionField = correlation.getCorrelationField().toUpperCase();
+			String restoreSrcTableName = (restoreDestTableName + "$" + correlation.getDb()).toUpperCase();
 			String dbKey = correlation.getDb();
 			Connection restoreDestConn = null;
 			Connection restoreSrcConn = null;

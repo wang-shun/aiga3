@@ -10,74 +10,74 @@
                     </div>
                 </div>
                 <div class="box-body">
-                <form id="JS_queryTeamForm">
-                    <div class="row">
-                        <div class="col-md-6">
+                    <form id="JS_queryTeamForm">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label>团队名称</label>
                                         <input class="form-control" name="ext1" placeholder="请输入团队名称" />
                                     </div>
                                 </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="box-footer">
-                        <div class="text-center">
-                            <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                        <div class="box-footer">
+                            <div class="text-center">
+                                <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                            </div>
                         </div>
-                    </div>
                     </form>
                 </div>
             </div>
-    <div class="box" id="JS_teamList" style="min-height:100px;">
-        <div class="box-header ">
-            <h3 class="box-title">团队信息</h3>
-            <div class="box-tools">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info" name="rel"><i class="fa fa-users"></i> 关联</button>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-block btn-success " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i> 新增
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <button type="button" class="btn btn-block btn-success" name="addTeam" style="text-align:left" id="addTeamBt">新增团队</button>
-                            </li>
-                            <li>
-                                <button type="button" class="btn btn-block btn-success" name="addEm" style="text-align:left">新增员工</button>
-                            </li>
-                        </ul>
+            <div class="box" id="JS_teamList" style="min-height:100px;">
+                <div class="box-header ">
+                    <h3 class="box-title">团队信息</h3>
+                    <div class="box-tools">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info" name="rel"><i class="fa fa-users"></i> 关联</button>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-block btn-success " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-plus"></i> 新增
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <button type="button" class="btn btn-block btn-success" name="addTeam" style="text-align:left" id="addTeamBt">新增团队</button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="btn btn-block btn-success" name="addEm" style="text-align:left">新增员工</button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
+                        </div>
                     </div>
-                    <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
+                </div>
+                <div class="box-body">
+                    <table class="table table-bordered table-hover" id="teamListTable">
+                        <thead>
+                            <tr>
+                                <th class="iCheckbox" width="15"></th>
+                                <th>团队名称</th>
+                                <th>类型</th>
+                                <th>人员人数</th>
+                                <th>创建人</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody name="content"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
-        <div class="box-body">
-            <table class="table table-bordered table-hover" id="teamListTable">
-                <thead>
-                    <tr>
-                        <th class="iCheckbox" width="15"></th>
-                        <th>团队名称</th>
-                        <th>类型</th>
-                        <th>人员人数</th>
-                        <th>创建人</th>
-                        <th>备注</th>
-                    </tr>
-                </thead>
-                <tbody name="content"></tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="6">
-                            <div class="dataTables_paginate" name="pagination"></div>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
     </div>
-</div>
-</div>
 </div>
 <!-- 新增弹框 -->
 <div class="modal fade" id="JS_addTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -136,72 +136,99 @@
                         </h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
-                <div class="box-header ">
-                    <h3 class="box-title">员工信息</h3>
-                </div>
-                <div class="box" style="min-height:100px;">
-                    <form id="JS_queryEmForm" style="margin-top: 10px">
-                        <div class="col-md-2">
-                            <input class="form-control" name="emName" placeholder="员工名字" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box">
+                            <div class="box-header ">
+                                <h3 class="box-title">员工信息</h3>
+                            </div>
+                            <form id="JS_queryEmForm" style="margin-top: 10px" class="form-inline">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>员工名称</label>
+                                        <input class="form-control" name="emName" placeholder="员工名字" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>员工工号</label>
+                                        <input class="form-control" name="id" placeholder="员工工号" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px">
+                                    <div class="col-md-4">
+                                        <button class="btn default" type="button" name="query">搜索</button>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-primary" type="button" name="rel">关联</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="box-body" id="JS_emList">
+                                <table class="table table-bordered table-hover" id="emListTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="iCheckbox" width="15"></th>
+                                            <th>员工名称未关联</th>
+                                            <th>邮箱信息</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody name="content"></tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6">
+                                                <div class="dataTables_paginate" name="pagination"></div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                            <input class="form-control" name="id" placeholder="员工工号" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box">
+                            <div class="box-header ">
+                                <h3 class="box-title">已关联员工</h3>
+                            </div>
+                            <form id="JS_queryEmedForm" style="margin-top: 10px" class="form-inline">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>员工名称</label>
+                                        <input class="form-control" name="emName" placeholder="员工名字" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>员工工号</label>
+                                        <input class="form-control" name="id" placeholder="员工工号" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px">
+                                    <button class="btn btn-primary" id="JS_delEmedBt">批量删除</button>
+                                </div>
+                            </form>
+                            <div class="box-body" id="JS_EmedList">
+                                <table class="table table-bordered table-hover" id="emListTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="iCheckbox" width="15"></th>
+                                            <th>员工名称已关联</th>
+                                            <th>邮箱信息</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody name="content"></tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6">
+                                                <div class="dataTables_paginate" name="pagination"></div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <button class="btn default" type="button" name="query">搜索</button>
-                            <button class="btn btn-primary" type="button" name="rel">关联</button>
-                        </div>
-                    </form>
-                    <div class="box-body" id="JS_emList">
-                        <table class="table table-bordered table-hover" id="emListTable">
-                            <thead>
-                                <tr>
-                                    <th class="iCheckbox" width="15"></th>
-                                    <th>员工名称未关联</th>
-                                    <th>邮箱信息</th>
-                                </tr>
-                            </thead>
-                            <tbody name="content"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="6">
-                                        <div class="dataTables_paginate" name="pagination"></div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
                     </div>
                 </div>
-                <div class="box-header ">
-                    <h3 class="box-title">已关联人员信息</h3>
-                </div>
-                <div class="box" style="min-height:100px;">
-                    <div class="col-md-12" style="margin-top: 10px">
-                        <button class="btn btn-primary" id="JS_delEmedBt">批量删除</button>
-                    </div>
-                    <div class="box-body" id="JS_EmedList">
-                        <table class="table table-bordered table-hover" id="emListTable">
-                            <thead>
-                                <tr>
-                                    <th class="iCheckbox" width="15"></th>
-                                    <th>员工名称已关联</th>
-                                    <th>邮箱信息</th>
-                                </tr>
-                            </thead>
-                            <tbody name="content"></tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="6">
-                                        <div class="dataTables_paginate" name="pagination"></div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -267,7 +294,6 @@
         </div>
     </div>
 </div>
-
 <script id="TPL_getTeamListTemp" type="text/x-handlebars-template">
     {{#each this}}
     <tr>

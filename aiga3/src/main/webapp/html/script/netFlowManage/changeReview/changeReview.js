@@ -1,4 +1,7 @@
 define(function(require, exports, module) {
+
+    var Sidebar = require('global/sidebar.js');
+
     // 通用工具模块
     var Utils = require("global/utils.js");
 
@@ -10,16 +13,16 @@ define(function(require, exports, module) {
 
     // 下拉菜单获取所有变更计划
     srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
-    //获取验收任务列表
-    srvMap.add("getOnlineReviewTaskList", pathAlias + "getOnlineReviewTaskList.json", "accept/onlineTask/list");
-    //获取子任务分派列表
-    srvMap.add("getOnlineReviewTaskDistributeList", pathAlias + "getOnlineReviewTaskDistributeList.json", "accept/onlineTask/childList");
+    //获取变更计划列表
+    srvMap.add("getOnlineReviewTaskList", pathAlias + "getOnlineReviewTaskList.json", "accept/changePlan/list");
+    //获取任务分派列表
+    srvMap.add("getOnlineReviewTaskDistributeList", pathAlias + "getOnlineReviewTaskDistributeList.json", "accept/changePlanRun/taskList");
     //下拉菜单获取所有处理人
     srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
-    //保存回归子任务
-    srvMap.add("saveOnlineReviewTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
-    //删除回归子任务
-    srvMap.add("delOnlineReviewTask", pathAlias + "retMessage.json", "accept/onlineTask/delete");
+    //保存或修改分派任务
+    srvMap.add("saveOnlineReviewTask", pathAlias + "retMessage.json", "accept/changePlanRun/save");
+    //删除任务
+    srvMap.add("delOnlineReviewTask", pathAlias + "retMessage.json", "accept/changePlanRun/delete");
 
     // // 模板对象
     // var Tpl = {
@@ -91,6 +94,9 @@ define(function(require, exports, module) {
             // 分派任务
             self.distribute(_dom);
 
+            // 变更评审
+            self.reviewChange();
+
         },
         distribute: function(dom) {
             var self = this;
@@ -100,7 +106,7 @@ define(function(require, exports, module) {
                 // alert($(dom).html())
                 var data = self.getRadioCheckedRow($(dom));
                 if (data) {
-                    var cmd = 'onlinePlanId=' + data.onlinePlan + '&type=1';
+                    var cmd = 'onlinePlan=' + data.onlinePlan + '&type=1';
                     //存储到全局变量
                     Data.onlinePlan = data.onlinePlan;
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -149,6 +155,24 @@ define(function(require, exports, module) {
                 }
             });
         },
+        reviewChange: function() {
+            var self = this;
+            var _dom = Page.findId('getOnlineReviewTaskList');
+            var _reviewChange = _dom.find("[name='reviewChange']");
+            _reviewChange.unbind('click');
+            _reviewChange.bind('click', function() {
+                var _data = self.getRadioCheckedRow(_dom);
+                if (_data) {
+                    var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate;
+                    Sidebar.creatTab({
+                        id:"101",
+                        name:'变更评审',
+                        href:'view/netFlowManage/changeReview/alterReview.html',
+                        cmd:_cmd
+                    })
+                }
+            });
+        },
         // 查询自动化执行结果详细信息
         getOnlineReviewTaskDistributeList: function() {
             var self = this;
@@ -156,7 +180,7 @@ define(function(require, exports, module) {
             var _domPagination = _dom.find("[name='pagination']");
             var data = self.getRadioCheckedRow(_dom);
             if (data) {
-                var cmd = 'onlinePlanId=' + data.onlinePlan + '&type=1';
+                var cmd = 'onlinePlan=' + data.onlinePlan + '&type=1';
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 Utils.getServerPage(srvMap.get('getOnlineReviewTaskDistributeList'), cmd, function(json) {
                     window.XMS.msgbox.hide();
@@ -194,29 +218,44 @@ define(function(require, exports, module) {
                     var taskType = _form.find("[name='taskType']").val();
                     var dealOpId = _form.find("[name='dealOpId']").val();
                     var taskId = _form.find("[name='taskId']").val();
-                    cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId;
+                    cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + data.onlinePlan + "&onlinePlanName=" + data.onlinePlanName;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
+                        Utils.checkForm(_form, function() {
+                            Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
+                                if (status) {
+                                    window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                    setTimeout(function() {
+                                        self.getOnlineReviewTaskDistributeList();
+                                        _form.find("[name='taskType']").attr("disabled", false);
+                                        _form.find("[name='reset']").click();
+                                        Data.opreation = 'new';
+                                    }, 1000)
+                                }
+                            });
+                        })
+                    } else {
+                        Utils.checkForm(_form, function() {
+                            for (var i = 0; i < _data.length; i++) {
+                                if (taskType == _data[i].taskType) {
+                                    window.XMS.msgbox.show('同一计划下已分派的任务类型不能再次分派！', 'error', 2000)
+                                    return;
+                                }
+                            }
+                            Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
+                                if (status) {
+                                    window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                    setTimeout(function() {
+                                        self.getOnlineReviewTaskDistributeList();
+                                        _form.find("[name='taskType']").attr("disabled", false);
+                                        _form.find("[name='reset']").click();
+                                        Data.opreation = 'new';
+                                    }, 1000)
+                                }
+                            });
+                        })
                     }
-                    Utils.checkForm(_form, function() {
-                        for (var i = 0; i < _data.length; i++) {
-                            if (taskType == _data[i].taskType) {
-                                window.XMS.msgbox.show('同一计划下已分派的任务类型不能再次分派！', 'error', 2000)
-                                return;
-                            }
-                        }
-                        Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
-                            if (status) {
-                                window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                                setTimeout(function() {
-                                    self.getOnlineReviewTaskDistributeList();
-                                    _form.find("[name='taskType']").attr("disabled", false);
-                                    _form.find("[name='reset']").click();
-                                    Data.opreation = 'new';
-                                }, 1000)
-                            }
-                        });
-                    })
+
                 }
             });
         },
@@ -263,6 +302,7 @@ define(function(require, exports, module) {
                                 window.XMS.msgbox.show('删除成功！', 'success', 2000);
                                 setTimeout(function() {
                                     self.getOnlineReviewTaskDistributeList();
+                                    _form.find("[name='reset']").click();
                                 }, 1000)
                             }
                         });

@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     //获取编译发布结果列表
     srvMap.add("getPublishResultList", pathAlias + "getPublishResultList.json", "accept/changePlanRun/compileList");
     //下拉菜单获取所有处理人
-    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/changePlanRun/createOpId");
+    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
     //启动变更的接口
     srvMap.add("startChange", pathAlias + "retMessage.json", "accept/changePlanRun/changStart");
     //启动上线获取验收任务列表接口
@@ -361,6 +361,7 @@ define(function(require, exports, module) {
             });
         },
         registerHelper: function() {
+            alert()
             Handlebars.registerHelper('getPlanState', function(value, fn) {
                 if (value == "1") {
                     return "新建";

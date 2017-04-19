@@ -5062,3 +5062,9 @@ table.text-center th {
 .skin-blue.layout-top-nav .main-header > .logo:hover {
   background-color: #3b8ab8;
 }
+
+
+/*add*/
+.box .box-footer button{
+  margin:0 7px;
+}

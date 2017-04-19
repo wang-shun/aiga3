@@ -5,11 +5,11 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 
 	// 功能验收子任务列表显示
-	srvMap.add("publicTaskList", pathAlias + "publicTaskList.json", "");
+	srvMap.add("publicTaskList", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherTask");
 
-	srvMap.add("caseResultList", pathAlias + "publicTaskList.json", "");
+	srvMap.add("deleResult", pathAlias + "publicTaskList.json", "accept/otherTask/deleteOtherTask");
 
-	srvMap.add("submitRst", pathAlias + "publicTaskList.json", "");
+	srvMap.add("submitPublicRst", pathAlias + "publicTaskList.json", "accept/otherTask/saveOtherTask");
 
 
 	// 模板对象
@@ -135,7 +135,7 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow($(Dom.publicTaskList).find("table"));
 				if (data) {
 					var cmd = "resultId="+data.resultId;
-					Rose.ajax.postJson(srvMap.get('submitRst'), cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('deleResult'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功', 'success', 2000);
 							self.getpublicTaskList("");
@@ -155,7 +155,7 @@ define(function(require, exports, module) {
 				var _form = _modal.find("form");
 				var cmd = _form.serialize();
 				console.log(cmd);
-				Rose.ajax.postJson(srvMap.get('submitRst'), cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('submitPublicRst'), cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('保存成功', 'success', 2000);
 						_modal.modal('hide');

@@ -630,21 +630,18 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		return groupDao.searchByNativeSQL(s.toString(), pageable, resultList);
 	}
 	
-	public Object repairMan(){
-		 List  repaireLists = new  ArrayList<Map>();
+
+	
+	
+	
+	public List<Map> repairMan(){
+		List<Map>    repaireLists = new  ArrayList<Map>();
 		String sql = " select distinct staff.staff_id, staff.name, staff.code  from aiga_staff staff";
-	    List  repaireList = 	groupDao.searchformSQL(sql);
-	    if(repaireList!=null&&repaireList.size()>0){
-		    	for(int i=0;i<repaireList.size();i++){
-		    		Object[] obj =(Object[])repaireList.get(i);
-		    		Map map = new HashMap<String, String>();
-		    		map.put("value", obj[0]==null?"":obj[0]);
-		    		map.put("show", obj[1]==null?"":obj[1]);
-		    		map.put("code", obj[2]==null?"":obj[2]);
-		    		repaireLists.add(map);
-		    	}
-	    }
+	    try {
+	    	repaireLists = 	groupDao.searchByNativeSQL(sql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	    return  repaireLists;
 	}
-
 }

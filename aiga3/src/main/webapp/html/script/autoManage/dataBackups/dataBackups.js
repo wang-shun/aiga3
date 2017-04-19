@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 	//删除备份
 	srvMap.add("delDataBackups", pathAlias + "retMessage.json", "sys/backup/delBackup");
 	//属性下拉菜单
-	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
+	srvMap.add("getPropertyName", pathAlias + "dataBackups.json", "sys/backup/getPropertyConfigList");
 
 	// 模板对象
 	var Tpl = {

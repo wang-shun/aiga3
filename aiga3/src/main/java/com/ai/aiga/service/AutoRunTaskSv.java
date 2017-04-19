@@ -48,6 +48,9 @@ public class AutoRunTaskSv {
     @Autowired
     private NaAutoMachineSv autoMachineSv;
     
+    @Autowired
+    private AutoDistributeMachineSv autoDistributeMachineSv;
+    
     /**
      * 保存操作(唯一入口)
      * @param autoRunTask 任务对象
@@ -139,11 +142,35 @@ public class AutoRunTaskSv {
             autoRunTask=this.createTaskByRequest(taskRequest);
             //生成预执行结果信息
             autoRunResultSv.createResultByTaskId(autoRunTask.getTaskId());
+            //启动任务
+            this.startTask(autoRunTask);
         }else{
-            autoRunTask=this.findById(taskRequest.getTaskId());
-            //初始化执行结果信息
-            autoRunResultSv.initResultByFail(taskRequest.getTaskId());
+            //重启任务(只执行未成功的用例)
+            this.reStartTask(taskRequest.getTaskId(),false);
         }
+        
+    }
+
+    /**
+     * 根据任务ID重启任务
+     * @param taskId 任务ID
+     * @param isAll 是否全部重跑
+     */
+    public void reStartTask(Long taskId,boolean isAll){
+        if (taskId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+        }
+        NaAutoRunTask autoRunTask=this.findById(taskId);
+        if (isAll) {//初始化全部执行结果信息
+            autoRunResultSv.initResultAll(taskId);
+        } else {//初始化未成功的执行结果信息
+            autoRunResultSv.initResultByFail(taskId);
+        }
+        //如果是分布式任务，则清除任务与机器关联关系
+        if (autoRunTask.getRunType().equals(AutoRunEnum.RunType_distributed)) {
+            autoDistributeMachineSv.deleteByTaskId(taskId);
+        }
+        //启动任务
         this.startTask(autoRunTask);
     }
 
@@ -159,6 +186,7 @@ public class AutoRunTaskSv {
         NaAutoRunTask autoRunTask=this.createTaskByPlanId(taskRequest.getPlanId());
         //生成预执行结果信息
         autoRunResultSv.createResultByTaskId(autoRunTask.getTaskId());
+        //启动任务
         this.startTask(autoRunTask);
     }
 
@@ -278,9 +306,10 @@ public class AutoRunTaskSv {
     /**
      * 根据任务ID返回任务数据以及任务关联用例的JSON数据(供云桌面使用)
      * @param taskId 任务ID
+     * @param machineIp 机器IP
      * @return JSON串
      */
-    public String getTaskByTaskIdToJson(String taskId){
+    public String getTaskByTaskIdToJson(String taskId,String machineIp){
         if (StringUtils.isBlank(taskId)) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
         }
@@ -290,7 +319,7 @@ public class AutoRunTaskSv {
         taskMap.put("schedule",DateUtil.getDateStringByDate(autoRunTask.getBeginRunTime(),DateUtil.YMDHMS));
         taskMap.put("parallelNum",autoRunTask.getParallelNum().toString());
         //获取任务下的所有执行用例信息
-        String results=this.autoRunResultSv.getResultByTaskIdToJson(Long.parseLong(taskId));
+        String results=this.autoRunResultSv.getResultByTaskIdToJson(Long.parseLong(taskId),machineIp);
         taskMap.put("plans",results);
         return JsonUtil.mapToJson(taskMap);
     }
@@ -317,8 +346,37 @@ public class AutoRunTaskSv {
         }
         return this.save(autoRunTask);
     }
-    
 
+    /**
+     * 根据机器IP，任务ID，环境配置信息访问云桌面代理程序服务接口
+     * @param machineIp 机器IP
+     * @param taskId 任务ID
+     * @param envConfigId 环境集合（以_拼接）
+     * @return 返回云桌面消息
+     */
+    public String accessProxy(String machineIp,String taskId,String envConfigId){
+        if (StringUtils.isBlank(machineIp)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
+        }
+        if (StringUtils.isBlank(taskId)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+        }
+        if (StringUtils.isBlank(envConfigId)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envConfigId");
+        }
+        //获取解析后的URL配置类
+        UrlConfigTypes urlConfigTypes= UrlConfigTypes.getInstance(UrlConfigTypes.SENDTASK);
+        //设置传递参数
+        String param="taskId="+taskId+"&sceneId="+envConfigId;
+        //拼接url
+        String url="http://"+machineIp+":"+urlConfigTypes.getPort()+urlConfigTypes.getPath();
+        //发送请求，并获取返回消息
+        String msg= HttpConnectionUtil.requestMethod(HttpConnectionUtil.HTTP_POST,url,param);
+        //更新机器状态
+        this.autoMachineSv.updateMachineStatusToOn(machineIp);
+        return msg;
+    }
+    
     /**
      * 启动任务
      * @param autoRunTask 要启动的任务
@@ -332,6 +390,7 @@ public class AutoRunTaskSv {
         }
         //根据执行类型不同选择不同方式
         Long runType=autoRunTask.getRunType();
+        Long taskId=autoRunTask.getTaskId();
         //更新任务信息
         autoRunTask.setBeginRunTime(DateUtil.getCurrentTime());
         autoRunTask.setTaskResult(AutoRunEnum.TaskResult_running.getValue());//执行中
@@ -340,30 +399,44 @@ public class AutoRunTaskSv {
         //立即执行
         if (runType .equals(AutoRunEnum.RunType_timing.getValue())) {
             //访问云桌面
-            this.accessProxy(autoRunTask.getMachineIp(), autoRunTask.getTaskId().toString(), autoRunTaskCaseSv.getEnvByTaskId(autoRunTask.getTaskId()));
-        } else {
-            //分布式执行
-            if (runType.equals(AutoRunEnum.RunType_distributed.getValue())) {
-                //获取该任务分布式执行总共需多少台机器
-                int distributeMachineNum=this.autoRunTaskCaseSv.getDistributeNumByTaskId(autoRunTask.getTaskId());
-                //获取所有可执行机器
-                List<NaAutoMachine> machineList = this.autoRunTaskCaseSv.getMachineByTaskId(autoRunTask.getTaskId());
-                int exeMachineNum=1;
-                for (NaAutoMachine machine : machineList) {
-                    //访问云桌面
-                    this.accessProxy(machine.getMachineIp(), autoRunTask.getTaskId().toString(), autoRunTaskCaseSv.getEnvByTaskId(autoRunTask.getTaskId()));
-                    //判断分发的机器是否达到可执行上限
-                    if(exeMachineNum==distributeMachineNum){
-                        break;
-                    }else{
-                        exeMachineNum++;
-                    }
-                }
-            }
+            this.accessProxy(autoRunTask.getMachineIp(), taskId.toString(), autoRunTaskCaseSv.getEnvByTaskId(taskId));
         }
+        //定时执行
+        if(runType.equals(AutoRunEnum.RunType_timing.getValue())){
+             
+        }
+        //分布式执行
+        if (runType.equals(AutoRunEnum.RunType_distributed.getValue())) {
+            this.distributeStartTask(autoRunTask);
+        }   
 
     }
 
+    /**
+     * 分布式启动任务
+     * @param autoRunTask 任务对象
+     */
+    private void distributeStartTask(NaAutoRunTask autoRunTask){
+        //获取该任务分布式执行总共需多少台机器
+        Long taskId=autoRunTask.getTaskId();
+        int distributeMachineNum=this.autoRunTaskCaseSv.getDistributeNumByTaskId(taskId);
+        //获取所有可执行机器
+        List<NaAutoMachine> machineList = this.autoRunTaskCaseSv.getMachineByTaskId(taskId);
+        int exeMachineNum=1;
+        for (NaAutoMachine machine : machineList) {
+            String machineIp=machine.getMachineIp();
+            //访问云桌面
+            this.accessProxy(machineIp, taskId.toString(), autoRunTaskCaseSv.getEnvByTaskId(taskId));
+            //记录分布式发送机器
+            this.autoDistributeMachineSv.saveByTaskIdMachineIp(taskId,machineIp);
+            //判断分发的机器是否达到可执行上限
+            if(exeMachineNum>=distributeMachineNum){
+                break;
+            }else{
+                exeMachineNum++;
+            }
+        }
+    }
 
     /**
      * 通过任务请求发起页面参数生成任务
@@ -417,36 +490,6 @@ public class AutoRunTaskSv {
         //生成任务与用例关联关系
         autoRunTaskCaseSv.saveListByPlanId(autoRunTask.getPlanId(),autoRunTask.getTaskId());
         return autoRunTask;
-    }
-
-    /**
-     * 根据机器IP，任务ID，环境配置信息访问云桌面代理程序服务接口
-     * @param machineIp 机器IP
-     * @param taskId 任务ID
-     * @param envConfigId 环境集合（以_拼接）
-     * @return 返回云桌面消息
-     */
-    public String accessProxy(String machineIp,String taskId,String envConfigId){
-        if (StringUtils.isBlank(machineIp)) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
-        }
-        if (StringUtils.isBlank(taskId)) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
-        }
-        if (StringUtils.isBlank(envConfigId)) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envConfigId");
-        }
-        //获取解析后的URL配置类
-        UrlConfigTypes urlConfigTypes= UrlConfigTypes.getInstance(UrlConfigTypes.SENDTASK);
-        //设置传递参数
-        String param="taskId="+taskId+"&sceneId="+envConfigId;
-        //拼接url
-        String url="http://"+machineIp+":"+urlConfigTypes.getPort()+urlConfigTypes.getPath();
-        //发送请求，并获取返回消息
-        String msg= HttpConnectionUtil.requestMethod(HttpConnectionUtil.HTTP_POST,url,param);
-        //更新机器状态
-        this.autoMachineSv.updateMachineStatusToOn(machineIp);
-        return msg;
     }
 
     /**

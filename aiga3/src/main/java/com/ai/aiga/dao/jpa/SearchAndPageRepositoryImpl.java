@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
@@ -172,27 +173,12 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 //    	return null;
 //    }
 
-    public <R> List<R> searchByNativeSQL(String sql, Class<R> domainClass){
-    	
-    	Query contentQuery = entityManager.createNativeQuery(sql);
-    	contentQuery.unwrap(SQLQuery.class).setResultTransformer(ColToBeanResultTransformer.instance(domainClass));
-    	
-    	return contentQuery.getResultList();
+    public <R> List<R> searchByNativeSQL(String nativeSql, Class<R> domainClass){
+    	return searchByNativeSQL(nativeSql, (List<Parameter>)null, domainClass);
     }
 
-    public <R> Page<R> searchByNativeSQL(String sql, Class<R> domainClass, Pageable pageable) {
-    	
-    	Query contentQuery = entityManager.createNativeQuery(sql);
-    	contentQuery.setFirstResult(pageable.getOffset());
-    	contentQuery.setMaxResults(pageable.getPageSize());
-    	
-    	contentQuery.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
-
-    	Long total = getNativeCount(sql);
-    	
-    	List<R> content = total > pageable.getOffset() ? contentQuery.getResultList() : new ArrayList<R>();
-   
-    	return new PageImpl<R>(content, pageable, total);
+    public <R> Page<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass, Pageable pageable) {
+    	return searchByNativeSQL(nativeSQL, null, domainClass, pageable);
     }
 
     /**
@@ -204,10 +190,12 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 	 * @param sql
 	 * @return          
 	 */
-	private Long getNativeCount(String sql) {
+	private Long getNativeCount(String sql, List<Parameter> parameters) {
 		
 		String countSql = SqlHelp.getCountSql(sql);
 		Query contentQuery = entityManager.createNativeQuery(countSql);
+		buildParameters(contentQuery, parameters);
+		
 		Number number = (Number) contentQuery.getSingleResult();
 		
 		if(number == null){
@@ -216,6 +204,10 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 			return number.longValue();
 		}
 		
+	}
+	
+	private Long getNativeCount(String sql) {
+		return getNativeCount(sql, null);
 	}
 
     @Override
@@ -247,27 +239,12 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 
     @Override
     public Page<Map> searchByNativeSQL(String nativeSQL, Pageable pageable) {
-
-    	 Query query = entityManager.createNativeQuery(nativeSQL);
-         query.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
-         query.setFirstResult(pageable.getOffset());
-         query.setMaxResults(pageable.getPageSize());
-         
-         Long total = getNativeCount(nativeSQL);
-         
-         List<Map> reList = new ArrayList<Map>();;//存放封装后的数据
-         List<Map> content = total > pageable.getOffset() ? query.getResultList() : reList;
-         return new PageImpl<Map>(content, pageable, total);
-    	
+    	 return searchByNativeSQL(nativeSQL, (List<Parameter>) null, pageable);
     }
     
 	@Override
 	public List<Map> searchByNativeSQL(String nativeSQL) {
-
-		Query query = entityManager.createNativeQuery(nativeSQL);
-        query.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
-        
-        return query.getResultList();
+		return searchByNativeSQL(nativeSQL, (List<Parameter>) null);
 	}
     
 	private Session getHibernateSession() {
@@ -280,6 +257,73 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
         SQLQuery sqlQuery = session.createSQLQuery(sql);
         return sqlQuery.list();
     }
+    
+    public void buildParameters(Query query, List<Parameter> parameters){
+    	
+    	if(parameters != null){
+    		for(Parameter param : parameters){
+    			Object val = param.getVal();
+    				
+				if(val != null && val instanceof java.util.Date){
+					query.setParameter(param.getName(), (java.util.Date)val, TemporalType.TIMESTAMP);
+				}else{
+					query.setParameter(param.getName(), val);
+				}
+    				
+    		}
+    	}
+    }
+
+	@Override
+	public Page<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Pageable pageable) {
+		Query query = entityManager.createNativeQuery(nativeSQL);
+        query.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
+        query.setFirstResult(pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+        
+        buildParameters(query, parameters);
+        
+        Long total = getNativeCount(nativeSQL, parameters);
+        
+        List<Map> content = total > pageable.getOffset() ? query.getResultList() : new ArrayList<Map>();
+        return new PageImpl<Map>(content, pageable, total);
+	}
+
+	@Override
+	public List<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters) {
+		Query query = entityManager.createNativeQuery(nativeSQL);
+        query.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
+        
+        buildParameters(query, parameters);
+        
+        return query.getResultList();
+	}
+
+	@Override
+	public <R> Page<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass,
+			Pageable pageable) {
+    	Query contentQuery = entityManager.createNativeQuery(nativeSQL);
+    	contentQuery.setFirstResult(pageable.getOffset());
+    	contentQuery.setMaxResults(pageable.getPageSize());
+    	buildParameters(contentQuery, parameters);
+    	
+    	contentQuery.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
+
+    	Long total = getNativeCount(nativeSQL, parameters);
+    	
+    	List<R> content = total > pageable.getOffset() ? contentQuery.getResultList() : new ArrayList<R>();
+   
+    	return new PageImpl<R>(content, pageable, total);
+	}
+
+	@Override
+	public <R> List<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass) {
+	   	Query contentQuery = entityManager.createNativeQuery(nativeSQL);
+    	contentQuery.unwrap(SQLQuery.class).setResultTransformer(ColToBeanResultTransformer.instance(domainClass));
+    	buildParameters(contentQuery, parameters);
+    	
+    	return contentQuery.getResultList();
+	}
 
     
 }

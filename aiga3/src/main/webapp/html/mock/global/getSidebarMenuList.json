@@ -168,6 +168,10 @@
             "viewname": "#",
             "subMenus": [{
                 "funcId": 341,
+                "name": "部署任务",
+                "viewname": "view/netFlowManage/changeRelease/taskDeploying.html"
+            },{
+                "funcId": 342,
                 "name": "监控任务",
                 "viewname": "view/netFlowManage/changeRelease/taskMonitoring.html"
             }]

@@ -5,11 +5,11 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 
 	// 功能验收子任务列表显示
-	srvMap.add("publicTaskList", pathAlias + "publicTaskList.json", "");
+	srvMap.add("publicTaskList", pathAlias + "publicTaskList.json", "/accept/otherTask/saveOtherTask");
 
-	srvMap.add("caseResultList", pathAlias + "publicTaskList.json", "");
+	srvMap.add("caseResultList", pathAlias + "publicTaskList.json", "/accept/otherTask/getOtherTask");
 
-	srvMap.add("submitRst", pathAlias + "publicTaskList.json", "");
+	srvMap.add("submitRst", pathAlias + "publicTaskList.json", "/accept/otherTask/deleteOtherTask");
 
 
 	// 模板对象

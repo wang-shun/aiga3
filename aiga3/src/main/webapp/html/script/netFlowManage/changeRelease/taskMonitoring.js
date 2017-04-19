@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     // 下拉菜单获取所有变更计划
     srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //获取验收任务列表
-    srvMap.add("getMonitoringTaskList", pathAlias + "getMonitoringTaskList.json", "accept/onlineTask/list");
+    srvMap.add("getMonitoringTaskList", pathAlias + "getMonitoringTaskList.json", "auto/task/seachDeployTask");
     //保存回归子任务
     srvMap.add("saveMonitoringTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
 

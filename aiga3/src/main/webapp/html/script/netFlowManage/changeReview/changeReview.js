@@ -1,4 +1,7 @@
 define(function(require, exports, module) {
+
+    var Sidebar = require('global/sidebar.js');
+
     // 通用工具模块
     var Utils = require("global/utils.js");
 
@@ -91,6 +94,9 @@ define(function(require, exports, module) {
             // 分派任务
             self.distribute(_dom);
 
+            // 变更评审
+            self.reviewChange();
+
         },
         distribute: function(dom) {
             var self = this;
@@ -146,6 +152,24 @@ define(function(require, exports, module) {
                         window.XMS.msgbox.show('计划状态只有是新增或者处理中的计划才能分派!', 'error', 1000);
                         return;
                     }
+                }
+            });
+        },
+        reviewChange: function() {
+            var self = this;
+            var _dom = Page.findId('getOnlineReviewTaskList');
+            var _reviewChange = _dom.find("[name='reviewChange']");
+            _reviewChange.unbind('click');
+            _reviewChange.bind('click', function() {
+                var _data = self.getRadioCheckedRow(_dom);
+                if (_data) {
+                    var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate;
+                    Sidebar.creatTab({
+                        id:"101",
+                        name:'变更评审',
+                        href:'view/netFlowManage/changeReview/alterReview.html',
+                        cmd:_cmd
+                    })
                 }
             });
         },

@@ -222,9 +222,9 @@ define(function(require, exports, module) {
 		reviewDel: function() {
 			var self = this;
 			var _dom = $(Dom.changePlanOnlie);
-			var _scrap = _dom.find("[name='reviewDel']");
-			_scrap.unbind('click');
-			_scrap.bind('click', function() {
+			var _reviewDel = _dom.find("[name='reviewDel']");
+			_reviewDel.unbind('click');
+			_reviewDel.bind('click', function() {
 				var _data = self.getTaskRow();
 				if (_data) {
 					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate;

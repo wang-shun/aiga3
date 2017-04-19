@@ -59,7 +59,7 @@
                 <h3 class="box-title">变更计划列表</h3>
                 <div class="box-tools">
                     <button type="button" class="btn btn-primary" name="distribute"><i class="fa fa-gears"></i> 任务分派</button>
-                    <button type="button" class="btn btn-primary" name=""><i class="fa fa-gears"></i> 变更评审</button>
+                    <button type="button" class="btn btn-primary" name="reviewChange"><i class="fa fa-gears"></i> 变更评审</button>
                 </div>
             </div>
             <div class="box-body">
@@ -198,7 +198,8 @@
         <td>
             <input type="hidden" name="createOpName" value="{{createOpName}}">{{createOpName}}</td>
         <td>{{createDate}}</td>
-        <td>{{planDate}}</td>
+        <td>
+            <input type="hidden" name="planDate" value="{{planDate}}">{{planDate}}</td>
         <td>{{rn}}</td>
         <td>{{remark}}</td>
     </tr>

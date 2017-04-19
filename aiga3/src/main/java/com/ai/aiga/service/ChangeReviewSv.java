@@ -22,6 +22,7 @@ import com.ai.aiga.dao.NaGroupAdjustListDao;
 import com.ai.aiga.dao.NaGroupRequireListDao;
 import com.ai.aiga.dao.NaHasDeployMenuListDao;
 import com.ai.aiga.dao.NaHostConfigListDao;
+import com.ai.aiga.dao.NaHostIpDao;
 import com.ai.aiga.dao.NaProcessChangeListDao;
 import com.ai.aiga.dao.NaRequireListDao;
 import com.ai.aiga.dao.NaServiceChangeOnlineListDao;
@@ -37,6 +38,7 @@ import com.ai.aiga.domain.NaDatabaseConfiScript;
 import com.ai.aiga.domain.NaDatabaseScriptList;
 import com.ai.aiga.domain.NaDbScriptList;
 import com.ai.aiga.domain.NaEmployeeInfo;
+import com.ai.aiga.domain.NaHostIp;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaTestLeaveOver;
 import com.ai.aiga.domain.NaTestSituation;
@@ -58,55 +60,55 @@ import com.ai.aiga.service.base.BaseService;
 @Transactional
 public class ChangeReviewSv extends BaseService{
 	@Autowired
-	private  ChangeReviewDao changeReviewDao;
-	             
+	private ChangeReviewDao changeReviewDao;
+
 	@Autowired
-	private   PlanDetailManifestDao planDetailManifestDao;
-	
+	private PlanDetailManifestDao planDetailManifestDao;
+
 	@Autowired
 	private CodePathDao codePathDao;
-	
+
 	@Autowired
-	private     TestLeaveOverDao testLeaveOverDao;
-	
+	private TestLeaveOverDao testLeaveOverDao;
+
 	@Autowired
-	private  NaRequireListDao naRequireListDao;
-	
-	
+	private NaRequireListDao naRequireListDao;
+
 	@Autowired
-	private    DatabaseConfiDao databaseConfiDao;
-	
+	private DatabaseConfiDao databaseConfiDao;
+
 	@Autowired
-	private    DatabaseScriptListDao databaseScriptListDao;
-	
+	private DatabaseScriptListDao databaseScriptListDao;
+
 	@Autowired
-	private 	DbScriptListDao dbScriptListDao;
-	
+	private DbScriptListDao dbScriptListDao;
 
 	@Autowired
 	private NaHostConfigListDao naHostConfigListDao;
-	
-	@Autowired 
+
+	@Autowired
 	private NaGroupAdjustListDao naGroupAdjustListDao;
-	
+
 	@Autowired
 	private NaGroupRequireListDao naGroupRequireListDao;
-	
+
 	@Autowired
 	private NaHasDeployMenuListDao naHasDeployMenuListDao;
-	
+
 	@Autowired
-	private NaProcessChangeListDao  naProcessChangeListDao;
-	
+	private NaProcessChangeListDao naProcessChangeListDao;
+
 	@Autowired
 	private NaServiceChangeOnlineListDao naServiceChangeOnlineListDao;
-	
-	@Autowired
-	private NaSystemArchitectureListDao  naSystemArchitectureListDao;
 
-	
 	@Autowired
-	private           TestSituationDao   testSituationDao;
+	private NaSystemArchitectureListDao naSystemArchitectureListDao;
+
+	@Autowired
+	private TestSituationDao testSituationDao;
+
+	@Autowired
+	private NaHostIpDao naHostIpDao;
 
    public  List<NaChangeReview> selectall(Long onlinePlan,String ext1){
 	   if (onlinePlan==null) {
@@ -140,7 +142,7 @@ public class ChangeReviewSv extends BaseService{
 		   if(StringUtils.isNotBlank(request.getReviewResult())){
 		   naChangeReview.setReviewResult(request.getReviewResult());}
 		   naChangeReview.setExt2(request.getExt2());
-		   naChangeReview.setExt1(request.getExt2());
+		   naChangeReview.setExt1(request.getExt1());
 		   changeReviewDao.save(naChangeReview);
 	 
 	   }
@@ -256,8 +258,8 @@ public class ChangeReviewSv extends BaseService{
 				NaTestSituation1.setTestSituation(NaTestSituation.getTestSituation());
 				NaTestSituation1.setExt1(NaTestSituation.getExt1());
 				NaTestSituation1.setExt2(NaTestSituation.getExt2());
-				NaTestSituation1.setExt3(NaTestSituation.getExt3());
-				NaTestSituation1.setExt4(NaTestSituation.getExt4());
+				/*NaTestSituation1.setExt3(NaTestSituation.getExt3());
+				NaTestSituation1.setExt4(NaTestSituation.getExt4());*/
 				
 				testSituationDao.save(NaTestSituation1);
 					
@@ -624,6 +626,59 @@ public class ChangeReviewSv extends BaseService{
 			Pageable pageable = new PageRequest(pageNumber, pageSize);
 			
 			return naSystemArchitectureListDao.search(cons, pageable);
-	 }}
+	 }
+	 
+    //主机
+	 public Object host(int pageNumber, int pageSize, NaHostIp condition) throws ParseException {
+			
+			List<String> list = new ArrayList<String>();
+			
+			list.add("sysName");
+			list.add("modelName");
+			list.add("ip");
+			list.add("hostName");
+			list.add("remark");
+			list.add("id");
+			String sql = " select  A.sys_name,A.model_name, B.ip ,B.host_name,B.remark,B.id from na_code_path A  LEFT JOIN NA_HOST_IP  "
+					+ "B ON A.SYS_NAME= B.SYS_NAME AND A.model_name = B.model_name ";
+			if (condition.getPlanId()!=null) {
+				sql += " where A.plan_id ="+ condition.getPlanId() ;
+			}
+			if (pageNumber < 0) {
+				pageNumber = 0;
+			}
+
+			if (pageSize <= 0) {
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+
+			Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+			return naHostIpDao.searchByNativeSQL(sql, pageable, list);
+
+
+
+	 }
+	 public void savehost(NaHostIp request){
+		   
+		   if(request == null){ 
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			}
+		   NaHostIp naHostIp=naHostIpDao.findOne(request.getId());
+		   if(naHostIp == null){ 
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		   }
+		   if(naHostIp != null){
+			   
+			   naHostIp.setIp(request.getIp());
+			   naHostIp.setRemark(request.getRemark());
+			   naHostIp.setHostName(request.getHostName());
+			   naHostIpDao.save(naHostIp);
+		 
+		   }
+	   }
+
+
+}
 
 

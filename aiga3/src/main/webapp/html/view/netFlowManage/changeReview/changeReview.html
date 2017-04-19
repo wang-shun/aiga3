@@ -58,9 +58,8 @@
             <div class="box-header ">
                 <h3 class="box-title">变更计划列表</h3>
                 <div class="box-tools">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary" name="distribute"><i class="fa fa-gears"></i> 任务分派</button>
-                    </div>
+                    <button type="button" class="btn btn-primary" name="distribute"><i class="fa fa-gears"></i> 任务分派</button>
+                    <button type="button" class="btn btn-primary" name="reviewChange"><i class="fa fa-gears"></i> 变更评审</button>
                 </div>
             </div>
             <div class="box-body">
@@ -150,10 +149,8 @@
                             <div class="box-header ">
                                 <h3 class="box-title">验收任务列表</h3>
                                 <div class="box-tools">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary" name="update"><i class="fa fa-gears"></i>修改</button>
-                                        <button type="button" class="btn btn-danger" name="del"><i class="fa fa-remove"></i> 删除</button>
-                                    </div>
+                                    <button type="button" class="btn btn-primary" name="update"><i class="fa fa-gears"></i>修改</button>
+                                    <button type="button" class="btn btn-primary" name="del"><i class="fa fa-remove"></i> 删除</button>
                                 </div>
                             </div>
                             <div class="box-body">
@@ -201,7 +198,8 @@
         <td>
             <input type="hidden" name="createOpName" value="{{createOpName}}">{{createOpName}}</td>
         <td>{{createDate}}</td>
-        <td>{{planDate}}</td>
+        <td>
+            <input type="hidden" name="planDate" value="{{planDate}}">{{planDate}}</td>
         <td>{{rn}}</td>
         <td>{{remark}}</td>
     </tr>

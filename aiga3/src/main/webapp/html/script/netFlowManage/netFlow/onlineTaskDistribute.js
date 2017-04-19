@@ -595,7 +595,8 @@ define(function(require, exports, module) {
                             if (status) {
                                 window.XMS.msgbox.show('删除成功！', 'success', 2000);
                                 setTimeout(function() {
-                                    self.getOnlineTaskDistributeList();;
+                                    self.getOnlineTaskDistributeList();
+                                    _form.find("[name='reset']").click();
                                 }, 1000)
                             }
                         });

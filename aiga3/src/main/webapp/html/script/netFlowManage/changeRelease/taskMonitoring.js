@@ -72,7 +72,6 @@ define(function(require, exports, module) {
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             Utils.getServerPage(srvMap.get('getMonitoringTaskList'), _cmd, function(json) {
                 window.XMS.msgbox.hide();
-                //alert(Page.findTpl('getOnlineReviewTaskList'))
                 var template = Handlebars.compile(Page.findTpl('getMonitoringTaskList'));
                 _dom.find("[name='content']").html(template(json.data.content));
                 // Utils.setSelectData(_dom);
@@ -101,7 +100,6 @@ define(function(require, exports, module) {
             _save.bind('click', function() {
                 var data = Utils.getCheckboxCheckedRow(_dom);
                 if (data) {
-                    alert(aaa)
                     var _dataArray = self.getSendCheckedRow(_dom);
                     var cmd = _dataArray;
                     console.log(cmd);
@@ -120,7 +118,6 @@ define(function(require, exports, module) {
         //获取选中子任务的数据
         getSendCheckedRow: function(obj) {
             var dataArray = []
-            alert(obj.find("input[type='checkbox']:checked").length)
             obj.find("input[type='checkbox']:checked").each(function(){
                 var data ={};
                 $(this).parents("tr").find("input,select").each(function(){
@@ -132,14 +129,7 @@ define(function(require, exports, module) {
             });
             return dataArray;
         },
-        // 事件：双击绑定事件
-        eventDClickCallback: function(obj, callback) {
-            obj.find("tr").bind('dblclick ', function(event) {
-                if (callback) {
-                    callback();
-                }
-            });
-        },
+
         // 事件：假分页(滚动条)
         initPaging: function(obj, scrollX) {
             obj.find("table").DataTable({
@@ -166,17 +156,6 @@ define(function(require, exports, module) {
                 }
                 if (value == "3") {
                     return "取消部署";
-                }
-            });
-            Handlebars.registerHelper('getMonitorState', function(value, fn) {
-                if (value == "1") {
-                    return "未监控";
-                }
-                if (value == "2") {
-                    return "已监控";
-                }
-                if (value == "3") {
-                    return "取消监控";
                 }
             });
         },

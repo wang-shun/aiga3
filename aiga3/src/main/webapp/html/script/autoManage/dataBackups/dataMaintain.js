@@ -58,6 +58,7 @@ define(function(require, exports, module) {
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
 				self.getDataMaintainList(cmd);
+
 			});
 
 		},
@@ -100,9 +101,9 @@ define(function(require, exports, module) {
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
 				$(Dom.addDataMaintainModal).modal('show');
-				$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
-					Utils.resetForm(Dom.addDataMaintainInfo);
-				});
+				/*$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
+					//Utils.resetForm(Dom.addDataMaintainInfo);
+				});*/
 				var _form = $(Dom.addDataMaintainInfo);
 				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addDataMaintainModal).find("[name = 'save']");

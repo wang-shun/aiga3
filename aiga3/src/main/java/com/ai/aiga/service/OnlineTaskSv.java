@@ -89,7 +89,7 @@ public class OnlineTaskSv extends BaseService{
 						     +"  from na_online_task_distribute a"
 						    +"  where a.parent_task_id = 0";
 		
-		if(condition.getTaskType() != null && condition.getTaskType().equals("4")){
+		if(condition.getTaskType() != null){
 			sql += " and a.task_type = "+condition.getTaskType();
 		}else{
 			sql += " and a.task_type < 4 ";

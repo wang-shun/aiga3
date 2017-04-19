@@ -66,6 +66,7 @@ public class AutoBackupTask extends AbstractTask {
 							+ "查询不到na_auto_property_config表数据，");
 				}
 			}
+			autoBackupSv.prepareBackupDealData(backupDeal, propertyConfigMap);
 			autoBackupSv.prepareBackupTables(propertyCorrelationList);
 			autoBackupSv.backup(backupDeal, propertyCorrelationList,propertyConfigMap);
 		} catch (Exception e) {
@@ -77,11 +78,18 @@ public class AutoBackupTask extends AbstractTask {
 
 	public static void main(String[] a) {
 		ApplicationContext appContext = JtaSpringContext.getInstance().getApplicationContext();
-		AutoBackupTask task = (AutoBackupTask) appContext.getBean("autoBackTask");
+		AutoBackupTask backupTask = (AutoBackupTask) appContext.getBean("autoBackTask");
+		AutoRestoreTask restoreTask = (AutoRestoreTask) appContext.getBean("autoRestoreTask");
 		while (true) {
 			try {
 				// task.doTask(111);
-				task.doBusiness();
+				backupTask.doBusiness();
+			} catch (Exception e) {
+				log.error(e.getMessage(), e);
+			}
+			try {
+				// task.doTask(111);
+				restoreTask.doBusiness();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}

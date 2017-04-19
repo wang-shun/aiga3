@@ -22,7 +22,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>监控任务名称</label>
-                                <input type="text" class="form-control input-sm" name="monitorName" placeholder="请输入监控任务名称">
+                                <input type="text" class="form-control input-sm" name="taskName" placeholder="请输入监控任务名称">
                             </div>
                         </div>
                     </div>
@@ -69,6 +69,27 @@
                             <th>模块</th>
                             <th>子模块</th>
                             <th>类型</th>
+                            <th>状态</th>
+                            <th>进程名称</th>
+                            <th>实例名称</th>
+                            <th>归属服务器</th>
+                            <th>运行用户</th>
+                            <th>预计消耗内存(MB)</th>
+                            <th>执行目录</th>
+                            <th>启动脚本</th>
+                            <th>停止脚本</th>
+                            <th>监控脚本</th>
+                            <th>日志目录</th>
+                            <th>日志名称</th>
+                            <th>数据库连接</th>
+                            <th>进程重启依赖描述</th>
+                            <th>集团考核</th>
+                            <th>是否常驻进程</th>
+                            <th>实例数</th>
+                            <th>上线时间</th>
+                            <th>下线时间</th>
+                            <th>计划ID</th>
+                            <th>备注</th>
                         </tr>
                     </thead>
                     <tbody name="content"></tbody>
@@ -113,6 +134,27 @@
         <td>{{module}}</td>
         <td>{{subModule}}</td>
         <td>{{type}}</td>
+        <td>{{state}}</td>
+        <td>{{courseName}}</td>
+        <td>{{exampleName}}</td>
+        <td>{{affiliationServer}}</td>
+        <td>{{opreationUser}}</td>
+        <td>{{planOnConsumeRam}}</td>
+        <td>{{executecatalogue}}</td>
+        <td>{{startScript}}</td>
+        <td>{{stopScript}}</td>
+        <td>{{monitoringScript}}</td>
+        <td>{{logCatalog}}</td>
+        <td>{{logName}}</td>
+        <td>{{databaseConnection}}</td>
+        <td>{{courseRestartRelyOn}}</td>
+        <td>{{groupAssess}}</td>
+        <td>{{residentCourse}}</td>
+        <td>{{instanceNumber}}</td>
+        <td>{{onlineTime}}</td>
+        <td>{{insertingCoilTime}}</td>
+        <td>{{planId}}</td>
+        <td>{{remark}}</td>
     </tr>
     {{/each}}
 </script>

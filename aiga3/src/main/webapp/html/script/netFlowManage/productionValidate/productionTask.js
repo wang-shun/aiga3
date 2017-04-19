@@ -19,9 +19,9 @@ define(function(require, exports, module) {
     //下拉菜单获取所有处理人
     srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
     //保存回归子任务
-    srvMap.add("saveOnlineTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
+    srvMap.add("saveProductionTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
     //删除回归子任务
-    srvMap.add("delOnlineTask", pathAlias + "retMessage.json", "accept/onlineTask/delete");
+    srvMap.add("delProductionTask", pathAlias + "retMessage.json", "accept/onlineTask/delete");
     //查看手工用例执行结果列表
     srvMap.add("getManualResultList", pathAlias + "getManualResultList.json", "accept/subTask/caseResult");
     //查看自动化用例执行结果列表
@@ -49,7 +49,7 @@ define(function(require, exports, module) {
         getAutoResultListModal: "#JS_getPAutoResultListModal",
         getManualResultListModal: '#JS_getPManualResultListModal',
         getManualResultList: '#JS_getPManualResultList',
-        collectIdss: '#SELT_collectIdss'
+        collectIdss: '#JS_collectIdss'
 
     };
 
@@ -90,8 +90,10 @@ define(function(require, exports, module) {
         distributeTask: function() {
             var self = this;
             var _dom = $(Dom.getProductionTaskList);
+            var _form = $(Dom.addProductionTaskDistributeForm);
             var btn_distribute = _dom.find("[name='distribute']");
-            btn_distribute.unbind('click');
+            var _rest = _form.find("button[name='reset']");
+            btn_distribute.unbind();
             btn_distribute.bind('click', function() {
                 var data = self.getRadioCheckedRow(_dom.find("table"));
                 if (data) {
@@ -102,9 +104,7 @@ define(function(require, exports, module) {
                     Rose.ajax.postJson(srvMap.get('getProductionTaskDistributeList'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.hide();
-                            var _form = $(Dom.addProductionTaskDistributeForm);
                             Utils.setSelectData(_form);
-
                             var _modal = $(Dom.getProductionTaskDistributeModal);
                             _modal.modal('show').on('shown.bs.modal', function() {
                                 var template = Handlebars.compile(Tpl.getProductionTaskDistributeList);
@@ -112,35 +112,38 @@ define(function(require, exports, module) {
                                 _dom.html(template(json.data));
                                 // 初始化步骤
                                 Utils.initStep(_modal);
-                                //加载用例集类型下拉框
-                                Rose.ajax.postJson(srvMap.get('getCollectIdList'), "caseType=1", function(json, status) {
-                                    if (true) {
-                                        // _dom.find("[name='dealOpId']");
-                                        console.log(json.data);
-                                        var template = Handlebars.compile(Tpl.getPCollectId);
-                                        $(Dom.collectIdss).html(template(json.data));
-                                    }
-                                });
 
                                 self.addProductionTask();
                                 self.updateProductionTask();
                                 self.delProductionTask();
                                 self.getRunResultList();
-                                var _close = _modal.find("[name='close']");
-                                _close.unbind('click');
-                                _close.bind('click', function() {
-                                    self.getProductionTaskList();
-                                })
-                                var _rest = _form.find("[name='reset']");
-                                _rest.unbind('click');
-                                _rest.bind('click', function() {
-                                    _form.find("[name='collectId']").attr("disabled", false);
-                                    Data.opreation = 'new';
-                                })
+                                // var _close = _modal.find("[name='close']");
+                                // _close.unbind('click');
+                                // _close.bind('click', function() {
+                                //     self.getProductionTaskList();
+                                // })
                                 Utils.eventTrClickCallback($(Dom.getProductionTaskDistributeList))
                                     //设置分页
                                 self.initPaging(_dom, 5, true);
-                            })
+                            });
+                            //加载用例集类型下拉框
+                            Rose.ajax.postJson(srvMap.get('getCollectIdList'), "caseType=1", function(json, status) {
+                                if (true) {
+                                    // _dom.find("[name='dealOpId']");
+                                    console.log(json.data);
+                                    var template = Handlebars.compile(Tpl.getPCollectId);
+                                    $(Dom.collectIdss).html(template(json.data));
+                                    _form.find("[name='collectId']").attr("disabled", false);
+                                }
+                            });
+
+
+                            _rest.unbind();
+                            _rest.bind('click', function() {
+                                _form.find("[name='collectId']").attr("disabled", false);
+                                Data.opreation = 'new';
+                            });
+                            _rest.click();
                         }
                     });
 
@@ -211,13 +214,13 @@ define(function(require, exports, module) {
                 var data = self.getRadioCheckedRow(_dom);
                 console.log(data.length)
                 if (data) {
-                    var cmd = '';
+
                     var taskName = _form.find("[name='taskName']").val();
                     var collectId = _form.find("[name='collectId']").val();
                     var dealOpId = _form.find("[name='dealOpId']").val();
                     var taskId = _form.find("[name='taskId']").val();
                     var onlinePlanId = _form.find("[name='onlinePlanId']").val();
-                    cmd = "taskName=" + taskName + "&collectId=" + collectId + "&parentTaskId=" + data.taskId + "&dealOpId=" + dealOpId;
+                    var cmd = "taskName=" + taskName + "&collectId=" + collectId + "&parentTaskId=" + data.taskId + "&dealOpId=" + dealOpId;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
                     }
@@ -282,6 +285,7 @@ define(function(require, exports, module) {
                         Rose.ajax.postJson(srvMap.get("delProductionTask"), cmd, function(json, status) {
                             if (status) {
                                 window.XMS.msgbox.show('删除成功！', 'success', 2000);
+
                                 setTimeout(function() {
                                     self.getProductionTaskDistributeList();;
                                 }, 1000)

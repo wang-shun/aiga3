@@ -168,6 +168,8 @@ define(function(require, exports, module) {
 			cmd = "taskId=" + cmd;
 			Rose.ajax.postJson(srvMap.get('caseResultList'), cmd, function(json, status) {
 				if (status) {
+					alert()
+					console.log(Tpl.taskProcessList);
 					var template = Handlebars.compile(Tpl.taskProcessList);
 					console.log(json.data)
 					_table.html(template(json.data.content));

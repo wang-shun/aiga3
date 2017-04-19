@@ -218,7 +218,7 @@ define(function(require, exports, module) {
                 var _url = _this.data("url");
                 var _cmd = _this.data("cmd") || '';
                 if(other){
-                    _cmd+ = "&" + other;
+                    _cmd += "&" + other;
                 }
                 if(_url){
                     if(callback){

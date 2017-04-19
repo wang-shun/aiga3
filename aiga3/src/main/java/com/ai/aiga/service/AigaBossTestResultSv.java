@@ -67,7 +67,19 @@ public class AigaBossTestResultSv  extends BaseService{
 							   +"    	left join na_change_plan_onile b"
 							   +"     on a.online_plan = b.online_plan"
 							   +"   	left join na_online_task_distribute c"
-							   +"     on a.task_id = c.task_id  where a.type="+request.getTaskType();
+							   +"     on a.task_id = c.task_id  where b.sign<> 1 and a.type="+request.getTaskType();
+				if(request.getOnlinePlan()!=null){
+					sql += " and a.online_plan ="+request.getOnlinePlan();
+				}
+				if(request.getTaskId()!=null){
+					sql += " and a.task_id ="+request.getOnlinePlan();
+				}
+				if(request.getSubTaskName()!=null&&!"".equals(request.getSubTaskName())){
+					sql += " and a.boss_name like '%"+request.getSubTaskName()+"%'";
+				}
+				if(request.getDealState()!=null){
+					sql += " and c.deal_state  = "+request.getDealState();
+				}
 				if(pageNumber < 0){
 					pageNumber = 0;
 				}
@@ -145,37 +157,9 @@ public class AigaBossTestResultSv  extends BaseService{
 	}
 
 
-/**
- * 查询包含其他任务的计划
- * @param type
- * @return
- */
-	public Object getOtherPlan(Long type) {
-		if(type==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "type");
-		}
-		StringBuilder s = new StringBuilder();
-		s.append("  select a.online_plan, a.online_plan_name   from na_change_plan_onile a, na_online_task_distribute b   where a.online_plan = b.online_plan  and b.parent_task_id = 0  and task_type = 2 ");
-			if(type==1){
-			//新增
-				s.append(" and a.online_plan not in (select online_plan  from AIGA_BOSS_TEST_RESULT)");
-		}
-			s.append("order by a.plan_date desc");
-			
-		return aigaBossTestResultDao.searchByNativeSQL(s.toString());
-	}
+
 	
 
-	public Object getOtherTaskInfo(Long onlinePlan) {
-		if(onlinePlan==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
-		}
-		StringBuilder s = new StringBuilder();
-		s.append(" select b.task_id,b.task_name from  na_online_task_distribute b where b.task_type = 2 and b.parent_task_id = 0 and b.online_plan =  "+onlinePlan);
-		s.append("order by b.assign_date desc");
-			
-		return aigaBossTestResultDao.searchByNativeSQL(s.toString());
-	}
 	
 	
 	/**

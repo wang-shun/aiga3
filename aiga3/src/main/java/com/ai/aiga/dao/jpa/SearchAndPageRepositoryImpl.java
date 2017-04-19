@@ -291,7 +291,7 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 
 	@Override
 	public List<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters) {
-		Query query = entityManager.createNativeQuery(nativeSQL);
+		Query query = entityManager.createNativeQuery(nativeSQL);System.out.println("调用数据库");
         query.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
         
         buildParameters(query, parameters);

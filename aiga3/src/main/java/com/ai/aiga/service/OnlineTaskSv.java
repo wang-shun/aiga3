@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AigaBossTestResultDao;
 import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoCollectionDao;
@@ -63,6 +65,8 @@ public class OnlineTaskSv extends BaseService{
 	@Autowired
 	private NaAutoGroupCaseDao naAutoGroupCaseDao;
 	
+	@Autowired
+	private AigaBossTestResultDao aigaBossTestResultDao;
 	
 	/**
 	 * @ClassName: OnlineTaskSv :: list
@@ -392,5 +396,13 @@ public class OnlineTaskSv extends BaseService{
 		return responses;
 	}
 
+	 @Cacheable(value = "task")
+	public Object getOtherTaskInfo(Long onlinePlan) {
+		if(onlinePlan==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
+		}		
+		return naOnlineTaskDistributeDao.getOtherTaskInfo( onlinePlan);
+	}
+	
 }
 

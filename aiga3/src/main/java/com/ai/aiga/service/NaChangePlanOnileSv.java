@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.dao.AigaBossTestResultDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.domain.NaChangePlanOnile;
@@ -33,6 +34,10 @@ public class NaChangePlanOnileSv extends BaseService{
 	
 	@Autowired
 	private NaChangePlanOnileSv   naChangePlanOnileSv;
+	
+	@Autowired
+	private AigaBossTestResultDao aigaBossTestResultDao;
+	
 	public NaChangePlanOnile saveChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -97,7 +102,6 @@ public class NaChangePlanOnileSv extends BaseService{
 			naChangePlanOnile.setPlanState(3L);
 			naChangePlanOnile.setDoneDate( new Date());
 		}
-		//System.out.println("22222"+request.getExt2());
 		naChangePlanOnile.setExt2(request.getExt2());
 		
 		naChangePlanOnile.setResult(request.getResult());
@@ -192,4 +196,25 @@ public class NaChangePlanOnileSv extends BaseService{
 		
 		planDetailManifestDao.save(values);
 	}
+	
+	
+	/**
+	 * 查询包含其他任务的计划
+	 * @param type
+	 * @return
+	 */
+		public Object getOtherPlan(Long type) {
+			if(type==null){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "type");
+			}
+			StringBuilder s = new StringBuilder();
+			s.append("  select a.online_plan, a.online_plan_name   from na_change_plan_onile a, na_online_task_distribute b   where a.online_plan = b.online_plan  and b.parent_task_id = 0  and task_type = 2 ");
+				if(type==1){
+				//新增
+					s.append(" and a.online_plan not in (select online_plan  from AIGA_BOSS_TEST_RESULT)");
+			}
+				s.append("order by a.plan_date desc");
+				
+			return aigaBossTestResultDao.searchByNativeSQL(s.toString());
+		}
 }

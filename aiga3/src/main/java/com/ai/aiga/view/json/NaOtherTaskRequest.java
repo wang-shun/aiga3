@@ -4,16 +4,24 @@ package com.ai.aiga.view.json;
 import java.util.Date;
 
 public class NaOtherTaskRequest {
-	private Long taskType;
+	private Long dealState;
 	private Long onlinePlan;
 	private Long taskId;
-	private Long subTaskId;
+	private String subTaskName;
+	private Long taskType;
 
+	
 	public Long getTaskType() {
 		return taskType;
 	}
 	public void setTaskType(Long taskType) {
 		this.taskType = taskType;
+	}
+	public Long getDealState() {
+		return dealState;
+	}
+	public void setDealState(Long dealState) {
+		this.dealState = dealState;
 	}
 	public Long getOnlinePlan() {
 		return onlinePlan;
@@ -27,11 +35,11 @@ public class NaOtherTaskRequest {
 	public void setTaskId(Long taskId) {
 		this.taskId = taskId;
 	}
-	public Long getSubTaskId() {
-		return subTaskId;
+	public String getSubTaskName() {
+		return subTaskName;
 	}
-	public void setSubTaskId(Long subTaskId) {
-		this.subTaskId = subTaskId;
+	public void setSubTaskName(String subTaskName) {
+		this.subTaskName = subTaskName;
 	}
 	public NaOtherTaskRequest() {
 		super();

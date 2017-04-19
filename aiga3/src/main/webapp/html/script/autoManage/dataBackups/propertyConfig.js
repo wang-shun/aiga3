@@ -106,7 +106,7 @@ define(function(require, exports, module) {
                         //关闭清除
                         $(Dom.addPropertyConfigModal).on('hide.bs.modal', function() {
                             Utils.resetForm(Dom.addPropertyConfigInfo);
-                            $('#propertyIdInput').readOnly = false;
+                           // $('#propertyIdInput').readOnly = false;
                         });
 
 
@@ -240,12 +240,12 @@ define(function(require, exports, module) {
             $('#propertyNameSelect').change(function() {
                         var _cmd = 'propertyId='+$('#propertyNameSelect').val();
                         Rose.ajax.postJson(srvMap.get('getPropertyConfigList'),_cmd, function(json, status) {
-                                if (status&&json.data.content[0].propertyId!='undefined') {
+                                if (status&&json.data.content.length!=0) {
                                     $('#propertyIdInput').val(json.data.content[0].propertyId);
-                                    $('#propertyIdInput').attr("readonly", "readonly");
                                 }
                                 else{
-                                    $('#propertyIdInput').readOnly = false;
+                                     $('#propertyIdInput').val("");
+                                   // $('#propertyIdInput').readOnly = false;
                                 }
 
                         });

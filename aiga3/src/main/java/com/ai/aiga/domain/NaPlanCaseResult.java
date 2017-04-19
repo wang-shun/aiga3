@@ -199,7 +199,7 @@ public class NaPlanCaseResult  implements java.io.Serializable {
         this.ext3 = ext3;
     }
 
-    @Column(name="AUTOCODE", length=200)
+    @Column(name="AUTO_CODE", length=200)
 	public String getAutoCode() {
 		return autoCode;
 	}

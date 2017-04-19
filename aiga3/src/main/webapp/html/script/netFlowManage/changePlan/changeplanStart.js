@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     var Utils = require("global/utils.js");
 
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
-    var Page = Utils.initPage('changePlanStart');
+    var Page = Utils.initPage('changeplanStart');
 
     // 路径重命名
     var pathAlias = "netFlowManage/changePlan/changePlanStart/";
@@ -40,12 +40,12 @@ define(function(require, exports, module) {
         queryChangePlanForm: '#JS_queryChangePlanForm',
         getChangePlanList: '#JS_getChangePlanList',
         getAutoResultList: '#JS_getAutoResultListC',
-        getAutoResultModal: '#JS_getAutoResultModal',
+        getAutoResultModal: '#Modal_getAutoResultModal',
         saveTaskResultForm: '#JS_saveTaskResultForm',
         getTaskResultList: '#JS_getTaskResultList',
-        getTaskResultModal: '#JS_getTaskResultModal',
+        getTaskResultModal: '#Modal_getTaskResultModal',
         getPublishResultList: '#JS_getPublishResultList',
-        getPublishResultModal: '#JS_getPublishResultModal'
+        getPublishResultModal: '#Modal_getPublishResultModal'
 
     };
 
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
         // 按条件查询
         queryChangePlanForm: function() {
             var self = this;
-            var _form = $(Dom.queryChangePlanForm);
+            var _form = Page.findId('queryChangePlanForm');
             Utils.setSelectData(_form);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
@@ -87,16 +87,16 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getChangePlanList'), _cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getChangePlanList);
-                    $(Dom.getChangePlanList).html(template(json.data))
+                    var template = Handlebars.compile(Page.findTpl('getChangePlanList'));
+                    Page.findId('getChangePlanList').html(template(json.data))
 
                     self.getAutoResultList();
                     self.changePlanStart();
                     self.getPublishResultList();
-                    Utils.eventTrClickCallback($(Dom.getChangePlanList))
+                    Utils.eventTrClickCallback(Page.findId('getChangePlanList'))
 
                     //设置分页
-                    self.initPaging($(Dom.getChangePlanList), 8, true)
+                    self.initPaging(Page.findId('getChangePlanList'), 8, true)
 
                 }
             });
@@ -361,7 +361,6 @@ define(function(require, exports, module) {
             });
         },
         registerHelper: function() {
-            alert()
             Handlebars.registerHelper('getPlanState', function(value, fn) {
                 if (value == "1") {
                     return "新建";

@@ -1,6 +1,5 @@
 package com.ai.aiga.view.json;
 
-import java.math.BigDecimal;
 
 public class CourseChangListRequest {
 	 private Long id;
@@ -39,10 +38,12 @@ public class CourseChangListRequest {
      private String onlineTime;
      private String insertingCoilTime;
      private String remark;
-     private BigDecimal deployState;
-     private BigDecimal monitorState;
-     private BigDecimal planId;
+     private Long deployState;
+     private Long monitorState;
+     private Long planId;
      private String monitorOrder;
+     private String taskName;//任务名称
+     private Long onlinePlan;//
      
      
 	public CourseChangListRequest(Long id, String subtaskId, String subtaskName, String integrator,
@@ -52,8 +53,8 @@ public class CourseChangListRequest {
 			String affiliationServer, String operationUser, String planOnConsumeRam, String executecatalogue,
 			String startScript, String stopScript, String monitoringScript, String logCatalog, String logName,
 			String databaseConnection, String courseRestartRelyOn, String groupAssess, String residentCourse,
-			String instanceNumber, String onlineTime, String insertingCoilTime, String remark, BigDecimal deployState,
-			BigDecimal monitorState, BigDecimal planId, String monitorOrder) {
+			String instanceNumber, String onlineTime, String insertingCoilTime, String remark, Long deployState,
+			Long monitorState, Long planId, String monitorOrder,String taskName,Long onlinePlan) {
 		super();
 		this.id = id;
 		this.subtaskId = subtaskId;
@@ -95,6 +96,8 @@ public class CourseChangListRequest {
 		this.monitorState = monitorState;
 		this.planId = planId;
 		this.monitorOrder = monitorOrder;
+		this.taskName = taskName;
+		this.onlinePlan = onlinePlan;
 	}
 	public Long getId() {
 		return id;
@@ -312,22 +315,22 @@ public class CourseChangListRequest {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public BigDecimal getDeployState() {
+	public Long getDeployState() {
 		return deployState;
 	}
-	public void setDeployState(BigDecimal deployState) {
+	public void setDeployState(Long deployState) {
 		this.deployState = deployState;
 	}
-	public BigDecimal getMonitorState() {
+	public Long getMonitorState() {
 		return monitorState;
 	}
-	public void setMonitorState(BigDecimal monitorState) {
+	public void setMonitorState(Long monitorState) {
 		this.monitorState = monitorState;
 	}
-	public BigDecimal getPlanId() {
+	public Long getPlanId() {
 		return planId;
 	}
-	public void setPlanId(BigDecimal planId) {
+	public void setPlanId(Long planId) {
 		this.planId = planId;
 	}
 	public String getMonitorOrder() {
@@ -336,4 +339,17 @@ public class CourseChangListRequest {
 	public void setMonitorOrder(String monitorOrder) {
 		this.monitorOrder = monitorOrder;
 	}
+	public String getTaskName() {
+		return taskName;
+	}
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
+	}
+	public Long getOnlinePlan() {
+		return onlinePlan;
+	}
+	public void setOnlinePlan(Long onlinePlan) {
+		this.onlinePlan = onlinePlan;
+	}
+	
 }

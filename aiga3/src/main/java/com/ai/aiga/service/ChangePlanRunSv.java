@@ -27,7 +27,9 @@ import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.enums.CheckAcceptEnum;
 import com.ai.aiga.view.json.NaOnlineTaskDistributeResponse;
+import com.ai.aiga.view.util.SessionMgrUtil;
 import com.huawei.msp.mmap.server.TaskMessageClient;
 
 @Service
@@ -138,9 +140,9 @@ public class ChangePlanRunSv extends BaseService{
 		if(naOnlineTaskDistribute.getTaskId() == null || naOnlineTaskDistribute.getTaskId().equals("")){
 			naOnlineTaskDistribute.setParentTaskId(0L);
 			naOnlineTaskDistribute.setTaskName(naOnlineTaskDistribute.getOnlinePlanName()+"_"+info);
-			naOnlineTaskDistribute.setAssignId(1L);
+			naOnlineTaskDistribute.setAssignId(SessionMgrUtil.getStaff().getStaffId());
 			naOnlineTaskDistribute.setAssignDate(new Date());
-			naOnlineTaskDistribute.setDealState(0L);//新增
+			naOnlineTaskDistribute.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());//新增
 			naOnlineTaskDistribute.setCreateDate(new Date());
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
 			if(naOnlineTaskDistribute.getDealOpId() != null){
@@ -161,7 +163,7 @@ public class ChangePlanRunSv extends BaseService{
 			}
 		}
 		//把计划状态改为处理中
-		naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());
+		//naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());
 	}
 
 	public void sendMessageForCycle(Long taskId, String info) {
@@ -169,7 +171,7 @@ public class ChangePlanRunSv extends BaseService{
 		List<Object[]> list = naOnlineTaskDistributeDao.messageInfo(taskId);
 		Object[] object = list.get(0);
 		StringBuilder contents = new StringBuilder();
-		contents.append("AIGA_SMS~尊敬的:").append(object[0].toString()).append(",").append(object[1].toString())
+		contents.append("AIGA_SMS~尊敬的:").append(object[1].toString()).append(",").append(object[0].toString())
 		.append("在").append(object[2].toString()).append("给您分派了").append(info)
 		.append("任务,请您及时处理！");
 		TaskMessageClient.sendMessageForCycle(object[3].toString(), contents.toString());
@@ -180,7 +182,7 @@ public class ChangePlanRunSv extends BaseService{
 		if(onlinePlan == null || onlinePlan < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
 		}
-		String sql = "select a.task_id, a.task_name, a.task_type, a.deal_state, b.name as creator_name from "
+		String sql = "select a.task_id, a.task_name, a.task_type, a.deal_state, a.deal_op_id, b.name as creator_name from "
 				+ "na_online_task_distribute a left join aiga_staff b on a.deal_op_id = b.staff_id "
 				 +"  where a.online_plan = "+onlinePlan
 				 + " and a.parent_task_id= 0 ";
@@ -195,6 +197,7 @@ public class ChangePlanRunSv extends BaseService{
 		list.add("taskName");
 		list.add("taskType");
 		list.add("dealState");
+		list.add("dealOpId");
 		list.add("dealOpName");
 		
 		if(pageNumber < 0){
@@ -210,13 +213,17 @@ public class ChangePlanRunSv extends BaseService{
 		return naOnlineTaskDistributeDao.searchByNativeSQL(sql, pageable, list);
 	}
 
-	public void delete(Long taskId) {
+	public void delete(String taskIds) {
 		
-		if(taskId == null || taskId < 0){
+		if(taskIds == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
 		}
-		naOnlineTaskDistributeDao.delete(taskId);
-		naOnlineTaskDistributeDao.deleteByParentTaskId(taskId);
+		String[] taskId = taskIds.split(",");
+		for(int i = 0; i < taskId.length; i++){
+			naOnlineTaskDistributeDao.delete(Long.valueOf(taskId[i]).longValue());
+			naOnlineTaskDistributeDao.deleteByParentTaskId(Long.valueOf(taskId[i]).longValue());
+		}
+		
 	}
 
 	public Page<NaCodePath> compileList(NaCodePath condition, int pageNumber, int pageSize) {

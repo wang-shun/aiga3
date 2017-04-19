@@ -582,40 +582,88 @@
 		        <div class="tab-pane" id="deliverableTab_7">
 		            <div class="row">
 			            <div class="col-md-12">
-			                <div class="box" id="">
+			                <div class="box" id="JS_getNeedList">
 			                    <div class="box-header">
 			                        <div class="box-title">集团需求</div>
 									<div class="box-tools">
 					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 					                </div>
 			                    </div>
-			                    <div class="box-body" style="min-height: 100px;" id="JS_needList"></div>
+			                    <div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>开发任务编号</th>
+									            <th>需求名称</th>
+									            <th>测试人员</th>
+									            <th>需求管理员</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+									</table>
+					            </div>
+								<div class="box-footer no-border">
+					                <div class="dataTables_paginate" name="pagination"></div>
+					            </div>
 			                </div>
 			            </div>
 		            </div>
 					<div class="row">
 			            <div class="col-md-12">
-			                <div class="box" id="">
+			                <div class="box" id="JS_getCombineList">
 								<div class="box-header">
 			                        <div class="box-title">需联调需求</div>
 									<div class="box-tools">
 					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 					                </div>
 			                    </div>
-			                    <div class="box-body" style="min-height: 100px;" id="JS_combineList"></div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>开发任务编号</th>
+									            <th>需求名称</th>
+									            <th>测试人员</th>
+									            <th>对端平台名称</th>
+									            <th>对端配合人员</th>
+									            <th>联系方式</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+									</table>
+					            </div>
+								<div class="box-footer no-border">
+					                <div class="dataTables_paginate" name="pagination"></div>
+					            </div>
 			                </div>
 			            </div>
 		            </div>
 					<div class="row">
 			            <div class="col-md-12">
-			                <div class="box" id="">
+			                <div class="box" id="JS_getConfigureList">
 								<div class="box-header">
 			                        <div class="box-title">生产环境需配置菜单需求</div>
 									<div class="box-tools">
 					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 					                </div>
 			                    </div>
-			                    <div class="box-body" style="min-height: 100px;" id="JS_configureList"></div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>开发任务编号</th>
+									            <th>需求名称</th>
+									            <th>测试人员</th>
+									            <th>需求管理员</th>
+									            <th>生产是否已配置</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+									</table>
+					            </div>
+								<div class="box-footer no-border">
+					                <div class="dataTables_paginate" name="pagination"></div>
+					            </div>
 			                </div>
 			            </div>
 		            </div>
@@ -648,7 +696,6 @@
 	            <td style="display:none;">{{onlinePlan}}</td>
 	            <td>
 	                <div class="col-xs-1">
-	                    <!-- <input type="text" size="" class="" name="conclusion" value="{{conclusion}}" placeholder=""> -->
 	                    <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
 	                        <option value="">请选择</option>
 	                        <option value="1">通过</option>
@@ -963,6 +1010,42 @@
             <td><div class="col-xs-1"><input type="text" size="" class="" name="ip" value="{{ip}}" placeholder=""></div>{{ip}}</td>
             <td><div class="col-xs-1"><input type="text" size="" class="" name="hostName" value="{{hostName}}" placeholder=""></div>{{hostName}}</td>
             <td><div class="col-xs-1"><input type="text" size="" class="" name="remark" value="{{remark}}" placeholder=""></div>{{remark}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/集团需求列表 -->
+<script id="TPL_getNeedList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{devTaskId}}</td>
+			<td>{{requireName}}</td>
+            <td>{{testMan}}</td>
+			<td>{{requireMan}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/需联调需求列表 -->
+<script id="TPL_getCombineList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{devTaskId}}</td>
+			<td>{{requireName}}</td>
+            <td>{{testMan}}</td>
+			<td>{{otherSysName}}</td>
+            <td>{{otherSysMan}}</td>
+			<td>{{otherSysManTel}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/生产环境需配置菜单需求列表 -->
+<script id="TPL_getConfigureList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{devTaskId}}</td>
+			<td>{{requireName}}</td>
+            <td>{{testMan}}</td>
+			<td>{{requireMan}}</td>
+            <td>{{hasDeploy}}</td>
         </tr>
     {{/each}}
 </script>

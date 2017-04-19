@@ -34,19 +34,18 @@ public class CourseChangSv extends BaseService {
      * @param CourseChangListRequest
      * @return List<CourseChangList>
      */
-    public Object find(CourseChangList condition, int pageNumber, int pageSize){
-        List<Condition> cons = new ArrayList<Condition>();
+    public Object find(CourseChangListRequest condition, int pageNumber, int pageSize){
+        String sql = "select c.*,a.task_name,q.online_plan_name,q.plan_date from COURSE_CHANG_LIST c,CHANGE_PLAN_ONILE q,(select online_plan_id t,assign_date,task_name from AIGA_ONLINE_TASK_DISTRIBUTE where TASK_TYPE in (11) order by assign_date desc) a where a.t=c.plan_id and q.online_plan=a.t and 1=1";
+       
         if(condition!=null){
-        	if(condition.getId()!=null){
-        		cons.add(new Condition("Id",condition.getId(), Condition.Type.EQ));  		
-        	}     
-        	//根据部署状态查询
-        	cons.add(new Condition("deployState",condition.getDeployState(), Condition.Type.EQ));  	
-        	if(condition.getPlanId()!=null){
-        		cons.add(new Condition("planId",condition.getPlanId(), Condition.Type.EQ));  	
+        	if(condition.getDeployState()!=null){
+        		 sql=sql+" and c.DEPYLY_STATE = "+condition.getDeployState();
         	}
-        	if(condition.getName()!=null){
-        		cons.add(new Condition("name",condition.getName(), Condition.Type.EQ));  	
+        	if(condition.getTaskName()!=null){
+        		 sql=sql+" and a.TASK_NAME = "+condition.getTaskName();
+        	}
+        	if(condition.getOnlinePlan()!=null){
+        		 sql=sql+" and q.online_plan = "+condition.getOnlinePlan();
         	}
         }
         Pageable pageable = new PageRequest(pageNumber, pageSize);
@@ -58,7 +57,7 @@ public class CourseChangSv extends BaseService {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 
-        return courseChangDao.search(cons, pageable);
+        return courseChangDao.searchByNativeSQL(sql, pageable);
     }
     
     /**
@@ -88,11 +87,13 @@ public class CourseChangSv extends BaseService {
      * 通过请求参数新增
      * @param CourseChangListRequest 页面请求参数
      */
-    public void saveTask(CourseChangList courseChangList){
+    public void saveTask(List<CourseChangList> courseChangList){
         if (courseChangList == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
-        courseChangDao.save(courseChangList);
+        for(CourseChangList course : courseChangList){
+        courseChangDao.save(course);
+        }
     }
 
 }

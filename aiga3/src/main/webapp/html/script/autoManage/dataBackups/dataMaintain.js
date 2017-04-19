@@ -57,7 +57,6 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
-				alert(cmd);
 				self.getDataMaintainList(cmd);
 
 			});
@@ -73,7 +72,6 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			alert(_cmd);
 			Utils.getServerPage(srvMap.get('getDataMaintainList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
@@ -103,9 +101,9 @@ define(function(require, exports, module) {
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
 				$(Dom.addDataMaintainModal).modal('show');
-				$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
-					Utils.resetForm(Dom.addDataMaintainInfo);
-				});
+				/*$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
+					//Utils.resetForm(Dom.addDataMaintainInfo);
+				});*/
 				var _form = $(Dom.addDataMaintainInfo);
 				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addDataMaintainModal).find("[name = 'save']");

@@ -3,17 +3,17 @@ define(function(require, exports, module) {
     var Utils = require("global/utils.js");
 
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
-    var Page = Utils.initPage('taskMonitoring');
+    var Page = Utils.initPage('taskDeploying');
 
     // 路径重命名
-    var pathAlias = "netFlowManage/changeRelease/taskMonitoring/";
+    var pathAlias = "netFlowManage/changeRelease/taskDeploying/";
 
     // 下拉菜单获取所有变更计划
     srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //获取验收任务列表
-    srvMap.add("getMonitoringTaskList", pathAlias + "getMonitoringTaskList.json", "accept/onlineTask/list");
+    srvMap.add("getDeployingTaskList", pathAlias + "getDeployingTaskList.json", "accept/onlineTask/list");
     //保存回归子任务
-    srvMap.add("saveMonitoringTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
+    srvMap.add("saveDeployingTask", pathAlias + "retMessage.json", "accept/onlineTask/save");
 
     // // 模板对象
     // var Tpl = {
@@ -41,60 +41,59 @@ define(function(require, exports, module) {
     var Query = {
         init: function() {
             // 默认查询所有
-            this.getMonitoringTaskList();
+            this.getDeployingTaskList();
             // 初始化查询表单
-            this.queryMonitoringTaskForm();
+            this.queryDeployingTaskForm();
             //注册helper
             this.registerHelper();
         },
 
         // 按条件查询
-        queryMonitoringTaskForm: function() {
+        queryDeployingTaskForm: function() {
             var self = this;
-            var _form = Page.findId('queryMonitoringTaskForm');
+            var _form = Page.findId('queryDeployingTaskForm');
             Utils.setSelectData(_form);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
             _queryBtn.bind('click', function() {
                 var cmd = _form.serialize();
-                self.getMonitoringTaskList(cmd);
+                self.getDeployingTaskList(cmd);
             });
         },
         // 查询计划变更列表
-        getMonitoringTaskList: function(cmd) {
+        getDeployingTaskList: function(cmd) {
             var self = this;
             var _cmd = '' || cmd;
             Data.queryListCmd = _cmd;
-            var _dom = Page.findId('getMonitoringTaskList');
+            var _dom = Page.findId('getDeployingTaskList');
             //真分页时解开
             var _domPagination = _dom.find("[name='pagination']");
 
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Utils.getServerPage(srvMap.get('getMonitoringTaskList'), _cmd, function(json) {
-                window.XMS.msgbox.hide();
-                var template = Handlebars.compile(Page.findTpl('getMonitoringTaskList'));
+            Utils.getServerPage(srvMap.get('getDeployingTaskList'), _cmd, function(json) {
+                var template = Handlebars.compile(Page.findTpl('getDeployingTaskList'));
                 _dom.find("[name='content']").html(template(json.data.content));
                 // Utils.setSelectData(_dom);
-                var da=json.data.content;
-                    var i=0
-                    _dom.find("tbody").find("tr").each(function(){
-                        var tdArr = $(this).children();
-                        tdArr.eq(2).find("select").val(da[i].monitorState);
-                        i++;
-                    });
+                var da = json.data.content;
+                var i = 0
+                _dom.find("tbody").find("tr").each(function() {
+                    var tdArr = $(this).children();
+                    tdArr.eq(1).find("select").val(da[i].deployState);
+                    i++;
+                });
                 Utils.eventTrClickCallback(_dom)
                     //设置滚动条
                     //self.initPaging(_dom, true);
             }, _domPagination);
 
             // 保存监控任务
-            self.saveMonitoringTask();
+            self.saveDeployingTask();
 
         },
         // 保存监控任务
-        saveMonitoringTask: function() {
+        saveDeployingTask: function() {
             var self = this;
-            var _dom = Page.findId('getMonitoringTaskList');
+            var _dom = Page.findId('getDeployingTaskList');
             var _save = _dom.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {
@@ -103,11 +102,11 @@ define(function(require, exports, module) {
                     var _dataArray = self.getSendCheckedRow(_dom);
                     var cmd = _dataArray;
                     console.log(cmd);
-                    Rose.ajax.postJson(srvMap.get("saveMonitoringTask"), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get("saveDeployingTask"), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('保存成功', 'success', 2000);
                             setTimeout(function() {
-                                self.getMonitoringTaskList();
+                                self.getDeployingTaskList();
                             }, 1000)
                         }
                     });
@@ -118,18 +117,17 @@ define(function(require, exports, module) {
         //获取选中子任务的数据
         getSendCheckedRow: function(obj) {
             var dataArray = []
-            obj.find("input[type='checkbox']:checked").each(function(){
-                var data ={};
-                $(this).parents("tr").find("input,select").each(function(){
+            obj.find("input[type='checkbox']:checked").each(function() {
+                var data = {};
+                $(this).parents("tr").find("input,select").each(function() {
                     var key = $(this).attr("name");
                     var value = $(this).val();
-                    data[key]=value;
+                    data[key] = value;
                 });
                 dataArray.push(data);
             });
             return dataArray;
         },
-
         // 事件：假分页(滚动条)
         initPaging: function(obj, scrollX) {
             obj.find("table").DataTable({
@@ -147,19 +145,18 @@ define(function(require, exports, module) {
             });
         },
         registerHelper: function() {
-            Handlebars.registerHelper('getDeployState', function(value, fn) {
+            Handlebars.registerHelper('getMonitorState', function(value, fn) {
                 if (value == "1") {
-                    return "未部署";
+                    return "未监控";
                 }
                 if (value == "2") {
-                    return "已部署";
+                    return "已监控";
                 }
                 if (value == "3") {
-                    return "取消部署";
+                    return "取消监控";
                 }
             });
         },
-
     };
     module.exports = Query;
 });

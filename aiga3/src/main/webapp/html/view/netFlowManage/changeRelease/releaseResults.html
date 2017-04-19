@@ -23,19 +23,19 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>发布任务名称</label>
-                                <input name="subTaskName" class="form-control input-sm">
+                                <input name="taskName" class="form-control input-sm">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>起始时间</label>
-                                <input type="text" class="form-control input-sm " name="time1" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                                <input type="text" class="form-control input-sm " name="startTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>终止时间</label>
-                                <input type="text" class="form-control input-sm " name="time2" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+                                <input type="text" class="form-control input-sm " name="finishTime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
                             </div>
                         </div>
                     </div>
@@ -173,13 +173,13 @@
       	<td><input type="radio" class="minimal" value="{{reportId}}" name="reportId"></td>
       	<td><input type="hidden" name="onlinePlanName" value="{{onlinePlanName}}">{{onlinePlanName}}</td>
       	<td><input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
-		<td>{{releaseDate}}</td>
-        <td>{{startTime}}</td>
-        <td>{{subTaskId}}</td>
-        <td>{{taskId}}</td>
+		<td>{{dealOpId}}</td>
+        <td>{{planDate}}</td>
         <td>{{applicationName}}</td>
+        <td>{{startTime}}</td>
         <td>{{finishTime}}</td>
         <td>{{duration}}</td>
+        <td>{{remark}}</td>
    </tr>
    {{/each}}
 </script>

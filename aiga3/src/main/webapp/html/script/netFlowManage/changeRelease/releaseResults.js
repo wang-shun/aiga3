@@ -88,6 +88,11 @@ define(function(require, exports, module) {
                     _modal.modal('show').on('shown.bs.modal', function() {
                     	//保存
                     	self.saveReleaseResults(data.planId);
+                    	self.queTable1(data.planId);
+                    	self.queTable2(data.planId);
+                    	self.queTable3(data.planId);
+                    	self.queTable4(data.planId);
+                    	self.queTable5(data.planId);
                     });
 
                     
@@ -208,6 +213,7 @@ define(function(require, exports, module) {
 	                Utils.eventTrClickCallback(_dom);
 	            }, _domPagination);
 	    },
+
     };
     module.exports = Query;
 });

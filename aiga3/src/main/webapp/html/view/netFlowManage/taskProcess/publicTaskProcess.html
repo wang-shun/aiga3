@@ -31,7 +31,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>任务名称</label>
-                        <select name="taskId" class="form-control input-sm" data-url="getOtherTaskInfo" data-idkey="taskId" data-namekey="taskName"> </select>
+                        <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-idkey="taskId" data-namekey="taskName"> </select>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -116,13 +116,13 @@
             </div>
             <div class="col-md-4 form-group">
                 <label class="control-label"><i class="text-red">* </i>任务名称</label>
-                <select name="taskId" class="form-control input-sm" data-url="getOtherTaskInfo" data-subname="planId" data-idkey="taskId" data-namekey="taskName"  required>
+                <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-subname="planId" data-idkey="taskId" data-namekey="taskName"  required>
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="col-md-4 form-group">
                 <label class="control-label"><i class="text-red">* </i>Boss任务名称</label>
-                <select name="planId" class="form-control input-sm" data-url="getOtherFlowName"  data-idkey="planId" data-namekey="planName" required>
+                <select name="planId" class="form-control input-sm" data-suburl="getOtherFlowName"  data-idkey="planId" data-namekey="planName" required>
                     <option value="">请选择</option>
                 </select>
             </div>

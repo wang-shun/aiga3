@@ -94,7 +94,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>属性ID</label>
-                                        <select data-idkey="propertyId" name="propertyId" data-namekey="propertyName" class="form-control " data-url="getPropertyName" data-subname="propertyCfgId" required>
+                                        <select name="propertyId" class="form-control" data-url="getPropertyName" data-subname="propertyCfgId" data-idkey="propertyId" data-namekey="propertyName" required>
                                             <option value="">
                                                 请选择
                                             </option>
@@ -122,10 +122,10 @@
                                         <i class="text-red">* </i>
                                         <label>数据配置字段</label>
                                         <select name="propertyCfgId" class="form-control " data-suburl="getPropertyName" data-idkey="cigId" data-namekey="propertyField">
-                                            <option value="0">
-                                                请选择
-                                            </option>
-                                        </select>
+                                                <option value="0">
+                                                    请选择
+                                                </option>
+                                            </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -165,7 +165,7 @@
                     <div class="box-body">
                         <div class="box-body">
                             <div class="row">
-                                                                <div class="col-md-4">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>相关表</label>
                                         <input name="propertyResource" class="form-control" placeholder="请输入表名">

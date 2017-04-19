@@ -4,15 +4,16 @@ package com.ai.aiga.view.json;
 import java.util.Date;
 
 public class NaOtherTaskRequest {
-	private Long type;
+	private Long taskType;
 	private Long onlinePlan;
 	private Long taskId;
 	private Long subTaskId;
-	public Long getType() {
-		return type;
+
+	public Long getTaskType() {
+		return taskType;
 	}
-	public void setType(Long type) {
-		this.type = type;
+	public void setTaskType(Long taskType) {
+		this.taskType = taskType;
 	}
 	public Long getOnlinePlan() {
 		return onlinePlan;

@@ -20,6 +20,7 @@ public class NaAutoRunTask {
     private Long runType;
     private Long taskResult;
     private Date beginRunTime;
+    private Date timingRunTime;
     private Date endRunTime;
     private Long spendTime;
     private Long runTimes;
@@ -135,6 +136,16 @@ public class NaAutoRunTask {
 
     public void setBeginRunTime(Date beginRunTime) {
         this.beginRunTime = beginRunTime;
+    }
+
+    @Basic
+    @Column(name = "TIMING_RUN_TIME")
+    public Date getTimingRunTime() {
+        return timingRunTime;
+    }
+
+    public void setTimingRunTime(Date timingRunTime) {
+        this.timingRunTime = timingRunTime;
     }
 
     @Basic

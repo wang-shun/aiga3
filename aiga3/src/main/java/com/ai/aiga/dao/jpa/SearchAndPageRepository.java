@@ -79,6 +79,8 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 */
 	Page<Map> searchByNativeSQL(String nativeSQL, Pageable pageable);
 	
+	Page<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Pageable pageable);
+	
 	/**
 	 * 根据原生SQL查询, 返回List<Map<String, Object>>  
 	 * @ClassName: SearchAndPageRepository :: searchByNativeSQL
@@ -90,6 +92,8 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @return
 	 */
 	List<Map> searchByNativeSQL(String nativeSQL);
+	
+	List<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters);
 	
 	/**
 	 * 根据原生SQL查询, PageList<R> , R代表返回类型Class
@@ -105,6 +109,9 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 */
 	<R> Page<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass, Pageable pageable);
 	
+	<R> Page<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass, Pageable pageable);
+
+	
 	/**
 	 * 	 * 根据原生SQL查询, PageList<R> , R代表返回类型Class
 	 * @ClassName: SearchAndPageRepository :: searchByNativeSQL
@@ -117,6 +124,8 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @return
 	 */
 	<R> List<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass);
+	
+	<R> List<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass);
 	
 	/*准备删除*/
 	@Deprecated

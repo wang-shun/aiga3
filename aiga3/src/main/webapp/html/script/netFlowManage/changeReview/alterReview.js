@@ -103,9 +103,6 @@ define(function(require,exports,module){
 	}*/
 
 	var Data = {
-		getParentCmd:function(){
-			return Page.getParentCmd();
-		},
         setPageType:function(type){
     		return {
     			"data":{
@@ -169,8 +166,8 @@ define(function(require,exports,module){
 		},
     	getDeliverableReviewConclusion:function(){
 	    		var self=this;
-	    		var data = Data.getParentCmd();
-	    		var _cmd = 'onlinePlan=1' /*+ data.onlinePlan*/ + '&ext1=2';
+	    		var data = Page.getParentCmd();
+	    		var _cmd = 'onlinePlan=' + data.onlinePlan + '&ext1=2';
 	    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), _cmd, function(json, status) {
 	    			if (status) {
 	    				var _dom = Page.findId('getDeliverableReviewConclusion');
@@ -211,7 +208,7 @@ define(function(require,exports,module){
 										"reviewResult" : reviewResult,
 										"remark" : remark,
 										"ext2" : ext2,
-										"planId" : /*data.onlinePlan*/"1"
+										"planId" : data.onlinePlan
 									});
 								}
 							});
@@ -243,10 +240,10 @@ define(function(require,exports,module){
 	    		var self=this;
 				var _dom = Page.findId('getPlanList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getPlanList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getPlanList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -258,10 +255,10 @@ define(function(require,exports,module){
 	    		var self=this;
 				var _dom = Page.findId('getModelList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getModelList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getModelList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -296,7 +293,7 @@ define(function(require,exports,module){
 								saveState.push({
 									"id" : id,
 									"result" : result,
-									"planId" : "1"/*data.onlinePlan*/
+									"planId" : data.onlinePlan
 								});
 							}
 						});
@@ -318,10 +315,10 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getOnlineList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getOnlineList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getOnlineList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -384,10 +381,10 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getTestList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getTestList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getTestList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -399,10 +396,10 @@ define(function(require,exports,module){
 	    		var self=this;
 				var _dom = Page.findId('getRunList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getRunList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getRunList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -432,7 +429,7 @@ define(function(require,exports,module){
 									"testId" : testId,
 									"ext1" : ext1,
 									"ext2" : ext2,
-									"planId" : "1"/*data.onlinePlan*/
+									"planId" : data.onlinePlan
 								});
 							}
 						});
@@ -454,10 +451,10 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getRemnantList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getRemnantList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getRemnantList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -469,10 +466,10 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getReportList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getReportList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getReportList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -484,10 +481,10 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getDatabaseList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getDatabaseList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getDatabaseList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -499,10 +496,10 @@ define(function(require,exports,module){
 	    		var self=this;
 				var _dom = Page.findId('getJavascriptList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getJavascriptList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getJavascriptList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -514,10 +511,10 @@ define(function(require,exports,module){
 	    		var self=this;
 				var _dom = Page.findId('getDeliverList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getDeliverList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getDeliverList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -529,10 +526,10 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getStructureList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getStructureList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getStructureList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -544,10 +541,10 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getProgressList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getProgressList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getProgressList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -559,10 +556,10 @@ define(function(require,exports,module){
 	    		var self=this;
 				var _dom = Page.findId('getServiceList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getServiceList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getServiceList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -574,10 +571,10 @@ define(function(require,exports,module){
 	    		var self=this;
 				var _dom = Page.findId('getIpConfigurationList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getIpConfigurationList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getIpConfigurationList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
@@ -640,25 +637,25 @@ define(function(require,exports,module){
 				var self=this;
 				var _dom = Page.findId('getIpList');
 				var _domPagination = _dom.find("[name='pagination']");
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
-				Utils.getServerPage(srvMap.get('getIpList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+				Utils.getServerPage(srvMap.get('getIpList'),'planId=' + data.onlinePlan,function(json){
 					window.XMS.msgbox.hide();
 
 					// 查找页面内的Tpl，返回值html代码段
 					var template = Handlebars.compile(Page.findTpl('getIpList'));
 	        		_dom.find("[name='content']").html(template(json.data.content));
-					var _saveRun =  _dom.find("[name='saveRun']");
-					_saveRun.unbind('click');
+					var _saveIp =  _dom.find("[name='saveIp']");
+					_saveIp.unbind('click');
 					//点击保存
-					_saveRun.bind('click',function(){
+					_saveIp.bind('click',function(){
 					   	var _checkObj =	_dom.find("input[type='checkbox']:checked");
 					   	if(_checkObj.length==0){
-						   	window.XMS.msgbox.show('请选择要保存的情况！', 'error', 2000);
+						   	window.XMS.msgbox.show('请选择要保存的主机！', 'error', 2000);
 						   	return false;
 					   	}
-						var testId;
+						var id;
 						var ext1;
 						var ext2;
 						var saveState = [];
@@ -673,7 +670,7 @@ define(function(require,exports,module){
 									"testId" : testId,
 									"ext1" : ext1,
 									"ext2" : ext2,
-									"planId" : "1"/*data.onlinePlan*/
+									"planId" : data.onlinePlan
 								});
 							}
 						});

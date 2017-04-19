@@ -25,6 +25,7 @@ import com.ai.aiga.domain.NaDatabaseConfiScript;
 import com.ai.aiga.domain.NaDatabaseScriptList;
 import com.ai.aiga.domain.NaDbScriptList;
 import com.ai.aiga.domain.NaEmployeeInfo;
+import com.ai.aiga.domain.NaHostIp;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.domain.NaTestLeaveOver;
@@ -267,6 +268,24 @@ public class ChangeReviewController {
 			changeReviewSv.saveTestSituation(request);
 			return JsonBean.success;
 		}	
-
+		//主机列表
+		@RequestMapping(path = "/warn/host/findhost")
+		public @ResponseBody JsonBean findhost(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			NaHostIp condition
+			) throws ParseException {
+		
+		  JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.host(pageNumber, pageSize, condition));
+		return bean;
+		}   
+		
+		//主机保存
+		@RequestMapping(path = "/warn/host/savehost")
+		public @ResponseBody JsonBean savehost(NaHostIp request){
+			changeReviewSv.savehost(request);;
+			return JsonBean.success;
+		}
 }
 

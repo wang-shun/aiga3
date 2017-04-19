@@ -34,9 +34,7 @@ define(function(require, exports, module) {
         getProductionTaskDistributeList: $("#TPL_getProductionTaskDistributeList").html(),
         getPManualResultList: $("#TPL_getPManualResultList").html(),
         getPAutoResultList: $("#TPL_getPAutoResultList").html(),
-
         getPCollectId: $("#TPL_getPCollectId").html()
-
 
     };
 
@@ -160,6 +158,7 @@ define(function(require, exports, module) {
             var pagination = _dom.find(".dataTables_paginate");
 
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            console.log(_cmd);
             Utils.getServerPage(srvMap.get('getProductionTaskList'), _cmd + "&taskType=4", function(json) {
                 window.XMS.msgbox.hide();
                 console.log(json.data);
@@ -468,18 +467,6 @@ define(function(require, exports, module) {
                 }
                 if (value == "3") {
                     return "用例组";
-                }
-            });
-
-            Handlebars.registerHelper('getCollectName', function(value, fn) {
-                if (value == "0") {
-                    return "未分派";
-                }
-                if (value == "1") {
-                    return "处理中";
-                }
-                if (value == "2") {
-                    return "完成";
                 }
             });
         },

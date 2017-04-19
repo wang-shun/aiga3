@@ -1,0 +1,44 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":{
+    "totalElements":12, //总条数
+  	"content":
+  	[{
+      	"id": "1",
+    	"sysName": "CRM",
+    	"modelName":"CRM-WEB",
+	    "ip": "10.70.205.132",
+		"hostName":"",
+	    "remark": ""
+  },{
+  		"id": "1",
+    	"sysName": "CRM",
+    	"modelName":"CRM-WEB",
+	    "ip": "10.70.205.132",
+		"hostName":"",
+	    "remark": ""
+  },{
+  		"id": "1",
+    	"sysName": "CRM",
+    	"modelName":"CRM-WEB",
+	    "ip": "10.70.205.132",
+		"hostName":"",
+	    "remark": ""
+  },{
+  		"id": "1",
+    	"sysName": "CRM",
+    	"modelName":"CRM-WEB",
+	    "ip": "10.70.205.132",
+		"hostName":"",
+	    "remark": ""
+  },{
+  		"id": "1",
+    	"sysName": "CRM",
+    	"modelName":"CRM-WEB",
+	    "ip": "10.70.205.132",
+		"hostName":"",
+	    "remark": ""
+  }]
+}
+}

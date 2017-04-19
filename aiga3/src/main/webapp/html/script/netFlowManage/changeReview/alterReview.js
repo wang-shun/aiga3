@@ -46,6 +46,10 @@ define(function(require,exports,module){
 	srvMap.add("getServiceList", "netFlowManage/deliverableReview/getServiceList.json", "sys/review/findNaServiceChangeOnlineListByPlanId");
 	//主机配置列表
 	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "sys/review/findNaHostConfigListByPlanId");
+	//告警屏蔽主机清单列表
+	srvMap.add("getIpList", "netFlowManage/changeReview/getIpList.json", "warn/host/findhost");
+	//保存主机
+	srvMap.add("saveIp", "netFlowManage/changeReview/retMessage.json", "warn/host/savehost");
 	//集团需求列表
 	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "sys/review/findNaGroupRequireListByPlanId");
 	//需联调需求列表
@@ -128,11 +132,12 @@ define(function(require,exports,module){
 			this.getDatabaseList();
 			this.getJavascriptList();
     		this.getDeliverList();
-			/*this.getStructureList();
+			this.getStructureList();
 			this.getProgressList();
 			this.getServiceList();
     		this.getIpConfigurationList();
-			this.getNeedList();
+    		this.getIpList();
+			/*this.getNeedList();
 			this.getCombineList();
     		this.getConfigureList();*/
     		this.hdbarHelp();
@@ -239,7 +244,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getPlanList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getPlanList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -254,7 +259,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getModelList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getModelList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -314,7 +319,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getOnlineList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getOnlineList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -380,7 +385,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getTestList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getTestList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -395,7 +400,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getRunList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getRunList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -450,7 +455,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getRemnantList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getRemnantList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -465,7 +470,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getReportList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getReportList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -480,7 +485,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getDatabaseList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getDatabaseList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -495,7 +500,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getJavascriptList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getJavascriptList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -510,7 +515,7 @@ define(function(require,exports,module){
 				var _dom = Page.findId('getDeliverList');
 				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				// 设置服务器端分页
 				Utils.getServerPage(srvMap.get('getDeliverList'),'planId=1' /*+ data.onlinePlan*/,function(json){
 					window.XMS.msgbox.hide();
@@ -521,56 +526,170 @@ define(function(require,exports,module){
 				},_domPagination);
     	},
 		getStructureList:function(){
-	    		var self=this;
+				var self=this;
+				var _dom = Page.findId('getStructureList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getStructureList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getStructureList);
-			    		console.log(json.data.content)
-			    		$(Dom.getStructureList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getStructureList),10);
-		    		}
-	    		});
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getStructureList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getStructureList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getProgressList:function(){
-	    		var self=this;
+				var self=this;
+				var _dom = Page.findId('getProgressList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getProgressList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getProgressList);
-			    		console.log(json.data.content)
-			    		$(Dom.getProgressList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getProgressList),10);
-		    		}
-	    		});
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getProgressList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getProgressList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getServiceList:function(){
 	    		var self=this;
+				var _dom = Page.findId('getServiceList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getServiceList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getServiceList);
-			    		console.log(json.data.content)
-			    		$(Dom.getServiceList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getServiceList),10);
-		    		}
-	    		});
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getServiceList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getServiceList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
     	},
 		getIpConfigurationList:function(){
 	    		var self=this;
+				var _dom = Page.findId('getIpConfigurationList');
+				var _domPagination = _dom.find("[name='pagination']");
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getIpConfigurationList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getIpConfigurationList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getIpConfigurationList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+				},_domPagination);
+    	},
+		getIpList:function(){
+	    		/*var self=this;
+	    		var data = Data.getParentCmd();
+	    		Rose.ajax.postJson(srvMap.get('getTestList'), 'planId=' + data.onlinePlan, function(json, status) {
 	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getIpConfigurationList);
+			    		var template=Handlebars.compile(Tpl.getTestList);
 			    		console.log(json.data.content)
-			    		$(Dom.getIpConfigurationList).html(template(json.data.content));
+			    		$(Dom.getTestList).html(template(json.data.content));
+						//引入多选框样式
+						Utils.eventTrClickCallback($(Dom.getTestList), function() {
+
+						})
 						// 分页
-						self.initPaging($(Dom.getIpConfigurationList),10);
+						self.initPaging($(Dom.getTestList),10);
+						$("#JS_saveTest").unbind('click');
+						//点击保存
+						$("#JS_saveTest").bind('click',function(){
+							var testId;
+							var sysName;
+							var subSysName;
+							var testSituation;
+							var saveTest = [];
+							var cmd;
+							$(Dom.getTestList).find("tbody").find("tr").each(function(){
+								var tdArr = $(this).children();
+								if(tdArr.eq(0).find("input").is(':checked')){
+									testId = tdArr.eq(0).find("input").val();
+									sysName = tdArr.eq(1).find("input").val();
+									subSysName = tdArr.eq(2).find("input").val();
+									testSituation = tdArr.eq(3).find("input").val();
+									saveTest.push({
+										"testId" : testId,
+										"sysName" : sysName,
+										"subSysName" : subSysName,
+										"testSituation" : testSituation,
+										"planId" : data.onlinePlan
+									});
+								}
+							});
+							cmd = saveTest;
+							console.log(cmd);
+							Rose.ajax.postJson(srvMap.get('saveTest'), cmd, function(json, status) {
+								if (status) {
+									XMS.msgbox.show('保存成功！', 'success', 2000)
+									setTimeout(function() {
+										self.getTestList();
+									}, 1000)
+								}
+							});
+						});
 		    		}
-	    		});
+	    		});*/
+				var self=this;
+				var _dom = Page.findId('getIpList');
+				var _domPagination = _dom.find("[name='pagination']");
+	    		var data = Data.getParentCmd();
+	    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				// 设置服务器端分页
+				Utils.getServerPage(srvMap.get('getIpList'),'planId=1' /*+ data.onlinePlan*/,function(json){
+					window.XMS.msgbox.hide();
+
+					// 查找页面内的Tpl，返回值html代码段
+					var template = Handlebars.compile(Page.findTpl('getIpList'));
+	        		_dom.find("[name='content']").html(template(json.data.content));
+					var _saveRun =  _dom.find("[name='saveRun']");
+					_saveRun.unbind('click');
+					//点击保存
+					_saveRun.bind('click',function(){
+					   	var _checkObj =	_dom.find("input[type='checkbox']:checked");
+					   	if(_checkObj.length==0){
+						   	window.XMS.msgbox.show('请选择要保存的情况！', 'error', 2000);
+						   	return false;
+					   	}
+						var testId;
+						var ext1;
+						var ext2;
+						var saveState = [];
+						var cmd;
+						_dom.find("tbody").find("tr").each(function(){
+							var tdArr = $(this).children();
+							if(tdArr.eq(0).find("input").is(':checked')){
+								testId = tdArr.eq(0).find("input").val();
+								ext1 = tdArr.eq(1).find("input").val();
+								ext2 = tdArr.eq(2).find("input").val();
+								saveState.push({
+									"testId" : testId,
+									"ext1" : ext1,
+									"ext2" : ext2,
+									"planId" : "1"/*data.onlinePlan*/
+								});
+							}
+						});
+						cmd = saveState;
+						console.log(cmd);
+						Rose.ajax.postJson(srvMap.get('saveRun'), cmd, function(json, status) {
+							if (status) {
+								XMS.msgbox.show('保存成功！', 'success', 2000)
+								setTimeout(function() {
+									self.getRunList();
+								}, 1000)
+							}
+						});
+					});
+	        		Utils.eventTrClickCallback(_dom);
+				},_domPagination);
     	},
 		getNeedList:function(){
 	    		var self=this;

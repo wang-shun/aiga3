@@ -128,9 +128,10 @@ define(function(require, exports, module) {
                                 _dom.find("[name='content']").html(template(json.data.content));
                                 // 初始化步骤
                                 Utils.initStep(_modal);
+                                self.delOnlineTask();
                                 self.addOnlineTask();
                                 self.updateOnlineTask();
-                                self.delOnlineTask();
+                                
                                 var _close = _modal.find("[name='close']");
                                 _close.unbind('click');
                                 _close.bind('click', function() {
@@ -191,6 +192,7 @@ define(function(require, exports, module) {
                     _dom.find("[name='content']").html(template(json.data.content));
                     self.updateOnlineTask();
                     self.delOnlineTask();
+                    self.addOnlineTask();
                     Utils.eventTrClickCallback(_dom)
                         //     //设置分页
                         // self.initPaging(_dom, 5, true);
@@ -284,6 +286,7 @@ define(function(require, exports, module) {
             var self = this;
             var dom = Page.findId('getOnlineReviewTaskList');
             var _dom = Page.findModalCId('getOnlineReviewTaskDistributeList');
+            var _form = Page.findModalCId('addOnlineReviewTaskDistributeForm')
             var _del = _dom.find("[name='del']");
             _del.unbind('click');
             _del.bind('click', function() {

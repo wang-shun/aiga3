@@ -197,26 +197,41 @@ define(function(require, exports, module) {
                     cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + data.onlinePlan + "&onlinePlanName=" + data.onlinePlanName;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
+                        Utils.checkForm(_form, function() {
+                            Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
+                                if (status) {
+                                    window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                    setTimeout(function() {
+                                        self.getOnlineReviewTaskDistributeList();
+                                        _form.find("[name='taskType']").attr("disabled", false);
+                                        _form.find("[name='reset']").click();
+                                        Data.opreation = 'new';
+                                    }, 1000)
+                                }
+                            });
+                        })
+                    } else {
+                        Utils.checkForm(_form, function() {
+                            for (var i = 0; i < _data.length; i++) {
+                                if (taskType == _data[i].taskType) {
+                                    window.XMS.msgbox.show('同一计划下已分派的任务类型不能再次分派！', 'error', 2000)
+                                    return;
+                                }
+                            }
+                            Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
+                                if (status) {
+                                    window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                    setTimeout(function() {
+                                        self.getOnlineReviewTaskDistributeList();
+                                        _form.find("[name='taskType']").attr("disabled", false);
+                                        _form.find("[name='reset']").click();
+                                        Data.opreation = 'new';
+                                    }, 1000)
+                                }
+                            });
+                        })
                     }
-                    Utils.checkForm(_form, function() {
-                        for (var i = 0; i < _data.length; i++) {
-                            if (taskType == _data[i].taskType) {
-                                window.XMS.msgbox.show('同一计划下已分派的任务类型不能再次分派！', 'error', 2000)
-                                return;
-                            }
-                        }
-                        Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
-                            if (status) {
-                                window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                                setTimeout(function() {
-                                    self.getOnlineReviewTaskDistributeList();
-                                    _form.find("[name='taskType']").attr("disabled", false);
-                                    _form.find("[name='reset']").click();
-                                    Data.opreation = 'new';
-                                }, 1000)
-                            }
-                        });
-                    })
+
                 }
             });
         },
@@ -263,6 +278,7 @@ define(function(require, exports, module) {
                                 window.XMS.msgbox.show('删除成功！', 'success', 2000);
                                 setTimeout(function() {
                                     self.getOnlineReviewTaskDistributeList();
+                                    _form.find("[name='reset']").click();
                                 }, 1000)
                             }
                         });

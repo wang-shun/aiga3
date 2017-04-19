@@ -71,6 +71,7 @@ define(function(require, exports, module) {
 
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             Utils.getServerPage(srvMap.get('getDeployingTaskList'), _cmd, function(json) {
+                window.XMS.msgbox.hide();
                 var template = Handlebars.compile(Page.findTpl('getDeployingTaskList'));
                 _dom.find("[name='content']").html(template(json.data.content));
                 // Utils.setSelectData(_dom);

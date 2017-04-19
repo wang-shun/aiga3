@@ -21,7 +21,7 @@ public interface ChangeReviewDao extends JpaRepository<NaChangeReview, Long>,
 SearchAndPageRepository<NaChangeReview, Long>{
 	
 	@Query("select a from NaChangeReview a,NaChangePlanOnile b "
-			+ "where b.onlinePlan=a.onlinePlanId and b.onlinePlan=?1 and ext1=?2")
+			+ "where b.onlinePlan=a.onlinePlanId and b.onlinePlan=?1 and a.ext1=?2")
 	  List<NaChangeReview> selectall(Long onlinePlan,String ext1);
 	
 	

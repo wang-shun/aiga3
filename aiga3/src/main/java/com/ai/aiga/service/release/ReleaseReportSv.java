@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.DbExecutionExceptionDao;
+import com.ai.aiga.dao.NaOnlineGeneralStepsDao;
 import com.ai.aiga.dao.OnlineSysReleaseDao;
 import com.ai.aiga.dao.OnlineSystemReleaseStageDao;
 import com.ai.aiga.dao.ReleaseMessageDao;
@@ -28,6 +29,7 @@ import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaDbExecutionException;
 import com.ai.aiga.domain.NaDbScriptExecutionProcess;
 import com.ai.aiga.domain.NaEmployeeInfo;
+import com.ai.aiga.domain.NaOnlineGeneralSteps;
 import com.ai.aiga.domain.NaOnlineStaffArrange;
 import com.ai.aiga.domain.NaOnlineSysRelease;
 import com.ai.aiga.domain.NaOnlineSystemReleaseStage;
@@ -81,6 +83,9 @@ public class ReleaseReportSv extends BaseService{
 	 
 	@Autowired
 	private StaffArrangeDao staffArrangeDao;
+	
+	@Autowired
+	private	NaOnlineGeneralStepsDao naOnlineGeneralStepsDao;
 
 	public Object list(int pageNumber, int pageSize, NaReleaseReport condition, NaChangePlanOnile condition1,Long dealOpId)
 			throws ParseException {
@@ -466,5 +471,31 @@ public class ReleaseReportSv extends BaseService{
 		return staffArrangeDao.search(cons, pageable);
 
 	}
+	public Object findOnlineGeneralSteps (int pageNumber, int pageSize, NaOnlineGeneralSteps condition) {
+
+		List<Condition> cons = new ArrayList<Condition>();
+
+		if (condition != null) {
+			if (condition.getPlanId() != null) {
+				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			}
+			
+		}
+
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return naOnlineGeneralStepsDao.search(cons, pageable);
+
+	}
+	
+	
 }
 

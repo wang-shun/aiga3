@@ -431,7 +431,7 @@ define(function(require, exports, module) {
                     return "完成";
                 }
                 if (value == "4") {
-                    return "取消";
+                    return "不需分派";
                 }
             });
         },

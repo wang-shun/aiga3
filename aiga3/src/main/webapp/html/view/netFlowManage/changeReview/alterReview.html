@@ -578,6 +578,102 @@
 		                </div>
 		            </div>
 		        </div>
+				<!-- tab页签6 -->
+		        <div class="tab-pane" id="deliverableTab_6">
+		            <div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getTonightList">
+			                    <div class="box-header">
+			                        <div class="box-title">上线当晚人员安排</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+			                    <div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>是否需要</th>
+									            <th>角色</th>
+									            <th>公司名称</th>
+									            <th>人员</th>
+												<th>负责人联系电话</th>
+									            <th>工作内容</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+									</table>
+					            </div>
+								<div class="box-footer no-border">
+					                <div class="dataTables_paginate" name="pagination"></div>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getTomorrowList">
+								<div class="box-header">
+			                        <div class="box-title">次日跟踪人员安排</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>是否需要</th>
+									            <th>角色</th>
+									            <th>场所</th>
+									            <th>人员</th>
+									            <th>联系电话</th>
+									            <th>工作内容</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+									</table>
+					            </div>
+								<div class="box-footer no-border">
+					                <div class="dataTables_paginate" name="pagination"></div>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+					<div class="row">
+			            <div class="col-md-12">
+			                <div class="box" id="JS_getStepList">
+								<div class="box-header">
+			                        <div class="box-title">总体步骤</div>
+									<div class="box-tools">
+					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+					                </div>
+			                    </div>
+								<div class="box-body">
+					                <table class="table table-bordered table-hover">
+									    <thead>
+									        <tr>
+									            <th>本次上线是否涉及</th>
+									            <th>上线系统</th>
+									            <th>前提条件</th>
+									            <th>总体步骤</th>
+									            <th>步骤说明</th>
+												<th>预计开始时间</th>
+									            <th>预计时长</th>
+									            <th>操作人员</th>
+									            <th>实际开始时间</th>
+									        </tr>
+									    </thead>
+									    <tbody name="content"></tbody>
+									</table>
+					            </div>
+								<div class="box-footer no-border">
+					                <div class="dataTables_paginate" name="pagination"></div>
+					            </div>
+			                </div>
+			            </div>
+		            </div>
+		        </div>
 				<!-- tab页签7 -->
 		        <div class="tab-pane" id="deliverableTab_7">
 		            <div class="row">
@@ -1010,6 +1106,44 @@
             <td><div class="col-xs-1"><input type="text" size="" class="" name="ip" value="{{ip}}" placeholder=""></div>{{ip}}</td>
             <td><div class="col-xs-1"><input type="text" size="" class="" name="hostName" value="{{hostName}}" placeholder=""></div>{{hostName}}</td>
             <td><div class="col-xs-1"><input type="text" size="" class="" name="remark" value="{{remark}}" placeholder=""></div>{{remark}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/上线当晚人员安排列表 -->
+<script id="TPL_getTonightdList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{whetherNeed}}</td>
+			<td>{{role}}</td>
+            <td>{{companyName}}</td>
+			<td>{{staff}}</td>
+			<td>{{telephone}}</td>
+			<td>{{workContent}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/次日跟踪人员安排列表 -->
+<script id="TPL_getTomorrowList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{devTaskId}}</td>
+			<td>{{requireName}}</td>
+            <td>{{testMan}}</td>
+			<td>{{otherSysName}}</td>
+            <td>{{otherSysMan}}</td>
+			<td>{{otherSysManTel}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/总体步骤列表 -->
+<script id="TPL_getStepList" type="text/x-handlebars-template">
+	{{#each this}}
+        <tr>
+            <td>{{isInvolve}}</td>
+			<td>{{onlineSystem}}</td>
+            <td>{{testMan}}</td>
+			<td>{{requireMan}}</td>
+            <td>{{hasDeploy}}</td>
         </tr>
     {{/each}}
 </script>

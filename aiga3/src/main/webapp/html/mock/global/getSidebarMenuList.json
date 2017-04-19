@@ -104,6 +104,18 @@
             "funcId": 24,
             "name": "测试用例管理",
             "viewname": "view/caseInstanceMng/caseInstanceMng.html"
+        }, {
+            "funcId": 30,
+            "name": "数据备份管理",
+            "subMenus": [{
+                "funcId": 88,
+                "name": "数据备份管理",
+                "viewname": "view/autoManage/dataBackups/dataBackups.html"
+            }, {
+                "funcId": 28,
+                "name": "数据维护",
+                "viewname": "view/autoManage/dataBackups/dataMaintain.html"
+            }]
         }]
     }, {
         "funcId": 25,
@@ -136,17 +148,9 @@
                 "name": "验收任务处理",
                 "viewname": "#",
                 "subMenus": [{
-                    "funcId": 311,
+                    "funcId": 32,
                     "name": "功能验收任务处理",
                     "viewname": "view/netFlowManage/taskProcess/funTaskProcess.html"
-                }, {
-                    "funcId": 312,
-                    "name": "性能验收任务处理",
-                    "viewname": "view/netFlowManage/taskProcess/perTaskProcess.html"
-                }, {
-                    "funcId": 313,
-                    "name": "其他验收任务处理",
-                    "viewname": "view/netFlowManage/taskProcess/publicTaskProcess.html"
                 }]
             }, {
                 "funcId": 52,
@@ -156,42 +160,15 @@
         }, {
             "funcId": 33,
             "name": "变更评审",
-            "viewname": "#",
-            "subMenus": [{
-                "funcId": 331,
-                "name": "变更评审任务分派",
-                "viewname": "view/netFlowManage/changeReview/changeReview.html"
-            }]
+            "viewname": "#"
         }, {
             "funcId": 34,
             "name": "变更发布",
-            "viewname": "#",
-            "subMenus": [{
-                "funcId": 341,
-                "name": "发布结果反馈",
-                "viewname": "view/netFlowManage/changeRelease/releaseResults.html"
-            },{
-                "funcId": 342,
-                "name": "部署任务",
-                "viewname": "view/netFlowManage/changeRelease/taskDeploying.html"
-            },{
-                "funcId": 343,
-                "name": "监控任务",
-                "viewname": "view/netFlowManage/changeRelease/taskMonitoring.html"
-            }]
+            "viewname": "#"
         }, {
             "funcId": 35,
             "name": "生产验证",
-            "viewname": "#",
-            "subMenus": [{
-                "funcId": 351,
-                "name": "生产验证任务",
-                "viewname": "view/productionValidate/productionTask.html"
-            },{
-                "funcId": 352,
-                "name": "生产验证任务处理",
-                "viewname": "view/productionValidate/productionTaskProcess.html"
-            }]
+            "viewname": "#"
         }, {
             "funcId": 36,
             "name": "问题跟踪",
@@ -262,10 +239,5 @@
             "name": "功能点管理",
             "viewname": "view/dataMaintenance/functionManage.html"
         }]
-    }, {
-        "funcId": 53,
-        "name": "公用邮件页面",
-        "funcImg": "fa fa-fw fa-envelope-o",
-        "viewname": "view/email/email.html"
     }]
 }

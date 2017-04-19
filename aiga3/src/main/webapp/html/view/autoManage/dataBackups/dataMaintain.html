@@ -14,7 +14,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>属性名称</label>
-                                <select class="form-control input-sm" name="PropertyName" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
+                                <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
                                     <option>请选择</option>
                                 </select>
                             </div>
@@ -94,7 +94,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>属性ID</label>
-                                        <select data-idkey="propertyId" name="propertyResource" data-namekey="propertyName" class="form-control " data-url="getPropertyName" required>
+                                        <select data-idkey="propertyId" name="propertyId" data-namekey="propertyName" class="form-control " data-url="getPropertyName" data-subname="propertyCfgId" required>
                                             <option value="">
                                                 请选择
                                             </option>
@@ -120,8 +120,8 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
-                                        <label>数据配置ID</label>
-                                        <select name="propertyCfgId" class="form-control " data-url="getCfgIdList" data-idkey="cigId" data-namekey="cigId">
+                                        <label>数据配置字段</label>
+                                        <select name="propertyCfgId" class="form-control " data-suburl="getPropertyName" data-idkey="cigId" data-namekey="propertyField">
                                             <option value="0">
                                                 请选择
                                             </option>

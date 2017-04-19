@@ -134,9 +134,9 @@ define(function(require,exports,module){
 			this.getServiceList();
     		this.getIpConfigurationList();
     		this.getIpList();
-			/*this.getNeedList();
+			this.getNeedList();
 			this.getCombineList();
-    		this.getConfigureList();*/
+    		this.getConfigureList();
     		this.hdbarHelp();
     	},
 		hdbarHelp: function() {
@@ -187,36 +187,11 @@ define(function(require,exports,module){
 						   window.XMS.msgbox.show('请选中结论！', 'error', 2000);
 						   return false;
 					    }
-						var reviewId;
-						var conclusion;
-						var reviewResult;
-						var remark;
-						var ext2;
-						var saveState = [];
-						var cmd;
-						_dom.find("tbody").find("tr").each(function(){
-							var tdArr = $(this).children();
-							if(tdArr.eq(0).find("input").is(':checked')){
-								reviewId = tdArr.eq(0).find("input").val();
-								conclusion = tdArr.eq(2).find("select").val();
-								reviewResult = tdArr.eq(3).find("input").val();
-								remark = tdArr.eq(6).find("input").val();
-								ext2 = tdArr.eq(8).find("input").val();
-								saveState.push({
-									"reviewId" : reviewId,
-									"conclusion" : conclusion,
-									"reviewResult" : reviewResult,
-									"remark" : remark,
-									"ext2" : ext2,
-									"planId" : data.onlinePlan
-								});
-							}
-						});
-						cmd = saveState;
-						console.log(cmd);
+						var _data= self.getRadioCheckedRow(_dom);
+						var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&ext2=' + _data.ext2 + '&planId=' + data.onlinePlan;
 						Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
 							if(status) {
-									// 保存结论成功后，刷新交付物评审结论页
+									// 保存结论成功后，刷新变更评审结论页
 									XMS.msgbox.show('保存成功！', 'success', 2000)
 									setTimeout(function(){
 										self.getDeliverableReviewConclusion();
@@ -647,55 +622,71 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getNeedList:function(){
-	    		var self=this;
-	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getNeedList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getNeedList);
-			    		console.log(json.data.content)
-			    		$(Dom.getNeedList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getNeedList),10);
-		    		}
-	    		});
+			var self=this;
+			var _dom = Page.findId('getNeedList');
+			var _domPagination = _dom.find("[name='pagination']");
+    		var data = Page.getParentCmd();
+    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getNeedList'),'planId=' + data.onlinePlan,function(json){
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段
+				var template = Handlebars.compile(Page.findTpl('getNeedList'));
+        		_dom.find("[name='content']").html(template(json.data.content));
+			},_domPagination);
     	},
 		getCombineList:function(){
-	    		var self=this;
-	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getCombineList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getCombineList);
-			    		console.log(json.data.content)
-			    		$(Dom.getCombineList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getCombineList),10);
-		    		}
-	    		});
+			var self=this;
+			var _dom = Page.findId('getCombineList');
+			var _domPagination = _dom.find("[name='pagination']");
+    		var data = Page.getParentCmd();
+    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getCombineList'),'planId=' + data.onlinePlan,function(json){
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段
+				var template = Handlebars.compile(Page.findTpl('getCombineList'));
+        		_dom.find("[name='content']").html(template(json.data.content));
+			},_domPagination);
     	},
 		getConfigureList:function(){
-	    		var self=this;
-	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getConfigureList'), 'planId=' + data.onlinePlan, function(json, status) {
-	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getConfigureList);
-			    		console.log(json.data.content)
-			    		$(Dom.getConfigureList).html(template(json.data.content));
-						// 分页
-						self.initPaging($(Dom.getConfigureList),10);
-		    		}
-	    		});
+			var self=this;
+			var _dom = Page.findId('getConfigureList');
+			var _domPagination = _dom.find("[name='pagination']");
+    		var data = Page.getParentCmd();
+    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getConfigureList'),'planId=' + data.onlinePlan,function(json){
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段
+				var template = Handlebars.compile(Page.findTpl('getConfigureList'));
+        		_dom.find("[name='content']").html(template(json.data.content));
+			},_domPagination);
     	},
-		// 事件：分页
-        initPaging: function(obj, length) {
-            obj.find("table").DataTable({
-                "iDisplayLength": length,
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false
+ 		/*
+         * 获取单选框当前值
+         */
+        getRadioCheckedRow:function(obj){
+            var _obj = obj.find("input[type='radio']:checked");
+            if(_obj.length==0){
+                window.XMS.msgbox.show('请先选择一行数据！', 'info', 2000);
+                return;
+            }
+            var data ={};
+            _obj.parents("tr").find("input").each(function(){
+                var key = $(this).attr("name");
+                var value = $(this).val();
+                data[key]=value;
             });
+			_obj.parents("tr").find("select").each(function(){
+                var key = $(this).attr("name");
+                var value = $(this).val();
+                data[key]=value;
+            });
+            return data;
         }
     };
 

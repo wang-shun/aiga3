@@ -239,7 +239,7 @@ define(function(require, exports, module) {
             _saveBtn.bind('click', function() {
             	alert();
             	var a=_form.find("[name='environmentType']").val();
-            	var cmd = "file="+_form.find("[name='fileName']").val()+ "&planId=" + planId;;
+            	var cmd = "file="+_form.find("[name='fileName']").val()+ "&planId=" + planId;
             	switch(a){
             		case "1":
             			var task = srvMap.get('exception');
@@ -268,10 +268,13 @@ define(function(require, exports, module) {
 	    },
 	    jieko : function(task,cmd,a,planId){
 	    	var self = this;
-	    	Rose.ajax.postJson(task, cmd, function(json, status) {
+	    	$.ajaxUpload({
+                url: task,
+                data: cmd,
+                success: function(data, status, xhr) {
+                    console.log(data);
                     if (status) {
-                        // 添加用户成功后，刷新用户列表页
-                        XMS.msgbox.show('上传成功！', 'success', 2000)
+                        window.XMS.msgbox.show('发送成功！', 'success', 2000);
                         setTimeout(function() {
                             switch(a){
 			            		case "1":
@@ -292,7 +295,8 @@ define(function(require, exports, module) {
 			            	}
                         }, 1000)
                     }
-                });
+                }
+            });
         },
     };
     module.exports = Query;

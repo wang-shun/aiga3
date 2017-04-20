@@ -122,8 +122,9 @@ define(function(require, exports, module) {
 					var _modal = $(Dom.modalSubmitResult);
 					_modal.modal('show');
 					var cmd = data.taskId;
-					self.getTaskProcessList(cmd);
-					self.saveResult(cmd,data.taskType);
+					var _form = $(Dom.QueryTaskForm);
+					_form.find('button[name="query"]').click();
+					self.saveResult(cmd, data.taskType);
 				}
 			});
 		},

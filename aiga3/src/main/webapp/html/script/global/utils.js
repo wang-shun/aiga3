@@ -374,6 +374,7 @@ define(function(require, exports, module) {
                 Rose.ajax.postJson(url, _cmd, function(json, status) {
                     if(status) {
                         callback(json);
+                        XMS.msgbox.hide();
                         if($(obj).html()== ''){
                             $(obj).pagination(json.data.totalElements, {
                                 items_per_page      : items_per_page, //每页显示的条目数

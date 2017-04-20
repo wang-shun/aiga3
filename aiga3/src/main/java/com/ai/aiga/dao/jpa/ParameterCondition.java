@@ -7,7 +7,7 @@ package com.ai.aiga.dao.jpa;
  * @Description:
  * 
  */
-public class Parameter {
+public class ParameterCondition {
 	
 	private String name;
 	private Object val;
@@ -15,13 +15,13 @@ public class Parameter {
 	/**
 	 * 
 	 */
-	public Parameter() {
+	public ParameterCondition() {
 	}
 	/**
 	 * @param name
 	 * @param val
 	 */
-	public Parameter(String name, Object val) {
+	public ParameterCondition(String name, Object val) {
 		this.name = name;
 		this.val = val;
 	}

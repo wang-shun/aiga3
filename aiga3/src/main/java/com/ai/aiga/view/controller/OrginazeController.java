@@ -36,7 +36,7 @@ public class OrginazeController {
 	}
 	
 
-	@RequestMapping(path = "/sys/organize/treeList", method = RequestMethod.POST)
+	@RequestMapping(path = "/sys/organize/treeList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ApiOperation(value = "查询组织树", response = AigaOrganize.class, notes = "查询组织树")
 	public @ResponseBody JsonBean tressList() {
 		JsonBean bean = new JsonBean();

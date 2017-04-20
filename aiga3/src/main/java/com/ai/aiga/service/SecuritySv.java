@@ -13,6 +13,7 @@ import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.view.controller.common.dto.Menu;
 
 @Service
@@ -20,7 +21,7 @@ import com.ai.aiga.view.controller.common.dto.Menu;
 public class SecuritySv extends BaseService{
 	
 	@Autowired
-	private AigaStaffSv aigaStaffSv;
+	private StaffSv aigaStaffSv;
 	
 	@Autowired
 	private RoleSv roleSv;

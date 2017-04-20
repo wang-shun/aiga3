@@ -174,7 +174,7 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 //    }
 
     public <R> List<R> searchByNativeSQL(String nativeSql, Class<R> domainClass){
-    	return searchByNativeSQL(nativeSql, (List<Parameter>)null, domainClass);
+    	return searchByNativeSQL(nativeSql, (List<ParameterCondition>)null, domainClass);
     }
 
     public <R> Page<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass, Pageable pageable) {
@@ -190,7 +190,7 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 	 * @param sql
 	 * @return          
 	 */
-	private Long getNativeCount(String sql, List<Parameter> parameters) {
+	private Long getNativeCount(String sql, List<ParameterCondition> parameters) {
 		
 		String countSql = SqlHelp.getCountSql(sql);
 		Query contentQuery = entityManager.createNativeQuery(countSql);
@@ -239,12 +239,12 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 
     @Override
     public Page<Map> searchByNativeSQL(String nativeSQL, Pageable pageable) {
-    	 return searchByNativeSQL(nativeSQL, (List<Parameter>) null, pageable);
+    	 return searchByNativeSQL(nativeSQL, (List<ParameterCondition>) null, pageable);
     }
     
 	@Override
 	public List<Map> searchByNativeSQL(String nativeSQL) {
-		return searchByNativeSQL(nativeSQL, (List<Parameter>) null);
+		return searchByNativeSQL(nativeSQL, (List<ParameterCondition>) null);
 	}
     
 	private Session getHibernateSession() {
@@ -258,10 +258,10 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
         return sqlQuery.list();
     }
     
-    public void buildParameters(Query query, List<Parameter> parameters){
+    public void buildParameters(Query query, List<ParameterCondition> parameters){
     	
     	if(parameters != null){
-    		for(Parameter param : parameters){
+    		for(ParameterCondition param : parameters){
     			Object val = param.getVal();
     				
 				if(val != null && val instanceof java.util.Date){
@@ -275,7 +275,7 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
     }
 
 	@Override
-	public Page<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Pageable pageable) {
+	public Page<Map> searchByNativeSQL(String nativeSQL, List<ParameterCondition> parameters, Pageable pageable) {
 		Query query = entityManager.createNativeQuery(nativeSQL);
         query.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
         query.setFirstResult(pageable.getOffset());
@@ -290,7 +290,7 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 	}
 
 	@Override
-	public List<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters) {
+	public List<Map> searchByNativeSQL(String nativeSQL, List<ParameterCondition> parameters) {
 		Query query = entityManager.createNativeQuery(nativeSQL);System.out.println("调用数据库");
         query.unwrap(SQLQuery.class).setResultTransformer(ColToMapResultTransformer.INSTANCE);
         
@@ -300,7 +300,7 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 	}
 
 	@Override
-	public <R> Page<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass,
+	public <R> Page<R> searchByNativeSQL(String nativeSQL, List<ParameterCondition> parameters, Class<R> domainClass,
 			Pageable pageable) {
     	Query contentQuery = entityManager.createNativeQuery(nativeSQL);
     	contentQuery.setFirstResult(pageable.getOffset());
@@ -317,7 +317,7 @@ public class SearchAndPageRepositoryImpl<T, ID extends Serializable> extends
 	}
 
 	@Override
-	public <R> List<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass) {
+	public <R> List<R> searchByNativeSQL(String nativeSQL, List<ParameterCondition> parameters, Class<R> domainClass) {
 	   	Query contentQuery = entityManager.createNativeQuery(nativeSQL);
     	contentQuery.unwrap(SQLQuery.class).setResultTransformer(ColToBeanResultTransformer.instance(domainClass));
     	buildParameters(contentQuery, parameters);

@@ -1,23 +1,21 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.staff;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.domain.AigaStaff;
-import com.ai.aiga.service.AigaStaffSv;
-import com.ai.aiga.view.json.StaffOrgRelatRequest;
-import com.ai.aiga.view.json.StaffRequest;
+import com.ai.aiga.service.staff.StaffSv;
+import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
+import com.ai.aiga.view.controller.staff.dto.StaffOrgRelatRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
 public class StaffController {
 	
 	@Autowired
-	private AigaStaffSv aigaStaffSv;
+	private StaffSv aigaStaffSv;
 	/*
 	 * 员工角色复权菜单员工列表调用
 	 * */
@@ -49,7 +47,7 @@ public class StaffController {
 	 * 新增操作员信息,及其与组织关系的保存
 	 * */
 	@RequestMapping(path = "/aiga/staff/save")
-	public @ResponseBody JsonBean save(AigaStaff staffRequest,Long organizeId){
+	public @ResponseBody JsonBean save(StaffInfoRequest staffRequest,Long organizeId){
 		aigaStaffSv.saveStaffOrg(staffRequest,organizeId);
 		return JsonBean.success;
 	}
@@ -57,7 +55,7 @@ public class StaffController {
 	 * 修改操作员信息
 	 * */
 	@RequestMapping(path = "/aiga/staff/update")
-	public @ResponseBody JsonBean update(AigaStaff staffRequest){
+	public @ResponseBody JsonBean update(StaffInfoRequest staffRequest){
 		aigaStaffSv.updateStaff(staffRequest);
 		return JsonBean.success;
 	}

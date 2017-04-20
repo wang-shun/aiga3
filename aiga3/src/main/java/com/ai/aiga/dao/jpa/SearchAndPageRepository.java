@@ -64,7 +64,7 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @param keyList
 	 * @return
 	 */
-	Page<Map> searchByNativeSQL(String nativeSQL, Pageable pageable, List<String> keyList);
+	Page<Map> searchByNativeSQL(String nativeSql, Pageable pageable, List<String> keyList);
 
 	/**
 	 * 根据原生SQL按照分页查询, 返回Page<Map<String, Object>> 
@@ -77,9 +77,9 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @param pageable
 	 * @return
 	 */
-	Page<Map> searchByNativeSQL(String nativeSQL, Pageable pageable);
+	Page<Map> searchByNativeSQL(String nativeSql, Pageable pageable);
 	
-	Page<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Pageable pageable);
+	Page<Map> searchByNativeSQL(String nativeSql, List<ParameterCondition> parameters, Pageable pageable);
 	
 	/**
 	 * 根据原生SQL查询, 返回List<Map<String, Object>>  
@@ -91,9 +91,9 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @param nativeSQL
 	 * @return
 	 */
-	List<Map> searchByNativeSQL(String nativeSQL);
+	List<Map> searchByNativeSQL(String nativeSql);
 	
-	List<Map> searchByNativeSQL(String nativeSQL, List<Parameter> parameters);
+	List<Map> searchByNativeSQL(String nativeSql, List<ParameterCondition> parameters);
 	
 	/**
 	 * 根据原生SQL查询, PageList<R> , R代表返回类型Class
@@ -107,9 +107,9 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @param pageable
 	 * @return
 	 */
-	<R> Page<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass, Pageable pageable);
+	<R> Page<R> searchByNativeSQL(String nativeSql, Class<R> domainClass, Pageable pageable);
 	
-	<R> Page<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass, Pageable pageable);
+	<R> Page<R> searchByNativeSQL(String nativeSql, List<ParameterCondition> parameters, Class<R> domainClass, Pageable pageable);
 
 	
 	/**
@@ -123,9 +123,9 @@ public interface SearchAndPageRepository<T, ID extends Serializable> extends Jpa
 	 * @param domainClass
 	 * @return
 	 */
-	<R> List<R> searchByNativeSQL(String nativeSQL, Class<R> domainClass);
+	<R> List<R> searchByNativeSQL(String nativeSql, Class<R> domainClass);
 	
-	<R> List<R> searchByNativeSQL(String nativeSQL, List<Parameter> parameters, Class<R> domainClass);
+	<R> List<R> searchByNativeSQL(String nativeSql, List<ParameterCondition> parameters, Class<R> domainClass);
 	
 	/*准备删除*/
 	@Deprecated

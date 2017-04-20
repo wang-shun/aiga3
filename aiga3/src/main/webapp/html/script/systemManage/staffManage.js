@@ -15,7 +15,7 @@ define(function(require,exports,module){
 	// 添加员工
 	srvMap.add("addUserinfo", pathAlias + "retMessage.json", "aiga/staff/save");
 	// 修改员工
-	srvMap.add("updateUserinfo", pathAlias + "retMessage.json", "aiga/staff/updat");
+	srvMap.add("updateUserinfo", pathAlias + "retMessage.json", "aiga/staff/update");
 	// 启用员工
 	srvMap.add("startUserinfo", pathAlias + "retMessage.json", "aiga/staff/start");
 	// 停员员工

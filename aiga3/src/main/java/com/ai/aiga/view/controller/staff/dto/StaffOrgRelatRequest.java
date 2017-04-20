@@ -1,4 +1,4 @@
-package com.ai.aiga.view.json;
+package com.ai.aiga.view.controller.staff.dto;
 
 public class StaffOrgRelatRequest {
 	private Long organizeId;

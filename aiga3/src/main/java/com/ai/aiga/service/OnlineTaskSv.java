@@ -29,6 +29,7 @@ import com.ai.aiga.domain.NaOnlineTaskResult;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.enums.CheckAcceptEnum;
 import com.ai.aiga.view.json.DealOpResponse;
 import com.ai.aiga.view.json.OnlineTaskRequest;
 import com.huawei.msp.mmap.server.TaskMessageClient;
@@ -250,8 +251,8 @@ public class OnlineTaskSv extends BaseService{
 			subTask.setTaskName(onlineTaskRequest.getTaskName());
 			subTask.setParentTaskId(onlineTaskRequest.getParentTaskId());
 			subTask.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTask.setTaskType(1L);
-			subTask.setDealState(1L);
+			subTask.setTaskType(CheckAcceptEnum.SubTaskType_two.getValue());
+			subTask.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			subTask.setAssignDate(new Date());
 			
 			//创建自动化用例类型子任务--自动生成
@@ -259,16 +260,16 @@ public class OnlineTaskSv extends BaseService{
 			subTaskAuto.setTaskName(onlineTaskRequest.getTaskName()+"_自动化");
 			subTaskAuto.setParentTaskId(onlineTaskRequest.getParentTaskId());
 			subTaskAuto.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTaskAuto.setTaskType(2L);
-			subTaskAuto.setDealState(1L);
+			subTaskAuto.setTaskType(CheckAcceptEnum.SubTaskType_three.getValue());
+			subTaskAuto.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			subTaskAuto.setAssignDate(new Date());
 			//创建用例组类型子任务--自动生成
 			NaOnlineTaskDistribute subTaskGroup = new NaOnlineTaskDistribute();
 			subTaskGroup.setTaskName(onlineTaskRequest.getTaskName()+"_用例组");
 			subTaskGroup.setParentTaskId(onlineTaskRequest.getParentTaskId());
 			subTaskGroup.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTaskGroup.setTaskType(3L);
-			subTaskGroup.setDealState(1L);
+			subTaskGroup.setTaskType(CheckAcceptEnum.SubTaskType_one.getValue());
+			subTaskGroup.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			subTaskGroup.setAssignDate(new Date());
 			
 			NaOnlineTaskDistribute response = naOnlineTaskDistributeDao.findOne(onlineTaskRequest.getParentTaskId());

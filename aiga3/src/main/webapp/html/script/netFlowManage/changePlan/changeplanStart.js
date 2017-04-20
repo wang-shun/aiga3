@@ -285,7 +285,7 @@ define(function(require, exports, module) {
             _del.bind('click', function() {
                 var dataTemp = self.getRadioCheckedRow(_dom);
                 if (dataTemp) {
-                    var cmd = "taskId=" + dataTemp.taskId;
+                    var cmd = "taskIds=" + dataTemp.taskId;
                     Rose.ajax.postJson(srvMap.get("delTaskResult"), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功！', 'success', 2000);

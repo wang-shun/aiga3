@@ -395,7 +395,7 @@ define(function(require, exports, module) {
             _del.bind('click', function() {
                 var _date = self.getRadioCheckedRow(_dom);
                 if (_date) {
-                    var cm = "taskId=" + _date.taskId+"&parentId=" + Data.data.taskId;
+                    var cm = "taskIds=" + _date.taskId+"&parentId=" + Data.data.taskId;
                     Rose.ajax.postJson(srvMap.get('delPerSubtaskAssignment'), cm, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功！', 'success', 2000);

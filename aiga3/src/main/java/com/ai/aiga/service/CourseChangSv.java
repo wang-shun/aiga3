@@ -84,7 +84,7 @@ public class CourseChangSv extends BaseService {
     }
     
     /**
-     * 通过请求参数新增
+     * 通过请求参数修改或者新增
      * @param CourseChangListRequest 页面请求参数
      */
     public void saveTask(List<CourseChangList> courseChangList){
@@ -93,8 +93,15 @@ public class CourseChangSv extends BaseService {
         }
         for(CourseChangList course : courseChangList){
         CourseChangList courseTrue = courseChangDao.findOne(course.getId());
+        if(course.getMonitorState()!=null){
         courseTrue.setMonitorState(course.getMonitorState());
+        }
+        if(course.getDeployState()!=null){
+        	courseTrue.setDeployState(course.getDeployState());
+        }
+        if(course.getMonitorOrder()!=null){
         courseTrue.setMonitorOrder(course.getMonitorOrder());
+        }
         courseChangDao.save(courseTrue);
         }
     }

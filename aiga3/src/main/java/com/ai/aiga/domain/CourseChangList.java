@@ -54,8 +54,8 @@ public class CourseChangList  implements java.io.Serializable {
      private String onlineTime;
      private String insertingCoilTime;
      private String remark;
-     private int deployState;
-     private int monitorState;
+     private Integer deployState;
+     private Integer monitorState;
      private BigDecimal planId;
      private String monitorOrder;
 
@@ -436,20 +436,20 @@ public class CourseChangList  implements java.io.Serializable {
     }
     
     @Column(name="DEPLOY_STATE", precision=22, scale=0)
-    public int getDeployState() {
+    public Integer getDeployState() {
         return this.deployState;
     }
     
-    public void setDeployState(int deployState) {
+    public void setDeployState(Integer deployState) {
         this.deployState = deployState;
     }
     
     @Column(name="MONITOR_STATE", precision=22, scale=0)
-    public int getMonitorState() {
+    public Integer getMonitorState() {
         return this.monitorState;
     }
     
-    public void setMonitorState(int monitorState) {
+    public void setMonitorState(Integer monitorState) {
         this.monitorState = monitorState;
     }
     

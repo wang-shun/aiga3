@@ -27,6 +27,7 @@ import com.ai.aiga.domain.NaAutoPropertyConfig;
 import com.ai.aiga.domain.NaAutoPropertyCorrelation;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.process.jta.task.impl.AutoBackupTask;
 
 @Service
 @Transactional
@@ -279,6 +280,11 @@ public class NaAutoBackupFrontSv {
 			CfgIdList.add(acct);
 		}
 		return CfgIdList;
+	}
+	//启动主进程
+	public void startBackupMain(){
+		String[] a =new String[]{"1"};
+		AutoBackupTask.main(a);
 	}
 	
 }

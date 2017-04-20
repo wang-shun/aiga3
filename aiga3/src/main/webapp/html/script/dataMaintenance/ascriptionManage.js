@@ -19,19 +19,19 @@ define(function(require, exports, module) {
 
 
 
-	// 模板对象
+	/*// 模板对象
 	var Tpl = {
 		getAsciptionList: require('tpl/dataMaintenance/getAsciptionList.tpl'),
-	};
+	};*/
 
-	// 容器对象
+	/*// 容器对象
 	var Dom = {
 		queryCaseTempForm: '#JS_queryCaseTempForm',
 		getAsciptionList: '#JS_getAsciptionList',
 		addSysInfoModel: '#JS_addSysInfoModel',
 		addSysInfo: '#JS_addSysInfo'
 
-	};
+	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 		// 按条件查询
 		queryCaseTempForm: function() {
 			var self = this;
-			var _form = $(Dom.queryCaseTempForm);
+			var _form = Page.findId('queryCaseTempForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -64,7 +64,7 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			var _dom = $("#JS_getAsciptionList");
+			var _dom = Page.findId('getAsciptionList');
 			//var _dom = Page.findId("getSysInfoList");
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
@@ -83,7 +83,7 @@ define(function(require, exports, module) {
 		// 删除所选条目
 		delCaseSysInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getAsciptionList);
+			var _dom = Page.findId('getAsciptionList');
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -108,20 +108,20 @@ define(function(require, exports, module) {
 		//新增
 		addSysInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getAsciptionList);
+			var _dom = Page.findId('getAsciptionList');
 			var _add = _dom.find("[name='add']");
 			_add.unbind('click');
 			_add.bind('click', function() {
 				// 弹出层
-				$(Dom.addSysInfoModel).modal('show');
+				Page.findModal('addSysInfoModel').modal('show');
 				//组件表单校验初始化
-				var _form = $(Dom.addSysInfo);
-				$(Dom.addSysInfoModel).on('hide.bs.modal', function() {
+				var _form = Page.findId('addSysInfo');
+				Page.findModal('addSysInfoModel').on('hide.bs.modal', function() {
 					Utils.resetForm('#JS_addSysInfo');
 				});
 				// 表单提交
-				$("#addSysInfoButton").unbind('click');
-				$("#addSysInfoButton").bind('click', function() {
+				Page.findModal('addSysInfoModel').find("#addSysInfoButton").unbind('click');
+				Page.findModal('addSysInfoModel').find("#addSysInfoButton").bind('click', function() {
 					Utils.checkForm(_form, function() {
 						var cmd = _form.serialize();
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -134,7 +134,7 @@ define(function(require, exports, module) {
 									self.getCaseTempList();
 								}, 1000);
 								// 关闭弹出层
-								$(Dom.addSysInfoModel).modal('hide');
+								Page.findModal('addSysInfoModel').modal('hide');
 							}
 						});
 					})

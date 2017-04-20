@@ -26,13 +26,13 @@ define(function(require, exports, module) {
 	//关联员工
 	srvMap.add("relEmed", pathAlias + "retMessage.json", "sys/employeeandteam/saveemployee");
 	// 模板对象
-	var Tpl = {
+	/*var Tpl = {
 		getTeamList: require('tpl/netFlowManage/TeamMng/getTeamList.tpl'),
 		getEmList: require('tpl/netFlowManage/TeamMng/getEmList.tpl'),
 		getEmedList: require('tpl/netFlowManage/TeamMng/getEmedList.tpl'),
 	};
-
-	// 容器对象
+*/
+	/*// 容器对象
 	var Dom = {
 		queryTeamForm: '#JS_queryTeamForm',
 		teamList: '#JS_teamList',
@@ -53,7 +53,7 @@ define(function(require, exports, module) {
 		//关联弹出框
 		relTeamerModal: '#JS_relTeamerModal',
 
-	};
+	};*/
 
 	var Data = {
 		queryListCmd: null,
@@ -68,12 +68,12 @@ define(function(require, exports, module) {
 			// 查询表单
 			this.queryTeamlistForm();
 			//页面跳转
-			this.turnTeamer();
+			//this.turnTeamer();
 		},
 		// 按条件查询
 		queryTeamlistForm: function() {
 			var self = this;
-			var _form = $(Dom.queryTeamForm);
+			var _form = Page.findId('queryTeamForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -88,13 +88,13 @@ define(function(require, exports, module) {
 			Data.queryListCmd = _cmd;
 			console.log(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			var _dom = $("#JS_teamList");
+			var _dom = Page.findId("teamList");
 			//var _dom = Page.findId('teamList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getTeamList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
-				var template = Handlebars.compile($("#TPL_getTeamListTemp").html());
+				var template = Handlebars.compile(Page.findTpl('getTeamListTemp'));
 				_dom.find("[name='content']").html(template(json.data.content));
 				//删除所选条目
 				self.delTeamInfo();
@@ -104,7 +104,7 @@ define(function(require, exports, module) {
 				self.addEmInfo();
 				//关联
 				self.relTeamAndEm();
-				Utils.eventTrClickCallback($(Dom.teamList));
+				Utils.eventTrClickCallback(Page.findId('teamList'));
 			}, _domPagination);
 
 
@@ -113,7 +113,7 @@ define(function(require, exports, module) {
 		// 删除所选条目
 		delTeamInfo: function() {
 			var self = this;
-			var _dom = $(Dom.teamList);
+			var _dom = Page.findId("teamList");
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -137,18 +137,18 @@ define(function(require, exports, module) {
 		//新增团队
 		addTeamInfo: function() {
 			var self = this;
-			var _dom = $(Dom.teamList);
+			var _dom = Page.findId("teamList");
 			var _add = _dom.find("[name='addTeam']");
 
 			_add.unbind('click');
 			_add.bind('click', function() {
 				// 弹出层
-				$(Dom.addTeamModal).modal('show');
+				Page.findModal('addTeamModal').modal('show');
 				//组件表单校验初始化
-				var _form = $('#JS_addTeamInfo');
-				_saveBt = $(Dom.addTeamModal).find("[name='save']");
+				var _form = Page.findId('addTeamInfo');
+				_saveBt = Page.findModal('addTeamModal').find("[name='save']");
 				Utils.setSelectData(_form);
-				$(Dom.addTeamModal).on('hide.bs.modal', function() {
+				Page.findModal('addTeamModal').on('hide.bs.modal', function() {
 					Utils.resetForm('#JS_addTeamInfo');
 				});
 
@@ -164,7 +164,7 @@ define(function(require, exports, module) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
 									// 关闭弹出层
-								$(Dom.addTeamModal).modal('hide');
+								Page.findModal('addTeamModal').modal('hide');
 
 								setTimeout(function() {
 									self.getTeamList();
@@ -178,17 +178,17 @@ define(function(require, exports, module) {
 		//新增员工
 		addEmInfo: function() {
 			var self = this;
-			var _dom = $(Dom.teamList);
+			var _dom = Page.findId("teamList");
 			var _add = _dom.find("[name='addEm']");
 			_add.unbind('click');
 			_add.bind('click', function() {
 				// 弹出层
-				$(Dom.addEmModal).modal('show');
+				Page.findModal('addEmModal').modal('show');
 				//组件表单校验初始化
-				var _form = $('#JS_addEmInfo');
-				_saveBt = $(Dom.addEmModal).find("[name='save']");
+				var _form = Page.findId('addEmInfo');
+				_saveBt = Page.findModal('addEmModal').find("[name='save']");
 				Utils.setSelectData(_form);
-				$(Dom.addEmModal).on('hide.bs.modal', function() {
+				Page.findId('addEmModal').on('hide.bs.modal', function() {
 					Utils.resetForm('#JS_addEmInfo');
 				});
 				// 表单提交
@@ -202,7 +202,7 @@ define(function(require, exports, module) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
 									// 关闭弹出层
-								$(Dom.addEmModal).modal('hide');
+								Page.findModal('addEmModal').modal('hide');
 
 								setTimeout(function() {
 									self.getTeamList();
@@ -216,7 +216,7 @@ define(function(require, exports, module) {
 		//已有团队关联
 		relTeamAndEm: function() {
 			var self = this;
-			var _dom = $(Dom.teamList);
+			var _dom = Page.findId("teamList");
 			var _rel = _dom.find("[name='rel']");
 			_rel.unbind('click');
 			_rel.bind('click', function() {
@@ -224,7 +224,7 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					//跳转
-					$(Dom.relTeamerModal).modal('show');
+					Page.findModal('relTeamerModal').modal('show');
 					Data.teamId = data.teamId;
 
 					//查询所有员工信息(去除已关联员工)
@@ -241,7 +241,7 @@ define(function(require, exports, module) {
 		//查询所有员工信息
 		queryEmlistForm: function() {
 			var self = this;
-			var _form = $(Dom.queryEmForm);
+			var _form = Page.findId('queryEmForm');
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.unbind('click');
 			_queryBtn.bind('click', function() {
@@ -257,14 +257,14 @@ define(function(require, exports, module) {
 			Data.queryListCmd = _cmd;
 			console.log(_cmd);
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			var _dom = $('#JS_emList');
+			var _dom = Page.findId('emList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getEmList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
-				var template = Handlebars.compile($("#TPL_getEmListTemp").html());
+				var template = Handlebars.compile(Page.findTpl('getEmListTemp'));
 				_dom.find("[name='content']").html(template(json.data.content));
-				Utils.eventTrClickCallback($(Dom.emList));
+				Utils.eventTrClickCallback(Page.findId('emList'));
 			}, _domPagination);
 
 
@@ -275,14 +275,14 @@ define(function(require, exports, module) {
 			var self = this;
 			var _cmd = 'teamId=' + cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			var _dom = $('#JS_EmedList');
+			var _dom = Page.findId('EmedList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getEmedList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
-				var template = Handlebars.compile($("#TPL_getEmedListTemp").html());
+				var template = Handlebars.compile(Page.findTpl('getEmedListTemp'));
 				_dom.find("[name='content']").html(template(json.data.content));
-				Utils.eventTrClickCallback($(Dom.emedList));
+				Utils.eventTrClickCallback(Page.findId('emList'));
 			}, _domPagination);
 
 
@@ -291,12 +291,11 @@ define(function(require, exports, module) {
 		//批量删除已关联员工
 		delEmed: function() {
 			var self = this;
-			var _dom = $(Dom.emedList);
-			var delBt = $("#JS_delEmedBt");
+			var _dom = Page.findId('emedList');
+			var delBt = Page.findId('delEmedBt');
 			delBt.unbind('click');
 			delBt.bind('click', function(event) {
 				var delEmedIds = "list="
-
 				var data = Utils.getCheckboxCheckedRow(_dom);
 				if (data) {
 					for (var k in data) {
@@ -304,7 +303,6 @@ define(function(require, exports, module) {
 						//拼接
 						delEmedIds += emId + ",";
 					}
-
 					//去除最后的逗号
 					delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
 					var _cmd = delEmedIds;
@@ -328,8 +326,8 @@ define(function(require, exports, module) {
 		//员工关联
 		relEm: function(teamId) {
 			var self = this;
-			var _form = $(Dom.queryEmForm);
-			var _dom = $(Dom.emList);
+			var _form = Page.findId('queryEmForm');
+			var _dom = Page.findId('emList');
 			var _relBtn = _form.find("[name='rel']");
 			_relBtn.unbind('click');
 			_relBtn.bind('click', function() {

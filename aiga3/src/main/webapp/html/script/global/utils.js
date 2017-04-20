@@ -7,10 +7,37 @@ define(function(require, exports, module) {
          * 初始化页面唯一标识
          *
          * @method pageId 页面标识
-         * @return object 闭包方法
+         * @return object 构建的对象
          */
         initPage:function(pageId){
-            return {
+            var page = new Object();
+            page.id = '#Page_'+pageId;
+            page.find = function (obj) {
+                return $(this.id).parent().find(obj);
+            },
+            page.findId = function (objId) {
+                return $(this.id).parent().find("#JS_"+objId);
+            },
+            page.findName = function (objName) {
+                return $(this.id).parent().find("[name='"+objName+"']");
+            },
+            page.findTpl = function (tplId) {
+                return $(this.id).parent().find("#TPL_"+tplId).html();
+            },
+            page.findModal = function (modalId) {
+                return $(this.id).parent().find("#Modal_"+modalId);
+            },
+            page.findModalCId = function (objId) {
+                return $(this.id).parent().find("#JS_"+objId);
+            },
+            page.getFunId = function (obj) {
+                return $(this.id).parent().data("funid");
+            },
+            page.getParentCmd = function (obj) {
+                return Rose.browser.mapQuery($(this.id).parent().data("cmd"));
+            }
+            return page;
+            /*return {
                 id: '#Page_'+pageId,
                 // 查找元素
                 find: function(obj){
@@ -44,7 +71,7 @@ define(function(require, exports, module) {
                 getParentCmd: function(){
                     return Rose.browser.mapQuery($(this.id).parent().data("cmd"));
                 }
-            }
+            }*/
         },
         /**
          * 单复选框美化、单机选中、双击执行回调函数
@@ -336,6 +363,7 @@ define(function(require, exports, module) {
                 Rose.ajax.postJson(url, _cmd, function(json, status) {
                     if(status) {
                         callback(json);
+                        XMS.msgbox.hide();
                         if($(obj).html()== ''){
                             $(obj).pagination(json.data.totalElements, {
                                 items_per_page      : items_per_page, //每页显示的条目数

@@ -16,6 +16,7 @@ import com.ai.aiga.domain.NaInterfaceList;
 import com.ai.aiga.domain.NaOnlinePlanBug;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.service.AigaBossTestResultSv;
+import com.ai.aiga.service.NaChangePlanOnileSv;
 import com.ai.aiga.service.OnlineTaskSv;
 import com.ai.aiga.service.PerformanceTaskSv;
 import com.ai.aiga.view.json.BossTestResultRequest;
@@ -44,6 +45,9 @@ public class OnlineTaskController {
 	
 	@Autowired
 	private AigaBossTestResultSv aigaBossTestResultSv;
+	
+	@Autowired
+	private NaChangePlanOnileSv naChangePlanOnileSv;
 	
 	@RequestMapping(path = "/accept/onlineTask/list")
 	public @ResponseBody JsonBean list(
@@ -174,16 +178,16 @@ public class OnlineTaskController {
 	
 	
 	
-	@RequestMapping(path = "/accept/otherTask/getOtherPlan",method=RequestMethod.POST)
+	@RequestMapping(path = "/accept/otherTask/getOtherPlan",method=RequestMethod.GET)
 	public @ResponseBody JsonBean getOtherPlan(Long type){
 		JsonBean bean = new JsonBean();
-		bean.setData(aigaBossTestResultSv.getOtherPlan(type));
+		bean.setData(naChangePlanOnileSv.getOtherPlan(type));
 		return bean;
 	}
 	
 	
 
-	@RequestMapping(path = "/accept/otherTask/getOtherFlowName",method=RequestMethod.POST)
+	@RequestMapping(path = "/accept/otherTask/getOtherFlowName",method=RequestMethod.GET)
 	public @ResponseBody JsonBean getOtherFlowName(Long type){
 		JsonBean bean = new JsonBean();
 		bean.setData(aigaBossTestResultSv.getOtherFlowName(type));
@@ -192,10 +196,10 @@ public class OnlineTaskController {
 	
 	
 	
-	@RequestMapping(path = "/accept/otherTask/getOtherTaskInfo",method=RequestMethod.POST)
+	@RequestMapping(path = "/accept/otherTask/getOtherTaskInfo",method=RequestMethod.GET)
 	public @ResponseBody JsonBean getOtherTaskInfo(Long onlinePlan){
 		JsonBean bean = new JsonBean();
-		bean.setData(aigaBossTestResultSv.getOtherTaskInfo(onlinePlan));
+		bean.setData(onlineTaskSv.getOtherTaskInfo(onlinePlan));
 		return bean;
 	}
 	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class CourseChangController {
      * @param CourseChangList
      * @return
      */
-    @RequestMapping(path="/auto/task/seachDeployTask",method = RequestMethod.POST)
+    @RequestMapping(path="/accept/onlineTask/deployList",method = RequestMethod.POST)
     @ApiOperation(value = "",response = CourseChangList.class,notes = "查询部署任务")
     public @ResponseBody JsonBean seachDeployTask(
     		@ApiParam(name="page",value="页码")@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -49,7 +50,7 @@ public class CourseChangController {
     * @param CourseChangList
     * @return
     */
-   @RequestMapping(path="/auto/task/seachMonitorTask",method = RequestMethod.POST)
+   @RequestMapping(path="/accept/onlineTask/monitorList",method = RequestMethod.POST)
    @ApiOperation(value = "",response = CourseChangList.class,notes = "查询部署任务")
    public @ResponseBody JsonBean saveAutoCompParam(
    		@ApiParam(name="page",value="页码")@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -69,7 +70,7 @@ public class CourseChangController {
     * @param Id
     * @return
     */
-   @RequestMapping(path="/auto/task/deteleTask",method = RequestMethod.POST)
+   @RequestMapping(path="",method = RequestMethod.POST)
    @ApiOperation(value = "",response = CourseChangList.class,notes = "删除部署任务")
    @ApiParam(name="CourseChangListRequest",value = "",required = true)
    public @ResponseBody JsonBean delete(long Id){
@@ -81,10 +82,10 @@ public class CourseChangController {
     * @param autoCaseRequest
     * @return
     */
-   @RequestMapping(path="/auto/task/saveTask",method = RequestMethod.POST)
+   @RequestMapping(path="/accept/task/saveTask",method = RequestMethod.POST)
    @ApiOperation(value = "",response = CourseChangList.class,notes = "保存部署任务")
    @ApiParam(name="CourseChangListRequest",value = "",required = true)
-   public @ResponseBody JsonBean saveTask(@RequestParam List<CourseChangList> courseChangList){
+   public @ResponseBody JsonBean saveTask(@RequestBody List<CourseChangList> courseChangList){
 	   for(CourseChangList course : courseChangList){
 		   if (course.getId() == null) {
 			   BusinessException.throwBusinessException(ErrorCode.Parameter_com_null,"Id");

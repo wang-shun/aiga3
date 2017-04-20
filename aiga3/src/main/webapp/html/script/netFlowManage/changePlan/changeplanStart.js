@@ -27,13 +27,14 @@ define(function(require, exports, module) {
     //删除验收任务
     srvMap.add("delTaskResult", pathAlias + "retMessage.json", "accept/changePlanRun/delete");
 
-    // 模板对象
-    var Tpl = {
-        getChangePlanList: $("#TPL_getChangePlanList").html(),
-        getAutoResultList: $("#TPL_getAutoResultListC").html(),
-        getTaskResultList: $("#TPL_getTaskResultList").html(),
-        getPublishResultList: $("#TPL_getPublishResultList").html()
-    };
+    // // 模板对象
+    // var Tpl = {
+    //     getChangePlanList: $("#TPL_getChangePlanList").html(),
+    //     getAutoResultList: $("#TPL_getAutoResultListC").html(),
+    //     getTaskResultList: $("#TPL_getTaskResultList").html(),
+    //     getPublishResultList: $("#TPL_getPublishResultList").html()
+    // };
+
 
     // 容器对象
     var Dom = {
@@ -47,7 +48,20 @@ define(function(require, exports, module) {
         getPublishResultList: '#JS_getPublishResultList',
         getPublishResultModal: '#JS_getPublishResultModal'
 
-    };
+    // // 容器对象
+    // var Dom = {
+    //     queryChangePlanForm: '#JS_queryChangePlanForm',
+    //     getChangePlanList: '#JS_getChangePlanList',
+    //     getAutoResultList: '#JS_getAutoResultListC',
+    //     getAutoResultModal: '#Modal_getAutoResultModal',
+    //     saveTaskResultForm: '#JS_saveTaskResultForm',
+    //     getTaskResultList: '#JS_getTaskResultList',
+    //     getTaskResultModal: '#Modal_getTaskResultModal',
+    //     getPublishResultList: '#JS_getPublishResultList',
+    //     getPublishResultModal: '#Modal_getPublishResultModal'
+
+
+    // };
 
     var Data = {
         queryListCmd: null,
@@ -83,17 +97,34 @@ define(function(require, exports, module) {
             var _cmd = '' || cmd;
             Data.queryListCmd = _cmd;
             //alert(_cmd);
+            var _dom = Page.findId('getChangePlanList');
+            var _domPagination = _dom.find("[name='pagination']");
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+
             Rose.ajax.postJson(srvMap.get('getChangePlanList'), _cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Tpl.getChangePlanList);
                     $(Dom.getChangePlanList).html(template(json.data))
 
+            Utils.getServerPage(srvMap.get('getChangePlanList'), _cmd, function(json) {
+                window.XMS.msgbox.hide();
+                var template = Handlebars.compile(Page.findTpl('getChangePlanList'));
+                _dom.find("[name='content']").html(template(json.data.content))
+
+
+
                     self.getAutoResultList();
                     self.changePlanStart();
                     self.getPublishResultList();
                     Utils.eventTrClickCallback($(Dom.getChangePlanList))
+
+                self.getAutoResultList();
+                self.changePlanStart();
+                self.getPublishResultList();
+                Utils.eventTrClickCallback(_dom)
+
+
 
                     //设置分页
                     self.initPaging($(Dom.getChangePlanList), 8, true)
@@ -101,60 +132,64 @@ define(function(require, exports, module) {
                 }
             });
 
+                //设置分页
+                //self.initPaging(Page.findId('getChangePlanList'), 8, true)
+            }, _domPagination);
+
+
         },
         // 查询自动化执行结果详细信息
         getAutoResultList: function() {
             var self = this;
-            var _dom = $(Dom.getChangePlanList);
+            var _dom = Page.findId('getChangePlanList');
             var _checkResultA = _dom.find("[name='checkResultA']");
             _checkResultA.unbind('click');
             _checkResultA.bind('click', function() {
                 var data = self.getRadioCheckedRow(_dom);
                 if (data) {
                     var cmd = 'onlinePlan=' + data.onlinePlan;
+                    var _dom1 = Page.findModalCId('getAutoResultListC');
+                    var _domPagination = _dom1.find("[name='pagination']");
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.postJson(srvMap.get('getAutoResultList'), cmd, function(json, status) {
-                        if (status) {
-                            window.XMS.msgbox.hide();
-                            // 显示弹框
-                            var _modal = $(Dom.getAutoResultModal);
-                            _modal.modal('show').on('shown.bs.modal', function() {
-                                var template = Handlebars.compile(Tpl.getAutoResultList);
-                                var _dom = $(Dom.getAutoResultList);
-                                _dom.html(template(json.data));
-                                //设置分页
-                                self.initPaging(_dom, 5, true);
-                            })
-                        }
-                    });
+                    Utils.getServerPage(srvMap.get('getAutoResultList'), cmd, function(json) {
+                        window.XMS.msgbox.hide();
+                        // 显示弹框
+
+                        var _modal = Page.findModal('getAutoResultModal');
+                        _modal.modal('show').on('shown.bs.modal', function() {
+                            var template = Handlebars.compile(Page.findTpl('getAutoResultListC'));
+                            _dom1.find("[name='content']").html(template(json.data.content));
+                            //设置分页
+                            //self.initPaging(_dom, 5, true);
+                        })
+                    }, _domPagination);
                 }
             });
         },
         // 查询自动化执行结果详细信息
         getPublishResultList: function() {
             var self = this;
-            var _dom = $(Dom.getChangePlanList);
+            var _dom = Page.findId('getChangePlanList');
             var _checkResultC = _dom.find("[name='checkResultC']");
             _checkResultC.unbind('click');
             _checkResultC.bind('click', function() {
                 var data = self.getRadioCheckedRow(_dom);
                 if (data) {
                     var cmd = 'planDate=' + data.planDate;
+                    var _dom1 = Page.findId('getPublishResultList');
+                    var _domPagination = _dom1.find("[name='pagination']");
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.postJson(srvMap.get('getPublishResultList'), cmd, function(json, status) {
-                        if (status) {
-                            window.XMS.msgbox.hide();
-                            // 显示弹框
-                            var _modal = $(Dom.getPublishResultModal);
-                            _modal.modal('show').on('shown.bs.modal', function() {
-                                var template = Handlebars.compile(Tpl.getPublishResultList);
-                                var _dom = $(Dom.getPublishResultList);
-                                _dom.html(template(json.data));
-                                //设置分页
-                                self.initPaging(_dom, 5, true);
-                            })
-                        }
-                    });
+                    Utils.getServerPage(srvMap.get('getPublishResultList'), cmd, function(json) {
+                        window.XMS.msgbox.hide();
+                        // 显示弹框
+                        var _modal = Page.findModal('getPublishResultModal');
+                        _modal.modal('show').on('shown.bs.modal', function() {
+                            var template = Handlebars.compile(Page.findTpl('getPublishResultList'));
+                            _dom1.find("[name='content']").html(template(json.data.content));
+                            //设置分页
+                            //self.initPaging(_dom, 5, true);
+                        })
+                    }, _domPagination);
                 }
             });
         },
@@ -162,30 +197,28 @@ define(function(require, exports, module) {
         getTaskResultList: function(cmd, data) {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.postJson(srvMap.get('getTaskResultList'), cmd, function(json, status) {
-                if (status) {
+            var _dom = Page.findId('getTaskResultList');    
+            var _domPagination = _dom1.find("[name='pagination']");        
+            Utils.getServerPage(srvMap.get('getTaskResultList'), cmd, function(json) {
                     window.XMS.msgbox.hide();
-                    var _form = $(Dom.saveTaskResultForm);
+                    var _form = Page.findId('saveTaskResultForm');
                     Utils.setSelectData(_form);
                     _form.find("[name='onlinePlan']").val(data.onlinePlan);
                     _form.find("[name='onlinePlanName']").val(data.onlinePlanName);
-                    var template = Handlebars.compile(Tpl.getTaskResultList);
-                    var _dom = $(Dom.getTaskResultList);
-                    _dom.html(template(json.data));
+                    var template = Handlebars.compile(Page.findTpl('getTaskResultList'));
+                    _dom.find("[name='content']").html(template(json.data.content));
                     self.saveTaskResult(data);
                     self.delTaskResult(data);
                     self.updateTaskResult(data);
-                    Utils.eventTrClickCallback($(Dom.getTaskResultList))
+                    Utils.eventTrClickCallback(_dom)
                         //设置分页
-                    self.initPaging(_dom, 5, true);
-
-                }
-            });
+                    //self.initPaging(_dom, 5, true);
+            },_domPagination);
         },
         //启动(弹出自任务分派页面 判断如果是上线就弹出页面 如果是变更就调接口)
         changePlanStart: function() {
             var self = this;
-            var _dom = $(Dom.getChangePlanList);
+            var _dom = Page.findId('getChangePlanList');
             var _start = _dom.find("[name='start']");
             _start.unbind('click');
             _start.bind('click', function() {
@@ -209,19 +242,19 @@ define(function(require, exports, module) {
                             //存储到全局变量
                             Data.onlinePlan = data.onlinePlan;
                             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                            Rose.ajax.postJson(srvMap.get('getTaskResultList'), cmd, function(json, status) {
-                                if (status) {
+                            var _dom1 = Page.findId('getTaskResultList');
+                            var _domPagination = _dom1.find("[name='pagination']");
+                            Utils.getServerPage(srvMap.get('getTaskResultList'), cmd, function(json) {
                                     window.XMS.msgbox.hide();
                                     // 显示弹框
-                                    var _modal = $(Dom.getTaskResultModal);
-                                    var _form = $(Dom.saveTaskResultForm);
+                                    var _modal = Page.findModal('getTaskResultModal');
+                                    var _form = Page.findId('saveTaskResultForm');
                                     Utils.setSelectData(_form);
                                     _form.find("[name='onlinePlan']").val(data.onlinePlan);
                                     _form.find("[name='onlinePlanName']").val(data.onlinePlanName);
                                     _modal.modal('show').on('shown.bs.modal', function() {
-                                        var template = Handlebars.compile(Tpl.getTaskResultList);
-                                        var _dom = $(Dom.getTaskResultList);
-                                        _dom.html(template(json.data));
+                                        var template = Handlebars.compile(Page.findTpl('getTaskResultList'));
+                                        _dom1.find("[name='content']").html(template(json.data.content));
                                         self.saveTaskResult(data);
                                         self.delTaskResult(data);
                                         self.updateTaskResult(data);
@@ -230,13 +263,12 @@ define(function(require, exports, module) {
                                         _close.bind('click', function() {
                                             self.getChangePlanList();
                                         })
-                                        Utils.eventTrClickCallback($(Dom.getTaskResultList))
+                                        Utils.eventTrClickCallback(_dom1)
                                             //设置分页
-                                        self.initPaging(_dom, 5, true);
+                                        //self.initPaging(_dom, 5, true);
 
                                     })
-                                }
-                            });
+                            },_domPagination);
                         }
                     } else {
                         window.XMS.msgbox.show('计划状态只有是新增和处理中的计划才能启动！', 'error', 2000);
@@ -355,7 +387,7 @@ define(function(require, exports, module) {
                 "info": true,
                 "language": {
                     "emptyTable": "暂无数据...",
-                    "infoEmpty":"第0-0条，共0条"
+                    "infoEmpty": "第0-0条，共0条"
                 },
                 "scrollX": scrollX
             });

@@ -20,7 +20,11 @@ define(function(require, exports, module) {
 	//数据库下拉菜单
 	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
 	//cfgId下拉菜单
+
 	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
+
+	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
+
 	// 模板对象
 	var Tpl = {
 		getDataMaintainTemp: $('#JS_getDataMaintainTemp'),

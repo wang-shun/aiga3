@@ -9,7 +9,18 @@ define(function(require, exports, module) {
 
 	srvMap.add("caseResultList", pathAlias + "publicTaskList.json", "");
 
+
 	srvMap.add("submitRst", pathAlias + "publicTaskList.json", "");
+
+	srvMap.add("submitPublicRst", pathAlias + "publicTaskList.json", "accept/otherTask/saveOtherTask");
+
+	//变更计划下拉框
+	srvMap.add("getOnlinePlanList", pathAlias + "publicTaskList.json", "sys/cache/changePlan");
+
+	srvMap.add("getOtherPlan", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherPlan");
+	srvMap.add("getOtherTaskInfo", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherTaskInfo");
+	srvMap.add("getOtherFlowName", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherFlowName");
+
 
 
 	// 模板对象
@@ -34,7 +45,7 @@ define(function(require, exports, module) {
 
 
 	};
-	var busiData;
+	var taskType = 1;
 
 	var Init = {
 		init: function() {
@@ -43,7 +54,7 @@ define(function(require, exports, module) {
 		_render: function() {
 
 			this.hdbarHelp();
-			this.getpublicTaskList("");
+			this.getpublicTaskList("taskType=1");
 			this.querypublicTask();
 			this.addReport();
 			this.updateReport();
@@ -102,6 +113,9 @@ define(function(require, exports, module) {
 				_modal.modal('show');
 				var template = Handlebars.compile(Tpl.testReportForm);
 				$(Dom.testReportForm).find(".modal-body").html(template());
+				Utils.setSelectData(_modal, "type=0");
+				var sel = _modal.find("select[name='planId']");
+				self.getSelect(sel,taskType);
 				self.saveTestReport();
 
 			});
@@ -120,7 +134,13 @@ define(function(require, exports, module) {
 					_modal.modal('show');
 					var template = Handlebars.compile(Tpl.testReportForm);
 					$(Dom.testReportForm).find(".modal-body").html(template(data));
+
 					self.setSelectData(_modal,data);
+
+					Utils.setSelectData(_modal, "type=1");
+					var sel = _modal.find("select[name='planId']");
+					self.getSelect(sel,taskType);
+
 					self.saveTestReport();
 				}
 			});
@@ -177,6 +197,17 @@ define(function(require, exports, module) {
 				$(el).val(data[key]);
 			});
 
+		},
+
+		getSelect: function(obj, type) {
+			Rose.ajax.getJson(srvMap.get('getOtherFlowName'), "type="+type, function(json, status) {
+				if (status) {
+					var _html = '<option value="">请选择</option>{{#each this}}<option value="{{plantaskId}}">{{plantaskName}}</option>{{/each}}';
+					var template = Handlebars.compile(_html);
+					obj.html(template(json.data));					
+				}
+
+			});
 		},
 
 		initPaging: function(obj, length, scrollX) {

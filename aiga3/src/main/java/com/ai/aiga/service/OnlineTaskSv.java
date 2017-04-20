@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AigaBossTestResultDao;
 import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoCollectionDao;
@@ -27,6 +29,7 @@ import com.ai.aiga.domain.NaOnlineTaskResult;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.enums.CheckAcceptEnum;
 import com.ai.aiga.view.json.DealOpResponse;
 import com.ai.aiga.view.json.OnlineTaskRequest;
 import com.huawei.msp.mmap.server.TaskMessageClient;
@@ -63,6 +66,8 @@ public class OnlineTaskSv extends BaseService{
 	@Autowired
 	private NaAutoGroupCaseDao naAutoGroupCaseDao;
 	
+	@Autowired
+	private AigaBossTestResultDao aigaBossTestResultDao;
 	
 	/**
 	 * @ClassName: OnlineTaskSv :: list
@@ -246,8 +251,8 @@ public class OnlineTaskSv extends BaseService{
 			subTask.setTaskName(onlineTaskRequest.getTaskName());
 			subTask.setParentTaskId(onlineTaskRequest.getParentTaskId());
 			subTask.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTask.setTaskType(1L);
-			subTask.setDealState(1L);
+			subTask.setTaskType(CheckAcceptEnum.SubTaskType_two.getValue());
+			subTask.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			subTask.setAssignDate(new Date());
 			
 			//创建自动化用例类型子任务--自动生成
@@ -255,16 +260,16 @@ public class OnlineTaskSv extends BaseService{
 			subTaskAuto.setTaskName(onlineTaskRequest.getTaskName()+"_自动化");
 			subTaskAuto.setParentTaskId(onlineTaskRequest.getParentTaskId());
 			subTaskAuto.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTaskAuto.setTaskType(2L);
-			subTaskAuto.setDealState(1L);
+			subTaskAuto.setTaskType(CheckAcceptEnum.SubTaskType_three.getValue());
+			subTaskAuto.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			subTaskAuto.setAssignDate(new Date());
 			//创建用例组类型子任务--自动生成
 			NaOnlineTaskDistribute subTaskGroup = new NaOnlineTaskDistribute();
 			subTaskGroup.setTaskName(onlineTaskRequest.getTaskName()+"_用例组");
 			subTaskGroup.setParentTaskId(onlineTaskRequest.getParentTaskId());
 			subTaskGroup.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTaskGroup.setTaskType(3L);
-			subTaskGroup.setDealState(1L);
+			subTaskGroup.setTaskType(CheckAcceptEnum.SubTaskType_one.getValue());
+			subTaskGroup.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			subTaskGroup.setAssignDate(new Date());
 			
 			NaOnlineTaskDistribute response = naOnlineTaskDistributeDao.findOne(onlineTaskRequest.getParentTaskId());
@@ -287,8 +292,8 @@ public class OnlineTaskSv extends BaseService{
 			planResult.setCreateDate(new Date());
 			planResult.setOpId(onlineTaskRequest.getDealOpId());
 			planResult.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResult.setDealType((byte) 2);//手工用例
-			planResult.setState((byte) 0);
+			planResult.setDealType(CheckAcceptEnum.SubTaskType_two.getValue());//手工用例
+			planResult.setState(CheckAcceptEnum.ResultStatus_new.getValue());
 			planResult.setTaskId(subTask.getTaskId());
 			naOnlineTaskResultDao.save(planResult);
 			
@@ -297,16 +302,16 @@ public class OnlineTaskSv extends BaseService{
 			planResultAuto.setCreateDate(new Date());
 			planResultAuto.setOpId(onlineTaskRequest.getDealOpId());
 			planResultAuto.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultAuto.setDealType((byte) 1);//自动化用例
-			planResultAuto.setState((byte) 0);
+			planResultAuto.setDealType(CheckAcceptEnum.SubTaskType_three.getValue());//自动化用例
+			planResultAuto.setState(CheckAcceptEnum.ResultStatus_new.getValue());
 			
 			//创建用例组类型子任务结果
 			NaOnlineTaskResult planResultGroup = new NaOnlineTaskResult();
 			planResultGroup.setCreateDate(new Date());
 			planResultGroup.setOpId(onlineTaskRequest.getDealOpId());
 			planResultGroup.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultGroup.setDealType((byte) 0);//用例组
-			planResultGroup.setState((byte) 0);//未处理
+			planResultGroup.setDealType(CheckAcceptEnum.SubTaskType_one.getValue());//用例组
+			planResultGroup.setState(CheckAcceptEnum.ResultStatus_new.getValue());//未处理
 			
 			//将选中用例集下手工用例关联到回归子任务处理结果表
 			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
@@ -395,5 +400,13 @@ public class OnlineTaskSv extends BaseService{
 		return responses;
 	}
 
+
+	public Object getOtherTaskInfo(Long onlinePlan) {
+		if(onlinePlan==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
+		}		
+		return naOnlineTaskDistributeDao.getOtherTaskInfo( onlinePlan);
+	}
+	
 }
 

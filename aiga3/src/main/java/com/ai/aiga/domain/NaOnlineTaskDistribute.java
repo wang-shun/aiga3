@@ -127,7 +127,7 @@ public class NaOnlineTaskDistribute  implements java.io.Serializable {
     public void setAssignId(Long assignId) {
         this.assignId = assignId;
     }
-    @Temporal(TemporalType.TIMESTAMP)
+
     @Column(name="ASSIGN_DATE", length=7)
     public Date getAssignDate() {
         return this.assignDate;

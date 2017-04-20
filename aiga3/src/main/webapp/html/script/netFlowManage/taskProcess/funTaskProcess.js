@@ -9,6 +9,8 @@ define(function(require, exports, module) {
 
 	srvMap.add("caseResultList", pathAlias + "funTaskList.json", "accept/subTask/caseResult");
 
+	srvMap.add("autoResultList", pathAlias + "funTaskList.json", "accept/subTask/autoResult");
+
 	srvMap.add("submitRst", pathAlias + "funTaskList.json", "accept/subTask/caseResultSave");
 
 
@@ -74,14 +76,14 @@ define(function(require, exports, module) {
 					return "未处理";
 				} else if (value == 1) {
 					return "处理完成";
-				}  else {
+				} else {
 					return "未定义";
 				}
 			});
 		},
 		getFunTaskList: function(cmd) {
 			var self = this;
-			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd+"&taskType=1", function(json, status) {
+			Rose.ajax.postJson(srvMap.get('funTaskList'), cmd + "&taskType=1", function(json, status) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.funTaskList);
 					console.log(json.data)
@@ -121,7 +123,7 @@ define(function(require, exports, module) {
 					_modal.modal('show');
 					var cmd = data.taskId;
 					self.getTaskProcessList(cmd);
-					self.saveResult(cmd);
+					self.saveResult(cmd,data.taskType);
 				}
 			});
 		},
@@ -161,25 +163,44 @@ define(function(require, exports, module) {
 			});
 		},
 
-		getTaskProcessList: function(cmd) {
+		getTaskProcessList: function(cmd, taskType) {
 			var self = this;
 			var _table = $(Dom.taskProcessList);
 			cmd = "taskId=" + cmd;
-			Rose.ajax.postJson(srvMap.get('caseResultList'), cmd, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.taskProcessList);
-					console.log(json.data)
-					_table.html(template(json.data.content));
-					var da=json.data.content;
-					var i=0
-					_table.find("tbody").find("tr").each(function(){
-						var tdArr = $(this).children();
-						tdArr.eq(1).find("select").val(da[i].result);
-						i++;
-					});
+			if (taskType == 1) {
+				Rose.ajax.postJson(srvMap.get('caseResultList'), cmd, function(json, status) {
+					if (status) {
+						var template = Handlebars.compile(Tpl.taskProcessList);
+						console.log(json.data)
+						_table.html(template(json.data.content));
+						var da = json.data.content;
+						var i = 0
+						_table.find("tbody").find("tr").each(function() {
+							var tdArr = $(this).children();
+							tdArr.eq(1).find("select").val(da[i].result);
+							i++;
+						});
 
-				}
-			});
+					}
+				});
+			} else {
+				Rose.ajax.postJson(srvMap.get('autoResultList'), cmd, function(json, status) {
+					if (status) {
+						var template = Handlebars.compile(Tpl.taskProcessList);
+						console.log(json.data)
+						_table.html(template(json.data.content));
+						var da = json.data.content;
+						var i = 0
+						_table.find("tbody").find("tr").each(function() {
+							var tdArr = $(this).children();
+							tdArr.eq(1).find("select").val(da[i].result);
+							i++;
+						});
+
+					}
+				});
+			}
+
 		},
 
 

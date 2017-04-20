@@ -28,8 +28,8 @@ public enum CheckAcceptEnum {
 	
 	//子任务结果状态
 	ResultStatus_new(0L,"未处理"),
-	ResultStatus_run(0L,"处理中"),
-	ResultStatus_finish(0L,"处理完");
+	ResultStatus_run(1L,"处理中"),
+	ResultStatus_finish(2L,"处理完");
 	
 	private Long value;
     private String show;
@@ -40,11 +40,14 @@ public enum CheckAcceptEnum {
 	}
 	
 	public Long getValue() {
-        return value;
-    }
-
-    public String getShow() {
-        return show;
-    }
+		return value;
+	}
+	
+	public String getShow() {
+		return show;
+	}
+	
+	  
+	
 }
 

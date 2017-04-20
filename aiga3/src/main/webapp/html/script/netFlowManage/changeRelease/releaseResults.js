@@ -103,7 +103,7 @@ define(function(require, exports, module) {
                     	self.queTable3(data.planId);
                     	self.queTable4(data.planId);
                     	self.queTable5(data.planId);
-                    	self.daoRu(data.planId)
+                    	self.daoRu(data.planId);
                     });
 
                     

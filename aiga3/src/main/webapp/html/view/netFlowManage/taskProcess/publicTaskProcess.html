@@ -1,4 +1,4 @@
-<div id="Page_taskProcess">
+<div id="Page_publicTaskProcess">
     <div class="box">
         <form id="Js_queryPublicTaskForm">
             <div class="box-header with-border">
@@ -87,163 +87,163 @@
             </div>
         </div>
     </div>
-</div>
-<!--新增和修改弹出框 -->
-<div class="modal fade" id="modal_testReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">新增测试报告</h4>
-            </div>
-            <div id="JS_testReportForm">
-                <div class="modal-body">
+    <!--新增和修改弹出框 -->
+    <div class="modal fade" id="modal_testReport" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">新增测试报告</h4>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" name="cancel" id="JS_AutoCaseTempReset">取消</button>
-                    <button type="button" class="btn btn-primary" name="save">保存</button>
+                <div id="JS_testReportForm">
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" name="cancel" id="JS_AutoCaseTempReset">取消</button>
+                        <button type="button" class="btn btn-primary" name="save">保存</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <script id="TPL_testReportForm" type="text/x-handlebars-template">
+        <form name="addFaultForm">
+            <div class="col-md-12">
+                <div class="col-md-4 form-group">
+                    <label class="control-label">变更计划名称<i class="text-red">* </i></label>
+                    <select name="onlinePlan" class="form-control input-sm" data-url="getOtherPlan" data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName" required>
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">任务名称<i class="text-red">* </i></label>
+                    <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo"  data-idkey="taskId" data-namekey="taskName" required>
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">子任务名称<i class="text-red">* </i></label>
+                    <select name="planId" class="form-control input-sm" required>
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">测试范围</label>
+                    <input type="text" class="form-control input-sm" value="{{testRemark}}" name="testRemark">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">缺陷数量</label>
+                    <input type="text" class="form-control input-sm " value="{{bugCount}}" name="bugCount">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">是否解决</label>
+                    <select name="ifSolve" class="form-control select2 input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">缺陷状态</label>
+                    <input type="text" class="form-control input-sm " name="bugStatus" value="{{bugStatus}}">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label class="control-label">具备上线条件</label>
+                    <select name="onlineCondition" class="form-control select2 input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="control-label">缺陷具体描述</label>
+                    <textarea class="form-control" name="bugRemark">{{bugRemark}}</textarea>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="control-label">问题原因</label>
+                    <textarea class="form-control" name="reason">{{reason}}</textarea>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="control-label">解决方法</label>
+                    <textarea class="form-control" name="solution">{{solution}}</textarea>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label class="control-label">备注</label>
+                    <textarea class="form-control" name="remark">{{remark}}</textarea>
+                </div>
+            </div>
+        </form>
+    </script>
+    <script id="TPL_publicTaskList" type="text/x-handlebars-template">
+        <table class="table table-condensed table-hover table-bordered dataTable" style="width: 2500px; white-space: nowrap;overflow: hidden; text-overflow:ellipsis">
+            <thead>
+                <tr>
+                    <th class="iCheckbox"></th>
+                    <th>变更计划名称</th>
+                    <th>任务名称</th>
+                    <th>子任务名称</th>
+                    <th>上线时间</th>
+                    <th>测试范围</th>
+                    <th>执行测试时长</th>
+                    <th>总耗时长</th>
+                    <th>分析时长</th>
+                    <th>执行次数</th>
+                    <th>发现缺陷个数</th>
+                    <th>缺陷具体描述</th>
+                    <th>问题原因</th>
+                    <th>解决方法</th>
+                    <th>是否解决</th>
+                    <th>缺陷状态</th>
+                    <th>具备上线条件</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this}}
+                <tr>
+                    <td>
+                        <input type="radio" class="minimal" value="{{resultId}}" name="resultId">
+                    </td>
+                    <td title="{{onlinePlanName}}">
+                        <input type="hidden" name="onlinePlanId" value="{{onlinePlanId}}">{{onlinePlanName}}</td>
+                    <td title="{{taskName}}">
+                        <input type="hidden" name="taskId" value="{{taskId}}">{{taskName}}</td>
+                    <td title="{{bossName}}">
+                        {{shrink bossName 15}}</td>
+                    <td>
+                        <input type="hidden" name="onlineTime" value="{{onlineTime}}">{{onlineTime}}</td>
+                    <td title="{{testRemark}}">
+                        <input type="hidden" name="testRemark" value="{{testRemark}}">{{shrink testRemark 10}}</td>
+                    <td>
+                        <input type="hidden" name="execTimeCount" value="{{execTimeCount}}">{{execTimeCount}}</td>
+                    <td>
+                        <input type="hidden" name="totalTimeCount" value="{{totalTimeCount}}">{{totalTimeCount}}</td>
+                    <td>
+                        <input type="hidden" name="analyTimeCount" value="{{analyTimeCount}}">{{analyTimeCount}}</td>
+                    <td>
+                        <input type="hidden" name="execCount" value="{{execCount}}">{{execCount}}</td>
+                    <td>
+                        <input type="hidden" name="bugCount" value="{{bugCount}}">{{bugCount}}</td>
+                    <td title="{{bugRemark}}">
+                        <input type="hidden" name="bugRemark" value="{{bugRemark}}">{{shrink bugRemark 10}}</td>
+                    <td title="{{reason}}">
+                        <input type="hidden" name="reason" value="{{reason}}">{{shrink reason 10}}</td>
+                    <td title="{{solution}}">
+                        <input type="hidden" name="solution" value="{{solution}}">{{solution}}</td>
+                    <td>
+                        <input type="hidden" name="ifSolve" value="{{ifSolve}}">{{transformatIf ifSolve}}</td>
+                    <td>
+                        <input type="hidden" name="bugStatus" value="{{bugStatus}}">{{bugStatus}}</td>
+                    <td>
+                        <input type="hidden" name="onlineCondition" value="{{onlineCondition}}">{{transformatIf onlineCondition}}</td>
+                    <td title="{{remark}}">
+                        <input type="hidden" name="remark" value="{{remark}}">{{shrink remark 10}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </script>
 </div>
-<script id="TPL_testReportForm" type="text/x-handlebars-template">
-    <form name="addFaultForm">
-        <div class="col-md-12">
-            <div class="col-md-4 form-group">
-                <label class="control-label">变更计划名称<i class="text-red">* </i></label>
-                <select name="onlinePlan" class="form-control input-sm" data-url="getOtherPlan" data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName" required>
-                    <option value="">请选择</option>
-                </select>
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="control-label">任务名称<i class="text-red">* </i></label>
-                <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-subname="planId" data-idkey="taskId" data-namekey="taskName" required>
-                    <option value="">请选择</option>
-                </select>
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="control-label">子任务名称<i class="text-red">* </i></label>
-                <select name="planId" class="form-control input-sm" required>
-                    <option value="">请选择</option>
-                </select>
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="control-label">测试范围</label>
-                <input type="text" class="form-control input-sm" value="{{testRemark}}" name="testRemark">
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="control-label">缺陷数量</label>
-                <input type="text" class="form-control input-sm " value="{{bugCount}}" name="bugCount">
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="control-label">是否解决</label>
-                <select name="ifSolve" class="form-control select2 input-sm">
-                    <option value="">请选择</option>
-                    <option value="1">是</option>
-                    <option value="2">否</option>
-                </select>
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="control-label">缺陷状态</label>
-                <input type="text" class="form-control input-sm " name="bugStatus" value="{{bugStatus}}">
-            </div>
-            <div class="col-md-4 form-group">
-                <label class="control-label">具备上线条件</label>
-                <select name="onlineCondition" class="form-control select2 input-sm">
-                    <option value="">请选择</option>
-                    <option value="1">是</option>
-                    <option value="2">否</option>
-                </select>
-            </div>
-            <div class="col-md-12 form-group">
-                <label class="control-label">缺陷具体描述</label>
-                <textarea class="form-control" name="bugRemark">{{bugRemark}}</textarea>
-            </div>
-            <div class="col-md-12 form-group">
-                <label class="control-label">问题原因</label>
-                <textarea class="form-control" name="reason">{{reason}}</textarea>
-            </div>
-            <div class="col-md-12 form-group">
-                <label class="control-label">解决方法</label>
-                <textarea class="form-control" name="solution">{{solution}}</textarea>
-            </div>
-            <div class="col-md-12 form-group">
-                <label class="control-label">备注</label>
-                <textarea class="form-control" name="remark">{{remark}}</textarea>
-            </div>
-        </div>
-    </form>
-</script>
-<script id="TPL_publicTaskList" type="text/x-handlebars-template">
-    <table class="table table-condensed table-hover table-bordered dataTable" style="width: 2500px; white-space: nowrap;overflow: hidden; text-overflow:ellipsis">
-        <thead>
-            <tr>
-                <th class="iCheckbox"></th>
-                <th>变更计划名称</th>
-                <th>任务名称</th>
-                <th>子任务名称</th>
-                <th>上线时间</th>
-                <th>测试范围</th>
-                <th>执行测试时长</th>
-                <th>总耗时长</th>
-                <th>分析时长</th>
-                <th>执行次数</th>
-                <th>发现缺陷个数</th>
-                <th>缺陷具体描述</th>
-                <th>问题原因</th>
-                <th>解决方法</th>
-                <th>是否解决</th>
-                <th>缺陷状态</th>
-                <th>具备上线条件</th>
-                <th>备注</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each this}}
-            <tr>
-                <td>
-                    <input type="radio" class="minimal" value="{{resultId}}" name="resultId">
-                </td>
-                <td title="{{onlinePlanName}}">
-                    <input type="hidden" name="onlinePlanId" value="{{onlinePlanId}}">{{onlinePlanName}}</td>
-                <td title="{{taskName}}">
-                    <input type="hidden" name="taskId" value="{{taskId}}">{{taskName}}</td>
-                <td title="{{bossName}}">
-                    {{shrink bossName 15}}</td>
-                <td>
-                    <input type="hidden" name="onlineTime" value="{{onlineTime}}">{{onlineTime}}</td>
-                <td title="{{testRemark}}">
-                    <input type="hidden" name="testRemark" value="{{testRemark}}">{{shrink testRemark 10}}</td>
-                <td>
-                    <input type="hidden" name="execTimeCount" value="{{execTimeCount}}">{{execTimeCount}}</td>
-                <td>
-                    <input type="hidden" name="totalTimeCount" value="{{totalTimeCount}}">{{totalTimeCount}}</td>
-                <td>
-                    <input type="hidden" name="analyTimeCount" value="{{analyTimeCount}}">{{analyTimeCount}}</td>
-                <td>
-                    <input type="hidden" name="execCount" value="{{execCount}}">{{execCount}}</td>
-                <td>
-                    <input type="hidden" name="bugCount" value="{{bugCount}}">{{bugCount}}</td>
-                <td title="{{bugRemark}}">
-                    <input type="hidden" name="bugRemark" value="{{bugRemark}}">{{shrink bugRemark 10}}</td>
-                <td title="{{reason}}">
-                    <input type="hidden" name="reason" value="{{reason}}">{{shrink reason 10}}</td>
-                <td title="{{solution}}">
-                    <input type="hidden" name="solution" value="{{solution}}">{{solution}}</td>
-                <td>
-                    <input type="hidden" name="ifSolve" value="{{ifSolve}}">{{transformatIf ifSolve}}</td>
-                <td>
-                    <input type="hidden" name="bugStatus" value="{{bugStatus}}">{{bugStatus}}</td>
-                <td>
-                    <input type="hidden" name="onlineCondition" value="{{onlineCondition}}">{{transformatIf onlineCondition}}</td>
-                <td title="{{remark}}">
-                    <input type="hidden" name="remark" value="{{remark}}">{{shrink remark 10}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</script>
 <script>
 seajs.use("script/netFlowManage/taskProcess/publicTaskProcess.js", function(Query) {
     Query.init();

@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     var Utils = require("global/utils.js");
 
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
-    var Page = Utils.initPage('changePlanStart');
+    var Page = Utils.initPage('changeplanStart');
 
     // 路径重命名
     var pathAlias = "netFlowManage/changePlan/changePlanStart/";
@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     //获取编译发布结果列表
     srvMap.add("getPublishResultList", pathAlias + "getPublishResultList.json", "accept/changePlanRun/compileList");
     //下拉菜单获取所有处理人
-    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/changePlanRun/createOpId");
+    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
     //启动变更的接口
     srvMap.add("startChange", pathAlias + "retMessage.json", "accept/changePlanRun/changStart");
     //启动上线获取验收任务列表接口
@@ -35,19 +35,6 @@ define(function(require, exports, module) {
     //     getPublishResultList: $("#TPL_getPublishResultList").html()
     // };
 
-
-    // 容器对象
-    var Dom = {
-        queryChangePlanForm: '#JS_queryChangePlanForm',
-        getChangePlanList: '#JS_getChangePlanList',
-        getAutoResultList: '#JS_getAutoResultListC',
-        getAutoResultModal: '#JS_getAutoResultModal',
-        saveTaskResultForm: '#JS_saveTaskResultForm',
-        getTaskResultList: '#JS_getTaskResultList',
-        getTaskResultModal: '#JS_getTaskResultModal',
-        getPublishResultList: '#JS_getPublishResultList',
-        getPublishResultModal: '#JS_getPublishResultModal'
-
     // // 容器对象
     // var Dom = {
     //     queryChangePlanForm: '#JS_queryChangePlanForm',
@@ -59,7 +46,6 @@ define(function(require, exports, module) {
     //     getTaskResultModal: '#Modal_getTaskResultModal',
     //     getPublishResultList: '#JS_getPublishResultList',
     //     getPublishResultModal: '#Modal_getPublishResultModal'
-
 
     // };
 
@@ -82,7 +68,7 @@ define(function(require, exports, module) {
         // 按条件查询
         queryChangePlanForm: function() {
             var self = this;
-            var _form = $(Dom.queryChangePlanForm);
+            var _form = Page.findId('queryChangePlanForm');
             Utils.setSelectData(_form);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
@@ -100,42 +86,19 @@ define(function(require, exports, module) {
             var _dom = Page.findId('getChangePlanList');
             var _domPagination = _dom.find("[name='pagination']");
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-
-            Rose.ajax.postJson(srvMap.get('getChangePlanList'), _cmd, function(json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getChangePlanList);
-                    $(Dom.getChangePlanList).html(template(json.data))
-
             Utils.getServerPage(srvMap.get('getChangePlanList'), _cmd, function(json) {
                 window.XMS.msgbox.hide();
                 var template = Handlebars.compile(Page.findTpl('getChangePlanList'));
                 _dom.find("[name='content']").html(template(json.data.content))
-
-
-
-                    self.getAutoResultList();
-                    self.changePlanStart();
-                    self.getPublishResultList();
-                    Utils.eventTrClickCallback($(Dom.getChangePlanList))
 
                 self.getAutoResultList();
                 self.changePlanStart();
                 self.getPublishResultList();
                 Utils.eventTrClickCallback(_dom)
 
-
-
-                    //设置分页
-                    self.initPaging($(Dom.getChangePlanList), 8, true)
-
-                }
-            });
-
                 //设置分页
                 //self.initPaging(Page.findId('getChangePlanList'), 8, true)
             }, _domPagination);
-
 
         },
         // 查询自动化执行结果详细信息
@@ -197,7 +160,7 @@ define(function(require, exports, module) {
         getTaskResultList: function(cmd, data) {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            var _dom = Page.findId('getTaskResultList');    
+            var _dom1 = Page.findId('getTaskResultList');    
             var _domPagination = _dom1.find("[name='pagination']");        
             Utils.getServerPage(srvMap.get('getTaskResultList'), cmd, function(json) {
                     window.XMS.msgbox.hide();
@@ -206,11 +169,11 @@ define(function(require, exports, module) {
                     _form.find("[name='onlinePlan']").val(data.onlinePlan);
                     _form.find("[name='onlinePlanName']").val(data.onlinePlanName);
                     var template = Handlebars.compile(Page.findTpl('getTaskResultList'));
-                    _dom.find("[name='content']").html(template(json.data.content));
+                    _dom1.find("[name='content']").html(template(json.data.content));
                     self.saveTaskResult(data);
                     self.delTaskResult(data);
                     self.updateTaskResult(data);
-                    Utils.eventTrClickCallback(_dom)
+                    Utils.eventTrClickCallback(_dom1)
                         //设置分页
                     //self.initPaging(_dom, 5, true);
             },_domPagination);
@@ -280,7 +243,7 @@ define(function(require, exports, module) {
         //保存验收任务分派
         saveTaskResult: function(data) {
             var self = this;
-            var _form = $(Dom.saveTaskResultForm);
+            var _form = Page.findId('saveTaskResultForm');
             var _save = _form.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {
@@ -316,7 +279,7 @@ define(function(require, exports, module) {
         //删除验收任务分派
         delTaskResult: function(data) {
             var self = this;
-            var _dom = $(Dom.getTaskResultList);
+            var _dom = Page.findId('getTaskResultList');
             var _del = _dom.find("[name='del']");
             _del.unbind('click');
             _del.bind('click', function() {
@@ -340,8 +303,8 @@ define(function(require, exports, module) {
         //修改验收任务
         updateTaskResult: function(data) {
             var self = this;
-            var _dom = $(Dom.getTaskResultList);
-            var _form = $(Dom.saveTaskResultForm);
+            var _dom = Page.findId('getTaskResultList');
+            var _form = Page.findId('saveTaskResultForm');
             var _update = _dom.find("[name='update']");
             _update.unbind('click');
             _update.bind('click', function() {

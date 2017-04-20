@@ -237,6 +237,7 @@ define(function(require, exports, module) {
             var _saveBtn = _form.find("[name='add']");
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
+            	alert();
             	var a=_form.find("[name='environmentType']").val();
             	var cmd = "file="+_form.find("[name='fileName']").val()+ "&planId=" + planId;;
             	switch(a){

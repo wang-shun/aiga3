@@ -25,6 +25,7 @@ import com.ai.aiga.domain.NaPlanCaseResultExpSum;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.enums.CheckAcceptEnum;
 import com.ai.aiga.view.json.TaskRequireRequest;
 import com.ctc.wstx.util.StringUtil;
 import com.huawei.msp.mmap.server.TaskMessageClient;
@@ -299,7 +300,7 @@ public class PerformanceTaskSv extends BaseService{
 		}else{
 			NaOnlineTaskDistribute distribute = naOnlineTaskDistributeDao.findOne(taskId);
 			distribute.setDealOpId(dealOpId);
-			distribute.setDealState(1L);
+			distribute.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			distribute.setAssignDate(new Date());
 			naOnlineTaskDistributeDao.save(distribute);
 			
@@ -312,7 +313,7 @@ public class PerformanceTaskSv extends BaseService{
 				NaOnlineTaskResult naOnlineTaskResult = new NaOnlineTaskResult();
 				naOnlineTaskResult.setCreateDate(new Date());
 				naOnlineTaskResult.setOpId(dealOpId);
-				naOnlineTaskResult.setState((byte) 1);
+				naOnlineTaskResult.setState(CheckAcceptEnum.ResultStatus_run.getValue());
 				naOnlineTaskResult.setTaskId(taskId);
 				naOnlineTaskResultDao.save(naOnlineTaskResult);
 			}
@@ -364,7 +365,8 @@ public class PerformanceTaskSv extends BaseService{
 		}
 		
 		String sql = "select b.task_id, b.task_name, b.task_type, b.deal_state, a.name as opName,"
-				+ " b.create_date, b.assign_date from na_online_task_distribute b left join aiga_staff a"
+				+ " to_char(b.create_date,'YYYY-MM-DD HH24:MI:SS'), to_char(b.assign_date,'YYYY-MM-DD HH24:MI:SS')"
+				+ " from na_online_task_distribute b left join aiga_staff a"
 				+ " on a.staff_id = b.deal_op_id where b.parent_task_id = "+taskId+" order by  b.create_date desc";
 		
 		List<String> list = new ArrayList<String>();

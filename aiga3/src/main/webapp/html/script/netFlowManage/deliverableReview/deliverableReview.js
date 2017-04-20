@@ -168,6 +168,11 @@ define(function(require,exports,module){
 						Utils.eventTrClickCallback($(Dom.getDeliverableReviewConclusion), function() {
 
 						})
+						if(data.planState=="3" || data.planState=="4"){
+							$("#JS_saveConclusion").attr("disabled", true);
+						}else{
+							$("#JS_saveConclusion").removeAttr("disabled");
+						}
 						$("#JS_saveConclusion").unbind('click');
 						//点击保存
 						$("#JS_saveConclusion").bind('click',function(){
@@ -240,6 +245,11 @@ define(function(require,exports,module){
 						})
 						// 分页
 						self.initPaging($(Dom.getModelList),10);
+						if(data.planState=="3" || data.planState=="4"){
+							$("#JS_saveModel").attr("disabled", true);
+						}else{
+							$("#JS_saveModel").removeAttr("disabled");
+						}
 						$("#JS_saveModel").unbind('click');
 						//点击保存
 						$("#JS_saveModel").bind('click',function(){
@@ -305,6 +315,11 @@ define(function(require,exports,module){
 						})
 						// 分页
 						self.initPaging($(Dom.getTestList),10);
+						if(data.planState=="3" || data.planState=="4"){
+							$("#JS_saveTest").attr("disabled", true);
+						}else{
+							$("#JS_saveTest").removeAttr("disabled");
+						}
 						$("#JS_saveTest").unbind('click');
 						//点击保存
 						$("#JS_saveTest").bind('click',function(){

@@ -803,6 +803,14 @@ define(function(require, exports, module) {
                 }
 
             });
+            Handlebars.registerHelper('getCaseState', function(value, fn) {
+                if (value == "0") {
+                    return "未处理";
+                }
+                if (value == "1") {
+                    return "处理完";
+                }
+            });
             Handlebars.registerHelper('TaskTypes', function(value, fn) {
                 if (value == "4") {
                     return "按需测试";

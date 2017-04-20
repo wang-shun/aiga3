@@ -775,7 +775,7 @@ define(function(require, exports, module) {
                 if (value == "2") {
                     return "自动化用例";
                 }
-                if (value == "3") {
+                if (value == "0") {
                     return "用例组";
                 }
             });

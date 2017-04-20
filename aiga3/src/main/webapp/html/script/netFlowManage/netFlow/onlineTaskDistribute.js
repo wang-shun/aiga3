@@ -788,6 +788,21 @@ define(function(require, exports, module) {
                     return "用例组";
                 }
             });
+            Handlebars.registerHelper('getImportant', function(value, fn) {
+                if (value == "1") {
+                    return "一级用例";
+                }
+                if (value == "2") {
+                    return "二级用例";
+                }
+                if (value == "3") {
+                    return "三级用例";
+                }
+                if (value == "4") {
+                    return "四级用例";
+                }
+
+            });
             Handlebars.registerHelper('TaskTypes', function(value, fn) {
                 if (value == "4") {
                     return "按需测试";

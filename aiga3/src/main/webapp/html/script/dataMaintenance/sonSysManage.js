@@ -17,12 +17,12 @@ define(function(require, exports, module) {
 	//归属系统
 	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
 
-	// 模板对象
+	/*// 模板对象
 	var Tpl = {
 		getSonSysList: require('tpl/dataMaintenance/getSonSysList.tpl')
 	};
-
-	// 容器对象
+*/
+	/*// 容器对象
 	var Dom = {
 		queryCaseTempForm: '#JS_queryCaseTempForm',
 		getsubInfoList: '#JS_getsubInfoList',
@@ -30,10 +30,7 @@ define(function(require, exports, module) {
 		addsubSysInfoModel: '#JS_addsubSysInfoModel',
 		//新增表单
 		addSysInfo: '#JS_addSysInfo',
-
-
-
-	};
+	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -49,7 +46,7 @@ define(function(require, exports, module) {
 		// 按条件查询
 		queryCaseTempForm: function() {
 			var self = this;
-			var _form = $(Dom.queryCaseTempForm);
+			var _form = Page.findId('queryCaseTempForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -78,7 +75,7 @@ define(function(require, exports, module) {
 				self.delSubCaseSysInfo();
 				//新增条目
 				self.addSubSysInfo();
-				Utils.eventTrClickCallback($(Dom.getsubInfoList));
+				Utils.eventTrClickCallback(_dom);
 			}, _domPagination);
 
 
@@ -86,7 +83,7 @@ define(function(require, exports, module) {
 		// 删除所选条目
 		delSubCaseSysInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getsubInfoList);
+			var _dom = Page.findId('getsubInfoList');
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -110,22 +107,22 @@ define(function(require, exports, module) {
 		//新增子类
 		addSubSysInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getsubInfoList);
+			var _dom = Page.findId('getsubInfoList');
 			var _add = _dom.find("[name='add']");
 
 			_add.unbind('click');
 			_add.bind('click', function() {
 				// 弹出层
-				$(Dom.addsubSysInfoModel).modal('show');
+				Page.findModal('addsubSysInfoModel').modal('show');
 				//组件表单校验初始化
-				var _form = $(Dom.addSysInfo);
+				var _form = Page.findModal('addSysInfo');
 				Utils.setSelectData(_form);
-				$(Dom.addsubSysInfoModel).on('hide.bs.modal', function() {
+				Page.findModal('addsubSysInfoModel').on('hide.bs.modal', function() {
 					Utils.resetForm('#JS_addSysInfo');
 				});
 				// 表单提交
-				$("#addSysInfoButton").unbind('click');
-				$("#addSysInfoButton").bind('click', function() {
+				Page.findModal('addsubSysInfoModel').find("#addSysInfoButton").unbind('click');
+				Page.findModal('addsubSysInfoModel').find("#addSysInfoButton").bind('click', function() {
 					Utils.checkForm(_form, function() {
 						var cmd = _form.serialize();
 						console.log(cmd);
@@ -134,7 +131,7 @@ define(function(require, exports, module) {
 								// 添加用户成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
 									// 关闭弹出层
-								$(Dom.addsubSysInfoModel).modal('hide');
+								Page.findModal('addsubSysInfoModel').modal('hide');
 
 								setTimeout(function() {
 									self.getCaseTempList();

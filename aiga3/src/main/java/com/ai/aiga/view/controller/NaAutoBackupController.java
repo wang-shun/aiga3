@@ -13,6 +13,7 @@ import com.ai.aiga.domain.NaAutoPropertyConfig;
 import com.ai.aiga.domain.NaAutoPropertyCorrelation;
 import com.ai.aiga.service.NaAutoBackupFrontSv;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.process.jta.task.impl.AutoBackupTask;
 
 @Controller
 public class NaAutoBackupController {
@@ -39,6 +40,8 @@ public class NaAutoBackupController {
 	@RequestMapping(path = "/sys/backup/addBackup")
 	public @ResponseBody JsonBean saveBackupDeal(String propertyResource,String resourceValue){
 		naAutoBackupFrontSv.saveBackupDeal(propertyResource, resourceValue);
+		String [] a = new String[]{"1"};
+		AutoBackupTask.main(a);
 		return JsonBean.success;
 	}
 	

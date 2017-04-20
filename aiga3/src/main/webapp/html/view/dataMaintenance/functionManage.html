@@ -116,7 +116,7 @@
                         <button type="button" class="btn btn-primary" name="del"><i class="fa fa-remove"></i> 删除</button>
                     </div>
             </div>
-            <div class="box-body" style="overflow: auto">
+            <div class="box-body table-scrollable">
                 <table class="table table-bordered table-hover" id="funList" style="width: 2160px;">
                     <thead>
                         <tr>
@@ -137,14 +137,10 @@
                         </tr>
                     </thead>
                     <tbody name="content"></tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="6">
-                                <div class="dataTables_paginate" name="pagination"></div>
-                            </td>
-                        </tr>
-                    </tfoot>
                 </table>
+<div class="box-footer no-border">
+                <div class="dataTables_paginate" name="pagination"></div>
+            </div>
             </div>
         </div>
     </div>
@@ -152,7 +148,7 @@
 </div>
 <!-- Modal -->
 <!-- 新增弹框 -->
-<div class="modal fade " id="JS_addFunInfoModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade " id="Modal_addFunInfoModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">

@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 		// 按条件查询
 		queryFunlistForm: function() {
 			var self = this;
-			var _form = $(Dom.queryCaseTempForm);
+			var _form = Page.findId('queryCaseTempForm');
 
 
 
@@ -80,7 +80,7 @@ define(function(require, exports, module) {
 				self.delCaseSysInfo();
 				//新增条目
 				self.addFunInfo();
-				Utils.eventTrClickCallback($(Dom.getFunList));
+				Utils.eventTrClickCallback(_dom);
 			}, _domPagination);
 
 
@@ -89,7 +89,7 @@ define(function(require, exports, module) {
 		// 删除所选条目
 		delCaseSysInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getFunList);
+			var _dom = Page.findId('getFunList');
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -113,21 +113,21 @@ define(function(require, exports, module) {
 		//新增
 		addFunInfo: function() {
 			var self = this;
-			var _dom = $(Dom.getFunList);
+			var _dom = Page.findId('getFunList');
 			var _add = _dom.find("[name='add']");
 			_add.unbind('click');
 			_add.bind('click', function() {
 				// 弹出层
-				$(Dom.addFunInfoModel).modal('show');
+				Page.findModal('addFunInfoModel').modal('show');
 				//组件表单校验初始化
 				var _form = $(Dom.addFunInfo);
 				Utils.setSelectData(_form);
-				$(Dom.addFunInfoModel).on('hide.bs.modal', function() {
+				Page.findModal('addFunInfoModel').on('hide.bs.modal', function() {
 					Utils.resetForm('#addFunInfo');
 				});
 				// 表单提交
-				$("#addFunInfoButton").unbind('click');
-				$("#addFunInfoButton").bind('click', function() {
+				Page.findModal('addFunInfoModel').find("#addFunInfoButton").unbind('click');
+				Page.findModal('addFunInfoModel').find("#addFunInfoButton").bind('click', function() {
 						Utils.checkForm(_form, function() {
 							var cmd = _form.serialize();
 							console.log(cmd);
@@ -136,7 +136,7 @@ define(function(require, exports, module) {
 									// 添加用户成功后，刷新用户列表页
 									XMS.msgbox.show('添加成功！', 'success', 2000)
 										// 关闭弹出层
-									$(Dom.addFunInfoModel).modal('hide');
+									Page.findModal('addFunInfoModel').modal('hide');
 
 									setTimeout(function() {
 										self.getCaseTempList(Data.queryListCmd);

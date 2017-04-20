@@ -1,17 +1,13 @@
 package service;
 
-import java.text.ParseException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.ai.aiga.service.FunctionSv;
-import com.ai.aiga.service.OrganizeSv;
 import com.ai.aiga.service.reviewPlanSv;
-import com.ai.aiga.view.json.OrginazeRequest;
+import com.ai.aiga.service.organize.OrganizeSv;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })

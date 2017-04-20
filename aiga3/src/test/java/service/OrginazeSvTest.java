@@ -9,16 +9,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ai.aiga.service.FunctionSv;
-import com.ai.aiga.service.OrganizeSv;
+//import com.ai.aiga.service.OrganizeSv;
 import com.ai.aiga.service.reviewPlanSv;
-import com.ai.aiga.view.json.OrginazeRequest;
+//import com.ai.aiga.view.json.OrginazeRequest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })
 public class OrginazeSvTest {
 	
-	@Autowired
-	private OrganizeSv  sv;
+	//@Autowired
+	//private OrganizeSv  sv;
 	
 
 //	public void testSave(){
@@ -29,13 +29,13 @@ public class OrginazeSvTest {
 //		sv.saveOrginaze(s);
 //	}
 	
-	public void testDel(){
-		sv.deleteOrginaze(1L);
-	}
-	@Test
-	public void test(){
-			reviewPlanSv sv = new reviewPlanSv();
-			String date = "2017-03-28";
-			sv.returnToADClod(date);
-	}
+//	public void testDel(){
+//		sv.deleteOrginaze(1L);
+//	}
+//	@Test
+//	public void test(){
+//			reviewPlanSv sv = new reviewPlanSv();
+//			String date = "2017-03-28";
+//			sv.returnToADClod(date);
+//	}
 }

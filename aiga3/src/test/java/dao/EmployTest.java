@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ai.aiga.service.TeamInfoSv;
 
 /**
  * @ClassName: EmployTest
@@ -22,7 +21,7 @@ import com.ai.aiga.service.TeamInfoSv;
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })
 public class EmployTest {
 	@Autowired
-	private  TeamInfoSv sv;
+//	private  TeamInfoSv sv;
 	
 	@Test
 	public void test(){

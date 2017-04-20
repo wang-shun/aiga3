@@ -292,8 +292,8 @@ public class OnlineTaskSv extends BaseService{
 			planResult.setCreateDate(new Date());
 			planResult.setOpId(onlineTaskRequest.getDealOpId());
 			planResult.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResult.setDealType(CheckAcceptEnum.SubTaskType_two.getMomo());//手工用例
-			planResult.setState(CheckAcceptEnum.ResultStatus_new.getMomo());
+			planResult.setDealType(CheckAcceptEnum.SubTaskType_two.getValue());//手工用例
+			planResult.setState(CheckAcceptEnum.ResultStatus_new.getValue());
 			planResult.setTaskId(subTask.getTaskId());
 			naOnlineTaskResultDao.save(planResult);
 			
@@ -302,16 +302,16 @@ public class OnlineTaskSv extends BaseService{
 			planResultAuto.setCreateDate(new Date());
 			planResultAuto.setOpId(onlineTaskRequest.getDealOpId());
 			planResultAuto.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultAuto.setDealType(CheckAcceptEnum.SubTaskType_three.getMomo());//自动化用例
-			planResultAuto.setState(CheckAcceptEnum.ResultStatus_new.getMomo());
+			planResultAuto.setDealType(CheckAcceptEnum.SubTaskType_three.getValue());//自动化用例
+			planResultAuto.setState(CheckAcceptEnum.ResultStatus_new.getValue());
 			
 			//创建用例组类型子任务结果
 			NaOnlineTaskResult planResultGroup = new NaOnlineTaskResult();
 			planResultGroup.setCreateDate(new Date());
 			planResultGroup.setOpId(onlineTaskRequest.getDealOpId());
 			planResultGroup.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultGroup.setDealType(CheckAcceptEnum.SubTaskType_one.getMomo());//用例组
-			planResultGroup.setState(CheckAcceptEnum.ResultStatus_new.getMomo());//未处理
+			planResultGroup.setDealType(CheckAcceptEnum.SubTaskType_one.getValue());//用例组
+			planResultGroup.setState(CheckAcceptEnum.ResultStatus_new.getValue());//未处理
 			
 			//将选中用例集下手工用例关联到回归子任务处理结果表
 			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 1L);

@@ -26,8 +26,8 @@ public class NaOnlineTaskResult  implements java.io.Serializable {
      private Long dealId;
      private Long taskId;
      private String result;
-     private Byte state;
-     private Byte dealType;
+     private Long state;
+     private Long dealType;
      private Long autoPlanId;
      private Date createDate;
      private Date doneDate;
@@ -44,7 +44,7 @@ public class NaOnlineTaskResult  implements java.io.Serializable {
     public NaOnlineTaskResult(long dealId) {
         this.dealId = dealId;
     }
-    public NaOnlineTaskResult(Long dealId, Long taskId, String result, Byte state, Byte dealType, Long autoPlanId, Date createDate, Date doneDate, Long opId, Date finishDate, String ext1, String ext2, String ext3) {
+    public NaOnlineTaskResult(Long dealId, Long taskId, String result, Long state, Long dealType, Long autoPlanId, Date createDate, Date doneDate, Long opId, Date finishDate, String ext1, String ext2, String ext3) {
        this.dealId = dealId;
        this.taskId = taskId;
        this.result = result;
@@ -91,20 +91,20 @@ public class NaOnlineTaskResult  implements java.io.Serializable {
     }
     
     @Column(name="STATE", precision=2, scale=0)
-    public Byte getState() {
+    public Long getState() {
         return this.state;
     }
     
-    public void setState(Byte state) {
+    public void setState(Long state) {
         this.state = state;
     }
     
     @Column(name="DEAL_TYPE", precision=2, scale=0)
-    public Byte getDealType() {
+    public Long getDealType() {
         return this.dealType;
     }
     
-    public void setDealType(Byte dealType) {
+    public void setDealType(Long dealType) {
         this.dealType = dealType;
     }
     

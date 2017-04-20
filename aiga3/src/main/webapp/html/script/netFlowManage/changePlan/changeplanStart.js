@@ -27,27 +27,27 @@ define(function(require, exports, module) {
     //删除验收任务
     srvMap.add("delTaskResult", pathAlias + "retMessage.json", "accept/changePlanRun/delete");
 
-    // 模板对象
-    var Tpl = {
-        getChangePlanList: $("#TPL_getChangePlanList").html(),
-        getAutoResultList: $("#TPL_getAutoResultListC").html(),
-        getTaskResultList: $("#TPL_getTaskResultList").html(),
-        getPublishResultList: $("#TPL_getPublishResultList").html()
-    };
+    // // 模板对象
+    // var Tpl = {
+    //     getChangePlanList: $("#TPL_getChangePlanList").html(),
+    //     getAutoResultList: $("#TPL_getAutoResultListC").html(),
+    //     getTaskResultList: $("#TPL_getTaskResultList").html(),
+    //     getPublishResultList: $("#TPL_getPublishResultList").html()
+    // };
 
-    // 容器对象
-    var Dom = {
-        queryChangePlanForm: '#JS_queryChangePlanForm',
-        getChangePlanList: '#JS_getChangePlanList',
-        getAutoResultList: '#JS_getAutoResultListC',
-        getAutoResultModal: '#Modal_getAutoResultModal',
-        saveTaskResultForm: '#JS_saveTaskResultForm',
-        getTaskResultList: '#JS_getTaskResultList',
-        getTaskResultModal: '#Modal_getTaskResultModal',
-        getPublishResultList: '#JS_getPublishResultList',
-        getPublishResultModal: '#Modal_getPublishResultModal'
+    // // 容器对象
+    // var Dom = {
+    //     queryChangePlanForm: '#JS_queryChangePlanForm',
+    //     getChangePlanList: '#JS_getChangePlanList',
+    //     getAutoResultList: '#JS_getAutoResultListC',
+    //     getAutoResultModal: '#Modal_getAutoResultModal',
+    //     saveTaskResultForm: '#JS_saveTaskResultForm',
+    //     getTaskResultList: '#JS_getTaskResultList',
+    //     getTaskResultModal: '#Modal_getTaskResultModal',
+    //     getPublishResultList: '#JS_getPublishResultList',
+    //     getPublishResultModal: '#Modal_getPublishResultModal'
 
-    };
+    // };
 
     var Data = {
         queryListCmd: null,

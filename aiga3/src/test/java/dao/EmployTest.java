@@ -20,7 +20,7 @@ import com.ai.aiga.service.team.TeamInfoSv;
 @ContextConfiguration(locations = { "/spring/applicationContext.xml" })
 public class EmployTest {
 	@Autowired
-	private  TeamInfoSv sv;
+//	private  TeamInfoSv sv;
 	
 	@Test
 	public void test(){

@@ -233,12 +233,15 @@ define(function(require, exports, module) {
          *
          * @method obj 表单父元素
          */
-        setSelectData:function(obj,callback){
+        setSelectData:function(obj,other,callback){
             var self = this;
             obj.find("select").each(function(index) {
                 var _this = $(this);
                 var _url = _this.data("url");
                 var _cmd = _this.data("cmd") || '';
+                if(other){
+                    _cmd += "&" + other;
+                }
                 if(_url){
                     if(callback){
                         self.setSelectHtml(_this,_url,_cmd,callback());

@@ -281,10 +281,10 @@ public class NaAutoBackupFrontSv {
 		}
 		return CfgIdList;
 	}
-	//启动主进程
+	/*//启动主进程
 	public void startBackupMain(){
 		String[] a =new String[]{"1"};
 		AutoBackupTask.main(a);
-	}
+	}*/
 	
 }

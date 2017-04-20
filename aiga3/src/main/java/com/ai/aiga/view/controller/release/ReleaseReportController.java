@@ -29,6 +29,7 @@ import com.ai.aiga.service.TestProcessExcel;
 import com.ai.aiga.service.release.ReleaseReportSv;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.json.ExecutionExceptionExcel;
+import com.ai.aiga.view.json.NaReleaseReportRequest;
 import com.ai.aiga.view.json.OnlineSysReleaseExcel;
 import com.ai.aiga.view.json.OnlineSysReleaseStageExcel;
 import com.ai.aiga.view.json.ScriptExecutionProcessExcel;
@@ -52,13 +53,13 @@ public class ReleaseReportController {
 	public @ResponseBody JsonBean list(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			NaReleaseReport condition,
+			NaReleaseReportRequest condition,
 			NaChangePlanOnile condition1,
 			Long dealOpId
 			) throws ParseException {
 		
 		  JsonBean bean = new JsonBean();
-		bean.setData(releaseReportSv.list(pageNumber, pageSize, condition,condition1,dealOpId));
+		bean.setData(releaseReportSv.list(pageNumber, pageSize, condition,condition1));
 		return bean;
 	}
 	

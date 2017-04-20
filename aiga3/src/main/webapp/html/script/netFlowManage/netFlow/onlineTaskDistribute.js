@@ -14,7 +14,7 @@ define(function(require, exports, module) {
     srvMap.add("getOnlineTaskList", pathAlias + "getOnlineTaskList.json", "accept/onlineTask/list");
     //获取子任务分派列表
     srvMap.add("getOnlineTaskDistributeList", pathAlias + "getOnlineTaskDistributeList.json", "accept/onlineTask/childList");
-    //下拉菜单获取所有用力集
+    //下拉菜单获取所有用例集
     srvMap.add("getCollectIdList", pathAlias + "getCollectIdList.json", "accept/onlineTask/collect");
     //下拉菜单获取所有处理人
     srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
@@ -98,7 +98,7 @@ define(function(require, exports, module) {
         // 按条件查询
         queryOnlineTaskForm: function() {
             var self = this;
-            var _form = $(Dom.queryOnlineTaskForm);
+            var _form = Page.findId('queryOnlineTaskForm');
             Utils.setSelectData(_form);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
@@ -151,16 +151,7 @@ define(function(require, exports, module) {
                                         _dom.html(template(json.data));
                                         // 初始化步骤
                                         Utils.initStep(_modal);
-                                        //加载用例集类型下拉框
-                                        Rose.ajax.postJson(srvMap.get('getCollectIdList'), "caseType=1", function(json, status) {
-                                            if (true) {
-                                                // _dom.find("[name='dealOpId']");
-                                                console.log(json.data);
-                                                var template = Handlebars.compile(Tpl.getCollectId);
-                                                $(Dom.collectIdss).html(template(json.data));
-                                            }
-                                        });
-                                        
+
                                         self.addOnlineTask();
                                         self.updateOnlineTask();
                                         self.delOnlineTask();
@@ -726,16 +717,16 @@ define(function(require, exports, module) {
         },
         registerHelper: function() {
             Handlebars.registerHelper('getState', function(value, fn) {
-                if (value == "0") {
+                if (value == "1") {
                     return "未分派";
                 }
-                if (value == "1") {
+                if (value == "2") {
                     return "处理中";
                 }
-                if (value == "2") {
+                if (value == "3") {
                     return "完成";
                 }
-                if (value == "3") {
+                if (value == "4") {
                     return "不需分派";
                 }
 

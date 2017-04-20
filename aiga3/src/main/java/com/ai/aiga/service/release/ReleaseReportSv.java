@@ -45,6 +45,7 @@ import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.json.ExecutionExceptionExcel;
+import com.ai.aiga.view.json.NaReleaseReportRequest;
 import com.ai.aiga.view.json.OnlineSysReleaseExcel;
 import com.ai.aiga.view.json.OnlineSysReleaseStageExcel;
 import com.ai.aiga.view.json.ScriptExecutionProcessExcel;
@@ -88,7 +89,7 @@ public class ReleaseReportSv extends BaseService{
 	@Autowired
 	private	NaOnlineGeneralStepsDao naOnlineGeneralStepsDao;
 
-	public Object list(int pageNumber, int pageSize, NaReleaseReport condition, NaChangePlanOnile condition1,Long dealOpId)
+	public Object list(int pageNumber, int pageSize, NaReleaseReportRequest condition, NaChangePlanOnile condition1)
 			throws ParseException {
 		List<String> list = new ArrayList<String>();
 		list.add("taskId");
@@ -125,32 +126,26 @@ public class ReleaseReportSv extends BaseService{
 				+ "AND (B.SIGN = 0 OR B.SIGN IS NULL)) C,"
 				+ "na_online_task_result e,na_release_report r where c.task_id = e.task_id(+) "
 				+ "and to_char(c.plan_date, 'YYYY-MM-DD HH24:MI:SS') = to_char(r.release_date(+), 'YYYY-MM-DD HH24:MI:SS') ";
-		if (condition1.getPlanState() != null) {
-			sql += " and c.DEAL_OP_ID=" + dealOpId;
+	
+		
+		
+		if(condition1.getOnlinePlan()!=null&&!condition1.getOnlinePlan().equals("")){
+			sql +=" and c.ONLINE_PLAN="+ condition1.getOnlinePlan();
 		}
-		if (condition1.getPlanState() != null) {
-			sql += " and c.PLAN_STATE=" + condition1.getPlanState();
-		}
-		if (StringUtils.isNotBlank(condition.getOnlinePlanName())) {
-			sql += " and c.ONLINE_PLAN_NAME like '%" + condition.getOnlinePlanName() + "%'";
-
-		}
+		
 		if (StringUtils.isNotBlank(condition.getTaskName())) {
 			sql += " and c.TASK_NAME like '%" + condition.getTaskName() + "%'";
 
 		}
-		if (condition.getStartTime() != null) {
-			sql += " and r.start_time = to_date('" + condition.getStartTime() + "','YYYY-MM-DD HH24:MI:SS')";
+		if (condition.getStartTime() != null&&!condition.getStartTime().equals("")) {
+			sql += " and r.start_time > to_date('" + condition.getStartTime() + "','YYYY-MM-DD HH24:MI:SS')";
+			
+		}
+		if (condition.getFinishTime() != null&&!condition.getFinishTime().equals("")) {
+			sql += " and r.finish_time < to_date('" + condition.getFinishTime() + "','YYYY-MM-DD HH24:MI:SS')";
 
 		}
-		if (condition.getFinishTime() != null) {
-			sql += " and r.finish_time = to_date('" + condition.getFinishTime() + "','YYYY-MM-DD HH24:MI:SS')";
-
-		}
-		/*if (StringUtils.isNotBlank(condition.getApplicationName())) {
-			sql += " and  r.application_name like '%" + condition.getApplicationName() + "%'";
-
-		}*/
+	
 		
 		
 		sql += " order by c.PLAN_DATE desc";
@@ -381,23 +376,20 @@ public class ReleaseReportSv extends BaseService{
 		return releaseMessageDao.search(cons, pageable);
 
 	}
-	public void saveReleaseMessage(NaReleaseMessage request){
+	public NaReleaseMessage saveReleaseMessage(NaReleaseMessage request){
 		 if(request == null){ 
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 			}
-		 NaReleaseMessage naReleaseMessage=releaseMessageDao.findOne(request.getId());
-		   if(naReleaseMessage == null){ 
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		   }
-		   if(naReleaseMessage != null){
+		 NaReleaseMessage naReleaseMessage=new NaReleaseMessage();
+		  
 			   naReleaseMessage.setNewOnlineSituation(request.getNewOnlineSituation());
 			   naReleaseMessage.setTestSituation(request.getTestSituation());
 			   naReleaseMessage.setItem(request.getItem());
 			   naReleaseMessage.setDbScriptSituation(request.getDbScriptSituation());
 			   naReleaseMessage.setVersionSituation(request.getVersionSituation());
 			   
-			   releaseMessageDao.save(naReleaseMessage);
-		   }
+			   return releaseMessageDao.save(naReleaseMessage);
+		  
 		
 	} 
 	

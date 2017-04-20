@@ -111,6 +111,7 @@ define(function(require, exports, module) {
         queryFunTask: function() {
             var self = this;
             var _form = $(Dom.QueryTaskForm);
+            Utils.setSelectData(_form);
             // 表单提交
             _form.find('button[name="query"]').bind('click', function() {
 

@@ -25,7 +25,7 @@ define(function(require, exports, module) {
 
 	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
 
-	// 模板对象
+	/*// 模板对象
 	var Tpl = {
 		getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 	};
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
 		addDataMaintainInfo: "#JS_addDataMaintainInfo",
 		updateDataMaintainModal: "#JS_updateDataMaintainModal",
 		updateMaintainInfo: "#JS_updateDataMaintainInfo",
-	};
+	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -56,7 +56,7 @@ define(function(require, exports, module) {
 		// 按条件查询
 		queryDataMaintainForm: function() {
 			var self = this;
-			var _form = $(Dom.queryDataMaintainForm);
+			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -78,17 +78,16 @@ define(function(require, exports, module) {
 			Utils.getServerPage(srvMap.get('getDataMaintainList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile($("#TPL_getDataMaintainTemp").html());
+				var template = Handlebars.compile(Page.findTpl('getDataMaintainTemp'));
 				_dom.find("[name='content']").html(template(json.data.content));
 				//美化单机
-				Utils.eventTrClickCallback($(Dom.getDataMaintainList));
+				Utils.eventTrClickCallback(_dom);
 				//新增
 				self.addDataMaintain();
 				//删除
 				self.delDataMaintain();
 				//双击修改
-				self.eventDClickCallback($(Dom.getDataMaintainList), function() {
-					var _dom = $(Dom.getDataMaintainList);
+				self.eventDClickCallback(_dom, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
 					self.updateDataMaintain(data.correlationId);
@@ -98,18 +97,19 @@ define(function(require, exports, module) {
 		//新增数据维护
 		addDataMaintain: function() {
 			var self = this;
-			var _list = $(Dom.getDataMaintainList);
-			var _addBt = _list.find("[name='add']");
+			var _dom = Page.findId('getDataMaintainList');
+			var _addBt = _dom.find("[name='add']");
 
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
-				$(Dom.addDataMaintainModal).modal('show');
-				$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
-					Utils.resetForm(Dom.addDataMaintainInfo);
+				alert(Page.findModal('addDataMaintainModal').html());
+				Page.findModal('addDataMaintainModal').modal('show');
+				Page.findModal('addDataMaintainModal').on('hide.bs.modal', function() {
+					Utils.resetForm(Page.findId('addDataMaintainInfo'));
 				});
-				var _form = $(Dom.addDataMaintainInfo);
+				var _form = Page.findId('addDataMaintainInfo');
 				Utils.setSelectData(_form);
-				var _saveBt = $(Dom.addDataMaintainModal).find("[name = 'save']");
+				var _saveBt = Page.findModal('addDataMaintainModal').find("[name = 'save']");
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
 					Utils.checkForm(_form, function() {
@@ -124,7 +124,7 @@ define(function(require, exports, module) {
 									self.getDataMaintainList();
 								}, 1000);
 								// 关闭弹出层
-								$(Dom.addDataMaintainModal).modal('hide');
+								Page.findModal('addDataMaintainModal').modal('hide');
 							}
 						});
 					});
@@ -136,7 +136,7 @@ define(function(require, exports, module) {
 		//删除数据备份
 		delDataMaintain: function() {
 			var self = this;
-			var _dom = $(Dom.getDataMaintainList);
+			var _dom = Page.findId('getDataMaintainList');
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -159,14 +159,14 @@ define(function(require, exports, module) {
 			});
 		},
 		updateDataMaintain: function(Id) {
-			var _dom = Dom.updateDataMaintainModal;
-			$(_dom).modal('show');
-			var _save = $(_dom).find("[name='save']");
+			var _dom = Page.findModal('updateDataMaintainModal');
+			_dom.modal('show');
+			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				var _form = Dom.updateMaintainInfo;
+				var _form = Page.findId('updateMaintainInfo');
 				Utils.setSelectData(_form);
-				var _cmd = $(_form).serialize();
+				var _cmd = _form.serialize();
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
 				Rose.ajax.getJson(srvMap.get('updateDataMaintain'), _cmd, function(json, status) {
 					if (status) {

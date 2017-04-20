@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 	//属性下拉菜单
 	srvMap.add("getPropertyName", pathAlias + "dataBackups.json", "sys/backup/getPropertyConfigList");
 
-	// 模板对象
+	/*// 模板对象
 	var Tpl = {
 		getDataBackupsTemp: $('#JS_getDataBackupsTemp'),
 	};
@@ -29,7 +29,7 @@ define(function(require, exports, module) {
 		getDataBackupsList: '#JS_getDataBackupsList',
 		addDataBackupsModal: "#JS_addDataBackupsModal",
 		addDataBackupInfo: "#JS_addDataBackupInfo",
-	};
+	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -47,7 +47,7 @@ define(function(require, exports, module) {
 		// 按条件查询
 		queryDataBackupForm: function() {
 			var self = this;
-			var _form = $(Dom.querydataBackupsForm);
+			var _form =Page.findId('queryDataBackupsForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -67,7 +67,7 @@ define(function(require, exports, module) {
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getDataBackupsList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
-				var template = Handlebars.compile($("#TPL_getDataBackupsTemp").html());
+				var template = Handlebars.compile(Page.findTpl('getDataBackupsTemp'));
 				_dom.find("[name='content']").html(template(json.data.content));
 				// 添加
 				self.addDataBackup();
@@ -80,17 +80,17 @@ define(function(require, exports, module) {
 		//新增备份
 		addDataBackup: function() {
 			var self = this;
-			var _list = $(Dom.getDataBackupsList);
+			var _list =Page.findId('getDataBackupsList');
 			var _addBt = _list.find("[name='add']");
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
-				$(Dom.addDataBackupsModal).modal('show');
-				var _form = $(Dom.addDataBackupInfo);
-				$(Dom.addDataBackupsModal).on('hide.bs.modal', function() {
+				Page.findModal('addDataBackupsModal').modal('show');
+				var _form =Page.findId('addDataBackupInfo');
+				Page.findModal('addDataBackupsModal').on('hide.bs.modal', function() {
 					Utils.resetForm(Dom.addDataBackupInfo);
 				});
 				Utils.setSelectData(_form);
-				var _saveBt = $(Dom.addDataBackupsModal).find("[name = 'save']");
+				var _saveBt = Page.findModal('addDataBackupsModal').find("[name = 'save']");
 				_saveBt.unbind('click');
 				_saveBt.bind('click', function() {
 					Utils.checkForm(_form, function() {
@@ -105,7 +105,7 @@ define(function(require, exports, module) {
 									self.getDataBackupList();
 								}, 1000);
 								// 关闭弹出层
-								$(Dom.addDataBackupsModal).modal('hide');
+								Page.findModal('addDataBackupsModal').modal('hide');
 							}
 						});
 					});
@@ -117,7 +117,7 @@ define(function(require, exports, module) {
 		//删除备份
 		delDataBackups: function() {
 			var self = this;
-			var _dom = $(Dom.getDataBackupsList);
+			var _dom =Page.findId('getDataBackupsList');
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {

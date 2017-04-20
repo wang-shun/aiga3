@@ -143,7 +143,17 @@ public class AigaBossTestResultSv  extends BaseService{
 	}
 	
 	
-	
+	/**
+	 * 根据id查询
+	 * @param resultIds
+	 */
+	public AigaBossTestResult getgBossTestResultById(Long resultId){
+		if(resultId==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "resultId");
+		}
+		return aigaBossTestResultDao.findOne(resultId);
+	}
+
 	
 	/**
 	 * 删除

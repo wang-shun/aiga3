@@ -169,10 +169,10 @@ public class AigaBossTestResultSv  extends BaseService{
 	 */
 	public Object getOtherFlowName(Long type) {
 		if(type==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlinePlan");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "type");
 		}
 		StringBuilder s = new StringBuilder();
-		s.append(" select planTask_name,planTask_id from na_product_plan_info where  type =  "+type);
+		s.append(" select planTask_name,planTask_id from aiga_product_plan_info where  plan_type =  "+type);
 		s.append(" order by create_time desc");
 			
 		return aigaBossTestResultDao.searchByNativeSQL(s.toString());

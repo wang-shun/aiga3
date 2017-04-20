@@ -95,17 +95,6 @@ define(function(require, exports, module) {
             //注册helper
             this.registerHelper();
         },
-        queryOnlinePlanName: function() {
-            var self = this;
-            Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.queryOnlinePlanName);
-                    console.log(json.data)
-                    $(Dom.queryOnlinePlanName).html(template(json.data));
-                }
-            });
-        },
-
         // 按条件查询
         queryOnlineTaskForm: function() {
             var self = this;
@@ -168,7 +157,7 @@ define(function(require, exports, module) {
                                                 // _dom.find("[name='dealOpId']");
                                                 console.log(json.data);
                                                 var template = Handlebars.compile(Tpl.getCollectId);
-                                                (Dom.collectIdss).html(template(json.data));
+                                                $(Dom.collectIdss).html(template(json.data));
                                             }
                                         });
                                         
@@ -802,6 +791,14 @@ define(function(require, exports, module) {
                     return "四级用例";
                 }
 
+            });
+            Handlebars.registerHelper('getCaseState', function(value, fn) {
+                if (value == "0") {
+                    return "未处理";
+                }
+                if (value == "1") {
+                    return "处理完";
+                }
             });
             Handlebars.registerHelper('TaskTypes', function(value, fn) {
                 if (value == "4") {

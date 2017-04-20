@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    <div class="box-body" style="min-height: 100px;">
+    <div class="box-body table-scrollable" style="min-height: 100px;">
         <table class="table table-condensed table-hover" style="width: 2000px;">
             <thead>
                 <tr>
@@ -80,7 +80,6 @@
                 </tr>
             </thead>
             <tbody>
-                
             </tbody>
         </table>
     </div>
@@ -147,7 +146,7 @@
     </tr>
     {{/each}}
 </script>
-<script id="TPL_proTaskProcessList" type="text/x-handlebars-template">
+<script id="TPL_proCaseTaskProcessList" type="text/x-handlebars-template">
     <table class="table table-condensed table-hover">
         <thead>
             <tr>
@@ -158,7 +157,7 @@
                 <th>系统大类</th>
                 <th>系统子类</th>
                 <th>功能点</th>
-                <th>业务</th>
+                <th>重要程度</th>
             </tr>
         </thead>
         <tbody>
@@ -179,7 +178,48 @@
                 <td>{{sysName}}</td>
                 <td>{{subSysName}}</td>
                 <td>{{funName}}</td>
-                <td>{{busiId}}</td>
+                <td>{{transformatImprot important}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <!-- /.box-body -->
+</script>
+<script id="TPL_proAutoTaskProcessList" type="text/x-handlebars-template">
+    <table class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>处理状态</th>
+                <th>处理结果</th>
+                <th>缺陷</th>
+                <th>用例名称</th>
+                <th>系统大类</th>
+                <th>系统子类</th>
+                <th>功能点</th>
+                <th>重要程度</th>
+                <th>自动化处理结果</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this}}
+            <tr>
+                <td>{{transformatCaseState caseState}}</td>
+                <td>
+                    <select type="hidden" name="result" value="{{result}}">
+                        <option></option>
+                        <option value="1">不通过</option>
+                        <option value="2">通过</option>
+                        <option value="3">无需测试</option>
+                    </select>
+                </td>
+                <td>{{bug}}</td>
+                <td>
+                    <input type="hidden" name="resultId" value="{{resultId}}">{{testName}}</td>
+                <td>{{sysName}}</td>
+                <td>{{subSysName}}</td>
+                <td>{{funName}}</td>
+                <td>{{transformatImprot important}}</td>
+                <td>{{autoResult}}</td>
             </tr>
             {{/each}}
         </tbody>

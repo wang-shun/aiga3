@@ -17,7 +17,8 @@ define(function(require, exports, module) {
     // 模板对象
     var Tpl = {
         productTaskList: $("#TPL_productTaskList").html(), //计划列表
-        taskProcessList: $("#TPL_proTaskProcessList").html()
+        taskProcessList: $("#TPL_proCaseTaskProcessList").html(),
+        taskAutoProcessList: $("#TPL_proAutoTaskProcessList").html()
 
     };
 
@@ -68,7 +69,7 @@ define(function(require, exports, module) {
                 } else if (value == 2) {
                     return "处理完成";
                 } else {
-                    return "未定义";
+                    return "";
                 }
             });
             Handlebars.registerHelper("transformatCaseState", function(value) {
@@ -78,6 +79,19 @@ define(function(require, exports, module) {
                     return "处理完成";
                 } else {
                     return "未定义";
+                }
+            });
+            Handlebars.registerHelper("transformatImprot", function(value) {
+                if (value == 1) {
+                    return "一级用例";
+                } else if (value == 2) {
+                    return "二级用例";
+                }else if (value == 3) {
+                    return "三级用例";
+                }else if (value == 4) {
+                    return "四级用例";
+                } else {
+                    return "";
                 }
             });
         },
@@ -188,7 +202,7 @@ define(function(require, exports, module) {
                 Rose.ajax.postJson(srvMap.get('autoResultList'), cmd, function(json, status) {
                     if (status) {
 
-                        var template = Handlebars.compile(Tpl.taskProcessList);
+                        var template = Handlebars.compile(Tpl.taskAutoProcessList);
                         console.log(json.data)
                         _table.html(template(json.data.content));
                         var da = json.data.content;

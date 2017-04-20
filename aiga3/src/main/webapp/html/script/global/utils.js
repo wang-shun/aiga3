@@ -13,22 +13,22 @@ define(function(require, exports, module) {
             var page = new Object();
             page.id = '#Page_'+pageId;
             page.find = function (obj) {
-                return $(this.id).find(obj);
+                return $(this.id).parent().find(obj);
             },
             page.findId = function (objId) {
-                return $(this.id).find("#JS_"+objId);
+                return $(this.id).parent().find("#JS_"+objId);
             },
             page.findName = function (objName) {
-                return $(this.id).find("[name='"+objName+"']");
+                return $(this.id).parent().find("[name='"+objName+"']");
             },
             page.findTpl = function (tplId) {
-                return $(this.id).siblings("#TPL_"+tplId).html();
+                return $(this.id).parent().find("#TPL_"+tplId).html();
             },
             page.findModal = function (modalId) {
-                return $(this.id).siblings("#Modal_"+modalId);
+                return $(this.id).parent().find("#Modal_"+modalId);
             },
             page.findModalCId = function (objId) {
-                return $(this.id).siblings('.modal').find("#JS_"+objId);
+                return this.getParentObj().find("#JS_"+objId);
             },
             page.getFunId = function (obj) {
                 return $(this.id).parent().data("funid");

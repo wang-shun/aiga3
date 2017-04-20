@@ -28,7 +28,7 @@ define(function(require, exports, module) {
                 return $(this.id).parent().find("#Modal_"+modalId);
             },
             page.findModalCId = function (objId) {
-                return this.getParentObj().find("#JS_"+objId);
+                return $(this.id).parent().find("#JS_"+objId);
             },
             page.getFunId = function (obj) {
                 return $(this.id).parent().data("funid");

@@ -50,6 +50,10 @@ define(function(require,exports,module){
 	srvMap.add("getIpList", "netFlowManage/changeReview/getIpList.json", "warn/host/findhost");
 	//保存主机
 	srvMap.add("saveIp", "netFlowManage/changeReview/retMessage.json", "warn/host/savehost");
+	//上线当晚、次日跟踪人员安排列表
+	srvMap.add("getTonightAndTomorrowList", "netFlowManage/changeReview/getTonightAndTomorrowList.json", "online/staff/arrange");
+	//总体步骤列表
+	srvMap.add("getStepList", "netFlowManage/changeReview/getStepList.json", "online/general/steps");
 	//集团需求列表
 	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "sys/review/findNaGroupRequireListByPlanId");
 	//需联调需求列表
@@ -60,47 +64,6 @@ define(function(require,exports,module){
 	/*srvMap.add("publish", "netFlowManage/deliverableReview/retMessage.json", "");*/
 	//回退
 	srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
-
-	//模板对象
-	/*var Tpl={
-		getDeliverableReviewConclusion:require('tpl/netFlowManage/deliverableReview/getDeliverableReviewConclusion.tpl'),
-		getPlanList:require('tpl/netFlowManage/deliverableReview/getPlanList.tpl'),
-		getModelList:require('tpl/netFlowManage/deliverableReview/getModelList.tpl'),
-		getOnlineList:require('tpl/netFlowManage/deliverableReview/getOnlineList.tpl'),
-		getTestList:require('tpl/netFlowManage/deliverableReview/getTestList.tpl'),
-		getRemnantList:require('tpl/netFlowManage/deliverableReview/getRemnantList.tpl'),
-		getReportList:require('tpl/netFlowManage/deliverableReview/getReportList.tpl'),
-		getDatabaseList:require('tpl/netFlowManage/deliverableReview/getDatabaseList.tpl'),
-		getJavascriptList:require('tpl/netFlowManage/deliverableReview/getJavascriptList.tpl'),
-		getDeliverList:require('tpl/netFlowManage/deliverableReview/getDeliverList.tpl'),
-		getStructureList:require('tpl/netFlowManage/deliverableReview/getStructureList.tpl'),
-		getProgressList:require('tpl/netFlowManage/deliverableReview/getProgressList.tpl'),
-		getServiceList:require('tpl/netFlowManage/deliverableReview/getServiceList.tpl'),
-		getIpConfigurationList:require('tpl/netFlowManage/deliverableReview/getIpConfigurationList.tpl'),
-		getNeedList:require('tpl/netFlowManage/deliverableReview/getNeedList.tpl'),
-		getCombineList:require('tpl/netFlowManage/deliverableReview/getCombineList.tpl'),
-		getConfigureList:require('tpl/netFlowManage/deliverableReview/getConfigureList.tpl')
-	};
-
-	var Dom={
-		getDeliverableReviewConclusion:'#JS_getDeliverableReviewConclusion',
-		getPlanList:'#JS_planList',
-		getModelList:'#JS_modelList',
-		getOnlineList:'#JS_onlineList',
-		getTestList:'#JS_testList',
-		getRemnantList:'#JS_remnantList',
-		getReportList:'#JS_reportList',
-		getDatabaseList:'#JS_databaseList',
-		getJavascriptList:'#JS_javascriptList',
-		getDeliverList:'#JS_deliverList',
-		getStructureList:'#JS_structureList',
-		getProgressList:'#JS_progressList',
-		getServiceList:'#JS_serviceList',
-		getIpConfigurationList:'#JS_ipConfiguration',
-		getNeedList:'#JS_needList',
-		getCombineList:'#JS_combineList',
-		getConfigureList:'#JS_configureList'
-	}*/
 
 	var Data = {
         setPageType:function(type){
@@ -134,6 +97,9 @@ define(function(require,exports,module){
 			this.getServiceList();
     		this.getIpConfigurationList();
     		this.getIpList();
+			this.getTonightList();
+			this.getTomorrowList();
+    		this.getStepList();
 			this.getNeedList();
 			this.getCombineList();
     		this.getConfigureList();
@@ -149,14 +115,7 @@ define(function(require,exports,module){
 					return "删除";
 				}
 			});
-			Handlebars.registerHelper("isFinishedsss", function(value) {
-				if (value == 0) {
-					return "否";
-				} else if (value == 1) {
-					return "是";
-				}
-			});
-			Handlebars.registerHelper("executesss", function(value) {
+			Handlebars.registerHelper("yesOrNo", function(value) {
 				if (value == 0) {
 					return "否";
 				} else if (value == 1) {
@@ -179,6 +138,11 @@ define(function(require,exports,module){
 					//引入单选框样式
 					Utils.eventTrClickCallback(_dom);
 					var _saveConclusion =  Page.findId('getChangeReviewConclusion').find("[name='saveConclusion']");
+					if(data.planState=="3" || data.planState=="4"){
+						_saveConclusion.attr("disabled", true);
+					}else{
+						_saveConclusion.removeAttr("disabled");
+					}
 					_saveConclusion.unbind('click');
 					//点击保存
 					_saveConclusion.bind('click',function(){
@@ -248,6 +212,11 @@ define(function(require,exports,module){
 					i++;
 				});
 				var _saveModel =  _dom.find("[name='saveModel']");
+				if(data.planState=="3" || data.planState=="4"){
+					_saveModel.attr("disabled", true);
+				}else{
+					_saveModel.removeAttr("disabled");
+				}
 				_saveModel.unbind('click');
 				//点击保存
 				_saveModel.bind('click',function(){
@@ -302,57 +271,6 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getTestList:function(){
-    		/*var self=this;
-    		var data = Data.getParentCmd();
-    		Rose.ajax.postJson(srvMap.get('getTestList'), 'planId=' + data.onlinePlan, function(json, status) {
-    			if (status) {
-		    		var template=Handlebars.compile(Tpl.getTestList);
-		    		console.log(json.data.content)
-		    		$(Dom.getTestList).html(template(json.data.content));
-					//引入多选框样式
-					Utils.eventTrClickCallback($(Dom.getTestList), function() {
-
-					})
-					// 分页
-					self.initPaging($(Dom.getTestList),10);
-					$("#JS_saveTest").unbind('click');
-					//点击保存
-					$("#JS_saveTest").bind('click',function(){
-						var testId;
-						var sysName;
-						var subSysName;
-						var testSituation;
-						var saveTest = [];
-						var cmd;
-						$(Dom.getTestList).find("tbody").find("tr").each(function(){
-							var tdArr = $(this).children();
-							if(tdArr.eq(0).find("input").is(':checked')){
-								testId = tdArr.eq(0).find("input").val();
-								sysName = tdArr.eq(1).find("input").val();
-								subSysName = tdArr.eq(2).find("input").val();
-								testSituation = tdArr.eq(3).find("input").val();
-								saveTest.push({
-									"testId" : testId,
-									"sysName" : sysName,
-									"subSysName" : subSysName,
-									"testSituation" : testSituation,
-									"planId" : data.onlinePlan
-								});
-							}
-						});
-						cmd = saveTest;
-						console.log(cmd);
-						Rose.ajax.postJson(srvMap.get('saveTest'), cmd, function(json, status) {
-							if (status) {
-								XMS.msgbox.show('保存成功！', 'success', 2000)
-								setTimeout(function() {
-									self.getTestList();
-								}, 1000)
-							}
-						});
-					});
-	    		}
-    		});*/
 			var self=this;
 			var _dom = Page.findId('getTestList');
 			var _domPagination = _dom.find("[name='pagination']");
@@ -381,6 +299,11 @@ define(function(require,exports,module){
 				var template = Handlebars.compile(Page.findTpl('getRunList'));
         		_dom.find("[name='content']").html(template(json.data.content));
 				var _saveRun =  _dom.find("[name='saveRun']");
+				if(data.planState=="3" || data.planState=="4"){
+					_saveRun.attr("disabled", true);
+				}else{
+					_saveRun.removeAttr("disabled");
+				}
 				_saveRun.unbind('click');
 				//点击保存
 				_saveRun.bind('click',function(){
@@ -571,6 +494,11 @@ define(function(require,exports,module){
 				var template = Handlebars.compile(Page.findTpl('getIpList'));
         		_dom.find("[name='content']").html(template(json.data.content));
 				var _saveIp =  _dom.find("[name='saveIp']");
+				if(data.planState=="3" || data.planState=="4"){
+					_saveIp.attr("disabled", true);
+				}else{
+					_saveIp.removeAttr("disabled");
+				}
 				_saveIp.unbind('click');
 				//点击保存
 				_saveIp.bind('click',function(){
@@ -619,6 +547,53 @@ define(function(require,exports,module){
 					});
 				});
         		Utils.eventTrClickCallback(_dom);
+			},_domPagination);
+    	},
+		getTonightList:function(){
+			var self=this;
+			var _dom = Page.findId('getTonightList');
+			var _domPagination = _dom.find("[name='pagination']");
+    		var data = Page.getParentCmd();
+    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+    		var _cmd = 'planId=' + data.onlinePlan + '&type=1';
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getTonightAndTomorrowList'),_cmd,function(json){
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段
+				var template = Handlebars.compile(Page.findTpl('getTonightAndTomorrowList'));
+        		_dom.find("[name='content']").html(template(json.data.content));
+			},_domPagination);
+    	},
+		getTomorrowList:function(){
+			var self=this;
+			var _dom = Page.findId('getTomorrowList');
+			var _domPagination = _dom.find("[name='pagination']");
+    		var data = Page.getParentCmd();
+    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+    		var _cmd = 'planId=' + data.onlinePlan + '&type=2';
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getTonightAndTomorrowList'),_cmd,function(json){
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段
+				var template = Handlebars.compile(Page.findTpl('getTonightAndTomorrowList'));
+        		_dom.find("[name='content']").html(template(json.data.content));
+			},_domPagination);
+    	},
+		getStepList:function(){
+			var self=this;
+			var _dom = Page.findId('getStepList');
+			var _domPagination = _dom.find("[name='pagination']");
+    		var data = Page.getParentCmd();
+    		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getStepList'),'planId=' + data.onlinePlan,function(json){
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段
+				var template = Handlebars.compile(Page.findTpl('getStepList'));
+        		_dom.find("[name='content']").html(template(json.data.content));
 			},_domPagination);
     	},
 		getNeedList:function(){

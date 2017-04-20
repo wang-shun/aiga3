@@ -32,7 +32,6 @@
 			                    <div class="box-header">
 			                        <div class="box-title">计划上线需求概况</div>
 			                    </div>
-			                    <!-- <div class="box-body" style="min-height: 100px;" id="JS_planList"></div> -->
 								<div class="box-body">
 					                <table class="table table-bordered table-hover">
 									    <thead>
@@ -148,15 +147,11 @@
 			                <div class="box" id="JS_getTestList">
 			                    <div class="box-header">
 			                        <div class="box-title">功能测试执行情况</div>
-									<!-- <div class="box-tools">
-														                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveTest"><i class="fa fa-plus"></i> 保存更改</button>
-														                </div> -->
 			                    </div>
 			                    <div class="box-body">
 					                <table class="table table-bordered table-hover">
 									    <thead>
-									        <tr>
-									        	<!-- <th class="iCheckbox" width="15"></th> -->
+									        <tr>->
 									            <th>系统大类</th>
 									            <th>系统子类</th>
 									            <th>测试情况</th>
@@ -836,7 +831,7 @@
 			<td style="display:none;">{{states state}}</td>
             <td style="display:none;">{{remark}}</td>
 			<td style="display:none;">{{planDate}}</td>
-			<td style="display:none;">{{isFinishedsss isFinished}}</td>
+			<td style="display:none;">{{yesOrNo isFinished}}</td>
             <td style="display:none;">{{updateCount}}</td>
             <td>
                 <div class="col-xs-1">
@@ -891,10 +886,9 @@
 <script id="TPL_getTestList" type="text/x-handlebars-template">
 	{{#each this}}
         <tr>
-        	<!-- <td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td> -->
         	<td><input type="hidden" value="{{sysName}}" name="sysName">{{sysName}}</td>
         	<td><input type="hidden" value="{{subSysName}}" name="subSysName">{{subSysName}}</td>
-            <td><!-- <div class="col-xs-1"><input type="text" size="" class="form-control" name="testSituation" value="{{testSituation}}" placeholder=""></div> -->{{testSituation}}</td>
+            <td>{{testSituation}}</td>
         </tr>
     {{/each}}
 </script>
@@ -996,7 +990,7 @@
 	{{#each this}}
         <tr>
             <td>{{cuttingScript}}</td>
-            <td>{{executesss execute}}</td>
+            <td>{{yesOrNo execute}}</td>
             <td>{{executeTime}}</td>
         </tr>
     {{/each}}
@@ -1109,11 +1103,11 @@
         </tr>
     {{/each}}
 </script>
-<!-- handlebars/上线当晚人员安排列表 -->
-<script id="TPL_getTonightdList" type="text/x-handlebars-template">
+<!-- handlebars/上线当晚、次日跟踪人员安排列表 -->
+<script id="TPL_getTonightAndTomorrowList" type="text/x-handlebars-template">
 	{{#each this}}
         <tr>
-            <td>{{whetherNeed}}</td>
+            <td>{{yesOrNo whetherNeed}}</td>
 			<td>{{role}}</td>
             <td>{{companyName}}</td>
 			<td>{{staff}}</td>
@@ -1122,28 +1116,19 @@
         </tr>
     {{/each}}
 </script>
-<!-- handlebars/次日跟踪人员安排列表 -->
-<script id="TPL_getTomorrowList" type="text/x-handlebars-template">
-	{{#each this}}
-        <tr>
-            <td>{{devTaskId}}</td>
-			<td>{{requireName}}</td>
-            <td>{{testMan}}</td>
-			<td>{{otherSysName}}</td>
-            <td>{{otherSysMan}}</td>
-			<td>{{otherSysManTel}}</td>
-        </tr>
-    {{/each}}
-</script>
 <!-- handlebars/总体步骤列表 -->
 <script id="TPL_getStepList" type="text/x-handlebars-template">
 	{{#each this}}
         <tr>
-            <td>{{isInvolve}}</td>
+            <td>{{yesOrNo isInvolve}}</td>
 			<td>{{onlineSystem}}</td>
-            <td>{{testMan}}</td>
-			<td>{{requireMan}}</td>
-            <td>{{hasDeploy}}</td>
+            <td>{{prerequisite}}</td>
+			<td>{{generalSteps}}</td>
+            <td>{{stepDescription}}</td>
+			<td>{{preStartTime}}</td>
+			<td>{{preDuration}}</td>
+            <td>{{operator}}</td>
+            <td>{{realStartTime}}</td>
         </tr>
     {{/each}}
 </script>

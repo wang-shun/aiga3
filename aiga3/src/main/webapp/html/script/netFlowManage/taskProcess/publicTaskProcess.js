@@ -167,6 +167,7 @@ define(function(require, exports, module) {
 				var _modal = $(Dom.modalTestReport);
 				var _form = _modal.find("form");
 				var cmd = _form.serialize();
+				cmd += "&BossName="+_form.find("select[name='planId']").find("option:selected").text();
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('submitPublicRst'), cmd, function(json, status) {
 					if (status) {

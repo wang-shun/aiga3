@@ -5,7 +5,7 @@
         "content":[{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
-        "planState": "001",
+        "planState": "1",
         "createOpId": "H",
         "createDate":"1",
         "doneDate": "呀",
@@ -20,7 +20,7 @@
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
-        "planState": "001",
+        "planState": "2",
         "createOpId": "H",
         "createDate":"1",
         "doneDate": "呀",
@@ -35,7 +35,7 @@
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
-        "planState": "001",
+        "planState": "3",
         "createOpId": "H",
         "createDate":"1",
         "doneDate": "呀",
@@ -50,7 +50,7 @@
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
-        "planState": "001",
+        "planState": "4",
         "createOpId": "H",
         "createDate":"1",
         "doneDate": "呀",
@@ -65,7 +65,7 @@
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
-        "planState": "001",
+        "planState": "1",
         "createOpId": "H",
         "createDate":"1",
         "doneDate": "呀",

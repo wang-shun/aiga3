@@ -75,7 +75,8 @@
         }, {
             "funcId": 17,
             "name": "自动化用例模板管理",
-            "viewname": "view/autoManage/autoCaseTempMng.html"
+            "viewname": "view/autoManage/autoCaseTempMng.html",
+            "funArg" :"username=qijc&age=18"
         }, {
             "funcId": 18,
             "name": "自动化环境配置",

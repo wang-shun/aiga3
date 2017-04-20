@@ -101,7 +101,8 @@ define(function(require, exports, module) {
 				var objData = {
 					id : $(this).data('id'),
 					name : $.trim($(this).text()),
-					href : $(this).data('href')
+					href : $(this).data('href'),
+                    cmd : $(this).data('cmd')
 				}
 				if(objData.href.indexOf('.html')>=0){
 					self.creatTab(objData);

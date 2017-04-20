@@ -27,7 +27,7 @@
 		<mockito.version>2.7.5</mockito.version>
 		<ehcache.version>2.10.3</ehcache.version>
 		<quartz.version>2.2.1</quartz.version>
-
+		<ehcache.version>2.10.2</ehcache.version>
 		<springfox-version>2.6.1</springfox-version>
 		<!-- <cxf.version>2.7.18</cxf.version> -->
 		<cxf.version>3.0.12</cxf.version>
@@ -343,6 +343,15 @@
 			<scope>test</scope>
 		</dependency>
 
+	<!--ehcache begin -->
+		<dependency>
+		  <groupId>net.sf.ehcache</groupId>
+		  <artifactId>ehcache</artifactId>
+		  <version>${ehcache.version}</version>
+		  <type>pom</type>
+		</dependency>
+		<!--ehcache end -->
+		
 		<!-- jta begin -->
 		<dependency>
 			<groupId>com.atomikos</groupId>

@@ -157,7 +157,8 @@ define(function(require,exports,module){
     	getDeliverableReviewConclusion:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), 'onlinePlan=' + data.onlinePlan, function(json, status) {
+	    		var _cmd = 'onlinePlan=' + data.onlinePlan + '&ext1=1';
+	    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), _cmd, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getDeliverableReviewConclusion);
 			    		console.log(json.data)

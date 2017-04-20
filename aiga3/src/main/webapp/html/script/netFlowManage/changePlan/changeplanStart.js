@@ -312,7 +312,7 @@ define(function(require, exports, module) {
                 console.log(dataTemp)
                 if (dataTemp) {
                     _form.find("[name='taskType']").val(dataTemp.taskType);
-                    _form.find("[name='dealName']").val(dataTemp.dealOpId);
+                    _form.find("[name='dealOpId']").val(dataTemp.dealOpId);
                     _form.find("[name='taskId']").val(dataTemp.taskId);
                     Data.opreation = "update";
 

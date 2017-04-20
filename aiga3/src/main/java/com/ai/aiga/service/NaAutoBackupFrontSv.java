@@ -254,9 +254,9 @@ public class NaAutoBackupFrontSv {
 		if(up == null){
 			BusinessException.throwBusinessException("根据correlationId:"+correlation.getCorrelationId()+"查询不到记录");
 		}
-		if(correlation.getPropertyCfgId() > 0){
+		/*if(correlation.getPropertyCfgId() > 0){
 			up.setPropertyCfgId(correlation.getPropertyCfgId());
-		}
+		}*/
 		if(StringUtils.isNotEmpty(correlation.getCorrelationField())){
 			up.setCorrelationField(correlation.getCorrelationField());
 		}
@@ -281,10 +281,10 @@ public class NaAutoBackupFrontSv {
 		}
 		return CfgIdList;
 	}
-	//启动主进程
+	/*//启动主进程
 	public void startBackupMain(){
 		String[] a =new String[]{"1"};
 		AutoBackupTask.main(a);
-	}
+	}*/
 	
 }

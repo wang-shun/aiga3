@@ -3,43 +3,91 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>登录系统</title>
     <script src="lib/jquery/2.2.3/jquery.min.js"></script>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
-    <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="lib/font-awesome/4.7.0/css/font-awesome.css">
     <!-- AdminLTE Theme skin-blue  -->
-    <link rel="stylesheet" href="lib/AdminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="style/login.css">
     <script type="text/javascript">
     $(function() {
-        $("#myform").submit(function() {
-            var data = {
-                username: $("#myform").find("input[name='username']").val(),
-                password: $("#myform").find("input[name='password']").val()
-            }
-
-            $.post("../login", data, function(d) {
-                if (d) {
-                    var status = d["retCode"];
-                    if (status == "200") {
-                        window.location = "index.html";
-                    } else {
-                        console.log(d["retMessage"]);
-                    }
-                }
+         $('#login #password').focus(function() {
+                $('#owl-login').addClass('password');
+            }).blur(function() {
+                $('#owl-login').removeClass('password');
             });
+            $("body").keydown(function() {
+                if (event.keyCode == "13") {//keyCode=13是回车键
+                    $("#mysubmit").click();  
+                }
+            });    
+            $("#mysubmit").click(function() {
+                var data = {
+                    username: $("#myform").find("input[name='username']").val(),
+                    password: $("#myform").find("input[name='password']").val()
+                }
 
-            return false;
-        });
+                $.post("../login", data, function(d) {
+                    if (d) {
+                        var status = d["retCode"];
+                        if (status == "200") {
+                            window.location = "index.html";
+                        } else {
+                            $("#tips-error").html(d["retMessage"]);
+                        }
+                    }
+                });
+
+                return false;
+            });
     });
     </script>
 </head>
 
-<body class="hold-transition login-page">
-<div class="login-title">
+<body >
+<div id="login">
+    <div class="wrapper">
+        <div class="main-header">
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <span class="logo-lg"><i class="iconfont icon-zhongguoyidong"></i>浙江移动<small>入网验收发布平台</small></span>
+            </a>
+        </div>
+        <div class="login">
+            <div id="myform"  class="container offset1 loginform">
+                <div id="owl-login">
+                    <div class="hand"></div>
+                    <div class="hand hand-r"></div>
+                    <div class="arms">
+                        <div class="arm"></div>
+                        <div class="arm arm-r"></div>
+                    </div>
+                </div>
+                <div class="pad">
+                    <input type="hidden" name="_csrf" value="9IAtUxV2CatyxHiK2LxzOsT6wtBE6h8BpzOmk=">
+                    <div class="control-group">
+                        <div class="controls">
+                            <label for="username" class="control-label fa fa-envelope"></label>
+                            <input  type="text" name="username" placeholder="请输入用户名" tabindex="1" autofocus="autofocus" class="form-control input-medium">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label for="password" class="control-label fa fa-asterisk"></label>
+                            <input  type="password" name="password" placeholder="请输入密码" tabindex="2" class="form-control input-medium">
+                        </div>
+                    </div>
+                    <div id="tips-error" style="color: red; padding: 5px 3px;"></div>
+                </div>
+                <div class="form-actions"><a href="#nogo" tabindex="5" class="btn pull-left btn-link text-muted">忘记密码</a><a href="#nogo" tabindex="6" class="btn btn-link text-muted">注册</a>
+                    <button id="mysubmit" type="submit" tabindex="4" class="btn btn-primary">登录系统</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="login-title">
 <h1 class="text-center" >
     自动化验收发布平台
 </h1>
@@ -62,11 +110,9 @@
             </form>
             <div class="social-auth-links text-center">
             </div>
-            <!-- /.social-auth-links -->
             <a href="#">I forgot my password</a>
             <br>
         </div>
-    </div>
+    </div> -->
 </body>
-
 </html>

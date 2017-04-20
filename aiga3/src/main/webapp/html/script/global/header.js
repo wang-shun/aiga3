@@ -29,7 +29,7 @@ define(function(require, exports, module) {
                     // 事件：退出系统
                     $("#JS_logout").click(function() {
                         if (confirm('尊敬的用户' + json.data.userName + '，您确认退出吗？')) {
-                            window.parent.location.reload();
+                            window.parent.location.href='login.html';
                         }
                     })
 

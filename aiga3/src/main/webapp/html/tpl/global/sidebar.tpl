@@ -12,7 +12,7 @@
     <!-- 搜索区域-->
     <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="Search...">
+            <input type="text" name="q" class="form-control" placeholder="请输入菜单名称" >
             <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -24,7 +24,7 @@
         <!-- <li class="header">中国移动通信</li> -->
         {{#each data}}
         <li class="treeview">
-          <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
+          <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
             <i class="{{funcImg}}"></i>
             <span>{{name}}</span>
             {{#if subMenus}}
@@ -34,11 +34,11 @@
             {{/if}}
           </a>
           {{#if subMenus}}
-          <ul class="treeview-menu">
+          <ul class="treeview-menu no-disc">
             {{#each subMenus}}
             <li class="">
-                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
-                    <i class="fa fa-circle-o"></i>
+                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
+                    <!-- <i class="fa fa-circle"></i> -->
                     <span>{{name}}</span>
                     {{#if subMenus}}
                     <span class="pull-right-container">
@@ -50,8 +50,8 @@
                 <ul href="javascript:;" class="treeview-menu">
                     {{#each subMenus}}
                     <li class="">
-                        <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
-                            <i class="fa fa-circle-o"></i>
+                        <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
+                            <!-- <i class="fa fa-circle"></i> -->
                             <span>{{name}}</span>
                             {{#if subMenus}}
                             <span class="pull-right-container">
@@ -60,11 +60,10 @@
                             {{/if}}
                         </a>
                         {{#if subMenus}}
-                        <ul href="javascript:;" class="treeview-menu">
+                        <ul href="javascript:;" class="treeview-menu no-disc-4">
                             {{#each subMenus}}
                             <li class="">
-                                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
-                                    <i class="fa fa-circle-o"></i>
+                                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
                                     <span>{{name}}</span>
                                 </a>
                             </li>

@@ -5,12 +5,12 @@
         "funcId": 1,
         "funcCode": "HomePage",
         "name": "首页",
-        "funcImg": "fa fa-home",
+        "funcImg": "fa fa-university",
         "viewname": "view/welcome.html"
     }, {
         "funcId": 2,
         "name": "系统管理",
-        "funcImg": "fa fa-cogs",
+        "funcImg": "fa fa-map-o",
         "viewname": "#",
         "subMenus": [{
             "funcId": 3,
@@ -45,7 +45,7 @@
     }, {
         "funcId": 10,
         "name": "自动化管理",
-        "funcImg": "fa fa-clock-o",
+        "funcImg": "fa fa-bar-chart",
         "viewname": "#",
         "subMenus": [{
             "funcId": 11,
@@ -75,7 +75,8 @@
         }, {
             "funcId": 17,
             "name": "自动化用例模板管理",
-            "viewname": "view/autoManage/autoCaseTempMng.html"
+            "viewname": "view/autoManage/autoCaseTempMng.html",
+            "funArg" :"username=qijc&age=18"
         }, {
             "funcId": 18,
             "name": "自动化环境配置",
@@ -120,7 +121,7 @@
     }, {
         "funcId": 25,
         "name": "入网流程管理",
-        "funcImg": "fa fa-fw fa-check-circle",
+        "funcImg": "fa fa-desktop",
         "viewname": "#",
         "subMenus": [{
             "funcId": 26,
@@ -259,7 +260,7 @@
     }, {
         "funcId": 47,
         "name": "数据维护",
-        "funcImg": "fa fa-fw fa-database",
+        "funcImg": "fa fa-windows",
         "viewname": "#",
         "subMenus": [{
             "funcId": 48,

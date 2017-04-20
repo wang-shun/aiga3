@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 		            $(Dom.sidebar).html(template(json));
 		            Data.sidebar = json.data;
 		            var height = $(Dom.sidebar).height();
-		            Utils.setScroll($(Dom.sidebar).children(".sidebar"),height-50)
+		            Utils.setScroll($(Dom.sidebar).children(".sidebar"),height)
 		            self.bindMenuClickEvent();
 		            self.initHomePage();
 		        }
@@ -101,7 +101,8 @@ define(function(require, exports, module) {
 				var objData = {
 					id : $(this).data('id'),
 					name : $.trim($(this).text()),
-					href : $(this).data('href')
+					href : $(this).data('href'),
+                    cmd : $(this).data('cmd')
 				}
 				if(objData.href.indexOf('.html')>=0){
 					self.creatTab(objData);

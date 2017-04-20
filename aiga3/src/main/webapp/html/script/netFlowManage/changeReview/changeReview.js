@@ -164,7 +164,7 @@ define(function(require, exports, module) {
             _reviewChange.bind('click', function() {
                 var _data = self.getRadioCheckedRow(_dom);
                 if (_data) {
-                    var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate;
+                    var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState;
                     Sidebar.creatTab({
                         id:"101",
                         name:'变更评审',

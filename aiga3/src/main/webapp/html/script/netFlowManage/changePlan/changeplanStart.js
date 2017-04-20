@@ -160,7 +160,7 @@ define(function(require, exports, module) {
         getTaskResultList: function(cmd, data) {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            var _dom = Page.findId('getTaskResultList');    
+            var _dom1 = Page.findId('getTaskResultList');    
             var _domPagination = _dom1.find("[name='pagination']");        
             Utils.getServerPage(srvMap.get('getTaskResultList'), cmd, function(json) {
                     window.XMS.msgbox.hide();
@@ -169,11 +169,11 @@ define(function(require, exports, module) {
                     _form.find("[name='onlinePlan']").val(data.onlinePlan);
                     _form.find("[name='onlinePlanName']").val(data.onlinePlanName);
                     var template = Handlebars.compile(Page.findTpl('getTaskResultList'));
-                    _dom.find("[name='content']").html(template(json.data.content));
+                    _dom1.find("[name='content']").html(template(json.data.content));
                     self.saveTaskResult(data);
                     self.delTaskResult(data);
                     self.updateTaskResult(data);
-                    Utils.eventTrClickCallback(_dom)
+                    Utils.eventTrClickCallback(_dom1)
                         //设置分页
                     //self.initPaging(_dom, 5, true);
             },_domPagination);

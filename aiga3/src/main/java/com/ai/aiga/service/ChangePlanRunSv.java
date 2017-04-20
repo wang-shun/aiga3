@@ -163,7 +163,7 @@ public class ChangePlanRunSv extends BaseService{
 			}
 		}
 		//把计划状态改为处理中
-		//naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());
+		naChangePlanOnileDao.updatePlanState(naOnlineTaskDistribute.getOnlinePlan());
 	}
 
 	public void sendMessageForCycle(Long taskId, String info) {

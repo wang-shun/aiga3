@@ -86,7 +86,7 @@ public class PerformanceTaskSv extends BaseService{
 			naOnlineTaskDistribute.setAssignId(parentTask.getDealOpId());
 			naOnlineTaskDistribute.setOnlinePlan(parentTask.getOnlinePlan());
 			naOnlineTaskDistribute.setTaskType(naOnlineTaskDistribute.getTaskType());
-			naOnlineTaskDistribute.setDealState(0L);
+			naOnlineTaskDistribute.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
 			naOnlineTaskDistribute.setCreateDate(new Date());
 			naOnlineTaskDistributeDao.save(naOnlineTaskDistribute);
 		}else{
@@ -300,7 +300,7 @@ public class PerformanceTaskSv extends BaseService{
 		}else{
 			NaOnlineTaskDistribute distribute = naOnlineTaskDistributeDao.findOne(taskId);
 			distribute.setDealOpId(dealOpId);
-			distribute.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
+			distribute.setDealState(CheckAcceptEnum.TaskStatus_run.getValue());
 			distribute.setAssignDate(new Date());
 			naOnlineTaskDistributeDao.save(distribute);
 			

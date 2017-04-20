@@ -5068,3 +5068,8 @@ table.text-center th {
 .box .box-footer button{
   margin:0 7px;
 }
+
+.table-scrollable {
+  overflow-x: scroll;
+  overflow-y: visible;
+}

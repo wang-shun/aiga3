@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	require('global/sidebar.js');
 
-	var pathAlias = "case/caseSet/";
+	var pathAlias = "case/caseSet/"; 
 	// 显示用例集列表
 	srvMap.add("getCaseSetList", pathAlias+"getCaseSetList.json", "sys/case/queryCase");
 	// 根据Id查询用例集
@@ -55,9 +55,9 @@ define(function(require, exports, module) {
 		connectCaseList: require('tpl/case/caseSet/connectCaseList.tpl'),
 		useCaseList: require('tpl/case/caseSet/useCaseList.tpl'),
 		useCaseLists: require('tpl/case/caseSet/useCaseLists.tpl'),
-		getSysList: require('tpl/caseTempMng/getSysList.tpl'),
-		getSubSysList: require('tpl/caseTempMng/getSubSysList.tpl'),
-		getFunList: require('tpl/caseTempMng/getFunList.tpl'),
+		getSysList: $("#TPL_getCaseSetSysList").html(),
+		getSubSysList: $("#TPL_getCaseSetSubSysList").html(),
+		getFunList: $("#TPL_getCaseSetFunList").html(),
 		// queryCaseGroupList: require('tpl/case/caseSet/queryCaseGroupList.tpl'),
 		// queryCaseGroupsList: require('tpl/case/caseSet/queryCaseGroupsList.tpl'),
 		queryCaseGroupForm: require('tpl/case/caseSet/queryCaseGroupForm.tpl'),

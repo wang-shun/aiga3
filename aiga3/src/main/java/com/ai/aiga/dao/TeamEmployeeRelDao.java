@@ -40,6 +40,18 @@ SearchAndPageRepository<NaTeamEmployeeRel, Long> {
 	
 	 @Query(value="select em_name||'<'||email||'>' as name ,email  from NA_EMPLOYEE_INFO", nativeQuery=true)
 	 List<Object[]> nameAndEmail();
+
+//	/**
+//	 * @ClassName: TeamEmployeeRelDao :: findByTeamId
+//	 * @author: taoyf
+//	 * @date: 2017年4月20日 下午5:51:27
+//	 *
+//	 * @Description:
+//	 * @param teamId
+//	 * @return          
+//	 */
+//	 @Query("select distinct(a.empId) from NaTeamEmployeeRel a where a.teamId = ?1")
+//	List<Long> findByTeamId(Long teamId);
 	
 }
 

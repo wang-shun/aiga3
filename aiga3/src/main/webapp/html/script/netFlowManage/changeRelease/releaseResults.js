@@ -237,26 +237,27 @@ define(function(require, exports, module) {
             var _saveBtn = _form.find("[name='add']");
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
+            	alert();
             	var a=_form.find("[name='environmentType']").val();
             	var cmd = "file="+_form.find("[name='fileName']").val()+ "&planId=" + planId;;
             	switch(a){
-            		case 1:
+            		case "1":
             			var task = srvMap.get('exception');
             			self.jieko(task,cmd,a,planId)
             			break;
-            		case 2:
+            		case "2":
             			var task = srvMap.get('processexcel');
             			self.jieko(task,cmd,a,planId)
             			break;
-            		case 3:
+            		case "3":
             			var task = srvMap.get('releaseexcel');
             			self.jieko(task,cmd,a,planId)
             			break;
-            		case 4:
+            		case "4":
             			var task = srvMap.get('releasestageexcel');
             			self.jieko(task,cmd,a,planId)
             			break;
-            		case 5:
+            		case "5":
             			var task = srvMap.get('processexcel');
             			self.jieko(task,cmd,a,planId)
             			break;
@@ -273,19 +274,19 @@ define(function(require, exports, module) {
                         XMS.msgbox.show('上传成功！', 'success', 2000)
                         setTimeout(function() {
                             switch(a){
-			            		case 1:
+			            		case "1":
 			            			self.queTable1(planId);
 			            			break;
-			            		case 2:
+			            		case "2":
 			            			self.queTable2(planId);
 			            			break;
-			            		case 3:
+			            		case "3":
 			            			self.queTable3(planId);
 			            			break;
-			            		case 4:
+			            		case "4":
 			            			self.queTable4(planId);
 			            			break;
-			            		case 5:
+			            		case "5":
 			            			self.queTable5(planId);
 			            			break;
 			            	}

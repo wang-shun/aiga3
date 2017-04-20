@@ -16,9 +16,9 @@ public enum CheckAcceptEnum {
 	PlanStatus_cancle(4L,"取消"),
 	
 	//子任务类型
-	SubTaskType_one(0L,"用例组"),
-	SubTaskType_two(1L,"手工用例"),
-	SubTaskType_three(2L,"自动化用例"),
+	SubTaskType_one((byte)0,"用例组"),
+	SubTaskType_two((byte)1,"手工用例"),
+	SubTaskType_three((byte)2,"自动化用例"),
 	
 	//任务子任务状态值
 	TaskStatus_new(1L,"未分派"),
@@ -27,24 +27,42 @@ public enum CheckAcceptEnum {
 	TaskStatus_neednot(4L,"不需分派"),
 	
 	//子任务结果状态
-	ResultStatus_new(0L,"未处理"),
-	ResultStatus_run(0L,"处理中"),
-	ResultStatus_finish(0L,"处理完");
+	ResultStatus_new((byte)0,"未处理"),
+	ResultStatus_run((byte)1,"处理中"),
+	ResultStatus_finish((byte)2,"处理完");
 	
 	private Long value;
     private String show;
     
+    private byte momo;
+    private String text;
 	private CheckAcceptEnum(Long value, String show) {
 		this.value = value;
 		this.show = show;
 	}
 	
+	private CheckAcceptEnum(byte momo, String text) {
+		this.momo = momo;
+		this.text = text;
+	}
+	
 	public Long getValue() {
-        return value;
-    }
-
-    public String getShow() {
-        return show;
-    }
+		return value;
+	}
+	
+	public String getShow() {
+		return show;
+	}
+	
+	public byte getMomo() {
+		return momo;
+	}
+	
+	public String getText() {
+		return text;
+	}
+	
+    
+	
 }
 

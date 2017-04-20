@@ -216,7 +216,7 @@ public class ChangePlanRunSv extends BaseService{
 	public void delete(String taskIds) {
 		
 		if(taskIds == null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskId");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskIds");
 		}
 		String[] taskId = taskIds.split(",");
 		for(int i = 0; i < taskId.length; i++){

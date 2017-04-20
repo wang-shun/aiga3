@@ -151,7 +151,7 @@ define(function(require, exports, module) {
                                         _dom.html(template(json.data));
                                         // 初始化步骤
                                         Utils.initStep(_modal);
-                                        
+
                                         self.addOnlineTask();
                                         self.updateOnlineTask();
                                         self.delOnlineTask();
@@ -717,16 +717,16 @@ define(function(require, exports, module) {
         },
         registerHelper: function() {
             Handlebars.registerHelper('getState', function(value, fn) {
-                if (value == "0") {
+                if (value == "1") {
                     return "未分派";
                 }
-                if (value == "1") {
+                if (value == "2") {
                     return "处理中";
                 }
-                if (value == "2") {
+                if (value == "3") {
                     return "完成";
                 }
-                if (value == "3") {
+                if (value == "4") {
                     return "不需分派";
                 }
 

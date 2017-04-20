@@ -111,20 +111,20 @@
     <form name="addFaultForm">
         <div class="col-md-12">
             <div class="col-md-4 form-group">
-                <label class="control-label"><i class="text-red">* </i>变更计划名称</label>
+                <label class="control-label">变更计划名称<i class="text-red">* </i></label>
                 <select name="onlinePlan" class="form-control input-sm" data-url="getOtherPlan" data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName"  required>
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label"><i class="text-red">* </i>任务名称</label>
+                <label class="control-label">任务名称<i class="text-red">* </i></label>
                 <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-subname="planId" data-idkey="taskId" data-namekey="taskName"  required>
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="col-md-4 form-group">
-                <label class="control-label"><i class="text-red">* </i>子任务名称</label>
-                <select name="planId" class="form-control input-sm" data-url="getOtherFlowName"  data-idkey="planId" data-namekey="planName" required>
+                <label class="control-label">子任务名称<i class="text-red">* </i></label>
+                <select name="planId" class="form-control input-sm" required>
                     <option value="">请选择</option>
                 </select>
             </div>

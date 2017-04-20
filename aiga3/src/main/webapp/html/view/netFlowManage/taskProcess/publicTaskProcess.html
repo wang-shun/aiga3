@@ -1,88 +1,90 @@
-<div class="box">
-    <form id="Js_queryPublicTaskForm">
-        <div class="box-header with-border">
-            <h3 class="box-title">按条件查询</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-            </div>
-        </div>
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>变更计划名称</label>
-                        <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList"  data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName">
-                            <option value="">请选择</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>任务类型</label>
-                        <select name="taskType" class="form-control input-sm">
-                            <option value="">请选择</option>
-                            <option value="1">Boss验收</option>
-                            <option value="2">开通验收</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>任务名称</label>
-                        <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-idkey="taskId" data-namekey="taskName"> </select>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>子任务名称</label>
-                        <input name="subTaskName" class="form-control input-sm">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>子任务状态</label>
-                        <select name="dealState" class="form-control input-sm">
-                            <option value="">请选择</option>
-                            <option value="0">未处理</option>
-                            <option value="1">处理中</option>
-                            <option value="2">处理完成</option>
-                        </select>
-                    </div>
+<div id="Page_taskProcess">
+    <div class="box">
+        <form id="Js_queryPublicTaskForm">
+            <div class="box-header with-border">
+                <h3 class="box-title">按条件查询</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                 </div>
             </div>
-        </div>
-        <div class="box-footer">
-            <div class="text-center">
-                <button type="reset" class="btn btn-default">重置</button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary" name="query">查询</button>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>变更计划名称</label>
+                            <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList" data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>任务类型</label>
+                            <select name="taskType" class="form-control input-sm">
+                                <option value="">请选择</option>
+                                <option value="1">Boss验收</option>
+                                <option value="2">开通验收</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>任务名称</label>
+                            <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-idkey="taskId" data-namekey="taskName"> </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>子任务名称</label>
+                            <input name="subTaskName" class="form-control input-sm">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>子任务状态</label>
+                            <select name="dealState" class="form-control input-sm">
+                                <option value="">请选择</option>
+                                <option value="0">未处理</option>
+                                <option value="1">处理中</option>
+                                <option value="2">处理完成</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
-</div>
-<div class="box" style="min-height: 100px">
-    <div class="box-header">
-        <h3 class="box-title">验收任务测试报告</h3>
-        <div class="box-tools">
-            <div class="btn-group">
-                <button type="button" id="JS_addReport" class="btn btn-primary" data-toggle="modal"><i class="fa fa-plus"></i> 新增</button>
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="javascript:;" id="JS_updateReport">修改</a></li>
-                    <li><a href="javascript:;" id="JS_delReport">删除</a></li>
-                </ul>
+            <div class="box-footer">
+                <div class="text-center">
+                    <button type="reset" class="btn btn-default">重置</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary" name="query">查询</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
-    <div id="Js_publicTaskList" class="box-body" style="min-height: 100px;">
-        <div style="text-align: center; padding: 50px 0;">
-            <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-            <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+    <div class="box" style="min-height: 100px">
+        <div class="box-header">
+            <h3 class="box-title">验收任务测试报告</h3>
+            <div class="box-tools">
+                <div class="btn-group">
+                    <button type="button" id="JS_addReport" class="btn btn-primary" data-toggle="modal"><i class="fa fa-plus"></i> 新增</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="javascript:;" id="JS_updateReport">修改</a></li>
+                        <li><a href="javascript:;" id="JS_delReport">删除</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="Js_publicTaskList" class="box-body" style="min-height: 100px;">
+            <div style="text-align: center; padding: 50px 0;">
+                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
+            </div>
         </div>
     </div>
 </div>
@@ -105,20 +107,18 @@
         </div>
     </div>
 </div>
-
-
 <script id="TPL_testReportForm" type="text/x-handlebars-template">
     <form name="addFaultForm">
         <div class="col-md-12">
             <div class="col-md-4 form-group">
                 <label class="control-label">变更计划名称<i class="text-red">* </i></label>
-                <select name="onlinePlan" class="form-control input-sm" data-url="getOtherPlan" data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName"  required>
+                <select name="onlinePlan" class="form-control input-sm" data-url="getOtherPlan" data-subname="taskId" data-idkey="onlinePlan" data-namekey="onlinePlanName" required>
                     <option value="">请选择</option>
                 </select>
             </div>
             <div class="col-md-4 form-group">
                 <label class="control-label">任务名称<i class="text-red">* </i></label>
-                <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-subname="planId" data-idkey="taskId" data-namekey="taskName"  required>
+                <select name="taskId" class="form-control input-sm" data-suburl="getOtherTaskInfo" data-subname="planId" data-idkey="taskId" data-namekey="taskName" required>
                     <option value="">请选择</option>
                 </select>
             </div>

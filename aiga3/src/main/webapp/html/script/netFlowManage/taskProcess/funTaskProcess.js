@@ -159,6 +159,8 @@ define(function(require, exports, module) {
 						var _modal = $(Dom.modalSubmitResult);
 						_modal.modal('hide');
 						self.queryFunTask();
+						var _form = $(Dom.QueryTaskForm);
+						_form.find('button[name="query"]').click();
 					}
 				});
 

@@ -3,6 +3,7 @@ package com.ai.aiga.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
+import com.ai.aiga.domain.NaOnlineStaffArrange;
 import com.ai.aiga.domain.NaTeamInfo;
 
 /**
@@ -12,8 +13,8 @@ import com.ai.aiga.domain.NaTeamInfo;
  * @Description:
  * 
  */
-public interface StaffArrangeDao extends JpaRepository<NaTeamInfo, Long>,
-SearchAndPageRepository<NaTeamInfo, Long>{
+public interface StaffArrangeDao extends JpaRepository<NaOnlineStaffArrange, Long>,
+SearchAndPageRepository<NaOnlineStaffArrange, Long>{
 
 }
 

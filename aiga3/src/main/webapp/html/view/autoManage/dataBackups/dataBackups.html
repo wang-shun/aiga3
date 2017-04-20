@@ -50,7 +50,6 @@
                                 <th class="iCheckbox" width="15"></th>
                                 <th>属性</th>
                                 <th>资源</th>
-                                <th>地区</th>
                                 <th>状态</th>
                             </tr>
                         </thead>
@@ -96,7 +95,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>资源</label>
-                                        <input name="field1" class="form-control" placeholder="请输入资源" required>
+                                        <input name="resourceValue" class="form-control" placeholder="请输入资源" required>
                                         </input>
                                     </div>
                                 </div>
@@ -119,11 +118,10 @@
                 <tr>
                     <td>
                         <input type="radio" class="minimal" value="{{dealId}}" name="dealId">
-                        <td>{{propertyName}}
+                        <td>{{propertyResource}}
                             <input type="hidden" value="{{dealId}}" name="dealId">
                         </td>
                         <td>{{field1}}</td>
-                        <td>{{field2}}</td>
                         <td>{{stateTran state}}</td>
                 </tr>
                 {{/each}}

@@ -268,5 +268,17 @@ public class NaAutoBackupFrontSv {
 		correlation.setDoneDate(new Date());
 		autoPropertyCorrelationDao.save(up);
 	}
+	//获得数据配置字段下拉框
+	public List<Map> getPropertyFleldName(String propertyId){
+		List<NaAutoPropertyConfig> cigIds = autoPropertyConfigDao.findByPropertyId(propertyId);
+		List<Map> CfgIdList = new ArrayList<Map>();
+		for (NaAutoPropertyConfig cigId : cigIds) {
+			Map acct = new HashMap();
+			acct.put("propertyField",cigId.getPropertyField());
+			acct.put("cigId", cigId.getCfgId());
+			CfgIdList.add(acct);
+		}
+		return CfgIdList;
+	}
 	
 }

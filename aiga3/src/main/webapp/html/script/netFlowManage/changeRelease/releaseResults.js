@@ -25,8 +25,16 @@ define(function(require, exports, module) {
     srvMap.add("releasestage", pathAlias + "addReleaseResults.json", "online/system/releasestage");
     //测试进程
     srvMap.add("testProcess", pathAlias + "addReleaseResults.json", "online/test/process");
-
-
+    //数据库执行异常解析
+    srvMap.add("exception", pathAlias + "addReleaseResults.json", "database/execution/exception");
+    //数据库脚本执行进程解析
+    srvMap.add("processexcel", pathAlias + "addReleaseResults.json", "database/scriptexecution/processexcel");
+    //在线系统发布准备解析
+    srvMap.add("releaseexcel", pathAlias + "addReleaseResults.json", "online/system/releaseexcel");
+    //在线系统发布阶段解析
+    srvMap.add("releasestageexcel", pathAlias + "addReleaseResults.json", "online/system/releasestageexcel");
+    //测试进程解析
+    srvMap.add("processexcel", pathAlias + "addReleaseResults.json", "online/test/processexcel");
 
 
     var Data = {
@@ -95,6 +103,7 @@ define(function(require, exports, module) {
                     	self.queTable3(data.planId);
                     	self.queTable4(data.planId);
                     	self.queTable5(data.planId);
+                    	self.daoRu(data.planId)
                     });
 
                     
@@ -112,7 +121,7 @@ define(function(require, exports, module) {
             _saveBtn.bind('click', function() {
             	alert();
                 var cmd = _form.serialize();
-                cmd = cmd + "&pland=" + planId;
+                cmd = cmd + "&planId=" + planId;
                 console.log(cmd)
                 Rose.ajax.postJson(srvMap.get('addReleaseResults'), cmd, function(json, status) {
                     if (status) {
@@ -221,12 +230,69 @@ define(function(require, exports, module) {
 	            }, _domPagination);
 	    },
 	    //导入文件
-	    daoRu:function(){
+	    daoRu:function(planId){
 	    	var self = this;
-
-	    }
-
-
+            var _form = Page.findModalCId('fileUploadForm');
+            console.log(_form.length)
+            var _saveBtn = _form.find("[name='add']");
+            _saveBtn.unbind('click');
+            _saveBtn.bind('click', function() {
+            	var a=_form.find("[name='environmentType']").val();
+            	var cmd = "file="+_form.find("[name='fileName']").val()+ "&planId=" + planId;;
+            	switch(a){
+            		case 1:
+            			var task = srvMap.get('exception');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case 2:
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case 3:
+            			var task = srvMap.get('releaseexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case 4:
+            			var task = srvMap.get('releasestageexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case 5:
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            	}
+                
+            });
+            
+	    },
+	    jieko : function(task,cmd,a,planId){
+	    	var self = this;
+	    	Rose.ajax.postJson(task, cmd, function(json, status) {
+                    if (status) {
+                        // 添加用户成功后，刷新用户列表页
+                        XMS.msgbox.show('上传成功！', 'success', 2000)
+                        setTimeout(function() {
+                            switch(a){
+			            		case 1:
+			            			self.queTable1(planId);
+			            			break;
+			            		case 2:
+			            			self.queTable2(planId);
+			            			break;
+			            		case 3:
+			            			self.queTable3(planId);
+			            			break;
+			            		case 4:
+			            			self.queTable4(planId);
+			            			break;
+			            		case 5:
+			            			self.queTable5(planId);
+			            			break;
+			            	}
+                        }, 1000)
+                    }
+                });
+        },
     };
     module.exports = Query;
 });

@@ -57,7 +57,7 @@ public class CourseChangController {
            @ApiParam(name="pageSize",value="页数")@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
            @ApiParam(name="CourseChangListRequest",value="查询条件") CourseChangListRequest condition){
 	   //值查询修改过状态的任务
-	   condition.setDeployState((long) 1);
+	   condition.setDeployState((long) 2);
    	Object CourseChangList = courseChangeSv.find(condition, pageNumber, pageSize); 	
        JsonBean jsonBean=new JsonBean();
       jsonBean.setData(CourseChangList);

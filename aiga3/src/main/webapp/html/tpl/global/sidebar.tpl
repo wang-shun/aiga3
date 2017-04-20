@@ -12,7 +12,7 @@
     <!-- 搜索区域-->
     <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="Search...">
+            <input type="text" name="q" class="form-control" placeholder="请输入菜单名称" >
             <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                 </button>
@@ -34,11 +34,11 @@
             {{/if}}
           </a>
           {{#if subMenus}}
-          <ul class="treeview-menu">
+          <ul class="treeview-menu no-disc">
             {{#each subMenus}}
             <li class="">
                 <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
-                    <i class="fa fa-circle-o"></i>
+                    <!-- <i class="fa fa-circle"></i> -->
                     <span>{{name}}</span>
                     {{#if subMenus}}
                     <span class="pull-right-container">
@@ -51,7 +51,7 @@
                     {{#each subMenus}}
                     <li class="">
                         <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
-                            <i class="fa fa-circle-o"></i>
+                            <!-- <i class="fa fa-circle"></i> -->
                             <span>{{name}}</span>
                             {{#if subMenus}}
                             <span class="pull-right-container">
@@ -60,11 +60,10 @@
                             {{/if}}
                         </a>
                         {{#if subMenus}}
-                        <ul href="javascript:;" class="treeview-menu">
+                        <ul href="javascript:;" class="treeview-menu no-disc-4">
                             {{#each subMenus}}
                             <li class="">
                                 <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}">
-                                    <i class="fa fa-circle-o"></i>
                                     <span>{{name}}</span>
                                 </a>
                             </li>

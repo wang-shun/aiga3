@@ -46,6 +46,10 @@ public class CourseChangListRequest {
      private Long onlinePlan;//
      
      
+     public CourseChangListRequest(){
+    	 
+     }
+     
 	public CourseChangListRequest(Long id, String subtaskId, String subtaskName, String integrator,
 			String developer, String courseChangeType, String influenceScope, String name, String resourceType,
 			String resourceDescribe, String system, String systemSubdomain, String subsystem, String module,

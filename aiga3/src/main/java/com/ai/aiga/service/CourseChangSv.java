@@ -35,17 +35,17 @@ public class CourseChangSv extends BaseService {
      * @return List<CourseChangList>
      */
     public Object find(CourseChangListRequest condition, int pageNumber, int pageSize){
-        String sql = "select c.*,a.task_name,q.online_plan_name,q.plan_date from COURSE_CHANG_LIST c,CHANGE_PLAN_ONILE q,(select online_plan_id t,assign_date,task_name from AIGA_ONLINE_TASK_DISTRIBUTE where TASK_TYPE in (11) order by assign_date desc) a where a.t=c.plan_id and q.online_plan=a.t and 1=1";
+        StringBuilder sql =new StringBuilder("select c.*,a.task_name,q.online_plan_name,q.plan_date from COURSE_CHANG_LIST c,CHANGE_PLAN_ONILE q,(select online_plan_id t,assign_date,task_name from AIGA_ONLINE_TASK_DISTRIBUTE where TASK_TYPE in (11) order by assign_date desc) a where a.t=c.plan_id and q.online_plan=a.t and 1=1");
        
         if(condition!=null){
         	if(condition.getDeployState()!=null){
-        		 sql=sql+" and c.DEPYLY_STATE = "+condition.getDeployState();
+        		 sql.append(" and c.DEPLOY_STATE = "+condition.getDeployState());
         	}
-        	if(condition.getTaskName()!=null){
-        		 sql=sql+" and a.TASK_NAME = "+condition.getTaskName();
+        	if(condition.getTaskName()!=null&&condition.getTaskName()!=""){
+        		 sql.append(" and a.TASK_NAME like '%"+condition.getTaskName()+"%'");
         	}
         	if(condition.getOnlinePlan()!=null){
-        		 sql=sql+" and q.online_plan = "+condition.getOnlinePlan();
+        		 sql.append(" and q.online_plan = "+condition.getOnlinePlan());
         	}
         }
         Pageable pageable = new PageRequest(pageNumber, pageSize);
@@ -57,7 +57,7 @@ public class CourseChangSv extends BaseService {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 
-        return courseChangDao.searchByNativeSQL(sql, pageable);
+        return courseChangDao.searchByNativeSQL(sql.toString(), pageable);
     }
     
     /**

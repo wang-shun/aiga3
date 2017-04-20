@@ -11,9 +11,9 @@ define(function(require, exports, module) {
     // 下拉菜单获取所有变更计划
     srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //获取验收任务列表
-    srvMap.add("getDeployingTaskList", pathAlias + "getDeployingTaskList.json", "auto/task/seachDeployTask");
+    srvMap.add("getDeployingTaskList", pathAlias + "getDeployingTaskList.json", "accept/onlineTask/deployList");
     //保存回归子任务
-    srvMap.add("saveDeployingTask", pathAlias + "retMessage.json", "auto/task/saveTask");
+    srvMap.add("saveDeployingTask", pathAlias + "retMessage.json", "accept/task/saveTask");
 
     // // 模板对象
     // var Tpl = {

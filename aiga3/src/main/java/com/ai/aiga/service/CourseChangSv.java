@@ -92,7 +92,10 @@ public class CourseChangSv extends BaseService {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
         for(CourseChangList course : courseChangList){
-        courseChangDao.save(course);
+        CourseChangList courseTrue = courseChangDao.findOne(course.getId());
+        courseTrue.setMonitorState(course.getMonitorState());
+        courseTrue.setMonitorOrder(course.getMonitorOrder());
+        courseChangDao.save(courseTrue);
         }
     }
 

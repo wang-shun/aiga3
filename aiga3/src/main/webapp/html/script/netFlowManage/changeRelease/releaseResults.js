@@ -9,6 +9,8 @@ define(function(require, exports, module) {
     // 路径重命名
     var pathAlias = "netFlowManage/changeRelease/releaseResults/";
 
+     // 下拉菜单获取所有变更计划
+    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
     //查询发布结果表格
     srvMap.add("getReleaseResultsList", pathAlias + "getReleaseResultsList.json", "release/report/list");
     //新增
@@ -130,6 +132,7 @@ define(function(require, exports, module) {
 	            // Data.queryListCmd = _cmd;
 	            var _dom = Page.findModalCId('dataBaseTab_1');
 	            var _content = _dom.find("[name='content']");
+	            var _domPagination = _dom.find("[name='pagination']");
 	            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 	            // 设置服务器端分页
 	            Utils.getServerPage(srvMap.get('exlist'), _cmd, function(json) {
@@ -148,6 +151,7 @@ define(function(require, exports, module) {
 	            // Data.queryListCmd = _cmd;
 	            var _dom = Page.findModalCId('dataBaseTab_2');
 	            var _content = _dom.find("[name='content']");
+	            var _domPagination = _dom.find("[name='pagination']");
 	            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 	            // 设置服务器端分页
 	            Utils.getServerPage(srvMap.get('process'), _cmd, function(json) {
@@ -166,6 +170,7 @@ define(function(require, exports, module) {
 	            // Data.queryListCmd = _cmd;
 	            var _dom = Page.findModalCId('dataBaseTab_3');
 	            var _content = _dom.find("[name='content']");
+	            var _domPagination = _dom.find("[name='pagination']");
 	            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 	            // 设置服务器端分页
 	            Utils.getServerPage(srvMap.get('release'), _cmd, function(json) {
@@ -184,6 +189,7 @@ define(function(require, exports, module) {
 	            // Data.queryListCmd = _cmd;
 	            var _dom = Page.findModalCId('dataBaseTab_4');
 	            var _content = _dom.find("[name='content']");
+	            var _domPagination = _dom.find("[name='pagination']");
 	            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 	            // 设置服务器端分页
 	            Utils.getServerPage(srvMap.get('releasestage'), _cmd, function(json) {
@@ -202,6 +208,7 @@ define(function(require, exports, module) {
 	            // Data.queryListCmd = _cmd;
 	            var _dom = Page.findModalCId('dataBaseTab_5');
 	            var _content = _dom.find("[name='content']");
+	            var _domPagination = _dom.find("[name='pagination']");
 	            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 	            // 设置服务器端分页
 	            Utils.getServerPage(srvMap.get('testProcess'), _cmd, function(json) {
@@ -213,6 +220,12 @@ define(function(require, exports, module) {
 	                Utils.eventTrClickCallback(_dom);
 	            }, _domPagination);
 	    },
+	    //导入文件
+	    daoRu:function(){
+	    	var self = this;
+
+	    }
+
 
     };
     module.exports = Query;

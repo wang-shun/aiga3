@@ -12,5 +12,6 @@ public interface AigaOrganizeDao extends JpaRepository<AigaOrganize, Long>{
 	public List<AigaOrganize> findByOrganizeId(Long organizeId);
 	
 	//查询子组织
-		public List<AigaOrganize> findByParentOrganizeId(Long organizeId);
+	public List<AigaOrganize> findByParentOrganizeId(Long organizeId);
+	
 }

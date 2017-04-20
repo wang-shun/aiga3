@@ -254,9 +254,9 @@ public class NaAutoBackupFrontSv {
 		if(up == null){
 			BusinessException.throwBusinessException("根据correlationId:"+correlation.getCorrelationId()+"查询不到记录");
 		}
-		if(correlation.getPropertyCfgId() > 0){
+		/*if(correlation.getPropertyCfgId() > 0){
 			up.setPropertyCfgId(correlation.getPropertyCfgId());
-		}
+		}*/
 		if(StringUtils.isNotEmpty(correlation.getCorrelationField())){
 			up.setCorrelationField(correlation.getCorrelationField());
 		}

@@ -90,6 +90,7 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_dom, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
+					alert(data.correlationId);
 					self.updateDataMaintain(data.correlationId);
 				});
 			}, _domPagination);
@@ -159,20 +160,23 @@ define(function(require, exports, module) {
 			});
 		},
 		updateDataMaintain: function(Id) {
+			var self = this;
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				var _form = Page.findId('updateMaintainInfo');
+				var _form = Page.findId('updateDataMaintainInfo');
 				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();
+				_cmd = _cmd +"&correlationId="+Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
 				Rose.ajax.getJson(srvMap.get('updateDataMaintain'), _cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('更新成功！', 'success', 2000)
 						setTimeout(function() {
 							self.queryDataMaintainForm(Data.queryListCmd);
+							_dom.modal('hide');
 						}, 1000)
 					}
 				});

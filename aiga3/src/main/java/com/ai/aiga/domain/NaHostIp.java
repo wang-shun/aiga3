@@ -4,7 +4,10 @@ package com.ai.aiga.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -49,7 +52,8 @@ public class NaHostIp  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_HOST_IP$SEQ")
+     @SequenceGenerator(name="NA_HOST_IP$SEQ",sequenceName="NA_HOST_IP$SEQ",allocationSize=1)
     @Column(name="ID", unique=true, nullable=false, precision=22, scale=0)
     public Long getId() {
         return this.id;

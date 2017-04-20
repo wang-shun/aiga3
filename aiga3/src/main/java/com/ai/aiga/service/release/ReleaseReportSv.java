@@ -60,6 +60,7 @@ import com.ai.aiga.view.util.SessionMgrUtil;
 @Service
 @Transactional
 public class ReleaseReportSv extends BaseService{
+	
 	@Autowired
 	private ReleaseReportDao releaseReportDao;
 

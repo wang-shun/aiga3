@@ -5,7 +5,10 @@ package com.ai.aiga.domain;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -64,7 +67,8 @@ public class NaOnlineGeneralSteps  implements java.io.Serializable {
     }
    
      @Id 
-    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_ONLINE_GENERAL_STEPS$SEQ")
+     @SequenceGenerator(name="NA_ONLINE_GENERAL_STEPS$SEQ",sequenceName="NA_ONLINE_GENERAL_STEPS$SEQ",allocationSize=1)
     @Column(name="STEP_ID", unique=true, nullable=false, precision=14, scale=0)
     public Long getStepId() {
         return this.stepId;

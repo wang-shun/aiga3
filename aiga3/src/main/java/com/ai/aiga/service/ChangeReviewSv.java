@@ -142,8 +142,10 @@ public class ChangeReviewSv extends BaseService{
 		   
 		   if(StringUtils.isNotBlank(request.getReviewResult())){
 		   naChangeReview.setReviewResult(request.getReviewResult());}
+		   
 		   naChangeReview.setExt2(request.getExt2());
-		   naChangeReview.setExt1(request.getExt1());
+		   
+		   //naChangeReview.setExt1(request.getExt1());
 		   changeReviewDao.save(naChangeReview);
 	 
 	   }
@@ -660,23 +662,24 @@ public class ChangeReviewSv extends BaseService{
 
 
 	 }
-	 public void savehost(NaHostIp request){
+	 public void savehost(List<NaHostIp> request ){
 		   
 		   if(request == null){ 
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 			}
-		   NaHostIp naHostIp=naHostIpDao.findOne(request.getId());
-		   if(naHostIp == null){ 
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		   for(int i = 0; i < request.size(); i++){
+			   NaHostIp hostIp = request.get(i);
+			   if(hostIp.getId() == null){ 
+				   naHostIpDao.save(request);
+			   }else{
+				   NaHostIp naHostIp=naHostIpDao.findOne(hostIp.getId());
+				   naHostIp.setIp(hostIp.getIp());
+				   naHostIp.setRemark(hostIp.getRemark());
+				   naHostIp.setHostName(hostIp.getHostName());
+				   naHostIpDao.save(naHostIp);
+			   }
 		   }
-		   if(naHostIp != null){
-			   
-			   naHostIp.setIp(request.getIp());
-			   naHostIp.setRemark(request.getRemark());
-			   naHostIp.setHostName(request.getHostName());
-			   naHostIpDao.save(naHostIp);
-		 
-		   }
+		  
 	   }
 
 

@@ -3,6 +3,8 @@ package com.ai.aiga.view.controller.release;
 import java.text.ParseException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +44,7 @@ import com.ai.aiga.view.util.POIExcelUtil;
  */
 @Controller
 public class ReleaseReportController {
+	protected Logger log = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private  ReleaseReportSv  releaseReportSv;
 	
@@ -71,7 +74,7 @@ public class ReleaseReportController {
 			releaseReportSv.saveExecutionExceptionExcel(planId, list);
 			
 		} catch (Exception e) {
-			//log.error("解析excel失败", e);
+			log.error("解析excel失败", e);
 			bean.fail("解析excel失败!");
 		}
 		return bean;
@@ -89,7 +92,7 @@ public class ReleaseReportController {
 				releaseReportSv.saveDbScriptExecutionProcessExcel(planId, list);
 				
 			} catch (Exception e) {
-				//log.error("解析excel失败", e);
+			log.error("解析excel失败", e);
 				bean.fail("解析excel失败!");
 			}
 			return bean;
@@ -133,7 +136,7 @@ public class ReleaseReportController {
 				releaseReportSv.saveOnlineSysReleaseExcel(planId, list);
 				
 			} catch (Exception e) {
-				//log.error("解析excel失败", e);
+				log.error("解析excel失败", e);
 				bean.fail("解析excel失败!");
 			}
 			return bean;
@@ -151,7 +154,7 @@ public class ReleaseReportController {
 						releaseReportSv.saveOnlineSysReleaseStageExcel(planId, list);
 						
 					} catch (Exception e) {
-						//log.error("解析excel失败", e);
+						log.error("解析excel失败", e);
 						bean.fail("解析excel失败!");
 					}
 					return bean;
@@ -209,7 +212,7 @@ public class ReleaseReportController {
 				releaseReportSv.saveTestProcessExcel(planId, list);
 				
 			} catch (Exception e) {
-				//log.error("解析excel失败", e);
+				log.error("解析excel失败", e);
 				bean.fail("解析excel失败!");
 			}
 			return bean;

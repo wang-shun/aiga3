@@ -283,7 +283,7 @@ public class ChangeReviewController {
 		
 		//主机保存
 		@RequestMapping(path = "/warn/host/savehost")
-		public @ResponseBody JsonBean savehost(NaHostIp request){
+		public @ResponseBody JsonBean savehost(@RequestBody List<NaHostIp> request){
 			changeReviewSv.savehost(request);;
 			return JsonBean.success;
 		}

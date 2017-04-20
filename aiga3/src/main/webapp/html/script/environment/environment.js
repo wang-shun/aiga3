@@ -211,18 +211,18 @@ define(function(require,exports,module){
 			$("#JS_deleteEnvironment").bind('click', function() {
 				var  envId="";
 				var num =0 ;
-			    var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
-			    if(_checkObj.length==0){
-				    window.XMS.msgbox.show('请选择要删除的环境！', 'error', 2000);
-				    return false;
-			    }
-			    _checkObj.each(function (){
-				    if(num!=(_checkObj.length-1)){
-					    envId += $(this).val()+",";
-				    }else{
-				    	envId += $(this).val();
-				    }
-				    num ++;
+			   var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+			   if(_checkObj.length==0){
+				   window.XMS.msgbox.show('请选择要删除的环境！', 'error', 2000);
+				   return false;
+			   }
+			   _checkObj.each(function (){
+				   if(num!=(_checkObj.length-1)){
+					   envId += $(this).val()+",";
+				   }else{
+					   envId += $(this).val();
+				   }
+				   num ++;
 				});
 				Rose.ajax.postJson(srvMap.get('deleteEnvironment'), 'envId=' + envId, function(json, status) {
 						if (status) {

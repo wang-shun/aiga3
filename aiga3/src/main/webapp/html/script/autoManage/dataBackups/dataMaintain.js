@@ -20,7 +20,7 @@ define(function(require, exports, module) {
 	//数据库下拉菜单
 	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
 	//cfgId下拉菜单
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyConfigList");
+	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
 	// 模板对象
 	var Tpl = {
 		getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -58,7 +58,6 @@ define(function(require, exports, module) {
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
 				self.getDataMaintainList(cmd);
-
 			});
 
 		},
@@ -101,11 +100,10 @@ define(function(require, exports, module) {
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
 				$(Dom.addDataMaintainModal).modal('show');
-				/*$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
-					//Utils.resetForm(Dom.addDataMaintainInfo);
-				});*/
+				$(Dom.addDataMaintainModal).on('hide.bs.modal', function() {
+					Utils.resetForm(Dom.addDataMaintainInfo);
+				});
 				var _form = $(Dom.addDataMaintainInfo);
-				var propertyCfgIdSelect = _form.find("[name='propertyCfgId']");
 				Utils.setSelectData(_form);
 				var _saveBt = $(Dom.addDataMaintainModal).find("[name = 'save']");
 				_saveBt.unbind('click');

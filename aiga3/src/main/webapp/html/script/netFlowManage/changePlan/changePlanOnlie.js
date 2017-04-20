@@ -222,9 +222,9 @@ define(function(require, exports, module) {
 		reviewDel: function() {
 			var self = this;
 			var _dom = $(Dom.changePlanOnlie);
-			var _reviewDel = _dom.find("[name='reviewDel']");
-			_reviewDel.unbind('click');
-			_reviewDel.bind('click', function() {
+			var _scrap = _dom.find("[name='reviewDel']");
+			_scrap.unbind('click');
+			_scrap.bind('click', function() {
 				var _data = self.getTaskRow();
 				if (_data) {
 					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate;
@@ -350,17 +350,10 @@ define(function(require, exports, module) {
 							_form.html(template(json.data));
 							_form.find("[name='planState']").val(json.data.planState);
 							_form.find("[name='types']").val(json.data.types);
-							_form.find("[name='result']").val(json.data.result);
 							if(json.data.ext3=="2"){
 								_form.find("[name='update']").attr("disabled", true);
-								_form.find("[name='submit']").attr("disabled", true);
-								_form.find("[name='result']").attr("readonly", readonly);
-								_form.find("[name='ext2']").attr("readonly", readonly);
 							}else{
 								_form.find("[name='update']").removeAttr("disabled");
-								_form.find("[name='submit']").removeAttr("disabled");
-								_form.find("[name='submit']").removeAttr("readonly");
-								_form.find("[name='submit']").removeAttr("readonly");
 							}
 							$("#submit-button").attr("disabled", true);
 							self.resultUpdate();
@@ -468,6 +461,7 @@ define(function(require, exports, module) {
 					self.eventClickChecked($("#JS_requListab"), function() {
 
 					});
+
 				}
 			});
 		},

@@ -11,7 +11,7 @@ define(function(require, exports, module) {
 
 	srvMap.add("submitRst", pathAlias + "funTaskList.json", "accept/subTask/caseResultSave");
 
-	var taskType = "&taskType = " + 1;
+
 	// 模板对象
 	var Tpl = {
 		funTaskList: $("#TPL_funTaskList").html(), //计划列表
@@ -154,8 +154,7 @@ define(function(require, exports, module) {
 						window.XMS.msgbox.show('保存成功', 'success', 2000);
 						var _modal = $(Dom.modalSubmitResult);
 						_modal.modal('hide');
-						var _form = $(Dom.QueryTaskForm);
-						_form.find('button[name="query"]').click();
+						self.queryFunTask();
 					}
 				});
 

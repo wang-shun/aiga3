@@ -316,8 +316,7 @@ define(function(require, exports, module) {
 
 								//问题
 								self.getEmedList(Data.teamId);
-								alert("teamId=" + Data.teamId);
-								self.getEmList("teamId=" + ata.teamId);
+								self.getEmList("teamId=" + Data.teamId);
 							}, 1000)
 						}
 					});

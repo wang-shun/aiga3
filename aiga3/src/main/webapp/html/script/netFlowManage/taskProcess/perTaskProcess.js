@@ -111,7 +111,7 @@ define(function(require, exports, module) {
 					//查找按钮
 					self.queryPerTaskList();
 					//同步测试结果
-					self.synTestResults();
+					self.synTestResults("");
 					//queTestResults查看测试结果
 					self.queTestResults();
 					// Utils.setScroll($(Dom.getAutoPlanList),380px);

@@ -94,7 +94,7 @@ define(function(require,exports,module){
 			Data.queryListCmd = _cmd;
 			var _dom = Page.findId('getCaseTempList');
 			var _domPagination = _dom.find("[name='pagination']");
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getCaseTempList'),_cmd,function(json){
 				window.XMS.msgbox.hide();

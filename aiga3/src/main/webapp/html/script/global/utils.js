@@ -77,19 +77,6 @@ define(function(require, exports, module) {
             });
         },
          /**
-         * 表格行双击执行回调函数
-         *
-         * @method obj 表格父元素
-         * @callback Fun 回调函数
-         */
-        eventDClickCallback:function(obj,callback){
-            obj.find("tr").bind('dblclick ', function(event) {
-                    if (callback) {
-                        callback();
-                    }
-            });
-        },
-         /**
          * 表单验证
          *
          * @method objForm 表单父元素
@@ -140,11 +127,6 @@ define(function(require, exports, module) {
         goStep:function(obj,num){
             $(obj).find("div[data-steps='"+num+"']").removeClass('hide').siblings().addClass('hide');
         },
-        /**
-         * 竖向滚动条 - 待处理
-         *
-         * @method obj 父元素
-         */
         setScroll:function(obj,height){
             obj.slimScroll({
                 "height": height
@@ -207,26 +189,38 @@ define(function(require, exports, module) {
             return data;
         },
          /**
+         * 表格行双击执行回调函数
+         *
+         * @method obj 表格父元素
+         * @callback Fun 回调函数
+         */
+        eventDClickCallback:function(obj,callback){
+            obj.find("tr").bind('dblclick ', function(event) {
+                    if (callback) {
+                        callback();
+                    }
+            });
+        },
+         /**
          * 设置下拉框数据
          *
          * @method obj 表单父元素
          */
-        setSelectData:function(obj,other,callback){
+        setSelectData:function(obj,callback){
             var self = this;
             obj.find("select").each(function(index) {
                 var _this = $(this);
                 var _url = _this.data("url");
                 var _cmd = _this.data("cmd") || '';
-                if(other){
-                    _cmd += "&" + other;
-                }
                 if(_url){
                     if(callback){
                         self.setSelectHtml(_this,_url,_cmd,callback());
                     }else{
                         self.setSelectHtml(_this,_url,_cmd);
                     }
+                    
                 }
+
             });
 
             obj.on("change", "select[data-subname]", function(){
@@ -308,7 +302,7 @@ define(function(require, exports, module) {
             });
         },
          /**
-         * 设置当前元素下所有下拉框默认选中的值
+         * 设置当前元素下所有下拉框选中
          *
          * @method obj 元素
          */
@@ -318,11 +312,6 @@ define(function(require, exports, module) {
                 $(this).find("option[value='"+_data+"']").attr("selected",true)
             });
         },
-         /**
-         * 服务器端的分页
-         *
-         * @method obj 元素
-         */
         getServerPage:function(url,cmd,callback,obj,pageSize){
             var self = this;
             var page_index = 0;

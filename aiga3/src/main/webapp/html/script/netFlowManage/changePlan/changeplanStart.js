@@ -3,7 +3,7 @@ define(function(require, exports, module) {
     var Utils = require("global/utils.js");
 
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
-    var Page = Utils.initPage('changeplanStart');
+    var Page = Utils.initPage('changePlanStart');
 
     // 路径重命名
     var pathAlias = "netFlowManage/changePlan/changePlanStart/";
@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     //获取编译发布结果列表
     srvMap.add("getPublishResultList", pathAlias + "getPublishResultList.json", "accept/changePlanRun/compileList");
     //下拉菜单获取所有处理人
-    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/onlineTask/dealOp");
+    srvMap.add("getDealOpIdList", pathAlias + "getDealOpIdList.json", "accept/changePlanRun/createOpId");
     //启动变更的接口
     srvMap.add("startChange", pathAlias + "retMessage.json", "accept/changePlanRun/changStart");
     //启动上线获取验收任务列表接口
@@ -40,12 +40,12 @@ define(function(require, exports, module) {
         queryChangePlanForm: '#JS_queryChangePlanForm',
         getChangePlanList: '#JS_getChangePlanList',
         getAutoResultList: '#JS_getAutoResultListC',
-        getAutoResultModal: '#Modal_getAutoResultModal',
+        getAutoResultModal: '#JS_getAutoResultModal',
         saveTaskResultForm: '#JS_saveTaskResultForm',
         getTaskResultList: '#JS_getTaskResultList',
-        getTaskResultModal: '#Modal_getTaskResultModal',
+        getTaskResultModal: '#JS_getTaskResultModal',
         getPublishResultList: '#JS_getPublishResultList',
-        getPublishResultModal: '#Modal_getPublishResultModal'
+        getPublishResultModal: '#JS_getPublishResultModal'
 
     };
 
@@ -68,7 +68,7 @@ define(function(require, exports, module) {
         // 按条件查询
         queryChangePlanForm: function() {
             var self = this;
-            var _form = Page.findId('queryChangePlanForm');
+            var _form = $(Dom.queryChangePlanForm);
             Utils.setSelectData(_form);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
@@ -87,16 +87,16 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getChangePlanList'), _cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Page.findTpl('getChangePlanList'));
-                    Page.findId('getChangePlanList').html(template(json.data))
+                    var template = Handlebars.compile(Tpl.getChangePlanList);
+                    $(Dom.getChangePlanList).html(template(json.data))
 
                     self.getAutoResultList();
                     self.changePlanStart();
                     self.getPublishResultList();
-                    Utils.eventTrClickCallback(Page.findId('getChangePlanList'))
+                    Utils.eventTrClickCallback($(Dom.getChangePlanList))
 
                     //设置分页
-                    self.initPaging(Page.findId('getChangePlanList'), 8, true)
+                    self.initPaging($(Dom.getChangePlanList), 8, true)
 
                 }
             });

@@ -35,7 +35,7 @@
                 </div>
                 <div class="box-footer">
                     <div class="text-center">
-                        <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="reset" class="btn btn-default">重置</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
                     </div>
                 </div>
@@ -45,8 +45,8 @@
             <div class="box-header ">
                 <h3 class="box-title">属性维护列表</h3>
                 <div class="box-tools">
-                        <button type="button" class="btn btn-primary" name="add"><i class="fa fa-plus"></i> 添加</button>
-                        <button type="button" class="btn btn-primary" name="del"><i class="fa fa-remove"></i> 删除</button>
+                    <button type="button" class="btn btn-primary" name="add">添加</button>
+                    <button type="button" class="btn btn-primary" name="del">删除</button>
                 </div>
             </div>
             <div class="box-body">
@@ -120,17 +120,17 @@
                                         <i class="text-red">* </i>
                                         <label>数据配置字段</label>
                                         <select name="propertyCfgId" class="form-control " data-suburl="getPropertyConfigList" data-idkey="cigId" data-namekey="propertyField" name="propertyCfgId">
-                                                <option value="0">
-                                                    请选择
-                                                </option>
-                                            </select>
+                                            <option value="0">
+                                                请选择
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>数据库</label>
-                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList" >
+                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList">
                                             <option value="0">
                                                 请选择
                                             </option>
@@ -163,6 +163,12 @@
                     <div class="box-body">
                         <div class="box-body">
                             <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>属性</label>
+                                        <div id="JS_name"></div>
+                                    </div>
+                                </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>相关表</label>

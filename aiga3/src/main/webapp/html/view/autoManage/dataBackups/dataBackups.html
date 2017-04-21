@@ -1,72 +1,67 @@
 <div class="row" id="Page_dataBackupsView">
-        <div class="col-md-12">
-            <div class="box">
-                    <form id="JS_queryDataBackupsForm">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">按条件查询</h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                        </div>
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>属性名称</label>
-                                    <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
-                                        <option>请选择</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>属性资源</label>
-                                    <input class="form-control input-sm" name="propertyResource" placeholder="请输入属性资源" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="box-footer">
-                        <div class="text-center">
-                            <button type="reset" class="btn btn-default">重置</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="box" id="JS_getDataBackupsList" style="min-height:100px;">
-                <div class="box-header ">
-                    <h3 class="box-title">数据备份列表</h3>
-                    <div class="box-tools">
-                            <button type="button" class="btn btn-primary" name="add"><i class="fa fa-plus"></i> 添加</button>
-                            <button type="button" class="btn btn-primary" name="del"><i class="fa fa-remove"></i> 删除</button>
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataBackupsForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="dataBackupsListTable">
-                        <thead>
-                            <tr>
-                                <th class="iCheckbox" width="15"></th>
-                                <th>属性</th>
-                                <th>资源</th>
-                                <th>状态</th>
-                            </tr>
-                        </thead>
-                        <tbody name="content"></tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <div class="dataTables_paginate" name="pagination"></div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>属性名称</label>
+                                <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
+                                    <option>请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>属性资源</label>
+                                <input class="form-control input-sm" name="propertyResource" placeholder="请输入属性资源" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button> 
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_getDataBackupsList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">数据备份列表</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-primary" name="add">添加</button>
+                    <button type="button" class="btn btn-primary" name="del">删除</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataBackupsListTable">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>属性</th>
+                            <th>资源</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                </table>
+                <div class="box-footer no-border">
+                    <div class="dataTables_paginate" name="pagination"></div>
                 </div>
             </div>
         </div>
     </div>
-
+</div>
 <!-- 新增弹框 -->
 <div class="modal fade" id="Modal_addDataBackupsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-md" role="document">
@@ -114,17 +109,17 @@
 </div>
 <!-- Modal -->
 <script id="TPL_getDataBackupsTemp" type="text/x-handlebars-template">
-                {{#each this}}
-                <tr>
-                    <td>
-                        <input type="radio" class="minimal" value="{{dealId}}" name="dealId">
-                        <td>{{propertyResource}}
-                            <input type="hidden" value="{{dealId}}" name="dealId">
-                        </td>
-                        <td>{{field1}}</td>
-                        <td>{{stateTran state}}</td>
-                </tr>
-                {{/each}}
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{dealId}}" name="dealId">
+            <td>{{propertyResource}}
+                <input type="hidden" value="{{dealId}}" name="dealId">
+            </td>
+            <td>{{field1}}</td>
+            <td>{{stateTran state}}</td>
+    </tr>
+    {{/each}}
 </script>
 <script type="text/javascript">
 //<![CDATA[

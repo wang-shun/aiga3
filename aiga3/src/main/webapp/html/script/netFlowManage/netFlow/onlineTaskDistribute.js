@@ -725,6 +725,14 @@ define(function(require, exports, module) {
                 }
 
             });
+            Handlebars.registerHelper('states', function(value, fn) {
+                if (value == "1") {
+                    return "是";
+                }
+                if (value == "2") {
+                    return "否";
+                }
+            });
             Handlebars.registerHelper('getDealState', function(value, fn) {
                 if (value == "1") {
                     return "未分派";

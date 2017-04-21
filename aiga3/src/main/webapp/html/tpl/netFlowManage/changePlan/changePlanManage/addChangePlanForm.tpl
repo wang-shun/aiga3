@@ -1,6 +1,6 @@
 <div class="box box-primary">
     <div class="box-header with-border">
-      <h3 class="box-title">新增计划</h3>
+      <h3 name="head" class="box-title">新增计划</h3>
       <div class="box-tools pull-right">
     	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
   	  </div>
@@ -53,7 +53,7 @@
 </div>
 <div class="box" id="JS_addChangePlanList">
     <div class="box-header">
-        <h3 class="box-title">变更计划列表</h3>
+        <h3 class="box-title">附件列表</h3>
         <div class="box-tools">
             <div class="btn-group">
                 <button type="button" class="btn btn-danger" name="parTask"><i class="fa fa-remove"></i> 删除文档</button>

@@ -1,6 +1,12 @@
 define(function(require, exports, module) {
 
+	// 通用工具模块
+    var Utils = require("global/utils.js");
+
 	var Sidebar = require('global/sidebar.js');
+
+	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('changePlanOnile');
 
 	var pathAlias = "netFlowManage/changePlan/changePlanManage/";
 	// 显示变更计划
@@ -115,33 +121,31 @@ define(function(require, exports, module) {
 		///////初始化///////////
 		initChangePlanOnlie: function(cmd) {
 			var self = this;
-			Rose.ajax.postJson(srvMap.get('getChangePlanOnlieList'), cmd, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.getChangePlanOnlieList);
-					console.log(json.data)
-					$(Dom.getChangePlanOnlieList).html(template(json.data.content));
-					//新增
-					self.addBut();
-					//修改
-					self.modifyBut();
-					//查看交付物
-					self.queryDelBut();
-					//添加上线总结
-			        self.addSummary();
+			var _domPagination = $("#JS_changePlanOnlie").find("[name='pagination']");
+			Utils.getServerPage(srvMap.get('getChangePlanOnlieList'), cmd, function(json) {
 
-					// 绑定单机当前行事件
-					self.eventClickChecked($(Dom.getChangePlanOnlieList), function() {
+				var template = Handlebars.compile(Tpl.getChangePlanOnlieList);
+				console.log(json.data)
+				$(Dom.getChangePlanOnlieList).find("[name='content']").html(template(json.data.content));
+				//新增
+				self.addBut();
+				//修改
+				self.modifyBut();
+				//查看交付物
+				self.queryDelBut();
+				//添加上线总结
+		        self.addSummary();
 
-					});
-					// 绑定双击当前行事件
-					self.eventDClickCallback($(Dom.getChangePlanOnlieList), function() {
-						// 请求：用户基本信息
-						//self.seeCase();
-					})
-					self.initPaging($(Dom.getChangePlanOnlieList), 10)
+				// 绑定单机当前行事件
+				self.eventClickChecked($(Dom.getChangePlanOnlieList), function() {
 
-				}
-			});
+				});
+				// 绑定双击当前行事件
+				self.eventDClickCallback($(Dom.getChangePlanOnlieList), function() {
+					// 请求：用户基本信息
+					//self.seeCase();
+				})
+			}, _domPagination);
 		},
 		//变更计划名称下拉框
 		queryOnlinePlanName: function() {
@@ -315,10 +319,12 @@ define(function(require, exports, module) {
 							var template = Handlebars.compile(Tpl.addChangePlanForm);
 							console.log(json.data.content[0])
 							var _form = $(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
-
+							alert();
 							var types=json.data.content[0].types
-
 							$(Dom.addChangePlanForm).html(template(json.data.content[0]));
+							$("#JS_addChangePlanForm").find("[name='timely']").val(json.data.content[0].timely);
+							$("#JS_addChangePlanForm").find("[name='head']").html("修改计划");
+							console.log($("#JS_addChangePlanForm").find("[name='head']"))
 
 							//弹出层
 							$("#JS_addChangePlanFormModal").modal('show');

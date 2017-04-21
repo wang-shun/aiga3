@@ -1,99 +1,144 @@
-<div class="box box-primary">
-    <div class="box-header with-border">
-      <h3 class="box-title">条件查询</h3>
-      <div class="box-tools pull-right">
-    	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-  	  </div>
-    </div>
-    <!-- /.box-header -->
-    <form id="JS_queryChangePlanOnileForm" class="form-horizontal" role = "form">
-      <div class="box-body">
-	    <!-- 搜索表单 --> 
-	    <div class="row">   
-		    <div class="col-sm-4 form-group">
-		        <label for="queryCaseName" class="col-sm-5 control-label">变更计划名称：</label>
-				<div class="col-sm-7">
-					<select id="query_OnlinePlanName" name="onlinePlan" class="form-control input-sm"  >
-						
-		    		</select>
-				</div> 
-		    </div>
-		    <div class="col-sm-4 form-group">
-		        <label class="col-sm-5 control-label">计划状态：</label>
-				<div class="col-sm-7">
-					<select id="query_PlanState" name="planState" class="form-control input-sm"  >
-						<option value="">请选择</option>
-						<option value="1">新建</option>
-						<option value="2">处理中</option>
-						<option value="3">完成</option>
-						<option value="4">取消</option>
-		    		</select>
-				</div> 
-		    </div>
-		    <div class="col-sm-4 form-group">
-		        <label class="col-sm-5 control-label">变更类型：</label>
-				<div class="col-sm-7">
-					<select name="types" class="form-control input-sm"  >
-						<option value="">请选择</option>
-                        <option value="0">计划上线</option>
-                        <option value="1">紧急上线</option>
-                        <option value="2">计划变更</option>
-                        <option value="3">紧急变更</option>
-		    		</select>
-				</div> 
-		    </div>
+<div class="row" id="Page_changePlanOnile">
+	<div class="col-md-12">
+	<div class="box box-primary">
+	
+		<div class="box-header with-border">
+			<h3 class="box-title">条件查询</h3>
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool"
+					data-widget="collapse">
+					<i class="fa fa-minus"></i>
+				</button>
+			</div>
 		</div>
-		<div class="row">
-	        <div class="col-sm-4 form-group">
-	            <label class="col-sm-5 control-label">起始时间：</label>
-				<div class="col-sm-7">
-					<input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-				</div>
-	        </div>   
-			<div class="col-sm-4 form-group">
-	            <label class="col-sm-5 control-label">终止时间：</label>
-				<div class="col-sm-7">
-					<input type="text" class="form-control input-sm " name="time2" id="JS_doneDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
-				</div>
-	            
-	        </div>
-	    </div>
-      </div>
-      <!-- /.box-body -->
-      <div class="box-footer">
-      	<div class=" text-center">
-        <button type="button" class="btn btn-default" name="reset">重置</button>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-	    <button type="button" class="btn btn-primary" id="JS_queryChangePlanOnileBtn" name="submit">查询</button>
-	    </div>
-      </div>
-    </form>
-</div>
+		<!-- /.box-header -->
+		<form id="JS_queryChangePlanOnileForm" class="form-horizontal"
+			role="form">
+			<div class="box-body">
+				<!-- 搜索表单 -->
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<label for="queryCaseName" class="col-sm-5 control-label">变更计划名称：</label>
+						<div class="col-sm-7">
+							<select id="query_OnlinePlanName" name="onlinePlan"
+								class="form-control input-sm">
 
-<div class="box" id="JS_changePlanOnlie">
-    <div class="box-header">
-        <h3 class="box-title">变更计划列表</h3>
-      	<div class="box-tools">
-            <div class="btn-group">
-            	<button type="button" class="btn btn-primary" name="addSummary"><i class="fa fa-share-alt"></i> 添加上线总结</button>
-            	<button type="button" class="btn btn-primary" name="queryDel"><i class="fa fa-share-alt"></i> 查看交付物</button>
-	            <button type="button" class="btn btn-primary" name="add" data-toggle="modal" ><i class="fa fa-plus"></i> 添加</button>
-	            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-	                <span class="caret"></span>
-	                <span class="sr-only">Toggle Dropdown</span>
-	            </button>
-	            <ul class="dropdown-menu" role="menu">
-	                <li><a href="javascript:;" name="modify" >修改</a></li>
-	                <li><a href="javascript:;" name="scrap" >废弃</a></li>
-	                <li><a href="javascript:;" name="cancel" >取消</a></li>
-	                <li><a href="javascript:;" name="reviewDel" >评审交付物</a></li>
-	            </ul>
-            </div>
-      	</div>
-    </div>
-    <div id="JS_getChangePlanOnlieList"  class="box-body" style="min-height: 100px;" >
-    	
-    </div>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-4 form-group">
+						<label class="col-sm-5 control-label">计划状态：</label>
+						<div class="col-sm-7">
+							<select id="query_PlanState" name="planState"
+								class="form-control input-sm">
+								<option value="">请选择</option>
+								<option value="1">新建</option>
+								<option value="2">处理中</option>
+								<option value="3">完成</option>
+								<option value="4">取消</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-4 form-group">
+						<label class="col-sm-5 control-label">变更类型：</label>
+						<div class="col-sm-7">
+							<select name="types" class="form-control input-sm">
+								<option value="">请选择</option>
+								<option value="0">计划上线</option>
+								<option value="1">紧急上线</option>
+								<option value="2">计划变更</option>
+								<option value="3">紧急变更</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<label class="col-sm-5 control-label">起始时间：</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control input-sm " name="time1"
+								id="JS_createDate"
+								onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+						</div>
+					</div>
+					<div class="col-sm-4 form-group">
+						<label class="col-sm-5 control-label">终止时间：</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control input-sm " name="time2"
+								id="JS_doneDate"
+								onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})">
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- /.box-body -->
+			<div class="box-footer">
+				<div class=" text-center">
+					<button type="button" class="btn btn-default" name="reset">重置</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-primary"
+						id="JS_queryChangePlanOnileBtn" name="submit">查询</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<div class="box" id="JS_changePlanOnlie">
+		<div class="box-header">
+			<h3 class="box-title">变更计划列表</h3>
+			<div class="box-tools">
+				<div class="btn-group">
+					<button type="button" class="btn btn-primary" name="addSummary">
+						<i class="fa fa-share-alt"></i> 添加上线总结
+					</button>
+					<button type="button" class="btn btn-primary" name="queryDel">
+						<i class="fa fa-share-alt"></i> 查看交付物
+					</button>
+					<button type="button" class="btn btn-primary" name="add"
+						data-toggle="modal">
+						<i class="fa fa-plus"></i> 添加
+					</button>
+					<button type="button" class="btn btn-primary dropdown-toggle"
+						data-toggle="dropdown">
+						<span class="caret"></span> <span class="sr-only">Toggle
+							Dropdown</span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="javascript:;" name="modify">修改</a></li>
+						<li><a href="javascript:;" name="scrap">废弃</a></li>
+						<li><a href="javascript:;" name="cancel">取消</a></li>
+						<li><a href="javascript:;" name="reviewDel">评审交付物</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="JS_getChangePlanOnlieList" class="box-body table-scrollable">
+			<table class="table table-bordered table-hover" style="width: 2200px;">
+				<thead>
+					<tr>
+						<th class="iCheckbox" width="15"></th>
+						<th>变更计划名称</th>
+						<th>类型</th>
+						<th>计划状态</th>
+						<th>计划上线时间</th>
+						<th>上线结论</th>
+						<th>上线申请是否及时</th>
+						<th>创建人</th>
+						<th>创建时间</th>
+						<th>完成时间</th>
+						<th>备注</th>
+					</tr>
+				</thead>
+				<tbody name="content"></tbody>
+			</table>
+		</div>
+		<div class="box-footer no-border">
+			<div class="dataTables_paginate" name="pagination"></div>
+		</div>
+	</div>
+	</div>
 </div>
 
 <!-- 弹框，新增 -->
@@ -162,23 +207,6 @@
     </div>
 </div>
 <script id="TPL_getChangPlanOnlieList" type="text/x-handlebars-template">
-<table class="table table-bordered table-hover" style="width: 2400px;">
-    <thead>
-        <tr>
-            <th class="iCheckbox" width="15"></th>
-            <th>变更计划名称</th>
-			<th>类型</th>
-            <th>计划状态</th>
-            <th>计划上线时间</th>
-            <th>上线结论</th>
-            <th>上线申请是否及时</th>
-			<th>创建人</th>
-            <th>创建时间</th>
-            <th>完成时间</th>
-            <th>备注</th>
-        </tr>
-    </thead>
-    <tbody>
         {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" value="{{onlinePlan}}" name="onlinePlan"></td>
@@ -188,14 +216,12 @@
             <td><input type="hidden" value="{{planDate}}" name="planDate">{{planDate}}</td>
             <td>{{results result}}</td>
             <td>{{timelys timely}}</td>
-			<td>{{createOpId}}</td>   
+			<td>{{createName}}</td>   
             <td>{{createDate}}</td>
             <td>{{doneDate}}</td>
             <td>{{remark}}</td>
         </tr>
         {{/each}}
-    </tbody>
-</table>
 </script>
 <script>
     seajs.use("script/netFlowManage/changePlan/changePlanOnlie.js", function(getChangePlanOnlie) {

@@ -2,12 +2,8 @@ package com.ai.aiga.dao;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.NaAutoTemplate;
-import com.ai.aiga.view.json.AutoTemplateRequest;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 /**
  * 自动化用例模板

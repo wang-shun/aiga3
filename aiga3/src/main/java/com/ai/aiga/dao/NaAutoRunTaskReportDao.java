@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.domain.NaAutoRunTaskReport;
-import com.ai.aiga.view.json.NaAutoRunTaskReportResponse;
 
 public interface NaAutoRunTaskReportDao extends JpaRepository<NaAutoRunTaskReport, Long>{
 	

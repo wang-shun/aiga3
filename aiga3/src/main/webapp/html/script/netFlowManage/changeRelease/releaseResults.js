@@ -93,7 +93,6 @@ define(function(require, exports, module) {
                 var data = Utils.getRadioCheckedRow(_dom);
                 if (data) {
                     var cmd = 'planId=' + data.planId;
-                    alert(data.planId)
                     var _modal = Page.findModal('getChangeRelease');
                     // 显示弹框
                     _modal.modal('show').on('shown.bs.modal', function() {
@@ -120,7 +119,6 @@ define(function(require, exports, module) {
             console.log(_saveBtn);
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
-            	alert();
                 var cmd = _form.serialize();
                 cmd = cmd + "&planId=" + planId;
                 console.log(cmd)
@@ -239,7 +237,6 @@ define(function(require, exports, module) {
             var _saveBtn = _form.find("[name='add']");
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
-            	alert(planId);
             	var a=_form.find("[name='environmentType']").val();
             	var cmd = {
             			"file":_form.find("[name='fileName']").val(),

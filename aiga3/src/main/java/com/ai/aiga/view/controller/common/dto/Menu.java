@@ -15,6 +15,7 @@ public class Menu {
     private String viewname;
     private String dllPath;
     private String funcImg;
+    private String funcArg;
     
     List<Menu> subMenus = new ArrayList<Menu>();
 
@@ -97,6 +98,14 @@ public class Menu {
 	public void setFuncImg(String funcImg) {
 		this.funcImg = funcImg;
 	}
+	
+	public String getFuncArg() {
+		return funcArg;
+	}
+
+	public void setFuncArg(String funcArg) {
+		this.funcArg = funcArg;
+	}
 
 	public List<Menu> getSubMenus() {
 		return subMenus;
@@ -112,9 +121,16 @@ public class Menu {
 
 	@Override
 	public String toString() {
-		return "Menu [funcId=" + funcId + ", funcCode=" + funcCode + ", name=" + name + ", notes=" + notes
-				+ ", parentId=" + parentId + ", funcLevel=" + funcLevel + ", funSeq=" + funSeq + ", viewname="
-				+ viewname + ", dllPath=" + dllPath + ", funcImg=" + funcImg + ", subMenus=" + subMenus + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Menu [funcId=").append(funcId).append(", funcCode=").append(funcCode).append(", name=")
+				.append(name).append(", notes=").append(notes).append(", parentId=").append(parentId)
+				.append(", funcLevel=").append(funcLevel).append(", funSeq=").append(funSeq).append(", viewname=")
+				.append(viewname).append(", dllPath=").append(dllPath).append(", funcImg=").append(funcImg)
+				.append(", funcArg=").append(funcArg).append(", subMenus=").append(subMenus).append("]");
+		return builder.toString();
 	}
+	
+	
+	
 
 }

@@ -182,7 +182,7 @@
 									        <tr>
 									        	<th class="iCheckbox" width="15"></th>
 									            <th>测试执行类型</th>
-									            <th>测试执行情况</th>
+									            <th>测试情况</th>
 									        </tr>
 									    </thead>
 									    <tbody name="content"></tbody>
@@ -894,36 +894,36 @@
 </script>
 <!-- handlebars/测试执行情况列表 -->
 <script id="TPL_getRunList" type="text/x-handlebars-template">
-	{{#each this}}
-		{{#if ext1}}
+	{{#if ext1}}
+		{{#each this}}
 	        <tr>
 	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
 	        	<td><input type="hidden" value="{{ext1}}" name="ext1">{{ext1}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{ext2}}" placeholder="" style="width:600px;"></div></td>
+	            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="{{testSituation}}" placeholder="" style="width:600px;"></div></td>
 	        </tr>
-	    {{else}}
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{非功能验收测试}}" name="ext1">{{非功能验收测试}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{本次上线涉及服务xx个，其中新增服务x个，修改服务x个，测试通过x个，测试通过率xx}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{功能验收测试}}" name="ext1">{{功能验收测试}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{功能验收测试已完成，未发现问题}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{应用安全扫描}}" name="ext1">{{应用安全扫描}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{经安全室确认，本次上线符合安全规范}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{SQL安全扫描}}" name="ext1">{{SQL安全扫描}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{本次测试结果正常，无新增漏洞，允许上线}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-	    {{/if}}
-    {{/each}}
+        {{/each}}
+    {{else}}
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="非功能验收测试" name="ext1">非功能验收测试</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="本次上线涉及服务xx个，其中新增服务x个，修改服务x个，测试通过x个，测试通过率xx" placeholder="" style="width:600px;"></div></td>
+        </tr>
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="功能验收测试" name="ext1">功能验收测试</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="功能验收测试已完成，未发现问题" placeholder="" style="width:600px;"></div></td>
+        </tr>
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="应用安全扫描" name="ext1">应用安全扫描</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="经安全室确认，本次上线符合安全规范" placeholder="" style="width:600px;"></div></td>
+        </tr>
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="SQL安全扫描" name="ext1">SQL安全扫描</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="本次测试结果正常，无新增漏洞，允许上线" placeholder="" style="width:600px;"></div></td>
+        </tr>
+    {{/if}}
 </script>
 <!-- handlebars/测试遗留情况列表 -->
 <script id="TPL_getRemnantList" type="text/x-handlebars-template">

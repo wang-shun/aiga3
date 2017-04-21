@@ -314,7 +314,7 @@ define(function(require,exports,module){
 				   	}
 					var testId;
 					var ext1;
-					var ext2;
+					var testSituation;
 					var saveState = [];
 					var cmd;
 					_dom.find("tbody").find("tr").each(function(){
@@ -322,11 +322,11 @@ define(function(require,exports,module){
 						if(tdArr.eq(0).find("input").is(':checked')){
 							testId = tdArr.eq(0).find("input").val();
 							ext1 = tdArr.eq(1).find("input").val();
-							ext2 = tdArr.eq(2).find("input").val();
+							testSituation = tdArr.eq(2).find("input").val();
 							saveState.push({
 								"testId" : testId,
 								"ext1" : ext1,
-								"ext2" : ext2,
+								"testSituation" : testSituation,
 								"planId" : data.onlinePlan
 							});
 						}

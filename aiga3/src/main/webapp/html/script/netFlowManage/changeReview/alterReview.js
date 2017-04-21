@@ -297,27 +297,6 @@ define(function(require,exports,module){
 
 				// 查找页面内的Tpl，返回值html代码段
 				var template = Handlebars.compile(Page.findTpl('getRunList'));
-				if(!json.data.content.ext1){
-					var ext1=
-						[{
-						    "testId": "1",
-						    "ext1": "非功能验收测试",
-						    "ext2":"本次上线涉及服务xx个，其中新增服务x个，修改服务x个，测试通过x个，测试通过率xx%"
-						  },{
-						  	"testId": "2",
-						    "ext1": "功能验收测试",
-						    "ext2":"功能验收测试已完成，未发现问题"
-						  },{
-						  	"testId": "3",
-						    "ext1": "应用安全扫描",
-						    "ext2":"经安全室确认，本次上线符合安全规范"
-						  },{
-						  	"testId": "4",
-						    "ext1": "SQL安全扫描",
-						    "ext2":"本次测试结果正常，无新增漏洞，允许上线"
-						  }];
-					_dom.find("[name='content']").html(template(ext1));
-				}
         		_dom.find("[name='content']").html(template(json.data.content));
 				var _saveRun =  _dom.find("[name='saveRun']");
 				if(data.planState=="3" || data.planState=="4"){

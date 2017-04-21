@@ -4,45 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>登录系统</title>
-    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="lib/font-awesome/4.7.0/css/font-awesome.css">
-    <!-- AdminLTE Theme skin-blue  -->
+    <link rel="stylesheet" href="lib/xsm-msgbox/0.2.0/css/xsm-msgbox.css">
     <link rel="stylesheet" href="style/login.css">
-    <script type="text/javascript">
-    $(function() {
-         $('#login #password').focus(function() {
-                $('#owl-login').addClass('password');
-            }).blur(function() {
-                $('#owl-login').removeClass('password');
-            });
-            $("body").keydown(function() {
-                if (event.keyCode == "13") {//keyCode=13是回车键
-                    $("#mysubmit").click();  
-                }
-            });    
-            $("#mysubmit").click(function() {
-                var data = {
-                    username: $("#myform").find("input[name='username']").val(),
-                    password: $("#myform").find("input[name='password']").val()
-                }
-
-                $.post("../login", data, function(d) {
-                    if (d) {
-                        var status = d["retCode"];
-                        if (status == "200") {
-                            window.location = "index.html";
-                        } else {
-                            $("#tips-error").html(d["retMessage"]);
-                        }
-                    }
-                });
-
-                return false;
-            });
-    });
-    </script>
 </head>
 
 <body >
@@ -68,14 +33,14 @@
                     <input type="hidden" name="_csrf" value="9IAtUxV2CatyxHiK2LxzOsT6wtBE6h8BpzOmk=">
                     <div class="control-group">
                         <div class="controls">
-                            <label for="username" class="control-label fa fa-envelope"></label>
-                            <input  type="text" name="username" placeholder="请输入用户名" tabindex="1" autofocus="autofocus" class="form-control input-medium">
+                            <label for="username" class="control-label fa fa-user"></label>
+                            <input  type="text" id="username" name="username" placeholder="请输入用户名" tabindex="1" autofocus="autofocus" class="form-control input-medium">
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="controls">
                             <label for="password" class="control-label fa fa-asterisk"></label>
-                            <input  type="password" name="password" placeholder="请输入密码" tabindex="2" class="form-control input-medium">
+                            <input  type="password" id="password" name="password" placeholder="请输入密码" tabindex="2" class="form-control input-medium">
                         </div>
                     </div>
                     <div id="tips-error" style="color: red; padding: 5px 3px;"></div>
@@ -87,32 +52,84 @@
         </div>
     </div>
 </div>
-<!-- <div class="login-title">
-<h1 class="text-center" >
-    自动化验收发布平台
-</h1>
-    
+<!--
+<div class="login-title">
+    <h1 class="text-center" >
+        自动化验收发布平台
+    </h1>
 </div>
-    <div class="login-box ">
-        <div class="login-box-body">
-            <p class="login-box-msg">请输入登录信息</p>
-            <form id="myform" method="post" class="">
-                <span class="fa fa-user"></span>
-                <label>用户名 :</label> 
-                <input type="text" name="username" class="form-control" placeholder="Username">
-                
-                <br/>
-                <span class="fa fa-lock"></span> 
-                <label> 密码 :</label>
-                <input type="password" name="password" class="form-control" placeholder="Password">
-                <br/>
-                <input id="mysubmit" type="submit" class="btn btn-primary btn-block btn-flat" name="登录" />
-            </form>
-            <div class="social-auth-links text-center">
-            </div>
-            <a href="#">I forgot my password</a>
-            <br>
+<div class="login-box ">
+    <div class="login-box-body">
+        <p class="login-box-msg">请输入登录信息</p>
+        <form id="myform" method="post" class="">
+            <span class="fa fa-user"></span>
+            <label>用户名 :</label>
+            <input type="text" name="username" class="form-control" placeholder="Username">
+            <br/>
+            <span class="fa fa-lock"></span>
+            <label> 密码 :</label>
+            <input type="password" name="password" class="form-control" placeholder="Password">
+            <br/>
+            <input id="mysubmit" type="submit" class="btn btn-primary btn-block btn-flat" name="登录" />
+        </form>
+        <div class="social-auth-links text-center">
         </div>
-    </div> -->
+        <a href="#">I forgot my password</a>
+        <br>
+    </div>
+</div>
+-->
+<script src="lib/jquery/2.2.3/jquery.min.js"></script>
+<script src="lib/xsm-msgbox/0.2.0/js/xsm-msgbox.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+            $('#login #password').focus(function() {
+                $('#owl-login').addClass('password');
+            }).blur(function() {
+                $('#owl-login').removeClass('password');
+            });
+            $("body").keydown(function() {
+                if (event.keyCode == "13") {//keyCode=13是回车键
+                    $("#mysubmit").click();
+                }
+            });
+            $("#mysubmit").click(function() {
+                XMS.msgbox.show('正在登录中，请稍候...', 'loading');
+
+                var data = {
+                    username: $("#myform").find("input[name='username']").val(),
+                    password: $("#myform").find("input[name='password']").val()
+                }
+
+                if($.trim(data.username)==''){
+                    window.XMS.msgbox.show('亲，用户名不能为空！', 'error', 2000);
+                    return false;
+                }
+                if($.trim(data.password)==''){
+                    window.XMS.msgbox.show('亲，密码不能为空！', 'error', 2000);
+                    return false;
+                }
+
+                // 待删除，用于测试前台跳转效果
+                if(window.location.href.indexOf("8888")>=0){
+                   setTimeout(function(){
+                        window.location = "index.html";
+                    },1500)
+                }
+                $.post("../login", data, function(d) {
+                    if (d) {
+                        var status = d["retCode"];
+                        if (status == "200") {
+                            window.location = "index.html";
+                        } else {
+                            window.XMS.msgbox.show(d["retMessage"], 'error', 2000);
+                            //$("#tips-error").html(d["retMessage"]);
+                        }
+                    }
+                });
+                return false;
+            });
+    });
+    </script>
 </body>
 </html>

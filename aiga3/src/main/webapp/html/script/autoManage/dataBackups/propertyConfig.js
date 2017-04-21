@@ -106,7 +106,7 @@ define(function(require, exports, module) {
                         //关闭清除
                         Page.findModal('addPropertyConfigModal').on('hide.bs.modal', function() {
                             Utils.resetForm(Page.findId('addPropertyConfigInfo'));
-                           // $('#propertyIdInput').readOnly = false;
+                            Page.findId('propertyIdInput').removeAttr('readonly');
                         });
 
 
@@ -114,7 +114,8 @@ define(function(require, exports, module) {
                         self.getPropertyId();
 
                     //
-                    Page.findModal('addPropertyConfigModal').modal.Constructor.prototype.enforceFocus = function() {}; Utils.setSelectData(_form);
+                    Page.findModal('addPropertyConfigModal').modal.Constructor.prototype.enforceFocus = function() {}; 
+                    Utils.setSelectData(_form);
                     var _saveBt = Page.findModal('addPropertyConfigModal').find("[name = 'save']"); _saveBt.unbind('click'); _saveBt.bind('click', function() {
                         Utils.checkForm(_form, function() {
                             var _cmd = _form.serialize();
@@ -241,10 +242,12 @@ define(function(require, exports, module) {
                         var _cmd = 'propertyId='+$('#propertyNameSelect').val();
                         Rose.ajax.postJson(srvMap.get('getPropertyConfigList'),_cmd, function(json, status) {
                                 if (status&&json.data.content.length!=0) {
-                                    $('#propertyIdInput').val(json.data.content[0].propertyId);
+                                    Page.findId('propertyIdInput').val(json.data.content[0].propertyId);
+                                     Page.findId('propertyIdInput').attr('readonly','readonly');
                                 }
                                 else{
-                                     $('#propertyIdInput').val("");
+                                      Page.findId('propertyIdInput').val("");
+                                    Page.findId('propertyIdInput').removeAttr('readonly');
                                    // $('#propertyIdInput').readOnly = false;
                                 }
 

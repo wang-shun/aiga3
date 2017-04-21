@@ -51,7 +51,7 @@
         </div>
         <div id="JS_releaseResultsList" class="box" style="min-height: 100px">
             <div class="box-header">
-                <h3 class="box-title">发布任务结果务展示</h3>
+                <h3 class="box-title">发布任务列表</h3>
                 <div class="box-tools">
                     <button type="button" class="btn btn-primary" data-toggle="dropdown"><i class="fa fa-remove"></i>文件上传</button>
                     <div class="dropdown-menu">
@@ -68,17 +68,6 @@
                 </div>
             </div>
             <div class="box-body" style="min-height: 100px;">
-                <!-- <form name="fileForm">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>选择文件</label>
-                                <input type="text" class="form-control input-sm" name="fileName">
-                                <button type="reset" class="btn btn-default" name="reset">上传文档</button>
-                            </div>
-                        </div>
-                    </div>
-                </form> -->
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -103,40 +92,56 @@
         </div>
         <div class="box" style="min-height: 100px">
             <div class="box-header">
-                <h3 class="box-title">关联接口列表</h3>
+                <h3 class="box-title"></h3>
                 <div class="box-tools">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" id="Js_savInMan"><i class="fa fa-info"></i> 保存测试人员</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" id="Js_savInMan"><i class="fa fa-info"></i> 上传文件</button>
                     </div>
                 </div>
             </div>
             <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#JS_fileLoadTab_1" id="JS_fileLoad" data-toggle="tab" aria-expanded="false">文件上传</a>
-                        <iframe id="tmp_iframe" style="display: none;"></iframe>
-                    </li>
-                    <li class=""><a href="#JS_releaseLength_2" id="JS_releaseLength" data-toggle="tab" aria-expanded="false">发布时长</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="JS_fileLoadTab_1">
-                        <form id="JS_queryFileLoadForm">
-                            <div class="row">
-                            </div>
-                            <div id="JS_queFileLoadList" class="box-body" style="min-height: 100px;">
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.tab-pane -->
-                    <div class="tab-pane" id="JS_releaseLength_2">
-                        <form id="JS_queryReleaseLengthForm">
-                            <div class="row">
-                            </div>
-                        </form>
-                        <div id="JS_queryReleaseLengthList" class="box-body" style="min-height: 100px;"></div>
-                    </div>
-                    <!-- /.tab-pane -->
-                </div>
-                <!-- /.tab-content -->
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#JS_fileLoadTab_1"
+						id="JS_fileLoad" data-toggle="tab" aria-expanded="false">文件上传</a>
+						<iframe id="tmp_iframe" style="display: none;"></iframe></li>
+					<li class=""><a href="#JS_releaseLength_2"
+						id="JS_releaseLength" data-toggle="tab" aria-expanded="false">发布时长</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="JS_fileLoadTab_1">
+						<div id="JS_queFileLoadList" class="box"
+							style="min-height: 100px;">
+							<div class="box-body" style="min-height: 100px;">
+								<table class="table table-bordered table-hover">
+									<thead>
+										<tr>
+											<th class="iCheckbox" width="15"></th>
+											<th>编号</th>
+											<th>附件名称</th>
+											<th>附件类型</th>
+											<th>上传时间</th>
+											<th>下载时间</th>
+										</tr>
+									</thead>
+									<tbody name="content"></tbody>
+								</table>
+							</div>
+							<div class="box-footer no-border">
+								<div class="dataTables_paginate" name="pagination"></div>
+							</div>
+						</div>
+					</div>
+					<!-- /.tab-pane -->
+					<div class="tab-pane" id="JS_releaseLength_2">
+						<form id="JS_queryReleaseLengthForm">
+							<div class="row"></div>
+						</form>
+						<div id="JS_queryReleaseLengthList" class="box-body"
+							style="min-height: 100px;"></div>
+					</div>
+					<!-- /.tab-pane -->
+				</div>
+				<!-- /.tab-content -->
             </div>
         </div>
     </div>
@@ -369,7 +374,7 @@
 							</div>
 						</div>
 						<div class="tab-pane" id="JS_dataBaseTab_5">
-							<<div class="box-body"style="min-height: 100px;">
+							<div class="box-body"style="min-height: 100px;">
 								<table class="table table-bordered table-hover">
 				                   <thead>
 				                       <tr>
@@ -383,6 +388,9 @@
 				                   </thead>
 				                   <tbody name="content"></tbody>
 				               </table>
+							</div>
+							<div class="box-footer no-border">
+								<div class="dataTables_paginate" name="pagination"></div>
 							</div>
 						</div>
 						<!-- /.tab-pane -->

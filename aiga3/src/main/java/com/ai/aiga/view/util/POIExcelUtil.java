@@ -14,6 +14,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -122,7 +123,7 @@ public class POIExcelUtil {
         List<T> objectList = new ArrayList<T>();
         
 		//循环数据行
-		for(int i = DEFAULT_FIRST_ROW_INDEX; i < sheet.getLastRowNum(); i++){
+		for(int i = DEFAULT_FIRST_ROW_INDEX; i <= sheet.getLastRowNum(); i++){
 			
 			HSSFRow row = sheet.getRow(i);
 			if(row == null){
@@ -258,7 +259,7 @@ public class POIExcelUtil {
         List<T> objectList = new ArrayList<T>();
         
 		//循环数据行
-		for(int i = DEFAULT_FIRST_ROW_INDEX; i < sheet.getLastRowNum(); i++){
+		for(int i = DEFAULT_FIRST_ROW_INDEX; i <= sheet.getLastRowNum(); i++){
 			
 			XSSFRow row = sheet.getRow(i);
 			if(row == null){
@@ -305,7 +306,20 @@ public class POIExcelUtil {
 	
 	
 	private static String getValue(Cell cell){
-		return cell.getStringCellValue();   
+		CellType type = cell.getCellTypeEnum();
+		
+		
+		if(CellType.BOOLEAN == type){
+			return String.valueOf(cell.getBooleanCellValue());
+		}else if(CellType.STRING == type){
+			return cell.getStringCellValue();
+		}else if(CellType.NUMERIC == type){
+			return String.valueOf(cell.getNumericCellValue());
+		}else if(CellType.FORMULA == type ){
+			return cell.getRichStringCellValue().toString();
+		}
+		return "";
+		
       }
 	
 	public static void main(String[] args) {

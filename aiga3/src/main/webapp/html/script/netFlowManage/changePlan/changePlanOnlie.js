@@ -231,7 +231,7 @@ define(function(require, exports, module) {
 			_reviewDel.bind('click', function() {
 				var _data = self.getTaskRow();
 				if (_data) {
-					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState;
+					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState + "&onlinePlanName=" + _data.onlinePlanName;
 					Sidebar.creatTab({
 						id:"100",
 						name:'交付物评审',
@@ -610,11 +610,13 @@ define(function(require, exports, module) {
 			var _onlinePlan = _obj.find("input[name='onlinePlan']");
 			var _planDate = _obj.find("input[name='planDate']");
 			var _planState = _obj.find("input[name='planState']");
+			var _onlinePlanName = _obj.find("input[name='onlinePlanName']");
 			console.log(_onlinePlan)
 			var data = {
 				onlinePlan: "",
 				planDate: "",
-				planState: ""
+				planState: "",
+				onlinePlanName: ""
 			}
 			if (_onlinePlan.length == 0) {
 				window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
@@ -623,6 +625,7 @@ define(function(require, exports, module) {
 				data.onlinePlan = _onlinePlan.val();
 				data.planDate = _planDate.val();
 				data.planState = _planState.val();
+				data.onlinePlanName = _onlinePlanName.val();
 			}
 			console.log(data.onlinePlan)
 			console.log(data.planDate)

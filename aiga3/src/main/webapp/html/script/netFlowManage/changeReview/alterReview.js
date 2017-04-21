@@ -135,6 +135,8 @@ define(function(require,exports,module){
 		    		_dom.html(template(json.data));
 		    		var _conclusion =  _dom.find("[name='conclusion']");
 		    		_conclusion.val(json.data[0].conclusion);
+					var _onlinePlanName =  _dom.find("[name='onlinePlanName']");
+		    		_onlinePlanName.html(data.onlinePlanName);
 					//引入单选框样式
 					Utils.eventTrClickCallback(_dom);
 					var _saveConclusion =  Page.findId('getChangeReviewConclusion').find("[name='saveConclusion']");

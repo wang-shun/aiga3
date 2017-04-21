@@ -4,9 +4,9 @@
   "data": {
     "totalElements": 12, //总条数
     "content": [{
-      "testId": "1",
-      "ext1": "非功能验收测试",
-      "testSituation": "本次上线涉及服务xx个，其中新增服务x个，修改服务x个，测试通过x个，测试通过率xx%"
+      "testId": "",
+      "ext1": "",
+      "testSituation": ""
     }, {
       "testId": "1",
       "ext1": "功能验收测试",

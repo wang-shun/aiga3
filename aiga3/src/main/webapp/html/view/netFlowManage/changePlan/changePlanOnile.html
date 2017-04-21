@@ -210,7 +210,7 @@
         {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" value="{{onlinePlan}}" name="onlinePlan"></td>
-            <td>{{onlinePlanName}}</td>
+            <td><input type="hidden" value="{{onlinePlanName}}" name="onlinePlanName">{{onlinePlanName}}</td>
 			<td>{{type types}}</td>
             <td><input type="hidden" value="{{planState}}" name="planState">{{plan_state planState}}</td>
             <td><input type="hidden" value="{{planDate}}" name="planDate">{{planDate}}</td>

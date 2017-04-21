@@ -165,6 +165,7 @@ define(function(require,exports,module){
 			    		$(Dom.getDeliverableReviewConclusion).html(template(json.data));
 			    		/*Page.findId('JS_conclusion').val()*/
 			    		$("#conclusion").val(json.data[0].conclusion);
+		    			$("#onlinePlanName").html(data.onlinePlanName);
 						//引入单选框样式
 						Utils.eventTrClickCallback($(Dom.getDeliverableReviewConclusion), function() {
 

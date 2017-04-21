@@ -15,7 +15,7 @@
     {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" value="{{reviewId}}" name="reviewId"></td>
-            <td>{{onlinePlanName}}</td>
+            <td id="onlinePlanName">{{onlinePlanName}}</td>
             <td>
                 <div class="col-xs-1">
                     <select id="conclusion" name="conclusion" class="" value="{{conclusion}}">

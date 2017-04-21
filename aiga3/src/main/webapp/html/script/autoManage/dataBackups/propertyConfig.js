@@ -105,7 +105,7 @@ define(function(require, exports, module) {
                         var _form = Page.findId('addPropertyConfigInfo');
                         //关闭清除
                         Page.findModal('addPropertyConfigModal').on('hide.bs.modal', function() {
-                            Utils.resetForm(Dom.addPropertyConfigInfo);
+                            Utils.resetForm(Page.findId('addPropertyConfigInfo'));
                            // $('#propertyIdInput').readOnly = false;
                         });
 

@@ -4,6 +4,8 @@ define(function(require, exports, module) {
 
 	var Utils = require("global/utils.js");
 
+
+	srvMap.add("getRstInfo", pathAlias + "publicTaskList.json", "accept/otherTask/getBossTestResultById");
 	// 功能验收子任务列表显示
 	srvMap.add("publicTaskList", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherTask");
 
@@ -112,7 +114,7 @@ define(function(require, exports, module) {
 				$(Dom.testReportForm).find(".modal-body").html(template());
 				Utils.setSelectData(_modal, "type=0");
 				var sel = _modal.find("select[name='planId']");
-				self.getSelect(sel,taskType);
+				self.getSelect(sel, taskType);
 				self.saveTestReport();
 
 			});
@@ -129,11 +131,28 @@ define(function(require, exports, module) {
 					var _modal = $(Dom.modalTestReport);
 					_modal.find(".modal-title").html("修改测试结果报告");
 					_modal.modal('show');
+					var _form = $(Dom.testReportForm);
 					var template = Handlebars.compile(Tpl.testReportForm);
-					$(Dom.testReportForm).find(".modal-body").html(template(data));
-					Utils.setSelectData(_modal, "type=1");
-					var sel = _modal.find("select[name='planId']");
-					self.getSelect(sel,taskType);
+					_form.find(".modal-body").html(template(data));
+
+					Utils.setSelectData(_modal, "type=1", function() {
+						var _cmd = "resultId="+data.resultId;
+						Rose.ajax.getJson(srvMap.get('getRstInfo'),_cmd,  function(json, status) {
+							if (status) {
+								console.log(json.data);
+								console.log(_form.find("select"));
+								var sel = _modal.find("select[name='planId']");
+								self.getSelect(sel, taskType);
+								_form.find("select").each(function(index, el) {
+									console.log(el);
+									$(el).val(json.data[$(el).attr("name")]);
+								});
+							}
+						});
+						
+
+					});
+					
 					self.saveTestReport();
 				}
 			});
@@ -167,12 +186,14 @@ define(function(require, exports, module) {
 				var _modal = $(Dom.modalTestReport);
 				var _form = _modal.find("form");
 				var cmd = _form.serialize();
-				cmd += "&BossName="+_form.find("select[name='planId']").find("option:selected").text();
+				cmd += "&BossName=" + _form.find("select[name='planId']").find("option:selected").text();
+				cmd += "&type" + taskType;
 				console.log(cmd);
 				Rose.ajax.postJson(srvMap.get('submitPublicRst'), cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('保存成功', 'success', 2000);
 						_modal.modal('hide');
+						self.getpublicTaskList("");
 					}
 				});
 
@@ -194,11 +215,11 @@ define(function(require, exports, module) {
 		},
 
 		getSelect: function(obj, type) {
-			Rose.ajax.getJson(srvMap.get('getOtherFlowName'), "type="+type, function(json, status) {
+			Rose.ajax.getJson(srvMap.get('getOtherFlowName'), "type=" + type, function(json, status) {
 				if (status) {
 					var _html = '<option value="">请选择</option>{{#each this}}<option value="{{plantaskId}}">{{plantaskName}}</option>{{/each}}';
 					var template = Handlebars.compile(_html);
-					obj.html(template(json.data));					
+					obj.html(template(json.data));
 				}
 
 			});

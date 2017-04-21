@@ -87,7 +87,7 @@ define(function(require, exports, module) {
 				Page.findModal('addDataBackupsModal').modal('show');
 				var _form =Page.findId('addDataBackupInfo');
 				Page.findModal('addDataBackupsModal').on('hide.bs.modal', function() {
-					Utils.resetForm(Dom.addDataBackupInfo);
+					Utils.resetForm(Page.findId('addDataBackupInfo'));
 				});
 				Utils.setSelectData(_form);
 				var _saveBt = Page.findModal('addDataBackupsModal').find("[name = 'save']");

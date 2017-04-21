@@ -90,7 +90,7 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_dom, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
-					alert(data.correlationId);
+					//alert(data.correlationId);
 					self.updateDataMaintain(data.correlationId);
 				});
 			}, _domPagination);
@@ -103,7 +103,7 @@ define(function(require, exports, module) {
 
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
-				alert(Page.findModal('addDataMaintainModal').html());
+				//alert(Page.findModal('addDataMaintainModal').html());
 				Page.findModal('addDataMaintainModal').modal('show');
 				Page.findModal('addDataMaintainModal').on('hide.bs.modal', function() {
 					Utils.resetForm(Page.findId('addDataMaintainInfo'));

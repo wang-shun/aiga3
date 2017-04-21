@@ -12,7 +12,7 @@ import lombok.Data;
  * 
  */
 @Data
-public class ScriptExecutionProcessExcel {
+public class ScriptExecutionProcessExcel  implements java.io.Serializable{
 	private String batch;
     private Date startTime;
     private Date finishTime;

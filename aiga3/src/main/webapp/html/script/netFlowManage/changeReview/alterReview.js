@@ -134,7 +134,7 @@ define(function(require,exports,module){
 		    		console.log(json.data)
 		    		_dom.html(template(json.data));
 		    		var _conclusion =  _dom.find("[name='conclusion']");
-		    		_conclusion.val(json.data[0].conclusion);
+		    		_conclusion.val(json.data.conclusion);
 					var _onlinePlanName =  _dom.find("[name='onlinePlanName']");
 		    		_onlinePlanName.html(data.onlinePlanName);
 					//引入单选框样式

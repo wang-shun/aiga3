@@ -239,9 +239,10 @@ define(function(require, exports, module) {
             _saveBtn.bind('click', function() {
             	var a=_form.find("[name='environmentType']").val();
             	var cmd = {
-            			"file":_form.find("[name='fileName']").val(),
+            			"file":_form.find("[name='fileName']")[0].files[0],
             			"planId":planId,
             	}
+            	console.log(_form.find("[name='fileName']"));
             	switch(a){
             		case "1":
             			var task = srvMap.get('exception');

@@ -28,7 +28,7 @@ define(function(require, exports, module) {
     //数据库执行异常解析
     srvMap.add("exception", pathAlias + "addReleaseResults.json", "database/execution/exception");
     //数据库脚本执行进程解析
-    srvMap.add("processexcel", pathAlias + "addReleaseResults.json", "database/scriptexecution/processexcel");
+    srvMap.add("processexcels", pathAlias + "addReleaseResults.json", "database/scriptexecution/processexcel");
     //在线系统发布准备解析
     srvMap.add("releaseexcel", pathAlias + "addReleaseResults.json", "online/system/releaseexcel");
     //在线系统发布阶段解析
@@ -249,7 +249,7 @@ define(function(require, exports, module) {
             			self.jieko(task,cmd,a,planId)
             			break;
             		case "2":
-            			var task = srvMap.get('processexcel');
+            			var task = srvMap.get('processexcels');
             			self.jieko(task,cmd,a,planId)
             			break;
             		case "3":

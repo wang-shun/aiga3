@@ -50,9 +50,9 @@ define(function(require, exports, module) {
         getManualResultList: $("#TPL_getManualResultList").html(),
         getAutoResultList: $("#TPL_getAutoResultList").html(),
         getPerSubtaskAssignmentList: $("#TPL_getPerSubtaskAssignmentList").html(),
-        getInterfaceList:$("#TPL_getInterfaceList").html(),
-        getCollectId:$("#TPL_getCollectId").html()
-        
+        getInterfaceList: $("#TPL_getInterfaceList").html(),
+        getCollectId: $("#TPL_getCollectId").html()
+
 
     };
 
@@ -67,12 +67,12 @@ define(function(require, exports, module) {
         getAutoResultListModal: "#JS_getAutoResultListModal",
         getManualResultListModal: '#JS_getManualResultListModal',
         getManualResultList: '#JS_getManualResultList',
-        getPerSubtaskAssignmentModal:'#JS_getPerSubtaskAssignmentModal',
-        getPerSubtaskAssignmentList:'#JS_getPerSubtaskAssignmentList',
-        addPerSubtaskAssignmentForm:'#JS_addPerSubtaskAssignmentForm',
-        getInterfaceList:"#JS_getInterfaceList",
-        queInterfaceForm:"#JS_queInterfaceForm",
-        collectIdss:'#SELT_collectIdss'
+        getPerSubtaskAssignmentModal: '#JS_getPerSubtaskAssignmentModal',
+        getPerSubtaskAssignmentList: '#JS_getPerSubtaskAssignmentList',
+        addPerSubtaskAssignmentForm: '#JS_addPerSubtaskAssignmentForm',
+        getInterfaceList: "#JS_getInterfaceList",
+        queInterfaceForm: "#JS_queInterfaceForm",
+        collectIdss: '#SELT_collectIdss'
 
     };
 
@@ -80,10 +80,10 @@ define(function(require, exports, module) {
         queryListCmd: null,
         onlinePlan: null,
         opreation: "new",
-        data:[],
-        cm:"",
-        taskIdl:"0",
-        taskid:null,
+        data: [],
+        cm: "",
+        taskIdl: "0",
+        taskid: null,
     }
 
     var Query = {
@@ -113,108 +113,104 @@ define(function(require, exports, module) {
             var _cmd = '' || cmd;
             Data.queryListCmd = _cmd;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.postJson(srvMap.get('getOnlineTaskList'), _cmd, function(json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getOnlineTaskList);
-                    $(Dom.getOnlineTaskList).html(template(json.data))
-                        // self.getOnlineTaskDistributeList();
-                    var _dom = $(Dom.getOnlineTaskList);
-                    var _distribute = _dom.find("[name='distribute']");
-                    _distribute.unbind('click');
-                    _distribute.bind('click', function() {
-                        var data = self.getRadioCheckedRow(_dom);
-                        if (data) {
-                            console.log("data="+data.taskType);
-                            var cmd = 'taskId=' + data.taskId;
-                            //存储到全局变量
-                            Data.onlinePlanId = data.onlinePlan;
-                            console.log(Data.onlinePlanId);
+            var _dom = Page.findId('getOnlineTaskList');
+            var _domPagination = _dom.find("[name='pagination']");
+            Utils.getServerPage(srvMap.get('getOnlineTaskList'), _cmd, function(json) {
+                window.XMS.msgbox.hide();
+                var template = Handlebars.compile(Page.findTpl('getOnlineTaskList'));
+                _dom.find("[name='content']").html(template(json.data.content))
+                    // self.getOnlineTaskDistributeList();
+                    //var _dom = $(Dom.getOnlineTaskList);
+                var _distribute = _dom.find("[name='distribute']");
+                _distribute.unbind('click');
+                _distribute.bind('click', function() {
+                    var data = self.getRadioCheckedRow(_dom);
+                    if (data) {
+                        console.log("data=" + data.taskType);
+                        var cmd = 'taskId=' + data.taskId;
+                        //存储到全局变量
+                        Data.onlinePlanId = data.onlinePlan;
+                        console.log(Data.onlinePlanId);
 
-                            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                            if(data.taskType=="1"){
-                            Rose.ajax.postJson(srvMap.get('getOnlineTaskDistributeList'), cmd, function(json, status) {
-                                if (status) {
-                                    window.XMS.msgbox.hide();
-                                    var _form = $(Dom.addOnlineTaskDistributeForm);
-                                    Utils.setSelectData(_form);
+                        XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                        if (data.taskType == "1") {
+                            var _dom1 = Page.findId('getOnlineTaskDistributeList');
+                            var _domPagination = _dom1.find("[name='pagination']");
+                            Utils.getServerPage(srvMap.get('getOnlineTaskDistributeList'), cmd, function(json) {
+                                window.XMS.msgbox.hide();
+                                var _form = Page.findId('addOnlineTaskDistributeForm');
+                                Utils.setSelectData(_form);
 
-                                    //_form.find("[name='onlinePlanId']").val(data.onlinePlanId);
-                                    // 显示弹框
+                                //_form.find("[name='onlinePlanId']").val(data.onlinePlanId);
+                                // 显示弹框
+                                var _modal = Page.findModal('getOnlineTaskDistributeModal');
+                                _modal.modal('show').on('shown.bs.modal', function() {
+                                    var template = Handlebars.compile(Page.findTpl('getOnlineTaskDistributeList'));
+                                    _dom1.find("[name='content']").html(template(json.data.content));
+                                    // 初始化步骤
+                                    Utils.initStep(_modal);
 
-
-                                    var _modal = $(Dom.getOnlineTaskDistributeModal);
-                                    _modal.modal('show').on('shown.bs.modal', function() {
-                                        var template = Handlebars.compile(Tpl.getOnlineTaskDistributeList);
-                                        var _dom = $(Dom.getOnlineTaskDistributeList);
-                                        
-                                        _dom.html(template(json.data));
-                                        // 初始化步骤
-                                        Utils.initStep(_modal);
-
-                                        self.addOnlineTask();
-                                        self.updateOnlineTask();
-                                        self.delOnlineTask();
-                                        self.getRunResultList();
-                                        var _close = _modal.find("[name='close']");
-                                        _close.unbind('click');
-                                        _close.bind('click', function() {
-                                            self.getOnlineTaskList();
-                                        })
-                                        var _rest = _form.find("[name='reset']");
-                                        _rest.unbind('click');
-                                        _rest.bind('click', function() {
-                                            _form.find("[name='collectId']").attr("disabled", false);
-                                            Data.opreation = 'new';
-                                        })
-                                        Utils.eventTrClickCallback($(Dom.getOnlineTaskDistributeList))
-                                            //设置分页
-                                        self.initPaging(_dom, 5, true);
+                                    self.addOnlineTask();
+                                    self.updateOnlineTask();
+                                    self.delOnlineTask();
+                                    self.getRunResultList();
+                                    var _close = _modal.find("[name='close']");
+                                    _close.unbind('click');
+                                    _close.bind('click', function() {
+                                        self.getOnlineTaskList();
                                     })
-                                }
-                            });
-                        }else if(data.taskType=="3"){
+                                    var _rest = _form.find("[name='reset']");
+                                    _rest.unbind('click');
+                                    _rest.bind('click', function() {
+                                        _form.find("[name='collectId']").attr("disabled", false);
+                                        Data.opreation = 'new';
+                                    })
+                                    Utils.eventTrClickCallback(_dom1)
+                                        //设置分页
+                                        //self.initPaging(_dom, 5, true);
+                                })
+                            },_domPagination);
+                        } else if (data.taskType == "3") {
                             Data.data = data;
                             Data.cm = cmd;
                             console.log(Data.cm);
                             console.log(Data.data);
-                            self.getPerSubtaskAssignmentList(cmd,data);
+                            self.getPerSubtaskAssignmentList(cmd, data);
 
                         }
-                        }
-                    });
+                    }
+                });
 
-                    Utils.eventTrClickCallback($(Dom.getOnlineTaskList))
+                Utils.eventTrClickCallback(_dom)
 
-                    //设置分页
-                    self.initPaging($(Dom.getOnlineTaskList), 8, true)
+                //设置分页
+                //self.initPaging($(Dom.getOnlineTaskList), 8, true)
 
-                }
-            });
+            }, _domPagination);
 
         },
         //显示性能子功能弹框
-        getPerSubtaskAssignmentList: function(cmd,date){
+        getPerSubtaskAssignmentList: function(cmd, date) {
             var self = this;
-                    // 显示弹框
-                    var _modal = $(Dom.getPerSubtaskAssignmentModal);
-                    _modal.modal('show').on('shown.bs.modal', function() {
-                        self.quePerSubtaskAssignmentList(cmd,date);
-                        // 初始化步骤
-                        Utils.initStep(_modal);
-                        
-                        self.getInterfaceList("onlinePlan="+Data.onlinePlanId);
+            // 显示弹框
+            var _modal = $(Dom.getPerSubtaskAssignmentModal);
+            _modal.modal('show').on('shown.bs.modal', function() {
+                self.quePerSubtaskAssignmentList(cmd, date);
+                // 初始化步骤
+                Utils.initStep(_modal);
 
-                        var _close = _modal.find("[name='close']");
-                        _close.unbind('click');
-                        _close.bind('click', function() {
-                            self.getOnlineTaskList();
-                        })
-                        
-                    })
+                self.getInterfaceList("onlinePlan=" + Data.onlinePlanId);
+
+                var _close = _modal.find("[name='close']");
+                _close.unbind('click');
+                _close.bind('click', function() {
+                    self.getOnlineTaskList();
+                })
+
+            })
         },
-        quePerSubtaskAssignmentList:function(cm,date){
-            var self=this;
+        quePerSubtaskAssignmentList: function(cm, date) {
+            var self = this;
             Rose.ajax.postJson(srvMap.get('getPerSubtaskAssignmentList'), cm, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
@@ -227,31 +223,31 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.getPerSubtaskAssignmentList);
                     var _dom = $(Dom.getPerSubtaskAssignmentList);
                     _dom.html(template(json.data));
-                        //新增
-                        self.addPerSubtaskAssignmentForm();
-                        //修改
-                        self.updatePerSubtaskAssignment();
-                        //删除
-                        self.delPerSubtaskAssignment(cm,date);
-                        //分派
-                        self.processingPerSubtaskAssignment();
+                    //新增
+                    self.addPerSubtaskAssignmentForm();
+                    //修改
+                    self.updatePerSubtaskAssignment();
+                    //删除
+                    self.delPerSubtaskAssignment(cm, date);
+                    //分派
+                    self.processingPerSubtaskAssignment();
                     // 绑定双击当前行事件
-                        self.eventDClickCallback($(Dom.getPerSubtaskAssignmentList),function(){
-                            var _date = self.getRadioCheckedRow(_dom);
-                            var cmd = "onlinePlan=" + Data.onlinePlanId +"&taskId="+_date.taskId;
-                            // 请求：用户基本信息
-                            alert(cmd)
-                            self.getInterfaceList(cmd);
-                        })
-                        Utils.eventTrClickCallback($(Dom.getPerSubtaskAssignmentList))
-                            //设置分页
+                    self.eventDClickCallback($(Dom.getPerSubtaskAssignmentList), function() {
+                        var _date = self.getRadioCheckedRow(_dom);
+                        var cmd = "onlinePlan=" + Data.onlinePlanId + "&taskId=" + _date.taskId;
+                        // 请求：用户基本信息
+                        alert(cmd)
+                        self.getInterfaceList(cmd);
+                    })
+                    Utils.eventTrClickCallback($(Dom.getPerSubtaskAssignmentList))
+                        //设置分页
 
-                        self.initPaging(_dom, 5, true);
+                    self.initPaging(_dom, 5, true);
                 }
             });
         },
         //显示(查找)接口列表
-        getInterfaceList: function(cmd){
+        getInterfaceList: function(cmd) {
             var self = this;
             Rose.ajax.postJson(srvMap.get('getInterfaceList'), cmd, function(json, status) {
                 if (status) {
@@ -261,7 +257,7 @@ define(function(require, exports, module) {
                     var _dom = $(Dom.getInterfaceList);
                     _dom.html(template(json.data));
                     Utils.eventTrClickCallback($(Dom.getInterfaceList))
-                    //点击接口查询
+                        //点击接口查询
                     self.search();
                     //
                     self.relation();
@@ -288,29 +284,29 @@ define(function(require, exports, module) {
         //     });
         // },
         //新增性能子任务
-        addPerSubtaskAssignmentForm : function(){
+        addPerSubtaskAssignmentForm: function() {
             var self = this;
             var _form = $(Dom.addPerSubtaskAssignmentForm)
             var _save = _form.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {
                 var cmd = _form.serialize();
-                if (Dom.taskIdl=="1") {
-                    Dom.taskIdl="0";
-                    cmd += "&taskId="+Dom.taskid;
+                if (Dom.taskIdl == "1") {
+                    Dom.taskIdl = "0";
+                    cmd += "&taskId=" + Dom.taskid;
                 }
                 Rose.ajax.postJson(srvMap.get('addPerSubtaskAssignment'), cmd, function(json, status) {
                     if (status) {
                         window.XMS.msgbox.show('保存成功！', 'success', 2000);
                         setTimeout(function() {
-                            self.quePerSubtaskAssignmentList(Data.cm,Data.data);
+                            self.quePerSubtaskAssignmentList(Data.cm, Data.data);
                         }, 1000)
                     }
                 });
             });
         },
         //修改性能子任务
-        updatePerSubtaskAssignment : function(){
+        updatePerSubtaskAssignment: function() {
             var self = this;
             var _dom = $(Dom.getPerSubtaskAssignmentList);
             var _form = $(Dom.addPerSubtaskAssignmentForm);
@@ -322,13 +318,13 @@ define(function(require, exports, module) {
                     Dom.taskIdl = "1";
                     _form.find("[name='taskName']").val(_date.taskName);
                     _form.find("[name='taskType']").val(_date.taskType);
-                     Dom.taskid=_date.taskId
-                    // Data.opreation = "update";
+                    Dom.taskid = _date.taskId
+                        // Data.opreation = "update";
                 }
             });
         },
 
-         // 分派性能子任务
+        // 分派性能子任务
         processingPerSubtaskAssignment: function() {
             var self = this;
             var _dom = $(Dom.getPerSubtaskAssignmentList);
@@ -340,33 +336,33 @@ define(function(require, exports, module) {
                 var _data = self.getRadioCheckedRow(_dom);
                 console.log(_data);
                 if (_data) {
-                        _form.find("[name='taskId']").val(_data.taskId);
-                        _form.find("[name='taskName']").val(_data.taskName);
-                        _form.find("[name='dealOpId']").val(_data.dealOpId);
-                        XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                        Utils.goStep(Dom.getPerSubtaskAssignmentModal, 2);
-                        self.addpProcessing();
+                    _form.find("[name='taskId']").val(_data.taskId);
+                    _form.find("[name='taskName']").val(_data.taskName);
+                    _form.find("[name='dealOpId']").val(_data.dealOpId);
+                    XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                    Utils.goStep(Dom.getPerSubtaskAssignmentModal, 2);
+                    self.addpProcessing();
                 }
             });
         },
-        addpProcessing: function(){
+        addpProcessing: function() {
             var _form = $("#JS_addpProcessing");
             var _save = _form.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {
-               var cmd = _form.serialize();
-               Rose.ajax.postJson(srvMap.get('addpProcessing'), cmd, function(json, status) {
+                var cmd = _form.serialize();
+                Rose.ajax.postJson(srvMap.get('addpProcessing'), cmd, function(json, status) {
                     if (status) {
                         window.XMS.msgbox.show('保存成功！', 'success', 2000);
                         setTimeout(function() {
-                            self.quePerSubtaskAssignmentList(Data.cm,Data.data);
+                            self.quePerSubtaskAssignmentList(Data.cm, Data.data);
                         }, 1000)
                     }
                 });
             });
         },
         //删除性能子任务
-        delPerSubtaskAssignment : function(cmd,date){
+        delPerSubtaskAssignment: function(cmd, date) {
             var self = this;
             var _dom = $(Dom.getPerSubtaskAssignmentList);
             // var _form = $(Dom.addPerSubtaskAssignmentForm)
@@ -375,12 +371,12 @@ define(function(require, exports, module) {
             _del.bind('click', function() {
                 var _date = self.getRadioCheckedRow(_dom);
                 if (_date) {
-                    var cm = "taskIds=" + _date.taskId+"&parentId=" + Data.data.taskId;
+                    var cm = "taskIds=" + _date.taskId + "&parentId=" + Data.data.taskId;
                     Rose.ajax.postJson(srvMap.get('delPerSubtaskAssignment'), cm, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功！', 'success', 2000);
                             setTimeout(function() {
-                                self.quePerSubtaskAssignmentList(Data.cm,Data.data);
+                                self.quePerSubtaskAssignmentList(Data.cm, Data.data);
                             }, 1000)
                         }
                     });
@@ -388,130 +384,128 @@ define(function(require, exports, module) {
             });
         },
         //查询接口点击事件
-        search : function(){
+        search: function() {
             var self = this;
             var _form = $(Dom.queInterfaceForm);
             var _search = _form.find("[name='search']");
             _search.unbind('click');
             _search.bind('click', function() {
-                var cmd = "onlinePlan="+Data.onlinePlanId+"&"+_form.serialize();
+                var cmd = "onlinePlan=" + Data.onlinePlanId + "&" + _form.serialize();
                 self.getInterfaceList(cmd);
             });
         },
         //关联接口
-        relation : function(){
+        relation: function() {
             var self = this;
             var _relation = $(Dom.queInterfaceForm).find("[name='relation']");
             _relation.unbind('click');
-            _relation.bind('click',function(){
+            _relation.bind('click', function() {
                 var _date = self.getRadioCheckedRow($(Dom.getPerSubtaskAssignmentList));
                 if (_date) {
-                var id;
-                var serviceId;
-                var list = [];
-                var cmd={
-                    "taskType":_date.taskType,
-                    "taskId":_date.taskId,
-                    "list" :[]
-                };
-                $(Dom.getInterfaceList).find("tbody").find("tr").each(function(){
-                    var tdArr = $(this).children();
-                    if(tdArr.eq(0).find("input").is(':checked')){
-                        id = tdArr.eq(0).find("input").val();
-                        serviceId = tdArr.eq(1).find("input").val();
-                        cmd.list.push({
-                            "id" : id,
-                            "serviceId" : serviceId
-                        });
-                    }
-                });
-                // cmd.list.push(list);
-                Rose.ajax.postJson(srvMap.get('relation'), cmd, function(json, status) {
-                    if (status) {
-                        window.XMS.msgbox.show('关联成功！', 'success', 2000);
-                        setTimeout(function() {
-                            self.getInterfaceList("onlinePlan=" + Data.onlinePlanId);
-                            self.quePerSubtaskAssignmentList(Data.cm,Data.data);
-                        }, 1000)
-                    }
-                });
-            }
+                    var id;
+                    var serviceId;
+                    var list = [];
+                    var cmd = {
+                        "taskType": _date.taskType,
+                        "taskId": _date.taskId,
+                        "list": []
+                    };
+                    $(Dom.getInterfaceList).find("tbody").find("tr").each(function() {
+                        var tdArr = $(this).children();
+                        if (tdArr.eq(0).find("input").is(':checked')) {
+                            id = tdArr.eq(0).find("input").val();
+                            serviceId = tdArr.eq(1).find("input").val();
+                            cmd.list.push({
+                                "id": id,
+                                "serviceId": serviceId
+                            });
+                        }
+                    });
+                    // cmd.list.push(list);
+                    Rose.ajax.postJson(srvMap.get('relation'), cmd, function(json, status) {
+                        if (status) {
+                            window.XMS.msgbox.show('关联成功！', 'success', 2000);
+                            setTimeout(function() {
+                                self.getInterfaceList("onlinePlan=" + Data.onlinePlanId);
+                                self.quePerSubtaskAssignmentList(Data.cm, Data.data);
+                            }, 1000)
+                        }
+                    });
+                }
             });
         },
         //删除关联关系
-        delRelation : function(){
+        delRelation: function() {
             var self = this;
             var _delRelation = $(Dom.queInterfaceForm).find("[name='delRelation']");
             _delRelation.unbind('click');
-            _delRelation.bind('click',function(){
+            _delRelation.bind('click', function() {
                 alert("1")
                 var _date = self.getRadioCheckedRow($(Dom.getPerSubtaskAssignmentList));
                 if (_date) {
-                var id="";
-                var num =0 ;
-                var _checkObj = $(Dom.getInterfaceList).find("input[type='checkbox']:checked");
-                if(_checkObj.length==0){
-                   window.XMS.msgbox.show('请选择要删除的关联接口！', 'error', 2000);
-                   return false;
-                }
-                _checkObj.each(function (){
-                   if(num!=(_checkObj.length-1)){
-                       id += $(this).val()+",";      
-                   }else{
-                       id += $(this).val();      
-                   }
-                   num ++;
-                });
-                cmd = "taskId="+ _date.taskId+"&ids="+id;
-                Rose.ajax.postJson(srvMap.get('delRelation'), cmd, function(json, status) {
-                    if (status) {
-                        window.XMS.msgbox.show('删除成功！', 'success', 2000);
-                        setTimeout(function() {
-                            self.getInterfaceList("onlinePlan=" + Data.onlinePlanId);
-                            self.quePerSubtaskAssignmentList(Data.cm,Data.data);
-                        }, 1000)
+                    var id = "";
+                    var num = 0;
+                    var _checkObj = $(Dom.getInterfaceList).find("input[type='checkbox']:checked");
+                    if (_checkObj.length == 0) {
+                        window.XMS.msgbox.show('请选择要删除的关联接口！', 'error', 2000);
+                        return false;
                     }
-                });
-            }
+                    _checkObj.each(function() {
+                        if (num != (_checkObj.length - 1)) {
+                            id += $(this).val() + ",";
+                        } else {
+                            id += $(this).val();
+                        }
+                        num++;
+                    });
+                    cmd = "taskId=" + _date.taskId + "&ids=" + id;
+                    Rose.ajax.postJson(srvMap.get('delRelation'), cmd, function(json, status) {
+                        if (status) {
+                            window.XMS.msgbox.show('删除成功！', 'success', 2000);
+                            setTimeout(function() {
+                                self.getInterfaceList("onlinePlan=" + Data.onlinePlanId);
+                                self.quePerSubtaskAssignmentList(Data.cm, Data.data);
+                            }, 1000)
+                        }
+                    });
+                }
             });
         },
         // 查询自动化执行结果详细信息
         getOnlineTaskDistributeList: function() {
             var self = this;
-            var _dom = $(Dom.getOnlineTaskList);
+            var _dom = Page.findId('getOnlineTaskList');
             var data = self.getRadioCheckedRow(_dom);
             if (data) {
                 var cmd = 'taskId=' + data.taskId;
+                var _dom1 = Page.findId('getOnlineTaskDistributeList');
+                var _domPagination = _dom1.find("[name='pagination']");
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                Rose.ajax.postJson(srvMap.get('getOnlineTaskDistributeList'), cmd, function(json, status) {
-                    if (status) {
+                Utils.getServerPage(srvMap.get('getOnlineTaskDistributeList'), cmd, function(json) {
                         window.XMS.msgbox.hide();
-                        var _form = $(Dom.addOnlineTaskDistributeForm);
+                        var _form = Page.findId('addOnlineTaskDistributeForm');
                         Utils.setSelectData(_form);
                         //_form.find("[name='onlinePlanId']").val(data.onlinePlanId);
-                        var template = Handlebars.compile(Tpl.getOnlineTaskDistributeList);
-                        var _dom = $(Dom.getOnlineTaskDistributeList);
-                        _dom.html(template(json.data));
+                        var template = Handlebars.compile(Page.findTpl('getOnlineTaskDistributeList'));
+                        _dom1.find("[name='content']").html(template(json.data.content));
                         self.updateOnlineTask();
                         self.delOnlineTask();
                         self.getRunResultList();
-                        Utils.eventTrClickCallback($(Dom.getOnlineTaskDistributeList))
+                        Utils.eventTrClickCallback(_dom1)
                             //设置分页
-                        self.initPaging(_dom, 5, true);
-                    }
-                });
+                        //self.initPaging(_dom, 5, true);
+                },_domPagination);
             }
         },
         //新建回归子任务
         addOnlineTask: function() {
             var self = this;
-            var _form = $(Dom.addOnlineTaskDistributeForm);
-            var _dom = $(Dom.getOnlineTaskList);
+            var _form = Page.findId('addOnlineTaskDistributeForm');
+            var _dom = Page.findId('getOnlineTaskList');
             _save = _form.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {
                 var data = self.getRadioCheckedRow(_dom);
-                console.log(data.length)
                 if (data) {
                     var cmd = '';
                     var taskName = _form.find("[name='taskName']").val();
@@ -545,8 +539,8 @@ define(function(require, exports, module) {
         //修改已分派子任务
         updateOnlineTask: function() {
             var self = this;
-            var _dom = $(Dom.getOnlineTaskDistributeList);
-            var _form = $(Dom.addOnlineTaskDistributeForm);
+            var _dom = Page.findId('getOnlineTaskDistributeList');
+            var _form = Page.findId('addOnlineTaskDistributeForm');
             var _update = _dom.find("[name='update']");
             _update.unbind('click');
             _update.bind('click', function() {
@@ -566,8 +560,8 @@ define(function(require, exports, module) {
         // 删除已关联用例
         delOnlineTask: function() {
             var self = this;
-            var dom = $(Dom.getOnlineTaskList);
-            var _dom = $(Dom.getOnlineTaskDistributeList);
+            var dom = Page.findId('getOnlineTaskList');
+            var _dom = Page.findId('getOnlineTaskDistributeList');
             var _del = _dom.find("[name='del']");
             _del.unbind('click');
             _del.bind('click', function() {
@@ -596,7 +590,7 @@ define(function(require, exports, module) {
         // 查询自动化执行结果详细信息
         getRunResultList: function() {
             var self = this;
-            var _dom = $(Dom.getOnlineTaskDistributeList);
+            var _dom = Page.findId('getOnlineTaskDistributeList');
             var _checkResult = _dom.find("[name='checkResult']");
             _checkResult.unbind('click');
             _checkResult.bind('click', function() {
@@ -604,43 +598,43 @@ define(function(require, exports, module) {
                 if (data) {
                     if (data.taskType == 1) {
                         var cmd = 'taskId=' + data.taskId;
+                        var _dom1 = Page.findId('getManualResultList');
+                        var _domPagination = _dom1.find("[name='pagination']");
                         XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                        Rose.ajax.postJson(srvMap.get('getManualResultList'), cmd, function(json, status) {
-                            if (status) {
+                        Utils.getServerPage(srvMap.get('getManualResultList'), cmd, function(json) {
                                 window.XMS.msgbox.hide();
 
                                 // 到第二步骤
-                                Utils.goStep(Dom.getOnlineTaskDistributeModal, 2);
+                                Utils.goStep(Page.findModal('getOnlineTaskDistributeModal'), 2);
                                 // 显示弹框
                                 // var _modal = $(Dom.getManualResultListModal);
                                 // _modal.modal('show').on('shown.bs.modal', function() {
-                                var template = Handlebars.compile(Tpl.getManualResultList);
-                                var _dom = $(Dom.getManualResultList);
-                                _dom.html(template(json.data));
+                                var template = Handlebars.compile(Page.findTpl('getManualResultList'));
+                                
+                                _dom1.find("[name='content']").html(template(json.data.content));
                                 //设置分页
-                                self.initPaging(_dom, 5, true);
+                                //self.initPaging(_dom, 5, true);
                                 //})
-                            }
-                        });
+                        },_domPagination);
                     } else {
                         var cmd = 'taskId=' + data.taskId;
+                        var _dom2 = $(Dom.getAutoResultList);
+                        var _domPagination = _dom2.find("[name='pagination']");
                         XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                        Rose.ajax.postJson(srvMap.get('getAutoResultList'), cmd, function(json, status) {
-                            if (status) {
+                        Utils.getServerPage(srvMap.get('getAutoResultList'), cmd, function(json) {
                                 window.XMS.msgbox.hide();
                                 // 到第三步骤
-                                Utils.goStep(Dom.getOnlineTaskDistributeModal, 3);
+                                Utils.goStep(Page.findModal('getOnlineTaskDistributeModal'), 3);
                                 // 显示弹框
                                 // var _modal = $(Dom.getAutoResultListModal);
                                 // _modal.modal('show').on('shown.bs.modal', function() {
-                                var template = Handlebars.compile(Tpl.getAutoResultList);
-                                var _dom = $(Dom.getAutoResultList);
-                                _dom.html(template(json.data));
+                                var template = Handlebars.compile(Page.findTpl('getAutoResultList'));
+                                
+                                _dom2.find("[name='content']").html(template(json.data.content));
                                 //设置分页
-                                self.initPaging(_dom, 5, true);
+                                //self.initPaging(_dom, 5, true);
                                 // })
-                            }
-                        });
+                        },_domPagination);
                     }
                 }
             });
@@ -691,11 +685,11 @@ define(function(require, exports, module) {
             return data;
         },
         // 事件：双击绑定事件
-        eventDClickCallback:function(obj,callback){
+        eventDClickCallback: function(obj, callback) {
             obj.find("tr").bind('dblclick ', function(event) {
-                    if (callback) {
-                        callback();
-                    }
+                if (callback) {
+                    callback();
+                }
             });
         },
         // 事件：分页

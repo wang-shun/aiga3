@@ -3,11 +3,6 @@ define(function(require, exports, module) {
     var pathAlias = "netFlowManage/taskProcess/publicTaskProcess/";
 
     var Utils = require("global/utils.js");
-    var activePane = $("#JS_mainTabsContent").find(".active[id^='JS_childTab_']");
-
-    var menuData = Rose.browser.mapQuery(activePane.data("cmd"));
-    console.log(menuData);
-
 
     srvMap.add("getRstInfo", pathAlias + "publicTaskList.json", "accept/otherTask/getBossTestResultById");
     // 功能验收子任务列表显示
@@ -24,7 +19,12 @@ define(function(require, exports, module) {
     srvMap.add("getOtherTaskInfo", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherTaskInfo");
     srvMap.add("getOtherFlowName", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherFlowName");
 
+
+    var activePane = $("#JS_mainTabsContent").find(".active[id^='JS_childTab_']");
+    var menuData = Rose.browser.mapQuery(activePane.data("cmd"));
+    console.log(menuData);
     console.log(activePane);
+    
     // 模板对象
     var Tpl = {
         publicTaskList: activePane.find("#TPL_publicTaskList").html(), //计划列表
@@ -45,12 +45,7 @@ define(function(require, exports, module) {
         btnUpdateReport: "#JS_updateReport",
         btnDelReport: '#JS_delReport',
     };
-
-    var Selects = {
-        onlinePlan: ''
-    };
-
-    var taskType = 1;
+    var taskType = menuData.taskType;
 
     var Init = {
         init: function() {
@@ -59,7 +54,7 @@ define(function(require, exports, module) {
         _render: function() {
 
             this.hdbarHelp();
-            this.getpublicTaskList("taskType=" + 1);
+            this.getpublicTaskList("");
             this.querypublicTask();
             this.addReport();
             this.updateReport();
@@ -80,6 +75,7 @@ define(function(require, exports, module) {
         },
 
         getpublicTaskList: function(cmd) {
+        	cmd += "&taskType="+taskType;
             var self = this;
             var _dom = $(activePane).find(Dom.publicTaskList);
             var _tbody = _dom.find("tbody");
@@ -87,10 +83,10 @@ define(function(require, exports, module) {
             Utils.getServerPage(srvMap.get('publicTaskList'), cmd, function(json) {
                 var template = Handlebars.compile(Tpl.publicTaskList);
                 console.log(json.data);
-                
+
                 _tbody.html(template(json.data.content));
                 Utils.eventTrClickCallback(_dom);
-            },pagination);
+            }, pagination);
         },
 
         querypublicTask: function() {
@@ -120,6 +116,7 @@ define(function(require, exports, module) {
                 _modal.modal('show');
                 var template = Handlebars.compile(Tpl.testReportForm);
                 $(activePane).find(Dom.testReportForm).find(".modal-body").html(template());
+                //type=0代表这是新增
                 Utils.setSelectData(_modal, "type=0");
                 var sel = _modal.find("select[name='planId']");
                 self.getSelect(sel, taskType);
@@ -145,7 +142,7 @@ define(function(require, exports, module) {
                     var _cmd = "resultId=" + data.resultId;
 
                     Rose.ajax.getJson(srvMap.get('getRstInfo'), _cmd, function(json, status) {
-
+                    	//type=0代表这是新增
                         self.getOtherPlan(_form, "type=1", json.data);
                         var sel = _modal.find("select[name='planId']");
                         self.getSelect(sel, taskType, function() {
@@ -173,7 +170,7 @@ define(function(require, exports, module) {
                     Rose.ajax.postJson(srvMap.get('deleResult'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('删除成功', 'success', 2000);
-                            self.getpublicTaskList("taskType=" + taskType);
+                            self.getpublicTaskList("");
                         }
                     });
                 }
@@ -191,16 +188,16 @@ define(function(require, exports, module) {
                 var cmd = _form.serialize();
                 cmd += "&BossName=" + _form.find("select[name='planId']").find("option:selected").text();
                 cmd += "&type=" + taskType;
-                if(resultId){
-                	cmd += "&resultId=" + resultId;
+                if (resultId) {
+                    cmd += "&resultId=" + resultId;
                 }
-                
+
                 console.log(cmd);
                 Rose.ajax.postJson(srvMap.get('submitPublicRst'), cmd, function(json, status) {
                     if (status) {
                         window.XMS.msgbox.show('保存成功', 'success', 2000);
                         _modal.modal('hide');
-                        self.getpublicTaskList("taskType=" + taskType);
+                        self.getpublicTaskList("");
                     }
                 });
             });

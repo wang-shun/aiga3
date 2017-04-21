@@ -5,9 +5,6 @@ define(function(require, exports, module) {
 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('autoCaseTempMng');
-	var data = Page.getParentCmd();
-	alert(data.username);
-	alert(data.age);
 
 	// 路径重命名
 	var pathAlias = "autoManage/autoCaseTempMng/";

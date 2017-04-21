@@ -229,13 +229,18 @@ define(function(require, exports, module) {
                     if (taskName != "" && collectId != "" && dealOpId != "") {
                         Rose.ajax.postJson(srvMap.get("saveProductionTask"), cmd, function(json, status) {
                             if (status) {
-                                window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                                setTimeout(function() {
-                                    self.getProductionTaskDistributeList();
-                                    _form.find("[name='collectId']").attr("disabled", false);
-                                    _form.find("[name='reset']").click();
-                                    Data.opreation = 'new';
-                                }, 1000)
+                                if (json.data.flag) {
+                                    window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                    setTimeout(function() {
+                                        self.getProductionTaskDistributeList();
+                                        _form.find("[name='collectId']").attr("disabled", false);
+                                        _form.find("[name='reset']").click();
+                                        Data.opreation = 'new';
+                                    }, 1000)
+
+                                } else {
+                                    window.XMS.msgbox.show('保存成功！', 'warning', 3000);
+                                }
                             }
                         });
                     } else {

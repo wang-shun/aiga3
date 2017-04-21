@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaRequireList;
-import com.ai.aiga.domain.NaUiControl;
 import com.ai.aiga.service.NaRequireListSv;
-import com.ai.aiga.view.json.NaAutoTaskReportDetailRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

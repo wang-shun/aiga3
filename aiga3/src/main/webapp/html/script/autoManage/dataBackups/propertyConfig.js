@@ -208,7 +208,8 @@ define(function(require, exports, module) {
             var self = this;
             var _dom =Page.findModal('updatePropertyConfigModal');
             _dom.modal("show");
-            _dom.find("#JS_name").html(propertyName);
+            var html = "<input readonly='readonly' type='text' class='form-control' value='"+propertyName+"' />";
+            _dom.find("#JS_name").html(html);
             var _save = _dom.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {

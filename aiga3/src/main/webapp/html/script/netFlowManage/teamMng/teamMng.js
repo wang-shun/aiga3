@@ -223,7 +223,6 @@ define(function(require, exports, module) {
 				//获得当前单选框值
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
-					//跳转
 					Page.findModal('relTeamerModal').modal('show');
 					Data.teamId = data.teamId;
 

@@ -32,15 +32,21 @@ public class SqlHelp {
 	public static String getCountSql(String sql){
 		
 		
-		int fromIndex = StringUtils.indexOfIgnoreCase(sql, FROM);
+//		int fromIndex = StringUtils.indexOfIgnoreCase(sql, FROM);
+//		
+//		if(fromIndex == -1){
+//			ExceptionUtil.unchecked(new SQLException("提交的sql不合法!"));
+//		}
 		
-		if(fromIndex == -1){
-			ExceptionUtil.unchecked(new SQLException("提交的sql不合法!"));
-		}
+//		StringBuilder sb = new StringBuilder();
+//		sb.append(SQL_COUNT_PREFIX);
+//		sb.append(sql.substring(fromIndex));
+		
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append(SQL_COUNT_PREFIX);
-		sb.append(sql.substring(fromIndex));
+		sb.append("select count(1) from (");
+		sb.append(sql);
+		sb.append(")");
 		
 		return sb.toString();
 	}

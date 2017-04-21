@@ -93,6 +93,7 @@ define(function(require, exports, module) {
                 var data = Utils.getRadioCheckedRow(_dom);
                 if (data) {
                     var cmd = 'planId=' + data.planId;
+                    alert(data.planId)
                     var _modal = Page.findModal('getChangeRelease');
                     // 显示弹框
                     _modal.modal('show').on('shown.bs.modal', function() {
@@ -137,6 +138,7 @@ define(function(require, exports, module) {
         //tab页显示
 	    queTable1 : function(planId){
 	    	var self = this;
+	    	
 	            var _cmd = 'planId='+planId;
 	            // Data.queryListCmd = _cmd;
 	            var _dom = Page.findModalCId('dataBaseTab_1');
@@ -237,9 +239,12 @@ define(function(require, exports, module) {
             var _saveBtn = _form.find("[name='add']");
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
-            	alert();
+            	alert(planId);
             	var a=_form.find("[name='environmentType']").val();
-            	var cmd = "file="+_form.find("[name='fileName']").val()+ "&planId=" + planId;
+            	var cmd = {
+            			"file":_form.find("[name='fileName']").val(),
+            			"planId":planId,
+            	}
             	switch(a){
             		case "1":
             			var task = srvMap.get('exception');

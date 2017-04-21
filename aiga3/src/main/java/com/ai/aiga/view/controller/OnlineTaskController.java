@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.AigaBossTestResult;
 import com.ai.aiga.domain.NaInterfaceList;
 import com.ai.aiga.domain.NaOnlinePlanBug;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
@@ -193,8 +194,13 @@ public class OnlineTaskController {
 		bean.setData(aigaBossTestResultSv.getOtherFlowName(type));
 		return bean;
 	}
-	
-	
+
+	@RequestMapping(path = "/accept/otherTask/getBossTestResultById",method=RequestMethod.GET)
+	public @ResponseBody JsonBean getgBossTestResultById(Long resultId){
+		JsonBean bean = new JsonBean();
+		bean.setData(aigaBossTestResultSv.getgBossTestResultById(resultId));
+		return bean;
+	}
 	
 	@RequestMapping(path = "/accept/otherTask/getOtherTaskInfo",method=RequestMethod.GET)
 	public @ResponseBody JsonBean getOtherTaskInfo(Long onlinePlan){

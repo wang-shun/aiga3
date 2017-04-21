@@ -2,6 +2,9 @@ define(function(require, exports, module) {
     // 通用工具模块
     var Utils = require("global/utils.js");
 
+    // 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('autoResult');
+
     // 路径重命名
     var pathAlias = "autoManage/autoResult/";
 
@@ -53,7 +56,7 @@ define(function(require, exports, module) {
         // 按条件查询
         queryAutoResultForm: function() {
             var self = this;
-            var _form = $(Dom.queryAutoResultForm);
+            var _form = Page.findId('queryAutoResultForm');
             Utils.setSelectData(_form);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
@@ -68,37 +71,38 @@ define(function(require, exports, module) {
             var _cmd = '' || cmd;
             Data.queryListCmd = _cmd;
             //alert(_cmd);
+            var _dom = Page.findId('getAutoResultList');
+            var _domPagination = _dom.find("[name='pagination']");
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.postJson(srvMap.get('getAutoResultList'), _cmd, function(json, status) {
-                if (status) {
+            Utils.getServerPage(srvMap.get('getAutoResultList'), _cmd, function(json) {
                     window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getAutoResultList);
-                    $(Dom.getAutoResultList).html(template(json.data))
-                        // 生成报告
+                    var template = Handlebars.compile(Page.findTpl('getAutoResultListA'));
+                    _dom.find("[name='content']").html(template(json.data.content))
+                    // 生成报告
                     self.generateReport();
-                    //Utils.eventTrClickCallback($(Dom.getAutoResultList));
-                    Utils.eventTrClickCallback($(Dom.getAutoResultList), function() {
+                    Utils.eventTrClickCallback(_dom, function() {
                         var _data = self.getCheckedAutoResult();
                         Data.taskId = _data.taskId;
                         console.log(Data.taskId);
                         var cmd = "taskId=" + _data.taskId;
                         console.log(cmd);
-                        $(Dom.getAutoResultInfoModal).modal('show').on('shown.bs.modal', function () {
+                        var _modal = Page.findModal('getAutoResultInfoModal');
+                        _modal.modal('show').on('shown.bs.modal', function () {
+                            // 初始化步骤
+                            Utils.initStep(_modal);
                             self.queryAutoResultInfoForm(); 
                             self.getAutoResultInfoList(cmd);   
                         })
                     })
                     //设置分页
-                    self.initPaging($(Dom.getAutoResultList), 8, true)
-
-                }
-            });
+                    //self.initPaging($(Dom.getAutoResultList), 8, true)
+            },_domPagination);
 
         },
         // 按条件查询
         queryAutoResultInfoForm: function() {
             var self = this;
-            var _form = $(Dom.queryAutoResultInfoForm);
+            var _form = Page.findId('queryAutoResultInfoForm');
             Utils.setSelectData(_form);
             var _queryBtn = _form.find("[name='queryAuto']");
             _queryBtn.unbind('click');
@@ -115,44 +119,38 @@ define(function(require, exports, module) {
             _cmd1 = "&taskId=" + Data.taskId;
             cmd = _cmd + _cmd1;
             //alert(_cmd);
+            var _dom = Page.findId('getAutoResultInfoList');
+            var _domPagination = _dom.find("[name='pagination']");
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.postJson(srvMap.get('getAutoResultInfoList'), cmd, function(json, status) {
-                if (status) {
+            Utils.getServerPage(srvMap.get('getAutoResultInfoList'), cmd, function(json) {
                     window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Tpl.getAutoResultInfoList);
-                    var _dom = $(Dom.getAutoResultInfoList);
-                    _dom.html(template(json.data));
-                  
-                    //setTimeout(function(){
-                        //设置分页
-                        self.initPaging(_dom, 5, true);    
-                    //},600)
-                   
+                    var template = Handlebars.compile(Page.findTpl('getAutoResultInfoList'));
+                    _dom.find("[name='content']").html(template(json.data.content));
                     self.showRunInfo();
                     self.showRunLog();
-                }
-            });
+            },_domPagination);
             
 
         },
         //点击显示执行信息
         showRunInfo: function() {
             var self = this;
-            var _dom = $(Dom.getAutoResultInfoList);
+            var _dom = Page.findId('getAutoResultInfoList');
             _dom.find("[name='runInfo']").each(function() {
                 $(this).bind("click", function() {
                     var _resultid = $(this).data("resultid");
                     var cmd = 'resultId=' + _resultid;
                     console.log(cmd);
-                    var _modal = $(Dom.showRunInfoModal);
+                    var _dom1 = Page.findId('showRunInfo');
+                    var _modal = Page.findModal('getAutoResultInfoModal');
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     Rose.ajax.postJson(srvMap.get('showRunInfo'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.hide();
-                            // 显示弹框
-                            _modal.modal('show');
+                            // 到第二步骤
+                            Utils.goStep(_modal, 2);
                             // 赋值模板名称
-                            _modal.find("[name='runInfoArea']").html(json.data.runInfo);
+                            _dom1.find("[name='runInfoArea']").html(json.data.runInfo);
 
                         }
                     });
@@ -162,21 +160,22 @@ define(function(require, exports, module) {
         //点击显示执行信息
         showRunLog: function() {
             var self = this;
-            var _dom = $(Dom.getAutoResultInfoList);
+            var _dom = Page.findId('getAutoResultInfoList');
             _dom.find("[name='runLog']").each(function() {
                 $(this).bind("click", function() {
                     var _resultid = $(this).data("resultid");
                     var cmd = 'resultId=' + _resultid;
                     console.log(cmd);
-                    var _modal = $(Dom.showRunLogModal);
+                    var _dom1 = Page.findId('showRunLog');
+                    var _modal = Page.findModal('getAutoResultInfoModal');
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     Rose.ajax.postJson(srvMap.get('showRunLog'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.hide();
-                            // 显示弹框
-                            _modal.modal('show');
+                            // 到第三步骤
+                            Utils.goStep(_modal, 3);
                             // 赋值模板名称
-                            _modal.find("[name='runLogArea']").html(json.data.runLog);
+                            _dom1.find("[name='runLogArea']").html(json.data.runLog);
 
                         }
                     });
@@ -186,7 +185,7 @@ define(function(require, exports, module) {
         // 生成报告
         generateReport: function() {
             var self = this;
-            var _dom = $(Dom.getAutoResultList);
+            var _dom = Page.findId('getAutoResultList');
             var _edit = _dom.find("[name='generate']");
             _edit.unbind('click');
             _edit.bind('click', function() {
@@ -194,7 +193,6 @@ define(function(require, exports, module) {
                 if (data) {
                     var cmd = 'taskId=' + data.taskId;
                     Data.taskId = data.taskId;
-                    var _modal = $(Dom.generateReportModal);
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     Rose.ajax.postJson(srvMap.get('saveReport'), cmd, function(json, status) {
                         if (status) {
@@ -212,7 +210,7 @@ define(function(require, exports, module) {
         },
         //获取选中自动化测试任务
         getCheckedAutoResult: function() {
-            var _obj = $(Dom.getAutoResultList).find("input[type='radio']:checked").parents("tr");
+            var _obj = Page.findId('getAutoResultList').find("input[type='radio']:checked").parents("tr");
             var _taskId = _obj.find("input[name='taskId']")
             if (_taskId.length == 0) {
                 window.XMS.msgbox.show('请先选择一个自动化测试任务！', 'error', 2000);

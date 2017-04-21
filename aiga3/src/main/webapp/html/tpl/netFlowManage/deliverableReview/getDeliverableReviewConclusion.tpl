@@ -12,7 +12,6 @@
         </tr>
     </thead>
     <tbody>
-    {{#each this}}
         <tr>
             <td><input type="radio" class="minimal" value="{{reviewId}}" name="reviewId"></td>
             <td id="onlinePlanName">{{onlinePlanName}}</td>
@@ -36,6 +35,5 @@
                 </div>
             </td>
         </tr>
-    {{/each}}
     </tbody>
 </table>

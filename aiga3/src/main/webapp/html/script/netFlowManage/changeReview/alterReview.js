@@ -25,7 +25,7 @@ define(function(require,exports,module){
 	//保存测试
 	srvMap.add("saveTest", "netFlowManage/deliverableReview/retMessage.json", "sys/testSituation/save");
 	//测试执行情况列表
-	srvMap.add("getRunList", "netFlowManage/deliverableReview/getRunList.json", "sys/testSituation/list");
+	srvMap.add("getRunList", "netFlowManage/deliverableReview/getRunList.json", "sys/testSituation/listtest");
 	//保存测试执行
 	srvMap.add("saveRun", "netFlowManage/deliverableReview/retMessage.json", "sys/testSituation/save");
 	//测试遗留情况列表

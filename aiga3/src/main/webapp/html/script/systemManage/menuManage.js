@@ -57,7 +57,7 @@ define(function(require, exports, module) {
 							var template = Handlebars.compile(Tpl.getMenuinfo);
 							console.log(json.data)
 							$(Dom.getMenuinfo).html(template(json.data));
-							$("name=['funcType']").val(json.data.funcType);
+							$(Dom.getMenuinfo).find("select").val(json.data.funcType);
 						}
 					});
 				} else {

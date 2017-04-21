@@ -24,7 +24,7 @@
         <!-- <li class="header">中国移动通信</li> -->
         {{#each data}}
         <li class="treeview">
-          <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
+          <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funcArg}}">
             <i class="{{funcImg}}"></i>
             <span>{{name}}</span>
             {{#if subMenus}}
@@ -37,7 +37,7 @@
           <ul class="treeview-menu no-disc">
             {{#each subMenus}}
             <li class="">
-                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
+                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funcArg}}">
                     <!-- <i class="fa fa-circle"></i> -->
                     <span>{{name}}</span>
                     {{#if subMenus}}
@@ -50,7 +50,7 @@
                 <ul href="javascript:;" class="treeview-menu">
                     {{#each subMenus}}
                     <li class="">
-                        <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
+                        <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funcArg}}">
                             <!-- <i class="fa fa-circle"></i> -->
                             <span>{{name}}</span>
                             {{#if subMenus}}
@@ -63,7 +63,7 @@
                         <ul href="javascript:;" class="treeview-menu no-disc-4">
                             {{#each subMenus}}
                             <li class="">
-                                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funArg}}">
+                                <a href="javascript:;" data-href="{{viewname}}" data-id="{{funcId}}" data-cmd="{{funcArg}}">
                                     <span>{{name}}</span>
                                 </a>
                             </li>

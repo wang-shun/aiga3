@@ -115,7 +115,7 @@ define(function(require, exports, module) {
 				// 弹出层
 				Page.findModal('addsubSysInfoModel').modal('show');
 				//组件表单校验初始化
-				var _form = Page.findModal('addSysInfo');
+				var _form = Page.findId('addSysInfo');
 				Utils.setSelectData(_form);
 				Page.findModal('addsubSysInfoModel').on('hide.bs.modal', function() {
 					Utils.resetForm('#JS_addSysInfo');

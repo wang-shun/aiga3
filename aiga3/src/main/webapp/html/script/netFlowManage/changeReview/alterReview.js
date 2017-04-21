@@ -296,7 +296,14 @@ define(function(require,exports,module){
 
 				// 查找页面内的Tpl，返回值html代码段
 				var template = Handlebars.compile(Page.findTpl('getRunList'));
-        		_dom.find("[name='content']").html(template(json.data.content));
+				var _data = json.data.content;
+				for(x in _data){
+					if(_data[x].ext1!=''){
+						_data["notNew"] ='true';
+					}
+				}
+        		_dom.find("[name='content']").html(template(_data));
+
 				var _saveRun =  _dom.find("[name='saveRun']");
 				if(data.planState=="3" || data.planState=="4"){
 					_saveRun.attr("disabled", true);

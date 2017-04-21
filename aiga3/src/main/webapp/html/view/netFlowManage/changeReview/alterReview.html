@@ -894,7 +894,7 @@
 </script>
 <!-- handlebars/测试执行情况列表 -->
 <script id="TPL_getRunList" type="text/x-handlebars-template">
-	{{#if ext1}}
+	{{#if notNew}}
 		{{#each this}}
 	        <tr>
 	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>

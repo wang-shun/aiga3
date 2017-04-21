@@ -18,7 +18,6 @@
             <td>{{onlinePlanName}}</td>
             <td>
                 <div class="col-xs-1">
-                    <!-- <input type="text" size="" class="" name="conclusion" value="{{conclusion}}" placeholder=""> -->
                     <select id="conclusion" name="conclusion" class="" value="{{conclusion}}">
                         <option value="">请选择</option>
                         <option value="1">通过</option>

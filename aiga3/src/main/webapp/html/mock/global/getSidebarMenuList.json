@@ -278,7 +278,7 @@
     }, {
         "funcId": 53,
         "name": "公用邮件页面",
-        "funcImg": "fa fa-fw fa-envelope-o",
+        "funcImg": "fa fa-envelope",
         "viewname": "view/email/email.html"
     }]
 }

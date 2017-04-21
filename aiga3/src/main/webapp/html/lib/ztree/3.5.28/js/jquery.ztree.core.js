@@ -68,7 +68,7 @@
                 fontCss: {},
                 nameIsHTML: false,
                 selectedMulti: true,
-                showIcon: true,
+                showIcon: false,
                 showLine: true,
                 showTitle: true,
                 txtSelectedEnable: false

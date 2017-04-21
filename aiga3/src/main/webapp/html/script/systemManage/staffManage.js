@@ -627,8 +627,8 @@ define(function(require,exports,module){
 		// 事件：单机选中当前行
 		eventClickChecked:function(obj,callback){
 			obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-			      checkboxClass: 'icheckbox_square-blue',
-			      radioClass: 'iradio_square-blue'
+			      checkboxClass: 'icheckbox_minimal-blue',
+			      radioClass: 'iradio_minimal-blue'
 			});
 			obj.find("tr").bind('click', function(event) {
 		        $(this).find('.minimal').iCheck('check');

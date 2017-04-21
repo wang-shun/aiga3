@@ -14,7 +14,7 @@ define(function(require,exports,module){
 
 		    // 注册流水滚动条
 		    Page.findId('onlineLog').slimScroll({
-                "height": 607
+                "height": 570
             });
 
 		    // 图标
@@ -33,14 +33,15 @@ define(function(require,exports,module){
 			    },
 			    toolbox: {
 			        feature: {
-			            /*dataView: {show: true, readOnly: false},
+			            /*dataView: {show: true, readOnly: false},*/
 			            magicType: {show: true, type: ['line', 'bar']},
 			            restore: {show: true},
-			            saveAsImage: {show: true}*/
+			            saveAsImage: {show: true}
 			        }
 			    },
 			    legend: {
-			        data:['上次变更数量','异常数量','故障数量','前台成功率','esb成功率','CBOSS成功率']
+			        data:['上次变更数量','异常数量','故障数量','前台成功率','esb成功率','CBOSS成功率'],
+			         y: 'bottom'
 			    },
 			    xAxis: [
 			        {
@@ -77,31 +78,61 @@ define(function(require,exports,module){
 			        {
 			            name:'上次变更数量',
 			            type:'bar',
+			            itemStyle: {
+			                normal: {
+			                    color:'#44abe5'
+			                }
+			            },
 			            data:[20, 30, 25, 23, 25, 36]
 			        },
 			        {
 			            name:'异常数量',
 			            type:'bar',
+			            itemStyle: {
+			                normal: {
+			                    color:'#8ac14a'
+			                }
+			            },
 			            data:[26, 29, 30, 36, 38, 40]
 			        },
 			        {
 			            name:'故障数量',
 			            type:'bar',
+			            itemStyle: {
+			                normal: {
+			                    color:'#ff9a1e'
+			                }
+			            },
 			            data:[20, 22, 33, 35, 43, 46]
 			        },{
 			            name:'前台成功率',
 			            type:'line',
 			            yAxisIndex: 1,
+			            itemStyle: {
+			                normal: {
+			                    color:'#44abe5'
+			                }
+			            },
 			            data:[3.8, 4.2, 4.3, 4.5, 6.3, 9.1]
 			        },{
 			            name:'esb成功率',
 			            type:'line',
 			            yAxisIndex: 1,
+			            itemStyle: {
+			                normal: {
+			                    color:'#8ac14a'
+			                }
+			            },
 			            data:[3.3, 4.2, 4.7, 5.5, 8.3, 9.5]
 			        },{
 			            name:'CBOSS成功率',
 			            type:'line',
 			            yAxisIndex: 1,
+			            itemStyle: {
+			                normal: {
+			                    color:'#ff9920'
+			                }
+			            },
 			            data:[4.0, 4.5, 4.7, 5.5, 6.3, 7.5]
 			        }
 			    ]

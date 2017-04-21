@@ -57,7 +57,7 @@ seajs.config({
         'datepickerCSS':'lib/datepicker/datepicker3.css',
         'datepickerJS':'lib/datepicker/bootstrap-datepicker.js',
         'echarts':'lib/echarts/echarts.min.js',
-        'zTreeCSS':'lib/ztree/3.5.28/css/metroStyle/metroStyle.css',
+        'zTreeCSS':'lib/ztree/3.5.28/css/zTreeStyle/zTreeStyle.css',
         'zTreeJS':'lib/ztree/3.5.28/js/jquery.ztree.core.js',
         'zTreeExcheckJS':'lib/ztree/3.5.28/js/jquery.ztree.excheck.js',
         'datatablesCSS':'lib/datatables/dataTables.bootstrap.css',

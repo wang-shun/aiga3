@@ -91,8 +91,8 @@ define(function(require, exports, module) {
          */
         eventClickChecked:function(obj,callback){
             obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                  checkboxClass: 'icheckbox_square-blue',
-                  radioClass: 'iradio_square-blue'
+                  checkboxClass: 'icheckbox_minimal-blue',
+                  radioClass: 'iradio_minimal-blue'
             });
             obj.find("tr").bind('click', function(event) {
                 var _input = $(this).find('.minimal');

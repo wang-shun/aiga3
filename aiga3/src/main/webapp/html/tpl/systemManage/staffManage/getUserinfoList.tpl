@@ -20,7 +20,7 @@
 </div>
 <!-- /.box-header -->
 <div class="box-body" style="min-height: 100px;" >
-    <table id="JS_getUserinfoListTable" class="table table-bordered table-hover">
+    <table id="JS_getUserinfoListTable" class="table table-hover">
         <thead>
             <tr>
                 <th class="iCheckbox" width="15"></th>

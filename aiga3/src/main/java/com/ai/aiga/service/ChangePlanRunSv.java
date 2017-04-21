@@ -282,4 +282,17 @@ public class ChangePlanRunSv extends BaseService{
 		
 		return naAutoCaseResultFlowDao.searchByNativeSQL(sql, pageable, list);
 	}
+
+	/**
+	 * @ClassName: ChangePlanRunSv :: changePlan
+	 * @author: dongch
+	 * @date: 2017年4月21日 下午1:40:31
+	 *变更计划下拉框
+	 * @Description:
+	 * @return          
+	 */
+	public List<NaChangePlanOnile> changePlan() {
+		List<NaChangePlanOnile> list = naChangePlanOnileDao.findBySign();
+		return list;
+	}
 }

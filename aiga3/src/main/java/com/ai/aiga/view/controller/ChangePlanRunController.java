@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller;
 
 import java.util.List;
 
+import org.hibernate.engine.transaction.jta.platform.internal.JtaSynchronizationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -98,6 +99,15 @@ public class ChangePlanRunController {
 			Long onlinePlan){
 		JsonBean bean = new JsonBean();
 		bean.setData(changePlanRunSv.caseResult(onlinePlan, pageNumber, pageSize));
+		return bean;
+	}
+	
+	/**
+	 * 变更计划下拉框*/
+	@RequestMapping(path = "/sys/cache/changePlan")
+	public @ResponseBody JsonBean changePlan(){
+		JsonBean bean = new JsonBean();
+		bean.setData(changePlanRunSv.changePlan());
 		return bean;
 	}
 }

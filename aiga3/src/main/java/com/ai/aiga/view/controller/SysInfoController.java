@@ -73,10 +73,4 @@ public class SysInfoController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/sys/cache/changePlan")
-	public @ResponseBody JsonBean changePlan(){
-		JsonBean bean = new JsonBean();
-		bean.setData(changePlanCacheCmpt.getChangePlanList());
-		return bean;
-	}
 }

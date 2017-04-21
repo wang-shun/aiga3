@@ -124,7 +124,7 @@ define(function(require, exports, module) {
                                 self.initPaging(_dom, 5, true);
                             });
                             //加载用例集类型下拉框
-                            Rose.ajax.postJson(srvMap.get('getCollectIdList'), "caseType=1", function(json, status) {
+                            Rose.ajax.postJson(srvMap.get('getCollectIdList'), "caseType=2", function(json, status) {
                                 if (true) {
                                     // _dom.find("[name='dealOpId']");
                                     console.log(json.data);
@@ -229,7 +229,7 @@ define(function(require, exports, module) {
                     if (taskName != "" && collectId != "" && dealOpId != "") {
                         Rose.ajax.postJson(srvMap.get("saveProductionTask"), cmd, function(json, status) {
                             if (status) {
-                                if (json.data.flag) {
+                                if (json.data.flag=="true") {
                                     window.XMS.msgbox.show('保存成功！', 'success', 2000);
                                     setTimeout(function() {
                                         self.getProductionTaskDistributeList();

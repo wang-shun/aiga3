@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.cache.AigaFunFolderCacheCmpt;
 import com.ai.aiga.cache.AigaSubSysFolderCacheCmpt;
 import com.ai.aiga.cache.AigaSystemFolderCacheCmpt;
-import com.ai.aiga.cache.ChangePlanCacheCmpt;
 import com.ai.aiga.cache.CommomCompTreeCacheCmpt;
 import com.ai.aiga.cache.NaBusinessCacheCmpt;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -29,8 +28,6 @@ public class SysInfoController {
 	@Autowired
 	private CommomCompTreeCacheCmpt commomCompTreeCacheCmpt;
 	
-	@Autowired 
-	private ChangePlanCacheCmpt changePlanCacheCmpt;
 	@Autowired
 	private NaBusinessCacheCmpt naBusinessCacheCmpt;
 	

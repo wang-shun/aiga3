@@ -3,49 +3,33 @@
   "retMessage":null,
   "data":[{
     "subsysId": "11",
-    "subsysName":"系统子类",
+    "sysName":"系统子类11"
   },{
     "subsysId": "22",
-    "subsysName":"系统子类",
-	
+    "sysName":"系统子类22"
   },{
     "subsysId": "33",
-    "subsysName":"系统子类",
-	
+    "sysName":"系统子类33"
   },{
     "subsysId": "44",
-    "subsysName":"系统子类",
-	
-	
+    "sysName":"系统子类44"
   },{
     "subsysId": "55",
-    "subsysName":"系统子类",
-	
-	
+    "sysName":"系统子类55"
   },{
     "subsysId": "66",
-    "subsysName":"系统子类",
-	
-	
+    "sysName":"系统子类66"
   },{
     "subsysId": "77",
-    "subsysName":"系统子类",
-	
-	
+    "sysName":"系统子类77"
   },{
     "subsysId": "00",
-    "subsysName":"系统子类",
-	
-	
+    "sysName":"系统子类00"
   },{
     "subsysId": "88",
-    "subsysName":"系统子类",
-	
-	
+    "sysName":"系统子类88"
   },{
     "subsysId": "99",
-    "subsysName":"系统子类",
-	
-	
+    "sysName":"系统子类99"
   }]
 }

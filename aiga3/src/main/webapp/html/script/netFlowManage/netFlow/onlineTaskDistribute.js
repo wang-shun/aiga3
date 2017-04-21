@@ -177,6 +177,9 @@ define(function(require, exports, module) {
                             console.log(Data.data);
                             self.getPerSubtaskAssignmentList(cmd, data);
 
+                        } else if (data.taskType == "2") {
+                            window.XMS.msgbox.show('后台功能验收不需分派！', 'error', 2000);
+                            return;
                         }
                     }
                 });

@@ -195,7 +195,7 @@ public class OnlineTaskController {
 		return bean;
 	}
 
-	@RequestMapping(path = "/accept/otherTask/getgBossTestResultById",method=RequestMethod.GET)
+	@RequestMapping(path = "/accept/otherTask/getBossTestResultById",method=RequestMethod.GET)
 	public @ResponseBody JsonBean getgBossTestResultById(Long resultId){
 		JsonBean bean = new JsonBean();
 		bean.setData(aigaBossTestResultSv.getgBossTestResultById(resultId));

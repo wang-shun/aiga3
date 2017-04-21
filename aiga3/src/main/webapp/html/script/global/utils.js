@@ -324,10 +324,11 @@ define(function(require, exports, module) {
 
                     }
                     obj.html(_html);
+                    
+                    self.clearSubOptions(obj);
                     if(callback){
                         callback();
                     }
-                    self.clearSubOptions(obj);
                 }
             });
         },

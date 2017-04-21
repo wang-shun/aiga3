@@ -5,7 +5,7 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 
 
-	srvMap.add("getRstInfo", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherTask");
+	srvMap.add("getRstInfo", pathAlias + "publicTaskList.json", "accept/otherTask/getBossTestResultById");
 	// 功能验收子任务列表显示
 	srvMap.add("publicTaskList", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherTask");
 
@@ -141,16 +141,18 @@ define(function(require, exports, module) {
 							if (status) {
 								console.log(json.data);
 								console.log(_form.find("select"));
+								var sel = _modal.find("select[name='planId']");
+								self.getSelect(sel, taskType);
 								_form.find("select").each(function(index, el) {
-									el.val(json.data[$(el).attr("name")]);
+									console.log(el);
+									$(el).val(json.data[$(el).attr("name")]);
 								});
 							}
 						});
 						
 
 					});
-					var sel = _modal.find("select[name='planId']");
-					self.getSelect(sel, taskType);
+					
 					self.saveTestReport();
 				}
 			});

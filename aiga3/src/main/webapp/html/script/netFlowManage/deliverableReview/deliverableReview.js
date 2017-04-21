@@ -227,7 +227,7 @@ define(function(require,exports,module){
 		getModelList:function(){
 	    		var self=this;
 	    		var data = Data.getParentCmd();
-	    		Rose.ajax.postJson(srvMap.get('getModelList'), 'planId=' + data.onlinePlan, function(json, status) {
+	    		Rose.ajax.postJson(srvMap.get('getModelList'), 'planDate=' + data.planDate, function(json, status) {
 	    			if (status) {
 			    		var template=Handlebars.compile(Tpl.getModelList);
 			    		console.log(json.data.content)
@@ -270,8 +270,7 @@ define(function(require,exports,module){
 									result = tdArr.eq(9).find("select").val();
 									saveState.push({
 										"id" : id,
-										"result" : result,
-										"planId" : data.onlinePlan
+										"result" : result
 									});
 								}
 							});

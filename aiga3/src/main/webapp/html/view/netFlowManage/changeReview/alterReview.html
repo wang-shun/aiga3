@@ -770,7 +770,7 @@
 	    <thead>
 	        <tr>
 	            <th class="iCheckbox" width="15"></th>
-	            <th style="display:none;">上线计划</th>
+	            <th>上线计划名称</th>
 	            <th>结论</th>
 	            <th>评审结果</th>
 	            <th>评审时间</th>
@@ -784,7 +784,7 @@
 	    {{#each this}}
 	        <tr>
 	            <td><input type="radio" class="minimal" value="{{reviewId}}" name="reviewId"></td>
-	            <td style="display:none;">{{onlinePlan}}</td>
+	            <td>{{onlinePlanName}}</td>
 	            <td>
 	                <div class="col-xs-1">
 	                    <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
@@ -804,7 +804,7 @@
 	                    <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
 	                </div>
 	            </td>
-	            <td style="display:none;"><input type="hidden" value="{{ext2}}" name="ext2">{{ext2}}</td>
+	            <td style="display:none;"><input type="hidden" value="评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。" name="ext2">评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。</td>
 	        </tr>
 	    {{/each}}
 	    </tbody>

@@ -169,7 +169,7 @@ define(function(require, exports, module) {
                                         //设置分页
                                         //self.initPaging(_dom, 5, true);
                                 })
-                            },_domPagination);
+                            }, _domPagination);
                         } else if (data.taskType == "3") {
                             Data.data = data;
                             Data.cm = cmd;
@@ -482,19 +482,19 @@ define(function(require, exports, module) {
                 var _domPagination = _dom1.find("[name='pagination']");
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 Utils.getServerPage(srvMap.get('getOnlineTaskDistributeList'), cmd, function(json) {
-                        window.XMS.msgbox.hide();
-                        var _form = Page.findId('addOnlineTaskDistributeForm');
-                        Utils.setSelectData(_form);
-                        //_form.find("[name='onlinePlanId']").val(data.onlinePlanId);
-                        var template = Handlebars.compile(Page.findTpl('getOnlineTaskDistributeList'));
-                        _dom1.find("[name='content']").html(template(json.data.content));
-                        self.updateOnlineTask();
-                        self.delOnlineTask();
-                        self.getRunResultList();
-                        Utils.eventTrClickCallback(_dom1)
-                            //设置分页
+                    window.XMS.msgbox.hide();
+                    var _form = Page.findId('addOnlineTaskDistributeForm');
+                    Utils.setSelectData(_form);
+                    //_form.find("[name='onlinePlanId']").val(data.onlinePlanId);
+                    var template = Handlebars.compile(Page.findTpl('getOnlineTaskDistributeList'));
+                    _dom1.find("[name='content']").html(template(json.data.content));
+                    self.updateOnlineTask();
+                    self.delOnlineTask();
+                    self.getRunResultList();
+                    Utils.eventTrClickCallback(_dom1)
+                        //设置分页
                         //self.initPaging(_dom, 5, true);
-                },_domPagination);
+                }, _domPagination);
             }
         },
         //新建回归子任务
@@ -520,13 +520,20 @@ define(function(require, exports, module) {
                     if (taskName != "" && collectId != "" && dealOpId != "") {
                         Rose.ajax.postJson(srvMap.get("saveOnlineTask"), cmd, function(json, status) {
                             if (status) {
-                                window.XMS.msgbox.show('保存成功！', 'success', 2000);
-                                setTimeout(function() {
-                                    self.getOnlineTaskDistributeList();
-                                    _form.find("[name='collectId']").attr("disabled", false);
-                                    _form.find("[name='reset']").click();
-                                    Data.opreation = 'new';
-                                }, 1000)
+                                if (json.data.flag == 'true') {
+                                    window.XMS.msgbox.show('保存成功！', 'success', 2000);
+                                    setTimeout(function() {
+                                        self.getOnlineTaskDistributeList();
+                                        _form.find("[name='collectId']").attr("disabled", false);
+                                        _form.find("[name='reset']").click();
+                                        Data.opreation = 'new';
+                                    }, 1000)
+
+                                } else {
+                                    window.XMS.msgbox.show('该计划已经取消！', 'error', 1000);
+                                    return;
+                                }
+
                             }
                         });
                     } else {
@@ -602,39 +609,39 @@ define(function(require, exports, module) {
                         var _domPagination = _dom1.find("[name='pagination']");
                         XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                         Utils.getServerPage(srvMap.get('getManualResultList'), cmd, function(json) {
-                                window.XMS.msgbox.hide();
+                            window.XMS.msgbox.hide();
 
-                                // 到第二步骤
-                                Utils.goStep(Page.findModal('getOnlineTaskDistributeModal'), 2);
-                                // 显示弹框
-                                // var _modal = $(Dom.getManualResultListModal);
-                                // _modal.modal('show').on('shown.bs.modal', function() {
-                                var template = Handlebars.compile(Page.findTpl('getManualResultList'));
-                                
-                                _dom1.find("[name='content']").html(template(json.data.content));
-                                //设置分页
-                                //self.initPaging(_dom, 5, true);
-                                //})
-                        },_domPagination);
+                            // 到第二步骤
+                            Utils.goStep(Page.findModal('getOnlineTaskDistributeModal'), 2);
+                            // 显示弹框
+                            // var _modal = $(Dom.getManualResultListModal);
+                            // _modal.modal('show').on('shown.bs.modal', function() {
+                            var template = Handlebars.compile(Page.findTpl('getManualResultList'));
+
+                            _dom1.find("[name='content']").html(template(json.data.content));
+                            //设置分页
+                            //self.initPaging(_dom, 5, true);
+                            //})
+                        }, _domPagination);
                     } else {
                         var cmd = 'taskId=' + data.taskId;
                         var _dom2 = $(Dom.getAutoResultList);
                         var _domPagination = _dom2.find("[name='pagination']");
                         XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                         Utils.getServerPage(srvMap.get('getAutoResultList'), cmd, function(json) {
-                                window.XMS.msgbox.hide();
-                                // 到第三步骤
-                                Utils.goStep(Page.findModal('getOnlineTaskDistributeModal'), 3);
-                                // 显示弹框
-                                // var _modal = $(Dom.getAutoResultListModal);
-                                // _modal.modal('show').on('shown.bs.modal', function() {
-                                var template = Handlebars.compile(Page.findTpl('getAutoResultList'));
-                                
-                                _dom2.find("[name='content']").html(template(json.data.content));
-                                //设置分页
-                                //self.initPaging(_dom, 5, true);
-                                // })
-                        },_domPagination);
+                            window.XMS.msgbox.hide();
+                            // 到第三步骤
+                            Utils.goStep(Page.findModal('getOnlineTaskDistributeModal'), 3);
+                            // 显示弹框
+                            // var _modal = $(Dom.getAutoResultListModal);
+                            // _modal.modal('show').on('shown.bs.modal', function() {
+                            var template = Handlebars.compile(Page.findTpl('getAutoResultList'));
+
+                            _dom2.find("[name='content']").html(template(json.data.content));
+                            //设置分页
+                            //self.initPaging(_dom, 5, true);
+                            // })
+                        }, _domPagination);
                     }
                 }
             });

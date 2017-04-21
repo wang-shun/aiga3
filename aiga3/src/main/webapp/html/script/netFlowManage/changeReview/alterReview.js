@@ -152,7 +152,7 @@ define(function(require,exports,module){
 						   return false;
 					    }
 						var _data= self.getRadioCheckedRow(_dom);
-						var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&ext2=' + _data.ext2 + '&planId=' + data.onlinePlan;
+						var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&ext2=评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。' + '&planId=' + data.onlinePlan;
 						Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
 							if(status) {
 									// 保存结论成功后，刷新变更评审结论页
@@ -197,7 +197,7 @@ define(function(require,exports,module){
     		var data = Page.getParentCmd();
     		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getModelList'),'planId=' + data.onlinePlan,function(json){
+			Utils.getServerPage(srvMap.get('getModelList'),'planDate=' + data.planDate,function(json){
 				window.XMS.msgbox.hide();
 
 				// 查找页面内的Tpl，返回值html代码段
@@ -236,8 +236,7 @@ define(function(require,exports,module){
 							result = tdArr.eq(9).find("select").val();
 							saveState.push({
 								"id" : id,
-								"result" : result,
-								"planId" : data.onlinePlan
+								"result" : result
 							});
 						}
 					});
@@ -297,7 +296,14 @@ define(function(require,exports,module){
 
 				// 查找页面内的Tpl，返回值html代码段
 				var template = Handlebars.compile(Page.findTpl('getRunList'));
-        		_dom.find("[name='content']").html(template(json.data.content));
+				var _data = json.data.content;
+				for(x in _data){
+					if(_data[x].ext1!=''){
+						_data["notNew"] ='true';
+					}
+				}
+        		_dom.find("[name='content']").html(template(_data));
+
 				var _saveRun =  _dom.find("[name='saveRun']");
 				if(data.planState=="3" || data.planState=="4"){
 					_saveRun.attr("disabled", true);
@@ -314,7 +320,7 @@ define(function(require,exports,module){
 				   	}
 					var testId;
 					var ext1;
-					var ext2;
+					var testSituation;
 					var saveState = [];
 					var cmd;
 					_dom.find("tbody").find("tr").each(function(){
@@ -322,11 +328,11 @@ define(function(require,exports,module){
 						if(tdArr.eq(0).find("input").is(':checked')){
 							testId = tdArr.eq(0).find("input").val();
 							ext1 = tdArr.eq(1).find("input").val();
-							ext2 = tdArr.eq(2).find("input").val();
+							testSituation = tdArr.eq(2).find("input").val();
 							saveState.push({
 								"testId" : testId,
 								"ext1" : ext1,
-								"ext2" : ext2,
+								"testSituation" : testSituation,
 								"planId" : data.onlinePlan
 							});
 						}

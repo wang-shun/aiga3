@@ -182,7 +182,7 @@
 									        <tr>
 									        	<th class="iCheckbox" width="15"></th>
 									            <th>测试执行类型</th>
-									            <th>测试执行情况</th>
+									            <th>测试情况</th>
 									        </tr>
 									    </thead>
 									    <tbody name="content"></tbody>
@@ -770,7 +770,7 @@
 	    <thead>
 	        <tr>
 	            <th class="iCheckbox" width="15"></th>
-	            <th style="display:none;">上线计划</th>
+	            <th>上线计划名称</th>
 	            <th>结论</th>
 	            <th>评审结果</th>
 	            <th>评审时间</th>
@@ -784,7 +784,7 @@
 	    {{#each this}}
 	        <tr>
 	            <td><input type="radio" class="minimal" value="{{reviewId}}" name="reviewId"></td>
-	            <td style="display:none;">{{onlinePlan}}</td>
+	            <td>{{onlinePlanName}}</td>
 	            <td>
 	                <div class="col-xs-1">
 	                    <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
@@ -804,7 +804,7 @@
 	                    <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
 	                </div>
 	            </td>
-	            <td style="display:none;"><input type="hidden" value="{{ext2}}" name="ext2">{{ext2}}</td>
+	            <td style="display:none;"><input type="hidden" value="评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。" name="ext2">评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。</td>
 	        </tr>
 	    {{/each}}
 	    </tbody>
@@ -894,36 +894,36 @@
 </script>
 <!-- handlebars/测试执行情况列表 -->
 <script id="TPL_getRunList" type="text/x-handlebars-template">
-	{{#each this}}
-		{{#if ext1}}
+	{{#if notNew}}
+		{{#each this}}
 	        <tr>
 	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
 	        	<td><input type="hidden" value="{{ext1}}" name="ext1">{{ext1}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{ext2}}" placeholder="" style="width:600px;"></div></td>
+	            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="{{testSituation}}" placeholder="" style="width:600px;"></div></td>
 	        </tr>
-	    {{else}}
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{非功能验收测试}}" name="ext1">{{非功能验收测试}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{本次上线涉及服务xx个，其中新增服务x个，修改服务x个，测试通过x个，测试通过率xx}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{功能验收测试}}" name="ext1">{{功能验收测试}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{功能验收测试已完成，未发现问题}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{应用安全扫描}}" name="ext1">{{应用安全扫描}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{经安全室确认，本次上线符合安全规范}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-			<tr>
-	        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
-	        	<td><input type="hidden" value="{{SQL安全扫描}}" name="ext1">{{SQL安全扫描}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="ext2" value="{{本次测试结果正常，无新增漏洞，允许上线}}" placeholder="" style="width:600px;"></div></td>
-	        </tr>
-	    {{/if}}
-    {{/each}}
+        {{/each}}
+    {{else}}
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="非功能验收测试" name="ext1">非功能验收测试</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="本次上线涉及服务xx个，其中新增服务x个，修改服务x个，测试通过x个，测试通过率xx" placeholder="" style="width:600px;"></div></td>
+        </tr>
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="功能验收测试" name="ext1">功能验收测试</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="功能验收测试已完成，未发现问题" placeholder="" style="width:600px;"></div></td>
+        </tr>
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="应用安全扫描" name="ext1">应用安全扫描</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="经安全室确认，本次上线符合安全规范" placeholder="" style="width:600px;"></div></td>
+        </tr>
+		<tr>
+        	<td><input type="checkbox" class="minimal" value="{{testId}}" name="testId"></td>
+        	<td><input type="hidden" value="SQL安全扫描" name="ext1">SQL安全扫描</td>
+            <td><div class="col-xs-1"><input type="text" size="" class="" name="testSituation" value="本次测试结果正常，无新增漏洞，允许上线" placeholder="" style="width:600px;"></div></td>
+        </tr>
+    {{/if}}
 </script>
 <!-- handlebars/测试遗留情况列表 -->
 <script id="TPL_getRemnantList" type="text/x-handlebars-template">

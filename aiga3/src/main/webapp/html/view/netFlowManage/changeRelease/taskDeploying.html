@@ -51,8 +51,6 @@
                         <tr>
                             <th class="iCheckbox"></th>
                             <th>部署状态</th>
-                            <th>监控状态</th>
-                            <th>监控任务单</th>
                             <th>监控任务名称</th>
                             <th>变更计划名称</th>
                             <th>变更时间</th>
@@ -109,14 +107,12 @@
         </td>
         <td>
             <select type="hidden" name="deployState" value="{{deployState}}">
-                <option></option>
+                <option value="">请选择</option>
                 <option value="1">未部署</option>
                 <option value="2">已部署</option>
                 <option value="3">取消部署</option>
             </select>
         </td>
-        <td>{{getMonitorState monitorState}}
-            <td>{{monitorOrder}}</td>
             <td>{{taskName}}</td>
             <td>{{onlinePlanName}}</td>
             <td>{{changeTime}}</td>

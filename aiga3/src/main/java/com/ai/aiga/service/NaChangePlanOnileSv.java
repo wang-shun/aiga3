@@ -208,12 +208,12 @@ public class NaChangePlanOnileSv extends BaseService{
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "type");
 			}
 			StringBuilder s = new StringBuilder();
-			s.append("  select distinct a.online_plan, a.online_plan_name   from na_change_plan_onile a left join na_online_task_distribute b   on a.online_plan = b.online_plan where b.parent_task_id = 0 and a.sign<>0  and a.sign=0 and a.plan_state in (1,2) and task_type = 2 ");
+			s.append("  select distinct a.online_plan, a.online_plan_name   from na_change_plan_onile a left join na_online_task_distribute b   on a.online_plan = b.online_plan where b.parent_task_id = 0  and a.sign=0  and  a.plan_state in (1,2) and b.task_type = 2  ");
 				if(type==1){
 				//新增
 					s.append(" and a.online_plan not in (select online_plan  from AIGA_BOSS_TEST_RESULT)");
 			}
-				s.append("order by a.plan_date desc");
+				//s.append("order by a.plan_date desc");
 				
 			return aigaBossTestResultDao.searchByNativeSQL(s.toString());
 		}

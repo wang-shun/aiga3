@@ -373,8 +373,8 @@ define(function(require, exports, module) {
                                 items_per_page      : items_per_page, //每页显示的条目数
                                 num_display_entries : 10, //连续分页主体部分显示的分页条目数
                                 num_edge_entries    : 2, //两侧显示的首尾分页的条目数
-                                prev_text           : "上一页",
-                                next_text           : "下一页",
+                                prev_text           : "上页",
+                                next_text           : "下页",
                                 callback           : pageselectCallback
                             });
                         }

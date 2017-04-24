@@ -3,10 +3,12 @@ package com.ai.aiga.service.auto;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -328,12 +330,7 @@ public class AutoMachineSv extends BaseService {
 	 * @return NaAutoMachine
 	 */
 	public NaAutoMachine updateMachineStatusToFree(String machineIp){
-   		if (StringUtils.isBlank(machineIp)) {
-   		          BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
-   		}
-   		NaAutoMachine autoMachine=this.naAutoMachineDao.findByMachineIp(machineIp);
-   		autoMachine.setStatus(AutoRunEnum.MachineStatus_free.getValue());
-   		return this.naAutoMachineDao.save(autoMachine);
+		return this.updateMachineStatus(machineIp,AutoRunEnum.MachineStatus_free.getValue());
 	}
 
 	/**
@@ -342,12 +339,67 @@ public class AutoMachineSv extends BaseService {
 	 * @return NaAutoMachine
 	 */
 	public NaAutoMachine updateMachineStatusToOn(String machineIp){
+		return this.updateMachineStatus(machineIp,AutoRunEnum.MachineStatus_on.getValue());
+	}
+
+	/**
+	 * 根据机器IP修改机器状态为离线
+	 * @param machineIp
+	 */
+	public NaAutoMachine updateMachineStatusToOff(String machineIp){
+		return this.updateMachineStatus(machineIp,AutoRunEnum.MachineStatus_off.getValue());
+	}
+
+	/**
+	 * 根据机器响应时间修改机器状态
+	 */
+	public void updateMachineStatusByRequestTime(){
+		List<NaAutoMachine> list=this.naAutoMachineDao.findAll();
+		for (NaAutoMachine machine:list){
+			Date requestTime=machine.getRequestTime();
+			Date validateTime= new Date(System.currentTimeMillis()-1000*60*10);
+			//是否超时
+			boolean isTimeOut = requestTime != null && requestTime.before(validateTime);
+			//是否离线
+			boolean isOff = machine.getStatus().equals(AutoRunEnum.MachineStatus_off.getValue());
+			//如果超时且不是离线，则修改机器状态为离线
+			if (isTimeOut && !isOff) {
+				this.updateMachineStatusToOff(machine.getMachineIp());
+			}
+			//如果未超时且是离线，则修改机器状态为空闲(未防止多线程处理出现将占用中变成空闲，故此代码注释)
+			/*if (!isTimeOut && isOff) {
+				this.updateMachineStatusToFree(machine.getMachineIp());
+			}*/
+		}
+	}
+
+	/**
+	 * 实时更新机器响应时间和状态
+	 * @param machineIp
+	 */
+	public void updateRequestTimeByMachineIp(String machineIp){
+		NaAutoMachine autoMachine=this.naAutoMachineDao.findByMachineIp(machineIp);
+		autoMachine.setRequestTime(DateUtil.getCurrentTime());
+		boolean isOff=autoMachine.getStatus().equals(AutoRunEnum.MachineStatus_off.getValue());
+		//如果该机器离线，则改为空闲
+		if (isOff) {
+			autoMachine.setStatus(AutoRunEnum.MachineStatus_free.getValue());
+		}
+		this.naAutoMachineDao.save(autoMachine);
+	}
+
+	/**
+	 * 根据机器IP、状态修改
+	 * @param machineIp
+	 * @param status
+	 * @return
+	 */
+	private NaAutoMachine updateMachineStatus(String machineIp,Long status){
 		if (StringUtils.isBlank(machineIp)) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineIp");
 		}
 		NaAutoMachine autoMachine=this.naAutoMachineDao.findByMachineIp(machineIp);
-		autoMachine.setStatus(AutoRunEnum.MachineStatus_on.getValue());
+		autoMachine.setStatus(status);
 		return this.naAutoMachineDao.save(autoMachine);
 	}
-
 }

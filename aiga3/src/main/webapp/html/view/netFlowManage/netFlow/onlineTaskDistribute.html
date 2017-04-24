@@ -113,10 +113,9 @@
                                             <div class="form-group">
                                                 <label>关联用例集</label><i class="text-red">*</i>
                                                 <select name="collectId" class="form-control input-sm" data-cmd="caseType=1" data-url="getCollectIdList" data-idkey="collectId" data-namekey="collectName">
-                                                    <input type="hidden" name="onlinePlan" value="">
-                                                    <input type="hidden" name="taskId" value="">
-                                                    <option value="">请选择</option>
                                                 </select>
+                                                <input type="hidden" name="onlinePlan" value="">
+                                                <input type="hidden" name="taskId" value="">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -127,18 +126,13 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label></label>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存</button>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label></label>
-                                                <button type="reset" class="btn btn-default" name="reset">重置</button>
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="reset" class="btn btn-default" name="reset">重置</button>
                                     </div>
                                 </div>
                             </form>
@@ -147,11 +141,9 @@
                             <div class="box-header ">
                                 <h3 class="box-title">子任务列表</h3>
                                 <div class="box-tools">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary" name="update">修改</button>
-                                        <button type="button" class="btn btn-primary" name="del">删除</button>
-                                        <button type="button" class="btn btn-primary" name="checkResult">查看用例执行结果</button>
-                                    </div>
+                                    <button type="button" class="btn btn-primary" name="update">修改</button>
+                                    <button type="button" class="btn btn-primary" name="del">删除</button>
+                                    <button type="button" class="btn btn-primary" name="checkResult">查看用例执行结果</button>
                                 </div>
                             </div>
                             <div class="box-body table-scrollable">

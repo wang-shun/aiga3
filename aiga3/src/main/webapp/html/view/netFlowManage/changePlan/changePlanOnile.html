@@ -1,7 +1,6 @@
 <div class="row" id="Page_changePlanOnile">
 	<div class="col-md-12">
 	<div class="box box-primary">
-	
 		<div class="box-header with-border">
 			<h3 class="box-title">条件查询</h3>
 			<div class="box-tools pull-right">
@@ -156,55 +155,62 @@
 
 <!-- 添加结果 -->
 <div class="modal fade" id="JS_addChangePlanResultFormModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" >
-        	<div class="modal-header">
-                <div class="box-tools pull-right">
-			    	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-			  	  </div>
-            </div>
-            <div class="modal-body" id="JS_addChangePlanForm" >
-            
-        	<div class="box"  style="min-height: 100px">
-			    <div class="box-header with-border">
-			      <h3 class="box-title">添加上线总结</h3>
-			      
-			    </div>
-			    <div class="box-body">
-			    <form class="form-horizontal" id="JS_addChangePlanResulForm"  role = "form">
-			      
-			    </form>
-			    </div>
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="box-tools pull-right">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
 			</div>
-            <div class="box"   style="min-height: 100px" id="JS_addChangePlanResulList">
-			    <div class="box-header">
-			        <form>
-		                <div class="form-group form-inline">
-		                    <label >选择文件：</label>
-		                    <input type="text" class="form-control input-sm" name="fileName">
-		                    <button type="reset" class="btn btn-default" name="reset">上传文档</button>
-		                </div>
-		            </form>
-			        <div class="box-tools">
-			            <div class="btn-group">
-			                <button type="button" class="btn btn-danger"><i class="fa fa-remove"></i> 删除文档</button>
-			                <button type="button" class="btn btn-primary"><i class="fa fa-share-alt"></i> 下载文档</button>
-			                <button type="button" class="btn btn-primary"><i class="fa fa-share-alt"></i> 下载文档</button>
-			            </div>
-			        </div>
-			    </div>
-			    <div id="JS_getChangePlanResulList"  class="box-body" style="min-height: 100px;" >
-			      
-			    </div>
+			<div class="modal-body" >
+				<div class="box" style="min-height: 100px">
+					<div class="box-header with-border">
+						<h3 class="box-title">添加上线总结</h3>
+					</div>
+					<div class="box-body">
+						<form class="form-horizontal" id="JS_addChangePlanResulForm"
+							role="form"></form>
+					</div>
+				</div>
+				<div class="box" style="min-height: 100px"
+					id="JS_addChangePlanResulList">
+					<div class="box-header">
+						<form>
+							<div class="form-group form-inline">
+								<label>选择文件：</label> <input type="text"
+									class="form-control input-sm" name="fileName">
+								<button type="reset" class="btn btn-default" name="reset">上传文档</button>
+							</div>
+						</form>
+						<div class="box-tools">
+							<div class="btn-group">
+								<button type="button" class="btn btn-danger">
+									<i class="fa fa-remove"></i> 删除文档
+								</button>
+								<button type="button" class="btn btn-primary">
+									<i class="fa fa-share-alt"></i> 下载文档
+								</button>
+								<button type="button" class="btn btn-primary">
+									<i class="fa fa-share-alt"></i> 下载文档
+								</button>
+							</div>
+						</div>
+					</div>
+					<div id="JS_getChangePlanResulList" class="box-body"
+						style="min-height: 100px;"></div>
+				</div>
 			</div>
+			<div class="modal-footer">
+				<button type="reset" class="btn btn-default pull-left"
+					id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
+				<button type="button" class="btn btn-primary"
+					id="JS_addCaseSetinfoSubmit">确认</button>
 			</div>
-            <div class="modal-footer">
-                <button type="reset" class="btn btn-default pull-left" id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="JS_addCaseSetinfoSubmit">确认</button>
-            </div>
-            
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 <script id="TPL_getChangPlanOnlieList" type="text/x-handlebars-template">
         {{#each this}}
@@ -222,6 +228,49 @@
             <td>{{remark}}</td>
         </tr>
         {{/each}}
+</script>
+<script id="TPL_addChangePlanForm" type="text/x-handlebars-template">
+<div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 name="head" class="box-title">新增计划</h3>
+      <div class="box-tools pull-right">
+    	<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+  	  </div>
+    </div>
+    <div class="box-body">
+    <form class="form-horizontal" name="addChangePlanForm"  role = "form">
+	   <div class="form-group form-inline">
+                <label><i class="text-red">&nbsp;&nbsp;*&nbsp;&nbsp;</i>变更计划名称：</label>
+                <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}" > 
+                <label>变更开始时间：</label>
+                <input type="text" class="form-control input-sm " name="planDate" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}"> 
+                <label>&nbsp;&nbsp;&nbsp;上线是否及时&nbsp;&nbsp;：</label>
+                <select name="timely" class="form-control input-sm" style="width:172px" >
+                    <option value="">请选择</option>
+                    <option value="1">是</option>
+                    <option value="2">否</option>
+                </select>
+         </div>
+         <div class="form-group form-inline">
+                <label><i class="text-red">&nbsp;&nbsp;*&nbsp;&nbsp;</i>变&nbsp;&nbsp;更&nbsp;&nbsp;类&nbsp;&nbsp;型&nbsp;&nbsp;：</label>
+                <select name="types" class="form-control input-sm" style="width:172px" >
+                    <option value="">请选择</option>
+                    <option value="0">计划上线</option>
+                    <option value="1">紧急上线</option>
+                    <option value="2">计划变更</option>
+                    <option value="3">紧急变更</option>
+                </select> 
+                <label>&nbsp;&nbsp;备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：&nbsp;&nbsp;</label>
+                <input type="text" class="form-control input-sm" name="remark" value="{{remark}}"> 
+            <button type="button" class="btn btn-primary" name="submit" style="float:right; margin-right:40px;">保&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+         </div>
+    </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="reset" class="btn btn-default pull-left" id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
+    <button type="button" class="btn btn-primary" id="JS_addCaseSetinfoSubmit">确认</button>
+</div>
 </script>
 <script>
     seajs.use("script/netFlowManage/changePlan/changePlanOnlie.js", function(getChangePlanOnlie) {

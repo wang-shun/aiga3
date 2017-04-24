@@ -10,7 +10,7 @@
 	   <div class="form-group form-inline">
                 <label><i class="text-red">&nbsp;&nbsp;*&nbsp;&nbsp;</i>变更计划名称：</label>
                 <input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}" > 
-                <label>计划变更时间：</label>
+                <label>变更开始时间：</label>
                 <input type="text" class="form-control input-sm " name="planDate" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}"> 
                 <label>&nbsp;&nbsp;&nbsp;上线是否及时&nbsp;&nbsp;：</label>
                 <select name="timely" class="form-control input-sm" style="width:172px" >

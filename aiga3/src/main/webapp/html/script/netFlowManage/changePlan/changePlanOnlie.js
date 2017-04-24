@@ -40,7 +40,7 @@ define(function(require, exports, module) {
 		getChangePlanOnlieList: $("#TPL_getChangPlanOnlieList").html(),
 		queryOnlinePlanName: require('tpl/netFlowManage/changePlan/changePlanManage/queryOnlinePlanName.tpl'),
 		addChangePlanResulForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanResulForm.tpl'),
-		addChangePlanForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanForm.tpl'),
+		// addChangePlanForm: require('tpl/netFlowManage/changePlan/changePlanManage/addChangePlanForm.tpl'),
 		seeRequForm: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequForm.tpl'),
 		seerequList: require('tpl/netFlowManage/changePlan/changePlanManage/seeRequList.tpl'),
 		seeChangeList: require('tpl/netFlowManage/changePlan/changePlanManage/seeChangeList.tpl'),
@@ -231,7 +231,7 @@ define(function(require, exports, module) {
 			_reviewDel.bind('click', function() {
 				var _data = self.getTaskRow();
 				if (_data) {
-					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState + "&onlinePlanName=" + _data.onlinePlanName;
+					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState+"&onlinePlanName="+_data.onlinePlanName;
 					Sidebar.creatTab({
 						id:"100",
 						name:'交付物评审',
@@ -249,7 +249,7 @@ define(function(require, exports, module) {
 			var _add = $(Dom.changePlanOnlie).find("[name='add']")
 			_add.unbind('click');
 			_add.bind('click', function() {
-				var template = Handlebars.compile(Tpl.addChangePlanForm);
+				var template = Handlebars.compile(Page.findTpl('addChangePlanForm'));
 
 				$(Dom.addChangePlanForm).html(template(""));
 				//弹出层
@@ -280,12 +280,13 @@ define(function(require, exports, module) {
 		},
 
 		//修改
-		updateChangePlan: function(onlinePlan,types) {
+		updateChangePlan: function(onlinePlan,types,timely) {
 			var self = this;
 			var _add = $(Dom.addChangePlanForm);
 			var _submit = _add.find("[name='submit']");
 			var _form = _add.find("[name='addChangePlanForm']");
 			_form.find("[name='types']").val(types);
+			_form.find("[name='timely']").val(timely);
 			_submit.unbind('click');
 			_submit.bind('click', function() {
 
@@ -316,19 +317,19 @@ define(function(require, exports, module) {
 				if (_data) {
 					Rose.ajax.postJson(srvMap.get('getChangePlanOnlieList'), "onlinePlan=" + onlinePlan, function(json, status) {
 						if (status) {
-							var template = Handlebars.compile(Tpl.addChangePlanForm);
+							var template = Handlebars.compile(Page.findTpl('addChangePlanForm'));
 							console.log(json.data.content[0])
 							var _form = $(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
 							alert();
 							var types=json.data.content[0].types
+							var timely = json.data.content[0].timely
 							$(Dom.addChangePlanForm).html(template(json.data.content[0]));
-							$("#JS_addChangePlanForm").find("[name='timely']").val(json.data.content[0].timely);
 							$("#JS_addChangePlanForm").find("[name='head']").html("修改计划");
 							console.log($("#JS_addChangePlanForm").find("[name='head']"))
 
 							//弹出层
 							$("#JS_addChangePlanFormModal").modal('show');
-							self.updateChangePlan(onlinePlan,types);
+							self.updateChangePlan(onlinePlan,types,timely);
 						}
 					});
 				}
@@ -616,7 +617,7 @@ define(function(require, exports, module) {
 				onlinePlan: "",
 				planDate: "",
 				planState: "",
-				onlinePlanName: ""
+				onlinePlanName:""
 			}
 			if (_onlinePlan.length == 0) {
 				window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);

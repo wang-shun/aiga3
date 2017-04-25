@@ -89,7 +89,7 @@ public class AutoBackupTask extends AbstractTask {
 			}
 			try {
 				// task.doTask(111);
-				restoreTask.doBusiness();
+				//restoreTask.doBusiness();
 			} catch (Exception e) {
 				log.error(e.getMessage(), e);
 			}

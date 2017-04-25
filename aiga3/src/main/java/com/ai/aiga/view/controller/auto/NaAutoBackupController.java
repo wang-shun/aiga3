@@ -20,6 +20,7 @@ public class NaAutoBackupController {
 	@Autowired
 	private AutoBackupFrontSv naAutoBackupFrontSv;
 	
+	
 	@RequestMapping(path = "/sys/backup/getBackupDealList")
 	public @ResponseBody JsonBean getBackupDealList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -40,8 +41,6 @@ public class NaAutoBackupController {
 	@RequestMapping(path = "/sys/backup/addBackup")
 	public @ResponseBody JsonBean saveBackupDeal(String propertyResource,String resourceValue){
 		naAutoBackupFrontSv.saveBackupDeal(propertyResource, resourceValue);
-		String [] a = new String[]{"1"};
-		AutoBackupTask.main(a);
 		return JsonBean.success;
 	}
 	
@@ -125,5 +124,12 @@ public class NaAutoBackupController {
 		JsonBean bean = new JsonBean();
 		bean.setData(naAutoBackupFrontSv.getPropertyFleldName(propertyId));
 		return bean;
+	}
+	
+	@RequestMapping(path = "/sys/backup/dataBackup")
+	public @ResponseBody JsonBean BackupDeal(){
+		String[] a = new String[]{"1"};
+		AutoBackupTask.main(a);
+		return JsonBean.success;
 	}
 }

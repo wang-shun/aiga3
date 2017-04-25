@@ -18,6 +18,8 @@ define(function(require, exports, module) {
 	//属性下拉菜单
 	srvMap.add("getPropertyName", pathAlias + "dataBackups.json", "sys/backup/getPropertyConfigList");
 
+	//备份进程
+	srvMap.add("dataBackup", pathAlias + "dataBackups.json", "sys/backup/dataBackup");
 	/*// 模板对象
 	var Tpl = {
 		getDataBackupsTemp: $('#JS_getDataBackupsTemp'),
@@ -73,6 +75,8 @@ define(function(require, exports, module) {
 				self.addDataBackup();
 				// 废弃删除
 				self.delDataBackups();
+
+				self.dataBackups();
 				Utils.eventTrClickCallback(_dom);
 			}, _domPagination);
 
@@ -137,6 +141,26 @@ define(function(require, exports, module) {
 						}
 					});
 				}
+			});
+		},
+		//备份进程
+		dataBackups: function() {
+			var self = this;
+			var _dom =Page.findId('getDataBackupsList');
+			var _backup = _dom.find("[name='backup']");
+			_backup.unbind('click');
+			_backup.bind('click', function() {
+				//获得当前单选框值
+					//alert(cmd);
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+					Rose.ajax.getJson(srvMap.get('dataBackup'), function(json, status) {
+						if (status) {
+							window.XMS.msgbox.show('备份成功', 'success', 2000)
+							setTimeout(function() {
+								self.getDataBackupList();
+							}, 1000)
+						}
+					});
 			});
 		},
 		//映射处理

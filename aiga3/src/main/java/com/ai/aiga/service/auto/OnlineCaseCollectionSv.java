@@ -1,4 +1,4 @@
-package com.ai.aiga.service;
+package com.ai.aiga.service.auto;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,21 +18,28 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoCollGroupCaseDao;
 import com.ai.aiga.dao.NaAutoCollectionDao;
 import com.ai.aiga.dao.NaAutoGroupDao;
+import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.NaAutoCollGroupCase;
 import com.ai.aiga.domain.NaAutoCollection;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.auto.dto.CaseCollectList;
+import com.ai.aiga.service.auto.dto.repaireMan;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.mapper.BeanMapper;
+
 import com.ai.aiga.view.json.CaseCollectionRequest;
 import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
+
 
 @Service
 @Transactional
-public class AigaOnlineCaseCollectionSv extends BaseService {
+public class OnlineCaseCollectionSv extends BaseService {
 	
-	private static Logger logger = LoggerFactory.getLogger(AigaOnlineCaseCollectionSv.class);
+	private static Logger logger = LoggerFactory.getLogger(OnlineCaseCollectionSv.class);
 
 	@Autowired
 	private NaAutoCollectionDao caseDao;
@@ -80,10 +88,11 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 			// 系统默认设定
 			caseConnections.setCreateDate(new Date());
 			caseConnections.setSysId(caseCollection.getSysId());
-			System.out.println("11111111111111"+SessionMgrUtil.getUserInfo().getStaff().getOpId());
-			 caseConnections.setOpId(SessionMgrUtil.getStaff().getOpId());
+			 caseConnections.setOpId(SessionMgrUtil.getStaff().getStaffId());
 			caseDao.save(caseConnections);
 	}
+	
+	
 
 	/**
 	 * 删除用例集信息
@@ -108,6 +117,9 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		}
 	}
 
+	
+	
+	
 	/**
 	 * 根据collectId查询用例集信息
 	 * 
@@ -138,11 +150,8 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 					List lists = dao.findByCollectIdAndElementIdAndElementType(collectId, collGroupCase.getElementId(),
 							collGroupCase.getElementType());
 					if (lists == null || lists.size() == 0) {
-						NaAutoCollGroupCase collGroupCaseNew = new NaAutoCollGroupCase();
+						NaAutoCollGroupCase collGroupCaseNew = BeanMapper.map(collGroupCase, NaAutoCollGroupCase.class);
 						collGroupCaseNew.setCollectId(collectId);
-						collGroupCaseNew.setElementId(collGroupCase.getElementId());
-						collGroupCaseNew.setElementType(collGroupCase.getElementType());
-						collGroupCaseNew.setCreatorId(collGroupCase.getCreatorId());
 						collGroupCaseNew.setUpdateTime(new Date());
 						dao.save(collGroupCaseNew);
 					} else {
@@ -155,6 +164,8 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 		caseDao.updateCaseNum(collectId);
 	}
 
+	
+	
 	/**
 	 * 
 	 * @param caseCollection
@@ -162,17 +173,11 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	 * @param pageSize
 	 * @return
 	 */
-	public Object CaseCollectionList(CaseCollectionRequest caseCollection, int pageNumber, int pageSize) {
-		List resultList = new ArrayList<String>();
-		resultList.add("collectId");
-		resultList.add("collectName");
-		resultList.add("operator");
-		resultList.add("createDate");
-		resultList.add("caseNum");
-		resultList.add("caseType");
-		resultList.add("repairId");
-		resultList.add("sysId");
-		String sql = "select collect_ID, \n"
+	public Page<CaseCollectList> CaseCollectionList(CaseCollectionRequest caseCollection, int pageNumber, int pageSize) {
+		
+		StringBuilder sql = new StringBuilder();
+		List<ParameterCondition> param = new ArrayList<ParameterCondition>();
+		sql.append("select collect_ID, \n"
 							     +"  collect_Name, \n"
 							     +"  (select name from aiga_staff bb where a.OP_ID = bb.staff_id) as operator, \n"
 							     +"  to_char(create_date,'yyyy-mm-dd hh24:mi:ss'),  \n"
@@ -182,19 +187,21 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 							     +"  where cc.category = 'collectType' \n"
 							     +"  and cc.value = a.case_type) as case_type, \n"
 							     +"  (select name from aiga_staff cc where a.repairs_id = cc.staff_id) as repair_id \n,"
-							     +"  b.sys_name as sys_name \n "
+							     +"  b.sys_name as sys_Id \n "
 							     +"  from na_auto_collection a left join  aiga_system_folder b \n"
 							     +"  on a.sys_Id = b.sys_id \n "
-							     + "  where 1=1 \n";
+							     + "  where 1=1  ");
 			// 用例集名称
 			if (StringUtils.isNotBlank(caseCollection.getCollectName())) {
-				sql += " and collect_name like '%"+caseCollection.getCollectName()+"%'  \n";
+				sql.append(" and collect_name like  :collectName  ");
+				param.add(new ParameterCondition("collectName","%" + caseCollection.getCollectName() + "%"));
 			}
 			// 用例集类型
 			if (caseCollection.getCaseType()!=null) {
-			   sql += " and case_type ="+caseCollection.getCaseType()+"\n";
+				sql.append( " and case_type =:caseType ");
+				param.add(new ParameterCondition("caseType",caseCollection.getCaseType()));
 			}
-			sql +=" order by create_date desc ";
+				sql.append(  "	order by create_date desc ");
 			if (pageNumber < 0) {
 				pageNumber = 0;
 			}
@@ -203,8 +210,11 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 			}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return caseDao.searchByNativeSQL(sql, pageable, resultList);
+		return caseDao.searchByNativeSQL(sql.toString(),param, CaseCollectList.class,pageable);
 	}
+	
+	
+	
 
 	/**
 	 * 
@@ -634,14 +644,10 @@ public class AigaOnlineCaseCollectionSv extends BaseService {
 	
 	
 	
-	public List<Map> repairMan(){
+	public List<repaireMan> repairMan(){
 		List<Map>    repaireLists = new  ArrayList<Map>();
-		String sql = " select distinct staff.staff_id, staff.name, staff.code  from aiga_staff staff";
-	    try {
-	    	repaireLists = 	groupDao.searchByNativeSQL(sql);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	    return  repaireLists;
+		String sql = " select distinct staff.staff_id as value, staff.name as show, staff.code  from aiga_staff staff";
+        List<ParameterCondition> list = new ArrayList<ParameterCondition>();
+        return    groupDao.searchByNativeSQL(sql, list, repaireMan.class)  ;
 	}
 }

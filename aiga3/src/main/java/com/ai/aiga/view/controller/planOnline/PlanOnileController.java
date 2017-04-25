@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.planOnline;
 
 import java.util.List;
 
@@ -11,19 +11,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ai.aiga.service.NaChangePlanOnileSv;
+import com.ai.aiga.service.PlanOnile.ChangePlanOnileSv;
+
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
-import com.ai.aiga.view.json.NaChangePlanOnileRequest;
+import com.ai.aiga.view.controller.planOnline.dto.NaChangePlanOnileRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.POIExcelUtil;
 
 @Controller
-public class NaChangePlanOnileController {
+public class PlanOnileController {
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private NaChangePlanOnileSv naChangePlanOnileSv ;
+	private ChangePlanOnileSv naChangePlanOnileSv ;
 //保存
 	@RequestMapping(path = "/sys/changeplanonile/save")
 	public @ResponseBody JsonBean save(NaChangePlanOnileRequest request){

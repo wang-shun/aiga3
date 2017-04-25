@@ -50,6 +50,12 @@ public class NaAutoBackupController {
 		return JsonBean.success;
 	}
 	
+	@RequestMapping(path = "/sys/backup/restore")
+	public @ResponseBody JsonBean restore(Long dealId){
+		naAutoBackupFrontSv.restore(dealId);
+		return JsonBean.success;
+	}
+	
 	@RequestMapping(path = "/sys/property/getPropertyConfigList")
 	public @ResponseBody JsonBean getPropertyConfigList(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -129,7 +135,7 @@ public class NaAutoBackupController {
 	@RequestMapping(path = "/sys/backup/dataBackup")
 	public @ResponseBody JsonBean BackupDeal(){
 		String[] a = new String[]{"1"};
-		AutoBackupTask.main(a);
+		//AutoBackupTask.main(a);
 		return JsonBean.success;
 	}
 }

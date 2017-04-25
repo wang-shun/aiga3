@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 	//上传交付物
 	srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "sys/change/save");
 	//getCategory
-	srvMap.add("getCategory", pathAlias + "getDeliverablesList.json", "sys/organize/constants");www
+	srvMap.add("getCategory", pathAlias + "getDeliverablesList.json", "sys/organize/constants");
 
 
 
@@ -239,12 +239,14 @@ define(function(require, exports, module) {
 				var _data = self.getTaskRow();
 				if (_data) {
 					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState+"&onlinePlanName="+_data.onlinePlanName;
-					Sidebar.creatTab({
-						id:"100",
-						name:'交付物评审',
-						href:'view/netFlowManage/deliverableReview/deliverableReview.html',
-						cmd:_cmd
-					})
+					if(_data.types=="0" || _data.types=="1"){
+						Sidebar.creatTab({
+							id:"100",
+							name:'交付物评审',
+							href:'view/netFlowManage/deliverableReview/deliverableReview.html',
+							cmd:_cmd
+						})
+					}
 				}
 			});
 		},
@@ -620,12 +622,18 @@ define(function(require, exports, module) {
 			_upload.bind('click', function() {
 				alert()
 				var _data = self.getTaskRow();
+				var _ty = Utils.getRadioCheckedRow($(Dom.getChangePlanOnlieList));
+				_types = _ty.types;
 				if (_data) {
+					if (_types=="0" || _types=="1") {
 					//弹出层
-					$("#JS_addDdeliverablesModal").modal('show').on('shown.bs.modal', function() {
-						self.uploadDeliverables(_data.onlinePlan);
-						self.uploadAnNiu(_data.onlinePlan);
-					})
+						$("#JS_addDdeliverablesModal").modal('show').on('shown.bs.modal', function() {
+							self.uploadDeliverables(_data.onlinePlan);
+							self.uploadAnNiu(_data.onlinePlan);
+						})
+					}else if (_types=="2" || _types=="3") {
+
+					}
 				}
 			});
 		},
@@ -721,12 +729,14 @@ define(function(require, exports, module) {
 			var _planDate = _obj.find("input[name='planDate']");
 			var _planState = _obj.find("input[name='planState']");
 			var _onlinePlanName = _obj.find("input[name='onlinePlanName']");
+			var _types = _obj.find("input[name='types']");
 			console.log(_onlinePlan)
 			var data = {
 				onlinePlan: "",
 				planDate: "",
 				planState: "",
-				onlinePlanName:""
+				onlinePlanName: "",
+				types: ""
 			}
 			if (_onlinePlan.length == 0) {
 				window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
@@ -736,6 +746,7 @@ define(function(require, exports, module) {
 				data.planDate = _planDate.val();
 				data.planState = _planState.val();
 				data.onlinePlanName = _onlinePlanName.val();
+				data.types = _types.val();
 			}
 			console.log(data.onlinePlan)
 			console.log(data.planDate)

@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.auto;
 
 
 
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.service.AigaOnlineCaseCollectionSv;
+import com.ai.aiga.service.auto.OnlineCaseCollectionSv;
 import com.ai.aiga.view.json.CaseCollectionRequest;
 import com.ai.aiga.view.json.QueryUnconnectCaseRequest;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -28,10 +28,10 @@ import io.swagger.annotations.ApiParam;
 
 @Api(value="AigaOnlineCaseCollectionController", description="操作用例集管理接口")
 @Controller
-public class AigaOnlineCaseCollectionController {
+public class OnlineCaseCollectionController {
 	
 	@Autowired
-	private AigaOnlineCaseCollectionSv caseCollectionSv;
+	private OnlineCaseCollectionSv caseCollectionSv;
 
     
 	@RequestMapping(path = "/sys/case/addCase", method=RequestMethod.POST)

@@ -43,141 +43,105 @@ define(function(require, exports, module) {
     }
 
     var Query = {
-            init: function() {
-                // 默认查询所有
-                this.getPropertyConfigList();
-                // 初始化查询表单
-                this.queryPropertyConfigForm();
-                //映射
-                this.hdbarHelp();
-            },
-            // 按条件查询
-            queryPropertyConfigForm: function() {
-                var self = this;
-                var _form = Page.findId('queryPropertyConfigForm');
-                Utils.setSelectData(_form);
-                var _queryBtn = _form.find("[name='query']");
-                _queryBtn.bind('click', function() {
-                    var cmd = _form.serialize();
-                    console.log(cmd);
-                    self.getPropertyConfigList(cmd);
-                });
-
-            },
-            // 查询数据维护
-            getPropertyConfigList: function(cmd) {
-                var self = this;
-                var _cmd = '' || cmd;
-                Data.queryListCmd = _cmd;
-                XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                var _dom = Page.findId('getPropertyConfigList');
-                var _domPagination = _dom.find("[name='pagination']");
-
-                // 设置服务器端分页
-                Utils.getServerPage(srvMap.get('getPropertyConfigList'), _cmd, function(json, status) {
-                    window.XMS.msgbox.hide();
-                    var template = Handlebars.compile(Page.findTpl('getPropertyConfigTemp'));
-                    _dom.find("[name='content']").html(template(json.data.content));
-                    //美化单机
-                    Utils.eventTrClickCallback(_dom);
-                    //新增属性配置
-                    self.addPropertyConfig();
-                    //新增属性
-                    /*self.addProperty();*/
-                    //删除
-                    self.delPropertyConfig();
-                    //双击修改
-                    self.eventDClickCallback(_dom, function() {
-                        //获得当前单选框值
-                        var data = Utils.getRadioCheckedRow(_dom);
-                        self.updatePropertyConfig(data.cfgId, data.propertyName);
-                    });
-                }, _domPagination);
-            },
-            //新增属性配置
-            addPropertyConfig: function() {
-                var self = this;
-                var _list = Page.findId('getPropertyConfigList');;
-                var _addBt = _list.find("[name='add']");
-                _addBt.unbind('click');
-                _addBt.bind('click', function() {
-                        Page.findModal('addPropertyConfigModal').modal('show');
-                        var _form = Page.findId('addPropertyConfigInfo');
-                        //关闭清除
-                        Page.findModal('addPropertyConfigModal').on('hide.bs.modal', function() {
-                            Utils.resetForm(Page.findId('addPropertyConfigInfo'));
-                            Page.findId('propertyIdInput').removeAttr('readonly');
-                        });
-
-
-                        //select2
-                        self.getPropertyId();
-
-                    //
-                    Page.findModal('addPropertyConfigModal').modal.Constructor.prototype.enforceFocus = function() {}; 
-                    Utils.setSelectData(_form);
-                    var _saveBt = Page.findModal('addPropertyConfigModal').find("[name = 'save']"); _saveBt.unbind('click'); _saveBt.bind('click', function() {
-                        Utils.checkForm(_form, function() {
-                            var _cmd = _form.serialize();
-                            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                            _cmd=_cmd+ '&propertyName='+$('#propertyNameSelect').find("option:selected").text();
-                            console.log(_cmd);
-
-                            Rose.ajax.postJson(srvMap.get('addPropertyConfig'), _cmd, function(json, status) {
-                                if (status) {
-                                    // 数据备份成功后，刷新用户列表页
-                                    XMS.msgbox.show('添加成功！', 'success', 2000)
-                                    setTimeout(function() {
-                                        self.getPropertyConfigList();
-                                    }, 1000);
-                                    // 关闭弹出层
-                                    Page.findModal('addPropertyConfigModal').modal('hide');
-                                }
-                            });
-                        });
-                    });
-
-                });
+        init: function() {
+            // 默认查询所有
+            this.getPropertyConfigList();
+            // 初始化查询表单
+            this.queryPropertyConfigForm();
+            //映射
+            this.hdbarHelp();
+        },
+        // 按条件查询
+        queryPropertyConfigForm: function() {
+            var self = this;
+            var _form = Page.findId('queryPropertyConfigForm');
+            Utils.setSelectData(_form);
+            var _queryBtn = _form.find("[name='query']");
+            _queryBtn.bind('click', function() {
+                var cmd = _form.serialize();
+                console.log(cmd);
+                self.getPropertyConfigList(cmd);
+            });
 
         },
-        /*//新增属性
-        addProperty: function() {
-        	var self = this;
-        	var _list = $(Dom.getPropertyList);
-        	var _addBt = _list.find("[name='addProperty']");
-        	alert("新增");
-        	_addBt.unbind('click');
-        	_addBt.bind('click', function() {
-        		$(Dom.addPropertyModal).modal('show');
-        		var _form = $(Dom.addPropertyInfo);
-        		$(Dom.addPropertyModal).on('hide.bs.modal', function() {
-        			Utils.resetForm(Dom.addPropertyInfo);
-        		});
-        		Utils.setSelectData(_form);
-        		var _saveBt = $(Dom.addPropertyModal).find("[name = 'save']");
-        		_saveBt.unbind('click');
-        		_saveBt.bind('click', function() {
-        			Utils.checkForm(_form, function() {
-        				var _cmd = _form.serialize();
-        				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-        				console.log(_cmd);
-        				Rose.ajax.postJson(srvMap.get('addPropertyConfig'), _cmd, function(json, status) {
-        					if (status) {
-        						// 数据备份成功后，刷新用户列表页
-        						XMS.msgbox.show('添加成功！', 'success', 2000)
-        						setTimeout(function() {
-        							self.getPropertyConfigList();
-        						}, 1000);
-        						// 关闭弹出层
-        						$(Dom.addPropertyModal).modal('hide');
-        					}
-        				});
-        			});
-        		});
+        // 查询数据维护
+        getPropertyConfigList: function(cmd) {
+            var self = this;
+            var _cmd = '' || cmd;
+            Data.queryListCmd = _cmd;
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            var _dom = Page.findId('getPropertyConfigList');
+            var _domPagination = _dom.find("[name='pagination']");
 
-        	});
+            // 设置服务器端分页
+            Utils.getServerPage(srvMap.get('getPropertyConfigList'), _cmd, function(json, status) {
+                window.XMS.msgbox.hide();
+                var template = Handlebars.compile(Page.findTpl('getPropertyConfigTemp'));
+                _dom.find("[name='content']").html(template(json.data.content));
+                //美化单机
+                Utils.eventTrClickCallback(_dom);
+                //新增属性配置
+                self.addPropertyConfig();
+                //新增属性
+                /*self.addProperty();*/
+                //删除
+                self.delPropertyConfig();
+                //双击修改
+                self.eventDClickCallback(_dom, function() {
+                    //获得当前单选框值
+                    var data = Utils.getRadioCheckedRow(_dom);
+                    self.updatePropertyConfig(data.cfgId, data.propertyName);
+                });
+            }, _domPagination);
+        },
+        //新增属性配置
+        addPropertyConfig: function() {
+            var self = this;
+            var _list = Page.findId('getPropertyConfigList');;
+            var _addBt = _list.find("[name='add']");
+            _addBt.unbind('click');
+            _addBt.bind('click', function() {
+                Page.findModal('addPropertyConfigModal').modal('show');
+                var _form = Page.findId('addPropertyConfigInfo');
+                //关闭清除
+                Page.findModal('addPropertyConfigModal').on('hide.bs.modal', function() {
+                    Utils.resetForm(Page.findId('addPropertyConfigInfo'));
+                    Page.findId('propertyIdInput').removeAttr('readonly');
+                });
 
-        },*/
+
+                //select2
+                self.getPropertyId();
+
+                //
+                Page.findModal('addPropertyConfigModal').modal.Constructor.prototype.enforceFocus = function() {};
+                Utils.setSelectData(_form);
+                var _saveBt = Page.findModal('addPropertyConfigModal').find("[name = 'save']");
+                _saveBt.unbind('click');
+                _saveBt.bind('click', function() {
+                    Utils.checkForm(_form, function() {
+                        var _cmd = _form.serialize();
+                        XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                        _cmd = _cmd + '&propertyName=' + $('#propertyNameSelect').find("option:selected").text();
+                        console.log(_cmd);
+
+                        Rose.ajax.postJson(srvMap.get('addPropertyConfig'), _cmd, function(json, status) {
+                            if (status) {
+                                // 数据备份成功后，刷新用户列表页
+                                XMS.msgbox.show('添加成功！', 'success', 2000)
+                                setTimeout(function() {
+                                    self.getPropertyConfigList();
+                                }, 1000);
+                                // 关闭弹出层
+                                Page.findModal('addPropertyConfigModal').modal('hide');
+                            }
+                        });
+                    });
+                });
+
+            });
+
+        },
         //删除数据备份
         delPropertyConfig: function() {
             var self = this;
@@ -206,9 +170,9 @@ define(function(require, exports, module) {
         //修改
         updatePropertyConfig: function(Id, propertyName) {
             var self = this;
-            var _dom =Page.findModal('updatePropertyConfigModal');
+            var _dom = Page.findModal('updatePropertyConfigModal');
             _dom.modal("show");
-            var html = "<input readonly='readonly' type='text' class='form-control' value='"+propertyName+"' />";
+            var html = "<input readonly='readonly' type='text' class='form-control' value='" + propertyName + "' />";
             _dom.find("#JS_name").html(html);
             var _save = _dom.find("[name='save']");
             _save.unbind('click');
@@ -240,36 +204,38 @@ define(function(require, exports, module) {
         },
         getPropertyId: function(data) {
             $('#propertyNameSelect').change(function() {
-                        var _cmd = 'propertyId='+$('#propertyNameSelect').val();
-                        Rose.ajax.postJson(srvMap.get('getPropertyConfigList'),_cmd, function(json, status) {
-                                if (status&&json.data.content.length!=0) {
-                                    Page.findId('propertyIdInput').val(json.data.content[0].propertyId);
-                                     Page.findId('propertyIdInput').attr('readonly','readonly');
-                                }
-                                else{
-                                      Page.findId('propertyIdInput').val("");
-                                    Page.findId('propertyIdInput').removeAttr('readonly');
-                                   // $('#propertyIdInput').readOnly = false;
-                                }
+                var _cmd = 'propertyId=' + $('#propertyNameSelect').val();
+                Rose.ajax.postJson(srvMap.get('getPropertyConfigList'), _cmd, function(json, status) {
+                    if (status && json.data.content.length != 0) {
+                        Page.findId('propertyIdInput').val(json.data.content[0].propertyId);
+                        Page.findId('propertyIdInput').attr('readonly', 'readonly');
 
-                        });
+                        Page.findId('dependencyField').val(json.data.content[0].dependencyField);
+                        Page.findId('dependencyField').attr('readonly', 'readonly');
+                    } else {
+                        Page.findId('propertyIdInput').val("");
+                        Page.findId('propertyIdInput').removeAttr('readonly');
+                        // $('#propertyIdInput').readOnly = false;
+                    }
 
                 });
+
+            });
         },
-                //映射处理
-                hdbarHelp: function() {},
-                // 事件：分页
-                initPaging: function(obj, length) {
-                    obj.find("table").DataTable({
-                        "iDisplayLength": length,
-                        "paging": true,
-                        "lengthChange": false,
-                        "searching": false,
-                        "ordering": false,
-                        "info": true,
-                        "autoWidth": false
-                    });
-                }
-        };
+        //映射处理
+        hdbarHelp: function() {},
+        // 事件：分页
+        initPaging: function(obj, length) {
+            obj.find("table").DataTable({
+                "iDisplayLength": length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false
+            });
+        }
+    };
     module.exports = Query;
 });

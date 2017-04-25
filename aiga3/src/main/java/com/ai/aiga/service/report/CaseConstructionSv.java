@@ -25,7 +25,9 @@ import com.ai.aiga.domain.NaCaseConstructionReport;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.task.TaskSv;
 import com.ai.aiga.view.json.report.CaseConstructionRequest;
+import com.ai.process.task.quartz.CaseStatisticsJob;
 
 /**
  * @ClassName: CaseConstructionSv
@@ -37,6 +39,9 @@ import com.ai.aiga.view.json.report.CaseConstructionRequest;
 @Service
 @Transactional
 public class CaseConstructionSv extends BaseService{
+	
+	@Autowired
+	private TaskSv taskSv;
 	
 	@Autowired
 	private NaCaseContructionReportDao naCaseContructionReportDao;
@@ -96,6 +101,17 @@ public class CaseConstructionSv extends BaseService{
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		
 		return naCaseContructionReportDao.search(cons, pageable);
+	}
+	
+	public void countAsync(String month, String jobDetail) {
+		
+		//TODO 对month和jobDetail 进行验证 @dongch
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(CaseStatisticsJob.KEY_MONTH, month);
+		params.put(CaseStatisticsJob.KEY_TYPE, jobDetail);
+		
+		taskSv.addTask(CaseStatisticsJob.class, params);
 	}
 
 	/**

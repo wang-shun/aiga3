@@ -1,10 +1,12 @@
 package com.ai.aiga.service.task;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.quartz.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -75,8 +77,51 @@ public class TaskSv extends BaseService {
 			
 			tasksParameterDao.save(TasksParameters);
 		}
+	}
+	
+	
+	public void addTask(Class<? extends Job> jobClass, Map<String, String> params){
 		
+		Tasks t = new Tasks();
+		t.setTaskName(jobClass.getSimpleName());
+		t.setTaskClass(jobClass.getName());
+		t.setTaskCategory(TaskConstant.TASK_CATEGORY_DEFAULT);
+		t.setTaskType(TaskConstant.TASKS_TYPE_TASK);
+		t.setTaskTriggerType(TaskConstant.TASK_TRIGGER_TYPE_ONCE);
+		t.setStatus(TaskConstant.TASK_STATUS_NEW);
+		t.setCreateTime(new Date());
 		
+		addTask(t, params);
+	}
+	
+	public void addTask(Class<? extends Job> jobClass, Date startDate, Map<String, String> params){
+		
+		Tasks t = new Tasks();
+		t.setTaskName(jobClass.getSimpleName());
+		t.setTaskClass(jobClass.getName());
+		t.setTaskCategory(TaskConstant.TASK_CATEGORY_DEFAULT);
+		t.setTaskType(TaskConstant.TASKS_TYPE_TASK);
+		t.setTaskTriggerType(TaskConstant.TASK_TRIGGER_TYPE_ONCE);
+		t.setExecuteTime(startDate);
+		t.setStatus(TaskConstant.TASK_STATUS_NEW);
+		t.setCreateTime(new Date());
+		
+		addTask(t, params);
+	}
+	
+	public void addTask(Class<? extends Job> jobClass, String cron, Map<String, String> params){
+		
+		Tasks t = new Tasks();
+		t.setTaskName(jobClass.getSimpleName());
+		t.setTaskClass(jobClass.getName());
+		t.setTaskCategory(TaskConstant.TASK_CATEGORY_DEFAULT);
+		t.setTaskType(TaskConstant.TASKS_TYPE_TASK);
+		t.setTaskTriggerType(TaskConstant.TASK_TRIGGER_TYPE_CRON);
+		t.setCronExpression(cron);
+		t.setStatus(TaskConstant.TASK_STATUS_NEW);
+		t.setCreateTime(new Date());
+		
+		addTask(t, params);
 	}
 
 }

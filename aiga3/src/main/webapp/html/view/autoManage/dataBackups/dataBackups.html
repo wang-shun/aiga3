@@ -41,7 +41,7 @@
                 <div class="box-tools">
                     <button type="button" class="btn btn-primary" name="add">添加</button>
                     <button type="button" class="btn btn-primary" name="del">删除</button>
-                    <button type="button" class="btn btn-primary" name="backup">备份</button>
+                    <button type="button" class="btn btn-primary" name="restore">还原</button>
                 </div>
             </div>
             <div class="box-body">
@@ -116,6 +116,7 @@
             <input type="radio" class="minimal" value="{{dealId}}" name="dealId">
             <td>{{propertyResource}}
                 <input type="hidden" value="{{dealId}}" name="dealId">
+                <input type="hidden" value="{{state}}" name="state">
             </td>
             <td>{{field1}}</td>
             <td>{{stateTran state}}</td>

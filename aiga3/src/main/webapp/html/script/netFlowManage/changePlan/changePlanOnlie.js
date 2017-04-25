@@ -33,6 +33,11 @@ define(function(require, exports, module) {
 	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "sys/change/list");
 	//保存变更状态
 	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/change/save");
+	//上传交付物
+	srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "sys/change/save");
+	//getCategory
+	srvMap.add("getCategory", pathAlias + "getDeliverablesList.json", "sys/organize/constants");
+
 
 
 	// 模板对象
@@ -135,6 +140,8 @@ define(function(require, exports, module) {
 				self.queryDelBut();
 				//添加上线总结
 		        self.addSummary();
+		        //上传交付物
+		        self.upload();
 
 				// 绑定单机当前行事件
 				self.eventClickChecked($(Dom.getChangePlanOnlieList), function() {
@@ -232,12 +239,14 @@ define(function(require, exports, module) {
 				var _data = self.getTaskRow();
 				if (_data) {
 					var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState+"&onlinePlanName="+_data.onlinePlanName;
-					Sidebar.creatTab({
-						id:"100",
-						name:'交付物评审',
-						href:'view/netFlowManage/deliverableReview/deliverableReview.html',
-						cmd:_cmd
-					})
+					if(_data.types=="0" || _data.types=="1"){
+						Sidebar.creatTab({
+							id:"100",
+							name:'交付物评审',
+							href:'view/netFlowManage/deliverableReview/deliverableReview.html',
+							cmd:_cmd
+						})
+					}
 				}
 			});
 		},
@@ -604,6 +613,114 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+		//上传评审交付物uploadDeliverables
+		upload: function() {
+			var self = this;
+			// var _form=$(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
+			var _upload = $("#JS_changePlanOnlie").find("[name='upload']");
+			_upload.unbind('click');
+			_upload.bind('click', function() {
+				alert()
+				var _data = self.getTaskRow();
+				var _ty = Utils.getRadioCheckedRow($(Dom.getChangePlanOnlieList));
+				_types = _ty.types;
+				if (_data) {
+					if (_types=="0" || _types=="1") {
+					//弹出层
+						$("#JS_addDdeliverablesModal").modal('show').on('shown.bs.modal', function() {
+							self.uploadDeliverables(_data.onlinePlan);
+							self.uploadAnNiu(_data.onlinePlan);
+						})
+					}else if (_types=="2" || _types=="3") {
+
+					}
+				}
+			});
+		},
+		//显示上传文件信息
+		uploadDeliverables:function(onlinePlan){
+			var self = this;
+            var _cmd = 'planId='+onlinePlan;
+            var _dom = Page.findModalCId('addDdeliverablesForm');
+            var _content = _dom.find("[name='content']");
+            var _domPagination = _dom.find("[name='pagination']");
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            // 设置服务器端分页
+            Utils.getServerPage(srvMap.get('uploadDeliverables'), _cmd, function(json) {
+                window.XMS.msgbox.hide();
+                // 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+                var template = Handlebars.compile(Page.findTpl('releaseList'));
+                _content.html(template(json.data.content));
+                Utils.eventTrClickCallback(_dom);
+            }, _domPagination);
+		},
+		//上传按钮
+		uploadAnNiu:function(planId){
+			var self = this;
+            var _form = Page.findModalCId('uploadDeliveryForm');
+            console.log(_form.length)
+            var _saveBtn = _form.find("[name='add']");
+            _saveBtn.unbind('click');
+            _saveBtn.bind('click', function() {
+            	var a=_form.find("[name='environmentType']").val();
+            	var cmd = {
+            			"file":_form.find("[name='fileName']")[0].files[0],
+            			"planId":planId,
+            	}
+            	console.log(_form.find("[name='fileName']"));
+            	switch(a){
+            		case "1"://接口清单
+            			var task = srvMap.get('exception');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "2"://需求清单
+            			var task = srvMap.get('processexcels');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "3"://设计文档交付物
+            			var task = srvMap.get('releaseexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "4"://其他交付物
+            			var task = srvMap.get('releasestageexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "5"://平台变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "6"://测试报告
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "7"://主机类配置
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "8"://进程变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,planId)
+            			break;
+            	}
+            });
+		},
+		jieko : function(task,cmd,planId){
+	    	var self = this;
+	    	$.ajaxUpload({
+                url: task,
+                data: cmd,
+                success: function(data, status, xhr) {
+                    console.log(data);
+                    if (status) {
+                        window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                        setTimeout(function() {
+                            self.uploadDeliverables(planId);
+                        }, 1000)
+                    }
+                }
+            });
+        },
+
 ////////*******************************************/////公用//*******************************************////////
 		// 获取用例集列表当前选中行
 		getTaskRow: function() {
@@ -612,12 +729,14 @@ define(function(require, exports, module) {
 			var _planDate = _obj.find("input[name='planDate']");
 			var _planState = _obj.find("input[name='planState']");
 			var _onlinePlanName = _obj.find("input[name='onlinePlanName']");
+			var _types = _obj.find("input[name='types']");
 			console.log(_onlinePlan)
 			var data = {
 				onlinePlan: "",
 				planDate: "",
 				planState: "",
-				onlinePlanName:""
+				onlinePlanName: "",
+				types: ""
 			}
 			if (_onlinePlan.length == 0) {
 				window.XMS.msgbox.show('请先选择一个计划！', 'error', 2000);
@@ -627,6 +746,7 @@ define(function(require, exports, module) {
 				data.planDate = _planDate.val();
 				data.planState = _planState.val();
 				data.onlinePlanName = _onlinePlanName.val();
+				data.types = _types.val();
 			}
 			console.log(data.onlinePlan)
 			console.log(data.planDate)

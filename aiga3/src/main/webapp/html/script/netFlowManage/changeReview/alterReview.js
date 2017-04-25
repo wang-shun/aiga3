@@ -5,6 +5,7 @@ define(function(require,exports,module){
 	require('global/sidebar.js');
 	// 用工具模块通
 	var Utils = require('global/utils.js');
+
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('alterReview');
 

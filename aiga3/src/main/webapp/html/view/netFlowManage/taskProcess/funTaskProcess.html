@@ -1,5 +1,5 @@
 <div class="box">
-    <form id="Js_queryTaskForm">
+    <form id="JS_queryTaskForm">
         <div class="box-header with-border">
             <h3 class="box-title">按条件查询</h3>
             <div class="box-tools pull-right">
@@ -10,7 +10,7 @@
         </div>
         <div class="box-body">
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>变更计划名称</label>
                         <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList" data-idkey="onlinePlan" data-namekey="onlinePlanName">
@@ -18,7 +18,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label>任务名称</label>
                         <input name="taskName" class="form-control input-sm">
@@ -52,25 +52,46 @@
         </div>
     </form>
 </div>
-<div class="box" style="min-height: 100px">
+<div id="JS_funTaskList" class="box" style="min-height: 100px">
     <div class="box-header">
         <h3 class="box-title">分派子任务列表</h3>
         <div class="box-tools">
             <div class="btn-group">
-                <button type="button" class="btn btn-success hide" id="Js_dealAutoCase"><i class="fa fa-share-alt"></i> 处理自动化用例</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" id="Js_submitRst"><i class="fa fa-info"></i> 提交结果</button>
+                <button type="button" class="btn btn-success hide" id="JS_dealAutoCase"><i class="fa fa-share-alt"></i> 处理自动化用例</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_submitRst">提交结果</button>
             </div>
         </div>
     </div>
-    <div id="Js_funTaskList" class="box-body" style="min-height: 100px;">
-        <div style="text-align: center; padding: 50px 0;">
-            <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-            <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
-        </div>
+    <div class="box-body table-scrollable" style="min-height: 100px;">
+        <table class="table table-condensed table-hover" style="width: 2000px;">
+            <thead>
+                <tr>
+                    <th class="iCheckbox"></th>
+                    <th>变更计划名称</th>
+                    <th>任务名称</th>
+                    <th>子任务名称</th>
+                    <th>子任务类型</th>
+                    <th>子任务状态</th>
+                    <th>关联用例集</th>
+                    <th>分派人</th>
+                    <th>处理人</th>
+                    <th>分派时间</th>
+                    <th>更新时间</th>
+                    <th>完成时间</th>
+                    <th>开始处理时间</th>
+                    <th>处理结束时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
     </div>
 </div>
 <!-- 查看自动化执行结果详细信息弹出框 -->
-<div class="modal fade" id="modal_submitResult">
+<div class="modal fade" id="modal_submitResult" style="min-height:1000px;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,11 +104,11 @@
                         <h3 class="box-title"></h3>
                         <div class="box-tools">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" id="Js_saveRst">保存测试结果</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_saveRst">保存测试结果</button>
                             </div>
                         </div>
                     </div>
-                    <div class="box-body" id="Js_taskProcessList" style="min-height:100px;">
+                    <div class="box-body" id="JS_taskProcessList" style="min-height:100px;">
                         <div style="text-align: center; padding: 50px 0;">
                             <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
                             <p style="color: #333;"><span>数据加载中，请稍后...</span></p>
@@ -99,56 +120,34 @@
     </div>
 </div>
 <script id="TPL_funTaskList" type="text/x-handlebars-template">
-    <table class="table table-condensed table-hover" style="width: 2000px;">
-        <thead>
-            <tr>
-                <th class="iCheckbox"></th>
-                <th>变更计划名称</th>
-                <th>任务名称</th>
-                <th>子任务名称</th>
-                <th>子任务类型</th>
-                <th>子任务状态</th>
-                <th>关联用例集</th>
-                <th>分派人</th>
-                <th>处理人</th>
-                <th>分派时间</th>
-                <th>更新时间</th>
-                <th>完成时间</th>
-                <th>开始处理时间</th>
-                <th>处理结束时间</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each this}}
-            <tr>
-                <td>
-                    <input type="radio" class="minimal" value="{{taskId}}" name="taskId">
-                </td>
-                <td>
-                    <input type="hidden" name="onlinePlanId" value="{{onlinePlanId}}">{{onlinePlanName}}</td>
-                <td>
-                    <input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
-                <td>
-                    {{subTaskName}}</td>
-                <td>
-                    <input type="hidden" name="taskType" value="{{taskType}}">{{transformatTaskType taskType}}</td>
-                <td>
-                    <input type="hidden" name="state" value="{{state}}">{{transformatState state}}</td>
-                <td>
-                    <input type="hidden" name="autoPlanId" value="{{autoPlanId}}">{{collectName}}</td>
-                <td>
-                    <input type="hidden" name="assigId" value="{{assignId}}">{{assignName}}</td>
-                <td>
-                    <input type="hidden" name="dealOpId" value="{{dealOpId}}">{{dealName}}</td>
-                <td>{{dealDate}}</td>
-                <td>{{doneDate}}</td>
-                <td>{{finishDate}}</td>
-                <td>{{startDealDate}}</td>
-                <td>{{finishDealDate}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{taskId}}" name="taskId">
+        </td>
+        <td>
+            <input type="hidden" name="onlinePlanId" value="{{onlinePlanId}}">{{onlinePlanName}}</td>
+        <td>
+            <input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
+        <td>
+            {{subTaskName}}</td>
+        <td>
+            <input type="hidden" name="taskType" value="{{taskType}}">{{transformatTaskType taskType}}</td>
+        <td>
+            <input type="hidden" name="state" value="{{state}}">{{transformatState state}}</td>
+        <td>
+            <input type="hidden" name="autoPlanId" value="{{autoPlanId}}">{{collectName}}</td>
+        <td>
+            <input type="hidden" name="assigId" value="{{assignId}}">{{assignName}}</td>
+        <td>
+            <input type="hidden" name="dealOpId" value="{{dealOpId}}">{{dealName}}</td>
+        <td>{{dealDate}}</td>
+        <td>{{doneDate}}</td>
+        <td>{{finishDate}}</td>
+        <td>{{startDealDate}}</td>
+        <td>{{finishDealDate}}</td>
+    </tr>
+    {{/each}}
 </script>
 <script id="TPL_taskProcessList" type="text/x-handlebars-template">
     <table class="table table-condensed table-hover">
@@ -162,6 +161,7 @@
                 <th>系统子类</th>
                 <th>功能点</th>
                 <th>业务</th>
+                <th>重要程度</th>
             </tr>
         </thead>
         <tbody>
@@ -183,12 +183,56 @@
                 <td>{{subSysName}}</td>
                 <td>{{funName}}</td>
                 <td>{{busiId}}</td>
+                <td>{{transformatImprot important}}</td>
             </tr>
             {{/each}}
         </tbody>
     </table>
     <!-- /.box-body -->
 </script>
+
+<script id="TPL_autoTaskProcessList" type="text/x-handlebars-template">
+    <table class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th>处理状态</th>
+                <th>处理结果</th>
+                <th>缺陷</th>
+                <th>用例名称</th>
+                <th>系统大类</th>
+                <th>系统子类</th>
+                <th>功能点</th>
+                <th>重要程度</th>
+                <th>自动化处理结果</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this}}
+            <tr>
+                <td>{{transformatCaseState caseState}}</td>
+                <td>
+                    <select type="hidden" name="result" value="{{result}}">
+                        <option></option>
+                        <option value="1">不通过</option>
+                        <option value="2">通过</option>
+                        <option value="3">无需测试</option>
+                    </select>
+                </td>
+                <td>{{bug}}</td>
+                <td>
+                    <input type="hidden" name="resultId" value="{{resultId}}">{{testName}}</td>
+                <td>{{sysName}}</td>
+                <td>{{subSysName}}</td>
+                <td>{{funName}}</td>
+                <td>{{transformatImprot important}}</td>
+                <td>{{autoResult}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <!-- /.box-body -->
+</script>
+
 <script>
 seajs.use("script/netFlowManage/taskProcess/funTaskProcess.js", function(Query) {
     Query.init();

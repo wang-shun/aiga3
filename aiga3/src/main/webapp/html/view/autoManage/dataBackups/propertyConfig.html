@@ -44,8 +44,10 @@
             <div class="box-header ">
                 <h3 class="box-title">属性配置列表</h3>
                 <div class="box-tools">
-                    <button type="button" class="btn btn-primary" name="add"></i> 添加</button>
-                    <button type="button" class="btn btn-primary" name="del"></i> 删除</button>
+                    <button type="button" class="btn btn-primary" name="add">
+                        </i> 添加</button>
+                    <button type="button" class="btn btn-primary" name="del">
+                        </i> 删除</button>
                 </div>
             </div>
             <div class="box-body">
@@ -105,6 +107,14 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
+                                        <label>属性字段</label>
+                                        <input name="propertyField" class="form-control" placeholder="请输入属性字段" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
                                         <label>依赖表</label>
                                         <input name="dependencyTable" class="form-control " placeholder="请输入依赖表" required>
                                         </input>
@@ -114,7 +124,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>依赖字段</label>
-                                        <input name="dependencyField" class="form-control " placeholder="请输入依赖字段" required>
+                                        <input name="dependencyField" id="JS_dependencyField" class="form-control " placeholder="请输入依赖字段" required>
                                         </input>
                                     </div>
                                 </div>
@@ -127,14 +137,6 @@
                                                 请选择
                                             </option>
                                         </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>属性字段</label>
-                                        <input name="propertyField" class="form-control" placeholder="请输入属性字段" required>
-                                        </input>
                                     </div>
                                 </div>
                                 <div class="col-md-4">

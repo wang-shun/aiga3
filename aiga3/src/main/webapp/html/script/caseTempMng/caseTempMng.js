@@ -121,7 +121,7 @@ define(function(require, exports, module) {
                 if (status) {
                     busiData = json.data;
                     var template = Handlebars.compile(Tpl.getBusiList);
-                    $(obj.getBusiList).html(template(json.data));
+                    $(obj.getBusiList).find("select").html(template(json.data));
                     if (data) {
                         $(obj.getBusiList).find("select").val(data.busiId);
                     }
@@ -137,14 +137,14 @@ define(function(require, exports, module) {
                 if (status) {
                     if (data) {
                         var template = Handlebars.compile(Tpl.getSysList);
-                        $(obj.getSysList).html(template(json.data));
+                        $(obj.getSysList).find("select").html(template(json.data));
                         self.sysSelected(obj, data);
                         self.getBusiList(obj, data);
                         $(obj.getSysList).find("select").val(data.sysId);
                         $(obj.getSysList).find("select").change();
                     } else {
                         var template = Handlebars.compile(Tpl.getSysList);
-                        $(obj.getSysList).html(template(json.data));
+                        $(obj.getSysList).find("select").html(template(json.data));
                         self.sysSelected(obj);
                         self.getBusiList(obj);
                         console.log(json.data)
@@ -188,14 +188,14 @@ define(function(require, exports, module) {
                 if (status) {
                     if (data) {
                         var template = Handlebars.compile(Tpl.getSubSysList);
-                        $(obj.getSubsysList).html(template(json.data));
+                        $(obj.getSubsysList).find("select").html(template(json.data));
                         console.log(json.data)
                         self.subsysSelected(obj, data);
                         $(obj.getSubsysList).find("select").val(data.sysSubId);
                         $(obj.getSubsysList).find("select").change();
                     } else {
                         var template = Handlebars.compile(Tpl.getSubSysList);
-                        $(obj.getSubsysList).html(template(json.data));
+                        $(obj.getSubsysList).find("select").html(template(json.data));
                         console.log(json.data)
                         self.subsysSelected(obj);
                     }
@@ -207,7 +207,7 @@ define(function(require, exports, module) {
             Rose.ajax.getJson(srvMap.get('getFunList'), 'sysSubId=' + id, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getFunList);
-                    $(obj.getFunList).html(template(json.data));
+                    $(obj.getFunList).find("select").html(template(json.data));
                     console.log(json.data)
                     if (data) {
                         $(obj.getFunList).find("select").val(data.funId);
@@ -260,15 +260,12 @@ define(function(require, exports, module) {
                 var template = Handlebars.compile(Tpl.getCaseTempList);
                 console.log(json.data)
                 _tbody.html(template(json.data.content));
-                var ddd = $("#JS_caseTempList").find("table");
-                console.log(ddd);
                 self.deleCaseTemp();
-                self.eventClickChecked($(Dom.getCaseTempList), function() {});
-                self.eventDClickCallback($(Dom.getCaseTempList), function() {
+                Utils.eventTrClickCallback($(Dom.getCaseTempList), function() {
                     $(Dom.viewCaseTemp).click();
                 })
 
-            }, $(_dom).selector);
+            }, _dom);
         },
         // 按条件查询模板
         queryCaseTemp: function() {
@@ -318,12 +315,12 @@ define(function(require, exports, module) {
                 $(Dom.factorList).append(factor_template(empty));
                 $(Dom.factorList).append(factor_template(empty));
                 $(Dom.factorList).append(factor_template(empty));
-                self.eventClickChecked($(Dom.factorList));
+                Utils.eventClickChecked($(Dom.factorList));
 
                 var _form = $(Dom.caseTempForm);
                 $("#JS_SaveCaseTemp").unbind('click');
                 $("#JS_SaveCaseTemp").bind('click', function() {
-                    self.checkForm(_form, function() {
+                    Utils.checkForm(_form, function() {
                         var cmd = _form.serialize();
                         var factors = [];
                         $(Dom.factorList).find("tr").each(function() {
@@ -381,41 +378,42 @@ define(function(require, exports, module) {
                     // 表单提交
                     $("#JS_SaveCaseTemp").unbind('click')
                     $("#JS_SaveCaseTemp").bind('click', function() {
+                        Utils.checkForm(_form, function() {
+                            // 表单校验：成功后调取接口
+                            //_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
+                            var cmd = _form.serialize() + "&caseId=" + _data.caseId;
+                            var id;
+                            var name;
+                            var remark;
 
-                        // 表单校验：成功后调取接口
-                        //_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
-                        var cmd = _form.serialize() + "&caseId=" + _data.caseId;
-                        var id;
-                        var name;
-                        var remark;
+                            var factors = [];
+                            $(Dom.factorList).find("tr").each(function() {
+                                var tdArr = $(this).children();
+                                // cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
+                                // cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
+                                // cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
+                                id = tdArr.eq(0).find("input").val();
+                                name = tdArr.eq(1).find("input").val();
+                                remark = tdArr.eq(2).find("input").val();
 
-                        var factors = [];
-                        $(Dom.factorList).find("tr").each(function() {
-                            var tdArr = $(this).children();
-                            // cmd = cmd+"&factorId="+tdArr.eq(0).find("input").val();
-                            // cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
-                            // cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
-                            id = tdArr.eq(0).find("input").val();
-                            name = tdArr.eq(1).find("input").val();
-                            remark = tdArr.eq(2).find("input").val();
-
-                            factors.push({
-                                "factorId": id,
-                                "factorName": name,
-                                "remark": remark
+                                factors.push({
+                                    "factorId": id,
+                                    "factorName": name,
+                                    "remark": remark
+                                });
                             });
-                        });
-                        cmd += "&factors=" + JSON.stringify(factors);
-                        console.log(cmd);
-                        Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
-                            if (status) {
-                                XMS.msgbox.show('修改模板成功！', 'success', 2000)
-                                    // 关闭弹出层
-                                $(Dom.modalCaseTempForm).modal('hide')
-                                setTimeout(function() {
-                                    self.getCaseTempList();
-                                }, 1000)
-                            }
+                            cmd += "&factors=" + JSON.stringify(factors);
+                            console.log(cmd);
+                            Rose.ajax.postJson(srvMap.get('updateCaseTemp'), cmd, function(json, status) {
+                                if (status) {
+                                    XMS.msgbox.show('修改模板成功！', 'success', 2000)
+                                        // 关闭弹出层
+                                    $(Dom.modalCaseTempForm).modal('hide')
+                                    setTimeout(function() {
+                                        self.getCaseTempList();
+                                    }, 1000)
+                                }
+                            });
                         });
                         // });
                     });
@@ -512,7 +510,7 @@ define(function(require, exports, module) {
                         if (status) {
                             var factor_template = Handlebars.compile(Tpl.getTestFactorList);
                             $(Dom.testFactorList).html(factor_template(json.data.factors));
-                            self.eventClickChecked($(Dom.testFactorList), function() {
+                            Utils.eventClickChecked($(Dom.testFactorList), function() {
 
                             })
                         }
@@ -601,7 +599,7 @@ define(function(require, exports, module) {
                     $(Dom.caseTempForm).find("[name='operateDesc']").val(json.data.operateDesc);
 
                     $(Dom.factorList).html(factor_template(json.data.factors));
-                    self.eventClickChecked($(Dom.factorList), function() {})
+                    Utils.eventClickChecked($(Dom.factorList), function() {})
                 }
             });
         },
@@ -629,7 +627,7 @@ define(function(require, exports, module) {
                 $('#factorThead').show();
                 $('#JS_factorList').show();
                 $(Dom.factorList).append(factor_template(empty));
-                self.eventClickChecked($(Dom.factorList), function() {})
+                Utils.eventClickChecked($(Dom.factorList), function() {})
                     // $("#compTable").slimScroll({
                     //  "height": '300px',
                     //  alwaysVisible: true,
@@ -690,7 +688,7 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.compList);
                     $("#compBody").append(template(json.data));
 
-                    self.eventClickChecked($("#compBody"), function() {
+                    Utils.eventClickChecked($("#compBody"), function() {
 
                     })
                 }

@@ -12,6 +12,8 @@ define(function(require, exports, module) {
     srvMap.add("autoResultList", pathAlias + "funTaskList.json", "accept/subTask/autoResult");
 
     srvMap.add("submitRst", pathAlias + "funTaskList.json", "accept/subTask/caseResultSave");
+    //计划下拉框
+    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
 
     var taskType = "&taskType = " + 1;
     // 模板对象

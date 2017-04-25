@@ -179,7 +179,7 @@
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
-														<label>文件类型</label> 
+														<label>文件类型</label>
 														<select name="category" class="form-control input-sm" data-cmd="category=filetype" data-url="getCategory" data-idkey="value" data-namekey="show">
                                                 		</select>
 													</div>
@@ -258,6 +258,91 @@
     </div>
 </div>
 
+<!-- 变更交付物导入 -->
+<div class="modal fade" id="Modal_changeDeliverable" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">变更交付物</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+            	<div class="box">
+            		<form id="JS_uploadDeliveryForm">
+	            		<div class="box-body">
+			            	<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>导入文件</label>
+										<input type="file" class="form-control input-sm" name="fileName">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>文件类型</label>
+										<select name="category" class="form-control input-sm">
+											<option value="">请选择</option>
+		                                    <option value="20">变更交付物</option>
+	                            		</select>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label>模板类型</label>
+										<select name="tempType" class="form-control input-sm">
+											<option value="">请选择</option>
+											<option value="20">变更交付物</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="box-footer">
+		                    <div class="text-center">
+		                        <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadTemp">下载模板</button>
+		                        <button type="button" class="btn btn-primary" data-toggle="modal" name="import">导入文件</button>
+		                    </div>
+		                </div>
+					</form>
+				</div>
+				<div class="box" style="min-height: 100px" id="JS_getChangeDeliverableList">
+					<div class="box-header">
+		                <h3 class="box-title">变更交付物列表</h3>
+		                <div class="box-tools">
+		                    <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadDocument"><!-- <i class="fa fa-edit"></i> --> 下载文档</button>
+		                    <button type="button" class="btn btn-primary" data-toggle="modal" name="deleteDocument"><!-- <i class="fa fa-hourglass-end"></i> --> 删除文档</button>
+		                </div>
+		            </div>
+					<div class="box-body">
+		                <table class="table table-bordered table-hover">
+		                    <thead>
+		                        <tr>
+		                            <th class="iCheckbox" width="15"></th>
+		                            <th>文件名称</th>
+		                            <th>上传时间</th>
+		                            <th>最后一次上传时间</th>
+		                            <th>上传次数</th>
+		                            <th>下载时间</th>
+		                            <th>文件类型</th>
+		                            <th>截止时间</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody name="content"></tbody>
+		                </table>
+		            </div>
+		            <div class="box-footer no-border">
+                		<div class="dataTables_paginate" name="pagination"></div>
+            		</div>
+				</div>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="submit">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 添加结果 -->
 <div class="modal fade" id="JS_addChangePlanResultFormModal" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-lg" role="document">
@@ -327,7 +412,7 @@
             <td><input type="hidden" value="{{planDate}}" name="planDate">{{planDate}}</td>
             <td>{{results result}}</td>
             <td>{{timelys timely}}</td>
-			<td>{{createName}}</td>   
+			<td>{{createName}}</td>
             <td>{{createDate}}</td>
             <td>{{doneDate}}</td>
             <td>{{remark}}</td>
@@ -347,7 +432,7 @@
                 		</div>
                 	</div>
                 	<div class="col-md-4">
-                        <div class="form-group"> 
+                        <div class="form-group">
                 			<label>变更开始时间</label>
                 			<input type="text" class="form-control input-sm " name="planDate" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}">
                 		</div>
@@ -408,6 +493,23 @@
     </tr>
     {{/each}}
 </script>
+
+<!-- handlebars/变更交付物列表 -->
+<script id="TPL_getChangeDeliverableList" type="text/x-handlebars-template">
+    {{#each this}}
+        <tr>
+            <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+            <td>{{fileName}}</td>
+            <td>{{createTime}}</td>
+            <td>{{lastUploadTime}}</td>
+            <td>{{uploadCount}}</td>
+            <td>{{downLoadTime}}</td>
+            <td>{{fileTypes fileType}}</td>
+            <td>{{fileUploadLastTime}}</td>
+        </tr>
+    {{/each}}
+</script>
+
 <script>
     seajs.use("script/netFlowManage/changePlan/changePlanOnlie.js", function(getChangePlanOnlie) {
         getChangePlanOnlie.init();

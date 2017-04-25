@@ -35,6 +35,8 @@ define(function(require, exports, module) {
 	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/change/save");
 	//上传交付物
 	srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "sys/change/save");
+	//变更交付物列表
+	srvMap.add("getChangeDeliverableList", pathAlias + "getChangeDeliverableList.json", "");
 	//getCategory
 	srvMap.add("getCategory", pathAlias + "getDeliverablesList.json", "sys/organize/constants");
 
@@ -119,6 +121,13 @@ define(function(require, exports, module) {
 					return "是";
 				} else if (value == 2) {
 					return "否";
+				}
+			});
+			Handlebars.registerHelper("fileTypes", function(value) {
+				if (value == 0) {
+					return "否";
+				} else if (value == 1) {
+					return "文件类型1";
 				}
 			});
 		},
@@ -459,7 +468,7 @@ define(function(require, exports, module) {
 		},
 		//查找需求列表
 		seerequList: function(a,onlinePlan) {
-			var self = this;	
+			var self = this;
 			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
 			var _dom = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
 			var cmd = "onlinePlan=" + onlinePlan + "&"+_dom.serialize();
@@ -467,7 +476,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seerequList);
 					console.log(json.data.content)
-					_form.html(template(json.data.content));				
+					_form.html(template(json.data.content));
 					var da=json.data.content;
 					var i=0
 					$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
@@ -632,11 +641,15 @@ define(function(require, exports, module) {
 							self.uploadAnNiu(_data.onlinePlan);
 						})
 					}else if (_types=="2" || _types=="3") {
-
+						var _modal = Page.findModal('changeDeliverable');
+						//显示弹框
+						_modal.modal('show');
+						self.getChangeDeliverableList();
 					}
 				}
 			});
 		},
+		
 		//显示上传文件信息
 		uploadDeliverables:function(onlinePlan){
 			var self = this;

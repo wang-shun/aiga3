@@ -22,10 +22,10 @@ public class NaChangeOperationManager  implements java.io.Serializable {
 
      private Long id;
      private String isAddMonitor;
-     private String runTime;
-     private String starttRunTime;
+     private String runPerson;
+     private String startRunTime;
      private String stopRunTime;
-     private String operationScip;
+     private String operationScript;
      private Long planId;
      private String fileName;
      private String ext1;
@@ -39,13 +39,13 @@ public class NaChangeOperationManager  implements java.io.Serializable {
     public NaChangeOperationManager(Long id) {
         this.id = id;
     }
-    public NaChangeOperationManager(Long id, String isAddMonitor, String runTime, String starttRunTime, String stopRunTime, String operationScip, Long planId, String fileName, String ext1, String ext2, String ext3) {
+    public NaChangeOperationManager(Long id, String isAddMonitor, String runPerson, String startRunTime, String stopRunTime, String operationScript, Long planId, String fileName, String ext1, String ext2, String ext3) {
        this.id = id;
        this.isAddMonitor = isAddMonitor;
-       this.runTime = runTime;
-       this.starttRunTime = starttRunTime;
+       this.runPerson = runPerson;
+       this.startRunTime = startRunTime;
        this.stopRunTime = stopRunTime;
-       this.operationScip = operationScip;
+       this.operationScript = operationScript;
        this.planId = planId;
        this.fileName = fileName;
        this.ext1 = ext1;
@@ -74,22 +74,22 @@ public class NaChangeOperationManager  implements java.io.Serializable {
         this.isAddMonitor = isAddMonitor;
     }
     
-    @Column(name="RUN_TIME", length=200)
-    public String getRunTime() {
-        return this.runTime;
+    @Column(name="RUN_PERSON", length=200)
+    public String getRunPerson() {
+        return this.runPerson;
     }
     
-    public void setRunTime(String runTime) {
-        this.runTime = runTime;
+    public void setRunPerson(String runPerson) {
+        this.runPerson = runPerson;
     }
     
-    @Column(name="STARTT_RUN_TIME", length=200)
-    public String getStarttRunTime() {
-        return this.starttRunTime;
+    @Column(name="START_RUN_TIME", length=200)
+    public String getstartRunTime() {
+        return this.startRunTime;
     }
     
-    public void setStarttRunTime(String starttRunTime) {
-        this.starttRunTime = starttRunTime;
+    public void setstartRunTime(String startRunTime) {
+        this.startRunTime = startRunTime;
     }
     
     @Column(name="STOP_RUN_TIME", length=200)
@@ -101,13 +101,13 @@ public class NaChangeOperationManager  implements java.io.Serializable {
         this.stopRunTime = stopRunTime;
     }
     
-    @Column(name="OPERATION_SCIP", length=200)
-    public String getOperationScip() {
-        return this.operationScip;
+    @Column(name="OPERATION_SCRIPT", length=200)
+    public String getoperationScript() {
+        return this.operationScript;
     }
     
-    public void setOperationScip(String operationScip) {
-        this.operationScip = operationScip;
+    public void setoperationScript(String operationScript) {
+        this.operationScript = operationScript;
     }
     
     @Column(name="PLAN_ID", precision=22, scale=0)

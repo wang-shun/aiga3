@@ -165,12 +165,14 @@ define(function(require, exports, module) {
                 var _data = self.getRadioCheckedRow(_dom);
                 if (_data) {
                     var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState + "&onlinePlanName=" + _data.onlinePlanName;
-                    Sidebar.creatTab({
-                        id:"101",
-                        name:'变更评审',
-                        href:'view/netFlowManage/changeReview/alterReview.html',
-                        cmd:_cmd
-                    })
+                    if(_data.types=="0" || _data.types=="1"){
+                        Sidebar.creatTab({
+                            id:"101",
+                            name:'变更评审',
+                            href:'view/netFlowManage/changeReview/alterReview.html',
+                            cmd:_cmd
+                        })
+                    }
                 }
             });
         },

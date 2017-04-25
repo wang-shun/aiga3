@@ -223,8 +223,11 @@ public class CaseConstructionSv extends BaseService{
 		List<Object> coverList = naCaseContructionReportDao.findSysFunCover();
 		getData(coverList,1,8,map);
 		//入网验收用例数总数（准发布）
-		List<Object> caseList = naCaseContructionReportDao.findSysCaseCount(dayOrMonth);
-		
+		List<Object> caseList = naCaseContructionReportDao.findSysCaseCount( dayOrMonth);
+		getData(caseList,2,8,map);
+		//自动化用例数（准发布）
+		//List<Object> autoList = naCaseContructionReportDao.findSysAuto(dayOrMonth);
+		//getData(autoList,3,8,map);
 	}
 
 	

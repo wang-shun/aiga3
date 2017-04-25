@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 					return "黄色";
 				} else if (value == 4) {
 					return "蓝色";
-				} else if (value == 4) {
+				} else if (value == 5) {
 					return "灰色";
 				}
 			});

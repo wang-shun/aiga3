@@ -2,7 +2,9 @@ package com.ai.aiga.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -91,8 +93,8 @@ public class OnlineTaskSv extends BaseService{
 						      +"  to_char(a.assign_date,'yyyy-MM-dd HH:MM:SS') as assign_date,"
 						      +"   (select name from aiga_staff where staff_id = a.assign_id) as assign_name,"
 						     +"    (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
-						     +"  from na_online_task_distribute a"
-						    +"  where a.parent_task_id = 0";
+						     +"  from na_online_task_distribute a, na_change_plan_onile b where a.online_plan = b.online_plan"
+						    +"  and a.parent_task_id = 0";
 		
 		if(condition.getTaskType() != null){
 			sql += " and a.task_type = "+condition.getTaskType();
@@ -108,15 +110,7 @@ public class OnlineTaskSv extends BaseService{
 		if(condition.getDealState() != null){
 			sql += " and a.deal_state = "+condition.getDealState();
 		}
-		sql += " group by a.online_plan,"
-				+ " a.online_plan_name,"
-				+ " a.task_id,"
-				+ " a.task_name,"
-				+ " a.task_type,"
-				+ " a.deal_state,"
-				+ " assign_date,"
-				+ " a.assign_id,"
-				+ "  a.deal_op_id";
+		sql += " order by b.plan_date desc";
 		
 		List<String> list = new ArrayList<String>();
 		list.add("onlinePlan");
@@ -219,10 +213,11 @@ public class OnlineTaskSv extends BaseService{
 	 * @Description:
 	 * @param onlineTaskRequest          
 	 */
-	public void save(OnlineTaskRequest onlineTaskRequest) {
+	public Map<String, String> save(OnlineTaskRequest onlineTaskRequest) {
 		if(onlineTaskRequest == null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
+		} 
+		Map<String, String> map = new HashMap<String, String>();
 		if(onlineTaskRequest.getTaskId() != null){
 			//修改入网验收任务名称及处理人
 			NaOnlineTaskDistribute distribute = naOnlineTaskDistributeDao.findOne(onlineTaskRequest.getTaskId());
@@ -233,6 +228,7 @@ public class OnlineTaskSv extends BaseService{
 				distribute.setDealOpId(onlineTaskRequest.getDealOpId());
 			}
 			naOnlineTaskDistributeDao.save(distribute);
+			map.put("flag", "true");
 		}else{
 			if(onlineTaskRequest.getTaskName() == null){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskName");
@@ -246,101 +242,109 @@ public class OnlineTaskSv extends BaseService{
 			if(onlineTaskRequest.getParentTaskId() == null){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "parentTaskId");
 			}
-			//创建手工用例类型子任务
-			NaOnlineTaskDistribute subTask = new NaOnlineTaskDistribute();
-			subTask.setTaskName(onlineTaskRequest.getTaskName());
-			subTask.setParentTaskId(onlineTaskRequest.getParentTaskId());
-			subTask.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTask.setTaskType(CheckAcceptEnum.SubTaskType_two.getValue());
-			subTask.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
-			subTask.setAssignDate(new Date());
-			
-			//创建自动化用例类型子任务--自动生成
-			NaOnlineTaskDistribute subTaskAuto = new NaOnlineTaskDistribute();
-			subTaskAuto.setTaskName(onlineTaskRequest.getTaskName()+"_自动化");
-			subTaskAuto.setParentTaskId(onlineTaskRequest.getParentTaskId());
-			subTaskAuto.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTaskAuto.setTaskType(CheckAcceptEnum.SubTaskType_three.getValue());
-			subTaskAuto.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
-			subTaskAuto.setAssignDate(new Date());
-			//创建用例组类型子任务--自动生成
-			NaOnlineTaskDistribute subTaskGroup = new NaOnlineTaskDistribute();
-			subTaskGroup.setTaskName(onlineTaskRequest.getTaskName()+"_用例组");
-			subTaskGroup.setParentTaskId(onlineTaskRequest.getParentTaskId());
-			subTaskGroup.setDealOpId(onlineTaskRequest.getDealOpId());
-			subTaskGroup.setTaskType(CheckAcceptEnum.SubTaskType_one.getValue());
-			subTaskGroup.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
-			subTaskGroup.setAssignDate(new Date());
-			
-			NaOnlineTaskDistribute response = naOnlineTaskDistributeDao.findOne(onlineTaskRequest.getParentTaskId());
-			if(response != null){
-				subTask.setAssignId(response.getAssignId());
-				subTask.setOnlinePlan(response.getOnlinePlan());
+			//判断上线计划是否已被取消
+			Object count = naOnlineTaskDistributeDao.findCanclePlan(onlineTaskRequest.getParentTaskId());
+			if(count.toString().equals("0")){
+				//创建手工用例类型子任务
+				NaOnlineTaskDistribute subTask = new NaOnlineTaskDistribute();
+				subTask.setTaskName(onlineTaskRequest.getTaskName());
+				subTask.setParentTaskId(onlineTaskRequest.getParentTaskId());
+				subTask.setDealOpId(onlineTaskRequest.getDealOpId());
+				subTask.setTaskType(CheckAcceptEnum.SubTaskType_two.getValue());
+				subTask.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
+				subTask.setAssignDate(new Date());
 				
-				subTaskAuto.setAssignId(response.getAssignId());
-				subTaskAuto.setOnlinePlan(response.getOnlinePlan());
+				//创建自动化用例类型子任务--自动生成
+				NaOnlineTaskDistribute subTaskAuto = new NaOnlineTaskDistribute();
+				subTaskAuto.setTaskName(onlineTaskRequest.getTaskName()+"_自动化");
+				subTaskAuto.setParentTaskId(onlineTaskRequest.getParentTaskId());
+				subTaskAuto.setDealOpId(onlineTaskRequest.getDealOpId());
+				subTaskAuto.setTaskType(CheckAcceptEnum.SubTaskType_three.getValue());
+				subTaskAuto.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
+				subTaskAuto.setAssignDate(new Date());
+				//创建用例组类型子任务--自动生成
+				NaOnlineTaskDistribute subTaskGroup = new NaOnlineTaskDistribute();
+				subTaskGroup.setTaskName(onlineTaskRequest.getTaskName()+"_用例组");
+				subTaskGroup.setParentTaskId(onlineTaskRequest.getParentTaskId());
+				subTaskGroup.setDealOpId(onlineTaskRequest.getDealOpId());
+				subTaskGroup.setTaskType(CheckAcceptEnum.SubTaskType_one.getValue());
+				subTaskGroup.setDealState(CheckAcceptEnum.TaskStatus_new.getValue());
+				subTaskGroup.setAssignDate(new Date());
 				
-				subTaskGroup.setAssignId(response.getAssignId());
-				subTaskGroup.setOnlinePlan(response.getOnlinePlan());
-			}
-			naOnlineTaskDistributeDao.save(subTask);
-			//发短信提醒处理人
-			//sendMessageForCycle(subTask.getTaskId());
-			
-			//创建手工用例类型子任务结果
-			NaOnlineTaskResult planResult = new NaOnlineTaskResult();
-			planResult.setCreateDate(new Date());
-			planResult.setOpId(onlineTaskRequest.getDealOpId());
-			planResult.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResult.setDealType(CheckAcceptEnum.SubTaskType_two.getValue());//手工用例
-			planResult.setState(CheckAcceptEnum.ResultStatus_new.getValue());
-			planResult.setTaskId(subTask.getTaskId());
-			naOnlineTaskResultDao.save(planResult);
-			
-			//创建自动化用例类型子任务结果
-			NaOnlineTaskResult planResultAuto = new NaOnlineTaskResult();
-			planResultAuto.setCreateDate(new Date());
-			planResultAuto.setOpId(onlineTaskRequest.getDealOpId());
-			planResultAuto.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultAuto.setDealType(CheckAcceptEnum.SubTaskType_three.getValue());//自动化用例
-			planResultAuto.setState(CheckAcceptEnum.ResultStatus_new.getValue());
-			
-			//创建用例组类型子任务结果
-			NaOnlineTaskResult planResultGroup = new NaOnlineTaskResult();
-			planResultGroup.setCreateDate(new Date());
-			planResultGroup.setOpId(onlineTaskRequest.getDealOpId());
-			planResultGroup.setAutoPlanId(onlineTaskRequest.getCollectId());
-			planResultGroup.setDealType(CheckAcceptEnum.SubTaskType_one.getValue());//用例组
-			planResultGroup.setState(CheckAcceptEnum.ResultStatus_new.getValue());//未处理
-			
-			//将选中用例集下手工用例关联到回归子任务处理结果表
-			naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
-			//判断是否需要生成自动化子任务
-			List<NaAutoCollGroupCase> list = naAutoCollGroupCaseDao.findByCollectIdAndElementType(onlineTaskRequest.getCollectId(), 2L);
-			//判断是否需要生成用例组子任务
-			List<NaAutoCollGroupCase> listGroup = naAutoCollGroupCaseDao.findByCollectIdAndElementType(onlineTaskRequest.getCollectId(), 0L);
-			
-			if(list != null && list.size() > 0){
-				naOnlineTaskDistributeDao.save(subTaskAuto);
-				planResultAuto.setTaskId(subTaskAuto.getTaskId());
-				naOnlineTaskResultDao.save(planResultAuto);
-				//发短信
-				//sendMessageForCycle(subTaskAuto.getTaskId());
+				NaOnlineTaskDistribute response = naOnlineTaskDistributeDao.findOne(onlineTaskRequest.getParentTaskId());
+				if(response != null){
+					subTask.setAssignId(response.getAssignId());
+					subTask.setOnlinePlan(response.getOnlinePlan());
+					
+					subTaskAuto.setAssignId(response.getAssignId());
+					subTaskAuto.setOnlinePlan(response.getOnlinePlan());
+					
+					subTaskGroup.setAssignId(response.getAssignId());
+					subTaskGroup.setOnlinePlan(response.getOnlinePlan());
+				}
+				naOnlineTaskDistributeDao.save(subTask);
+				//发短信提醒处理人
+				//sendMessageForCycle(subTask.getTaskId());
 				
-				naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 2L);
-			}
-			if(listGroup != null && listGroup.size() > 0){
-				naOnlineTaskDistributeDao.save(subTaskGroup);
-				planResultGroup.setTaskId(subTaskGroup.getTaskId());
-				naOnlineTaskResultDao.save(planResultGroup);
-				//发短信
-				//sendMessageForCycle(subTaskGroup.getTaskId());
+				//创建手工用例类型子任务结果
+				NaOnlineTaskResult planResult = new NaOnlineTaskResult();
+				planResult.setCreateDate(new Date());
+				planResult.setOpId(onlineTaskRequest.getDealOpId());
+				planResult.setAutoPlanId(onlineTaskRequest.getCollectId());
+				planResult.setDealType(CheckAcceptEnum.SubTaskType_two.getValue());//手工用例
+				planResult.setState(CheckAcceptEnum.ResultStatus_new.getValue());
+				planResult.setTaskId(subTask.getTaskId());
+				naOnlineTaskResultDao.save(planResult);
+				
+				//创建自动化用例类型子任务结果
+				NaOnlineTaskResult planResultAuto = new NaOnlineTaskResult();
+				planResultAuto.setCreateDate(new Date());
+				planResultAuto.setOpId(onlineTaskRequest.getDealOpId());
+				planResultAuto.setAutoPlanId(onlineTaskRequest.getCollectId());
+				planResultAuto.setDealType(CheckAcceptEnum.SubTaskType_three.getValue());//自动化用例
+				planResultAuto.setState(CheckAcceptEnum.ResultStatus_new.getValue());
+				
+				//创建用例组类型子任务结果
+				NaOnlineTaskResult planResultGroup = new NaOnlineTaskResult();
+				planResultGroup.setCreateDate(new Date());
+				planResultGroup.setOpId(onlineTaskRequest.getDealOpId());
+				planResultGroup.setAutoPlanId(onlineTaskRequest.getCollectId());
+				planResultGroup.setDealType(CheckAcceptEnum.SubTaskType_one.getValue());//用例组
+				planResultGroup.setState(CheckAcceptEnum.ResultStatus_new.getValue());//未处理
+				
+				//将选中用例集下手工用例关联到回归子任务处理结果表
+				naPlanCaseResultDao.saveCaseResult(subTask.getTaskId(), onlineTaskRequest.getCollectId(), 1L);
+				//判断是否需要生成自动化子任务
+				List<NaAutoCollGroupCase> list = naAutoCollGroupCaseDao.findByCollectIdAndElementType(onlineTaskRequest.getCollectId(), 2L);
+				//判断是否需要生成用例组子任务
+				List<NaAutoCollGroupCase> listGroup = naAutoCollGroupCaseDao.findByCollectIdAndElementType(onlineTaskRequest.getCollectId(), 0L);
+				
+				if(list != null && list.size() > 0){
+					naOnlineTaskDistributeDao.save(subTaskAuto);
+					planResultAuto.setTaskId(subTaskAuto.getTaskId());
+					naOnlineTaskResultDao.save(planResultAuto);
+					//发短信
+					//sendMessageForCycle(subTaskAuto.getTaskId());
+					
+					naPlanCaseResultDao.saveCaseResult(subTaskAuto.getTaskId(), onlineTaskRequest.getCollectId(), 2L);
+				}
+				if(listGroup != null && listGroup.size() > 0){
+					naOnlineTaskDistributeDao.save(subTaskGroup);
+					planResultGroup.setTaskId(subTaskGroup.getTaskId());
+					naOnlineTaskResultDao.save(planResultGroup);
+					//发短信
+					//sendMessageForCycle(subTaskGroup.getTaskId());
 
-				naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId());
+					naPlanCaseResultDao.saveCaseResult(subTaskGroup.getTaskId(), onlineTaskRequest.getCollectId());
 
-			}
-			naOnlineTaskDistributeDao.updateParentTaskDealState(onlineTaskRequest.getParentTaskId());
+				}
+				naOnlineTaskDistributeDao.updateParentTaskDealState(onlineTaskRequest.getParentTaskId());
+				map.put("flag", "true");
+			}else{
+				map.put("flag", "false");
+			}	
 		}
+		return map;	
 	}
 
 	/**

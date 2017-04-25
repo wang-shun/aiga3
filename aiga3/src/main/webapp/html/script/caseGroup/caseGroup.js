@@ -1,10 +1,10 @@
 define(function(require, exports, module) {
     // 通用工具模块
     var Utils = require("global/utils.js");
-    
+
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
     var Page = Utils.initPage('caseGroup');
-    
+
     // 路径重命名
     var pathAlias = "caseGroup/";
 
@@ -87,58 +87,61 @@ define(function(require, exports, module) {
         // 用例组列表
         getCaseGroupList: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getCaseGroupList'), cmd, function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getCaseGroupList);
-                    console.log(json.data)
-                    $(Dom.getCaseGroupList).html(template(json.data));
-                    self.eventClickChecked($(Dom.getCaseGroupList));
-                    self.eventDClickCallback($(Dom.getCaseGroupList), function() {
-                            var _data = self.getCheckedCaseGroup();
-                            Data.groupId = _data.groupId;
-                            console.log(Data.groupId);
-                            var cmd = "groupId=" + _data.groupId;
-                            console.log(cmd);
-                            self.getCaseGroupInfo(cmd);
-                        })
-                        //设置分页
-                    self.initPaging($(Dom.getCaseGroupList), 8)
-                }
-            });
+            var _dom = Page.findId('getCaseGroupList');
+            var _domPagination = _dom.find("[name='pagination']");
+            Utils.getServerPage(srvMap.get('getCaseGroupList'), cmd, function(json) {
+                var template = Handlebars.compile(Page.findTpl('getCaseGroupList'));
+                console.log(json.data.content)
+                _dom.find("[name='content']").html(template(json.data.content));
+                //self.eventClickChecked(_dom);
+                Utils.eventTrClickCallback(_dom, function() {
+                        var _data = self.getCheckedCaseGroup();
+                        Data.groupId = _data.groupId;
+                        console.log(Data.groupId);
+                        var cmd = "groupId=" + _data.groupId;
+                        console.log(cmd);
+                        self.getCaseGroupInfo(cmd);
+                    })
+                    //设置分页
+                    //self.initPaging($(Dom.getCaseGroupList), 8)
+            }, _domPagination);
         },
         // 按条件查询用例组
         queryCaseGroup: function() {
             var self = this;
-            var _form = $(Dom.queryCaseGroup);
+            var _form = Page.findId('queryCaseGroup');
             // 表单提交
             _form.find('button[name="submit"]').bind('click', function() {
 
-                var cmd = $(Dom.queryCaseGroup).serialize();
+                var cmd = _form.serialize();
                 self.getCaseGroupList(cmd);
             })
         },
         // 新增用例组
         addCaseGroup: function() {
             var self = this;
-            $(Dom.addCaseGroup).unbind('click');
-            $(Dom.addCaseGroup).bind('click', function() {
+            Page.findId('addCaseGroup').unbind('click');
+            Page.findId('addCaseGroup').bind('click', function() {
                 // 弹出层
-                $(Dom.addCaseGroupModal).modal('show');
-                //组件表单校验初始化
-                var _form = $(Dom.addCaseGroupInfo);
-                var template = Handlebars.compile(Tpl.addCaseGroupInfo);
-                _form.html(template({}));
+                var _modal = Page.findModal('addCaseGroupModal');
+                _modal.modal('show').on('shown.bs.modal', function() {
+                    //组件表单校验初始化
+                    var _form = Page.findId('addCaseGroupInfo');
+                    var template = Handlebars.compile(Page.findTpl('addCaseGroupInfo'));
+                    _form.html(template({}));
+                })
+
                 // 表单提交
-                $("#JS_addCaseGroupSubmit").unbind('click');
-                $("#JS_addCaseGroupSubmit").bind('click', function() {
-                    var cmd = _form.serialize();
+                Page.findId('addCaseGroupSubmit').unbind('click');
+                Page.findId('addCaseGroupSubmit').bind('click', function() {
+                    var cmd = Page.findId('addCaseGroupInfo').serialize();
                     console.log(cmd);
                     Rose.ajax.postJson(srvMap.get('addCaseGroup'), cmd, function(json, status) {
                         if (status) {
                             // 添加用户成功后，刷新用户列表页
                             XMS.msgbox.show('添加用例组成功！', 'success', 2000)
                                 // 关闭弹出层
-                            $(Dom.addCaseGroupModal).modal('hide')
+                            _modal.modal('hide')
                             setTimeout(function() {
                                 self.getCaseGroupList();
                             }, 1000)
@@ -150,8 +153,8 @@ define(function(require, exports, module) {
         //删除用例组
         delCaseGroup: function() {
             var self = this;
-            $(Dom.delCaseGroup).unbind('click');
-            $(Dom.delCaseGroup).bind('click', function() {
+            Page.findId('delCaseGroup').unbind('click');
+            Page.findId('delCaseGroup').bind('click', function() {
                 var _data = self.getCheckedCaseGroup();
                 if (_data) {
                     var cmd = "groupId=" + _data.groupId;
@@ -170,8 +173,8 @@ define(function(require, exports, module) {
         //修改用例组
         updateCaseGroup: function() {
             var self = this;
-            $(Dom.updateCaseGroup).unbind('click');
-            $(Dom.updateCaseGroup).bind('click', function() {
+            Page.findId('updateCaseGroup').unbind('click');
+            Page.findId('updateCaseGroup').bind('click', function() {
                 var _data = self.getCheckedCaseGroup();
                 //存储在全局变量
                 Data.groupId = _data.groupId;
@@ -188,10 +191,10 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getCaseGroupInfo'), cmd, function(json, status) {
                 if (status) {
                     // 表单校验初始化
-                    var _form = $(Dom.updateCaseGroupInfo);
-                    var _formSelect = $(Dom.queryCaseList);
+                    var _form = Page.findId('updateCaseGroupInfo');
+                    var _formSelect = Page.findId('queryCaseList');
                     Utils.setSelectData(_formSelect);
-                    var template = Handlebars.compile(Tpl.addCaseGroupInfo);
+                    var template = Handlebars.compile(Page.findTpl('addCaseGroupInfo'));
                     console.log(json.data);
                     _form.html(template(json.data));
                     self.getCaseList();
@@ -200,12 +203,13 @@ define(function(require, exports, module) {
                     self.relaCase();
                     self.delRelaCase();
                     self.saveGroupOrder();
+                    var _modal = Page.findModal('updateCaseGroupModal');
                     // 弹出层
-                    $(Dom.updateCaseGroupModal).modal('show');
+                    _modal.modal('show');
 
                     // 提交
-                    $(Dom.updateCaseGroupSubmit).unbind('click');
-                    $(Dom.updateCaseGroupSubmit).bind('click', function() {
+                    Page.findId('updateCaseGroupSubmit').unbind('click');
+                    Page.findId('updateCaseGroupSubmit').bind('click', function() {
 
                         // var _cmd = "&groupId=" + Data.groupId;
                         var cmd = _form.serialize() + "&updateId=1";
@@ -216,7 +220,7 @@ define(function(require, exports, module) {
                                 // 添加用户成功后，刷新用户列表页
                                 XMS.msgbox.show('修改用例组成功！', 'success', 2000)
                                     // 关闭弹出层
-                                $(Dom.updateCaseGroupModal).modal('hide')
+                                _modal.modal('hide')
                                 setTimeout(function() {
                                     self.getCaseGroupList();
                                 }, 1000)
@@ -230,13 +234,14 @@ define(function(require, exports, module) {
         // 用例列表
         getCaseList: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getCaseList'), cmd, function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getCaseList);
-                    console.log(json.data)
-                    $(Dom.getCaseList).html(template(json.data));
+            var _dom = Page.findId('getCaseList');
+            var _domPagination = _dom.find("[name='pagination']");
+            Utils.getServerPage(srvMap.get('getCaseList'), cmd, function(json) {
+                    var template = Handlebars.compile(Page.findTpl('getCaseList'));
+                    console.log(json.data.content)
+                    _dom.find("[name='content']").html(template(json.data.content));
                     //单击选中
-                    self.eventClickChecked($(Dom.getCaseList));
+                    self.eventClickChecked(_dom);
                     //双击关联用例
                     // self.eventDClickCallback($(Dom.getCaseGroupList), function() {
                     //     var _data = self.getCheckedCaseGroup();
@@ -244,49 +249,47 @@ define(function(require, exports, module) {
                     //     self.getCaseGroupInfo(cmd);
                     // })
                     //设置分页
-                    self.initPaging($(Dom.getCaseList), 4)
-                }
-            });
+                    //self.initPaging($(Dom.getCaseList), 4)
+            },_domPagination);
         },
         // 已关联用例列表
         getRelaCaseList: function(cmd) {
             var self = this;
             var cmd = "groupId=" + Data.groupId;
             console.log(cmd);
-            Rose.ajax.postJson(srvMap.get('getRelaCaseList'), cmd, function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getRelaCaseList);
-                    console.log(json.data)
-                    $(Dom.getRelaCaseList).html(template(json.data));
+            var _dom = Page.findId('getRelaCaseList');
+            var _domPagination = _dom.find("[name='pagination']");
+            Utils.getServerPage(srvMap.get('getRelaCaseList'), cmd, function(json) {
+                    var template = Handlebars.compile(Page.findTpl('getRelaCaseList'));
+                    console.log(json.data.content)
+                    _dom.find("[name='content']").html(template(json.data.content));
                     //单击选中
-                    self.eventClickChecked($(Dom.getRelaCaseList));
+                    self.eventClickChecked(_dom);
                     //双击关联用例
                     // self.eventDClickCallback($(Dom.getCaseGroupList), function() {
                     //     var _data = self.getCheckedCaseGroup();
                     //     var cmd = "groupId=" + _data.groupId;
                     //     self.getCaseGroupInfo(cmd);
                     // })
-                    //设置分页
-                    self.initPaging($(Dom.getRelaCaseList), 4)
-                }
-            });
+                    
+            },_domPagination);
         },
         // 按条件查询用例组
         queryCaseList: function() {
             var self = this;
-            var _form = $(Dom.queryCaseList);
+            var _form = Page.findId('queryCaseList');
             // 表单提交
             _form.find('button[name="submit"]').bind('click', function() {
 
-                var cmd = $(Dom.queryCaseList).serialize();
+                var cmd = _form.serialize();
                 self.getCaseList(cmd);
             })
         },
         //关联用例新增
         relaCase: function() {
             var self = this;
-            $(Dom.relaCase).unbind('click');
-            $(Dom.relaCase).bind('click', function() {
+            Page.findId('relaCase').unbind('click');
+            Page.findId('relaCase').bind('click', function() {
                 var _data = self.getCheckedCase();
                 if (_data) {
                     var _groupId = Data.groupId;
@@ -320,7 +323,7 @@ define(function(require, exports, module) {
         // 删除已关联用例
         delRelaCase: function() {
             var self = this;
-            var _domDel = $(Dom.getRelaCaseWrap).find("[name='del']");
+            var _domDel = Page.findId('getRelaCaseList').find("[name='del']");
             _domDel.unbind('click');
             _domDel.bind('click', function() {
                 var _data = self.getCheckedRelaCase();
@@ -350,7 +353,7 @@ define(function(require, exports, module) {
         // 保存执行顺序
         saveGroupOrder: function() {
             var self = this;
-            var _domSave = $(Dom.getRelaCaseWrap).find("[name='save']");
+            var _domSave = Page.findId('getRelaCaseList').find("[name='save']");
             _domSave.unbind('click');
             _domSave.bind('click', function() {
                 var _data = self.getCheckedRelaCase();
@@ -386,7 +389,7 @@ define(function(require, exports, module) {
 
         //获取选中用例组
         getCheckedCaseGroup: function() {
-            var _obj = $(Dom.getCaseGroupList).find("input[type='radio']:checked").parents("tr");
+            var _obj = Page.findId('getCaseGroupList').find("input[type='radio']:checked").parents("tr");
             var _groupId = _obj.find("input[name='groupId']")
             if (_groupId.length == 0) {
                 window.XMS.msgbox.show('请先选择一个用例组！', 'error', 2000);
@@ -402,7 +405,7 @@ define(function(require, exports, module) {
         },
         //获取选中用例
         getCheckedCase: function() {
-            var _obj = $(Dom.getCaseList).find("input[type='checkbox']:checked").parents("tr");
+            var _obj = Page.findId('getCaseList').find("input[type='checkbox']:checked").parents("tr");
             var _autoId = _obj.find("input[name='autoId']");
             console.log(_autoId);
             if (_autoId.length == 0) {
@@ -417,7 +420,7 @@ define(function(require, exports, module) {
         },
         //获取选中已关联用例
         getCheckedRelaCase: function() {
-            var _obj = $(Dom.getRelaCaseList).find("input[type='checkbox']:checked").parents("tr");
+            var _obj = Page.findId('getRelaCaseList').find("input[type='checkbox']:checked").parents("tr");
             var _autoId = _obj.find("input[name='autoId']");
             console.log(_autoId);
             if (_autoId.length == 0) {
@@ -432,7 +435,7 @@ define(function(require, exports, module) {
         },
         //获取选中已关联用例的执行顺序
         getCheckedGroupOrder: function() {
-            var _obj = $(Dom.getRelaCaseList).find("input[type='checkbox']:checked").parents("tr");
+            var _obj = Page.findId('getRelaCaseList').find("input[type='checkbox']:checked").parents("tr");
             var _groupOrder = _obj.find("input[name='groupOrder']");
             console.log(_groupOrder);
             if (_groupOrder.length == 0) {

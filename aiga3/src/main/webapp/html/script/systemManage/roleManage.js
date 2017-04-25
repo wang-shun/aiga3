@@ -58,12 +58,12 @@ define(function(require,exports,module){
             		self.delRoleinfo();
 
             		// 点击选中行
-				    self.eventClickChecked($(Dom.getRoleinfoList));
+				    self.eventClickChecked($(Dom.getRoleinfoList),function(){
+			        	self.getRoleinfo();
+				    });
 
 				    // 绑定双击当前行事件
-				    self.eventDClickCallback($(Dom.getRoleinfoList),function(){
-			        	self.getRoleinfo();
-				    })
+				    //self.eventDClickCallback($(Dom.getRoleinfoList))
 
 				    //设置分页
 				    self.initPaging($(Dom.getRoleinfoList),8)
@@ -173,8 +173,8 @@ define(function(require,exports,module){
 		// 事件：单机选中当前行
 		eventClickChecked:function(obj,callback){
 			obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-			      checkboxClass: 'icheckbox_square-blue',
-			      radioClass: 'iradio_square-blue'
+			      checkboxClass: 'icheckbox_minimal-blue',
+			      radioClass: 'iradio_minimal-blue'
 			});
 			obj.find("tr").bind('click', function(event) {
 		        $(this).find('.minimal').iCheck('check');

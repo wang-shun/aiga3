@@ -19,7 +19,9 @@ define(function(require, exports, module) {
 	srvMap.add("getPropertyName", pathAlias + "dataBackups.json", "sys/backup/getPropertyConfigList");
 
 	//备份进程
-	srvMap.add("dataBackup", pathAlias + "dataBackups.json", "sys/backup/dataBackup");
+	srvMap.add("restoreBackup", pathAlias + "dataBackups.json", "sys/backup/restore");
+
+
 	/*// 模板对象
 	var Tpl = {
 		getDataBackupsTemp: $('#JS_getDataBackupsTemp'),
@@ -49,7 +51,7 @@ define(function(require, exports, module) {
 		// 按条件查询
 		queryDataBackupForm: function() {
 			var self = this;
-			var _form =Page.findId('queryDataBackupsForm');
+			var _form = Page.findId('queryDataBackupsForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -76,7 +78,7 @@ define(function(require, exports, module) {
 				// 废弃删除
 				self.delDataBackups();
 
-				self.dataBackups();
+				self.restoreBackup();
 				Utils.eventTrClickCallback(_dom);
 			}, _domPagination);
 
@@ -84,12 +86,12 @@ define(function(require, exports, module) {
 		//新增备份
 		addDataBackup: function() {
 			var self = this;
-			var _list =Page.findId('getDataBackupsList');
+			var _list = Page.findId('getDataBackupsList');
 			var _addBt = _list.find("[name='add']");
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
 				Page.findModal('addDataBackupsModal').modal('show');
-				var _form =Page.findId('addDataBackupInfo');
+				var _form = Page.findId('addDataBackupInfo');
 				Page.findModal('addDataBackupsModal').on('hide.bs.modal', function() {
 					Utils.resetForm(Page.findId('addDataBackupInfo'));
 				});
@@ -121,7 +123,7 @@ define(function(require, exports, module) {
 		//删除备份
 		delDataBackups: function() {
 			var self = this;
-			var _dom =Page.findId('getDataBackupsList');
+			var _dom = Page.findId('getDataBackupsList');
 			var _del = _dom.find("[name='del']");
 			_del.unbind('click');
 			_del.bind('click', function() {
@@ -143,24 +145,53 @@ define(function(require, exports, module) {
 				}
 			});
 		},
+		//删除备份
+		restoreBackup: function() {
+			var self = this;
+			var _dom = Page.findId('getDataBackupsList');
+			var _del = _dom.find("[name='restore']");
+			_del.unbind('click');
+			_del.bind('click', function() {
+				//获得当前单选框值
+				var data = Utils.getRadioCheckedRow(_dom);
+				if (data) {
+					console.log(data);
+					if (data.state == 1) {
+						var cmd = 'dealId=' + data.dealId;
+						//alert(cmd);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.getJson(srvMap.get('restoreBackup'), cmd, function(json, status) {
+							if (status) {
+								window.XMS.msgbox.show('删除成功！', 'success', 2000)
+								setTimeout(function() {
+									self.getDataBackupList();
+								}, 1000)
+							}
+						});
+					} else {
+						 window.XMS.msgbox.show('该数据尚未备份成功', 'info', 2000)
+					}
+				}
+			});
+		},
 		//备份进程
 		dataBackups: function() {
 			var self = this;
-			var _dom =Page.findId('getDataBackupsList');
+			var _dom = Page.findId('getDataBackupsList');
 			var _backup = _dom.find("[name='backup']");
 			_backup.unbind('click');
 			_backup.bind('click', function() {
 				//获得当前单选框值
-					//alert(cmd);
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('dataBackup'), function(json, status) {
-						if (status) {
-							window.XMS.msgbox.show('备份成功', 'success', 2000)
-							setTimeout(function() {
-								self.getDataBackupList();
-							}, 1000)
-						}
-					});
+				//alert(cmd);
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.getJson(srvMap.get('dataBackup'), function(json, status) {
+					if (status) {
+						window.XMS.msgbox.show('备份成功', 'success', 2000)
+						setTimeout(function() {
+							self.getDataBackupList();
+						}, 1000)
+					}
+				});
 			});
 		},
 		//映射处理

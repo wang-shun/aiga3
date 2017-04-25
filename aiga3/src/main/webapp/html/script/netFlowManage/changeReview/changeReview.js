@@ -172,6 +172,14 @@ define(function(require, exports, module) {
                             href: 'view/netFlowManage/changeReview/alterReview.html',
                             cmd: _cmd
                         })
+                    } else {
+                        var _cmd = "onlinePlan=" + _data.onlinePlan + "&planDate=" + _data.planDate + "&planState=" + _data.planState + "&onlinePlanName=" + _data.onlinePlanName;
+                        Sidebar.creatTab({
+                            id: "101",
+                            name: '变更评审',
+                            href: 'view/netFlowManage/changeReview/changeAlterReview.html',
+                            cmd: _cmd
+                        })
                     }
                 }
             });

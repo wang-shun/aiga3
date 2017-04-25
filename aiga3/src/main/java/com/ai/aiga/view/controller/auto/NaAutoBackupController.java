@@ -129,7 +129,7 @@ public class NaAutoBackupController {
 	@RequestMapping(path = "/sys/backup/dataBackup")
 	public @ResponseBody JsonBean BackupDeal(){
 		String[] a = new String[]{"1"};
-		AutoBackupTask.main(a);
+		//AutoBackupTask.main(a);
 		return JsonBean.success;
 	}
 }

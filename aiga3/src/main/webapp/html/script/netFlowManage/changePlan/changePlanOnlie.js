@@ -620,12 +620,18 @@ define(function(require, exports, module) {
 			_upload.bind('click', function() {
 				alert()
 				var _data = self.getTaskRow();
+				var _ty = Utils.getRadioCheckedRow($(Dom.getChangePlanOnlieList));
+				_types = _ty.types;
 				if (_data) {
+					if (_types=="0" || _types=="1") {
 					//弹出层
-					$("#JS_addDdeliverablesModal").modal('show').on('shown.bs.modal', function() {
-						self.uploadDeliverables(_data.onlinePlan);
-						self.uploadAnNiu(_data.onlinePlan);
-					})
+						$("#JS_addDdeliverablesModal").modal('show').on('shown.bs.modal', function() {
+							self.uploadDeliverables(_data.onlinePlan);
+							self.uploadAnNiu(_data.onlinePlan);
+						})
+					}else if (_types=="2" || _types=="3") {
+
+					}
 				}
 			});
 		},

@@ -22,7 +22,7 @@ SearchAndPageRepository<NaChangeReview, Long>{
 	
 	@Query("select a from NaChangeReview a,NaChangePlanOnile b "
 			+ "where b.onlinePlan=a.onlinePlanId and b.onlinePlan=?1 and a.ext1=?2")
-	  List<NaChangeReview> selectall(Long onlinePlan,String ext1);
+	 NaChangeReview selectall(Long onlinePlan,String ext1);
 	
 	
 	

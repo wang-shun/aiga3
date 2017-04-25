@@ -154,7 +154,7 @@ define(function(require,exports,module){
 						   return false;
 					    }
 						var _data= self.getRadioCheckedRow(_dom);
-						var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&ext2=评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。' + '&planId=' + data.onlinePlan;
+						var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&ext3=评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。' + '&planId=' + data.onlinePlan;
 						Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
 							if(status) {
 									// 保存结论成功后，刷新变更评审结论页

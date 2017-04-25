@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.service.AigaOnlineCaseCollectionSv;
+import com.ai.aiga.service.auto.OnlineCaseCollectionSv;
 import com.ai.aiga.service.auto.AutoCaseSv;
 import com.ai.aiga.service.auto.AutoGroupSv;
 import com.ai.aiga.service.auto.AutoRunPlanSv;
@@ -43,7 +43,7 @@ public class AutoRunPlanController {
 	private  AutoGroupSv autoGroupSv;
 	
 	@Autowired
-	private AigaOnlineCaseCollectionSv  caseCollectionSv;
+	private OnlineCaseCollectionSv  caseCollectionSv;
 	
 	
 	@RequestMapping(value="/sys/autoPlan/save",method=RequestMethod.POST)

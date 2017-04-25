@@ -28,8 +28,21 @@
 				<schema-selection match-schema="AIGA"  match-table="NA_TEST_PROCESS"/>
 
 				<schema-selection match-schema="AIGA"  match-table="NA_HOST_CONFIG_LIST"/>-->
-				<schema-selection match-schema="AIGA"  match-table="NA_ONLINE_GENERAL_STEPS"/>
+			<!--  <schema-selection match-schema="AIGA"  match-table="NA_ONLINE_GENERAL_STEPS"/>-->	
 
+					<!--  <schema-selection match-schema="AIGA"  match-table="NA_CHANGE_CONDITION"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_CONTENTS"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_TIME_PERSON"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_GOAL_DEVICE"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_UPDATE"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_WARNING_SHIELD"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_PREPARE_WORK"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_RUN_STEP"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_OPERATION_MANAGER"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_ROLLBACK_METHOD"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_INFORMATION_NOTICE"/>-->
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_RESULT_VALIDATE"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_SERVICE_VALIDATE"/>
 				
 
 

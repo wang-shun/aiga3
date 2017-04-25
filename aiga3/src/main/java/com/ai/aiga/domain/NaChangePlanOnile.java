@@ -45,6 +45,7 @@ public class NaChangePlanOnile  implements java.io.Serializable {
      private Byte timely;
      private Byte isFinished;
      private Byte autoRunResult;
+     private Date   fileUploadLastTime;   //
 
     public NaChangePlanOnile() {
     }
@@ -87,6 +88,15 @@ public class NaChangePlanOnile  implements java.io.Serializable {
         this.onlinePlan = onlinePlan;
     }
     
+    
+    @Column(name="FILE_UPLOAD_LAST_TIME", nullable=false, length=200)
+    public Date getFileUploadLastTime() {
+        return this.fileUploadLastTime;
+    }
+    
+    public void setFileUploadLastTime(Date fileUploadLastTime) {
+        this.fileUploadLastTime = fileUploadLastTime;
+    }
     @Column(name="ONLINE_PLAN_NAME", nullable=false, length=200)
     public String getOnlinePlanName() {
         return this.onlinePlanName;

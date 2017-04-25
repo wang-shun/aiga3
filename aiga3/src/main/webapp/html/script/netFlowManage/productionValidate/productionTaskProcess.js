@@ -106,7 +106,7 @@ define(function(require, exports, module) {
                 console.log(json.data)
                 _domList.find("tbody").html(template(json.data.content));
                 Utils.eventTrClickCallback($(Dom.productTaskList));
-                // Utils.setScroll($(Dom.getAutoPlanList),380px);				
+                // Utils.setScroll($(Dom.getAutoPlanList),380px);
             }, pagination)
 
         },

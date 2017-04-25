@@ -1,4 +1,4 @@
-package com.ai.aiga.service;
+package com.ai.aiga.service.PlanOnile;
 
 import java.util.Date;
 import java.util.List;
@@ -9,23 +9,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.AigaBossTestResultDao;
+import com.ai.aiga.dao.CodePathDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.domain.NaChangePlanOnile;
+import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
-import com.ai.aiga.view.json.NaChangePlanOnileRequest;
+import com.ai.aiga.view.controller.planOnline.dto.CodePathRequestExcel;
+import com.ai.aiga.view.controller.planOnline.dto.NaChangePlanOnileRequest;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Service
 @Transactional
-public class NaChangePlanOnileSv extends BaseService{
+public class ChangePlanOnileSv extends BaseService{
 	@Autowired
 	private NaChangePlanOnileDao  naChangePlanOnileDao ;
 	
@@ -33,10 +37,13 @@ public class NaChangePlanOnileSv extends BaseService{
 	private PlanDetailManifestDao planDetailManifestDao;
 	
 	@Autowired
-	private NaChangePlanOnileSv   naChangePlanOnileSv;
+	private ChangePlanOnileSv   naChangePlanOnileSv;
 	
 	@Autowired
 	private AigaBossTestResultDao aigaBossTestResultDao;
+	
+	@Autowired
+	private       CodePathDao      codePathDao;
 	
 	public NaChangePlanOnile saveChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 
@@ -218,4 +225,50 @@ public class NaChangePlanOnileSv extends BaseService{
 				
 			return aigaBossTestResultDao.searchByNativeSQL(s.toString());
 		}
+		
+		/**
+		 * 
+		 * @ClassName: NaChangePlanOnileSv :: saveCodeExcel
+		 * @author: liujinfang
+		 * @date: 2017年4月25日 下午3:10:26
+		 *
+		 * @Description:  上线系统模块解析导入
+		 * @param planId
+		 * @param list
+		 */
+		public void saveCodeExcel(Long planId, List<CodePathRequestExcel> list) {
+			if(planId == null || planId < 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+			
+			if(list == null || list.size() <= 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+			
+			
+			List<NaCodePath> values = BeanMapper.mapList(list, CodePathRequestExcel.class, NaCodePath.class);
+			if(values != null){
+				for(NaCodePath v : values){
+					v.setPlanId(planId);
+					
+				}
+			}
+			
+			codePathDao.save(values);
+		}	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 }

@@ -649,7 +649,22 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		
+		// 变更交付物列表
+		getChangeDeliverableList: function(_cmd) {
+			var self = this;
+			var _dom = Page.findId('getChangeDeliverableList');
+			var _domPagination = _dom.find("[name='pagination']");
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getChangeDeliverableList'), _cmd, function(json) {
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getChangeDeliverableList' 即传入'getChangeDeliverableList'
+				var template = Handlebars.compile(Page.findTpl('getChangeDeliverableList'));
+				_dom.find("[name='content']").html(template(json.data.content));
+				Utils.eventTrClickCallback(_dom);
+			}, _domPagination);
+		},
 		//显示上传文件信息
 		uploadDeliverables:function(onlinePlan){
 			var self = this;

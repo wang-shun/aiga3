@@ -3,6 +3,10 @@ define(function(require, exports, module) {
 	//引入公用模块
 	require('global/header.js');
 	require('global/sidebar.js');
+	// 通用工具模块
+    var Utils = require("global/utils.js");
+	 // 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('fault');
 
 	var pathAlias = "problemTracking/fault/";
 	// 显示故障异常
@@ -17,8 +21,8 @@ define(function(require, exports, module) {
 
 	// 模板对象
 	var Tpl = {
-		getFaultList: require('tpl/problemTracking/fault/getFaultList.tpl'),
-		addFaultForm: require('tpl/problemTracking/fault/addFaultForm.tpl'),
+		// getFaultList: require('tpl/problemTracking/fault/getFaultList.tpl'),
+		// addFaultForm: require('tpl/problemTracking/fault/addFaultForm.tpl'),
 		queryOnlinePlanName: require('tpl/netFlowManage/changePlan/changePlanManage/queryOnlinePlanName.tpl'),
 	};
 
@@ -96,34 +100,35 @@ define(function(require, exports, module) {
 		///////初始化///////////
 		getFaultList: function(cmd) {
 			var self = this;
-			var _getFaultList = $(Dom.getFaultList).find("[name='getFaultList']");
-			Rose.ajax.postJson(srvMap.get('getFaultList'), cmd, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.getFaultList);
-					console.log(json.data.content)
-					_getFaultList.html(template(json.data.content));
-					self.addFault();
-					self.updateFault();
-					self.deleteFault();
+			var _dom = Page.findId('getFaultList');
+            var _domPagination = _dom.find("[name='pagination']");
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            // 设置服务器端分页
+            Utils.getServerPage(srvMap.get('getFaultList'), cmd, function(json) {
+                window.XMS.msgbox.hide();
 
-					// 绑定单机当前行事件
-					self.eventClickChecked($(Dom.getFaultList), function() {
+                // 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+                var template = Handlebars.compile(Page.findTpl('getFautList'));
 
-					});
-					// 绑定双击当前行事件
-					self.eventDClickCallback($(Dom.getFaultList), function() {
-						// 请求：用户基本信息
-						//self.seeCase();
-					})
-					self.initPaging($(Dom.getFaultList), 10)
+                _dom.find("[name='content']").html(template(json.data.content));
+                self.addFault();
+				self.updateFault();
+				self.deleteFault();
 
-				}
-			});
+                Utils.eventTrClickCallback(_dom);
+            // 绑定双击当前行事件
+			// 	self.eventDClickCallback($(Dom.getFaultList), function() {
+			// 		// 请求：用户基本信息
+			// 		//self.seeCase();
+			// 	})
+
+            }, _domPagination);
+
 		},
 		//查询按钮
 		queryFaultForm:function(){
 			var self = this;
-			var _form = $(Dom.queryFaultForm);
+			var _form = Page.findId('queryFaultForm');
 			var _query = _form.find("[name='query']");
 			_query.unbind('click');
 			_query.bind('click', function() {
@@ -134,11 +139,10 @@ define(function(require, exports, module) {
 		//新增
 		addFault : function(){
 			var self = this;
-			var _save = $(Dom.getFaultList).find("[name='save']");
-
+			var _save = Page.findId('getFaultList').find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				var template = Handlebars.compile(Tpl.addFaultForm);
+				var template = Handlebars.compile(Page.findTpl('addFaultForm'));
 				$("#JS_addFaultForm").html(template({}));
 				self.bugLevel($("#JS_addFaultForm"));
 				Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
@@ -187,7 +191,7 @@ define(function(require, exports, module) {
 				if (_data) {
 					Rose.ajax.postJson(srvMap.get('findOne'), "bugId=" + _bugId, function(json, status) {
 						if (status) {
-							var template = Handlebars.compile(Tpl.addFaultForm);
+							var template = Handlebars.compile(Page.findTpl('addFaultForm'));
 							console.log(json.data)
 							$("#JS_addFaultForm").html(template(json.data));
 							var onlinePlans=json.data.onlinePlans;

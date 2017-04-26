@@ -33,12 +33,18 @@ define(function(require, exports, module) {
 	srvMap.add("seeChangeList", pathAlias + "seeChangeList.json", "sys/change/list");
 	//保存变更状态
 	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/change/save");
-	//上传交付物
-	srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "sys/change/save");
+	//上传上线交付物文件显示
+	srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "produce/plan/findNaFileUpload");
 	//变更交付物列表
 	srvMap.add("getChangeDeliverableList", pathAlias + "getChangeDeliverableList.json", "");
 	//getCategory
 	srvMap.add("getCategory", pathAlias + "getDeliverablesList.json", "sys/organize/constants");
+	//主机配置导入
+	srvMap.add("uploadNaHostConfigList", pathAlias + "getDeliverablesList.json", "produce/plan/uploadNaHostConfigList");
+	//服务变更上线清单
+	srvMap.add("uploadNaServiceChangeOnlineList", pathAlias + "getDeliverablesList.json", "produce/plan/uploadNaServiceChangeOnlineList");
+	//进程变更清单
+	srvMap.add("uploadNaProcessChangeList", pathAlias + "getDeliverablesList.json", "produce/plan/uploadNaProcessChangeList");
 
 
 
@@ -128,6 +134,29 @@ define(function(require, exports, module) {
 					return "否";
 				} else if (value == 1) {
 					return "文件类型1";
+				}
+			});
+			Handlebars.registerHelper("getFileType", function(value) {
+				if (value == 1) {
+					return "上线系统模块清单";
+				} else if (value == 2) {
+					return "计划上线清单";
+				} else if (value == 3) {
+					return "测试遗留问题清单";
+				} else if (value == 4) {
+					return "测试情况";
+				} else if (value == 5) {
+					return "进程变更清单";
+				} else if (value == 6) {
+					return "服务变更上线清单";
+				} else if (value == 7) {
+					return "主机类配置";
+				} else if (value == 8) {
+					return "需联调需求";
+				} else if (value == 9) {
+					return "生产环境需配置菜单需求";
+				} else if (value == 10) {
+					return "集团需求";
 				}
 			});
 		},
@@ -338,7 +367,6 @@ define(function(require, exports, module) {
 							var template = Handlebars.compile(Page.findTpl('addChangePlanForm'));
 							console.log(json.data.content[0])
 							var _form = $(Dom.addChangePlanForm).find("[name='addChangePlanForm']");
-							alert();
 							var types=json.data.content[0].types
 							var timely = json.data.content[0].timely
 							$(Dom.addChangePlanForm).html(template(json.data.content[0]));
@@ -629,14 +657,14 @@ define(function(require, exports, module) {
 			var _upload = $("#JS_changePlanOnlie").find("[name='upload']");
 			_upload.unbind('click');
 			_upload.bind('click', function() {
-				alert()
 				var _data = self.getTaskRow();
 				var _ty = Utils.getRadioCheckedRow($(Dom.getChangePlanOnlieList));
 				_types = _ty.types;
 				if (_data) {
 					if (_types=="0" || _types=="1") {
-					//弹出层
+						//弹出层
 						$("#JS_addDdeliverablesModal").modal('show').on('shown.bs.modal', function() {
+							Utils.setSelectData(Page.findModalCId('uploadDeliveryForm'));
 							self.uploadDeliverables(_data.onlinePlan);
 							self.uploadAnNiu(_data.onlinePlan);
 						})
@@ -683,7 +711,7 @@ define(function(require, exports, module) {
                 Utils.eventTrClickCallback(_dom);
             }, _domPagination);
 		},
-		//上传按钮
+		//上传上线交付物按钮
 		uploadAnNiu:function(planId){
 			var self = this;
             var _form = Page.findModalCId('uploadDeliveryForm');
@@ -695,38 +723,47 @@ define(function(require, exports, module) {
             	var cmd = {
             			"file":_form.find("[name='fileName']")[0].files[0],
             			"planId":planId,
+            			"fileType":a,
             	}
             	console.log(_form.find("[name='fileName']"));
             	switch(a){
-            		case "1"://接口清单
+            		case "1"://上线系统模块清单//计划上线清单//测试遗留问题清单//测试情况//进程变更清单//服务变更上线清单//主机类配置//需联调需求//生产环境需配置菜单需求//集团需求
             			var task = srvMap.get('exception');
-            			self.jieko(task,cmd,a,planId)
+            			self.jieko(task,cmd,planId)
             			break;
-            		case "2"://需求清单
+            		case "2"://计划上线清单
             			var task = srvMap.get('processexcels');
-            			self.jieko(task,cmd,a,planId)
+            			self.jieko(task,cmd,planId)
             			break;
-            		case "3"://设计文档交付物
+            		case "3"://测试遗留问题清单
             			var task = srvMap.get('releaseexcel');
-            			self.jieko(task,cmd,a,planId)
+            			self.jieko(task,cmd,planId)
             			break;
-            		case "4"://其他交付物
+            		case "4"://测试情况
             			var task = srvMap.get('releasestageexcel');
-            			self.jieko(task,cmd,a,planId)
+            			self.jieko(task,cmd,planId)
             			break;
-            		case "5"://平台变更清单
-            			var task = srvMap.get('processexcel');
-            			self.jieko(task,cmd,a,planId)
+            		case "5"://进程变更清单
+            			var task = srvMap.get('uploadNaProcessChangeList');
+            			self.jieko(task,cmd,planId)
             			break;
-            		case "6"://测试报告
-            			var task = srvMap.get('processexcel');
-            			self.jieko(task,cmd,a,planId)
+            		case "6"://服务变更上线清单
+            			var task = srvMap.get('uploadNaServiceChangeOnlineList');
+            			self.jieko(task,cmd,planId)
             			break;
             		case "7"://主机类配置
-            			var task = srvMap.get('processexcel');
-            			self.jieko(task,cmd,a,planId)
+            			var task = srvMap.get('uploadNaHostConfigList');
+            			self.jieko(task,cmd,planId)
             			break;
-            		case "8"://进程变更清单
+            		case "8"://需联调需求
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,planId)
+            			break;
+            		case "9"://生产环境需配置菜单需求
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,planId)
+            			break;
+            		case "10"://集团需求
             			var task = srvMap.get('processexcel');
             			self.jieko(task,cmd,planId)
             			break;

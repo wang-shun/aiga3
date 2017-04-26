@@ -644,20 +644,20 @@ define(function(require, exports, module) {
 						var _modal = Page.findModal('changeDeliverable');
 						//显示弹框
 						_modal.modal('show');
-						self.getChangeDeliverableList();
+						self.getChangeDeliverableList(_data.onlinePlan);
 						self.importFile();
 					}
 				}
 			});
 		},
 		// 变更交付物列表
-		getChangeDeliverableList: function(_cmd) {
+		getChangeDeliverableList: function(planId) {
 			var self = this;
 			var _dom = Page.findId('getChangeDeliverableList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getChangeDeliverableList'), _cmd, function(json) {
+			Utils.getServerPage(srvMap.get('getChangeDeliverableList'), 'planId=' + planId, function(json) {
 				window.XMS.msgbox.hide();
 
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getChangeDeliverableList' 即传入'getChangeDeliverableList'

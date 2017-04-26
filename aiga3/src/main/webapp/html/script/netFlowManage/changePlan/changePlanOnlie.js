@@ -755,7 +755,7 @@ define(function(require, exports, module) {
             			self.jieko(task,cmd,planId)
             			break;
             		case "4"://测试情况
-            			var task = srvMap.get('releasestageexcel');
+            			var task = srvMap.get('testsituationexcel');
             			self.jieko(task,cmd,planId)
             			break;
             		case "5"://进程变更清单
@@ -790,12 +790,24 @@ define(function(require, exports, module) {
 			var self = this;
             var _form = Page.findId('changeDeliverableForm');
             var _importFile = _form.find("[name='importFile']");
-            
-			if(planState=="3" || planState=="4"){
+			//alert((new Date()).toLocaleString());
+            /*var startTime=fileUploadLastTime;
+		    var start=startTime.replace("-", "/").replace("-", "/");
+		    alert(start);*/
+		    var endTime=(new Date()).toLocaleString();
+		    var end=endTime.replace("-", "/").replace("-", "/");
+		    alert(end);
+		    /*if(end<start){
+		        return false;
+		    }*/
+			/*if(fileUploadLastTime<(new Date()).toLocaleString()){
+				_importFile.attr("disabled", true);
+			}*/
+			/*if(planState=="3" || planState=="4"){
 				_importFile.attr("disabled", true);
 			}else{
 				_importFile.removeAttr("disabled");
-			}
+			}*/
             _importFile.unbind('click');
             _importFile.bind('click', function() {
             	var fileName = _form.find("[name='fileName']")[0].files[0];

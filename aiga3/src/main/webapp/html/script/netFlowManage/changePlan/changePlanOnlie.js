@@ -751,7 +751,7 @@ define(function(require, exports, module) {
             			self.jieko(task,cmd,planId)
             			break;
             		case "3"://测试遗留问题清单
-            			var task = srvMap.get('releaseexcel');
+            			var task = srvMap.get('leaveexcel');
             			self.jieko(task,cmd,planId)
             			break;
             		case "4"://测试情况

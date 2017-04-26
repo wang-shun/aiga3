@@ -88,7 +88,7 @@ public class NaChangePlanOnileSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "");
 		}
 		
-		NaChangePlanOnile naChangePlanOnile=new NaChangePlanOnile();
+		NaChangePlanOnile naChangePlanOnile=naChangePlanOnileDao.findOne(request.getOnlinePlan());
 		naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
 		naChangePlanOnile.setPlanDate(request.getPlanDate());
 		naChangePlanOnile.setTypes(request.getTypes());

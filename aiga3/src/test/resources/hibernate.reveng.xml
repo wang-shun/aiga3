@@ -41,8 +41,8 @@
 					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_OPERATION_MANAGER"/>
 					<schema-selection match-schema="AIGA"  match-table="NA_ROLLBACK_METHOD"/>
 					<schema-selection match-schema="AIGA"  match-table="NA_INFORMATION_NOTICE"/>-->
-					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_RESULT_VALIDATE"/>
-					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_SERVICE_VALIDATE"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_RISK_RATING_SCALE"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_QUANTITATIVE_RISK"/>
 				
 
 

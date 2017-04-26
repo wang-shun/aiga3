@@ -2,7 +2,6 @@ package com.ai.aiga.domain;
 // Generated 2017-4-24 15:00:18 by Hibernate Tools 3.2.2.GA
 
 
-import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,12 +19,12 @@ import javax.persistence.Table;
 public class NaWarningShield  implements java.io.Serializable {
 
 
-     private BigDecimal id;
+     private Long id;
      private String shieldHost;
      private String ipAddress;
      private String shieldTime;
      private String shieldContent;
-     private BigDecimal planId;
+     private Long planId;
      private String fileName;
      private String ext1;
      private String ext2;
@@ -35,10 +34,10 @@ public class NaWarningShield  implements java.io.Serializable {
     }
 
 	
-    public NaWarningShield(BigDecimal id) {
+    public NaWarningShield(Long id) {
         this.id = id;
     }
-    public NaWarningShield(BigDecimal id, String shieldHost, String ipAddress, String shieldTime, String shieldContent, BigDecimal planId, String fileName, String ext1, String ext2, String ext3) {
+    public NaWarningShield(Long id, String shieldHost, String ipAddress, String shieldTime, String shieldContent, Long planId, String fileName, String ext1, String ext2, String ext3) {
        this.id = id;
        this.shieldHost = shieldHost;
        this.ipAddress = ipAddress;
@@ -55,11 +54,11 @@ public class NaWarningShield  implements java.io.Serializable {
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="NA_WARNING_SHIELD$SEQ")
      @SequenceGenerator(name="NA_WARNING_SHIELD$SEQ",sequenceName="NA_WARNING_SHIELD$SEQ",allocationSize=1)
     @Column(name="ID", unique=true, nullable=false, precision=22, scale=0)
-    public BigDecimal getId() {
+    public Long getId() {
         return this.id;
     }
     
-    public void setId(BigDecimal id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
@@ -100,11 +99,11 @@ public class NaWarningShield  implements java.io.Serializable {
     }
     
     @Column(name="PLAN_ID", precision=22, scale=0)
-    public BigDecimal getPlanId() {
+    public Long getPlanId() {
         return this.planId;
     }
     
-    public void setPlanId(BigDecimal planId) {
+    public void setPlanId(Long planId) {
         this.planId = planId;
     }
     

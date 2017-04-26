@@ -645,7 +645,7 @@ define(function(require, exports, module) {
 						//显示弹框
 						_modal.modal('show');
 						self.getChangeDeliverableList(_data.onlinePlan);
-						self.importFile();
+						self.importFile(_data.onlinePlan);
 					}
 				}
 			});
@@ -734,7 +734,7 @@ define(function(require, exports, module) {
             });
 		},
 		// 变更交付物导入文件
-		importFile:function(){
+		importFile:function(planId){
 			var self = this;
             var _form = Page.findId('changeDeliverableForm');
             var _importFile = _form.find("[name='importFile']");
@@ -747,12 +747,13 @@ define(function(require, exports, module) {
             			"category" : category,
             			"planId" : planId,
             	}
-            	switch(a){
-            		case "1"://接口清单
-            			var task = srvMap.get('exception');
-            			self.jieko(task,cmd,a,planId)
+            	switch(category){
+            		// 变更交付物
+            		case "20":
+            			var task = srvMap.get('importFile');
+            			self.interface(task,cmd,planId)
             			break;
-            		case "2"://需求清单
+            		/*case "2"://需求清单
             			var task = srvMap.get('processexcels');
             			self.jieko(task,cmd,a,planId)
             			break;
@@ -779,10 +780,26 @@ define(function(require, exports, module) {
             		case "8"://进程变更清单
             			var task = srvMap.get('processexcel');
             			self.jieko(task,cmd,planId)
-            			break;
+            			break;*/
             	}
             });
 		},
+		interface : function(task,cmd,planId){
+	    	var self = this;
+	    	$.ajaxUpload({
+                url: task,
+                data: cmd,
+                success: function(data, status, xhr) {
+                    console.log(data);
+                    if (status) {
+                        window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                        setTimeout(function() {
+                            self.getChangeDeliverableList(planId);
+                        }, 1000)
+                    }
+                }
+            });
+        },
 		jieko : function(task,cmd,planId){
 	    	var self = this;
 	    	$.ajaxUpload({

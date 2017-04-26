@@ -42,6 +42,12 @@ public class NaFileUpload  implements java.io.Serializable {
     public NaFileUpload(Long id) {
         this.id = id;
     }
+    
+    public NaFileUpload(String fileName, Date createTime) {
+        this.fileName = fileName;
+        this.createTime = createTime;
+    }
+    
     public NaFileUpload(Long id, String fileName, Date createTime, Date lastUploadTime, Long uploadCount, Date downLoadTime, Long planId, String ext1, String ext2, String ext3, Long fileType) {
        this.id = id;
        this.fileName = fileName;

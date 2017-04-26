@@ -18,5 +18,9 @@ SearchAndPageRepository<NaAutoMachine, Long>
     List<NaAutoMachine> findMachineIpByTaskId(Long taskId);
     
     NaAutoMachine findByMachineIp(String machineIp);
+    
+    List<NaAutoMachine> findByStatusNot(Long status);
+
+    List<NaAutoMachine> findByStatus(Long status);
 
 }

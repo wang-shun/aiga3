@@ -1,0 +1,54 @@
+{
+    "retCode":"200",
+    "retMessage":null,
+    "data":{
+        "totalElements":12, //总条数
+  	     "content":
+         [{
+            "id": "1",
+    	    "fileName": "文件名称1",
+    	    "createTime":"2017-2-02 08:00:00",
+	        "lastUploadTime": "2017-2-02 08:00:00",
+		    "uploadCount":"1",
+	        "downLoadTime": "2017-2-02 08:00:00",
+		    "fileType":"1",
+	        "fileUploadLastTime": "2017-2-02 08:00:00"
+        },{
+      		"id": "1",
+    	    "fileName": "文件名称1",
+    	    "createTime":"2017-2-02 08:00:00",
+	        "lastUploadTime": "2017-2-02 08:00:00",
+		    "uploadCount":"1",
+	        "downLoadTime": "2017-2-02 08:00:00",
+		    "fileType":"1",
+	        "fileUploadLastTime": "2017-2-02 08:00:00"
+        },{
+      		"id": "1",
+    	    "fileName": "文件名称1",
+    	    "createTime":"2017-2-02 08:00:00",
+	        "lastUploadTime": "2017-2-02 08:00:00",
+		    "uploadCount":"1",
+	        "downLoadTime": "2017-2-02 08:00:00",
+		    "fileType":"1",
+	        "fileUploadLastTime": "2017-2-02 08:00:00"
+        },{
+      		"id": "1",
+    	    "fileName": "文件名称1",
+    	    "createTime":"2017-2-02 08:00:00",
+	        "lastUploadTime": "2017-2-02 08:00:00",
+		    "uploadCount":"1",
+	        "downLoadTime": "2017-2-02 08:00:00",
+		    "fileType":"1",
+	        "fileUploadLastTime": "2017-2-02 08:00:00"
+        },{
+      		"id": "1",
+    	    "fileName": "文件名称1",
+    	    "createTime":"2017-2-02 08:00:00",
+	        "lastUploadTime": "2017-2-02 08:00:00",
+		    "uploadCount":"1",
+	        "downLoadTime": "2017-2-02 08:00:00",
+		    "fileType":"1",
+	        "fileUploadLastTime": "2017-2-02 08:00:00"
+        }]
+    }
+}

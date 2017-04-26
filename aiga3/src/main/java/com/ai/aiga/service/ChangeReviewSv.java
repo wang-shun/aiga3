@@ -268,9 +268,13 @@ public class ChangeReviewSv extends BaseService{
 				
 				
 				
-				if(StringUtils.isNotBlank(NaTestSituation.getExt2())){
+				/*if(StringUtils.isNotBlank(NaTestSituation.getExt2())){
 				NaTestSituation1.setExt2(NaTestSituation.getExt2());
-				}
+				}*/
+				
+				if(StringUtils.isNotBlank(NaTestSituation.getTestSituation())){
+					NaTestSituation1.setTestSituation(NaTestSituation.getTestSituation());
+					}
 				
 				testSituationDao.save(NaTestSituation1);
 					

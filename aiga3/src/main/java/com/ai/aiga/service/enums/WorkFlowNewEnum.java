@@ -14,7 +14,10 @@ public enum WorkFlowNewEnum {
 	CHANGE_PLAN_PLANONLINE(1L, "计划上线"),
 	CHANGE_PLAN_PLANCHANGE(2L , "计划变更"),
 	CHANGE_PLAN_EMERGENTONLINE(3L , "紧急上线"),
-	CHANGE_PLAN_EMERGENTCHANGE(4L , "紧急变更");
+	CHANGE_PLAN_EMERGENTCHANGE(4L , "紧急变更"),
+	
+	ReviewResult_Yes(1L , "评审通过"),
+	ReviewResult_No(2L , "评审不通过");
 
     private Long value;
     private String show;

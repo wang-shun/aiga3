@@ -1,37 +1,63 @@
 package com.ai.aiga.service.PlanOnile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaBossTestResultDao;
 import com.ai.aiga.dao.CodePathDao;
 import com.ai.aiga.dao.DatabaseConfiDao;
 import com.ai.aiga.dao.DatabaseScriptListDao;
 import com.ai.aiga.dao.DbScriptListDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
+
 import com.ai.aiga.dao.NaRequireListDao;
+
+import com.ai.aiga.dao.NaFileUploadDao;
+import com.ai.aiga.dao.NaHostConfigListDao;
+import com.ai.aiga.dao.NaProcessChangeListDao;
+import com.ai.aiga.dao.NaServiceChangeOnlineListDao;
+
 import com.ai.aiga.dao.PlanDetailManifestDao;
+
 import com.ai.aiga.dao.TestLeaveOverDao;
 import com.ai.aiga.dao.TestSituationDao;
+
+import com.ai.aiga.dao.jpa.Condition;
+
 import com.ai.aiga.domain.NaChangePlanOnile;
 import com.ai.aiga.domain.NaCodePath;
+
 import com.ai.aiga.domain.NaDatabaseConfiScript;
 import com.ai.aiga.domain.NaDatabaseScriptList;
 import com.ai.aiga.domain.NaDbScriptList;
 import com.ai.aiga.domain.NaRequireList;
 import com.ai.aiga.domain.NaTestLeaveOver;
 import com.ai.aiga.domain.NaTestSituation;
+
+import com.ai.aiga.domain.NaFileUpload;
+import com.ai.aiga.domain.NaHostConfigList;
+import com.ai.aiga.domain.NaProcessChangeList;
+import com.ai.aiga.domain.NaServiceChangeOnlineList;
+
 import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.workFlowNew.dto.NaHostConfigListExcel;
+import com.ai.aiga.service.workFlowNew.dto.NaProcessChangeListExcel;
+import com.ai.aiga.service.workFlowNew.dto.NaServiceChangeOnlineListExcel;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
@@ -56,10 +82,22 @@ public class ChangePlanOnileSv extends BaseService{
 	private PlanDetailManifestDao planDetailManifestDao;
 	
 	@Autowired
+	private NaProcessChangeListDao naProcessChangeListDao;
+	
+	@Autowired
+	private NaHostConfigListDao naHostConfigListDao;
+	
+	@Autowired
 	private ChangePlanOnileSv   naChangePlanOnileSv;
 	
 	@Autowired
 	private AigaBossTestResultDao aigaBossTestResultDao;
+	
+	@Autowired
+	private NaServiceChangeOnlineListDao naServiceChangeOnlineListDao;
+	
+	@Autowired
+	private NaFileUploadDao naFileUploadDao;
 	
 	@Autowired
 	private       CodePathDao      codePathDao;
@@ -240,8 +278,126 @@ public class ChangePlanOnileSv extends BaseService{
 		}
 		
 		planDetailManifestDao.save(values);
+		
 	}
 	
+	
+
+	/**
+	 * @ClassName: ChangePlanOnileSv :: saveExcelNaProcessChangeList
+	 * @author: lh
+	 * @date: 2017年4月26日 上午11:12:10
+	 *
+	 * @Description:晋城变更清单
+	 * @param planId
+	 * @param list
+	 * @param fileName           
+	 */
+	public void saveExcelNaProcessChangeList(Long planId, List<NaProcessChangeListExcel> list,String fileName) {
+		if(planId == null || planId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+		}
+		
+		if(list == null || list.size() <= 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+		}
+		
+		
+		List<NaProcessChangeList> values = BeanMapper.mapList(list, NaProcessChangeListExcel.class, NaProcessChangeList.class);
+		if(values != null){
+			for(NaProcessChangeList v : values){
+				v.setPlanId(planId);
+				
+			}
+		}
+		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
+		naProcessChangeListDao.save(values);
+		naFileUploadDao.save(fileEntity);
+		
+	}
+	
+	/**
+	 * @ClassName: ChangePlanOnileSv :: saveExcelNaServiceChangeOnlineList
+	 * @author: lh
+	 * @date: 2017年4月26日 上午11:29:12
+	 *
+	 * @Description:服务变更上线清单
+	 * @param planId
+	 * @param list
+	 * @param fileName          
+	 */
+	public void saveExcelNaServiceChangeOnlineList(Long planId, List<NaServiceChangeOnlineListExcel> list,String fileName) {
+		if(planId == null || planId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+		}
+		
+		if(list == null || list.size() <= 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+		}
+		
+		
+		List<NaServiceChangeOnlineList> values = BeanMapper.mapList(list, NaServiceChangeOnlineListExcel.class, NaServiceChangeOnlineList.class);
+		if(values != null){
+			for(NaServiceChangeOnlineList v : values){
+				v.setPlanId(planId);
+				
+			}
+		}
+		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
+		naServiceChangeOnlineListDao.save(values);
+		naFileUploadDao.save(fileEntity);
+		
+	}
+	
+	
+	/**
+	 * @ClassName: ChangePlanOnileSv :: saveExcelNaHostConfigList
+	 * @author: lh
+	 * @date: 2017年4月26日 上午11:34:48
+	 *
+	 * @Description:主机配置
+	 * @param planId
+	 * @param list
+	 * @param fileName          
+	 */
+	public void saveExcelNaHostConfigList(Long planId, List<NaHostConfigListExcel> list,String fileName) {
+		if(planId == null || planId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+		}
+		
+		if(list == null || list.size() <= 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+		}
+		
+		
+		List<NaHostConfigList> values = BeanMapper.mapList(list, NaHostConfigListExcel.class, NaHostConfigList.class);
+		if(values != null){
+			for(NaHostConfigList v : values){
+				v.setPlanId(planId);
+				
+				
+			}
+		}
+		naHostConfigListDao.save(values);
+		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
+		
+		naFileUploadDao.save(fileEntity);
+		
+	}
+	
+	
+	public Page<NaFileUpload> findNaFileUpload(int pageNumber, int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naFileUploadDao.search(cons,pageable);
+	}
 	
 	/**
 	 * 查询包含其他任务的计划

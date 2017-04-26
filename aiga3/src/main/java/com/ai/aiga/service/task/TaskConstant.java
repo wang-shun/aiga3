@@ -42,6 +42,12 @@ public class TaskConstant {
 	
 	
 	
+	/**
+	 * 默认的一些数据
+	 */
+	public static final String TASK_CATEGORY_DEFAULT = "default";
+	
+	
 	
 	
 

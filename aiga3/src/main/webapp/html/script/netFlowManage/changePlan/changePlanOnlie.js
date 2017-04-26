@@ -35,6 +35,8 @@ define(function(require, exports, module) {
 	srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/change/save");
 	//上传交付物
 	srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "sys/change/save");
+	//变更交付物列表
+	srvMap.add("getChangeDeliverableList", pathAlias + "getChangeDeliverableList.json", "");
 	//getCategory
 	srvMap.add("getCategory", pathAlias + "getDeliverablesList.json", "sys/organize/constants");
 
@@ -119,6 +121,13 @@ define(function(require, exports, module) {
 					return "是";
 				} else if (value == 2) {
 					return "否";
+				}
+			});
+			Handlebars.registerHelper("fileTypes", function(value) {
+				if (value == 0) {
+					return "否";
+				} else if (value == 1) {
+					return "文件类型1";
 				}
 			});
 		},
@@ -459,7 +468,7 @@ define(function(require, exports, module) {
 		},
 		//查找需求列表
 		seerequList: function(a,onlinePlan) {
-			var self = this;	
+			var self = this;
 			var _form = $(Dom.addChangePlanForm).find("[name='seeRequFormList']");
 			var _dom = $(Dom.addChangePlanForm).find("[name='seeRequForm']");
 			var cmd = "onlinePlan=" + onlinePlan + "&"+_dom.serialize();
@@ -467,7 +476,7 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.seerequList);
 					console.log(json.data.content)
-					_form.html(template(json.data.content));				
+					_form.html(template(json.data.content));
 					var da=json.data.content;
 					var i=0
 					$(Dom.addChangePlanForm).find("tbody").find("tr").each(function(){
@@ -632,10 +641,30 @@ define(function(require, exports, module) {
 							self.uploadAnNiu(_data.onlinePlan);
 						})
 					}else if (_types=="2" || _types=="3") {
-
+						var _modal = Page.findModal('changeDeliverable');
+						//显示弹框
+						_modal.modal('show');
+						self.getChangeDeliverableList(_data.onlinePlan);
+						self.importFile(_data.onlinePlan);
 					}
 				}
 			});
+		},
+		// 变更交付物列表
+		getChangeDeliverableList: function(planId) {
+			var self = this;
+			var _dom = Page.findId('getChangeDeliverableList');
+			var _domPagination = _dom.find("[name='pagination']");
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getChangeDeliverableList'), 'planId=' + planId, function(json) {
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getChangeDeliverableList' 即传入'getChangeDeliverableList'
+				var template = Handlebars.compile(Page.findTpl('getChangeDeliverableList'));
+				_dom.find("[name='content']").html(template(json.data.content));
+				Utils.eventTrClickCallback(_dom);
+			}, _domPagination);
 		},
 		//显示上传文件信息
 		uploadDeliverables:function(onlinePlan){
@@ -704,6 +733,73 @@ define(function(require, exports, module) {
             	}
             });
 		},
+		// 变更交付物导入文件
+		importFile:function(planId){
+			var self = this;
+            var _form = Page.findId('changeDeliverableForm');
+            var _importFile = _form.find("[name='importFile']");
+            _importFile.unbind('click');
+            _importFile.bind('click', function() {
+            	var fileName = _form.find("[name='fileName']")[0].files[0];
+            	var category = _form.find("[name='category']").val();
+            	var cmd = {
+            			"fileName" : fileName,
+            			"category" : category,
+            			"planId" : planId,
+            	}
+            	switch(category){
+            		// 变更交付物
+            		case "20":
+            			var task = srvMap.get('importFile');
+            			self.interface(task,cmd,planId)
+            			break;
+            		/*case "2"://需求清单
+            			var task = srvMap.get('processexcels');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "3"://设计文档交付物
+            			var task = srvMap.get('releaseexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "4"://其他交付物
+            			var task = srvMap.get('releasestageexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "5"://平台变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "6"://测试报告
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "7"://主机类配置
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "8"://进程变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,planId)
+            			break;*/
+            	}
+            });
+		},
+		interface : function(task,cmd,planId){
+	    	var self = this;
+	    	$.ajaxUpload({
+                url: task,
+                data: cmd,
+                success: function(data, status, xhr) {
+                    console.log(data);
+                    if (status) {
+                        window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                        setTimeout(function() {
+                            self.getChangeDeliverableList(planId);
+                        }, 1000)
+                    }
+                }
+            });
+        },
 		jieko : function(task,cmd,planId){
 	    	var self = this;
 	    	$.ajaxUpload({

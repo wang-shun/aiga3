@@ -31,8 +31,10 @@ public class NaChangeReview  implements java.io.Serializable {
      private String reviewer;
      private String remark;
      private String ext1;
-     private String ext2;
+     private Long ext2;
      private String ext3;
+     private Date planReviewDate ;// 
+     private  Long reviewNum ;//
 
     public NaChangeReview() {
     }
@@ -41,7 +43,7 @@ public class NaChangeReview  implements java.io.Serializable {
     public NaChangeReview(Long reviewId) {
         this.reviewId = reviewId;
     }
-    public NaChangeReview(Long reviewId, Long onlinePlanId, Long conclusion, String reviewResult, Date reviewDate, String reviewer, String remark, String ext1, String ext2, String ext3) {
+    public NaChangeReview(Long reviewId, Long onlinePlanId, Long conclusion, String reviewResult, Date reviewDate, String reviewer, String remark, String ext1, Long ext2, String ext3) {
        this.reviewId = reviewId;
        this.onlinePlanId = onlinePlanId;
        this.conclusion = conclusion;
@@ -64,6 +66,24 @@ public class NaChangeReview  implements java.io.Serializable {
     
     public void setReviewId(Long reviewId) {
         this.reviewId = reviewId;
+    }
+    
+    @Column(name="PLAN_REVIEW_DATE", precision=12, scale=0)
+    public Date getPlanReviewDate() {
+        return this.planReviewDate;
+    }
+    
+    public void setPlanReviewDate(Date planReviewDate) {
+        this.planReviewDate = planReviewDate;
+    }
+    
+    @Column(name="REVIEW_NUM", precision=12, scale=0)
+    public Long getReviewNum() {
+        return this.reviewNum;
+    }
+    
+    public void setReviewNum(Long reviewNum) {
+        this.reviewNum = reviewNum;
     }
     
     @Column(name="ONLINE_PLAN_ID", precision=12, scale=0)
@@ -130,11 +150,11 @@ public class NaChangeReview  implements java.io.Serializable {
     }
     
     @Column(name="EXT_2", length=20)
-    public String getExt2() {
+    public Long getExt2() {
         return this.ext2;
     }
     
-    public void setExt2(String ext2) {
+    public void setExt2(Long ext2) {
         this.ext2 = ext2;
     }
     

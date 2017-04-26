@@ -30,9 +30,9 @@ define(function(require, exports, module) {
 
     // 模板对象
     var Tpl = {
-        getAutoCaseList: require('tpl/autoManage/autoCaseMng/autoCaseList.tpl'), //计划列表
-        getSideAutoCompList: require('tpl/autoManage/autoCaseMng/sideTempCompList.tpl'),
-        getParameterList: require('tpl/autoManage/autoCaseMng/parameterList.tpl')
+        getAutoCaseList: $("#TPL_autoCaseList").html(), //计划列表
+        getSideAutoCompList: $("#TPL_sideTempCompList").html(),
+        getParameterList: $("#TPL_parameterList").html(),
 
     };
 
@@ -120,15 +120,18 @@ define(function(require, exports, module) {
         },
         getAutoCaseList: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getAutoCaseList'), cmd, function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getAutoCaseList);
-                    console.log(json.data)
-                    $(Dom.getAutoCaseList).html(template(json.data.content));
-                    Utils.eventClickChecked($(Dom.getAutoCaseList));
-                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
-                }
-            });
+            var _dom = $(Dom.getAutoCaseList);
+            var pagination = _dom.find(".dataTables_paginate");
+
+            Utils.getServerPage(srvMap.get('getAutoCaseList'), cmd, function(json) {
+
+                var template = Handlebars.compile(Tpl.getAutoCaseList);
+                console.log(json.data)
+                _dom.find("tbody").html(template(json.data.content));
+                Utils.eventClickChecked($(Dom.getAutoCaseList));
+                // Utils.setScroll($(Dom.getAutoPlanList),380px);
+
+            }, pagination);
         },
         queryAutoCase: function() {
             var self = this;

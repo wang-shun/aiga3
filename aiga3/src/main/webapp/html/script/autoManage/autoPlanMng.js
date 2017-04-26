@@ -57,16 +57,16 @@ define(function(require, exports, module) {
 
     // 模板对象
     var Tpl = {
-        getAutoPlanList: require('tpl/autoManage/autoPlanMng/autoPlanList.tpl'), //计划列表
-        modalAutoPlanInfo: require('tpl/autoManage/autoPlanMng/modalAutoPlanInfo.tpl'), //modal新增
-        modalLinkCase: require('tpl/autoManage/autoPlanMng/modalLinkCase.tpl'), //modal关联
-        modalNewTaskInfo: require('tpl/autoManage/autoPlanMng/modalNewTaskInfo.tpl'), //modal生成任务
+        getAutoPlanList: $("#TPL_autoPlanList").html(), //计划列表
+        modalAutoPlanInfo: $("#TPL_modalAutoInfo").html(), //modal新增
+        modalLinkCase: $("#TPL_modalLinkCase").html(), //modal关联
+        modalNewTaskInfo: $("#TPL_modalNewTaskInfo").html(), //modal生成任务
 
-        autoCaseList: require('tpl/autoManage/autoPlanMng/autoCaseList.tpl'), //用例列表
-        caseGroupList: require('tpl/autoManage/autoPlanMng/caseGroupList.tpl'), //用例组列表
-        caseCollectList: require('tpl/autoManage/autoPlanMng/caseCollectList.tpl'), //用例集列表
+        autoCaseList: $("#TPL_autoCaseList").html(), //用例列表
+        caseGroupList: $("#TPL_caseGroupList").html(), //用例组列表
+        caseCollectList: $("#TPL_caseCollectList").html(), //用例集列表
 
-        machineList: require('tpl/autoManage/autoPlanMng/machineList.tpl'), //主机列表
+        machineList: $("#TPL_machineList").html(), //主机列表
 
 
 
@@ -77,7 +77,7 @@ define(function(require, exports, module) {
         getAutoPlanList: '#JS_getAutoPlanList', //table对象
         queryPlanForm: '#JS_queryPlanForm', //查询表单
 
-        planInfoForm: '#Js_planInfoForm',
+        planInfoForm: '#JS_planInfoForm',
         modalPlanForm: '#modal_autoPlanForm',
         //modal
 
@@ -135,6 +135,15 @@ define(function(require, exports, module) {
                     return "占用";
                 }
             });
+            Handlebars.registerHelper("transformatEnv", function(value) {
+                if (value == 1) {
+                    return "验收环境";
+                } else if (value == 2) {
+                    return "准发布环境";
+                } else if (value == 3) {
+                    return "生产环境";
+                }
+            });
             Handlebars.registerHelper("transformatTaskId", function(value) {
                 var cmd = "taskId=" + value;
                 Rose.ajax.postJson(srvMap.get('getTaskInfo'), cmd, function(json, status) {
@@ -145,20 +154,20 @@ define(function(require, exports, module) {
         },
         getPlanList: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getAutoPlanList'), cmd, function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getAutoPlanList);
-                    console.log(json.data)
-                    $(Dom.getAutoPlanList).html(template(json.data.content));
-                    self.eventClickChecked($(Dom.getAutoPlanList));
+            var _dom = $(Dom.getAutoPlanList);
+            var pagination = _dom.find(".dataTables_paginate");
+            Utils.getServerPage(srvMap.get('getAutoPlanList'), cmd, function(json) {
 
+                var template = Handlebars.compile(Tpl.getAutoPlanList);
+                console.log(json.data)
+                _dom.find("tbody").html(template(json.data.content));
 
-                    Utils.eventDClickCallback($(Dom.getAutoPlanList), function() {
-                        self.editAutoPlan();
-                    });
-                    // Utils.setScroll($(Dom.getAutoPlanList),380px);
-                }
-            });
+                self.eventClickChecked($(Dom.getAutoPlanList), function() {
+                    self.editAutoPlan();
+                });
+                // Utils.setScroll($(Dom.getAutoPlanList),380px);
+
+            }, pagination);
         },
         queryAutoPlan: function() {
             var self = this;
@@ -166,34 +175,30 @@ define(function(require, exports, module) {
             // 表单提交
             _form.find('button[name="submit"]').bind('click', function() {
 
-                    var cmd = $(Dom.queryPlanForm).serialize();
-                    self.getPlanList(cmd);
-                })
-                // 表单重置
-            _form.find('button[name="reset"]').bind('click', function() {
-                $("#queryPlanName").val('');
-                $("#query_runType").val('');
-                $("#createTime").val('');
-                $("#updateTime").val('');
+                var cmd = $(Dom.queryPlanForm).serialize();
+                self.getPlanList(cmd);
             });
+            // 表单重置
+
         },
         //新增计划
         addAutoPlan: function() {
             var self = this;
+            var _dom = $(Dom.modalPlanForm);
             $(Dom.addPlan).bind('click', function() {
                 var time = self.getDate();
                 $(Dom.modalPlanForm).find("h4").html("新增计划");
-                $(Dom.modalPlanForm).find("[name='planTag']").val(time.planTag);
-                $(Dom.modalPlanForm).find("[name='planId']").val('');
-                $(Dom.modalPlanForm).find("[name='planName']").val('');
-                $(Dom.modalPlanForm).find("[name='cycleType']").val('');
-                $(Dom.modalPlanForm).find("[name='runType']").val('');
-                $(Dom.modalPlanForm).find("[name='machineIp']").val('');
+                _dom.find("input").val("");
+                _dom.find("select").val("");
+                _dom.find("[name='planTag']").val(time.planTag);
             });
             $(Dom.modalPlanForm).find("button[name='submit']").bind('click', function() {
-                var cmd = $(Dom.planInfoForm).serialize();
-                self.saveAutoPlan(cmd);
-                $(Dom.modalPlanForm).modal('hide');
+                Utils.checkForm(_dom, function() {
+                    var cmd = $(Dom.planInfoForm).serialize();
+                    self.saveAutoPlan(cmd);
+                    $(Dom.modalPlanForm).modal('hide');
+                });
+
             });
             $(Dom.modalPlanForm).find("button[name='cancel']").bind('click', function() {
                 $(Dom.modalPlanForm).modal('hide');
@@ -242,7 +247,7 @@ define(function(require, exports, module) {
                 });
                 cmd = cmd.substring(0, cmd.length - 1);
                 if (id) {
-                    Rose.ajax.getJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('deleAutoPlan'), cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('计划删除成功！', 'success', 2000);
                             setTimeout(function() {
@@ -464,7 +469,7 @@ define(function(require, exports, module) {
                         window.XMS.msgbox.show('定时执行计划不支持一键执行', 'error', 2000);
                         return;
                     }
-                    Rose.ajax.getJson(srvMap.get('runPlan'), cmd, function(json, status) {
+                    Rose.ajax.postJson(srvMap.get('runPlan'), cmd, function(json, status) {
 
                         if (status) {
                             window.XMS.msgbox.show('任务生成成功！', 'success', 2000);
@@ -494,7 +499,7 @@ define(function(require, exports, module) {
             if (empty) {
                 $(Dom.modalNewTaskForm).find("tbody").empty();
             }
-            Rose.ajax.getJson(srvMap.get('machineList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('machineList'), cmd, function(json, status) {
                 if (status) {
                     console.log(json.data);
                     var template = Handlebars.compile(Tpl.machineList);
@@ -530,7 +535,7 @@ define(function(require, exports, module) {
             if (state == 1) {
                 cmd = "planId=" + nowPlanId + "&caseIds=" + cmd;
 
-                Rose.ajax.getJson(srvMap.get('deleLinkCase'), cmd, function(json, status) {
+                Rose.ajax.postJson(srvMap.get('deleLinkCase'), cmd, function(json, status) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkCaseList("planId=" + nowPlanId);
@@ -539,7 +544,7 @@ define(function(require, exports, module) {
                 });
             } else if (state == 2) {
                 cmd = "planId=" + nowPlanId + "&groupIds=" + cmd;
-                Rose.ajax.getJson(srvMap.get('deleLinkCaseGroup'), cmd, function(json, status) {
+                Rose.ajax.postJson(srvMap.get('deleLinkCaseGroup'), cmd, function(json, status) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkGroupList("planId=" + nowPlanId);
@@ -548,7 +553,7 @@ define(function(require, exports, module) {
                 });
             } else if (state == 3) {
                 cmd = "planId=" + nowPlanId + "&collectIds=" + cmd;
-                Rose.ajax.getJson(srvMap.get('deleLinkCaseCollect'), cmd, function(json, status) {
+                Rose.ajax.postJson(srvMap.get('deleLinkCaseCollect'), cmd, function(json, status) {
                     if (status) {
                         setTimeout(function() {
                             self.getUnLinkCollectList("planId=" + nowPlanId);
@@ -562,7 +567,7 @@ define(function(require, exports, module) {
         //关联用例
         linkCasees: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('linkCase'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('linkCase'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.show('关联成功！', 'success', 2000);
                     self.getUnLinkCaseList("planId=" + nowPlanId);
@@ -574,7 +579,7 @@ define(function(require, exports, module) {
         //关联用例组
         linkCaseGroup: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('linkCaseGroup'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('linkCaseGroup'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.show(JSON.stringify(json.data.info), 'success', 2000);
                     self.getUnLinkGroupList("planId=" + nowPlanId);
@@ -586,7 +591,7 @@ define(function(require, exports, module) {
         //关联用例集
         linkCaseCollect: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('linkCaseCollect'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('linkCaseCollect'), cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.show(JSON.stringify(json.data.info), 'success', 2000);
                     self.getUnLinkCollectList("planId=" + nowPlanId);
@@ -599,7 +604,7 @@ define(function(require, exports, module) {
         //未关联用例列表
         getUnLinkCaseList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('unLinkCaseList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('unLinkCaseList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.autoCaseList);
                     console.log(json.data)
@@ -618,7 +623,7 @@ define(function(require, exports, module) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.autoCaseList);
                     console.log(json.data)
-                    var list = $("#Js_linked");
+                    var list = $("#JS_linked");
                     list.html(template(json.data.content));
                     Utils.eventClickChecked(list);
                     // Utils.setScroll($(Dom.getAutoPlanList),380px);
@@ -628,7 +633,7 @@ define(function(require, exports, module) {
         //未关联用例组列表
         getUnLinkGroupList: function(cmd) {
             var self = this;
-            Rose.ajax.getJson(srvMap.get('unLinkCaseGroupList'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('unLinkCaseGroupList'), cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.caseGroupList);
                     console.log(json.data)
@@ -725,11 +730,13 @@ define(function(require, exports, module) {
         },
         eventClickChecked: function(obj, callback) {
             obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
             });
             obj.find("tr").bind('click', function(event) {
                 $(this).find('.minimal').iCheck('check');
+            });
+            obj.find("tr").bind('dblclick ', function(event) {
                 if (callback) {
                     callback();
                 }

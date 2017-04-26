@@ -12,5 +12,4 @@ import com.ai.aiga.domain.OnlineSituationReport;
 public interface OnlineSituationReportDao  extends JpaRepository<OnlineSituationReport, Long>, SearchAndPageRepository<OnlineSituationReport, Long> {
 	
 
-	public List<OnlineSituationReport> findNewwestPlan();
 }

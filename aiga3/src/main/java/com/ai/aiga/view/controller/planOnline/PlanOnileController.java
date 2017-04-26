@@ -20,6 +20,7 @@ import com.ai.aiga.service.workFlowNew.dto.NaServiceChangeOnlineListExcel;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.controller.planOnline.dto.CodePathRequestExcel;
 import com.ai.aiga.view.controller.planOnline.dto.NaChangePlanOnileRequest;
+import com.ai.aiga.view.controller.planOnline.dto.NaGroupAdjustListExcel;
 import com.ai.aiga.view.controller.planOnline.dto.RequireListExcel;
 import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverExcel;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -249,6 +250,42 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		Object NaFileUploadList = naChangePlanOnileSv.findNaFileUpload(pageNumber, pageSize);
 		bean.setData(NaFileUploadList);
+		return bean;
+	}
+	
+	//需联调需求解析
+	@RequestMapping(path = "/group/adjust/adjustListExcel")
+	public @ResponseBody JsonBean naGroupAdjustListExcel(
+			@RequestParam Long planId,
+			@RequestParam MultipartFile file ){
+		JsonBean bean = new JsonBean();
+		try {
+			List<NaGroupAdjustListExcel> list = POIExcelUtil.excelToList(file, NaGroupAdjustListExcel.class);
+			String fileName = file.getName();
+			naChangePlanOnileSv.naGroupAdjustListExcel(planId, list,fileName);
+			
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+	
+	//集团需求解析
+	@RequestMapping(path = "/group/adjust/adjustListExcel")
+	public @ResponseBody JsonBean naGroupRequireList(
+			@RequestParam Long planId,
+			@RequestParam MultipartFile file ){
+		JsonBean bean = new JsonBean();
+		try {
+			List<NaGroupAdjustListExcel> list = POIExcelUtil.excelToList(file, NaGroupAdjustListExcel.class);
+			String fileName = file.getName();
+			naChangePlanOnileSv.naGroupAdjustListExcel(planId, list, fileName);
+			
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
 		return bean;
 	}
 

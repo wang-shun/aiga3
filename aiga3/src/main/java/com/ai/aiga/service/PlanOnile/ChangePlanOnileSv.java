@@ -23,6 +23,8 @@ import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaRequireListDao;
 
 import com.ai.aiga.dao.NaFileUploadDao;
+import com.ai.aiga.dao.NaGroupRequireListDao;
+import com.ai.aiga.dao.NaHasDeployMenuListDao;
 import com.ai.aiga.dao.NaHostConfigListDao;
 import com.ai.aiga.dao.NaProcessChangeListDao;
 import com.ai.aiga.dao.NaServiceChangeOnlineListDao;
@@ -45,6 +47,8 @@ import com.ai.aiga.domain.NaTestLeaveOver;
 import com.ai.aiga.domain.NaTestSituation;
 
 import com.ai.aiga.domain.NaFileUpload;
+import com.ai.aiga.domain.NaGroupRequireList;
+import com.ai.aiga.domain.NaHasDeployMenuList;
 import com.ai.aiga.domain.NaHostConfigList;
 import com.ai.aiga.domain.NaProcessChangeList;
 import com.ai.aiga.domain.NaServiceChangeOnlineList;
@@ -66,6 +70,8 @@ import com.ai.aiga.view.controller.planOnline.dto.DatabaseConfiScriptExcel;
 import com.ai.aiga.view.controller.planOnline.dto.DatabaseScriptListExcel;
 import com.ai.aiga.view.controller.planOnline.dto.NaChangePlanOnileRequest;
 import com.ai.aiga.view.controller.planOnline.dto.NaDbScriptListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.NaGroupRequireListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.NaHasDeployMenuListExcel;
 import com.ai.aiga.view.controller.planOnline.dto.RequireListExcel;
 import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverExcel;
 import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverRequest;
@@ -77,6 +83,13 @@ import com.ai.aiga.view.util.SessionMgrUtil;
 public class ChangePlanOnileSv extends BaseService{
 	@Autowired
 	private NaChangePlanOnileDao  naChangePlanOnileDao ;
+	
+	@Autowired
+	private NaGroupRequireListDao naGroupRequireListDao;
+	
+	@Autowired
+	private NaHasDeployMenuListDao naHasDeployMenuListDao;
+
 	
 	@Autowired
 	private PlanDetailManifestDao planDetailManifestDao;
@@ -258,7 +271,7 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @param l
 	 * @param list          
 	 */
-	public void saveExcel(Long planId, List<PlanDetailManifestExcel> list) {
+	public void saveExcel(Long planId, List<PlanDetailManifestExcel> list,String fileName) {
 		if(planId == null || planId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
@@ -276,8 +289,9 @@ public class ChangePlanOnileSv extends BaseService{
 				v.setCreateTime(DateUtil.getCurrentTime());
 			}
 		}
-		
+		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
 		planDetailManifestDao.save(values);
+		naFileUploadDao.save(fileEntity);
 		
 	}
 	
@@ -288,7 +302,7 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @author: lh
 	 * @date: 2017年4月26日 上午11:12:10
 	 *
-	 * @Description:晋城变更清单
+	 * @Description:进程变更清单
 	 * @param planId
 	 * @param list
 	 * @param fileName           
@@ -430,7 +444,7 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @param planId
 		 * @param list
 		 */
-		public void saveCodeExcel(Long planId, List<CodePathRequestExcel> list) {
+		public void saveCodeExcel(Long planId, List<CodePathRequestExcel> list,String fileName) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -447,8 +461,9 @@ public class ChangePlanOnileSv extends BaseService{
 					
 				}
 			}
-			
+			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
 			codePathDao.save(values);
+			naFileUploadDao.save(fileEntity);
 		}	
 		
 		/**
@@ -462,7 +477,7 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @param list
 		 */
 		
-		public void testLeaveOverExcel(Long planId, List<TestLeaveOverExcel> list) {
+		public void testLeaveOverExcel(Long planId, List<TestLeaveOverExcel> list,String fileName) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -479,7 +494,9 @@ public class ChangePlanOnileSv extends BaseService{
 					
 				}
 			}
-			
+			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
+		
+			naFileUploadDao.save(fileEntity);
 			testLeaveOverDao.save(values);
 		}	
 		
@@ -493,7 +510,7 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @param planId
 		 * @param list
 		 */
-		public void requireListExcel(Long planId, List<RequireListExcel> list) {
+		public void requireListExcel(Long planId, List<RequireListExcel> list,String fileName) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -512,6 +529,9 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 			
 			naRequireListDao.save(values);
+			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
+		
+			naFileUploadDao.save(fileEntity);
 		}	
 		
 		/**
@@ -573,6 +593,7 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 			
 			databaseConfiDao.save(values);
+            
 		}			
 		
 		/**
@@ -581,11 +602,11 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @author: liujinfang
 		 * @date: 2017年4月25日 下午5:19:26
 		 *
-		 * @Description: 数据库脚本清单解析
+		 * @Description: 集团需求解析
 		 * @param planId
 		 * @param list
 		 */
-		public void databaseScriptListExcel(Long planId, List<DatabaseScriptListExcel> list) {
+		public void databaseScriptListExcel(Long planId, List<NaGroupRequireListExcel> list,String fileName) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -595,28 +616,31 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 			
 			
-			List<NaDatabaseScriptList> values = BeanMapper.mapList(list, DatabaseScriptListExcel.class, NaDatabaseScriptList.class);
+			List<NaGroupRequireList> values = BeanMapper.mapList(list, NaGroupRequireListExcel.class, NaGroupRequireList.class);
 			if(values != null){
-				for(NaDatabaseScriptList v : values){
+				for(NaGroupRequireList v : values){
 					v.setPlanId(planId);
 					
 				}
 			}
 			
-			databaseScriptListDao.save(values);
+			naGroupRequireListDao.save(values);
+		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
+				
+		naFileUploadDao.save(fileEntity);
 		}				
 		
 	/**
 	 * 
-	 * @ClassName: ChangePlanOnileSv :: databaseScriptListExcel
+	 * @ClassName: ChangePlanOnileSv :: naHasDeployMenuListExcel
 	 * @author: liujinfang
 	 * @date: 2017年4月25日 下午5:22:35
 	 *
-	 * @Description: 数据库切割脚本 
+	 * @Description: 生产环境需配置菜单需求
 	 * @param planId
 	 * @param list
 	 */
-		public void dbScriptListExcel(Long planId, List<NaDbScriptListExcel> list) {
+		public void naHasDeployMenuListExcel(Long planId, List<NaHasDeployMenuListExcel> list,String fileName) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -626,15 +650,18 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 			
 			
-			List<NaDbScriptList> values = BeanMapper.mapList(list, NaDbScriptListExcel.class, NaDbScriptList.class);
+			List<NaHasDeployMenuList> values = BeanMapper.mapList(list, NaHasDeployMenuListExcel.class, NaHasDeployMenuList.class);
 			if(values != null){
-				for(NaDbScriptList v : values){
+				for(NaHasDeployMenuList v : values){
 					v.setPlanId(planId);
 					
 				}
 			}
 			
-			dbScriptListDao.save(values);
+			naHasDeployMenuListDao.save(values);
+			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date());
+			
+			naFileUploadDao.save(fileEntity);
 		}				
 		
 }

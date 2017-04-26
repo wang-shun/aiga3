@@ -93,8 +93,8 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<PlanDetailManifestExcel> list = POIExcelUtil.excelToList(file, PlanDetailManifestExcel.class);
-			
-			naChangePlanOnileSv.saveExcel(planId, list);
+			String fileName = file.getName();
+			naChangePlanOnileSv.saveExcel(planId, list,fileName);
 			
 		} catch (Exception e) {
 			log.error("解析excel失败", e);
@@ -111,8 +111,8 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<CodePathRequestExcel> list = POIExcelUtil.excelToList(file, CodePathRequestExcel.class);
-			
-			naChangePlanOnileSv.saveCodeExcel(planId, list);
+			String fileName = file.getName();
+			naChangePlanOnileSv.saveCodeExcel(planId, list,fileName);
 			
 		} catch (Exception e) {
 			log.error("解析excel失败", e);
@@ -130,8 +130,8 @@ public class PlanOnileController {
 			JsonBean bean = new JsonBean();
 			try {
 				List<TestLeaveOverExcel> list = POIExcelUtil.excelToList(file, TestLeaveOverExcel.class);
-				
-				naChangePlanOnileSv.testLeaveOverExcel(planId, list);
+				String fileName = file.getName();
+				naChangePlanOnileSv.testLeaveOverExcel(planId, list,fileName);
 				
 			} catch (Exception e) {
 				log.error("解析excel失败", e);
@@ -148,8 +148,8 @@ public class PlanOnileController {
 					JsonBean bean = new JsonBean();
 					try {
 						List<RequireListExcel> list = POIExcelUtil.excelToList(file, RequireListExcel.class);
-						
-						naChangePlanOnileSv.requireListExcel(planId, list);
+						String fileName = file.getName();
+						naChangePlanOnileSv.requireListExcel(planId, list,fileName);
 						
 					} catch (Exception e) {
 						log.error("解析excel失败", e);
@@ -165,7 +165,7 @@ public class PlanOnileController {
 	 * @author: lh
 	 * @date: 2017年4月26日 上午11:19:58
 	 *
-	 * @Description:晋城变更清单
+	 * @Description:进程变更清单
 	 * @param planId
 	 * @param file
 	 * @return          

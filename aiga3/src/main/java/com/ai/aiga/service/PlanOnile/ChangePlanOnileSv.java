@@ -1,13 +1,18 @@
 package com.ai.aiga.service.PlanOnile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaBossTestResultDao;
 import com.ai.aiga.dao.CodePathDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
@@ -16,6 +21,7 @@ import com.ai.aiga.dao.NaHostConfigListDao;
 import com.ai.aiga.dao.NaProcessChangeListDao;
 import com.ai.aiga.dao.NaServiceChangeOnlineListDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
+import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaChangePlanOnile;
 import com.ai.aiga.domain.NaCodePath;
 import com.ai.aiga.domain.NaFileUpload;
@@ -333,7 +339,18 @@ public class ChangePlanOnileSv extends BaseService{
 	}
 	
 	
-	
+	public Page<NaFileUpload> findNaFileUpload(int pageNumber, int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naFileUploadDao.search(cons,pageable);
+	}
 	
 	/**
 	 * 查询包含其他任务的计划

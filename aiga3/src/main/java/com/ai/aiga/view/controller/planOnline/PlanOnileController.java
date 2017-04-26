@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaServiceChangeOnlineList;
 import com.ai.aiga.service.PlanOnile.ChangePlanOnileSv;
 import com.ai.aiga.service.workFlowNew.dto.NaHostConfigListExcel;
@@ -20,6 +21,8 @@ import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.controller.planOnline.dto.NaChangePlanOnileRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.POIExcelUtil;
+
+import io.swagger.annotations.ApiParam;
 
 @Controller
 public class PlanOnileController {
@@ -179,4 +182,14 @@ public class PlanOnileController {
 		return bean;
 	}
 	
+	
+	@RequestMapping(path = "/produce/plan/findNaFileUpload")
+	public @ResponseBody JsonBean findNaFileUpload(
+			@ApiParam(name="page",value="页码")@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @ApiParam(name="pageSize",value="页数")@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize ){
+		JsonBean bean = new JsonBean();
+		Object NaFileUploadList = naChangePlanOnileSv.findNaFileUpload(pageNumber, pageSize);
+		bean.setData(NaFileUploadList);
+		return bean;
+	}
 }

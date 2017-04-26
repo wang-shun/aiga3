@@ -180,7 +180,7 @@
 												<div class="col-md-6">
 													<div class="form-group">
 														<label>文件类型</label>
-														<select name="category" class="form-control input-sm" data-cmd="category=filetype" data-url="getCategory" data-idkey="value" data-namekey="show">
+														<select name="category" class="form-control input-sm" data-cmd="category=enclosuretype" data-url="getCategory" data-idkey="value" data-namekey="show">
                                                 		</select>
 													</div>
 												</div>
@@ -484,10 +484,8 @@
             <input type="radio" class="minimal" value="{{fileId}}" name="fileId">
         </td>
         <td>
-            <input type="hidden" name="planId" value="{{planId}}">{{planId}}</td>
-        <td>
             <input type="hidden" name="fileName" value="{{fileName}}">{{fileName}}</td>
-        <td>{{fileType}}</td>
+        <td>{{getFileType fileType}}</td>
         <td>{{createDate}}</td>
         <td>{{doneDate}}</td>
     </tr>

@@ -645,6 +645,7 @@ define(function(require, exports, module) {
 						//显示弹框
 						_modal.modal('show');
 						self.getChangeDeliverableList();
+						self.importFile();
 					}
 				}
 			});
@@ -696,6 +697,56 @@ define(function(require, exports, module) {
             			"planId":planId,
             	}
             	console.log(_form.find("[name='fileName']"));
+            	switch(a){
+            		case "1"://接口清单
+            			var task = srvMap.get('exception');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "2"://需求清单
+            			var task = srvMap.get('processexcels');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "3"://设计文档交付物
+            			var task = srvMap.get('releaseexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "4"://其他交付物
+            			var task = srvMap.get('releasestageexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "5"://平台变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "6"://测试报告
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "7"://主机类配置
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "8"://进程变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,planId)
+            			break;
+            	}
+            });
+		},
+		// 变更交付物导入文件
+		importFile:function(){
+			var self = this;
+            var _form = Page.findId('changeDeliverableForm');
+            var _importFile = _form.find("[name='importFile']");
+            _importFile.unbind('click');
+            _importFile.bind('click', function() {
+            	var fileName = _form.find("[name='fileName']")[0].files[0];
+            	var category = _form.find("[name='category']").val();
+            	var cmd = {
+            			"fileName" : fileName,
+            			"category" : category,
+            			"planId" : planId,
+            	}
             	switch(a){
             		case "1"://接口清单
             			var task = srvMap.get('exception');

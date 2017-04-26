@@ -17,9 +17,10 @@ import com.ai.aiga.domain.NaInterfaceList;
 import com.ai.aiga.domain.NaOnlinePlanBug;
 import com.ai.aiga.domain.NaOnlineTaskDistribute;
 import com.ai.aiga.service.AigaBossTestResultSv;
-import com.ai.aiga.service.NaChangePlanOnileSv;
+
 import com.ai.aiga.service.OnlineTaskSv;
 import com.ai.aiga.service.PerformanceTaskSv;
+import com.ai.aiga.service.PlanOnile.ChangePlanOnileSv;
 import com.ai.aiga.view.json.BossTestResultRequest;
 import com.ai.aiga.view.json.NaOtherTaskRequest;
 import com.ai.aiga.view.json.OnlineTaskRequest;
@@ -48,7 +49,7 @@ public class OnlineTaskController {
 	private AigaBossTestResultSv aigaBossTestResultSv;
 	
 	@Autowired
-	private NaChangePlanOnileSv naChangePlanOnileSv;
+	private ChangePlanOnileSv naChangePlanOnileSv;
 	
 	@RequestMapping(path = "/accept/onlineTask/list")
 	public @ResponseBody JsonBean list(

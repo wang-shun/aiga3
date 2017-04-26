@@ -25,7 +25,7 @@ public class NaRollbackMethod  implements java.io.Serializable {
      private String rollbackStep;
      private String rollbackPerson;
      private String startRollbackTime;
-     private String sopRollbackTime;
+     private String stopRollbackTime;
      private String rollbackScript;
      private Long planId;
      private String fileName;
@@ -40,13 +40,13 @@ public class NaRollbackMethod  implements java.io.Serializable {
     public NaRollbackMethod(Long id) {
         this.id = id;
     }
-    public NaRollbackMethod(Long id, String isRollback, String rollbackStep, String rollbackPerson, String startRollbackTime, String sopRollbackTime, String rollbackScript, Long planId, String fileName, String ext1, String ext2, String ext3) {
+    public NaRollbackMethod(Long id, String isRollback, String rollbackStep, String rollbackPerson, String startRollbackTime, String stopRollbackTime, String rollbackScript, Long planId, String fileName, String ext1, String ext2, String ext3) {
        this.id = id;
        this.isRollback = isRollback;
        this.rollbackStep = rollbackStep;
        this.rollbackPerson = rollbackPerson;
        this.startRollbackTime = startRollbackTime;
-       this.sopRollbackTime = sopRollbackTime;
+       this.stopRollbackTime = stopRollbackTime;
        this.rollbackScript = rollbackScript;
        this.planId = planId;
        this.fileName = fileName;
@@ -103,13 +103,13 @@ public class NaRollbackMethod  implements java.io.Serializable {
         this.startRollbackTime = startRollbackTime;
     }
     
-    @Column(name="SOP_ROLLBACK_TIME", length=100)
-    public String getSopRollbackTime() {
-        return this.sopRollbackTime;
+    @Column(name="STOP_ROLLBACK_TIME", length=100)
+    public String getStopRollbackTime() {
+        return this.stopRollbackTime;
     }
     
-    public void setSopRollbackTime(String sopRollbackTime) {
-        this.sopRollbackTime = sopRollbackTime;
+    public void setStopRollbackTime(String sopRollbackTime) {
+        this.stopRollbackTime = sopRollbackTime;
     }
     
     @Column(name="ROLLBACK_SCRIPT", length=100)

@@ -128,6 +128,17 @@ public class AutoBackupFrontSv {
 		autoBackupDealDao.delete(dealId);
 	}
 	
+	public void restore(Long dealId) {
+		if(dealId == null || dealId < 0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "dealId");
+		}
+		NaAutoBackupDeal backupDeal = autoBackupDealDao.findOne(dealId);
+		if(backupDeal.getState() != DEAL_STATE.SUCCESS.value){
+			BusinessException.throwBusinessException("只能还原成功备份的数据");
+		}
+		backupDeal.setRestoreState(DEAL_STATE.INIT.value);
+	}
+	
 	public void deletePropertyConfig(Long cfgId) {
 		if(cfgId == null || cfgId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "cfgId");

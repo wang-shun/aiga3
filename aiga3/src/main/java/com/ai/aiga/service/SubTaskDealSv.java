@@ -61,7 +61,8 @@ public class SubTaskDealSv extends BaseService{
 				+ " (select d.name from aiga_staff d where d.staff_id = a.deal_op_id) as dealName"
 				+ " from na_online_task_distribute a "
 				+ "left join na_online_task_distribute b on  a.parent_task_id = b.task_id "
-				+ "left join na_online_task_result c on a.task_id = c.task_id"
+				+ "left join na_online_task_result c on a.task_id = c.task_id "
+				+ "left join na_change_plan_onile d on a.online_plan = d.online_plan "
 				+ " where a.parent_task_id <> 0 ";
 		
 		if(condition.getTaskType() != null){
@@ -80,7 +81,7 @@ public class SubTaskDealSv extends BaseService{
 		if(condition.getDealState() != null){
 			sql += " and c.state = "+condition.getDealState();
 		}
-		sql += " order by a.assign_date";
+		sql += " order by d.plan_date desc";
 		 List<String> list = new ArrayList<String>();
 		 list.add("taskId");
 		 list.add("taskName");

@@ -71,7 +71,7 @@ public class CourseChangController {
     * @return
     */
    @RequestMapping(path="",method = RequestMethod.POST)
-   @ApiOperation(value = "",response = CourseChangList.class,notes = "删除部署任务")
+   @ApiOperation(value = "",response = CourseChangList.class,notes = "删除部署任务")	
    @ApiParam(name="CourseChangListRequest",value = "",required = true)
    public @ResponseBody JsonBean delete(long Id){
 	   courseChangeSv.delete(Id);

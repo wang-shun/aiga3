@@ -12,6 +12,8 @@ define(function(require, exports, module) {
     srvMap.add("autoResultList", pathAlias + "funTaskList.json", "accept/subTask/autoResult");
 
     srvMap.add("submitRst", pathAlias + "funTaskList.json", "accept/subTask/caseResultSave");
+    //计划下拉框
+    srvMap.add("getOnlinePlanList", pathAlias + "getOnlinePlanList.json", "sys/cache/changePlan");
 
     var taskType = "&taskType = " + 1;
     // 模板对象
@@ -104,7 +106,7 @@ define(function(require, exports, module) {
                 console.log(json.data)
                 _domList.find("tbody").html(template(json.data.content));
                 Utils.eventTrClickCallback($(Dom.productTaskList));
-                // Utils.setScroll($(Dom.getAutoPlanList),380px);				
+                // Utils.setScroll($(Dom.getAutoPlanList),380px);
             }, pagination)
 
         },

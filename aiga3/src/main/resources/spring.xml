@@ -85,6 +85,10 @@
 -->
 	
 	<cache:annotation-driven />
+	
+	<!-- 让系统可以用到该上线文 -->
+	<bean class="com.ai.aiga.util.spring.ApplicationContextUtil" />
+	
 	<!-- simple cache manager -->
 	<!-- 
 	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
@@ -99,7 +103,7 @@
 	<bean id="cacheManager"  class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
 	
 	<import resource="spring-soap-server.xml"/>
-	<import resource="spring-shiro.xml"/>
+	
 	
 	<!-- 定义开发的profile -->
     <beans profile="dev">

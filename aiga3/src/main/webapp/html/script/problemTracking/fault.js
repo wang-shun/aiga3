@@ -50,7 +50,7 @@ define(function(require, exports, module) {
 					return "黄色";
 				} else if (value == 4) {
 					return "蓝色";
-				} else if (value == 4) {
+				} else if (value == 5) {
 					return "灰色";
 				}
 			});
@@ -77,7 +77,6 @@ define(function(require, exports, module) {
 				if (status) {
 					var template = Handlebars.compile(Tpl.queryOnlinePlanName);
 					console.log(json.data)
-					console.log("1111111111111")
 					_onlinePlan.html(template(json.data));
 				}
 			});
@@ -146,7 +145,6 @@ define(function(require, exports, module) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.queryOnlinePlanName);
 						console.log(json.data)
-						console.log("1111111111111")
 						$("#JS_addFaultForm").find("[name='onlinePlans']").html(template(json.data));
 					}
 				});
@@ -196,10 +194,11 @@ define(function(require, exports, module) {
 							$("#JS_addFaultForm").find("[name='bugType']").val(json.data.bugType);
 							$("#JS_addFaultForm").find("[name='resove']").val(json.data.resove);
 							$("#JS_addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
-							
 							var _bugType=$("#JS_addFaultForm").find("[name='bugType']")
 							if(_bugType.val()=="2"){
 								$("#JS_addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
+							}else if (_bugType.val()=="1") {
+								$("#JS_addFaultForm").find("[name='bugLevel']").removeAttr("disabled");
 							}
 							_bugType.change(function() {
 								var i=_bugType.val()
@@ -215,7 +214,6 @@ define(function(require, exports, module) {
 								if (status) {
 									var template = Handlebars.compile(Tpl.queryOnlinePlanName);
 									console.log(json.data)
-									console.log("1111111111111")
 									$("#JS_addFaultForm").find("[name='onlinePlans']").html(template(json.data));
 									$("#JS_addFaultForm").find("[name='onlinePlans']").val(onlinePlans);
 									//// 弹出层

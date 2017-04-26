@@ -5355,10 +5355,40 @@ fieldset[disabled] .form-control{
     font-size: 12px;
 }
 
-.icheckbox_square-blue, .iradio_square-blue{
-    width: 16px;
-    height: 16px;
+div.dataTables_info{
+  font-size: 12px;
+  color: #666;
 }
+.dataTables_paginate .pagination>li:first-child>a,
+.dataTables_paginate .pagination>li:first-child>span,
+.dataTables_paginate .pagination>li:last-child>a,
+.dataTables_paginate .pagination>li:last-child>span{
+  border-radius:0;
+}
+
+.dataTables_paginate .pagination>.active>a,
+.dataTables_paginate .pagination>.active>a:focus,
+.dataTables_paginate .pagination>.active>a:hover,
+.dataTables_paginate .pagination>.active>span,
+.dataTables_paginate .pagination>.active>span:focus,
+.dataTables_paginate .pagination>.active>span:hover{
+    color: #44abe5;
+    cursor: default;
+    background-color: #dbedf9;
+    border-color: #44abe5;
+}
+
+
+.dataTables_paginate .pagination>li>a,
+.dataTables_paginate .pagination>li>span{
+  padding: 2px 8px;
+  line-height: 20px;
+  background: #fafafa;
+  font-size: 12px;
+  border: 1px solid #ddd;
+}
+
+
 
 @font-face {font-family: "iconfont";
   src: url('iconfont/iconfont.eot?t=1492673654970'); /* IE9*/
@@ -5454,7 +5484,7 @@ fieldset[disabled] .form-control{
     margin-right: 3px;
 }
 
-.box .box-footer button {
+.box-footer button {
     margin: 0 7px;
 }
 

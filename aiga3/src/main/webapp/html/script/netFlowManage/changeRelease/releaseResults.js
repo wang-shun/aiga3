@@ -35,6 +35,8 @@ define(function(require, exports, module) {
     srvMap.add("releasestageexcel", pathAlias + "addReleaseResults.json", "online/system/releasestageexcel");
     //测试进程解析
     srvMap.add("processexcel", pathAlias + "addReleaseResults.json", "online/test/processexcel");
+    // 显示变更计划名称
+    srvMap.add("getOnlinePlanList", "netFlowManage/changePlan/changePlanStart/getOnlinePlanList.json", "sys/cache/changePlan");
 
 
     var Data = {
@@ -98,6 +100,8 @@ define(function(require, exports, module) {
                     _modal.modal('show').on('shown.bs.modal', function() {
                     	//保存
                     	self.saveReleaseResults(data.planId);
+                        //异常
+                        self.abnormal(data.planId);
                     	self.queTable1(data.planId);
                     	self.queTable2(data.planId);
                     	self.queTable3(data.planId);
@@ -133,6 +137,19 @@ define(function(require, exports, module) {
                 });
             });
         },
+        //异常
+        abnormal : function(planId){
+            var self = this;
+            var _form = Page.findModalCId('addReleaseMessageForm');
+            var _abnormalBtn = _form.find("[name='abnormal']");
+            _abnormalBtn.unbind('click');
+            _abnormalBtn.bind('click', function() {
+                Utils.goStep(Page.findModal('getChangeRelease'), 2);
+                Utils.setSelectData(Page.findModalCId('addRelease').find("[name='addFaultForm']"));
+            });
+        },
+
+
         //tab页显示
 	    queTable1 : function(planId){
 	    	var self = this;

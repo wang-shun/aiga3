@@ -262,6 +262,18 @@ public class ChangeReviewController {
 			bean.setData(changeReviewSv.list1(pageNumber, pageSize, condition));
 			return bean;
 		}
+		
+		@RequestMapping(path = "/sys/testSituation/listtest")
+		public @ResponseBody JsonBean findSituation(
+				@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+				@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+				NaTestSituation condition
+				) throws ParseException {
+			
+			  JsonBean bean = new JsonBean();
+			bean.setData(changeReviewSv.listTest(pageNumber, pageSize, condition));
+			return bean;
+		}
 		//测试情况保存
 		@RequestMapping(path = "/sys/testSituation/save")
 		public @ResponseBody JsonBean savetestSituation(@RequestBody List<NaTestSituation> request){

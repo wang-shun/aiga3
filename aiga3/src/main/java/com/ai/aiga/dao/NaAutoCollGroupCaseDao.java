@@ -11,11 +11,7 @@ import com.ai.aiga.domain.NaAutoCollGroupCase;
 
 
 public interface NaAutoCollGroupCaseDao extends JpaRepository<NaAutoCollGroupCase, Long>{
-	/**
-	 * 根据collectId查询用例-用例集信息
-	 * @param collectId  用例集信息
-	 * @return  NaAutoCollection
-	 */
+
 	@Query(value="select * from na_auto_coll_group_case where collect_id = ?1 ",nativeQuery = true)
 		public List<NaAutoCollGroupCase> findByCollectId(Long collectId);
 	

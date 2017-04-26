@@ -1,5 +1,6 @@
 package com.ai.aiga.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,9 @@ import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.enums.WorkFlowNewEnum;
 import com.ai.aiga.util.DateUtil;
+import com.ai.aiga.util.TimeUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.json.NaChangePlanOnileRequest;
@@ -49,6 +52,7 @@ public class NaChangePlanOnileSv extends BaseService{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "types");
 		}
 		NaChangePlanOnile naChangePlanOnile=new NaChangePlanOnile();
+
 		naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
 		naChangePlanOnile.setPlanDate(request.getPlanDate());
 		naChangePlanOnile.setTypes(request.getTypes());
@@ -56,9 +60,17 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setTimely(request.getTimely());
 		naChangePlanOnile.setRemark(request.getRemark());
 		naChangePlanOnile.setSign(Byte.parseByte("0"));
-		//处理状态默认是1
+		//处理状态默认是1:新增
 		naChangePlanOnile.setPlanState(1L);
 		naChangePlanOnile.setCreateOpId(request.getCreateOpId());
+		//如果是变更,设置交付物截至时间是计划变更的前一天
+		if(WorkFlowNewEnum.CHANGE_PLAN_PLANCHANGE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTCHANGE.getValue()==(long)request.getTypes()){
+			naChangePlanOnile.setFileUploadLastTime(TimeUtil.getDayBefore(request.getPlanDate(), 1));
+		}
+		//如果是上线，则前台设置
+		else if(WorkFlowNewEnum.CHANGE_PLAN_PLANONLINE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTONLINE.getValue()==(long)request.getTypes()){
+			naChangePlanOnile.setFileUploadLastTime(request.getFileUploadLastTime());
+		}
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			
@@ -87,6 +99,7 @@ public class NaChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setDoneDate(request.getDoneDate());
 		naChangePlanOnile.setCreateDate(request.getCreateDate());
 		naChangePlanOnile.setPlanState(request.getPlanState());
+		naChangePlanOnile.setFileUploadLastTime(request.getFileUploadLastTime());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			

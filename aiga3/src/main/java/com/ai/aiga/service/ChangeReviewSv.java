@@ -110,7 +110,7 @@ public class ChangeReviewSv extends BaseService{
 	@Autowired
 	private NaHostIpDao naHostIpDao;
 
-   public  List<NaChangeReview> selectall(Long onlinePlan,String ext1){
+   public  NaChangeReview selectall(Long onlinePlan,String ext1){
 	   if (onlinePlan==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -143,9 +143,9 @@ public class ChangeReviewSv extends BaseService{
 		   if(StringUtils.isNotBlank(request.getReviewResult())){
 		   naChangeReview.setReviewResult(request.getReviewResult());}
 		   
-		   naChangeReview.setExt2(request.getExt2());
+		   naChangeReview.setExt3(request.getExt3());
 		   
-		   //naChangeReview.setExt1(request.getExt1());
+		   
 		   changeReviewDao.save(naChangeReview);
 	 
 	   }
@@ -181,8 +181,8 @@ public class ChangeReviewSv extends BaseService{
 	List<Condition> cons = new ArrayList<Condition>();
 		
 		if(condition != null){
-			if(condition.getPlanId()!= 0){
-				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
+			if(condition.getPlanDate()!=null){
+				cons.add(new Condition("planDate", condition.getPlanDate(), Condition.Type.EQ));
 			}
 		}
 		
@@ -202,7 +202,7 @@ public class ChangeReviewSv extends BaseService{
    //测试情况
    public Object list1(int pageNumber, int pageSize, NaTestSituation condition) throws ParseException {
 	
-		/*List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<String>();
 		
 		list.add("sysName");
 		list.add("subSysName");
@@ -222,26 +222,36 @@ public class ChangeReviewSv extends BaseService{
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return planDetailManifestDao.searchByNativeSQL(sql, pageable, list);*/
-	   List<Condition> cons = new ArrayList<Condition>();
+		return planDetailManifestDao.searchByNativeSQL(sql, pageable, list);
+	  
+	   
+	}
+   
+   
+   public Object listTest(int pageNumber, int pageSize, NaTestSituation condition) throws ParseException {
 		
-		if(condition != null){
-			if(condition.getPlanId()!= 0){
-				cons.add(new Condition("planId", condition.getPlanId(), Condition.Type.EQ));
-			}
+		
+	   List<String> list = new ArrayList<String>();
+		
+		
+		list.add("ext1");
+		list.add("testSituation");
+		list.add("testId");
+		String sql = " select t.ext_1,t.test_situation,t.test_id from na_test_situation t where t.ext_1 is not null  ";
+		if (condition.getPlanId()!=0) {
+			sql += " and t.plan_id ="+ condition.getPlanId() ;
 		}
-		
-		if(pageNumber < 0){
+		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
-		
-		if(pageSize <= 0){
+
+		if (pageSize <= 0) {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		
-		return testSituationDao.search(cons, pageable);
+
+		return planDetailManifestDao.searchByNativeSQL(sql, pageable, list);
 	   
 	}
    //保存测试情况
@@ -257,9 +267,7 @@ public class ChangeReviewSv extends BaseService{
 				NaTestSituation NaTestSituation1 =testSituationDao.findOne(NaTestSituation.getTestId());
 				
 				
-				if(StringUtils.isNotBlank(NaTestSituation.getExt1())){
-				NaTestSituation1.setExt1(NaTestSituation.getExt1());
-				}
+				
 				if(StringUtils.isNotBlank(NaTestSituation.getExt2())){
 				NaTestSituation1.setExt2(NaTestSituation.getExt2());
 				}

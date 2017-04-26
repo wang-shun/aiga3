@@ -1,123 +1,112 @@
-<div class="box box-primary">
-    <div class="box-header with-border">
-        <h3 class="box-title">条件查询</h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+<div class="row" id="Page_caseTempMng">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">条件查询</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form id="JS_queryCaseTempForm" role="form">
+                <div class="box-body">
+                    <!-- 搜索表单 -->
+                    <div class="row">
+                        <div class="col-sm-2 form-group">
+                            <label for="queryCaseName" class="control-label">模板名称</label>
+                            <input type="text" class="form-control input-sm" id="queryCaseName" name="caseName" placeholder="模板名称">
+                        </div>
+                        <div class="col-sm-2 form-group">
+                            <label class="control-label">重要程度</label>
+                            <select name="important" class="form-control input-sm">
+                                <option value="">请选择</option>
+                                <option value="1">一级用例</option>
+                                <option value="2">二级用例</option>
+                                <option value="3">三级用例</option>
+                                <option value="4">四级用例</option>
+                            </select>
+                        </div>
+                        <div id="query_busi" class="col-sm-2 form-group">
+                            <label class="control-label">业务</label>
+                            <select name="busiId" class="form-control select2 input-sm">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <div id="query_sysId" class="col-sm-2 form-group">
+                            <label class="control-label">系统大类</label>
+                            <select name="sysId" class="form-control select2 input-sm">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <div id="query_subSysId" class="col-sm-2 form-group">
+                            <label class="control-label">系统子类</label>
+                            <select name="subSysId" class="form-control select2 input-sm">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                        <div id="query_funId" class="col-sm-2 form-group">
+                            <label class="control-label">功能点</label>
+                            <select name="funId" class="form-control select2 input-sm">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class=" text-center">
+                        <button type="reset" class="btn btn-default" name="reset">重置</button>
+                        <button type="button" class="btn btn-primary" id="queryBtn" name="submit">查询</button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </div>
-    <!-- /.box-header -->
-    <!-- form start -->
-    <form id="JS_queryCaseTempForm" class="form-horizontal" role="form">
-        <div class="box-body">
-            <!-- 搜索表单 -->
-            <div class="row">
-                <div class="col-sm-4 form-group">
-                    <label for="queryCaseName" class="col-sm-5 control-label">模板名称：</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control input-sm" id="queryCaseName" name="caseName">
-                    </div>
-                </div>
-                <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label">重要程度：</label>
-                    <div class="col-sm-7">
-                        <select id="query_important" name="important" class="form-control input-sm">
-                            <option> </option>
-                            <option value="1">一级用例</option>
-                            <option value="2">二级用例</option>
-                            <option value="3">三级用例</option>
-                            <option value="4">四级用例</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label">业&nbsp;&nbsp;&nbsp;&nbsp;务：</label>
-                    <div id="query_busi" class="col-sm-7">
-                        <select name="busiId" class="form-control select2 input-sm">
-                        </select>
+        <div id="JS_caseTempList" class="box" style="min-height: 100px">
+            <div class="box-header">
+                <h3 class="box-title">模板列表</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-primary" id="JS_createTest">生成测试用例</button>
+                    <button type="button" class="btn btn-primary" id="JS_createAutoTestTemp">生成自动化模板</button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_addCaseTemp">新增模板</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="javascript:;" id="JS_deleCaseTemp">删除模板</a></li>
+                            <li><a href="javascript:;" id="JS_viewCaseTemp">查看编辑</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label">系统大类：</label>
-                    <div id="query_sysId" class="col-sm-7">
-                        <select name="sysId" class="form-control select2 input-sm">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label">系统子类：</label>
-                    <div id="query_subSysId" class="col-sm-7">
-                        <select name="subSysId" class="form-control select2 input-sm">
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-4 form-group">
-                    <label class="col-sm-5 control-label">功能点：</label>
-                    <div id="query_funId" class="col-sm-7">
-                        <select name="funId" class="form-control select2 input-sm">
-                        </select>
-                    </div>
-                </div>
+            <div class="box-body" style="min-height: 100px;">
+                <table id="Tab_getCaseTemp" class="table table-bordered table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>用例模板名称</th>
+                            <th style="display:none;">模板应用</th>
+                            <th>用例类型</th>
+                            <th>创建人</th>
+                            <th>更新时间</th>
+                            <th>最后修改人</th>
+                            <th>重要等级</th>
+                            <th>系统大类</th>
+                            <th>系统子类</th>
+                            <th>功能点</th>
+                            <th>业务</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer no-border">
+                <div class="dataTables_paginate" name="pagination"></div>
             </div>
         </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-            <div class=" text-center">
-                <button type="reset" class="btn btn-default" name="reset">重置</button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-primary" id="queryBtn" name="submit">查询</button>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="box" style="min-height: 100px">
-    <div class="box-header">
-        <h3 class="box-title">模板列表</h3>
-        <div class="box-tools">
-            <div class="btn-group">
-                <button type="button" class="btn btn-success" id="JS_createTest"><i class="fa fa-share-alt"></i> 生成测试用例</button>
-                <button type="button" class="btn btn-info" id="JS_createAutoTestTemp"><i class="fa fa-external-link"></i> 生成自动化模板</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_addCaseTemp"><i class="fa fa-plus"></i> 新增模板</button>
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu pull-right" role="menu">
-                    <li><a href="javascript:;" id="JS_deleCaseTemp">删除模板</a></li>
-                    <li><a href="javascript:;" id="JS_viewCaseTemp">查看编辑</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div id="JS_caseTempList" class="box-body" style="min-height: 100px;">
-        <table id="Tab_getCaseTemp" class="table table-bordered table-condensed table-hover">
-            <thead>
-                <tr>
-                    <th class="iCheckbox" width="15"></th>
-                    <th>用例模板名称</th>
-                    <th style="display:none;">模板应用</th>
-                    <th>用例类型</th>
-                    <th>创建人</th>
-                    <th>更新时间</th>
-                    <th>最后修改人</th>
-                    <th>重要等级</th>
-                    <th>系统大类</th>
-                    <th>系统子类</th>
-                    <th>功能点</th>
-                    <th>业务</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="12">
-                        <div class="dataTables_paginate" name="pagination"></div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
     </div>
 </div>
 <!-- 新增测试用例 -->
@@ -138,47 +127,35 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab_1">
-                            <form id="JS_CaseTempForm" class="form-horizontal">
+                            <form id="JS_CaseTempForm">
                                 <!-- 新增模板表单 -->
                             </form>
                         </div>
                         <div class="tab-pane" id="tab_2">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div id="JS_getParameterList" class="box">
-                                        <div class="box-header">
-                                            <h4 class="box-title">因子列表</h4>
-                                            <div class="box-tools">
-                                                <div class="btn-group">
-                                                    <button type="button" id="JS_addFactor" class="btn btn-primary">添加因子</button>
-                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                                        <span class="caret"></span>
-                                                        <span class="sr-only">Toggle Dropdown</span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li><a href="javascript:;" id="JS_delFactor">删除</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="JS_factoryBody" class="box-body">
-                                            <div id="JS_messageAddFactor" style="text-align: center; padding: 100px 0;">
-                                                <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
-                                                <p style="color: #333;"><span>没有因子数据</span></p>
-                                            </div>
-                                            <table id="facTable" class="table  table-hover">
-                                                <thead id="factorThead">
-                                                    <tr>
-                                                        <th class="iCheckbox" width="15"></th>
-                                                        <th>因子名称</th>
-                                                        <th>因子描述</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="JS_factorList">
-                                                </tbody>
-                                            </table>
-                                        </div>
+                            <div id="JS_getParameterList" class="box">
+                                <div class="box-header">
+                                    <h4 class="box-title">因子列表</h4>
+                                    <div class="box-tools">
+                                        <button type="button" id="JS_addFactor" class="btn btn-primary">添加</button>
+                                        <button type="button" id="JS_delFactor" class="btn btn-primary">删除</button>
                                     </div>
+                                </div>
+                                <div id="JS_factoryBody" class="box-body">
+                                    <div id="JS_messageAddFactor" style="text-align: center; padding: 100px 0;">
+                                        <p style="font-size: 38px;"><i class="fa fa-hourglass-1  text-gray"></i></p>
+                                        <p style="color: #333;"><span>没有因子数据</span></p>
+                                    </div>
+                                    <table id="facTable" class="table  table-hover">
+                                        <thead id="factorThead">
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>因子名称</th>
+                                                <th>因子描述</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="JS_factorList">
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -350,109 +327,87 @@
     <!-- /.box-body -->
 </script>
 <script id="TPL_getSysList" type="text/x-handlebars-template">
-    <select name="sysId" class="form-control select2 input-sm">
-        <option value=""></option>
-        {{#each this}}
-        <option value="{{sysId}}">{{sysName}}</option>
-        {{/each}}
-    </select>
+    <option value="">请选择</option>
+    {{#each this}}
+    <option value="{{sysId}}">{{sysName}}</option>
+    {{/each}}
 </script>
 <script id="TPL_getSubSysList" type="text/x-handlebars-template">
-    <select name="subSysId" class="form-control select2 input-sm">
-        <option value=""></option>
-        {{#each this}}
-        <option value="{{subsysId}}">{{sysName}}</option>
-        {{/each}}
-    </select>
+    <option value="">请选择</option>
+    {{#each this}}
+    <option value="{{subsysId}}">{{sysName}}</option>
+    {{/each}}
 </script>
 <script id="TPL_getBusiList" type="text/x-handlebars-template">
-    <select name="busiId" class="form-control select2 input-sm">
-        <option value=""></option>
-        {{#each this}}
-        <option value="{{busiId}}">{{busiName}}</option>
-        {{/each}}
-    </select>
+    <option value="">请选择</option>
+    {{#each this}}
+    <option value="{{busiId}}">{{busiName}}</option>
+    {{/each}}
 </script>
 <script id="TPL_getFunList" type="text/x-handlebars-template">
-    <select name="funId" class="form-control select2 input-sm">
-        <option value=""></option>
-        {{#each this}}
-        <option value="{{funId}}">{{sysName}}</option>
-        {{/each}}
-    </select>
+    <option value="">请选择</option>
+    {{#each this}}
+    <option value="{{funId}}">{{sysName}}</option>
+    {{/each}}
 </script>
 <script id="TPL_getCaseTempForm" type="text/x-handlebars-template">
     <div class="row">
-        <div class="col-sm-6 form-group">
-            <label for="queryCaseName" class="col-sm-4 control-label"><i class="text-red">* </i>模板名称：</label>
-            <div class="col-sm-8">
-                <input type="text" class="form-control input-sm" name="caseName" id="add_caseName" value="{{caseName}}" required>
-            </div>
+        <div class="col-sm-4 form-group">
+            <label for="queryCaseName" class="control-label">模板名称<i class="text-red">* </i></label>
+            <input type="text" class="form-control input-sm" name="caseName" id="add_caseName" value="{{caseName}}" required>
         </div>
-        <div class="col-sm-6 form-group">
-            <label class="col-sm-4 control-label"><i class="text-red">* </i>重要程度：</label>
-            <div class="col-sm-8">
-                <select id="add_important" name="important" class="form-control input-sm" required>
-                    <option> </option>
-                    <option value="1">一级用例</option>
-                    <option value="2">二级用例</option>
-                    <option value="3">三级用例</option>
-                    <option value="4">四级用例</option>
-                </select>
-            </div>
+        <div class="col-sm-4 form-group">
+            <label class="control-label">重要程度<i class="text-red">* </i></label>
+            <select name="important" class="form-control input-sm" required>
+                <option>请选择</option>
+                <option value="1">一级用例</option>
+                <option value="2">二级用例</option>
+                <option value="3">三级用例</option>
+                <option value="4">四级用例</option>
+            </select>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 form-group">
-            <label class="col-sm-4 control-label">系统大类：</label>
-            <div id="add_sysId" class="col-sm-8">
-                <select name="sysId" class="form-control select2 input-sm">
-                </select>
-            </div>
-        </div>
-        <div class="col-sm-6 form-group">
-            <label class="col-sm-4 control-label">系统子类：</label>
-            <div id="add_subSysId" class="col-sm-8">
-                <select name="subSysId" class="form-control select2 input-sm">
-                </select>
-            </div>
+        <div class="col-sm-4 form-group">
+            <label class="control-label">用例类型<i class="text-red">*</i></label>
+            <select name="caseType" class="form-control select2 input-sm" required>
+                <option>请选择</option>
+                <option value="1">UI类</option>
+                <option value="2">接口类</option>
+                <option value="3">后台进程类</option>
+            </select>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 form-group">
-            <label class="col-sm-4 control-label">功&nbsp;&nbsp;能&nbsp;&nbsp;点：</label>
-            <div id="add_funId" class="col-sm-8 pull-left">
-                <select name="funId" class="form-control select2 input-sm">
-                </select>
-            </div>
+        <div id="add_sysId" class="col-sm-4 form-group">
+            <label class="control-label">系统大类</label>
+            <select name="sysId" class="form-control select2 input-sm">
+                <option>请选择</option>
+            </select>
         </div>
-        <div class="col-sm-6 form-group">
-            <label class="col-sm-4 control-label">业&nbsp;&nbsp;&nbsp;&nbsp;务：</label>
-            <div id="add_busiId" class="col-sm-8">
-                <select name="busiId" class="form-control select2 input-sm">
-                </select>
-            </div>
+        <div id="add_subSysId" class="col-sm-4 form-group">
+            <label class="control-label">系统子类</label>
+            <select name="subSysId" class="form-control select2 input-sm">
+                <option>请选择</option>
+            </select>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 form-group">
-            <label class="col-sm-4 control-label"><i class="text-red">* </i>用例类型：</label>
-            <div id="add_caseType" class="col-sm-8 pull-left">
-                <select name="caseType" class="form-control select2 input-sm" required>
-                    <option> </option>
-                    <option value="1">UI类</option>
-                    <option value="2">接口类</option>
-                    <option value="3">后台进程类</option>
-                </select>
-            </div>
+        <div id="add_funId" class="col-sm-4 form-group">
+            <label class="control-label">功能点</label>
+            <select name="funId" class="form-control select2 input-sm">
+                <option>请选择</option>
+            </select>
         </div>
     </div>
     <div class="row">
-        <div class="form-group">
-            <label class="control-label col-sm-2"><i class="text-red">* </i>模板应用：</label>
-            <div class="col-sm-9">
-                <textarea type="text" class="form-control input-sm" id="JS_add_operateDesc" name="operateDesc" style="resize: none;height: 150px" required></textarea>
-            </div>
+        <div id="add_busiId" class="col-sm-4 form-group">
+            <label class="control-label">业务</label>
+            <select name="busiId" class="form-control select2 input-sm">
+                <option>请选择</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-12">
+            <label class="control-label">模板应用<i class="text-red">* </i></label>
+            <textarea type="text" class="form-control input-sm" id="JS_add_operateDesc" name="operateDesc" style="resize: none;height: 150px" required></textarea>
         </div>
     </div>
 </script>

@@ -27,6 +27,10 @@ public class NaAutoBackupSv extends AbstractJatService {
 	
 	private final String BACKUP_DB_KEY = DatabaseContextHolder.DEFAULT_DB_TYPE;
 
+	/**
+	 * 创建备份库中对应的备份目标表，备份表名格式为:源表名+$+db
+	 * @param propertyCorrelationList
+	 */
 	public void prepareBackupTables(List<NaAutoPropertyCorrelation> propertyCorrelationList) {
 		for (NaAutoPropertyCorrelation correlation : propertyCorrelationList) {
 			String dbKey = correlation.getDb();
@@ -67,6 +71,11 @@ public class NaAutoBackupSv extends AbstractJatService {
 		}
 	}
 	
+	/**
+	 * 初始化na_auto_backup_deal表中field2~field10中的值，供后续备份用
+	 * @param backupDeal
+	 * @param propertyConfigMap
+	 */
 	@Transactional
 	public void prepareBackupDealData(NaAutoBackupDeal backupDeal, Map<Long, NaAutoPropertyConfig> propertyConfigMap) {
 		for(NaAutoPropertyConfig propertyConfig : propertyConfigMap.values()){
@@ -129,6 +138,12 @@ public class NaAutoBackupSv extends AbstractJatService {
 		}
 	}
 	
+	/**
+	 * 备份源表中的数据到备份库对应的表中
+	 * @param backupDeal
+	 * @param propertyCorrelationList
+	 * @param propertyConfigMap
+	 */
 	@Transactional
 	public void backup(NaAutoBackupDeal backupDeal, 
 			List<NaAutoPropertyCorrelation> propertyCorrelationList, 
@@ -199,6 +214,12 @@ public class NaAutoBackupSv extends AbstractJatService {
 		}
 	}
 	
+	/**
+	 * 从备份库表还原数据到源表中。操作为先删除源表相关数据，再从取备份库表读取数据插入至源表中
+	 * @param backupDeal
+	 * @param propertyCorrelationList
+	 * @param propertyConfigMap
+	 */
 	@Transactional
 	public void restore(NaAutoBackupDeal backupDeal, 
 			List<NaAutoPropertyCorrelation> propertyCorrelationList, 
@@ -278,6 +299,13 @@ public class NaAutoBackupSv extends AbstractJatService {
 		}
 	}
 	
+	/**
+	 * 更新na_auto_backup_deal的状态字段值
+	 * @param preState
+	 * @param upState
+	 * @param dealId
+	 * @return
+	 */
 	@Transactional
 	public int updateBackupDeal(byte preState, byte upState, long dealId) {
 		Connection backupConn = null;
@@ -308,6 +336,12 @@ public class NaAutoBackupSv extends AbstractJatService {
 		return 0;
 	}
 	
+	/**
+	 * 备份报错更新至na_auto_backup_deal的err_msg字段
+	 * @param errMsg
+	 * @param dealId
+	 * @return
+	 */
 	@Transactional
 	public int updateBackupDealMsg(String errMsg, long dealId) {
 		if (errMsg == null) {
@@ -356,6 +390,13 @@ public class NaAutoBackupSv extends AbstractJatService {
 		return sb.toString();
 	}
 	
+	/**
+	 * 更新na_auto_backup_deal的restore_state字段值
+	 * @param preState
+	 * @param upState
+	 * @param dealId
+	 * @return
+	 */
 	@Transactional
 	public int updateRestoreDeal(byte preState, byte upState, long dealId) {
 		Connection backupConn = null;
@@ -386,6 +427,12 @@ public class NaAutoBackupSv extends AbstractJatService {
 		return 0;
 	}
 	
+	/**
+	 * 还原报错更新至na_auto_backup_deal的err_msg字段
+	 * @param errMsg
+	 * @param dealId
+	 * @return
+	 */
 	@Transactional
 	public int updateRestoreDealMsg(String errMsg, long dealId) {
 		if (errMsg == null) {

@@ -72,8 +72,9 @@ public class OnlineTaskController {
 	
 	@RequestMapping(path = "/accept/onlineTask/save")
 	public @ResponseBody JsonBean save(OnlineTaskRequest onlineTaskRequest){
-		onlineTaskSv.save(onlineTaskRequest);
-		return JsonBean.success;
+		JsonBean bean = new JsonBean();
+		bean.setData(onlineTaskSv.save(onlineTaskRequest));
+		return bean;
 		
 	}
 	

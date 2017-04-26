@@ -10,10 +10,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.AigaBossTestResultDao;
 import com.ai.aiga.dao.CodePathDao;
+import com.ai.aiga.dao.DatabaseConfiDao;
+import com.ai.aiga.dao.DatabaseScriptListDao;
+import com.ai.aiga.dao.DbScriptListDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
+import com.ai.aiga.dao.NaRequireListDao;
 import com.ai.aiga.dao.PlanDetailManifestDao;
+import com.ai.aiga.dao.TestLeaveOverDao;
+import com.ai.aiga.dao.TestSituationDao;
 import com.ai.aiga.domain.NaChangePlanOnile;
 import com.ai.aiga.domain.NaCodePath;
+import com.ai.aiga.domain.NaDatabaseConfiScript;
+import com.ai.aiga.domain.NaDatabaseScriptList;
+import com.ai.aiga.domain.NaDbScriptList;
+import com.ai.aiga.domain.NaRequireList;
+import com.ai.aiga.domain.NaTestLeaveOver;
+import com.ai.aiga.domain.NaTestSituation;
 import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
@@ -24,7 +36,14 @@ import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.controller.planOnline.dto.CodePathRequestExcel;
+import com.ai.aiga.view.controller.planOnline.dto.DatabaseConfiScriptExcel;
+import com.ai.aiga.view.controller.planOnline.dto.DatabaseScriptListExcel;
 import com.ai.aiga.view.controller.planOnline.dto.NaChangePlanOnileRequest;
+import com.ai.aiga.view.controller.planOnline.dto.NaDbScriptListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.RequireListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverExcel;
+import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverRequest;
+import com.ai.aiga.view.controller.planOnline.dto.TestSituationExcel;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Service
@@ -44,6 +63,25 @@ public class ChangePlanOnileSv extends BaseService{
 	
 	@Autowired
 	private       CodePathDao      codePathDao;
+	
+	@Autowired
+	private  TestLeaveOverDao  testLeaveOverDao;
+	
+	@Autowired
+	private         NaRequireListDao     naRequireListDao;
+	
+	@Autowired
+	private          TestSituationDao      testSituationDao;
+	
+	@Autowired
+	private DatabaseConfiDao databaseConfiDao;
+
+	@Autowired
+	private DatabaseScriptListDao databaseScriptListDao;
+	
+	
+	@Autowired
+	private DbScriptListDao dbScriptListDao;
 	
 	public NaChangePlanOnile saveChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 
@@ -178,7 +216,7 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @author: taoyf
 	 * @date: 2017年4月11日 下午4:05:15
 	 *
-	 * @Description:
+	 * @Description:计划上线清单
 	 * @param l
 	 * @param list          
 	 */
@@ -257,18 +295,190 @@ public class ChangePlanOnileSv extends BaseService{
 			codePathDao.save(values);
 		}	
 		
+		/**
+		 * 
+		 * @ClassName: ChangePlanOnileSv :: saveCodeExcel
+		 * @author: liujinfang
+		 * @date: 2017年4月25日 下午4:11:08
+		 *
+		 * @Description:测试遗留情况解析
+		 * @param planId
+		 * @param list
+		 */
 		
+		public void testLeaveOverExcel(Long planId, List<TestLeaveOverExcel> list) {
+			if(planId == null || planId < 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+			
+			if(list == null || list.size() <= 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+			
+			
+			List<NaTestLeaveOver> values = BeanMapper.mapList(list, TestLeaveOverExcel.class, NaTestLeaveOver.class);
+			if(values != null){
+				for(NaTestLeaveOver v : values){
+					v.setPlanId(planId);
+					
+				}
+			}
+			
+			testLeaveOverDao.save(values);
+		}	
 		
+		/**
+		 * 
+		 * @ClassName: ChangePlanOnileSv :: testLeaveOverExcel
+		 * @author: liujinfang
+		 * @date: 2017年4月25日 下午4:31:51
+		 *
+		 * @Description:测试情况解析
+		 * @param planId
+		 * @param list
+		 */
+		public void requireListExcel(Long planId, List<RequireListExcel> list) {
+			if(planId == null || planId < 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+			
+			if(list == null || list.size() <= 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+			
+			
+			List<NaRequireList> values = BeanMapper.mapList(list, RequireListExcel.class, NaRequireList.class);
+			if(values != null){
+				for(NaRequireList v : values){
+					v.setPlanId(planId);
+					
+				}
+			}
+			
+			naRequireListDao.save(values);
+		}	
 		
+		/**
+		 * 
+		 * @ClassName: ChangePlanOnileSv :: requireListExcel
+		 * @author: liujinfang
+		 * @date: 2017年4月25日 下午4:43:08
+		 *
+		 * @Description: 测试执行情况解析
+		 * @param planId
+		 * @param list
+		 */
+		public void testSituationExcel(Long planId, List<TestSituationExcel> list) {
+			if(planId == null || planId < 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+			
+			if(list == null || list.size() <= 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+			
+			
+			List<NaTestSituation> values = BeanMapper.mapList(list, TestSituationExcel.class, NaTestSituation.class);
+			if(values != null){
+				for(NaTestSituation v : values){
+					v.setPlanId(planId);
+					
+				}
+			}
+			
+			testSituationDao.save(values);
+		}		
+		/**
+		 * 
+		 * @ClassName: ChangePlanOnileSv :: testSituationExcel
+		 * @author: liujinfang
+		 * @date: 2017年4月25日 下午5:10:38
+		 *
+		 * @Description:数据库配置脚本
+		 * @param planId
+		 * @param list
+		 */
+		public void databaseConfiScriptExcel(Long planId, List<DatabaseConfiScriptExcel> list) {
+			if(planId == null || planId < 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+			
+			if(list == null || list.size() <= 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+			
+			
+			List<NaDatabaseConfiScript> values = BeanMapper.mapList(list, DatabaseConfiScriptExcel.class, NaDatabaseConfiScript.class);
+			if(values != null){
+				for(NaDatabaseConfiScript v : values){
+					v.setPlanId(planId);
+					
+				}
+			}
+			
+			databaseConfiDao.save(values);
+		}			
 		
+		/**
+		 * 
+		 * @ClassName: ChangePlanOnileSv :: databaseScriptListExcel
+		 * @author: liujinfang
+		 * @date: 2017年4月25日 下午5:19:26
+		 *
+		 * @Description: 数据库脚本清单解析
+		 * @param planId
+		 * @param list
+		 */
+		public void databaseScriptListExcel(Long planId, List<DatabaseScriptListExcel> list) {
+			if(planId == null || planId < 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+			
+			if(list == null || list.size() <= 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+			
+			
+			List<NaDatabaseScriptList> values = BeanMapper.mapList(list, DatabaseScriptListExcel.class, NaDatabaseScriptList.class);
+			if(values != null){
+				for(NaDatabaseScriptList v : values){
+					v.setPlanId(planId);
+					
+				}
+			}
+			
+			databaseScriptListDao.save(values);
+		}				
 		
-		
-		
-		
-		
-		
-		
-		
-		
+	/**
+	 * 
+	 * @ClassName: ChangePlanOnileSv :: databaseScriptListExcel
+	 * @author: liujinfang
+	 * @date: 2017年4月25日 下午5:22:35
+	 *
+	 * @Description: 数据库切割脚本 
+	 * @param planId
+	 * @param list
+	 */
+		public void dbScriptListExcel(Long planId, List<NaDbScriptListExcel> list) {
+			if(planId == null || planId < 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+			
+			if(list == null || list.size() <= 0){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+			
+			
+			List<NaDbScriptList> values = BeanMapper.mapList(list, NaDbScriptListExcel.class, NaDbScriptList.class);
+			if(values != null){
+				for(NaDbScriptList v : values){
+					v.setPlanId(planId);
+					
+				}
+			}
+			
+			dbScriptListDao.save(values);
+		}				
 		
 }

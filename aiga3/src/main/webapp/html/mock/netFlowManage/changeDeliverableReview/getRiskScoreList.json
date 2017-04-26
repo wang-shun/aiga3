@@ -1,0 +1,37 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data": {
+        "totalElements": 12, //总条数
+        "content": [{
+            "id": "1",
+            "totalScore": "8 – 13",
+            "actualScore": "",
+            "riskGrade":"重大",
+            "approvalLevel":"主管领导",
+            "guaranteeMechanism":"变更经理现场保障"
+
+        }, {
+            "id": "2",
+            "totalScore": "14 – 19",
+            "actualScore": "是",
+            "riskGrade":"高",
+            "approvalLevel":"科室经理",
+            "guaranteeMechanism":"变更管理员现场保障"
+        }, {
+            "id": "3",
+            "totalScore": "20 – 25",
+            "actualScore": "",
+            "riskGrade":"中",
+            "approvalLevel":"变更经理",
+            "guaranteeMechanism":"变更执行人现场保障"
+        }, {
+            "id": "4",
+            "totalScore": "26 - 32",
+            "actualScore": "",
+            "riskGrade":"低",
+            "approvalLevel":"变更管理员",
+            "guaranteeMechanism":"变更执行人现场保障"
+        }]
+    }
+}

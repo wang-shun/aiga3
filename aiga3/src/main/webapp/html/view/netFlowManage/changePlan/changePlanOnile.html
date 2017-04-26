@@ -129,6 +129,7 @@
 						<th>创建时间</th>
 						<th>完成时间</th>
 						<th>备注</th>
+						<th>截止时间</th>
 					</tr>
 				</thead>
 				<tbody name="content"></tbody>
@@ -324,7 +325,6 @@
 		                            <th>上传次数</th>
 		                            <th>下载时间</th>
 		                            <th>文件类型</th>
-		                            <th>截止时间</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody name="content"></tbody>
@@ -416,6 +416,7 @@
             <td>{{createDate}}</td>
             <td>{{doneDate}}</td>
             <td>{{remark}}</td>
+            <td>{{fileUploadLastTime}}</td>
         </tr>
         {{/each}}
 </script>
@@ -503,7 +504,6 @@
             <td>{{uploadCount}}</td>
             <td>{{downLoadTime}}</td>
             <td>{{fileTypes fileType}}</td>
-            <td>{{fileUploadLastTime}}</td>
         </tr>
     {{/each}}
 </script>

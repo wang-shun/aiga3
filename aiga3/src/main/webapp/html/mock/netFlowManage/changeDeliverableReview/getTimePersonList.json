@@ -1,0 +1,99 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data": {
+        "totalElements": 12, //总条数
+        "content": [{
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":"变更协调"
+        }, {
+            "applyTime": "2017-04-24 8:00:00",
+            "startRunTime": "2017-04-24 8:00:00",
+            "stopRunTime": "2017-04-24 8:00:00",
+            "personRole": "变更管理员",
+            "personName": "高兴",
+            "personPhone":"13333333333",
+            "personGroup":"专业组",
+            "personDuty":""
+        }]
+    }
+}

@@ -35,24 +35,23 @@ public class TaskSvTest {
 	
 		//taskSv.findTask("");
 		
-//		Tasks t = new Tasks();
-//		t.setTaskName("说些什么2");
-//		t.setTaskClass("com.ai.process.task.quartz.SaySmTask");
-//		t.setTaskCategory("default");
-//		t.setTaskType(TaskConstant.TASKS_TYPE_TF);
-//		t.setTaskTriggerType(TaskConstant.TASK_TRIGGER_TYPE_INTERVAL);
-//		t.setIntervalTime(10l);
-//		t.setStatus(TaskConstant.TASK_STATUS_NEW);
-//		t.setCreateTime(new Date());
+		Tasks t = new Tasks();
+		t.setTaskName("说些什么3");
+		t.setTaskClass("com.ai.process.task.quartz.SaySmTask2");
+		t.setTaskCategory("default");
+		t.setTaskType(TaskConstant.TASKS_TYPE_TASK);
+		t.setTaskTriggerType(TaskConstant.TASK_TRIGGER_TYPE_ONCE);
+		t.setStatus(TaskConstant.TASK_STATUS_NEW);
+		t.setCreateTime(new Date());
 //		
 //		Map<String, String> map = new HashMap<String, String>();
 //		map.put("nihao", "好毛线");
 //		
-//		taskSv.addTask(t, map);
-		for(Tasks t : taskSv.findTf("default")){
-			System.out.println(t);
-			System.out.println(t.getParameters());
-		}
+		taskSv.addTask(t, null);
+//		for(Tasks t : taskSv.findTf("default")){
+//			System.out.println(t);
+//			System.out.println(t.getParameters());
+//		}
 		
 	}
 

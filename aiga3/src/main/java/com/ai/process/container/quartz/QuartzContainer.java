@@ -15,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.ai.aiga.util.ExceptionUtil;
 import com.ai.process.config.ProcessDefaultInfo;
 import com.ai.process.container.Container;
+import com.ai.process.container.quartz.listener.TaskLifeCycleListener;
 
 
 /**
@@ -67,6 +68,8 @@ public class QuartzContainer implements Container{
 			
 			Trigger trigger = newTrigger().withIdentity(ProcessDefaultInfo.PROCESS_CORE_JOB_TRIGGER_NAME, ProcessDefaultInfo.PROCESS_CORE_GROUPNAME).startNow()
 					.withSchedule(simpleSchedule().withIntervalInSeconds(5).repeatForever()).build();
+			
+			scheduler.getListenerManager().addJobListener(new TaskLifeCycleListener());
 			
 			scheduler.scheduleJob(job, trigger);
 			

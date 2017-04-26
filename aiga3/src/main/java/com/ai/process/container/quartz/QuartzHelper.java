@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import com.ai.aiga.domain.Tasks;
 import com.ai.aiga.domain.TasksParameter;
 import com.ai.aiga.service.task.TaskConstant;
+import com.ai.aiga.util.ExceptionUtil;
 import com.ai.process.config.ProcessDefaultInfo;
 
 /**
@@ -31,8 +32,8 @@ import com.ai.process.config.ProcessDefaultInfo;
  * 
  */
 public class QuartzHelper {
-	
-	 private static Logger log = LoggerFactory.getLogger(QuartzHelper.class);
+
+	private static Logger log = LoggerFactory.getLogger(QuartzHelper.class);
 
 	/**
 	 * @ClassName: QuartzHelper :: build
@@ -40,56 +41,51 @@ public class QuartzHelper {
 	 * @date: 2017年4月25日 下午2:33:04
 	 *
 	 * @Description:
-	 * @param tf          
+	 * @param tf
 	 */
 	public static JobAndTrigger build(Tasks tf) {
-		
-		if(tf == null){
-			return null;
+
+		if (tf == null) {
+			throw new NullPointerException("tasks未传");
 		}
 		
-		//1, 构建jobdetail
+		// 1, 构建jobdetail
 		Class clazz = null;
 		try {
 			clazz = ClassUtils.getClass(tf.getTaskClass());
 		} catch (ClassNotFoundException e) {
-			error(tf, "无法找到tasks_class的类!");
-			return null;
+			ExceptionUtil.throwException(error(tf, "无法找到tasks_class的类!"));
 		}
-		
+
 		String jobName = getJobName(tf, clazz);
-		
-		JobDetail job = newJob(clazz)
-				.withIdentity(jobName, ProcessDefaultInfo.JOB_GROUPNAME)
-				.withDescription(tf.getTaskName())
-				.build();
-		
-		//jobDataMap
+
+		JobDetail job = newJob(clazz).withIdentity(jobName, ProcessDefaultInfo.JOB_GROUPNAME)
+				.withDescription(tf.getTaskName()).build();
+
+		// jobDataMap
 		List<TasksParameter> parameters = tf.getParameters();
-		if(parameters != null){
-			for(TasksParameter p : parameters){
+		if (parameters != null) {
+			for (TasksParameter p : parameters) {
 				job.getJobDataMap().put(p.getName(), p.getValue());
 			}
 		}
-		
-		
-		//2, 构建触发器
+		job.getJobDataMap().put(ProcessDefaultInfo.JOB_TASKS_HOLDER, tf);
+
+		// 2, 构建触发器
 		Trigger trigger = null;
-		
-		if(TaskConstant.TASKS_TYPE_TF == tf.getTaskType()){
+
+		if (TaskConstant.TASKS_TYPE_TF == tf.getTaskType()) {
 			trigger = buildTFTrigger(tf, jobName);
-		}else if(TaskConstant.TASKS_TYPE_TASK == tf.getTaskType()){
+		} else if (TaskConstant.TASKS_TYPE_TASK == tf.getTaskType()) {
 			trigger = buildTaskTrigger(tf, jobName);
-		}else{
-			error(tf, "该tasks_type不支持!");
-			return null;
+		} else {
+			ExceptionUtil.throwException(error(tf, "该tasks_type不支持!"));
 		}
-		
-		if(trigger == null){
-			error(tf, "该tasks生产触发时间失败!");
-			return null;
+
+		if (trigger == null) {
+			ExceptionUtil.throwException(error(tf, "该tasks生产触发时间失败!"));
 		}
-		
+
 		return new JobAndTrigger(job, trigger);
 	}
 
@@ -100,51 +96,53 @@ public class QuartzHelper {
 	 *
 	 * @Description:
 	 * @param tf
-	 * @return          
+	 * @return
 	 */
 	private static Trigger buildTaskTrigger(Tasks tf, String jobName) {
-		
-		if(TaskConstant.TASK_TRIGGER_TYPE_INTERVAL == tf.getTaskTriggerType()){
-			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX, ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
+
+		if (TaskConstant.TASK_TRIGGER_TYPE_INTERVAL == tf.getTaskTriggerType()) {
+			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX,
+					ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
 			Date date = tf.getExecuteTime();
-			if(date != null){
+			if (date != null) {
 				builder.startAt(date);
 			}
-			
+
 			Long IntervalTime = tf.getIntervalTime();
-			if(IntervalTime == null || IntervalTime <= 0){
-				return null;
+			if (IntervalTime == null || IntervalTime <= 0) {
+				ExceptionUtil.throwException(error(tf, "选择了循环运行,却未填循环时间!"));
 			}
 			builder.withSchedule(simpleSchedule().withIntervalInSeconds(IntervalTime.intValue()).repeatForever());
 			return builder.build();
-		}else if(TaskConstant.TASK_TRIGGER_TYPE_CRON ==  tf.getTaskTriggerType()){
-			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX, ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
-			
-			String cron = tf.getCronExpression();
-			if(StringUtils.isBlank(cron)){
-				return null;
-			}
-			try{
-				builder.withSchedule(cronSchedule(cron));
-			}catch (Exception e) {
-				error(tf, "该cron表达式错误!");
-				return null;
-			}
-			
-			return builder.build();
-		}else if(TaskConstant.TASK_TRIGGER_TYPE_ONCE ==  tf.getTaskTriggerType()){
-			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX, ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
+//		} else if (TaskConstant.TASK_TRIGGER_TYPE_CRON == tf.getTaskTriggerType()) {
+//			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX,
+//					ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
+//
+//			String cron = tf.getCronExpression();
+//			if (StringUtils.isBlank(cron)) {
+//				ExceptionUtil.throwException(error(tf, "选择了CRON运行,却未填CRON表达式!"));
+//			}
+//			try {
+//				builder.withSchedule(cronSchedule(cron));
+//			} catch (Exception e) {
+//				ExceptionUtil.throwException(error(tf, "该cron表达式错误!"));
+//			}
+//
+//			return builder.build();
+		} else if (TaskConstant.TASK_TRIGGER_TYPE_ONCE == tf.getTaskTriggerType()) {
+			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX,
+					ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
 			Date date = tf.getExecuteTime();
-			if(date != null){
+			if (date != null) {
 				builder.startAt(date);
-			}else{
+			} else {
 				builder.startNow();
 			}
-			
+
 			return builder.build();
 		}
-		
-		error(tf, "TF 暂不支持这种触发模式");
+
+		ExceptionUtil.throwException(error(tf, "TASK 暂不支持这种触发模式"));
 		return null;
 	}
 
@@ -155,45 +153,44 @@ public class QuartzHelper {
 	 *
 	 * @Description:
 	 * @param tf
-	 * @return          
+	 * @return
 	 */
 	private static Trigger buildTFTrigger(Tasks tf, String jobName) {
-		
-		
-		if(TaskConstant.TASK_TRIGGER_TYPE_INTERVAL == tf.getTaskTriggerType()){
-			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX, ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
+
+		if (TaskConstant.TASK_TRIGGER_TYPE_INTERVAL == tf.getTaskTriggerType()) {
+			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX,
+					ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
 			Date date = tf.getExecuteTime();
-			if(date != null){
+			if (date != null) {
 				builder.startAt(date);
 			}
-			
+
 			Long IntervalTime = tf.getIntervalTime();
-			if(IntervalTime == null || IntervalTime <= 0){
-				return null;
+			if (IntervalTime == null || IntervalTime <= 0) {
+				ExceptionUtil.throwException(error(tf, "选择了循环运行,却未填循环时间!"));
 			}
 			builder.withSchedule(simpleSchedule().withIntervalInSeconds(IntervalTime.intValue()).repeatForever());
 			return builder.build();
-		}else if(TaskConstant.TASK_TRIGGER_TYPE_CRON ==  tf.getTaskTriggerType()){
-			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX, ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
-			
+		} else if (TaskConstant.TASK_TRIGGER_TYPE_CRON == tf.getTaskTriggerType()) {
+			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX,
+					ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
+
 			String cron = tf.getCronExpression();
-			if(StringUtils.isBlank(cron)){
-				return null;
+			if (StringUtils.isBlank(cron)) {
+				ExceptionUtil.throwException(error(tf, "选择了CRON运行,却未填CRON表达式!"));
 			}
-			try{
+			try {
 				builder.withSchedule(cronSchedule(cron));
-			}catch (Exception e) {
-				error(tf, "该cron表达式错误!");
-				return null;
+			} catch (Exception e) {
+				ExceptionUtil.throwException(error(tf, "该cron表达式错误!"));
 			}
-			
+
 			return builder.build();
 		}
-		
-		error(tf, "TF 暂不支持这种触发模式");
+
+		ExceptionUtil.throwException(error(tf, "TF 暂不支持这种触发模式"));
 		return null;
 	}
-	
 
 	/**
 	 * @ClassName: QuartzHelper :: getTaskName
@@ -203,7 +200,7 @@ public class QuartzHelper {
 	 * @Description:
 	 * @param tf
 	 * @param clazz
-	 * @return          
+	 * @return
 	 */
 	private static String getJobName(Tasks tf, Class clazz) {
 		StringBuilder sb = new StringBuilder();
@@ -212,23 +209,24 @@ public class QuartzHelper {
 		sb.append(clazz.getSimpleName());
 		sb.append("_");
 		sb.append(tf.getId());
-		
+
 		return sb.toString();
 	}
 
-	private static void error(Tasks tf, String reason){
+	private static String error(Tasks tf, String reason) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("构建执行job失败 : ");
 		sb.append(reason);
 		sb.append(" ");
 		sb.append("任务信息 : ");
 		sb.append(tf);
-		
-		log.error(sb.toString());
+
+		String errorInfo = sb.toString();
+
+		log.error(errorInfo);
+		return errorInfo;
 	}
-	
-	
-	
+
 	/**
 	 * @ClassName: CoreJob :: isRunning
 	 * @author: taoyf
@@ -237,10 +235,10 @@ public class QuartzHelper {
 	 * @Description:
 	 * @param scheduler
 	 * @param detail
-	 * @return          
+	 * @return
 	 */
 	public static boolean isRunning(Scheduler scheduler, JobAndTrigger detail) {
-		
+
 		JobDetail jobDetail = null;
 		try {
 			jobDetail = scheduler.getJobDetail(detail.getJobDetail().getKey());
@@ -248,29 +246,8 @@ public class QuartzHelper {
 			log.error("判断task" + detail.getJobDetail().getKey() + " 是否已经在执行失败!", e);
 			return true;
 		}
-		
+
 		return jobDetail != null;
 	}
 
-
-	/**
-	 * @ClassName: CoreJob :: scheduleJob
-	 * @author: taoyf
-	 * @date: 2017年4月25日 下午4:34:39
-	 *
-	 * @Description:
-	 * @param scheduler
-	 * @param detail          
-	 */
-	public static void scheduleJob(Scheduler scheduler, JobAndTrigger detail) {
-		
-		try {
-			scheduler.scheduleJob(detail.getJobDetail(), detail.getTrigger());
-		} catch (SchedulerException e) {
-			log.error("执行" + detail.getJobDetail().getKey() + " 失败!", e);
-		}
-	}
-	
-
 }
-

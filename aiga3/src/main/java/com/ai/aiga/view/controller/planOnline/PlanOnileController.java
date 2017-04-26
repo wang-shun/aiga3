@@ -97,7 +97,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<PlanDetailManifestExcel> list = POIExcelUtil.excelToList(file, PlanDetailManifestExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.saveExcel(planId, list,fileName,fileType);
 			
 		} catch (Exception e) {
@@ -115,7 +115,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<CodePathRequestExcel> list = POIExcelUtil.excelToList(file, CodePathRequestExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.saveCodeExcel(planId, list, fileName,fileType);
 
 		} catch (Exception e) {
@@ -133,7 +133,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<TestLeaveOverExcel> list = POIExcelUtil.excelToList(file, TestLeaveOverExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.testLeaveOverExcel(planId, list, fileName,fileType);
 
 		} catch (Exception e) {
@@ -151,7 +151,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<RequireListExcel> list = POIExcelUtil.excelToList(file, RequireListExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.requireListExcel(planId, list, fileName,fileType);
 
 		} catch (Exception e) {
@@ -179,7 +179,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<NaProcessChangeListExcel> list = POIExcelUtil.excelToList(file, NaProcessChangeListExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.saveExcelNaProcessChangeList(planId, list,fileName,fileType);
 			
 		} catch (Exception e) {
@@ -207,7 +207,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<NaServiceChangeOnlineListExcel> list = POIExcelUtil.excelToList(file, NaServiceChangeOnlineListExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.saveExcelNaServiceChangeOnlineList(planId, list,fileName,fileType);
 			
 		} catch (Exception e) {
@@ -235,7 +235,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<NaHostConfigListExcel> list = POIExcelUtil.excelToList(file, NaHostConfigListExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.saveExcelNaHostConfigList(planId, list,fileName,fileType);
 			
 		} catch (Exception e) {
@@ -265,7 +265,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<NaGroupAdjustListExcel> list = POIExcelUtil.excelToList(file, NaGroupAdjustListExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.naGroupAdjustListExcel(planId, list,fileName,fileType);
 			
 		} catch (Exception e) {
@@ -284,7 +284,7 @@ public class PlanOnileController {
 		JsonBean bean = new JsonBean();
 		try {
 			List<NaGroupRequireListExcel> list = POIExcelUtil.excelToList(file, NaGroupRequireListExcel.class);
-			String fileName = file.getName();
+			String fileName = file.getOriginalFilename();
 			naChangePlanOnileSv.naGroupRequireList(planId, list, fileName,fileType);
 			
 		} catch (Exception e) {
@@ -302,7 +302,7 @@ public class PlanOnileController {
 			JsonBean bean = new JsonBean();
 			try {
 				List<NaHasDeployMenuListExcel> list = POIExcelUtil.excelToList(file, NaHasDeployMenuListExcel.class);
-				String fileName = file.getName();
+				String fileName = file.getOriginalFilename();
 				naChangePlanOnileSv.naHasDeployMenuListExcel(planId, list, fileName,fileType);
 				
 			} catch (Exception e) {

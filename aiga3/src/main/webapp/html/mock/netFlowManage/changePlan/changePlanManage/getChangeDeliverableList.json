@@ -11,8 +11,7 @@
 	        "lastUploadTime": "2017-2-02 08:00:00",
 		    "uploadCount":"1",
 	        "downLoadTime": "2017-2-02 08:00:00",
-		    "fileType":"1",
-	        "fileUploadLastTime": "2017-2-02 08:00:00"
+		    "fileType":"1"
         },{
       		"id": "1",
     	    "fileName": "文件名称1",
@@ -20,8 +19,7 @@
 	        "lastUploadTime": "2017-2-02 08:00:00",
 		    "uploadCount":"1",
 	        "downLoadTime": "2017-2-02 08:00:00",
-		    "fileType":"1",
-	        "fileUploadLastTime": "2017-2-02 08:00:00"
+		    "fileType":"1"
         },{
       		"id": "1",
     	    "fileName": "文件名称1",
@@ -29,8 +27,7 @@
 	        "lastUploadTime": "2017-2-02 08:00:00",
 		    "uploadCount":"1",
 	        "downLoadTime": "2017-2-02 08:00:00",
-		    "fileType":"1",
-	        "fileUploadLastTime": "2017-2-02 08:00:00"
+		    "fileType":"1"
         },{
       		"id": "1",
     	    "fileName": "文件名称1",
@@ -38,8 +35,7 @@
 	        "lastUploadTime": "2017-2-02 08:00:00",
 		    "uploadCount":"1",
 	        "downLoadTime": "2017-2-02 08:00:00",
-		    "fileType":"1",
-	        "fileUploadLastTime": "2017-2-02 08:00:00"
+		    "fileType":"1"
         },{
       		"id": "1",
     	    "fileName": "文件名称1",
@@ -47,8 +43,7 @@
 	        "lastUploadTime": "2017-2-02 08:00:00",
 		    "uploadCount":"1",
 	        "downLoadTime": "2017-2-02 08:00:00",
-		    "fileType":"1",
-	        "fileUploadLastTime": "2017-2-02 08:00:00"
+		    "fileType":"1"
         }]
     }
 }

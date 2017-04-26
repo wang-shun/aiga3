@@ -673,7 +673,7 @@ define(function(require, exports, module) {
 						//显示弹框
 						_modal.modal('show');
 						self.getChangeDeliverableList(_data.onlinePlan);
-						self.importFile(_data.onlinePlan);
+						self.importFile(_data.onlinePlan,_ty.planState,_ty.fileUploadLastTime);
 					}
 				}
 			});
@@ -771,10 +771,16 @@ define(function(require, exports, module) {
             });
 		},
 		// 变更交付物导入文件
-		importFile:function(planId){
+		importFile:function(planId,planState,fileUploadLastTime){
 			var self = this;
             var _form = Page.findId('changeDeliverableForm');
             var _importFile = _form.find("[name='importFile']");
+            
+			if(planState=="3" || planState=="4"){
+				_importFile.attr("disabled", true);
+			}else{
+				_importFile.removeAttr("disabled");
+			}
             _importFile.unbind('click');
             _importFile.bind('click', function() {
             	var fileName = _form.find("[name='fileName']")[0].files[0];
@@ -829,7 +835,7 @@ define(function(require, exports, module) {
                 success: function(data, status, xhr) {
                     console.log(data);
                     if (status) {
-                        window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                        window.XMS.msgbox.show('导入文件成功！', 'success', 2000);
                         setTimeout(function() {
                             self.getChangeDeliverableList(planId);
                         }, 1000)

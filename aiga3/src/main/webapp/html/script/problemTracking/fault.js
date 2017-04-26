@@ -143,13 +143,13 @@ define(function(require, exports, module) {
 			_save.unbind('click');
 			_save.bind('click', function() {
 				var template = Handlebars.compile(Page.findTpl('addFaultForm'));
-				$("#JS_addFaultForm").html(template({}));
-				self.bugLevel($("#JS_addFaultForm"));
+				Page.findModalCId("addFaultForm").html(template({}));
+				self.bugLevel(Page.findModalCId("addFaultForm"));
 				Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
 					if (status) {
 						var template = Handlebars.compile(Tpl.queryOnlinePlanName);
 						console.log(json.data)
-						$("#JS_addFaultForm").find("[name='onlinePlans']").html(template(json.data));
+						Page.findModalCId("addFaultForm").find("[name='onlinePlans']").html(template(json.data));
 					}
 				});
 				//// 弹出层
@@ -162,8 +162,8 @@ define(function(require, exports, module) {
 		//保存按钮
 		saveFault : function(cmd){
 			var self = this;
-			var _save = $("#JS_addFaultForm").find("[name='save']"); 
-			var _form = $("#JS_addFaultForm").find("[name='addFaultForm']");
+			var _save = Page.findModalCId("addFaultForm").find("[name='save']"); 
+			var _form = Page.findModalCId("addFaultForm").find("[name='addFaultForm']");
 			_save.unbind('click');
 			_save.bind('click', function() {
 				cmd = cmd + _form.serialize();
@@ -193,33 +193,33 @@ define(function(require, exports, module) {
 						if (status) {
 							var template = Handlebars.compile(Page.findTpl('addFaultForm'));
 							console.log(json.data)
-							$("#JS_addFaultForm").html(template(json.data));
+							Page.findModalCId("addFaultForm").html(template(json.data));
 							var onlinePlans=json.data.onlinePlans;
-							$("#JS_addFaultForm").find("[name='bugType']").val(json.data.bugType);
-							$("#JS_addFaultForm").find("[name='resove']").val(json.data.resove);
-							$("#JS_addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
-							var _bugType=$("#JS_addFaultForm").find("[name='bugType']")
+							Page.findModalCId("addFaultForm").find("[name='bugType']").val(json.data.bugType);
+							Page.findModalCId("addFaultForm").find("[name='resove']").val(json.data.resove);
+							Page.findModalCId("addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
+							var _bugType=Page.findModalCId("addFaultForm").find("[name='bugType']")
 							if(_bugType.val()=="2"){
-								$("#JS_addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
+								Page.findModalCId("addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
 							}else if (_bugType.val()=="1") {
-								$("#JS_addFaultForm").find("[name='bugLevel']").removeAttr("disabled");
+								Page.findModalCId("addFaultForm").find("[name='bugLevel']").removeAttr("disabled");
 							}
 							_bugType.change(function() {
 								var i=_bugType.val()
 								if(i=="1"){
-									$("#JS_addFaultForm").find("[name='bugLevel']").removeAttr("disabled");
-									$("#JS_addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
+									Page.findModalCId("addFaultForm").find("[name='bugLevel']").removeAttr("disabled");
+									Page.findModalCId("addFaultForm").find("[name='bugLevel']").val(json.data.bugLevel);
 								}else if(i=="2"){
-									$("#JS_addFaultForm").find("[name='bugLevel']").val("");
-									$("#JS_addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
+									Page.findModalCId("addFaultForm").find("[name='bugLevel']").val("");
+									Page.findModalCId("addFaultForm").find("[name='bugLevel']").attr("disabled","disabled");
 								}
 							});
 							Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
 								if (status) {
 									var template = Handlebars.compile(Tpl.queryOnlinePlanName);
 									console.log(json.data)
-									$("#JS_addFaultForm").find("[name='onlinePlans']").html(template(json.data));
-									$("#JS_addFaultForm").find("[name='onlinePlans']").val(onlinePlans);
+									Page.findModalCId("addFaultForm").find("[name='onlinePlans']").html(template(json.data));
+									Page.findModalCId("addFaultForm").find("[name='onlinePlans']").val(onlinePlans);
 									//// 弹出层
 									$(Dom.addFaultFormModal).modal('show');
 									

@@ -45,6 +45,20 @@ define(function(require, exports, module) {
 	srvMap.add("uploadNaServiceChangeOnlineList", pathAlias + "getDeliverablesList.json", "produce/plan/uploadNaServiceChangeOnlineList");
 	//进程变更清单
 	srvMap.add("uploadNaProcessChangeList", pathAlias + "getDeliverablesList.json", "produce/plan/uploadNaProcessChangeList");
+	//计划上线清单
+	srvMap.add("upload", pathAlias + "getDeliverablesList.json", "produce/plan/upload");
+	//上线系统模块清单
+	srvMap.add("Path", pathAlias + "getDeliverablesList.json", "change/code/Path");
+	//测试遗留情况
+	srvMap.add("leaveexcel", pathAlias + "getDeliverablesList.json", "test/leaveover/leaveexcel");
+	//测试情况
+	srvMap.add("testsituationexcel", pathAlias + "getDeliverablesList.json", "test/leave/testsituationexcel");
+	//需联调需求
+	srvMap.add("adjustListExcel", pathAlias + "getDeliverablesList.json", "group/adjust/adjustListExcel");
+	//集团需求
+	srvMap.add("reAdjustListExcel", pathAlias + "getDeliverablesList.json", "group/require/adjustListExcel");
+	//生产环境需配置菜单需求
+	srvMap.add("MenuListExcel", pathAlias + "getDeliverablesList.json", "group/deploy/MenuListExcel");
 
 
 
@@ -673,7 +687,7 @@ define(function(require, exports, module) {
 						//显示弹框
 						_modal.modal('show');
 						self.getChangeDeliverableList(_data.onlinePlan);
-						self.importFile(_data.onlinePlan);
+						self.importFile(_data.onlinePlan,_ty.planState,_ty.fileUploadLastTime);
 					}
 				}
 			});
@@ -719,20 +733,21 @@ define(function(require, exports, module) {
             var _saveBtn = _form.find("[name='add']");
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
-            	var a=_form.find("[name='environmentType']").val();
+            	var a=_form.find("[name='category']").val();
             	var cmd = {
             			"file":_form.find("[name='fileName']")[0].files[0],
             			"planId":planId,
             			"fileType":a,
             	}
             	console.log(_form.find("[name='fileName']"));
+            	console.log(a);
             	switch(a){
-            		case "1"://上线系统模块清单//计划上线清单//测试遗留问题清单//测试情况//进程变更清单//服务变更上线清单//主机类配置//需联调需求//生产环境需配置菜单需求//集团需求
-            			var task = srvMap.get('exception');
+            		case "1"://上线系统模块清单
+            			var task = srvMap.get('Path');
             			self.jieko(task,cmd,planId)
             			break;
             		case "2"://计划上线清单
-            			var task = srvMap.get('processexcels');
+            			var task = srvMap.get('upload');
             			self.jieko(task,cmd,planId)
             			break;
             		case "3"://测试遗留问题清单
@@ -756,25 +771,31 @@ define(function(require, exports, module) {
             			self.jieko(task,cmd,planId)
             			break;
             		case "8"://需联调需求
-            			var task = srvMap.get('processexcel');
+            			var task = srvMap.get('adjustListExcel');
             			self.jieko(task,cmd,planId)
             			break;
             		case "9"://生产环境需配置菜单需求
-            			var task = srvMap.get('processexcel');
+            			var task = srvMap.get('MenuListExcel');
             			self.jieko(task,cmd,planId)
             			break;
             		case "10"://集团需求
-            			var task = srvMap.get('processexcel');
+            			var task = srvMap.get('reAdjustListExcel');
             			self.jieko(task,cmd,planId)
             			break;
             	}
             });
 		},
 		// 变更交付物导入文件
-		importFile:function(planId){
+		importFile:function(planId,planState,fileUploadLastTime){
 			var self = this;
             var _form = Page.findId('changeDeliverableForm');
             var _importFile = _form.find("[name='importFile']");
+            
+			if(planState=="3" || planState=="4"){
+				_importFile.attr("disabled", true);
+			}else{
+				_importFile.removeAttr("disabled");
+			}
             _importFile.unbind('click');
             _importFile.bind('click', function() {
             	var fileName = _form.find("[name='fileName']")[0].files[0];
@@ -829,7 +850,7 @@ define(function(require, exports, module) {
                 success: function(data, status, xhr) {
                     console.log(data);
                     if (status) {
-                        window.XMS.msgbox.show('发送成功！', 'success', 2000);
+                        window.XMS.msgbox.show('导入文件成功！', 'success', 2000);
                         setTimeout(function() {
                             self.getChangeDeliverableList(planId);
                         }, 1000)

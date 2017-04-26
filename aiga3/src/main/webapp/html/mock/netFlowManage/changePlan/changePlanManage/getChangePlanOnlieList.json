@@ -13,10 +13,11 @@
         "result":"001",
         "timely": "1001",
         "sign": "001",
-        "types": "0",
+        "types": "2",
         "ext3":"1",
         "isFinished": "呀",
-        "remark": "002"
+        "remark": "002",
+        "fileUploadLastTime": "2017-2-02 08:00:00"
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
@@ -28,10 +29,11 @@
         "result":"001",
         "timely": "1",
         "sign": "001",
-        "types": "1",
+        "types": "3",
         "ext3":"1",
         "isFinished": "呀",
-        "remark": "002"
+        "remark": "002",
+        "fileUploadLastTime": "2017-2-02 08:00:00"
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
@@ -46,7 +48,8 @@
         "types": "2",
         "ext3":"1",
         "isFinished": "呀",
-        "remark": "002"
+        "remark": "002",
+        "fileUploadLastTime": "2017-2-02 08:00:00"
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
@@ -61,7 +64,8 @@
         "types": "3",
         "ext3":"1",
         "isFinished": "呀",
-        "remark": "002"
+        "remark": "002",
+        "fileUploadLastTime": "2017-2-02 08:00:00"
     },{
         "onlinePlan":"001",
         "onlinePlanName": "1001",
@@ -76,7 +80,8 @@
         "types": "0",
         "ext3":"1",
         "isFinished": "呀",
-        "remark": "002"
+        "remark": "002",
+        "fileUploadLastTime": "2017-2-02 08:00:00"
     }]
 }
 }

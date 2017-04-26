@@ -1,0 +1,41 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data": {
+        "totalElements": 12, //总条数
+        "content": [{
+            "id": "1",
+            "fileName": "省端直采脚本全",
+            "createTime": "2017-04-26 8:00:00",
+            "lastUploadTime":"2017-04-26 8:00:00",
+            "uploadCount":"1",
+            "downloadTime":"2017-04-26 8:00:00",
+            "fileType":"Excel"
+
+        }, {
+            "id": "2",
+            "fileName": "业务测试用例",
+            "createTime": "2017-04-26 8:00:00",
+            "lastUploadTime":"2017-04-26 8:00:00",
+            "uploadCount":"1",
+            "downloadTime":"2017-04-26 8:00:00",
+            "fileType":"rar"
+        }, {
+            "id": "3",
+            "fileName": "省端直采脚本全",
+            "createTime": "2017-04-26 8:00:00",
+            "lastUploadTime":"2017-04-26 8:00:00",
+            "uploadCount":"1",
+            "downloadTime":"2017-04-26 8:00:00",
+            "fileType":"Excel"
+        }, {
+            "id": "4",
+            "fileName": "业务测试用例",
+            "createTime": "2017-04-26 8:00:00",
+            "lastUploadTime":"2017-04-26 8:00:00",
+            "uploadCount":"1",
+            "downloadTime":"2017-04-26 8:00:00",
+            "fileType":"rar"
+        }]
+    }
+}

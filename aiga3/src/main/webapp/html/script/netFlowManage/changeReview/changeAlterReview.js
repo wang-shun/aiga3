@@ -258,7 +258,9 @@ define(function(require, exports, module) {
                 _save.bind('click', function() {
                     var cmd = _form.serialize() + "&planId=" + data.onlinePlan;
                     Utils.checkForm(_form, function() {
-                        Rose.ajax.postJson(srvMap.get('saveReviewTime'), cmd, function(json, status) {
+                        _reviewNum = _form.find("[name='reviewNum']").val();
+                        if (_reviewNum > 0) {
+                            Rose.ajax.postJson(srvMap.get('saveReviewTime'), cmd, function(json, status) {
                             if (status) {
                                 XMS.msgbox.show('设置成功！', 'success', 2000)
                                 setTimeout(function() {
@@ -267,6 +269,11 @@ define(function(require, exports, module) {
                                 }, 1000)
                             }
                         });
+                        } else {
+                            window.XMS.msgbox.show('设置失败！', 'error', 2000)
+                            return;
+                        }
+                        
                     })
                 });
                 var _close = _modal.find("[name='close']")

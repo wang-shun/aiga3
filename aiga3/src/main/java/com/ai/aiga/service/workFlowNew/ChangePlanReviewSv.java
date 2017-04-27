@@ -1091,7 +1091,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<ChangeReviewList> findchangeReviewList(Long planId, Long type, int pageSize, int pageNumber) {
+	public Object  findchangeReviewList(Long planId, Long type, int pageSize, int pageNumber) {
 		if (planId == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
@@ -1105,7 +1105,8 @@ public class ChangePlanReviewSv extends BaseService {
 		s.append("  where a.file_type = 20");
 		s.append("  and a.plan_id = :planId");
 		param.add(new ParameterCondition("planId", planId));
-		if (type == 1) {
+		System.out.println("type"+type);
+		if (type == 1L) {
 			s.append(" and  b.conclusion is null ");
 		}
 
@@ -1121,7 +1122,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<ChangeReviewList>) naChangeResultValidateDao.searchByNativeSQL(s.toString(), param,
+		return  naChangeResultValidateDao.searchByNativeSQL(s.toString(), param,
 				ChangeReviewList.class, pageable);
 	}
 	

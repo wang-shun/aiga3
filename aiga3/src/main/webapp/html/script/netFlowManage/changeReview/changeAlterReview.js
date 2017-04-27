@@ -573,7 +573,7 @@ define(function(require, exports, module) {
                     var id;
                     var resourceType;
                     var deviceName;
-                    var ipAddressee;
+                    var ipAddress;
                     var sysName;
                     var searchCode;
                     var changeContent;
@@ -585,7 +585,7 @@ define(function(require, exports, module) {
                             id = tdArr.eq(0).find("input").val();
                             resourceType = tdArr.eq(1).find("input").val();
                             deviceName = tdArr.eq(2).find("input").val();
-                            ipAddressee = tdArr.eq(3).find("input").val();
+                            ipAddress = tdArr.eq(3).find("input").val();
                             sysName = tdArr.eq(4).find("input").val();
                             searchCode = tdArr.eq(5).find("input").val();
                             changeContent = tdArr.eq(6).find("input").val();
@@ -593,7 +593,7 @@ define(function(require, exports, module) {
                                 "id": id,
                                 "resourceType": resourceType,
                                 "deviceName": deviceName,
-                                "ipAddressee": ipAddressee,
+                                "ipAddress": ipAddress,
                                 "sysName": sysName,
                                 "searchCode": searchCode,
                                 "changeContent": changeContent,

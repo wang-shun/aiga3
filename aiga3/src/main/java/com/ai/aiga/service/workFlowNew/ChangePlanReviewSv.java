@@ -173,21 +173,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveChangeCondition(ChangeConditionRequest request) {
-		if (request == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
+	public void saveChangeCondition(List<ChangeConditionRequest> requests) {
+		if (requests == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "requests");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeConditionRequest request : requests) {
+			NaChangeCondition condition = BeanMapper.map(request, NaChangeCondition.class);
+			NaChangeCondition conditions = naChangeConditionDao.getOne(request.getId());
+			condition.setPlanId(conditions.getPlanId());
+			condition.setFileName(conditions.getFileName());
+			condition.setExt1(conditions.getExt1());
+			naChangeConditionDao.save(condition);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeCondition condition = BeanMapper.map(request, NaChangeCondition.class);
-		naChangeConditionDao.save(condition);
+	
 	}
 
 	/**
@@ -231,21 +229,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveChangeContents(ChangeContentsRequest request) {
-		if (request == null) {
+	public void saveChangeContents(List<ChangeContentsRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeContentsRequest request : requests) {
+			NaChangeContents contens = BeanMapper.map(request, NaChangeContents.class);
+			NaChangeContents conditions = naChangeContentsDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeContentsDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeContents contens = BeanMapper.map(request, NaChangeContents.class);
-		naChangeContentsDao.save(contens);
+		
 	}
 
 	/**
@@ -289,21 +285,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeTimePerson(ChangeTimePersonRequest request) {
-		if (request == null) {
+	public void saveNaChangeTimePerson(List<ChangeTimePersonRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeTimePersonRequest request : requests) {
+			NaChangeTimePerson contens = BeanMapper.map(request, NaChangeTimePerson.class);
+			NaChangeTimePerson conditions = naChangeTimePersonDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeTimePersonDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeTimePerson contens = BeanMapper.map(request, NaChangeTimePerson.class);
-		naChangeTimePersonDao.save(contens);
+	
 	}
 
 	/**
@@ -347,21 +341,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeUpdate(ChangeUpdateRequest request) {
-		if (request == null) {
+	public void saveNaChangeUpdate(List<ChangeUpdateRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeUpdateRequest request : requests) {
+			NaChangeUpdate contens = BeanMapper.map(request, NaChangeUpdate.class);
+			NaChangeUpdate conditions = naChangeUpdateDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeUpdateDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeUpdate contens = BeanMapper.map(request, NaChangeUpdate.class);
-		naChangeUpdateDao.save(contens);
+	
 	}
 
 	/**
@@ -405,24 +397,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeGoalDevice(ChangeGoalDeviceRequest request) {
-		if (request == null) {
+	public void saveNaChangeGoalDevice(List<ChangeGoalDeviceRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeGoalDeviceRequest request : requests) {
+			NaChangeGoalDevice contens = BeanMapper.map(request, NaChangeGoalDevice.class);
+			NaChangeGoalDevice conditions = naChangeGoalDeviceDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeGoalDeviceDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		if (request.getSearchCode() == null || "".equals(request.getSearchCode())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getSearchCode");
-		}
-		NaChangeGoalDevice contens = BeanMapper.map(request, NaChangeGoalDevice.class);
-		naChangeGoalDeviceDao.save(contens);
+	
 	}
 
 	/**
@@ -466,21 +453,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaWarningShield(WarningShieldRequest request) {
-		if (request == null) {
+	public void saveNaWarningShield(List<WarningShieldRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (WarningShieldRequest request : requests) {
+			NaWarningShield contens = BeanMapper.map(request, NaWarningShield.class);
+			NaWarningShield conditions = naWarningShieldDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naWarningShieldDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaWarningShield contens = BeanMapper.map(request, NaWarningShield.class);
-		naWarningShieldDao.save(contens);
+		
 	}
 
 	/**
@@ -525,21 +510,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangePrepareWork(ChangePrepareWorkRequest request) {
-		if (request == null) {
+	public void saveNaChangePrepareWork(List<ChangePrepareWorkRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangePrepareWorkRequest request : requests) {
+			NaChangePrepareWork contens = BeanMapper.map(request, NaChangePrepareWork.class);
+			NaChangePrepareWork conditions = naChangePrepareWorkDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangePrepareWorkDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangePrepareWork contens = BeanMapper.map(request, NaChangePrepareWork.class);
-		naChangePrepareWorkDao.save(contens);
+	
 	}
 
 	/**
@@ -584,21 +567,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeOperationManager(ChangeOperationManagerRequest request) {
-		if (request == null) {
+	public void saveNaChangeOperationManager(List<ChangeOperationManagerRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeOperationManagerRequest request : requests) {
+			NaChangeOperationManager contens = BeanMapper.map(request, NaChangeOperationManager.class);
+			NaChangeOperationManager conditions = naChangeOperationManagerDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeOperationManagerDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeOperationManager contens = BeanMapper.map(request, NaChangeOperationManager.class);
-		naChangeOperationManagerDao.save(contens);
+	
 	}
 
 	/**
@@ -642,21 +623,19 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaRollbackMethod(RollbackMethodRequest request) {
-		if (request == null) {
+	public void saveNaRollbackMethod(List<RollbackMethodRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (RollbackMethodRequest request : requests) {
+			NaRollbackMethod contens = BeanMapper.map(request, NaRollbackMethod.class);
+			NaRollbackMethod conditions = naRollbackMethodDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naRollbackMethodDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaRollbackMethod contens = BeanMapper.map(request, NaRollbackMethod.class);
-		naRollbackMethodDao.save(contens);
+	
 	}
 
 	/**
@@ -700,21 +679,20 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeRunStep(ChangeRunStepRequest request) {
-		if (request == null) {
+	public void saveNaChangeRunStep(List<ChangeRunStepRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeRunStepRequest request : requests) {
+		
+			NaChangeRunStep contens = BeanMapper.map(request, NaChangeRunStep.class);
+			NaChangeRunStep conditions = naChangeRunStepDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeRunStepDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeRunStep contens = BeanMapper.map(request, NaChangeRunStep.class);
-		naChangeRunStepDao.save(contens);
+	
 	}
 
 	/**
@@ -759,21 +737,20 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaInformationNotice(InformationNoticeRequest request) {
-		if (request == null) {
+	public void saveNaInformationNotice(List<InformationNoticeRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (InformationNoticeRequest request : requests) {
+		
+			NaInformationNotice contens = BeanMapper.map(request, NaInformationNotice.class);
+			NaInformationNotice conditions = naInformationNoticeDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naInformationNoticeDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaInformationNotice contens = BeanMapper.map(request, NaInformationNotice.class);
-		naInformationNoticeDao.save(contens);
+		
 	}
 
 	/**
@@ -819,21 +796,20 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeDangurousEstimate(ChangeDangurousEstimateRequest request) {
-		if (request == null) {
+	public void saveNaChangeDangurousEstimate(List<ChangeDangurousEstimateRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeDangurousEstimateRequest request : requests) {
+			
+			NaChangeDangurousEstimate contens = BeanMapper.map(request, NaChangeDangurousEstimate.class);
+			NaChangeDangurousEstimate conditions = naChangeDangurousEstimateDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeDangurousEstimateDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeDangurousEstimate contens = BeanMapper.map(request, NaChangeDangurousEstimate.class);
-		naChangeDangurousEstimateDao.save(contens);
+		
 	}
 
 	
@@ -881,21 +857,20 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaQuantitativeRisk(QuantitativeRiskRequest request) {
-		if (request == null) {
+	public void saveNaQuantitativeRisk(List<QuantitativeRiskRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (QuantitativeRiskRequest request : requests) {
+			
+			NaQuantitativeRisk contens = BeanMapper.map(request, NaQuantitativeRisk.class);
+			NaQuantitativeRisk conditions = naQuantitativeRiskDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naQuantitativeRiskDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaQuantitativeRisk contens = BeanMapper.map(request, NaQuantitativeRisk.class);
-		naQuantitativeRiskDao.save(contens);
+	
 	}
 
 	
@@ -943,21 +918,20 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaRiskRatingScale(RiskRatingScaleRequest request) {
-		if (request == null) {
+	public void saveNaRiskRatingScale(List<RiskRatingScaleRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (RiskRatingScaleRequest request : requests) {
+		
+			NaRiskRatingScale contens = BeanMapper.map(request, NaRiskRatingScale.class);
+			NaRiskRatingScale conditions = naRiskRatingScaleDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naRiskRatingScaleDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaRiskRatingScale contens = BeanMapper.map(request, NaRiskRatingScale.class);
-		naRiskRatingScaleDao.save(contens);
+	
 	}
 
 	
@@ -1005,21 +979,20 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeServiceValidate(ChangeServiceValidateRequest request) {
-		if (request == null) {
+	public void saveNaChangeServiceValidate(List<ChangeServiceValidateRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeServiceValidateRequest request : requests) {
+			
+			NaChangeServiceValidate contens = BeanMapper.map(request, NaChangeServiceValidate.class);
+			NaChangeServiceValidate conditions = naChangeServiceValidateDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeServiceValidateDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeServiceValidate contens = BeanMapper.map(request, NaChangeServiceValidate.class);
-		naChangeServiceValidateDao.save(contens);
+	
 	}
 
 	/**
@@ -1064,21 +1037,21 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 
 	 * @param request
 	 */
-	public void saveNaChangeResultValidate(ChangeResultValidateRequest request) {
-		if (request == null) {
+	public void saveNaChangeResultValidate(List<ChangeResultValidateRequest> requests) {
+		if (requests == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		if (request.getPlanId() == null) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
+		for (ChangeResultValidateRequest request : requests) {
+		
+			NaChangeResultValidate contens = BeanMapper.map(request, NaChangeResultValidate.class);
+			
+			NaChangeResultValidate conditions = naChangeResultValidateDao.getOne(request.getId());
+			contens.setPlanId(conditions.getPlanId());
+			contens.setFileName(conditions.getFileName());
+			contens.setExt1(conditions.getExt1());
+			naChangeResultValidateDao.save(contens);
 		}
-		if (request.getExt1() == null || "".equals(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Ext1");
-		}
-		if (request.getFileName() == null || "".equals(request.getFileName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getFileName");
-		}
-		NaChangeResultValidate contens = BeanMapper.map(request, NaChangeResultValidate.class);
-		naChangeResultValidateDao.save(contens);
+	
 	}
 
 	/**
@@ -1131,30 +1104,33 @@ public class ChangePlanReviewSv extends BaseService {
 	 * 保存评审结论
 	 * @param request
 	 */
-	public void saveChangeReviewResult(ChangeReviewResultRequest request){
-		if(request==null){	
+	public void saveChangeReviewResult(List<ChangeReviewResultRequest> requests){
+		if(requests==null){	
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
-		NaChangeReview naChangeReview = naChangeReviewDao.findOne(request.getReviewId());
-		NaChangeReview naChangeReviewNew = naChangeReview;
-		naChangeReview.setConclusion(request.getConclusion());
-		naChangeReview.setReviewResult(request.getReviewResult());
-		naChangeReview.setRemark(request.getRemark());
-		naChangeReview.setReviewer(String.valueOf(SessionMgrUtil.getStaff().getOpId()));
-		naChangeReview.setReviewDate(new Date());
-		naChangeReviewDao.save(naChangeReview);
-		
-		//评审通过
-		if(request.getConclusion()==WorkFlowNewEnum.ReviewResult_Yes.getValue()){
+		for (ChangeReviewResultRequest request : requests) {
+			NaChangeReview naChangeReview = naChangeReviewDao.findOne(request.getReviewId());
+			NaChangeReview naChangeReviewNew = naChangeReview;
+			naChangeReview.setConclusion(request.getConclusion());
+			naChangeReview.setReviewResult(request.getReviewResult());
+			naChangeReview.setRemark(request.getRemark());
+			naChangeReview.setReviewer(String.valueOf(SessionMgrUtil.getStaff().getOpId()));
+			naChangeReview.setReviewDate(new Date());
+			naChangeReviewDao.save(naChangeReview);
 			
-			NaChangeReview naChangeReviews = naChangeReviewDao.findByExt1(request.getExt1());
-			if(naChangeReview!=null){
-				naChangeReviewDao.delete(naChangeReviews.getReviewId());
+			//评审通过
+			if(request.getConclusion()==WorkFlowNewEnum.ReviewResult_Yes.getValue()){
+				
+				NaChangeReview naChangeReviews = naChangeReviewDao.findByExt1(request.getExt1());
+				if(naChangeReview!=null){
+					naChangeReviewDao.delete(naChangeReviews.getReviewId());
+				}
+			}else{
+				//评审不通过
+				naChangeReviewDao.save(naChangeReviewNew);
 			}
-		}else{
-			//评审不通过
-			naChangeReviewDao.save(naChangeReviewNew);
 		}
+	
 	}
 
 	

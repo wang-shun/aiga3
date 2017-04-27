@@ -13,6 +13,8 @@ define(function(require, exports, module) {
     srvMap.add("saveConclusionC", pathAlias + "retMessage.json", "sys/review/saveChangeReviewResult");
     //保存下一次评审时间
     srvMap.add("saveReviewTime", pathAlias + "retMessage.json", "sys/review/setReviewDate");
+    //文件类型下拉框接口
+    srvMap.add("findFileList", pathAlias + "findFileList.json", "sys/review/findFileList");
     //变更概况列表
     srvMap.add("getChangeProfileList", pathAlias + "getChangeProfileList.json", "sys/review/findNaChangeCondition");
     //保存变更概况
@@ -78,7 +80,7 @@ define(function(require, exports, module) {
     //保存信息通告
     srvMap.add("saveNotice", pathAlias + "retMessage.json", "sys/review/saveNaInformationNotice");
     //附件列表
-    srvMap.add("getFileList", pathAlias + "getFileList.json", "sys/review/findFileList");
+    srvMap.add("getFileList", pathAlias + "getFileList.json", "produce/plan/findNaFileUpload");
 
     //回退
     srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
@@ -286,7 +288,8 @@ define(function(require, exports, module) {
         queryFileTypeForm: function() {
             var self = this;
             var _form = Page.findId('queryFileTypeForm');
-            Utils.setSelectData(_form);
+            var data = Page.getParentCmd();
+            Utils.setSelectData(_form,"planId=" + data.onlinePlan);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
             _queryBtn.bind('click', function() {

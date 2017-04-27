@@ -143,7 +143,7 @@ define(function(require, exports, module) {
         getDeliverableReviewConclusionC: function() {
             var self = this;
             var data = Page.getParentCmd();
-            var _cmd = 'planId=' + data.onlinePlan;
+            var _cmd = 'planId=' + data.onlinePlan + '&type=1';
             var _dom = Page.findId('getChangeReviewConclusionC');
             var _domPagination = _dom.find("[name='pagination']");
             Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {                  
@@ -231,7 +231,7 @@ define(function(require, exports, module) {
         getHistoryList: function() {
             var self = this;
             var data = Page.getParentCmd();
-            var _cmd = 'planId=' + data.onlinePlan + '&type=1';
+            var _cmd = 'planId=' + data.onlinePlan + '&type=2';
             var _dom = Page.findId('getHistoryList');
             var _domPagination = _dom.find("[name='pagination']");
             Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {

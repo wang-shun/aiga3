@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaCaseContructionReportDao;
+import com.ai.aiga.dao.NaStaffConstructionReportDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaCaseConstructionReport;
 import com.ai.aiga.exception.BusinessException;
@@ -48,6 +49,9 @@ public class CaseConstructionSv extends BaseService{
 	
 	@Autowired
 	private NaCaseContructionReportDao naCaseContructionReportDao;
+	
+	@Autowired
+	private NaStaffConstructionReportDao naStaffConstructionReportDao;
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
 	
@@ -166,7 +170,7 @@ public class CaseConstructionSv extends BaseService{
 	 * @param currentMonth
 	 * @param lastMonth          
 	 */
-	private void executeJob(String jobDetail, String currentMonth, String lastMonth) {
+	public void executeJob(String jobDetail, String currentMonth, String lastMonth) {
 		log.info(currentMonth+"当月用例建设情况报表进程--调度开始");
 		if("job".equals(jobDetail)){
 			collectSySData(currentMonth, lastMonth);//按系统分
@@ -326,18 +330,36 @@ public class CaseConstructionSv extends BaseService{
 		//核心功能点覆盖（挂用例的）
 		List<Object> coverList = naCaseContructionReportDao.findSysFunCover();
 		getData(coverList,1,8,map);
-		//入网验收用例数总数（准发布）
-		List<Object> caseList = naCaseContructionReportDao.findSysCaseCount(2L, dayOrMonth);
-		getData(caseList,2,8,map);
-		//自动化用例数（准发布）
-		List<Object> autoList = naCaseContructionReportDao.findSysAuto(2L, dayOrMonth);
-		getData(autoList,3,8,map);
-		//验证用例数（生产）
-		caseList = naCaseContructionReportDao.findSysCaseCount(3L, dayOrMonth);
-		getData(caseList,4,8,map);
-		//自动化用例数（生产）
-		autoList = naCaseContructionReportDao.findSysAuto(3L, dayOrMonth);
-		getData(autoList,5,8,map);
+		if(currentMonth.length()==6){
+			//入网验收用例数总数（准发布）
+			List<Object> caseList = naCaseContructionReportDao.findSysCaseCountA(2L, currentMonth);
+			getData(caseList,2,8,map);
+			//自动化用例数（准发布）
+			List<Object> autoList = naCaseContructionReportDao.findSysAutoA(2L, currentMonth);
+			getData(autoList,3,8,map);
+			//验证用例数（生产）
+			caseList = naCaseContructionReportDao.findSysCaseCountA(3L, currentMonth);
+			getData(caseList,4,8,map);
+			//自动化用例数（生产）
+			autoList = naCaseContructionReportDao.findSysAutoA(3L, currentMonth);
+			getData(autoList,5,8,map);
+		}else{
+			Integer integer = Integer.valueOf(currentMonth)+1;
+			currentMonth = integer.toString();
+			//入网验收用例数总数（准发布）
+			List<Object> caseList = naCaseContructionReportDao.findSysCaseCountB(2L, currentMonth);
+			getData(caseList,2,8,map);
+			//自动化用例数（准发布）
+			List<Object> autoList = naCaseContructionReportDao.findSysAutoB(2L, currentMonth);
+			getData(autoList,3,8,map);
+			//验证用例数（生产）
+			caseList = naCaseContructionReportDao.findSysCaseCountB(3L, currentMonth);
+			getData(caseList,4,8,map);
+			//自动化用例数（生产）
+			autoList = naCaseContructionReportDao.findSysAutoB(3L, currentMonth);
+			getData(autoList,5,8,map);
+		}
+		
 		//核心业务覆盖数量
 		List<Object> busiList = naCaseContructionReportDao.findBusiCount();
 		getData(busiList,6,8,map);
@@ -348,58 +370,107 @@ public class CaseConstructionSv extends BaseService{
 		DecimalFormat df = new DecimalFormat("0.0000");
 		StringBuilder sb = new StringBuilder();
 		Iterator i = map.keySet().iterator();
-		while (i.hasNext()) {
-			String key = (String) i.next();
-			String[] strs = map.get(key);
-			String[] strsOld = mapOld != null && !mapOld.isEmpty() ? mapOld.get(key) : null;
-			funNum = StringUtils.isNotEmpty(strs[0]) && !"0".equals(strs[0]) ? strs[0] : null;
-			funCover = StringUtils.isNotEmpty(strs[1]) ?strs[1] : null;
-			funCover = StringUtils.isNotEmpty(funNum) && StringUtils.isNotEmpty(funCover) ? df.format(new BigDecimal(funCover).floatValue() / new BigDecimal(funNum).floatValue()) : "0";
-			
-			busiNum = StringUtils.isNotEmpty(strs[6]) && !"0".equals(strs[6]) ? strs[6] : null;
-			busiCover = StringUtils.isNotEmpty(strs[7]) ?strs[7] : null;
-			busiCover = StringUtils.isNotEmpty(busiNum) && StringUtils.isNotEmpty(busiCover) ? df.format(new BigDecimal(busiCover).floatValue() / new BigDecimal(busiNum).floatValue()) : "0";
-
-			caseNumQRelease = StringUtils.isNotEmpty(strs[2]) && !"0".equals(strs[2]) ?strs[2] : null;
-			autoCaseNumQRelease = StringUtils.isNotEmpty(strs[3]) ?strs[3] : null;
-			autoCaseCoverQRelease = StringUtils.isNotEmpty(caseNumQRelease) && StringUtils.isNotEmpty(autoCaseNumQRelease) ? df.format(new BigDecimal(autoCaseNumQRelease).floatValue() / new BigDecimal(caseNumQRelease).floatValue()) : "0";
-			caseNumRelease = StringUtils.isNotEmpty(strs[4]) && !"0".equals(strs[4]) ?strs[4] : null;
-			autoCaseNumRelease = StringUtils.isNotEmpty(strs[5]) ?strs[5] : null;
-			autoCaseCoverRelease = StringUtils.isNotEmpty(caseNumRelease) && StringUtils.isNotEmpty(autoCaseNumRelease) ? df.format(new BigDecimal(autoCaseNumRelease).floatValue() / new BigDecimal(caseNumRelease).floatValue()) : "0";
-			
-			funNumOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[0]) ? strsOld[0] : null : null;
-			funCoverOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[1]) ? strsOld[1] : null : null;
-			caseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[2]) ? strsOld[2] : null : null;
-			autoCaseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[3]) ? strsOld[3] : null : null;
-			autoCaseCoverQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[4]) ? strsOld[4] : null : null;
-			caseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[5]) ? strsOld[5] : null : null;
-			autoCaseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[6]) ? strsOld[6] : null : null;
-			autoCaseCoverReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[7]) ? strsOld[7] : null : null;
-			
-			funNumIncr = getCoverIncr(funNum,funNumOld);
-			funCoverIncr = getCoverIncr(funCover,funCoverOld);
-			caseNumQIncrRelease = getCoverIncr(caseNumQRelease,caseNumQReleaseOld);
-			autoCaseNumQIncrRelease = getCoverIncr(autoCaseNumQRelease,autoCaseNumQReleaseOld);
-			autoCaseCoverIncrQRelease = getCoverIncr(autoCaseCoverQRelease,autoCaseCoverQReleaseOld);
-			caseNumIncrRelease = getCoverIncr(caseNumRelease,caseNumReleaseOld);
-			autoCaseNumIncrRelease = getCoverIncr(autoCaseNumRelease,autoCaseNumReleaseOld);
-			autoCaseCoverIncrRelease = getCoverIncr(autoCaseCoverRelease,autoCaseCoverReleaseOld);
-			
-			sb.append("select 1,'").append(currentMonth).append("',sysdate,sysdate,").append(key).append(",")
-			.append(busiNum).append(",").append(busiCover).append(",")
-			.append(funNum).append(",").append(funNumIncr).append(",").append(funCover).append(",").append(funCoverIncr).append(",").append(caseNumQRelease).append(",")
-			.append(caseNumQIncrRelease).append(",").append(autoCaseNumQRelease).append(",").append(autoCaseNumQIncrRelease).append(",")
-			.append(autoCaseCoverQRelease).append(",").append(autoCaseCoverIncrQRelease).append(",").append(caseNumRelease).append(",").append(caseNumIncrRelease)
-			.append(",").append(autoCaseNumRelease).append(",").append(autoCaseNumIncrRelease).append(",").append(autoCaseCoverRelease).append(",")
-			.append(autoCaseCoverIncrRelease).append(" FROM dual UNION ALL ");
-		}
 		if(!map.isEmpty()){
 			naCaseContructionReportDao.delete(currentMonth);
-			naCaseContructionReportDao.insert(sb.substring(0, sb.lastIndexOf("UNION ALL")));
-			List<Map> mapList = naCaseContructionReportDao.searchByNativeSQL(sb.substring(0, sb.lastIndexOf("UNION ALL")));
-			for(int j = 0; j < mapList.size(); j++){
+			while (i.hasNext()) {
+				String key = (String) i.next();
+				String[] strs = map.get(key);
+				String[] strsOld = mapOld != null && !mapOld.isEmpty() ? mapOld.get(key) : null;
+				funNum = StringUtils.isNotEmpty(strs[0]) && !"0".equals(strs[0]) ? strs[0] : null;
+				funCover = StringUtils.isNotEmpty(strs[1]) ?strs[1] : null;
+				funCover = StringUtils.isNotEmpty(funNum) && StringUtils.isNotEmpty(funCover) ? df.format(new BigDecimal(funCover).floatValue() / new BigDecimal(funNum).floatValue()) : "0";
 				
-			}
+				busiNum = StringUtils.isNotEmpty(strs[6]) && !"0".equals(strs[6]) ? strs[6] : null;
+				busiCover = StringUtils.isNotEmpty(strs[7]) ?strs[7] : null;
+				busiCover = StringUtils.isNotEmpty(busiNum) && StringUtils.isNotEmpty(busiCover) ? df.format(new BigDecimal(busiCover).floatValue() / new BigDecimal(busiNum).floatValue()) : "0";
+
+				caseNumQRelease = StringUtils.isNotEmpty(strs[2]) && !"0".equals(strs[2]) ?strs[2] : null;
+				autoCaseNumQRelease = StringUtils.isNotEmpty(strs[3]) ?strs[3] : null;
+				autoCaseCoverQRelease = StringUtils.isNotEmpty(caseNumQRelease) && StringUtils.isNotEmpty(autoCaseNumQRelease) ? df.format(new BigDecimal(autoCaseNumQRelease).floatValue() / new BigDecimal(caseNumQRelease).floatValue()) : "0";
+				caseNumRelease = StringUtils.isNotEmpty(strs[4]) && !"0".equals(strs[4]) ?strs[4] : null;
+				autoCaseNumRelease = StringUtils.isNotEmpty(strs[5]) ?strs[5] : null;
+				autoCaseCoverRelease = StringUtils.isNotEmpty(caseNumRelease) && StringUtils.isNotEmpty(autoCaseNumRelease) ? df.format(new BigDecimal(autoCaseNumRelease).floatValue() / new BigDecimal(caseNumRelease).floatValue()) : "0";
+				
+				funNumOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[0]) ? strsOld[0] : null : null;
+				funCoverOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[1]) ? strsOld[1] : null : null;
+				caseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[2]) ? strsOld[2] : null : null;
+				autoCaseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[3]) ? strsOld[3] : null : null;
+				autoCaseCoverQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[4]) ? strsOld[4] : null : null;
+				caseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[5]) ? strsOld[5] : null : null;
+				autoCaseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[6]) ? strsOld[6] : null : null;
+				autoCaseCoverReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[7]) ? strsOld[7] : null : null;
+				
+				funNumIncr = getCoverIncr(funNum,funNumOld);
+				funCoverIncr = getCoverIncr(funCover,funCoverOld);
+				caseNumQIncrRelease = getCoverIncr(caseNumQRelease,caseNumQReleaseOld);
+				autoCaseNumQIncrRelease = getCoverIncr(autoCaseNumQRelease,autoCaseNumQReleaseOld);
+				autoCaseCoverIncrQRelease = getCoverIncr(autoCaseCoverQRelease,autoCaseCoverQReleaseOld);
+				caseNumIncrRelease = getCoverIncr(caseNumRelease,caseNumReleaseOld);
+				autoCaseNumIncrRelease = getCoverIncr(autoCaseNumRelease,autoCaseNumReleaseOld);
+				autoCaseCoverIncrRelease = getCoverIncr(autoCaseCoverRelease,autoCaseCoverReleaseOld);
+				
+				NaCaseConstructionReport report = new NaCaseConstructionReport();
+				report.setReportType(1L);
+				report.setStatisticalMonth(currentMonth);
+				report.setCreateTime(new Date());
+				report.setUpdateTime(new Date());
+				report.setSysId(Long.valueOf(key).longValue());
+				if(StringUtils.isNotBlank(busiNum)){
+					report.setBusiNum(Integer.valueOf(busiNum));
+				}
+				if(StringUtils.isNotBlank(busiCover)){
+					report.setBusiCover(new BigDecimal(busiCover));
+				}
+				if(StringUtils.isNotBlank(funNum)){
+					report.setFunNum(Integer.valueOf(funNum));
+				}
+				if(StringUtils.isNotBlank(funCover)){
+					report.setFunCover(new BigDecimal(funCover));
+				}
+				if(StringUtils.isNotBlank(funCoverIncr)){
+					report.setFunCoverIncr(new BigDecimal(funCoverIncr));
+				}
+				if(StringUtils.isNotBlank(caseNumQRelease)){
+					report.setCaseNumIncrQrelease(Integer.valueOf(caseNumQRelease));
+				}
+				if(StringUtils.isNotBlank(caseNumQIncrRelease)){
+					report.setCaseNumQrelease(Integer.valueOf(caseNumQIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumQRelease)){
+					report.setAutoCaseNumQrelease(Integer.valueOf(autoCaseNumQRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumQIncrRelease)){
+					report.setAutoCaseNumIncrQrelease(Integer.valueOf(autoCaseNumQIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverQRelease)){
+					report.setAutoCaseCoverQrelease(new BigDecimal(autoCaseCoverQRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverIncrQRelease)){
+					report.setAutoCaseCoverIncrQrelease(new BigDecimal(autoCaseCoverIncrQRelease));
+				}
+				if(StringUtils.isNotBlank(caseNumRelease)){
+					report.setCaseNumRelease(Integer.valueOf(caseNumRelease));
+				}
+				if(StringUtils.isNotBlank(caseNumIncrRelease)){
+					report.setCaseNumIncrRelease(Integer.valueOf(caseNumIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumRelease)){
+					report.setAutoCaseNumRelease(Integer.valueOf(autoCaseNumRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumIncrRelease)){
+					report.setAutoCaseNumIncrRelease(Integer.valueOf(autoCaseNumIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverRelease)){
+					report.setAutoCaseCoverRelease(new BigDecimal(autoCaseCoverRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverIncrRelease)){
+					report.setAutoCaseCoverIncrRelease(new BigDecimal(autoCaseCoverIncrRelease));
+				}
+				
+				naCaseContructionReportDao.save(report);
+				
+		}
+		
 		}
 			
 	}
@@ -507,6 +578,8 @@ public class CaseConstructionSv extends BaseService{
 		
 		Map<String,String[]> map = new HashMap<String,String[]>();
 		Map<String,String[]> mapOld = null;
+		
+		List<Object[]> list = naStaffConstructionReportDao.findOld(lastMonth);
 	}
 
 }

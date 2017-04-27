@@ -428,31 +428,19 @@
 	   			<div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                			<label>变更计划名称<i class="text-red">*</i></label>
+                			<label>变更上线计划名称<i class="text-red">*</i></label>
                 			<input type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}" >
                 		</div>
                 	</div>
                 	<div class="col-md-4">
                         <div class="form-group">
-                			<label>变更开始时间</label>
+                			<label>变更上线开始时间<i class="text-red">*</i></label>
                 			<input type="text" class="form-control input-sm " name="planDate" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}">
                 		</div>
                 	</div>
-                	<div class="col-md-4">
+					<div class="col-md-4">
                         <div class="form-group">
-                			<label>上线是否及时</label>
-                			<select name="timely" class="form-control input-sm" >
-                    			<option value="">请选择</option>
-                    			<option value="1">是</option>
-                   				<option value="2">否</option>
-                			</select>
-                		</div>
-                	</div>
-         		</div>
-         		<div class="row">
-         			<div class="col-md-4">
-                        <div class="form-group">
-		                	<label>变更类型<i class="text-red">*</i></label>
+		                	<label>变更上线类型<i class="text-red">*</i></label>
 		                	<select name="types" class="form-control input-sm" >
 		                    	<option value="">请选择</option>
 		                    	<option value="0">计划上线</option>
@@ -462,6 +450,8 @@
 		                	</select>
 	                	</div>
                 	</div>
+         		</div>
+         		<div class="row">
                 	<div class="col-md-4">
                         <div class="form-group">
 		                	<label>备注</label>

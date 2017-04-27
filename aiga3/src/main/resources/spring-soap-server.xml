@@ -8,14 +8,12 @@
 	
 	<!-- WebService的实现Bean定义 -->
 	<bean id="soapService" class=" com.ai.aiga.webservice.soap.server.SoapServiceImpl" />
-	<bean id="fromBmcWebServiceSv" class=" com.ai.aiga.webservice.soap.server.FromBmcServiceSvImp" />
+	
 	
 	<!-- jax-ws endpoint定义  -->
 	<jaxws:endpoint address="/soapservice">
 		<jaxws:implementor ref="soapService" />
 	</jaxws:endpoint>
-	<jaxws:endpoint address="/fromBmcWebServiceSv">
-		<jaxws:implementor ref="fromBmcWebServiceSv" />
-	</jaxws:endpoint>
+
 	
 </beans>

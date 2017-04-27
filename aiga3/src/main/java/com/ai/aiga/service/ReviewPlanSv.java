@@ -142,19 +142,22 @@ public class ReviewPlanSv  extends BaseService{
 	}
 	
 	
-	/**
-	 * 将na_code_path评审不合格的回退给ADClod进行修改
-	 * @param planDate计划上线时间
-	 */
-	public Map<Object, Object> NaCodePathCompileToBmc(String planDate){
+/**
+ * 将修改好的系统发送到BMC 编译，并返回结果
+ * @param planDate
+ */
+	public void NaCodePathCompileToBmc(String planDate){
 		Map<Object, Object> mapreturn  = new HashMap<Object, Object>();
 		//查询最新修改的上线系统信息
 		List<NaCodePath>  datas = naCodePathDao.findByPlanDateAndIsFinished(planDate);//存放客户端返回信息
 		if(datas!=null && !datas.isEmpty()){
 				 for (NaCodePath naCodePath : datas) {
+					 //获取系统对应的BMC接口
 					 NaSystemInterfaceAddress systemInterfaceAddress = (NaSystemInterfaceAddress) naSystemInterfaceAddressDao.findBySysNameAndServiceTypeAndExt1("BMC" , "COMPILE" , naCodePath.getSysName()); //系统名称
+					 //发送请求
 					 String info =   HttpUtil.sendGet(systemInterfaceAddress.getInterAddress(), systemInterfaceAddress.getParamers() );
 					 System.out.println("info"+info);
+					 //保存结果
 					 NaCodePathCompileResult result = new NaCodePathCompileResult();
 					 try {
 						result.setPlanDate(new SimpleDateFormat("yyyy-MM-dd").parse(planDate));
@@ -167,10 +170,6 @@ public class ReviewPlanSv  extends BaseService{
 					 naCodePathCompileResultDao.save(result);
 				}
 			}
-
-		
-			return mapreturn;
-		
 	}
 	
 }

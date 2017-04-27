@@ -27,15 +27,16 @@ public class OnlineSituationReportController {
 	 * @param pageSize
 	 * @return          
 	 */
-	@RequestMapping(path = "/accept/caseConstruction/findOnlineSituationReport")
+	@RequestMapping(path = "/accept/onlineSituationReport/findOnlineSituationReport")
 	public @ResponseBody JsonBean findOnlineSituationReport(Long oninePlan,String date,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize){
-		onlineSituationReportSv.findOnlineSituationReport(oninePlan, date,pageNumber,pageSize);
-		return JsonBean.success;
+		JsonBean jsonBean=new JsonBean();
+		jsonBean.setData(onlineSituationReportSv.findOnlineSituationReport(oninePlan, date,pageNumber,pageSize));
+		return jsonBean;
 	}
 	
-	@RequestMapping(path = "/accept/caseConstruction/saveOnlineSituationReport")
+	@RequestMapping(path = "/accept/onlineSituationReport/count")
 	public @ResponseBody JsonBean saveOnlineSituationReport(){
 		onlineSituationReportSv.countAsync();
 		return JsonBean.success;

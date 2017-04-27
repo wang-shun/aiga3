@@ -332,13 +332,13 @@ public class CaseConstructionSv extends BaseService{
 		getData(coverList,1,8,map);
 		if(currentMonth.length()==6){
 			//入网验收用例数总数（准发布）
-			List<Object> caseList = naCaseContructionReportDao.findSysCaseCountA(2L, currentMonth);
+			List<Object> caseList = naCaseContructionReportDao.findBusiCaseCount(currentMonth, 2L);
 			getData(caseList,2,8,map);
 			//自动化用例数（准发布）
 			List<Object> autoList = naCaseContructionReportDao.findSysAutoA(2L, currentMonth);
 			getData(autoList,3,8,map);
 			//验证用例数（生产）
-			caseList = naCaseContructionReportDao.findSysCaseCountA(3L, currentMonth);
+			caseList = naCaseContructionReportDao.findBusiCaseCount(currentMonth, 3L);
 			getData(caseList,4,8,map);
 			//自动化用例数（生产）
 			autoList = naCaseContructionReportDao.findSysAutoA(3L, currentMonth);

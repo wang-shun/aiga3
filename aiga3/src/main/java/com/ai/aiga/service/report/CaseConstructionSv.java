@@ -114,7 +114,7 @@ public class CaseConstructionSv extends BaseService{
 		
 		//TODO 对month和jobDetail 进行验证 @dongch
 		
-		Map<String, String> params = new HashMap<String, String>();
+		HashMap<String, String> params = new HashMap<String, String>();
 		params.put(CaseStatisticsJob.KEY_MONTH, month);
 		params.put(CaseStatisticsJob.KEY_TYPE, jobDetail);
 		

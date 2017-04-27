@@ -1,4 +1,4 @@
-package com.ai.process;
+package com.ai.aiga.agent;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,9 +8,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ai.process.container.Container;
-import com.ai.process.container.quartz.QuartzContainer;
-import com.ai.process.container.quartz.QuartzContext;
+import com.ai.aiga.agent.container.Container;
+import com.ai.aiga.agent.container.netty.NettyContainer;
+import com.ai.aiga.agent.container.netty.NettyContext;
+
 
 /**
  * @ClassName: Bootstrap
@@ -29,29 +30,29 @@ public class Bootstrap {
 	private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);
 	
     private static volatile boolean running = true;
+    
+    public static final int defaultPort = 5201;
 	
 	public static void main(String[] args) {
 		
         try {
-            if (args == null || args.length != 2) {
-            	logger.info("系统在启动的时候, 必须指定启动哪个容器和进程名称");
-            	System.exit(1);
+        	int port = defaultPort;
+        	
+            if (args != null && args.length >= 1) {
+            	
+            	try{
+            		port = Integer.parseInt(args[0]);
+            	}catch (Exception e) {
+            		port = defaultPort;
+				}
             }
             
-            String containerName = args[0];
-            String processName = args[1];
-            
-            
-            logger.info("start to run asiainfo process serivce.");
+            logger.info("start to run asiainfo agant. prot = " + port);
             
             final List<Container> containers = new ArrayList<Container>();
-//            for (int i = 0; i < args.length; i ++) {
-//                containers.add(new QuartzContainer());
-//            }
-            if("quartz".equalsIgnoreCase(containerName)){
-            	containers.add(new QuartzContainer());
-            	QuartzContext.instance().setProcessName(processName);
-            }
+            containers.add(new NettyContainer());
+            NettyContext.instance().setPort(port);
+            
             
             //if ("true".equals(System.getProperty(SHUTDOWN_HOOK_KEY))) {
             if ("true".equals("true")) {

@@ -3,7 +3,7 @@ define(function(require,exports,module){
 	//引入公用模块
 	require('global/header.js');
 	require('global/sidebar.js');
-	// 用工具模块通
+	// 通用工具模块
 	var Utils = require('global/utils.js');
 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
@@ -158,11 +158,11 @@ define(function(require,exports,module){
 						var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&ext3=评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。' + '&planId=' + data.onlinePlan;
 						Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
 							if(status) {
-									// 保存结论成功后，刷新变更评审结论页
-									XMS.msgbox.show('保存成功！', 'success', 2000)
-									setTimeout(function(){
-										self.getDeliverableReviewConclusion();
-									},1000)
+								// 保存结论成功后，刷新变更评审结论页
+								XMS.msgbox.show('保存成功！', 'success', 2000)
+								setTimeout(function(){
+									self.getDeliverableReviewConclusion();
+								},1000)
 							}
 						});
 					});

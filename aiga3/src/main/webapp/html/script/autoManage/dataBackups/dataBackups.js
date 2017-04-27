@@ -145,7 +145,7 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		//删除备份
+		//还原备份
 		restoreBackup: function() {
 			var self = this;
 			var _dom = Page.findId('getDataBackupsList');
@@ -162,7 +162,7 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						Rose.ajax.getJson(srvMap.get('restoreBackup'), cmd, function(json, status) {
 							if (status) {
-								window.XMS.msgbox.show('删除成功！', 'success', 2000)
+								window.XMS.msgbox.show('还原成功！', 'success', 2000)
 								setTimeout(function() {
 									self.getDataBackupList();
 								}, 1000)

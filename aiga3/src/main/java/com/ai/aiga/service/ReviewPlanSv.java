@@ -33,9 +33,9 @@ import com.ai.aiga.webservice.soap.dto.NaCodePathDTO;
  */
 @Service
 @Transactional
-public class reviewPlanSv  extends BaseService{
+public class ReviewPlanSv  extends BaseService{
 	
-	private static Logger logger = LoggerFactory.getLogger(reviewPlanSv.class);
+	private static Logger logger = LoggerFactory.getLogger(ReviewPlanSv.class);
 	
 	
 	@Autowired 

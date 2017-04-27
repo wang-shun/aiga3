@@ -11,12 +11,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.NaServiceChangeOnlineList;
 import com.ai.aiga.service.PlanOnile.ChangePlanOnileSv;
-
+import com.ai.aiga.service.workFlowNew.dto.NaHostConfigListExcel;
+import com.ai.aiga.service.workFlowNew.dto.NaProcessChangeListExcel;
+import com.ai.aiga.service.workFlowNew.dto.NaServiceChangeOnlineListExcel;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
+import com.ai.aiga.view.controller.planOnline.dto.CodePathRequestExcel;
 import com.ai.aiga.view.controller.planOnline.dto.NaChangePlanOnileRequest;
+import com.ai.aiga.view.controller.planOnline.dto.NaGroupAdjustListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.NaGroupRequireListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.NaHasDeployMenuListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.RequireListExcel;
+import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverExcel;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.POIExcelUtil;
+
+import io.swagger.annotations.ApiParam;
 
 @Controller
 public class PlanOnileController {
@@ -76,16 +88,17 @@ public class PlanOnileController {
 	}
 	
 	
-	//查找一个
+	//计划上线清单解析
 	@RequestMapping(path = "/produce/plan/upload")
 	public @ResponseBody JsonBean upload(
 			@RequestParam Long planId,
-			@RequestParam MultipartFile file){
+			@RequestParam MultipartFile file,
+			@RequestParam Long fileType){
 		JsonBean bean = new JsonBean();
 		try {
 			List<PlanDetailManifestExcel> list = POIExcelUtil.excelToList(file, PlanDetailManifestExcel.class);
-			
-			naChangePlanOnileSv.saveExcel(planId, list);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.saveExcel(planId, list,fileName,fileType);
 			
 		} catch (Exception e) {
 			log.error("解析excel失败", e);
@@ -93,4 +106,210 @@ public class PlanOnileController {
 		}
 		return bean;
 	}
+
+	// 上线系统模块清单解析
+	@RequestMapping(path = "/change/code/Path")
+	public @ResponseBody JsonBean codePath(@RequestParam Long planId,
+			@RequestParam MultipartFile file,
+			@RequestParam Long fileType) {
+		JsonBean bean = new JsonBean();
+		try {
+			List<CodePathRequestExcel> list = POIExcelUtil.excelToList(file, CodePathRequestExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.saveCodeExcel(planId, list, fileName,fileType);
+
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+
+	// 测试遗留情况解析
+	@RequestMapping(path = "/test/leaveover/leaveexcel")
+	public @ResponseBody JsonBean testLeaveOverExcel(@RequestParam Long planId, 
+			@RequestParam MultipartFile file,
+			@RequestParam Long fileType) {
+		JsonBean bean = new JsonBean();
+		try {
+			List<TestLeaveOverExcel> list = POIExcelUtil.excelToList(file, TestLeaveOverExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.testLeaveOverExcel(planId, list, fileName,fileType);
+
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+
+	// 测试情况解析
+	@RequestMapping(path = "/test/leave/testsituationexcel")
+	public @ResponseBody JsonBean requireListExcel(@RequestParam Long planId, 
+			@RequestParam MultipartFile file,
+			@RequestParam Long fileType) {
+		JsonBean bean = new JsonBean();
+		try {
+			List<RequireListExcel> list = POIExcelUtil.excelToList(file, RequireListExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.requireListExcel(planId, list, fileName,fileType);
+
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+
+	/**
+	 * @ClassName: PlanOnileController :: uplodaNaProcessChangeList
+	 * @author: lh
+	 * @date: 2017年4月26日 上午11:19:58
+	 *
+	 * @Description:进程变更清单
+	 * @param planId
+	 * @param file
+	 * @return          
+	 */
+	@RequestMapping(path = "/produce/plan/uploadNaProcessChangeList")
+	public @ResponseBody JsonBean uplodaNaProcessChangeList(
+			@RequestParam Long planId,
+			@RequestParam MultipartFile file,
+			@RequestParam Long fileType){
+		JsonBean bean = new JsonBean();
+		try {
+			List<NaProcessChangeListExcel> list = POIExcelUtil.excelToList(file, NaProcessChangeListExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.saveExcelNaProcessChangeList(planId, list,fileName,fileType);
+			
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+	
+	/**
+	 * @ClassName: PlanOnileController :: uploadNaServiceChangeOnlineList
+	 * @author: lh
+	 * @date: 2017年4月26日 上午11:36:49
+	 *
+	 * @Description:服务变更上线清单
+	 * @param planId
+	 * @param file
+	 * @return          
+	 */
+	@RequestMapping(path = "/produce/plan/uploadNaServiceChangeOnlineList")
+	public @ResponseBody JsonBean uploadNaServiceChangeOnlineList(
+			@RequestParam Long planId,
+			@RequestParam MultipartFile file ,
+			@RequestParam Long fileType){
+		JsonBean bean = new JsonBean();
+		try {
+			List<NaServiceChangeOnlineListExcel> list = POIExcelUtil.excelToList(file, NaServiceChangeOnlineListExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.saveExcelNaServiceChangeOnlineList(planId, list,fileName,fileType);
+			
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+	
+	/**
+	 * @ClassName: PlanOnileController :: uploadNaHostConfigList
+	 * @author: lh
+	 * @date: 2017年4月26日 下午12:44:45
+	 *
+	 * @Description:主机配置
+	 * @param planId
+	 * @param file
+	 * @return          
+	 */
+	@RequestMapping(path = "/produce/plan/uploadNaHostConfigList")
+	public @ResponseBody JsonBean uploadNaHostConfigList(
+			@RequestParam Long planId,
+			@RequestParam MultipartFile file,
+			@RequestParam Long fileType){
+		JsonBean bean = new JsonBean();
+		try {
+			List<NaHostConfigListExcel> list = POIExcelUtil.excelToList(file, NaHostConfigListExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.saveExcelNaHostConfigList(planId, list,fileName,fileType);
+			
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+	
+	
+	@RequestMapping(path = "/produce/plan/findNaFileUpload")
+	public @ResponseBody JsonBean findNaFileUpload(
+			Long type,
+			@ApiParam(name="page",value="页码")@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @ApiParam(name="pageSize",value="页数")@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize ){
+		JsonBean bean = new JsonBean();
+		Object NaFileUploadList = naChangePlanOnileSv.findNaFileUpload(type,pageNumber, pageSize);
+		bean.setData(NaFileUploadList);
+		return bean;
+	}
+	
+	//需联调需求解析
+	@RequestMapping(path = "/group/adjust/adjustListExcel")
+	public @ResponseBody JsonBean naGroupAdjustListExcel(
+			@RequestParam Long planId,
+			@RequestParam MultipartFile file ,
+			@RequestParam Long fileType){
+		JsonBean bean = new JsonBean();
+		try {
+			List<NaGroupAdjustListExcel> list = POIExcelUtil.excelToList(file, NaGroupAdjustListExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.naGroupAdjustListExcel(planId, list,fileName,fileType);
+			
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+	
+	//集团需求解析
+	@RequestMapping(path = "/group/require/adjustListExcel")
+	public @ResponseBody JsonBean naGroupRequireList(
+			@RequestParam Long planId,
+			@RequestParam MultipartFile file,
+			@RequestParam Long fileType ){
+		JsonBean bean = new JsonBean();
+		try {
+			List<NaGroupRequireListExcel> list = POIExcelUtil.excelToList(file, NaGroupRequireListExcel.class);
+			String fileName = file.getOriginalFilename();
+			naChangePlanOnileSv.naGroupRequireList(planId, list, fileName,fileType);
+			
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
+	}
+	//生产环境需配置菜单需求
+		@RequestMapping(path = "/group/deploy/MenuListExcel")
+		public @ResponseBody JsonBean naHasDeployMenuListExcel(
+				@RequestParam Long planId,
+				@RequestParam MultipartFile file,
+				@RequestParam Long fileType){
+			JsonBean bean = new JsonBean();
+			try {
+				List<NaHasDeployMenuListExcel> list = POIExcelUtil.excelToList(file, NaHasDeployMenuListExcel.class);
+				String fileName = file.getOriginalFilename();
+				naChangePlanOnileSv.naHasDeployMenuListExcel(planId, list, fileName,fileType);
+				
+			} catch (Exception e) {
+				log.error("解析excel失败", e);
+				bean.fail("解析excel失败!");
+			}
+			return bean;
+		}
 }

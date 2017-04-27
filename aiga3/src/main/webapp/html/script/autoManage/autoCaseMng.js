@@ -124,12 +124,11 @@ define(function(require, exports, module) {
             var pagination = _dom.find(".dataTables_paginate");
 
             Utils.getServerPage(srvMap.get('getAutoCaseList'), cmd, function(json) {
-
                 var template = Handlebars.compile(Tpl.getAutoCaseList);
                 console.log(json.data)
+                
                 _dom.find("tbody").html(template(json.data.content));
                 Utils.eventClickChecked($(Dom.getAutoCaseList));
-                // Utils.setScroll($(Dom.getAutoPlanList),380px);
 
             }, pagination);
         },

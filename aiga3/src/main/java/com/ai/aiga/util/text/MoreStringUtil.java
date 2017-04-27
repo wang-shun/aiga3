@@ -138,4 +138,48 @@ public class MoreStringUtil {
 		}
 		return Utf8.encodedLength(sequence);
 	}
+	
+	
+	/**
+	 * 按长度分割字符串
+	 * 
+	 * @param bigString
+	 * @param aMaxByte
+	 * @return
+	 */
+	public static String[] substringAsL(String bigString, int unitLength) {
+		List<String> stringList = new ArrayList<String>();
+		try {
+			if (bigString == null || unitLength < 10) {
+				return new String[0];
+			}
+			byte[] bigStringBytes = bigString.getBytes();
+			// 上一次结束的index
+			for (int startIndex = 0, endIndex = 0; startIndex < bigStringBytes.length;) {
+				if (startIndex + unitLength >= bigStringBytes.length) { // 已经是最后一个节点了
+					String oneString = new String(bigStringBytes, startIndex, bigStringBytes.length - startIndex);
+					stringList.add(oneString);
+					break;
+				} else {
+					// 不是最后一个
+					String oneString = new String(bigStringBytes, startIndex, unitLength);
+					
+					if (oneString.charAt(oneString.length() - 1) != bigString.charAt(oneString.length() + endIndex - 1)) {
+						
+						String oneStringA = oneString.substring(0, oneString.length() - 1);
+						stringList.add(oneStringA);
+						endIndex += oneStringA.length();
+						startIndex = startIndex + oneStringA.getBytes().length;
+					} else {
+						stringList.add(oneString);
+						endIndex += oneString.length();
+						startIndex = startIndex + oneString.getBytes().length;
+					}
+				}
+			}
+		} finally {
+
+		}
+		return (String[]) stringList.toArray(new String[] {});
+	}
 }

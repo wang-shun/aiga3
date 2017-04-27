@@ -131,6 +131,7 @@ public class AutoRunPlanSv extends BaseService{
 				//查询当前用例的信息
 				NaAutoCase  naAutoCase = naAutoCaseDao.findByAutoId(Long.parseLong(id));
 				NaAutoRunPlanCase  naAutoRunPlanCase = new NaAutoRunPlanCase();
+				//查询用例对应的环境
 				NaAutoEnvironment  ever= everDao.findBySysIdAndEnvType(naAutoCase.getSysId(), naAutoCase.getEnvironmentType());
 				naAutoRunPlanCase.setAutoId(Long.parseLong(id));
 				naAutoRunPlanCase.setPlanId(planId);

@@ -217,6 +217,19 @@ public class ChangeReviewsController {
 		json.setData(changeReviewSv.findNaRollbackMethod(request,pageSize,pageNumber));
 		return json;
 	}
+	
+	
+	@RequestMapping(path = "/sys/review/findchangeReviewList", method=RequestMethod.POST)
+	@ApiOperation(value="查看变更评审" , notes="根据计划id查询变更评审,带分页")
+	public @ResponseBody JsonBean findchangeReviewList(Long planId, Long type,
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize){
+		JsonBean json = new JsonBean();
+		json.setData(changeReviewSv.findchangeReviewList(planId,type,pageSize,pageNumber));
+		return json;
+	}
+	
+	
 	@RequestMapping(path = "/sys/review/saveNaRollbackMethod", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更回退方案" , notes="保存变更回退方案")
 	@ApiParam(name="request" ,value="保存信息", required=true)

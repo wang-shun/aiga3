@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.service.reviewPlanSv;
+import com.ai.aiga.service.ReviewPlanSv;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.webservice.soap.dto.AdclodArgs;
 import com.ai.aiga.webservice.soap.dto.BMCArgs;
@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiParam;
 @Controller
 public class ReviewPlanController {
 	@Autowired
-	private reviewPlanSv sv;
+	private ReviewPlanSv sv;
 	
 
 	@RequestMapping(value="sys/plan/returnToADClod",method=RequestMethod.POST)

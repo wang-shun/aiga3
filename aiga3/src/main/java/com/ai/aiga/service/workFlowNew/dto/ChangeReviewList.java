@@ -8,7 +8,7 @@ import lombok.Data;
  *@date 2017-04-25
  */
 @Data
-public class changeReviewList {
+public class ChangeReviewList {
 
 	private Long id;//评审id
 	private Long fileId;//附件id;

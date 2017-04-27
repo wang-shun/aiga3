@@ -51,7 +51,7 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.enums.WorkFlowNewEnum;
 import com.ai.aiga.service.workFlowNew.dto.ChangeResultValidateRequest;
 import com.ai.aiga.service.workFlowNew.dto.WarningShieldRequest;
-import com.ai.aiga.service.workFlowNew.dto.changeReviewList;
+import com.ai.aiga.service.workFlowNew.dto.ChangeReviewList;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.workFlowNew.dto.ChangeConditionRequest;
 import com.ai.aiga.view.controller.workFlowNew.dto.ChangeContentsRequest;
@@ -1091,7 +1091,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<changeReviewList> findchangeReviewList(Long planId, Long type, int pageSize, int pageNumber) {
+	public List<ChangeReviewList> findchangeReviewList(Long planId, Long type, int pageSize, int pageNumber) {
 		if (planId == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
@@ -1121,8 +1121,8 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<changeReviewList>) naChangeResultValidateDao.searchByNativeSQL(s.toString(), param,
-				changeReviewList.class, pageable);
+		return (List<ChangeReviewList>) naChangeResultValidateDao.searchByNativeSQL(s.toString(), param,
+				ChangeReviewList.class, pageable);
 	}
 	
 	

@@ -1,0 +1,69 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data": {
+        "totalElements": 12, //总条数
+        "content": [{
+            "id": "1",
+            "measureFactor": "变更申请理由",
+            "condition": "生产日常维护",
+            "selfEvalution":"是",
+            "score":"1"
+
+        }, {
+            "id": "2",
+            "measureFactor": "变更申请理由",
+            "condition": "满足业务需求",
+            "selfEvalution":"",
+            "score":"2"
+        }, {
+            "id": "3",
+            "measureFactor": "变更申请理由",
+            "condition": "解决生产潜在故障",
+            "selfEvalution":"",
+            "score":"3"
+        }, {
+            "id": "4",
+            "measureFactor": "变更申请理由",
+            "condition": "解决生产故障",
+            "selfEvalution":"",
+            "score":"4"
+        }, {
+            "id": "5",
+            "measureFactor": "业务影响范围（执行变更时可能影响的业务系统数量）",
+            "condition": "影响3个及以上生产系统",
+            "selfEvalution":"",
+            "score":"1"
+        }, {
+            "id": "6",
+            "measureFactor": "业务影响范围（执行变更时可能影响的业务系统数量）",
+            "condition": "影响2个生产系统",
+            "selfEvalution":"",
+            "score":"2"
+        }, {
+            "id": "7",
+            "measureFactor": "业务影响范围（执行变更时可能影响的业务系统数量）",
+            "condition": "影响1个生产系统",
+            "selfEvalution":"是",
+            "score":"3"
+        }, {
+            "id": "8",
+            "measureFactor": "业务影响范围（执行变更时可能影响的业务系统数量）",
+            "condition": "无业务影响",
+            "selfEvalution":"",
+            "score":"4"
+        }, {
+            "id": "9",
+            "measureFactor": "操作复杂度（执行变更时所需配合的专业组和厂商）",
+            "condition": "3个或更多支持小组",
+            "selfEvalution":"",
+            "score":"1"
+        }, {
+            "id": "10",
+            "measureFactor": "操作复杂度（执行变更时所需配合的专业组和厂商）",
+            "condition": "2个支持小组",
+            "selfEvalution":"是",
+            "score":"1"
+        }]
+    }
+}

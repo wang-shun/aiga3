@@ -3,7 +3,10 @@ define(function(require,exports,module){
 	//引入公用模块
 	require('global/header.js');
 	require('global/sidebar.js');
+	// 通用工具模块
 	var Utils = require('global/utils.js');
+
+	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('deliverableReview');
 
 	//交付物评审结论
@@ -52,7 +55,7 @@ define(function(require,exports,module){
 	srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
 
 	//模板对象
-	var Tpl={
+	/*var Tpl={
 		getDeliverableReviewConclusion:require('tpl/netFlowManage/deliverableReview/getDeliverableReviewConclusion.tpl'),
 		getPlanList:require('tpl/netFlowManage/deliverableReview/getPlanList.tpl'),
 		getModelList:require('tpl/netFlowManage/deliverableReview/getModelList.tpl'),
@@ -90,19 +93,17 @@ define(function(require,exports,module){
 		getNeedList:'#JS_needList',
 		getCombineList:'#JS_combineList',
 		getConfigureList:'#JS_configureList'
-	}
+	}*/
 
 	var Data = {
-		getParentCmd:function(){
-			return Page.getParentCmd();
-		},
         setPageType:function(type){
     		return {
     			"data":{
     				"type":type
     			}
     		}
-    	}
+    	},
+    	queryListCmd: null
     }
 
     var deliverableReview={
@@ -139,14 +140,7 @@ define(function(require,exports,module){
 					return "删除";
 				}
 			});
-			Handlebars.registerHelper("isFinishedsss", function(value) {
-				if (value == 0) {
-					return "否";
-				} else if (value == 1) {
-					return "是";
-				}
-			});
-			Handlebars.registerHelper("executesss", function(value) {
+			Handlebars.registerHelper("yesOrNo", function(value) {
 				if (value == 0) {
 					return "否";
 				} else if (value == 1) {
@@ -156,43 +150,42 @@ define(function(require,exports,module){
 		},
     	getDeliverableReviewConclusion:function(){
 	    		var self=this;
-	    		var data = Data.getParentCmd();
+	    		var data = Page.getParentCmd();
 	    		var _cmd = 'onlinePlan=' + data.onlinePlan + '&ext1=1';
 	    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), _cmd, function(json, status) {
 	    			if (status) {
-			    		var template=Handlebars.compile(Tpl.getDeliverableReviewConclusion);
+	    				var _form = Page.findId('getDeliverableReviewConclusionForm');
+			    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
 			    		console.log(json.data)
-			    		$(Dom.getDeliverableReviewConclusion).html(template(json.data));
-			    		/*Page.findId('JS_conclusion').val()*/
-			    		$("#conclusion").val(json.data.conclusion);
-		    			$("#onlinePlanName").html(data.onlinePlanName);
+			    		_form.html(template(json.data));
+		    			_form.find("[name='conclusion']").val(json.data.conclusion);
+		    			_form.find("[name='onlinePlanName']").html(data.onlinePlanName);
 						//引入单选框样式
-						Utils.eventTrClickCallback($(Dom.getDeliverableReviewConclusion), function() {
-
-						})
+						Utils.eventTrClickCallback(_form);
+						var _saveConclusion =  Page.findId('getDeliverableReviewConclusion').find("[name='saveConclusion']");
 						if(data.planState=="3" || data.planState=="4"){
-							$("#JS_saveConclusion").attr("disabled", true);
+							_saveConclusion.attr("disabled", true);
 						}else{
-							$("#JS_saveConclusion").removeAttr("disabled");
+							_saveConclusion.removeAttr("disabled");
 						}
-						$("#JS_saveConclusion").unbind('click');
+						_saveConclusion.unbind('click');
 						//点击保存
-						$("#JS_saveConclusion").bind('click',function(){
-							var _checkObj =	$('#JS_getDeliverableReviewConclusion').find("input[type='radio']:checked");
+						_saveConclusion.bind('click',function(){
+							var _checkObj =	_form.find("input[type='radio']:checked");
 							if(_checkObj.length==0){
 							   window.XMS.msgbox.show('请选中结论！', 'error', 2000);
 							   return false;
 						    }
-							var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
+							var cmd = _form.serialize();
 							cmd = cmd + "&planId=" +data.onlinePlan;
 							console.log(cmd);
 							Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
 								if(status) {
-										// 保存结论成功后，刷新交付物评审结论页
-										XMS.msgbox.show('保存成功！', 'success', 2000)
-										setTimeout(function(){
-											self.getDeliverableReviewConclusion();
-										},1000)
+									// 保存结论成功后，刷新交付物评审结论页
+									XMS.msgbox.show('保存成功！', 'success', 2000)
+									setTimeout(function(){
+										self.getDeliverableReviewConclusion();
+									},1000)
 								}
 							});
 						});

@@ -45,6 +45,11 @@ public class ExceptionUtil {
 		}
 		throw new UncheckedException(t);
 	}
+	
+	
+	public static void throwException(String reason){
+		throw new UncheckedException(reason);
+	}
 
 	/**
 	 * 如果是著名的包裹类，从cause中获得真正异常. 其他异常则不变.
@@ -304,6 +309,10 @@ public class ExceptionUtil {
 
 		public UncheckedException(Throwable cause) {
 			super(cause);
+		}
+		
+		public UncheckedException(String message) {
+			super(message);
 		}
 
 		@Override

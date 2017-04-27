@@ -45,6 +45,14 @@ public class TaskSv extends BaseService {
 		return tasksDao.findByTaskCategoryAndTaskType(taskCategory, TaskConstant.TASKS_TYPE_TF);
 	}
 	
+	public List<Tasks> findTask(String taskCategory){
+		if(StringUtils.isBlank(taskCategory)){
+			return new ArrayList<Tasks>();
+		}
+		
+		return tasksDao.findByTaskCategoryAndTaskTypeAndStatus(taskCategory, TaskConstant.TASKS_TYPE_TASK, TaskConstant.TASK_STATUS_DOING);
+	}
+	
 	public List<Tasks> findTask(String taskCategory, int size){
 		if(StringUtils.isBlank(taskCategory)){
 			return new ArrayList<Tasks>();

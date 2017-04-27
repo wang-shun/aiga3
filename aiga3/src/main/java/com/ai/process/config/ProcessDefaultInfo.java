@@ -54,6 +54,7 @@ public class ProcessDefaultInfo {
 	public static final String JOB_TRIGGER_NAME_SUFFIX = "_TRIGGER";
 	public static final String JOB_GROUPNAME = "AI_PROCESS_JOB";
 	public static final String JOB_TRIGGER_GROUPNAME = "AI_PROCESS_JOB_TRIGGER";
+	public static final String JOB_TASKS_HOLDER = "AI_PROCESS_TASKS_DB";
 	
 
 }

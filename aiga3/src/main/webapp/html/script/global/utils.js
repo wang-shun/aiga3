@@ -3,39 +3,39 @@
  */
 define(function(require, exports, module) {
     var Utils = {
-         /**
+        /**
          * 初始化页面唯一标识
          *
          * @method pageId 页面标识
          * @return object 构建的对象
          */
-        initPage:function(pageId){
+        initPage: function(pageId) {
             var page = new Object();
-            page.id = '#Page_'+pageId;
-            page.find = function (obj) {
-                return $(this.id).parent().find(obj);
-            },
-            page.findId = function (objId) {
-                return $(this.id).parent().find("#JS_"+objId);
-            },
-            page.findName = function (objName) {
-                return $(this.id).parent().find("[name='"+objName+"']");
-            },
-            page.findTpl = function (tplId) {
-                return $(this.id).parent().find("#TPL_"+tplId).html();
-            },
-            page.findModal = function (modalId) {
-                return $(this.id).parent().find("#Modal_"+modalId);
-            },
-            page.findModalCId = function (objId) {
-                return $(this.id).parent().find("#JS_"+objId);
-            },
-            page.getFunId = function (obj) {
-                return $(this.id).parent().data("funid");
-            },
-            page.getParentCmd = function (obj) {
-                return Rose.browser.mapQuery($(this.id).parent().data("cmd"));
-            }
+            page.id = '#Page_' + pageId;
+            page.find = function(obj) {
+                    return $(this.id).parent().find(obj);
+                },
+                page.findId = function(objId) {
+                    return $(this.id).parent().find("#JS_" + objId);
+                },
+                page.findName = function(objName) {
+                    return $(this.id).parent().find("[name='" + objName + "']");
+                },
+                page.findTpl = function(tplId) {
+                    return $(this.id).parent().find("#TPL_" + tplId).html();
+                },
+                page.findModal = function(modalId) {
+                    return $(this.id).parent().find("#Modal_" + modalId);
+                },
+                page.findModalCId = function(objId) {
+                    return $(this.id).parent().find("#JS_" + objId);
+                },
+                page.getFunId = function(obj) {
+                    return $(this.id).parent().data("funid");
+                },
+                page.getParentCmd = function(obj) {
+                    return Rose.browser.mapQuery($(this.id).parent().data("cmd"));
+                }
             return page;
             /*return {
                 id: '#Page_'+pageId,
@@ -79,191 +79,196 @@ define(function(require, exports, module) {
          * @method obj 表格父元素
          * @callback Fun 回调函数
          */
-        eventTrClickCallback:function(obj,callback){
+        eventTrClickCallback: function(obj, callback) {
             this.eventClickChecked(obj);
-            this.eventDClickCallback(obj,callback);
+            this.eventDClickCallback(obj, callback);
         },
-         /**
+        /**
          * 单复选框美化、单击执行回调函数
          *
          * @method obj 表格父元素
          * @callback Fun 回调函数
          */
-        eventClickChecked:function(obj,callback){
+        eventClickChecked: function(obj, callback) {
             obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                  checkboxClass: 'icheckbox_minimal-blue',
-                  radioClass: 'iradio_minimal-blue'
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
             });
             obj.find("tr").bind('click', function(event) {
                 var _input = $(this).find('.minimal');
                 _input.iCheck('toggle');
                 var isChecked = _input.parent("div").attr("aria-checked");
                 if (callback) {
-                    callback(isChecked,_input);
+                    callback(isChecked, _input);
                 }
             });
         },
-         /**
+        /**
          * 表单验证
          *
          * @method objForm 表单父元素
          * @callback Fun 回调函数
          */
-        checkForm:function(objForm,callback){
+        checkForm: function(objForm, callback) {
             var state = true;
             var text = '';
             $(objForm).find(':input[required]')
-            .not(':button, :submit, :reset, :hidden').each(function(){
-                var _val = $.trim($(this).val());
-                var _text = $.trim($(this).prev().text());
-                if(_val == null || _val == undefined || _val == ''){
-                    state = false;
-                    text = _text;
-                    return false;
-                }
-            })
-            if(state){
-                 callback(state);
-            }else{
-                XMS.msgbox.show(text.trimStar()+'不能为空！', 'error', 2000);
+                .not(':button, :submit, :reset, :hidden').each(function() {
+                    var _val = $.trim($(this).val());
+                    var _text = $.trim($(this).prev().text());
+                    if (_val == null || _val == undefined || _val == '') {
+                        state = false;
+                        text = _text;
+                        return false;
+                    }
+                })
+            if (state) {
+                callback(state);
+            } else {
+                XMS.msgbox.show(text.trimStar() + '不能为空！', 'error', 2000);
             }
         },
-         /**
+        /**
          * 清空表单所有的
          *
          * @method obj 父元素
          */
-        resetForm:function(objForm){
+        resetForm: function(objForm) {
             $(objForm).find(':input')
-            .not(':button, :submit, :reset, :hidden, :disabled')
-            .val('')
-            .removeAttr('checked')
-            .removeAttr('selected');
+                .not(':button, :submit, :reset, :hidden, :disabled')
+                .val('')
+                .removeAttr('checked')
+                .removeAttr('selected');
         },
         /**
          * 页面中多DIV跳转
          *
          * @method obj 父元素
          */
-        initStep:function(obj){
+        initStep: function(obj) {
             var self = this;
-            $(obj).find("[data-gostep]").bind("click",function(){
-                self.goStep($(obj),$(this).data("gostep"));
+            $(obj).find("[data-gostep]").bind("click", function() {
+                self.goStep($(obj), $(this).data("gostep"));
             })
         },
-        goStep:function(obj,num){
-            $(obj).find("div[data-steps='"+num+"']").removeClass('hide').siblings().addClass('hide');
+        goStep: function(obj, num) {
+            $(obj).find("div[data-steps='" + num + "']").removeClass('hide').siblings().addClass('hide');
         },
-        setScroll:function(obj,height){
+        setScroll: function(obj, height) {
             obj.slimScroll({
                 "height": height
             });
         },
-         /**
+        /**
          * 获取表格所有行的数据
          *
          * @method obj 表格父元素
          */
-        getTableDataRows:function(obj){
+        getTableDataRows: function(obj) {
             var dataArray = []
-            obj.find("tbody > tr").each(function(){
-                var data ={};
-                $(this).find("input,select").each(function(){
+            obj.find("tbody > tr").each(function() {
+                var data = {};
+                $(this).find("input,select").each(function() {
                     var key = $(this).attr("name");
                     var value = $(this).val();
-                    data[key]=value;
+                    data[key] = value;
                 });
                 dataArray.push(data);
             });
             return dataArray;
         },
-         /**
+        /**
          * 获取单选框当前值
          *
          * @method obj 表格父元素
          */
-        getRadioCheckedRow:function(obj){
+        getRadioCheckedRow: function(obj, message) {
             var _obj = obj.find("input[type='radio']:checked");
-            if(_obj.length==0){
-                window.XMS.msgbox.show('请先选择一行数据！', 'info', 2000);
+            if (_obj.length == 0) {
+                if (message) {
+                    window.XMS.msgbox.show(message, 'info', 2000);
+                } else {
+                    window.XMS.msgbox.show('请先选择一行数据！', 'info', 2000);
+                }
+
                 return;
             }
-            var data ={};
-            _obj.parents("tr").find("input").each(function(){
+            var data = {};
+            _obj.parents("tr").find("input").each(function() {
                 var key = $(this).attr("name");
                 var value = $(this).val();
-                data[key]=value;
+                data[key] = value;
             });
             return data;
         },
-         /**
+        /**
          * 获取复选框当前值和状态
          *
          * @method obj 表格父元素
          */
-        getCheckboxCheckedRow:function(obj){
+        getCheckboxCheckedRow: function(obj) {
             var _obj = obj.find("input[type='checkbox']:checked");
-            if(_obj.length==0){
+            if (_obj.length == 0) {
                 window.XMS.msgbox.show('请先选择一行数据！', 'info', 2000);
                 return;
             }
-            var data ={};
-            _obj.parents("tr").find("input").each(function(){
+            var data = {};
+            _obj.parents("tr").find("input").each(function() {
                 var key = $(this).attr("name");
                 var value = $(this).val();
-                data[key]=value;
+                data[key] = value;
             });
             return data;
         },
-         /**
+        /**
          * 表格行双击执行回调函数
          *
          * @method obj 表格父元素
          * @callback Fun 回调函数
          */
-        eventDClickCallback:function(obj,callback){
+        eventDClickCallback: function(obj, callback) {
             obj.find("tr").bind('dblclick ', function(event) {
-                    if (callback) {
-                        callback();
-                    }
+                if (callback) {
+                    callback();
+                }
             });
         },
-         /**
+        /**
          * 设置下拉框数据
          *
          * @method obj 表单父元素
          */
-        setSelectData:function(obj,other,callback){
+        setSelectData: function(obj, other, callback) {
             var self = this;
             obj.find("select").each(function(index) {
                 var _this = $(this);
                 var _url = _this.data("url");
                 var _cmd = _this.data("cmd") || '';
-                if(other){
+                if (other) {
                     _cmd += "&" + other;
                 }
-                if(_url){
-                    if(callback){
-                        self.setSelectHtml(_this,_url,_cmd,callback());
-                    }else{
-                        self.setSelectHtml(_this,_url,_cmd);
+                if (_url) {
+                    if (callback) {
+                        self.setSelectHtml(_this, _url, _cmd, callback());
+                    } else {
+                        self.setSelectHtml(_this, _url, _cmd);
                     }
-                    
+
                 }
 
             });
 
-            obj.on("change", "select[data-subname]", function(){
-            	var _this = $(this);
+            obj.on("change", "select[data-subname]", function() {
+                var _this = $(this);
 
-            	// 判断如果有异步子项，统一做处理
+                // 判断如果有异步子项，统一做处理
                 var _subname = _this.data("subname");
-                if(_subname){
-                    var _thisSub = obj.find("select[name="+_subname+"]");
+                if (_subname) {
+                    var _thisSub = obj.find("select[name=" + _subname + "]");
                     var suburl = _thisSub.data("suburl");
-                    var subcmd = _this.attr("name")+"="+_this.val();
-                    if(suburl){
-                    	 self.setSelectHtml(_thisSub,suburl,subcmd);
+                    var subcmd = _this.attr("name") + "=" + _this.val();
+                    if (suburl) {
+                        self.setSelectHtml(_thisSub, suburl, subcmd);
                     }
                 }
             })
@@ -272,30 +277,30 @@ define(function(require, exports, module) {
         /**
          * 清除子的option
          */
-        clearSubOptions:function(obj){
+        clearSubOptions: function(obj) {
 
-        	// 判断如果有异步子项，统一做处理
+            // 判断如果有异步子项，统一做处理
             var _subname = obj.data("subname");
-            if(_subname){
-                var _thisSub = $("select[name="+_subname+"]");
+            if (_subname) {
+                var _thisSub = $("select[name=" + _subname + "]");
                 _thisSub.html('<option value="">请选择</option>');
 
                 this.clearSubOptions(_thisSub);
             }
         },
 
-         /**
+        /**
          * 设置下拉框option节点
          *
          * @method obj 元素
          * @method obj 接口
          * @method obj 接口参数
          */
-        setSelectHtml:function(obj,url,cmd,callback){
+        setSelectHtml: function(obj, url, cmd, callback) {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.getJson(srvMap.get(url),cmd, function(json, status) {
-                if(status) {
+            Rose.ajax.getJson(srvMap.get(url), cmd, function(json, status) {
+                if (status) {
                     window.XMS.msgbox.hide();
                     var _data = json.data;
                     var _html = '<option value="">请选择</option>';
@@ -303,87 +308,87 @@ define(function(require, exports, module) {
                     var idv = obj.data("idkey");
                     var namev = obj.data("namekey");
 
-                    for (var i in _data){
+                    for (var i in _data) {
                         var _json = _data[i];
-                        var _key,_value;
+                        var _key, _value;
 
-                        if(idv && namev){
-                        	_key = _json[idv];
-                        	_value = _json[namev];
-                        }else{
-                        	for (var key in _json){
-                                if(key.indexOf("Id")>=0){
+                        if (idv && namev) {
+                            _key = _json[idv];
+                            _value = _json[namev];
+                        } else {
+                            for (var key in _json) {
+                                if (key.indexOf("Id") >= 0) {
                                     _key = _json[key];
                                 }
-                                if(key.indexOf("Name")>=0){
+                                if (key.indexOf("Name") >= 0) {
                                     _value = _json[key];
                                 }
                             }
                         }
-                        _html+='<option value="'+_key+'">'+_value+'</option>';
+                        _html += '<option value="' + _key + '">' + _value + '</option>';
 
                     }
                     obj.html(_html);
-                    
+
                     self.clearSubOptions(obj);
-                    if(callback){
+                    if (callback) {
                         callback();
                     }
                 }
             });
         },
-         /**
+        /**
          * 设置当前元素下所有下拉框选中
          *
          * @method obj 元素
          */
-        setSelected:function(obj){
+        setSelected: function(obj) {
             obj.find("select").each(function(index) {
                 var _data = $(this).data("selected");
-                $(this).find("option[value='"+_data+"']").attr("selected",true)
+                $(this).find("option[value='" + _data + "']").attr("selected", true)
             });
         },
-        getServerPage:function(url,cmd,callback,obj,pageSize){
+        getServerPage: function(url, cmd, callback, obj, pageSize) {
             var self = this;
             var page_index = 0;
             var items_per_page = 10 || pageSize;
             $(obj).html(''); // 初始化清空分页
-            function getDataList(index,jq){
+            function getDataList(index, jq) {
                 var _cmd = '';
-                if(!jq){
-                    if(cmd){
-                        _cmd = cmd+'&';
-                        $(obj).data("cmd",cmd);
+                if (!jq) {
+                    if (cmd) {
+                        _cmd = cmd + '&';
+                        $(obj).data("cmd", cmd);
                     }
-                }else{
+                } else {
                     var dataCmd = $(obj).data("cmd");
-                    if(dataCmd){
-                        _cmd = dataCmd+'&';
+                    if (dataCmd) {
+                        _cmd = dataCmd + '&';
                     }
                 }
-                var _cmd = _cmd + "page="+index+'&pageSize='+items_per_page;
-                Rose.log('服务器端分页入参：'+_cmd);
+                var _cmd = _cmd + "page=" + index + '&pageSize=' + items_per_page;
+                Rose.log('服务器端分页入参：' + _cmd);
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 Rose.ajax.postJson(url, _cmd, function(json, status) {
-                    if(status) {
+                    if (status) {
                         callback(json);
                         XMS.msgbox.hide();
-                        if($(obj).html()== ''){
+                        if ($(obj).html() == '') {
                             $(obj).pagination(json.data.totalElements, {
-                                items_per_page      : items_per_page, //每页显示的条目数
-                                num_display_entries : 10, //连续分页主体部分显示的分页条目数
-                                num_edge_entries    : 2, //两侧显示的首尾分页的条目数
-                                prev_text           : "上页",
-                                next_text           : "下页",
-                                callback           : pageselectCallback
+                                items_per_page: items_per_page, //每页显示的条目数
+                                num_display_entries: 10, //连续分页主体部分显示的分页条目数
+                                num_edge_entries: 2, //两侧显示的首尾分页的条目数
+                                prev_text: "上页",
+                                next_text: "下页",
+                                callback: pageselectCallback
                             });
                         }
                     }
                 });
             }
             // 回调方法
-            function pageselectCallback(page_index,jq){
-                getDataList(page_index,jq);
+            function pageselectCallback(page_index, jq) {
+                getDataList(page_index, jq);
             }
             // 初始化
             getDataList(page_index);

@@ -31,7 +31,8 @@
 		<springfox-version>2.6.1</springfox-version>
 		<!-- <cxf.version>2.7.18</cxf.version> -->
 		<cxf.version>3.0.12</cxf.version>
-
+		<json.version>2.4</json.version>
+		<dom4j.version>1.6.1</dom4j.version>
 		<!-- Plugin的属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.6</java.version>
@@ -384,13 +385,25 @@
 			<version>1.16.16</version>
 			<scope>provided</scope>
 		</dependency>
-		
-			
+
+		<!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
+		<!--json-lib提供了两个jdk版本的实现， json-lib-2.1-jdk13.jar和json-lib-2.1-jdk15.jar-->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>${json.version}</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>${dom4j.version}</version>
+		</dependency>
 			
 	</dependencies>
-
-
-
+	
 	<build>
 		<finalName>aiga3</finalName>
 

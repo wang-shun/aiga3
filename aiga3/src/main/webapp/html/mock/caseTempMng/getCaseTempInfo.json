@@ -4,8 +4,8 @@
   "data":{
     "caseId": "10101",
     "caseName":"用例模板1",
-    "sysId": "11",
-    "caseType": "UI类",
+    "sysId": "30",
+    "caseType": "2",
     "creator": "创建人",
     "update": "修改人",
     "updateTime":"2017-2-02 08:00:00",
@@ -13,6 +13,8 @@
     "busiId":"11",
     "sysSubId":"11",
     "funId":"11",
+    "mustCompare":"比对参数",
+    "sendAddress":"http://10.70.80.212",
     "factors":[{
       "factorId":"11",
       "factorName":"因子1",

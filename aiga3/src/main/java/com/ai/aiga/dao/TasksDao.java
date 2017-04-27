@@ -31,5 +31,8 @@ public interface TasksDao  extends SearchAndPageRepository<Tasks, Long> {
 	
 	List<Tasks> findByTaskCategoryAndTaskTypeAndStatus(String taskCategory, short tasksType, short status, Pageable pageRequest);
 
+	List<Tasks> findByTaskCategoryAndTaskClassAndBusinessIdAndStatusIn(String taskCategory, String tasksClass, String businessId, List<Short> status);
+	
+	
 }
 

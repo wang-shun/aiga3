@@ -6,6 +6,7 @@ import lombok.Data;
  * 变更评审列表
  * @author liuxx
  *@date 2017-04-25
+ *
  */
 @Data
 public class ChangeReviewList {

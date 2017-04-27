@@ -150,8 +150,8 @@ define(function(require, exports, module) {
 			Handlebars.registerHelper("fileTypes", function(value) {
 				if (value == 0) {
 					return "否";
-				} else if (value == 1) {
-					return "文件类型1";
+				} else if (value == 20) {
+					return "变更交付物";
 				}
 			});
 			Handlebars.registerHelper("getFileType", function(value) {
@@ -704,9 +704,10 @@ define(function(require, exports, module) {
 			var self = this;
 			var _dom = Page.findId('getChangeDeliverableList');
 			var _domPagination = _dom.find("[name='pagination']");
+			var _cmd = 'planId=' + planId + '&fileType=2'
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getChangeDeliverableList'), 'planId=' + planId, function(json) {
+			Utils.getServerPage(srvMap.get('getChangeDeliverableList'), _cmd, function(json) {
 				window.XMS.msgbox.hide();
 
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getChangeDeliverableList' 即传入'getChangeDeliverableList'

@@ -405,11 +405,14 @@ public class ChangePlanOnileSv extends BaseService{
 	}
 	
 	
-	public Page<NaFileUpload> findNaFileUpload(Long type,int pageNumber, int pageSize){
+	public Object findNaFileUpload(Long type,int pageNumber, int pageSize){
 		List<Condition> cons = new ArrayList<Condition>();
+		StringBuilder sql = new StringBuilder("select * from NA_FILE_UPLOAD");
 		if(type!=null){
+			sql = sql.append(" where file_Type like '"+type+"%");
 			cons.add(new Condition("fileType", type.toString().concat("%"), Condition.Type.EQ));
 		}
+		sql.append(" order by CREATE_TIME desc");
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}
@@ -418,7 +421,7 @@ public class ChangePlanOnileSv extends BaseService{
 		}
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return naFileUploadDao.search(cons,pageable);
+		return naFileUploadDao.searchByNativeSQL(sql.toString(), pageable);
 	}
 	
 	/**

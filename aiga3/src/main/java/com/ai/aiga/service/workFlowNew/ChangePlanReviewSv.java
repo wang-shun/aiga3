@@ -140,7 +140,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeCondition> findNaChangeCondition(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object findNaChangeCondition(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -165,7 +165,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeCondition>) naChangeConditionDao.search(cons, pageable);
+		return naChangeConditionDao.search(cons, pageable);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeContents> findNaChangeContents(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object  findNaChangeContents(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -223,7 +223,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeContents>) naChangeContentsDao.search(cons, pageable);
+		return naChangeContentsDao.search(cons, pageable);
 	}
 
 	/**
@@ -256,7 +256,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeTimePerson> findNaChangeTimePerson(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object  findNaChangeTimePerson(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -281,7 +281,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeTimePerson>) naChangeTimePersonDao.search(cons, pageable);
+		return naChangeTimePersonDao.search(cons, pageable);
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeUpdate> findNaChangeUpdate(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object  findNaChangeUpdate(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -339,7 +339,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeUpdate>) naChangeUpdateDao.search(cons, pageable);
+		return  naChangeUpdateDao.search(cons, pageable);
 	}
 
 	/**
@@ -372,7 +372,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeGoalDevice> findNaChangeGoalDevice(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object  findNaChangeGoalDevice(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -397,7 +397,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeGoalDevice>) naChangeGoalDeviceDao.search(cons, pageable);
+		return naChangeGoalDeviceDao.search(cons, pageable);
 	}
 
 	/**
@@ -433,7 +433,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaWarningShield> findNaWarningShield(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object findNaWarningShield(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -458,7 +458,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaWarningShield>) naWarningShieldDao.search(cons, pageable);
+		return  naWarningShieldDao.search(cons, pageable);
 	}
 
 	/**
@@ -491,7 +491,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangePrepareWork> findNaChangePrepareWork(ChangeReviewRequest request, int pageSize,
+	public Object findNaChangePrepareWork(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -517,7 +517,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangePrepareWork>) naChangePrepareWorkDao.search(cons, pageable);
+		return   naChangePrepareWorkDao.search(cons, pageable);
 	}
 
 	/**
@@ -550,7 +550,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeOperationManager> findNaChangeOperationManager(ChangeReviewRequest request, int pageSize,
+	public Object findNaChangeOperationManager(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -576,7 +576,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeOperationManager>) naChangeOperationManagerDao.search(cons, pageable);
+		return naChangeOperationManagerDao.search(cons, pageable);
 	}
 
 	/**
@@ -609,7 +609,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaRollbackMethod> findNaRollbackMethod(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object findNaRollbackMethod(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -634,7 +634,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaRollbackMethod>) naRollbackMethodDao.search(cons, pageable);
+		return  naRollbackMethodDao.search(cons, pageable);
 	}
 
 	/**
@@ -667,7 +667,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeRunStep> findNaChangeRunStep(ChangeReviewRequest request, int pageSize, int pageNumber) {
+	public Object  findNaChangeRunStep(ChangeReviewRequest request, int pageSize, int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
@@ -692,7 +692,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeRunStep>) naChangeRunStepDao.search(cons, pageable);
+		return  naChangeRunStepDao.search(cons, pageable);
 	}
 
 	/**
@@ -725,7 +725,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaInformationNotice> findNaInformationNotice(ChangeReviewRequest request, int pageSize,
+	public Object  findNaInformationNotice(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -751,7 +751,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaInformationNotice>) naInformationNoticeDao.search(cons, pageable);
+		return  naInformationNoticeDao.search(cons, pageable);
 	}
 
 	/**
@@ -784,7 +784,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeDangurousEstimate> findNaChangeDangurousEstimate(ChangeReviewRequest request, int pageSize,
+	public Object findNaChangeDangurousEstimate(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -810,7 +810,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeDangurousEstimate>) naChangeDangurousEstimateDao.search(cons, pageable);
+		return naChangeDangurousEstimateDao.search(cons, pageable);
 	}
 
 
@@ -846,7 +846,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaQuantitativeRisk> findNaQuantitativeRisk(ChangeReviewRequest request, int pageSize,
+	public Object  findNaQuantitativeRisk(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -872,7 +872,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaQuantitativeRisk>) naQuantitativeRiskDao.search(cons, pageable);
+		return naQuantitativeRiskDao.search(cons, pageable);
 	}
 
 
@@ -908,7 +908,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaRiskRatingScale> findNaRiskRatingScale(ChangeReviewRequest request, int pageSize,
+	public Object  findNaRiskRatingScale(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -934,7 +934,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaRiskRatingScale>) naRiskRatingScaleDao.search(cons, pageable);
+		return  naRiskRatingScaleDao.search(cons, pageable);
 	}
 
 	//
@@ -971,7 +971,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeServiceValidate> findNaChangeServiceValidate(ChangeReviewRequest request, int pageSize,
+	public Object  findNaChangeServiceValidate(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -997,7 +997,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeServiceValidate>) naChangeServiceValidateDao.search(cons, pageable);
+		return  naChangeServiceValidateDao.search(cons, pageable);
 	}
 
 	/**
@@ -1030,7 +1030,7 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param pageNumber
 	 * @return
 	 */
-	public List<NaChangeResultValidate> findNaChangeResultValidate(ChangeReviewRequest request, int pageSize,
+	public Object  findNaChangeResultValidate(ChangeReviewRequest request, int pageSize,
 			int pageNumber) {
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
@@ -1056,7 +1056,7 @@ public class ChangePlanReviewSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 
-		return (List<NaChangeResultValidate>) naChangeResultValidateDao.search(cons, pageable);
+		return naChangeResultValidateDao.search(cons, pageable);
 	}
 
 	/**
@@ -1098,12 +1098,12 @@ public class ChangePlanReviewSv extends BaseService {
 		StringBuilder s = new StringBuilder();
 		List<ParameterCondition> param = new ArrayList<ParameterCondition>();
 		s.append(
-				"select b.id,b.ext_2 as file_id, a.file_name, b.conclusion, b.review_result, b.reviewer, b.review_date, b.remark");
-		s.append("from NA_FILE_UPLOAD a");
+				"select a.id,b.ext_2 as file_id, a.file_name, b.conclusion, b.review_result, b.reviewer, b.review_date, b.remark ");
+		s.append(" from NA_FILE_UPLOAD a");
 		s.append(" left join NA_CHANGE_REVIEW b");
 		s.append("   on a.id = b.ext_2");
-		s.append(" where a.file_type = 20");
-		s.append(" and a.plan_id = :planId");
+		s.append("  where a.file_type = 20");
+		s.append("  and a.plan_id = :planId");
 		param.add(new ParameterCondition("planId", planId));
 		if (type == 1) {
 			s.append(" and  b.conclusion is null ");

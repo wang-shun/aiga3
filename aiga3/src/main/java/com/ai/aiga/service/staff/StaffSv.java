@@ -5,9 +5,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.AigaStaffOrgRelatDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
@@ -70,11 +73,11 @@ public class StaffSv extends BaseService {
 //		return responses;
 	}
 
-	public List<SimpleStaff> findStaff(String code, String name) {
+	public Object findStaff(StaffInfoRequest condition, Long organizeId, int pageNumber, int pageSize) {
 
-		if (StringUtils.isBlank(code) && StringUtils.isBlank(name)) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
+//		if (StringUtils.isBlank(condition.getCode()) && StringUtils.isBlank(condition.getName())) {
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+//		}
 		
 		StringBuilder nativeSql = new StringBuilder(
 				"select af.staff_id,af.code,af.name,af.state,"
@@ -85,17 +88,34 @@ public class StaffSv extends BaseService {
 		
 		List<ParameterCondition> parameters = new ArrayList<ParameterCondition>();
 		
-		if(StringUtils.isNotBlank(code)){
+		if(StringUtils.isNotBlank(condition.getCode())){
 			nativeSql.append(" and af.code like :code");
-			parameters.add(new ParameterCondition("code", "%" + code + "%"));
+			parameters.add(new ParameterCondition("code", "%" + condition.getCode() + "%"));
 		}
 		
-		if(StringUtils.isNotBlank(name)){
+		if(StringUtils.isNotBlank(condition.getName())){
 			nativeSql.append(" and af.name like :name");
-			parameters.add(new ParameterCondition("name", "%" + name + "%"));
+			parameters.add(new ParameterCondition("name", "%" + condition.getName() + "%"));
 		}
-				
-		return aigaStaffDao.searchByNativeSQL(nativeSql.toString(), parameters, SimpleStaff.class);
+		
+		if(organizeId !=  null){
+			nativeSql.append(" and ar.organize_id = :organizeId");
+			parameters.add(new ParameterCondition("organizeId", organizeId));
+		}
+		
+		if (pageNumber <= 0) {
+			pageNumber = 0;
+		} else {
+			pageNumber--;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return aigaStaffDao.searchByNativeSQL(nativeSql.toString(), parameters, SimpleStaff.class, pageable);
 		
 //		List<Object[]> list = null;
 //		if ((StringUtils.isNotBlank(code) && StringUtils.isNotBlank(name)) || StringUtils.isNotBlank(code)) {

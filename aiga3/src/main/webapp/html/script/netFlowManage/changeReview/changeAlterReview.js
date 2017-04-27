@@ -7,7 +7,7 @@ define(function(require, exports, module) {
     // 路径重命名
     var pathAlias = "netFlowManage/changeDeliverableReview/";
 
-    //交付物评审结论
+    //交付物评审结论&历史记录
     srvMap.add("getDeliverableReviewConclusionC", pathAlias + "getDeliverableReviewConclusion.json", "sys/review/findchangeReviewList");
     //保存结论
     srvMap.add("saveConclusionC", pathAlias + "retMessage.json", "sys/review/saveChangeReviewResult");

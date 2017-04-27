@@ -287,20 +287,20 @@ define(function(require, exports, module) {
                 self.getChangeProfileList(cmd);
                 self.getChangeContentList(cmd);
                 self.getTimePersonList(cmd);
-                this.getChangeDeviceList(cmd);
-                this.getChangeConfigList(cmd);
-                this.getWarningList(cmd);
-                this.getPrepareList(cmdcmd);
-                this.getRunStepList(cmd);
-                this.getOperationManageList(cmd);
-                this.getRollbackList(cmd);
-                this.getResultValidateList(cmd);
-                this.getServiceValidateList(cmd);
-                this.getDangerList(cmd);
-                this.getRiskRatingList(cmd);
-                this.getRiskScoreList(cmd); 
-                this.getNoticeList(cmd);         
-                this.getFileList(cmd);
+                self.getChangeDeviceList(cmd);
+                self.getChangeConfigList(cmd);
+                self.getWarningList(cmd);
+                self.getPrepareList(cmd);
+                self.getRunStepList(cmd);
+                self.getOperationManageList(cmd);
+                self.getRollbackList(cmd);
+                self.getResultValidateList(cmd);
+                self.getServiceValidateList(cmd);
+                self.getDangerList(cmd);
+                self.getRiskRatingList(cmd);
+                self.getRiskScoreList(cmd); 
+                self.getNoticeList(cmd);         
+                self.getFileList(cmd);
             });
         },
         //变更概况列表

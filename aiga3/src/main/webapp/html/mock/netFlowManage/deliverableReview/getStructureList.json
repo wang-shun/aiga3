@@ -1,15 +1,15 @@
 {
-  "retCode":"200",
-  "retMessage":null,
-  "data":{
-    "totalElements":12, //总条数
-  	"content":
-  	[{
-  		"sysName": "系统大类1",
-    	"sysModel": "系统模块1",
-    	"changeType":"新增模块",
-	   	"changeHostList": "变更主机清单1",
-	   	"reamrk": "备注"
-  }]
-}
+    "retCode":"200",
+    "retMessage":null,
+    "data":{
+        "totalElements":12, //总条数
+  	    "content":
+  	    [{
+            "sysName": "系统大类1",
+        	"sysModel": "系统模块1",
+        	"changeType":"新增模块",
+    	   	"changeHostList": "变更主机清单1",
+    	   	"reamrk": "备注"
+        }]
+    }
 }

@@ -405,8 +405,11 @@ public class ChangePlanOnileSv extends BaseService{
 	}
 	
 	
-	public Page<NaFileUpload> findNaFileUpload(int pageNumber, int pageSize){
+	public Page<NaFileUpload> findNaFileUpload(Long type,int pageNumber, int pageSize){
 		List<Condition> cons = new ArrayList<Condition>();
+		if(type!=null){
+			cons.add(new Condition("fileType", type, Condition.Type.EQ));
+		}
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}

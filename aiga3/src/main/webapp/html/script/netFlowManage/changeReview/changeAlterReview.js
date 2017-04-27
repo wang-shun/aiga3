@@ -8,77 +8,77 @@ define(function(require, exports, module) {
     var pathAlias = "netFlowManage/changeDeliverableReview/";
 
     //交付物评审结论
-    srvMap.add("getDeliverableReviewConclusionC", pathAlias + "getDeliverableReviewConclusion.json", "");
+    srvMap.add("getDeliverableReviewConclusionC", pathAlias + "getDeliverableReviewConclusion.json", "sys/review/findchangeReviewList");
     //保存结论
-    srvMap.add("saveConclusionC", pathAlias + "retMessage.json", "");
+    srvMap.add("saveConclusionC", pathAlias + "retMessage.json", "sys/review/saveChangeReviewResult");
     //保存下一次评审时间
-    srvMap.add("saveReviewTime", pathAlias + "retMessage.json", "");
+    srvMap.add("saveReviewTime", pathAlias + "retMessage.json", "sys/review/setReviewDate");
     //变更概况列表
-    srvMap.add("getChangeProfileList", pathAlias + "getChangeProfileList.json", "");
+    srvMap.add("getChangeProfileList", pathAlias + "getChangeProfileList.json", "sys/review/findNaChangeCondition");
     //保存变更概况
-    srvMap.add("saveProfile", pathAlias + "retMessage.json", "");
+    srvMap.add("saveProfile", pathAlias + "retMessage.json", "sys/review/saveNaChangeCondition");
     //变更内容列表
-    srvMap.add("getChangeContentList", pathAlias + "getChangeContentList.json", "");
+    srvMap.add("getChangeContentList", pathAlias + "getChangeContentList.json", "sys/review/findNaChangeContents");
     //保存变更内容
-    srvMap.add("saveContent", pathAlias + "retMessage.json", "");
+    srvMap.add("saveContent", pathAlias + "retMessage.json", "sys/review/saveNaChangeContents");
     //时间及人员列表
-    srvMap.add("getTimePersonList", pathAlias + "getTimePersonList.json", "");
+    srvMap.add("getTimePersonList", pathAlias + "getTimePersonList.json", "sys/review/findNaChangeTimePerson");
     //保存时间及人员
-    srvMap.add("saveTimePerson", pathAlias + "retMessage.json", "");
+    srvMap.add("saveTimePerson", pathAlias + "retMessage.json", "sys/review/saveNaChangeTimePerson");
     //变更目标设备列表
-    srvMap.add("getChangeDeviceList", pathAlias + "getChangeDeviceList.json", "");
+    srvMap.add("getChangeDeviceList", pathAlias + "getChangeDeviceList.json", "sys/review/findNaChangeGoalDevice");
     //保存变更目标设备
-    srvMap.add("saveDevice", pathAlias + "retMessage.json", "");
+    srvMap.add("saveDevice", pathAlias + "retMessage.json", "sys/review/saveNaChangeGoalDevice");
     //变更配置更新列表
-    srvMap.add("getChangeConfigList", pathAlias + "getChangeConfigList.json", "");
+    srvMap.add("getChangeConfigList", pathAlias + "getChangeConfigList.json", "sys/review/findNaChangeUpdate");
     //保存配置更新
-    srvMap.add("saveConfig", pathAlias + "retMessage.json", "");
+    srvMap.add("saveConfig", pathAlias + "retMessage.json", "sys/review/saveNaChangeUpdate");
     //告警屏蔽列表
-    srvMap.add("getWarningList", pathAlias + "getWarningList.json", "");
+    srvMap.add("getWarningList", pathAlias + "getWarningList.json", "sys/review/findNaWarningShield");
     //保存告警屏蔽
-    srvMap.add("saveWarning", pathAlias + "retMessage.json", "");
+    srvMap.add("saveWarning", pathAlias + "retMessage.json", "sys/review/saveNaWarningShield");
     //变更准备工作列表
-    srvMap.add("getPrepareList", pathAlias + "getPrepareList.json", "");
+    srvMap.add("getPrepareList", pathAlias + "getPrepareList.json", "sys/review/findNaChangePrepareWork");
     //保存准备工作
-    srvMap.add("savePrepare", pathAlias + "retMessage.json", "");
+    srvMap.add("savePrepare", pathAlias + "retMessage.json", "sys/review/saveNaChangePrepareWork");
     //变更实施步骤列表
-    srvMap.add("getRunStepList", pathAlias + "getRunStepList.json", "");
+    srvMap.add("getRunStepList", pathAlias + "getRunStepList.json", "sys/review/findNaChangeRunStep");
     //保存变更实施步骤
-    srvMap.add("saveRunStep", pathAlias + "retMessage.json", "");
+    srvMap.add("saveRunStep", pathAlias + "retMessage.json", "sys/review/saveNaChangeRunStep");
     //变更运维管理列表
-    srvMap.add("getOperationManageList", pathAlias + "getOperationManageList.json", "");
+    srvMap.add("getOperationManageList", pathAlias + "getOperationManageList.json", "sys/review/findNaChangeOperationManager");
     //保存变更运维管理
-    srvMap.add("saveOperationManage", pathAlias + "retMessage.json", "");
+    srvMap.add("saveOperationManage", pathAlias + "retMessage.json", "sys/review/saveNaChangeOperationManager");
     //变更回退方案列表
-    srvMap.add("getRollbackList", pathAlias + "getRollbackList.json", "");
+    srvMap.add("getRollbackList", pathAlias + "getRollbackList.json", "sys/review/findNaRollbackMethod");
     //保存变更回退方案
-    srvMap.add("saveRollback", pathAlias + "retMessage.json", "");
+    srvMap.add("saveRollback", pathAlias + "retMessage.json", "sys/review/saveNaRollbackMethod");
     //结果验证列表
-    srvMap.add("getResultValidateList", pathAlias + "getResultValidateList.json", "");
+    srvMap.add("getResultValidateList", pathAlias + "getResultValidateList.json", "sys/review/findNaChangeResultValidate");
     //保存结果验证
-    srvMap.add("saveResultValidate", pathAlias + "retMessage.json", "");
+    srvMap.add("saveResultValidate", pathAlias + "retMessage.json", "sys/review/saveNaChangeResultValidate");
     //业务验证列表
-    srvMap.add("getServiceValidateList", pathAlias + "getServiceValidateList.json", "");
+    srvMap.add("getServiceValidateList", pathAlias + "getServiceValidateList.json", "sys/review/findNaChangeServiceValidate");
     //保存业务验证
-    srvMap.add("saveServiceValidate", pathAlias + "retMessage.json", "");
+    srvMap.add("saveServiceValidate", pathAlias + "retMessage.json", "sys/review/saveNaChangeServiceValidate");
     //风险评估列表
-    srvMap.add("getDangerList", pathAlias + "getDangerList.json", "");
+    srvMap.add("getDangerList", pathAlias + "getDangerList.json", "sys/review/findNaChangeDangurousEstimate");
     //保存风险评估
-    srvMap.add("saveDanger", pathAlias + "retMessage.json", "");
+    srvMap.add("saveDanger", pathAlias + "retMessage.json", "sys/review/saveNaChangeDangurousEstimate");
     //风险评估量化表
-    srvMap.add("getRiskRatingList", pathAlias + "getRiskRatingList.json", "");
+    srvMap.add("getRiskRatingList", pathAlias + "getRiskRatingList.json", "sys/review/findNaRiskRatingScale");
     //保存风险评估量化
-    srvMap.add("saveRiskRating", pathAlias + "retMessage.json", "");
+    srvMap.add("saveRiskRating", pathAlias + "retMessage.json", "sys/review/saveNaRiskRatingScale");
     //风险等级列表
-    srvMap.add("getRiskScoreList", pathAlias + "getRiskScoreList.json", "");  
+    srvMap.add("getRiskScoreList", pathAlias + "getRiskScoreList.json", "sys/review/findNaQuantitativeRisk");  
     //保存风险等级
-    srvMap.add("saveRiskScore", pathAlias + "retMessage.json", "");
+    srvMap.add("saveRiskScore", pathAlias + "retMessage.json", "sys/review/saveNaQuantitativeRisk");
     //信息通告列表
-    srvMap.add("getNoticeList", pathAlias + "getNoticeList.json", "");
+    srvMap.add("getNoticeList", pathAlias + "getNoticeList.json", "sys/review/findNaInformationNotice");
     //保存信息通告
-    srvMap.add("saveNotice", pathAlias + "retMessage.json", "");
+    srvMap.add("saveNotice", pathAlias + "retMessage.json", "sys/review/saveNaInformationNotice");
     //附件列表
-    srvMap.add("getFileList", pathAlias + "getFileList.json", "");
+    srvMap.add("getFileList", pathAlias + "getFileList.json", "produce/plan/findNaFileUpload");
 
     //回退
     srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
@@ -100,6 +100,7 @@ define(function(require, exports, module) {
         },
         _render: function() {
             this.getDeliverableReviewConclusionC();
+            this.getHistoryList();
             this.queryFileTypeForm();
             this.getChangeProfileList();
             this.getChangeContentList();
@@ -143,14 +144,14 @@ define(function(require, exports, module) {
             var self = this;
             var data = Page.getParentCmd();
             var _cmd = 'planId=' + data.onlinePlan;
-            Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json, status) {
-                if (status) {
-                    var _dom = Page.findId('getDeliverableReviewConclusionC');
+            var _dom = Page.findId('getChangeReviewConclusionC');
+            var _domPagination = _dom.find("[name='pagination']");
+            Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {                  
                     var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusionC'));
-                    console.log(json.data)
-                    _dom.html(template(json.data));
+                    console.log(json.data.content)
+                    _dom.find("[name='content']").html(template(json.data.content));
                     //下拉框赋值
-                    var da = json.data;
+                    var da = json.data.content;
                     var i = 0
                     _dom.find("tbody").find("tr").each(function() {
                         var tdArr = $(this).children();
@@ -225,8 +226,23 @@ define(function(require, exports, module) {
                             }
                         });
                     });
-                }
-            });
+            },_domPagination);
+        },
+        getHistoryList: function() {
+            var self = this;
+            var data = Page.getParentCmd();
+            var _cmd = 'planId=' + data.onlinePlan + '&type=1';
+            var _dom = Page.findId('getHistoryList');
+            var _domPagination = _dom.find("[name='pagination']");
+            Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {
+                    alert(Page.findTpl('getHistoryList'))
+                    var template = Handlebars.compile(Page.findTpl('getHistoryList'));
+                    console.log(json.data)
+                    alert(template(json.data.content))
+                    _dom.find("[name='content']").html(template(json.data.content));
+                    //引入单选框样式
+                    Utils.eventTrClickCallback(_dom);
+            },_domPagination);
         },
         //设置下一次评审时间
         setReviewTime: function() {

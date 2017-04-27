@@ -248,10 +248,11 @@ public class PlanOnileController {
 	
 	@RequestMapping(path = "/produce/plan/findNaFileUpload")
 	public @ResponseBody JsonBean findNaFileUpload(
+			Long type,
 			@ApiParam(name="page",value="页码")@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @ApiParam(name="pageSize",value="页数")@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize ){
 		JsonBean bean = new JsonBean();
-		Object NaFileUploadList = naChangePlanOnileSv.findNaFileUpload(pageNumber, pageSize);
+		Object NaFileUploadList = naChangePlanOnileSv.findNaFileUpload(type,pageNumber, pageSize);
 		bean.setData(NaFileUploadList);
 		return bean;
 	}

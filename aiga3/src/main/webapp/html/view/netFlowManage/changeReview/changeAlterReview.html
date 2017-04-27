@@ -1,15 +1,83 @@
 <!-- Page Start -->
 <div class="row" id="Page_changeAlterReview">
     <div class="col-md-12">
-        <div class="box" id="JS_getChangeReviewConclusionC">
-            <div class="box-header">
-                <h3 class="box-title">交付物评审结论</h3>
-                <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" name="saveConclusionC">保存结论</button>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" name="setTime">设置下一次评审时间</button>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#CTab_1" data-toggle="tab" aria-expanded="false">交付物评审结论</a>
+                </li>
+                <li class=""><a href="#CTab_2" data-toggle="tab" aria-expanded="false">历史记录</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="CTab_1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getChangeReviewConclusionC">
+                                <div class="box-header">
+                                    <h3 class="box-title">交付物评审结论</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="saveConclusionC">保存结论</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="setTime">设置下一次评审时间</button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>附件名称</th>
+                                                <th>评审结论</th>
+                                                <th>评审结果</th>
+                                                <th>评审人</th>
+                                                <th>评审时间</th>
+                                                <th>计划评审时间</th>
+                                                <th>评审次数</th>
+                                                <th>备注</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="CTab_2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getHistoryList">
+                                <div class="box-header">
+                                    <h3 class="box-title">交付物评审结论历史记录</h3>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>附件名称</th>
+                                                <th>评审结论</th>
+                                                <th>评审结果</th>
+                                                <th>评审人</th>
+                                                <th>评审时间</th>
+                                                <th>计划评审时间</th>
+                                                <th>评审次数</th>
+                                                <th>备注</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="box-body" id="JS_getDeliverableReviewConclusionC"></div>
         </div>
         <div class="box">
             <form id="JS_queryFileTypeForm">
@@ -679,64 +747,64 @@
 </div>
 <!-- handlebars/交付物评审结论 -->
 <script id="TPL_getDeliverableReviewConclusionC" type="text/x-handlebars-template">
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th class="iCheckbox" width="15"></th>
-                <th>附件名称</th>
-                <th>评审结论</th>
-                <th>评审结果</th>
-                <th>评审人</th>
-                <th>评审时间</th>
-                <th>计划评审时间</th>
-                <th>评审次数</th>
-                <th>备注</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each this}}
-            <tr>
-                <td>
-                    <input type="checkbox" class="minimal" value="{{id}}" name="id">
-                </td>
-                <td style="display: none;">
-                    <input type="hidden" name="fileId" value="{{fileId}}">
-                </td>
-                <td>
-                    <input type="hidden" name="fileName" value="{{fileName}}">{{fileName}}</td>
-                <td>
-                    <div class="col-xs-1">
-                        <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
-                            <option value="">请选择</option>
-                            <option value="1">通过</option>
-                            <option value="2">未通过</option>
-                        </select>
-                    </div>
-                </td>
-                <td>
-                    <div class="col-xs-1">
-                        <input type="text" size="" class="" name="reviewResult" value="{{reviewResult}}" placeholder="">
-                    </div>
-                </td>
-                <td>{{reviewer}}</td>
-                <td>{{reviewDate}}</td>
-                <td>{{planReviewDate}}</td>
-                <td>{{reviewNum}}</td>
-                <td>
-                    <div class="col-xs-1">
-                        <input type="text" size="" class="" name="remark" value="{{remark}}" placeholder="">
-                    </div>
-                </td>
-                <td>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
-                    </div>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td style="display: none;">
+            <input type="hidden" name="fileId" value="{{fileId}}">
+        </td>
+        <td>
+            <input type="hidden" name="fileName" value="{{fileName}}">{{fileName}}</td>
+        <td>
+            <div class="col-xs-1">
+                <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
+                    <option value="">请选择</option>
+                    <option value="1">通过</option>
+                    <option value="2">未通过</option>
+                </select>
+            </div>
+        </td>
+        <td>
+            <div class="col-xs-1">
+                <input type="text" size="" class="" name="reviewResult" value="{{reviewResult}}" placeholder="">
+            </div>
+        </td>
+        <td>{{reviewer}}</td>
+        <td>{{reviewDate}}</td>
+        <td>{{planReviewDate}}</td>
+        <td>{{reviewNum}}</td>
+        <td>
+            <div class="col-xs-1">
+                <input type="text" size="" class="" name="remark" value="{{remark}}" placeholder="">
+            </div>
+        </td>
+        <td>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
+            </div>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_getHistoryList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td style="display: none;">{{fileId}}</td>
+        <td>{{fileName}}</td>
+        <td>{{conclusion}}</td>
+        <td>{{reviewResult}}</td>
+        <td>{{reviewer}}</td>
+        <td>{{reviewDate}}</td>
+        <td>{{planReviewDate}}</td>
+        <td>{{reviewNum}}</td>
+        <td>{{remark}}</td>
+    </tr>
+    {{/each}}
 </script>
 <!-- handlebars/变更概况列表 -->
 <script id="TPL_getChangeProfileList" type="text/x-handlebars-template">
@@ -1150,10 +1218,18 @@
 <script id="TPL_getNoticeList" type="text/x-handlebars-template">
     {{#each this}}
     <tr>
-        <td><input type="checkbox" class="minimal" value="{{id}}" name="id"></td>
-        <td><input type="text" name="noticeType" value="{{noticeType}}"></td>
-        <td><input type="text" size="30" name="noticeTime" value="{{noticeTime}}"></td>
-        <td><input type="text" size="120" name="noticeContent" value="{{noticeContent}}"></td>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="noticeType" value="{{noticeType}}">
+        </td>
+        <td>
+            <input type="text" size="30" name="noticeTime" value="{{noticeTime}}">
+        </td>
+        <td>
+            <input type="text" size="120" name="noticeContent" value="{{noticeContent}}">
+        </td>
     </tr>
     {{/each}}
 </script>
@@ -1161,7 +1237,9 @@
 <script id="TPL_getFileList" type="text/x-handlebars-template">
     {{#each this}}
     <tr>
-        <td><input type="checkbox" class="minimal" value="{{id}}" name="id"></td>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
         <td>{{fileName}}</td>
         <td>{{createTime}}</td>
         <td>{{lastUploadTime}}</td>

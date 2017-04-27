@@ -790,15 +790,17 @@ define(function(require, exports, module) {
 			var self = this;
             var _form = Page.findId('changeDeliverableForm');
             var _importFile = _form.find("[name='importFile']");
-			//alert((new Date()).toLocaleString());
-            /*var startTime=fileUploadLastTime;
-		    var start=startTime.replace("-", "/").replace("-", "/");
+			//alert(Rose.date.getDatetime());
+            var startTime=fileUploadLastTime;
+		    /*var start=startTime.replace("-", "/").replace("-", "/");
 		    alert(start);*/
-		    var endTime=(new Date()).toLocaleString();
-		    var end=endTime.replace("-", "/").replace("-", "/");
+		    var endTime=Rose.date.getDatetime();
+		    var end=Rose.date.dateTime2Long(endTime);
 		    alert(end);
-		    /*if(end<start){
-		        return false;
+		    /*var end=endTime.replace("-", "/").replace("-", "/");
+		    alert(end);*/
+		    /*if(endTime>startTime){
+		        alert("hhh");
 		    }*/
 			/*if(fileUploadLastTime<(new Date()).toLocaleString()){
 				_importFile.attr("disabled", true);

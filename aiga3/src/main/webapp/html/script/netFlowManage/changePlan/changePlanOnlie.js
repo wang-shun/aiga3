@@ -36,7 +36,11 @@ define(function(require, exports, module) {
 	//上传上线交付物文件显示
 	srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "produce/plan/findNaFileUpload");
 	//变更交付物列表
-	srvMap.add("getChangeDeliverableList", pathAlias + "getChangeDeliverableList.json", "");
+	srvMap.add("getChangeDeliverableList", pathAlias + "getChangeDeliverableList.json", "produce/plan/findNaFileUpload");
+	//变更交付物下载文档
+	srvMap.add("downloadDocument", pathAlias + "getChangeDeliverableList.json", "");
+	//变更交付物删除文档
+	srvMap.add("deleteDocument", pathAlias + "getChangeDeliverableList.json", "");
 	//getCategory
 	srvMap.add("getCategory", pathAlias + "getDeliverablesList.json", "sys/organize/constants");
 	//主机配置导入
@@ -688,6 +692,9 @@ define(function(require, exports, module) {
 						_modal.modal('show');
 						self.getChangeDeliverableList(_data.onlinePlan);
 						self.importFile(_data.onlinePlan,_ty.planState,_ty.fileUploadLastTime);
+						self.downloadTemp();
+						self.downloadDocument(_data.onlinePlan);
+						self.deleteDocument(_data.onlinePlan);
 					}
 				}
 			});
@@ -785,31 +792,25 @@ define(function(require, exports, module) {
             	}
             });
 		},
-		// 变更交付物导入文件
+		// 变更交付物上传文件
 		importFile:function(planId,planState,fileUploadLastTime){
 			var self = this;
             var _form = Page.findId('changeDeliverableForm');
             var _importFile = _form.find("[name='importFile']");
-			//alert(Rose.date.getDatetime());
-            var startTime=fileUploadLastTime;
-		    /*var start=startTime.replace("-", "/").replace("-", "/");
-		    alert(start);*/
-		    var endTime=Rose.date.getDatetime();
-		    var end=Rose.date.dateTime2Long(endTime);
-		    alert(end);
-		    /*var end=endTime.replace("-", "/").replace("-", "/");
-		    alert(end);*/
-		    /*if(endTime>startTime){
-		        alert("hhh");
-		    }*/
-			/*if(fileUploadLastTime<(new Date()).toLocaleString()){
-				_importFile.attr("disabled", true);
-			}*/
-			/*if(planState=="3" || planState=="4"){
+		    arr1 = fileUploadLastTime.split(" ");
+		    arr11 = arr1[0].split("-");
+		    arr12 = arr1[1].split(":");
+		    fileUploadLastTime = new Date(arr11[0], arr11[1], arr11[2], arr12[0], arr12[1], arr12[2]);
+		    var currentTime=Rose.date.getDatetime();
+		    arr2 = currentTime.split(" ");
+		    arr21 = arr2[0].split("-");
+		    arr22 = arr2[1].split(":");
+		    currentTime = new Date(arr21[0], arr21[1], arr21[2], arr22[0], arr22[1], arr22[2]);
+			if(planState=="3" || planState=="4" || fileUploadLastTime<currentTime){
 				_importFile.attr("disabled", true);
 			}else{
 				_importFile.removeAttr("disabled");
-			}*/
+			}
             _importFile.unbind('click');
             _importFile.bind('click', function() {
             	var fileName = _form.find("[name='fileName']")[0].files[0];
@@ -823,7 +824,7 @@ define(function(require, exports, module) {
             		// 变更交付物
             		case "20":
             			var task = srvMap.get('importFile');
-            			self.interface(task,cmd,planId)
+            			self.importInterface(task,cmd,planId)
             			break;
             		/*case "2"://需求清单
             			var task = srvMap.get('processexcels');
@@ -856,7 +857,107 @@ define(function(require, exports, module) {
             	}
             });
 		},
-		interface : function(task,cmd,planId){
+		// 变更交付物下载模板
+		downloadTemp:function(){
+			var self = this;
+            var _form = Page.findId('changeDeliverableForm');
+            var _downloadTemp = _form.find("[name='downloadTemp']");
+            _downloadTemp.unbind('click');
+            _downloadTemp.bind('click', function() {
+            	var tempType = _form.find("[name='tempType']").val();
+            	var cmd = {
+            			"tempType" : tempType
+            	}
+            	switch(tempType){
+            		// 变更交付物
+            		case "20":
+            			var task = srvMap.get('downloadTemp');
+            			self.downloadInterface(task,cmd)
+            			break;
+            		/*case "2"://需求清单
+            			var task = srvMap.get('processexcels');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "3"://设计文档交付物
+            			var task = srvMap.get('releaseexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "4"://其他交付物
+            			var task = srvMap.get('releasestageexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "5"://平台变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "6"://测试报告
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "7"://主机类配置
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,a,planId)
+            			break;
+            		case "8"://进程变更清单
+            			var task = srvMap.get('processexcel');
+            			self.jieko(task,cmd,planId)
+            			break;*/
+            	}
+            });
+		},
+		// 变更交付物下载文档
+		downloadDocument:function(planId){
+			var self = this;
+            var _dom = Page.findId('getChangeDeliverableList');
+            var _downloadDocument = _dom.find("[name='downloadDocument']");
+            _downloadDocument.unbind('click');
+            _downloadDocument.bind('click', function() {
+				var _checkObj =	_dom.find("input[type='radio']:checked");
+			   	if(_checkObj.length==0){
+				   	window.XMS.msgbox.show('请选择要下载的文档！', 'error', 2000);
+				   	return false;
+			   	}
+				var _id ="";
+				_checkObj.each(function (){
+					_id = $(this).val();
+				})
+				Rose.ajax.postJson(srvMap.get('downloadDocument'), 'id=' + _id, function(json, status) {
+					if(status) {
+						XMS.msgbox.show('下载成功！', 'success', 2000)
+						setTimeout(function(){
+							self.getChangeDeliverableList(planId);
+						},1000)
+					}
+				});
+            });
+		},
+		// 变更交付物删除文档
+		deleteDocument:function(planId){
+			var self = this;
+            var _dom = Page.findId('getChangeDeliverableList');
+            var _deleteDocument = _dom.find("[name='deleteDocument']");
+            _deleteDocument.unbind('click');
+            _deleteDocument.bind('click', function() {
+				var _checkObj =	_dom.find("input[type='radio']:checked");
+			   	if(_checkObj.length==0){
+				   	window.XMS.msgbox.show('请选择要删除的文档！', 'error', 2000);
+				   	return false;
+			   	}
+				var _id ="";
+				_checkObj.each(function (){
+					_id = $(this).val();
+				})
+				Rose.ajax.postJson(srvMap.get('deleteDocument'), 'id=' + _id, function(json, status) {
+					if(status) {
+						XMS.msgbox.show('删除成功！', 'success', 2000)
+						setTimeout(function(){
+							self.getChangeDeliverableList(planId);
+						},1000)
+					}
+				});
+            });
+		},
+		importInterface : function(task,cmd,planId){
 	    	var self = this;
 	    	$.ajaxUpload({
                 url: task,
@@ -864,13 +965,25 @@ define(function(require, exports, module) {
                 success: function(data, status, xhr) {
                     console.log(data);
                     if (status) {
-                        window.XMS.msgbox.show('导入文件成功！', 'success', 2000);
+                        window.XMS.msgbox.show('上传文件成功！', 'success', 2000);
                         setTimeout(function() {
                             self.getChangeDeliverableList(planId);
                         }, 1000)
                     }
                 }
             });
+        },
+		downloadInterface : function(task,cmd){
+	    	var self = this;
+	    	/*$.ajaxUpload({
+	            url: task,
+	            data: cmd,
+	            success: function(data, status) {
+	                if (status) {
+	                    window.XMS.msgbox.show('下载模板成功！', 'success', 2000);
+	                }
+	            }
+            });*/
         },
 		jieko : function(task,cmd,planId){
 	    	var self = this;

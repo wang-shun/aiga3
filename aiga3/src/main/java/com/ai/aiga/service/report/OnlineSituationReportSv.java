@@ -3,6 +3,7 @@ package com.ai.aiga.service.report;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,9 @@ import com.ai.aiga.domain.ChangePlanOnile;
 import com.ai.aiga.domain.OnlineSituationReport;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.task.TaskSv;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.process.task.quartz.CaseStatisticsJob;
 
 /**
  * * @author lh
@@ -31,6 +34,8 @@ import com.ai.aiga.view.json.base.JsonBean;
  */
 public class OnlineSituationReportSv extends BaseService {
 
+	@Autowired
+	private TaskSv taskSv;
 	@Autowired
 	private OnlineSituationReportDao onlineSituationReportDao;
 	@Autowired
@@ -76,7 +81,7 @@ public class OnlineSituationReportSv extends BaseService {
 	 * @Description:统计报表
 	 * @return
 	 */
-	public void countOnlineSituationReport() {
+	public void count() {
 		List<ChangePlanOnile> ChangePlanOnileList = changePlanOnileDao.findAll();
 		List<OnlineSituationReport> onlineSituationReportList = new ArrayList<OnlineSituationReport>();
 		for (ChangePlanOnile cpo : ChangePlanOnileList) {
@@ -188,7 +193,21 @@ public class OnlineSituationReportSv extends BaseService {
             onlineSituationReportDao.save(osReport);
 		}
 	}
-
+	
+	
+	/**
+	 * @ClassName: OnlineSituationReportSv :: countAsync
+	 * @author: lh
+	 * @date: 2017年4月27日 上午9:56:25
+	 *
+	 * @Description:          
+	 */
+	public void countAsync(){
+		Map<String, String> params = new HashMap<String, String>();
+		taskSv.addTask(CaseStatisticsJob.class, params);
+	}
+	
+	
 	// 统计耗时(功能验收和生产验收)
 	@SuppressWarnings("unchecked")
 	private String getDuration(int type, Long online_plan) throws Exception {

@@ -31,15 +31,13 @@ public class OnlineSituationReportController {
 	public @ResponseBody JsonBean findOnlineSituationReport(Long oninePlan,String date,
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize){
-		//caseConstructionSv.count(month, jobDetail);
 		onlineSituationReportSv.findOnlineSituationReport(oninePlan, date,pageNumber,pageSize);
 		return JsonBean.success;
 	}
 	
 	@RequestMapping(path = "/accept/caseConstruction/saveOnlineSituationReport")
 	public @ResponseBody JsonBean saveOnlineSituationReport(){
-		//caseConstructionSv.count(month, jobDetail);
-		onlineSituationReportSv.countOnlineSituationReport();
+		onlineSituationReportSv.countAsync();
 		return JsonBean.success;
 	}
 }

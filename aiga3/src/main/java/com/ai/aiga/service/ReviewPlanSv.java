@@ -14,16 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ai.aiga.dao.NaCodePathCompileDao;
+
 import com.ai.aiga.dao.NaCodePathDao;
 import com.ai.aiga.domain.NaCodePath;
-import com.ai.aiga.domain.NaCodePathCompile;
+
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.util.HttpUtil;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.webservice.soap.dto.AdclodArgs;
-import com.ai.aiga.webservice.soap.dto.BMCArgs;
-import com.ai.aiga.webservice.soap.dto.FromBmcDTO;
+
 import com.ai.aiga.webservice.soap.dto.NaCodePathDTO;
 
 /**
@@ -42,7 +41,7 @@ public class ReviewPlanSv  extends BaseService{
 	NaCodePathDao naCodePathDao;
 	
 	@Autowired
-	private NaCodePathCompileDao dao;
+
 	/**
 	 * 将na_code_path评审不合格的回退给ADClod进行修改
 	 * @param planDate计划上线时间
@@ -128,31 +127,9 @@ public class ReviewPlanSv  extends BaseService{
 	 * @param obj
 	 * @return
 	 */
-	public Map<String, String> copytNaCodePathComplieFromBMC(BMCArgs  obj) {
+	public Map<String, String> copytNaCodePathComplieFromBMC() {
 	    String msg= "";
 	    Map<String, String>  returnmap  = new HashMap<String, String>();
-	    if(obj==null){
-	    	msg="there are no dates from BMC!";
-	    }else{
-	    	for (FromBmcDTO date : obj.getObj()) {
-	    		NaCodePathCompile naCodePathCompile = new NaCodePathCompile();
-	    		//查询
-	    		List<NaCodePath>  nacodepath =	naCodePathDao.findBySysName(date.getExt1());
-	    		if(nacodepath!=null){
-		    		naCodePathCompile.setStartTime(date.getStartTime());
-		    		naCodePathCompile.setFinishedTime(date.getFinishedTime());
-		    		naCodePathCompile.setResult(date.getResult());
-		    		naCodePathCompile.setReason(date.getReason());
-		    		naCodePathCompile.setStep(date.getStep());
-		    		naCodePathCompile.setExt2(date.getExt2());
-		    		naCodePathCompile.setExt1(String.valueOf(nacodepath.get(0).getComplimeCount()));
-		    		naCodePathCompile.setExt3(date.getExt3());
-		    		dao.save(naCodePathCompile);
-	    		}
-	    		msg="success";
-			}
-	    }
-	    returnmap.put("info", msg);
 	    return returnmap;
 	}
 	

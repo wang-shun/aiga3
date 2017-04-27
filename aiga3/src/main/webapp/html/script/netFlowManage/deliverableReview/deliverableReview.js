@@ -54,47 +54,6 @@ define(function(require,exports,module){
 	//回退
 	srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
 
-	//模板对象
-	/*var Tpl={
-		getDeliverableReviewConclusion:require('tpl/netFlowManage/deliverableReview/getDeliverableReviewConclusion.tpl'),
-		getPlanList:require('tpl/netFlowManage/deliverableReview/getPlanList.tpl'),
-		getModelList:require('tpl/netFlowManage/deliverableReview/getModelList.tpl'),
-		getOnlineList:require('tpl/netFlowManage/deliverableReview/getOnlineList.tpl'),
-		getTestList:require('tpl/netFlowManage/deliverableReview/getTestList.tpl'),
-		getRemnantList:require('tpl/netFlowManage/deliverableReview/getRemnantList.tpl'),
-		getReportList:require('tpl/netFlowManage/deliverableReview/getReportList.tpl'),
-		getDatabaseList:require('tpl/netFlowManage/deliverableReview/getDatabaseList.tpl'),
-		getJavascriptList:require('tpl/netFlowManage/deliverableReview/getJavascriptList.tpl'),
-		getDeliverList:require('tpl/netFlowManage/deliverableReview/getDeliverList.tpl'),
-		getStructureList:require('tpl/netFlowManage/deliverableReview/getStructureList.tpl'),
-		getProgressList:require('tpl/netFlowManage/deliverableReview/getProgressList.tpl'),
-		getServiceList:require('tpl/netFlowManage/deliverableReview/getServiceList.tpl'),
-		getIpConfigurationList:require('tpl/netFlowManage/deliverableReview/getIpConfigurationList.tpl'),
-		getNeedList:require('tpl/netFlowManage/deliverableReview/getNeedList.tpl'),
-		getCombineList:require('tpl/netFlowManage/deliverableReview/getCombineList.tpl'),
-		getConfigureList:require('tpl/netFlowManage/deliverableReview/getConfigureList.tpl')
-	};
-
-	var Dom={
-		getDeliverableReviewConclusion:'#JS_getDeliverableReviewConclusion',
-		getPlanList:'#JS_planList',
-		getModelList:'#JS_modelList',
-		getOnlineList:'#JS_onlineList',
-		getTestList:'#JS_testList',
-		getRemnantList:'#JS_remnantList',
-		getReportList:'#JS_reportList',
-		getDatabaseList:'#JS_databaseList',
-		getJavascriptList:'#JS_javascriptList',
-		getDeliverList:'#JS_deliverList',
-		getStructureList:'#JS_structureList',
-		getProgressList:'#JS_progressList',
-		getServiceList:'#JS_serviceList',
-		getIpConfigurationList:'#JS_ipConfiguration',
-		getNeedList:'#JS_needList',
-		getCombineList:'#JS_combineList',
-		getConfigureList:'#JS_configureList'
-	}*/
-
 	var Data = {
         setPageType:function(type){
     		return {
@@ -149,61 +108,56 @@ define(function(require,exports,module){
 			});
 		},
     	getDeliverableReviewConclusion:function(){
-	    		var self=this;
-	    		var data = Page.getParentCmd();
-	    		var _cmd = 'onlinePlan=' + data.onlinePlan + '&ext1=1';
-	    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), _cmd, function(json, status) {
-	    			if (status) {
-	    				var _form = Page.findId('getDeliverableReviewConclusionForm');
-			    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
-			    		console.log(json.data)
-			    		_form.html(template(json.data));
-		    			_form.find("[name='conclusion']").val(json.data.conclusion);
-		    			_form.find("[name='onlinePlanName']").html(data.onlinePlanName);
-						//引入单选框样式
-						Utils.eventTrClickCallback(_form);
-						var _saveConclusion =  Page.findId('getDeliverableReviewConclusion').find("[name='saveConclusion']");
-						if(data.planState=="3" || data.planState=="4"){
-							_saveConclusion.attr("disabled", true);
-						}else{
-							_saveConclusion.removeAttr("disabled");
-						}
-						_saveConclusion.unbind('click');
-						//点击保存
-						_saveConclusion.bind('click',function(){
-							var _checkObj =	_form.find("input[type='radio']:checked");
-							if(_checkObj.length==0){
-							   window.XMS.msgbox.show('请选中结论！', 'error', 2000);
-							   return false;
-						    }
-							var cmd = _form.serialize();
-							cmd = cmd + "&planId=" +data.onlinePlan;
-							console.log(cmd);
-							Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
-								if(status) {
-									// 保存结论成功后，刷新交付物评审结论页
-									XMS.msgbox.show('保存成功！', 'success', 2000)
-									setTimeout(function(){
-										self.getDeliverableReviewConclusion();
-									},1000)
-								}
-							});
+    		var self=this;
+    		var data = Page.getParentCmd();
+    		var _cmd = 'onlinePlan=' + data.onlinePlan + '&ext1=1';
+    		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), _cmd, function(json, status) {
+    			if (status) {
+    				var _form = Page.findId('getDeliverableReviewConclusionForm');
+		    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
+		    		console.log(json.data)
+		    		_form.html(template(json.data));
+	    			_form.find("[name='conclusion']").val(json.data.conclusion);
+	    			_form.find("[name='onlinePlanName']").html(data.onlinePlanName);
+					//引入单选框样式
+					Utils.eventTrClickCallback(_form);
+					var _saveConclusion =  Page.findId('getDeliverableReviewConclusion').find("[name='saveConclusion']");
+					if(data.planState=="3" || data.planState=="4"){
+						_saveConclusion.attr("disabled", true);
+					}else{
+						_saveConclusion.removeAttr("disabled");
+					}
+					_saveConclusion.unbind('click');
+					//点击保存
+					_saveConclusion.bind('click',function(){
+						var _checkObj =	_form.find("input[type='radio']:checked");
+						if(_checkObj.length==0){
+						   window.XMS.msgbox.show('请选中结论！', 'error', 2000);
+						   return false;
+					    }
+						var cmd = _form.serialize();
+						cmd = cmd + "&planId=" +data.onlinePlan;
+						console.log(cmd);
+						Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
+							if(status) {
+								// 保存结论成功后，刷新交付物评审结论页
+								XMS.msgbox.show('保存成功！', 'success', 2000)
+								setTimeout(function(){
+									self.getDeliverableReviewConclusion();
+								},1000)
+							}
 						});
-						//点击回退
-						$("#JS_rollback").bind('click',function(){
-							/*var cmd = $('#JS_getDeliverableReviewConclusion').serialize();
-							cmd = cmd + "&planId=" +data.onlinePlan;*/
-							Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
-								if(status) {
-									XMS.msgbox.show('回退成功！', 'success', 2000)
-									/*setTimeout(function(){
-										self.getDeliverableReviewConclusion();
-									},1000)*/
-								}
-							});
+					});
+					//点击回退
+					$("#JS_rollback").bind('click',function(){
+						Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
+							if(status) {
+								XMS.msgbox.show('回退成功！', 'success', 2000)
+							}
 						});
-		    		}
-	    		});
+					});
+	    		}
+    		});
     	},
 		getPlanList:function(){
     		var self=this;

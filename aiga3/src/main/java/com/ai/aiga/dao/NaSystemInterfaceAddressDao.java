@@ -12,5 +12,7 @@ import java.util.List;
 
 public interface NaSystemInterfaceAddressDao extends SearchAndPageRepository<NaSystemInterfaceAddress, Long> {
 
-	List<NaSystemInterfaceAddressDao>  findBySysName(String sysName);
+	List<NaSystemInterfaceAddress>  findBySysNameAndServiceType(String sysName,String serviceType);
+	
+	NaSystemInterfaceAddress  findBySysNameAndServiceTypeAndExt1(String sysName,String serviceType,String Ext1);
 }

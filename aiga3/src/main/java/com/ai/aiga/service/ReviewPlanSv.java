@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.ai.aiga.dao.NaCodePathCompileResultDao;
 import com.ai.aiga.dao.NaCodePathDao;
+import com.ai.aiga.dao.NaSystemInterfaceAddressDao;
 import com.ai.aiga.domain.NaCodePath;
-
+import com.ai.aiga.domain.NaCodePathCompileResult;
+import com.ai.aiga.domain.NaSystemInterfaceAddress;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.util.HttpUtil;
 import com.ai.aiga.util.mapper.JsonUtil;
@@ -41,7 +43,10 @@ public class ReviewPlanSv  extends BaseService{
 	NaCodePathDao naCodePathDao;
 	
 	@Autowired
-
+  private NaSystemInterfaceAddressDao naSystemInterfaceAddressDao;
+	
+	@Autowired
+	private NaCodePathCompileResultDao naCodePathCompileResultDao;
 	/**
 	 * 将na_code_path评审不合格的回退给ADClod进行修改
 	 * @param planDate计划上线时间
@@ -51,31 +56,37 @@ public class ReviewPlanSv  extends BaseService{
 		Map<String, Object>  map = new HashMap<String, Object>();
 		Map<Object, Object> mapreturn  = new HashMap<Object, Object>();
 		//ADCLOD服务端地址
-		String url = "http://10.73.129.171:8090/netAccept/updateAcceptResult"; // http://20.26.28.25:20011
-		//查询本次上线计划代码包清单
-		List<NaCodePath> naCodePathS =  naCodePathDao.findByPlanDate(planDate.substring(0,10));
-		if(naCodePathS!=null&&!naCodePathS.isEmpty()){
-			for(NaCodePath naCodePath:naCodePathS){
-				NaCodePathDTO dto = new NaCodePathDTO();
-				dto.setId(naCodePath.getId());
-				dto.setListId(naCodePath.getListId());
-				dto.setModelName(naCodePath.getModelName()==null?"":naCodePath.getModelName());
-				dto.setPlanDate(new SimpleDateFormat("yyyy-MM-dd").format(naCodePath.getPlanDate()));
-				dto.setProName(naCodePath.getSysName()==null?"":naCodePath.getSysName());
-				dto.setRemark(naCodePath.getRemark()==null?"":naCodePath.getRemark());
-				dto.setResult(naCodePath.getResult());
-				dto.setSelPackage(naCodePath.getPackageName());
-				dto.setState(naCodePath.getState());
-				naCodePathDto.add(dto);
+		List<NaSystemInterfaceAddress>   systemInterfaceAddresses = naSystemInterfaceAddressDao.findBySysNameAndServiceType("ADCLOUD","ONLINE_SYS_INFO");
+		if(systemInterfaceAddresses!=null && systemInterfaceAddresses.size()>0){
+			NaSystemInterfaceAddress  systemInterfaceAddress = systemInterfaceAddresses.get(0);
+		
+			String url =systemInterfaceAddress.getInterAddress();
+			//查询本次上线计划代码包清单
+			List<NaCodePath> naCodePathS =  naCodePathDao.findByPlanDate(planDate.substring(0,10));
+			
+			if(naCodePathS!=null&&!naCodePathS.isEmpty()){
+				for(NaCodePath naCodePath:naCodePathS){
+					NaCodePathDTO dto = new NaCodePathDTO();
+					dto.setId(naCodePath.getId());
+					dto.setListId(naCodePath.getListId());
+					dto.setModelName(naCodePath.getModelName()==null?"":naCodePath.getModelName());
+					dto.setPlanDate(new SimpleDateFormat("yyyy-MM-dd").format(naCodePath.getPlanDate()));
+					dto.setProName(naCodePath.getSysName()==null?"":naCodePath.getSysName());
+					dto.setRemark(naCodePath.getRemark()==null?"":naCodePath.getRemark());
+					dto.setResult(naCodePath.getResult());
+					dto.setSelPackage(naCodePath.getPackageName());
+					dto.setState(naCodePath.getState());
+					naCodePathDto.add(dto);
+				}
+				//通过http发送post请求
+				map.put("planDate", planDate);
+				map.put("obj", naCodePathDto);
+				System.out.println("数据"+JsonUtil.mapToJson(map));
+				String info =   HttpUtil.sendPost(url,JsonUtil.mapToJson(map) );
+			     mapreturn = JsonUtil.jsonToMap(info);
+			     naCodePathDao.updateIsFinished(planDate);
+				return mapreturn;
 			}
-			//通过http发送post请求
-			map.put("planDate", planDate);
-			map.put("obj", naCodePathDto);
-			System.out.println("数据"+JsonUtil.mapToJson(map));
-			String info =   HttpUtil.sendPost(url,JsonUtil.mapToJson(map) );
-		     mapreturn = JsonUtil.jsonToMap(info);
-		     naCodePathDao.updateIsFinished(planDate);
-			return mapreturn;
 		}
 		return mapreturn;
 	}
@@ -122,14 +133,11 @@ public class ReviewPlanSv  extends BaseService{
 		return returnmap;
 	}
 	
-	/**
-	 * 获取BMC编译信息
-	 * @param obj
-	 * @return
-	 */
-	public Map<String, String> copytNaCodePathComplieFromBMC() {
+
+	public Map<String, String> copytNaCodePathComplieFromBMC(String planDate) {
 	    String msg= "";
 	    Map<String, String>  returnmap  = new HashMap<String, String>();
+	    
 	    return returnmap;
 	}
 	
@@ -142,10 +150,24 @@ public class ReviewPlanSv  extends BaseService{
 		Map<Object, Object> mapreturn  = new HashMap<Object, Object>();
 		//查询最新修改的上线系统信息
 		List<NaCodePath>  datas = naCodePathDao.findByPlanDateAndIsFinished(planDate);//存放客户端返回信息
-		if(datas!=null&&!datas.isEmpty()){
-			
+		if(datas!=null && !datas.isEmpty()){
+				 for (NaCodePath naCodePath : datas) {
+					 NaSystemInterfaceAddress systemInterfaceAddress = (NaSystemInterfaceAddress) naSystemInterfaceAddressDao.findBySysNameAndServiceTypeAndExt1("BMC" , "COMPILE" , naCodePath.getSysName()); //系统名称
+					 String info =   HttpUtil.sendGet(systemInterfaceAddress.getInterAddress(), systemInterfaceAddress.getParamers() );
+					 System.out.println("info"+info);
+					 NaCodePathCompileResult result = new NaCodePathCompileResult();
+					 try {
+						result.setPlanDate(new SimpleDateFormat("yyyy-MM-dd").parse(planDate));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					 result.setSysName(naCodePath.getSysName());
+					 result.setCompileNum(naCodePath.getComplimeCount());
+					 result.setValue(info);
+					 naCodePathCompileResultDao.save(result);
+				}
 			}
-			//通过http发送post请求
+
 		
 			return mapreturn;
 		

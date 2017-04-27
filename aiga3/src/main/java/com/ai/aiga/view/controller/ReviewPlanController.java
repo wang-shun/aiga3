@@ -58,7 +58,7 @@ public class ReviewPlanController {
 	@ApiImplicitParam(name="BMCArgs", value="各个系统发布信息", required=true)
 	public @ResponseBody JsonBean copytNaCodePathComplieFromBMC() throws ParseException {
 		JsonBean json = new JsonBean();
-		json.setData(sv.copytNaCodePathComplieFromBMC());
+		//json.setData(sv.copytNaCodePathComplieFromBMC());
 		return 	json;
 	}
     

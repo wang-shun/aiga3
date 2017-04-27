@@ -78,7 +78,7 @@ define(function(require, exports, module) {
     //保存信息通告
     srvMap.add("saveNotice", pathAlias + "retMessage.json", "sys/review/saveNaInformationNotice");
     //附件列表
-    srvMap.add("getFileList", pathAlias + "getFileList.json", "produce/plan/findNaFileUpload");
+    srvMap.add("getFileList", pathAlias + "getFileList.json", "sys/review/findFileList");
 
     //回退
     srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");

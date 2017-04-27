@@ -2,8 +2,8 @@ package com.ai.aiga.service.task;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.Job;
@@ -16,6 +16,7 @@ import com.ai.aiga.dao.TasksDao;
 import com.ai.aiga.dao.TasksParameterDao;
 import com.ai.aiga.domain.Tasks;
 import com.ai.aiga.domain.TasksParameter;
+import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.service.base.BaseService;
 
 
@@ -66,8 +67,25 @@ public class TaskSv extends BaseService {
 		return tasksDao.findByTaskCategoryAndTaskTypeAndStatus(taskCategory, TaskConstant.TASKS_TYPE_TASK, TaskConstant.TASK_STATUS_NEW, new PageRequest(0, size));
 	}
 	
-	public void addTask(Tasks t, Map<String, String> params){
+	public void addTask(Tasks t, HashMap<String, String> params){
+		
+		//构建businessId, 
+		int businessId = -1;
+		if(params != null){
+			businessId = params.hashCode();
+		}
+		t.setBusinessId(String.valueOf(businessId));
+		
+		List<Short> statuses = new ArrayList();
+		statuses.add(TaskConstant.TASK_STATUS_NEW);
+		statuses.add(TaskConstant.TASK_STATUS_DOING);
+		List<Tasks> taskss = tasksDao.findByTaskCategoryAndTaskClassAndBusinessIdAndStatusIn(TaskConstant.TASK_CATEGORY_DEFAULT, t.getTaskClass(), String.valueOf(businessId), statuses);
+		if(taskss != null && taskss.size() >= 1){
+			BusinessException.throwBusinessException("该任务正在执行中, 请等待执行完成!");
+		}
+		
 		Tasks task = tasksDao.save(t);
+		task.setBusinessId(String.valueOf(businessId));
 		
 		if(params != null){
 			List<TasksParameter> TasksParameters = new ArrayList<TasksParameter>();
@@ -88,7 +106,7 @@ public class TaskSv extends BaseService {
 	}
 	
 	
-	public void addTask(Class<? extends Job> jobClass, Map<String, String> params){
+	public void addTask(Class<? extends Job> jobClass, HashMap<String, String> params){
 		
 		Tasks t = new Tasks();
 		t.setTaskName(jobClass.getSimpleName());
@@ -102,7 +120,7 @@ public class TaskSv extends BaseService {
 		addTask(t, params);
 	}
 	
-	public void addTask(Class<? extends Job> jobClass, Date startDate, Map<String, String> params){
+	public void addTask(Class<? extends Job> jobClass, Date startDate, HashMap<String, String> params){
 		
 		Tasks t = new Tasks();
 		t.setTaskName(jobClass.getSimpleName());
@@ -117,7 +135,7 @@ public class TaskSv extends BaseService {
 		addTask(t, params);
 	}
 	
-	public void addTask(Class<? extends Job> jobClass, String cron, Map<String, String> params){
+	public void addTask(Class<? extends Job> jobClass, String cron, HashMap<String, String> params){
 		
 		Tasks t = new Tasks();
 		t.setTaskName(jobClass.getSimpleName());

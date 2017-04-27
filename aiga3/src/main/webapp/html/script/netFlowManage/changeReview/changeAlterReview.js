@@ -235,10 +235,8 @@ define(function(require, exports, module) {
             var _dom = Page.findId('getHistoryList');
             var _domPagination = _dom.find("[name='pagination']");
             Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {
-                    alert(Page.findTpl('getHistoryList'))
                     var template = Handlebars.compile(Page.findTpl('getHistoryList'));
                     console.log(json.data)
-                    alert(template(json.data.content))
                     _dom.find("[name='content']").html(template(json.data.content));
                     //引入单选框样式
                     Utils.eventTrClickCallback(_dom);

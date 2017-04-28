@@ -381,31 +381,31 @@ define(function(require,exports,module){
 					Utils.setSelectData(_form);
 					// 设置下拉框选中值
 					Utils.setSelected(_form);
-					/*alert(json.data.content[0].envType);*/
-					$("#query_envType").val(json.data.envType);
-					// 弹出层
-					$(Dom.addEnvironmentInfoModal).modal('show');
-					$("#formName").html("修改环境");
-					$("#JS_addEnvironmentInfoSubmit").unbind('click');
-					//点击保存
-					$("#JS_addEnvironmentInfoSubmit").bind('click',function(){
-					var cmd = _form.serialize();
-					cmd = cmd + "&envId=" +_envId;
-					Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
-						if(status) {
-								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('修改成功！', 'success', 2000)
-								// 关闭弹出层
-								$(Dom.addEnvironmentInfoModal).modal('hide');
-								setTimeout(function(){
+					var _sysName =  _form.find("[name='sysName']");
+					_sysName.val(json.data.sysName);
+					var _modal = Page.findModal('addEnvironmentInfoModal');
+					var _formName =  _modal.find("[name='formName']");
+			    	_formName.html("修改环境");
+					// 显示弹框
+					_modal.modal('show');
+					var _save = _modal.find("[name='save']");
+					_save.unbind('click');
+					_save.bind('click', function() {
+						var _cmd = _form.serialize();
+						_cmd = _cmd + "&envId=" + _data.envId;
+						Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), _cmd, function(json, status) {
+							if(status) {
+								// 修改环境成功后，刷新环境列表页
+								XMS.msgbox.show('保存成功！', 'success', 2000)
+								_modal.modal('hide');
+								setTimeout(function() {
 									self.getEnvironment();
 								},1000)
-						}
-								});
+							}
+						});
 					});
 				}
 			});
-
 		},
 		/*getSysList: function() {
 			var self = this;

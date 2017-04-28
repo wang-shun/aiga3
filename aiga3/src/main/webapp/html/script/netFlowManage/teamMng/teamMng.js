@@ -233,6 +233,7 @@ define(function(require, exports, module) {
                     self.queryEmlistForm();
                     self.getEmedList(Data.teamId);
                     self.delEmed();
+                    self.queryEmedlistForm();
                 }
 
             });

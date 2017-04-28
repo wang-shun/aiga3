@@ -565,14 +565,30 @@
     </tr>
     {{/each}}
 </script>
-<script id="TPL_getInterfaceList" type="text/x-handlebars-template">
+<script id="TPL_getESBInterfaceList" type="text/x-handlebars-template">
     {{#each this}}
     <tr>
         <td>
-            <input type="radio" class="minimal" value="{{messageId}}" name="messageId">
+            <input type="radio" class="minimal" value="{{esbId}}" name="esbId">
         </td>
-        <td>{{messageName}}
-            <input type="hidden" name="messageName" value="{{messageName}}">
+        <td>{{esbName}}
+            <input type="hidden" name="esbName" value="{{esbName}}">
+        </td>
+        <td title="{{inputSoap}}">{{shrinkHtmlFilter inputSoap 25}}
+        </td>
+        <td title="{{outputSoap}}">{{shrinkHtmlFilter outputSoap 25}}
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_getCBOSSInterfaceList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{cbossId}}" name="cbossId">
+        </td>
+        <td>{{cbossName}}
+            <input type="hidden" name="cbossName" value="{{cbossName}}">
         </td>
         <td title="{{inputSoap}}">{{shrinkHtmlFilter inputSoap 25}}
         </td>

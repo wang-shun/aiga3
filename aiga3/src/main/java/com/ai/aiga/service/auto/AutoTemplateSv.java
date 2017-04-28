@@ -8,6 +8,7 @@ import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.enums.CaseEnum;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.auto.AutoTemplateRequest;
@@ -61,7 +62,7 @@ public class AutoTemplateSv {
             BusinessException.throwBusinessException("autoTemplate Name already  existing! please change......");
         }
         if (autoTemplate.getCaseType() == null) {
-            autoTemplate.setCaseType((byte)1);//默认UI
+            autoTemplate.setCaseType(CaseEnum.CaseType_UI.getValue());//默认UI
         }
         if (autoTemplate.getImportant() == null) {
             autoTemplate.setImportant((short) 4);//默认4级

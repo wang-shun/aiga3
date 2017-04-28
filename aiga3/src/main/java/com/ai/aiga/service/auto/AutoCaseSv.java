@@ -6,6 +6,7 @@ import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.service.enums.CaseEnum;
 import com.ai.aiga.service.enums.GeneralEnum;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
@@ -70,7 +71,7 @@ public class AutoCaseSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "EnvironmentType");
         }
         if (autoCase.getCaseType() == null) {
-            autoCase.setCaseType((byte) 1);//默认ui类
+            autoCase.setCaseType(CaseEnum.CaseType_UI.getValue());//默认ui类
         }
         if (autoCase.getImportant()==null){
             autoCase.setImportant((short) 4);//默认为4级

@@ -28,7 +28,7 @@ public class NaTestCase implements java.io.Serializable {
 	private String testName;
 	private long caseId;
 	private String testType;
-	private byte caseType;
+	private Long caseType;
 	private String testDesc;
 	private String preResult;
 	private Short important;
@@ -45,14 +45,14 @@ public class NaTestCase implements java.io.Serializable {
 	public NaTestCase() {
 	}
 
-	public NaTestCase(long testId, String testName, long caseId, byte caseType) {
+	public NaTestCase(long testId, String testName, long caseId, Long caseType) {
 		this.testId = testId;
 		this.testName = testName;
 		this.caseId = caseId;
 		this.caseType = caseType;
 	}
 
-	public NaTestCase(long testId, String testName, long caseId, String testType, byte caseType, String testDesc,
+	public NaTestCase(long testId, String testName, long caseId, String testType, Long caseType, String testDesc,
 			String preResult, Short important, Long sysId, Long sysSubId, Long funId, Long scId, Long busiId,
 			Long creatorId, Date createTime, Long updateId, Date updateTime) {
 		this.testId = testId;
@@ -114,11 +114,11 @@ public class NaTestCase implements java.io.Serializable {
 	}
 
 	@Column(name = "CASE_TYPE", nullable = false, precision = 2, scale = 0)
-	public byte isCaseType() {
+	public Long isCaseType() {
 		return this.caseType;
 	}
 
-	public void setCaseType(byte caseType) {
+	public void setCaseType(Long caseType) {
 		this.caseType = caseType;
 	}
 

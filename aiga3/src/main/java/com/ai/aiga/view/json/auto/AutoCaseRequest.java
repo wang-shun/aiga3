@@ -13,7 +13,7 @@ public class AutoCaseRequest {
     private Long testId;//测试用例ID
     private Long tempId;//自动化用例模板ID
     private String testType;//测试类型
-    private Byte caseType;//用例类型
+    private Long caseType;//用例类型
     private String autoName;//自动化用例名称
     private Long sysId;//系统大类ID
     private Long sysSubId;//系统子类ID
@@ -31,7 +31,7 @@ public class AutoCaseRequest {
     public AutoCaseRequest() {
     }
 
-    public AutoCaseRequest(Long autoId, Long testId, Long tempId, String testType, Byte caseType, String autoName, Long sysId, Long sysSubId, Long busiId, Long funId, Long scId, Short important, Long environmentType, Long status, Long hasAuto, String autoDesc, Long paramLevel, List<AutoUiCompRequest> compList) {
+    public AutoCaseRequest(Long autoId, Long testId, Long tempId, String testType, Long caseType, String autoName, Long sysId, Long sysSubId, Long busiId, Long funId, Long scId, Short important, Long environmentType, Long status, Long hasAuto, String autoDesc, Long paramLevel, List<AutoUiCompRequest> compList) {
         this.autoId = autoId;
         this.testId = testId;
         this.tempId = tempId;
@@ -84,11 +84,11 @@ public class AutoCaseRequest {
         this.testType = testType;
     }
 
-    public Byte getCaseType() {
+    public Long getCaseType() {
         return caseType;
     }
 
-    public void setCaseType(Byte caseType) {
+    public void setCaseType(Long caseType) {
         this.caseType = caseType;
     }
 

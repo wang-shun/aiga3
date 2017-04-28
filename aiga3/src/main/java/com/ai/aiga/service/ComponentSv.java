@@ -203,7 +203,7 @@ public class ComponentSv {
 		
 		String sql = "select a.comp_id, a.comp_name, b.name as creator_name,"
 				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.create_time,"
-				+ " a.update_time from na_ui_component a, aiga_staff b where a.creator_id = b.staff_id";
+				+ " a.update_time from na_ui_component a left join aiga_staff b on a.creator_id = b.staff_id where 1=1 ";
 		if(condition.getCompName() != null && !condition.getCompName().equals("")){
 			sql += " and a.comp_name like '%"+condition.getCompName()+"%'";
 		}

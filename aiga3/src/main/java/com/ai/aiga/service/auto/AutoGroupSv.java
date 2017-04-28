@@ -224,9 +224,10 @@ public class AutoGroupSv {
 		
 		String sql = "select a.auto_id, a.auto_name, a.auto_desc, b.name, c.sys_name, d.sys_name as subsys_name,"
 				+ " e.sys_name as fun_name, a.important, a.has_auto, a.status "
-				+ "from na_auto_case a, aiga_staff b, aiga_system_folder c, aiga_sub_sys_folder d, aiga_fun_folder e"
-				+ " where a.creator_id = b.staff_id and a.sys_id = c.sys_id and a.sys_sub_id = d.subsys_id and a.fun_id = e.fun_id"
-				+ " ";
+				+ "from na_auto_case a left join aiga_staff b on a.creator_id = b.staff_id "
+				+ "left join aiga_system_folder c on a.sys_id = c.sys_id "
+				+ "left join aiga_sub_sys_folder d on a.sys_sub_id = d.subsys_id "
+				+ "left join aiga_fun_folder e on a.fun_id = e.fun_id where 1=1 ";
 		if(condition != null){
 			
 			if(condition.getAutoName() != null){

@@ -39,7 +39,7 @@ public class NaCaseFactor implements java.io.Serializable {
 	}
 
 	public NaCaseFactor(long factorId, long caseId, String factorName, String remark, Long creatorId, Date createTime,
-			Long updateId, Date updateTime,Long factor_type) {
+			Long updateId, Date updateTime,Long factorType) {
 		this.factorId = factorId;
 		this.caseId = caseId;
 		this.factorName = factorName;
@@ -48,7 +48,7 @@ public class NaCaseFactor implements java.io.Serializable {
 		this.createTime = createTime;
 		this.updateId = updateId;
 		this.updateTime = updateTime;
-		this.factor_type=factor_type;
+		this.factorType=factorType;
 	}
 
 	@Id

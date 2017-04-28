@@ -7,7 +7,7 @@ public class NaCaseTemplateResponse {
 	
 	private long caseId;
 	private String caseName;
-	private byte caseType;
+	private Long caseType;
 	private String testType;
 	private String preCond;
 	private String operateDesc;
@@ -38,10 +38,10 @@ public class NaCaseTemplateResponse {
 	public void setCaseName(String caseName) {
 		this.caseName = caseName;
 	}
-	public byte getCaseType() {
+	public Long getCaseType() {
 		return caseType;
 	}
-	public void setCaseType(byte caseType) {
+	public void setCaseType(Long caseType) {
 		this.caseType = caseType;
 	}
 	public String getTestType() {

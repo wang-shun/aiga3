@@ -51,7 +51,7 @@ public class ControlSv extends BaseService{
 		list.add("updateTime");
 	   String sql = "select a.ctrl_id, a.ctrl_name, b.name as creator_name,"
 				+ " (select name from aiga_staff where staff_id = a.update_id) as update_name, a.create_time,"
-				+ " a.update_time from na_ui_control a, aiga_staff b where a.creator_id = b.staff_id";
+				+ " a.update_time from na_ui_control a left join aiga_staff b on a.creator_id = b.staff_id where 1=1 ";
 	
 			if(StringUtils.isNotBlank(condition.getCtrlName())){
 				sql += " and a.ctrl_name like '%"+condition.getCtrlName()+"%'";

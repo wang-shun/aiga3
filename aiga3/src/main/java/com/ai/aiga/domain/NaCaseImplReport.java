@@ -30,9 +30,9 @@ public class NaCaseImplReport  implements java.io.Serializable {
      private Date planDate;
      private String sysName;
      private String environment;
-     private BigDecimal caseTotalCount;
-     private BigDecimal manualCaseCount;
-     private BigDecimal autoCaseCount;
+     private Integer caseTotalCount;
+     private Integer manualCaseCount;
+     private Integer autoCaseCount;
      private String firSucRate;
      private String firExecTime;
      private String secSucRate;
@@ -51,7 +51,7 @@ public class NaCaseImplReport  implements java.io.Serializable {
     public NaCaseImplReport(Long reportId) {
         this.reportId = reportId;
     }
-    public NaCaseImplReport(Long reportId, Long onlinePlanId, String onlinePlanName, Date planDate, String sysName, String environment, BigDecimal caseTotalCount, BigDecimal manualCaseCount, BigDecimal autoCaseCount, String firSucRate, String firExecTime, String secSucRate, String secExecTime, String thirdSucRate, String thirdExecTime, Byte flag, String ext1, String ext2, String ext3) {
+    public NaCaseImplReport(Long reportId, Long onlinePlanId, String onlinePlanName, Date planDate, String sysName, String environment, Integer caseTotalCount, Integer manualCaseCount, Integer autoCaseCount, String firSucRate, String firExecTime, String secSucRate, String secExecTime, String thirdSucRate, String thirdExecTime, Byte flag, String ext1, String ext2, String ext3) {
        this.reportId = reportId;
        this.onlinePlanId = onlinePlanId;
        this.onlinePlanName = onlinePlanName;
@@ -131,29 +131,29 @@ public class NaCaseImplReport  implements java.io.Serializable {
     }
     
     @Column(name="CASE_TOTAL_COUNT", precision=22, scale=0)
-    public BigDecimal getCaseTotalCount() {
+    public Integer getCaseTotalCount() {
         return this.caseTotalCount;
     }
     
-    public void setCaseTotalCount(BigDecimal caseTotalCount) {
+    public void setCaseTotalCount(Integer caseTotalCount) {
         this.caseTotalCount = caseTotalCount;
     }
     
     @Column(name="MANUAL_CASE_COUNT", precision=22, scale=0)
-    public BigDecimal getManualCaseCount() {
+    public Integer getManualCaseCount() {
         return this.manualCaseCount;
     }
     
-    public void setManualCaseCount(BigDecimal manualCaseCount) {
+    public void setManualCaseCount(Integer manualCaseCount) {
         this.manualCaseCount = manualCaseCount;
     }
     
     @Column(name="AUTO_CASE_COUNT", precision=22, scale=0)
-    public BigDecimal getAutoCaseCount() {
+    public Integer getAutoCaseCount() {
         return this.autoCaseCount;
     }
     
-    public void setAutoCaseCount(BigDecimal autoCaseCount) {
+    public void setAutoCaseCount(Integer autoCaseCount) {
         this.autoCaseCount = autoCaseCount;
     }
     

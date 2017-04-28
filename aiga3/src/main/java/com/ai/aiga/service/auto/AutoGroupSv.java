@@ -284,10 +284,13 @@ public class AutoGroupSv {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "groupId");
 		}
 		String sql = "select a.auto_id, a.auto_name, a.auto_desc, b.group_order, f.name as creator_name, c.sys_name, d.sys_name as sys_sub_name"
-				+ ", e.sys_name as fun_name, a.important, a.has_auto, a.status from na_auto_group_case b, na_auto_case a,"
-				+ "aiga_system_folder c, aiga_sub_sys_folder d, aiga_fun_folder e,aiga_staff f where a.auto_id = b.auto_id and b.creator_id = f.staff_id"
-				+ " and  a.sys_id = c.sys_id and a.sys_sub_id = d.subsys_id and a.fun_id = e.fun_id "
-				+ " and b.group_id ="+groupId+" order by b.group_order";
+				+ ", e.sys_name as fun_name, a.important, a.has_auto, a.status from na_auto_group_case b "
+				+ "left join na_auto_case a on a.auto_id = b.auto_id "
+				+ "left join aiga_system_folder c on a.sys_id = c.sys_id "
+				+ "left join aiga_sub_sys_folder d on a.sys_sub_id = d.subsys_id "
+				+ "left join aiga_fun_folder e on  a.fun_id = e.fun_id "
+				+ "left join aiga_staff f on b.creator_id = f.staff_id "
+				+ " where b.group_id ="+groupId+" order by b.group_order";
 		List<String> list = new ArrayList<String>();
 		list.add("autoId");
 		list.add("autoName");

@@ -27,8 +27,8 @@
 			<artifactId>netty-all</artifactId>
 			<version>${netty.version}</version>
 		</dependency>
-		
-		
+
+
 		<!-- LOGGING begin -->
 		<!-- slf4j -->
 		<dependency>
@@ -36,14 +36,14 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		
+
 		<!-- logback -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
-		
+
 
 	</dependencies>
 
@@ -51,6 +51,15 @@
 
 	<build>
 		<finalName>agent</finalName>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>zip.xml</exclude>
+				</excludes>
+			</resource>
+		</resources>
 
 		<plugins>
 
@@ -64,6 +73,23 @@
 				</configuration>
 			</plugin>
 
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>my-make-zip</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal><!-- 只运行一次 -->
+						</goals>
+						<configuration>
+							<descriptors> <!--描述文件路径 -->
+								<descriptor>src/main/resources/zip.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

@@ -13,8 +13,10 @@
     "busiId":"11",
     "sysSubId":"11",
     "funId":"11",
-    "mustCompare":"比对参数",
-    "sendAddress":"http://10.70.80.212",
+    "messageId":"10",
+    "messageName":"Name",
+    "validParam":"比对参数",
+    "address":"http://10.70.80.212",
     "factors":[{
       "factorId":"11",
       "factorName":"因子1",

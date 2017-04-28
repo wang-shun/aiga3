@@ -30,6 +30,11 @@ define(function(require, exports, module) {
     //业务接口 
     srvMap.add("getBusiList", pathAlias + "getBusiList.json", "sys/cache/busi");
 
+    //接口列表
+    srvMap.add("getInterfaceList", pathAlias + "esbInterfaceList.json", "case/template/EsbList");
+    //根据接口获取因子
+    srvMap.add("getFactorsList", pathAlias + "esbInterfaceList.json", "case/template/getFactor");
+
 
     // 模板对象
     var Tpl = {
@@ -44,6 +49,7 @@ define(function(require, exports, module) {
         // getFactorForm: $("#TPL_getFactorForm").html(),
         getTestFactorList: $("#TPL_getTestFactorList").html(),
         getCaseTempInfo: $("#TPL_getCaseTempInfo").html(),
+        getInterfaceList: $("#TPL_getInterfaceList").html(),
 
     };
 
@@ -76,6 +82,9 @@ define(function(require, exports, module) {
         factorForm: '#JS_factorForm',
         factorList: '#JS_factorList',
         testFactorList: '#JS_testCaseFactorList',
+
+        //
+        interFaceInfoForm: "#JS_interfaceInfoForm",
     };
 
     //下拉框容器
@@ -283,6 +292,73 @@ define(function(require, exports, module) {
 
         },
 
+        interfaceSelected: function() {
+            var self = this;
+            var _modal = $(Dom.modalCaseTempForm);
+            var _selectType = _modal.find("select[name='caseType']");
+            var _interfaceType = _modal.find("select[name='interfaceType']");
+            var _tab2 = $("#JS_interfaceTab");
+            _selectType.unbind();
+            _selectType.change(function(event) {
+                /* Act on the event */
+                var type = _selectType.val();
+                var _interface = _interfaceType.val();
+                if (type == 2) {
+                    $("#JS_interfaceType").removeClass('hide');
+                    if (_interface) {
+                        _tab2.removeClass('hide');
+                        self.getInterfaceList(_interface);
+                        if (_interface == 1) {
+                            $("#JS_msgType").addClass('hide');
+                        } else {
+                            $("#JS_msgType").removeClass('hide');
+                        }
+                    }
+
+                } else {
+                    _tab2.addClass('hide')
+                    $("#JS_interfaceType").addClass('hide')
+
+                }
+                // if ((type == 2) && (_interface)) {
+
+                //     _tab2.removeClass('hide');
+                //     self.getInterfaceList("_interface");
+                //     $("#JS_msgType").addClass('hide')
+                //     if (_interface == 30) {
+                //         $("#JS_msgType").removeClass('hide')
+                //     }
+                // }
+            });
+            _selectType.change();
+            _interfaceType.change(function(event) {
+                /* Act on the event */
+                _selectType.change();
+            });
+        },
+        //获取接口列表
+        getInterfaceList: function() {
+            var self = this;
+            var _dom = $("#JS_interface");
+            var pagination = _dom.find("[name='pagination']")
+            var _table = $("#JS_interface").find("table");
+            Utils.getServerPage(srvMap.get('getInterfaceList'), "", function(json) {
+
+                var template = Handlebars.compile(Tpl.getInterfaceList);
+                $("#JS_interface").find("tbody").html(template(json.data));
+                self.eventClickChecked(_table, function() {
+                    var _data = Utils.getRadioCheckedRow(_table);
+                    $(Dom.interFaceInfoForm).find("[name='messageId']").val(_data.messageId);
+                    $(Dom.interFaceInfoForm).find("[name='messageName']").val(_data.messageName);
+                    Rose.ajax.postJson(srvMap.get('getFactorsList'), _data.funId, function(json, status) {
+                        var factor_template = Handlebars.compile(Tpl.getFactorList);
+                        $(Dom.factorList).html(factor_template(json.data));
+                        Utils.eventClickChecked($(Dom.factorList), function() {})
+                    })
+
+                });
+            }, pagination);
+        },
 
         // 新增模板
         addCaseTemp: function() {
@@ -294,17 +370,20 @@ define(function(require, exports, module) {
                 });
                 // 弹出层
                 var _modal = $(Dom.modalCaseTempForm);
+                var _form = $(Dom.caseTempForm);
                 _modal.modal('show');
                 _modal.find(".modal-title").html("新增模板");
+                self.resetTab(_modal);
                 //加载form表单
                 var template = Handlebars.compile(Tpl.getCaseTempForm);
-                $(Dom.caseTempForm).html(template());
+                _form.html(template());
                 $(Dom.factorList).empty();
                 //加载下拉框
                 self.getSysList(dropChoice2)
 
                 self.addFactor();
                 self.deleFactor();
+                self.interfaceSelected();
                 //加载三个因子选项供填写
                 var factor_template = Handlebars.compile(Tpl.getFactorList);
                 var empty = {
@@ -317,11 +396,15 @@ define(function(require, exports, module) {
                 $(Dom.factorList).append(factor_template(empty));
                 Utils.eventClickChecked($(Dom.factorList));
 
-                var _form = $(Dom.caseTempForm);
+                var _formInterface = $(Dom.interFaceInfoForm);
+                Utils.resetForm(_formInterface);
                 $("#JS_SaveCaseTemp").unbind('click');
                 $("#JS_SaveCaseTemp").bind('click', function() {
                     Utils.checkForm(_form, function() {
                         var cmd = _form.serialize();
+                        if (_form.find("[name='caseType']").val() == 2) {
+                            cmd += "&" + _formInterface.serialize();
+                        }
                         var factors = [];
                         $(Dom.factorList).find("tr").each(function() {
                             var tdArr = $(this).children();
@@ -364,17 +447,18 @@ define(function(require, exports, module) {
                     var _modal = $(Dom.modalCaseTempForm);
                     _modal.modal('show');
                     _modal.find(".modal-title").html("查看编辑模板");
+                    self.resetTab(_modal);
                     //加载form表单
                     self.getCaseTempInfo("caseId=" + _data.caseId);
                     self.addFactor();
                     self.deleFactor();
 
-
                     $("#JS_factoryBody").slimScroll({
                         "height": '300px'
                     });
                     var _form = $(Dom.caseTempForm);
-                    //_form.bootstrapValidator('validate');
+                    var _formInterface = $(Dom.interFaceInfoForm);
+
                     // 表单提交
                     $("#JS_SaveCaseTemp").unbind('click')
                     $("#JS_SaveCaseTemp").bind('click', function() {
@@ -385,6 +469,9 @@ define(function(require, exports, module) {
                             var id;
                             var name;
                             var remark;
+                            if (_form.find("[name='caseType']").val() == 2) {
+                                cmd += "&" + _formInterface.serialize();
+                            }
 
                             var factors = [];
                             $(Dom.factorList).find("tr").each(function() {
@@ -595,11 +682,23 @@ define(function(require, exports, module) {
                     //self.getSysList("#add_sysId");
                     self.getSysList(dropChoice2, json.data);
                     $(Dom.caseTempForm).find("[name='caseType']").val(json.data.caseType);
+                    if (json.data.caseType == 2) {
+                        var _interfaceForm = $(Dom.interFaceInfoForm);
+                        self.interfaceSelected();
+                        _interfaceForm.find("[name='address']").val(json.data.address);
+                        _interfaceForm.find("[name='validParam']").html(json.data.validParam);
+                        _interfaceForm.find("[name='messageId']").html(json.data.messageId);
+                        _interfaceForm.find("[name='messageIName']").html(json.data.messageIName);
+                        if (json.data.msgType) {
+                            _interfaceForm.find("[name='messageType']").val(json.data.messageType);
+                        }
+                    }
                     $(Dom.caseTempForm).find("[name='important']").val(json.data.important);
                     $(Dom.caseTempForm).find("[name='operateDesc']").val(json.data.operateDesc);
 
                     $(Dom.factorList).html(factor_template(json.data.factors));
-                    Utils.eventClickChecked($(Dom.factorList), function() {})
+                    Utils.eventClickChecked($(Dom.factorList), function() {});
+
                 }
             });
         },
@@ -729,6 +828,13 @@ define(function(require, exports, module) {
                 }
             });
         },
+        //重置tab
+        resetTab: function(obj) {
+            $(obj).find(".nav-tabs").find(".active").removeClass('active');
+            $(obj).find(".nav-tabs").find("li:first").addClass('active');
+            $(obj).find(".tab-content").find(".active").removeClass('active');
+            $(obj).find(".tab-content").children('#tab_info').addClass('active');
+        },
 
 
         // 获取列表当前选中行
@@ -782,8 +888,8 @@ define(function(require, exports, module) {
 
         eventClickChecked: function(obj, callback) {
             obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue'
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
             });
             obj.find("tr").bind('click', function(event) {
                 $(this).find('.minimal').iCheck('check');

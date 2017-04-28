@@ -3,7 +3,7 @@ package com.ai.aiga.view.json.auto;
 public class AutoRunResultRequest {
 	private Long taskId;
 	private String autoName;
-	private Byte resultType;
+	private Long resultType;
 	public Long getTaskId() {
 		return taskId;
 	}
@@ -16,10 +16,10 @@ public class AutoRunResultRequest {
 	public void setAutoName(String autoName) {
 		this.autoName = autoName;
 	}
-	public Byte getResultType() {
+	public Long getResultType() {
 		return resultType;
 	}
-	public void setResultType(Byte resultType) {
+	public void setResultType(Long resultType) {
 		this.resultType = resultType;
 	}
 	

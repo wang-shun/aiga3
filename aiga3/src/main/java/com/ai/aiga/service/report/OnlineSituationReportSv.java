@@ -10,6 +10,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +36,8 @@ import com.ai.process.task.quartz.PerformanceCaseJob;
  * @date 创建时间：2017年4月26日 下午3:18:56
  * @Description:变更情况报表
  */
+@Service
+@Transactional
 public class OnlineSituationReportSv extends BaseService {
 
 	@Autowired
@@ -55,7 +59,6 @@ public class OnlineSituationReportSv extends BaseService {
 	 */
 	public Object findOnlineSituationReport(Long onlinePlan, String date, int pageNumber, int pageSize) {
 
-		List<Condition> cons = new ArrayList<Condition>();
 		StringBuilder sql = new StringBuilder("select * from ONLINE_SITUATION_REPORT a where 1=1");
 		if (onlinePlan != null) {
 			sql.append(" and ONLINE_PALN = " + onlinePlan);
@@ -190,10 +193,11 @@ public class OnlineSituationReportSv extends BaseService {
             }else{
             	osReport.setAllDuration("无");
             }
-            
-            //保存
-            onlineSituationReportDao.save(osReport);
+            onlineSituationReportList.add(osReport);
+          
 		}
+		  //保存
+        onlineSituationReportDao.save(onlineSituationReportList);
 	}
 	
 	

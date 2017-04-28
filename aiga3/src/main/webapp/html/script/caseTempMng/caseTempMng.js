@@ -402,20 +402,36 @@ define(function(require, exports, module) {
                 Utils.eventClickChecked($(Dom.factorList));
 
                 var _formInterface = $(Dom.interFaceInfoForm);
-                Utils.resetForm(_formInterface);
+                self.resetForm(_formInterface);
                 $("#JS_SaveCaseTemp").unbind('click');
                 $("#JS_SaveCaseTemp").bind('click', function() {
                     Utils.checkForm(_form, function() {
                         var cmd = _form.serialize();
                         if (_form.find("[name='caseType']").val() == 2) {
                             cmd += "&" + _formInterface.serialize();
+                            if (_formInterface.find("[name='address']").val()) {
+
+                            } else {
+                                XMS.msgbox.show('发布地址未填写！', 'error', 2000)
+                                return false;
+                            }
+                            if (_formInterface.find("[name='validParam']").val()) {
+
+                            } else {
+                                XMS.msgbox.show('比对参数未填写！', 'error', 2000)
+                                return false;
+                            }
                         }
+
                         var factors = [];
                         $(Dom.factorList).find("tr").each(function() {
                             var tdArr = $(this).children();
+                            var order = $(this).find("[name='factorOrder']").val();
+                            console.log(order);
                             factors.push({
                                 "factorName": tdArr.eq(1).find("input").val(),
-                                "remark": tdArr.eq(2).find("input").val()
+                                "remark": tdArr.eq(2).find("input").val(),
+                                "factorOrder": order
                             });
                         });
                         cmd += "&factors=" + JSON.stringify(factors);
@@ -449,6 +465,8 @@ define(function(require, exports, module) {
 
                 var _data = self.getCaseTempCheckedRow(Dom.getCaseTempList);
                 if (_data) {
+                    var _form = $(Dom.caseTempForm);
+                    var _formInterface = $(Dom.interFaceInfoForm);
                     var _modal = $(Dom.modalCaseTempForm);
                     _modal.modal('show');
                     _modal.find(".modal-title").html("查看编辑模板");
@@ -461,8 +479,7 @@ define(function(require, exports, module) {
                     $("#JS_factoryBody").slimScroll({
                         "height": '300px'
                     });
-                    var _form = $(Dom.caseTempForm);
-                    var _formInterface = $(Dom.interFaceInfoForm);
+
 
                     // 表单提交
                     $("#JS_SaveCaseTemp").unbind('click')
@@ -474,8 +491,21 @@ define(function(require, exports, module) {
                             var id;
                             var name;
                             var remark;
+                            var order;
                             if (_form.find("[name='caseType']").val() == 2) {
                                 cmd += "&" + _formInterface.serialize();
+                                if (_formInterface.find("[name='address']").val()) {
+
+                                } else {
+                                    XMS.msgbox.show('发布地址未填写！', 'error', 2000)
+                                    return false;
+                                }
+                                if (_formInterface.find("[name='validParam']").val()) {
+
+                                } else {
+                                    XMS.msgbox.show('比对参数未填写！', 'error', 2000)
+                                    return false;
+                                }
                             }
 
                             var factors = [];
@@ -487,10 +517,11 @@ define(function(require, exports, module) {
                                 id = tdArr.eq(0).find("input").val();
                                 name = tdArr.eq(1).find("input").val();
                                 remark = tdArr.eq(2).find("input").val();
-
+                                order = $(this).find("[name='factorOrder']").val();
                                 factors.push({
                                     "factorId": id,
                                     "factorName": name,
+                                    "factorOrder": order,
                                     "remark": remark
                                 });
                             });
@@ -689,13 +720,15 @@ define(function(require, exports, module) {
                     $(Dom.caseTempForm).find("[name='caseType']").val(json.data.caseType);
                     if (json.data.caseType == 2) {
                         var _interfaceForm = $(Dom.interFaceInfoForm);
+                        $(Dom.caseTempForm).find("[name='interfaceType']").val(json.data.caseInterface.interfaceType);
                         self.interfaceSelected();
-                        _interfaceForm.find("[name='address']").val(json.data.address);
-                        _interfaceForm.find("[name='validParam']").html(json.data.validParam);
-                        _interfaceForm.find("[name='messageId']").html(json.data.messageId);
-                        _interfaceForm.find("[name='messageIName']").html(json.data.messageIName);
-                        if (json.data.msgType) {
-                            _interfaceForm.find("[name='messageType']").val(json.data.messageType);
+                        _interfaceForm.find("[name='address']").val(json.data.caseInterface.address);
+                        _interfaceForm.find("[name='validParam']").html(json.data.caseInterface.validParam);
+                        _interfaceForm.find("[name='messageId']").val(json.data.caseInterface.messageId);
+                        _interfaceForm.find("[name='messageName']").val(json.data.caseInterface.messageName);
+
+                        if (json.data.caseInterface.messageType) {
+                            _interfaceForm.find("[name='messageType']").val(json.data.caseInterface.messageType);
                         }
                     }
                     $(Dom.caseTempForm).find("[name='important']").val(json.data.important);
@@ -924,25 +957,34 @@ define(function(require, exports, module) {
                 }
             });
         },
-        checkForm: function(objForm, callback) {
-            var state = true;
-            var text = '';
-            $(objForm).find(':input[required]')
-                .not(':button, :submit, :reset, :hidden').each(function() {
-                    var _val = $.trim($(this).val());
-                    var _text = $.trim($(this).parent().prev().text());
-                    if (_val == null || _val == undefined || _val == '') {
-                        state = false;
-                        text = _text.replace(/\：/, '');
-                        return false;
-                    }
-                })
-            if (state) {
-                callback(state);
-            } else {
-                XMS.msgbox.show(text.trimStar() + '不能为空！', 'error', 2000);
-            }
+        resetForm: function(objForm, callback) {
+            $(objForm).find(':input')
+                .not(':button, :submit, :reset')
+                .val('')
+                .removeAttr('checked')
+                .removeAttr('selected');
+
         },
+
+        // checkForm: function(objForm, callback) {
+        //     var state = true;
+        //     var text = '';
+        //     $(objForm).find(':input[required]')
+        //         .not(':button, :submit, :reset, :hidden').each(function() {
+        //             var _val = $.trim($(this).val());
+        //             var _text = $.trim($(this).parent().prev().text());
+        //             if (_val == null || _val == undefined || _val == '') {
+        //                 state = false;
+        //                 text = _text.replace(/\：/, '');
+        //                 return false;
+        //             }
+        //         })
+        //     if (state) {
+        //         callback(state);
+        //     } else {
+        //         XMS.msgbox.show(text.trimStar() + '不能为空！', 'error', 2000);
+        //     }
+        // },
     };
     module.exports = Init;
 });

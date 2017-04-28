@@ -347,9 +347,9 @@
                                                 <tr>
                                                     <th class="iCheckbox" width="15"></th>
                                                     <th>因子名称</th>
-                                                    <th>因子描述</th>
-                                                    <th>参数</th>
                                                     <th>因子顺序</th>
+                                                    <th>参数</th>
+                                                    <th>因子描述</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="JS_testCaseFactorList">
@@ -470,7 +470,7 @@
                 <option value="">请选择</option>
             </select>
         </div>
-        <div id="JS_interfaceType" class="col-sm-4 form-group">
+        <div id="JS_interfaceType" class="col-sm-4 form-group hide">
             <label class="control-label">接口类型<i class="text-red">*</i></label>
             <select name="interfaceType" class="form-control select2 input-sm" required>
                 <option value="">请选择</option>
@@ -498,6 +498,7 @@
         <td class="col-xs-8">
             <input name="remark" value="{{remark}}" style="width:300px">
         </td>
+        <td class="hide"><input name="factorOrder" value="{{factorOrder}}"></td>
     </tr>
     {{/each}}
 </script>

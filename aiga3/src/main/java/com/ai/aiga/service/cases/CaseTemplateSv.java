@@ -333,7 +333,8 @@ public class CaseTemplateSv extends BaseService{
 		boolean isCBOSS=interfaceType.equals(CaseEnum.InterfaceType_CBOSS.getValue());
 		if (isESB) {
 			AigaEsbInterface esbInterface=this.esbInterfaceSv.findById(messageId);
-			String inputSoap=esbInterface.getInputSoap();
+			//XML文件必须要有根元素
+			String inputSoap="<root>"+esbInterface.getInputSoap()+"</root>";
 			Document document= DocumentHelper.parseText(inputSoap);
 			//获取所有属性节点
 			factorList=this.listNodes(document.getRootElement(),factorList,CaseEnum.factorType_one.getValue());
@@ -359,6 +360,9 @@ public class CaseTemplateSv extends BaseService{
 			Factor factor=new Factor();
 			factor.setFactorName(node.getName());
 			factor.setFactorType(factorType);
+			//获取因子顺序
+			Integer factorOrder = factorList.size() == 0 ? 1 : factorList.get(factorList.size() - 1).getFactorOrder() + 1;
+			factor.setFactorOrder(factorOrder);
 			//将因子塞入集合
 			factorList.add(factor);
 		}

@@ -1,6 +1,12 @@
 package com.ai.aiga.view.controller.report;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ai.aiga.service.report.CaseRunCountSv;
+import com.ai.aiga.view.json.base.JsonBean;
 
 /**
  * @ClassName: CaseRunCountController
@@ -11,7 +17,14 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class CaseRunCountController {
-
 	
+	@Autowired CaseRunCountSv caseRunCountSv;
+	
+	@RequestMapping(path = "/accept/caseRunReport/caseCount")
+	public @ResponseBody JsonBean caseCount(){
+		
+		caseRunCountSv.countAsync();
+		return JsonBean.success;
+	}
 }
 

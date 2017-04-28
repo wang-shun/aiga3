@@ -15,7 +15,7 @@ import com.ai.aiga.view.json.report.CaseConstructionRequest;
  * @ClassName: CaseConstructionController
  * @author: dongch
  * @date: 2017年4月24日 下午2:43:14
- * @Description:功能用例建设报表
+ * @Description:功能用例和人员日常建设报表
  * 
  */
 @Controller

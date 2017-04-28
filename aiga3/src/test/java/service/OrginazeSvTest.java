@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ai.aiga.service.FunctionSv;
 
-import com.ai.aiga.service.reviewPlanSv;
+import com.ai.aiga.service.ReviewPlanSv;
 
 import com.ai.aiga.service.organize.OrganizeSv;
 

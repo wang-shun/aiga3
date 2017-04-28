@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.service.reviewPlanSv;
+import com.ai.aiga.service.ReviewPlanSv;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.webservice.soap.dto.AdclodArgs;
-import com.ai.aiga.webservice.soap.dto.BMCArgs;
+
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiParam;
 @Controller
 public class ReviewPlanController {
 	@Autowired
-	private reviewPlanSv sv;
+	private ReviewPlanSv sv;
 	
 
 	@RequestMapping(value="sys/plan/returnToADClod",method=RequestMethod.POST)
@@ -56,9 +56,9 @@ public class ReviewPlanController {
 	@RequestMapping(value="/sys/plan/copytNaCodePathComplieFromBMC" ,method=RequestMethod.POST)
 	@ApiOperation(value="从BMC获取信息", notes="从BMC获取发布信息")
 	@ApiImplicitParam(name="BMCArgs", value="各个系统发布信息", required=true)
-	public @ResponseBody JsonBean copytNaCodePathComplieFromBMC(@RequestBody BMCArgs name) throws ParseException {
+	public @ResponseBody JsonBean copytNaCodePathComplieFromBMC() throws ParseException {
 		JsonBean json = new JsonBean();
-		json.setData(sv.copytNaCodePathComplieFromBMC(name));
+		//json.setData(sv.copytNaCodePathComplieFromBMC());
 		return 	json;
 	}
     

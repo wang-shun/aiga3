@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each this}}
+        {{#each content}}
         <tr>
             <td><input type="radio" class="minimal" value="{{staffId}}" name="staffId"></td>
             <td>{{code}}</td>

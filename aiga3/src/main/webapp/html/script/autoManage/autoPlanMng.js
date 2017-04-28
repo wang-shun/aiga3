@@ -421,6 +421,7 @@ define(function(require, exports, module) {
                         // self.initPaging($(Dom.modalNewTaskForm), 5);
 
                         $(Dom.modalNewTaskForm).find("button[name='using']").bind('click', function() {
+
                             var _obj = self.getCheckedRow("#Js_chooseMachineList");
                             var cmd = '';
                             if (_obj.length) {
@@ -440,12 +441,16 @@ define(function(require, exports, module) {
                                 window.XMS.msgbox.show("请选择主机！", 'error', 2000);
                                 return;
                             }
+
+
                         });
                         $(Dom.modalNewTaskForm).find("button[name='save']").unbind();
                         $(Dom.modalNewTaskForm).find("button[name='save']").bind('click', function() {
-                            var cmd = $("#Js_taskForm").serialize();
-                            self.saveNewTaks(cmd);
-                            $(Dom.modalNewTaskForm).modal('hide');
+                            Utils.checkForm($(Dom.modalNewTaskForm).find("form"), function() {
+                                var cmd = $("#Js_taskForm").serialize();
+                                self.saveNewTaks(cmd);
+                                $(Dom.modalNewTaskForm).modal('hide');
+                            })
                         });
                         $(Dom.modalNewTaskForm).find("button[name='cancel']").bind('click', function() {
                             $(Dom.modalNewTaskForm).modal('hide');

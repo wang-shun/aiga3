@@ -166,14 +166,17 @@ public class TeamInfoSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
 		if (StringUtils.isBlank(request.getEmName())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "EmName");
 		}
 		if (StringUtils.isBlank(request.getEmail())) {
+
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
 		}
 		
+
+
 		if (StringUtils.isBlank(request.getPhoneNum())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PhoneNum");
 		}
 		
 		NaEmployeeInfo naEmployeeInfo = BeanMapper.map(request, NaEmployeeInfo.class);
@@ -239,22 +242,7 @@ public class TeamInfoSv extends BaseService {
 		teamInfoDao.delete(teamId);
 		teamEmployeeRelDao.deleteTeam(teamId);
 	}
-	/*
-	 * public void saveEmployee(List<NaEmployeeInfo> list,Long teamId) { if
-	 * (list == null&&teamId==null) {
-	 * BusinessException.throwBusinessException(ErrorCode.Parameter_null); }
-	 * 
-	 * for (int i = 0; i < list.size(); i++) {
-	 * 
-	 * NaEmployeeInfo naEmployeeInfo = list.get(i);
-	 * 
-	 * if (naEmployeeInfo != null) { NaTeamEmployeeRel naTeamEmployeeRel=new
-	 * NaTeamEmployeeRel(); naTeamEmployeeRel.setEmpId(naEmployeeInfo.getId());
-	 * naTeamEmployeeRel.setTeamId(teamId);
-	 * teamEmployeeRelDao.save(naTeamEmployeeRel);
-	 * 
-	 * } } }
-	 */
+
 
 	public void saveEnv(String list, Long teamId) {
 		if (list == null && teamId == null) {

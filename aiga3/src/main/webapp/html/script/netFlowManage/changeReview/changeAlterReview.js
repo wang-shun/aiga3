@@ -7,12 +7,14 @@ define(function(require, exports, module) {
     // 路径重命名
     var pathAlias = "netFlowManage/changeDeliverableReview/";
 
-    //交付物评审结论
+    //交付物评审结论&历史记录
     srvMap.add("getDeliverableReviewConclusionC", pathAlias + "getDeliverableReviewConclusion.json", "sys/review/findchangeReviewList");
     //保存结论
     srvMap.add("saveConclusionC", pathAlias + "retMessage.json", "sys/review/saveChangeReviewResult");
     //保存下一次评审时间
     srvMap.add("saveReviewTime", pathAlias + "retMessage.json", "sys/review/setReviewDate");
+    //文件类型下拉框接口
+    srvMap.add("findFileList", pathAlias + "findFileList.json", "sys/review/findFileList");
     //变更概况列表
     srvMap.add("getChangeProfileList", pathAlias + "getChangeProfileList.json", "sys/review/findNaChangeCondition");
     //保存变更概况
@@ -143,7 +145,7 @@ define(function(require, exports, module) {
         getDeliverableReviewConclusionC: function() {
             var self = this;
             var data = Page.getParentCmd();
-            var _cmd = 'planId=' + data.onlinePlan;
+            var _cmd = 'planId=' + data.onlinePlan + '&type=1';
             var _dom = Page.findId('getChangeReviewConclusionC');
             var _domPagination = _dom.find("[name='pagination']");
             Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {                  
@@ -231,14 +233,12 @@ define(function(require, exports, module) {
         getHistoryList: function() {
             var self = this;
             var data = Page.getParentCmd();
-            var _cmd = 'planId=' + data.onlinePlan + '&type=1';
+            var _cmd = 'planId=' + data.onlinePlan + '&type=2';
             var _dom = Page.findId('getHistoryList');
             var _domPagination = _dom.find("[name='pagination']");
             Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {
-                    alert(Page.findTpl('getHistoryList'))
                     var template = Handlebars.compile(Page.findTpl('getHistoryList'));
                     console.log(json.data)
-                    alert(template(json.data.content))
                     _dom.find("[name='content']").html(template(json.data.content));
                     //引入单选框样式
                     Utils.eventTrClickCallback(_dom);
@@ -260,7 +260,9 @@ define(function(require, exports, module) {
                 _save.bind('click', function() {
                     var cmd = _form.serialize() + "&planId=" + data.onlinePlan;
                     Utils.checkForm(_form, function() {
-                        Rose.ajax.postJson(srvMap.get('saveReviewTime'), cmd, function(json, status) {
+                        _reviewNum = _form.find("[name='reviewNum']").val();
+                        if (_reviewNum > 0) {
+                            Rose.ajax.postJson(srvMap.get('saveReviewTime'), cmd, function(json, status) {
                             if (status) {
                                 XMS.msgbox.show('设置成功！', 'success', 2000)
                                 setTimeout(function() {
@@ -269,6 +271,11 @@ define(function(require, exports, module) {
                                 }, 1000)
                             }
                         });
+                        } else {
+                            window.XMS.msgbox.show('设置失败！', 'error', 2000)
+                            return;
+                        }
+                        
                     })
                 });
                 var _close = _modal.find("[name='close']")
@@ -281,7 +288,8 @@ define(function(require, exports, module) {
         queryFileTypeForm: function() {
             var self = this;
             var _form = Page.findId('queryFileTypeForm');
-            Utils.setSelectData(_form);
+            var data = Page.getParentCmd();
+            Utils.setSelectData(_form,"planId=" + data.onlinePlan);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
             _queryBtn.bind('click', function() {
@@ -289,20 +297,20 @@ define(function(require, exports, module) {
                 self.getChangeProfileList(cmd);
                 self.getChangeContentList(cmd);
                 self.getTimePersonList(cmd);
-                this.getChangeDeviceList(cmd);
-                this.getChangeConfigList(cmd);
-                this.getWarningList(cmd);
-                this.getPrepareList(cmdcmd);
-                this.getRunStepList(cmd);
-                this.getOperationManageList(cmd);
-                this.getRollbackList(cmd);
-                this.getResultValidateList(cmd);
-                this.getServiceValidateList(cmd);
-                this.getDangerList(cmd);
-                this.getRiskRatingList(cmd);
-                this.getRiskScoreList(cmd); 
-                this.getNoticeList(cmd);         
-                this.getFileList(cmd);
+                self.getChangeDeviceList(cmd);
+                self.getChangeConfigList(cmd);
+                self.getWarningList(cmd);
+                self.getPrepareList(cmd);
+                self.getRunStepList(cmd);
+                self.getOperationManageList(cmd);
+                self.getRollbackList(cmd);
+                self.getResultValidateList(cmd);
+                self.getServiceValidateList(cmd);
+                self.getDangerList(cmd);
+                self.getRiskRatingList(cmd);
+                self.getRiskScoreList(cmd); 
+                self.getNoticeList(cmd);         
+                self.getFileList(cmd);
             });
         },
         //变更概况列表
@@ -575,7 +583,7 @@ define(function(require, exports, module) {
                     var id;
                     var resourceType;
                     var deviceName;
-                    var ipAddressee;
+                    var ipAddress;
                     var sysName;
                     var searchCode;
                     var changeContent;
@@ -587,7 +595,7 @@ define(function(require, exports, module) {
                             id = tdArr.eq(0).find("input").val();
                             resourceType = tdArr.eq(1).find("input").val();
                             deviceName = tdArr.eq(2).find("input").val();
-                            ipAddressee = tdArr.eq(3).find("input").val();
+                            ipAddress = tdArr.eq(3).find("input").val();
                             sysName = tdArr.eq(4).find("input").val();
                             searchCode = tdArr.eq(5).find("input").val();
                             changeContent = tdArr.eq(6).find("input").val();
@@ -595,7 +603,7 @@ define(function(require, exports, module) {
                                 "id": id,
                                 "resourceType": resourceType,
                                 "deviceName": deviceName,
-                                "ipAddressee": ipAddressee,
+                                "ipAddress": ipAddress,
                                 "sysName": sysName,
                                 "searchCode": searchCode,
                                 "changeContent": changeContent,

@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-4-25 15:20:20 by Hibernate Tools 3.2.2.GA
+// Generated 2017-4-27 10:24:23 by Hibernate Tools 3.2.2.GA
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +42,8 @@ public class Tasks implements java.io.Serializable {
 	private Date createTime;
 	private Long updateId;
 	private Date updateTime;
-
+	private String businessId;
+	
 	private List<TasksParameter> parameters = new ArrayList<TasksParameter>();
 
 	public Tasks() {
@@ -61,7 +62,8 @@ public class Tasks implements java.io.Serializable {
 
 	public Tasks(long id, String taskName, short taskType, String taskClass, short taskTriggerType, String taskCategory,
 			Date executeTime, Long intervalTime, Long intervalCount, String cronExpression, short status,
-			Date finishTime, String exceptionDetail, Long creatorId, Date createTime, Long updateId, Date updateTime) {
+			Date finishTime, String exceptionDetail, Long creatorId, Date createTime, Long updateId, Date updateTime,
+			String businessId) {
 		this.id = id;
 		this.taskName = taskName;
 		this.taskType = taskType;
@@ -79,6 +81,7 @@ public class Tasks implements java.io.Serializable {
 		this.createTime = createTime;
 		this.updateId = updateId;
 		this.updateTime = updateTime;
+		this.businessId = businessId;
 	}
 
 	@Id
@@ -241,6 +244,15 @@ public class Tasks implements java.io.Serializable {
 		this.updateTime = updateTime;
 	}
 
+	@Column(name = "BUSINESS_ID", length = 100)
+	public String getBusinessId() {
+		return this.businessId;
+	}
+
+	public void setBusinessId(String businessId) {
+		this.businessId = businessId;
+	}
+	
 	@OneToMany(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER, mappedBy = "taskId")
 	public List<TasksParameter> getParameters() {
 		return parameters;
@@ -249,7 +261,5 @@ public class Tasks implements java.io.Serializable {
 	public void setParameters(List<TasksParameter> parameters) {
 		this.parameters = parameters;
 	}
-
-	
 
 }

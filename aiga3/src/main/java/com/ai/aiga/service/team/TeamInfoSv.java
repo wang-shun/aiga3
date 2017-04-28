@@ -1,6 +1,7 @@
 package com.ai.aiga.service.team;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,7 @@ public class TeamInfoSv extends BaseService {
 			sb.append(" and a.EXT_1 like :ext1 ");
 			params.add(new ParameterCondition("ext1", condition.getExt1()));
 		}
+        sb.append(" order by a.CREATE_DATE desc");
 
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -149,14 +151,11 @@ public class TeamInfoSv extends BaseService {
 
 		NaTeamInfo naTeamInfo = BeanMapper.map(request, NaTeamInfo.class);
 
-		// NaTeamInfo naTeamInfo=new NaTeamInfo();
-		// naTeamInfo.setCreateDate(request.getCreateDate());
-		// naTeamInfo.setExt1(request.getExt1());
-		// naTeamInfo.setExt2(request.getExt2());
-		// naTeamInfo.setExt3(request.getExt3());
-		// naTeamInfo.setRemark(request.getRemark());
-		// naTeamInfo.setCreateOpId(request.getCreateOpId());
-		// naTeamInfo.setTeamType(request.getTeamType());
+		
+		 naTeamInfo.setCreateDate(new Date(System.currentTimeMillis()));
+		
+	     naTeamInfo.setCreateOpId("1");
+		
 		return teamInfoDao.save(naTeamInfo);
 
 	}
@@ -169,8 +168,12 @@ public class TeamInfoSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "EmName");
 		}
 		if (StringUtils.isBlank(request.getEmail())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Email");
+
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
 		}
+		
+
+
 		if (StringUtils.isBlank(request.getPhoneNum())) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PhoneNum");
 		}
@@ -211,7 +214,12 @@ public class TeamInfoSv extends BaseService {
 		}
 	}
 
-	public void delectEmployee(String list) {
+	public void delectEmployee(Long  teamId ,String list) {
+		if(teamId==null||teamId.toString().equals("")){
+			
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		
 		if (list == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -219,7 +227,7 @@ public class TeamInfoSv extends BaseService {
 		for (int i = 0; i < split.length; i++) {
 
 			// employeeInfoDao.delete(Long.parseLong(split[i]));
-			employeeInfoDao.deleteById(Long.parseLong(split[i]));
+			employeeInfoDao.deleteById(teamId,Long.parseLong(split[i]));
 
 		}
 	}
@@ -233,22 +241,7 @@ public class TeamInfoSv extends BaseService {
 		teamInfoDao.delete(teamId);
 		teamEmployeeRelDao.deleteTeam(teamId);
 	}
-	/*
-	 * public void saveEmployee(List<NaEmployeeInfo> list,Long teamId) { if
-	 * (list == null&&teamId==null) {
-	 * BusinessException.throwBusinessException(ErrorCode.Parameter_null); }
-	 * 
-	 * for (int i = 0; i < list.size(); i++) {
-	 * 
-	 * NaEmployeeInfo naEmployeeInfo = list.get(i);
-	 * 
-	 * if (naEmployeeInfo != null) { NaTeamEmployeeRel naTeamEmployeeRel=new
-	 * NaTeamEmployeeRel(); naTeamEmployeeRel.setEmpId(naEmployeeInfo.getId());
-	 * naTeamEmployeeRel.setTeamId(teamId);
-	 * teamEmployeeRelDao.save(naTeamEmployeeRel);
-	 * 
-	 * } } }
-	 */
+
 
 	public void saveEnv(String list, Long teamId) {
 		if (list == null && teamId == null) {

@@ -28,8 +28,10 @@ import com.ai.aiga.domain.NaTestProcess;
 import com.ai.aiga.service.TestProcessExcel;
 import com.ai.aiga.service.release.ReleaseReportSv;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
+import com.ai.aiga.view.controller.release.dto.DbExecutionExceptionRequest;
+import com.ai.aiga.view.controller.release.dto.NaReleaseReportRequest;
 import com.ai.aiga.view.json.ExecutionExceptionExcel;
-import com.ai.aiga.view.json.NaReleaseReportRequest;
+
 import com.ai.aiga.view.json.OnlineSysReleaseExcel;
 import com.ai.aiga.view.json.OnlineSysReleaseStageExcel;
 import com.ai.aiga.view.json.ScriptExecutionProcessExcel;
@@ -103,7 +105,7 @@ public class ReleaseReportController {
 	public @ResponseBody JsonBean findDbExecutionException(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			NaDbExecutionException condition
+			DbExecutionExceptionRequest condition
 			
 			) throws ParseException {
 		

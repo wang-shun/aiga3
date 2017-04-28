@@ -1,4 +1,4 @@
-package com.ai.aiga.view.json;
+package com.ai.aiga.view.json.cases;
 
 public class Factor {
 	
@@ -6,8 +6,16 @@ public class Factor {
 	private String factorName;
 	private String remark;
 	private Integer factorOrder;
-	
-	
+	private Long factorType;
+
+	public Long getFactorType() {
+		return factorType;
+	}
+
+	public void setFactorType(Long factorType) {
+		this.factorType = factorType;
+	}
+
 	public Long getFactorId() {
 		return factorId;
 	}
@@ -32,14 +40,15 @@ public class Factor {
 	public void setFactorOrder(Integer factorOrder) {
 		this.factorOrder = factorOrder;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Factor [factorId=" + factorId + ", factorName=" + factorName + ", remark=" + remark + ", factorOrder="
-				+ factorOrder + "]";
+		return "Factor{" +
+				"factorId=" + factorId +
+				", factorName='" + factorName + '\'' +
+				", remark='" + remark + '\'' +
+				", factorOrder=" + factorOrder +
+				", factorType=" + factorType +
+				'}';
 	}
-	
-	
-	
-
 }

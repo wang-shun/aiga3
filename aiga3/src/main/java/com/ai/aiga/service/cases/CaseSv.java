@@ -1,4 +1,4 @@
-package com.ai.aiga.service;
+package com.ai.aiga.service.cases;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,6 @@ import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.AigaFunFolder;
 import com.ai.aiga.domain.AigaSubSysFolder;
 import com.ai.aiga.domain.AigaSystemFolder;
-import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.domain.NaTestCase;
 import com.ai.aiga.domain.NaTestCaseParam;
 import com.ai.aiga.exception.BusinessException;
@@ -32,7 +31,7 @@ import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.CaseInstanceRequest;
 import com.ai.aiga.view.json.CaseTestResponse;
-import com.ai.aiga.view.json.CaseTmeplateResponse;
+import com.ai.aiga.view.json.cases.CaseTmeplateResponse;
 import com.ai.aiga.view.json.NaTestCaseResponse;
 
 @Service

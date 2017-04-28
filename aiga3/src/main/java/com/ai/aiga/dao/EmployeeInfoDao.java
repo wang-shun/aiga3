@@ -20,7 +20,7 @@ import com.ai.aiga.domain.NaEmployeeInfo;
 public interface EmployeeInfoDao extends JpaRepository<NaEmployeeInfo, Long>
 ,SearchAndPageRepository<NaEmployeeInfo, Long>{
 	@Modifying
-	@Query("delete from NaTeamEmployeeRel where id= ?1")
-	void deleteById(Long id);
+	@Query("delete from NaTeamEmployeeRel where teamId= ?1 and empId=?2")
+	void deleteById(Long teamId,Long empId);
 }
 

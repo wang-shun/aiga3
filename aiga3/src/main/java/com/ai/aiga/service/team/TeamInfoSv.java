@@ -171,10 +171,7 @@ public class TeamInfoSv extends BaseService {
 		if (StringUtils.isBlank(request.getEmail())) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
 		}
-		// 组织
-		if (StringUtils.isBlank(request.getExt1())) {
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
-		}
+		
 		if (StringUtils.isBlank(request.getPhoneNum())) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ctrlName");
 		}
@@ -215,7 +212,12 @@ public class TeamInfoSv extends BaseService {
 		}
 	}
 
-	public void delectEmployee(String list) {
+	public void delectEmployee(Long  teamId ,String list) {
+		if(teamId==null||teamId.toString().equals("")){
+			
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		
 		if (list == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
@@ -223,7 +225,7 @@ public class TeamInfoSv extends BaseService {
 		for (int i = 0; i < split.length; i++) {
 
 			// employeeInfoDao.delete(Long.parseLong(split[i]));
-			employeeInfoDao.deleteById(Long.parseLong(split[i]));
+			employeeInfoDao.deleteById(teamId,Long.parseLong(split[i]));
 
 		}
 	}

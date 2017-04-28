@@ -25,11 +25,11 @@ public class EmployeeController {
 	private TeamInfoSv teamInfoSv;
 
 	@RequestMapping(path = "/sys/employee/del")
-	public @ResponseBody JsonBean delemployee(@RequestParam String list) {
-		teamInfoSv.delectEmployee(list);
+	public @ResponseBody JsonBean delemployee(@RequestParam Long teamId,@RequestParam String list) {
+		teamInfoSv.delectEmployee(teamId,list);
 		return JsonBean.success;
 	}
-
+	
 	@RequestMapping(path = "/sys/employee/findByName")
 	public @ResponseBody JsonBean findByName(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,

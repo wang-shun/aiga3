@@ -1,40 +1,115 @@
-<div class="row">
+<!--Page Start-->
+<div class="row" id="Page_environment">
     <div class="col-md-12">
-      <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">条件查询</h3>
-              <div class="box-tools pull-right">
-                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                  </button>
-              </div>
-            </div>
-            <div class="box-body">
-      	      <form id="JS_queryEnvironmentForm" class="form-horizontal" role = "form">
-
-      	      </form>
-            </div>
-      </div>
-
-      <div class="box"  style="min-height: 100px">
-          <div class="box-header">
-            <h3 class="box-title">环境列表</h3>
-            <div class="box-tools">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" data-toggle="modal"  id="JS_addEnvironment"><i class="fa fa-plus"></i> 新增环境</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="javascript:;" id="JS_deleteEnvironment">删除环境</a></li>
-                        <li><a href="javascript:;" id="JS_connectMachine">关联机器</a></li>
-                    </ul>
+        <div class="box">
+            <form id="JS_queryEnvironmentForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>系统大类</label>
+                                <select name="sysId" class="form-control input-sm" data-url="getSysList" data-idkey="sysId" data-namekey="sysName">
+                                    <option value="">请选择</option>
+                                    <option value="11">系统大类</option>
+                                    <option value="22">系统大类</option>
+                                    <option value="33">系统大类</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>环境名称</label>
+                                <input type="text" class="form-control input-sm" name="envName">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>执行环境</label>
+                                <select name="runEnv" class="form-control input-sm" >
+                                    <option value="">请选择</option>
+                                    <option value="1">验收环境</option>
+                                    <option value="2">准发布环境</option>
+                                    <option value="3">生产环境</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_getEnvironmentList">
+            <div class="box-header">
+                <h3 class="box-title">环境列表</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" name="addEnvironment"><!-- <i class="fa fa-plus"></i> --> 新增环境</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" name="deleteEnvironment"><!-- <i class="fa fa-plus"></i> --> 删除环境</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" name="connectMachine"><!-- <i class="fa fa-plus"></i> --> 关联机器</button>
                 </div>
             </div>
+            <div class="box-body">
+                <table id="Tab_getCaseTemp" class="table table-bordered table-condensed table-hover">
+    <thead>
+        <tr>
+            <th class="iCheckbox" width="15"></th>
+            <th>系统大类</th>
+            <th>环境名称</th>
+            <th>环境地址</th>
+            <th style="display:none;">测试数据库</th>
+            <th style="display:none;">地市</th>
+            <th style="display:none;">所处中心</th>
+            <th style="display:none;">环境类型</th>
+            <th style="display:none;">执行环境</th>
+            <!-- <th>创建人</th> -->
+            <th style="display:none;">更新时间</th>
+            <th style="display:none;">登录账号</th>
+            <th style="display:none;">登录密码</th>
+            <th style="display:none;">数据库账号</th>
+            <th style="display:none;">数据库密码</th>
+            <th style="display:none;">SVN地址</th>
+            <th style="display:none;">SVN账号</th>
+            <th style="display:none;">SVN密码</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#each this}}
+        <tr>
+            <td><input type="radio" class="minimal" value="{{envId}}" name="envId"></td>
+            <td>{{sysName}}</td>
+            <td>{{envName}}</td>
+            <td>{{envUrl}}</td>
+            <td style="display:none;">{{database}}</td>
+            <td style="display:none;">{{regionId}}</td>
+            <td style="display:none;">{{soId}}</td>
+            <td style="display:none;">{{envTypes envType}}</td>
+            <td style="display:none;">{{runEnvs runEnv}}</td>
+            <!-- <td>{{creatorId}}</td> -->
+            <td style="display:none;">{{updateTime}}</td>
+            <td style="display:none;">{{sysAccount}}</td>
+            <td style="display:none;">{{sysPassword}}</td>
+            <td style="display:none;">{{svnUrl}}</td>
+            <td style="display:none;">{{svnAccount}}</td>
+            <td style="display:none;">{{synPassword}}</td>
+            <td style="display:none;">{{dbAccount}}</td>
+            <td style="display:none;">{{dbPassword}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
+            </div>
         </div>
-        <div id="JS_getEnvironmentList"  class="box-body" style="min-height: 100px;" >
-        </div>
-      </div>
     </div>
 </div>
 

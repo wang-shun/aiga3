@@ -29,13 +29,13 @@ define(function(require,exports,module){
 	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
 	//模板对象
-	var Tpl={
+	/*var Tpl={
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
 		getMachineListInEnvironment: require('tpl/environment/getMachineListInEnvironment.tpl'),
-		/*getSysList: require('tpl/caseTempMng/getSysList.tpl'),
-		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')*/
+		//getSysList: require('tpl/caseTempMng/getSysList.tpl'),
+		//getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')
 	};
 
 	var Dom={
@@ -48,7 +48,7 @@ define(function(require,exports,module){
 		getRelaMachineList: '#JS_getRelaMachineList', //获取已关联的机器列表
 		caseType:[],
 		repairsId:[]
-	}
+	}*/
 
 	var Data = {
         setPageType:function(type){

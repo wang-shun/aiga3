@@ -10,7 +10,7 @@
 		"regionId": "地市1",
 		"soId":"所处中心1",
 		"envType": 1,
-		"runEnv":"验收环境",
+		"runEnv":"2",
 		"creatorId":"创建人1",
 		"updateTime":"2017-2-02 08:00:00",
 		"sysAccount":"登录账号1",

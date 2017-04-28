@@ -31,7 +31,7 @@ define(function(require, exports, module) {
     srvMap.add("getBusiList", pathAlias + "getBusiList.json", "sys/cache/busi");
 
     //接口列表
-    srvMap.add("getInterfaceList", pathAlias + "esbInterfaceList.json", "case/template/EsbList");
+    srvMap.add("getESBInterfaceList", pathAlias + "esbInterfaceList.json", "case/template/EsbList");
     //根据接口获取因子
     srvMap.add("getFactorsList", pathAlias + "esbInterfaceList.json", "case/template/getFactor");
 
@@ -49,7 +49,8 @@ define(function(require, exports, module) {
         // getFactorForm: $("#TPL_getFactorForm").html(),
         getTestFactorList: $("#TPL_getTestFactorList").html(),
         getCaseTempInfo: $("#TPL_getCaseTempInfo").html(),
-        getInterfaceList: $("#TPL_getInterfaceList").html(),
+        getESBInterfaceList: $("#TPL_getESBInterfaceList").html(),
+        getCBOSSInterfaceList: $("#TPL_getCBOSSInterfaceList").html(),
 
     };
 
@@ -320,15 +321,6 @@ define(function(require, exports, module) {
                     $("#JS_interfaceType").addClass('hide')
 
                 }
-                // if ((type == 2) && (_interface)) {
-
-                //     _tab2.removeClass('hide');
-                //     self.getInterfaceList("_interface");
-                //     $("#JS_msgType").addClass('hide')
-                //     if (_interface == 30) {
-                //         $("#JS_msgType").removeClass('hide')
-                //     }
-                // }
             });
             _selectType.change();
             _interfaceType.change(function(event) {
@@ -337,20 +329,33 @@ define(function(require, exports, module) {
             });
         },
         //获取接口列表
-        getInterfaceList: function() {
+        getInterfaceList: function(interfaceType) {
             var self = this;
+            var _tpl;
+            var _srv;
+            if (interfaceType == 1) {
+                tpl = Tpl.getESBInterfaceList;
+                _srv = "getESBInterfaceList";
+            } else if (interfaceType == 1) {
+                tpl = Tpl.getCBOSSInterfaceList;
+                _srv = "getCBOSSInterfaceList";
+            }
             var _dom = $("#JS_interface");
             var pagination = _dom.find("[name='pagination']")
             var _table = $("#JS_interface").find("table");
-            Utils.getServerPage(srvMap.get('getInterfaceList'), "", function(json) {
-
-                var template = Handlebars.compile(Tpl.getInterfaceList);
-                $("#JS_interface").find("tbody").html(template(json.data));
+            Utils.getServerPage(srvMap.get(_srv), "", function(json) {
+                //加载模板
+                var template = Handlebars.compile(Tpl.getESBInterfaceList);
+                $("#JS_interface").find("tbody").html(template(json.data.content));
+                //单击选中接口事件
                 self.eventClickChecked(_table, function() {
-                    var _data = Utils.getRadioCheckedRow(_table);
-                    $(Dom.interFaceInfoForm).find("[name='messageId']").val(_data.messageId);
-                    $(Dom.interFaceInfoForm).find("[name='messageName']").val(_data.messageName);
-                    Rose.ajax.postJson(srvMap.get('getFactorsList'), _data.funId, function(json, status) {
+                    var _data = self.getCheckedRow(_table, true);
+                    //赋值
+                    $(Dom.interFaceInfoForm).find("[name='messageId']").val(_data.Id);
+                    $(Dom.interFaceInfoForm).find("[name='messageName']").val(_data.Name);
+                    //加载因子列表
+                    var cmd = "messageId=" + _data.Id + "&interfaceType=" + interfaceType;
+                    Rose.ajax.postJson(srvMap.get('getFactorsList'), cmd, function(json, status) {
                         var factor_template = Handlebars.compile(Tpl.getFactorList);
                         $(Dom.factorList).html(factor_template(json.data));
                         Utils.eventClickChecked($(Dom.factorList), function() {})
@@ -858,9 +863,22 @@ define(function(require, exports, module) {
         },
 
         // 获取列表当前选中行
-        getCheckedRow: function(obj) {
-            var _obj = $(obj).find("input[type='radio']:checked").parents("tr");
-            return _obj;
+        getCheckedRow: function(obj, required) {
+            if (required) {
+                var _obj = $(obj).find("input[type='radio']:checked").parents("tr");
+                var _data = {
+                    Id: "",
+                    Name: "",
+
+                }
+                _data.Id = _obj.find("input").eq(0).val();
+                _data.Name = _obj.find("input").eq(1).val();
+                return _data;
+            } else {
+                var _obj = $(obj).find("input[type='radio']:checked").parents("tr");
+                return _obj;
+            }
+
         },
 
         //获取选中组件

@@ -15,14 +15,21 @@
  */
 package com.ai.aiga.agent.container.netty.server.handler;
 
+import java.net.InetAddress;
+import java.util.Date;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.ai.aiga.agent.sh.Command;
+import com.ai.aiga.agent.sh.ProcessHandler;
+
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-
-import java.net.InetAddress;
-import java.util.Date;
 
 /**
  * Handles a server-side channel.
@@ -30,47 +37,99 @@ import java.util.Date;
 @Sharable
 public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
 
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        // Send greeting for a new connection.
-        ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!\r\n");
-        ctx.write("It is " + new Date() + " now.\r\n");
-        ctx.flush();
-    }
+	private static final Logger logger = LoggerFactory.getLogger(TelnetServerHandler.class);
 
-    @Override
-    public void channelRead0(ChannelHandlerContext ctx, String request) throws Exception {
-        // Generate and write a response.
-        String response;
-        boolean close = false;
-        if (request.isEmpty()) {
-            response = "Please type something.\r\n";
-        } else if ("bye".equals(request.toLowerCase())) {
-            response = "Have a good day!\r\n";
-            close = true;
-        } else {
-            response = "Did you say '" + request + "'?\r\n";
-        }
+	private Command command = new Command();
 
-        // We do not need to write a ChannelBuffer here.
-        // We know the encoder inserted at TelnetPipelineFactory will do the conversion.
-        ChannelFuture future = ctx.write(response);
+//	ConcurrentHashMap<ChannelHandlerContext, ProcessHandler> ProcessHandlerMap = new ConcurrentHashMap<ChannelHandlerContext, ProcessHandler>();
 
-        // Close the connection after sending 'Have a good day!'
-        // if the client has sent 'bye'.
-        if (close) {
-            future.addListener(ChannelFutureListener.CLOSE);
-        }
-    }
+	@Override
+	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+		// Send greeting for a new connection.
+		ctx.write("Welcome to " + InetAddress.getLocalHost().getHostName() + "!\r\n");
+		ctx.write("It is " + new Date() + " now.\r\n");
+		ctx.flush();
+	}
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
+	@Override
+	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+		logger.info("channelUnregistered");
+		super.channelUnregistered(ctx);
+	}
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
-    }
+	@Override
+	public void channelRead0(ChannelHandlerContext ctx, String request) throws Exception {
+		// Generate and write a response.
+		String response = null;
+		boolean close = false;
+		if (request.isEmpty()) {
+			response = "Please type something.\r\n";
+		} else if ("bye".equals(request.toLowerCase())) {
+			response = "Have a good day!\r\n";
+			close = true;
+//		} else if ("bash".equals(request.toLowerCase())) {
+//			ProcessHandler baseHandler = command.executeInBase();
+//			if (baseHandler != null) {
+//				ProcessHandlerMap.put(ctx, baseHandler);
+//				response = "base is ready!\r\n";
+//			} else {
+//				response = "can't open the /bin/base!\r\n";
+//			}
+		} else {
+
+			logger.info("命令 : " + request);
+
+//			ProcessHandler baseHandler = ProcessHandlerMap.get(ctx);
+//			if (baseHandler == null) {
+				response = command.executeReturn(request);
+//			} else {
+//				response = baseHandler.execute(request);
+//				if ("exit".equals(request.toLowerCase())) {
+//					this.destroyBaseHandler(ctx);
+//				}
+//			}
+
+			if (response == null) {
+				response = "I don't understand the order!\r\n";
+			}
+
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(response);
+
+		ChannelFuture future = ctx.write(sb.toString());
+
+		if (close) {
+			future.addListener(ChannelFutureListener.CLOSE);
+		}
+	}
+
+	/**
+	 * @ClassName: TelnetServerHandler :: destroyBaseHandler
+	 * @author: taoyf
+	 * @date: 2017年4月27日 下午5:11:02
+	 *
+	 * @Description:
+	 * @param ctx          
+	 */
+	private void destroyBaseHandler(ChannelHandlerContext ctx) {
+//		ProcessHandler baseHandler = ProcessHandlerMap.remove(ctx);
+//		if(baseHandler != null){
+//			baseHandler.destroy();
+//		}
+	}
+
+	@Override
+	public void channelReadComplete(ChannelHandlerContext ctx) {
+		ctx.flush();
+	}
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+		logger.info("exceptionCaught");
+		destroyBaseHandler(ctx);
+		cause.printStackTrace();
+		ctx.close();
+	}
 }

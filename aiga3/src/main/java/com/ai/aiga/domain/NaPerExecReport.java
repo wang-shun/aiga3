@@ -26,13 +26,13 @@ public class NaPerExecReport  implements java.io.Serializable {
      private String perSysId;
      private Long onlinePlanId;
      private String onlinePlanName;
-     private BigDecimal manualCaseCount;
+     private Integer manualCaseCount;
      private String execManualTime;
-     private BigDecimal autoCaseCount;
+     private Integer autoCaseCount;
      private String execAutoTime;
      private String execMaxTime;
      private String execSuccRate;
-     private BigDecimal bugCount;
+     private Integer bugCount;
      private String ext1;
      private String ext2;
      private String ext3;
@@ -44,7 +44,7 @@ public class NaPerExecReport  implements java.io.Serializable {
     public NaPerExecReport(Long reportId) {
         this.reportId = reportId;
     }
-    public NaPerExecReport(Long reportId, String perName, String perSysId, Long onlinePlanId, String onlinePlanName, BigDecimal manualCaseCount, String execManualTime, BigDecimal autoCaseCount, String execAutoTime, String execMaxTime, String execSuccRate, BigDecimal bugCount, String ext1, String ext2, String ext3) {
+    public NaPerExecReport(Long reportId, String perName, String perSysId, Long onlinePlanId, String onlinePlanName, Integer manualCaseCount, String execManualTime, Integer autoCaseCount, String execAutoTime, String execMaxTime, String execSuccRate, Integer bugCount, String ext1, String ext2, String ext3) {
        this.reportId = reportId;
        this.perName = perName;
        this.perSysId = perSysId;
@@ -111,11 +111,11 @@ public class NaPerExecReport  implements java.io.Serializable {
     }
     
     @Column(name="MANUAL_CASE_COUNT", precision=22, scale=0)
-    public BigDecimal getManualCaseCount() {
+    public Integer getManualCaseCount() {
         return this.manualCaseCount;
     }
     
-    public void setManualCaseCount(BigDecimal manualCaseCount) {
+    public void setManualCaseCount(Integer manualCaseCount) {
         this.manualCaseCount = manualCaseCount;
     }
     
@@ -129,11 +129,11 @@ public class NaPerExecReport  implements java.io.Serializable {
     }
     
     @Column(name="AUTO_CASE_COUNT", precision=22, scale=0)
-    public BigDecimal getAutoCaseCount() {
+    public Integer getAutoCaseCount() {
         return this.autoCaseCount;
     }
     
-    public void setAutoCaseCount(BigDecimal autoCaseCount) {
+    public void setAutoCaseCount(Integer autoCaseCount) {
         this.autoCaseCount = autoCaseCount;
     }
     
@@ -165,11 +165,11 @@ public class NaPerExecReport  implements java.io.Serializable {
     }
     
     @Column(name="BUG_COUNT", precision=22, scale=0)
-    public BigDecimal getBugCount() {
+    public Integer getBugCount() {
         return this.bugCount;
     }
     
-    public void setBugCount(BigDecimal bugCount) {
+    public void setBugCount(Integer bugCount) {
         this.bugCount = bugCount;
     }
     

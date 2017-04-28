@@ -43,7 +43,7 @@ public interface NaPlanCaseResultDao extends JpaRepository<NaPlanCaseResult, Lon
 	Object findCountBySubTaskId(Long taskId);
 
 
-	@Query(value = "select count(task_id) from na_online_task_distribute deal_state <> 3 and parent_id in (select parent_id where task_id = ?1)", nativeQuery = true)
+	@Query(value = "select count(task_id) from na_online_task_distribute where deal_state <> 3 and parent_task_id in (select parent_task_id from na_online_task_distribute where task_id = ?1)", nativeQuery = true)
 	Object findCountSubTask(Long subTaskId);
 }
 

@@ -24,6 +24,13 @@ public class CaseRunCountController {
 	public @ResponseBody JsonBean caseCount(){
 		
 		caseRunCountSv.countAsync();
+		//caseRunCountSv.caseCount();
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/accept/caseRunReport/staffCount")
+	public @ResponseBody JsonBean staffCount(){
+		caseRunCountSv.staffCount();
 		return JsonBean.success;
 	}
 }

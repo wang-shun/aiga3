@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import com.ai.process.container.Container;
 import com.ai.process.container.quartz.QuartzContainer;
 import com.ai.process.container.quartz.QuartzContext;
-import com.ai.process.container.spring.SpringContainer;
 
 /**
  * @ClassName: Bootstrap

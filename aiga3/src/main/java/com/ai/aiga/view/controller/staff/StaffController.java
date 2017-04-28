@@ -4,8 +4,10 @@ package com.ai.aiga.view.controller.staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
 import com.ai.aiga.view.controller.staff.dto.StaffOrgRelatRequest;
@@ -16,31 +18,18 @@ public class StaffController {
 	
 	@Autowired
 	private StaffSv aigaStaffSv;
-	/*
-	 * 员工角色复权菜单员工列表调用
-	 * */
-	@RequestMapping(path = "/aiga/staff/list")
-	public @ResponseBody JsonBean list(){
-		JsonBean bean = new JsonBean();
-		bean.setData(aigaStaffSv.findStaffAll());
-		return bean;
-	}
-	/*
-	 * 按组织查询员工信息
-	 * */
-	@RequestMapping(path = "/aiga/staff/listA")
-	public @ResponseBody JsonBean listA(Long organizeId){
-		JsonBean bean = new JsonBean();
-		bean.setData(aigaStaffSv.findStaffByOrg(organizeId));
-		return bean;
-	}
+	
 	/*
 	 * 按条件查询员工信息
 	 * */
-	@RequestMapping(path = "/aiga/staff/listB")
-	public @ResponseBody JsonBean listB(String code,String name){
+	@RequestMapping(path = "/aiga/staff/list")
+	public @ResponseBody JsonBean listB(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			StaffInfoRequest condition,
+			Long organizeId){
 		JsonBean bean = new JsonBean();
-		bean.setData(aigaStaffSv.findStaff(code,name));
+		bean.setData(aigaStaffSv.findStaff(condition, organizeId, pageNumber, pageSize));
 		return bean;
 	}
 	/*

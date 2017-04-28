@@ -25,6 +25,8 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.task.TaskSv;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.process.task.quartz.CaseStatisticsJob;
+import com.ai.process.task.quartz.OnlineSituationReportJob;
+import com.ai.process.task.quartz.PerformanceCaseJob;
 
 /**
  * * @author lh
@@ -202,9 +204,12 @@ public class OnlineSituationReportSv extends BaseService {
 	 *
 	 * @Description:          
 	 */
-	public void countAsync(){
-		Map<String, String> params = new HashMap<String, String>();
-		taskSv.addTask(CaseStatisticsJob.class, params);
+	public void countAsync() {
+
+
+		HashMap<String, String> params = new HashMap<String, String>();
+
+		taskSv.addTask(OnlineSituationReportJob.class, params);
 	}
 	
 	

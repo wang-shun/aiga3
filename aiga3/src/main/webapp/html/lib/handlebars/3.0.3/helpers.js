@@ -231,9 +231,21 @@ Handlebars.registerHelper("shrink", function(content, length) {
     content = content ? content : '';
     if (content.length > length) {
         content = content.slice(0, length);
-        content += '..';
+        content += '...';
     }
     return new Handlebars.SafeString(content);
+});
+
+/**
+ * 裁剪内容,对于过长的string,使用...来替代 参数：内容,保留长度
+ */
+Handlebars.registerHelper("shrinkHtmlFilter", function(content, length) {
+    content = content ? content : '';
+    if (content.length > length) {
+        content = content.slice(0, length);
+        content += '...';
+    }
+    return new Handlebars.SafeString(Rose.htmlFilter(content,3));
 });
 
 Handlebars.registerHelper("subStr", function(content, start, length) {

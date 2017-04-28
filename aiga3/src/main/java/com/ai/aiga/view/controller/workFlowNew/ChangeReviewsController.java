@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller.workFlowNew;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -64,7 +65,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeCondition", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更概况" , notes="保存变更概况")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeCondition(@RequestBody ChangeConditionRequest request
+	public @ResponseBody JsonBean saveNaChangeCondition(@RequestBody List<ChangeConditionRequest> request
 			){
 		changeReviewSv.saveChangeCondition(request);
 		return JsonBean.success;
@@ -83,7 +84,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeContents", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更内容" , notes="保存变更内容")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeContents(@RequestBody ChangeContentsRequest request
+	public @ResponseBody JsonBean saveNaChangeContents(@RequestBody List<ChangeContentsRequest> request
 			){
 		changeReviewSv.saveChangeContents(request);
 		return JsonBean.success;
@@ -103,7 +104,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeTimePerson", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更时间及人员" , notes="保存变更时间及人员")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeTimePerson(@RequestBody ChangeTimePersonRequest request
+	public @ResponseBody JsonBean saveNaChangeTimePerson(@RequestBody List<ChangeTimePersonRequest> request
 			){
 		changeReviewSv.saveNaChangeTimePerson(request);
 		return JsonBean.success;
@@ -123,7 +124,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeUpdate", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更设备是否更新" , notes="保存变更设备是否更新")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeUpdate(@RequestBody ChangeUpdateRequest request
+	public @ResponseBody JsonBean saveNaChangeUpdate(@RequestBody List<ChangeUpdateRequest> request
 			){
 		changeReviewSv.saveNaChangeUpdate(request);
 		return JsonBean.success;
@@ -142,7 +143,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeGoalDevice", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更目标设备" , notes="保存变更目标设备")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeGoalDevice(@RequestBody ChangeGoalDeviceRequest request
+	public @ResponseBody JsonBean saveNaChangeGoalDevice(@RequestBody List<ChangeGoalDeviceRequest> request
 			){
 		changeReviewSv.saveNaChangeGoalDevice(request);
 		return JsonBean.success;
@@ -162,7 +163,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaWarningShield", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更告警屏蔽" , notes="保存变更告警屏蔽")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaWarningShield(@RequestBody WarningShieldRequest request
+	public @ResponseBody JsonBean saveNaWarningShield(@RequestBody List<WarningShieldRequest> request
 			){
 		changeReviewSv.saveNaWarningShield(request);
 		return JsonBean.success;
@@ -181,7 +182,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangePrepareWork", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更准备工作" , notes="保存变更准备工作")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangePrepareWork(@RequestBody ChangePrepareWorkRequest request
+	public @ResponseBody JsonBean saveNaChangePrepareWork(@RequestBody List<ChangePrepareWorkRequest> request
 			){
 		changeReviewSv.saveNaChangePrepareWork(request);
 		return JsonBean.success;
@@ -200,7 +201,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeOperationManager", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更运维管理" , notes="保存变更运维管理")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeOperationManager(@RequestBody ChangeOperationManagerRequest request
+	public @ResponseBody JsonBean saveNaChangeOperationManager(@RequestBody List<ChangeOperationManagerRequest> request
 			){
 		changeReviewSv.saveNaChangeOperationManager(request);
 		return JsonBean.success;
@@ -233,7 +234,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaRollbackMethod", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更回退方案" , notes="保存变更回退方案")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaRollbackMethod(@RequestBody RollbackMethodRequest request
+	public @ResponseBody JsonBean saveNaRollbackMethod(@RequestBody List<RollbackMethodRequest> request
 			){
 		changeReviewSv.saveNaRollbackMethod(request);
 		return JsonBean.success;
@@ -255,7 +256,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeRunStep", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更实施步骤" , notes="保存变更实施步骤")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeRunStep(@RequestBody ChangeRunStepRequest request
+	public @ResponseBody JsonBean saveNaChangeRunStep(@RequestBody List<ChangeRunStepRequest> request
 			){
 		changeReviewSv.saveNaChangeRunStep(request);
 		return JsonBean.success;
@@ -275,7 +276,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaInformationNotice", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更信息通告" , notes="保存变更信息通告")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaInformationNotice(@RequestBody InformationNoticeRequest request
+	public @ResponseBody JsonBean saveNaInformationNotice(@RequestBody List<InformationNoticeRequest> request
 			){
 		changeReviewSv.saveNaInformationNotice(request);
 		return JsonBean.success;
@@ -295,7 +296,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeDangurousEstimate", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更风险评估" , notes="保存变更风险评估")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeDangurousEstimate(@RequestBody ChangeDangurousEstimateRequest request
+	public @ResponseBody JsonBean saveNaChangeDangurousEstimate(@RequestBody List<ChangeDangurousEstimateRequest> request
 			){
 		changeReviewSv.saveNaChangeDangurousEstimate(request);
 		return JsonBean.success;
@@ -314,7 +315,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeResultValidate", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更结果验证" , notes="保存变更结果验证")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeResultValidate(@RequestBody ChangeResultValidateRequest request
+	public @ResponseBody JsonBean saveNaChangeResultValidate(@RequestBody List<ChangeResultValidateRequest> request
 			){
 		changeReviewSv.saveNaChangeResultValidate(request);
 		return JsonBean.success;
@@ -337,7 +338,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaChangeServiceValidate", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更服务验证" , notes="保存变更服务验证")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaChangeServiceValidate(@RequestBody ChangeServiceValidateRequest request
+	public @ResponseBody JsonBean saveNaChangeServiceValidate(@RequestBody List<ChangeServiceValidateRequest> request
 			){
 		changeReviewSv.saveNaChangeServiceValidate(request);
 		return JsonBean.success;
@@ -360,7 +361,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaRiskRatingScale", method=RequestMethod.POST)
 	@ApiOperation(value="保存风险评估量化表" , notes="保存风险评估量化表")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaRiskRatingScale(@RequestBody RiskRatingScaleRequest request
+	public @ResponseBody JsonBean saveNaRiskRatingScale(@RequestBody List<RiskRatingScaleRequest> request
 			){
 		changeReviewSv.saveNaRiskRatingScale(request);
 		return JsonBean.success;
@@ -383,7 +384,7 @@ public class ChangeReviewsController {
 	@RequestMapping(path = "/sys/review/saveNaQuantitativeRisk", method=RequestMethod.POST)
 	@ApiOperation(value="保存变更服务验证" , notes="保存变更服务验证")
 	@ApiParam(name="request" ,value="保存信息", required=true)
-	public @ResponseBody JsonBean saveNaQuantitativeRisk(@RequestBody QuantitativeRiskRequest request
+	public @ResponseBody JsonBean saveNaQuantitativeRisk(@RequestBody List<QuantitativeRiskRequest> request
 			){
 		changeReviewSv.saveNaQuantitativeRisk(request);
 		return JsonBean.success;
@@ -394,7 +395,7 @@ public class ChangeReviewsController {
 	
 	@RequestMapping(path = "/sys/review/saveChangeReviewResult", method=RequestMethod.POST)
 	@ApiOperation(value="保存评审结论" , notes="保存评审结论")
-	public @ResponseBody JsonBean saveChangeReviewResult(@RequestBody ChangeReviewResultRequest request
+	public @ResponseBody JsonBean saveChangeReviewResult(@RequestBody List<ChangeReviewResultRequest> request
 			){
 		changeReviewSv.saveChangeReviewResult(request);
 		return JsonBean.success;

@@ -18,7 +18,7 @@
   },{
     "caseId": "10101",
     "caseName":"test测试模板1",
-	"caseType": "1",
+	"caseType": "2",
 	"creator": "创建人",
 	"update": "修改人",
 	"updateTime":"2017-2-02 08:00:00",

@@ -36,7 +36,7 @@ public class TaskSvTest {
 		//taskSv.findTask("");
 		
 		Tasks t = new Tasks();
-		t.setTaskName("说些什么3");
+		t.setTaskName("说些什么4");
 		t.setTaskClass("com.ai.process.task.quartz.SaySmTask2");
 		t.setTaskCategory("default");
 		t.setTaskType(TaskConstant.TASKS_TYPE_TASK);
@@ -44,10 +44,10 @@ public class TaskSvTest {
 		t.setStatus(TaskConstant.TASK_STATUS_NEW);
 		t.setCreateTime(new Date());
 //		
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("nihao", "好毛线");
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("nihao", "好毛线");
 //		
-		taskSv.addTask(t, null);
+		taskSv.addTask(t, map);
 //		for(Tasks t : taskSv.findTf("default")){
 //			System.out.println(t);
 //			System.out.println(t.getParameters());

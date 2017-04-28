@@ -79,12 +79,12 @@
                 </div>
             </div>
         </div>
-        <div class="box">
+        <div class="box collapsed-box">
             <form id="JS_queryFileTypeForm">
                 <div class="box-header with-border">
                     <h3 class="box-title">按条件查询</h3>
                     <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
@@ -92,11 +92,9 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>文件类型</label>
-                                <select name="fileName" class="form-control input-sm">
+                                <label>交付物名称</label>
+                                <select name="fileName" class="form-control input-sm" data-url="findFileList" data-cmd="" data-idkey="fileId" data-namekey="fileName">
                                     <option value="">请选择</option>
-                                    <option value="1">类型1</option>
-                                    <option value="2">类型2</option>
                                 </select>
                             </div>
                         </div>

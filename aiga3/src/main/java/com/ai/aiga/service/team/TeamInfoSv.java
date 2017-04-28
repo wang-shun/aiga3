@@ -1,6 +1,7 @@
 package com.ai.aiga.service.team;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +74,7 @@ public class TeamInfoSv extends BaseService {
 			sb.append(" and a.EXT_1 like :ext1 ");
 			params.add(new ParameterCondition("ext1", condition.getExt1()));
 		}
+        sb.append(" order by a.CREATE_DATE desc");
 
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -149,14 +151,11 @@ public class TeamInfoSv extends BaseService {
 
 		NaTeamInfo naTeamInfo = BeanMapper.map(request, NaTeamInfo.class);
 
-		// NaTeamInfo naTeamInfo=new NaTeamInfo();
-		// naTeamInfo.setCreateDate(request.getCreateDate());
-		// naTeamInfo.setExt1(request.getExt1());
-		// naTeamInfo.setExt2(request.getExt2());
-		// naTeamInfo.setExt3(request.getExt3());
-		// naTeamInfo.setRemark(request.getRemark());
-		// naTeamInfo.setCreateOpId(request.getCreateOpId());
-		// naTeamInfo.setTeamType(request.getTeamType());
+		
+		 naTeamInfo.setCreateDate(new Date(System.currentTimeMillis()));
+		
+	     naTeamInfo.setCreateOpId("1");
+		
 		return teamInfoDao.save(naTeamInfo);
 
 	}

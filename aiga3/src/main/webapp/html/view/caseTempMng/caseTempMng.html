@@ -120,18 +120,85 @@
             <div class="modal-body">
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="false">基本信息</a>
+                        <li class="active"><a href="#tab_info" data-toggle="tab" aria-expanded="false">基本信息</a>
                             <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe>
                         </li>
-                        <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">因子信息</a></li>
+                        <li id="JS_interfaceTab" class="hide"><a href="#tab_interface" data-toggle="tab" aria-expanded="false">接口信息</a></li>
+                        <li class=""><a href="#tab_factor" data-toggle="tab" aria-expanded="false">因子信息</a></li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tab_1">
+                        <div class="tab-pane active" id="tab_info">
                             <form id="JS_CaseTempForm">
                                 <!-- 新增模板表单 -->
                             </form>
                         </div>
-                        <div class="tab-pane" id="tab_2">
+                        <div class="tab-pane" id="tab_interface">
+                            <div id="JS_interface" class="box">
+                                <!-- <div class="box-header">
+                                    <h4 class="box-title">接口列表</h4>
+                                </div> -->
+                                <div class="box-body">
+                                    <form id="JS_interfaceInfoForm">
+                                        <div class="row">
+                                            <div class="form-group col-sm-9">
+                                                <label class="control-label">地址<i class="text-red">*</i></label>
+                                                <input class="form-control input-sm" type="text" name="address" required placeholder="请填写发布地址！">
+                                            </div>
+                                            <div id="JS_msgType" class="hide form-group col-sm-3">
+                                                <label class="control-label">CBOSS报文类型<i class="text-red">*</i></label>
+                                                <select class="form-control input-sm" name="messageType">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">网状网报文</option>
+                                                    <option value="2">网状网soap报文</option>
+                                                    <option value="3">星状网报文</option>
+                                                    <option value="4">其他</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-12" title="目前支持的校验类型：NotNull(非空校验),Enum(枚举值校验),Date(日期格式校验),Number(数字类型校验),Float(浮点精度校验),Length(字符串长度校验),MaxLength(字符串最大长度校验),NumValue(数值校验),Equals(字符串比较)">
+                                                <label class="control-label">比对参数<i class="text-red">* </i></label>
+                                                <textarea style="height: 100px;resize: none;" type="text" class="form-control input-sm" name="validParam" placeholder="填写格式如：
+<a validType='NotNull'></a>|
+<b validType='Enum'>1,2</b>|
+<d validType='Number'></d>|
+<e validType='Float'>2</e>|
+<f validType='Length'>8</f>|
+<f validType='MaxLength'>8</f>|
+<h validType='Equals'>是</h>|
+<g validType='NumValue'><=5</g>|
+<g validType='NumValue'>==5</g>|
+<c validType='Date'>YYYYMMDD</c>|
+<m validType='Date'>YYYYMMDDHH24MISS</m>" required></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-12">
+                                                <label class="control-label">已选接口<i class="text-red">*</i></label>
+                                                <input class="hide form-control input-sm" type="text" name="messageId">
+                                                <input class="form-control input-sm" type="text" name="messageName" readonly="true">
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>接口名称</th>
+                                                <th>输入报文</th>
+                                                <th>输出报文</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_factor">
                             <div id="JS_getParameterList" class="box">
                                 <div class="box-header">
                                     <h4 class="box-title">因子列表</h4>
@@ -169,7 +236,7 @@
         </div>
     </div>
 </div>
-<!-- 自动化模板生成 -->
+<!-- + -->
 <div class="modal fade" id="modal_AutoCaseTempForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -234,7 +301,6 @@
                                     </div>
                                 </div>
                                 <div class="box" id="JS_getCaseTempInfo">
-
                                 </div>
                             </div>
                         </div>
@@ -281,9 +347,9 @@
                                                 <tr>
                                                     <th class="iCheckbox" width="15"></th>
                                                     <th>因子名称</th>
-                                                    <th>因子描述</th>
-                                                    <th>参数</th>
                                                     <th>因子顺序</th>
+                                                    <th>参数</th>
+                                                    <th>因子描述</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="JS_testCaseFactorList">
@@ -360,7 +426,7 @@
         <div class="col-sm-4 form-group">
             <label class="control-label">重要程度<i class="text-red">* </i></label>
             <select name="important" class="form-control input-sm" required>
-                <option>请选择</option>
+                <option value="">请选择</option>
                 <option value="1">一级用例</option>
                 <option value="2">二级用例</option>
                 <option value="3">三级用例</option>
@@ -370,7 +436,7 @@
         <div class="col-sm-4 form-group">
             <label class="control-label">用例类型<i class="text-red">*</i></label>
             <select name="caseType" class="form-control select2 input-sm" required>
-                <option>请选择</option>
+                 <option value="">请选择</option>
                 <option value="1">UI类</option>
                 <option value="2">接口类</option>
                 <option value="3">后台进程类</option>
@@ -381,19 +447,19 @@
         <div id="add_sysId" class="col-sm-4 form-group">
             <label class="control-label">系统大类</label>
             <select name="sysId" class="form-control select2 input-sm">
-                <option>请选择</option>
+                 <option value="">请选择</option>
             </select>
         </div>
         <div id="add_subSysId" class="col-sm-4 form-group">
             <label class="control-label">系统子类</label>
             <select name="subSysId" class="form-control select2 input-sm">
-                <option>请选择</option>
+                 <option value="">请选择</option>
             </select>
         </div>
         <div id="add_funId" class="col-sm-4 form-group">
             <label class="control-label">功能点</label>
             <select name="funId" class="form-control select2 input-sm">
-                <option>请选择</option>
+                 <option value="">请选择</option>
             </select>
         </div>
     </div>
@@ -401,7 +467,15 @@
         <div id="add_busiId" class="col-sm-4 form-group">
             <label class="control-label">业务</label>
             <select name="busiId" class="form-control select2 input-sm">
-                <option>请选择</option>
+                <option value="">请选择</option>
+            </select>
+        </div>
+        <div id="JS_interfaceType" class="col-sm-4 form-group hide">
+            <label class="control-label">接口类型<i class="text-red">*</i></label>
+            <select name="interfaceType" class="form-control select2 input-sm" required>
+                <option value="">请选择</option>
+                <option value="1">ESB</option>
+                <option value="2">CBOSS</option>
             </select>
         </div>
     </div>
@@ -424,6 +498,7 @@
         <td class="col-xs-8">
             <input name="remark" value="{{remark}}" style="width:300px">
         </td>
+        <td class="hide"><input name="factorOrder" value="{{factorOrder}}"></td>
     </tr>
     {{/each}}
 </script>
@@ -491,7 +566,38 @@
     </tr>
     {{/each}}
 </script>
-
+<script id="TPL_getESBInterfaceList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{esbId}}" name="esbId">
+        </td>
+        <td>{{esbName}}
+            <input type="hidden" name="esbName" value="{{esbName}}">
+        </td>
+        <td title="{{inputSoap}}">{{shrinkHtmlFilter inputSoap 25}}
+        </td>
+        <td title="{{outputSoap}}">{{shrinkHtmlFilter outputSoap 25}}
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_getCBOSSInterfaceList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{cbossId}}" name="cbossId">
+        </td>
+        <td>{{cbossName}}
+            <input type="hidden" name="cbossName" value="{{cbossName}}">
+        </td>
+        <td title="{{inputSoap}}">{{shrinkHtmlFilter inputSoap 25}}
+        </td>
+        <td title="{{outputSoap}}">{{shrinkHtmlFilter outputSoap 25}}
+        </td>
+    </tr>
+    {{/each}}
+</script>
 <script id="TPL_getCaseTempInfo" type="text/x-handlebars-template">
     <div class="box-header with-border">
         <h3 class="box-title">基本信息</h3>
@@ -536,7 +642,6 @@
         </div>
     </div>
 </script>
-
 <script>
 seajs.use("script/caseTempMng/caseTempMng", function(init) {
     init.init();

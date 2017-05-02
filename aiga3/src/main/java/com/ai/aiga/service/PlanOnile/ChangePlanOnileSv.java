@@ -410,8 +410,8 @@ public class ChangePlanOnileSv extends BaseService{
 		List<Condition> cons = new ArrayList<Condition>();
 		StringBuilder sql = new StringBuilder("select * from NA_FILE_UPLOAD");
 		if(type!=null){
-			sql = sql.append(" where file_Type like '"+type+"%");
-			cons.add(new Condition("fileType", type.toString().concat("%"), Condition.Type.EQ));
+			sql = sql.append(" where file_Type like '"+type+"%'");
+			
 		}
 		sql.append(" order by CREATE_TIME desc");
 		if(pageNumber < 0){

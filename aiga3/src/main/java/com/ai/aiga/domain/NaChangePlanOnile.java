@@ -240,7 +240,7 @@ public class NaChangePlanOnile  implements java.io.Serializable {
     public void setAutoRunResult(Byte autoRunResult) {
         this.autoRunResult = autoRunResult;
     }
-
+    
 
 
 

@@ -1,16 +1,4 @@
-package com.ai.aiga.service;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+package com.ai.aiga.service.cases;
 
 import com.ai.aiga.cache.AigaFunFolderCacheCmpt;
 import com.ai.aiga.cache.AigaSubSysFolderCacheCmpt;
@@ -19,22 +7,33 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaCaseFactorDao;
 import com.ai.aiga.dao.NaCaseTemplateDao;
 import com.ai.aiga.dao.jpa.Condition;
-import com.ai.aiga.domain.AigaFunFolder;
-import com.ai.aiga.domain.AigaSubSysFolder;
-import com.ai.aiga.domain.AigaSystemFolder;
-import com.ai.aiga.domain.NaCaseFactor;
-import com.ai.aiga.domain.NaCaseTemplate;
-import com.ai.aiga.domain.NaTestCase;
+import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.enums.CaseEnum;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
-import com.ai.aiga.view.json.CaseTmeplateResponse;
-import com.ai.aiga.view.json.Factor;
 import com.ai.aiga.view.json.NaCaseTemplateResponse;
-import com.ai.aiga.view.json.NaTestCaseResponse;
-import com.ai.aiga.view.json.TemplateRequest;
+import com.ai.aiga.view.json.cases.CaseTmeplateResponse;
+import com.ai.aiga.view.json.cases.Factor;
+import com.ai.aiga.view.json.cases.TemplateRequest;
+import org.apache.commons.lang3.StringUtils;
+import org.dom4j.Attribute;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 @Transactional
@@ -51,6 +50,13 @@ public class CaseTemplateSv extends BaseService{
 	private AigaSubSysFolderCacheCmpt subSysCache;
 	@Autowired
 	private AigaFunFolderCacheCmpt funSysCache;
+	
+	@Autowired
+	private EsbInterfaceSv esbInterfaceSv;
+	
+	@Autowired
+	private CaseInterfaceSv caseInterfaceSv;
+	
 	
 	public Page<NaCaseTemplateResponse> listTmeplate(NaCaseTemplate condition, int pageNumber, int pageSize) {
 		
@@ -156,8 +162,15 @@ public class CaseTemplateSv extends BaseService{
 		NaCaseTemplate template = BeanMapper.map(request, NaCaseTemplate.class);
 		template.setStates((byte) 1);
 		template.setSysSubId(request.getSubSysId());
+
+		template=caseTemplateDao.save(template);
+		//如果为接口类，则保存接口信息
+		if(template.getCaseType().equals(CaseEnum.CaseType_interface.getValue())) {
+			NaCaseInterface caseInterface = BeanMapper.map(request, NaCaseInterface.class);
+			caseInterface.setCaseId(template.getCaseId());
+			caseInterfaceSv.save(caseInterface);
+		}
 		
-		caseTemplateDao.save(template);
 		//保存因子
 		//List<NaCaseFactor> factorList = structureCaseFactor(template.getCaseId(), request.getFactorName(), request.getRemark());
 		//caseFactorDao.save(factorList);
@@ -233,10 +246,14 @@ public class CaseTemplateSv extends BaseService{
 		
 		List<NaCaseFactor> facs = caseFactorDao.findByCaseId(caseId);
 		
-		
 		CaseTmeplateResponse response = BeanMapper.map(temp, CaseTmeplateResponse.class);
+		//填充因子信息
 		response.setFactors(facs);
-		
+		//如果为接口类，则查询接口信息填充
+		if(response.getCaseType().equals(CaseEnum.CaseType_interface.getValue())){
+			NaCaseInterface caseInterface=this.caseInterfaceSv.findByCaseId(response.getCaseId());
+			response.setCaseInterface(caseInterface);
+		}		
 		return response;
 	}
 	
@@ -296,7 +313,66 @@ public class CaseTemplateSv extends BaseService{
 		
 	}
 
+	/**
+	 * 根据接口信息获取因子
+	 * @param messageId 接口主键ID
+	 * @param interfaceType 接口类型
+	 * @return Factor集合
+	 */
+	public List<Factor> getFactor(Long messageId,Long interfaceType)throws Exception{
+		List<Factor> factorList=new ArrayList<Factor>();
+		if (messageId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "messageId");
+		}
+		if (interfaceType == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "interfaceType");
+		}
+		//是否ESB接口
+		boolean isESB=interfaceType.equals(CaseEnum.InterfaceType_ESB.getValue());
+		//是否CBOSS接口
+		boolean isCBOSS=interfaceType.equals(CaseEnum.InterfaceType_CBOSS.getValue());
+		if (isESB) {
+			AigaEsbInterface esbInterface=this.esbInterfaceSv.findById(messageId);
+			//XML文件必须要有根元素
+			String inputSoap="<root>"+esbInterface.getInputSoap()+"</root>";
+			Document document= DocumentHelper.parseText(inputSoap);
+			//获取所有属性节点
+			factorList=this.listNodes(document.getRootElement(),factorList,CaseEnum.factorType_one.getValue());
+		}
+		if (isCBOSS) {
+			
+		}
+		return factorList;
+	}
 
+	/**
+	 * 递归获取该节点下的所有属性节点
+	 * @param node 节点
+	 * @param factorList 存放因子的集合
+	 * @param factorType 因子类型
+	 * @return Factor集合
+	 */
+	private List<Factor> listNodes(Element node,List<Factor> factorList,Long factorType){
+		List<Element> elements=node.elements();
+		//是否叶子节点
+		boolean isLeaf = elements.size() == 0;
+		if(isLeaf){
+			Factor factor=new Factor();
+			factor.setFactorName(node.getName());
+			factor.setFactorType(factorType);
+			//获取因子顺序
+			Integer factorOrder = factorList.size() == 0 ? 1 : factorList.get(factorList.size() - 1).getFactorOrder() + 1;
+			factor.setFactorOrder(factorOrder);
+			//将因子塞入集合
+			factorList.add(factor);
+		}
+		//递归子节点
+		for (Element element:elements){
+			this.listNodes(element,factorList,factorType);
+		}
+		return factorList;
+	}
+	
 	private List<Factor> structureCaseFactor(String factors) {
 		
 		List<Factor> list = new ArrayList<Factor>();

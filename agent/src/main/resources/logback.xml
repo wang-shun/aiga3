@@ -7,9 +7,9 @@
 	</appender>
 
 	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/tmp/logs/quickstart.log</file>
+		<file>logs/agent-order.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/tmp/logs/quickstart.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>logs/agent-order.%d{yyyy-MM-dd}.log</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -17,17 +17,10 @@
 	</appender>
 
 	<!-- project default level -->
-	<logger name="com.ai.aiga" level="DEBUG" />
-
-	<!--log4jdbc -->
-	<logger name="jdbc.sqltiming" level="INFO"/>
-	<logger name="jdbc.resultset" level="ERROR"/>
-	<logger name="jdbc.audit" level="ERROR"/>
-	<!--log4jdbc -->
-	<logger name="org.springframeword" level="INFO"/>
+	<logger name="com.ai.agent" level="info" />
 
 	<root level="INFO">
-		<appender-ref ref="console" />
-<!-- 		<appender-ref ref="rollingFile" /> -->
+<!--		<appender-ref ref="console" />-->
+ 		<appender-ref ref="rollingFile" /> 
 	</root>
 </configuration>

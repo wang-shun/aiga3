@@ -3,39 +3,43 @@ define(function(require,exports,module){
 	//引入公用模块
 	require('global/header.js');
 	require('global/sidebar.js');
-	var Utils = require('global/utils.js')
+	// 通用工具模块
+	var Utils = require('global/utils.js');
 
-	//系统大类下拉框显示
-	srvMap.add("getSysList", "", "sys/cache/listSysid");
-	//显示环境列表
+	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
+	var Page = Utils.initPage('environment');
+
+	// 系统大类下拉框显示
+	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
+	// 环境列表
 	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
-	//查询环境
+	// 查询环境
 	srvMap.add("getEnvironment","environment/getEnvironmentList.json","sys/environment/list");
-	//根据Id查询环境
+	// 根据Id查询环境
 	srvMap.add("getEnvironmentInfo","environment/getEnvironmentInfo.json","sys/environment/findone");
-	//增加环境
+	// 新增环境
 	srvMap.add("addEnvironmentInfo","environment/addEnvironmentInfo.json","sys/environment/save");
-	//删除环境
+	// 删除环境
 	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","sys/environment/del");
-	//修改环境
+	// 修改环境
 	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
-	//获取机器列表
+	// 获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/envandmachine/rel");
-	//获取已关联的机器列表
+	// 获取已关联的机器列表
     srvMap.add('getRelaMachineList',"environment/getMachineList.json", "sys/environment/rel");
-	//删除环境机器关联
+	// 删除环境机器关联
     srvMap.add('delRelaMachine',"environment/deleteEnvironment.json", "sys/rel/del");
-	//关联机器
+	// 关联机器
 	srvMap.add("connectMachine","environment/connectMachine.json","sys/envandmachine/savemachine");
 
 	//模板对象
-	var Tpl={
+	/*var Tpl={
 		queryEnvironmentForm:require('tpl/environment/queryEnvironmentForm.tpl'),
 		getEnvironmentList:require('tpl/environment/getEnvironmentList.tpl'),
 		addEnvironmentInfo: require('tpl/environment/addEnvironmentInfo.tpl'),
 		getMachineListInEnvironment: require('tpl/environment/getMachineListInEnvironment.tpl'),
-		/*getSysList: require('tpl/caseTempMng/getSysList.tpl'),
-		getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')*/
+		//getSysList: require('tpl/caseTempMng/getSysList.tpl'),
+		//getRelaMachineList: require('tpl/environment/getRelaMachineList.tpl')
 	};
 
 	var Dom={
@@ -48,7 +52,7 @@ define(function(require,exports,module){
 		getRelaMachineList: '#JS_getRelaMachineList', //获取已关联的机器列表
 		caseType:[],
 		repairsId:[]
-	}
+	}*/
 
 	var Data = {
         setPageType:function(type){
@@ -57,7 +61,8 @@ define(function(require,exports,module){
     				"type":type
     			}
     		}
-    	}
+    	},
+    	queryListCmd: null
     }
 
     var environment={
@@ -65,13 +70,10 @@ define(function(require,exports,module){
     		this._render();
     	},
     	_render:function(){
-    		this.initForm();
     		this.getEnvironment();
     		this.queryEnvironment();
-    		this.addEnvironmentInfo();
     		this.hdbarHelp();
     		/*this.getSysList();*/
-    		Utils.setSelectData($(Dom.queryEnvironmentForm));
     	},
 		hdbarHelp: function() {
 			Handlebars.registerHelper("envTypes", function(value) {
@@ -100,110 +102,75 @@ define(function(require,exports,module){
 				}
 			});
 		},
-    	initForm:function(){
-	    		var self=this;
-	    		var template=Handlebars.compile(Tpl.queryEnvironmentForm);
-	    		$(Dom.queryEnvironmentForm).html(template());
-    	},
-		getEnvironmentList: function(cmd) {
-			var self = this;
-			Rose.ajax.postJson(srvMap.get('getEnvironmentList'), cmd, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.getEnvironmentList);
-					console.log(json.data)
-					$(Dom.getEnvironmentList).html(template(json.data));
-					//删除按钮
-					self.deleteEnvironment();
-					//关联机器
-					self.connectMachine();
-					//引入单选框样式
-					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
-						self.updateEnvironmentInfo();
-					})
-					// 分页
-					self.initPaging($(Dom.getEnvironmentList),10);
-				}
-			});
-		},
 		getEnvironment: function(cmd) {
 			var self = this;
-			Rose.ajax.postJson(srvMap.get('getEnvironment'), cmd, function(json, status) {
-				if (status) {
-					var template = Handlebars.compile(Tpl.getEnvironmentList);
-					console.log(json.data)
-					$(Dom.getEnvironmentList).html(template(json.data.content));
-					//删除按钮
-					self.deleteEnvironment();
-					//关联机器
-					self.connectMachine();
-					//引入单选框样式
-					Utils.eventTrClickCallback($(Dom.getEnvironmentList), function() {
-						self.updateEnvironmentInfo();
-					})
-					// 分页
-					self.initPaging($(Dom.getEnvironmentList),10);
-				}
-			});
+			var _dom = Page.findId('getEnvironmentList');
+			var _domPagination = _dom.find("[name='pagination']");
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getEnvironment'), cmd, function(json) {
+				window.XMS.msgbox.hide();
+
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getEnvironmentList' 即传入'getEnvironmentList'
+				var template = Handlebars.compile(Page.findTpl('getEnvironmentList'));
+				_dom.find("[name='content']").html(template(json.data.content));
+
+				// 新增环境
+				self.addEnvironmentInfo();
+				// 删除环境
+				self.deleteEnvironment();
+				// 关联机器
+				self.connectMachine();
+				Utils.eventTrClickCallback(_dom, function() {
+					self.updateEnvironmentInfo();
+				});
+			}, _domPagination);
 		},
-		// 按条件查询
+		// 条件查询
 		queryEnvironment: function() {
 			var self = this;
-			var _form = $(Dom.queryEnvironmentForm);
-			// 表单校验初始化
-			//_form.bootstrapValidator('validate');
-			// 表单提交
-			_form.find('button[name="submit"]').bind('click', function() {
-					var cmd = $(Dom.queryEnvironmentForm).serialize();
-					/*self.getEnvironmentList(cmd);*/
-					alert("按条件查询");
-					self.getEnvironment(cmd);
-					//});
-			})
-			// 表单重置
-			_form.find('button[name="reset"]').bind('click',function(){
-				$("#sysId").val('');
-				$("#envName").val('');
-				$("#envUrl").val('');
-				$("#database").val('');
-				$("#regionId").val('');
-				$("#soId").val('');
-				$("#query_envType").val('');
-				$("#query_runEnv").val('');
-				$("#creatorId").val('');
-				$("#updateTime").val('');
+			var _form = Page.findId('queryEnvironmentForm');
+			Utils.setSelectData(_form);
+			var _queryBtn = _form.find("[name='query']");
+			_queryBtn.bind('click', function() {
+				var cmd = _form.serialize();
+				self.getEnvironment(cmd);
 			});
 		},
-		addEnvironmentInfo : function(cmd){
+		// 新增环境
+		addEnvironmentInfo : function(){
 			var self = this;
-			$("#JS_addEnvironment").bind('click', function() {
-				var _form = $(Dom.addEnviromentInfoForm);
-				var template = Handlebars.compile(Tpl.addEnvironmentInfo);
-				$("#formName").html("新增环境");
+			var _dom = Page.findId('getEnvironmentList');
+			var _addEnvironment = _dom.find("[name='addEnvironment']");
+			_addEnvironment.unbind('click');
+			_addEnvironment.bind('click', function() {
+				var _form = Page.findId('addEnvironmentInfoForm');
+				var template = Handlebars.compile(Page.findTpl('addEnvironmentInfoForm'));
+				//$("#formName").html("新增环境");
 				_form.html(template());
-				Utils.setSelectData($(Dom.addEnviromentInfoForm));
-				//弹出层
-				$(Dom.addEnvironmentInfoModal).modal('show');
-				$("#JS_addEnvironmentInfoSubmit").unbind('click');
-				//点击保存
-				$("#JS_addEnvironmentInfoSubmit").bind('click',function(){
-					var cmd = _form.serialize();
-					console.log(cmd);
-					Rose.ajax.postJson(srvMap.get('addEnvironmentInfo'), cmd, function(json, status) {
+				Utils.setSelectData(_form);
+				var _modal = Page.findModal('addEnvironmentInfoModal');
+				// 显示弹框
+				_modal.modal('show');
+				var _save = _modal.find("[name='save']");
+				_save.unbind('click');
+				_save.bind('click', function() {
+					var _cmd = _form.serialize();
+					Rose.ajax.postJson(srvMap.get('addEnvironmentInfo'), _cmd, function(json, status) {
 						if(status) {
-								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('添加成功！', 'success', 2000)
-								// 关闭弹出层
-								$(Dom.addEnvironmentInfoModal).modal('hide');
-								setTimeout(function(){
-									self.getEnvironment();
-								},1000)
+							// 新增环境成功后，刷新环境列表页
+							XMS.msgbox.show('保存成功！', 'success', 2000)
+							_modal.modal('hide');
+							setTimeout(function() {
+								self.getEnvironment();
+							},1000)
 						}
 					});
 				});
 			});
 		},
-		//删除
-		deleteEnvironment : function(){
+		// 删除环境
+		deleteEnvironment: function(){
 			var self = this;
 			var  envId="";
 			var num =0 ;
@@ -234,8 +201,8 @@ define(function(require,exports,module){
 				});
 			});
 		},
-		//关联机器
-		connectMachine : function(cmd){
+		// 关联机器
+		connectMachine: function(cmd){
 			var self = this;
 			$("#JS_connectMachine").unbind('click');
 				$("#JS_connectMachine").bind('click', function() {
@@ -288,7 +255,7 @@ define(function(require,exports,module){
 					});
 				});
 		},
-        //机器列表
+        // 机器列表
         getMachineList: function(cmd) {
             var self = this;
 			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
@@ -386,7 +353,7 @@ define(function(require,exports,module){
                 }
             });
         },
-		//获取选中已关联机器
+		// 获取选中已关联机器
         getCheckedRelaMachine: function() {
             var _obj = $(Dom.getRelaMachineList).find("input[type='checkbox']:checked").parents("tr");
             var _machineId = _obj.find("input[name='machineId']");
@@ -401,46 +368,44 @@ define(function(require,exports,module){
             }
             return data;
         },
-		updateEnvironmentInfo:function(){
+        // 修改环境
+		updateEnvironmentInfo: function() {
 			var self = this;
-			var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
-			var _envId ="";
-			_checkObj.each(function (){
-				_envId = $(this).val();
-			})
-			Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
+			var _dom = Page.findId('getEnvironmentList');
+			var _data = Utils.getRadioCheckedRow(_dom);
+			Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId=' + _data.envId, function(json, status) {
 				if (status) {
-					var _form = $(Dom.addEnviromentInfoForm);
-					var template = Handlebars.compile(Tpl.addEnvironmentInfo);
+					var _form = Page.findId('addEnvironmentInfoForm');
+					var template = Handlebars.compile(Page.findTpl('addEnvironmentInfoForm'));
 					_form.html(template(json.data));
-					/*alert(json.data.content[0].envType);*/
-					$("#query_envType").val(json.data.envType);
+					Utils.setSelectData(_form);
 					// 设置下拉框选中值
 					Utils.setSelected(_form);
-					Utils.setSelectData($(Dom.addEnviromentInfoForm));
-					// //弹出层
-					$(Dom.addEnvironmentInfoModal).modal('show');
-					$("#formName").html("修改环境");
-					$("#JS_addEnvironmentInfoSubmit").unbind('click');
-					//点击保存
-					$("#JS_addEnvironmentInfoSubmit").bind('click',function(){
-					var cmd = _form.serialize();
-					cmd = cmd + "&envId=" +_envId;
-					Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), cmd, function(json, status) {
-						if(status) {
-								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('修改成功！', 'success', 2000)
-								// 关闭弹出层
-								$(Dom.addEnvironmentInfoModal).modal('hide');
-								setTimeout(function(){
+					var _sysName =  _form.find("[name='sysName']");
+					_sysName.val(json.data.sysName);
+					var _modal = Page.findModal('addEnvironmentInfoModal');
+					var _formName =  _modal.find("[name='formName']");
+			    	_formName.html("修改环境");
+					// 显示弹框
+					_modal.modal('show');
+					var _save = _modal.find("[name='save']");
+					_save.unbind('click');
+					_save.bind('click', function() {
+						var _cmd = _form.serialize();
+						_cmd = _cmd + "&envId=" + _data.envId;
+						Rose.ajax.postJson(srvMap.get('updateEnvironmentInfo'), _cmd, function(json, status) {
+							if(status) {
+								// 修改环境成功后，刷新环境列表页
+								XMS.msgbox.show('保存成功！', 'success', 2000)
+								_modal.modal('hide');
+								setTimeout(function() {
 									self.getEnvironment();
 								},1000)
-						}
-								});
+							}
+						});
 					});
 				}
 			});
-
 		},
 		/*getSysList: function() {
 			var self = this;

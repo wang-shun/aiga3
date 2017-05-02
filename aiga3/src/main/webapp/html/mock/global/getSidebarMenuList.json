@@ -280,5 +280,10 @@
         "name": "公用邮件页面",
         "funcImg": "fa fa-envelope",
         "viewname": "view/email/email.html"
+    }, {
+        "funcId": 54,
+        "name": "业务拓扑图",
+        "funcImg": "fa fa-envelope",
+        "viewname": "view/email/mind.html"
     }]
 }

@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.cases;
 
 import java.util.List;
 
@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.service.CaseSv;
-import com.ai.aiga.service.CaseTemplateSv;
+import com.ai.aiga.service.cases.CaseSv;
 import com.ai.aiga.view.json.CaseInstanceRequest;
-import com.ai.aiga.view.json.TemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
-import com.ai.aiga.view.util.MediaTypes;
 import com.ai.aiga.view.util.WebValidUtil;
 
 @Controller

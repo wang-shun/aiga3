@@ -113,7 +113,9 @@ public class CaseConstructionSv extends BaseService{
 	
 	public void countAsync(String month, String jobDetail) {
 		
-		//TODO 对month和jobDetail 进行验证 @dongch
+		if(StringUtils.isBlank(jobDetail)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "jobDetail");
+		}
 		
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put(CaseStatisticsJob.KEY_MONTH, month);

@@ -45,4 +45,8 @@ public interface NaOnlineTaskDistributeDao extends JpaRepository<NaOnlineTaskDis
 	@Query(value = "select count(*) from na_change_plan_onile a, na_online_task_distribute b "
 			+ " where a.online_plan = b.online_plan and a.plan_state = 4 and b.task_id = ?1", nativeQuery = true)
 	Object findCanclePlan(Long parentTaskId);
+
+	@Modifying
+	@Query(value = "update na_online_task_distribute set deal_state = 3 where task_id in (select parent_task_id from na_online_task_distribute where task_id = ?1)", nativeQuery = true)
+	void updateTaskDealState(Long subTaskId);
 }

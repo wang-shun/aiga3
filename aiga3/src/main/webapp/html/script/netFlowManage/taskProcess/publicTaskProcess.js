@@ -20,15 +20,14 @@ define(function(require, exports, module) {
     srvMap.add("getOtherFlowName", pathAlias + "publicTaskList.json", "accept/otherTask/getOtherFlowName");
 
 
-    var activePane = $("#JS_mainTabsContent").find(".active[id^='JS_childTab_']");
-    var menuData = Rose.browser.mapQuery(activePane.data("cmd"));
-    console.log(menuData);
-    console.log(activePane);
-    
+    var activePane;
+    var menuData;
+    var taskType;
+
     // 模板对象
     var Tpl = {
-        publicTaskList: activePane.find("#TPL_publicTaskList").html(), //计划列表
-        testReportForm: activePane.find("#TPL_testReportForm").html()
+        publicTaskList: "#TPL_publicTaskList", //计划列表
+        testReportForm: "#TPL_testReportForm"
     };
 
 
@@ -45,14 +44,17 @@ define(function(require, exports, module) {
         btnUpdateReport: "#JS_updateReport",
         btnDelReport: '#JS_delReport',
     };
-    var taskType = menuData.taskType;
+
 
     var Init = {
         init: function() {
+            activePane = $("#JS_mainTabsContent").find(".active[id^='JS_childTab_']");
+            menuData = Rose.browser.mapQuery(activePane.data("cmd"));
+            taskType = menuData.taskType;
             this._render();
         },
         _render: function() {
-
+            this.changeValue();
             this.hdbarHelp();
             this.getpublicTaskList("");
             this.querypublicTask();
@@ -74,14 +76,27 @@ define(function(require, exports, module) {
 
         },
 
+        changeValue: function() {
+            $("#JS_mainTabs").find(".active").unbind();
+            $("#JS_mainTabs").find(".active").bind('click', function(event) {
+                /* Act on the event */
+                setTimeout(function() {
+                    activePane = $("#JS_mainTabsContent").find(".active[id^='JS_childTab_']");
+                    menuData = Rose.browser.mapQuery(activePane.data("cmd"));
+                    taskType = menuData.taskType;
+                }, 200)
+
+            });
+        },
+
         getpublicTaskList: function(cmd) {
-        	cmd += "&taskType="+taskType;
+            cmd += "&taskType=" + taskType;
             var self = this;
             var _dom = $(activePane).find(Dom.publicTaskList);
             var _tbody = _dom.find("tbody");
             var pagination = _dom.parent().find(".dataTables_paginate");
             Utils.getServerPage(srvMap.get('publicTaskList'), cmd, function(json) {
-                var template = Handlebars.compile(Tpl.publicTaskList);
+                var template = Handlebars.compile(activePane.find(Tpl.publicTaskList).html());
                 console.log(json.data);
 
                 _tbody.html(template(json.data.content));
@@ -111,10 +126,10 @@ define(function(require, exports, module) {
             var btn = $(activePane).find(Dom.btnAddReport);
             btn.unbind('click');
             btn.bind('click', function() {
-                var _modal = $(activePane).find(Dom.modalTestReport);
+                var _modal = $(activePane).find(Dom.modalTestReport);       
                 _modal.find(".modal-title").html("新增测试结果报告");
                 _modal.modal('show');
-                var template = Handlebars.compile(Tpl.testReportForm);
+                var template = Handlebars.compile(activePane.find(Tpl.testReportForm).html());
                 $(activePane).find(Dom.testReportForm).find(".modal-body").html(template());
                 //type=0代表这是新增
                 Utils.setSelectData(_modal, "type=0");
@@ -135,14 +150,14 @@ define(function(require, exports, module) {
                 if (data) {
                     var _modal = $(activePane).find(Dom.modalTestReport);
                     _modal.find(".modal-title").html("修改测试结果报告");
-                    _modal.modal('show');
+                    $(activePane).find(Dom.modalTestReport).modal('show');
                     var _form = $(activePane).find(Dom.testReportForm);
-                    var template = Handlebars.compile(Tpl.testReportForm);
+                    var template = Handlebars.compile(activePane.find(Tpl.testReportForm).html());
                     _form.find(".modal-body").html(template(data));
                     var _cmd = "resultId=" + data.resultId;
 
                     Rose.ajax.getJson(srvMap.get('getRstInfo'), _cmd, function(json, status) {
-                    	//type=0代表这是新增
+                        //type=0代表这是新增
                         self.getOtherPlan(_form, "type=1", json.data);
                         var sel = _modal.find("select[name='planId']");
                         self.getSelect(sel, taskType, function() {

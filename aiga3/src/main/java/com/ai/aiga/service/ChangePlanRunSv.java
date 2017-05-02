@@ -54,7 +54,9 @@ public class ChangePlanRunSv extends BaseService{
 	public Object list(NaChangePlanOnile condition, String time1, String time2, int pageNumber, int pageSize) {
 		
 		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, to_char(a.create_date,'YYYY-MM-DD HH24:MI:SS'), a.types,"
-				+ " to_char(a.done_date,'YYYY-MM-DD HH24:MI:SS'), to_char(a.plan_date,'YYYY-MM-DD HH24:MI:SS'), a.timely, a.result, a.remark, is_finished, a.auto_run_result,a.FILE_UPLOAD_LAST_TIME  from "
+
+				+ " to_char(a.done_date,'YYYY-MM-DD HH24:MI:SS'), to_char(a.plan_date,'YYYY-MM-DD HH24:MI:SS'), a.timely, a.result, a.remark, is_finished, a.auto_run_result, a.file_upload_last_time from "
+
 				+ "  na_change_plan_onile a left join aiga_staff b  on a.create_op_id = b.staff_id  where  a.sign = 0 ";
 		
 		if(condition != null){

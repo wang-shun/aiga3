@@ -27,6 +27,8 @@ public class NaCaseFactor implements java.io.Serializable {
 	private Date createTime;
 	private Long updateId;
 	private Date updateTime;
+	private Long factorType;
+	private Integer factorOrder;
 
 	public NaCaseFactor() {
 	}
@@ -38,7 +40,7 @@ public class NaCaseFactor implements java.io.Serializable {
 	}
 
 	public NaCaseFactor(long factorId, long caseId, String factorName, String remark, Long creatorId, Date createTime,
-			Long updateId, Date updateTime) {
+			Long updateId, Date updateTime,Long factorType,Integer  factorOrder) {
 		this.factorId = factorId;
 		this.caseId = caseId;
 		this.factorName = factorName;
@@ -47,6 +49,8 @@ public class NaCaseFactor implements java.io.Serializable {
 		this.createTime = createTime;
 		this.updateId = updateId;
 		this.updateTime = updateTime;
+		this.factorType=factorType;
+		this. factorOrder= factorOrder;
 	}
 
 	@Id
@@ -105,6 +109,24 @@ public class NaCaseFactor implements java.io.Serializable {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	@Column(name = "FACTOR_TYPE")
+	public Long getFactorType() {
+		return this.factorType;
+	}
+
+	public void setFactorType(Long factorType) {
+		this.factorType = factorType;
+	}
+
+	@Column(name = "FACTOR_ORDER")
+	public Integer getFactorOrder() {
+		return this.factorOrder;
+	}
+
+	public void setFactorOrder(Integer factorOrder) {
+		this.factorOrder = factorOrder;
 	}
 
 	@Column(name = "UPDATE_ID", precision = 14, scale = 0)

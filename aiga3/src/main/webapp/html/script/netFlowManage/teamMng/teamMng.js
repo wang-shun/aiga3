@@ -233,6 +233,7 @@ define(function(require, exports, module) {
                     self.queryEmlistForm();
                     self.getEmedList(Data.teamId);
                     self.delEmed();
+                    self.queryEmedlistForm();
                 }
 
             });
@@ -257,6 +258,7 @@ define(function(require, exports, module) {
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             var _dom = Page.findId('emList');
             var _domPagination = _dom.find("[name='pagination']");
+            _cmd=cmd+"&teamId="+Data.teamId;
             // 设置服务器端分页
             Utils.getServerPage(srvMap.get('getEmList'), _cmd, function(json, status) {
                 window.XMS.msgbox.hide();
@@ -305,7 +307,6 @@ define(function(require, exports, module) {
             var _form = Page.findId('emedListTable');
             var delBt = Page.findId('delEmedBt');
             delBt.unbind('click');
-            alert(delBt.html());
 
             delBt.bind('click', function(event) {
                 var delEmedIds = "list="
@@ -319,6 +320,7 @@ define(function(require, exports, module) {
                     //去除最后的逗号
                     delEmedIds = delEmedIds.substring(0, delEmedIds.length - 1);
                     var _cmd = delEmedIds;
+                    _cmd=_cmd+"&teamId="+Data.teamId;
                     console.log(_cmd);
                     //批量删除接口
                     Rose.ajax.postJson(srvMap.get('delEmed'), _cmd, function(json, status) {

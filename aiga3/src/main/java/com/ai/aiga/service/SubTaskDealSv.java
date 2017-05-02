@@ -200,6 +200,12 @@ public class SubTaskDealSv extends BaseService{
 				naOnlineTaskDistributeDao.updateSubTaskDealState(result.getSubTaskId(),3L);
 				naOnlineTaskResultDao.updateParentTaskDealState(result.getSubTaskId(), 2L);
 			}
+			//修改父任务状态为处理完
+			Object count2 = naPlanCaseResultDao.findCountSubTask(result.getSubTaskId());
+			if("0".equals(count.toString())){
+				naOnlineTaskDistributeDao.updateTaskDealState(result.getSubTaskId());
+			}
+			
 		}
 
 	}

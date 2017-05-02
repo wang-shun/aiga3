@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import com.ai.aiga.dao.ScriptExecutionProcessDao;
 import com.ai.aiga.dao.StaffArrangeDao;
 import com.ai.aiga.dao.TestProcessDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.NaChangePlanOnile;
 import com.ai.aiga.domain.NaChangeReview;
 import com.ai.aiga.domain.NaCodePath;
@@ -41,11 +43,15 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.TestProcessExcel;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.team.dto.Teaminfo;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
+import com.ai.aiga.view.controller.release.dto.DbExecutionExceptionRequest;
+import com.ai.aiga.view.controller.release.dto.NaReleaseReportRequest;
+import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
 import com.ai.aiga.view.json.ExecutionExceptionExcel;
-import com.ai.aiga.view.json.NaReleaseReportRequest;
+
 import com.ai.aiga.view.json.OnlineSysReleaseExcel;
 import com.ai.aiga.view.json.OnlineSysReleaseStageExcel;
 import com.ai.aiga.view.json.ScriptExecutionProcessExcel;
@@ -194,7 +200,7 @@ public class ReleaseReportSv extends BaseService{
 		dbExecutionExceptionDao.save(values);
 	}
 
-	public Object findDbExecutionException(int pageNumber, int pageSize, NaDbExecutionException condition) {
+	public Object findDbExecutionException(int pageNumber, int pageSize, DbExecutionExceptionRequest condition) {
 
 		List<Condition> cons = new ArrayList<Condition>();
 

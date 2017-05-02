@@ -108,7 +108,7 @@ define(function(require,exports,module){
 			});
 		},
     	getDeliverableReviewConclusion:function(){
-    		var self=this;
+    		var self = this;
     		var data = Page.getParentCmd();
     		var _cmd = 'onlinePlan=' + data.onlinePlan + '&ext1=1';
     		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), _cmd, function(json, status) {
@@ -160,7 +160,7 @@ define(function(require,exports,module){
     		});
     	},
 		getPlanList:function(){
-    		var self=this;
+    		var self = this;
 			var _dom = Page.findId('getPlanList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -175,7 +175,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getModelList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getModelList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -239,7 +239,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getOnlineList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getOnlineList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -254,7 +254,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getTestList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getTestList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -269,7 +269,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getRemnantList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getRemnantList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -284,7 +284,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getReportList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getReportList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -299,7 +299,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getDatabaseList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getDatabaseList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -314,7 +314,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getJavascriptList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getJavascriptList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -329,7 +329,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getDeliverList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getDeliverList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -344,7 +344,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getStructureList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getStructureList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -359,7 +359,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getProgressList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getProgressList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -374,7 +374,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getServiceList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getServiceList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -389,7 +389,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getIpConfigurationList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getIpConfigurationList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -404,7 +404,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getNeedList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getNeedList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -419,7 +419,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getCombineList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getCombineList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();
@@ -434,7 +434,7 @@ define(function(require,exports,module){
 			},_domPagination);
     	},
 		getConfigureList:function(){
-			var self=this;
+			var self = this;
 			var _dom = Page.findId('getConfigureList');
 			var _domPagination = _dom.find("[name='pagination']");
     		var data = Page.getParentCmd();

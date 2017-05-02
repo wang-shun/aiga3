@@ -59,8 +59,8 @@ public class CaseRunCountSv extends BaseService{
 	public void countAsync() {
 		
 		HashMap<String, String> params = new HashMap<String, String>();
-		
-		taskSv.addTask(CaseRunJob.class, params);;
+		params.put("key", "value");
+		taskSv.addTask(CaseRunJob.class, params);
 	}
 
 	public void caseCount(){
@@ -360,8 +360,39 @@ public class CaseRunCountSv extends BaseService{
                  }
 				 //手工用例执行时长
 				 List<Object> listCase = naPerExecReportDao.testTime(onlinePlan.getOnlinePlan());
+				 for(int j = 0;j < list.size();j++){
+                     for(Object object:listCase){
+                         Object[] obj = (Object[])object;
+                         long time = Long.parseLong(String.valueOf(obj[0]));
+                         String perName = String.valueOf(obj[1]);//执行人员名称
+                         String perSysId = String.valueOf(obj[2]);//执行人员系统ID
+                         if(list.get(j).getPerName().equals(perName) && list.get(j).getPerSysId().equals(perSysId)){
+                             list.get(j).setExecManualTime(time/(60*60*1000) + "时" + (time%(60*60*1000))/(60*1000) + "分" + time%(60*60*1000)%(60*1000)/1000 + "秒");
+                             break;
+                         }
+                     }
+                 }
+				 //缺陷个数
+				 List<Object> listFault = naPerExecReportDao.faultCount(onlinePlan.getOnlinePlan());
+				 for(Object object:listFault){
+                     Object[] obj = (Object[])object;
+                     int totalCount = Integer.parseInt(String.valueOf(obj[0]));
+                     String perName = String.valueOf(obj[1]);
+                     String perSysId = String.valueOf(obj[2]);
+                     for(int j = 0;j < list.size();j++){
+                         if(list.get(j).getPerName().equals(perName) && list.get(j).getPerSysId().equals(perSysId)){
+                             list.get(j).setBugCount(totalCount);
+                             break;
+                         }
+                     }
+                 }
+				 reportList.addAll(list);
 			}
 			
+		}
+		for(int k = 0; k < reportList.size(); k++){
+			NaPerExecReport perExecReport = reportList.get(k);
+			naPerExecReportDao.save(perExecReport);
 		}
 	}
 		

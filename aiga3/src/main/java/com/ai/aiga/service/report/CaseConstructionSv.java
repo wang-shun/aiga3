@@ -229,13 +229,13 @@ public class CaseConstructionSv extends BaseService{
 		List<Object> coverList = naCaseContructionReportDao.findBusiFunCover();
 		getData(coverList,1,6,map);
 		//入网验收用例数总数（准发布）
-		List<Object> caseList = naCaseContructionReportDao.findBusiCaseCount(dayOrMonth, 2L);
+		List<Object> caseList = naCaseContructionReportDao.findBusiCaseCount(dayOrMonth);
 		getData(caseList,2,6,map);
 		//自动化用例数（准发布）
 		List<Object> autoList = naCaseContructionReportDao.findBusiAuto(dayOrMonth, 2L);
 		getData(autoList,3,6,map);
 		//验证用例数（生产）
-		caseList = naCaseContructionReportDao.findBusiCaseCount(dayOrMonth, 3L);
+		caseList = naCaseContructionReportDao.findBusiCaseCount(dayOrMonth);
 		getData(caseList,4,6,map);
 		//自动化用例数（生产）
 		autoList = naCaseContructionReportDao.findBusiAuto(dayOrMonth, 3L);
@@ -277,12 +277,60 @@ public class CaseConstructionSv extends BaseService{
 			autoCaseNumIncrRelease = getCoverIncr(autoCaseNumRelease,autoCaseNumReleaseOld);
 			autoCaseCoverIncrRelease = getCoverIncr(autoCaseCoverRelease,autoCaseCoverReleaseOld);
 			
-			sb.append("select 2,'").append(currentMonth).append("',sysdate,sysdate,").append(key).append(",")
-			.append(funNum).append(",").append(funNumIncr).append(",").append(funCover).append(",").append(funCoverIncr).append(",").append(caseNumQRelease).append(",")
-			.append(caseNumQIncrRelease).append(",").append(autoCaseNumQRelease).append(",").append(autoCaseNumQIncrRelease).append(",")
-			.append(autoCaseCoverQRelease).append(",").append(autoCaseCoverIncrQRelease).append(",").append(caseNumRelease).append(",").append(caseNumIncrRelease)
-			.append(",").append(autoCaseNumRelease).append(",").append(autoCaseNumIncrRelease).append(",").append(autoCaseCoverRelease).append(",")
-			.append(autoCaseCoverIncrRelease).append(" FROM dual UNION ALL ");
+			NaCaseConstructionReport report = new NaCaseConstructionReport();
+			report.setReportType(2L);
+			report.setStatisticalMonth(currentMonth);
+			report.setCreateTime(new Date());
+			report.setUpdateTime(new Date());
+			report.setSysId(Long.valueOf(key).longValue());
+			if(StringUtils.isNotBlank(funNum)){
+				report.setFunNum(Integer.valueOf(funNum));
+			}
+			if(StringUtils.isNotBlank(funCover)){
+				report.setFunCover(new BigDecimal(funCover));
+			}
+			if(StringUtils.isNotBlank(funCoverIncr)){
+				report.setFunCoverIncr(new BigDecimal(funCoverIncr));
+			}
+			if(StringUtils.isNotBlank(caseNumQRelease)){
+				report.setCaseNumIncrQrelease(Integer.valueOf(caseNumQRelease));
+			}
+			if(StringUtils.isNotBlank(caseNumQIncrRelease)){
+				report.setCaseNumQrelease(Integer.valueOf(caseNumQIncrRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseNumQRelease)){
+				report.setAutoCaseNumQrelease(Integer.valueOf(autoCaseNumQRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseNumQIncrRelease)){
+				report.setAutoCaseNumIncrQrelease(Integer.valueOf(autoCaseNumQIncrRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseCoverQRelease)){
+				report.setAutoCaseCoverQrelease(new BigDecimal(autoCaseCoverQRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseCoverIncrQRelease)){
+				report.setAutoCaseCoverIncrQrelease(new BigDecimal(autoCaseCoverIncrQRelease));
+			}
+			if(StringUtils.isNotBlank(caseNumRelease)){
+				report.setCaseNumRelease(Integer.valueOf(caseNumRelease));
+			}
+			if(StringUtils.isNotBlank(caseNumIncrRelease)){
+				report.setCaseNumIncrRelease(Integer.valueOf(caseNumIncrRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseNumRelease)){
+				report.setAutoCaseNumRelease(Integer.valueOf(autoCaseNumRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseNumIncrRelease)){
+				report.setAutoCaseNumIncrRelease(Integer.valueOf(autoCaseNumIncrRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseCoverRelease)){
+				report.setAutoCaseCoverRelease(new BigDecimal(autoCaseCoverRelease));
+			}
+			if(StringUtils.isNotBlank(autoCaseCoverIncrRelease)){
+				report.setAutoCaseCoverIncrRelease(new BigDecimal(autoCaseCoverIncrRelease));
+			}
+			
+			naCaseContructionReportDao.save(report);
+			
 		}
 	}
 
@@ -325,7 +373,7 @@ public class CaseConstructionSv extends BaseService{
 		//取出上个月数据
 		List<Object> list = naCaseContructionReportDao.findOld(1L, lastMonth);
 		mapOld = getOldData(list,8);
-		String dayOrMonth = currentMonth.length()==6?"ADD_MONTHS(TRUNC(TO_DATE('"+currentMonth+"','YYYYMM'),'MM'),1)":"TRUNC(TO_DATE('"+(Integer.valueOf(currentMonth)+1)+"','YYYYMMDD'),'DD')";
+		//String dayOrMonth = currentMonth.length()==6?"ADD_MONTHS(TRUNC(TO_DATE('"+currentMonth+"','YYYYMM'),'MM'),1)":"TRUNC(TO_DATE('"+(Integer.valueOf(currentMonth)+1)+"','YYYYMMDD'),'DD')";
 		//插入当月数据
 		//系统-核心功能点总数
 		List<Object> funList = naCaseContructionReportDao.findSysFunCount();
@@ -335,13 +383,13 @@ public class CaseConstructionSv extends BaseService{
 		getData(coverList,1,8,map);
 		if(currentMonth.length()==6){
 			//入网验收用例数总数（准发布）
-			List<Object> caseList = naCaseContructionReportDao.findBusiCaseCount(currentMonth, 2L);
+			List<Object> caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
 			getData(caseList,2,8,map);
 			//自动化用例数（准发布）
 			List<Object> autoList = naCaseContructionReportDao.findSysAutoA(2L, currentMonth);
 			getData(autoList,3,8,map);
 			//验证用例数（生产）
-			caseList = naCaseContructionReportDao.findBusiCaseCount(currentMonth, 3L);
+			caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
 			getData(caseList,4,8,map);
 			//自动化用例数（生产）
 			autoList = naCaseContructionReportDao.findSysAutoA(3L, currentMonth);
@@ -350,13 +398,13 @@ public class CaseConstructionSv extends BaseService{
 			Integer integer = Integer.valueOf(currentMonth)+1;
 			currentMonth = integer.toString();
 			//入网验收用例数总数（准发布）
-			List<Object> caseList = naCaseContructionReportDao.findSysCaseCountB(2L, currentMonth);
+			List<Object> caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
 			getData(caseList,2,8,map);
 			//自动化用例数（准发布）
 			List<Object> autoList = naCaseContructionReportDao.findSysAutoB(2L, currentMonth);
 			getData(autoList,3,8,map);
 			//验证用例数（生产）
-			caseList = naCaseContructionReportDao.findSysCaseCountB(3L, currentMonth);
+			caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
 			getData(caseList,4,8,map);
 			//自动化用例数（生产）
 			autoList = naCaseContructionReportDao.findSysAutoB(3L, currentMonth);

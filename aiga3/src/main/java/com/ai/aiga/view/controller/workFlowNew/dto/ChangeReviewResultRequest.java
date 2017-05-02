@@ -13,14 +13,14 @@ import lombok.Data;
 @Data
 public class ChangeReviewResultRequest {
 
-	private Long reviewId;//评审结论id
-    private Long onlinePlanId;//计划id
+	private Long id;//评审结论id
+    private Long planId;//计划id
     private Long conclusion;//结果
     private String reviewResult;//结论
     private Date reviewDate;//实际评审时间
     private String reviewer;//评审人
     private String remark;
-    private String ext1;//附件id
+    private String fileId;//附件id
     private Date planReviewDate ;// 计划评审时间
     private  Long reviewNum ;//评审次数
 }

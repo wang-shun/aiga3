@@ -1,9 +1,13 @@
 package com.ai.aiga.service.workFlowNew;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.transaction.Transactional;
+
+import org.apache.commons.beanutils.BeanMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +18,7 @@ import com.ai.aiga.dao.NaChangeContentsDao;
 import com.ai.aiga.dao.NaChangeDangurousEstimateDao;
 import com.ai.aiga.dao.NaChangeGoalDeviceDao;
 import com.ai.aiga.dao.NaChangeOperationManagerDao;
+import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaChangePrepareWorkDao;
 import com.ai.aiga.dao.NaChangeResultValidateDao;
 import com.ai.aiga.dao.NaChangeReviewDao;
@@ -52,6 +57,7 @@ import com.ai.aiga.service.enums.WorkFlowNewEnum;
 import com.ai.aiga.service.workFlowNew.dto.ChangeResultValidateRequest;
 import com.ai.aiga.service.workFlowNew.dto.WarningShieldRequest;
 import com.ai.aiga.service.workFlowNew.dto.ChangeReviewList;
+import com.ai.aiga.service.workFlowNew.dto.FileList;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.workFlowNew.dto.ChangeConditionRequest;
 import com.ai.aiga.view.controller.workFlowNew.dto.ChangeContentsRequest;
@@ -131,6 +137,9 @@ public class ChangePlanReviewSv extends BaseService {
 	
 	@Autowired
 	private NaRiskRatingScaleDao naRiskRatingScaleDao;
+	
+	@Autowired
+	private NaChangePlanOnileDao naChangePlanOnileDao;
 
 	/**
 	 * 查询变更概况
@@ -149,6 +158,7 @@ public class ChangePlanReviewSv extends BaseService {
 		}
 		List<Condition> cons = new ArrayList<Condition>();
 
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -204,7 +214,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -260,7 +270,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -316,7 +326,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -372,7 +382,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -428,7 +438,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -485,7 +495,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -542,7 +552,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -598,7 +608,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -654,7 +664,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -712,7 +722,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -770,7 +780,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -831,7 +841,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -892,7 +902,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -954,7 +964,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -1012,7 +1022,7 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "PlanId");
 		}
 		List<Condition> cons = new ArrayList<Condition>();
-
+		cons.add(new Condition("planId", request.getPlanId(), Condition.Type.EQ));
 		if (request.getExt1() != null && !"".equals(request.getExt1())) {
 			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
 		}
@@ -1071,9 +1081,9 @@ public class ChangePlanReviewSv extends BaseService {
 		StringBuilder s = new StringBuilder();
 		List<ParameterCondition> param = new ArrayList<ParameterCondition>();
 		s.append(
-				"select a.id,b.ext_2 as file_id, a.file_name, b.conclusion, b.review_result, b.reviewer, b.review_date, b.remark ");
-		s.append(" from NA_FILE_UPLOAD a");
-		s.append(" left join NA_CHANGE_REVIEW b");
+				"select b.review_id as id ,b.ext_2 as file_id, a.file_name, b.conclusion, b.review_result, b.reviewer, b.review_date, b.remark,b.PLAN_REVIEW_DATE,b.REVIEW_NUM");
+		s.append(" from  NA_CHANGE_REVIEW b");
+		s.append(" left join NA_FILE_UPLOAD  a");
 		s.append("   on a.id = b.ext_2");
 		s.append("  where a.file_type = 20");
 		s.append("  and a.plan_id = :planId");
@@ -1100,6 +1110,37 @@ public class ChangePlanReviewSv extends BaseService {
 	}
 	
 	
+	
+	/**
+	 * 查询评审信息
+	 * 
+	 * @param planId计划id
+	 * @param type
+	 *            1：查询回退的交付物 ，2查询全部交付物评审记录
+	 * @param pageSize
+	 * @param pageNumber
+	 * @return
+	 */
+	public List<FileList>  findFileList(Long planId) {
+		if (planId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+		}
+		StringBuilder s = new StringBuilder();
+		List<ParameterCondition> param = new ArrayList<ParameterCondition>();
+		s.append(
+				"select a.id, a.file_name ");
+		s.append(" from NA_FILE_UPLOAD a");
+		s.append("  where a.file_type = 20");
+		s.append("  and a.plan_id = :planId");
+		param.add(new ParameterCondition("planId", planId));
+		
+		return  naChangeResultValidateDao.searchByNativeSQL(s.toString(), param,
+				FileList.class);
+	}
+	
+	
+	
+	
 	/**
 	 * 保存评审结论
 	 * @param request
@@ -1109,25 +1150,32 @@ public class ChangePlanReviewSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "request");
 		}
 		for (ChangeReviewResultRequest request : requests) {
-			NaChangeReview naChangeReview = naChangeReviewDao.findOne(request.getReviewId());
-			NaChangeReview naChangeReviewNew = naChangeReview;
-			naChangeReview.setConclusion(request.getConclusion());
-			naChangeReview.setReviewResult(request.getReviewResult());
-			naChangeReview.setRemark(request.getRemark());
+			NaChangeReview naChangeReview = naChangeReviewDao.findOne(request.getId());
+			
+			naChangeReview.setReviewResult(request.getReviewResult()==null?"":request.getReviewResult());
+			if(request.getConclusion()!=null){
+				naChangeReview.setConclusion(request.getConclusion());
+			}
+			naChangeReview.setRemark(request.getRemark()==null?"":request.getRemark());
 			naChangeReview.setReviewer(String.valueOf(SessionMgrUtil.getStaff().getOpId()));
 			naChangeReview.setReviewDate(new Date());
+			naChangeReview.setReviewer(String.valueOf(SessionMgrUtil.getStaff().getStaffId()));
 			naChangeReviewDao.save(naChangeReview);
 			
 			//评审通过
 			if(request.getConclusion()==WorkFlowNewEnum.ReviewResult_Yes.getValue()){
 				
-				NaChangeReview naChangeReviews = naChangeReviewDao.findByExt1(request.getExt1());
-				if(naChangeReview!=null){
-					naChangeReviewDao.delete(naChangeReviews.getReviewId());
-				}
+//				NaChangeReview naChangeReviews = naChangeReviewDao.findByExt2(request.getFileId());
+//				if(naChangeReview!=null){
+//					naChangeReviewDao.delete(naChangeReviews.getReviewId());
+//				}
 			}else{
 				//评审不通过
-				naChangeReviewDao.save(naChangeReviewNew);
+				NaChangeReview changeReview = new NaChangeReview() ;
+				changeReview.setOnlinePlanId(naChangeReview.getOnlinePlanId());
+				changeReview.setExt2(naChangeReview.getExt2());
+				changeReview.setReviewNum(naChangeReview.getReviewNum()+1);
+				naChangeReviewDao.save(changeReview);
 			}
 		}
 	
@@ -1140,10 +1188,20 @@ public class ChangePlanReviewSv extends BaseService {
 	 * @param reviewNum
 	 * @param planReviewDate
 	 */
-	public void setReviewDate(Long planId, Long reviewNum ,Date planReviewDate){
+	public void setReviewDate(Long planId, Long reviewNum ,String planReviewDate){
 		if(planId==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
-		naChangeReviewDao.setReviewDate(planId ,reviewNum ,planReviewDate);
+		if(reviewNum<1){
+			BusinessException.throwBusinessException("评审次数不符合实际情况");
+		}
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(planReviewDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		naChangeReviewDao.setReviewDate(planId ,reviewNum ,date);
+		naChangePlanOnileDao.updateFileUploadLastTime(planId  ,date);
 	}
 }

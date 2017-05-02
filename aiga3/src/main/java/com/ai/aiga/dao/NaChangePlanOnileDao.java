@@ -1,6 +1,7 @@
 package com.ai.aiga.dao;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,6 +34,11 @@ public interface NaChangePlanOnileDao extends JpaRepository<NaChangePlanOnile, L
 
 	@Query("from NaChangePlanOnile where sign = 0")
 	List<NaChangePlanOnile> findBySign();
+	
+	
+	@Modifying
+    @Query(value="update na_change_plan_onile set FILE_UPLOAD_LAST_TIME =?2 where online_plan=?1",nativeQuery = true)
+	void updateFileUploadLastTime(Long onlinePlan , Date date);
 
 
 }

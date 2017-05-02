@@ -61,10 +61,12 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.enums.WorkFlowNewEnum;
 import com.ai.aiga.service.workFlowNew.dto.NaHostConfigListExcel;
 import com.ai.aiga.service.workFlowNew.dto.NaProcessChangeListExcel;
 import com.ai.aiga.service.workFlowNew.dto.NaServiceChangeOnlineListExcel;
 import com.ai.aiga.util.DateUtil;
+import com.ai.aiga.util.TimeUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.controller.planOnline.dto.CodePathRequestExcel;
@@ -159,7 +161,15 @@ public class ChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setSign(Byte.parseByte("0"));
 		//处理状态默认是1
 		naChangePlanOnile.setPlanState(1L);
-		naChangePlanOnile.setCreateOpId(request.getCreateOpId());
+		//如果是变更,设置交付物截至时间是计划变更的前一天
+		if(WorkFlowNewEnum.CHANGE_PLAN_PLANCHANGE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTCHANGE.getValue()==(long)request.getTypes()){
+			naChangePlanOnile.setFileUploadLastTime(TimeUtil.getDayBefore(request.getPlanDate(), 1));
+		}
+		//如果是上线，则前台设置
+		else if(WorkFlowNewEnum.CHANGE_PLAN_PLANONLINE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTONLINE.getValue()==(long)request.getTypes()){
+			naChangePlanOnile.setFileUploadLastTime(request.getFileUploadLastTime());
+		}
+		naChangePlanOnile.setCreateOpId(String.valueOf(SessionMgrUtil.getStaff().getStaffId()));
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
 			
@@ -187,6 +197,7 @@ public class ChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setResult(request.getResult());
 		naChangePlanOnile.setDoneDate(request.getDoneDate());
 		naChangePlanOnile.setCreateDate(request.getCreateDate());
+		naChangePlanOnile.setFileUploadLastTime(request.getFileUploadLastTime());
 		naChangePlanOnile.setPlanState(request.getPlanState());
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		return naChangePlanOnile;
@@ -228,20 +239,10 @@ public class ChangePlanOnileSv extends BaseService{
 		}
 		
 		if(naChangePlanOnile != null){
-			
-			if(StringUtils.isBlank(request.getOnlinePlanName())){
-				naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
-			}
 			naChangePlanOnile.setOnlinePlanName(request.getOnlinePlanName());
-
-			naChangePlanOnile.setCreateDate(new Date(System.currentTimeMillis()));
-			naChangePlanOnile.setDoneDate(request.getDoneDate());
-			naChangePlanOnile.setTimely(request.getTimely());
 			naChangePlanOnile.setRemark(request.getRemark());
 			naChangePlanOnile.setPlanDate(request.getPlanDate());
-			naChangePlanOnile.setPlanState(request.getPlanState());
-			naChangePlanOnile.setResult(request.getResult());
-			naChangePlanOnile.setPlanState(request.getPlanState());
+			naChangePlanOnile.setTypes(request.getTypes());
 			naChangePlanOnileDao.save(naChangePlanOnile);
 		}
 		

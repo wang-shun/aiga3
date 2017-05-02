@@ -405,9 +405,17 @@ public class ChangeReviewsController {
 	
 	@RequestMapping(path = "/sys/review/setReviewDate", method=RequestMethod.POST)
 	@ApiOperation(value="设置第N次评审时间" , notes="设置第N次评审时间")
-	public @ResponseBody JsonBean  setReviewDate(Long planId, Long reviewNum ,Date planReviewDate){
+	public @ResponseBody JsonBean  setReviewDate(Long planId, Long reviewNum ,String planReviewDate){
 		changeReviewSv.setReviewDate(planId, reviewNum, planReviewDate);
 		return JsonBean.success;
+	}
+
+	@RequestMapping(path = "/sys/review/findFileList", method=RequestMethod.GET)
+	@ApiOperation(value="查询变更所有交付物" , notes="查询变更所有交付物")
+	public @ResponseBody JsonBean  findFileList(Long planId){
+		JsonBean json = new JsonBean();
+		json.setData(changeReviewSv.findFileList(planId));
+		return json;
 	}
 
 }

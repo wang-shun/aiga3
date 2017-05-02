@@ -13,8 +13,8 @@ import com.ai.aiga.domain.NaOnlineSystemReleaseStage;
 public interface NaChangeReviewDao extends JpaRepository<NaChangeReview, Long>,
 SearchAndPageRepository<NaChangeReview, Long>{
 
-	@Query(value="select  *  from Na_Change_Review where ext_1=?1 and conclusion is  null", nativeQuery=true)
-	public NaChangeReview findByExt1(String ext1);
+	@Query(value="select  *  from Na_Change_Review where ext_2=?1 and conclusion is  null", nativeQuery=true)
+	public NaChangeReview findByExt2(String ext1);
 	
 	
 	@Modifying

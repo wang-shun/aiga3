@@ -115,6 +115,7 @@ define(function(require, exports, module) {
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             var _dom = Page.findId('getOnlineTaskList');
             var _domPagination = _dom.find("[name='pagination']");
+
             Utils.getServerPage(srvMap.get('getOnlineTaskList'), _cmd, function(json) {
                 window.XMS.msgbox.hide();
                 var template = Handlebars.compile(Page.findTpl('getOnlineTaskList'));
@@ -743,20 +744,25 @@ define(function(require, exports, module) {
                     return "否";
                 }
             });
-            Handlebars.registerHelper('getDealState', function(value, fn) {
-                if (value == "1") {
-                    return "未分派";
-                }
+            Handlebars.registerHelper('getDealState', function(value, value2, fn) {
+                alert(value)
+                alert(value2)
                 if (value == "2") {
-                    return "处理中";
-                }
-                if (value == "3") {
-                    return "完成";
-                }
-                if (value == "4") {
                     return "不需分派";
+                } else {
+                    if (value2 == "1") {
+                        return "未分派";
+                    }
+                    if (value2 == "2") {
+                        return "处理中";
+                    }
+                    if (value2 == "3") {
+                        return "完成";
+                    }
+                    if (value2 == "4") {
+                        return "不需分派";
+                    }
                 }
-
             });
             Handlebars.registerHelper('getParentTaskType', function(value, fn) {
                 if (value == "1") {

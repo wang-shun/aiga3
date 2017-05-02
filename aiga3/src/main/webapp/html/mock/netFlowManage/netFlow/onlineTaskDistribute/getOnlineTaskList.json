@@ -8,7 +8,7 @@
             "onlinePlanName": "用例组1",
             "taskName": "test_前台功能验收",
             "taskType": "1",
-            "dealState": "0",
+            "dealState": "1",
             "assignName": "张三",
             "dealName": "李四",
             "assignDate":"2017-2-02 08:00:00"
@@ -48,7 +48,7 @@
             "onlinePlanName": "用例组1",
             "taskName": "test_后台功能验收",
             "taskType": "1",
-            "dealState": "0",
+            "dealState": "1",
             "assignName": "张三",
             "dealName": "李四",
             "assignDate":"2017-2-02 08:00:00"
@@ -88,7 +88,7 @@
             "onlinePlanName": "用例组1",
             "taskName": "test_非功能验收",
             "taskType": "1",
-            "dealState": "0",
+            "dealState": "1",
             "assignName": "张三",
             "dealName": "李四",
             "assignDate":"2017-2-02 08:00:00"

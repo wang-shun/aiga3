@@ -574,7 +574,7 @@ define(function(require, exports, module) {
 
                     //删除组件comp
                     self.deleComp();
-                    self.getInfoForAuto();
+                    self.getInfoForAuto("caseId="+caseId);
                     //保存自动化模板
                     $(Dom.modalAutoTempForm).find("button[name='save']").unbind();
                     $(Dom.modalAutoTempForm).find("button[name='save']").bind('click', function() {
@@ -740,6 +740,7 @@ define(function(require, exports, module) {
                 }
             });
         },
+
         getInfoForAuto: function(cmd) {
             var self = this;
             Rose.ajax.getJson(srvMap.get('getCaseTempInfo'), cmd, function(json, status) {
@@ -848,6 +849,7 @@ define(function(require, exports, module) {
 
                 callback: {
                     beforeClick: function(treeId, treeNode, clickFlag) {
+                        
                         return (!treeNode.isParent);
                     },
                     onClick: function(event, treeId, treeNode) {

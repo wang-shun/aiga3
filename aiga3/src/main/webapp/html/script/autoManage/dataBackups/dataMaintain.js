@@ -91,7 +91,7 @@ define(function(require, exports, module) {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
 					//alert(data.correlationId);
-					self.updateDataMaintain(data.correlationId);
+					self.updateDataMaintain(data.propertyId);
 				});
 			}, _domPagination);
 		},

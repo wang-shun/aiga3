@@ -117,7 +117,9 @@ define(function(require,exports,module){
 		    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
 		    		console.log(json.data)
 		    		_form.html(template(json.data));
-	    			_form.find("[name='conclusion']").val(json.data.conclusion);
+		    		if (json.data.conclusion) {
+	    				_form.find("[name='conclusion']").val(json.data.conclusion);
+	    			}
 	    			_form.find("[name='onlinePlanName']").html(data.onlinePlanName);
 					//引入单选框样式
 					Utils.eventTrClickCallback(_form);

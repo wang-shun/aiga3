@@ -12,17 +12,15 @@ define(function(require,exports,module){
 	// 系统大类下拉框显示
 	srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
 	// 环境列表
-	srvMap.add("getEnvironmentList","environment/getEnvironmentList.json","sys/environment/findall");
-	// 查询环境
 	srvMap.add("getEnvironment","environment/getEnvironmentList.json","sys/environment/list");
 	// 根据Id查询环境
 	srvMap.add("getEnvironmentInfo","environment/getEnvironmentInfo.json","sys/environment/findone");
 	// 新增环境
-	srvMap.add("addEnvironmentInfo","environment/addEnvironmentInfo.json","sys/environment/save");
+	srvMap.add("addEnvironmentInfo","environment/retMessage.json","sys/environment/save");
 	// 删除环境
-	srvMap.add("deleteEnvironment","environment/deleteEnvironment.json","sys/environment/del");
+	srvMap.add("deleteEnvironment","environment/retMessage.json","sys/environment/del");
 	// 修改环境
-	srvMap.add("updateEnvironmentInfo","environment/updateEnvironmentInfo.json","sys/environment/update");
+	srvMap.add("updateEnvironmentInfo","environment/retMessage.json","sys/environment/update");
 	// 获取机器列表
 	srvMap.add("getMachineList","environment/getMachineList.json","sys/envandmachine/rel");
 	// 获取已关联的机器列表
@@ -138,7 +136,7 @@ define(function(require,exports,module){
 			});
 		},
 		// 新增环境
-		addEnvironmentInfo : function(){
+		addEnvironmentInfo : function() {
 			var self = this;
 			var _dom = Page.findId('getEnvironmentList');
 			var _addEnvironment = _dom.find("[name='addEnvironment']");
@@ -170,90 +168,80 @@ define(function(require,exports,module){
 			});
 		},
 		// 删除环境
-		deleteEnvironment: function(){
+		deleteEnvironment: function() {
 			var self = this;
-			var  envId="";
-			var num =0 ;
-			$("#JS_deleteEnvironment").unbind('click');
-			$("#JS_deleteEnvironment").bind('click', function() {
-				var  envId="";
-				var num =0 ;
-			   var _checkObj = $('#JS_getEnvironmentList').find("input[type='radio']:checked");
-			   if(_checkObj.length==0){
-				   window.XMS.msgbox.show('请选择要删除的环境！', 'error', 2000);
-				   return false;
-			   }
-			   _checkObj.each(function (){
-				   if(num!=(_checkObj.length-1)){
-					   envId += $(this).val()+",";
-				   }else{
-					   envId += $(this).val();
-				   }
-				   num ++;
-				});
-				Rose.ajax.postJson(srvMap.get('deleteEnvironment'), 'envId=' + envId, function(json, status) {
-						if (status) {
-							XMS.msgbox.show('删除成功！', 'success', 2000);
-							setTimeout(function() {
-							  self.getEnvironment();
-							}, 1000)
-						}
-				});
+			var _dom = Page.findId('getEnvironmentList');
+			var _deleteEnvironment = _dom.find("[name='deleteEnvironment']");
+			_deleteEnvironment.unbind('click');
+			_deleteEnvironment.bind('click', function() {
+				var _data = Utils.getRadioCheckedRow(_dom);
+				if (_data) {
+					Rose.ajax.postJson(srvMap.get('deleteEnvironment'), 'envId=' + _data.envId, function(json, status) {
+							if (status) {
+								XMS.msgbox.show('删除成功！', 'success', 2000);
+								setTimeout(function() {
+									self.getEnvironment();
+								}, 1000)
+							}
+					});
+				}
 			});
 		},
 		// 关联机器
-		connectMachine: function(cmd){
+		connectMachine: function() {
 			var self = this;
-			$("#JS_connectMachine").unbind('click');
-				$("#JS_connectMachine").bind('click', function() {
-					var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
-					if(_checkObj.length==0){
-					   window.XMS.msgbox.show('请选择要关联的环境！', 'error', 2000);
-					   return false;
-				    }
-					var _envId ="";
-					_checkObj.each(function (){
-						_envId = $(this).val();
-					})
-					Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
-						if (status) {
-							var _form = $(Dom.connectMachineList);
-							var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
-							_form.html(template());
-							self.getMachineList();
-							self.getRelaMachineList();
-							self.delRelaMachine();
-							//弹出层
-							$(Dom.connectMachineModal).modal('show');
-							$("#JS_connectMachineSubmit").unbind('click');
-							//点击保存
-							$("#JS_connectMachineSubmit").bind('click',function(){
-								/*var cmd = _form.serialize();
-								console.log(cmd);*/
+			var _dom = Page.findId('connectMachineList');
+			var _connectEnvironment = _dom.find("[name='connectEnvironment']");
+			_connectEnvironment.unbind('click');
+			_connectEnvironment.bind('click', function() {
+				var _checkObj =	$('#JS_getEnvironmentList').find("input[type='radio']:checked");
+				if(_checkObj.length==0){
+				   window.XMS.msgbox.show('请选择要关联的环境！', 'error', 2000);
+				   return false;
+			    }
+				var _envId ="";
+				_checkObj.each(function (){
+					_envId = $(this).val();
+				})
+				Rose.ajax.postJson(srvMap.get('getEnvironmentInfo'), 'envId='+_envId, function(json, status) {
+					if (status) {
+						var _form = $(Dom.connectMachineList);
+						var template = Handlebars.compile(Tpl.getMachineListInEnvironment);
+						_form.html(template());
+						self.getMachineList();
+						self.getRelaMachineList();
+						self.delRelaMachine();
+						//弹出层
+						$(Dom.connectMachineModal).modal('show');
+						$("#JS_connectMachineSubmit").unbind('click');
+						//点击保存
+						$("#JS_connectMachineSubmit").bind('click',function(){
+							/*var cmd = _form.serialize();
+							console.log(cmd);*/
 
-								var  machineId="";
-								$("#Tab_getMachine").find("tbody").find("tr").each(function(){
-									var tdArr = $(this).children();
-									if(tdArr.eq(0).find("input").is(':checked')){
-										machineId += tdArr.eq(0).find("input").val()+",";
-									}
-								});
-
-								var cmd = "machineId="+machineId + "&envId=" +_envId;
-								Rose.ajax.postJson(srvMap.get('connectMachine'), cmd, function(json, status) {
-									if(status) {
-											// 关联机器成功
-											XMS.msgbox.show('关联成功！', 'success', 2000)
-											setTimeout(function() {
-				                                self.getMachineList("envId=" + _envId);
-				                                self.getRelaMachineList("envId=" + _envId);
-				                            }, 1000)
-									}
-								});
+							var  machineId="";
+							$("#Tab_getMachine").find("tbody").find("tr").each(function(){
+								var tdArr = $(this).children();
+								if(tdArr.eq(0).find("input").is(':checked')){
+									machineId += tdArr.eq(0).find("input").val()+",";
+								}
 							});
-						}
-					});
+
+							var cmd = "machineId="+machineId + "&envId=" +_envId;
+							Rose.ajax.postJson(srvMap.get('connectMachine'), cmd, function(json, status) {
+								if(status) {
+										// 关联机器成功
+										XMS.msgbox.show('关联成功！', 'success', 2000)
+										setTimeout(function() {
+			                                self.getMachineList("envId=" + _envId);
+			                                self.getRelaMachineList("envId=" + _envId);
+			                            }, 1000)
+								}
+							});
+						});
+					}
 				});
+			});
 		},
         // 机器列表
         getMachineList: function(cmd) {
@@ -381,8 +369,8 @@ define(function(require,exports,module){
 					Utils.setSelectData(_form);
 					// 设置下拉框选中值
 					Utils.setSelected(_form);
-					var _sysName =  _form.find("[name='sysName']");
-					_sysName.val(json.data.sysName);
+					/*var _sysName =  _form.find("[name='sysName']");
+					_sysName.val(json.data.sysName);*/
 					var _modal = Page.findModal('addEnvironmentInfoModal');
 					var _formName =  _modal.find("[name='formName']");
 			    	_formName.html("修改环境");

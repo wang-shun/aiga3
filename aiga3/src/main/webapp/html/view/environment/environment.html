@@ -112,85 +112,74 @@
         </div>
     </div>
 </div>
-<!-- 弹框，关联 -->
-<div class="modal fade" id="JS_connectMachineModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
+<!-- Modal,connect -->
+<div class="modal fade" id="Modal_connectMachineModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 id="formName" class="modal-title">关联机器</h4>
+                <h4 class="modal-title">关联机器</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="box">
+                        <div class="box" id="JS_connectMachineList">
                             <div class="box-header">
                                 <h3 class="box-title">机器列表</h3>
                                 <div class="box-tools">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_connectMachineSubmit"><i class="fa fa-plus"></i> 关联环境</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" name="connectEnvironment"><!-- <i class="fa fa-plus"></i> --> 关联环境</button>
                                 </div>
                             </div>
-                            <div class="box-body" style="min-height: 100px;" id="JS_connectMachineList">
+                            <div class="box-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="iCheckbox" width="15"></th>
+                                            <th>IP</th>
+                                            <th>机器名称</th>
+                                            <th>机器状态</th>
+                                            <th style="display:none;">账号</th>
+                                            <th style="display:none;">密码</th>
+                                            <th style="display:none;">请求时间</th>
+                                            <th style="display:none;">任务ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody name="content"></tbody>
+                                </table>
                             </div>
-                            <!-- /.box-body -->
+                            <div class="box-footer no-border">
+                                <div class="dataTables_paginate" name="pagination"></div>
+                            </div>
                         </div>
-                        <!-- /.box -->
                     </div>
                     <div class="col-md-6">
-                        <div class="box">
+                        <div class="box" id="JS_getRelaMachineList">
                             <div class="box-header">
                                 <h3 class="box-title">已关联机器列表</h3>
                                 <div class="box-tools">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_deleteConnectMachine" name="del"><i class="fa fa-plus"></i> 删除关联</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" name="del"><!-- <i class="fa fa-plus"></i> --> 删除关联</button>
                                 </div>
                             </div>
-                            <!-- /.box-header -->
-                            <div class="box-body" style="min-height: 100px;" id="JS_getRelaMachineList">
+                            <div class="box-body">
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="iCheckbox" width="15"></th>
+                                            <th>机器ID</th>
+                                            <th>环境ID</th>
+                                            <th>创建人</th>
+                                            <th>修改时间</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody name="content"></tbody>
+                                </table>
                             </div>
-                            <!-- /.box-body -->
+                            <div class="box-footer no-border">
+                                <div class="dataTables_paginate" name="pagination"></div>
+                            </div>
                         </div>
-                        <!-- /.box -->
                     </div>
                 </div>
-                <!-- <div class="nav-tabs-custom">
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="#environmentTab_1" data-toggle="tab" aria-expanded="false">机器列表</a>
-                        </li>
-                        <li class=""><a href="#environmentTab_2" data-toggle="tab" aria-expanded="false">已关联机器列表</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        tab页签1
-                        <div class="tab-pane active" id="environmentTab_1">
-                            <div class="row">
-                                <div class="box" id="">
-                                    <div class="box-header">
-                                        <div class="box-title">机器列表</div>
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_connectMachineSubmit"><i class="fa fa-plus"></i> 关联机器</button>
-                                        </div>
-                                    </div>
-                                    <div class="box-body" style="min-height: 100px;" id="JS_connectMachineList"></div>
-                                </div>
-                            </div>
-                        </div>
-                        tab页签2
-                        <div class="tab-pane" id="environmentTab_2">
-                            <div class="row">
-                                <div class="box" id="">
-                                    <div class="box-header">
-                                        <h3 class="box-title">已关联机器列表</h3>
-                                        <div class="box-tools">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="JS_deleteConnectMachine" name="del"><i class="fa fa-plus"></i> 删除关联</button>
-                                        </div>
-                                    </div>
-                                    <div class="box-body" style="min-height: 100px;" id="JS_getRelaMachineList"></div>
-                                </div>
-                            </div>
-                        </div>
-                        /.tab-pane
-                    </div>
-                    /.tab-content
-                </div> -->
             </div>
         </div>
     </div>
@@ -217,6 +206,33 @@
             <td style="display:none;">{{synPassword}}</td>
             <td style="display:none;">{{dbAccount}}</td>
             <td style="display:none;">{{dbPassword}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/机器列表 -->
+<script id="TPL_getMachineList" type="text/x-handlebars-template">
+    {{#each this}}
+        <tr>
+            <td><input type="checkbox" class="minimal" value="{{machineId}}" name="machineId"></td>
+            <td>{{machineIp}}</td>
+            <td>{{machineName}}</td>
+            <td>{{statuses status}}</td>
+            <td style="display:none;">{{machineAccount}}</td>
+            <td style="display:none;">{{machinePassword}}</td>
+            <td style="display:none;">{{requestTime}}</td>
+            <td style="display:none;">{{taskId}}</td>
+        </tr>
+    {{/each}}
+</script>
+<!-- handlebars/已关联机器列表 -->
+<script id="TPL_getRelaMachineList" type="text/x-handlebars-template">
+    {{#each this}}
+        <tr>
+            <td><input type="checkbox" class="minimal" name="relaId" value="{{relaId}}"></td>
+            <td>{{machineId}}</td>
+            <td>{{envId}}</td>
+            <td>{{creatorId}}</td>
+            <td>{{updateTime}}</td>
         </tr>
     {{/each}}
 </script>

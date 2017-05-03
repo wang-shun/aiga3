@@ -14,6 +14,7 @@ import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.service.auto.AutoEnvironmentSv;
 import com.ai.aiga.service.auto.AutoMachineSv;
+import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
 import com.ai.aiga.view.json.auto.NaAutoEnvironmentRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -87,10 +88,15 @@ public class NaAutoEnvironmentController {
 		return JsonBean.success;
 	}
 	
+	
 	@RequestMapping(path = "/sys/environment/rel")
-	public @ResponseBody JsonBean list(@RequestParam Long envId){
+	public @ResponseBody JsonBean list(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			@RequestParam Long envId) {
+
 		JsonBean bean = new JsonBean();
-		bean.setData(naAutoEnvironmentSv.selectall(envId));
+		bean.setData(naAutoEnvironmentSv.selectall(pageNumber, pageSize, envId));
 		return bean;
 	}
 	

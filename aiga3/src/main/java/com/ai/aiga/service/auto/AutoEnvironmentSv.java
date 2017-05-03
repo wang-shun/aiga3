@@ -8,8 +8,10 @@ import com.ai.aiga.util.mapper.JsonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +19,17 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoEnvironmentDao;
 import com.ai.aiga.dao.NaAutoMachineDao;
 import com.ai.aiga.dao.NaAutoMachineEnvDao;
+import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.domain.NaAutoMachineEnv;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.team.dto.Teaminfo;
+import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
 import com.ai.aiga.view.json.auto.NaAutoEnvironmentRequest;
+import com.ai.aiga.view.json.auto.NaAutoMachineRequest;
 
 @Service
 @Transactional
@@ -285,13 +291,39 @@ public class AutoEnvironmentSv extends BaseService{
 
 	   return JsonUtil.mapToJson(json);
    }
-   public List<NaAutoMachine> selectall(Long envId){
-		  if (envId==null) {
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-			}
-		return naAutoMachineEnvDao.selectall(envId);
-		  
-	  }
+ 
+   
+   public Page<NaAutoMachineRequest> selectall(int pageNumber, int pageSize, Long envId) {
+	   if (envId == null ) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "envId");
+		}
+		
+		StringBuilder sb = new StringBuilder("select a.machine_id,a.machine_ip,a.machine_name,"
+				+ "a.status,a.machine_account,a.machine_password ,a.request_time,"
+				+ "a.task_id from na_auto_machine a ,Na_Auto_Machine_Env b "
+				+ "where a.machine_id=b.machine_id and b.env_id=:envId");
+		
+		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
+		
+			params.add(new ParameterCondition("envId", envId));
+		
+  
+
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+		return naAutoMachineDao.searchByNativeSQL(sb.toString(), params, NaAutoMachineRequest.class, pageable);
+	}
+
+   
+   
    public List<NaAutoEnvironment> select(Long machineId){
 		  if (machineId==null) {
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null);

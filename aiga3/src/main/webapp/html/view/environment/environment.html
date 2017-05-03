@@ -101,9 +101,7 @@
                 <h4 name="formName" class="modal-title">新增环境</h4>
             </div>
             <div class="modal-body">
-                <form id="JS_addEnvironmentInfoForm">
-
-                </form>
+                <form id="JS_addEnvironmentInfoForm"></form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
@@ -165,10 +163,13 @@
                                     <thead>
                                         <tr>
                                             <th class="iCheckbox" width="15"></th>
-                                            <th>机器ID</th>
-                                            <th>环境ID</th>
-                                            <th>创建人</th>
-                                            <th>修改时间</th>
+                                            <th>IP</th>
+                                            <th>机器名称</th>
+                                            <th>机器状态</th>
+                                            <th style="display:none;">账号</th>
+                                            <th style="display:none;">密码</th>
+                                            <th style="display:none;">请求时间</th>
+                                            <th style="display:none;">任务ID</th>
                                         </tr>
                                     </thead>
                                     <tbody name="content"></tbody>
@@ -221,18 +222,6 @@
             <td style="display:none;">{{machinePassword}}</td>
             <td style="display:none;">{{requestTime}}</td>
             <td style="display:none;">{{taskId}}</td>
-        </tr>
-    {{/each}}
-</script>
-<!-- handlebars/已关联机器列表 -->
-<script id="TPL_getRelaMachineList" type="text/x-handlebars-template">
-    {{#each this}}
-        <tr>
-            <td><input type="checkbox" class="minimal" name="relaId" value="{{relaId}}"></td>
-            <td>{{machineId}}</td>
-            <td>{{envId}}</td>
-            <td>{{creatorId}}</td>
-            <td>{{updateTime}}</td>
         </tr>
     {{/each}}
 </script>

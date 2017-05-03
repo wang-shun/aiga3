@@ -48,19 +48,23 @@ public class ChangePlanRunController {
 		JsonBean bean = new JsonBean();
 		
 			 
-		//判断是否是生产回归任务
-		if(naOnlineTaskDistribute.getTaskType() == 4 ){
-			//查询用例集
-			List<NaAutoCollection> collections = onlineTaskSv.collect(2L);
-			// 查出该任务类型下所有的用例集  按照计划_验收任务类型_用例集名称拼接	
-			for(NaAutoCollection collect : collections){
-				String collectName = collect.getCollectName();
+		try {
+			//判断是否是生产回归任务
+			if(naOnlineTaskDistribute.getTaskType() == 4 ){
+				//查询用例集
+				List<NaAutoCollection> collections = onlineTaskSv.collect(2L);
+				// 查出该任务类型下所有的用例集  按照计划_验收任务类型_用例集名称拼接	
+				for(NaAutoCollection collect : collections){
+					String collectName = collect.getCollectName();
 
-				String taskName = naOnlineTaskDistribute.getTaskName();
-				String sonTaskName = taskName+"_"+collectName;
-				OnlineTaskRequest otr = new OnlineTaskRequest(sonTaskName,collect.getCollectId(),naOnlineTaskDistribute.getDealOpId(),naOnlineTaskDistribute.getTaskId());;
-				onlineTaskSv.save(otr);
-			}	
+					String taskName = naOnlineTaskDistribute.getTaskName();
+					String sonTaskName = taskName+"_"+collectName;
+					OnlineTaskRequest otr = new OnlineTaskRequest(sonTaskName,collect.getCollectId(),naOnlineTaskDistribute.getDealOpId(),naOnlineTaskDistribute.getTaskId());;
+					onlineTaskSv.save(otr);
+				}	
+			}
+		} catch (Exception e) {
+			bean.fail("未知原因");
 		}
 		
 		bean.setData(naOnlineTaskDistribute.getExt1());

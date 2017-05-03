@@ -279,19 +279,19 @@ define(function(require,exports,module){
             _connectEnvironment.bind('click',function(){
                 var _data = self.getCheckedRelaMachine();
                 if (_data) {
-							$("#Tab_getMachine").find("tbody").find("tr").each(function(){
+							/*$("#Tab_getMachine").find("tbody").find("tr").each(function(){
 								var tdArr = $(this).children();
 								if(tdArr.eq(0).find("input").is(':checked')){
 									machineId += tdArr.eq(0).find("input").val()+",";
 								}
 							});
-							var cmd = "machineId="+machineId + "&envId=" +_envId;
+							var cmd = "machineId="+machineId + "&envId=" +_envId;*/
                     var _machineIdsArray = [];
                     _data.each(function() {
                         _machineIdsArray.push($(this).val());
                     })
-                    var _cmd = "&machineIds=" + _machineIdsArray.join(",");
-                    _cmd = "envId=" + envId + _cmd;
+                    var _cmd = "machineId=" + _machineIdsArray.join(",");
+                    _cmd = _cmd + "&envId=" + envId;
                     Rose.ajax.postJson(srvMap.get('connectEnvironment'), _cmd, function(json, status) {
                         if (status) {
                             window.XMS.msgbox.show('关联成功！', 'success', 2000)

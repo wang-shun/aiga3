@@ -15,6 +15,8 @@ define(function(require, exports, module) {
     srvMap.add("getSubsysList", pathAlias + "getSubsysList.json", "sys/cache/listSubsysid");
     //功能点下拉框
     srvMap.add("getFunList", pathAlias + "getFunList.json", "sys/cache/listFun");
+    //业务
+    srvMap.add("getBusiList", "caseTempMng/getBusiList.json", "sys/cache/busi");
 
     // 分页根据条件查询自动化用例模板信息
     srvMap.add("getCaseTempList", pathAlias + "getCaseTempList.json", "auto/template/listInfo");
@@ -39,7 +41,7 @@ define(function(require, exports, module) {
     //请求参数列表
     srvMap.add("saveAutoCompParam", pathAlias + "retMessage.json", "auto/case/saveAutoCompParam");
 
-
+    var busiData;
     /*// 模板对象
     var Tpl = {
         getCaseTempList: '#TPL_getCaseTempList',
@@ -69,9 +71,44 @@ define(function(require, exports, module) {
     var Query = {
         init: function() {
             // 默认查询所有
+            this.hdbarHelp();
+
+            this.getBusiList();
+
             this.getCaseTempList();
             // 初始化查询表单
             this.queryCaseTempForm();
+        },
+        hdbarHelp: function() {
+            Handlebars.registerHelper("transformatImp", function(value) {
+                if (value == 1) {
+                    return "一级用例";
+                } else if (value == 2) {
+                    return "二级用例";
+                } else if (value == 3) {
+                    return "三级用例";
+                } else if (value == 4) {
+                    return "四级用例";
+                }
+            });
+            Handlebars.registerHelper("transformatBusi", function(value) {
+                var _val = value;
+                var name;
+                $.each(busiData, function(n, value) {
+                    if (_val == value.busiId) {
+                        name = value.busiName;
+                    }
+                });
+                return name;
+
+            });
+        },
+        getBusiList: function(obj, data) {
+            Rose.ajax.postJson(srvMap.get('getBusiList'), '', function(json, status) {
+                if (status) {
+                    busiData = json.data;
+                }
+            });
         },
         // 按条件查询
         queryCaseTempForm: function() {
@@ -281,8 +318,8 @@ define(function(require, exports, module) {
                         data["paramList"] = []
                         $(this).find("tr").each(function() {
                             var paramData = {}
-                            
-                            if ($(this).find("input").length!=0) {
+
+                            if ($(this).find("input").length != 0) {
                                 $(this).find("input").each(function() {
                                     var key = $(this).attr("name");
                                     var value = $(this).val();

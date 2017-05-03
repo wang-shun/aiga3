@@ -23,6 +23,13 @@ SearchAndPageRepository<NaChangeReview, Long>{
 	@Query("select a from NaChangeReview a,NaChangePlanOnile b "
 			+ "where b.onlinePlan=a.onlinePlanId and b.onlinePlan=?1 and a.ext1=?2")
 	 NaChangeReview selectall(Long onlinePlan,String ext1);
+
+	
+	@Query("select a from NaChangeReview a,NaChangePlanOnile b "
+			+ "where b.onlinePlan=a.onlinePlanId and b.onlinePlan=?1 ")
+	 NaChangeReview selectReview(Long onlinePlan);
+	
+	Object findByReviewId(Long reviewId);
 	
 	
 	

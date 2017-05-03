@@ -395,7 +395,7 @@
             <input type="hidden" name="taskName" value="{{taskName}}">{{taskName}}</td>
         <td>
             <input type="hidden" name="taskType" value="{{taskType}}">{{getParentTaskType taskType}}</td>
-        <td>{{getDealState dealState}}</td>
+        <td name="dealState">{{getDealState taskType dealState}}</td>
         <td>{{assignName}}</td>
         <td>
             <input type="hidden" name="dealName" value="{{dealName}}">{{dealName}}</td>

@@ -1,4 +1,4 @@
-package com.ai.aiga.view.json.report;
+package com.ai.aiga.view.controller.report.dto;
 
 /**
  * @ClassName: CaseConstructionRequest

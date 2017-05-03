@@ -31,7 +31,9 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.task.TaskSv;
-import com.ai.aiga.view.json.report.CaseConstructionRequest;
+import com.ai.aiga.view.controller.report.dto.CaseConstructionRequest;
+import com.ai.aiga.view.controller.report.dto.StaffConstructionRequest;
+
 import com.ai.process.task.quartz.CaseStatisticsJob;
 
 /**
@@ -220,7 +222,7 @@ public class CaseConstructionSv extends BaseService{
 		//取出上个月数据
 		List<Object> list = naCaseContructionReportDao.findOld(2L, lastMonth);
 		mapOld = getOldData(list,8);
-		String dayOrMonth = currentMonth.length()==6?"ADD_MONTHS(TRUNC(TO_DATE('"+currentMonth+"','YYYYMM'),'MM'),1)":"TRUNC(TO_DATE('"+(Integer.valueOf(currentMonth)+1)+"','YYYYMMDD'),'DD')";
+		//String dayOrMonth = currentMonth.length()==6?"ADD_MONTHS(TRUNC(TO_DATE('"+currentMonth+"','YYYYMM'),'MM'),1)":"TRUNC(TO_DATE('"+(Integer.valueOf(currentMonth)+1)+"','YYYYMMDD'),'DD')";
 		//插入当月数据
 		//业务-核心功能点总数
 		List<Object> funList = naCaseContructionReportDao.findBusiFunCount();
@@ -228,109 +230,131 @@ public class CaseConstructionSv extends BaseService{
 		//核心功能点覆盖（挂用例的）
 		List<Object> coverList = naCaseContructionReportDao.findBusiFunCover();
 		getData(coverList,1,6,map);
-		//入网验收用例数总数（准发布）
-		List<Object> caseList = naCaseContructionReportDao.findBusiCaseCount(dayOrMonth);
-		getData(caseList,2,6,map);
-		//自动化用例数（准发布）
-		List<Object> autoList = naCaseContructionReportDao.findBusiAuto(dayOrMonth, 2L);
-		getData(autoList,3,6,map);
-		//验证用例数（生产）
-		caseList = naCaseContructionReportDao.findBusiCaseCount(dayOrMonth);
-		getData(caseList,4,6,map);
-		//自动化用例数（生产）
-		autoList = naCaseContructionReportDao.findBusiAuto(dayOrMonth, 3L);
-		getData(autoList,5,6,map);
+		if(currentMonth.length()==6){
+			//入网验收用例数总数（准发布）
+			List<Object> caseList = naCaseContructionReportDao.findBusiCaseCountA(currentMonth);
+			getData(caseList,2,6,map);
+			//自动化用例数（准发布）
+			List<Object> autoList = naCaseContructionReportDao.findBusiAutoA(currentMonth, 2L);
+			getData(autoList,3,6,map);
+			//验证用例数（生产）
+			caseList = naCaseContructionReportDao.findBusiCaseCountA(currentMonth);
+			getData(caseList,4,6,map);
+			//自动化用例数（生产）
+			autoList = naCaseContructionReportDao.findBusiAutoA(currentMonth, 3L);
+			getData(autoList,5,6,map);
+		}else{
+			Integer integer = Integer.valueOf(currentMonth)+1;
+			currentMonth = integer.toString();
+			//入网验收用例数总数（准发布）
+			List<Object> caseList = naCaseContructionReportDao.findBusiCaseCountB(currentMonth);
+			getData(caseList,2,6,map);
+			//自动化用例数（准发布）
+			List<Object> autoList = naCaseContructionReportDao.findBusiAutoB(currentMonth, 2L);
+			getData(autoList,3,6,map);
+			//验证用例数（生产）
+			caseList = naCaseContructionReportDao.findBusiCaseCountB(currentMonth);
+			getData(caseList,4,6,map);
+			//自动化用例数（生产）
+			autoList = naCaseContructionReportDao.findBusiAutoB(currentMonth, 3L);
+			getData(autoList,5,6,map);
+		}
+		
 		
 		DecimalFormat df = new DecimalFormat("0.0000");
 		StringBuilder sb = new StringBuilder();
 		Iterator i = map.keySet().iterator();
-		while (i.hasNext()) {
-			String key = (String) i.next();
-			String[] strs = map.get(key);
-			String[] strsOld = mapOld != null && !mapOld.isEmpty() ? mapOld.get(key) : null;
-			funNum = StringUtils.isNotEmpty(strs[0]) && !"0".equals(strs[0]) ? strs[0] : null;
-			funCover = StringUtils.isNotEmpty(strs[1]) ?strs[1] : null;
-			funCover = StringUtils.isNotEmpty(funNum) && StringUtils.isNotEmpty(funCover) ? df.format(new BigDecimal(funCover).floatValue() / new BigDecimal(funNum).floatValue()) : "0";
-			
-			caseNumQRelease = StringUtils.isNotEmpty(strs[2]) && !"0".equals(strs[2]) ?strs[2] : null;
-			autoCaseNumQRelease = StringUtils.isNotEmpty(strs[3]) ?strs[3] : null;
-			autoCaseCoverQRelease = StringUtils.isNotEmpty(caseNumQRelease) && StringUtils.isNotEmpty(autoCaseNumQRelease) ? df.format(new BigDecimal(autoCaseNumQRelease).floatValue() / new BigDecimal(caseNumQRelease).floatValue()) : "0";
-			caseNumRelease = StringUtils.isNotEmpty(strs[4]) && !"0".equals(strs[4]) ?strs[4] : null;
-			autoCaseNumRelease = StringUtils.isNotEmpty(strs[5]) ?strs[5] : null;
-			autoCaseCoverRelease = StringUtils.isNotEmpty(caseNumRelease) && StringUtils.isNotEmpty(autoCaseNumRelease) ? df.format(new BigDecimal(autoCaseNumRelease).floatValue() / new BigDecimal(caseNumRelease).floatValue()) : "0";
-			
-			funNumOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[0]) ? strsOld[0] : null : null;
-			funCoverOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[1]) ? strsOld[1] : null : null;
-			caseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[2]) ? strsOld[2] : null : null;
-			autoCaseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[3]) ? strsOld[3] : null : null;
-			autoCaseCoverQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[4]) ? strsOld[4] : null : null;
-			caseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[5]) ? strsOld[5] : null : null;
-			autoCaseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[6]) ? strsOld[6] : null : null;
-			autoCaseCoverReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[7]) ? strsOld[7] : null : null;
-			
-			funNumIncr = getCoverIncr(funNum,funNumOld);
-			funCoverIncr = getCoverIncr(funCover,funCoverOld);
-			caseNumQIncrRelease = getCoverIncr(caseNumQRelease,caseNumQReleaseOld);
-			autoCaseNumQIncrRelease = getCoverIncr(autoCaseNumQRelease,autoCaseNumQReleaseOld);
-			autoCaseCoverIncrQRelease = getCoverIncr(autoCaseCoverQRelease,autoCaseCoverQReleaseOld);
-			caseNumIncrRelease = getCoverIncr(caseNumRelease,caseNumReleaseOld);
-			autoCaseNumIncrRelease = getCoverIncr(autoCaseNumRelease,autoCaseNumReleaseOld);
-			autoCaseCoverIncrRelease = getCoverIncr(autoCaseCoverRelease,autoCaseCoverReleaseOld);
-			
-			NaCaseConstructionReport report = new NaCaseConstructionReport();
-			report.setReportType(2L);
-			report.setStatisticalMonth(currentMonth);
-			report.setCreateTime(new Date());
-			report.setUpdateTime(new Date());
-			report.setSysId(Long.valueOf(key).longValue());
-			if(StringUtils.isNotBlank(funNum)){
-				report.setFunNum(Integer.valueOf(funNum));
-			}
-			if(StringUtils.isNotBlank(funCover)){
-				report.setFunCover(new BigDecimal(funCover));
-			}
-			if(StringUtils.isNotBlank(funCoverIncr)){
-				report.setFunCoverIncr(new BigDecimal(funCoverIncr));
-			}
-			if(StringUtils.isNotBlank(caseNumQRelease)){
-				report.setCaseNumIncrQrelease(Integer.valueOf(caseNumQRelease));
-			}
-			if(StringUtils.isNotBlank(caseNumQIncrRelease)){
-				report.setCaseNumQrelease(Integer.valueOf(caseNumQIncrRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseNumQRelease)){
-				report.setAutoCaseNumQrelease(Integer.valueOf(autoCaseNumQRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseNumQIncrRelease)){
-				report.setAutoCaseNumIncrQrelease(Integer.valueOf(autoCaseNumQIncrRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseCoverQRelease)){
-				report.setAutoCaseCoverQrelease(new BigDecimal(autoCaseCoverQRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseCoverIncrQRelease)){
-				report.setAutoCaseCoverIncrQrelease(new BigDecimal(autoCaseCoverIncrQRelease));
-			}
-			if(StringUtils.isNotBlank(caseNumRelease)){
-				report.setCaseNumRelease(Integer.valueOf(caseNumRelease));
-			}
-			if(StringUtils.isNotBlank(caseNumIncrRelease)){
-				report.setCaseNumIncrRelease(Integer.valueOf(caseNumIncrRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseNumRelease)){
-				report.setAutoCaseNumRelease(Integer.valueOf(autoCaseNumRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseNumIncrRelease)){
-				report.setAutoCaseNumIncrRelease(Integer.valueOf(autoCaseNumIncrRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseCoverRelease)){
-				report.setAutoCaseCoverRelease(new BigDecimal(autoCaseCoverRelease));
-			}
-			if(StringUtils.isNotBlank(autoCaseCoverIncrRelease)){
-				report.setAutoCaseCoverIncrRelease(new BigDecimal(autoCaseCoverIncrRelease));
-			}
-			
-			naCaseContructionReportDao.save(report);
-			
+		if(!map.isEmpty()){
+			naCaseContructionReportDao.delete(2L,currentMonth);
+			while (i.hasNext()) {
+				String key = (String) i.next();
+				String[] strs = map.get(key);
+				String[] strsOld = mapOld != null && !mapOld.isEmpty() ? mapOld.get(key) : null;
+				funNum = StringUtils.isNotEmpty(strs[0]) && !"0".equals(strs[0]) ? strs[0] : null;
+				funCover = StringUtils.isNotEmpty(strs[1]) ?strs[1] : null;
+				funCover = StringUtils.isNotEmpty(funNum) && StringUtils.isNotEmpty(funCover) ? df.format(new BigDecimal(funCover).floatValue() / new BigDecimal(funNum).floatValue()) : "0";
+				caseNumQRelease = StringUtils.isNotEmpty(strs[2]) && !"0".equals(strs[2]) ?strs[2] : null;
+				autoCaseNumQRelease = StringUtils.isNotEmpty(strs[3]) ?strs[3] : null;
+				autoCaseCoverQRelease = StringUtils.isNotEmpty(caseNumQRelease) && StringUtils.isNotEmpty(autoCaseNumQRelease) ? df.format(new BigDecimal(autoCaseNumQRelease).floatValue() / new BigDecimal(caseNumQRelease).floatValue()) : "0";
+				caseNumRelease = StringUtils.isNotEmpty(strs[4]) && !"0".equals(strs[4]) ?strs[4] : null;
+				autoCaseNumRelease = StringUtils.isNotEmpty(strs[5]) ?strs[5] : null;
+				autoCaseCoverRelease = StringUtils.isNotEmpty(caseNumRelease) && StringUtils.isNotEmpty(autoCaseNumRelease) ? df.format(new BigDecimal(autoCaseNumRelease).floatValue() / new BigDecimal(caseNumRelease).floatValue()) : "0";
+				
+				funNumOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[0]) ? strsOld[0] : null : null;
+				funCoverOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[1]) ? strsOld[1] : null : null;
+				caseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[2]) ? strsOld[2] : null : null;
+				autoCaseNumQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[3]) ? strsOld[3] : null : null;
+				autoCaseCoverQReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[4]) ? strsOld[4] : null : null;
+				caseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[5]) ? strsOld[5] : null : null;
+				autoCaseNumReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[6]) ? strsOld[6] : null : null;
+				autoCaseCoverReleaseOld = strsOld != null ? StringUtils.isNotEmpty(strsOld[7]) ? strsOld[7] : null : null;
+				
+				funNumIncr = getCoverIncr(funNum,funNumOld);
+				funCoverIncr = getCoverIncr(funCover,funCoverOld);
+				caseNumQIncrRelease = getCoverIncr(caseNumQRelease,caseNumQReleaseOld);
+				autoCaseNumQIncrRelease = getCoverIncr(autoCaseNumQRelease,autoCaseNumQReleaseOld);
+				autoCaseCoverIncrQRelease = getCoverIncr(autoCaseCoverQRelease,autoCaseCoverQReleaseOld);
+				caseNumIncrRelease = getCoverIncr(caseNumRelease,caseNumReleaseOld);
+				autoCaseNumIncrRelease = getCoverIncr(autoCaseNumRelease,autoCaseNumReleaseOld);
+				autoCaseCoverIncrRelease = getCoverIncr(autoCaseCoverRelease,autoCaseCoverReleaseOld);
+				
+				NaCaseConstructionReport report = new NaCaseConstructionReport();
+				report.setReportType(2L);
+				report.setStatisticalMonth(currentMonth);
+				report.setCreateTime(new Date());
+				report.setUpdateTime(new Date());
+				report.setSysId(Long.valueOf(key).longValue());
+				
+				if(StringUtils.isNotBlank(funNum)){
+					report.setFunNum(Integer.valueOf(funNum));
+				}
+				if(StringUtils.isNotBlank(funCover)){
+					report.setFunCover(new BigDecimal(funCover));
+				}
+				if(StringUtils.isNotBlank(funCoverIncr)){
+					report.setFunCoverIncr(new BigDecimal(funCoverIncr));
+				}
+				if(StringUtils.isNotBlank(caseNumQRelease)){
+					report.setCaseNumIncrQrelease(Integer.valueOf(caseNumQRelease));
+				}
+				if(StringUtils.isNotBlank(caseNumQIncrRelease)){
+					report.setCaseNumQrelease(Integer.valueOf(caseNumQIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumQRelease)){
+					report.setAutoCaseNumQrelease(Integer.valueOf(autoCaseNumQRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumQIncrRelease)){
+					report.setAutoCaseNumIncrQrelease(Integer.valueOf(autoCaseNumQIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverQRelease)){
+					report.setAutoCaseCoverQrelease(new BigDecimal(autoCaseCoverQRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverIncrQRelease)){
+					report.setAutoCaseCoverIncrQrelease(new BigDecimal(autoCaseCoverIncrQRelease));
+				}
+				if(StringUtils.isNotBlank(caseNumRelease)){
+					report.setCaseNumRelease(Integer.valueOf(caseNumRelease));
+				}
+				if(StringUtils.isNotBlank(caseNumIncrRelease)){
+					report.setCaseNumIncrRelease(Integer.valueOf(caseNumIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumRelease)){
+					report.setAutoCaseNumRelease(Integer.valueOf(autoCaseNumRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseNumIncrRelease)){
+					report.setAutoCaseNumIncrRelease(Integer.valueOf(autoCaseNumIncrRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverRelease)){
+					report.setAutoCaseCoverRelease(new BigDecimal(autoCaseCoverRelease));
+				}
+				if(StringUtils.isNotBlank(autoCaseCoverIncrRelease)){
+					report.setAutoCaseCoverIncrRelease(new BigDecimal(autoCaseCoverIncrRelease));
+				}
+				
+				naCaseContructionReportDao.save(report);
+				
+		}
+		
 		}
 	}
 
@@ -383,13 +407,13 @@ public class CaseConstructionSv extends BaseService{
 		getData(coverList,1,8,map);
 		if(currentMonth.length()==6){
 			//入网验收用例数总数（准发布）
-			List<Object> caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
+			List<Object> caseList = naCaseContructionReportDao.findSysCaseCountA(currentMonth);
 			getData(caseList,2,8,map);
 			//自动化用例数（准发布）
 			List<Object> autoList = naCaseContructionReportDao.findSysAutoA(2L, currentMonth);
 			getData(autoList,3,8,map);
 			//验证用例数（生产）
-			caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
+			caseList = naCaseContructionReportDao.findSysCaseCountA(currentMonth);
 			getData(caseList,4,8,map);
 			//自动化用例数（生产）
 			autoList = naCaseContructionReportDao.findSysAutoA(3L, currentMonth);
@@ -398,13 +422,13 @@ public class CaseConstructionSv extends BaseService{
 			Integer integer = Integer.valueOf(currentMonth)+1;
 			currentMonth = integer.toString();
 			//入网验收用例数总数（准发布）
-			List<Object> caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
+			List<Object> caseList = naCaseContructionReportDao.findSysCaseCountB(currentMonth);
 			getData(caseList,2,8,map);
 			//自动化用例数（准发布）
 			List<Object> autoList = naCaseContructionReportDao.findSysAutoB(2L, currentMonth);
 			getData(autoList,3,8,map);
 			//验证用例数（生产）
-			caseList = naCaseContructionReportDao.findSysCaseCount(currentMonth);
+			caseList = naCaseContructionReportDao.findSysCaseCountB(currentMonth);
 			getData(caseList,4,8,map);
 			//自动化用例数（生产）
 			autoList = naCaseContructionReportDao.findSysAutoB(3L, currentMonth);
@@ -422,7 +446,7 @@ public class CaseConstructionSv extends BaseService{
 		StringBuilder sb = new StringBuilder();
 		Iterator i = map.keySet().iterator();
 		if(!map.isEmpty()){
-			naCaseContructionReportDao.delete(currentMonth);
+			naCaseContructionReportDao.delete(1L,currentMonth);
 			while (i.hasNext()) {
 				String key = (String) i.next();
 				String[] strs = map.get(key);
@@ -734,6 +758,39 @@ public class CaseConstructionSv extends BaseService{
 				naStaffConstructionReportDao.save(report);
 			}
 		}
+	}
+
+	/**
+	 * @ClassName: CaseConstructionSv :: list
+	 * @author: dongch
+	 * @date: 2017年5月2日 下午3:59:52
+	 *
+	 * @Description:人员日常建设用例查询
+	 * @param request
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return          
+	 */
+	public Object list(StaffConstructionRequest request, int pageNumber, int pageSize) {
+		
+		List<Condition> cons = new ArrayList<Condition>();
+		if(StringUtils.isNotBlank(request.getMonth())){
+			cons.add(new Condition("statisticalMonth", "%".concat(request.getMonth()).concat("%"), Condition.Type.LIKE));
+		}
+		if(StringUtils.isNotBlank(request.getStaffName())){
+			cons.add(new Condition("staffName", "%".concat(request.getStaffName()).concat("%"), Condition.Type.LIKE));
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naStaffConstructionReportDao.search(cons, pageable);
 	}
 
 }

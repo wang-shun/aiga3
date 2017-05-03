@@ -7,14 +7,18 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaAutoRunResultDao;
 import com.ai.aiga.dao.NaAutoRunTaskDao;
 import com.ai.aiga.dao.NaCaseImplReportDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaPerExecReportDao;
+import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaAutoRunResult;
 import com.ai.aiga.domain.NaAutoRunTask;
 import com.ai.aiga.domain.NaCaseImplReport;
@@ -56,7 +60,13 @@ public class CaseRunCountSv extends BaseService{
 	@Autowired
 	private NaAutoRunResultDao naAutoRunResultDao;
 	
-	public void countAsync() {
+	public void countCase() {
+		
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("key", "value");
+		taskSv.addTask(CaseRunJob.class, params);
+	}
+	public void counStaff() {
 		
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("key", "value");
@@ -394,6 +404,69 @@ public class CaseRunCountSv extends BaseService{
 			NaPerExecReport perExecReport = reportList.get(k);
 			naPerExecReportDao.save(perExecReport);
 		}
+	}
+	/**
+	 * @ClassName: CaseRunCountSv :: caseList
+	 * @author: dongch
+	 * @date: 2017年5月2日 下午4:36:38
+	 *
+	 * @Description:用例执行情况报表查询
+	 * @param onlinePlan
+	 * @return          
+	 */
+	public Object caseList(Long onlinePlan, int pageNumber, int pageSize) {
+		
+		List<Condition> cons = new ArrayList<Condition>();
+		if(onlinePlan != null){
+			cons.add(new Condition("onlinePlanId", onlinePlan, Condition.Type.EQ));
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naCaseImplReportDao.search(cons, pageable);
+	}
+	/**
+	 * @ClassName: CaseRunCountSv :: staffList
+	 * @author: dongch
+	 * @date: 2017年5月2日 下午4:59:31
+	 *
+	 * @Description:人员执行情况报表查询
+	 * @param onlinePlan
+	 * @param perName
+	 * @param pageNumber
+	 * @param pageSize
+	 * @return          
+	 */
+	public Object staffList(Long onlinePlan, String perName, int pageNumber, int pageSize) {
+		
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		if(onlinePlan != null){
+			cons.add(new Condition("onlinePlanId", onlinePlan, Condition.Type.EQ));
+		}
+		if(StringUtils.isNotBlank(perName)){
+			cons.add(new Condition("perName", "%".concat(perName).concat("%"), Condition.Type.LIKE));
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return naPerExecReportDao.search(cons, pageable);
 	}
 		
 

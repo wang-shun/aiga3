@@ -43,7 +43,9 @@ public class ChangePlanRunController {
 	@RequestMapping(path = "/accept/changePlanRun/save")
 	public @ResponseBody JsonBean save(NaOnlineTaskDistribute naOnlineTaskDistribute){
 		changePlanRunSv.save(naOnlineTaskDistribute);
-		return JsonBean.success;
+		JsonBean bean = new JsonBean();
+		bean.setData(naOnlineTaskDistribute.getExt1());
+		return bean;
 	}
 	/**
 	 * 启动变更计划*/

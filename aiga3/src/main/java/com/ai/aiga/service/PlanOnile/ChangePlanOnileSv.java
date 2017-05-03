@@ -406,11 +406,15 @@ public class ChangePlanOnileSv extends BaseService{
 	}
 	
 	
-	public Object findNaFileUpload(Long type,int pageNumber, int pageSize){
+	public Object findNaFileUpload(Long planId,Long type,int pageNumber, int pageSize){
 		List<Condition> cons = new ArrayList<Condition>();
-		StringBuilder sql = new StringBuilder("select * from NA_FILE_UPLOAD");
+		StringBuilder sql = new StringBuilder("select * from NA_FILE_UPLOAD where 1 = 1");
+		if(planId!=null){
+			sql = sql.append(" and playId = "+planId);
+			
+		}
 		if(type!=null){
-			sql = sql.append(" where file_Type like '"+type+"%'");
+			sql = sql.append(" and file_Type like '"+type+"%'");
 			
 		}
 		sql.append(" order by CREATE_TIME desc");

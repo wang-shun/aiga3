@@ -7,9 +7,9 @@ define(function(require,exports,module){
 	// 组织结构列表查询
 	srvMap.add("getOrganizeList", pathAlias + "getOrganizeList.json", "sys/organize/treeList");
 	// 员工列表按组织查询
-	srvMap.add("getUserinfoListA", pathAlias + "getUserinfoList.json", "aiga/staff/listA");
+	srvMap.add("getUserinfoListA", pathAlias + "getUserinfoList.json", "aiga/staff/list");
 	// 员工列表按条件查询
-	srvMap.add("getUserinfoListB", pathAlias + "getUserinfoListB.json", "aiga/staff/listB");
+	srvMap.add("getUserinfoListB", pathAlias + "getUserinfoListB.json", "aiga/staff/list");
 	// 查询员工信息
 	srvMap.add("getUserinfo", pathAlias + "getUserinfo.json", "aiga/staff/select");
 	// 添加员工
@@ -176,7 +176,7 @@ define(function(require,exports,module){
 					/*if(!Data.isOrganize()){
 			        	json.data.length = 1;
 			        }*/
-            		$(Dom.getUserinfoList).html(template(json.data));
+            		$(Dom.getUserinfoList).html(template(json.data.content));
             		XMS.msgbox.hide()
 
             		self.addUserinfo();

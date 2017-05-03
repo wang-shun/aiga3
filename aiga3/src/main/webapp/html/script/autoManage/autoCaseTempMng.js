@@ -244,7 +244,7 @@ define(function(require, exports, module) {
 		saveAutoCompParam: function(_tempId) {
 			var self = this;
 			var _dom = Page.findModal('generateCaseInfo');
-			var _table = Page.findModal('getParameterList');
+			var _table = Page.findModalCId('getParameterList');
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
@@ -280,6 +280,7 @@ define(function(require, exports, module) {
 							});
 							data["paramList"].push(paramData);
 						})
+						console.log(data);
 						cmd.compList.push(data);
 					});
 					console.log("参数测试")

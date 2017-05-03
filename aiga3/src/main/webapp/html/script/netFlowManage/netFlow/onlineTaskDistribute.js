@@ -240,7 +240,6 @@ define(function(require, exports, module) {
                         var _date = self.getRadioCheckedRow(_dom);
                         var cmd = "onlinePlan=" + Data.onlinePlanId + "&taskId=" + _date.taskId;
                         // 请求：用户基本信息
-                        alert(cmd)
                         self.getInterfaceList(cmd);
                     })
                     Utils.eventTrClickCallback($(Dom.getPerSubtaskAssignmentList))
@@ -444,7 +443,6 @@ define(function(require, exports, module) {
             var _delRelation = $(Dom.queInterfaceForm).find("[name='delRelation']");
             _delRelation.unbind('click');
             _delRelation.bind('click', function() {
-                alert("1")
                 var _date = self.getRadioCheckedRow($(Dom.getPerSubtaskAssignmentList));
                 if (_date) {
                     var id = "";
@@ -745,8 +743,7 @@ define(function(require, exports, module) {
                 }
             });
             Handlebars.registerHelper('getDealState', function(value, value2, fn) {
-                alert(value)
-                alert(value2)
+                
                 if (value == "2") {
                     return "不需分派";
                 } else {

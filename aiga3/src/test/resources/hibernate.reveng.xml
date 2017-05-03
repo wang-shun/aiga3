@@ -41,8 +41,7 @@
 					<schema-selection match-schema="AIGA"  match-table="NA_CHANGE_OPERATION_MANAGER"/>
 					<schema-selection match-schema="AIGA"  match-table="NA_ROLLBACK_METHOD"/>
 					<schema-selection match-schema="AIGA"  match-table="NA_INFORMATION_NOTICE"/>-->
-					<schema-selection match-schema="AIGA"  match-table="NA_CODE_PATH_COMPILE_RESULT"/>
-					<schema-selection match-schema="AIGA"  match-table="NA_SYSTEM_INTERFACE_ADDRESS"/>
+					<schema-selection match-schema="AIGA"  match-table="NA_PER_EXEC_REPORT"/>
 				
 
 

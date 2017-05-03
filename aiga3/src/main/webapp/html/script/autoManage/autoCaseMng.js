@@ -41,7 +41,7 @@ define(function(require, exports, module) {
         getAutoCaseList: '#JS_getAutoCaseList', //table对象
         queryAutoCaseList: '#JS_queryAutoCaseForm', //查询表单
         modalEditAutoCase: '#JS_editAutoCaseModal', //modal
-        getParameterList: '#JS_getParameterList', //参数列表
+        getParameterList: '#JS_parameterList', //参数列表
         getSideAutoCompList: '#JS_sideAutoCompList', //侧边组件栏
 
 
@@ -202,14 +202,13 @@ define(function(require, exports, module) {
                         _table.append(template_table(value.paramList))
                             // 设置滚动条高度
                         Utils.setScroll(_table.parent(".box-body"), '250px');
-                    })
-
-
+                    });
 
                     Utils.eventClickChecked(_dom, function(isChecked, thisDom) {
                         var _name = thisDom.attr("name");
-                        var _compOrder = _dom.find("input[name='compOrder']").val();
-                        var _compName = _dom.find("input[name='compName']").val();
+                        var dd = thisDom.closest("tr");
+                        var _compOrder = dd.find("input[name='compOrder']").val();
+                        var _compName = dd.find("input[name='compName']").val();
                         var _val = thisDom.val();
                         if (isChecked == "true") {
                             var cmd = "autoId=" + autoId + "&" + _name + '=' + _val + "&compOrder=" + _compOrder;
@@ -282,7 +281,7 @@ define(function(require, exports, module) {
                         data["paramList"] = []
                         $(this).find("tr").each(function() {
                             var paramData = {}
-                            if ($(this).find("input")) {
+                            if ($(this).find("input").length=0){
 
                             } else {
                                 $(this).find("input").each(function() {

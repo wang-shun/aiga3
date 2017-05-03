@@ -13,6 +13,18 @@ public class OnlineTaskRequest {
 	private Long collectId;
 	private Long dealOpId;
 	private Long parentTaskId;
+	
+	
+	public OnlineTaskRequest(){
+		
+	}
+	
+	public OnlineTaskRequest( String taskName, Long collectId, Long dealOpId, Long parentTaskId) {
+		this.taskName = taskName;
+		this.collectId = collectId;
+		this.dealOpId = dealOpId;
+		this.parentTaskId = parentTaskId;
+	}
 	public Long getTaskId() {
 		return taskId;
 	}

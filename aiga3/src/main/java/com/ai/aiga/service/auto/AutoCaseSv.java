@@ -106,7 +106,7 @@ public class AutoCaseSv {
         }
         NaAutoTemplate autoTemplate=autoTemplateSv.findById(tempId);
         NaAutoCase autoCase= BeanMapper.map(autoTemplate,NaAutoCase.class);
-        autoCase.setAutoName(autoTemplate.getTempName());//默认根据模板名称填充，需由后续调用方法者覆盖
+        autoCase.setAutoName(autoTemplate.getTempName()+DateUtil.getCurrTimeString());//默认根据模板名称填充，需由后续调用方法者覆盖
         autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
         //保存操作
         return this.save(autoCase);
@@ -141,7 +141,7 @@ public class AutoCaseSv {
             BusinessException.throwBusinessException("can not found the testCase! please make sure the testId:"+testId);
         }
         NaAutoCase autoCase=BeanMapper.map(testCase,NaAutoCase.class);
-        autoCase.setAutoName(testCase.getTestName());//默认根据测试用例名称填充，需由后续调用方法者覆盖
+        autoCase.setAutoName(testCase.getTestName()+DateUtil.getCurrTimeString());//默认根据测试用例名称填充，需由后续调用方法者覆盖
         autoCase.setEnvironmentType(AutoRunEnum.EnvironmentType_acceptance.getValue());//默认验收环境，需由后续调用方法者覆盖
         //保存操作
         return this.save(autoCase);

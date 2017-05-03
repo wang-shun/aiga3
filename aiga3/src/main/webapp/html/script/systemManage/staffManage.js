@@ -176,7 +176,7 @@ define(function(require,exports,module){
 					/*if(!Data.isOrganize()){
 			        	json.data.length = 1;
 			        }*/
-            		$(Dom.getUserinfoList).html(template(json.data));
+            		$(Dom.getUserinfoList).html(template(json.data.content));
             		XMS.msgbox.hide()
 
             		self.addUserinfo();

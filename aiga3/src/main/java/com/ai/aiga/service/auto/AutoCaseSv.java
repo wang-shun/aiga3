@@ -369,7 +369,7 @@ public class AutoCaseSv {
      */
     private boolean isExisting(String autoName,Long autoId){
         NaAutoCase autoCase=autoCaseDao.findByAutoName(autoName);
-        return autoCase != null && autoCase.getAutoId().equals(autoId);
+        return !(autoCase != null && autoCase.getAutoId().equals(autoId));
     }
 
     /**

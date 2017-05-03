@@ -53,10 +53,21 @@ public class ChangeReviewController {
 		return bean;
 	}    
 	//交互物变更评审保存
+	/**
+	 * @ClassName: ChangeReviewController :: save
+	 * @author: lh
+	 * @date: 2017年5月3日 上午10:28:21
+	 *
+	 * @Description:
+	 * @param request
+	 * @return          
+	 */
 	@RequestMapping(path = "/sys/changerevier/save")
 	public @ResponseBody JsonBean save(NaChangeReview request){
-		changeReviewSv.save(request);;
-		return JsonBean.success;
+		changeReviewSv.save(request);
+		JsonBean bean = new JsonBean();
+		bean.setData(changeReviewSv.selectReview(request.getOnlinePlanId()));
+		return bean;
 	}
 	//保存代码包清单
 	@RequestMapping(path = "/sys/codepath/save")

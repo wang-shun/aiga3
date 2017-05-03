@@ -118,7 +118,24 @@ public class ChangeReviewSv extends BaseService{
 	   return changeReviewDao.selectall(onlinePlan,ext1);
 	   
    }
-   
+   /**
+ * @ClassName: ChangeReviewSv :: selectall
+ * @author: lh
+ * @date: 2017年5月3日 上午10:25:06
+ *
+ * @Description:  返回结论列表  不按ext1查询
+ * @param onlinePlan
+ * @param ext1
+ * @return          
+ */
+public  NaChangeReview selectReview(Long onlinePlan){
+	   if (onlinePlan==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null+"onlinePlan");
+		}
+	
+	   return changeReviewDao.selectReview(onlinePlan);
+	   
+   }
    public void save(NaChangeReview request){
 	   
 	   if(request == null){ 
@@ -693,7 +710,6 @@ public class ChangeReviewSv extends BaseService{
 		   }
 		  
 	   }
-
 
 }
 

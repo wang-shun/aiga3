@@ -133,22 +133,25 @@ define(function(require,exports,module){
 		    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
 		    		console.log(json.data)
 		    		_dom.html(template(json.data));
+		    		Utils.setSelectData(_dom);
 		    		if (json.data.conclusion) {
 			    		var _conclusion =  _dom.find("[name='conclusion']");
 			    		_conclusion.val(json.data.conclusion);
 			    	}
+			    	console.log(json.data.reviewer)
 					if (json.data.reviewer) {
 			    		var _reviewer =  _dom.find("[name='reviewer']");
-			    		//_reviewer.val(json.data.reviewer);
+			    		console.log(_reviewer)
+			    		_reviewer.val(json.data.reviewer);
+			    		$(".select2").val(['11']).trigger('change');
 			    	}
 					var _onlinePlanName =  _dom.find("[name='onlinePlanName']");
 		    		_onlinePlanName.html(data.onlinePlanName);
-		    		Utils.setSelectData(_dom);
 		    		$(".select2").select2({
 					    separator: ';',
 					    tags: true
 					});
-					//引入单选框样式
+					// 引入单选框样式
 					Utils.eventTrClickCallback(_dom);
 					var _saveConclusion =  Page.findId('getChangeReviewConclusion').find("[name='saveConclusion']");
 					if(data.planState=="3" || data.planState=="4"){
@@ -157,7 +160,7 @@ define(function(require,exports,module){
 						_saveConclusion.removeAttr("disabled");
 					}
 					_saveConclusion.unbind('click');
-					//点击保存
+					// 点击保存
 					_saveConclusion.bind('click',function(){
 						var _checkObj =	_dom.find("input[type='radio']:checked");
 						if(_checkObj.length==0){
@@ -681,7 +684,7 @@ define(function(require,exports,module){
 		    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
 		    		var _reviewer =  _dom.find("[name='reviewer']");
 		    		alert(json.data[0].dealOpName);
-		    		_reviewer.html(json.data[0].dealOpName);
+		    		_reviewer.val(json.data[0].dealOpName);
 				}
 			});
 		}

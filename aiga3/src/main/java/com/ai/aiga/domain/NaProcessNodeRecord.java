@@ -49,6 +49,8 @@ public class NaProcessNodeRecord  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
+       this.planId=planId;
+       this.planDate=planDate;
     }
    
      @Id 
@@ -137,7 +139,7 @@ public class NaProcessNodeRecord  implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name="PLANDATE", length=7)
+    @Column(name="PLAN_DATE", length=7)
 	public Date getPlanDate() {
 		return planDate;
 	}

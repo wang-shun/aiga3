@@ -23,7 +23,7 @@ public class ComponentController {
 	@Autowired
 	private ComponentSv componentSv;
 	/*
-	 * 组件树接口*/
+	 * 大类子类功能点树接口*/
 	@RequestMapping(path = "/sys/component/compTree")
 	public @ResponseBody JsonBean compTree(){
 		JsonBean bean = new JsonBean();
@@ -39,7 +39,14 @@ public class ComponentController {
 		bean.setData(componentSv.ctrlTree());
 		return bean;
 	}
-	
+	/**
+	 * 组件树接口（用例模板调用）*/
+	@RequestMapping(path = "/sys/cache/commenCompTree")
+	public @ResponseBody JsonBean commenCompTree(){
+		JsonBean bean = new JsonBean();
+		bean.setData(componentSv.commenCompTree());
+		return bean;
+	}
 	/*
 	 * 按条件查询组件接口
 	 * */

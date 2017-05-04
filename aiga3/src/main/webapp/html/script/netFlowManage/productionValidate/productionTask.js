@@ -101,15 +101,15 @@ define(function(require, exports, module) {
                     //存储到全局变量
                     Data.onlinePlanId = data.onlinePlan;
                     XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                    Rose.ajax.postJson(srvMap.get('getProductionTaskDistributeList'), cmd, function(json, status) {
-                        if (status) {
+                    var pagination = $(Dom.getProductionTaskDistributeList).find("[name='pagination']");
+                    Utils.getServerPage(srvMap.get('getProductionTaskDistributeList'), cmd, function(json) {
                             window.XMS.msgbox.hide();
                             Utils.setSelectData(_form);
                             var _modal = $(Dom.getProductionTaskDistributeModal);
                             _modal.modal('show').on('shown.bs.modal', function() {
                                 var template = Handlebars.compile(Tpl.getProductionTaskDistributeList);
                                 var _dom = $(Dom.getProductionTaskDistributeList);
-                                _dom.html(template(json.data));
+                                _dom.find("tbody").html(template(json.data));
                                 // 初始化步骤
                                 Utils.initStep(_modal);
 
@@ -120,8 +120,6 @@ define(function(require, exports, module) {
 
 
                                 Utils.eventTrClickCallback($(Dom.getProductionTaskDistributeList))
-                                    //设置分页
-                                self.initPaging(_dom, 5, true);
                             });
                             //加载用例集类型下拉框
                             Rose.ajax.postJson(srvMap.get('getCollectIdList'), "caseType=2", function(json, status) {
@@ -146,8 +144,8 @@ define(function(require, exports, module) {
                                 Data.opreation = 'new';
                             });
                             _rest.click();
-                        }
-                    });
+                       
+                    },pagination,5);
 
                 }
             });
@@ -442,7 +440,7 @@ define(function(require, exports, module) {
             });
             Handlebars.registerHelper('getDealState', function(value, fn) {
                 if (value == "1") {
-                    return "未分派";
+                    return "待分派";
                 }
                 if (value == "2") {
                     return "处理中";

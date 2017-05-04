@@ -27,6 +27,7 @@ import com.ai.aiga.domain.NaUiComponent;
 import com.ai.aiga.domain.NaUiParam;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.view.json.CommonCompTreeResponse;
 import com.ai.aiga.view.json.CompTreeResponse;
 import com.ai.aiga.view.json.CtrlTreeResponse;
 import com.ai.aiga.view.json.NaUiComponentRequest;
@@ -355,5 +356,30 @@ public class ComponentSv {
 		
 		return responses;
 		
+	}
+
+	/**
+	 * @ClassName: ComponentSv :: commenCompTree
+	 * @author: dongch
+	 * @date: 2017年5月3日 下午5:00:09
+	 *
+	 * @Description:
+	 * @return          
+	 */
+	public List<CommonCompTreeResponse> commenCompTree() {
+		
+		List<Object[]> list = naUiComponentDao.commenCompTree();
+		List<CommonCompTreeResponse> responses = new ArrayList<CommonCompTreeResponse>(list.size());
+		if(list != null && list.size() > 0){
+			for(int i = 0;i < list.size();i++){
+				CommonCompTreeResponse bean = new CommonCompTreeResponse();
+				Object[] object =(Object[]) list.get(i);
+				bean.setId(((BigDecimal)object[0]).longValue());
+				bean.setPid(((BigDecimal)object[1]).longValue());
+				bean.setName(object[2].toString());
+				responses.add(bean);
+			}
+		}
+		return responses;
 	}
 }

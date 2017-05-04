@@ -339,6 +339,10 @@ public class AutoTemplateSv {
         if(templateRequest.getCompRequestList()!=null) {
             autoTemplateCompSv.saveList(templateRequest.getCompRequestList(), autoTemplate.getTempId());
         }
+        //接口类型用例，自动组装组件
+        if (autoTemplate.getCaseType().equals(CaseEnum.CaseType_interface.getValue())){
+            
+        }
         return autoTemplate;
     }
 
@@ -351,6 +355,6 @@ public class AutoTemplateSv {
      */
     private boolean isExisting(String tempName,Long tempId){
         NaAutoTemplate template=autoTemplateDao.findByTempName(tempName);
-        return template != null && template.getTempId().equals(tempId);
+        return !(template != null && template.getTempId().equals(tempId));
     }
 }

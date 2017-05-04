@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     var Utils = require("global/utils.js");
 
     // 用例模板列表显示 ok
-    srvMap.add("getCaseTempList", pathAlias + "caseTempList.json", "case/template/list");
+    srvMap.add("caseTempList", pathAlias + "caseTempList.json", "case/template/list");
     //系统大类下拉框显示 OK
     srvMap.add("getSysList", pathAlias + "getSysList.json", "sys/cache/listSysid");
     //系统子类下拉框 OK
@@ -265,7 +265,7 @@ define(function(require, exports, module) {
 
             });
 
-            Utils.getServerPage(srvMap.get('getCaseTempList'), cmd, function(json) {
+            Utils.getServerPage(srvMap.get('caseTempList'), cmd, function(json) {
                 var _tbody = $(Dom.getCaseTempList).find("tbody");
                 var template = Handlebars.compile(Tpl.getCaseTempList);
                 console.log(json.data)

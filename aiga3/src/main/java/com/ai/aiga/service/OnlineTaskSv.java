@@ -94,10 +94,10 @@ public class OnlineTaskSv extends BaseService{
 						      +"   (select name from aiga_staff where staff_id = a.assign_id) as assign_name,"
 						     +"    (select name from aiga_staff where staff_id = a.deal_op_id) as deal_name"
 						     +"  from na_online_task_distribute a, na_change_plan_onile b where a.online_plan = b.online_plan"
-						    +"  and a.parent_task_id = 0";
+						    +"  and a.parent_task_id = 0 ";
 		
 		if(condition.getTaskType() != null){
-			sql += " and a.task_type = "+condition.getTaskType();
+			sql += " and a.task_type = "+condition.getTaskType()+" and a.deal_state = 1";
 		}else{
 			sql += " and a.task_type < 4 ";
 		}

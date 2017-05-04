@@ -82,6 +82,7 @@ import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverExcel;
 import com.ai.aiga.view.controller.planOnline.dto.TestLeaveOverRequest;
 import com.ai.aiga.view.controller.planOnline.dto.TestSituationExcel;
 import com.ai.aiga.view.util.SessionMgrUtil;
+import com.huawei.msp.mmap.server.TaskMessageClient;
 
 @Service
 @Transactional
@@ -171,11 +172,31 @@ public class ChangePlanOnileSv extends BaseService{
 		}
 		naChangePlanOnile.setCreateOpId(String.valueOf(SessionMgrUtil.getStaff().getStaffId()));
 		naChangePlanOnileDao.save(naChangePlanOnile);
+		sendMessageForCycle(naChangePlanOnile);
 		return naChangePlanOnile;
 			
 	}
 
 	
+	/**
+	 * @ClassName: ChangePlanOnileSv :: sendMessageForCycle
+	 * @author: dongch
+	 * @date: 2017年5月3日 下午2:30:57
+	 *
+	 * @Description:短信通知计划创建人
+	 * @param naChangePlanOnile          
+	 */
+	public void sendMessageForCycle(NaChangePlanOnile naChangePlanOnile) {
+		
+		StringBuilder contents = new StringBuilder();
+		contents.append("AIGA_SMS~尊敬的:").append(SessionMgrUtil.getStaff().getName()).append(",")
+		.append(naChangePlanOnile.getOnlinePlanName()).append("计划已创建,").append("交付物上传截止时间：")
+		.append(naChangePlanOnile.getFileUploadLastTime().toString());
+		
+		TaskMessageClient.sendMessageForCycle(SessionMgrUtil.getStaff().getBillId(), contents.toString());
+	}
+
+
 	//修改
 	public NaChangePlanOnile  summaryChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 

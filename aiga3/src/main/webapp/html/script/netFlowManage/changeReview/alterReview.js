@@ -9,62 +9,60 @@ define(function(require,exports,module){
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('alterReview');
 
-	//交付物评审结论
+	// 评审人下拉框显示
+    srvMap.add("getDealOpIdList", "netFlowManage/deliverableReview/getDealOpIdList.json", "accept/onlineTask/dealOp");
+	// 交付物评审结论
 	srvMap.add("getDeliverableReviewConclusion", "netFlowManage/deliverableReview/getDeliverableReviewConclusion.json", "sys/changerevier/list");
-	//保存结论
+	// 保存结论
 	srvMap.add("saveConclusion", "netFlowManage/deliverableReview/retMessage.json", "sys/changerevier/save");
-	//计划上线需求概况列表
+	// 计划上线需求概况列表
 	srvMap.add("getPlanList", "netFlowManage/deliverableReview/getPlanList.json", "sys/planDetailManifest/list");
-	//上线系统模块清单
+	// 上线系统模块清单
 	srvMap.add("getModelList", "netFlowManage/deliverableReview/getModelList.json", "sys/codepath/list");
-	//保存模块
+	// 保存模块
 	srvMap.add("saveModel", "netFlowManage/deliverableReview/retMessage.json", "sys/codepath/save");
-	//计划上线清单列表
+	// 计划上线清单列表
 	srvMap.add("getOnlineList", "netFlowManage/deliverableReview/getOnlineList.json", "sys/detailManifest/list");
-	//功能测试执行情况列表
+	// 功能测试执行情况列表
 	srvMap.add("getTestList", "netFlowManage/deliverableReview/getTestList.json", "sys/testSituation/list");
-	//保存测试
+	// 保存测试
 	srvMap.add("saveTest", "netFlowManage/deliverableReview/retMessage.json", "sys/testSituation/save");
-	//测试执行情况列表
+	// 测试执行情况列表
 	srvMap.add("getRunList", "netFlowManage/deliverableReview/getRunList.json", "sys/testSituation/listtest");
-	//保存测试执行
+	// 保存测试执行
 	srvMap.add("saveRun", "netFlowManage/deliverableReview/retMessage.json", "sys/testSituation/save");
-	//测试遗留情况列表
+	// 测试遗留情况列表
 	srvMap.add("getRemnantList", "netFlowManage/deliverableReview/getRemnantList.json", "sys/testLeaveOver/list");
-	//功能测试报告列表
+	// 功能测试报告列表
 	srvMap.add("getReportList", "netFlowManage/deliverableReview/getReportList.json", "sys/requireList/list");
-	//数据库配置脚本列表
+	// 数据库配置脚本列表
 	srvMap.add("getDatabaseList", "netFlowManage/deliverableReview/getDatabaseList.json", "sys/databaseConfiScript/list");
-	//数据库脚本清单
+	// 数据库脚本清单
 	srvMap.add("getJavascriptList", "netFlowManage/deliverableReview/getJavascriptList.json", "sys/databaseScriptList/list");
-	//数据库割接脚本清单
+	// 数据库割接脚本清单
 	srvMap.add("getDeliverList", "netFlowManage/deliverableReview/getDeliverList.json", "sys/dbScriptList/list");
-	//系统架构变更清单列表
+	// 系统架构变更清单列表
 	srvMap.add("getStructureList", "netFlowManage/deliverableReview/getStructureList.json", "sys/review/findNaSystemArchitectureListByPlanId");
-	//进程变更清单列表
+	// 进程变更清单列表
 	srvMap.add("getProgressList", "netFlowManage/deliverableReview/getProgressList.json", "sys/review/findNaProcessChangeListByPlanId");
-	//服务变更上线清单列表
+	// 服务变更上线清单列表
 	srvMap.add("getServiceList", "netFlowManage/deliverableReview/getServiceList.json", "sys/review/findNaServiceChangeOnlineListByPlanId");
-	//主机配置列表
+	// 主机配置列表
 	srvMap.add("getIpConfigurationList", "netFlowManage/deliverableReview/getIpConfigurationList.json", "sys/review/findNaHostConfigListByPlanId");
-	//告警屏蔽主机清单列表
+	// 告警屏蔽主机清单列表
 	srvMap.add("getIpList", "netFlowManage/changeReview/getIpList.json", "warn/host/findhost");
-	//保存主机
+	// 保存主机
 	srvMap.add("saveIp", "netFlowManage/changeReview/retMessage.json", "warn/host/savehost");
-	//上线当晚、次日跟踪人员安排列表
+	// 上线当晚、次日跟踪人员安排列表
 	srvMap.add("getTonightAndTomorrowList", "netFlowManage/changeReview/getTonightAndTomorrowList.json", "online/staff/arrange");
-	//总体步骤列表
+	// 总体步骤列表
 	srvMap.add("getStepList", "netFlowManage/changeReview/getStepList.json", "online/general/steps");
-	//集团需求列表
+	// 集团需求列表
 	srvMap.add("getNeedList", "netFlowManage/deliverableReview/getNeedList.json", "sys/review/findNaGroupRequireListByPlanId");
-	//需联调需求列表
+	// 需联调需求列表
 	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "sys/review/findNaGroupAdjustListByPlanId");
-	//生产环境需配置菜单需求列表
+	// 生产环境需配置菜单需求列表
 	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "sys/review/findNaHasDeployMenuListByPlanId");
-	//编译发布
-	/*srvMap.add("publish", "netFlowManage/deliverableReview/retMessage.json", "");*/
-	//回退
-	srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
 
 	var Data = {
         setPageType:function(type){
@@ -82,6 +80,7 @@ define(function(require,exports,module){
     		this._render();
     	},
     	_render:function(){
+    		this.getDealOpIdList();
     		this.getDeliverableReviewConclusion();
     		this.getPlanList();
     		this.getModelList();
@@ -138,8 +137,17 @@ define(function(require,exports,module){
 			    		var _conclusion =  _dom.find("[name='conclusion']");
 			    		_conclusion.val(json.data.conclusion);
 			    	}
+					if (json.data.reviewer) {
+			    		var _reviewer =  _dom.find("[name='reviewer']");
+			    		//_reviewer.val(json.data.reviewer);
+			    	}
 					var _onlinePlanName =  _dom.find("[name='onlinePlanName']");
 		    		_onlinePlanName.html(data.onlinePlanName);
+		    		Utils.setSelectData(_dom);
+		    		$(".select2").select2({
+					    separator: ';',
+					    tags: true
+					});
 					//引入单选框样式
 					Utils.eventTrClickCallback(_dom);
 					var _saveConclusion =  Page.findId('getChangeReviewConclusion').find("[name='saveConclusion']");
@@ -165,15 +173,6 @@ define(function(require,exports,module){
 								setTimeout(function(){
 									self.getDeliverableReviewConclusion();
 								},1000)
-							}
-						});
-					});
-					//点击回退
-					var _rollback =  _dom.find("[name='rollback']");
-					_rollback.bind('click',function(){
-						Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
-							if(status) {
-								XMS.msgbox.show('回退成功！', 'success', 2000)
 							}
 						});
 					});
@@ -673,7 +672,19 @@ define(function(require,exports,module){
                 data[key]=value;
             });
             return data;
-        }
+        },
+		getDealOpIdList: function() {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get('getDealOpIdList'), '', function(json, status) {
+				if (status) {
+					var _dom = Page.findId('getDeliverableReviewConclusion');
+		    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
+		    		var _reviewer =  _dom.find("[name='reviewer']");
+		    		alert(json.data[0].dealOpName);
+		    		_reviewer.html(json.data[0].dealOpName);
+				}
+			});
+		}
     };
 
 	module.exports=alterReview;

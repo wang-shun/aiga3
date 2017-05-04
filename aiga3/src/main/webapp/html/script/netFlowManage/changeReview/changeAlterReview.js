@@ -160,12 +160,27 @@ define(function(require, exports, module) {
                 _dom.find("tbody").find("tr").each(function() {
                     var tdArr = $(this).children();
                     tdArr.eq(3).find("select").val(da[i].conclusion);
+                    ext1 = tdArr.eq(11).find("input").val();
+                    if(ext1 == "2"){
+                        tdArr.eq(0).find("input").attr("disabled", true);
+                    }else{
+                        tdArr.eq(0).find("input").removeAttr("disabled");
+                    }
                     i++;
                 });
                 // var _onlinePlanName = _dom.find("[name='onlinePlanName']");
                 // _onlinePlanName.html(data.onlinePlanName);
                 //引入单选框样式
-                Utils.eventTrClickCallback(_dom);
+                Utils.eventClickChecked(_dom, function(isChecked, input) {
+                    if(isChecked = "true"){
+                        var _input = $(input).parents("tr").find("[name='ext1']");
+                        if(_input.val()=="2"){
+                            input.iCheck('uncheck');
+                            window.XMS.msgbox.show('该结论已提交！', 'error', 2000);
+                            return false;
+                        }
+                    }
+                });
                 //设置出一下次评审时间
                 self.setReviewTime();
                 var _saveConclusionC = Page.findId('getChangeReviewConclusionC').find("[name='saveConclusionC']");
@@ -259,8 +274,6 @@ define(function(require, exports, module) {
                         });
                         cmd = saveState;
                         console.log(cmd);
-                        //var _data = self.getCheckboxCheckedRow(_dom);
-                        //var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&planId=' + data.onlinePlan;
                         Rose.ajax.postJson(srvMap.get('commitConclusion'), cmd, function(json, status) {
                             if (status) {
                                 // 提交结论成功后，刷新变更评审结论页

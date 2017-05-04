@@ -151,7 +151,7 @@ define(function(require,exports,module){
 					    separator: ';',
 					    tags: true
 					});
-					//引入单选框样式
+					// 引入单选框样式
 					Utils.eventTrClickCallback(_dom);
 					var _saveConclusion =  Page.findId('getChangeReviewConclusion').find("[name='saveConclusion']");
 					if(data.planState=="3" || data.planState=="4"){
@@ -160,7 +160,7 @@ define(function(require,exports,module){
 						_saveConclusion.removeAttr("disabled");
 					}
 					_saveConclusion.unbind('click');
-					//点击保存
+					// 点击保存
 					_saveConclusion.bind('click',function(){
 						var _checkObj =	_dom.find("input[type='radio']:checked");
 						if(_checkObj.length==0){

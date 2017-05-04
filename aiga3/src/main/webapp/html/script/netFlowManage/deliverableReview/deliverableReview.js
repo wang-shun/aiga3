@@ -121,7 +121,7 @@ define(function(require,exports,module){
 	    				_form.find("[name='conclusion']").val(json.data.conclusion);
 	    			}
 	    			_form.find("[name='onlinePlanName']").html(data.onlinePlanName);
-					//引入单选框样式
+					// 引入单选框样式
 					Utils.eventTrClickCallback(_form);
 					var _saveConclusion =  Page.findId('getDeliverableReviewConclusion').find("[name='saveConclusion']");
 					if(data.planState=="3" || data.planState=="4"){
@@ -130,7 +130,7 @@ define(function(require,exports,module){
 						_saveConclusion.removeAttr("disabled");
 					}
 					_saveConclusion.unbind('click');
-					//点击保存
+					// 点击保存
 					_saveConclusion.bind('click',function(){
 						var _checkObj =	_form.find("input[type='radio']:checked");
 						if(_checkObj.length==0){
@@ -150,7 +150,7 @@ define(function(require,exports,module){
 							}
 						});
 					});
-					//点击回退
+					// 点击回退
 					$("#JS_rollback").bind('click',function(){
 						Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
 							if(status) {

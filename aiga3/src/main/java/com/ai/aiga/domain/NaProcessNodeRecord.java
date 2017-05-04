@@ -101,7 +101,7 @@ public class NaProcessNodeRecord  implements java.io.Serializable {
         this.node = node;
     }
     
-    @Column(name="EXT_1", length=200)
+    @Column(name="EXT_1", length=4000)
     public String getExt1() {
         return this.ext1;
     }
@@ -110,7 +110,7 @@ public class NaProcessNodeRecord  implements java.io.Serializable {
         this.ext1 = ext1;
     }
     
-    @Column(name="EXT_2", length=200)
+    @Column(name="EXT_2", length=4000)
     public String getExt2() {
         return this.ext2;
     }
@@ -119,7 +119,7 @@ public class NaProcessNodeRecord  implements java.io.Serializable {
         this.ext2 = ext2;
     }
     
-    @Column(name="EXT_3", length=200)
+    @Column(name="EXT_3", length=4000)
     public String getExt3() {
         return this.ext3;
     }

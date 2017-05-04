@@ -154,12 +154,12 @@ define(function(require,exports,module){
 				var _data = Utils.getRadioCheckedRow(_dom);
 				if (_data) {
 					Rose.ajax.postJson(srvMap.get('deleteEnvironment'), 'envId=' + _data.envId, function(json, status) {
-							if (status) {
-								XMS.msgbox.show('删除成功！', 'success', 2000);
-								setTimeout(function() {
-									self.getEnvironment();
-								}, 1000)
-							}
+						if (status) {
+							XMS.msgbox.show('删除成功！', 'success', 2000);
+							setTimeout(function() {
+								self.getEnvironment();
+							}, 1000)
+						}
 					});
 				}
 			});

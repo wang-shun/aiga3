@@ -3,12 +3,12 @@
     <div class="col-md-12">
 		<div class="box" id="JS_getChangeReviewConclusion">
 	      	<div class="box-header">
-	        	<h3 class="box-title">交付物评审结论</h3>
+	        	<h3 class="box-title">变更评审结论</h3>
 				<div class="box-tools pull-right">
                     <button type="button" class="btn btn-primary" data-toggle="modal" name="saveConclusion"><!-- <i class="fa fa-plus"></i> --> 保存结论</button>
                 </div>
 	      	</div>
-			<div class="box-body" id="JS_getDeliverableReviewConclusion"></div>
+			<div class="box-body table-scrollable" id="JS_getDeliverableReviewConclusion"></div>
 		</div>
 
 		<div class="nav-tabs-custom">
@@ -764,9 +764,9 @@
 	</div>
 </div>
 
-<!-- handlebars/交付物评审结论 -->
+<!-- handlebars/变更评审结论 -->
 <script id="TPL_getDeliverableReviewConclusion" type="text/x-handlebars-template">
-	<table class="table table-bordered table-hover">
+	<table class="table table-bordered table-hover" style="width: 3000px;">
 	    <thead>
 	        <tr>
 	            <th class="iCheckbox" width="15"></th>
@@ -776,7 +776,6 @@
 	            <th>评审时间</th>
 	            <th>评审人</th>
 	            <th>备注</th>
-	            <th>操作</th>
 	            <th style="display:none;">扩张字段</th>
 	        </tr>
 	    </thead>
@@ -786,7 +785,7 @@
 	            <td name="onlinePlanName">{{onlinePlanName}}</td>
 	            <td>
 	                <div class="col-xs-1">
-	                    <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
+	                    <select name="conclusion" class="" value="{{conclusion}}">
 	                        <option value="">请选择</option>
 	                        <option value="1">通过</option>
 	                        <option value="2">未通过</option>
@@ -795,14 +794,15 @@
 	            </td>
 	            <td><div class="col-xs-1"><input type="text" size="" class="" name="reviewResult" value="{{reviewResult}}" placeholder=""></div></td>
 	            <td>{{reviewDate}}</td>
-	            <td>{{reviewer}}</td>
-	            <td><div class="col-xs-1"><input type="text" size="" class="" name="remark" value="{{remark}}" placeholder=""></div></td>
-	            <td>
-	                <div class="text-center">
-	                    <button type="button" class="btn btn-primary" id="JS_publish" name="publish">编译发布</button>
-	                    <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
-	                </div>
+	            <!-- <td>{{reviewer}}</td> -->
+				<td>
+                    <select name="reviewer" class="form-control select2" multiple="multiple" value="{{reviewer}}" data-url="getDealOpIdList" data-idkey="dealOpId" data-namekey="dealOpName" required>
+							<option value="">请选择</option>
+	                        <option value="1">评审人1</option>
+	                        <option value="2">评审人2</option>
+                    </select>
 	            </td>
+	            <td><div class="col-xs-1"><input type="text" size="" class="" name="remark" value="{{remark}}" placeholder=""></div></td>
 	            <td style="display:none;"><input type="hidden" value="评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。" name="ext3">评审通过112个，驳回2个，评审通过率98.3%。《政企预打印管理需求[账务管理]》测试环境功能测试不通过，评审驳回。</td>
 	        </tr>
 	    </tbody>

@@ -180,6 +180,14 @@
                                             </div>
                                         </div>
                                     </form>
+                                    <div class="row">
+                                        <div class="form-group col-sm-8">
+                                            <input class="form-control input-sm" type="text" name="QUERY_messageName" placeholder="请输入接口名字！">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button class="btn btn-primary input-sm" name="queryInterface">查询</button>
+                                        </div>
+                                    </div>
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
@@ -436,7 +444,7 @@
         <div class="col-sm-4 form-group">
             <label class="control-label">用例类型<i class="text-red">*</i></label>
             <select name="caseType" class="form-control select2 input-sm" required>
-                 <option value="">请选择</option>
+                <option value="">请选择</option>
                 <option value="1">UI类</option>
                 <option value="2">接口类</option>
                 <option value="3">后台进程类</option>
@@ -447,19 +455,19 @@
         <div id="add_sysId" class="col-sm-4 form-group">
             <label class="control-label">系统大类</label>
             <select name="sysId" class="form-control select2 input-sm">
-                 <option value="">请选择</option>
+                <option value="">请选择</option>
             </select>
         </div>
         <div id="add_subSysId" class="col-sm-4 form-group">
             <label class="control-label">系统子类</label>
             <select name="subSysId" class="form-control select2 input-sm">
-                 <option value="">请选择</option>
+                <option value="">请选择</option>
             </select>
         </div>
         <div id="add_funId" class="col-sm-4 form-group">
             <label class="control-label">功能点</label>
             <select name="funId" class="form-control select2 input-sm">
-                 <option value="">请选择</option>
+                <option value="">请选择</option>
             </select>
         </div>
     </div>
@@ -498,7 +506,9 @@
         <td class="col-xs-8">
             <input name="remark" value="{{remark}}" style="width:300px">
         </td>
-        <td class="hide"><input name="factorOrder" value="{{factorOrder}}"></td>
+        <td class="hide">
+            <input name="factorOrder" value="{{factorOrder}}">
+        </td>
     </tr>
     {{/each}}
 </script>

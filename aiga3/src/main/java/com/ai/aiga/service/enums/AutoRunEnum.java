@@ -17,6 +17,7 @@ public enum AutoRunEnum {
     Custom_sAddress(1L, "sAddress"),
     Custom_inputXmlOne(2L, "input_xml_1"),
     Custom_inputXmlTwo(3L, "input_xml_2"),
+    Custom_result(4L,"result"),
     
     //是否最后一个用例
     FinalNum_no(0L,"否"),

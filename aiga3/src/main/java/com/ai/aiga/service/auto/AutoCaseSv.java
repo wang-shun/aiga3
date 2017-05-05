@@ -151,13 +151,25 @@ public class AutoCaseSv {
         autoCase.setEnvironmentType(autoCaseRequest.getEnvironmentType());
         autoCase.setAutoName(autoCaseRequest.getAutoName());
         autoCase=this.save(autoCase);
-        
         List<AutoUiCompRequest> compRequestList=autoCaseRequest.getCompList();
-        //如果带有组件信息则保存组件
-        if(compRequestList!=null&&compRequestList.size()>0){
-            this.saveCompList(compRequestList,autoCase);
+        //是否带有组件
+        boolean isCompList=compRequestList!=null&&compRequestList.size()>0;
+        //是否接口类用例
+        boolean isInterface=autoCase.getCaseType().equals(CaseEnum.CaseType_interface.getValue());
+        //如果带有组件信息且 （不是接口类 或  是接口但不是根据自动化用例模板生成用例）
+        if (isCompList && (!isInterface || (isInterface && !isTemp))) {
+            autoUiCompSv.saveCompList(compRequestList, autoCase);
         }
-        
+        //如果带有组件信息、接口类、根据自动化用例模板生成用例
+        if(isCompList&&isInterface&&isTemp){
+            //从组件列表中筛选出非自定义组件
+            List<AutoUiCompRequest> compList = this.getRuleCompFromList(compRequestList);
+            autoUiCompSv.saveCompList(compList,autoCase);
+            //从组件列表中筛选出自定义组件
+            AutoUiCompRequest customComp=this.getCustomCompFromList(compRequestList);
+            //生成接口类组件信息
+            this.createInterfaceCompList(customComp,autoCase);
+        }
         return autoCase;
     }
 
@@ -474,39 +486,34 @@ public class AutoCaseSv {
     }
 
     /**
-     * 根据用例类型不同保存组件方式不同
-     * @param compRequestList
-     * @param autoCase
+     * 生成接口类组件
+     * @param customComp 自定义组件，compId为0
+     * @param autoCase 自动化用例对象
      */
-    private void saveCompList(List<AutoUiCompRequest> compRequestList,NaAutoCase autoCase) throws Exception {
-        boolean isInterface=autoCase.getCaseType().equals(CaseEnum.CaseType_interface.getValue());
-        if (isInterface){
-            //从组件列表中筛选出非自定义组件
-            List<AutoUiCompRequest> compList = this.getRuleCompFromList(compRequestList);
-            autoUiCompSv.saveCompList(compList,autoCase);
-            //从组件列表中筛选出自定义组件
-            AutoUiCompRequest customComp=this.getCustomCompFromList(compRequestList);
+    private void createInterfaceCompList(AutoUiCompRequest customComp,NaAutoCase autoCase) throws Exception {
+            //获取用例接口信息
             NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
             //是否ESB类型
             boolean isESB=caseInterface.getInterfaceType().equals(CaseEnum.InterfaceType_ESB.getValue());
             //是否CBOSS类型
             boolean isCBOSS=caseInterface.getInterfaceType().equals(CaseEnum.InterfaceType_CBOSS.getValue());
             if(isESB){
-                //ESB报文对象
+                //生成ESB组件(接口测试.HTTP接口测试.esb接口测试多规则校验)
+                NaAutoUiComp autoUiComp = this.autoUiCompSv.createAutoUiCompByCompNameAutoId(AutoRunEnum.InterfaceTest_esb.getShow(), autoCase.getAutoId());
+                //获取ESB报文对象
                 AigaEsbInterface esbInterface=this.esbInterfaceSv.findById(caseInterface.getMessageId());
-                //返回填充好的报文信息
+                //获取填充好的ESB报文信息
                 String esbXml=this.getEsbXml(customComp.getParamList(),esbInterface);
-                //填充ESB报文相关信息
-                this.fillEsbXmlParamToEsbComp(esbXml,autoCase);
+                //生成sAddress参数
+                this.autoUiParamSv.createAutoUiParamByNameValue(AutoRunEnum.Custom_sAddress.getShow(), caseInterface.getAddress(), autoUiComp);
+                //生成inputXml1参数
+                this.autoUiParamSv.createAutoUiParamByNameValue(AutoRunEnum.Custom_inputXmlOne.getShow(), esbXml, autoUiComp);
                 //根据必填校验参数生成组件
-                
+                this.createCompFromValidParam(autoCase);
             }
             if (isCBOSS){
                 
             }
-        }else{
-            autoUiCompSv.saveCompList(compRequestList,autoCase);
-        }
     }
 
     /**
@@ -556,7 +563,7 @@ public class AutoCaseSv {
      * @param paramRequestList 参数集合
      * @param esbInterface 报文对象
      * @return ESB报文内容
-     * @throws Exception
+     * @throws Exception 异常
      */
     private String getEsbXml(List<AutoUiParamRequest> paramRequestList ,AigaEsbInterface esbInterface)throws Exception{
         //XML字符串必须要有根元素，否则报错
@@ -589,31 +596,10 @@ public class AutoCaseSv {
     }
 
     /**
-     * 将EBS报文信息与ESB报文地址填入对应组件中（接口测试.HTTP接口测试.esb接口测试多规则校验）
-     * @param esbXml ESB报文
-     * @param autoCase 自动化用例对象
+     * 根据必填校验参数生成组件
+     * @param autoCase 自动化用例
+     * @throws Exception 异常
      */
-    private void fillEsbXmlParamToEsbComp(String esbXml,NaAutoCase autoCase){
-        NaUiComponent uiComponent=this.componentDao.findByCompName(AutoRunEnum.InterfaceTest_esb.getShow());
-        if (uiComponent!=null){
-            NaAutoUiComp autoUiComp=this.autoUiCompSv.findByAutoIdCompId(autoCase.getAutoId(),uiComponent.getCompId());
-            //地址参数
-            NaAutoUiParam paramAddress=BeanMapper.map(autoUiComp,NaAutoUiParam.class);
-            //inputXml1参数
-            NaAutoUiParam paramInputXmlOne=BeanMapper.map(autoUiComp,NaAutoUiParam.class);
-            //获取用例接口信息
-            NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
-            //填入sAddress
-            paramAddress.setParamName(AutoRunEnum.Custom_sAddress.getShow());
-            paramAddress.setParamValue(caseInterface.getAddress());
-            //填入InputXml
-            paramInputXmlOne.setParamName(AutoRunEnum.Custom_inputXmlOne.getShow());
-            paramInputXmlOne.setParamValue(esbXml);
-            this.autoUiParamSv.save(paramAddress);
-            this.autoUiParamSv.save(paramInputXmlOne);
-        }
-    }
-    
     private void createCompFromValidParam(NaAutoCase autoCase) throws Exception {
         NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
         //获取参数校验组件名称
@@ -625,17 +611,19 @@ public class AutoCaseSv {
             if (StringUtils.isBlank(compName)) {
                 return;
             }
+            //新增组件
             NaAutoUiComp autoUiComp=this.autoUiCompSv.createAutoUiCompByCompNameAutoId(compName,autoCase.getAutoId());
-            
+            //新增参数
+            this.autoUiParamSv.createAutoUiParamByNameValue(AutoRunEnum.Custom_result.getShow(), params.get(key), autoUiComp);
         }
     }
 
     /**
      * 返回参数校验组件MAP集合
-     * @return
+     * @return Map
      */
     private Map<String,String> getValidCompMap(){
-        Map<String, String> compMap = new HashMap();
+        Map<String, String> compMap = new HashMap<String,String>();
         compMap.put(KeyValueEnum.ValidParam_date.getKey(),KeyValueEnum.ValidParam_date.getValue());
         compMap.put(KeyValueEnum.ValidParam_enum.getKey(),KeyValueEnum.ValidParam_enum.getValue());
         compMap.put(KeyValueEnum.ValidParam_equals.getKey(),KeyValueEnum.ValidParam_equals.getValue());
@@ -682,7 +670,7 @@ public class AutoCaseSv {
     /**
      * 解析必填校验参数存入map集合
      * @param validParam 必填校验参数
-     * @return Map<String,String> map集合
+     * @return  map集合
      * @throws UnsupportedEncodingException  字符编码解析异常
      */
     private Map<String,String> parseValidParamToMap(String validParam) throws UnsupportedEncodingException {

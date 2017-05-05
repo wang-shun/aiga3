@@ -23,8 +23,10 @@ define(function(require, exports, module) {
     srvMap.add("changePlansave", pathAlias + "scrap.json", "sys/changeplanonile/save");
     //上线总结提交/修改
     srvMap.add("submit", pathAlias + "scrap.json", "sys/changeplanonile/resultupdate");
-    //上线总结
+    //上线变更总结
     srvMap.add("addChangePlanResulForm", pathAlias + "addChangePlanResulForm.json", "sys/changeplanonile/findone");
+    //上线变更总结查看交付物
+    srvMap.add("getChangePlanResulList", pathAlias + "getChangeDeliverableList.json", "produce/plan/findNaFileUpload")
     //查看需求
     srvMap.add("seerequList", pathAlias + "seeRequList.json", "sys/require/list");
     //保存需求状态
@@ -481,10 +483,8 @@ define(function(require, exports, module) {
 
                 if (_data) {
                     var cmd = "onlinePlan=" + onlinePlan;
-                    XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                     Rose.ajax.postJson(srvMap.get('addChangePlanResulForm'), cmd, function(json, status) {
                         if (status) {
-                            window.XMS.msgbox.hide();
                             var template = Handlebars.compile(Page.findTpl('addChangePlanResulForm'));
                             console.log(json.data)
                             _form.html(template(json.data));
@@ -503,12 +503,39 @@ define(function(require, exports, module) {
                                 _form.find("[name='ext2']").removeAttr("readonly");
                             }
                             $("#submit-button").attr("disabled", true);
+                            self.getChangePlanResulList(_data);
                             self.resultUpdate();
                             self.resultSubmit();
                         }
                     });
                 }
             });
+        },
+        //查看交付物列表
+        getChangePlanResulList: function(_data) {
+        	var self = this;
+        	var _dom = Page.findId('getChangePlanResulList');
+        	var _domPagination = _dom.find("[name='pagination']");
+        	if (_data.types == 0 || _data.types == 1) {
+        		var cmd = "onlinePlan=" + _data.onlinePlan + "type=1";
+        		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+        		Utils.getServerPage(srvMap.get('getChangePlanResulList'), cmd, function(json) {
+        			window.XMS.msgbox.hide();
+        			var template = Handlebars.compile(Page.findTpl('getChangePlanResulList'));
+        			_dom.find("[name=content]").html(template(json.data.content));
+        			Utils.eventTrClickCallback(_dom);
+        		},_domPagination);
+        	} else {
+        		var cmd = "onlinePlan=" + _data.onlinePlan + "type=2";
+        		XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+        		Utils.getServerPage(srvMap.get('getChangePlanResulList'), cmd, function(json) {
+        			window.XMS.msgbox.hide();
+        			var template = Handlebars.compile(Page.findTpl('getChangePlanResulList'));
+        			_dom.find("[name=content]").html(template(json.data.content));
+        			Utils.eventTrClickCallback(_dom);
+        		},_domPagination);
+        	}
+
         },
         //修改总结
         resultUpdate: function() {

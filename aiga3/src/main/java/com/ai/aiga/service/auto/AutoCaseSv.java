@@ -509,7 +509,7 @@ public class AutoCaseSv {
                 //生成inputXml1参数
                 this.autoUiParamSv.createAutoUiParamByNameValue(AutoRunEnum.Custom_inputXmlOne.getShow(), esbXml, autoUiComp);
                 //根据必填校验参数生成组件
-                this.createCompFromValidParam(autoCase);
+                this.createCompFromValidParam(caseInterface.getValidParam(),autoCase.getAutoId());
             }
             if (isCBOSS){
                 
@@ -597,22 +597,25 @@ public class AutoCaseSv {
 
     /**
      * 根据必填校验参数生成组件
-     * @param autoCase 自动化用例
+     * @param validParam 校验参数
+     * @param autoId 自动化用例ID
      * @throws Exception 异常
      */
-    private void createCompFromValidParam(NaAutoCase autoCase) throws Exception {
-        NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
+    private void createCompFromValidParam(String validParam,Long autoId) throws Exception {
+        if (StringUtils.isBlank(validParam) || autoId==null) {
+            return;
+        }
         //获取参数校验组件名称
         Map<String,String> validCompMap=this.getValidCompMap();
         //解析必填校验参数
-        Map<String,String> params=this.parseValidParamToMap(caseInterface.getValidParam());
+        Map<String,String> params=this.parseValidParamToMap(validParam);
         for (String key:params.keySet()){
             String compName=validCompMap.get(key);
             if (StringUtils.isBlank(compName)) {
                 return;
             }
             //新增组件
-            NaAutoUiComp autoUiComp=this.autoUiCompSv.createAutoUiCompByCompNameAutoId(compName,autoCase.getAutoId());
+            NaAutoUiComp autoUiComp=this.autoUiCompSv.createAutoUiCompByCompNameAutoId(compName,autoId);
             //新增参数
             this.autoUiParamSv.createAutoUiParamByNameValue(AutoRunEnum.Custom_result.getShow(), params.get(key), autoUiComp);
         }

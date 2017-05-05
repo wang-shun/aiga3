@@ -487,8 +487,8 @@ public class AutoCaseSv {
 
     /**
      * 生成接口类组件
-     * @param 
-     * @param autoCase
+     * @param customComp 自定义组件，compId为0
+     * @param autoCase 自动化用例对象
      */
     private void createInterfaceCompList(AutoUiCompRequest customComp,NaAutoCase autoCase) throws Exception {
             //获取用例接口信息
@@ -563,7 +563,7 @@ public class AutoCaseSv {
      * @param paramRequestList 参数集合
      * @param esbInterface 报文对象
      * @return ESB报文内容
-     * @throws Exception
+     * @throws Exception 异常
      */
     private String getEsbXml(List<AutoUiParamRequest> paramRequestList ,AigaEsbInterface esbInterface)throws Exception{
         //XML字符串必须要有根元素，否则报错
@@ -597,8 +597,8 @@ public class AutoCaseSv {
 
     /**
      * 根据必填校验参数生成组件
-     * @param autoCase
-     * @throws Exception
+     * @param autoCase 自动化用例
+     * @throws Exception 异常
      */
     private void createCompFromValidParam(NaAutoCase autoCase) throws Exception {
         NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
@@ -620,10 +620,10 @@ public class AutoCaseSv {
 
     /**
      * 返回参数校验组件MAP集合
-     * @return
+     * @return Map
      */
     private Map<String,String> getValidCompMap(){
-        Map<String, String> compMap = new HashMap();
+        Map<String, String> compMap = new HashMap<String,String>();
         compMap.put(KeyValueEnum.ValidParam_date.getKey(),KeyValueEnum.ValidParam_date.getValue());
         compMap.put(KeyValueEnum.ValidParam_enum.getKey(),KeyValueEnum.ValidParam_enum.getValue());
         compMap.put(KeyValueEnum.ValidParam_equals.getKey(),KeyValueEnum.ValidParam_equals.getValue());
@@ -670,7 +670,7 @@ public class AutoCaseSv {
     /**
      * 解析必填校验参数存入map集合
      * @param validParam 必填校验参数
-     * @return Map<String,String> map集合
+     * @return  map集合
      * @throws UnsupportedEncodingException  字符编码解析异常
      */
     private Map<String,String> parseValidParamToMap(String validParam) throws UnsupportedEncodingException {

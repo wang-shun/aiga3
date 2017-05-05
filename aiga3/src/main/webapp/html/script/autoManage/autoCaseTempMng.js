@@ -40,6 +40,8 @@ define(function(require, exports, module) {
     srvMap.add("getParameterList", pathAlias + "getParameterList.json", "sys/component/compParamList");
     //请求参数列表
     srvMap.add("saveAutoCompParam", pathAlias + "retMessage.json", "auto/case/saveAutoCompParam");
+    //接口类组件参数
+    srvMap.add("getInterfaceCompParam", pathAlias + "retMessage.json", "auto/templateComp/getCustomCompParam");
 
     var busiData;
     /*// 模板对象
@@ -209,7 +211,7 @@ define(function(require, exports, module) {
                 }
             });
         },
-        // 生成用例信息
+        // 生成用例
         generateCaseInfo: function(cmd) {
             var self = this;
             var _dom = Page.findId('getCaseTempList');
@@ -223,11 +225,17 @@ define(function(require, exports, module) {
                     _modal.modal('show');
                     _modal.find("[name='autoName']").val('');
                     // 获取组件列表
-                    self.getSideTempCompList('tempId=' + data.tempId);
+                    self.getSideTempCompList(data.tempId);
                     //保存组件
                     self.saveAutoCompParam(data.tempId);
                     // 先清空
                     Page.findModalCId('getParameterList').find("tbody").remove();
+
+                    Rose.ajax.postJson(srvMap.get('getInterfaceCompParam'), "caseId=" + data.caseId, function(json, status) {
+                        if (status) {
+                            console.log(json.data);
+                        }
+                    });
                 }
             });
         },
@@ -236,7 +244,7 @@ define(function(require, exports, module) {
             // alert('获取侧边组件列表'+cmd);
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.getJson(srvMap.get('getTempCompList'), cmd, function(json, status) {
+            Rose.ajax.getJson(srvMap.get('getTempCompList'), 'tempId=' + cmd, function(json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
                     var _dom = Page.findModalCId('getSideTempCompList');
@@ -251,9 +259,9 @@ define(function(require, exports, module) {
                         var _compName = dd.find("input[name='compName']").val();
                         var _val = thisDom.val();
                         if (isChecked == "true") {
-                            var cmd = _name + '=' + _val;
+                            var _cmd = _name + '=' + _val;
                             // 获取参数列表
-                            self.getParameterList(cmd, _val, _compOrder, _compName);
+                            self.getParameterList(_cmd, _val, _compOrder, _compName,cmd);
                         } else {
                             var _table = Page.findModalCId('getParameterList');
                             _table.find("tbody[name=" + _val + "_" + _compOrder + "]").remove();
@@ -265,24 +273,42 @@ define(function(require, exports, module) {
             });
         },
         // 获取参数列表
-        getParameterList: function(cmd, compId, compOrder, compName) {
+        getParameterList: function(cmd, compId, compOrder, compName,tempId) {
             // alert('参数列表'+cmd);
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.getJson(srvMap.get('getParameterList'), cmd, function(json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    json.data["compId"] = compId;
-                    json.data["compOrder"] = compOrder;
-                    json.data["compName"] = compName;
-                    var template = Handlebars.compile(Page.findTpl('getParameterList'));
-                    var _table = Page.findModalCId('getParameterList');
-                    _table.append(template(json.data))
-                        // 设置滚动条高度
-                    Utils.setScroll(_table.parent(".box-body"), '250px');
+            if (compId == 0) {
+                Rose.ajax.getJson(srvMap.get('getInterfaceCompParam'), 'tempId=' + tempId, function(json, status) {
+                    if (status) {
+                        window.XMS.msgbox.hide();
+                        json.data["compId"] = compId;
+                        json.data["compOrder"] = compOrder;
+                        json.data["compName"] = compName;
+                        var template = Handlebars.compile(Page.findTpl('getParameterList'));
+                        var _table = Page.findModalCId('getParameterList');
+                        _table.append(template(json.data));
+                            // 设置滚动条高度
+                        Utils.setScroll(_table.parent(".box-body"), '250px');
 
-                }
-            });
+                    }
+                });
+            } else {
+                Rose.ajax.getJson(srvMap.get('getParameterList'), cmd, function(json, status) {
+                    if (status) {
+                        window.XMS.msgbox.hide();
+                        json.data["compId"] = compId;
+                        json.data["compOrder"] = compOrder;
+                        json.data["compName"] = compName;
+                        var template = Handlebars.compile(Page.findTpl('getParameterList'));
+                        var _table = Page.findModalCId('getParameterList');
+                        _table.append(template(json.data))
+                            // 设置滚动条高度
+                        Utils.setScroll(_table.parent(".box-body"), '250px');
+
+                    }
+                });
+            }
+
         },
         // 保存生成用例
         saveAutoCompParam: function(_tempId) {
@@ -343,6 +369,7 @@ define(function(require, exports, module) {
                             }, 1000)
                         }
                     });
+
                 }
             });
         },

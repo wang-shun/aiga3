@@ -17,7 +17,7 @@ define(function(require, exports, module) {
     // 用例列表显示
     srvMap.add("getAutoCaseList", pathAlias + "autoCaseList.json", "auto/case/listInfo");
 
-    // 根据模板ID获取组件列表
+    // 根据用例ID获取组件列表
     srvMap.add("getAutoCompList", pathAlias2 + "getTempCompList.json", "auto/comp/findByAutoId");
     // 保存与组件关系(批量)
     srvMap.add("updateCaseCompList", pathAlias2 + "getTempCompList.json", "auto/case/saveAutoCompParam");

@@ -128,7 +128,7 @@ define(function(require, exports, module) {
                                 _dom.find("[name='content']").html(template(json.data.content));
                                 Utils.setSelectData(_dom);
                                 // 下拉框赋值
-                                self.getDealOpIdList();
+                                self.getDealOpIdList(cmd);
                                 // 初始化步骤
                                 Utils.initStep(_modal);
                                 self.delOnlineTask();
@@ -203,6 +203,10 @@ define(function(require, exports, module) {
                     var _dom = Page.findModalCId('getOnlineReviewTaskDistributeList');
                     var template = Handlebars.compile(Page.findTpl('getOnlineReviewTaskDistributeList'));
                     _dom.find("[name='content']").html(template(json.data.content));
+                    Utils.setSelectData(_dom);
+                    // 下拉框赋值
+                    self.getDealOpIdList(cmd);
+
                     self.updateOnlineTask();
                     self.delOnlineTask();
                     self.addOnlineTask();
@@ -223,7 +227,7 @@ define(function(require, exports, module) {
             console.log(_data)
 
 
-            _save = _form.find("[name='save']");
+            _save = _table.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {
                 var data = self.getRadioCheckedRow(_dom);
@@ -327,16 +331,13 @@ define(function(require, exports, module) {
             })
         },
         // 下拉框赋值
-        getDealOpIdList: function() {
+        getDealOpIdList: function(cmd) {
             var self = this;
-            Rose.ajax.postJson(srvMap.get('getDealOpIdList'), '', function(json, status) {
+            Rose.ajax.postJson(srvMap.get('getOnlineReviewTaskDistributeList'), cmd, function(json, status) {
                 if (status) {
-                    /*var template = Handlebars.compile(Tpl.getSysList);
-                    $("#sysId").html(template(json.data));
-                    console.log(json.data)*/
                     var _dom = Page.findModalCId('getOnlineReviewTaskDistributeList');
-                    var da = json.data;
-                    var i = 0
+                    var da = json.data.content;
+                    var i = 0;
                     _dom.find("tbody").find("tr").each(function() {
                         var tdArr = $(this).children();
                         tdArr.eq(4).find("select").val(da[i].dealOpId);
@@ -446,7 +447,10 @@ define(function(require, exports, module) {
             });
             Handlebars.registerHelper('getTaskType', function(value, fn) {
                 if (value == "4") {
-                    return "生产回归";
+                    return "生产验证前台";
+                }
+                if (value == "5") {
+                    return "生产验证后台";
                 }
                 if (value == "9") {
                     return "发布任务分派";

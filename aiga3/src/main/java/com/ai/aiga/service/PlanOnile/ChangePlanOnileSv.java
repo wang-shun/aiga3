@@ -170,9 +170,10 @@ public class ChangePlanOnileSv extends BaseService{
 		if(WorkFlowNewEnum.CHANGE_PLAN_PLANCHANGE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTCHANGE.getValue()==(long)request.getTypes()){
 			naChangePlanOnile.setFileUploadLastTime(TimeUtil.getDayBefore(request.getPlanDate(), 1));
 		}
-		//如果是上线，则前台设置
-		else if(WorkFlowNewEnum.CHANGE_PLAN_PLANONLINE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTONLINE.getValue()==(long)request.getTypes()){
-			naChangePlanOnile.setFileUploadLastTime(request.getFileUploadLastTime());
+		//如果是上线，交付物截至时间是计划变更的前3天
+		else {
+			System.out.println("1111"+TimeUtil.getDayBefore(request.getPlanDate(), 3));
+			naChangePlanOnile.setFileUploadLastTime(TimeUtil.getDayBefore(request.getPlanDate(), 3));
 		}
 		naChangePlanOnile.setCreateOpId(String.valueOf(SessionMgrUtil.getStaff().getStaffId()));
 		naChangePlanOnileDao.save(naChangePlanOnile);

@@ -173,31 +173,38 @@ public class ReviewPlanSv extends BaseService {
 			for (NaCodePathCompileResult naCodePathCompileResult : list) {
 				// 调用作业执行接口获取作业状态接口
 				String returnInfo = HttpUtil.sendRequestWithoutSSL(naCodePathCompileResult.getValue(), "GET");
+				
+				System.out.println("r"+returnInfo);
 				String status = ReaderXmlForDOM4J.getAttributeByName(returnInfo, "Status", "status");
 				String hadErrors = ReaderXmlForDOM4J.getAttributeByName(returnInfo, "Status", "hadErrors");
 				String hadWarnings = ReaderXmlForDOM4J.getAttributeByName(returnInfo, "Status", "hadWarnings");
 				String isAbort = ReaderXmlForDOM4J.getAttributeByName(returnInfo, "Status", "isAbort");
 				String isCancelled = ReaderXmlForDOM4J.getAttributeByName(returnInfo, "Status", "isCancelled");
 				String targetURI = ReaderXmlForDOM4J.getAttributeByName(returnInfo, "Status", "targetURI");
-				String returnStartTime = HttpUtil.sendRequestWithoutSSL("https://20.26.3.225:9843" + targetURI
-						+ "/PropertyValues/START_TIME?username=BLAdmin&password=1q1q1q&role=BLAdmins&", "GET");
-				String returnStopTime = HttpUtil.sendRequestWithoutSSL("https://20.26.3.225:9843" + targetURI
-						+ "/PropertyValues/END_TIME?username=BLAdmin&password=1q1q1q&role=BLAdmins&", "GET");
-				String returnStartTimes = ReaderXmlForDOM4J.getAttributeByName(returnStartTime, "PropertyValue", "value");
-				String returnStopTimes = ReaderXmlForDOM4J.getAttributeByName(returnStopTime, "PropertyValue", "value");
+
 				naCodePathCompileResult.setStatus(status);
 				naCodePathCompileResult.setHaderrors(hadErrors);
 				naCodePathCompileResult.setHadwarnings(hadWarnings);
 				naCodePathCompileResult.setIsabort(isAbort);
 				naCodePathCompileResult.setIscancelled(isCancelled);
 				naCodePathCompileResult.setTargeturi(targetURI);
-				try {
-					naCodePathCompileResult
-							.setStartTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(returnStartTimes));
-					naCodePathCompileResult
-							.setStopTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(returnStopTimes));
-				} catch (ParseException e) {
-					e.printStackTrace();
+				
+				System.out.println("Tt"+targetURI);
+				if(!"".equals(targetURI) && targetURI!=null ){
+					String returnStartTime = HttpUtil.sendRequestWithoutSSL("https://20.26.3.225:9843" + targetURI
+							+ "/PropertyValues/START_TIME?username=BLAdmin&password=1q1q1q&role=BLAdmins&", "GET");
+					String returnStopTime = HttpUtil.sendRequestWithoutSSL("https://20.26.3.225:9843" + targetURI
+							+ "/PropertyValues/END_TIME?username=BLAdmin&password=1q1q1q&role=BLAdmins&", "GET");
+					String returnStartTimes = ReaderXmlForDOM4J.getAttributeByName(returnStartTime, "PropertyValue", "value");
+					String returnStopTimes = ReaderXmlForDOM4J.getAttributeByName(returnStopTime, "PropertyValue", "value");
+					try {
+						naCodePathCompileResult
+								.setStartTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(returnStartTimes));
+						naCodePathCompileResult
+								.setStopTime(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(returnStopTimes));
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 				}
 				if ("false".equals(hadErrors) && "false".equals(hadWarnings) && "false".equals(isAbort)
 						&& "false".equals(isCancelled)) {
@@ -233,6 +240,7 @@ public class ReviewPlanSv extends BaseService {
 		if (datas != null && !datas.isEmpty()) {
 			for (int i=0;i<datas.size();i++) {
 				Object[] obj = (Object[]) datas.get(i);
+				naCodePathDao.updateExt1(planDate, obj[0].toString());
 				// 获取系统对应的BMC接口
 				List<NaSystemInterfaceAddress> systemInterfaceAddress = (List<NaSystemInterfaceAddress>) naSystemInterfaceAddressDao
 						.findBySysNameAndServiceTypeAndExt2("BMC", "COMPILE",obj[0].toString()); // 系统名称

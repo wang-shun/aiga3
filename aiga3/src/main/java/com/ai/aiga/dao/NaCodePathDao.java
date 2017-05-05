@@ -33,4 +33,10 @@ public interface NaCodePathDao extends JpaRepository<NaCodePath, Long>, SearchAn
 	
 	@Query(value="update  Na_Code_Path set complime_count=complime_count+1   where to_char(plan_Date,'yyyy-MM-dd')  like ?1  and is_Finished=0 " , nativeQuery=true)
 	void updateComplimeCount(String planDate);
+	
+	
+	
+	@Modifying
+	@Query(value="update Na_Code_Path set ext_1 = ''   where to_char(plan_date,'yyyy-MM-dd') like ?1 and sys_name like ?2 " , nativeQuery=true)
+	void updateExt1(String planDate,String sysName);
 }

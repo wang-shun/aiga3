@@ -83,7 +83,9 @@ seajs.config({
         'bootstrap-summernote':'lib/bootstrap-summernote/summernote.min.js',
         'select2-css':'lib/select2/select2.min.css',
         'select2':'lib/select2/select2.full.min.js',
-        'ajaxUpload':'lib/ajaxupload/2.0.2/jquery.ajaxupload.js'
+        'ajaxUpload':'lib/ajaxupload/2.0.2/jquery.ajaxupload.js',
+        'jqueryExtendCSS':'lib/jqueryExtend/jqueryExtend.all.css',
+        'jqueryExtendJS':'lib/jqueryExtend/jqueryExtend.all.js'
     },
     preload: [
         'json2',
@@ -115,7 +117,9 @@ seajs.config({
         'bootstrap-summernote',
         'select2-css',
         'select2',
-        'ajaxUpload'
+        'ajaxUpload',
+        'jqueryExtendCSS',
+        'jqueryExtendJS'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

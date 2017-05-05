@@ -79,9 +79,9 @@ public class AutoTemplateCompController {
     @RequestMapping(path="/auto/templateComp/getCustomCompParam",method = {RequestMethod.GET,RequestMethod.POST})
     @ApiOperation(value ="获取自定义组件参数" ,response =AutoUiParamRequest.class,notes ="根据用例模板ID获取因子封装成自定义组件参数" )
     public @ResponseBody JsonBean getCustomCompParam(
-            @ApiParam(name="caseId",value = "用例模板ID") Long caseId){
+            @ApiParam(name="tempId",value = "自动化用例模板ID") Long tempId){
         JsonBean jsonBean=new JsonBean();
-        jsonBean.setData(this.autoTemplateCompSv.getCustomCompParamByCaseId(caseId));
+        jsonBean.setData(this.autoTemplateCompSv.getCustomCompParamByCaseId(tempId));
         return jsonBean;
     }
     

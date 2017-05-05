@@ -2,10 +2,7 @@ package com.ai.aiga.service.auto;
 
 import com.ai.aiga.dao.NaAutoTemplateCompDao;
 import com.ai.aiga.dao.NaUiComponentDao;
-import com.ai.aiga.domain.NaAutoTemplate;
-import com.ai.aiga.domain.NaAutoTemplateComp;
-import com.ai.aiga.domain.NaCaseFactor;
-import com.ai.aiga.domain.NaUiComponent;
+import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.cases.CaseTemplateSv;
@@ -202,14 +199,15 @@ public class AutoTemplateCompSv {
 
     /**
      * 根据用例ID查询因子，然后根据因子模拟生成组件参数
-     * @param caseId 用例模板ID
+     * @param tempId 自动化用例模板ID
      * @return AutoUiParamRequest对象集合
      */
-    public List<AutoUiParamRequest> getCustomCompParamByCaseId(Long caseId){
-        if (caseId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+    public List<AutoUiParamRequest> getCustomCompParamByCaseId(Long tempId){
+        if (tempId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
         }
-        List<NaCaseFactor> factorList=caseTemplateSv.getFactorByCaseIdOrderByFactorDesc(caseId);
+        NaAutoTemplate autoTemplate=this.autoTemplateSv.findById(tempId);
+        List<NaCaseFactor> factorList=caseTemplateSv.getFactorByCaseIdOrderByFactorDesc(autoTemplate.getCaseId());
         List<AutoUiParamRequest> paramRequestList = new ArrayList<AutoUiParamRequest>();
         for (NaCaseFactor factor:factorList){
             AutoUiParamRequest paramRequest = new AutoUiParamRequest();

@@ -41,9 +41,6 @@ public class AutoUiParamSv {
      * @param comp 组件对象
      */
     public void saveParamList(List<AutoUiParamRequest> paramRequestList, NaAutoUiComp comp){
-        if (paramRequestList == null || paramRequestList.size()==0) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
         if (comp == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }

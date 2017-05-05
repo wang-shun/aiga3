@@ -50,9 +50,6 @@ public class AutoUiCompSv {
      * @param autoCase 自动化用例
      */
     public void saveCompList(List<AutoUiCompRequest> compRequestList , NaAutoCase autoCase){
-        if (compRequestList == null ||compRequestList.size()==0) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
         if (autoCase == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
@@ -251,16 +248,21 @@ public class AutoUiCompSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoId");
         }
         NaUiComponent uiComponent = this.componentDao.findByCompName(compName);
-        //获取最大组件顺序
-        List<NaAutoUiComp> compList=this.findByAutoIdOrderByCompOrderAsc(autoId);
-        NaAutoUiComp maxComp=compList.get(compList.size()-1);
+        
         //新增自动化用例组件
         NaAutoUiComp autoUiComp = new NaAutoUiComp();
         autoUiComp.setAutoId(autoId);
-        autoUiComp.setCompOrder(maxComp.getCompOrder()+1);
         autoUiComp.setUpdateTime(DateUtil.getCurrentTime());
         autoUiComp.setCompId(uiComponent.getCompId());
 //            autoUiComp.setCreatorId();
+        //获取最大组件顺序
+        List<NaAutoUiComp> compList=this.findByAutoIdOrderByCompOrderAsc(autoId);
+        if (compList != null && compList.size() > 0) {
+            NaAutoUiComp maxComp = compList.get(compList.size() - 1);
+            autoUiComp.setCompOrder(maxComp.getCompOrder() + 1);
+        } else {
+            autoUiComp.setCompOrder(1L);
+        }
         return this.save(autoUiComp);
     }
 

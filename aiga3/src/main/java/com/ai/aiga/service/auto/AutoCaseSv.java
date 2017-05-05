@@ -120,7 +120,7 @@ public class AutoCaseSv {
      */
     public NaAutoCase saveAutoCaseCompParam(AutoCaseRequest autoCaseRequest) throws Exception {
         if (autoCaseRequest == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+            BusinessException.throwBusinessException("AutoCaseRequest is null！");
         }
         if (autoCaseRequest.getAutoName() == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "autoName");

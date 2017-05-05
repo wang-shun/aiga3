@@ -322,7 +322,7 @@ public class CaseTemplateSv extends BaseService{
 		if (caseId == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
 		}
-		return this.caseFactorDao.findByCaseIdOrderByFactorDesc(caseId);
+		return this.caseFactorDao.findByCaseIdOrderByFactorOrderAsc(caseId);
 	}
 	
 	/**

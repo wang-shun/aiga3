@@ -19,5 +19,7 @@ public interface NaAutoUiCompDao extends JpaRepository<NaAutoUiComp,Long> {
     @Query(value = "delete from na_auto_ui_comp where auto_id=?1",nativeQuery = true)
     int deleteByAutoId(Long autoId);
 
-    List<NaAutoUiComp> findByAutoIdOrderByCompOrder(Long autoId);
+    List<NaAutoUiComp> findByAutoIdOrderByCompOrderAsc(Long autoId);
+    
+    NaAutoUiComp findByAutoIdAndCompId(Long autoId,Long compId);
 }

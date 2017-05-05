@@ -18,11 +18,13 @@ public class AutoUiParamRequest {
     private String paramSql;//参数SQL
     private String paramDesc;//参数描述
     private Long paramLevel;//参数等级
+    private Long paramOrder;//参数顺序
+    private Long paramType;//参数类型
 
     public AutoUiParamRequest() {
     }
 
-    public AutoUiParamRequest(Long paramId, Long compId, Long autoId, Long templetId, Long compOrder, String paramName, String paramValue, String paramExpect, String paramSql, String paramDesc, Long paramLevel) {
+    public AutoUiParamRequest(Long paramId, Long compId, Long autoId, Long templetId, Long compOrder, String paramName, String paramValue, String paramExpect, String paramSql, String paramDesc, Long paramLevel, Long paramOrder, Long paramType) {
         this.paramId = paramId;
         this.compId = compId;
         this.autoId = autoId;
@@ -34,6 +36,24 @@ public class AutoUiParamRequest {
         this.paramSql = paramSql;
         this.paramDesc = paramDesc;
         this.paramLevel = paramLevel;
+        this.paramOrder = paramOrder;
+        this.paramType = paramType;
+    }
+
+    public Long getParamOrder() {
+        return paramOrder;
+    }
+
+    public void setParamOrder(Long paramOrder) {
+        this.paramOrder = paramOrder;
+    }
+
+    public Long getParamType() {
+        return paramType;
+    }
+
+    public void setParamType(Long paramType) {
+        this.paramType = paramType;
     }
 
     public Long getParamId() {

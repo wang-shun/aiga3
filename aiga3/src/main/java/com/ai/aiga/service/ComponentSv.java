@@ -356,4 +356,11 @@ public class ComponentSv {
 		return responses;
 		
 	}
+	
+	public NaUiComponent findByCompName(String compName){
+		if (StringUtils.isBlank(compName)) {
+		          BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compName");
+		}
+		return this.naUiComponentDao.findByCompName(compName);
+	}
 }

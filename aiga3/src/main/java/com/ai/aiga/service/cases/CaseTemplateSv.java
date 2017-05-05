@@ -314,6 +314,18 @@ public class CaseTemplateSv extends BaseService{
 	}
 
 	/**
+	 * 根据模板ID和因子顺序排序返回因子集合
+	 * @param caseId 模板ID
+	 * @return 返回因子集合
+	 */
+	public List<NaCaseFactor> getFactorByCaseIdOrderByFactorDesc(Long caseId){
+		if (caseId == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+		}
+		return this.caseFactorDao.findByCaseIdOrderByFactorDesc(caseId);
+	}
+	
+	/**
 	 * 根据接口信息获取因子
 	 * @param messageId 接口主键ID
 	 * @param interfaceType 接口类型
@@ -333,11 +345,11 @@ public class CaseTemplateSv extends BaseService{
 		boolean isCBOSS=interfaceType.equals(CaseEnum.InterfaceType_CBOSS.getValue());
 		if (isESB) {
 			AigaEsbInterface esbInterface=this.esbInterfaceSv.findById(messageId);
-			//XML文件必须要有根元素
-			String inputSoap="<root>"+esbInterface.getInputSoap()+"</root>";
+			//XML字符串必须要有根元素，否则报错
+			String inputSoap = CaseEnum.xmlRoot_header.getShow() + esbInterface.getInputSoap() + CaseEnum.xmlRoot_footer.getShow();
 			Document document= DocumentHelper.parseText(inputSoap);
-			//获取所有属性节点
-			factorList=this.listNodes(document.getRootElement(),factorList,CaseEnum.factorType_one.getValue());
+			//获取所有叶子节点并存入因子集合中
+			factorList=this.listNodesIntoFactorList(document.getRootElement(),factorList,CaseEnum.factorType_one.getValue());
 		}
 		if (isCBOSS) {
 			
@@ -352,7 +364,7 @@ public class CaseTemplateSv extends BaseService{
 	 * @param factorType 因子类型
 	 * @return Factor集合
 	 */
-	private List<Factor> listNodes(Element node,List<Factor> factorList,Long factorType){
+	private List<Factor> listNodesIntoFactorList(Element node,List<Factor> factorList,Long factorType){
 		List<Element> elements=node.elements();
 		//是否叶子节点
 		boolean isLeaf = elements.size() == 0;
@@ -368,7 +380,7 @@ public class CaseTemplateSv extends BaseService{
 		}
 		//递归子节点
 		for (Element element:elements){
-			this.listNodes(element,factorList,factorType);
+			this.listNodesIntoFactorList(element,factorList,factorType);
 		}
 		return factorList;
 	}

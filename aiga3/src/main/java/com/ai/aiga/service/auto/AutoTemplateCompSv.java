@@ -2,12 +2,19 @@ package com.ai.aiga.service.auto;
 
 import com.ai.aiga.dao.NaAutoTemplateCompDao;
 import com.ai.aiga.dao.NaUiComponentDao;
+import com.ai.aiga.domain.NaAutoTemplate;
 import com.ai.aiga.domain.NaAutoTemplateComp;
+import com.ai.aiga.domain.NaCaseFactor;
 import com.ai.aiga.domain.NaUiComponent;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.cases.CaseTemplateSv;
+import com.ai.aiga.service.enums.AutoRunEnum;
+import com.ai.aiga.service.enums.CaseEnum;
+import com.ai.aiga.service.enums.GeneralEnum;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.auto.AutoTemplateCompRequest;
+import com.ai.aiga.view.json.auto.AutoUiParamRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +38,12 @@ public class AutoTemplateCompSv {
     @Autowired
     private NaUiComponentDao componentDao;
 
+    @Autowired
+    private AutoTemplateSv autoTemplateSv;
+    
+    @Autowired
+    private CaseTemplateSv caseTemplateSv;
+    
     /**
      * 根据模板ID查询出所有关联组件信息(只包含组件ID)
      * @param templateCompRequest
@@ -92,6 +105,16 @@ public class AutoTemplateCompSv {
                 requestList.add(request);
             }
         }
+        NaAutoTemplate autoTemplate=this.autoTemplateSv.findById(tempId);
+        //判断是否接口类型，接口类型需模拟生成一个自定义组件
+        boolean isInterface=autoTemplate.getCaseType().equals(CaseEnum.CaseType_interface.getValue());
+        if (isInterface){
+            AutoTemplateCompRequest request=new AutoTemplateCompRequest();
+            request.setCompId(AutoRunEnum.Custom_component.getValue());
+            request.setCompName(AutoRunEnum.Custom_component.getShow());
+            //装入自定义组件
+            requestList.add(request);
+        }
         return  requestList;
     }
 
@@ -136,9 +159,13 @@ public class AutoTemplateCompSv {
         //批量保存新的组件关系
         List<NaAutoTemplateComp> compList=new ArrayList<NaAutoTemplateComp>();
         for (AutoTemplateCompRequest request:requestList){
-            NaAutoTemplateComp comp=BeanMapper.map(request,NaAutoTemplateComp.class);
-            comp.setTempId(tempId);
-            compList.add(comp);
+            //是否自定义组件
+            boolean isCustomComp=request.getCompId().equals(AutoRunEnum.Custom_component.getValue());
+            if (!isCustomComp) {
+                NaAutoTemplateComp comp = BeanMapper.map(request, NaAutoTemplateComp.class);
+                comp.setTempId(tempId);
+                compList.add(comp);
+            }
         }
         templateCompDao.save(compList);
     }
@@ -175,4 +202,29 @@ public class AutoTemplateCompSv {
         }
         templateCompDao.deleteByTempId(tempId);
     }
+
+    /**
+     * 根据用例ID查询因子，然后根据因子模拟生成组件参数
+     * @param caseId 用例模板ID
+     * @return AutoUiParamRequest对象集合
+     */
+    public List<AutoUiParamRequest> getCustomCompParamByCaseId(Long caseId){
+        if (caseId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "caseId");
+        }
+        List<NaCaseFactor> factorList=caseTemplateSv.getFactorByCaseIdOrderByFactorDesc(caseId);
+        List<AutoUiParamRequest> paramRequestList = new ArrayList<AutoUiParamRequest>();
+        for (NaCaseFactor factor:factorList){
+            AutoUiParamRequest paramRequest = new AutoUiParamRequest();
+            paramRequest.setCompId(AutoRunEnum.Custom_component.getValue());
+            paramRequest.setParamName(factor.getFactorName());
+            paramRequest.setParamOrder(factor.getFactorOrder().longValue());
+            //只有CBOSS才需要因子类型
+            paramRequest.setParamType(factor.getFactorType());
+            paramRequestList.add(paramRequest);
+        }
+        return paramRequestList;
+    }
+    
+    
 }

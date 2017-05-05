@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.ai.aiga.view.json.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,12 +28,6 @@ import com.ai.aiga.domain.NaUiComponent;
 import com.ai.aiga.domain.NaUiParam;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
-import com.ai.aiga.view.json.CommonCompTreeResponse;
-import com.ai.aiga.view.json.CompTreeResponse;
-import com.ai.aiga.view.json.CtrlTreeResponse;
-import com.ai.aiga.view.json.NaUiComponentRequest;
-
-import com.ai.aiga.view.json.NaUiParamRequest;
 
 import net.sf.ehcache.search.expression.And;
 
@@ -381,5 +376,13 @@ public class ComponentSv {
 			}
 		}
 		return responses;
+		
+	}
+	
+	public NaUiComponent findByCompName(String compName){
+		if (StringUtils.isBlank(compName)) {
+		          BusinessException.throwBusinessException(ErrorCode.Parameter_null, "compName");
+		}
+		return this.naUiComponentDao.findByCompName(compName);
 	}
 }

@@ -73,7 +73,7 @@
             <div class="box-header">
                 <h3 class="box-title">变更计划列表</h3>
                 <div class="box-tools">
-                    <button type="button" class="btn btn-primary" name="addSummary">添加上线总结
+                    <button type="button" class="btn btn-primary" name="addSummary">添加上线变更总结
                     </button>
                     <button type="button" class="btn btn-primary" name="queryDel">查看交付物
                     </button>
@@ -314,10 +314,8 @@
                     <div class="box-header">
                         <h3 class="box-title">变更交付物列表</h3>
                         <div class="box-tools">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadDocument">
-                                <!-- <i class="fa fa-edit"></i> -->下载文档</button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" name="deleteDocument">
-                                <!-- <i class="fa fa-hourglass-end"></i> -->删除文档</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadDocument">下载文档</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="deleteDocument">删除文档</button>
                         </div>
                     </div>
                     <div class="box-body">
@@ -341,14 +339,10 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal-footer">
-			                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
-			                <button type="button" class="btn btn-primary pull-right" name="submit">确认</button>
-			            </div> -->
         </div>
     </div>
 </div>
-<!-- 添加结果 -->
+<!-- 添加上线变更总结 -->
 <div class="modal fade" id="Modal_addChangePlanResultFormModal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -362,7 +356,7 @@
             <div class="modal-body">
                 <div class="box" style="min-height: 100px">
                     <div class="box-header with-border">
-                        <h3 class="box-title">添加上线总结</h3>
+                        <h3 class="box-title">添加上线变更总结</h3>
                     </div>
                     <div class="box-body">
                         <form id="JS_addChangePlanResulForm" role="form"></form>
@@ -386,15 +380,35 @@
                             </button> -->
                         </div>
                     </div>
-                    <div id="JS_getChangePlanResulList" class="box-body" style="min-height: 100px;"></div>
+                    <div  class="box" style="min-height: 100px;" id="JS_getChangePlanResulList">
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="iCheckbox" width="15"></th>
+                                        <th>文件名称</th>
+                                        <th>上传时间</th>
+                                        <th>最后一次上传时间</th>
+                                        <th>上传次数</th>
+                                        <th>下载时间</th>
+                                        <th>文件类型</th>
+                                    </tr>
+                                </thead>
+                                <tbody name="content"></tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer no-border">
+                            <div class="dataTables_paginate" name="pagination"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <div class="text-center">
                     <button type="reset" class="btn btn-default" id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-primary" id="JS_addCaseSetinfoSubmit">确认</button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -488,6 +502,22 @@
 <!-- handlebars/变更交付物列表 -->
 <script id="TPL_getChangeDeliverableList" type="text/x-handlebars-template">
     {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>{{fileName}}</td>
+        <td>{{createTime}}</td>
+        <td>{{lastUploadTime}}</td>
+        <td>{{uploadCount}}</td>
+        <td>{{downLoadTime}}</td>
+        <td>{{fileTypes fileType}}</td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/上线变更总结交付物列表 -->
+<script id="TPL_getChangePlanResulList" type="text/x-handlebars-template">
+	{{#each this}}
     <tr>
         <td>
             <input type="radio" class="minimal" value="{{id}}" name="id">

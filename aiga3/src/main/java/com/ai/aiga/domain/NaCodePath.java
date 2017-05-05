@@ -37,6 +37,10 @@ public class NaCodePath  implements java.io.Serializable {
      private Long result;
      private Long complimeCount;
      private Long planId;
+     private String ext1;
+     private String ext2;
+     private String ext3;
+     
      
      @Column(name="PLAN_ID", unique=true, nullable=false, precision=14, scale=0)
    public Long getPlanId() {
@@ -182,7 +186,33 @@ public class NaCodePath  implements java.io.Serializable {
         this.result = result;
     }
 
-
+    @Column(name="EXT_1", length=1000)
+    public String getExt1() {
+        return this.ext1;
+    }
+    
+    public void setExt1(String ext1) {
+        this.ext1 = ext1;
+    }
+    
+    @Column(name="EXT_2", length=1000)
+    public String getExt2() {
+        return this.ext2;
+    }
+    public void setExt2(String ext2) {
+        this.ext2 = ext2;
+    }
+    
+    @Column(name="EXT_3", length=1000)
+    public String getExt3() {
+        return this.ext3;
+    }
+    
+    public void setExt3(String ext3) {
+        this.ext3 = ext3;
+    }
+    
+    
 
 
 }

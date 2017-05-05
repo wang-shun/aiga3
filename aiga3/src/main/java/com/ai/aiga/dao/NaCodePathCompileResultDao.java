@@ -12,5 +12,9 @@ import java.util.List;
 
 public interface NaCodePathCompileResultDao extends SearchAndPageRepository<NaCodePathCompileResult, Long> {
 
-    
+	@Query(value="select * from na_code_path_compile_result where to_char(plan_date ,'yyyy-MM-dd') like ?1 ", nativeQuery=true)
+   List<NaCodePathCompileResult> findByPlanDate(String planDate);
+	
+	@Query(value="select * from na_code_path_compile_result where to_char(plan_date ,'yyyy-MM-dd') like ?1   and value is not null  and (status  like 'running'  or status  is null )  ", nativeQuery=true)
+	   List<NaCodePathCompileResult> findByPlanDateAndStatus(String planDate);
 }

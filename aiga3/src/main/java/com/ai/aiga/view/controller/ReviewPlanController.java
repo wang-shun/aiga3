@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.service.ReviewPlanSv;
+import com.ai.aiga.service.workFlowNew.ReviewPlanSv;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.webservice.soap.dto.AdclodArgs;
 
@@ -61,5 +61,44 @@ public class ReviewPlanController {
 		//json.setData(sv.copytNaCodePathComplieFromBMC());
 		return 	json;
 	}
+	
+	
+	@RequestMapping(value="/sys/plan/getComplimeInfo" ,method=RequestMethod.POST)
+	@ApiOperation(value="查询编译发布信息", notes="查询各个系统编译发布信息")
+
+	public @ResponseBody JsonBean getComplimeInfo(String planDate,String sysName,Long complimeNum) throws ParseException {
+		JsonBean json = new JsonBean();
+		json.setData(sv.getComplimeInfo (planDate, sysName, complimeNum));
+		return 	json;
+	}
+	
+	
+	
+	@RequestMapping(value="/sys/plan/NaCodePathCompileToBmc" ,method=RequestMethod.POST)
+	@ApiOperation(value="查询各个系统编译发布信息", notes="查询各个系统编译发布信息")
+	public @ResponseBody JsonBean NaCodePathCompileToBmc(String sysNames ,String planDate)throws ParseException {
+		sv.NaCodePathCompileToBmc(sysNames, planDate);
+		return 	JsonBean.success;
+	}
+	
+	
+
+	@RequestMapping(value="/sys/plan/getComplimeResultInfo" ,method=RequestMethod.POST)
+	@ApiOperation(value="统计本次上线编译情况", notes="统计本次上线编译情况")
+	@ApiImplicitParam(name="planDate", value="计划上线时间", required=true)
+	public @ResponseBody JsonBean getComplimeResultInfo(String planDate) throws ParseException {
+		JsonBean json = new JsonBean();
+		json.setData(sv.getComplimeResultInfo (planDate));
+		return 	json;
+	}
+	
     
+	
+	@RequestMapping(value="/sys/plan/getNaCodePathComplieResultFromBMC" ,method=RequestMethod.POST)
+	@ApiOperation(value="查询各个系统编译发布信息", notes="查询各个系统编译发布信息")
+	public @ResponseBody JsonBean getNaCodePathComplieResultFromBMC(String planDate)throws ParseException {
+		sv.getNaCodePathComplieResultFromBMC(planDate);
+		return 	JsonBean.success;
+	}
+	
 }

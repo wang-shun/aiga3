@@ -16,6 +16,6 @@ public interface NaCaseFactorDao extends JpaRepository<NaCaseFactor,Long>{
 
 	List<NaCaseFactor> findByCaseId(Long caseId);
 	
-	List<NaCaseFactor> findByCaseIdOrderByFactorDesc(Long caseId);
+	List<NaCaseFactor> findByCaseIdOrderByFactorOrderAsc(Long caseId);
 
 }

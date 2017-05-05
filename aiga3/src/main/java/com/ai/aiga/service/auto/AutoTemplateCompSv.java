@@ -145,9 +145,6 @@ public class AutoTemplateCompSv {
      * @param tempId
      */
     public void saveList(List<AutoTemplateCompRequest> requestList,Long tempId){
-        if (requestList == null||requestList.size()==0) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
-        }
         //校验数据是否正确
         for (AutoTemplateCompRequest request:requestList) {
             if (request.getCompId() == null) {

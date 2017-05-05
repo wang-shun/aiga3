@@ -126,6 +126,9 @@ define(function(require, exports, module) {
                             _modal.modal('show').on('shown.bs.modal', function() {
                                 var template = Handlebars.compile(Page.findTpl('getOnlineReviewTaskDistributeList'));
                                 _dom.find("[name='content']").html(template(json.data.content));
+                                Utils.setSelectData(_dom);
+                                // 下拉框赋值
+                                self.getDealOpIdList();
                                 // 初始化步骤
                                 Utils.initStep(_modal);
                                 self.delOnlineTask();
@@ -322,6 +325,25 @@ define(function(require, exports, module) {
                     }
                 }
             })
+        },
+        // 下拉框赋值
+        getDealOpIdList: function() {
+            var self = this;
+            Rose.ajax.postJson(srvMap.get('getDealOpIdList'), '', function(json, status) {
+                if (status) {
+                    /*var template = Handlebars.compile(Tpl.getSysList);
+                    $("#sysId").html(template(json.data));
+                    console.log(json.data)*/
+                    var _dom = Page.findModalCId('getOnlineReviewTaskDistributeList');
+                    var da = json.data;
+                    var i = 0
+                    _dom.find("tbody").find("tr").each(function() {
+                        var tdArr = $(this).children();
+                        tdArr.eq(4).find("select").val(da[i].dealOpId);
+                        i++;
+                    });
+                }
+            });
         },
         //获取选中变更计划的数据
         getRadioCheckedRow: function(obj) {

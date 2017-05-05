@@ -289,11 +289,10 @@ define(function(require, exports, module) {
                 var dataTemp = self.getCheckboxCheckedRow(_dom);
                 console.log(dataTemp)
                 if (dataTemp) {
-                    _form.find("[name='taskType']").val(dataTemp.taskType).attr("disabled", true);
+                    /*_form.find("[name='taskType']").val(dataTemp.taskType).attr("disabled", true);
                     _form.find("[name='dealOpId']").val(dataTemp.dealOpId);
-                    _form.find("[name='taskId']").val(dataTemp.taskId);
+                    _form.find("[name='taskId']").val(dataTemp.taskId);*/
                     Data.opreation = "update";
-
                 }
             })
         },
@@ -369,11 +368,18 @@ define(function(require, exports, module) {
                 window.XMS.msgbox.show('请选择一行数据！', 'info', 2000);
                 return;
             }
+            _obj.parents("tr").find("[name='taskType']").attr("checked", true);
+            _obj.attr("disabled", true);
             var data = {};
             _obj.parents("tr").find("input").each(function() {
                 var key = $(this).attr("name");
                 var value = $(this).val();
                 data[key] = value;
+            });
+            _obj.parents("tr").find("select").each(function(){
+                var key = $(this).attr("name");
+                var value = $(this).val();
+                data[key]=value;
             });
             return data;
         },

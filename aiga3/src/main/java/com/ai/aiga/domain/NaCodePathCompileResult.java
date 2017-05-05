@@ -35,6 +35,7 @@ public class NaCodePathCompileResult implements java.io.Serializable {
 	private Date startTime;
 	private Date stopTime;
 	private String result;
+	private String sysDesc;
 
 	public NaCodePathCompileResult() {
 	}
@@ -76,6 +77,15 @@ public class NaCodePathCompileResult implements java.io.Serializable {
 	@Column(name = "SYS_NAME", length = 100)
 	public String getSysName() {
 		return this.sysName;
+	}
+
+	@Column(name = "SYS_DESC", length = 100)
+	public String getSysDesc() {
+		return sysDesc;
+	}
+
+	public void setSysDesc(String sysDesc) {
+		this.sysDesc = sysDesc;
 	}
 
 	@Column(name = "START_TIME")

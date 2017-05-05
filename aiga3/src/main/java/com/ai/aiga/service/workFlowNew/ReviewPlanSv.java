@@ -262,6 +262,7 @@ public class ReviewPlanSv extends BaseService {
 						result.setValue(
 								"https://20.26.3.225:9843" + value + "?username=BLAdmin&password=1q1q1q&role=BLAdmins");
 						result.setExt1(naSystemInterfaceAddress.getExt3());// 步骤
+						result.setSysDesc("");
 						naCodePathCompileResultDao.save(result);
 					}
 
@@ -274,7 +275,8 @@ public class ReviewPlanSv extends BaseService {
 					}
 					result.setSysName(obj[0].toString());
 					result.setCompileNum(Long.parseLong(obj[1].toString()));
-					result.setExt2("环境验证");// 步骤
+					result.setExt1("环境验证");// 步骤
+					result.setSysDesc("");
 					naCodePathCompileResultDao.save(result);
 				}
 			}
@@ -344,6 +346,7 @@ public class ReviewPlanSv extends BaseService {
 				NaCodePathCompile naCodePathCompile = new NaCodePathCompile();
 				naCodePathCompile.setSysName(naComplimeInfoSum.getSysName());
 				naCodePathCompile.setMaxNum(naComplimeInfoSum.getMaxNum());
+				naCodePathCompile.setActiveNum(naComplimeInfoSum.getMaxNum());
 				naCodePathCompile.setNaCodePathCompileExp(
 						getNaComplimeInfoExp(planDate, naComplimeInfoSum.getSysName(), naComplimeInfoSum.getMaxNum()));
 				NaCodePathCompileList.add(naCodePathCompile);
@@ -359,6 +362,7 @@ public class ReviewPlanSv extends BaseService {
 			NaCodePathCompile naCodePathCompile = new NaCodePathCompile();
 			naCodePathCompile.setSysName(sysName);
 			naCodePathCompile.setMaxNum(sum.get(0).getMaxNum());
+			naCodePathCompile.setActiveNum(complimeNum);
 			naCodePathCompile.setNaCodePathCompileExp(getNaComplimeInfoExp(planDate, sysName, complimeNum));
 			NaCodePathCompileList.add(naCodePathCompile);
 		}

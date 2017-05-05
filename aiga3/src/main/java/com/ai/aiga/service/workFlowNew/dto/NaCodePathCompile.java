@@ -18,6 +18,7 @@ public class NaCodePathCompile implements java.io.Serializable {
 
 	private String sysName;
 	private Long maxNum;
+	private Long activeNum;
 	private Map<String , List<NaCodePathCompileExp>>	 naCodePathCompileExp;
 
 

@@ -33,6 +33,6 @@ public class NaCodePathCompileExp implements java.io.Serializable {
 	private Date stopTime;
 	private Long total;
 	private String result;
-
+	private String sysDesc;
 
 }

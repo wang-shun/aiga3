@@ -1,6 +1,9 @@
 package com.ai.aiga.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
@@ -36,6 +39,25 @@ public interface NaProcessNodeRecordDao extends JpaRepository<NaProcessNodeRecor
 
 	@Query(value = "select count(total_time_count) from aiga_boss_test_result where online_plan = ?1", nativeQuery = true)
 	Object time2(Long onlinePlan);
+
+	@Query(value = "select distinct plan_id from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd')",nativeQuery = true)
+	List<Object[]> findPlan(String planDate);
+	
+	@Modifying
+	@Query(value="update na_process_node_record a  set a.type=1 ,"
+			+ "a.time = to_date(to_char(sysdate,'yyyy-MM-dd '),'yyyy-MM-dd') "
+			+ "where a.plan_id =?1 "
+			+ "and  node=?2",nativeQuery=true)
+	void  update(Long onlinePlan ,Long node);
+	
+	
+	@Modifying
+	@Query(value="update na_process_node_record a  set a.type=2 ,"
+			+ "a.time = to_date(to_char(sysdate,'yyyy-MM-dd '),'yyyy-MM-dd') "
+			+ "where a.plan_id =?1 "
+			+ "and  node=?2",nativeQuery=true)
+	void  commit(Long onlinePlan ,Long node);
+
 	
 
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.NaCaseImplReportDao;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
@@ -25,6 +27,8 @@ import io.swagger.models.properties.ObjectProperty;
  * @Description:
  * 
  */
+@Service
+@Transactional
 public class HomeDataSv {
 	
 	@Autowired
@@ -111,6 +115,28 @@ public class HomeDataSv {
 		time3 = naProcessNodeRecordDao.time(3L, onlinePlan);//非功能验收耗时
 		record.setExt1("本次上线前台验收"+totalCount.toString()+"用例，耗时"+time1.toString()+"小时，后台功能验收耗时"+time2.toString()+"小时，非功能验收"+totalCount2.toString()+"用例，耗时"+time3.toString()+"小时");
 		
+	}
+
+	
+	public List<NaProcessNodeRecord[]> flowList(String planDate) {
+		List<Object[]> list = naProcessNodeRecordDao.findPlan(planDate);
+		List<NaProcessNodeRecord[]> response = new ArrayList<NaProcessNodeRecord[]>();
+		for(int i = 0; i < list.size(); i++){
+			NaProcessNodeRecord[] records = null;
+			//Object[] obj = list.get(i);
+			//System.out.println("计划Id"+obj[i]);
+			for(int j = 1; j < 9; j++){
+				NaProcessNodeRecord record = naProcessNodeRecordDao.findByPlanIdAndNode(77L, new Long((long)j));
+				System.out.println(record.getProcessName());
+				if(record != null){
+					records[j].setProcessName(record.getProcessName());
+					//records[j].setTime(record.getTime());
+				}
+				
+			}
+			response.add(records);
+		}
+		return response;
 	}
 
 }

@@ -324,13 +324,7 @@ public class AutoEnvironmentSv extends BaseService{
 
    
    
-   public List<NaAutoEnvironment> select(Long machineId){
-		  if (machineId==null) {
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-			}
-		return naAutoMachineEnvDao.select(machineId);
-		  
-	  }
+
    
    public void  delrel(Long envId,String machineId){
 	   if (envId==null&&machineId==null) {
@@ -380,6 +374,31 @@ public class AutoEnvironmentSv extends BaseService{
 		
 	}
    
-	
-   
+	 public Page<NaAutoEnvironment> select(int pageNumber, int pageSize, Long machineId) {
+		   if (machineId == null ) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "machineId");
+			}
+			
+			StringBuilder sb = new StringBuilder(" select a.* from Na_Auto_Environment a,Na_Auto_Machine_Env b where  "
+					+ "b.env_Id=a.env_Id and b.machine_id=:machineId");
+			
+			List<ParameterCondition> params = new ArrayList<ParameterCondition>();
+			
+				params.add(new ParameterCondition("machineId", machineId));
+			
+	  
+
+			if (pageNumber < 0) {
+				pageNumber = 0;
+			}
+
+			if (pageSize <= 0) {
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+
+			Pageable pageable = new PageRequest(pageNumber, pageSize);
+
+			return naAutoEnvironmentDao.searchByNativeSQL(sb.toString(), params, NaAutoEnvironment.class, pageable);
+		}
+
 }

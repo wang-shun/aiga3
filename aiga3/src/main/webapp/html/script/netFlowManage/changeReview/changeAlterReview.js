@@ -11,6 +11,8 @@ define(function(require, exports, module) {
     srvMap.add("getDeliverableReviewConclusionC", pathAlias + "getDeliverableReviewConclusion.json", "sys/review/findchangeReviewList");
     //保存结论
     srvMap.add("saveConclusionC", pathAlias + "retMessage.json", "sys/review/saveChangeReviewResult");
+    //提交结论
+    srvMap.add("commitConclusion", pathAlias + "retMessage.json", "sys/review/saveChangeReviewResult");
     //保存下一次评审时间
     srvMap.add("saveReviewTime", pathAlias + "retMessage.json", "sys/review/setReviewDate");
     //文件类型下拉框接口
@@ -72,7 +74,7 @@ define(function(require, exports, module) {
     //保存风险评估量化
     srvMap.add("saveRiskRating", pathAlias + "retMessage.json", "sys/review/saveNaRiskRatingScale");
     //风险等级列表
-    srvMap.add("getRiskScoreList", pathAlias + "getRiskScoreList.json", "sys/review/findNaQuantitativeRisk");  
+    srvMap.add("getRiskScoreList", pathAlias + "getRiskScoreList.json", "sys/review/findNaQuantitativeRisk");
     //保存风险等级
     srvMap.add("saveRiskScore", pathAlias + "retMessage.json", "sys/review/saveNaQuantitativeRisk");
     //信息通告列表
@@ -118,10 +120,10 @@ define(function(require, exports, module) {
             this.getServiceValidateList();
             this.getDangerList();
             this.getRiskRatingList();
-            this.getRiskScoreList(); 
-            this.getNoticeList();         
+            this.getRiskScoreList();
+            this.getNoticeList();
             this.getFileList();
-            
+
             this.hdbarHelp();
         },
         hdbarHelp: function() {
@@ -148,33 +150,97 @@ define(function(require, exports, module) {
             var _cmd = 'planId=' + data.onlinePlan + '&type=1';
             var _dom = Page.findId('getChangeReviewConclusionC');
             var _domPagination = _dom.find("[name='pagination']");
-            Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {                  
-                    var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusionC'));
-                    console.log(json.data.content)
-                    _dom.find("[name='content']").html(template(json.data.content));
-                    //下拉框赋值
-                    var da = json.data.content;
-                    var i = 0
+            Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {
+                var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusionC'));
+                console.log(json.data.content)
+                _dom.find("[name='content']").html(template(json.data.content));
+                //下拉框赋值
+                var da = json.data.content;
+                var i = 0
+                _dom.find("tbody").find("tr").each(function() {
+                    var tdArr = $(this).children();
+                    tdArr.eq(3).find("select").val(da[i].conclusion);
+                    ext1 = tdArr.eq(11).find("input").val();
+                    if(ext1 == "2"){
+                        tdArr.eq(0).find("input").attr("disabled", true);
+                    }else{
+                        tdArr.eq(0).find("input").removeAttr("disabled");
+                    }
+                    i++;
+                });
+                // var _onlinePlanName = _dom.find("[name='onlinePlanName']");
+                // _onlinePlanName.html(data.onlinePlanName);
+                //引入单选框样式
+                Utils.eventClickChecked(_dom, function(isChecked, input) {
+                    if(isChecked = "true"){
+                        var _input = $(input).parents("tr").find("[name='ext1']");
+                        if(_input.val()=="2"){
+                            input.iCheck('uncheck');
+                            window.XMS.msgbox.show('该结论已提交！', 'error', 2000);
+                            return false;
+                        }
+                    }
+                });
+                //设置出一下次评审时间
+                self.setReviewTime();
+                var _saveConclusionC = Page.findId('getChangeReviewConclusionC').find("[name='saveConclusionC']");
+                if (data.planState == "3" || data.planState == "4") {
+                    _saveConclusionC.attr("disabled", true);
+                } else {
+                    _saveConclusionC.removeAttr("disabled");
+                }
+                _saveConclusionC.unbind('click');
+                //点击保存结论
+                _saveConclusionC.bind('click', function() {
+                    var _checkObj = _dom.find("input[type='checkbox']:checked");
+                    if (_checkObj.length == 0) {
+                        window.XMS.msgbox.show('请选中结论！', 'error', 2000);
+                        return false;
+                    }
+                    var id;
+                    var fileId;
+                    var conclusion;
+                    var reviewResult;
+                    var remark;
+                    var saveState = [];
+                    var cmd;
                     _dom.find("tbody").find("tr").each(function() {
                         var tdArr = $(this).children();
-                        tdArr.eq(3).find("select").val(da[i].conclusion);
-                        i++;
+                        if (tdArr.eq(0).find("input").is(':checked')) {
+                            id = tdArr.eq(0).find("input").val();
+                            fileId = tdArr.eq(1).find("input").val();
+                            conclusion = tdArr.eq(3).find("select").val();
+                            reviewResult = tdArr.eq(4).find("input").val();
+                            remark = tdArr.eq(9).find("input").val();
+                            saveState.push({
+                                "id": id,
+                                "fileId": fileId,
+                                "conclusion": conclusion,
+                                "reviewResult": reviewResult,
+                                "remark": remark,
+                                "ext1": "1",
+                                "planId": data.onlinePlan
+                            });
+                        }
                     });
-                    // var _onlinePlanName = _dom.find("[name='onlinePlanName']");
-                    // _onlinePlanName.html(data.onlinePlanName);
-                    //引入单选框样式
-                    Utils.eventTrClickCallback(_dom);
-                    //设置出一下次评审时间
-                    self.setReviewTime();
-                    var _saveConclusionC = Page.findId('getChangeReviewConclusionC').find("[name='saveConclusionC']");
-                    if (data.planState == "3" || data.planState == "4") {
-                        _saveConclusionC.attr("disabled", true);
-                    } else {
-                        _saveConclusionC.removeAttr("disabled");
-                    }
-                    _saveConclusionC.unbind('click');
-                    //点击保存
-                    _saveConclusionC.bind('click', function() {
+                    cmd = saveState;
+                    console.log(cmd);
+                    //var _data = self.getCheckboxCheckedRow(_dom);
+                    //var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&planId=' + data.onlinePlan;
+                    Rose.ajax.postJson(srvMap.get('saveConclusionC'), cmd, function(json, status) {
+                        if (status) {
+                            // 保存结论成功后，刷新变更评审结论页
+                            XMS.msgbox.show('保存成功！', 'success', 2000)
+                            setTimeout(function() {
+                                self.getDeliverableReviewConclusionC();
+                            }, 1000)
+                        }
+                    });
+                });
+                var _commitConclusion = Page.findId('getChangeReviewConclusionC').find("[name='commitConclusion']");
+                    _commitConclusion.unbind('click');
+                    //点击提交结论
+                    _commitConclusion.bind('click', function() {
                         var _checkObj = _dom.find("input[type='checkbox']:checked");
                         if (_checkObj.length == 0) {
                             window.XMS.msgbox.show('请选中结论！', 'error', 2000);
@@ -201,34 +267,68 @@ define(function(require, exports, module) {
                                     "conclusion": conclusion,
                                     "reviewResult": reviewResult,
                                     "remark": remark,
+                                    "ext1": "2",
                                     "planId": data.onlinePlan
                                 });
                             }
                         });
                         cmd = saveState;
                         console.log(cmd);
-                        //var _data = self.getCheckboxCheckedRow(_dom);
-                        //var cmd = 'reviewId=' + _data.reviewId + '&conclusion=' + _data.conclusion + '&reviewResult=' + _data.reviewResult + '&remark=' + _data.remark + '&planId=' + data.onlinePlan;
-                        Rose.ajax.postJson(srvMap.get('saveConclusionC'), cmd, function(json, status) {
+                        Rose.ajax.postJson(srvMap.get('commitConclusion'), cmd, function(json, status) {
                             if (status) {
-                                // 保存结论成功后，刷新变更评审结论页
-                                XMS.msgbox.show('保存成功！', 'success', 2000)
+                                // 提交结论成功后，刷新变更评审结论页
+                                XMS.msgbox.show('提交成功！', 'success', 2000)
                                 setTimeout(function() {
                                     self.getDeliverableReviewConclusionC();
                                 }, 1000)
                             }
                         });
                     });
-                    //点击回退
-                    var _rollback = _dom.find("[name='rollback']");
-                    _rollback.bind('click', function() {
-                        Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
+                //点击回退
+                var _rollback = _dom.find("[name='rollback']");
+                _rollback.bind('click', function() {
+                    // var _checkObj = _dom.find("input[type='checkbox']:checked");
+                    // if (_checkObj.length == 0) {
+                    //     window.XMS.msgbox.show('请选中结论！', 'error', 2000);
+                    //     return false;
+                    // }
+                    setTimeout(function() {
+                        var id;
+                        var fileId;
+                        var conclusion;
+                        var reviewResult;
+                        var remark;
+                        var saveState = [];
+                        var cmd;
+                        _dom.find("tbody").find("tr").each(function() {
+                            var tdArr = $(this).children();
+                            if (tdArr.eq(0).find("input").is(':checked')) {
+                                id = tdArr.eq(0).find("input").val();
+                                fileId = tdArr.eq(1).find("input").val();
+                                conclusion = tdArr.eq(3).find("select").val();
+                                reviewResult = tdArr.eq(4).find("input").val();
+                                remark = tdArr.eq(9).find("input").val();
+                                saveState.push({
+                                    "id": id,
+                                    "fileId": fileId,
+                                    "conclusion": conclusion,
+                                    "reviewResult": reviewResult,
+                                    "remark": remark,
+                                    "planId": data.onlinePlan
+                                });
+                            }
+                        });
+                        cmd1 = saveState;
+                        console.log(cmd1);
+                        Rose.ajax.postJson(srvMap.get('saveConclusionC'), cmd1, function(json, status) {
                             if (status) {
                                 XMS.msgbox.show('回退成功！', 'success', 2000)
                             }
                         });
-                    });
-            },_domPagination);
+                    }, 10)
+
+                });
+            }, _domPagination);
         },
         getHistoryList: function() {
             var self = this;
@@ -237,12 +337,12 @@ define(function(require, exports, module) {
             var _dom = Page.findId('getHistoryList');
             var _domPagination = _dom.find("[name='pagination']");
             Utils.getServerPage(srvMap.get('getDeliverableReviewConclusionC'), _cmd, function(json) {
-                    var template = Handlebars.compile(Page.findTpl('getHistoryList'));
-                    console.log(json.data)
-                    _dom.find("[name='content']").html(template(json.data.content));
-                    //引入单选框样式
-                    Utils.eventTrClickCallback(_dom);
-            },_domPagination);
+                var template = Handlebars.compile(Page.findTpl('getHistoryList'));
+                console.log(json.data)
+                _dom.find("[name='content']").html(template(json.data.content));
+                //引入单选框样式
+                Utils.eventTrClickCallback(_dom);
+            }, _domPagination);
         },
         //设置下一次评审时间
         setReviewTime: function() {
@@ -263,19 +363,19 @@ define(function(require, exports, module) {
                         _reviewNum = _form.find("[name='reviewNum']").val();
                         if (_reviewNum > 0) {
                             Rose.ajax.postJson(srvMap.get('saveReviewTime'), cmd, function(json, status) {
-                            if (status) {
-                                XMS.msgbox.show('设置成功！', 'success', 2000)
-                                setTimeout(function() {
-                                    _modal.modal('hide');
-                                    _form.find("[name='reset']").click();
-                                }, 1000)
-                            }
-                        });
+                                if (status) {
+                                    XMS.msgbox.show('设置成功！', 'success', 2000)
+                                    setTimeout(function() {
+                                        _modal.modal('hide');
+                                        _form.find("[name='reset']").click();
+                                    }, 1000)
+                                }
+                            });
                         } else {
                             window.XMS.msgbox.show('设置失败！', 'error', 2000)
                             return;
                         }
-                        
+
                     })
                 });
                 var _close = _modal.find("[name='close']")
@@ -289,7 +389,7 @@ define(function(require, exports, module) {
             var self = this;
             var _form = Page.findId('queryFileTypeForm');
             var data = Page.getParentCmd();
-            Utils.setSelectData(_form,"planId=" + data.onlinePlan);
+            Utils.setSelectData(_form, "planId=" + data.onlinePlan);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
             _queryBtn.bind('click', function() {
@@ -308,8 +408,8 @@ define(function(require, exports, module) {
                 self.getServiceValidateList(cmd);
                 self.getDangerList(cmd);
                 self.getRiskRatingList(cmd);
-                self.getRiskScoreList(cmd); 
-                self.getNoticeList(cmd);         
+                self.getRiskScoreList(cmd);
+                self.getNoticeList(cmd);
                 self.getFileList(cmd);
             });
         },
@@ -1407,7 +1507,7 @@ define(function(require, exports, module) {
                                 "actualScore": actualScore,
                                 "riskGrade": riskGrade,
                                 "approvalLevel": approvalLevel,
-                                "guaranteeMechanism":guaranteeMechanism,
+                                "guaranteeMechanism": guaranteeMechanism,
                                 "planId": data.onlinePlan
                             });
                         }
@@ -1426,7 +1526,7 @@ define(function(require, exports, module) {
                 Utils.eventTrClickCallback(_dom);
             }, _domPagination);
         },
-        
+
         getNoticeList: function(cmd) {
             var self = this;
             var _cmd = '' || cmd;

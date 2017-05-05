@@ -24,9 +24,7 @@ public interface NaAutoMachineEnvDao extends JpaRepository<NaAutoMachineEnv, Lon
 
 	
 	
-	@Query("select a from NaAutoEnvironment a,NaAutoMachineEnv b "
-			+ "where b.envId=a.envId and b.machineId=?1")
-	List<NaAutoEnvironment> select(Long machineId);
+	
 	
 	@Modifying
 	@Query("delete from NaAutoMachineEnv where envId= ?1 and machineId=?2")

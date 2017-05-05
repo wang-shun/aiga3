@@ -101,11 +101,16 @@ public class NaAutoEnvironmentController {
 	}
 	
 	@RequestMapping(path = "/sys/machine/rel")
-	public @ResponseBody JsonBean rel(@RequestParam Long machineId){
+	public @ResponseBody JsonBean rel(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			@RequestParam Long machineId) {
+
 		JsonBean bean = new JsonBean();
-		bean.setData(naAutoEnvironmentSv.select(machineId));
+		bean.setData(naAutoEnvironmentSv.select(pageNumber, pageSize, machineId));
 		return bean;
 	}
+	
 	@RequestMapping(path = "/sys/rel/del")
 	public @ResponseBody JsonBean del(
 			@RequestParam Long envId,@RequestParam String machineIds){

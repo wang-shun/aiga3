@@ -3,7 +3,7 @@
     <div class="col-md-12">
         <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#CTab_1" data-toggle="tab" aria-expanded="false">交付物评审结论</a>
+                <li class="active"><a href="#CTab_1" data-toggle="tab" aria-expanded="false">变更评审结论</a>
                 </li>
                 <li class=""><a href="#CTab_2" data-toggle="tab" aria-expanded="false">历史记录</a></li>
             </ul>
@@ -13,8 +13,9 @@
                         <div class="col-md-12">
                             <div class="box" id="JS_getChangeReviewConclusionC">
                                 <div class="box-header">
-                                    <h3 class="box-title">交付物评审结论</h3>
+                                    <h3 class="box-title">变更评审结论</h3>
                                     <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="commitConclusion">提交结论</button>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" name="saveConclusionC">保存结论</button>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" name="setTime">设置下一次评审时间</button>
                                     </div>
@@ -33,6 +34,7 @@
                                                 <th>评审次数</th>
                                                 <th>备注</th>
                                                 <th>操作</th>
+                                                <th style="display:none;">扩展字段</th>
                                             </tr>
                                         </thead>
                                         <tbody name="content"></tbody>
@@ -783,6 +785,7 @@
                 <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
             </div>
         </td>
+        <td style="display:none;"><input type="hidden" value="{{ext1}}" name="ext1">{{ext1}}</td>
     </tr>
     {{/each}}
 </script>

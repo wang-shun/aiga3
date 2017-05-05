@@ -313,6 +313,21 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
+
+<dependency>
+    <groupId>jdom</groupId>
+    <artifactId>jdom</artifactId>
+    <version>1.0</version>
+</dependency>
+
+
+<dependency>
+    <groupId>dom4j</groupId>
+    <artifactId>dom4j</artifactId>
+    <version>1.6.1</version>
+</dependency>
+
+
 		<!-- log4jdbc -->
 		<dependency>
 			<groupId>com.googlecode.log4jdbc</groupId>

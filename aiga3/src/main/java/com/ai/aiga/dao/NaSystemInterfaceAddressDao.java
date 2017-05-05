@@ -14,5 +14,5 @@ public interface NaSystemInterfaceAddressDao extends SearchAndPageRepository<NaS
 
 	List<NaSystemInterfaceAddress>  findBySysNameAndServiceType(String sysName,String serviceType);
 	
-	NaSystemInterfaceAddress  findBySysNameAndServiceTypeAndExt1(String sysName,String serviceType,String Ext1);
+	List<NaSystemInterfaceAddress>  findBySysNameAndServiceTypeAndExt2(String sysName,String serviceType,String Ext2);
 }

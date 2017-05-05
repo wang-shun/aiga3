@@ -43,6 +43,7 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.TestProcessExcel;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.onlineProcess.NodeRecordSv;
 import com.ai.aiga.service.team.dto.Teaminfo;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
@@ -94,6 +95,9 @@ public class ReleaseReportSv extends BaseService{
 	
 	@Autowired
 	private	NaOnlineGeneralStepsDao naOnlineGeneralStepsDao;
+	
+	@Autowired
+	private  NodeRecordSv nodeRecordSv;
 
 	public Object list(int pageNumber, int pageSize, NaReleaseReportRequest condition, NaChangePlanOnile condition1)
 			throws ParseException {
@@ -383,6 +387,7 @@ public class ReleaseReportSv extends BaseService{
 
 	}
 	public NaReleaseMessage saveReleaseMessage(NaReleaseMessage request){
+		Long node=6L;
 		 if(request == null){ 
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 			}
@@ -394,6 +399,7 @@ public class ReleaseReportSv extends BaseService{
 			   naReleaseMessage.setDbScriptSituation(request.getDbScriptSituation());
 			   naReleaseMessage.setVersionSituation(request.getVersionSituation());
 			   
+			   nodeRecordSv.update(request.getPlanId(), node);
 			   return releaseMessageDao.save(naReleaseMessage);
 		  
 		

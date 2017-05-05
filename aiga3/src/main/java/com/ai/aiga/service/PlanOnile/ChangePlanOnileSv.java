@@ -62,6 +62,7 @@ import com.ai.aiga.exception.ErrorCode;
 
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.enums.WorkFlowNewEnum;
+import com.ai.aiga.service.onlineProcess.NodeRecordSv;
 import com.ai.aiga.service.workFlowNew.dto.NaHostConfigListExcel;
 import com.ai.aiga.service.workFlowNew.dto.NaProcessChangeListExcel;
 import com.ai.aiga.service.workFlowNew.dto.NaServiceChangeOnlineListExcel;
@@ -142,6 +143,9 @@ public class ChangePlanOnileSv extends BaseService{
 	@Autowired
 	private DbScriptListDao dbScriptListDao;
 	
+	@Autowired
+	private  NodeRecordSv  nodeRecordSv;
+	
 	public NaChangePlanOnile saveChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -173,6 +177,11 @@ public class ChangePlanOnileSv extends BaseService{
 		naChangePlanOnile.setCreateOpId(String.valueOf(SessionMgrUtil.getStaff().getStaffId()));
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		sendMessageForCycle(naChangePlanOnile);
+		
+		if(WorkFlowNewEnum.CHANGE_PLAN_PLANONLINE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTONLINE.getValue()==(long)request.getTypes()){
+			nodeRecordSv.saveChangeBegin(request.getOnlinePlanName());
+		}
+		
 		return naChangePlanOnile;
 			
 	}

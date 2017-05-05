@@ -48,6 +48,7 @@ import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.onlineProcess.NodeRecordSv;
 
 /**
  * @ClassName: ChangeReviewSv
@@ -109,6 +110,9 @@ public class ChangeReviewSv extends BaseService{
 
 	@Autowired
 	private NaHostIpDao naHostIpDao;
+	
+	@Autowired
+	private   NodeRecordSv   nodeRecordSv;
 
    public  NaChangeReview selectall(Long onlinePlan,String ext1){
 	   if (onlinePlan==null) {
@@ -137,6 +141,7 @@ public  NaChangeReview selectReview(Long onlinePlan){
 	   
    }
    public void save(NaChangeReview request){
+	   Long node=2L;
 	   
 	   if(request == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -164,6 +169,8 @@ public  NaChangeReview selectReview(Long onlinePlan){
 		   
 		   
 		   changeReviewDao.save(naChangeReview);
+		   nodeRecordSv.update(request.getOnlinePlanId(), node);
+		   
 	 
 	   }
    }

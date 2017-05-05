@@ -34,6 +34,7 @@
                                                 <th>评审次数</th>
                                                 <th>备注</th>
                                                 <th>操作</th>
+                                                <th style="display:none;">扩展字段</th>
                                             </tr>
                                         </thead>
                                         <tbody name="content"></tbody>
@@ -784,6 +785,7 @@
                 <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
             </div>
         </td>
+        <td style="display:none;"><input type="hidden" value="{{ext1}}" name="ext1">{{ext1}}</td>
     </tr>
     {{/each}}
 </script>

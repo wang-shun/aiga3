@@ -19,6 +19,7 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.enums.WorkFlowNewEnum;
+import com.ai.aiga.service.onlineProcess.NodeRecordSv;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.TimeUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
@@ -40,6 +41,9 @@ public class NaChangePlanOnileSv extends BaseService{
 	
 	@Autowired
 	private AigaBossTestResultDao aigaBossTestResultDao;
+	
+	@Autowired
+	private    NodeRecordSv    nodeRecordSv;
 	
 	public NaChangePlanOnile saveChangePlanOnile(NaChangePlanOnileRequest request){
 		if(request == null){ 
@@ -72,6 +76,9 @@ public class NaChangePlanOnileSv extends BaseService{
 			naChangePlanOnile.setFileUploadLastTime(request.getFileUploadLastTime());
 		}
 		naChangePlanOnileDao.save(naChangePlanOnile);
+		
+		nodeRecordSv.saveChangeBegin(request.getOnlinePlanName());
+		
 		return naChangePlanOnile;
 			
 	}
@@ -108,17 +115,31 @@ public class NaChangePlanOnileSv extends BaseService{
 	
 	
 	public void  select( NaChangePlanOnileRequest request){
+		Long node=8L;
 		//修改
 		NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
 		
 		if(!request.getExt3().equals("1")){
 			naChangePlanOnile.setPlanState(3L);
 			naChangePlanOnile.setDoneDate( new Date());
-		}
+			naChangePlanOnile.setExt2(request.getExt2());
+			naChangePlanOnile.setResult(request.getResult());
+			naChangePlanOnileDao.save(naChangePlanOnile);
+			nodeRecordSv.commit(request.getOnlinePlan(), node);
+		}else{
 		naChangePlanOnile.setExt2(request.getExt2());
 		
 		naChangePlanOnile.setResult(request.getResult());
 		naChangePlanOnileDao.save(naChangePlanOnile);
+		
+	      nodeRecordSv.update(request.getOnlinePlan(),node);
+		
+		
+		}
+		
+		
+		
+		
 	}
 	
 	

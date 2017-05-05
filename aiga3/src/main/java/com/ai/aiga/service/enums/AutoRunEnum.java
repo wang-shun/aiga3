@@ -7,7 +7,17 @@ package com.ai.aiga.service.enums;
  * @date 2017/4/1
  */
 public enum AutoRunEnum {
-
+    
+    //接口测试组件
+    InterfaceTest_esb(1L,"接口测试.HTTP接口测试.esb接口测试多规则校验"),
+    InterfaceTest_http(2L,"接口测试.HTTP接口测试.Http接口测试"),
+    InterfaceTest_public(3L, "接口测试.public.手机号码初始化"),
+    //自定义组件名称与参数名称
+    Custom_component(0L,"报文参数填写组件"),
+    Custom_sAddress(1L, "sAddress"),
+    Custom_inputXmlOne(2L, "input_xml_1"),
+    Custom_inputXmlTwo(3L, "input_xml_2"),
+    
     //是否最后一个用例
     FinalNum_no(0L,"否"),
     FinalNum_yes(1L,"否"),

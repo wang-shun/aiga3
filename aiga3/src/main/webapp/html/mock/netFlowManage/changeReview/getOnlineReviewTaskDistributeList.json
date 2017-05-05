@@ -2,20 +2,34 @@
     "retCode": "200",
     "retMessage": null,
     "data": {
-        "totalElements": 3, //总条数
+        "totalElements": 12, //总条数
         "content": [{
             "taskId": "1",
-            "taskName": "100_生产回归",
+            "taskName": "100_生产验证前台",
             "taskType": "4",
             "dealState": "0",
             "dealOpId": "11",
             "dealOpName": "张三"
         }, {
             "taskId": "2",
-            "taskName": "111_发布任务分派",
-            "taskType": "9",
+            "taskName": "111_生产验证后台",
+            "taskType": "5",
             "dealState": "1",
-            "dealOpId": "22",
+            "dealOpId": "33",
+            "dealOpName": "李四"
+        }, {
+            "taskId": "3",
+            "taskName": "122_发布任务分派",
+            "taskType": "9",
+            "dealState": "2",
+            "dealOpId": "55",
+            "dealOpName": "李四"
+        }, {
+            "taskId": "4",
+            "taskName": "133_监控部署任务",
+            "taskType": "11",
+            "dealState": "3",
+            "dealOpId": "77",
             "dealOpName": "李四"
         }]
     }

@@ -3,10 +3,14 @@ package com.ai.aiga.view.controller.auto;
 import com.ai.aiga.domain.NaAutoTemplateComp;
 import com.ai.aiga.service.auto.AutoTemplateCompSv;
 import com.ai.aiga.view.json.auto.AutoTemplateCompRequest;
+import com.ai.aiga.view.json.auto.AutoUiParamRequest;
 import com.ai.aiga.view.json.base.JsonBean;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -72,6 +76,14 @@ public class AutoTemplateCompController {
         autoTemplateCompSv.delete(request);
         return new JsonBean();
     }
-
+    @RequestMapping(path="/auto/templateComp/getCustomCompParam",method = {RequestMethod.GET,RequestMethod.POST})
+    @ApiOperation(value ="获取自定义组件参数" ,response =AutoUiParamRequest.class,notes ="根据用例模板ID获取因子封装成自定义组件参数" )
+    public @ResponseBody JsonBean getCustomCompParam(
+            @ApiParam(name="caseId",value = "用例模板ID") Long caseId){
+        JsonBean jsonBean=new JsonBean();
+        jsonBean.setData(this.autoTemplateCompSv.getCustomCompParamByCaseId(caseId));
+        return jsonBean;
+    }
+    
 
 }

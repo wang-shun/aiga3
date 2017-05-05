@@ -55,4 +55,6 @@ public interface NaUiComponentDao extends
 			+ " union all select comp_id as id, parent_id as pid, comp_name as name from na_ui_component", nativeQuery = true)
 	List<Object[]> commenCompTree();
 
+	NaUiComponent findByCompName(String compName);
+
 }

@@ -33,7 +33,7 @@ public class AutoCaseController {
     @RequestMapping(path="/auto/case/saveAutoCompParam",method = RequestMethod.POST)
     @ApiOperation(value = "保存自动化用例",response = NaAutoCase.class,notes = "将自动化用例、关联组件、参数信息全部保存")
     @ApiParam(name="AutoCaseRequest",value = "自动化用例JSON串",required = true)
-    public @ResponseBody JsonBean saveAutoCompParam(@RequestBody AutoCaseRequest autoCaseRequest){
+    public @ResponseBody JsonBean saveAutoCompParam(@RequestBody AutoCaseRequest autoCaseRequest)throws Exception{
         NaAutoCase autoCase=caseSv.saveAutoCaseCompParam(autoCaseRequest);
         JsonBean jsonBean=new JsonBean();
         jsonBean.setData(autoCase);

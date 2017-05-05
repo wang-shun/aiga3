@@ -7,8 +7,10 @@ import com.ai.aiga.domain.NaAutoUiParam;
 import com.ai.aiga.domain.NaUiParam;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.json.auto.AutoUiParamRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -226,6 +228,31 @@ public class AutoUiParamSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
         this.delete(request.getParamId());
+    }
+
+    /**
+     * 根据参数名称、参数值、组件生成参数信息
+     * @param paramName
+     * @param paramValue
+     * @param autoUiComp
+     * @return
+     */
+    public NaAutoUiParam createAutoUiParamByNameValue(String paramName,String paramValue,NaAutoUiComp autoUiComp){
+        if (StringUtils.isBlank(paramName)) {
+                  BusinessException.throwBusinessException(ErrorCode.Parameter_null, "paramName");
+        }
+        if (StringUtils.isBlank(paramValue)) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "paramValue");
+        }
+        if (autoUiComp == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+        }
+        NaAutoUiParam autoUiParam=BeanMapper.map(autoUiComp,NaAutoUiParam.class);
+        autoUiParam.setParamName(paramName);
+        autoUiParam.setParamValue(paramValue);
+        autoUiParam.setUpdateTime(DateUtil.getCurrentTime());
+//        autoUiParam.setCreatorId();
+        return this.save(autoUiParam);
     }
     
 }

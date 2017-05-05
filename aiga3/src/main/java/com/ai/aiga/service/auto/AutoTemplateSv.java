@@ -339,10 +339,6 @@ public class AutoTemplateSv {
         if(templateRequest.getCompRequestList()!=null) {
             autoTemplateCompSv.saveList(templateRequest.getCompRequestList(), autoTemplate.getTempId());
         }
-        //接口类型用例，自动组装组件
-        if (autoTemplate.getCaseType().equals(CaseEnum.CaseType_interface.getValue())){
-            
-        }
         return autoTemplate;
     }
 

@@ -167,24 +167,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 name="head" class="box-title">上传交付物</h4>
+                <h4 name="head" class="box-title">上线交付物</h4>
             </div>
             <div class="modal-body" id="JS_addDdeliverablesForm">
                 <div class="box">
                     <div class="box-body">
                         <div class="row">
                             <form id="JS_uploadDeliveryForm">
-                                <div class="col-md-9">
+                                <div class="col-md-12">
                                     <div class="box">
                                         <div class="box-body">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>导入文件</label>
                                                         <input type="file" class="form-control input-sm" name="fileName">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>文件类型</label>
                                                         <select name="category" class="form-control input-sm" data-cmd="category=enclosuretype" data-url="getCategory" data-idkey="value" data-namekey="show">
@@ -195,47 +195,19 @@
                                         </div>
                                         <div class="box-footer">
                                             <div class="text-center">
-                                                <button type="reset" class="btn btn-default">重置</button>
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="add">
-                                                    <i class="fa fa-edit"></i> 导入
-                                                </button>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadTemp">下载模板</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <div class="col-md-3">
-                                <form id="JS_downloadDeliveryForm">
-                                    <div class="box">
-                                        <div class="box-body">
-                                            <div class="form-group">
-                                                <label>模板类型</label>
-                                                <select name="environmentType" class="form-control input-sm">
-                                                    <option value="">请选择</option>
-                                                    <option value="1">数据库执行异常</option>
-                                                    <option value="2">数据库脚本执行过程</option>
-                                                    <option value="3">上线系统发布-准备阶段</option>
-                                                    <option value="4">上线系统发布-发布阶段</option>
-                                                    <option value="5">测试过程记录</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="box-footer">
-                                            <div class="text-center">
-                                                <button type="button" class="btn btn-primary" name="add">
-                                                    <i class="fa fa-edit"></i> 下载模板
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">发布任务列表</h3>
+                        <h3 class="box-title">上线交付物列表</h3>
                         <div class="box-tools">
                             <button type="button" class="btn btn-primary" name="add">下载文档</button>
                             <button type="button" class="btn btn-primary" name="bianyi">删除文档</button>
@@ -246,10 +218,12 @@
                             <thead>
                                 <tr>
                                     <th class="iCheckbox" width="15"></th>
-                                    <th>附件名称</th>
-                                    <th>附件类型</th>
+                                    <th>文件名称</th>
                                     <th>上传时间</th>
+                                    <th>最后一次上传时间</th>
+                                    <th>上传次数</th>
                                     <th>下载时间</th>
+                                    <th>文件类型</th>
                                 </tr>
                             </thead>
                             <tbody name="content"></tbody>
@@ -286,15 +260,6 @@
                                     <div class="form-group">
                                         <label>文件类型</label>
                                         <select name="category" class="form-control input-sm">
-                                            <option value="">请选择</option>
-                                            <option value="20">变更交付物</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>模板类型</label>
-                                        <select name="tempType" class="form-control input-sm">
                                             <option value="">请选择</option>
                                             <option value="20">变更交付物</option>
                                         </select>
@@ -380,7 +345,7 @@
                             </button> -->
                         </div>
                     </div>
-                    <div  class="box" style="min-height: 100px;" id="JS_getChangePlanResulList">
+                    <div class="box" style="min-height: 100px;" id="JS_getChangePlanResulList">
                         <div class="box-body">
                             <table class="table table-bordered table-hover">
                                 <thead>
@@ -489,13 +454,14 @@
     {{#each this}}
     <tr>
         <td>
-            <input type="radio" class="minimal" value="{{fileId}}" name="fileId">
+            <input type="radio" class="minimal" value="{{id}}" name="id">
         </td>
-        <td>
-            <input type="hidden" name="fileName" value="{{fileName}}">{{fileName}}</td>
-        <td>{{getFileType fileType}}</td>
+        <td>{{fileName}}</td>
         <td>{{createTime}}</td>
         <td>{{lastUploadTime}}</td>
+        <td>{{uploadCount}}</td>
+        <td>{{downLoadTime}}</td>
+        <td>{{fileTypes fileType}}</td>
     </tr>
     {{/each}}
 </script>
@@ -517,7 +483,7 @@
 </script>
 <!-- handlebars/上线变更总结交付物列表 -->
 <script id="TPL_getChangePlanResulList" type="text/x-handlebars-template">
-	{{#each this}}
+    {{#each this}}
     <tr>
         <td>
             <input type="radio" class="minimal" value="{{id}}" name="id">

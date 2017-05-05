@@ -36,7 +36,7 @@ define(function(require, exports, module) {
     //保存变更状态
     srvMap.add("saveChangeList", pathAlias + "scrap.json", "sys/change/save");
     //上传上线交付物文件显示
-    srvMap.add("uploadDeliverables", pathAlias + "getDeliverablesList.json", "produce/plan/findNaFileUpload");
+    srvMap.add("uploadDeliverables", pathAlias + "getChangeDeliverableList.json", "produce/plan/findNaFileUpload");
     //变更交付物列表
     srvMap.add("getChangeDeliverableList", pathAlias + "getChangeDeliverableList.json", "produce/plan/findNaFileUpload");
     //变更交付物下载文档
@@ -207,37 +207,8 @@ define(function(require, exports, module) {
 
                 // 绑定单机当前行事件
                 Utils.eventTrClickCallback(Page.findId('getChangePlanOnlieList'))
-                    //self.eventClickChecked($(Dom.getChangePlanOnlieList));
-                    // 绑定双击当前行事件
-                    // self.eventDClickCallback($(Dom.getChangePlanOnlieList), function() {
-                    // 	// 请求：用户基本信息
-                    // 	//self.seeCase();
-                    // })
             }, _domPagination);
         },
-        // //变更计划名称下拉框
-        // queryOnlinePlanName: function() {
-        // 	var self = this;
-        // 	Rose.ajax.postJson(srvMap.get('queryOnlinePlanName'), '', function(json, status) {
-        // 		if (status) {
-        // 			var template = Handlebars.compile(Tpl.queryOnlinePlanName);
-        // 			console.log(json.data)
-        // 			$(Dom.queryOnlinePlanName).html(template(json.data));
-        // 		}
-        // 	});
-        // },
-        //重置
-        // reset: function() {
-        // 	var _form = $(Dom.queryChangePlanOnileForm);
-        // 	var _reset = _form.find("[name='reset']");
-        // 	_reset.unbind('click');
-        // 	_reset.bind('click', function() {
-        // 		_form.find("[name='important']").val("");
-        // 		_form.find("[name='caseName']").val("");
-        // 		_form.find("[name='createDate']").val("");
-        // 		_form.find("[name='doneDate']").val("");
-        // 	});
-        // },
         //查找
         queryChangePlanOnileBtn: function() {
             var self = this;
@@ -346,11 +317,17 @@ define(function(require, exports, module) {
             console.log(_planDate)
             _planDate.focusout(function() {
                 temp1 = $(this).val();
+                temp1 = temp1.replace(/-/g,'');
+                temp1 = temp1.replace(/:/g,'');
+                temp1 = temp1.replace(/\s/g,'');
                 console.log(temp1)
                 combine();
             });
             _planDate.focusin(function() {
                 temp1 = $(this).val();
+                temp1 = temp1.replace(/-/g,'');
+                temp1 = temp1.replace(/:/g,'');
+                temp1 = temp1.replace(/\s/g,'');
                 console.log(temp1)
                 combine();
 
@@ -817,7 +794,7 @@ define(function(require, exports, module) {
             var self = this;
             var _dom = Page.findId('getChangeDeliverableList');
             var _domPagination = _dom.find("[name='pagination']");
-            var _cmd = 'planId=' + planId + '&fileType=2'
+            var _cmd = 'planId=' + planId + '&type=2'
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             // 设置服务器端分页
             Utils.getServerPage(srvMap.get('getChangeDeliverableList'), _cmd, function(json) {
@@ -832,7 +809,7 @@ define(function(require, exports, module) {
         //显示上传文件信息
         uploadDeliverables: function(onlinePlan) {
             var self = this;
-            var _cmd = 'planId=' + onlinePlan;
+            var _cmd = 'planId=' + onlinePlan + '&type=1';
             var _dom = Page.findModalCId('addDdeliverablesForm');
             var _content = _dom.find("[name='content']");
             var _domPagination = _dom.find("[name='pagination']");

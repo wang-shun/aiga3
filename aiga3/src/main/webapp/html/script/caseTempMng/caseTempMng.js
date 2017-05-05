@@ -300,6 +300,13 @@ define(function(require, exports, module) {
             var _selectType = _modal.find("select[name='caseType']");
             var _interfaceType = _modal.find("select[name='interfaceType']");
             var _tab2 = $("#JS_interfaceTab");
+            console.log(_modal.find("button[name='queryInterface']"));
+            _modal.find("button[name='queryInterface']").unbind();
+            _modal.find("button[name='queryInterface']").bind('click',function(){
+                //*[@id="JS_interface"]/div[1]/div/div[1]/input
+                var _name = _modal.find("[name='QUERY_messageName']").val();
+                self.getInterfaceList(_interfaceType.val(),_name);
+            });
             _selectType.unbind();
             _selectType.change(function(event) {
                 /* Act on the event */
@@ -309,7 +316,7 @@ define(function(require, exports, module) {
                     $("#JS_interfaceType").removeClass('hide');
                     if (_interface) {
                         _tab2.removeClass('hide');
-                        self.getInterfaceList(_interface);
+                        self.getInterfaceList(_interface,'');
                         if (_interface == 1) {
                             $("#JS_msgType").addClass('hide');
                         } else {
@@ -330,21 +337,25 @@ define(function(require, exports, module) {
             });
         },
         //获取接口列表
-        getInterfaceList: function(interfaceType) {
+        getInterfaceList: function(interfaceType,messageName) {
             var self = this;
             var _tpl;
             var _srv;
+            var _name;
             if (interfaceType == 1) {
                 tpl = Tpl.getESBInterfaceList;
                 _srv = "getESBInterfaceList";
+                _name = "esbName=";
             } else if (interfaceType == 1) {
                 tpl = Tpl.getCBOSSInterfaceList;
                 _srv = "getCBOSSInterfaceList";
+                _name = "cbossName=";
             }
+
             var _dom = $("#JS_interface");
             var pagination = _dom.find("[name='pagination']")
             var _table = $("#JS_interface").find("table");
-            Utils.getServerPage(srvMap.get(_srv), "", function(json) {
+            Utils.getServerPage(srvMap.get(_srv), _name+messageName, function(json) {
                 //加载模板
                 var template = Handlebars.compile(Tpl.getESBInterfaceList);
                 $("#JS_interface").find("tbody").html(template(json.data.content));

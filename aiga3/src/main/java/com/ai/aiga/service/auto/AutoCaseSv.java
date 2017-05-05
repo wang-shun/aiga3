@@ -5,6 +5,9 @@ import com.ai.aiga.dao.*;
 import com.ai.aiga.domain.*;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.auto.enums.KeyValueEnum;
+import com.ai.aiga.service.cases.CaseInterfaceSv;
+import com.ai.aiga.service.cases.EsbInterfaceSv;
 import com.ai.aiga.service.enums.AutoRunEnum;
 import com.ai.aiga.service.enums.CaseEnum;
 import com.ai.aiga.service.enums.GeneralEnum;
@@ -13,14 +16,22 @@ import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.auto.AutoCaseRequest;
 import com.ai.aiga.view.json.auto.AutoUiCompRequest;
+import com.ai.aiga.view.json.auto.AutoUiParamRequest;
+import com.ai.aiga.view.json.cases.Factor;
 import org.apache.commons.lang3.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 自动化用例
@@ -55,6 +66,12 @@ public class AutoCaseSv {
 
     @Autowired
     private NaUiControlDao controlDao;
+
+    @Autowired
+    private CaseInterfaceSv caseInterfaceSv;
+    
+    @Autowired
+    private EsbInterfaceSv esbInterfaceSv;
     /**
      * 保存操作(唯一入口)
      * @param autoCase 自动化用例对象
@@ -95,64 +112,13 @@ public class AutoCaseSv {
         return autoCaseDao.save(autoCase);
     }
 
-    /**
-     * 根据自动化用例模板ID复制数据生成自动化用例基础信息(只复制用例基础属性，不复制组件参数)
-     * @param tempId  自动化用例模板ID
-     * @return NaAutoCase
-     */
-    private NaAutoCase copyCaseByTempId(Long tempId){
-        if (tempId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
-        }
-        NaAutoTemplate autoTemplate=autoTemplateSv.findById(tempId);
-        NaAutoCase autoCase= BeanMapper.map(autoTemplate,NaAutoCase.class);
-        autoCase.setAutoName(autoTemplate.getTempName()+DateUtil.getCurrTimeString());//默认根据模板名称填充，需由后续调用方法者覆盖
-        autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
-        //保存操作
-        return this.save(autoCase);
-    }
-
-    /**
-     * 根据自动化用例模板ID复制用例数据和组件参数信息
-     * @param tempId 自动化用例模板ID
-     */
-    private NaAutoCase copyCaseCompByTempId(Long tempId){
-        if (tempId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
-        }
-        //先复制用例
-        NaAutoCase autoCase=this.copyCaseByTempId(tempId);
-        //复制组件
-        autoUiCompSv.copyCompList(autoCase);
-        return autoCase;
-    }
-
-    /**
-     * 通过测试用例主键复制数据生成自动化用例基础信息
-     * @param testId 测试用例ID
-     * @return NaAutoCase
-     */
-    private NaAutoCase copyCaseByTestId(Long testId){
-        if (testId == null) {
-            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
-        }
-        NaTestCase testCase=testCaseDao.findOne(testId);
-        if (testCase == null) {
-            BusinessException.throwBusinessException("can not found the testCase! please make sure the testId:"+testId);
-        }
-        NaAutoCase autoCase=BeanMapper.map(testCase,NaAutoCase.class);
-        autoCase.setAutoName(testCase.getTestName()+DateUtil.getCurrTimeString());//默认根据测试用例名称填充，需由后续调用方法者覆盖
-        autoCase.setEnvironmentType(AutoRunEnum.EnvironmentType_acceptance.getValue());//默认验收环境，需由后续调用方法者覆盖
-        //保存操作
-        return this.save(autoCase);
-    }
 
     /**
      * 根据传递的请求参数信息保存用例、组件、参数(带有autoId则修改，不带则新增)
      * @param autoCaseRequest 页面请求参数
      * @return NaAutoCase
      */
-    public NaAutoCase saveAutoCaseCompParam(AutoCaseRequest autoCaseRequest){
+    public NaAutoCase saveAutoCaseCompParam(AutoCaseRequest autoCaseRequest) throws Exception {
         if (autoCaseRequest == null) {
             BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
         }
@@ -163,33 +129,35 @@ public class AutoCaseSv {
             BusinessException.throwBusinessException(ErrorCode.Parameter_null, "environmentType");
         }
         NaAutoCase autoCase=null;
-        //判断是否带有autoId(是：修改操作   否：新增操作)
-        if (autoCaseRequest.getAutoId()==null){
-            if(autoCaseRequest.getTempId()!=null) {
-                //根据自动化用例模板ID生成自动化用例
+        //是否新增
+        boolean isAdd = autoCaseRequest.getAutoId() == null;
+        //是否根据自动化用例模板ID生成自动化用例
+        boolean isTemp = autoCaseRequest.getTempId() != null;
+        //是否根据测试用例ID生成自动化用例
+        boolean isTest = autoCaseRequest.getTestId() != null;
+        if(isAdd&&isTemp){
                 autoCase = this.copyCaseByTempId(autoCaseRequest.getTempId());
-            }else if(autoCaseRequest.getTestId()!=null){
-                //根据测试用例ID生成自动化用例
+        }else if(isAdd&&isTest){
                 autoCase = this.copyCaseByTestId(autoCaseRequest.getTestId());
-            }else {
-                BusinessException.throwBusinessException("could not found testId or tempId! please sure......");
-            }
-        }else{
+        }else if(!isAdd){
             autoCase=this.findById(autoCaseRequest.getAutoId());
             //删除现有组件和参数关系
             autoUiCompSv.deleteByAutoId(autoCase.getAutoId());
             autoUiParamSv.deleteByAutoId(autoCase.getAutoId());
+        }else{
+            BusinessException.throwBusinessException(ErrorCode.BAD_REQUEST);
         }
         //填充自动化用例名称与环境属性
         autoCase.setEnvironmentType(autoCaseRequest.getEnvironmentType());
         autoCase.setAutoName(autoCaseRequest.getAutoName());
         autoCase=this.save(autoCase);
-
+        
         List<AutoUiCompRequest> compRequestList=autoCaseRequest.getCompList();
         //如果带有组件信息则保存组件
         if(compRequestList!=null&&compRequestList.size()>0){
-            autoUiCompSv.saveCompList(compRequestList,autoCase);
+            this.saveCompList(compRequestList,autoCase);
         }
+        
         return autoCase;
     }
 
@@ -361,16 +329,6 @@ public class AutoCaseSv {
         return autoCaseDao.searchByNativeSQL(nativeSql.toString(),pageable,keyList);
     }
 
-    /**
-     * 判断是否存在重复名称的自动化用例(存在返回true，不存在false)
-     * @param autoName 自动化用例名称
-     * @param autoId 自动化用例ID
-     * @return boolean
-     */
-    private boolean isExisting(String autoName,Long autoId){
-        NaAutoCase autoCase=autoCaseDao.findByAutoName(autoName);
-        return !(autoCase != null && autoCase.getAutoId().equals(autoId));
-    }
 
     /**
      * 根据任务ID和用例名称返回json信息
@@ -386,7 +344,7 @@ public class AutoCaseSv {
         Map<String, String> elements = new HashMap<String, String>();
         List<String> steps=new ArrayList<String>();
         NaAutoCase autoCase=this.findByAutoName(autoName);
-        List<NaAutoUiComp> autoUiCompList=this.autoUiCompSv.findByAutoId(autoCase.getAutoId());
+        List<NaAutoUiComp> autoUiCompList=this.autoUiCompSv.findByAutoIdOrderByCompOrderAsc(autoCase.getAutoId());
         if (autoUiCompList == null || autoUiCompList.size() == 0) {
             BusinessException.throwBusinessException("getCaseByCaseNameToJson could not found the autoCaseComp......");
         }
@@ -425,7 +383,7 @@ public class AutoCaseSv {
                   BusinessException.throwBusinessException(ErrorCode.Parameter_null, "taskIdAutoId");
         }
         Long autoId = Long.parseLong(taskIdAutoId.split("_")[1]);
-        List<NaAutoUiComp> compList=this.autoUiCompSv.findByAutoId(autoId);
+        List<NaAutoUiComp> compList=this.autoUiCompSv.findByAutoIdOrderByCompOrderAsc(autoId);
         Map<String,String> json=new HashMap<String, String>();
         Map<String,String> arguments=new HashMap<String, String>();
         if (compList == null || compList.size()==0) {
@@ -451,4 +409,330 @@ public class AutoCaseSv {
         return JsonUtil.mapToJson(json);
     }
 
+
+    /**
+     * 判断是否存在重复名称的自动化用例(存在返回true，不存在false)
+     * @param autoName 自动化用例名称
+     * @param autoId 自动化用例ID
+     * @return boolean
+     */
+    private boolean isExisting(String autoName,Long autoId){
+        NaAutoCase autoCase=autoCaseDao.findByAutoName(autoName);
+        return !(autoCase != null && autoCase.getAutoId().equals(autoId));
+    }
+
+    /**
+     * 根据自动化用例模板ID复制数据生成自动化用例基础信息(只复制用例基础属性，不复制组件参数)
+     * @param tempId  自动化用例模板ID
+     * @return NaAutoCase
+     */
+    private NaAutoCase copyCaseByTempId(Long tempId){
+        if (tempId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
+        }
+        NaAutoTemplate autoTemplate=autoTemplateSv.findById(tempId);
+        NaAutoCase autoCase= BeanMapper.map(autoTemplate,NaAutoCase.class);
+        autoCase.setAutoName(autoTemplate.getTempName()+DateUtil.getCurrTimeString());//默认根据模板名称填充，需由后续调用方法者覆盖
+        autoCase.setEnvironmentType(1L);//默认验收环境，需由后续调用方法者覆盖
+        //保存操作
+        return this.save(autoCase);
+    }
+
+    /**
+     * 根据自动化用例模板ID复制用例数据和组件参数信息
+     * @param tempId 自动化用例模板ID
+     */
+    private NaAutoCase copyCaseCompByTempId(Long tempId){
+        if (tempId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "tempId");
+        }
+        //先复制用例
+        NaAutoCase autoCase=this.copyCaseByTempId(tempId);
+        //复制组件
+        autoUiCompSv.copyCompList(autoCase);
+        return autoCase;
+    }
+
+    /**
+     * 通过测试用例主键复制数据生成自动化用例基础信息
+     * @param testId 测试用例ID
+     * @return NaAutoCase
+     */
+    private NaAutoCase copyCaseByTestId(Long testId){
+        if (testId == null) {
+            BusinessException.throwBusinessException(ErrorCode.Parameter_null, "testId");
+        }
+        NaTestCase testCase=testCaseDao.findOne(testId);
+        if (testCase == null) {
+            BusinessException.throwBusinessException("can not found the testCase! please make sure the testId:"+testId);
+        }
+        NaAutoCase autoCase=BeanMapper.map(testCase,NaAutoCase.class);
+        autoCase.setAutoName(testCase.getTestName()+DateUtil.getCurrTimeString());//默认根据测试用例名称填充，需由后续调用方法者覆盖
+        autoCase.setEnvironmentType(AutoRunEnum.EnvironmentType_acceptance.getValue());//默认验收环境，需由后续调用方法者覆盖
+        //保存操作
+        return this.save(autoCase);
+    }
+
+    /**
+     * 根据用例类型不同保存组件方式不同
+     * @param compRequestList
+     * @param autoCase
+     */
+    private void saveCompList(List<AutoUiCompRequest> compRequestList,NaAutoCase autoCase) throws Exception {
+        boolean isInterface=autoCase.getCaseType().equals(CaseEnum.CaseType_interface.getValue());
+        if (isInterface){
+            //从组件列表中筛选出非自定义组件
+            List<AutoUiCompRequest> compList = this.getRuleCompFromList(compRequestList);
+            autoUiCompSv.saveCompList(compList,autoCase);
+            //从组件列表中筛选出自定义组件
+            AutoUiCompRequest customComp=this.getCustomCompFromList(compRequestList);
+            NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
+            //是否ESB类型
+            boolean isESB=caseInterface.getInterfaceType().equals(CaseEnum.InterfaceType_ESB.getValue());
+            //是否CBOSS类型
+            boolean isCBOSS=caseInterface.getInterfaceType().equals(CaseEnum.InterfaceType_CBOSS.getValue());
+            if(isESB){
+                //ESB报文对象
+                AigaEsbInterface esbInterface=this.esbInterfaceSv.findById(caseInterface.getMessageId());
+                //返回填充好的报文信息
+                String esbXml=this.getEsbXml(customComp.getParamList(),esbInterface);
+                //填充ESB报文相关信息
+                this.fillEsbXmlParamToEsbComp(esbXml,autoCase);
+                //根据必填校验参数生成组件
+                
+            }
+            if (isCBOSS){
+                
+            }
+        }else{
+            autoUiCompSv.saveCompList(compRequestList,autoCase);
+        }
+    }
+
+    /**
+     * 从集合中筛选出自定义组件
+     * @param compRequestList 组件集合
+     * @return 自定义组件
+     */
+    private AutoUiCompRequest getCustomCompFromList(List<AutoUiCompRequest> compRequestList){
+        AutoUiCompRequest customComp=new AutoUiCompRequest();
+        for (AutoUiCompRequest compRequest:compRequestList){
+            boolean isCustom = compRequest.getCompId().equals(AutoRunEnum.Custom_component.getValue());
+            if (isCustom){
+                customComp=compRequest;
+            }
+        }
+        return customComp;
+    }
+
+    /**
+     * 从集合中筛选出非自定义组件
+     * @param compRequestList 组件集合
+     * @return 非自定义组件集合
+     */
+    private List<AutoUiCompRequest> getRuleCompFromList(List<AutoUiCompRequest> compRequestList){
+        List<AutoUiCompRequest> compList = new ArrayList<AutoUiCompRequest>();
+        for (AutoUiCompRequest compRequest:compRequestList){
+            boolean isCustom = compRequest.getCompId().equals(AutoRunEnum.Custom_component.getValue());
+            if (!isCustom) {
+                compList.add(compRequest);
+            }
+        }
+        return compList;
+    }
+
+    /**
+     * 根据自动化用例模板ID查询接口类用例的接口类型
+     * @param tempId 自动化用例模板ID
+     * @return 用例接口类型对象
+     */
+    private NaCaseInterface getCaseInterfaceByTempId(Long tempId){
+        NaAutoTemplate autoTemplate=this.autoTemplateSv.findById(tempId);
+        return this.caseInterfaceSv.findByCaseId(autoTemplate.getCaseId());
+    }
+
+    /**
+     * 根据报文模板与参数值拼装ESB报文
+     * @param paramRequestList 参数集合
+     * @param esbInterface 报文对象
+     * @return ESB报文内容
+     * @throws Exception
+     */
+    private String getEsbXml(List<AutoUiParamRequest> paramRequestList ,AigaEsbInterface esbInterface)throws Exception{
+        //XML字符串必须要有根元素，否则报错
+        String inputSoap = CaseEnum.xmlRoot_header.getShow() + esbInterface.getInputSoap() + CaseEnum.xmlRoot_footer.getShow();
+        Document document= DocumentHelper.parseText(inputSoap);
+        //将参数集合转换成迭代器，并按顺序填充到该XML的叶子节点值上
+        this.listNodesToAssignment(document.getRootElement(),paramRequestList.iterator());
+        //返回拼装后的ESB报文
+        return this.integrationEsbXml(document.asXML(),esbInterface.getEsbName());
+    }
+
+    /**
+     * 根据传入的XML根节点和参数值迭代器给每个叶子节点赋值
+     * @param node 根节点
+     * @param iterator 参数值迭代器
+     */
+    private void listNodesToAssignment(Element node,Iterator iterator){
+        List<Element> elements=node.elements();
+        //是否叶子节点
+        boolean isLeaf = elements.size() == 0;
+        //按顺序将值塞入叶子节点中
+        if (isLeaf && iterator.hasNext()) {
+            AutoUiParamRequest paramRequest=(AutoUiParamRequest) iterator.next();
+            node.setText(paramRequest.getParamValue());
+        }
+        //递归子节点
+        for (Element element:elements){
+            this.listNodesToAssignment(element,iterator);
+        }
+    }
+
+    /**
+     * 将EBS报文信息与ESB报文地址填入对应组件中（接口测试.HTTP接口测试.esb接口测试多规则校验）
+     * @param esbXml ESB报文
+     * @param autoCase 自动化用例对象
+     */
+    private void fillEsbXmlParamToEsbComp(String esbXml,NaAutoCase autoCase){
+        NaUiComponent uiComponent=this.componentDao.findByCompName(AutoRunEnum.InterfaceTest_esb.getShow());
+        if (uiComponent!=null){
+            NaAutoUiComp autoUiComp=this.autoUiCompSv.findByAutoIdCompId(autoCase.getAutoId(),uiComponent.getCompId());
+            //地址参数
+            NaAutoUiParam paramAddress=BeanMapper.map(autoUiComp,NaAutoUiParam.class);
+            //inputXml1参数
+            NaAutoUiParam paramInputXmlOne=BeanMapper.map(autoUiComp,NaAutoUiParam.class);
+            //获取用例接口信息
+            NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
+            //填入sAddress
+            paramAddress.setParamName(AutoRunEnum.Custom_sAddress.getShow());
+            paramAddress.setParamValue(caseInterface.getAddress());
+            //填入InputXml
+            paramInputXmlOne.setParamName(AutoRunEnum.Custom_inputXmlOne.getShow());
+            paramInputXmlOne.setParamValue(esbXml);
+            this.autoUiParamSv.save(paramAddress);
+            this.autoUiParamSv.save(paramInputXmlOne);
+        }
+    }
+    
+    private void createCompFromValidParam(NaAutoCase autoCase) throws Exception {
+        NaCaseInterface caseInterface = this.getCaseInterfaceByTempId(autoCase.getTempId());
+        //获取参数校验组件名称
+        Map<String,String> validCompMap=this.getValidCompMap();
+        //解析必填校验参数
+        Map<String,String> params=this.parseValidParamToMap(caseInterface.getValidParam());
+        for (String key:params.keySet()){
+            String compName=validCompMap.get(key);
+            if (StringUtils.isBlank(compName)) {
+                return;
+            }
+            NaAutoUiComp autoUiComp=this.autoUiCompSv.createAutoUiCompByCompNameAutoId(compName,autoCase.getAutoId());
+            
+        }
+    }
+
+    /**
+     * 返回参数校验组件MAP集合
+     * @return
+     */
+    private Map<String,String> getValidCompMap(){
+        Map<String, String> compMap = new HashMap();
+        compMap.put(KeyValueEnum.ValidParam_date.getKey(),KeyValueEnum.ValidParam_date.getValue());
+        compMap.put(KeyValueEnum.ValidParam_enum.getKey(),KeyValueEnum.ValidParam_enum.getValue());
+        compMap.put(KeyValueEnum.ValidParam_equals.getKey(),KeyValueEnum.ValidParam_equals.getValue());
+        compMap.put(KeyValueEnum.ValidParam_float.getKey(),KeyValueEnum.ValidParam_float.getValue());
+        compMap.put(KeyValueEnum.ValidParam_httpInterface.getKey(),KeyValueEnum.ValidParam_httpInterface.getValue());
+        compMap.put(KeyValueEnum.ValidParam_length.getKey(),KeyValueEnum.ValidParam_length.getValue());
+        compMap.put(KeyValueEnum.ValidParam_maxLength.getKey(),KeyValueEnum.ValidParam_maxLength.getValue());
+        compMap.put(KeyValueEnum.ValidParam_notNull.getKey(),KeyValueEnum.ValidParam_notNull.getValue());
+        compMap.put(KeyValueEnum.ValidParam_number.getKey(),KeyValueEnum.ValidParam_number.getValue());
+        compMap.put(KeyValueEnum.ValidParam_numValue.getKey(),KeyValueEnum.ValidParam_numValue.getValue());
+        return compMap;
+    }
+    
+    /**
+     * 根据报文体和ESB报文名称拼装ESB报文
+     * @param bodyMsg 报文体
+     * @param esbName ESB报文名称
+     * @return ESB报文
+     */
+    private String integrationEsbXml(String bodyMsg,String esbName){
+        //获取根节点头部位置
+        int headerIndex=bodyMsg.indexOf(CaseEnum.xmlRoot_header.getShow())+CaseEnum.xmlRoot_header.getValue().intValue();
+        //获取根节点尾部位置
+        int footerIndex=bodyMsg.indexOf(CaseEnum.xmlRoot_footer.getShow());
+        //截取掉根节点，保留正文
+        bodyMsg=bodyMsg.substring(headerIndex,footerIndex);
+        String header = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+                + "<soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+                + "</soap:Header>"
+                + "<soapenv:Body>"
+                + "<esb:" + esbName + "   xmlns:esb=\"http://esb-sc.yw.zj.chinamobile.com\">"
+                + "<reqXml id=\"string\" href=\"http://www.company.org/cum/sonoras\" xsi:type=\"soapenc:string\""
+                + "  xmlns:soapenc=\"http://schemas.xmlsoap.org/soap/encoding/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
+                + "<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                + "<REQ_PARAM>";
+        String footer = "</REQ_PARAM>]]>"
+                + "</reqXml> "
+                + "</esb:" + esbName + ">"
+                + "</soapenv:Body>"
+                + "</soapenv:Envelope>";
+        return header+bodyMsg+footer;
+    }
+
+    /**
+     * 解析必填校验参数存入map集合
+     * @param validParam 必填校验参数
+     * @return Map<String,String> map集合
+     * @throws UnsupportedEncodingException  字符编码解析异常
+     */
+    private Map<String,String> parseValidParamToMap(String validParam) throws UnsupportedEncodingException {
+        Pattern pattern = Pattern.compile("^<([\\w|:]+)([ ]+)(validType[ ]*=[ ]*\'|validType[ ]*=[ ]*\")(NotNull|Enum|Date|Number|Float|Length|NumValue|Equals|MaxLength)(\"|\')>(.*)<\\/([\\w|:]+)>$");
+        validParam = validParam.trim().replaceAll("[\\f\\n\\r\\t\\v]*", "");
+        String[] mustCompareArr = validParam.split("\\|");
+        Map<String, String> hashMap = new HashMap<String, String>();
+        for (String compare:mustCompareArr) {
+            compare = compare.trim();
+            if(!"".equals(compare)){
+                Matcher matcher = pattern.matcher(compare);
+                boolean rs = matcher.find();
+                if (rs){
+                    String validType = matcher.group(4);
+                    String text = matcher.group(6);
+                    String startNoteName = matcher.group(1);
+                    String endNoteName = matcher.group(7);
+
+                    if("NumValue".equals(validType)){//数值校验
+                        text = java.net.URLEncoder.encode(text.trim(),   "utf-8");
+                    }
+
+                    //封装 xml报文校验组件的参数
+                    StringBuilder sb = new StringBuilder(hashMap.get(validType));
+                    if (StringUtils.isBlank(sb.toString())){
+                        sb.append("<").append(startNoteName).append(">")
+                                .append(text).append("</").append(endNoteName).append(">");
+                    }else{
+                        sb.append("|<").append(startNoteName).append(">")
+                                .append(text).append("</").append(endNoteName).append(">");
+                    }
+                    hashMap.put(validType, sb.toString());
+                }else{
+                    BusinessException.throwBusinessException("compare parameter is error!"+compare);
+                }
+
+            }
+        }
+        return hashMap;
+    }
+    
+    public static void main(String[]args)throws Exception{
+        String inputSoap="<root><PUB_INFO><SYS_OP_ID></SYS_OP_ID><SYS_PASSWORD></SYS_PASSWORD><OP_ID></OP_ID><OP_ORG_ID></OP_ORG_ID></PUB_INFO><BUSI_INFO><PHONE_NO></PHONE_NO><CITY_CODE></CITY_CODE><CHANNEL_ID></CHANNEL_ID><CHANNELADIVID></CHANNELADIVID><PRODUCT_TYPE></PRODUCT_TYPE><ORG_ID></ORG_ID><OPER_ID></OPER_ID><OTHER_INFO></OTHER_INFO></BUSI_INFO></root>";
+        Document document= DocumentHelper.parseText(inputSoap);
+        String bodyMsg=document.asXML();
+        //根节点头部位置
+        int headerIndex=bodyMsg.indexOf(CaseEnum.xmlRoot_header.getShow())+CaseEnum.xmlRoot_header.getValue().intValue();
+        //根节点尾部位置
+        int footerIndex=bodyMsg.indexOf(CaseEnum.xmlRoot_footer.getShow());
+        bodyMsg=bodyMsg.substring(headerIndex,footerIndex);
+        System.out.println("-------defaultekey------- xml value is :"+bodyMsg+" ------ class name : AutoCaseSv  ------ method name : main");
+    } 
 }

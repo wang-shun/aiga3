@@ -133,7 +133,7 @@ public class HomeDataSv {
 			ProcessNodeResponse response = new ProcessNodeResponse();
 			List<NaProcessNodeRecord> records = naProcessNodeRecordDao.findByPlanId(list[i]);
 			response.setMaxNum(Long.valueOf(count));
-			response.setActiveNum(i);
+			response.setActiveNum(i+1);
 			response.setId(10000+i);
 			response.setFlowList(records);
 			
@@ -201,7 +201,7 @@ public class HomeDataSv {
 			response2.setFaultCount(count);
 			response2.setMonth(date1.substring(5, 7));
 			
-			list.add(response);
+			list.add(response2);
 		}
 		
 		

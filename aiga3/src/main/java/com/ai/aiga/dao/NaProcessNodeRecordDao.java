@@ -71,7 +71,7 @@ public interface NaProcessNodeRecordDao extends JpaRepository<NaProcessNodeRecor
 	long countAbnormal(Long bugType, String date1, String date2);
 
 
-	@Query(value = "select distinct plan_id from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd')", nativeQuery = true)
+	@Query(value = "select distinct plan_id from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd') order by plan_date", nativeQuery = true)
 	long[] plan(String planDate);
 
 

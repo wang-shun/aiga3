@@ -12,26 +12,23 @@ define(function(require,exports,module){
 
 
     var Data = {
-        planDate:'2017-05-04' // 获取日期日期
+        planDate:null // 获取日期日期
     }
 
 	var Query = {
 		init: function(){
+			Data.planDate = Rose.date.dateTimeWrapper('yyyy-MM-dd');
+			Page.findName("showTime").html(Rose.date.dateTimeWrapper('yyyy年MM月dd日'));
 			this._render();
 		},
 		_render: function() {
 			this.getWelcomeCaseCount();
 			this.getWelcomeFlowList();
-
-			// 注册日历控件
-		    Page.findId('onlineCalendar').datepicker();
-
-		    // 注册流水滚动条
-		    Page.findId('getWelcomeFlowList').slimScroll({
-                "height": 570
-            });
-
-		    // 图标
+			this.getOnlineCalendar();
+			this.getMyChart();
+		},
+		getMyChart:function(){
+			// 图标
 			var myChart = echarts.init(Page.findId('onlineCharts')[0]);
 
 		    // 指定图表的配置项和数据
@@ -90,6 +87,7 @@ define(function(require,exports,module){
 			    ],
 			    series: [
 			        {
+			        	id:"onlinePlan",
 			            name:'上次变更数量',
 			            type:'bar',
 			            itemStyle: {
@@ -100,6 +98,7 @@ define(function(require,exports,module){
 			            data:[20, 30, 25, 23, 25, 36]
 			        },
 			        {
+			        	id:"abNormal",
 			            name:'异常数量',
 			            type:'bar',
 			            itemStyle: {
@@ -110,6 +109,7 @@ define(function(require,exports,module){
 			            data:[26, 29, 30, 36, 38, 40]
 			        },
 			        {
+			        	id:"fault",
 			            name:'故障数量',
 			            type:'bar',
 			            itemStyle: {
@@ -119,6 +119,7 @@ define(function(require,exports,module){
 			            },
 			            data:[20, 22, 33, 35, 43, 46]
 			        },{
+			        	id:"reSucRate",
 			            name:'前台成功率',
 			            type:'line',
 			            yAxisIndex: 1,
@@ -129,6 +130,7 @@ define(function(require,exports,module){
 			            },
 			            data:[3.8, 4.2, 4.3, 4.5, 6.3, 9.1]
 			        },{
+			        	id:"esbSucRate",
 			            name:'esb成功率',
 			            type:'line',
 			            yAxisIndex: 1,
@@ -139,6 +141,7 @@ define(function(require,exports,module){
 			            },
 			            data:[3.3, 4.2, 4.7, 5.5, 8.3, 9.5]
 			        },{
+			        	id:"cbossSucRate",
 			            name:'CBOSS成功率',
 			            type:'line',
 			            yAxisIndex: 1,
@@ -151,9 +154,45 @@ define(function(require,exports,module){
 			        }
 			    ]
 			};
-
-		    // 使用刚指定的配置项和数据显示图表。
-		    myChart.setOption(option);
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			Rose.ajax.getJson(srvMap.get('getWelcomeInformation'), '', function(json, status) {
+                if (status) {
+                    window.XMS.msgbox.hide();
+                    var _data = json.data;
+                    Rose.log(option.xAxis[0].data);
+                    option.xAxis[0].data = _data.month;
+                    for (x in option.series){
+						var _this = option.series[x];
+						if(_this.id == "onlinePlan"){
+							option.series[x].data = _data.onlinePlan;
+						}else if(_this.id == "abNormal"){
+							option.series[x].data = _data.abNormal;
+						}else if(_this.id == "fault"){
+							option.series[x].data = _data.fault;
+						}else if(_this.id == "reSucRate"){
+							option.series[x].data = _data.reSucRate;
+						}else if(_this.id == "esbSucRate"){
+							option.series[x].data = _data.esbSucRate;
+						}else if(_this.id == "cbossSucRate"){
+							option.series[x].data = _data.cbossSucRate;
+						}
+					}
+                    myChart.setOption(option);
+                }
+            });
+		},
+		getOnlineCalendar:function(){
+			var self = this;
+			// 注册日历控件
+		    Page.findId('onlineCalendar').datepicker({
+		    	todayHighlight:true
+		    });
+			Page.findId('onlineCalendar').datepicker('setEndDate', Data.planDate);
+		    Page.findId('onlineCalendar').datepicker().on('changeDate', function(ev){
+			    Data.planDate = Rose.date.dateTime2str(ev.date,'yyyy-MM-dd');
+			    Page.findName("showTime").html(Rose.date.dateTime2str(ev.date,'yyyy年MM月dd日'));
+			    self.getWelcomeFlowList();
+			});
 		},
         getWelcomeCaseCount: function() { // 获取流水结果信息
             var self = this;
@@ -170,6 +209,10 @@ define(function(require,exports,module){
         getWelcomeFlowList: function() { // 获取流水结果信息
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+             // 注册流水滚动条
+		    Page.findId('getWelcomeFlowList').slimScroll({
+                "height": 550
+            });
             var cmd = "planDate="+Data.planDate;
             Rose.ajax.getJson(srvMap.get('getWelcomeFlowList'), cmd, function(json, status) {
                 if (status) {

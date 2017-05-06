@@ -17,7 +17,7 @@
                     <div class="row welcome-calendar">
                         <div class="col-md-5 calendar-title">
                             <h3>上线日历</h3>
-                            <p>2017年4月13日</p>
+                            <p name="showTime"></p>
                         </div>
                         <div class="col-md-7">
                             <!--The calendar -->
@@ -32,7 +32,7 @@
                 </div>
                 <div class="box-body">
                     <!--The calendar -->
-                    <div id="JS_onlineCharts" style="width: 100%; height:300px;"></div>
+                    <div id="JS_onlineCharts" style="width: 100%; height:300px; margin-top: -35px;"></div>
                 </div>
             </div>
         </div>
@@ -85,6 +85,34 @@
     }
     .page-welcome .flow-online-tips{
         color: #787878;
+    }
+    .page-welcome .datepicker table tr td.disabled,
+    .page-welcome .datepicker table tr td.disabled:hover{
+        color: #ddd;
+    }
+    .page-welcome .calendar-content .datepicker table tr td,
+    .page-welcome .calendar-content .datepicker table tr th{
+        border-radius: 5px;
+    }
+    .page-welcome .datepicker table tr td,
+    .page-welcome .datepicker table tr th{
+        width: auto;
+        height: 30px;
+        line-height: 22px;
+    }
+    .page-welcome .datepicker table tr td.active.active,
+    .page-welcome .datepicker table tr td.active:hover.active{
+        background: #44abe5;
+        border-color: #44abe5;
+        color: #fff !important;
+    }
+    .page-welcome .datepicker table tr td.today,
+    .page-welcome .datepicker table tr td.today:hover,
+    .page-welcome .datepicker table tr td.today.disabled,
+    .page-welcome .datepicker table tr td.today.disabled:hover {
+        color: #000000;
+        background: rgba(156,156,156,0.2);
+        border-color: #ffb733;
     }
 </style>
 <!-- handlebars/获取总计结果 -->

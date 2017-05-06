@@ -151,7 +151,15 @@ public class HomeDataSv {
 	 * @Description:近半年入网信息分析
 	 * @return          
 	 */
-	public List<NetInfoResponse> information() {
+	public NetInfoResponse information() {
+		String [] month = new String[6];//月份数组
+		long[] onlinePlan = new long[6];
+		long[] abNormal = new long[6];
+		long[] fault = new long[6];
+	    String [] reSucRate = new String[6];
+		String [] esbSucRate = new String[6];
+		String [] cbossSucRate = new String[6];
+		
 		SimpleDateFormat sdf =   new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, 0);
@@ -160,19 +168,23 @@ public class HomeDataSv {
 		cal.add(Calendar.MONTH, +1);
 		String date2 = sdf.format(cal.getTime());
 		
-		List<NetInfoResponse> list = new ArrayList<NetInfoResponse>();
+		//NetInfoResponse list = new NetInfoResponse();
 		
 		NetInfoResponse response = new NetInfoResponse();
 
 		long count = naProcessNodeRecordDao.countPlan(date1, date2);
-		response.setOnlinePlanCount(count);
+		//response.setOnlinePlanCount(count);
+		onlinePlan[0] = count;
 		count= naProcessNodeRecordDao.countAbnormal(1L,date1, date2);
-		response.setAbnormalCount(count);
+		//response.setAbnormalCount(count);
+		abNormal[0] = count;
 		count = naProcessNodeRecordDao.countAbnormal(2L,date1, date2);
-		response.setFaultCount(count);
-		response.setMonth(date1.substring(5, 7));
+		//response.setFaultCount(count);
+		fault[0] = count;
+		//response.setMonth(date1.substring(5, 7));
+		month[0] = date1.substring(5, 7);
 		
-		list.add(response);
+		//list.add(response);
 		
 		cal.add(Calendar.MONTH, -1);
 		date2 = sdf.format(cal.getTime());
@@ -180,32 +192,44 @@ public class HomeDataSv {
 		date1 = sdf.format(cal.getTime());
 		NetInfoResponse response1 = new NetInfoResponse();
 		count = naProcessNodeRecordDao.countPlan(date1, date2);
-		response1.setOnlinePlanCount(count);
+		//response1.setOnlinePlanCount(count);
+		onlinePlan[1] = count;
 		count = naProcessNodeRecordDao.countAbnormal(1L,date1, date2);
-		response1.setAbnormalCount(count);
+		//response1.setAbnormalCount(count);
+		abNormal[1] = count;
 		count = naProcessNodeRecordDao.countAbnormal(2L,date1, date2);
-		response1.setFaultCount(count);
-		response1.setMonth(date1.substring(5, 7));
+		//response1.setFaultCount(count);
+		fault[1] = count;
+		//response1.setMonth(date1.substring(5, 7));
+		month[1] = date1.substring(5, 7);
 		
-		list.add(response1);
+		//list.add(response1);
 		for(int i = 0; i < 4; i++){
 			cal.add(Calendar.MONTH, -1);
 			date2 = date1;
 			date1 = sdf.format(cal.getTime());//3
 			NetInfoResponse response2 = new NetInfoResponse();
 			count = naProcessNodeRecordDao.countPlan(date1, date2);
-			response2.setOnlinePlanCount(count);
+			//response2.setOnlinePlanCount(count);
+			onlinePlan[i+2] = count;
 			count = naProcessNodeRecordDao.countAbnormal(1L,date1, date2);
-			response2.setAbnormalCount(count);
+			//response2.setAbnormalCount(count);
+			abNormal[i+2] = count;
 			count = naProcessNodeRecordDao.countAbnormal(2L,date1, date2);
-			response2.setFaultCount(count);
-			response2.setMonth(date1.substring(5, 7));
-			
-			list.add(response2);
+			//response2.setFaultCount(count);
+			fault[i+2] = count;
+			//response2.setMonth(date1.substring(5, 7));
+			month[i+2] = date1.substring(5, 7);
+			//list.add(response2);
 		}
-		
-		
-		return list;
+		response.setAbNormal(abNormal);
+		response.setFault(fault);
+		response.setMonth(month);
+		response.setOnlinePlan(onlinePlan);
+		response.setReSucRate(reSucRate);
+		response.setEsbSucRate(esbSucRate);
+		response.setCbossSucRate(cbossSucRate);
+		return response;
 	}
 
 }

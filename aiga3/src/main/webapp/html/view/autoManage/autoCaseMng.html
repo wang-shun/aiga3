@@ -162,8 +162,8 @@
                                 <div class="box-header ">
                                     <h3 class="box-title">参数列表</h3>
                                 </div>
-                                <div class="box-body">
-                                    <table name="table" class="table table-condensed table-hover" id="JS_parameterList">
+                                <div class="box-body table-scrollable" style="min-height: 300px;">
+                                    <table name="table" class="table table-condensed table-hover" id="JS_parameterList" style="width: 1000px;">
                                         <thead>
                                             <tr>
                                                 <th>参数名</th>
@@ -249,7 +249,7 @@
             <td>
                 <input type="hidden" name="paramId" value="{{paramId}}">
                 <input type="hidden" name="paramName" value="{{paramName}}" style="width: 100px;">{{paramName}}</td>
-            <td>
+            <td title="{{paramValue}}">
                 <input type="text" name="paramValue" value="{{paramValue}}" style="width: 100px;">
             </td>
             <td>

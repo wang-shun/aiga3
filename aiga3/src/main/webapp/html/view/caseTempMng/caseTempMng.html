@@ -224,6 +224,7 @@
                                         <thead id="factorThead">
                                             <tr>
                                                 <th class="iCheckbox" width="15"></th>
+                                                <th width="15"></th>
                                                 <th>因子名称</th>
                                                 <th>因子描述</th>
                                             </tr>
@@ -500,14 +501,14 @@
         <td>
             <input type="radio" class="minimal" value="{{factorId}}" name="factorId">
         </td>
+        <td>{{factorOrder}}
+            <input class="hide" name="factorOrder" value="{{factorOrder}}">
+        </td>
         <td class="col-xs-3">
             <input value="{{factorName}}" class="" name="factorName">
         </td>
         <td class="col-xs-8">
             <input name="remark" value="{{remark}}" style="width:300px">
-        </td>
-        <td class="hide">
-            <input name="factorOrder" value="{{factorOrder}}">
         </td>
     </tr>
     {{/each}}

@@ -230,12 +230,6 @@ define(function(require, exports, module) {
                     self.saveAutoCompParam(data.tempId);
                     // 先清空
                     Page.findModalCId('getParameterList').find("tbody").remove();
-
-                    Rose.ajax.postJson(srvMap.get('getInterfaceCompParam'), "caseId=" + data.caseId, function(json, status) {
-                        if (status) {
-                            console.log(json.data);
-                        }
-                    });
                 }
             });
         },

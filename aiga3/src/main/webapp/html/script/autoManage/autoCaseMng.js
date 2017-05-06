@@ -200,8 +200,6 @@ define(function(require, exports, module) {
                         var template_table = Handlebars.compile(Tpl.getParameterList);
                         var _table = $(Dom.getParameterList);
                         _table.append(template_table(value.paramList))
-                            // 设置滚动条高度
-                        Utils.setScroll(_table.parent(".box-body"), '250px');
                     });
 
                     Utils.eventClickChecked(_dom, function(isChecked, thisDom) {
@@ -217,8 +215,6 @@ define(function(require, exports, module) {
                         } else {
                             var _table = $(Dom.getParameterList);
                             _table.find("tbody[name=" + _val + "_" + _compOrder + "]").remove();
-                            // 设置滚动条高度
-                            Utils.setScroll(_table.parent(".box-body"), '250px');
                         }
 
                     })
@@ -241,9 +237,6 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl.getParameterList);
                     var _table = $(Dom.getParameterList);
                     _table.append(template(json.data))
-                        // 设置滚动条高度
-                    Utils.setScroll(_table.parent(".box-body"), '250px');
-
                 }
             });
         },

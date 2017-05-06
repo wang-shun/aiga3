@@ -1,8 +1,12 @@
 package com.ai.aiga.service.home;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +21,11 @@ import com.ai.aiga.domain.NaProcessNodeRecord;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.home.dto.CaseCountResponse;
+import com.ai.aiga.service.home.dto.NetInfoResponse;
+import com.ai.aiga.service.home.dto.ProcessNodeResponse;
 
 import io.swagger.models.properties.ObjectProperty;
+import oracle.net.aso.a;
 
 /**
  * @ClassName: HomeDataSv
@@ -118,25 +125,88 @@ public class HomeDataSv {
 	}
 
 	
-	public List<NaProcessNodeRecord[]> flowList(String planDate) {
-		List<Object[]> list = naProcessNodeRecordDao.findPlan(planDate);
-		List<NaProcessNodeRecord[]> response = new ArrayList<NaProcessNodeRecord[]>();
-		for(int i = 0; i < list.size(); i++){
-			NaProcessNodeRecord[] records = null;
-			//Object[] obj = list.get(i);
-			//System.out.println("计划Id"+obj[i]);
-			for(int j = 1; j < 9; j++){
-				NaProcessNodeRecord record = naProcessNodeRecordDao.findByPlanIdAndNode(77L, new Long((long)j));
-				System.out.println(record.getProcessName());
-				if(record != null){
-					records[j].setProcessName(record.getProcessName());
-					//records[j].setTime(record.getTime());
-				}
-				
-			}
-			response.add(records);
+	public List<ProcessNodeResponse>  flowList(String planDate) {
+		List<ProcessNodeResponse> responses = new ArrayList<ProcessNodeResponse>();
+		long count = naProcessNodeRecordDao.findPlan(planDate);
+		List<long[]> list = naProcessNodeRecordDao.plan(planDate);
+		for(int i = 0; i < count; i++){
+			long [] a = list.get(i);
+			ProcessNodeResponse response = new ProcessNodeResponse();
+			List<NaProcessNodeRecord> records = naProcessNodeRecordDao.findByPlanId(a[0]);
+			response.setMaxNum(Long.valueOf(count));
+			response.setActiveNum(i);
+			response.setId(10000+i);
+			response.setFlowLIst(records);
+			
+			responses.add(response);
 		}
-		return response;
+		return responses;
+		
+	}
+
+	/**
+	 * @ClassName: HomeDataSv :: information
+	 * @author: dongch
+	 * @date: 2017年5月5日 下午3:46:14
+	 *
+	 * @Description:近半年入网信息分析
+	 * @return          
+	 */
+	public List<NetInfoResponse> information() {
+		SimpleDateFormat sdf =   new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, 0);
+		cal.set(Calendar.DATE, 1);
+		String date1 = sdf.format(cal.getTime());
+		cal.add(Calendar.MONTH, +1);
+		String date2 = sdf.format(cal.getTime());
+		
+		List<NetInfoResponse> list = new ArrayList<NetInfoResponse>();
+		
+		NetInfoResponse response = new NetInfoResponse();
+
+		long count = naProcessNodeRecordDao.countPlan(date1, date2);
+		response.setOnlinePlanCount(count);
+		count= naProcessNodeRecordDao.countAbnormal(1L,date1, date2);
+		response.setAbnormalCount(count);
+		count = naProcessNodeRecordDao.countAbnormal(2L,date1, date2);
+		response.setFaultCount(count);
+		response.setMonth(date1.substring(5, 7));
+		
+		list.add(response);
+		
+		cal.add(Calendar.MONTH, -1);
+		date2 = sdf.format(cal.getTime());
+		cal.add(Calendar.MONTH, -1);//4
+		date1 = sdf.format(cal.getTime());
+		NetInfoResponse response1 = new NetInfoResponse();
+		count = naProcessNodeRecordDao.countPlan(date1, date2);
+		response1.setOnlinePlanCount(count);
+		count = naProcessNodeRecordDao.countAbnormal(1L,date1, date2);
+		response1.setAbnormalCount(count);
+		count = naProcessNodeRecordDao.countAbnormal(2L,date1, date2);
+		response1.setFaultCount(count);
+		response1.setMonth(date1.substring(5, 7));
+		
+		list.add(response1);
+		for(int i = 0; i < 4; i++){
+			cal.add(Calendar.MONTH, -1);
+			date2 = date1;
+			date1 = sdf.format(cal.getTime());//3
+			NetInfoResponse response2 = new NetInfoResponse();
+			count = naProcessNodeRecordDao.countPlan(date1, date2);
+			response2.setOnlinePlanCount(count);
+			count = naProcessNodeRecordDao.countAbnormal(1L,date1, date2);
+			response2.setAbnormalCount(count);
+			count = naProcessNodeRecordDao.countAbnormal(2L,date1, date2);
+			response2.setFaultCount(count);
+			response2.setMonth(date1.substring(5, 7));
+			
+			list.add(response);
+		}
+		
+		
+		return list;
 	}
 
 }

@@ -49,8 +49,8 @@ public class CaseConstructionController {
 	
 	@RequestMapping(path = "/accept/caseConstruction/count")
 	public @ResponseBody JsonBean count(String month, String jobDetail){
-		caseConstructionSv.count(month, jobDetail);
-		//caseConstructionSv.countAsync(month, jobDetail);
+		//caseConstructionSv.count(month, jobDetail);
+		caseConstructionSv.countAsync(month, jobDetail);
 		return JsonBean.success;
 	}
 }

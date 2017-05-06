@@ -12,26 +12,21 @@ import com.ai.aiga.dao.jpa.SearchAndPageRepositoryImpl;
 public class Test {
 	
 	public static void main(String[] args) {
-		 SimpleDateFormat sdf =   new SimpleDateFormat("yyyyMM");
+		 SimpleDateFormat sdf =   new SimpleDateFormat("yyyy-MM-dd");
 		 Calendar cal = Calendar.getInstance();
-	     try {
-			cal.setTime(sdf.parse("20170404"));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	     //cal.add(Calendar.MONTH, +1);
-	     System.out.println(sdf.format(cal.getTime()));
-//		SimpleDateFormat sdf =   new SimpleDateFormat("yyyyMMDD");
-//		Calendar cal = Calendar.getInstance();
-//		try {
-//			cal.setTime(sdf.parse("20170404"));
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		//cal.add(Calendar.DAY_OF_MONTH, +1);
-//		System.out.println(sdf.format(cal.getTime()));
+		 cal.add(Calendar.MONTH, 0);
+		 cal.set(Calendar.DATE, 1);
+		 //System.out.println(sdf.format(cal.getTime()));
+		 cal.add(Calendar.MONTH, +1);
+		 String date = sdf.format(cal.getTime());
+		 date = date.substring(5, 7);
+		 //System.out.println(date);
+		 cal.add(Calendar.MONTH, -1);
+		 date = sdf.format(cal.getTime());
+		 System.out.println(date);
+		 cal.add(Calendar.MONTH, -1);
+		 date = sdf.format(cal.getTime());
+		 System.out.println(date);
 	}
 
 }

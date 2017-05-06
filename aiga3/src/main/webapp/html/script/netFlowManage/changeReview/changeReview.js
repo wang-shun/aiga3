@@ -305,19 +305,13 @@ define(function(require, exports, module) {
         saveOnlineTask: function() {
             var self = this;
             var _dom = Page.findModalCId('getOnlineReviewTaskDistributeList');
-            var _form = Page.findModalCId('addOnlineReviewTaskDistributeForm');
-            var _update = _dom.find("[name='update']");
-            _update.unbind('click');
-            _update.bind('click', function() {
+            var _save = _dom.find("[name='save']");
+            _save.unbind('click');
+            _save.bind('click', function() {
                 var dataTemp = self.getCheckedTask();
                 console.log(dataTemp)
                 if (dataTemp) {
-                    /*_form.find("[name='taskType']").val(dataTemp.taskType).attr("disabled", true);
-                    _form.find("[name='dealOpId']").val(dataTemp.dealOpId);
-                    _form.find("[name='taskId']").val(dataTemp.taskId);*/
-                    //Data.opreation = "update";
                     var data = self.getRadioCheckedRow(Page.findId('getOnlineReviewTaskList'));
-                    var taskId;
                     var taskType;
                     var dealOpId;
                     var saveState = [];
@@ -325,11 +319,9 @@ define(function(require, exports, module) {
                     _dom.find("tbody").find("tr").each(function(){
                         var tdArr = $(this).children();
                         if(tdArr.eq(0).find("input").is(':checked')){
-                            taskId = tdArr.eq(0).find("input").val();
                             taskType = tdArr.eq(2).find("input").val();
                             dealOpId = tdArr.eq(4).find("select").val();
                             saveState.push({
-                                "taskId" : taskId,
                                 "taskType" : taskType,
                                 "dealOpId" : dealOpId,
                                 "onlinePlan" : data.onlinePlan,
@@ -341,10 +333,9 @@ define(function(require, exports, module) {
                     console.log(cmd);
                     Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
                         if (status) {
-                            window.XMS.msgbox.show('修改成功！', 'success', 2000);
+                            window.XMS.msgbox.show('保存成功！', 'success', 2000);
                             setTimeout(function() {
                                 self.getOnlineReviewTaskDistributeList();
-                                _form.find("[name='reset']").click();
                             }, 1000)
                         }
                     });

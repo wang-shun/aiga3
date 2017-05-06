@@ -128,15 +128,14 @@ public class HomeDataSv {
 	public List<ProcessNodeResponse>  flowList(String planDate) {
 		List<ProcessNodeResponse> responses = new ArrayList<ProcessNodeResponse>();
 		long count = naProcessNodeRecordDao.findPlan(planDate);
-		List<long[]> list = naProcessNodeRecordDao.plan(planDate);
+		long[] list = naProcessNodeRecordDao.plan(planDate);
 		for(int i = 0; i < count; i++){
-			long [] a = list.get(i);
 			ProcessNodeResponse response = new ProcessNodeResponse();
-			List<NaProcessNodeRecord> records = naProcessNodeRecordDao.findByPlanId(a[0]);
+			List<NaProcessNodeRecord> records = naProcessNodeRecordDao.findByPlanId(list[i]);
 			response.setMaxNum(Long.valueOf(count));
 			response.setActiveNum(i);
 			response.setId(10000+i);
-			response.setFlowLIst(records);
+			response.setFlowList(records);
 			
 			responses.add(response);
 		}

@@ -59,7 +59,7 @@ public interface NaProcessNodeRecordDao extends JpaRepository<NaProcessNodeRecor
 	@Query(value = "select count(total_time_count) from aiga_boss_test_result where online_plan = ?1", nativeQuery = true)
 	Object time2(Long onlinePlan);
 
-	@Query(value = "select count(plan_id) from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd') ",nativeQuery = true)
+	@Query(value = "select count(distinct plan_id) from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd') ",nativeQuery = true)
 	long findPlan(String planDate);
 
 
@@ -72,7 +72,7 @@ public interface NaProcessNodeRecordDao extends JpaRepository<NaProcessNodeRecor
 
 
 	@Query(value = "select distinct plan_id from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd')", nativeQuery = true)
-	List<long[]> plan(String planDate);
+	long[] plan(String planDate);
 
 
 	

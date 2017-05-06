@@ -20,6 +20,6 @@ public class ProcessNodeResponse {
 	private Long maxNum;
 	private Integer activeNum;
 	private Integer id;
-	private List<NaProcessNodeRecord> flowLIst;
+	private List<NaProcessNodeRecord> flowList;
 }
 

@@ -442,8 +442,8 @@ define(function(require, exports, module) {
                             var order = $(this).find("[name='factorOrder']").val();
                             console.log(order);
                             factors.push({
-                                "factorName": tdArr.eq(1).find("input").val(),
-                                "remark": tdArr.eq(2).find("input").val(),
+                                "factorName": tdArr.eq(2).find("input").val(),
+                                "remark": tdArr.eq(3).find("input").val(),
                                 "factorOrder": order
                             });
                         });
@@ -529,8 +529,8 @@ define(function(require, exports, module) {
                                 // cmd = cmd+"&factorName="+tdArr.eq(1).find("input").val();
                                 // cmd = cmd+"&remark="+tdArr.eq(2).find("input").val();
                                 id = tdArr.eq(0).find("input").val();
-                                name = tdArr.eq(1).find("input").val();
-                                remark = tdArr.eq(2).find("input").val();
+                                name = tdArr.eq(2).find("input").val();
+                                remark = tdArr.eq(3).find("input").val();
                                 order = $(this).find("[name='factorOrder']").val();
                                 factors.push({
                                     "factorId": id,

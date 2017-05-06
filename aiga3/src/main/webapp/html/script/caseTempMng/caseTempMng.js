@@ -369,6 +369,7 @@ define(function(require, exports, module) {
                     var cmd = "messageId=" + _data.Id + "&interfaceType=" + interfaceType;
                     Rose.ajax.postJson(srvMap.get('getFactorsList'), cmd, function(json, status) {
                         var factor_template = Handlebars.compile(Tpl.getFactorList);
+
                         $(Dom.factorList).html(factor_template(json.data));
                         Utils.eventClickChecked($(Dom.factorList), function() {})
                     })

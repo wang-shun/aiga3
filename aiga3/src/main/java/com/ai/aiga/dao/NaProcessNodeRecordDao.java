@@ -59,8 +59,24 @@ public interface NaProcessNodeRecordDao extends JpaRepository<NaProcessNodeRecor
 	@Query(value = "select count(total_time_count) from aiga_boss_test_result where online_plan = ?1", nativeQuery = true)
 	Object time2(Long onlinePlan);
 
-	@Query(value = "select distinct plan_id from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd')",nativeQuery = true)
-	List<Object[]> findPlan(String planDate);
+	@Query(value = "select count(plan_id) from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd') ",nativeQuery = true)
+	long findPlan(String planDate);
+
+
+	@Query(value = "select count(online_plan) from na_change_plan_onile where plan_date >= to_date(?1,'yyyy-mm-dd') and plan_date < to_date(?2,'yyyy-mm-dd')", nativeQuery = true)
+	long countPlan(String date1, String date2);
+
+
+	@Query(value = "select count(bug_id) from na_online_plan_bug where bug_type = ?1 and create_date >= to_date(?2,'yyyy-mm-dd') and create_date < to_date(?3,'yyyy-mm-dd')", nativeQuery = true)
+	long countAbnormal(Long bugType, String date1, String date2);
+
+
+	@Query(value = "select distinct plan_id from na_process_node_record where plan_date = to_date(?1,'yyyy-mm-dd')", nativeQuery = true)
+	List<long[]> plan(String planDate);
+
+
+	
+	List<NaProcessNodeRecord> findByPlanId(long l);
 	
 
 	

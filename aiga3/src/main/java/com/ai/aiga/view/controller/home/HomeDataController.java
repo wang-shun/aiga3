@@ -43,5 +43,12 @@ public class HomeDataController {
 		bean.setData(homeDataSv.flowList(planDate));
 		return bean;
 	}
+	
+	@RequestMapping(path = "/sys/home/information")
+	public @ResponseBody JsonBean information(){
+		JsonBean bean = new JsonBean();
+		bean.setData(homeDataSv.information());
+		return bean;
+	}
 }
 

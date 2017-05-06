@@ -123,7 +123,8 @@ define(function(require,exports,module){
 	    			_form.find("[name='onlinePlanName']").html(data.onlinePlanName);
 					// 引入单选框样式
 					Utils.eventTrClickCallback(_form);
-					var _saveConclusion =  Page.findId('getDeliverableReviewConclusion').find("[name='saveConclusion']");
+					var _dom = Page.findId('getDeliverableReviewConclusion');
+					var _saveConclusion =  _dom.find("[name='saveConclusion']");
 					if(data.planState=="3" || data.planState=="4"){
 						_saveConclusion.attr("disabled", true);
 					}else{
@@ -132,31 +133,33 @@ define(function(require,exports,module){
 					_saveConclusion.unbind('click');
 					// 点击保存
 					_saveConclusion.bind('click',function(){
-						var _checkObj =	_form.find("input[type='radio']:checked");
-						if(_checkObj.length==0){
-						   window.XMS.msgbox.show('请选中结论！', 'error', 2000);
-						   return false;
-					    }
-						var cmd = _form.serialize();
-						cmd = cmd + "&planId=" +data.onlinePlan;
-						console.log(cmd);
-						Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
-							if(status) {
-								// 保存结论成功后，刷新交付物评审结论页
-								XMS.msgbox.show('保存成功！', 'success', 2000)
-								setTimeout(function(){
-									self.getDeliverableReviewConclusion();
-								},1000)
-							}
-						});
+						var _data=Utils.getRadioCheckedRow(_dom);
+						if (_data) {
+							var cmd = _form.serialize();
+							cmd = cmd + "&planId=" +data.onlinePlan;
+							console.log(cmd);
+							Rose.ajax.postJson(srvMap.get('saveConclusion'), cmd, function(json, status) {
+								if(status) {
+									// 保存结论成功后，刷新交付物评审结论页
+									XMS.msgbox.show('保存成功！', 'success', 2000)
+									setTimeout(function(){
+										self.getDeliverableReviewConclusion();
+									},1000)
+								}
+							});
+						}
 					});
+					var _rollback = _dom.find("[name='rollback']");
 					// 点击回退
-					$("#JS_rollback").bind('click',function(){
-						Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
-							if(status) {
-								XMS.msgbox.show('回退成功！', 'success', 2000)
-							}
-						});
+					_rollback.bind('click',function(){
+						var _data=Utils.getRadioCheckedRow(_dom);
+						if (_data) {
+							Rose.ajax.postJson(srvMap.get('rollback'), 'planDate=' + data.planDate, function(json, status) {
+								if(status) {
+									XMS.msgbox.show('回退成功！', 'success', 2000)
+								}
+							});
+						}
 					});
 	    		}
     		});

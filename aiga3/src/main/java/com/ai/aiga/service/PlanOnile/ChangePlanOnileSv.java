@@ -450,7 +450,7 @@ public class ChangePlanOnileSv extends BaseService{
 		List<Condition> cons = new ArrayList<Condition>();
 		StringBuilder sql = new StringBuilder("select * from NA_FILE_UPLOAD where 1 = 1");
 		if(planId!=null){
-			sql = sql.append(" and planId = "+planId);
+			sql = sql.append(" and plan_Id = "+planId);
 			
 		}
 		if(type!=null){

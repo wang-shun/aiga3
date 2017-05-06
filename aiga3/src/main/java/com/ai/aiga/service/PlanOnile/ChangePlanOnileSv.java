@@ -179,10 +179,10 @@ public class ChangePlanOnileSv extends BaseService{
 		naChangePlanOnileDao.save(naChangePlanOnile);
 		sendMessageForCycle(naChangePlanOnile);
 		
-		if(WorkFlowNewEnum.CHANGE_PLAN_PLANONLINE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTONLINE.getValue()==(long)request.getTypes()){
+		/*if(WorkFlowNewEnum.CHANGE_PLAN_PLANONLINE.getValue()==(long)request.getTypes()||WorkFlowNewEnum.CHANGE_PLAN_EMERGENTONLINE.getValue()==(long)request.getTypes()){
 			nodeRecordSv.saveChangeBegin(request.getOnlinePlanName());
-		}
-		
+		}*/
+		nodeRecordSv.saveChangeBegin(request.getOnlinePlanName());
 		return naChangePlanOnile;
 			
 	}
@@ -238,17 +238,26 @@ public class ChangePlanOnileSv extends BaseService{
 	
 	
 	public void  select( NaChangePlanOnileRequest request){
+		Long node=8L;
 		//修改
 		NaChangePlanOnile naChangePlanOnile = naChangePlanOnileDao.findOne(request.getOnlinePlan());
 		
 		if(!request.getExt3().equals("1")){
 			naChangePlanOnile.setPlanState(3L);
 			naChangePlanOnile.setDoneDate( new Date());
-		}
+			naChangePlanOnile.setExt2(request.getExt2());
+			
+			naChangePlanOnile.setResult(request.getResult());
+			naChangePlanOnileDao.save(naChangePlanOnile);
+			nodeRecordSv.commit(request.getOnlinePlan(), node);
+		}else{
 		naChangePlanOnile.setExt2(request.getExt2());
 		
 		naChangePlanOnile.setResult(request.getResult());
 		naChangePlanOnileDao.save(naChangePlanOnile);
+		
+		nodeRecordSv.update(request.getOnlinePlan(), node);
+		}
 	}
 	
 	

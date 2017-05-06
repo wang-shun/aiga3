@@ -784,19 +784,17 @@
 	            <td><input type="radio" class="minimal" value="{{reviewId}}" name="reviewId"></td>
 	            <td name="onlinePlanName">{{onlinePlanName}}</td>
 	            <td>
-	                <div class="col-xs-1">
-	                    <select name="conclusion" class="" value="{{conclusion}}">
-	                        <option value="">请选择</option>
-	                        <option value="1">通过</option>
-	                        <option value="2">未通过</option>
-	                    </select>
-	                </div>
+                    <select name="conclusion" class="" value="{{conclusion}}">
+                        <option value="">请选择</option>
+                        <option value="1">通过</option>
+                        <option value="2">未通过</option>
+                    </select>
 	            </td>
 	            <td><div class="col-xs-1"><input type="text" size="" class="" name="reviewResult" value="{{reviewResult}}" placeholder=""></div></td>
 	            <td>{{reviewDate}}</td>
 	            <!-- <td>{{reviewer}}</td> -->
 				<td>
-                    <select name="reviewer" class="form-control select2" multiple="multiple" value="{{reviewer}}" data-url="getDealOpIdList" data-idkey="dealOpId" data-namekey="dealOpName" required>
+                    <select name="reviewer" class="form-control select2" multiple="multiple" value="{{reviewer}}" data-url="getDealOpIdList" data-idkey="dealOpId" data-namekey="dealOpName">
 						<option value="">请选择</option>
                         <option value="11">张三1</option>
                         <option value="22">张三2</option>

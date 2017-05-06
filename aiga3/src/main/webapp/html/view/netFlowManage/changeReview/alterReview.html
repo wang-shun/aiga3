@@ -240,8 +240,8 @@
 					                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
 					                </div>
 			                    </div>
-								<div class="box-body">
-					                <table class="table table-bordered table-hover">
+								<div class="box-body table-scrollable">
+									<table class="table table-bordered table-hover" style="width: 3000px;">
 									    <thead>
 									        <tr>
 									            <th>测试结果</th>
@@ -929,10 +929,10 @@
         <tr>
             <td style="display:none;">{{id}}</td>
             <td style="display:none;">{{defectId}}</td>
-            <td>{{problemDescription}}</td>
-			<td>{{testStage}}</td>
-            <td>{{defectType}}</td>
-            <td>{{influence}}</td>
+            <td>{{shrink problemDescription 10}}</td>
+			<td>{{shrink testStage 10}}</td>
+            <td>{{shrink defectType 10}}</td>
+            <td>{{shrink influence 10}}</td>
 			<td style="display:none;">{{reviewResult}}</td>
             <td style="display:none;">{{devMan}}</td>
             <td style="display:none;">{{testMan}}</td>

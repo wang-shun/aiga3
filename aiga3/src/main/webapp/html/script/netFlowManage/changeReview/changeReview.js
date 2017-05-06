@@ -132,7 +132,8 @@ define(function(require, exports, module) {
                                 // 初始化步骤
                                 Utils.initStep(_modal);
                                 self.delOnlineTask();
-                                self.addOnlineTask();
+                                //self.addOnlineTask();
+                                self.saveOnlineTask();
                                 self.updateOnlineTask();
 
                                 var _close = _modal.find("[name='close']");
@@ -209,7 +210,8 @@ define(function(require, exports, module) {
 
                     self.updateOnlineTask();
                     self.delOnlineTask();
-                    self.addOnlineTask();
+                    //self.addOnlineTask();
+                    self.saveOnlineTask();
                     Utils.eventTrClickCallback(_dom)
                         //     //设置分页
                         // self.initPaging(_dom, 5, true);
@@ -219,7 +221,7 @@ define(function(require, exports, module) {
         //新建回归子任务
         addOnlineTask: function() {
             var self = this;
-            var _form = Page.findModalCId('addOnlineReviewTaskDistributeForm');
+            //var _form = Page.findModalCId('addOnlineReviewTaskDistributeForm');
             var _dom = Page.findId('getOnlineReviewTaskList');
             var _table = Page.findModalCId('getOnlineReviewTaskDistributeList');
             var _data = Utils.getTableDataRows(_table);
@@ -230,14 +232,14 @@ define(function(require, exports, module) {
             _save = _table.find("[name='save']");
             _save.unbind('click');
             _save.bind('click', function() {
-                var data = self.getRadioCheckedRow(_dom);
-                console.log(data.length)
-                if (data) {
+                var dataTemp = self.getCheckedTask();
+                console.log(dataTemp)
+                if (dataTemp) {
                     var cmd = '';
-                    var taskType = _form.find("[name='taskType']").val();
+                    /*var taskType = _form.find("[name='taskType']").val();
                     var dealOpId = _form.find("[name='dealOpId']").val();
-                    var taskId = _form.find("[name='taskId']").val();
-                    cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + data.onlinePlan + "&onlinePlanName=" + data.onlinePlanName;
+                    var taskId = _form.find("[name='taskId']").val();*/
+                    //cmd = "taskType=" + taskType + "&dealOpId=" + dealOpId + "&onlinePlan=" + data.onlinePlan + "&onlinePlanName=" + data.onlinePlanName;
                     if (Data.opreation == "update") {
                         cmd = cmd + "&taskId=" + taskId;
                         Utils.checkForm(_form, function() {
@@ -254,29 +256,100 @@ define(function(require, exports, module) {
                             });
                         })
                     } else {
-                        Utils.checkForm(_form, function() {
-                            for (var i = 0; i < _data.length; i++) {
-                                if (taskType == _data[i].taskType) {
-                                    window.XMS.msgbox.show('同一计划下已分派的任务类型不能再次分派！', 'error', 2000)
-                                    return;
-                                }
+                        for (var i = 0; i < _data.length; i++) {
+                            if (taskType == _data[i].taskType) {
+                                window.XMS.msgbox.show('同一计划下已分派的任务类型不能再次分派！', 'error', 2000)
+                                return;
                             }
-                            Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
+                        }
+                        var dataTemp = self.getCheckedTask();
+                        console.log(dataTemp)
+                        if (dataTemp) {
+                            var taskType;
+                            var dealOpId;
+                            var saveState = [];
+                            var _cmd;
+                            _dom.find("tbody").find("tr").each(function(){
+                                var tdArr = $(this).children();
+                                if(tdArr.eq(0).find("input").is(':checked')){
+                                    taskType = tdArr.eq(2).find("input").val();
+                                    dealOpId = tdArr.eq(4).find("select").val();
+                                    saveState.push({
+                                        "taskType" : taskType,
+                                        "dealOpId" : dealOpId,
+                                        "onlinePlan" : data.onlinePlan,
+                                        "onlinePlanName" : data.onlinePlanName
+                                    });
+                                }
+                            });
+                            _cmd = saveState;
+                            console.log(_cmd);
+                            Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), _cmd, function(json, status) {
                                 if (status) {
                                     window.XMS.msgbox.show('保存成功！', 'success', 2000);
                                     setTimeout(function() {
                                         self.getOnlineReviewTaskDistributeList();
-                                        _form.find("[name='taskType']").attr("disabled", false);
-                                        _form.find("[name='reset']").click();
+                                        /*_form.find("[name='taskType']").attr("disabled", false);
+                                        _form.find("[name='reset']").click();*/
                                         Data.opreation = 'new';
                                     }, 1000)
                                 }
                             });
-                        })
+                        }
                     }
 
                 }
             });
+        },
+        //保存已分派子任务
+        saveOnlineTask: function() {
+            var self = this;
+            var _dom = Page.findModalCId('getOnlineReviewTaskDistributeList');
+            var _form = Page.findModalCId('addOnlineReviewTaskDistributeForm');
+            var _update = _dom.find("[name='update']");
+            _update.unbind('click');
+            _update.bind('click', function() {
+                var dataTemp = self.getCheckedTask();
+                console.log(dataTemp)
+                if (dataTemp) {
+                    /*_form.find("[name='taskType']").val(dataTemp.taskType).attr("disabled", true);
+                    _form.find("[name='dealOpId']").val(dataTemp.dealOpId);
+                    _form.find("[name='taskId']").val(dataTemp.taskId);*/
+                    //Data.opreation = "update";
+                    var data = self.getRadioCheckedRow(Page.findId('getOnlineReviewTaskList'));
+                    var taskId;
+                    var taskType;
+                    var dealOpId;
+                    var saveState = [];
+                    var cmd;
+                    _dom.find("tbody").find("tr").each(function(){
+                        var tdArr = $(this).children();
+                        if(tdArr.eq(0).find("input").is(':checked')){
+                            taskId = tdArr.eq(0).find("input").val();
+                            taskType = tdArr.eq(2).find("input").val();
+                            dealOpId = tdArr.eq(4).find("select").val();
+                            saveState.push({
+                                "taskId" : taskId,
+                                "taskType" : taskType,
+                                "dealOpId" : dealOpId,
+                                "onlinePlan" : data.onlinePlan,
+                                "onlinePlanName" : data.onlinePlanName
+                            });
+                        }
+                    });
+                    cmd = saveState;
+                    console.log(cmd);
+                    Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
+                        if (status) {
+                            window.XMS.msgbox.show('修改成功！', 'success', 2000);
+                            setTimeout(function() {
+                                self.getOnlineReviewTaskDistributeList();
+                                _form.find("[name='reset']").click();
+                            }, 1000)
+                        }
+                    });
+                }
+            })
         },
         //修改已分派子任务
         updateOnlineTask: function() {
@@ -286,13 +359,45 @@ define(function(require, exports, module) {
             var _update = _dom.find("[name='update']");
             _update.unbind('click');
             _update.bind('click', function() {
-                var dataTemp = self.getCheckboxCheckedRow(_dom);
+                var dataTemp = self.getCheckedTask();
                 console.log(dataTemp)
                 if (dataTemp) {
                     /*_form.find("[name='taskType']").val(dataTemp.taskType).attr("disabled", true);
                     _form.find("[name='dealOpId']").val(dataTemp.dealOpId);
                     _form.find("[name='taskId']").val(dataTemp.taskId);*/
-                    Data.opreation = "update";
+                    //Data.opreation = "update";
+                    var data = self.getRadioCheckedRow(Page.findId('getOnlineReviewTaskList'));
+                    var taskId;
+                    var taskType;
+                    var dealOpId;
+                    var saveState = [];
+                    var cmd;
+                    _dom.find("tbody").find("tr").each(function(){
+                        var tdArr = $(this).children();
+                        if(tdArr.eq(0).find("input").is(':checked')){
+                            taskId = tdArr.eq(0).find("input").val();
+                            taskType = tdArr.eq(2).find("input").val();
+                            dealOpId = tdArr.eq(4).find("select").val();
+                            saveState.push({
+                                "taskId" : taskId,
+                                "taskType" : taskType,
+                                "dealOpId" : dealOpId,
+                                "onlinePlan" : data.onlinePlan,
+                                "onlinePlanName" : data.onlinePlanName
+                            });
+                        }
+                    });
+                    cmd = saveState;
+                    console.log(cmd);
+                    Rose.ajax.postJson(srvMap.get("saveOnlineReviewTask"), cmd, function(json, status) {
+                        if (status) {
+                            window.XMS.msgbox.show('修改成功！', 'success', 2000);
+                            setTimeout(function() {
+                                self.getOnlineReviewTaskDistributeList();
+                                _form.find("[name='reset']").click();
+                            }, 1000)
+                        }
+                    });
                 }
             })
         },

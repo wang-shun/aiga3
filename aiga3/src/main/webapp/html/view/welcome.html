@@ -2,77 +2,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box">
-                <div class="box-body">
-                    <div class="row info-count">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">验收环境用例数</span>
-                                <span class="info-box-number text-aqua">4589</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <span class="info-box-icon bg-green"><i class="fa fa-pie-chart"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">生产环境用例数</span>
-                                <span class="info-box-number text-green">789</span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <span class="info-box-icon bg-red"><i class="fa fa-line-chart"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">验收环境自动转换率</span>
-                                <span class="info-box-number text-red">79<small>%</small></span>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <span class="info-box-icon bg-yellow"><i class="fa fa-area-chart"></i></span>
-                            <div class="info-box-content">
-                                <span class="info-box-text">生产环境自动转换率</span>
-                                <span class="info-box-number text-yellow">99<small>%</small></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="box-body" id="JS_getWelcomeCaseCount"></div>
             </div>
         </div>
-       <!--  <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">验收环境用例数</span>
-                    <span class="info-box-number">4589</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-pie-chart"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">生产环境用例数</span>
-                    <span class="info-box-number">789</span>
-                </div>
-            </div>
-        </div>
-        <div class="clearfix visible-sm-block"></div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-line-chart"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">验收环境自动转换率</span>
-                    <span class="info-box-number">79<small>%</small></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-6 col-xs-12">
-            <div class="info-box">
-                <span class="info-box-icon bg-yellow"><i class="fa fa-area-chart"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">生产环境自动转换率</span>
-                    <span class="info-box-number">99<small>%</small></span>
-                </div>
-            </div>
-        </div> -->
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -108,76 +40,110 @@
             <div class="box box-solid">
                 <div class="box-header">
                     <h3 class="box-title">上线流水</h3>
+                    <div class="box-tools">
+                        <div class="page-list pull-right">
+                            <ul name="complimeNum"></ul>
+                        </div>
+                        <!-- <span class="flow-online-tips pull-right">本次上线已发布<span name="maxNum"></span>次</span> -->
+                    </div>
                 </div>
-                <div class="box-body" id="JS_onlineLog" style="padding: 10px 0;">
-                    <ul class="timeline">
-                        <li>
-                            <i class="fa fa-calendar bg-aqua"></i>
-                                <div class="timeline-item">
-                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
-                                <h3 class="timeline-header">计划上线时间</h3>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope bg-blue"></i>
-                            <div class="timeline-item">
-                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-15 12:38:24</span>
-                                <h3 class="timeline-header">交付物获取</h3>
-                                <div class="timeline-body">
-                                    <p>获取交付物5个，代码包3个。</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fa fa-bolt bg-orange"></i>
-                            <div class="timeline-item">
-                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-16 18:28:44</span>
-                                <h3 class="timeline-header">上线启动-编译发布</h3>
-                                <div class="timeline-body">
-                                    <p>编译发布成功5个环境，失败1个，耗时4个小时。</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fa fa-retweet bg-green"></i>
-                            <div class="timeline-item">
-                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-16 18:28:44</span>
-                                <h3 class="timeline-header">计划上线-验收测试</h3>
-                                <div class="timeline-body">
-                                    <p>前台功能验收已耗时12时，缺陷数5。</p>
-                                    <p>后台功能验收已耗时5时，缺陷数1。</p>
-                                    <p>非功能验收已耗时12时，缺陷数0。</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope bg-blue"></i>
-                                <div class="timeline-item">
-                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
-                                <h3 class="timeline-header">计划上线-上线评审</h3>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fa fa-envelope bg-blue"></i>
-                                <div class="timeline-item">
-                                <span class="time"><i class="fa fa-clock-o"></i> 2017-3-13 10:38:24</span>
-                                <h3 class="timeline-header">计划上线-总结</h3>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fa fa-clock-o bg-gray"></i>
-                        </li>
-                      </ul>
-                </div>
+                <div class="box-body" id="JS_getWelcomeFlowList" style="padding: 10px 0;"></div>
             </div>
         </div>
     </div>
 </div>
 <style>
-    #Page_welcome .box .timeline-item{
+    .page-welcome .box .timeline-item{
         box-shadow:none;
     }
+    .page-welcome .page-list,
+    .page-welcome .page-list ul li{
+        list-style: none;
+        font-size:12px;
+        color:#999;
+        line-height:20px;
+        float:left;
+        margin-left:5px;
+        padding: 0;
+    }
+    .page-welcome .page-list ul{
+        padding: 0;
+        margin-right: 10px;
+    }
+    .page-welcome .page-list ul li{
+        width:20px;
+        height: 20px;
+        border-radius: 50%;
+        text-align:center;
+        border:1px solid #999;
+        cursor:pointer;
+    }
+    .page-welcome .page-list ul li.active{
+        color:#fff;
+        background:#44abe6;
+        border:1px solid #44abe6;
+    }
+    .page-welcome .flow-online-tips{
+        color: #787878;
+    }
 </style>
+<!-- handlebars/获取总计结果 -->
+<script id="TPL_getWelcomeCaseCount" type="text/x-handlebars-template">
+<div class="row info-count">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text">验收环境用例数</span>
+            <span class="info-box-number text-aqua">{{checkCaseTotalCount}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <span class="info-box-icon bg-green"><i class="fa fa-pie-chart"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text">生产环境用例数</span>
+            <span class="info-box-number text-green">{{proCaseTotalCount}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <span class="info-box-icon bg-red"><i class="fa fa-line-chart"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text">验收环境自动转换率</span>
+            <span class="info-box-number text-red">{{{setSmallTag checkSucRate}}}</span>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <span class="info-box-icon bg-yellow"><i class="fa fa-area-chart"></i></span>
+        <div class="info-box-content">
+            <span class="info-box-text">生产环境自动转换率</span>
+            <span class="info-box-number text-yellow">{{{setSmallTag proSucRate}}}</span>
+        </div>
+    </div>
+</div>
+</script>
+<!-- handlebars/流程节点接口 -->
+<script id="TPL_getWelcomeFlowList" type="text/x-handlebars-template">
+{{#each this}}
+<ul class="timeline {{checkIsNotHide @index activeNum}}">
+    {{#each flowList}}
+    <li>
+        <i class="fa {{getTypeClassName type}}" data-toggle="tooltip" data-placement="bottom" title="{{getTypeTitle type}}"></i>
+        <div class="timeline-item">
+            <span class="time"><i class="fa fa-clock-o"></i> {{time}}</span>
+            <h3 class="timeline-header">{{processName}}</h3>
+            {{#if ext1}}
+                <div class="timeline-body">
+                    <p>{{ext1}}</p>
+                </div>
+            {{/if}}
+        </div>
+    </li>
+    {{/each}}
+    <li>
+        <i class="fa fa-clock-o bg-gray"></i>
+    </li>
+</ul>
+{{/each}}
+</script>
 <script>
 seajs.use("script/welcome", function(Query) {
     Query.init();

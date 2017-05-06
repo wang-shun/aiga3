@@ -1,0 +1,10 @@
+{
+  "retCode": "200",
+  "retMessage": null,
+  "data": {
+    "checkCaseTotalCount": 2589,
+    "proCaseTotalCount": 789,
+    "checkSucRate": "79%",
+    "proSucRate": "99%"
+  }
+}

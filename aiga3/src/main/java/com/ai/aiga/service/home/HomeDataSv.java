@@ -135,7 +135,7 @@ public class HomeDataSv {
 			response.setMaxNum(Long.valueOf(count));
 			response.setActiveNum(i);
 			response.setId(10000+i);
-			response.setFlowLIst(records);
+			response.setFlowList(records);
 			
 			responses.add(response);
 		}

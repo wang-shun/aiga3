@@ -1,4 +1,4 @@
-package com.ai.aiga.view.json.cases;
+package com.ai.aiga.view.controller.cases.dto;
 
 public class Factor {
 	

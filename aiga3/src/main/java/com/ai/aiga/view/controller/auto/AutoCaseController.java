@@ -3,7 +3,7 @@ package com.ai.aiga.view.controller.auto;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoCase;
 import com.ai.aiga.service.auto.AutoCaseSv;
-import com.ai.aiga.view.json.auto.AutoCaseRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoCaseRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -31,7 +31,7 @@ import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.CaseInstanceRequest;
 import com.ai.aiga.view.json.CaseTestResponse;
-import com.ai.aiga.view.json.cases.CaseTmeplateResponse;
+import com.ai.aiga.view.controller.cases.dto.CaseTmeplateResponse;
 import com.ai.aiga.view.json.NaTestCaseResponse;
 
 @Service

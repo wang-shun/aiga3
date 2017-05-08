@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoRunResult;
 import com.ai.aiga.service.auto.AutoRunResultSv;
-import com.ai.aiga.view.json.auto.AutoRunResultRequest;
-import com.ai.aiga.view.json.auto.NaAutoTaskReportDetailRequest;
-import com.ai.aiga.view.json.auto.TaskRunResultRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoRunResultRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoTaskReportDetailRequest;
+import com.ai.aiga.view.controller.auto.dto.TaskRunResultRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

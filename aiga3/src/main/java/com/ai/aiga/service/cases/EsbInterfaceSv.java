@@ -6,7 +6,7 @@ import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.AigaEsbInterface;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
-import com.ai.aiga.view.json.cases.EsbInterfaceRequest;
+import com.ai.aiga.view.controller.cases.dto.EsbInterfaceRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -59,6 +59,9 @@ public class EsbInterfaceSv {
      */
     public Object listByPage(EsbInterfaceRequest condition,int pageNumber,int pageSize){
         List<Condition> conditions = new ArrayList<Condition>();
+        if (condition != null) {
+        }
+                
         if(pageNumber < 0){
             pageNumber = 0;
         }

@@ -16,7 +16,7 @@ import com.ai.aiga.service.enums.GeneralEnum;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
-import com.ai.aiga.view.json.auto.*;
+import com.ai.aiga.view.controller.auto.dto.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

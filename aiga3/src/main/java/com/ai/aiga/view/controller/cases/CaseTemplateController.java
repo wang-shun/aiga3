@@ -2,9 +2,8 @@ package com.ai.aiga.view.controller.cases;
 
 import javax.validation.Valid;
 
-import com.ai.aiga.domain.AigaEsbInterface;
 import com.ai.aiga.service.cases.EsbInterfaceSv;
-import com.ai.aiga.view.json.cases.EsbInterfaceRequest;
+import com.ai.aiga.view.controller.cases.dto.EsbInterfaceRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaCaseTemplate;
 import com.ai.aiga.service.cases.CaseTemplateSv;
-import com.ai.aiga.view.json.cases.TemplateRequest;
+import com.ai.aiga.view.controller.cases.dto.TemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.WebValidUtil;
 

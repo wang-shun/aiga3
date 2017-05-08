@@ -9,7 +9,7 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.util.DateUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
-import com.ai.aiga.view.json.auto.AutoUiParamRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoUiParamRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

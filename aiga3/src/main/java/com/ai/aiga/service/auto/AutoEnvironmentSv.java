@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +25,8 @@ import com.ai.aiga.domain.NaAutoMachineEnv;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.service.team.dto.Teaminfo;
-import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
-import com.ai.aiga.view.json.auto.NaAutoEnvironmentRequest;
-import com.ai.aiga.view.json.auto.NaAutoMachineRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoEnvironmentRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoMachineRequest;
 
 @Service
 @Transactional

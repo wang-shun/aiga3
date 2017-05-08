@@ -2,8 +2,8 @@ package com.ai.aiga.view.controller.auto;
 
 import com.ai.aiga.domain.NaAutoTemplateComp;
 import com.ai.aiga.service.auto.AutoTemplateCompSv;
-import com.ai.aiga.view.json.auto.AutoTemplateCompRequest;
-import com.ai.aiga.view.json.auto.AutoUiParamRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoTemplateCompRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoUiParamRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

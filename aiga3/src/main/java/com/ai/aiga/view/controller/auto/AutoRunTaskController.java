@@ -2,7 +2,7 @@ package com.ai.aiga.view.controller.auto;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.auto.AutoRunTaskSv;
-import com.ai.aiga.view.json.auto.AutoRunTaskRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoRunTaskRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;

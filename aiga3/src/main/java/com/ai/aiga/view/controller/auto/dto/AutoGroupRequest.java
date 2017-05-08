@@ -1,4 +1,4 @@
-package com.ai.aiga.view.json.auto;
+package com.ai.aiga.view.controller.auto.dto;
 
 public class AutoGroupRequest {
 	private Long groupId;

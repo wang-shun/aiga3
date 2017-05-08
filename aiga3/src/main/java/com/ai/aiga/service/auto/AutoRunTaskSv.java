@@ -13,7 +13,7 @@ import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.util.net.HttpConnectionUtil;
 import com.ai.aiga.util.net.UrlConfigTypes;
-import com.ai.aiga.view.json.auto.AutoRunTaskRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoRunTaskRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

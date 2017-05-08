@@ -85,15 +85,15 @@
 		entity-manager-factory-ref="entityManagerFactory" base-class="com.ai.aiga.dao.jpa.SearchAndPageRepositoryImpl"/>
 
 	<!-- Jpa 事务配置 -->
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+<!--  -->	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 	
-	<!-- 实验事务 -->
-	<bean id="transactionManager" class="com.ai.aiga.core.transaction.MultipleTransactionManager">
+	<!-- 实验事务
+	<bean id="transactionManager-my" class="com.ai.aiga.core.transaction.MultipleTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
-		<property name="dataSource" ref="dynamicDataSource" />
-	</bean>
+		<property name="dynamicDataSource" ref="dynamicDataSource" />
+	</bean> -->
 
 	<!-- 使用annotation定义事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />

@@ -955,9 +955,9 @@ define(function(require, exports, module) {
             var _downloadTemp = _form.find("[name='downloadTemp']");
             _downloadTemp.unbind('click');
             _downloadTemp.bind('click', function() {
-                var tempType = _form.find("[name='tempType']").val();
+                var category = _form.find("[name='category']").val();
                 var cmd = {
-                    "tempType": tempType
+                    "category": category
                 }
                 switch (tempType) {
                     // 变更交付物

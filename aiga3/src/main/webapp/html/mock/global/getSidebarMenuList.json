@@ -76,7 +76,7 @@
             "funcId": 17,
             "name": "自动化用例模板管理",
             "viewname": "view/autoManage/autoCaseTempMng.html",
-            "funArg" :"username=qijc&age=18"
+            "funArg": "username=qijc&age=18"
         }, {
             "funcId": 18,
             "name": "自动化环境配置",
@@ -217,7 +217,30 @@
         }, {
             "funcId": 37,
             "name": "报表统计",
-            "viewname": "#"
+            "viewname": "#",
+            "subMenus": [{
+                "funcId": 371,
+                "name": "用例建设报表",
+                "viewname": "#"
+            }, {
+                "funcId": 372,
+                "name": "执行情况报表",
+                "viewname": "#",
+                "subMenus": [{
+                    "funcId": 3721,
+                    "name": "用例执行情况",
+                    "viewname": "view/reportStatistics/performanceReport/caseImpl.html"
+                }, {
+                    "funcId": 3722,
+                    "name": "人员执行情况",
+                    "viewname": "view/reportStatistics/performanceReport/personExec.html",
+
+                }]
+            }, {
+                "funcId": 373,
+                "name": "变更统计报表",
+                "viewname": "#"
+            }]
         }]
     }, {
         "funcId": 38,

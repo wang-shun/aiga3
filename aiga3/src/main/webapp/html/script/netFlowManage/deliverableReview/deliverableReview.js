@@ -107,14 +107,14 @@ define(function(require,exports,module){
 		},
     	getDeliverableReviewConclusion:function(){
     		var self = this;
+    		var _form = Page.findId('getDeliverableReviewConclusionForm');
     		var data = Page.getParentCmd();
     		var _cmd = 'onlinePlan=' + data.onlinePlan + '&ext1=1';
     		Rose.ajax.postJson(srvMap.get('getDeliverableReviewConclusion'), _cmd, function(json, status) {
     			if (status) {
-    				var _form = Page.findId('getDeliverableReviewConclusionForm');
 		    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
 		    		console.log(json.data)
-		    		_form.html(template(json.data));
+		    		_form.find("[name='content']").html(template(json.data));
 		    		if (json.data.conclusion != null) {
 	    				_form.find("[name='conclusion']").val(json.data.conclusion);
 	    			}

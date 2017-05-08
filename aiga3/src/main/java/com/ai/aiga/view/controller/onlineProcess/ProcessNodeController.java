@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.service.onlineProcess.NodeRecordSv;
 import com.ai.aiga.view.controller.onlineProcess.dto.NodeRecordRequest;
+import com.ai.aiga.view.controller.role.dto.RoleRequest;
 import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -77,4 +78,10 @@ public class ProcessNodeController {
 		return JsonBean.success;
 	}
    
+	@RequestMapping(path = "/sys/role/findRole")
+	public @ResponseBody JsonBean findRole(Long staffId){
+		nodeRecordSv.findRole(staffId);
+		return JsonBean.success;
+	}
+	
 }

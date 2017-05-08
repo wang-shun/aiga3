@@ -1,6 +1,7 @@
 package com.ai.aiga.service.onlineProcess;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,12 @@ import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaProcessNodeRecordDao;
 import com.ai.aiga.domain.NaProcessNodeRecord;
 import com.ai.aiga.domain.NaTeamInfo;
+import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.onlineProcess.dto.NodeRecordRequest;
+import com.ai.aiga.view.controller.role.dto.Role;
 import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
 
 @Service
@@ -150,18 +153,12 @@ public class NodeRecordSv extends BaseService{
     	naProcessNodeRecordDao.commit(onlinePlan, node); 
       }
     
-   /* public void  update(Long onlinePlan ,Long node){
-  	  
-  	  if (onlinePlan==null&&node==null) {
-  			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-  		}
-  	  if(!NaChangePlanOnileDao.exists(onlinePlan)){
-    		BusinessException.throwBusinessException("传入的计划id不存在！");
-    	}
-  	 NaProcessNodeRecord findByOnlinePlanAndNode = naProcessNodeRecordDao.findByOnlinePlanAndNode(onlinePlan, node);
-  	findByOnlinePlanAndNode.setTime(new Date());
-  	findByOnlinePlanAndNode.setType(1L);
-  	naProcessNodeRecordDao.save(findByOnlinePlanAndNode);
-  	
-    }*/
+    public  List<SysRole>  findRole(Long staffId){
+    	if (staffId==null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+    return	naProcessNodeRecordDao.findRole(staffId);
+		
+    	
+    }
 }

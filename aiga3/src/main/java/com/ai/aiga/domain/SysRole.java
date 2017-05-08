@@ -23,7 +23,7 @@ import javax.persistence.TemporalType;
 public class SysRole  implements java.io.Serializable {
 
 
-     private long roleId;
+     private Long roleId;
      private String code;
      private String name;
      private String notes;
@@ -40,11 +40,11 @@ public class SysRole  implements java.io.Serializable {
     }
 
 	
-    public SysRole(long roleId, String name) {
+    public SysRole(Long roleId, String name) {
         this.roleId = roleId;
         this.name = name;
     }
-    public SysRole(long roleId, String code, String name, String notes, Byte state, Long doneCode, Date createDate, Date doneDate, Date validDate, Date expireDate, Long opId, Long orgId) {
+    public SysRole(Long roleId, String code, String name, String notes, Byte state, Long doneCode, Date createDate, Date doneDate, Date validDate, Date expireDate, Long opId, Long orgId) {
        this.roleId = roleId;
        this.code = code;
        this.name = name;
@@ -63,11 +63,11 @@ public class SysRole  implements java.io.Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="SYS_ROLE$SEQ")
     @SequenceGenerator(name="SYS_ROLE$SEQ",sequenceName="SYS_ROLE$SEQ",allocationSize=1)
     @Column(name="ROLE_ID", unique=true, nullable=false, precision=12, scale=0)
-    public long getRoleId() {
+    public Long getRoleId() {
         return this.roleId;
     }
     
-    public void setRoleId(long roleId) {
+    public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
     

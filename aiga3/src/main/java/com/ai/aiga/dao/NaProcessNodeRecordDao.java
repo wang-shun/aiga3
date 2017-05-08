@@ -9,7 +9,9 @@ import org.springframework.data.jpa.repository.Query;
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.AigaSubSysFolder;
 import com.ai.aiga.domain.NaProcessNodeRecord;
+import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.domain.Tasks;
+import com.ai.aiga.view.controller.role.dto.Role;
 
 public interface NaProcessNodeRecordDao extends JpaRepository<NaProcessNodeRecord, Long>
 ,SearchAndPageRepository<NaProcessNodeRecord, Long>{
@@ -78,6 +80,8 @@ public interface NaProcessNodeRecordDao extends JpaRepository<NaProcessNodeRecor
 	
 	List<NaProcessNodeRecord> findByPlanId(long l);
 	
+	@Query(value = "select a.* from sys_role a,aiga_author b,aiga_staff c  where b.staff_id=c.staff_id and b.role_id=a.role_id and c.staff_id=?1", nativeQuery = true)
+	List<SysRole> findRole (Long staffId);
 
 	
 

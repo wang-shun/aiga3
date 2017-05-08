@@ -49,8 +49,6 @@ define(function(require,exports,module){
 	srvMap.add("getCombineList", "netFlowManage/deliverableReview/getCombineList.json", "sys/review/findNaGroupAdjustListByPlanId");
 	//生产环境需配置菜单需求列表
 	srvMap.add("getConfigureList", "netFlowManage/deliverableReview/getConfigureList.json", "sys/review/findNaHasDeployMenuListByPlanId");
-	//编译发布
-	/*srvMap.add("publish", "netFlowManage/deliverableReview/retMessage.json", "");*/
 	//回退
 	srvMap.add("rollback", "netFlowManage/deliverableReview/retMessage.json", "sys/plan/returnToADClod");
 
@@ -117,7 +115,7 @@ define(function(require,exports,module){
 		    		var template = Handlebars.compile(Page.findTpl('getDeliverableReviewConclusion'));
 		    		console.log(json.data)
 		    		_form.html(template(json.data));
-		    		if (json.data.conclusion) {
+		    		if (json.data.conclusion != null) {
 	    				_form.find("[name='conclusion']").val(json.data.conclusion);
 	    			}
 	    			_form.find("[name='onlinePlanName']").html(data.onlinePlanName);
@@ -125,7 +123,7 @@ define(function(require,exports,module){
 					Utils.eventTrClickCallback(_form);
 					var _dom = Page.findId('getDeliverableReviewConclusion');
 					var _saveConclusion =  _dom.find("[name='saveConclusion']");
-					if(data.planState=="3" || data.planState=="4"){
+					if(data.planState == "3" || data.planState == "4"){
 						_saveConclusion.attr("disabled", true);
 					}else{
 						_saveConclusion.removeAttr("disabled");

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:cache="http://www.springframework.org/schema/cache"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -27,7 +29,7 @@
 	</context:component-scan>
 
 	<!-- 数据源 -->
-	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+	<bean id="base" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
 		<!-- Connection Info -->
 		<property name="driverClassName" value="${jdbc.dev.driver}" />
 		<property name="url" value="${jdbc.dev.url}" />
@@ -45,6 +47,13 @@
 		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
 		<property name="minEvictableIdleTimeMillis" value="3600000" />
 	</bean>
+	
+	<bean id="dynamicDataSource" class="com.ai.aiga.core.datasource.DynamicDataSource" >  
+        <property name="defaultTargetDataSource" ref="base"/>
+    </bean>
+    
+    <bean class="com.ai.aiga.core.datasource.DynamicDataSourceListener" >
+    </bean>  
 
 	<bean id="hibernateJpaVendorAdapter"
 		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
@@ -55,7 +64,7 @@
 	<!-- Jpa Entity Manager 配置 -->
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dynamicDataSource" />
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
 		<property name="packagesToScan" value="com.ai.aiga.domain" />
 		<property name="jpaProperties">
@@ -66,6 +75,9 @@
 			</props>
 		</property>
 	</bean>
+	
+	<!-- Enabling @AspectJ Support with XML configuration -->
+	<aop:aspectj-autoproxy />
 
 	<!-- 在 Spring 配置文件中启用扫描并自动创建代理的功能 -->
 	<!-- 需要在 <beans> 标签中增加对 jpa 命名空间的引用 -->
@@ -75,6 +87,12 @@
 	<!-- Jpa 事务配置 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<!-- 实验事务 -->
+	<bean id="transactionManager" class="com.ai.aiga.core.transaction.MultipleTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dynamicDataSource" />
 	</bean>
 
 	<!-- 使用annotation定义事务 -->

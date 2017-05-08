@@ -4,13 +4,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -31,15 +29,16 @@ public class AgentServer {
 	EventLoopGroup bossGroup = null;
 	EventLoopGroup workerGroup = null;
 
-	ChannelFuture channelFuture = null;
+	ServerBootstrap b = null;
+	Channel channel = null;
 
 	public AgentServer(int port) {
 		this.port = port;
 	}
 
 	public void run() throws Exception {
-		
-		try{
+
+		try {
 			bossGroup = new NioEventLoopGroup();
 			workerGroup = new NioEventLoopGroup();
 
@@ -48,9 +47,12 @@ public class AgentServer {
 					.handler(new LoggingHandler(LogLevel.INFO)).childHandler(new AgentServerInitializer());
 
 			// Bind and start to accept incoming connections.
-			channelFuture = b.bind(port).sync();
+			ChannelFuture channelFuture = b.bind(port).sync();
 			logger.info("服务启动, 开始监听!");
-		}catch (Exception e) {
+
+			channel = channelFuture.channel();
+			logger.info("服务启动完成");
+		} catch (Exception e) {
 			stop();
 			throw e;
 		}
@@ -58,21 +60,18 @@ public class AgentServer {
 	}
 
 	public void stop() {
-
-		try {
-			if (channelFuture != null) {
-				channelFuture.channel().closeFuture().sync();
-			}
-		} catch (InterruptedException e) {
-			logger.error("关闭失败!", e);
-		} finally {
-			if (workerGroup != null) {
-				workerGroup.shutdownGracefully();
-			}
-			if (bossGroup != null) {
-				bossGroup.shutdownGracefully();
-			}
+		
+		if(channel != null){
+			channel.close();
 		}
+
+		if (workerGroup != null) {
+			workerGroup.shutdownGracefully();
+		}
+		if (bossGroup != null) {
+			bossGroup.shutdownGracefully();
+		}
+
 	}
 
 }

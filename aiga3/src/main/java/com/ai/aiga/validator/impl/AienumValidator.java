@@ -1,9 +1,9 @@
-package com.ai.aiga.annotates.validator.impl;
+package com.ai.aiga.validator.impl;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.ai.aiga.annotates.validator.aienum;
+import com.ai.aiga.validator.aienum;
 
 public class AienumValidator implements ConstraintValidator<aienum, String[]>{
 

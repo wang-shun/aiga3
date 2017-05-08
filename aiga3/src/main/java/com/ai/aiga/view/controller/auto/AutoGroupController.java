@@ -10,8 +10,8 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoCase;
 import com.ai.aiga.domain.NaAutoGroup;
 import com.ai.aiga.service.auto.AutoGroupSv;
-import com.ai.aiga.view.json.auto.AutoGroupCaseRequest;
-import com.ai.aiga.view.json.auto.AutoGroupRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoGroupCaseRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoGroupRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

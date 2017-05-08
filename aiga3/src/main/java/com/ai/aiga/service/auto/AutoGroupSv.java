@@ -22,8 +22,8 @@ import com.ai.aiga.domain.NaAutoGroup;
 import com.ai.aiga.domain.NaAutoGroupCase;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
-import com.ai.aiga.view.json.auto.AutoGroupCaseRequest;
-import com.ai.aiga.view.json.auto.AutoGroupRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoGroupCaseRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoGroupRequest;
 
 @Service
 @Transactional

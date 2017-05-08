@@ -13,8 +13,8 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.service.auto.AutoMachineSv;
-import com.ai.aiga.view.json.auto.NaAutoMachineEnvRequest;
-import com.ai.aiga.view.json.auto.NaAutoMachineRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoMachineEnvRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoMachineRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

@@ -2,7 +2,7 @@ package com.ai.aiga.view.controller.auto;
 
 import com.ai.aiga.domain.NaAutoUiParam;
 import com.ai.aiga.service.auto.AutoUiParamSv;
-import com.ai.aiga.view.json.auto.AutoUiParamRequest;
+import com.ai.aiga.view.controller.auto.dto.AutoUiParamRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

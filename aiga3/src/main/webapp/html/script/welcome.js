@@ -202,7 +202,7 @@ define(function(require,exports,module){
                 if (status) {
                     window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Page.findTpl('getWelcomeCaseCount'));
-                    Page.findId('getWelcomeCaseCount').append(template(json.data))
+                    Page.findId('getWelcomeCaseCount').html(template(json.data))
                 }
             });
         },
@@ -218,7 +218,7 @@ define(function(require,exports,module){
                 if (status) {
                     window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Page.findTpl('getWelcomeFlowList'));
-                    Page.findId('getWelcomeFlowList').append(template(json.data))
+                    Page.findId('getWelcomeFlowList').html(template(json.data))
                     var _data = json.data[0];
                     var _maxNum = parseInt(_data.maxNum);
         			var _activeNum = parseInt(_data.activeNum);

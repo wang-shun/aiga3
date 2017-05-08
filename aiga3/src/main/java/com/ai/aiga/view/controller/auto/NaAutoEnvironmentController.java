@@ -14,8 +14,7 @@ import com.ai.aiga.domain.NaAutoEnvironment;
 import com.ai.aiga.domain.NaAutoMachine;
 import com.ai.aiga.service.auto.AutoEnvironmentSv;
 import com.ai.aiga.service.auto.AutoMachineSv;
-import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
-import com.ai.aiga.view.json.auto.NaAutoEnvironmentRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoEnvironmentRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

@@ -30,8 +30,8 @@ import com.ai.aiga.domain.NaAutoRunPlanCase;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.json.auto.NaAutoRunPlanRequest;
-import com.ai.aiga.view.json.auto.PlanAutoCaseRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoRunPlanRequest;
+import com.ai.aiga.view.controller.auto.dto.PlanAutoCaseRequest;
 import com.ai.aiga.view.json.PlanQueryUnconnectCaseRequest;
 
 @Service

@@ -20,7 +20,7 @@
 		<logback.version>1.1.10</logback.version>
 		<hibernate.version>4.3.11.Final</hibernate.version>
 		<spring-data-jpa.version>1.11.0.RELEASE</spring-data-jpa.version>
-		<tomcat-jdbc.version>7.0.75</tomcat-jdbc.version>
+		<tomcat-jdbc.version>7.0.77</tomcat-jdbc.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<guava.version>18.0</guava.version>
 		<junit.version>4.12</junit.version>
@@ -210,6 +210,12 @@
 			<artifactId>orika-core</artifactId>
 			<version>1.5.0</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>1.8.10</version>
+		</dependency>
 		<!-- java动态相关 -->
 
 
@@ -313,21 +319,6 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
-
-<dependency>
-    <groupId>jdom</groupId>
-    <artifactId>jdom</artifactId>
-    <version>1.0</version>
-</dependency>
-
-
-<dependency>
-    <groupId>dom4j</groupId>
-    <artifactId>dom4j</artifactId>
-    <version>1.6.1</version>
-</dependency>
-
-
 		<!-- log4jdbc -->
 		<dependency>
 			<groupId>com.googlecode.log4jdbc</groupId>
@@ -369,7 +360,7 @@
 		<!--ehcache end -->
 		
 		<!-- jta begin -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>com.atomikos</groupId>
 			<artifactId>transactions-hibernate4</artifactId>
 			<version>4.0.4</version>
@@ -378,7 +369,7 @@
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-jta_1.0.1B_spec</artifactId>
 			<version>1.0</version>
-		</dependency>
+		</dependency> -->
 		<!-- jta end -->
 
 		<!-- TEST begin -->
@@ -403,19 +394,19 @@
 
 		<!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
 		<!--json-lib提供了两个jdk版本的实现， json-lib-2.1-jdk13.jar和json-lib-2.1-jdk15.jar-->
-	<!-- 	<dependency>
+		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
 			<version>${json.version}</version>
 			<classifier>jdk15</classifier>
-		</dependency> -->
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/dom4j/dom4j -->
-<!-- 		<dependency>
+		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>
 			<version>${dom4j.version}</version>
-		</dependency> -->
+		</dependency>
 			
 	</dependencies>
 	

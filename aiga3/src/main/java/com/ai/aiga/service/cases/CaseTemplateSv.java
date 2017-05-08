@@ -15,11 +15,10 @@ import com.ai.aiga.service.enums.CaseEnum;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.util.mapper.JsonUtil;
 import com.ai.aiga.view.json.NaCaseTemplateResponse;
-import com.ai.aiga.view.json.cases.CaseTmeplateResponse;
-import com.ai.aiga.view.json.cases.Factor;
-import com.ai.aiga.view.json.cases.TemplateRequest;
+import com.ai.aiga.view.controller.cases.dto.CaseTmeplateResponse;
+import com.ai.aiga.view.controller.cases.dto.Factor;
+import com.ai.aiga.view.controller.cases.dto.TemplateRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -32,7 +31,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Service

@@ -15,8 +15,8 @@ import com.ai.aiga.service.auto.OnlineCaseCollectionSv;
 import com.ai.aiga.service.auto.AutoCaseSv;
 import com.ai.aiga.service.auto.AutoGroupSv;
 import com.ai.aiga.service.auto.AutoRunPlanSv;
-import com.ai.aiga.view.json.auto.NaAutoRunPlanRequest;
-import com.ai.aiga.view.json.auto.PlanAutoCaseRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoRunPlanRequest;
+import com.ai.aiga.view.controller.auto.dto.PlanAutoCaseRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 import io.swagger.annotations.Api;

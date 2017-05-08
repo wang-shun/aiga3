@@ -19,6 +19,6 @@ done
 PRGDIR=`dirname "$PRG"`
 echo "$PRGDIR"
 
-echo "java -cp $PRGDIR/../:$PRGDIR/../lib/* com.ai.aiga.agent.Bootstrap"
+echo "java -cp $PRGDIR/../:$PRGDIR/../lib/* com.ai.aiga.agent.Bootstrap &"
 
 java -cp $PRGDIR/../:$PRGDIR/../lib/* com.ai.aiga.agent.Bootstrap &

@@ -2521,10 +2521,16 @@ fieldset[disabled] .btn-primary.focus {
  * ----------------
  */
 .alert {
-  border-radius: 3px;
+  border-radius: 0;
+  margin-bottom: 5px !important;
+  padding: 10px !important;
+  color: #787878 !important;
+  font-size: 12px !important;
 }
 .alert h4 {
   font-weight: 600;
+  font-size: 14px;
+  color: #ff9920;
 }
 .alert .icon {
   margin-right: 10px;
@@ -2550,7 +2556,7 @@ fieldset[disabled] .btn-primary.focus {
   border-color: #d73925;
 }
 .alert-warning {
-  border-color: #e08e0b;
+  border-color: #ff991e;
 }
 .alert-info {
   border-color: #00acd6;
@@ -4546,12 +4552,16 @@ table.text-center th {
 .modal-danger .modal-body {
   background-color: #f7245b !important;
 }
-.bg-yellow,
+.bg-yellow {
+  background-color: #ff9920 !important;
+  color: #fff !important;
+}
 .callout.callout-warning,
 .alert-warning,
 .label-warning,
 .modal-warning .modal-body {
-  background-color: #ff9922 !important;
+  background-color: #fff3bd !important;
+  color: #787878 !important;
 }
 .bg-aqua,
 .callout.callout-info,
@@ -5266,6 +5276,10 @@ table.text-center th {
 .col-xs-9{
     padding-right: 5px;
     padding-left: 5px;
+}
+
+input[type=file]:focus{
+  outline: 0;
 }
 
 .box{

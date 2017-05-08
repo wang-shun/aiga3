@@ -3,7 +3,6 @@ package com.ai.aiga.service.auto;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -28,8 +27,8 @@ import com.ai.aiga.domain.NaAutoMachineEnv;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.json.auto.NaAutoMachineEnvRequest;
-import com.ai.aiga.view.json.auto.NaAutoMachineRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoMachineEnvRequest;
+import com.ai.aiga.view.controller.auto.dto.NaAutoMachineRequest;
 @Service
 @Transactional
 public class AutoMachineSv extends BaseService {

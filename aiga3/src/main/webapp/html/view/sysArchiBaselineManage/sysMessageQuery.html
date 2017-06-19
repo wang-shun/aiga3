@@ -1,0 +1,92 @@
+<!--Page Start-->
+<head> 
+<style type="text/css"> 
+#Page_sysMessageQuery .first-name-label {
+ margin-left: 40px; 
+ margin-right: 20px;
+}
+#Page_sysMessageQuery .second-label {
+ margin-left: 260px;
+ margin-right: 20px;
+}
+#Page_sysMessageQuery .margin-onl {
+	margin-left: 20px;
+ 	margin-right: 20px;
+}
+</style> 
+</head> 
+<div class="row" id="Page_sysMessageQuery">
+<div class="box box-primary">
+    <form id="JS_querySysDomainForm" class="form-horizontal">
+        <div class="box-header with-border">
+            <h3 class="box-title">系统信息查询</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div id="JS_select_data" class="form-group form-inline">
+                    <label class="control-label margin-onl">系统名称</label>
+                    <input name="domainName" type="text" class="form-control input-sm"></input>
+                    <label class="control-label margin-onl">系统编号</label> 
+                    <input name="domainId" type="text" class="form-control input-sm"></input>                 
+                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+                </div>             
+            </div>
+        </div>
+    </form>
+</div>
+<div class="box" id="JS_sysMessageQuery">
+    <div class="box-header" >
+        <h3 class="box-title">系统信息列表</h3>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>系统名称</th>
+                    <th>系统编号</th>
+                    <th>所属一级域</th>
+                    <th>所属二级域</th>
+                    <th>所属分层</th>
+                    <th>系统描述</th>
+                    <th>责任部门</th>
+                    <th>项目立项信息</th>
+                    <th>规划设计信息</th>
+                </tr>
+            </thead>
+            <tbody name="content"></tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div> 
+</div>
+</div>
+<!--   <input type="hidden" value="{{caseId}}" name="caseId">
+ -->
+<script id="TPL_getSysMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId"></td>
+    <td>{{domainName}}</td>
+    <td>{{domainId}}</td>
+    <td>{{primaryDomainName}}</td>
+	<td>{{secondDomainName}}</td>
+	<td>{{hierarchy}}</td>
+	<td>{{functionDescription}}</td>
+	<td>{{responDepartment}}</td>
+	<td>{{establishmentInfo}}</td>
+	<td>{{planDesignInfo}}</td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/sysArchiBaselineManage/sysMessageQuery", function(init) {
+	init.init();
+});
+</script>
+

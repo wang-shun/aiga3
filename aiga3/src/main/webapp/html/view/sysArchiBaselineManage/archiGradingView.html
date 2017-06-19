@@ -1,0 +1,128 @@
+<!--Page Start-->
+<head> 
+<style type="text/css">
+#Page_sysMessageQuery .sys-sty{
+	z-index: 2;
+	position: absolute;
+    border: 1px solid rgba(6, 6, 6, 0.93);
+    background-color: #85dfec;
+}
+
+#Page_sysMessageQuery .label-left-sty{
+    margin-top: 10px;
+    -webkit-transform: rotate(90deg);
+    width: auto;
+}
+#Page_sysMessageQuery .paas-sty {
+	display: block;
+    margin-left: 30px;
+}
+#Page_sysMessageQuery .border-view-out {
+   width: fit-content;
+   min-width:  600px; 
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 5px;
+   min-height: 30px;
+}
+#Page_sysMessageQuery .noborder-view {
+   width: auto;
+   min-width:  200px; 
+   margin-left: 10px;
+   margin-top: 2px;
+   min-height: 40px;
+   margin-right: 2px;
+   margin-bottom: 2px;
+}
+#Page_sysMessageQuery .border-view {
+   width: auto;
+   min-width:  200px; 
+   margin-left: 10px;
+   margin-top: 2px;
+   min-height: 40px;
+   border: 1px solid rgba(6, 6, 6, 0.93);
+   margin-right: 2px;
+   margin-bottom: 2px;
+}
+#Page_sysMessageQuery .border-view-inside {
+   width: auto;
+   margin-left: 10px;
+   margin-top: 2px;
+   min-height: 40px;
+   border: 1px solid rgba(6, 6, 6, 0.93);
+   margin-right: 2px;
+   margin-bottom: 2px;
+}
+#Page_sysMessageQuery .first-name-label {
+ margin-left: 40px; 
+ margin-right: 20px;
+}
+#Page_sysMessageQuery .second-label {
+ margin-left: 260px;
+ margin-right: 20px;
+}
+#Page_sysMessageQuery .margin-onl {
+ margin-left: 20px;
+}
+</style> 
+</head> 
+<div class="row" id="Page_sysMessageQuery">
+<div class="box box-primary">
+    <form id="JS_querySysDomainForm" class="form-horizontal">
+        <div class="box-header with-border">
+            <h3 class="box-title">条件查询</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div id="JS_select_data" class="form-group form-inline">
+                    <label class="control-label margin-onl">一级视图</label>
+              		<select name="primaryDomain" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-subname="secondDomain" style="width: 160px">
+                        <option value="">请选择</option>
+                    </select>
+                    <label><input style="margin-left:10px;" name="view" type="radio" value="" />二级架构视图 </label>
+                    <label><input style="margin-left:10px;" name="view" type="radio" value="" />三级架构视图 </label>
+                    <label><input style="margin-left:10px;" name="view" type="radio" value="" />IT系统一级架构视图 </label>             
+                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="export">导出</button>
+                </div>             
+            </div>
+        </div>
+    </form>
+</div>
+<div class="box" id="JS_sysMessageView">
+    <div class="box-header" >
+        <h3 class="box-title">视图</h3>
+    </div>
+    <div class="box-body" name="archiView">
+        <!-- 视图 -->
+    </div>
+</div>
+</div>
+<!--   <input type="hidden" value="{{caseId}}" name="caseId">
+ -->
+<script id="TPL_getSysMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId"></td>
+    <td>{{domainName}}</td>
+    <td>{{domainId}}</td>
+    <td>{{primaryDomainName}}</td>
+	<td>{{secondDomainName}}</td>
+	<td>{{hierarchy}}</td>
+	<td>{{functionDescription}}</td>
+	<td>{{responDepartment}}</td>
+	<td>{{establishmentInfo}}</td>
+	<td>{{planDesignInfo}}</td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/sysArchiBaselineManage/archiGradingView", function(init) {
+	init.init();
+});
+</script>
+

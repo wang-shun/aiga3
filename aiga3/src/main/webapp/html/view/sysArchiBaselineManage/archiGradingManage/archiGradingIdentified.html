@@ -1,0 +1,216 @@
+<!--Page Start-->
+<head> 
+<style type="text/css"> 
+#Page_archiGradingIdentified .margin-onl {
+	width: 90px;
+	margin-left: 5px;
+}
+#Page_archiGradingIdentified .from-change-line {
+	margin-bottom: 5px;
+}
+#Page_archiGradingIdentified .show_nothing {
+	display:none;
+}
+</style> 
+</head> 
+<div class="row" id="Page_archiGradingIdentified">
+	<div class="box box-primary">
+	    <form id="JS_querySysDomainForm" class="form-horizontal">
+	        <div class="box-header with-border">
+	            <h3 class="box-title">按条件查询</h3>
+	            <div class="box-tools pull-right">
+	                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+	                </button>
+	            </div>
+	        </div>
+	        <div class="box-body">
+	            <div class="col-md-12">
+	                <div class="form-group form-inline">
+	                    <label class="control-label margin-onl">架构分级选择:</label>
+	                    <select name="domainType" class="form-control select2 input-sm" style="width: 160px">
+	                        <option value="1">一级域</option>
+	                        <option value="2">二级子域</option>
+                            <option value="3">三级系统</option>
+	                    </select>
+	                    <label class="control-label margin-onl">名称:</label>
+	     				<input name="domainName" type="text" class="form-control input-sm" ></input>
+	     				<label class="control-label margin-onl">申请人:</label>
+	     				<input name="domainNum" type="text" class="form-control input-sm" ></input></br>
+	     				<label class="control-label margin-onl">状态:</label>
+	                    <select name="primaryDomain" class="form-control select2 input-sm" style="width: 160px">
+	                        <option value="1">申请</option>
+	                        <option value="2">审批通过</option>
+                            <option value="3">审批未通过</option>
+	                    </select>
+	                    <label class="control-label margin-onl">开始时间:</label>
+	                    <input type="text" class="form-control input-sm " name="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 
+	                    <label class="control-label margin-onl">结束时间:</label>
+	                    <input type="text" class="form-control input-sm " name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">                     
+	                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+	                </div>             
+	            </div>
+	        </div>
+	    </form>
+	</div>
+	<div class="box" id="JS_SysMessageList">
+		<div class="box-header" >
+	        <h3 class="box-title">系统信息列表</h3>
+	    </div>
+	    <div class="box-body" >
+	        <table class="table table-bordered table-hover">
+	            <thead>
+	                <tr>
+	                    <th class="iCheckbox" width="15"></th>
+	                    <th>简称</th>
+	                    <th>名称</th>
+	                    <th>编号</th>
+	                    <th>申请人</th>
+	                    <th>申请时间</th>
+	                    <th>状态</th>
+	                </tr>
+	            </thead>
+	            <tbody name="content"></tbody>
+	        </table>
+	    </div>
+	    <div class="box-footer no-border">
+	        <div class="dataTables_paginate" name="pagination"></div>
+	    </div> 
+	</div>
+	<div class="box show_nothing" id="JS_SysMessageFrom">
+		<div class="box-header" >
+	        <h3 class="box-title">详细信息</h3>
+	    </div>
+	    <div class="box-body" >
+	    	<div class="col-md-12">
+	        	<div id="JS_selectData" class="form-group form-inline">  			
+	     		</div>
+	     	</div>   			
+	    </div>
+	    <div class="box-footer no-border" style="text-align:center;">
+	        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="identify">认定</button>
+	        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="cancel">取消</button>
+	    </div> 
+	</div>
+	<!-- 弹出框  -->
+	<div class="modal fade" id="JS_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title">
+						认定信息
+					</h4>
+				</div>
+				<div class="modal-body">
+					<textarea id="JS_modalMessage" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary">
+						通过
+					</button>
+					<button type="button" class="btn btn-primary">
+						不通过
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+</div>
+<!-- 一级域 -->
+<script id="TPL_primaryMessageFrom" type="text/x-handlebars-template">
+	<label class="control-label margin-onl">申请编号:</label>
+	<input name="applyId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyId}}" ></input>
+   	<label class="control-label margin-onl">申请人:</label>
+   	<input name="applyUser" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyUser}}" ></input>
+   	<label class="control-label margin-onl">申请时间:</label>
+ 	<input name="applyTime" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyTime}}"></input></br>
+ 	
+	<label class="control-label margin-onl">系统名称:</label>
+	<input name="domainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainName}}"></input>
+	<label class="control-label margin-onl">系统编号:</label>
+	<input name="domainId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainId}}"></input>
+	<label class="control-label margin-onl">系统简称:</label>
+	<input name="logogram" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{logogram}}"></input></br>
+</script>
+<!-- 二级子域 -->
+<script id="TPL_secondMessageFrom" type="text/x-handlebars-template">
+	<label class="control-label margin-onl">申请编号:</label>
+	<input name="applyId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyId}}" ></input>
+   	<label class="control-label margin-onl">申请人:</label>
+   	<input name="applyUser" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyUser}}" ></input>
+   	<label class="control-label margin-onl">申请时间:</label>
+ 	<input name="applyTime" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyTime}}"></input></br>
+ 	
+	<label class="control-label margin-onl">系统名称:</label>
+	<input name="domainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainName}}"></input>
+	<label class="control-label margin-onl">系统编号:</label>
+	<input name="domainId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainId}}"></input>
+	<label class="control-label margin-onl">系统简称:</label>
+	<input name="logogram" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{logogram}}"></input></br>
+	     			
+	<label class="control-label margin-onl">所属一级域:</label>
+	<input name="primaryDomainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{primaryDomainName}}"></input>	
+    <input type="hidden" value="{{primaryDomainId}}" name="primaryDomainId">     			
+	<label class="control-label margin-onl">所属分层:</label>
+	<input name="hierarchy" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{hierarchy}}"></input>
+</script>
+<!-- 三级系统 -->
+<script id="TPL_thirdMessageFrom" type="text/x-handlebars-template">
+	<label class="control-label margin-onl">申请编号:</label>
+	<input name="applyId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyId}}" ></input>
+   	<label class="control-label margin-onl">申请人:</label>
+   	<input name="applyUser" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyUser}}" ></input>
+   	<label class="control-label margin-onl">申请时间:</label>
+ 	<input name="applyTime" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyTime}}"></input></br>
+ 	
+	<label class="control-label margin-onl">系统名称:</label>
+	<input name="domainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainName}}"></input>
+	<label class="control-label margin-onl">系统编号:</label>
+	<input name="domainId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainId}}"></input>
+	<label class="control-label margin-onl">系统简称:</label>
+	<input name="logogram" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{logogram}}"></input></br>
+	     			
+	<label class="control-label margin-onl">系统功能描述:</label>
+	<input name="functionDescription" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{functionDescription}}"></input>
+	<label class="control-label margin-onl">所属二级子域:</label>
+	<input name="secondDomainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{secondDomainName}}"></input>
+	<input type="hidden" value="{{secondDomainId}}" name="secondDomainId">
+	<label class="control-label margin-onl">系统建设状态:</label>
+	<input name="sysState" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{sysState}}"></input></br>
+	     			
+	<label class="control-label margin-onl">所属分层:</label>
+	<input name="hierarchy" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{hierarchy}}"></input>
+	<label class="control-label margin-onl">等级信息:</label>
+	<input name="rankInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{rankInfo}}"></input>
+	<label class="control-label margin-onl">责任部门:</label>
+	<input name="responDepartment" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{responDepartment}}"></input></br>
+	     			
+	<label class="control-label margin-onl">项目立项信息:</label>
+	<input name="establishmentInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{establishmentInfo}}"></input>
+	<label class="control-label margin-onl">规划设计信息:</label>
+	<input name="planDesignInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{planDesignInfo}}"></input>
+  	
+</script>
+<!-- 表格数据  -->
+<script id="TPL_getSysMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId"></td>
+    <td>{{logogram}}</td>
+    <td>{{domainName}}</td>
+    <td>{{domainId}}</td>
+    <td>{{applyUser}}</td>
+    <td>{{applyTime}}</td>
+	<td>{{state}}</td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/sysArchiBaselineManage/archiGradingManage/archiGradingIdentified", function(init) {
+	init.init();
+});
+</script>

@@ -1,0 +1,271 @@
+<div class="box">
+    <form id="JS_queryAutoCaseForm">
+        <div class="box-header with-border">
+            <h3 class="box-title">按条件查询</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label for="caseName" class="control-label">用例名称</label>
+                    <input placeholder="请输入用例名称" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+                <div class="form-group col-sm-2">
+                    <label class="control-label">系统大类</label>
+                    <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" data-idkey="sysId" data-namekey="sysName">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label class="control-label">系统子类</label>
+                    <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" data-idkey="subsysId" data-namekey="sysName" class="form-control select2 input-sm">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label class="control-label">功能点</label>
+                    <select name="funId" data-suburl="getFunList" data-idkey="funId" data-namekey="sysName" class="form-control select2 input-sm">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>重要级别</label>
+                    <select name="important" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">一级用例</option>
+                        <option value="2">二级用例</option>
+                        <option value="3">三级用例</option>
+                        <option value="4">四级用例</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-2">
+                    <label class="control-label">业务</label>
+                    <select id="queryCase_busi" data-url="getBusiList" data-idkey="busiId" data-namekey="busiName" name="busiId" class="form-control select2 input-sm">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>用例类型</label>
+                    <select name="caseType" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">UI类</option>
+                        <option value="2">接口类</option>
+                        <option value="3">后台进程类</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>覆盖环境</label>
+                    <select name="environmentType" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">验收环境</option>
+                        <option value="2">准发布环境</option>
+                        <option value="3">生产环境</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="text-center">
+                <button type="reset" name="reset" class="btn btn-default">重置</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="JS_getAutoCaseList" class="box" style="min-height: 100px">
+    <div class="box-header">
+        <h3 class="box-title">自动化用例列表</h3>
+        <div class="box-tools">
+            <div class="btn-group">
+                <button id="Js_btnEdit" type="button" class="btn btn-primary" name="edit"><i class="fa fa-edit"></i> 编辑用例</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="javascript:;" id="JS_deleAutoCase">删除用例</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="box-body" style="min-height: 100px;">
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>用例名称</th>
+                    <th>系统大类</th>
+                    <th>系统子类</th>
+                    <th>功能点</th>
+                    <th>业务</th>
+                    <th>环境</th>
+                    <th>用例状态</th>
+                    <th>创建人</th>
+                    <th>修改人</th>
+                    <th>更新时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div>
+</div>
+<!-- 编辑用例 -->
+<div class="modal fade" id="JS_editAutoCaseModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑用例</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">组件列表</h3>
+                            </div>
+                            <div class="box-body" id="JS_sideAutoCompList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <form>
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-inline">
+                                            <label><i class="text-red">*  </i>自动化用例名称：
+                                            </label>
+                                            <input type="text" class="form-control" name="autoName" value="">&nbsp;&nbsp;&nbsp;
+                                            <label><i class="text-red">*  </i>环境类型：</label>
+                                            <select class="form-control" name="environmentType">
+                                                <option value="">请选择</option>
+                                                <option value="1">验收环境</option>
+                                                <option value="2">准发布环境</option>
+                                                <option value="3">生产环境</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="box-header ">
+                                    <h3 class="box-title">参数列表</h3>
+                                </div>
+                                <div class="box-body table-scrollable" style="min-height: 300px;">
+                                    <table name="table" class="table table-condensed table-hover" id="JS_parameterList" style="width: 1000px;">
+                                        <thead>
+                                            <tr>
+                                                <th>参数名</th>
+                                                <th>参数值</th>
+                                                <th>参数描述</th>
+                                                <th>取值SQL</th>
+                                                <th>预期值</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="TPL_autoCaseList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{autoId}}" name="autoId">
+        </td>
+        <td>
+            <input type="hidden" name="autoName" value="{{autoName}}">{{autoName}}</td>
+        <td>
+            <input type="hidden" name="sysId" value="{{sysId}}">{{sysId}}</td>
+        <td>
+            <input type="hidden" name="sysSubId" value="{{sysSubId}}">{{sysSubId}}</td>
+        <td>
+            <input type="hidden" name="funId" value="{{funId}}">{{funId}}</td>
+        <td>
+            <input type="hidden" name="busiId" value="{{busiId}}">{{transformatBusi busiId}}</td>
+        <td>
+            <input type="hidden" name="environmentType" value="{{environmentType}}">{{transformatEnv environmentType}}</td>
+        <td>
+            <input type="hidden" name="status" value="{{status}}">{{transformatStatus status}}</td>
+        <td>
+            <input type="hidden" name="creator" value="{{creator}}">{{creator}}</td>
+        <td>
+            <input type="hidden" name="update" value="{{update}}">{{update}}</td>
+        <td>
+            <input type="hidden" name="updateTime" value="{{updateTime}}">{{updateTime}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_sideTempCompList" type="text/x-handlebars-template">
+    <table class="table table-bordered table-hover">
+        <tbody>
+            {{#each this}}
+            <tr>
+                <input type="hidden" value="{{compOrder}}" name="compOrder">
+                <td width="15">
+                    <input type="checkbox" class="minimal" value="{{compId}}" name="compId">
+                </td>
+                <td>{{compName}}
+                    <input type="hidden" value="{{compName}}" name="compName">
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+<script id="TPL_parameterList" type="text/x-handlebars-template">
+    <tbody name="{{compId}}_{{compOrder}}">
+        <input type="hidden" name="compId" value="{{compId}}">
+        <input type="hidden" name="compOrder" value="{{compOrder}}">
+        <tr class="bg-light-blue color-palette">
+            <td>组件名：{{compName}}_{{compOrder}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{#each this}}
+        <tr>
+            <td>
+                <input type="hidden" name="paramId" value="{{paramId}}">
+                <input type="hidden" name="paramName" value="{{paramName}}" style="width: 100px;">{{paramName}}</td>
+            <td title="{{paramValue}}">
+                <input type="text" name="paramValue" value="{{paramValue}}" style="width: 100px;">
+            </td>
+            <td>
+                <input type="hidden" name="paramDesc" value="{{paramDesc}}" style="width: 100px;">{{paramDesc}}</td>
+            <td>
+                <input type="text" name="paramSql" value="{{paramSql}}" style="width: 100px;">
+            </td>
+            <td>
+                <input type="text" name="paramExpect" value="{{paramExpect}}" style="width: 100px;">
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</script>
+<script>
+seajs.use("script/archiQuesManage/quesDisplay", function(init) {
+    init.init();
+});
+</script>

@@ -19,8 +19,11 @@ Created by FontForge 20120731 at Thu Apr 20 15:34:14 2017
     bbox="44 -31 956 792"
     underline-thickness="0"
     underline-position="0"
-    unicode-range="U+0078-E601"
-  />
+    unicode-range="U+0078-E601">
+              <font-face-src>
+                <font-face-name name="Glyphicons Halflings"/>
+              </font-face-src>
+   </font-face>
 <missing-glyph 
  />
     <glyph glyph-name=".notdef" 

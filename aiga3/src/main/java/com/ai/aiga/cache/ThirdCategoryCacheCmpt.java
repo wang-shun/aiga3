@@ -21,6 +21,7 @@ public class ThirdCategoryCacheCmpt extends AbstractCache {
 	
 	@Override
 	protected Map load() {
+		
 		Map cache = new HashMap();
 		List<ThirdCategory>list = dao.findAllByThirdid();
 		if(list!=null){
@@ -30,7 +31,7 @@ public class ThirdCategoryCacheCmpt extends AbstractCache {
 				Long secondId = bean.getSecondId();
 				if(secondId!=null){
 					List<ThirdCategory>thic = (List<ThirdCategory>)listCache.get(secondId.longValue());
-					if(thic!=null){
+					if(thic==null){
 						thic = new ArrayList<ThirdCategory>();
 						listCache.put(secondId.longValue(), thic);
 					}
@@ -50,7 +51,7 @@ public class ThirdCategoryCacheCmpt extends AbstractCache {
 	}
 
 	public ThirdCategory getThirdCateByThirdid(long thirdId){
-		Map idCache = (Map) this.getValue(ALL_MAP);
+		Map idCache = (Map)this.getValue(ALL_MAP);
 		return (ThirdCategory)idCache.get(thirdId);
 	}
 }

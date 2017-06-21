@@ -33,11 +33,11 @@ public class SecondCategoryCacheCmpt extends AbstractCache {
 					List<SecondCategory>secc = (List<SecondCategory>) listCache.get(firstId.longValue());
 					if(secc==null){
 						secc = new ArrayList<SecondCategory>();
-						listCache.put(firstId, secc);
+						listCache.put(firstId.longValue(), secc);
 					}
 					secc.add(bean);
 				}
-				idCache.put(bean.getSecondId(), bean);
+				idCache.put(bean.getFirstId(), bean);
 			}
 			cache.put(ALL_LIST_BY_FIRSTID, listCache);
 			cache.put(ALL_MAP, idCache);
@@ -54,5 +54,4 @@ public class SecondCategoryCacheCmpt extends AbstractCache {
 		Map idCache = (Map) this.getValue(ALL_MAP);
 		return (SecondCategory)idCache.get(secondId);
 	}
-
 }

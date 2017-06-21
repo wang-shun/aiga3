@@ -6,6 +6,14 @@ define(function(require, exports, module) {
     var planTag; //计划编号
     var autoId;
 
+    //问题分类下拉框
+    srvMap.add("getRootList", "", "sys/cache/listRootid");
+    //一级分类下拉框
+    srvMap.add("getFirstList", "", "sys/cache/listFirstid");
+    //二级分类下拉框
+    srvMap.add("getSecondList", "", "sys/cache/listSecondid");
+    //三级分类下拉框
+    srvMap.add("getThirdList", "", "sys/cache/listThirdid");
     //系统大类下拉框显示
     srvMap.add("getSysList", "autoManage/autoCaseTempMng/getSysList.json", "sys/cache/listSysid");
     //系统子类下拉框
@@ -73,7 +81,7 @@ define(function(require, exports, module) {
             Utils.setSelectData($(Dom.queryAutoCaseList));
         },
 
-/*        getAutoCaseList: function(cmd) {
+        getAutoCaseList: function(cmd) {
             var self = this;
             var _dom = $(Dom.getAutoCaseList);
             var pagination = _dom.find(".dataTables_paginate");
@@ -86,7 +94,7 @@ define(function(require, exports, module) {
                 Utils.eventClickChecked($(Dom.getAutoCaseList));
 
             }, pagination);
-        },*/
+        },
         queryAutoCase: function() {
             var self = this;
             var _form = $(Dom.queryAutoCaseList);

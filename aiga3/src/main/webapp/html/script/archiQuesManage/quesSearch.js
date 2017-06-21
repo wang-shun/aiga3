@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
-	var Page = Utils.initPage('dataMaintainView');
+	var Page = Utils.initPage('quesSearchView');
 	//分页根据条件查询功能点归属
 	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
 	//新增备份
@@ -24,6 +24,15 @@ define(function(require, exports, module) {
 	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
 
 	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
+
+	//问题展示
+	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
+	//新增问题
+	srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
+	//修改问题
+	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
+	//刪除問題
+	srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
 
 	// 模板对象
 	var Tpl = {
@@ -77,11 +86,11 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getDataMaintainList'), _cmd, function(json, status) {
+			Utils.getServerPage(srvMap.get('getQuestionInfoList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Page.findTpl('getDataMaintainTemp'));
-				_dom.find("[name='content']").html(template(json.data.content));
+				var template = Handlebars.compile(Tpl.getQuestionInfoList);
+				_dom.find("[name='content']").html(template(json.data));
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
 				//新增
@@ -119,7 +128,7 @@ define(function(require, exports, module) {
 						var _cmd = _form.serialize();
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						console.log(_cmd);
-						Rose.ajax.postJson(srvMap.get('addDataMaintain'), _cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
 							if (status) {
 								// 数据备份成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
@@ -147,10 +156,10 @@ define(function(require, exports, module) {
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
 					console.log(data);
-					var cmd = 'correlationId=' + data.correlationId;
+					var cmd = 'quesId=' + data.quesId;
 					//alert(cmd);
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('delDataMaintain'), cmd, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('deleQuestionInfo'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000)
 							setTimeout(function() {
@@ -176,7 +185,7 @@ define(function(require, exports, module) {
 				var _cmd = _form.serialize();
 				_cmd = _cmd + "&correlationId=" + Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
-				Rose.ajax.getJson(srvMap.get('updateDataMaintain'), _cmd, function(json, status) {
+				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('更新成功！', 'success', 2000)
 						setTimeout(function() {

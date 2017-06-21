@@ -34,7 +34,7 @@
         <tbody>
             {{#each this}}
             <tr>
-                <td><input type="radio" class="minimal" value="{{sysId}}" name="sysId">
+                <td><input type="radio" class="minimal" value="{{idSecond}}" name="idSecond">
 				<td>{{idSecond}}</td>
 				<td>{{name}}</td>
 				<td>{{shortName}}</td>

@@ -2,7 +2,7 @@
     <tbody>
         {{#each this}}
         <tr>
-	        <td><input type="radio" class="minimal" value="{{taskId}}" name="taskId"></td>
+	        <td><input type="radio" class="minimal" value="{{quesId}}" name="quesId">
 			<td>{{quesId}}</td>
 			<td>{{quesType}}</td>
 			<td>{{firstCategory}}</td>

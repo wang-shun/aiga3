@@ -1,4 +1,4 @@
-<div class="row" id="Page_dataMaintainView">
+<div class="row" id="Page_quesSearchView">
     <div class="col-md-12">
         <div class="box">
             <form id="JS_queryDataMaintainForm">
@@ -122,7 +122,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">属性维护</h4>
+                <h4 class="modal-title" id="myModalLabel">问题添加</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
                 <form id="JS_addDataMaintainInfo" class="form">
@@ -132,42 +132,228 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
-                                        <label>属性ID</label>
-                                        <select name="propertyId" class="form-control" data-url="getPropertyName" data-subname="propertyCfgId" data-idkey="propertyId" data-namekey="propertyName" required>
-                                            <option value="">
-                                                请选择
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>相关表</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入表名" required>
+                                        <label>问题编号</label>
+                                        <input name="quesId" class="form-control" placeholder="请输入" required>
                                         </input>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
-                                        <label>数据配置字段</label>
-                                        <select name="propertyCfgId" class="form-control " data-suburl="getPropertyConfigList" data-idkey="cigId" data-namekey="propertyField" name="propertyCfgId">
-                                            <option value="0">
-                                                请选择
-                                            </option>
+                                        <label>问题类型</label>
+                                        <select name="quesType" class="form-control">
+                                            <option value="0">请选择</option>
+                                            <option value="1">技术巡检</option>
+                                            <option value="2">系统巡检</option>
+                                            <option value="3">疑难问题</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <i class="text-red">* </i>
-                                        <label>数据库</label>
-                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList">
-                                            <option value="0">
-                                                请选择
-                                            </option>
+                                        <label>一级分类</label>
+                                        <select name="firstCategory" class="form-control">
+					                        <option value="0">请选择</option>
+					                        <option value="1">容量规划</option>
+					                        <option value="2">高可用</option>
+					                        <option value="3">分层</option>
+					                        <option value="4">柔性可用</option>
+					                        <option value="5">日志</option>
+					                        <option value="6">配置</option>
+					                        <option value="7">监控</option>
+					                        <option value="8">安全</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>二级分类</label>
+                                        <select name="secondCategory" class="form-control">
+					                        <option value="0">请选择</option>
+					                        <option value="1">系统容量</option>
+					                        <option value="2">业务容量</option>
+					                        <option value="3">系统性能</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>三级分类</label>
+                                        <select name="thirdCategory" class="form-control">
+					                        <option value="0">请选择</option>
+					                        <option value="1">数据库容量</option>
+					                        <option value="2">网络宽带</option>
+					                        <option value="3">TPCC</option>
+					                        <option value="4">存储</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>疑难问题</label>
+                                        <input name="diffProblem" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>摘要</label>
+                                        <input name="abstracts" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>发生环境</label>
+                                        <input name="occurEnvironment" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>所属项目</label>
+                                        <input name="belongProject" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>一级域编号</label>
+                                        <input name="idFirst" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>二级子域编号</label>
+                                        <input name="idSecond" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>三级系统编号</label>
+                                        <input name="idThird" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>系统版本</label>
+                                        <input name="sysVersion" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>优先级</label>
+                                        <input name="priority" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>缺陷级别</label>
+                                        <input name="defectLevel" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>流程状态</label>
+                                        <input name="state" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                               <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>申报信息</label>
+                                        <input name="requestInfo" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>认定信息</label>
+                                        <input name="identifiedInfo" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>解决信息</label>
+                                        <input name="solvedInfo" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>创建时间</label>
+                                        <input name="createDate" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                               <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>修改时间</label>
+                                        <input name="modifyDate" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>报告人</label>
+                                        <input name="reportor" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>指派人</label>
+                                        <input name="appointedPerson" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>扩展字段1</label>
+                                        <input name="ext1" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                              <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>扩展字段2</label>
+                                        <input name="ext2" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>扩展字段3</label>
+                                        <input name="ext3" class="form-control" placeholder="请输入" required>
+                                        </input>
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +375,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">属性维护</h4>
+                <h4 class="modal-title" id="myModalLabel">问题修改</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
                 <form id="JS_updateDataMaintainInfo" class="form">
@@ -198,39 +384,229 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>属性</label>
-                                        <div id="JS_name"></div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>相关表</label>
-                                        <input name="propertyResource" class="form-control" placeholder="请输入表名">
+                                        <i class="text-red">* </i>
+                                        <label>问题编号</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入编号" required>
                                         </input>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>关联字段</label>
-                                        <input name="correlationField" class="form-control" placeholder="请输入字段名">
-                                        </input>
-                                    </div>
-                                </div>
-                                <!--  <div class="col-md-4">
-                                   <div class="form-group">
-                                       <label>别名</label>
-                                       <input name="alias" class="form-control" placeholder="请输入别名">
-                                       </input>
-                                   </div>
-                               </div> -->
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>数据库</label>
-                                        <select name="db" class="form-control " data-url="getDbList" data-idkey="db" data-namekey="db">
-                                            <option value="0">
-                                                请选择
-                                            </option>
+                                        <i class="text-red">* </i>
+                                        <label>问题类型</label>
+                                        <select name="propertyCfgId" class="form-control">
+                                            <option value="0">请选择</option>
+                                            <option value="1">技术巡检</option>
+                                            <option value="2">系统巡检</option>
+                                            <option value="3">疑难问题</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>一级分类</label>
+                                        <select name="propertyCfgId" class="form-control " data-suburl="getPropertyConfigList" data-idkey="cigId" data-namekey="propertyField" name="propertyCfgId">
+					                        <option value="0">请选择</option>
+					                        <option value="1">容量规划</option>
+					                        <option value="2">高可用</option>
+					                        <option value="3">分层</option>
+					                        <option value="4">柔性可用</option>
+					                        <option value="5">日志</option>
+					                        <option value="6">配置</option>
+					                        <option value="7">监控</option>
+					                        <option value="8">安全</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>二级分类</label>
+                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList">
+					                        <option value="0">请选择</option>
+					                        <option value="1">系统容量</option>
+					                        <option value="2">业务容量</option>
+					                        <option value="3">系统性能</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>三级分类</label>
+                                        <select name="propertyId" class="form-control" data-url="getPropertyName" data-subname="propertyCfgId" data-idkey="propertyId" data-namekey="propertyName" required>
+					                        <option value="0">请选择</option>
+					                        <option value="1">数据库容量</option>
+					                        <option value="2">网络宽带</option>
+					                        <option value="3">TPCC</option>
+					                        <option value="4">存储</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>疑难问题</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>摘要</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>发生环境</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>所属项目</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>一级域编号</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>二级子域编号</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>三级系统编号</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>系统版本</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>优先级</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>缺陷级别</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>流程状态</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                               <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>申报信息</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>认定信息</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>解决信息</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>创建时间</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                               <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>修改时间</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>报告人</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>指派人</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>扩展字段1</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                              <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>扩展字段2</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>扩展字段3</label>
+                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
+                                        </input>
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +639,7 @@
 </script>
 <script type="text/javascript">
 //<![CDATA[
-seajs.use("script/autoManage/dataBackups/dataMaintain", function(Init) {
+seajs.use("script/archiQuesManage/quesSearch", function(Init) {
     Init.init();
 });
 //]]>

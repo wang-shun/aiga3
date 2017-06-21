@@ -38,6 +38,7 @@ define(function(require, exports, module) {
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesRequest.tpl')
+		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
 
 	};
 
@@ -101,8 +102,9 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_dom, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
-					//alert(data.correlationId);
-					self.updateDataMaintain(data.propertyId);
+
+//					alert(data.quesId);
+					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPagination);
 		},
@@ -157,7 +159,7 @@ define(function(require, exports, module) {
 				if (data) {
 					console.log(data);
 					var cmd = 'quesId=' + data.quesId;
-					//alert(cmd);
+					//alert(cmd);//////////
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('deleQuestionInfo'), cmd, function(json, status) {
 						if (status) {
@@ -170,10 +172,29 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		updateDataMaintain: function(Id) {
+		updateDataMaintain: function(Id, json) {
+		
 			var self = this;
+			var i=0;
+			while(json[i].quesId != Id){
+				i++;
+			}
+			var data = json[i];
+//			var _dom = Page.findModal('updateDataMaintainModal');
+			
+//			var index = _dom.attr("temp");
+//			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
+//			Page.findId('updateModal').html(template(json.data[index]));
+//			var _modal = Page.findId('updateDataMaintainModal');
+//			_modal.modal('show');
+//			Utils.setSelectData(_modal);
+			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
+			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
+			Utils.setSelectData(_dom);
+			
+//			_dom.modal('show');
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
 			_dom.find("#JS_name").html(html);
 
@@ -183,7 +204,7 @@ define(function(require, exports, module) {
 				var _form = Page.findId('updateDataMaintainInfo');
 				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();
-				_cmd = _cmd + "&correlationId=" + Id;
+				_cmd = _cmd + "&quesId=" + Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
 				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
 					if (status) {

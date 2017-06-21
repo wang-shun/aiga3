@@ -24,7 +24,8 @@
                                 <label>一级分类</label>
                                 <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
                                     <option>请选择</option>
-                                </select>                            </div>
+                                </select>                            
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -33,21 +34,27 @@
                                 <label>二级分类</label>
                                 <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
                                     <option>请选择</option>
-                                </select>                            </div>
+                                </select>                            
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>三级分类</label>
                                 <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
                                     <option>请选择</option>
-                                </select>                            </div>
+                                </select>                            
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>具体疑难问题</label>
-                                <input class="form-control input-sm" name="correlationField" placeholder="请输入关联字段" />
+                                <label>问题状态</label>
+                                <select class="form-control input-sm" name="propertyId">
+                                    <option>请选择</option>
+                                    <option>已认定</option>
+                                    <option>待认定</option>
+                                </select>                               
                             </div>
                         </div>
                     </div>
@@ -377,241 +384,8 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">问题修改</h4>
             </div>
-            <div class="modal-body" style="padding-bottom: 0">
+            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
                 <form id="JS_updateDataMaintainInfo" class="form">
-                    <div class="box-body">
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>问题编号</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入编号" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>问题类型</label>
-                                        <select name="propertyCfgId" class="form-control">
-                                            <option value="0">请选择</option>
-                                            <option value="1">技术巡检</option>
-                                            <option value="2">系统巡检</option>
-                                            <option value="3">疑难问题</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>一级分类</label>
-                                        <select name="propertyCfgId" class="form-control " data-suburl="getPropertyConfigList" data-idkey="cigId" data-namekey="propertyField" name="propertyCfgId">
-					                        <option value="0">请选择</option>
-					                        <option value="1">容量规划</option>
-					                        <option value="2">高可用</option>
-					                        <option value="3">分层</option>
-					                        <option value="4">柔性可用</option>
-					                        <option value="5">日志</option>
-					                        <option value="6">配置</option>
-					                        <option value="7">监控</option>
-					                        <option value="8">安全</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>二级分类</label>
-                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList">
-					                        <option value="0">请选择</option>
-					                        <option value="1">系统容量</option>
-					                        <option value="2">业务容量</option>
-					                        <option value="3">系统性能</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>三级分类</label>
-                                        <select name="propertyId" class="form-control" data-url="getPropertyName" data-subname="propertyCfgId" data-idkey="propertyId" data-namekey="propertyName" required>
-					                        <option value="0">请选择</option>
-					                        <option value="1">数据库容量</option>
-					                        <option value="2">网络宽带</option>
-					                        <option value="3">TPCC</option>
-					                        <option value="4">存储</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>疑难问题</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>摘要</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>发生环境</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>所属项目</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>一级域编号</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>二级子域编号</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>三级系统编号</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>系统版本</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>优先级</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>缺陷级别</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>流程状态</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                               <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>申报信息</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>认定信息</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>解决信息</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>创建时间</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                               <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>修改时间</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>报告人</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <i class="text-red">* </i>
-                                        <label>指派人</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>扩展字段1</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                              <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>扩展字段2</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>扩展字段3</label>
-                                        <input name="correlationTable" class="form-control" placeholder="请输入" required>
-                                        </input>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -621,6 +395,192 @@
         </div>
     </div>
 </div>
+<script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
+    <div class="box-header with-border">
+        <h3 class="box-title">问题解决</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>问题编号</label>
+                    <input type="text" class="form-control input-sm" value="{{quesId}}" name="quesId">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>问题类型</label>
+                    <input type="text" class="form-control input-sm" value="{{quesType}}" name="quesType">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>一级分类</label>
+                    <input type="text" class="form-control input-sm" value="{{firstCategory}}" name="firstCategory">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>二级分类</label>
+                    <input type="text" class="form-control input-sm" value="{{secondCategory}}" name="secondCategory">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>三级分类</label>
+                    <input type="text" class="form-control input-sm" value="{{thirdCategory}}" name="thirdCategory">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>疑难问题</label>
+                    <input type="text" class="form-control input-sm" value="{{diffProblem}}" name="diffProblem">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>摘要</label>
+                    <input type="text" class="form-control input-sm" value="{{abstracts}}" name="abstracts">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>发生环境</label>
+                    <input type="text" class="form-control input-sm" value="{{occurEnvironment}}" name="occurEnvironment">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>所属项目</label>
+                    <input type="text" class="form-control input-sm" value="{{belongProject}}" name="belongProject">
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>一级域编号</label>
+                    <input type="text" class="form-control input-sm" value="{{idFirst}}" name="idFirst">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>二级域编号</label>
+                    <input type="text" class="form-control input-sm" value="{{idSecond}}" name="idSecond">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>三级系统编号</label>
+                    <input type="text" class="form-control input-sm" value="{{idThird}}" name="idThird">
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>系统版本</label>
+                    <input type="text" class="form-control input-sm" value="{{sysVersion}}" name="sysVersion">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>优先级别</label>
+                    <input type="text" class="form-control input-sm" value="{{priority}}" name="priority">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>缺陷级别</label>
+                    <input type="text" class="form-control input-sm" value="{{defectLevel}}" name="defectLevel">
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>流程状态</label>
+                    <input type="text" class="form-control input-sm" value="{{state}}" name="state">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>申报信息</label>
+                    <input type="text" class="form-control input-sm" value="{{requestInfo}}" name="requestInfo">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>认定信息</label>
+                    <input type="text" class="form-control input-sm" value="{{identifiedInfo}}" name="identifiedInfo">
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>解决信息</label>
+                    <input type="text" class="form-control input-sm" value="{{solvedInfo}}" name="solvedInfo">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>创建时间</label>
+                    <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>修改时间</label>
+                    <input type="text" class="form-control input-sm" value="{{modifyDate}}" name="modifyDate">
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>报告人</label>
+                    <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>指派人</label>
+                    <input type="text" class="form-control input-sm" value="{{appointedPerson}}" name="appointedPerson">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>扩展字段1</label>
+                    <input type="text" class="form-control input-sm" value="{{ext1}}" name="ext1">
+                </div>
+            </div>
+        </div>
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>扩展字段2</label>
+                    <input type="text" class="form-control input-sm" value="{{ext2}}" name="ext2">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>扩展字段3</label>
+                    <input type="text" class="form-control input-sm" value="{{ext3}}" name="ext3">
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 <!-- Modal -->
 <script id="TPL_getDataMaintainTemp" type="text/x-handlebars-template">
     {{#each this}}

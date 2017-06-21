@@ -33,7 +33,15 @@ define(function(require, exports, module) {
 	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
 	//刪除問題
 	srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
-
+    //问题分类下拉框
+    srvMap.add("getRootList", "", "sys/cache/listRootid");
+    //一级分类下拉框
+    srvMap.add("getFirstList", "", "sys/cache/listFirstid");
+    //二级分类下拉框
+    srvMap.add("getSecondList", "", "sys/cache/listSecondid");
+    //三级分类下拉框
+    srvMap.add("getThirdList", "", "sys/cache/listThirdid");
+    
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),

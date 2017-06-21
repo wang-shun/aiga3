@@ -10,48 +10,40 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>问题分类</label>
-                                <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
-                                    <option>请选择</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>一级分类</label>
-                                <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
-                                    <option>请选择</option>
-                                </select>                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>二级分类</label>
-                                <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
-                                    <option>请选择</option>
-                                </select>                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>三级分类</label>
-                                <select class="form-control input-sm" name="propertyId" data-url="getPropertyName" data-idkey="propertyId" data-namekey="propertyName">
-                                    <option>请选择</option>
-                                </select>                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>具体疑难问题</label>
-                                <input class="form-control input-sm" name="correlationField" placeholder="请输入关联字段" />
-                            </div>
-                        </div>
-                    </div>
-
+		            <div class="row">
+		                <div class="form-group col-sm-6">
+		                    <label>问题分类</label>
+		                    <select name="rootId" class="form-control input-sm" data-url="getRootList" data-subname="firstId" data-idkey="rootId" data-namekey="name">
+		                        <option value="">请选择</option>
+		                    </select>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    <label>一级分类</label>
+		                    <select name="firstId" class="form-control input-sm" data-suburl="getFirstList" data-subname="secondId" data-idkey="firstId" data-namekey="name">
+		                        <option value="">请选择</option>
+		                    </select>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="form-group col-sm-6">
+		                    <label>二级分类</label>
+		                    <select name="secondId" class="form-control input-sm" data-suburl="getSecondList" data-subname="thirdId" data-idkey="secondId" data-namekey="name">
+		                        <option value="">请选择</option>
+		                    </select>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    <label>三级分类</label>
+		                    <select name="thirdId" class="form-control input-sm" data-suburl="getThirdList" data-idkey="thirdId" data-namekey="name">
+		                        <option value="">请选择</option>
+		                    </select>
+		                </div>
+		            </div>
+		            <div class="row">
+		                <div class="form-group col-sm-6">
+		                    <label for="caseName" class="control-label">疑难问题</label>
+		                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+		                </div>
+		            </div>
                 </div>
                 <div class="box-footer">
                     <div class="text-center">

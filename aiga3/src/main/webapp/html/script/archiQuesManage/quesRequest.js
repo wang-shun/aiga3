@@ -102,7 +102,7 @@ define(function(require, exports, module) {
             _form.find('button[name="query"]').bind('click', function() {
 
                     var cmd = _form.serialize();
-                    self.getAutoCaseList(cmd);
+                    self.getQuestionInfoList(cmd);///
                 })
                 // 表单重置
             _form.find('button[name="reset"]').bind('click', function() {

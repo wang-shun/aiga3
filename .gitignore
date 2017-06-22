@@ -8,3 +8,4 @@ target
 .metadata
 .studio
 .recommenders
+deploy.sh

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.QuestionInfoSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -24,6 +25,16 @@ public class QuestionInfoController {
 		JsonBean bean = new JsonBean();
 		bean.setData(questionInfoSv.findQuestionInfos());
 		return bean;
+	}
+	
+	@RequestMapping(path="/archi/question/queryInfo")
+	public @ResponseBody JsonBean queryInfo(
+            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+            QuestionInfoRequest condition){
+				JsonBean bean = new JsonBean();
+				bean.setData(questionInfoSv.listInfo(condition, pageNumber, pageSize));
+			return null;
 	}
 	
 	@RequestMapping(path = "/archi/question/findOne")

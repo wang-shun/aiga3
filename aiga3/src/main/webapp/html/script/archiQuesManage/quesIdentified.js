@@ -41,7 +41,8 @@ define(function(require, exports, module) {
     srvMap.add("getSecondList", "", "sys/cache/listSecondid");
     //三级分类下拉框
     srvMap.add("getThirdList", "", "sys/cache/listThirdid");
-    
+    //级联查询
+    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -95,7 +96,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getQuestionInfoList'), _cmd, function(json, status) {
+			Utils.getServerPage(srvMap.get('getQuestionInfoList'), _cmd, function(json, status) {//getQuestionInfoList
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getQuestionInfoList);

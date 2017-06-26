@@ -48,6 +48,8 @@
 <!-- 					<schema-selection match-schema="AIGA"  match-table="QUES_CATEGORY"/>
 					<schema-selection match-schema="AIGA"  match-table="FIRST_CATEGORY"/>
 					<schema-selection match-schema="AIGA"  match-table="SECOND_CATEGORY"/>
-					<schema-selection match-schema="AIGA"  match-table="THIRD_CATEGORY"/> -->
+					<schema-selection match-schema="AIGA"  match-table="THIRD_CATEGORY"/> 
+					<schema-selection match-schema="AIGA"  match-table="ARCHITECTURE_GRADING"/> 
+					<schema-selection match-schema="AIGA"  match-table="ARCHITECTURE_STATIC_DATA"/> -->
 
  </hibernate-reverse-engineering>

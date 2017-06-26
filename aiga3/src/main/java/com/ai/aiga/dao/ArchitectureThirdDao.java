@@ -2,6 +2,7 @@ package com.ai.aiga.dao;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -28,5 +29,8 @@ public interface ArchitectureThirdDao extends JpaRepository<ArchitectureThird, L
 	@Modifying
 	@Query(value="update ArchitectureThird a set a.idThird=?1 where state=?2 " ,nativeQuery=true)
 	public int updateState(long idThird, String state);
+
+	//根据二级查三级
+	public List<ArchitectureThird> findByIdSecond(Long idSecond);
 	
 }

@@ -24,6 +24,13 @@ public class ArchitectureSecondSv extends BaseService {
 		return architectureSecondDao.findAll();
 	}
 	
+	public List<ArchitectureSecond>findArchiSecondsByFirst(Long idFirst){
+		if(idFirst==null||idFirst<=0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		return architectureSecondDao.findByIdFirst(idFirst);
+	}
+	
 	public ArchitectureSecond findOne(Long idSecond){
 		if(idSecond==null||idSecond<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);

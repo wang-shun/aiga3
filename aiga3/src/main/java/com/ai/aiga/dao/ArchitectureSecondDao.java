@@ -23,6 +23,9 @@ public interface ArchitectureSecondDao extends JpaRepository<ArchitectureSecond,
     //查
 	List<ArchitectureSecond> findByIdSecond(Long idSecond);
 	
+    //根据一级域查询二级子域
+	List<ArchitectureSecond> findByIdFirst(Long idFirst);
+	
 	//改
 	@Modifying
 	@Query(value="update ArchitectureSecond a set a.idSecond=?1 where state=?2 " ,nativeQuery=true)

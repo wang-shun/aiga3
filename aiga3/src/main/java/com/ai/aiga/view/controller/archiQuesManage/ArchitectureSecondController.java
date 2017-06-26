@@ -26,6 +26,17 @@ public class ArchitectureSecondController {
 		return bean;
 	} 
 	
+	@RequestMapping(path = "/archi/second/listByfirst")
+	public @ResponseBody JsonBean listByfirst(Long idFirst){
+		JsonBean bean = new JsonBean();
+		if(idFirst!= null && idFirst>0) {
+			bean.setData(architectureSecondSv.findArchiSecondsByFirst(idFirst));
+		} else {
+			bean.setData(architectureSecondSv.findArchitectureSeconds());
+		}	
+		return bean;
+	} 
+	
 	@RequestMapping(path = "/archi/second/findOne")
 	public @ResponseBody JsonBean findOne(
 			@RequestParam Long idSecond){

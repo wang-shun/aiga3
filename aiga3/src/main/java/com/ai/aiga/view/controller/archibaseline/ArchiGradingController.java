@@ -1,8 +1,16 @@
 package com.ai.aiga.view.controller.archibaseline;
 
+import io.swagger.annotations.Api;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
-//import com.ai.aiga.service.archibaseline.ArchiGradingSv;
+import com.ai.aiga.domain.ArchitectureGrading;
+import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdSysPojo;
 import com.ai.aiga.view.controller.archibaseline.dto.gradingMessage;
 import com.ai.aiga.view.controller.archibaseline.dto.gradingPojo;
@@ -18,19 +27,54 @@ import com.ai.aiga.view.controller.archibaseline.dto.secSysMessage;
 import com.ai.aiga.view.controller.archibaseline.dto.secSysPojo;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdSysMessage;
 import com.ai.aiga.view.controller.archibaseline.dto.test;
+import com.ai.aiga.view.controller.auto.dto.AutoTemplateRequest;
 //import com.ai.aiga.view.json.AutoTemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
-public class ArchiGradingController {/*
-	@SuppressWarnings("unused")
+@Api(value = "ArchiGradingController", description = "架构分层相关api")
+public class ArchiGradingController {
 	@Autowired 
-	private  ArchiGradingSv archiGradingSv;
-	*//**
+	private ArchitectureGradingSv architectureGradingSv;
+    /**
+     *@param architectureGrading
+     *@return
+     */
+	@RequestMapping(path = "/archi/grading/gradingAdd")
+//	public @ResponseBody JsonBean save(@RequestParam ArchitectureGrading architectureGrading) {
+	public @ResponseBody JsonBean save(ArchitectureGrading architectureGrading) {
+		if("新增".equals(architectureGrading.getDescription())) {
+			architectureGrading.setCreateDate(new Date());
+			architectureGrading.setModifyDate(new Date());
+		}
+		architectureGrading.setApplyTime(new Date());
+		Subject subject = SecurityUtils.getSubject();
+		architectureGrading.setApplyUser(String.valueOf(subject.getPrincipals()));
+		architectureGrading.setState("申请");
+		architectureGradingSv.save(architectureGrading);
+		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/archi/grading/gradingUpdate")
+	public @ResponseBody JsonBean Update(ArchitectureGrading architectureGrading) {
+		architectureGradingSv.save(architectureGrading);
+		return JsonBean.success;
+	}
+	@RequestMapping(path = "/archi/grading/gradingDelete")
+	public @ResponseBody JsonBean delete(@RequestParam long applyId) {
+		architectureGradingSv.delete(applyId);
+		return JsonBean.success;
+	}
+	@RequestMapping(path = "/archi/grading/gradingExt1Find")
+	public @ResponseBody JsonBean ext1Find(@RequestParam long ext1, String state) {
+		architectureGradingSv.findAllCondition(ext1,state);
+		return JsonBean.success;
+	}
+	/**
 	 * 根据一级域查询 二级子域
 	 * @param primaryDomain
 	 * @return
-	 *//*
+	 */
 	@RequestMapping(path = "/archi/grading/secondDomainList")
 	public @ResponseBody JsonBean list(@RequestParam String  primaryDomain) {
 		JsonBean bean = new JsonBean();
@@ -44,10 +88,10 @@ public class ArchiGradingController {/*
 		bean.setData(datas);
 		return bean;
 	}
-	*//**
+	/**
 	 * 查询所有二级子域
 	 * @return
-	 *//*
+	 */
 	@RequestMapping(path = "/archi/grading/allSecondDomainList")
 	public @ResponseBody JsonBean list() {
 		JsonBean bean = new JsonBean();
@@ -61,10 +105,10 @@ public class ArchiGradingController {/*
 		bean.setData(datas);
 		return bean;
 	}
-	*//**
+	/**
 	 * 查询一级域
 	 * @return
-	 *//*
+	 */
 	@RequestMapping(path = "/archi/grading/primaryDomainList")
 	public @ResponseBody JsonBean del() {
 		JsonBean bean = new JsonBean();
@@ -78,13 +122,13 @@ public class ArchiGradingController {/*
 		bean.setData(datas);
 		return bean;
 	}	
-    *//**
+    /**
      * 原生SQL分页根据条件查询系统信息(三级系统查询)
      * @param pageNumber
      * @param pageSize
      * @param condition
      * @return
-     *//*
+     */
     @RequestMapping(path = "/archi/grading/sysMessageList" )
     public @ResponseBody JsonBean sysListInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -118,13 +162,13 @@ public class ArchiGradingController {/*
         return bean;
     }
     
-    *//**
+    /**
      * 原生SQL分页根据条件查询系统信息(二级子域查询)
      * @param pageNumber
      * @param pageSize
      * @param condition
      * @return
-     *//*
+     */
     @RequestMapping(path = "/archi/grading/cenMessageList" )
     public @ResponseBody JsonBean centerListInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -150,13 +194,13 @@ public class ArchiGradingController {/*
         return bean;
     }
     
-    *//**
+    /**
      * 原生SQL分页根据条件查询系统信息(一级域查询)
      * @param pageNumber
      * @param pageSize
      * @param condition
      * @return
-     *//*
+     */
     @RequestMapping(path = "/archi/grading/primaryMessageList" )
     public @ResponseBody JsonBean primaryListInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -179,13 +223,13 @@ public class ArchiGradingController {/*
         return bean;
     }
     
-    *//**
+    /**
      * 认定信息查询
      * @param pageNumber
      * @param pageSize
      * @param condition
      * @return
-     *//*
+     */
     @RequestMapping(path = "/archi/grading/sysGradingMessageList" )
     public @ResponseBody JsonBean gradingListInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -235,4 +279,4 @@ public class ArchiGradingController {/*
         bean.setData(datas);
         return bean;
     }
-*/}
+}

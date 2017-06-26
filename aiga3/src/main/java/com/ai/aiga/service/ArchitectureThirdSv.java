@@ -3,6 +3,7 @@ package com.ai.aiga.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,13 @@ public class ArchitectureThirdSv extends BaseService {
 	
 	public List<ArchitectureThird>findArchitectureThirds(){
 		return architectureThirdDao.findAll();
+	}
+	
+	public List<ArchitectureThird> findbySec(Long idSecond){
+		if(idSecond==null||idSecond<0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		return architectureThirdDao.findByIdSecond(idSecond);
 	}
 	
 	public ArchitectureThird findOne(Long idThird){

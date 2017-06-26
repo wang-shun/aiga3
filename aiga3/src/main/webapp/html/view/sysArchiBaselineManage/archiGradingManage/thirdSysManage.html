@@ -64,11 +64,11 @@
             <div class="col-md-12">
                 <div class="form-group form-inline">
                     <label class="control-label margin-onl">一级域:</label>
-                    <select name="primaryDomain" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-subname="secondDomain" style="width: 160px">
+                    <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
                     <label class="control-label margin-onl">二级子域:</label>
-                    <select name="secondDomain"  class="form-control select2 input-sm" data-suburl="getSecondDomainList"  style="width: 160px">
+                    <select name="idSecond"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
                     <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
@@ -112,42 +112,43 @@
             </div>
             <div class="modal-body" style="padding-bottom: 0">
 				<div class="box-body form-group form-inline total-width">
-					<div class="col-md-12">
-						<label class="control-label first-name-label">名称</label>
-	   					<input name="domainName" type="text" class="form-control input-sm"></input>
-	  					<label class="control-label margin-onl">简称</label>
-						<input name="logogram" type="text" class="form-control input-sm"></input>
-					    <label class="control-label margin-onl">系统编号</label>
-						<input name="domainId" type="text" class="form-control input-sm"></input>
-					</div>
-					<div class="margin-top-20 col-md-12">
-						<label class="control-label fist-text-label">系统功能描述</label>
-						<textarea name="functionDescription" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
-					</div>
-					<div id="updata-select" class="margin-top-20 col-md-12 form-group">
-	    				<label class="control-label fist-text-label">所属二级子域</label>
-        				<select name="secondDomain"  class="form-control select2 input-sm" data-url="getAllSecondDomainList"  style="width: 170px">
-            				<option value="">请选择</option>
-         				</select>
-         				<label class="control-label second-label">等级信息</label>
-        			 	<input name="rankInfo" type="text" class="form-control input-sm" ></input>
-					</div>
-					<div class="margin-top-20 col-md-12">
-					    <label class="control-label fist-text-label">项目立项信息</label>
-					    <input name="establishmentInfo" type="text" class="form-control input-sm" ></input>
-					    <label class="control-label second-label">责任部门</label>
-     			    	<input name="responDepartment" type="text" class="form-control input-sm" ></input>
-					</div>
-					<div class="col-md-12">
-					    <label class="control-label fist-text-label">规划设计信息</label>
-						<textarea name="planDesignInfo" cols="21" rows="3" class="form-control input-sm text-area-sty"></textarea>
-					    <label class="control-label second-label-select">状态</label>
-     			   		<select name="sysState"  class="form-control select2 input-sm" data-url="getAllSecondDomainList"  style="width: 170px">
-    			       		<option value="">请选择</option>
-     			   		</select>
-					</div>
-					<div class="margin-top-20 col-md-12">	    
-					    <form>	
+					<form id = "JS_thirdApplyForm">
+						<div class="col-md-12">
+							<label class="control-label first-name-label">名称</label>
+	   						<input name="name" type="text" class="form-control input-sm"></input>
+	  						<label class="control-label margin-onl">简称</label>
+							<input name="code" type="text" class="form-control input-sm"></input>
+					   	 	<label class="control-label margin-onl">系统编号</label>
+							<input name="sysId" type="text" class="form-control input-sm"></input>
+						</div>
+						<div class="margin-top-20 col-md-12">
+							<label class="control-label fist-text-label">系统功能描述</label>
+							<textarea name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
+						</div>
+						<div id="updata-select" class="margin-top-20 col-md-12 form-group">
+	    					<label class="control-label fist-text-label">所属二级子域</label>
+        					<select name="idBelong"  class="form-control select2 input-sm" data-url="getSecondDomainList" data-idkey="idSecond" data-namekey="name" style="width: 170px">
+            					<option value="">请选择</option>
+         					</select>
+         					<label class="control-label second-label">等级信息</label>
+        			 		<input name="rankInfo" type="text" class="form-control input-sm" ></input>
+						</div>
+						<div class="margin-top-20 col-md-12">
+					   	    <label class="control-label fist-text-label">项目立项信息</label>
+					   		<input name="projectInfo" type="text" class="form-control input-sm" ></input>
+					   		<label class="control-label second-label">责任部门</label>
+     			    		<input name="department" type="text" class="form-control input-sm" ></input>
+						</div>
+						<div class="col-md-12">
+					    	<label class="control-label fist-text-label">规划设计信息</label>
+							<textarea name="designInfo" cols="21" rows="3" class="form-control input-sm text-area-sty"></textarea>
+					    	<label class="control-label second-label-select">状态</label>
+     			   			<select name="sysState"  class="form-control select2 input-sm" data-url="getSecondDomainList"  style="width: 170px">
+    			       			<option value="">请选择</option>
+     			   			</select>
+						</div>
+					</form>	
+						<div class="margin-top-20 col-md-12">	    		    	
 		    				<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		     			    <div class="check-inline">				
 		    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS">SaaS
@@ -159,10 +160,9 @@
 								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS">PaaS
 								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS">IaaS
 								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS">TPaaS
-						   </div>
-						</form>
-					</div>
-          	   </div>
+						   	</div>						
+						</div>
+          	    </div>
           	</div>
             <div class="modal-footer btn-centen">
          	    <button type="button" class="btn btn-primary" name="save">保存</button>
@@ -193,54 +193,55 @@
 <!-- 修改页面模版 -->
 <script id="TPL_thirdUpdateFrom" type="text/x-handlebars-template">
 <div class="box-body form-group form-inline total-width">
+	<form id = "JS_thirdUpdateForm">
 	<div class="col-md-12">
 		<label class="control-label first-name-label">名称</label>
-	    <input name="domainName" type="text" class="form-control input-sm" value="{{domainName}}"></input>
+	    <input name="name" type="text" class="form-control input-sm" value="{{name}}"></input>
 	    <label class="control-label margin-onl">简称</label>
-	    <input name="logogram" type="text" class="form-control input-sm" value="{{logogram}}" ></input>
+	    <input name="code" type="text" class="form-control input-sm" value="{{systemCode}}" ></input>
 	    <label class="control-label margin-onl">系统编号</label>
-	    <input name="domainId" type="text" class="form-control input-sm" value="{{domainId}}"></input>
+	    <input name="sysId" type="text" class="form-control input-sm" value="{{idThird}}"></input>
 	</div>
 	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">系统功能描述</label>
-		<textarea name="functionDescription" cols="107" rows="4" class="form-control input-sm text-area-sty">{{functionDescription}}</textarea>
+		<textarea name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty">{{systemFunction}}</textarea>
 	</div>
 	<div id="updata-select" class="margin-top-20 col-md-12 form-group">
 	    <label class="control-label fist-text-label">所属二级子域</label>
-		<input name="secondDomainName" type="text" class="form-control input-sm" disabled="disabled" value="{{secondDomainName}}"></input>
-		<input type="hidden" value="{{secondDomainId}}" name="secondDomainId">
+		<input name="idBelong" type="text" class="form-control input-sm" disabled="disabled" value="{{idSecond}}"></input>
         <label class="control-label second-label">等级信息</label>
         <input name="rankInfo" type="text" class="form-control input-sm" value="{{rankInfo}}"></input>
 	</div>
 	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">项目立项信息</label>
-		<input name="establishmentInfo" type="text" class="form-control input-sm" value="{{establishmentInfo}}"></input>
+		<input name="projectInfo" type="text" class="form-control input-sm" value="{{projectInfo}}"></input>
 		<label class="control-label second-label">责任部门</label>
-     	<input name="responDepartment" type="text" class="form-control input-sm" value="{{responDepartment}}"></input>
+     	<input name="department" type="text" class="form-control input-sm" value="{{department}}"></input>
+		<input type="hidden" name="createDate" value="{{createDate}}"></input>
+		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>
 	</div>
 	<div class="col-md-12">
 		<label class="control-label fist-text-label">规划设计信息</label>
-		<textarea id="planDesignInfo" cols="21" rows="3" class="form-control input-sm text-area-sty">{{planDesignInfo}}</textarea>
+		<textarea name="designInfo" cols="21" rows="3" class="form-control input-sm text-area-sty">{{designInfo}}</textarea>
 		<label class="control-label second-label-select">状态</label>
-     	<select name="sysState"  class="form-control select2 input-sm" data-url="getAllSecondDomainList"  style="width: 170px">
+     	<select name="sysState"  class="form-control select2 input-sm" data-url="getSecondDomainList"  style="width: 170px">
     		<option value="">请选择</option>
      	</select>
 	</div>
-	<div class="margin-top-20 col-md-12">	    
-		<form>	
-			<label class="control-label fist-text-label check-inline-label">分层层级</label>        
-			<div class="check-inline">				
-		    	<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS">SaaS
-				<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS">IPaaS
-				<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS">DaaS
-				<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS">UPaaS
-				<br/>
-				<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS">BPaaS
-				<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS">PaaS
-				<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS">IaaS
-				<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS">TPaaS
-			</div>
-		</form>
+	</form>
+	<div class="margin-top-20 col-md-12">	    	
+		<label class="control-label fist-text-label check-inline-label">分层层级</label>        
+		<div class="check-inline">				
+		    <input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS">SaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS">IPaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS">DaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS">UPaaS
+			<br/>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS">BPaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS">PaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS">IaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS">TPaaS
+		</div>
 	</div>
 </div>
 </script>
@@ -250,12 +251,12 @@
 <script id="TPL_getSysMessageList" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
-    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId"></td>
-    <td>{{domainName}}</td>
-    <td>{{logogram}}</td>
-    <td>{{domainId}}</td>
-    <td>{{functionDescription}}</td>
-    <td><button class="btn btn-primary btn-table-update" temp="{{tempId}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{tempId}}">删除</button></td>
+    <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+    <td>{{name}}</td>
+    <td>{{systemCode}}</td>
+    <td>{{idThird}}</td>
+    <td>{{systemFunction}}</td>
+    <td><button class="btn btn-primary btn-table-update" temp="{{idThird}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{idThird}}">删除</button></td>
 </tr>
 {{/each}}
 </script>

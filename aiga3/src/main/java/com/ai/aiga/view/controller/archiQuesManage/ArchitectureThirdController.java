@@ -22,7 +22,18 @@ public class ArchitectureThirdController {
 	@RequestMapping(path = "/archi/third/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
-		bean.setData(architectureThirdSv.findArchitectureThirds());
+		
+		return bean;
+	}
+	
+	@RequestMapping(path = "/archi/third/findBySec")
+	public @ResponseBody JsonBean findCindition(Long idSecond){
+		JsonBean bean = new JsonBean();
+		if(idSecond != null && idSecond>0) {
+			bean.setData(architectureThirdSv.findbySec(idSecond));
+		} else {
+			bean.setData(architectureThirdSv.findArchitectureThirds());
+		}
 		return bean;
 	}
 	

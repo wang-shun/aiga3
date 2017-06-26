@@ -1,4 +1,4 @@
-<div class="row" id="Page_quesIdentifiedView">
+<div class="row" id="Page_quesShenqingView">
     <div class="col-md-12">
         <div class="box">
             <form id="JS_queryDataMaintainForm">
@@ -55,10 +55,10 @@
         </div>
         <div class="box" id="JS_getDataMaintainList" style="min-height:100px;">
             <div class="box-header ">
-                <h3 class="box-title">架构问题管控列表(双击问题认定)</h3>
+                <h3 class="box-title">架构问题管控列表</h3>
                 <div class="box-tools">
-                    <button type="button" class="btn btn-primary" name="add">添加</button>
-                    <button type="button" class="btn btn-primary" name="del">删除</button>
+                    <button type="button" class="btn btn-primary" name="add">问题申报</button>
+                    <!-- <button type="button" class="btn btn-primary" name="del">删除</button> -->
                 </div>
             </div>
             <div class="box-body">
@@ -114,7 +114,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">问题添加</h4>
+                <h4 class="modal-title" id="myModalLabel">问题申请</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
                 <form id="JS_addDataMaintainInfo" class="form">
@@ -584,7 +584,7 @@
 </script>
 <script type="text/javascript">
 //<![CDATA[
-seajs.use("script/archiQuesManage/quesIdentified", function(Init) {
+seajs.use("script/archiQuesManage/quesShenqing", function(Init) {
     Init.init();
 });
 //]]>

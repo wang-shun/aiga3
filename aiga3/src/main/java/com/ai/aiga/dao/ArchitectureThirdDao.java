@@ -7,10 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureThird;
 
-public interface ArchitectureThirdDao extends JpaRepository<ArchitectureThird, Long> {
+public interface ArchitectureThirdDao extends SearchAndPageRepository<ArchitectureThird, Long> {
 
 	//增
 	@Modifying

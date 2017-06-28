@@ -3,6 +3,7 @@ package com.ai.aiga.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
 
 @Service
 @Transactional
@@ -26,30 +28,27 @@ public class ArchitectureGradingSv extends BaseService {
 	public List<ArchitectureGrading> findAll(){
 		return architectureGradingDao.findAll();
 	}
-	public List<ArchitectureGrading> findAllCondition(long ext1, String state){
+	public List<ArchitectureGrading> findAllCondition(ArchiGradingConditionParam input){
 		List<Condition> cons = new ArrayList<Condition>();
-//		if(StringUtils.isNoneBlank(testName)){
-//		  cons.add(new Condition("testName", "%".concat(testName).concat("%"), Condition.Type.LIKE));
-//		}
-//
-//		if(sysId > 0){
-//		  cons.add(new Condition("sysId", sysId, Condition.Type.EQ));
-//		}
-//
-//		if(sysSubId > 0){
-//		  cons.add(new Condition("sysSubId", sysSubId, Condition.Type.EQ));
-//		}
-//
-//		if(funId > 0){
-//		  cons.add(new Condition("funId", funId, Condition.Type.EQ));
-//		}
-//
-//		if(important > 0){
-//		  cons.add(new Condition("important", important, Condition.Type.EQ));
-//		}
-		return architectureGradingDao.search(cons);
 		
+		if(StringUtils.isNoneBlank(input.getName())){
+		  cons.add(new Condition("name", "%".concat(input.getName()).concat("%"), Condition.Type.LIKE));
+		}
+
+		if(StringUtils.isNoneBlank(input.getExt1())){
+		  cons.add(new Condition("ext1", input.getExt1(), Condition.Type.EQ));
+		}
+
+		if(StringUtils.isNoneBlank(input.getState())){
+		  cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
+		}
+
+		if(StringUtils.isNoneBlank(input.getApplyUser())){
+		  cons.add(new Condition("applyUser", input.getApplyUser(), Condition.Type.EQ));
+		}
+		return architectureGradingDao.search(cons);		
 	}
+	
 	public Page<ArchitectureGrading> findAllConditionPage(int pageNumber, int pageSize){
 		List<Condition> cons = new ArrayList<Condition>();
 		if(pageNumber < 0){

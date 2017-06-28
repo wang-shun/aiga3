@@ -16,8 +16,6 @@ define(function(require, exports, module) {
     srvMap.add("getSecondDomainList", pathAlias+"secondDomainList.json", "archi/second/list");
 	//显示系统信息表
 	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findBySec");
-	//三级系统信息删除
-	srvMap.add("thirdSysMessageDelete", pathAlias+"getSysMessageList.json", "archi/third/delete");
 	//三级系统操作信息保存
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	//三级系统信息修改

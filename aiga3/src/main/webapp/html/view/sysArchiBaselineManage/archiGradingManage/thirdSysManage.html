@@ -151,15 +151,15 @@
 						<div class="margin-top-20 col-md-12">	    		    	
 		    				<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		     			    <div class="check-inline">				
-		    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS">SaaS
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS">IPaaS
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS">DaaS
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS">UPaaS
-								<br/>
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS">BPaaS
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS">PaaS
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS">IaaS
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS">TPaaS
+	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS">SaaS&nbsp;&nbsp;
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS">IPaaS
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS">DaaS&nbsp;&nbsp;
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS">UPaaS
+							<br/>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS">BPaaS
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS">PaaS&nbsp;
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS">IaaS&nbsp;&nbsp;&nbsp;
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS">TPaaS
 						   	</div>						
 						</div>
           	    </div>
@@ -208,7 +208,7 @@
 	</div>
 	<div id="updata-select" class="margin-top-20 col-md-12 form-group">
 	    <label class="control-label fist-text-label">所属二级子域</label>
-		<input name="idBelong" type="text" class="form-control input-sm" disabled="disabled" value="{{idSecond}}"></input>
+		<input name="idBelong" type="text" class="form-control input-sm" readonly="readonly" value="{{idSecond}}"></input>
         <label class="control-label second-label">等级信息</label>
         <input name="rankInfo" type="text" class="form-control input-sm" value="{{rankInfo}}"></input>
 	</div>
@@ -232,14 +232,14 @@
 	<div class="margin-top-20 col-md-12">	    	
 		<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		<div class="check-inline">				
-		    <input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS">SaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS">SaaS&nbsp;&nbsp;
 			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS">IPaaS
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS">DaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS">DaaS&nbsp;&nbsp;
 			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS">UPaaS
 			<br/>
 			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS">BPaaS
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS">PaaS
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS">IaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS">PaaS&nbsp;
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS">IaaS&nbsp;&nbsp;&nbsp;
 			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS">TPaaS
 		</div>
 	</div>
@@ -253,7 +253,7 @@
 <tr>
     <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
     <td>{{name}}</td>
-    <td>{{systemCode}}</td>
+    <td>{{code}}</td>
     <td>{{idThird}}</td>
     <td>{{systemFunction}}</td>
     <td><button class="btn btn-primary btn-table-update" temp="{{idThird}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{idThird}}">删除</button></td>

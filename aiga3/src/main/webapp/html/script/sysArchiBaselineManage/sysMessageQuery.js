@@ -9,9 +9,9 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('sysMessageQuery');
     //一级域查询  
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/grading/primaryDomainList");
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
-	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/grading/sysMessageList");
+	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByCondition");
 	
 	var cache = {
 		datas : ""	
@@ -38,11 +38,15 @@ define(function(require, exports, module) {
 		//查询下拉框数据加载，绑定查询按钮事件
 		_querydomain: function() {
 			var self = this;
-			var _form = Page.findId('select_data');
+			var _form = Page.findId('querySysDomainForm');
 			Utils.setSelectData(_form);
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
+				//用于解决long型不可空传的问题
+				if(cmd.charAt(cmd.length - 1) == '=') {
+					cmd+='0';
+				}
 				self._getTableDataList(cmd);
 			});
 		},
@@ -65,8 +69,8 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
 				
         		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data.content));
-        		cache.datas = json.data.content;
+        		tablebtn.html(template(json.data));
+        		cache.datas = json.data;
         		Utils.eventTrClickCallback(_dom);
 			},_domPagination);
 		}	

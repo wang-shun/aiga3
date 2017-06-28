@@ -29,9 +29,9 @@
             <div class="col-md-12">
                 <div id="JS_select_data" class="form-group form-inline">
                     <label class="control-label margin-onl">系统名称</label>
-                    <input name="domainName" type="text" class="form-control input-sm"></input>
+                    <input placeholder="请输入" name="name" type="text" class="form-control input-sm"></input>
                     <label class="control-label margin-onl">系统编号</label> 
-                    <input name="domainId" type="text" class="form-control input-sm"></input>                 
+                    <input placeholder="请输入" name="idThird" type="text" class="form-control input-sm"></input>                 
                     <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
                 </div>             
             </div>
@@ -49,13 +49,13 @@
                     <th class="iCheckbox" width="15"></th>
                     <th>系统名称</th>
                     <th>系统编号</th>
-                    <th>所属一级域</th>
                     <th>所属二级域</th>
                     <th>所属分层</th>
                     <th>系统描述</th>
                     <th>责任部门</th>
                     <th>项目立项信息</th>
                     <th>规划设计信息</th>
+                    <th>状态</th>
                 </tr>
             </thead>
             <tbody name="content"></tbody>
@@ -72,15 +72,15 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId"></td>
-    <td>{{domainName}}</td>
-    <td>{{domainId}}</td>
-    <td>{{primaryDomainName}}</td>
-	<td>{{secondDomainName}}</td>
-	<td>{{hierarchy}}</td>
-	<td>{{functionDescription}}</td>
-	<td>{{responDepartment}}</td>
-	<td>{{establishmentInfo}}</td>
-	<td>{{planDesignInfo}}</td>
+    <td>{{name}}</td>
+    <td>{{idThird}}</td>
+	<td>{{idSecond}}</td>
+	<td>{{belongLevel}}</td>
+	<td>{{systemFunction}}</td>
+	<td>{{department}}</td>
+	<td>{{projectInfo}}</td>
+	<td>{{designInfo}}</td>
+	<td>{{state}}</td>
 </tr>
 {{/each}}
 </script>

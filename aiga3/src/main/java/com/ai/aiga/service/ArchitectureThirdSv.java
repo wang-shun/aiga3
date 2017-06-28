@@ -1,13 +1,16 @@
 package com.ai.aiga.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.ArchitectureThirdDao;
+import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -23,6 +26,17 @@ public class ArchitectureThirdSv extends BaseService {
 	
 	public List<ArchitectureThird>findArchitectureThirds(){
 		return architectureThirdDao.findAll();
+	}
+	
+	public List<ArchitectureThird> findbyCodition(Long idThird,String name){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(StringUtils.isNoneBlank(name)){
+			 cons.add(new Condition("name", "%".concat(name).concat("%"), Condition.Type.LIKE));
+		}
+		if(idThird != null && idThird > 0) {
+			cons.add(new Condition("idThird", idThird, Condition.Type.EQ));
+		}
+		return architectureThirdDao.search(cons);
 	}
 	
 	public List<ArchitectureThird> findbySec(Long idSecond){

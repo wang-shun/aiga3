@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.service.ArchitectureThirdSv;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -22,12 +23,19 @@ public class ArchitectureThirdController {
 	@RequestMapping(path = "/archi/third/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
-		
+		bean.setData(architectureThirdSv.findArchitectureThirds());
+		return bean;
+	}
+	
+	@RequestMapping(path = "/archi/third/findByCondition")
+	public @ResponseBody JsonBean findByCondition(ArchiThirdConditionParam input){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureThirdSv.findbyCodition(input.getIdThird(), input.getName()));
 		return bean;
 	}
 	
 	@RequestMapping(path = "/archi/third/findBySec")
-	public @ResponseBody JsonBean findCindition(Long idSecond){
+	public @ResponseBody JsonBean findBySec(Long idSecond){
 		JsonBean bean = new JsonBean();
 		if(idSecond != null && idSecond>0) {
 			bean.setData(architectureThirdSv.findbySec(idSecond));

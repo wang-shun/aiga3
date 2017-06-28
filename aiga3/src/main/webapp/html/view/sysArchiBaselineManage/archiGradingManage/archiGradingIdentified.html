@@ -27,23 +27,23 @@
 	            <div class="col-md-12">
 	                <div class="form-group form-inline">
 	                    <label class="control-label margin-onl">架构分级选择:</label>
-	                    <select name="domainType" class="form-control select2 input-sm" style="width: 160px">
+	                    <select name="ext1" class="form-control select2 input-sm" style="width: 160px">
 	                        <option value="1">一级域</option>
 	                        <option value="2">二级子域</option>
                             <option value="3">三级系统</option>
 	                    </select>
 	                    <label class="control-label margin-onl">名称:</label>
-	     				<input name="domainName" type="text" class="form-control input-sm" ></input>
+	     				<input name="name" type="text" class="form-control input-sm" ></input>
 	     				<label class="control-label margin-onl">申请人:</label>
-	     				<input name="domainNum" type="text" class="form-control input-sm" ></input></br>
+	     				<input name=applyUser type="text" class="form-control input-sm" ></input></br>
 	     				<label class="control-label margin-onl">状态:</label>
-	                    <select name="primaryDomain" class="form-control select2 input-sm" style="width: 160px">
-	                        <option value="1">申请</option>
-	                        <option value="2">审批通过</option>
-                            <option value="3">审批未通过</option>
+	                    <select name="state" class="form-control select2 input-sm" style="width: 160px">
+	                        <option value="申请">申请</option>
+	                        <option value="审批通过">审批通过</option>
+                            <option value="审批未通过">审批未通过</option>
 	                    </select>
 	                    <label class="control-label margin-onl">开始时间:</label>
-	                    <input type="text" class="form-control input-sm " name="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 
+	                    <input type="text" class="form-control input-sm " name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 
 	                    <label class="control-label margin-onl">结束时间:</label>
 	                    <input type="text" class="form-control input-sm " name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">                     
 	                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
@@ -63,6 +63,7 @@
 	                    <th class="iCheckbox" width="15"></th>
 	                    <th>简称</th>
 	                    <th>名称</th>
+	                    <th>操作</th>
 	                    <th>编号</th>
 	                    <th>申请人</th>
 	                    <th>申请时间</th>
@@ -109,10 +110,10 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 					</button>
-					<button type="button" class="btn btn-primary">
+					<button type="button" class="btn btn-primary" name="pass">
 						通过
 					</button>
-					<button type="button" class="btn btn-primary">
+					<button type="button" class="btn btn-primary" name="noPass">
 						不通过
 					</button>
 				</div>
@@ -130,11 +131,11 @@
  	<input name="applyTime" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyTime}}"></input></br>
  	
 	<label class="control-label margin-onl">系统名称:</label>
-	<input name="domainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainName}}"></input>
+	<input name="name" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{name}}"></input>
 	<label class="control-label margin-onl">系统编号:</label>
-	<input name="domainId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainId}}"></input>
+	<input name="sysId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{sysId}}"></input>
 	<label class="control-label margin-onl">系统简称:</label>
-	<input name="logogram" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{logogram}}"></input></br>
+	<input name="code" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{code}}"></input></br>
 </script>
 <!-- 二级子域 -->
 <script id="TPL_secondMessageFrom" type="text/x-handlebars-template">
@@ -146,17 +147,17 @@
  	<input name="applyTime" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyTime}}"></input></br>
  	
 	<label class="control-label margin-onl">系统名称:</label>
-	<input name="domainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainName}}"></input>
+	<input name="name" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{name}}"></input>
 	<label class="control-label margin-onl">系统编号:</label>
-	<input name="domainId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainId}}"></input>
+	<input name="sysId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{sysId}}"></input>
 	<label class="control-label margin-onl">系统简称:</label>
-	<input name="logogram" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{logogram}}"></input></br>
+	<input name="code" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{code}}"></input></br>
 	     			
 	<label class="control-label margin-onl">所属一级域:</label>
-	<input name="primaryDomainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{primaryDomainName}}"></input>	
+	<input name="idBelong" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{idBelong}}"></input>	
     <input type="hidden" value="{{primaryDomainId}}" name="primaryDomainId">     			
 	<label class="control-label margin-onl">所属分层:</label>
-	<input name="hierarchy" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{hierarchy}}"></input>
+	<input name="belongLevel" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{belongLevel}}"></input>
 </script>
 <!-- 三级系统 -->
 <script id="TPL_thirdMessageFrom" type="text/x-handlebars-template">
@@ -168,41 +169,42 @@
  	<input name="applyTime" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{applyTime}}"></input></br>
  	
 	<label class="control-label margin-onl">系统名称:</label>
-	<input name="domainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainName}}"></input>
+	<input name="name" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{name}}"></input>
 	<label class="control-label margin-onl">系统编号:</label>
-	<input name="domainId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{domainId}}"></input>
+	<input name="sysId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{sysId}}"></input>
 	<label class="control-label margin-onl">系统简称:</label>
-	<input name="logogram" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{logogram}}"></input></br>
+	<input name="code" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{code}}"></input></br>
 	     			
 	<label class="control-label margin-onl">系统功能描述:</label>
-	<input name="functionDescription" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{functionDescription}}"></input>
+	<input name="systemFunction" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{systemFunction}}"></input>
 	<label class="control-label margin-onl">所属二级子域:</label>
-	<input name="secondDomainName" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{secondDomainName}}"></input>
+	<input name="idBelong" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{idBelong}}"></input>
 	<input type="hidden" value="{{secondDomainId}}" name="secondDomainId">
 	<label class="control-label margin-onl">系统建设状态:</label>
 	<input name="sysState" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{sysState}}"></input></br>
 	     			
 	<label class="control-label margin-onl">所属分层:</label>
-	<input name="hierarchy" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{hierarchy}}"></input>
+	<input name="belongLevel" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{belongLevel}}"></input>
 	<label class="control-label margin-onl">等级信息:</label>
 	<input name="rankInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{rankInfo}}"></input>
 	<label class="control-label margin-onl">责任部门:</label>
-	<input name="responDepartment" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{responDepartment}}"></input></br>
+	<input name="department" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{department}}"></input></br>
 	     			
 	<label class="control-label margin-onl">项目立项信息:</label>
-	<input name="establishmentInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{establishmentInfo}}"></input>
+	<input name="projectInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{projectInfo}}"></input>
 	<label class="control-label margin-onl">规划设计信息:</label>
-	<input name="planDesignInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{planDesignInfo}}"></input>
+	<input name="designInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{designInfo}}"></input>
   	
 </script>
 <!-- 表格数据  -->
 <script id="TPL_getSysMessageList" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
-    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId"></td>
-    <td>{{logogram}}</td>
-    <td>{{domainName}}</td>
-    <td>{{domainId}}</td>
+    <td><input type="radio" class="minimal" value="{{applyId}}" name="applyId"></td>
+    <td>{{code}}</td>
+    <td>{{name}}</td>
+	<td>{{description}}</td>	
+    <td>{{sysId}}</td>
     <td>{{applyUser}}</td>
     <td>{{applyTime}}</td>
 	<td>{{state}}</td>

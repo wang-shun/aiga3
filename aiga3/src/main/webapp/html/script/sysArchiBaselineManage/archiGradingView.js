@@ -81,31 +81,7 @@ define(function(require, exports, module) {
 //				var cmd = _form.serialize();
 //				self._getTableDataList(cmd);
 			});
-		},
-
-		// 查询表格数据
-		_getTableDataList: function(cmd){
-			var self = this;
-			var _cmd = '' ;
-			if(cmd) {
-				var _cmd = cmd;
-			}
-			Data.queryListCmd = _cmd;
-			var _dom = Page.findId('sysMessageQuery');
-			var _domPagination = _dom.find("[name='pagination']");
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getSysMessageList'),_cmd,function(json){
-				window.XMS.msgbox.hide();
-				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
-				
-        		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data.content));
-        		cache.datas = json.data.content;
-        		Utils.eventTrClickCallback(_dom);
-			},_domPagination);
-		}	
+		}
 	};
 	module.exports = init;
 });

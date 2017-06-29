@@ -19,4 +19,12 @@ public class ArchitectureStaticDataSv extends BaseService {
 	public List<ArchitectureStaticData>findAll(){
 		return architectureStaticDataDao.findAll();
 	}
+	
+	public List<ArchitectureStaticData>findByCodeType(String codeType){
+		return architectureStaticDataDao.findByCodeType(codeType);
+	}
+	
+	public List<ArchitectureStaticData>findByCodeTypeAndCodeValue(String codeType,String codeValue){
+		return architectureStaticDataDao.findByCodeTypeAndCodeValue(codeType,codeValue);
+	}
 }

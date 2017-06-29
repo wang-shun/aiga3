@@ -22,5 +22,20 @@ public class ArchiStaticDataController {
 		bean.setData(architectureStaticDataSv.findAll());
 		return bean;
 	} 
+	//根据Type查询静态数据
+	@RequestMapping(path = "/archi/static/type")
+	public @ResponseBody JsonBean type(String codeType){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
+	//根据Type和Value查询静态数据
+	@RequestMapping(path = "/archi/static/typeAndValue")
+	public @ResponseBody JsonBean typeAndValue(String codeType,String codeValue){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureStaticDataSv.findByCodeTypeAndCodeValue(codeType, codeValue));
+		return bean;
+	} 
 
 }

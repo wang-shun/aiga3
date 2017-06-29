@@ -20,8 +20,11 @@ define(function(require, exports, module) {
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	//三级系统信息修改
 	srvMap.add("thirdSysMessageUpdate", pathAlias+"getSysMessageList.json", "archi/grading/gradingUpdate");
+	//系统状态静态数据  
+	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
 	var cache = {	
-		datas : ""	
+		datas : "",     	//查询出的系统信息
+		secName: ""			//二级子域名称
 	};
 	var Data = {
         setPageType:function(type){
@@ -99,6 +102,10 @@ define(function(require, exports, module) {
 					});
 				});
 			});
+			//查询二级域名称
+			Utils.getServerPage(srvMap.get('getSecondDomainList'),'',function(json){	
+				cache.secName = json.data;
+			});
 		},
 
 		// 查询表格数据
@@ -142,7 +149,11 @@ define(function(require, exports, module) {
 			subData.createDate = subData.createDate.replace(/-/g,"/");
 			//修改操作
 			if(type == 'update') {
-	
+				var m=0;	
+				while(cache.secName[m].idSecond!=subData.idSecond) {
+					m++;
+				}
+				subData.idSecondName = cache.secName[m].name;
 				var template = Handlebars.compile(Page.findTpl('thirdUpdateFrom'));
 				Page.findId('updateModal').html(template(subData));
 				var _modal = Page.findId('thirdUpdateModal');

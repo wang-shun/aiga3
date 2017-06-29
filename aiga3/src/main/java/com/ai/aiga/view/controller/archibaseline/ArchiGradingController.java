@@ -3,14 +3,8 @@ package com.ai.aiga.view.controller.archibaseline;
 import io.swagger.annotations.Api;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureGradingSv;
@@ -29,14 +22,6 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
-import com.ai.aiga.view.controller.archibaseline.dto.thirdSysPojo;
-import com.ai.aiga.view.controller.archibaseline.dto.gradingMessage;
-import com.ai.aiga.view.controller.archibaseline.dto.gradingPojo;
-import com.ai.aiga.view.controller.archibaseline.dto.secSysMessage;
-import com.ai.aiga.view.controller.archibaseline.dto.secSysPojo;
-import com.ai.aiga.view.controller.archibaseline.dto.thirdSysMessage;
-import com.ai.aiga.view.controller.archibaseline.dto.test;
-import com.ai.aiga.view.controller.auto.dto.AutoTemplateRequest;
 //import com.ai.aiga.view.json.AutoTemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 

@@ -15,7 +15,8 @@ define(function(require, exports, module) {
 	//二级系统操作信息保存
 	srvMap.add("secSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	var cache = {
-		datas : ""	
+		datas : "",
+		firName : ""         //一级域名称
 	};
 	var Data = {
         setPageType:function(type){
@@ -95,6 +96,10 @@ define(function(require, exports, module) {
 					});
 				});
 			});
+			//查询一级域名称
+			Utils.getServerPage(srvMap.get('getPrimaryDomainList'),'',function(json){	
+				cache.firName = json.data;
+			});
 		},
 
 		// 查询表格数据
@@ -137,6 +142,11 @@ define(function(require, exports, module) {
 			subData.modifyDate = subData.modifyDate.replace(/-/g,"/");
 			subData.createDate = subData.createDate.replace(/-/g,"/");
 			if(type == 'update') {
+				var m=0;	
+				while(cache.firName[m].idFirst!=subData.idFirst) {
+					m++;
+				}
+				subData.idFirstName = cache.firName[m].name;
 				var template = Handlebars.compile(Page.findTpl('secondUpdateFrom'));
 				Page.findId('updateModal').html(template(subData));
 				var _modal = Page.findId('secondUpdateModal');

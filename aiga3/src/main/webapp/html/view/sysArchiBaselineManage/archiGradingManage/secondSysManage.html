@@ -175,7 +175,8 @@
 		<label class="control-label first-name-label">简称</label>
 		<input name="code" type="text" class="form-control input-sm" value="{{code}}"></input>
 		<label class="control-label margin-domain-label">所属一级域</label>
-		<input name="idBelong" type="text" class="form-control input-sm" readonly="readonly" value="{{idFirst}}"></input>
+		<input type="text" class="form-control input-sm" readonly="readonly" value="{{idFirstName}}"></input>
+		<input type="hidden" name="idBelong"  value="{{idFirst}}"></input>
 		<input type="hidden" name="createDate" value="{{createDate}}"></input>
 		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>
 	</div>

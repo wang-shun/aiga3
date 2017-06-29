@@ -1,6 +1,9 @@
 package com.ai.aiga.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +31,7 @@ public class ArchitectureGradingSv extends BaseService {
 	public List<ArchitectureGrading> findAll(){
 		return architectureGradingDao.findAll();
 	}
-	public List<ArchitectureGrading> findAllCondition(ArchiGradingConditionParam input){
+	public List<ArchitectureGrading> findAllCondition(ArchiGradingConditionParam input) throws ParseException{
 		List<Condition> cons = new ArrayList<Condition>();
 		
 		if(StringUtils.isNoneBlank(input.getName())){
@@ -45,6 +48,17 @@ public class ArchitectureGradingSv extends BaseService {
 
 		if(StringUtils.isNoneBlank(input.getApplyUser())){
 		  cons.add(new Condition("applyUser", input.getApplyUser(), Condition.Type.EQ));
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		if(StringUtils.isNoneBlank(input.getBegainTime())){
+		  String  dateFir = input.getBegainTime()+" 00:00:00";
+		  Date beginDate = format.parse(dateFir);	
+		  cons.add(new Condition("applyTime", beginDate, Condition.Type.GE));
+		}
+		if(StringUtils.isNoneBlank(input.getEndTime())){
+		  String dateSec = input.getEndTime()+" 23:59:59";
+		  Date endDate = format.parse(dateSec);	
+		  cons.add(new Condition("applyTime", endDate, Condition.Type.LE));
 		}
 		return architectureGradingDao.search(cons);		
 	}

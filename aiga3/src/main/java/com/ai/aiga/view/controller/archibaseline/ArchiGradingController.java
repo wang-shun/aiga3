@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller.archibaseline;
 
 import io.swagger.annotations.Api;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -103,7 +104,7 @@ public class ArchiGradingController {
 	}
 	
 	@RequestMapping(path = "/archi/grading/findByCondition")
-	public @ResponseBody JsonBean findByCondition(ArchiGradingConditionParam input) {
+	public @ResponseBody JsonBean findByCondition(ArchiGradingConditionParam input) throws ParseException {
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureGradingSv.findAllCondition(input));
 		return bean;

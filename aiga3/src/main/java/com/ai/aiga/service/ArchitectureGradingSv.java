@@ -53,12 +53,12 @@ public class ArchitectureGradingSv extends BaseService {
 		if(StringUtils.isNoneBlank(input.getBegainTime())){
 		  String  dateFir = input.getBegainTime()+" 00:00:00";
 		  Date beginDate = format.parse(dateFir);	
-		  cons.add(new Condition("applyTime", beginDate, Condition.Type.GE));
+		  cons.add(new Condition("applyTime", beginDate, Condition.Type.GT));
 		}
 		if(StringUtils.isNoneBlank(input.getEndTime())){
 		  String dateSec = input.getEndTime()+" 23:59:59";
 		  Date endDate = format.parse(dateSec);	
-		  cons.add(new Condition("applyTime", endDate, Condition.Type.LE));
+		  cons.add(new Condition("applyTime", endDate, Condition.Type.LT));
 		}
 		return architectureGradingDao.search(cons);		
 	}

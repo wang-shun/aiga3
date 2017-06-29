@@ -1,7 +1,11 @@
 <!--Page Start-->
 <head> 
 <style type="text/css"> 
-#Page_thirdSysManage .btn-centen {
+
+#Page_thirdSysManage .width-input-400 {
+	width: 400px;
+}
+#Page_thirdSysManage .btn-center {
  text-align: center;
 }
 #Page_thirdSysManage .btn-table-update {
@@ -25,8 +29,12 @@
  margin-left: 40px; 
  margin-right: 20px;
 }
+#Page_thirdSysManage .second-label-depart {
+ margin-left: 30px;
+ margin-right: 20px;
+}
 #Page_thirdSysManage .second-label-select {
- margin-left: 260px;
+ margin-left: 30px;
  margin-right: 50px;
 }
 #Page_thirdSysManage .second-label {
@@ -135,13 +143,13 @@
 						</div>
 						<div class="margin-top-20 col-md-12">
 					   	    <label class="control-label fist-text-label">项目立项信息</label>
-					   		<input name="projectInfo" type="text" class="form-control input-sm" ></input>
-					   		<label class="control-label second-label">责任部门</label>
-     			    		<input name="department" type="text" class="form-control input-sm" ></input>
+					   		<input name="projectInfo" type="text" class="form-control input-sm width-input-400"></input>
+					   		<label class="control-label second-label-depart">责任部门</label>
+     			    		<input name="department" type="text" class="form-control input-sm"></input>
 						</div>
-						<div class="col-md-12">
+						<div class="margin-top-20 col-md-12">
 					    	<label class="control-label fist-text-label">规划设计信息</label>
-							<textarea name="designInfo" cols="21" rows="3" class="form-control input-sm text-area-sty"></textarea>
+							<input name="designInfo" type="text" class="form-control input-sm width-input-400"></input>
 					    	<label class="control-label second-label-select">状态</label>
      			   			<select name="sysState"  class="form-control select2 input-sm" data-url="getSecondDomainList"  style="width: 170px">
     			       			<option value="">请选择</option>
@@ -164,7 +172,7 @@
 						</div>
           	    </div>
           	</div>
-            <div class="modal-footer btn-centen">
+            <div class="modal-footer btn-center">
          	    <button type="button" class="btn btn-primary" name="save">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
             </div>
@@ -181,7 +189,7 @@
             </div>
             <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
           	</div>
-            <div class="modal-footer btn-centen">
+            <div class="modal-footer btn-center">
          	    <button type="button" class="btn btn-primary" name="save">保存</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
             </div>
@@ -214,15 +222,15 @@
 	</div>
 	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">项目立项信息</label>
-		<input name="projectInfo" type="text" class="form-control input-sm" value="{{projectInfo}}"></input>
-		<label class="control-label second-label">责任部门</label>
+		<input name="projectInfo" type="text" class="form-control input-sm width-input-400" value="{{projectInfo}}"></input>
+		<label class="control-label second-label-depart">责任部门</label>
      	<input name="department" type="text" class="form-control input-sm" value="{{department}}"></input>
 		<input type="hidden" name="createDate" value="{{createDate}}"></input>
 		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>
 	</div>
-	<div class="col-md-12">
+	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">规划设计信息</label>
-		<textarea name="designInfo" cols="21" rows="3" class="form-control input-sm text-area-sty">{{designInfo}}</textarea>
+		<input name="designInfo" type="text" class="form-control input-sm width-input-400" value="{{designInfo}}"></input>
 		<label class="control-label second-label-select">状态</label>
      	<select name="sysState"  class="form-control select2 input-sm" data-url="getSecondDomainList"  style="width: 170px">
     		<option value="">请选择</option>

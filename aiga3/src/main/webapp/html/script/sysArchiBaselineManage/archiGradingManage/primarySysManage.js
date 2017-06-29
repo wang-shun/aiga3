@@ -13,7 +13,7 @@ define(function(require, exports, module) {
     //一级域查询带分页
     srvMap.add("getPrimaryMessageList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//一级系统操作信息保存
-	srvMap.add("firSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");	
+	srvMap.add("firSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	var cache = {
 		datas : ""	
 	};

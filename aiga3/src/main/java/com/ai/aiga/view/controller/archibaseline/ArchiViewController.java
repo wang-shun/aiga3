@@ -91,8 +91,7 @@ public class ArchiViewController {
 				itemBPaaS.add(baseTPaaS);
 			} else {
 				
-			}
-			
+			}			
 		}	
 		output.add(SaaS);
 		output.add(PaaS);

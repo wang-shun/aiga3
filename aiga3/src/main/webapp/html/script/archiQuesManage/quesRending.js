@@ -46,7 +46,7 @@ define(function(require, exports, module) {
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
-		getQuestionInfoList: require('tpl/archiQuesManage/quesRequests.tpl')
+		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl')
 		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
 
 	};

@@ -78,9 +78,9 @@
         </div>
         <div class="box-body">
             <div class="col-md-12">
-                <div id="JS_select_data" class="form-group form-inline">
+                <div id="JS_selectData" class="form-group form-inline">
                     <label class="control-label margin-onl">一级视图</label>
-              		<select name="primaryDomain" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-subname="secondDomain" style="width: 160px">
+              		<select name="primaryDomain" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
                     <label><input style="margin-left:10px;" name="view" type="radio" value="" />二级架构视图 </label>
@@ -102,24 +102,7 @@
     </div>
 </div>
 </div>
-<!--   <input type="hidden" value="{{caseId}}" name="caseId">
- -->
-<script id="TPL_getSysMessageList" type="text/x-handlebars-template">
-{{#each this}}
-<tr>
-    <td><input type="radio" class="minimal" value="{{tempId}}" name="tempId"></td>
-    <td>{{domainName}}</td>
-    <td>{{domainId}}</td>
-    <td>{{primaryDomainName}}</td>
-	<td>{{secondDomainName}}</td>
-	<td>{{hierarchy}}</td>
-	<td>{{functionDescription}}</td>
-	<td>{{responDepartment}}</td>
-	<td>{{establishmentInfo}}</td>
-	<td>{{planDesignInfo}}</td>
-</tr>
-{{/each}}
-</script>
+
 <script>
 seajs.use("script/sysArchiBaselineManage/archiGradingView", function(init) {
 	init.init();

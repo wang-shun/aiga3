@@ -30,7 +30,7 @@ public class ArchiViewController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(path = "/archi/view/secView")
-	public @ResponseBody JsonBean findByCondition() {
+	public @ResponseBody JsonBean findByCondition(long idFirst, long level) {
 		JsonBean bean = new JsonBean();
 		int id = 0;
 		List<ArchiSecondViewOutput> output = new ArrayList<ArchiSecondViewOutput>();
@@ -66,7 +66,7 @@ public class ArchiViewController {
 		PaaS.setItem(itemPaaS);
 		SaaS.setItem(itemSaaS);
 		//获取中心数据
-		List<ArchitectureSecond> datas = architectureSecondSv.findArchitectureSeconds();
+		List<ArchitectureSecond> datas = architectureSecondSv.findArchiSecondsByFirst(idFirst);
 		
 		//先遍历出不分层的中心
 		for(ArchitectureSecond base :datas) {

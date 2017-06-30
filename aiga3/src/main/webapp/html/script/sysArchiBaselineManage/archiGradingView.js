@@ -9,9 +9,7 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('sysMessageQuery');
     //一级域查询  
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/grading/primaryDomainList");
-	//显示系统信息表
-	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/grading/sysMessageList");
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	
 	var cache = {
 		datas : ""	
@@ -34,52 +32,14 @@ define(function(require, exports, module) {
 			var self = this;
 			self._querydomain();
 		},
-		_primaryView: function() {
-			var content = '<div class="border-view-out">';
-			content += '<div id="JS_SaaS" class="border-view">';
-			content += '<label class="label-left-sty">SaaS</label>';		
-			for(var i=0;i<=8;i++) {
-				if(i%3==0 && i!=0) {
-					content += '<label class="sys-sty" style="margin-left:'+(50*i+50)+'px;width:30px;height: 125px;">某某某系统</label>';
-				} else {
-					content += '<label class="sys-sty" style="margin-left:'+(50*i+50)+'px;width:30px;height: 85px;">某某某系统</label>';
-				}	
-				if(i==8) {
-					content += '<label class="" style="margin-left:'+(50*i+50)+'px;width:30px;"></label></div>';	
-				}
-			}
-			content += '<div id="JS_PaaS" class="border-view">';
-			content += '<label class="label-left-sty" style="float:left;">PaaS</label>';
-			content += '<div class="paas-sty">';
-			content += '<div class="border-view-inside">';
-			content += '<label class="label-left-sty" style="float:left;">BPaaS</label>';
-			content += '<div class="paas-sty">';
-			content += '<div id="JS_BPaaS" class="noborder-view"></div>';
-			content += '<div id="JS_DaaS" class="border-view"><label class="label-left-sty">DaaS</label></div>';
-			content += '</div>';
-			content += '</div>';
-			content += '<div id="JS_UPaaS" class="border-view-inside"><label class="label-left-sty">UPaaS</label></div>';
-			content += '<div id="JS_IPaaS" class="border-view-inside"><label class="label-left-sty">IPaaS</label></div>';
-			content += '<div id="JS_TPaaS" class="border-view-inside"><label class="label-left-sty">TPaaS</label></div>';
-			content += '</div>';
-			content += '</div>';
-			content += '<div id="JS_IaaS" class="border-view"><label class="label-left-sty">IaaS</label></div>';
-			content += ' </div>';
-			var _dom = Page.findId('sysMessageView');
-			var template = Handlebars.compile(content);
-    		var view = _dom.find("[name='archiView']");
-    		view.html(template());
-		},
+
 		//查询下拉框数据加载，绑定查询按钮事件
 		_querydomain: function() {
 			var self = this;
-			var _form = Page.findId('select_data');
+			var _form = Page.findId('selectData');
 			Utils.setSelectData(_form);
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				self._primaryView();
-//				var cmd = _form.serialize();
-//				self._getTableDataList(cmd);
 			});
 		}
 	};

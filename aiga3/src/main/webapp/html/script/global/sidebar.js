@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 		            $(Dom.sidebar).html(template(json));
 		            Data.sidebar = json.data;
 		            var height = $(Dom.sidebar).height();
-                    $("body").addClass('sidebar-collapse');
+                   //$("body").addClass('sidebar-collapse');
 		            Utils.setScroll($(Dom.sidebar).children(".sidebar"),height)
 		            self.bindMenuClickEvent();
 		            self.initHomePage();

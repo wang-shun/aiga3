@@ -68,7 +68,7 @@ public class ArchiViewController {
 		//获取中心数据
 		List<ArchitectureSecond> datas = architectureSecondSv.findArchiSecondsByFirst(idFirst);
 		
-		//先遍历出不分层的中心
+		//先遍历出不跨层的中心
 		for(ArchitectureSecond base :datas) {
 			String[] levels = base.getBelongLevel().split(",") ;
 			if(levels.length>1) {

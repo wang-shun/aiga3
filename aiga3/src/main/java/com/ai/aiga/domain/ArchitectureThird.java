@@ -1,18 +1,11 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-9 10:57:21 by Hibernate Tools 3.2.2.GA
+// Generated 2017-6-30 11:09:11 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,7 +44,7 @@ public class ArchitectureThird  implements java.io.Serializable {
     }
 
 	
-    public ArchitectureThird(long idThird, String name, String systemCode, long idSecond, String systemFunction, String description, String code, String belongLevel, String department, String projectInfo, String designInfo, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo) {
+    public ArchitectureThird(long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo) {
         this.idThird = idThird;
         this.name = name;
         this.systemCode = systemCode;
@@ -151,7 +144,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.code = code;
     }
     
-    @Column(name="ID_SECOND", unique=true, nullable=false, precision=10, scale=0)
+    @Column(name="ID_SECOND", nullable=false, precision=10, scale=0)
     public long getIdSecond() {
         return this.idSecond;
     }
@@ -285,6 +278,9 @@ public class ArchitectureThird  implements java.io.Serializable {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
+
+
+
 
 }
 

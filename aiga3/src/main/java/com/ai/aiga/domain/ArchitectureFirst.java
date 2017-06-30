@@ -1,16 +1,11 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-9 10:57:21 by Hibernate Tools 3.2.2.GA
+// Generated 2017-6-30 11:08:27 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,7 +25,7 @@ public class ArchitectureFirst  implements java.io.Serializable {
      private String code;
      private String belongLevel;
      private String state;
-     private long applyId;
+     private Long applyId;
      private String applyUser;
      private Date createDate;
      private Date modifyDate;
@@ -44,21 +39,14 @@ public class ArchitectureFirst  implements java.io.Serializable {
     }
 
 	
-    public ArchitectureFirst(long idFirst, String name, String description, String code, String belongLevel, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo) {
+    public ArchitectureFirst(long idFirst, String name, String description, String code, String belongLevel) {
         this.idFirst = idFirst;
         this.name = name;
         this.description = description;
         this.code = code;
         this.belongLevel = belongLevel;
-        this.state = state;
-        this.applyId = applyId;
-        this.applyUser = applyUser;
-        this.createDate = createDate;
-        this.modifyDate = modifyDate;
-        this.identifiedInfo = identifiedInfo;
-        this.fileInfo = fileInfo;
     }
-    public ArchitectureFirst(long idFirst, String name, String shortName, String description, String code, String belongLevel, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3 ) {
+    public ArchitectureFirst(long idFirst, String name, String shortName, String description, String code, String belongLevel, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3) {
        this.idFirst = idFirst;
        this.name = name;
        this.shortName = shortName;
@@ -133,7 +121,7 @@ public class ArchitectureFirst  implements java.io.Serializable {
         this.belongLevel = belongLevel;
     }
     
-    @Column(name="STATE", nullable=false, length=20)
+    @Column(name="STATE", length=20)
     public String getState() {
         return this.state;
     }
@@ -142,16 +130,16 @@ public class ArchitectureFirst  implements java.io.Serializable {
         this.state = state;
     }
     
-    @Column(name="APPLY_ID", nullable=false, precision=10, scale=0)
-    public long getApplyId() {
+    @Column(name="APPLY_ID", precision=10, scale=0)
+    public Long getApplyId() {
         return this.applyId;
     }
     
-    public void setApplyId(long applyId) {
+    public void setApplyId(Long applyId) {
         this.applyId = applyId;
     }
     
-    @Column(name="APPLY_USER", nullable=false, length=10)
+    @Column(name="APPLY_USER", length=10)
     public String getApplyUser() {
         return this.applyUser;
     }
@@ -160,7 +148,7 @@ public class ArchitectureFirst  implements java.io.Serializable {
         this.applyUser = applyUser;
     }
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="CREATE_DATE", nullable=false, length=7)
+    @Column(name="CREATE_DATE", length=7)
     public Date getCreateDate() {
         return this.createDate;
     }
@@ -169,7 +157,7 @@ public class ArchitectureFirst  implements java.io.Serializable {
         this.createDate = createDate;
     }
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="MODIFY_DATE", nullable=false, length=7)
+    @Column(name="MODIFY_DATE", length=7)
     public Date getModifyDate() {
         return this.modifyDate;
     }
@@ -178,7 +166,7 @@ public class ArchitectureFirst  implements java.io.Serializable {
         this.modifyDate = modifyDate;
     }
     
-    @Column(name="IDENTIFIED_INFO", nullable=false)
+    @Column(name="IDENTIFIED_INFO")
     public String getIdentifiedInfo() {
         return this.identifiedInfo;
     }
@@ -187,7 +175,7 @@ public class ArchitectureFirst  implements java.io.Serializable {
         this.identifiedInfo = identifiedInfo;
     }
     
-    @Column(name="FILE_INFO", nullable=false, length=500)
+    @Column(name="FILE_INFO", length=500)
     public String getFileInfo() {
         return this.fileInfo;
     }
@@ -222,7 +210,6 @@ public class ArchitectureFirst  implements java.io.Serializable {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
-
 }
 
 

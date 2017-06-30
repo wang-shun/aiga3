@@ -57,35 +57,6 @@ define(function(require, exports, module) {
 					//获取表单数据
 					var _form = Page.findId("firApplyForm");
 					var _cmd = _form.serialize();	
-					//获取分层层级
-					var applyHierarchy = Page.find("[name='hierarchy']");	
-					var belongLevel = '';
-					if(applyHierarchy[0].checked == true) {
-						belongLevel += 'SaaS' + ',';
-					}
-					if(applyHierarchy[1].checked == true) {
-						belongLevel += 'IPaaS' + ',';
-					}
-					if(applyHierarchy[2].checked == true) {
-						belongLevel += 'DaaS' + ',';
-					}
-					if(applyHierarchy[3].checked == true) {
-						belongLevel += 'UPaaS' + ',';
-					}
-					if(applyHierarchy[4].checked == true) {
-						belongLevel += 'BPaaS' + ',';
-					}
-					if(applyHierarchy[5].checked == true) {
-						belongLevel += 'PaaS' + ',';
-					}
-					if(applyHierarchy[6].checked == true) {
-						belongLevel += 'IaaS' + ',';
-					}
-					if(applyHierarchy[7].checked == true) {
-						belongLevel += 'TPaaS' + ',';
-					}	
-					belongLevel=belongLevel.substring(0,belongLevel.length-1);
-					_cmd += '&belongLevel='+belongLevel;
 					_cmd += '&ext1=1&description=新增';
 					//调用服务
 					Utils.getServerPage(srvMap.get('firSysMessageSave'),_cmd,function(json){						
@@ -143,68 +114,12 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);
 //				_dom.modal('hide');
 				_modal.on('shown.bs.modal', function () {
-					var hierarchy = Page.find("[name='hierarchysec']");	
-					var belongLevel = subData.belongLevel.split(',');
-					for(var i=0;i<belongLevel.length;i++) {
-						if(belongLevel[i] == 'SaaS') {
-							hierarchy[0].checked = true;
-						}
-						if(belongLevel[i] == 'IPaaS') {
-							hierarchy[1].checked = true;
-						}
-						if(belongLevel[i] == 'DaaS') {
-							hierarchy[2].checked = true;
-						}
-						if(belongLevel[i] == 'UPaaS') {
-							hierarchy[3].checked = true;
-						}
-						if(belongLevel[i] == 'BPaaS') {
-							hierarchy[4].checked = true;
-						}
-						if(belongLevel[i] == 'PaaS') {
-							hierarchy[5].checked = true;
-						}
-						if(belongLevel[i] == 'IaaS') {
-							hierarchy[6].checked = true;
-						}
-						if(belongLevel[i] == 'TPaaS') {
-							hierarchy[7].checked = true;
-						}
-					}					
 					//修改保存按钮
 					var saveBtn = _modal.find("[name='save']");
 					saveBtn.off('click').on('click',function(){
 						var updateDom = Page.findId('firUpdateForm');
 						var _cmd = updateDom.serialize();
 						//获取分层层级
-						var updateHierarchy = Page.find("[name='hierarchysec']");	
-						var belongLevel = '';
-						if(updateHierarchy[0].checked == true) {
-							belongLevel += 'SaaS' + ',';
-						}
-						if(updateHierarchy[1].checked == true) {
-							belongLevel += 'IPaaS' + ',';
-						}
-						if(updateHierarchy[2].checked == true) {
-							belongLevel += 'DaaS' + ',';
-						}
-						if(updateHierarchy[3].checked == true) {
-							belongLevel += 'UPaaS' + ',';
-						}
-						if(updateHierarchy[4].checked == true) {
-							belongLevel += 'BPaaS' + ',';
-						}
-						if(updateHierarchy[5].checked == true) {
-							belongLevel += 'PaaS' + ',';
-						}
-						if(updateHierarchy[6].checked == true) {
-							belongLevel += 'IaaS' + ',';
-						}
-						if(updateHierarchy[7].checked == true) {
-							belongLevel += 'TPaaS' + ',';
-						}	
-						belongLevel=belongLevel.substring(0,belongLevel.length-1);
-						_cmd += '&'+'belongLevel='+belongLevel;
 						_cmd += '&ext1=1&description=修改';
 						Utils.getServerPage(srvMap.get('firSysMessageSave'),_cmd,function(json){						
 							_modal.modal('hide');

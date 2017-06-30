@@ -1,18 +1,11 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-9 10:57:21 by Hibernate Tools 3.2.2.GA
+// Generated 2017-6-30 10:55:15 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +26,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
      private long idFirst;
      private String belongLevel;
      private String state;
-     private long applyId;
+     private Long applyId;
      private String applyUser;
      private Date createDate;
      private Date modifyDate;
@@ -47,22 +40,15 @@ public class ArchitectureSecond  implements java.io.Serializable {
     }
 
 	
-    public ArchitectureSecond(long idSecond, String name, String description, String code, long idFirst, String belongLevel, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo) {
+    public ArchitectureSecond(long idSecond, String name, String code, long idFirst, String belongLevel, Date createDate) {
         this.idSecond = idSecond;
         this.name = name;
-        this.description = description;
         this.code = code;
         this.idFirst = idFirst;
         this.belongLevel = belongLevel;
-        this.state = state;
-        this.applyId = applyId;
-        this.applyUser = applyUser;
         this.createDate = createDate;
-        this.modifyDate = modifyDate;
-        this.identifiedInfo = identifiedInfo;
-        this.fileInfo = fileInfo;
     }
-    public ArchitectureSecond(long idSecond, String name, String shortName, String description, String code, long idFirst, String belongLevel, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, Set architectureThirds, Set questionInfos) {
+    public ArchitectureSecond(long idSecond, String name, String shortName, String description, String code, long idFirst, String belongLevel, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3) {
        this.idSecond = idSecond;
        this.name = name;
        this.shortName = shortName;
@@ -92,7 +78,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
     public void setIdSecond(long idSecond) {
         this.idSecond = idSecond;
     }
-
+    
     @Column(name="NAME", nullable=false)
     public String getName() {
         return this.name;
@@ -111,7 +97,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
         this.shortName = shortName;
     }
     
-    @Column(name="DESCRIPTION", nullable=false)
+    @Column(name="DESCRIPTION")
     public String getDescription() {
         return this.description;
     }
@@ -129,7 +115,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
         this.code = code;
     }
     
-    @Column(name="ID_FIRST", unique=true, nullable=false, precision=10, scale=0)
+    @Column(name="ID_FIRST", nullable=false, precision=10, scale=0)
     public long getIdFirst() {
         return this.idFirst;
     }
@@ -147,7 +133,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
         this.belongLevel = belongLevel;
     }
     
-    @Column(name="STATE", nullable=false, length=20)
+    @Column(name="STATE", length=20)
     public String getState() {
         return this.state;
     }
@@ -156,16 +142,16 @@ public class ArchitectureSecond  implements java.io.Serializable {
         this.state = state;
     }
     
-    @Column(name="APPLY_ID", nullable=false, precision=10, scale=0)
-    public long getApplyId() {
+    @Column(name="APPLY_ID", precision=10, scale=0)
+    public Long getApplyId() {
         return this.applyId;
     }
     
-    public void setApplyId(long applyId) {
+    public void setApplyId(Long applyId) {
         this.applyId = applyId;
     }
     
-    @Column(name="APPLY_USER", nullable=false, length=10)
+    @Column(name="APPLY_USER", length=10)
     public String getApplyUser() {
         return this.applyUser;
     }
@@ -183,7 +169,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
         this.createDate = createDate;
     }
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="MODIFY_DATE", nullable=false, length=7)
+    @Column(name="MODIFY_DATE", length=7)
     public Date getModifyDate() {
         return this.modifyDate;
     }
@@ -192,7 +178,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
         this.modifyDate = modifyDate;
     }
     
-    @Column(name="IDENTIFIED_INFO", nullable=false)
+    @Column(name="IDENTIFIED_INFO")
     public String getIdentifiedInfo() {
         return this.identifiedInfo;
     }
@@ -201,7 +187,7 @@ public class ArchitectureSecond  implements java.io.Serializable {
         this.identifiedInfo = identifiedInfo;
     }
     
-    @Column(name="FILE_INFO", nullable=false, length=500)
+    @Column(name="FILE_INFO", length=500)
     public String getFileInfo() {
         return this.fileInfo;
     }
@@ -236,6 +222,8 @@ public class ArchitectureSecond  implements java.io.Serializable {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
+
+
 
 
 }

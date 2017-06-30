@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-21 16:18:07 by Hibernate Tools 3.2.2.GA
+// Generated 2017-6-30 11:24:42 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -48,16 +48,13 @@ public class ArchitectureGrading  implements java.io.Serializable {
     }
 
 	
-    public ArchitectureGrading(long applyId, long sysId, String name, String code, String belongLevel, String state, String applyUser, Date modifyDate, Date createDate) {
+    public ArchitectureGrading(long applyId, long sysId, String name, String code, String state, String applyUser) {
         this.applyId = applyId;
         this.sysId = sysId;
         this.name = name;
         this.code = code;
-        this.belongLevel = belongLevel;
         this.state = state;
         this.applyUser = applyUser;
-        this.modifyDate = modifyDate;
-        this.createDate = createDate;
     }
     public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3) {
        this.applyId = applyId;
@@ -85,8 +82,8 @@ public class ArchitectureGrading  implements java.io.Serializable {
     }
    
      @Id 
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_GRADING$SEQ")
- 	@SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1)
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_GRADING$SEQ")
+  	@SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1) 
     @Column(name="APPLY_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getApplyId() {
         return this.applyId;
@@ -159,7 +156,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.idBelong = idBelong;
     }
     
-    @Column(name="BELONG_LEVEL", nullable=false, length=20)
+    @Column(name="BELONG_LEVEL", length=20)
     public String getBelongLevel() {
         return this.belongLevel;
     }
@@ -240,7 +237,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.applyTime = applyTime;
     }
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="MODIFY_DATE", nullable=false, length=7)
+    @Column(name="MODIFY_DATE", length=7)
     public Date getModifyDate() {
         return this.modifyDate;
     }
@@ -249,7 +246,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.modifyDate = modifyDate;
     }
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="CREATE_DATE", nullable=false, length=7)
+    @Column(name="CREATE_DATE", length=7)
     public Date getCreateDate() {
         return this.createDate;
     }

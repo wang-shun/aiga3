@@ -82,13 +82,13 @@ public class ArchiViewController {
 				itemBPaaS.add(baseBPaaS);
 			} else if ("UPaaS".equals(levels[0])) {
 				ArchiSecondViewItemLast baseUPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");
-				itemBPaaS.add(baseUPaaS);
+				itemUPaaS.add(baseUPaaS);
 			} else if ("IPaaS".equals(levels[0])) {
 				ArchiSecondViewItemLast baseIPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");
-				itemBPaaS.add(baseIPaaS);
+				itemIPaaS.add(baseIPaaS);
 			} else if ("TPaaS".equals(levels[0])) {
 				ArchiSecondViewItemLast baseTPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");
-				itemBPaaS.add(baseTPaaS);
+				itemTPaaS.add(baseTPaaS);
 			} else {
 				
 			}			

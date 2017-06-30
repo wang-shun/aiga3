@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-30 11:09:11 by Hibernate Tools 3.2.2.GA
+// Generated 2017-6-30 15:59:16 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -39,32 +39,26 @@ public class ArchitectureThird  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
+     private String sysState;
+     private String rankInfo;
 
     public ArchitectureThird() {
     }
 
 	
-    public ArchitectureThird(long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo) {
+    public ArchitectureThird(long idThird, String name, String systemFunction, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, Date createDate) {
         this.idThird = idThird;
         this.name = name;
-        this.systemCode = systemCode;
         this.systemFunction = systemFunction;
-        this.description = description;
         this.code = code;
         this.idSecond = idSecond;
         this.belongLevel = belongLevel;
         this.department = department;
         this.projectInfo = projectInfo;
         this.designInfo = designInfo;
-        this.state = state;
-        this.applyId = applyId;
-        this.applyUser = applyUser;
         this.createDate = createDate;
-        this.modifyDate = modifyDate;
-        this.identifiedInfo = identifiedInfo;
-        this.fileInfo = fileInfo;
     }
-    public ArchitectureThird(long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3) {
+    public ArchitectureThird(long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, String sysState, String rankInfo) {
        this.idThird = idThird;
        this.name = name;
        this.systemCode = systemCode;
@@ -86,6 +80,8 @@ public class ArchitectureThird  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
+       this.sysState = sysState;
+       this.rankInfo = rankInfo;
     }
    
      @Id 
@@ -108,7 +104,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.name = name;
     }
     
-    @Column(name="SYSTEM_CODE", nullable=false)
+    @Column(name="SYSTEM_CODE")
     public String getSystemCode() {
         return this.systemCode;
     }
@@ -126,7 +122,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.systemFunction = systemFunction;
     }
     
-    @Column(name="DESCRIPTION", nullable=false)
+    @Column(name="DESCRIPTION")
     public String getDescription() {
         return this.description;
     }
@@ -153,7 +149,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.idSecond = idSecond;
     }
     
-    @Column(name="BELONG_LEVEL", nullable=false, length=20)
+    @Column(name="BElong_LEVEL", nullable=false, length=20)
     public String getBelongLevel() {
         return this.belongLevel;
     }
@@ -189,7 +185,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.designInfo = designInfo;
     }
     
-    @Column(name="STATE", nullable=false, length=20)
+    @Column(name="STATE", length=20)
     public String getState() {
         return this.state;
     }
@@ -198,7 +194,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.state = state;
     }
     
-    @Column(name="APPLY_ID", nullable=false, precision=10, scale=0)
+    @Column(name="APPLY_ID", precision=10, scale=0)
     public long getApplyId() {
         return this.applyId;
     }
@@ -207,7 +203,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.applyId = applyId;
     }
     
-    @Column(name="APPLY_USER", nullable=false, length=10)
+    @Column(name="APPLY_USER", length=10)
     public String getApplyUser() {
         return this.applyUser;
     }
@@ -225,7 +221,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.createDate = createDate;
     }
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="MODIFY_DATE", nullable=false, length=7)
+    @Column(name="MODIFY_DATE", length=7)
     public Date getModifyDate() {
         return this.modifyDate;
     }
@@ -234,7 +230,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.modifyDate = modifyDate;
     }
     
-    @Column(name="IDENTIFIED_INFO", nullable=false)
+    @Column(name="IDENTIFIED_INFO")
     public String getIdentifiedInfo() {
         return this.identifiedInfo;
     }
@@ -243,7 +239,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.identifiedInfo = identifiedInfo;
     }
     
-    @Column(name="FILE_INFO", nullable=false, length=500)
+    @Column(name="FILE_INFO", length=500)
     public String getFileInfo() {
         return this.fileInfo;
     }
@@ -277,6 +273,24 @@ public class ArchitectureThird  implements java.io.Serializable {
     
     public void setExt3(String ext3) {
         this.ext3 = ext3;
+    }
+    
+    @Column(name="SYS_STATE")
+    public String getSysState() {
+        return this.sysState;
+    }
+    
+    public void setSysState(String sysState) {
+        this.sysState = sysState;
+    }
+    
+    @Column(name="RANK_INFO")
+    public String getRankInfo() {
+        return this.rankInfo;
+    }
+    
+    public void setRankInfo(String rankInfo) {
+        this.rankInfo = rankInfo;
     }
 
 

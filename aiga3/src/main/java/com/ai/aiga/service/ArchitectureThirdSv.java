@@ -84,7 +84,8 @@ public class ArchitectureThirdSv extends BaseService {
 		architectureThird.setExt1(request.getExt1());
 		architectureThird.setExt2(request.getExt2());
 		architectureThird.setExt3(request.getExt3());
-		
+		architectureThird.setRankInfo(request.getRankInfo());
+		architectureThird.setSysState(request.getSysState());
 		architectureThirdDao.save(architectureThird);
 	}
 	

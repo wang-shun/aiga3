@@ -190,7 +190,6 @@ define(function(require, exports, module) {
 					}		
 					//状态下拉框赋值
 					var stateDom= _modal.find("[name='sysState']");
-					subData.sysState = 1;
 					stateDom.val(subData.sysState);
 					//修改保存按钮事件
 					var saveBtn = _modal.find("[name='save']");

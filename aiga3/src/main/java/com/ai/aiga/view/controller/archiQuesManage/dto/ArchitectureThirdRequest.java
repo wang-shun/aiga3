@@ -26,6 +26,20 @@ public class ArchitectureThirdRequest implements Serializable {
     private String ext1;
     private String ext2;
     private String ext3;
+    private String sysState;
+    private String rankInfo;
+	public String getSysState() {
+		return sysState;
+	}
+	public void setSysState(String sysState) {
+		this.sysState = sysState;
+	}
+	public String getRankInfo() {
+		return rankInfo;
+	}
+	public void setRankInfo(String rankInfo) {
+		this.rankInfo = rankInfo;
+	}
 	public long getIdThird() {
 		return idThird;
 	}

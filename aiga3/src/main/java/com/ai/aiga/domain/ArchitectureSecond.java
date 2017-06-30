@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-30 10:55:15 by Hibernate Tools 3.2.2.GA
+// Generated 2017-6-30 16:00:00 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;

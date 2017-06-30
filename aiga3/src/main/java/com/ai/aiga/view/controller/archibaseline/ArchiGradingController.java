@@ -65,23 +65,38 @@ public class ArchiGradingController {
 		}
 		if("1".equals(input.getExt1())) {			
 			ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
-			firstInput.setIdFirst(input.getSysId());
-			firstInput.setDescription("");
-			architectureFirstSv.save(firstInput);
+			firstInput.setIdFirst(input.getSysId());		
+			if("删除".equals(firstInput.getDescription())) {
+				firstInput.setDescription("");
+				architectureFirstSv.delete(firstInput.getIdFirst());
+			} else {
+				firstInput.setDescription("");
+				architectureFirstSv.save(firstInput);
+			}		
 			architectureGradingSv.update(input);
 		} else if ("2".equals(input.getExt1())) {
 			ArchitectureSecondRequest secInput = BeanMapper.map(input,ArchitectureSecondRequest.class);
 			secInput.setIdFirst(input.getIdBelong());
 			secInput.setIdSecond(input.getSysId());
-			secInput.setDescription("");
-			architectureSecondSv.save(secInput);
+			if("删除".equals(secInput.getDescription())) {
+				secInput.setDescription("");
+				architectureSecondSv.delete(secInput.getIdSecond());
+			} else {
+				secInput.setDescription("");
+				architectureSecondSv.save(secInput);
+			}	
 			architectureGradingSv.update(input);
 		} else if ("3".equals(input.getExt1())) {		
 			ArchitectureThirdRequest thirdInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
 			thirdInput.setIdSecond(input.getIdBelong());
-			thirdInput.setIdThird(input.getSysId());
-			thirdInput.setDescription("");
-			architectureThirdSv.save(thirdInput);
+			thirdInput.setIdThird(input.getSysId());		
+			if("删除".equals(thirdInput.getDescription())) {
+				thirdInput.setDescription("");
+				architectureThirdSv.delete(thirdInput.getIdThird());
+			} else {
+				thirdInput.setDescription("");
+				architectureThirdSv.save(thirdInput);
+			}	
 			architectureGradingSv.update(input);
 		} else {
 		}

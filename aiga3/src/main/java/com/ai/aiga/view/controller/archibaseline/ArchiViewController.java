@@ -35,20 +35,20 @@ public class ArchiViewController {
 		int id = 0;
 		List<ArchiSecondViewOutput> output = new ArrayList<ArchiSecondViewOutput>();
 		// SaaS层
-		ArchiSecondViewOutput SaaS = new ArchiSecondViewOutput(id++,"SaaS","true");
+		ArchiSecondViewOutput SaaS = new ArchiSecondViewOutput(id++,"SaaS","1");
 		// Paas层
-		ArchiSecondViewOutput PaaS = new ArchiSecondViewOutput(id++,"PaaS","true");
+		ArchiSecondViewOutput PaaS = new ArchiSecondViewOutput(id++,"PaaS","1");
 		//二级开始
 		List<ArchiSecondViewItem> itemPaaS = new ArrayList<ArchiSecondViewItem>();
 		List<ArchiSecondViewItem> itemSaaS = new ArrayList<ArchiSecondViewItem>();
 		// BPaaS层
-		ArchiSecondViewItem BPaaS = new ArchiSecondViewItem(id++,"BPaaS","true");
+		ArchiSecondViewItem BPaaS = new ArchiSecondViewItem(id++,"BPaaS","1");
 		// UPaaS层
-		ArchiSecondViewItem UPaaS = new ArchiSecondViewItem(id++,"UPaaS","true");
+		ArchiSecondViewItem UPaaS = new ArchiSecondViewItem(id++,"UPaaS","1");
 		// IPaaS层
-		ArchiSecondViewItem IPaaS = new ArchiSecondViewItem(id++,"IPaaS","true");
+		ArchiSecondViewItem IPaaS = new ArchiSecondViewItem(id++,"IPaaS","1");
 		// TPaaS层
-		ArchiSecondViewItem TPaaS = new ArchiSecondViewItem(id++,"TPaaS","true");
+		ArchiSecondViewItem TPaaS = new ArchiSecondViewItem(id++,"TPaaS","1");
 		
 		//各层List节点
 		List<ArchiSecondViewItemLast> itemBPaaS = new ArrayList<ArchiSecondViewItemLast>();
@@ -75,21 +75,21 @@ public class ArchiViewController {
 				continue;
 			}
 			if("SaaS".equals(levels[0])) {
-				ArchiSecondViewItem baseSaaS = new ArchiSecondViewItem(id++,base.getName(),"false");
+				ArchiSecondViewItem baseSaaS = new ArchiSecondViewItem(id++,base.getName(),"0");
 				List<ArchiSecondViewItemLast> itemNull = new ArrayList<ArchiSecondViewItemLast>();
 				baseSaaS.setItem(itemNull);
 				itemSaaS.add(baseSaaS);
 			} else if ("BPaaS".equals(levels[0])) {
-				ArchiSecondViewItemLast baseBPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");
+				ArchiSecondViewItemLast baseBPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"0");
 				itemBPaaS.add(baseBPaaS);
 			} else if ("UPaaS".equals(levels[0])) {
-				ArchiSecondViewItemLast baseUPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");
+				ArchiSecondViewItemLast baseUPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"0");
 				itemUPaaS.add(baseUPaaS);
 			} else if ("IPaaS".equals(levels[0])) {
-				ArchiSecondViewItemLast baseIPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");
+				ArchiSecondViewItemLast baseIPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"0");
 				itemIPaaS.add(baseIPaaS);
 			} else if ("TPaaS".equals(levels[0])) {
-				ArchiSecondViewItemLast baseTPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");
+				ArchiSecondViewItemLast baseTPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"0");
 				itemTPaaS.add(baseTPaaS);
 			} else {
 				

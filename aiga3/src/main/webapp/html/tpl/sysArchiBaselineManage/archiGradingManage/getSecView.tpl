@@ -1,4 +1,4 @@
- <div class="mxgif-wrapper" >
+ <div class="mxgif-wrapper">
     {{#each this}}
     <div class="mxgif-container {{mxgifWidth item}}">
         {{#if isNodeName}}
@@ -8,18 +8,20 @@
             <div class="mxgif-lists-content {{mxgifLength item}}">
                 {{#each item}}
                     {{#if isNodeName}}
-                    <div class="mxgif-container">
-                        <div class="mxgif-sidebar {{mxgifWidth item}}"><p>{{name}}</p></div>
-                        <div class="mxgif-lists {{mxgifHeight2 item}}">
-                            <div class="mxgif-lists-content {{mxgifLength item}}">
-                                {{#each item}}
-                                <div class="mxgif-lists-item">{{name}}</div>
-                                {{/each}}
+                        {{#isNodeNameCompare isNodeName 1}}
+                        <div class="mxgif-container">
+                            <div class="mxgif-sidebar {{mxgifWidth item}}"><p>{{name}}</p></div>
+                            <div class="mxgif-lists {{mxgifHeight2 item}}">
+                                <div class="mxgif-lists-content {{mxgifLength item}}">
+                                    {{#each item}}
+                                    <div class="mxgif-lists-item">{{name}}</div>
+                                    {{/each}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {{else}}
-                     <div class="mxgif-lists-item ">{{name}}</div>
+                        {{else}}
+                         <div class="mxgif-lists-item">{{name}}</div>
+                        {{/isNodeNameCompare}}
                     {{/if}}
                 {{/each}}
             </div>

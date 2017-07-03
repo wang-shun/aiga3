@@ -4,67 +4,79 @@
     "data":[{
         "id":"1",
         "name":"SaaS",
-        "isNodeName":"true",
+        "isNodeName":"1",
         "item":[{
             "id":"101",
-            "name":"业务受理中心"
+            "name":"业务受理中心",
+            "isNodeName":"0"
         },{
             "id":"102",
-            "name":"运营管理中心"
+            "name":"运营管理中心",
+            "isNodeName":"0"
         },{
             "id":"103",
-            "name":"热线渠道"
+            "name":"热线渠道",
+            "isNodeName":"0"
         },{
             "id":"104",
-            "name":"电子渠道"
+            "name":"电子渠道",
+            "isNodeName":"0"
         }]
     },{
         "id":"2",
         "name":"PaaS",
-        "isNodeName":"true",
+        "isNodeName":"1",
         "item":[{
             "id":"101",
             "name":"BPaaS",
-            "isNodeName":"true",
+            "isNodeName":"1",
             "item":[{
                 "id":"1011",
-                "name":"业务受理中心"
+                "name":"业务受理中心",
+                "isNodeName":"0"
             },{
                 "id":"1011",
-                "name":"运营管理中心"
+                "name":"运营管理中心",
+                "isNodeName":"0"
             },{
                 "id":"1011",
-                "name":"运营管理中心"
+                "name":"运营管理中心",
+                "isNodeName":"0"
             },{
                 "id":"1011",
-                "name":"运营管理中心"
+                "name":"运营管理中心",
+                "isNodeName":"0"
             },{
                 "id":"1011",
-                "name":"运营管理中心"
+                "name":"运营管理中心",
+                "isNodeName":"0"
             },{
                 "id":"1011",
-                "name":"运营管理中心"
+                "name":"运营管理中心",
+                "isNodeName":"0"
             },{
                 "id":"1011",
-                "name":"运营管理中心"
+                "name":"运营管理中心",
+                "isNodeName":"0"
             }],
         },{
             "id":"102",
             "name":"UPaaS",
-            "isNodeName":"true",
+            "isNodeName":"1",
             "item":[]
         },{
             "id":"103",
             "name":"IPaaS",
-            "isNodeName":"true",
+            "isNodeName":"1",
             "item":[{
                 "id":"1011",
-                "name":"外部接口子域"
+                "name":"外部接口子域",
+                "isNodeName":"0"
             }]
         },{
             "id":"104",
             "name":"TPaaS",
-            "isNodeName":"true",
+            "isNodeName":"1",
             "item":[]
         }]
     }]

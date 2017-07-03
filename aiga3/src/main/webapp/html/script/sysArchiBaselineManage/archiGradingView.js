@@ -62,67 +62,6 @@ define(function(require, exports, module) {
 		}
 	};
 
-	Handlebars.registerHelper('mxgifWidth', function(value, fn) {
-    	var _width = "width-2";
-	    for (var i = 0; i < value.length; i++) {
-	    	if(value[i]["isNodeName"]){
-	    		if(value[i].item>=0){
-	    			_width = "width-1";
-	    		}
-	    	}
-	    }
-	    return _width;
-	});
-
-	Handlebars.registerHelper('mxgifHeight1', function(value, fn) {
-    	var _height = "height-1";
-    	if(value.length>5){
-			 _height = "height-2";
-		}
-		if(value.length>10){
-			 _height = "height-3";
-		}
-	    for (var i = 0; i < value.length; i++) {
-	    	if(value[i]["isNodeName"]){
-	    		if(value[i].item>=0){
-	    			_height = "";
-	    		}
-	    	}
-	    }
-	    return _height;
-	});
-
-
-	Handlebars.registerHelper('mxgifHeight2', function(value, fn) {
-    	var _height = "height-2";
-    	if(value.length>5){
-			 _height = "height-3";
-		}
-	    for (var i = 0; i < value.length; i++) {
-	    	if(value[i]["isNodeName"]){
-	    		if(value[i].item>=0){
-	    			_height = "";
-	    		}
-	    	}
-	    }
-	    return _height;
-	});
-
-	Handlebars.registerHelper('mxgifLength', function(value, fn) {
-		var _length = 0;
-		if(value.length>=5){
-			 _length = "item-5";
-		}else{
-			 _length = "item-"+value.length;
-		}
-   	 	for (var i = 0; i < value.length; i++) {
-	    	if(value[i]["isNodeName"]){
-	    		if(value[i].item>=0){
-	    			_length = "";
-	    		}
-	    	}
-	    }
-	    return _length;
-	});
+	
 	module.exports = init;
 });

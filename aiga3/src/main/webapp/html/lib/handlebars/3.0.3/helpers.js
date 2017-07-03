@@ -1,5 +1,103 @@
 /* Handlebars Helpers - Dan Harper (http://github.com/danharper) */
 
+
+/*
+ * 计算离左侧的宽度距离
+ */
+
+Handlebars.registerHelper('mxgifWidth', function(value, fn) {
+    var _width = "width-2";
+    for (var i = 0; i < value.length; i++) {
+        if(value[i]["isNodeName"]=="1"){
+            if(value[i].item>=0){
+                _width = "width-1";
+            }
+        }
+    }
+    return _width;
+});
+
+
+
+/*
+ * 计算子元素的高度类型，分1，2，3种类型
+ */
+Handlebars.registerHelper('mxgifHeight1', function(value, fn) {
+    var _height = "height-1";
+    if(value.length>5){
+         _height = "height-2";
+    }
+    if(value.length>10){
+         _height = "height-3";
+    }
+    for (var i = 0; i < value.length; i++) {
+        if(value[i]["isNodeName"]=="1"){
+            if(value[i].item>=0){
+                _height = "";
+            }
+        }
+    }
+    return _height;
+});
+
+
+/*
+ * 计算子元素的高度类型，分1，2种类型
+ */
+Handlebars.registerHelper('mxgifHeight2', function(value, fn) {
+    var _height = "height-2";
+    if(value.length>5){
+         _height = "height-3";
+    }
+    for (var i = 0; i < value.length; i++) {
+        if(value[i]["isNodeName"]=="1"){
+            if(value[i].item>=0){
+                _height = "";
+            }
+        }
+    }
+    return _height;
+});
+
+
+
+/*
+ * 计算子itme元素的个数
+ */
+Handlebars.registerHelper('mxgifLength', function(value, fn) {
+    var _length = 0;
+    if(value.length>=5){
+         _length = "item-5";
+    }else{
+         _length = "item-"+value.length;
+    }
+    for (var i = 0; i < value.length; i++) {
+        if(value[i]["isNodeName"]=="1"){
+            if(value[i].item>=0){
+                _length = "";
+            }
+        }
+    }
+    return _length;
+});
+
+
+/*
+ * 判断是否为节点展示
+ */
+Handlebars.registerHelper("isNodeNameCompare",function(v1,v2,options){
+    if(parseInt(v1)==v2){
+        //满足添加继续执行
+        return options.fn(this);
+      }else{
+       //不满足条件执行{{else}}部分
+        return options.inverse(this);
+      }
+});
+
+
+
+
 /*
  * 根据状态码获取员工的状态值
  */

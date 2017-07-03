@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class ArchitectureThirdRequest implements Serializable {
-
+	private long onlysysId;
     private long idThird;
     private String name;
     private String systemCode;
@@ -28,6 +28,12 @@ public class ArchitectureThirdRequest implements Serializable {
     private String ext3;
     private String sysState;
     private String rankInfo;
+	public long getOnlysysId() {
+		return onlysysId;
+	}
+	public void setOnlysysId(long onlysysId) {
+		this.onlysysId = onlysysId;
+	}
 	public String getSysState() {
 		return sysState;
 	}

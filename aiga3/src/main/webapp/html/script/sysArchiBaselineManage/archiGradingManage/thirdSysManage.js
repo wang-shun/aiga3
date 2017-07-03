@@ -63,7 +63,7 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);
 				var saveBtn = _modal.find("[name='save']");
 				saveBtn.off('click').on('click',function(){
-					//获取表单数据
+					//获取表单数据s
 					var _form = Page.findId("thirdApplyForm");
 					var _cmd = _form.serialize();	
 					//获取分层层级
@@ -141,7 +141,7 @@ define(function(require, exports, module) {
 			//取出选中数据
 			var id = dom.attr("temp");
 			var index = 0;
-			while(id != cache.datas[index].idThird) {
+			while(id != cache.datas[index].onlysysId) {
 				index++;
 			}
 			var subData = cache.datas[index];

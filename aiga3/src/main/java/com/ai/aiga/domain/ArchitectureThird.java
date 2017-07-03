@@ -1,11 +1,14 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-30 15:59:16 by Hibernate Tools 3.2.2.GA
+// Generated 2017-7-3 14:33:18 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,7 +20,7 @@ import javax.persistence.TemporalType;
 @Table(name="ARCHITECTURE_THIRD")
 public class ArchitectureThird  implements java.io.Serializable {
 
-
+     private long onlysysId;
      private long idThird;
      private String name;
      private String systemCode;
@@ -29,8 +32,10 @@ public class ArchitectureThird  implements java.io.Serializable {
      private String department;
      private String projectInfo;
      private String designInfo;
+     private String rankInfo;
+     private String sysState;
      private String state;
-     private long applyId;
+     private Long applyId;
      private String applyUser;
      private Date createDate;
      private Date modifyDate;
@@ -39,14 +44,13 @@ public class ArchitectureThird  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
-     private String sysState;
-     private String rankInfo;
 
     public ArchitectureThird() {
     }
 
 	
-    public ArchitectureThird(long idThird, String name, String systemFunction, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, Date createDate) {
+    public ArchitectureThird(long onlysysId, long idThird, String name, String systemFunction, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, Date createDate) {
+        this.onlysysId = onlysysId;
         this.idThird = idThird;
         this.name = name;
         this.systemFunction = systemFunction;
@@ -56,9 +60,12 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.department = department;
         this.projectInfo = projectInfo;
         this.designInfo = designInfo;
+        this.rankInfo = rankInfo;
+        this.sysState = sysState;
         this.createDate = createDate;
     }
-    public ArchitectureThird(long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String state, long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, String sysState, String rankInfo) {
+    public ArchitectureThird(long onlysysId, long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3) {
+       this.onlysysId = onlysysId;
        this.idThird = idThird;
        this.name = name;
        this.systemCode = systemCode;
@@ -70,6 +77,8 @@ public class ArchitectureThird  implements java.io.Serializable {
        this.department = department;
        this.projectInfo = projectInfo;
        this.designInfo = designInfo;
+       this.rankInfo = rankInfo;
+       this.sysState = sysState;
        this.state = state;
        this.applyId = applyId;
        this.applyUser = applyUser;
@@ -80,13 +89,21 @@ public class ArchitectureThird  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
-       this.sysState = sysState;
-       this.rankInfo = rankInfo;
     }
    
      @Id 
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_THIRD$SEQ")
+  	@SequenceGenerator(name="ARCHITECTURE_THIRD$SEQ",sequenceName="ARCHITECTURE_THIRD$SEQ",allocationSize=1)   
+    @Column(name="ONLYSYS_ID", unique=true, nullable=false, precision=10, scale=0)
+    public long getOnlysysId() {
+        return this.onlysysId;
+    }
     
-    @Column(name="ID_THIRD", unique=true, nullable=false, precision=10, scale=0)
+    public void setOnlysysId(long onlysysId) {
+        this.onlysysId = onlysysId;
+    }
+    
+    @Column(name="ID_THIRD", nullable=false, precision=10, scale=0)
     public long getIdThird() {
         return this.idThird;
     }
@@ -149,7 +166,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.idSecond = idSecond;
     }
     
-    @Column(name="BElong_LEVEL", nullable=false, length=20)
+    @Column(name="BELONG_LEVEL", nullable=false, length=20)
     public String getBelongLevel() {
         return this.belongLevel;
     }
@@ -185,6 +202,24 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.designInfo = designInfo;
     }
     
+    @Column(name="RANK_INFO", nullable=false)
+    public String getRankInfo() {
+        return this.rankInfo;
+    }
+    
+    public void setRankInfo(String rankInfo) {
+        this.rankInfo = rankInfo;
+    }
+    
+    @Column(name="SYS_STATE", nullable=false)
+    public String getSysState() {
+        return this.sysState;
+    }
+    
+    public void setSysState(String sysState) {
+        this.sysState = sysState;
+    }
+    
     @Column(name="STATE", length=20)
     public String getState() {
         return this.state;
@@ -195,11 +230,11 @@ public class ArchitectureThird  implements java.io.Serializable {
     }
     
     @Column(name="APPLY_ID", precision=10, scale=0)
-    public long getApplyId() {
+    public Long getApplyId() {
         return this.applyId;
     }
     
-    public void setApplyId(long applyId) {
+    public void setApplyId(Long applyId) {
         this.applyId = applyId;
     }
     
@@ -273,24 +308,6 @@ public class ArchitectureThird  implements java.io.Serializable {
     
     public void setExt3(String ext3) {
         this.ext3 = ext3;
-    }
-    
-    @Column(name="SYS_STATE")
-    public String getSysState() {
-        return this.sysState;
-    }
-    
-    public void setSysState(String sysState) {
-        this.sysState = sysState;
-    }
-    
-    @Column(name="RANK_INFO")
-    public String getRankInfo() {
-        return this.rankInfo;
-    }
-    
-    public void setRankInfo(String rankInfo) {
-        this.rankInfo = rankInfo;
     }
 
 

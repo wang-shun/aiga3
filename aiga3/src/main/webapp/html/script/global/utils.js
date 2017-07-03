@@ -383,6 +383,8 @@ define(function(require, exports, module) {
                                 callback: pageselectCallback
                             });
                         }
+                    } else {
+                    	XMS.msgbox.show(json.retMessage, 'error', 2000);
                     }
                 });
             }

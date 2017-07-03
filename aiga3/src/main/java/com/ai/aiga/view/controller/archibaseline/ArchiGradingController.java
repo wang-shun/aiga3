@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
+import com.ai.aiga.domain.ArchitectureSecond;
+import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
@@ -43,6 +48,28 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/gradingAdd")
 //	public @ResponseBody JsonBean save(@RequestParam ArchitectureGrading architectureGrading) {
 	public @ResponseBody JsonBean save(ArchitectureGrading architectureGrading) {
+		JsonBean bean = new JsonBean();
+		if(!"删除".equals(architectureGrading.getDescription())) {
+			if("1".equals(architectureGrading.getExt1())) {
+				ArchitectureFirst architectureFirst = architectureFirstSv.findOne(architectureGrading.getSysId());
+				if(architectureFirst!=null){
+					bean.fail("编号已存在");
+					return bean;
+				}
+			} else if("2".equals(architectureGrading.getExt1())) {
+				ArchitectureSecond architectureSecond = architectureSecondSv.findOne(architectureGrading.getSysId());
+				if(architectureSecond!=null){
+					bean.fail("编号已存在");
+					return bean;
+				}
+			} else {
+				List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
+				if(thirdList.size()>0) {
+					bean.fail("系统编号已存在");
+					return bean;
+				}
+			}
+		}
 		if("新增".equals(architectureGrading.getDescription())) {
 			architectureGrading.setCreateDate(new Date());
 			architectureGrading.setModifyDate(new Date());
@@ -92,7 +119,7 @@ public class ArchiGradingController {
 			thirdInput.setIdThird(input.getSysId());		
 			if("删除".equals(thirdInput.getDescription())) {
 				thirdInput.setDescription("");
-				architectureThirdSv.delete(thirdInput.getIdThird());
+				architectureThirdSv.delete(thirdInput.getOnlysysId());
 			} else {
 				thirdInput.setDescription("");
 				architectureThirdSv.save(thirdInput);

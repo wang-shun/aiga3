@@ -206,7 +206,7 @@
 	    <label class="control-label margin-onl">简称</label>
 	    <input name="code" type="text" class="form-control input-sm" value="{{code}}" ></input>
 	    <label class="control-label margin-onl">系统编号</label>
-	    <input name="sysId" type="text" class="form-control input-sm" readonly="readonly" value="{{idThird}}"></input>
+	    <input name="sysId" type="text" class="form-control input-sm" value="{{idThird}}"></input>
 	</div>
 	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">系统功能描述</label>
@@ -224,6 +224,7 @@
 		<input name="projectInfo" type="text" class="form-control input-sm width-input-400" value="{{projectInfo}}"></input>
 		<label class="control-label second-label-depart">责任部门</label>
      	<input name="department" type="text" class="form-control input-sm" value="{{department}}"></input>
+		<input type="hidden" name="onlysysId" value="{{onlysysId}}"></input>
 		<input type="hidden" name="createDate" value="{{createDate}}"></input>
 		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>
 	</div>
@@ -257,12 +258,12 @@
 <script id="TPL_getSysMessageList" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
-    <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+    <td><input type="radio" class="minimal" value="{{onlysysId}}" name="onlysysId"></td>
     <td>{{name}}</td>
     <td>{{code}}</td>
     <td>{{idThird}}</td>
     <td>{{systemFunction}}</td>
-    <td><button class="btn btn-primary btn-table-update" temp="{{idThird}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{idThird}}">删除</button></td>
+    <td><button class="btn btn-primary btn-table-update" temp="{{onlysysId}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{onlysysId}}">删除</button></td>
 </tr>
 {{/each}}
 </script>

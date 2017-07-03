@@ -70,9 +70,9 @@ public class ArchitectureThirdController {
 	
 	@RequestMapping(path = "/archi/third/findOne")
 	public @ResponseBody JsonBean findOne(
-				@RequestParam Long idThird){
+				@RequestParam Long onlysysId){
 		JsonBean bean = new JsonBean();
-		bean.setData(architectureThirdSv.findOne(idThird));
+		bean.setData(architectureThirdSv.findOne(onlysysId));
 		return bean;
 	}
 	
@@ -90,8 +90,8 @@ public class ArchitectureThirdController {
 	
 	@RequestMapping(path = "/archi/third/delete")
 	public @ResponseBody JsonBean delete(
-				@RequestParam Long idThird){
-		architectureThirdSv.delete(idThird);
+				@RequestParam Long onlysysId){
+		architectureThirdSv.delete(onlysysId);
 		return JsonBean.success;
 	}
 }

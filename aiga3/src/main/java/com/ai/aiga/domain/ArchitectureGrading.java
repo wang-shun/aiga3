@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-30 11:24:42 by Hibernate Tools 3.2.2.GA
+// Generated 2017-7-3 15:21:42 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -43,6 +43,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
+     private Long onlysysId;
 
     public ArchitectureGrading() {
     }
@@ -56,7 +57,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.state = state;
         this.applyUser = applyUser;
     }
-    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3) {
+    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId) {
        this.applyId = applyId;
        this.identifiedInfo = identifiedInfo;
        this.sysId = sysId;
@@ -79,11 +80,12 @@ public class ArchitectureGrading  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
+       this.onlysysId = onlysysId;
     }
    
      @Id 
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_GRADING$SEQ")
-  	@SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1) 
+  	@SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1)   
     @Column(name="APPLY_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getApplyId() {
         return this.applyId;
@@ -280,6 +282,15 @@ public class ArchitectureGrading  implements java.io.Serializable {
     
     public void setExt3(String ext3) {
         this.ext3 = ext3;
+    }
+    
+    @Column(name="ONLYSYS_ID", precision=10, scale=0)
+    public Long getOnlysysId() {
+        return this.onlysysId;
+    }
+    
+    public void setOnlysysId(Long onlysysId) {
+        this.onlysysId = onlysysId;
     }
 
 

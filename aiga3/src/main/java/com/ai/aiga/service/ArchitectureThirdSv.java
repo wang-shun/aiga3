@@ -27,6 +27,10 @@ public class ArchitectureThirdSv extends BaseService {
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
 	
+	public List<ArchitectureThird>findByIdThirds(long idThird){
+		return architectureThirdDao.findByIdThird(idThird);
+	}
+	
 	public List<ArchitectureThird>findArchitectureThirds(){
 		return architectureThirdDao.findAll();
 	}
@@ -89,23 +93,24 @@ public class ArchitectureThirdSv extends BaseService {
 		return architectureThirdDao.findByIdSecond(idSecond);
 	}
 	
-	public ArchitectureThird findOne(Long idThird){
-		if(idThird==null||idThird<0){
+	public ArchitectureThird findOne(Long onlysysId){
+		if(onlysysId==null||onlysysId<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		return architectureThirdDao.findOne(idThird);
+		return architectureThirdDao.findOne(onlysysId);
 	}
 	
-	public void delete(Long idThird){
-		if(idThird==null||idThird<0){
+	public void delete(Long onlysysId){
+		if(onlysysId==null||onlysysId<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		architectureThirdDao.delete(idThird);
+		architectureThirdDao.delete(onlysysId);
 	}
 	
 	public void save(ArchitectureThirdRequest request){
 		
 		ArchitectureThird architectureThird = new ArchitectureThird();
+		architectureThird.setOnlysysId(request.getOnlysysId());
 		architectureThird.setIdThird(request.getIdThird());
 		architectureThird.setName(request.getName());
 		architectureThird.setSystemCode(request.getSystemCode());
@@ -135,6 +140,7 @@ public class ArchitectureThirdSv extends BaseService {
 	public void update(ArchitectureThirdRequest request){
 		
 		ArchitectureThird architectureThird = new ArchitectureThird();
+		architectureThird.setOnlysysId(request.getOnlysysId());
 		architectureThird.setIdThird(request.getIdThird());
 		architectureThird.setName(request.getName());
 		architectureThird.setSystemCode(request.getSystemCode());

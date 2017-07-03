@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     //一级域查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
-	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "archi/second/listByfirst");
+	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "archi/second/listByfirstPage");
 	//二级系统操作信息保存
 	srvMap.add("secSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	var cache = {
@@ -47,6 +47,10 @@ define(function(require, exports, module) {
 			var _applyBtn =  _form.find("[name='apply']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = "idFirst="+_form.find("[name='idFirst']").val();
+				//用于解决long型不可空传的问题
+				if(cmd.charAt(cmd.length - 1) == '=') {
+					cmd+='0';
+				}
 				self._getSecGridList(cmd);
 			});
 			_applyBtn.off('click').on('click',function() {
@@ -120,8 +124,8 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
 				
         		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data));
-        		cache.datas = json.data;
+        		tablebtn.html(template(json.data.content));
+        		cache.datas = json.data.content;
         		Utils.eventTrClickCallback(_dom);
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
         			self._band_table_btn($(this),"update");

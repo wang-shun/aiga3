@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
@@ -26,6 +27,15 @@ public class ArchitectureFirstController {
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureFirstSv.findArchitectureFirsts());
+		return bean;
+	} 
+	
+	@RequestMapping(path = "/archi/first/listPage")
+	public @ResponseBody JsonBean listPage(
+            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureFirstSv.findArchitectureFirstsPage( pageNumber, pageSize));
 		return bean;
 	} 
 	

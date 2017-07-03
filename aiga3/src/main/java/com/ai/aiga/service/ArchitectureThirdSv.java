@@ -6,9 +6,12 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.ArchitectureThird;
@@ -37,6 +40,46 @@ public class ArchitectureThirdSv extends BaseService {
 			cons.add(new Condition("idThird", idThird, Condition.Type.EQ));
 		}
 		return architectureThirdDao.search(cons);
+	}
+	
+	public Page<ArchitectureThird> findbyCoditionPage(Long idThird,String name,int pageNumber,int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(StringUtils.isNoneBlank(name)){
+			 cons.add(new Condition("name", "%".concat(name).concat("%"), Condition.Type.LIKE));
+		}
+		if(idThird != null && idThird > 0) {
+			cons.add(new Condition("idThird", idThird, Condition.Type.EQ));
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return architectureThirdDao.search(cons,pageable);
+	}
+	
+	public Page<ArchitectureThird> findbySecPage(Long idSecond,int pageNumber,int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+
+		if(idSecond != null && idSecond > 0) {
+			cons.add(new Condition("idSecond", idSecond, Condition.Type.EQ));
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return architectureThirdDao.search(cons,pageable);
 	}
 	
 	public List<ArchitectureThird> findbySec(Long idSecond){

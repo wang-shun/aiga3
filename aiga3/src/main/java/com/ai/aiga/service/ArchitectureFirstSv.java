@@ -3,9 +3,13 @@ package com.ai.aiga.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureFirstDao;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.exception.BusinessException;
@@ -22,6 +26,19 @@ public class ArchitectureFirstSv extends BaseService {
 	
 	public List<ArchitectureFirst>findArchitectureFirsts(){
 		return architectureFirstDao.findAll();
+	}
+	
+	public Page<ArchitectureFirst>findArchitectureFirstsPage(int pageNumber,int pageSize){
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return architectureFirstDao.findAll(pageable);
 	}
 	
 	public ArchitectureFirst findOne(Long idFirst){

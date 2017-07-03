@@ -1,12 +1,19 @@
 package com.ai.aiga.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureSecondDao;
+import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.ArchitectureSecond;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -30,6 +37,25 @@ public class ArchitectureSecondSv extends BaseService {
 		}
 		return architectureSecondDao.findByIdFirst(idFirst);
 	}
+	
+	public Page<ArchitectureSecond>findByFirstPage(Long idFirst,int pageNumber,int pageSize){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(idFirst != null && idFirst > 0) {
+			cons.add(new Condition("idFirst", idFirst, Condition.Type.EQ));
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return architectureSecondDao.search(cons,pageable);
+	}
+	
 	
 	public ArchitectureSecond findOne(Long idSecond){
 		if(idSecond==null||idSecond<0){

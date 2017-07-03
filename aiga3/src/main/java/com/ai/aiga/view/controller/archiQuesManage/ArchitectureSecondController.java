@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchitectureSecondSv;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -23,6 +25,16 @@ public class ArchitectureSecondController {
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureSecondSv.findArchitectureSeconds());
+		return bean;
+	} 
+	
+	@RequestMapping(path = "/archi/second/listByfirstPage")
+	public @ResponseBody JsonBean listByfirstPage(
+            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+            long idFirst){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureSecondSv.findByFirstPage(idFirst, pageNumber, pageSize));
 		return bean;
 	} 
 	

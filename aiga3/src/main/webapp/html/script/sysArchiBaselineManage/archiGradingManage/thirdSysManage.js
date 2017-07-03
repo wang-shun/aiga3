@@ -15,7 +15,7 @@ define(function(require, exports, module) {
     //二级子域查询
     srvMap.add("getSecondDomainList", pathAlias+"secondDomainList.json", "archi/second/list");
 	//显示系统信息表
-	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findBySec");
+	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findBySecPage");
 	//三级系统操作信息保存
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	//三级系统信息修改
@@ -54,7 +54,7 @@ define(function(require, exports, module) {
 			var _applyBtn = _form.find("[name='apply']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
-				self._getCaseTempList(cmd);
+				self._getGridList(cmd);
 			});
 			_applyBtn.off('click').on('click',function() {
 				//打开模态框
@@ -109,7 +109,7 @@ define(function(require, exports, module) {
 		},
 
 		// 查询表格数据
-		_getCaseTempList: function(cmd){
+		_getGridList: function(cmd){
 			var self = this;
 			var _cmd = '' ;
 			if(cmd){
@@ -125,8 +125,8 @@ define(function(require, exports, module) {
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));				
         		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data));
-        		cache.datas = json.data;
+        		tablebtn.html(template(json.data.content));
+        		cache.datas = json.data.content;
         		Utils.eventTrClickCallback(_dom);
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
         			self._band_table_btn($(this),"update");

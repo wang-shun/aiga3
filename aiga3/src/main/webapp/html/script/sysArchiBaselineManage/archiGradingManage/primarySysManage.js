@@ -11,8 +11,7 @@ define(function(require, exports, module) {
     //一级域查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
     //一级域查询带分页  
-    srvMap.add("getPrimaryMessageList", pathAlias+"primaryDomainList.json", "archi/first/list");
-//    srvMap.add("getPrimaryMessageList", pathAlias+"primaryDomainList.json", "archi/view/secView");
+    srvMap.add("getPrimaryMessageList", pathAlias+"primaryDomainList.json", "archi/first/listPage");
 	//一级系统操作信息保存
 	srvMap.add("firSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	var cache = {
@@ -84,8 +83,8 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
 				
         		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data));
-        		cache.datas = json.data;
+        		tablebtn.html(template(json.data.content));
+        		cache.datas = json.data.content;
         		Utils.eventTrClickCallback(_dom);
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
         			self._band_table_btn($(this),"update");

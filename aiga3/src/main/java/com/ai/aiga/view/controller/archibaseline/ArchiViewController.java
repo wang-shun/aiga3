@@ -76,6 +76,8 @@ public class ArchiViewController {
 			}
 			if("SaaS".equals(levels[0])) {
 				ArchiSecondViewItem baseSaaS = new ArchiSecondViewItem(id++,base.getName(),"false");
+				List<ArchiSecondViewItemLast> itemNull = new ArrayList<ArchiSecondViewItemLast>();
+				baseSaaS.setItem(itemNull);
 				itemSaaS.add(baseSaaS);
 			} else if ("BPaaS".equals(levels[0])) {
 				ArchiSecondViewItemLast baseBPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"false");

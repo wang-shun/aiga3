@@ -36,7 +36,7 @@ public class ArchitectureThirdController {
             ArchiThirdConditionParam condition){
 				JsonBean bean = new JsonBean();
 				bean.setData(architectureThirdSv.findbyCoditionPage(condition.getIdThird(), condition.getName(), pageNumber, pageSize));
-			return null;
+			return bean;
 	}
 	
 	@RequestMapping(path = "/archi/third/findByCondition")

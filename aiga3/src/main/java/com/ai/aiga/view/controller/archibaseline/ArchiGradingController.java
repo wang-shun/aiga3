@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureSecond;
@@ -42,31 +43,41 @@ public class ArchiGradingController {
 	@Autowired
 	private ArchitectureThirdSv architectureThirdSv;
     /**
+     * 添加申请单
      *@param architectureGrading
      *@return
      */
 	@RequestMapping(path = "/archi/grading/gradingAdd")
-//	public @ResponseBody JsonBean save(@RequestParam ArchitectureGrading architectureGrading) {
 	public @ResponseBody JsonBean save(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
-		if(!"删除".equals(architectureGrading.getDescription())) {
-			if("1".equals(architectureGrading.getExt1())) {
-				ArchitectureFirst architectureFirst = architectureFirstSv.findOne(architectureGrading.getSysId());
-				if(architectureFirst!=null){
-					bean.fail("编号已存在");
-					return bean;
-				}
-			} else if("2".equals(architectureGrading.getExt1())) {
-				ArchitectureSecond architectureSecond = architectureSecondSv.findOne(architectureGrading.getSysId());
-				if(architectureSecond!=null){
-					bean.fail("编号已存在");
-					return bean;
-				}
-			} else {
+		if("新增".equals(architectureGrading.getDescription()) && "1".equals(architectureGrading.getExt1())) {
+			ArchitectureFirst architectureFirst = architectureFirstSv.findOne(architectureGrading.getSysId());
+			if(architectureFirst!=null) {
+				bean.fail("编号已存在");
+				return bean;
+			}
+		} else if("新增".equals(architectureGrading.getDescription()) && "2".equals(architectureGrading.getExt1())) {
+			ArchitectureSecond architectureSecond = architectureSecondSv.findOne(architectureGrading.getSysId());
+			if(architectureSecond!=null){
+				bean.fail("编号已存在");
+				return bean;
+			}
+		} else if("3".equals(architectureGrading.getExt1())){
+			if("新增".equals(architectureGrading.getDescription())) {
 				List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
 				if(thirdList.size()>0) {
 					bean.fail("系统编号已存在");
 					return bean;
+				}
+			} else if("修改".equals(architectureGrading.getDescription())) {
+				List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
+				if(thirdList.size()>0) {
+					for(ArchitectureThird baseThird : thirdList) {
+						if(baseThird.getOnlysysId()!=architectureGrading.getOnlysysId()) {
+							bean.fail("系统编号已存在");
+							return bean;
+						}
+					}
 				}
 			}
 		}
@@ -83,7 +94,11 @@ public class ArchiGradingController {
 		return JsonBean.success;
 	}
 	
-	
+	/**
+	 * 审批认定
+	 * @param input
+	 * @return
+	 */
 	@RequestMapping(path = "/archi/grading/messageGranding")
 	public @ResponseBody JsonBean messageGrading(ArchitectureGrading input) {
 		if("审批未通过".equals(input.getState())) {
@@ -134,6 +149,16 @@ public class ArchiGradingController {
 	public @ResponseBody JsonBean findByCondition(ArchiGradingConditionParam input) throws ParseException {
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureGradingSv.findAllCondition(input));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/archi/grading/findByConditionPage")
+	public @ResponseBody JsonBean findByConditionPage(            
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			ArchiGradingConditionParam input) throws ParseException {
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureGradingSv.findByConditionPage(input, pageNumber, pageSize));
 		return bean;
 	}
 	

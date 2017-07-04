@@ -58,8 +58,14 @@ define(function(require, exports, module) {
 					var _cmd = _form.serialize();	
 					_cmd += '&ext1=1&description=新增';
 					//调用服务
-					Utils.getServerPage(srvMap.get('firSysMessageSave'),_cmd,function(json){						
-						_modal.modal('hide');
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+					Rose.ajax.postJson(srvMap.get('firSysMessageSave'),_cmd,function(json, status){
+						if(status) {
+							_modal.modal('hide');
+							XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}					
 					});
 				});
 			});
@@ -118,10 +124,16 @@ define(function(require, exports, module) {
 					saveBtn.off('click').on('click',function(){
 						var updateDom = Page.findId('firUpdateForm');
 						var _cmd = updateDom.serialize();
-						//获取分层层级
 						_cmd += '&ext1=1&description=修改';
-						Utils.getServerPage(srvMap.get('firSysMessageSave'),_cmd,function(json){						
-							_modal.modal('hide');
+						//调服务
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('firSysMessageSave'),_cmd,function(json, status){
+							if(status) {
+								_modal.modal('hide');
+								XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
 						});
 					});
 				});
@@ -131,7 +143,15 @@ define(function(require, exports, module) {
 				subData.ext1= '1';
 				subData.sysId = subData.idFirst;
 				var _cmd = jQuery.param(subData);
-				Utils.getServerPage(srvMap.get('firSysMessageSave'),_cmd,function(json){				
+				//调服务
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get('firSysMessageSave'),_cmd,function(json, status){
+					if(status) {
+						XMS.msgbox.hide();
+						XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}					
 				});
 			}
 		},

@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     //一级域查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
-	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByCondition");
+	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
 	
 	var cache = {
 		datas : ""	
@@ -69,8 +69,8 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
 				
         		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data));
-        		cache.datas = json.data;
+        		tablebtn.html(template(json.data.content));
+        		cache.datas = json.data.content;
         		Utils.eventTrClickCallback(_dom);
 			},_domPagination);
 		}	

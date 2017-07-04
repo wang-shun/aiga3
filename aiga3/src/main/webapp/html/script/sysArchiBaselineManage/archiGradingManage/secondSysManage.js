@@ -58,7 +58,6 @@ define(function(require, exports, module) {
 				//打开模态框
 				_modal.modal('show');
 				Utils.setSelectData(_modal);
-				
 				var saveBtn = _modal.find("[name='save']");
 				saveBtn.off('click').on('click',function(){
 					//获取表单数据
@@ -95,14 +94,25 @@ define(function(require, exports, module) {
 					_cmd += '&belongLevel='+belongLevel;
 					_cmd += '&ext1=2&description=新增';
 					//调用服务
-					Utils.getServerPage(srvMap.get('secSysMessageSave'),_cmd,function(json){						
-						_modal.modal('hide');
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+					Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){
+						if(status) {
+							_modal.modal('hide');
+							XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}					
 					});
 				});
 			});
-			//查询一级域名称
-			Utils.getServerPage(srvMap.get('getPrimaryDomainList'),'',function(json){	
-				cache.firName = json.data;
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			Rose.ajax.postJson(srvMap.get('getPrimaryDomainList'),'',function(json, status){
+				if(status) {
+					window.XMS.msgbox.hide();
+					cache.firName = json.data;
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
 			});
 		},
 
@@ -156,7 +166,7 @@ define(function(require, exports, module) {
 				var _modal = Page.findId('secondUpdateModal');
 				_modal.modal('show');
 				Utils.setSelectData(_modal);
-				_modal.on('shown.bs.modal', function () {
+				_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
 					var hierarchy = Page.find("[name='hierarchysec']");	
 					var belongLevel = subData.belongLevel.split(',');
 					for(var i=0;i<belongLevel.length;i++) {
@@ -220,8 +230,14 @@ define(function(require, exports, module) {
 						belongLevel=belongLevel.substring(0,belongLevel.length-1);
 						_cmd += '&'+'belongLevel='+belongLevel;
 						_cmd += '&ext1=2&description=修改';
-						Utils.getServerPage(srvMap.get('secSysMessageSave'),_cmd,function(json){						
-							_modal.modal('hide');
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){
+							if(status) {
+								_modal.modal('hide');
+								XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
 						});
 					});
 				});
@@ -231,8 +247,15 @@ define(function(require, exports, module) {
 				subData.ext1= '2';
 				subData.sysId = subData.idSecond;
 				subData.idBelong = subData.idFirst;
+				subData.applyId = 0;
 				var _cmd = jQuery.param(subData);
-				Utils.getServerPage(srvMap.get('secSysMessageSave'),_cmd,function(json){				
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){
+					if(status) {
+						XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}					
 				});
 			}
 		},

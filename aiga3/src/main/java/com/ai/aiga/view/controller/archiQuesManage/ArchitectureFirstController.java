@@ -35,7 +35,7 @@ public class ArchitectureFirstController {
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize){
 		JsonBean bean = new JsonBean();
-		bean.setData(architectureFirstSv.findArchitectureFirstsPage( pageNumber, pageSize));
+		bean.setData(architectureFirstSv.findArchitectureFirstsPage(pageNumber, pageSize));
 		return bean;
 	} 
 	

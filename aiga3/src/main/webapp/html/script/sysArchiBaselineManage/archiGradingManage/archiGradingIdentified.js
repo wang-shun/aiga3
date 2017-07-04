@@ -14,7 +14,7 @@ define(function(require, exports, module) {
 		selectData : ''	
 	};
 	//显示认定信息表
-	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "archi/grading/findByCondition");
+	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "archi/grading/findByConditionPage");
 	
 	//信息认定
 	srvMap.add("MessageGranding", pathAlias+"getSysMessageList.json", "archi/grading/messageGranding");
@@ -47,7 +47,7 @@ define(function(require, exports, module) {
 			_from.find("[name='identify']").off('click').on('click',function() {
 				Page.findId('modalMessage').val("");
 				var textModal = Page.findId('modal');
-				textModal.on('shown.bs.modal', function () {
+				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
 					var data = cache.selectData;
 					data.modifyDate = data.modifyDate.replace(/-/g,"/");
 					data.createDate = data.createDate.replace(/-/g,"/");
@@ -57,8 +57,14 @@ define(function(require, exports, module) {
 						data.state = '审批通过';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
-						Utils.getServerPage(srvMap.get('MessageGranding'),_cmd,function(json){						
-							textModal.modal('hide');
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
+							if(status) {
+								textModal.modal('hide');
+								XMS.msgbox.show('认定成功，数据已归档！', 'success', 2000);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
 						});
 					});
 					//不通过
@@ -66,8 +72,14 @@ define(function(require, exports, module) {
 						data.state = '审批未通过';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
-						Utils.getServerPage(srvMap.get('MessageGranding'),_cmd,function(json){						
-							textModal.modal('hide');
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
+							if(status) {
+								textModal.modal('hide');
+								XMS.msgbox.show('认定成功', 'success', 2000);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
 						});
 					});
 				});
@@ -111,10 +123,10 @@ define(function(require, exports, module) {
 			Utils.getServerPage(srvMap.get('getSysGradingMessageList'),_cmd,function(json){
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				cache.datas = json.data;
+				cache.datas = json.data.content;
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
 				
-        		_dom.find("[name='content']").html(template(json.data));
+        		_dom.find("[name='content']").html(template(json.data.content));
         		Utils.eventClickChecked(_dom,function(isChecked,_input) {
         			var applyId = _input[0].value;
         			var allDatas = cache.datas;

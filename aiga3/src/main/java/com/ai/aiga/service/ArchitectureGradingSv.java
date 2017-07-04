@@ -63,6 +63,48 @@ public class ArchitectureGradingSv extends BaseService {
 		return architectureGradingDao.search(cons);		
 	}
 	
+	public Page<ArchitectureGrading> findByConditionPage(ArchiGradingConditionParam input,int pageNumber,int pageSize) throws ParseException{
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		if(StringUtils.isNoneBlank(input.getName())){
+		  cons.add(new Condition("name", "%".concat(input.getName()).concat("%"), Condition.Type.LIKE));
+		}
+
+		if(StringUtils.isNoneBlank(input.getExt1())){
+		  cons.add(new Condition("ext1", input.getExt1(), Condition.Type.EQ));
+		}
+
+		if(StringUtils.isNoneBlank(input.getState())){
+		  cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
+		}
+
+		if(StringUtils.isNoneBlank(input.getApplyUser())){
+		  cons.add(new Condition("applyUser", input.getApplyUser(), Condition.Type.EQ));
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		if(StringUtils.isNoneBlank(input.getBegainTime())){
+		  String  dateFir = input.getBegainTime()+" 00:00:00";
+		  Date beginDate = format.parse(dateFir);	
+		  cons.add(new Condition("applyTime", beginDate, Condition.Type.GT));
+		}
+		if(StringUtils.isNoneBlank(input.getEndTime())){
+		  String dateSec = input.getEndTime()+" 23:59:59";
+		  Date endDate = format.parse(dateSec);	
+		  cons.add(new Condition("applyTime", endDate, Condition.Type.LT));
+		}
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return architectureGradingDao.search(cons,pageable);		
+	}
+	
 	public Page<ArchitectureGrading> findAllConditionPage(int pageNumber, int pageSize){
 		List<Condition> cons = new ArrayList<Condition>();
 		if(pageNumber < 0){

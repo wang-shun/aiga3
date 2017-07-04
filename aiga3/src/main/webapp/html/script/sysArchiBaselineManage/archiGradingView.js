@@ -55,13 +55,23 @@ define(function(require, exports, module) {
 				Rose.ajax.postJson(srvMap.get("getSecView"),cmd, function(json, status) {
 					if(status) {
 						var template = Handlebars.compile(Tpl.getSecView);
-		        		Page.findName("archiView").html(template(json.data))
+		        		Page.findName("archiView").html(template(json.data));
+
+		        		//计算高度值
+		        		self.setSidebarHeight();
 					}
 	  			});
 			});
+		},
+		setSidebarHeight:function(){
+			Page.find('.mxgif-sidebar').each(function(){
+				var _thiz = $(this);
+				var _pHeight = _thiz.parent().height();
+				_thiz.height(_pHeight);
+			})
 		}
 	};
 
-	
+
 	module.exports = init;
 });

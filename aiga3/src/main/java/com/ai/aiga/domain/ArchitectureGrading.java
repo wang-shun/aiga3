@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-7-3 15:21:42 by Hibernate Tools 3.2.2.GA
+// Generated 2017-7-5 11:09:42 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -85,7 +85,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
    
      @Id 
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_GRADING$SEQ")
-  	@SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1)   
+   	@SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1) 
     @Column(name="APPLY_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getApplyId() {
         return this.applyId;
@@ -140,7 +140,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.description = description;
     }
     
-    @Column(name="CODE", nullable=false, length=50)
+    @Column(name="CODE", length=50)
     public String getCode() {
         return this.code;
     }

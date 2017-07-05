@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-7-3 14:33:18 by Hibernate Tools 3.2.2.GA
+// Generated 2017-7-5 11:11:42 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -19,6 +19,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="ARCHITECTURE_THIRD")
 public class ArchitectureThird  implements java.io.Serializable {
+
 
      private long onlysysId;
      private long idThird;
@@ -93,7 +94,7 @@ public class ArchitectureThird  implements java.io.Serializable {
    
      @Id 
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_THIRD$SEQ")
-  	@SequenceGenerator(name="ARCHITECTURE_THIRD$SEQ",sequenceName="ARCHITECTURE_THIRD$SEQ",allocationSize=1)   
+   	@SequenceGenerator(name="ARCHITECTURE_THIRD$SEQ",sequenceName="ARCHITECTURE_THIRD$SEQ",allocationSize=1) 
     @Column(name="ONLYSYS_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getOnlysysId() {
         return this.onlysysId;
@@ -148,7 +149,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.description = description;
     }
     
-    @Column(name="CODE", nullable=false, length=50)
+    @Column(name="CODE", length=50)
     public String getCode() {
         return this.code;
     }

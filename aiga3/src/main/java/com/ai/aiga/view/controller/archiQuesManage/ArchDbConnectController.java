@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller;
+package com.ai.aiga.view.controller.archiQuesManage;
 
 import io.swagger.annotations.Api;
 

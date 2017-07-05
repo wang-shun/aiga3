@@ -121,6 +121,30 @@ define(function(require, exports, module) {
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPagination);
+			
+			var _domSec = Page.findId('getDataMaintainListSec');
+			var _domPaginationSec = _domSec.find("[name='paginationSec']");
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getArchDbConnectList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+				var template = Handlebars.compile(Tpl.getArchDbConnectList);
+				_domSec.find("[name='content']").html(template(json.data));
+				//美化单机
+				Utils.eventTrClickCallback(_domSec);
+				//新增
+				self.addDataMaintain();
+				//删除
+				self.delDataMaintain();
+				//双击修改
+				self.eventDClickCallback(_domSec, function() {
+					//获得当前单选框值
+					var data = Utils.getRadioCheckedRow(_domSec);
+
+//					alert(data.quesId);
+					self.updateDataMaintain(data.quesId, json.data);
+				});
+			}, _domPaginationSec);
 		},
 		//新增数据维护
 		addDataMaintain: function() {

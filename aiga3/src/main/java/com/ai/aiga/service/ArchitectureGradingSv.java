@@ -31,6 +31,31 @@ public class ArchitectureGradingSv extends BaseService {
 	public List<ArchitectureGrading> findAll(){
 		return architectureGradingDao.findAll();
 	}
+	
+	public List<ArchitectureGrading> findChangeMessage (ArchiGradingConditionParam input) throws ParseException{
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		if(StringUtils.isNoneBlank(input.getExt1())){
+		  cons.add(new Condition("ext1", input.getExt1(), Condition.Type.EQ));
+		}
+
+		if(StringUtils.isNoneBlank(input.getState())){
+		  cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
+		}
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		if(StringUtils.isNoneBlank(input.getBegainTime())){
+		  String  dateFir = input.getBegainTime()+" 00:00:00";
+		  Date beginDate = format.parse(dateFir);	
+		  cons.add(new Condition("applyTime", beginDate, Condition.Type.GT));
+		}
+		if(StringUtils.isNoneBlank(input.getEndTime())){
+		  String dateSec = input.getEndTime()+" 23:59:59";
+		  Date endDate = format.parse(dateSec);	
+		  cons.add(new Condition("applyTime", endDate, Condition.Type.LT));
+		}
+		return architectureGradingDao.search(cons);		
+	}
+	
 	public List<ArchitectureGrading> findAllCondition(ArchiGradingConditionParam input) throws ParseException{
 		List<Condition> cons = new ArrayList<Condition>();
 		

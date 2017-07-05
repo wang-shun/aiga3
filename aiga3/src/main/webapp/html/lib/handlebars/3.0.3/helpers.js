@@ -61,6 +61,37 @@ Handlebars.registerHelper('mxgifHeight2', function(value, fn) {
 
 
 
+
+/*
+ * 判断是否需要设置浮动宽度值
+ */
+Handlebars.registerHelper('mxgifFloatWidth', function(value, fn) {
+    var _width = "width-5";
+    for (var i = 0; i < value.length; i++) {
+        if(value[i]["isNodeName"]=="1"){
+            if(value[i].item>=0){
+                _width = "";
+            }
+        }
+    }
+    return _width;
+});
+
+/*
+ * 判断是否显示跨层区域
+ */
+Handlebars.registerHelper('isShowPosition', function(value, fn) {
+    var _isShow = "show";
+    for (var i = 0; i < value.length; i++) {
+        if(value[i]["isNodeName"]=="1"){
+            if(value[i].item>=0){
+                _isShow = "hide";
+            }
+        }
+    }
+    return _isShow;
+});
+
 /*
  * 计算子itme元素的个数
  */

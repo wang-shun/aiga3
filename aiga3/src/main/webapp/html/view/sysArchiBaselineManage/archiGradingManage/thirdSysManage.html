@@ -1,7 +1,9 @@
 <!--Page Start-->
 <head> 
 <style type="text/css"> 
-
+#Page_thirdSysManage .width-input-167 {
+	width: 167px;
+}
 #Page_thirdSysManage .width-input-400 {
 	width: 400px;
 }
@@ -31,7 +33,7 @@
 }
 #Page_thirdSysManage .second-label-depart {
  margin-left: 30px;
- margin-right: 17px;
+ margin-right: 20px;
 }
 #Page_thirdSysManage .second-label-select {
  margin-left: 30px;
@@ -53,6 +55,7 @@
 }
 #Page_thirdSysManage .text-area-sty {
  margin-top:10px;
+ width: 680px;
  vertical-align:middle; 
 }
 </style> 
@@ -123,11 +126,11 @@
 					<form id = "JS_thirdApplyForm">
 						<div class="col-md-12">
 							<label class="control-label first-name-label">名称</label>
-	   						<input name="name" type="text" class="form-control input-sm"></input>
+	   						<input name="name" type="text" class="form-control input-sm width-input-167"></input>
 	  						<label class="control-label margin-onl">简称</label>
-							<input name="code" type="text" class="form-control input-sm"></input>
+							<input name="code" type="text" class="form-control input-sm width-input-167"></input>
 					   	 	<label class="control-label margin-onl">系统编号</label>
-							<input name="sysId" type="text" class="form-control input-sm"></input>
+							<input name="sysId" type="text" class="form-control input-sm width-input-167"></input>
 						</div>
 						<div class="margin-top-20 col-md-12">
 							<label class="control-label fist-text-label">系统功能描述</label>
@@ -138,13 +141,13 @@
         					<select name="idBelong"  class="form-control select2 input-sm" data-url="getSecondDomainList" data-idkey="idSecond" data-namekey="name" style="width: 170px">
          					</select>
          					<label class="control-label second-label">等级信息</label>
-        			 		<input name="rankInfo" type="text" class="form-control input-sm" ></input>
+        			 		<input name="rankInfo" type="text" class="form-control input-sm width-input-167" ></input>
 						</div>
 						<div class="margin-top-20 col-md-12">
 					   	    <label class="control-label fist-text-label">项目立项信息</label>
 					   		<input name="projectInfo" type="text" class="form-control input-sm width-input-400"></input>
 					   		<label class="control-label second-label-depart">责任部门</label>
-     			    		<input name="department" type="text" class="form-control input-sm"></input>
+     			    		<input name="department" type="text" class="form-control input-sm width-input-167"></input>
 						</div>
 						<div class="margin-top-20 col-md-12">
 					    	<label class="control-label fist-text-label">规划设计信息</label>
@@ -157,15 +160,15 @@
 						<div class="margin-top-20 col-md-12">	    		    	
 		    				<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		     			    <div class="check-inline">				
-	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS">SaaS&nbsp;&nbsp;
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS">IPaaS
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS">DaaS&nbsp;&nbsp;
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS">UPaaS
+	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label style="width:45px;">SaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"><label style="width:45px;">IPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"><label style="width:45px;">DaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"><label style="width:45px;">UPaaS</label>
 							<br/>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS">BPaaS
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS">PaaS&nbsp;
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS">IaaS&nbsp;&nbsp;&nbsp;
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS">TPaaS
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"><label style="width:45px;">BPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS"><label style="width:45px;">PaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"><label style="width:45px;">IaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"><label style="width:45px;">TPaaS</label>
 						   	</div>						
 						</div>
           	    </div>
@@ -202,11 +205,11 @@
 	<form id = "JS_thirdUpdateForm">
 	<div class="col-md-12">
 		<label class="control-label first-name-label">名称</label>
-	    <input name="name" type="text" class="form-control input-sm" value="{{name}}"></input>
+	    <input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
 	    <label class="control-label margin-onl">简称</label>
-	    <input name="code" type="text" class="form-control input-sm" value="{{code}}" ></input>
+	    <input name="code" type="text" class="form-control input-sm width-input-167" value="{{code}}" ></input>
 	    <label class="control-label margin-onl">系统编号</label>
-	    <input name="sysId" type="text" class="form-control input-sm" value="{{idThird}}"></input>
+	    <input name="sysId" type="text" class="form-control input-sm width-input-167" value="{{idThird}}"></input>
 	</div>
 	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">系统功能描述</label>
@@ -217,13 +220,13 @@
 		<input type="text" class="form-control input-sm" readonly="readonly" value="{{idSecondName}}"></input>
 		<input name="idBelong" type="hidden" value="{{idSecond}}"></input>
         <label class="control-label second-label">等级信息</label>
-        <input name="rankInfo" type="text" class="form-control input-sm" value="{{rankInfo}}"></input>
+        <input name="rankInfo" type="text" class="form-control input-sm width-input-167" value="{{rankInfo}}"></input>
 	</div>
 	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">项目立项信息</label>
 		<input name="projectInfo" type="text" class="form-control input-sm width-input-400" value="{{projectInfo}}"></input>
 		<label class="control-label second-label-depart">责任部门</label>
-     	<input name="department" type="text" class="form-control input-sm" value="{{department}}"></input>
+     	<input name="department" type="text" class="form-control input-sm width-input-167" value="{{department}}"></input>
 		<input type="hidden" name="onlysysId" value="{{onlysysId}}"></input>
 		<input type="hidden" name="createDate" value="{{createDate}}"></input>
 		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>
@@ -239,15 +242,15 @@
 	<div class="margin-top-20 col-md-12">	    	
 		<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		<div class="check-inline">				
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS">SaaS&nbsp;&nbsp;
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS">IPaaS
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS">DaaS&nbsp;&nbsp;
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS">UPaaS
+	       	<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS"/><label style="width:45px;">SaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"><label style="width:45px;">IPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"><label style="width:45px;">DaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"><label style="width:45px;">UPaaS</label>
 			<br/>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS">BPaaS
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS">PaaS&nbsp;
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS">IaaS&nbsp;&nbsp;&nbsp;
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS">TPaaS
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS"><label style="width:45px;">BPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS"><label style="width:45px;">PaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"><label style="width:45px;">IaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS"><label style="width:45px;">TPaaS</label>
 		</div>
 	</div>
 </div>

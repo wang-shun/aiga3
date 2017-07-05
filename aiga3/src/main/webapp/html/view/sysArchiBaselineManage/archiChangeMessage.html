@@ -11,15 +11,10 @@
             <div class="box-body">
                 <div class="col-md-12">
                     <div id="JS_selectData" class="form-group form-inline">
-                        <label class="control-label margin-onl">一级视图</label>
-                  		<select name="primaryDomain" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
-                            <option value="">请选择</option>
-                        </select>
-                        <label><input style="margin-left:10px;" name="view" type="radio" value="" />二级架构视图 </label>
-                        <label><input style="margin-left:10px;" name="view" type="radio" value="" />三级架构视图 </label>
-                        <label><input style="margin-left:10px;" name="view" type="radio" value="" />IT系统一级架构视图 </label>             
+                        <label class="control-label margin-onl">时间</label>
+                  		<input type="text" class="form-control input-sm " name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                         <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
-                        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="export">导出</button>
+ 
                     </div>             
                 </div>
             </div>

@@ -34,13 +34,13 @@ define(function(require, exports, module) {
 	//刪除問題
 	srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
     //问题分类下拉框
-    srvMap.add("getRootList", "", "sys/cache/listRootid");
+    srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
     //一级分类下拉框
-    srvMap.add("getFirstList", "", "sys/cache/listFirstid");
+    srvMap.add("getFirstcategoryList", "", "sys/cache/listFirstcategory");
     //二级分类下拉框
-    srvMap.add("getSecondList", "", "sys/cache/listSecondid");
+    srvMap.add("getSecondcategoryList", "", "sys/cache/listSecondcategory");
     //三级分类下拉框
-    srvMap.add("getThirdList", "", "sys/cache/listThirdid");
+    srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
 	// 模板对象
@@ -81,8 +81,27 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
-				var cmd = _form.serialize();
-				self.getDataMaintainList(cmd);
+//				self.getDataMaintainList(cmd);
+				Utils.checkForm(_form, function() {
+					var _cmd = _form.serialize();
+					_cmd=_cmd.replace(/-/g,"/");
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+					console.log(_cmd);
+					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
+						if (status) {
+							// 数据备份成功后，刷新用户列表页
+							XMS.msgbox.show('添加成功！', 'success', 2000)
+							setTimeout(function() {
+								self.getDataMaintainList();
+							}, 1000);
+							// 关闭弹出层
+							Page.findModal('addDataMaintainModal').modal('hide');
+						}
+					});
+				});
+				
+				
+				
 			});
 
 		},

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
-import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.domain.QuestionInfo;
 
 public interface QuestionInfoDao extends JpaRepository<QuestionInfo, Long>, SearchAndPageRepository<QuestionInfo, Long> {

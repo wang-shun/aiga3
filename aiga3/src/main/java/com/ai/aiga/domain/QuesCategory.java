@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-6-14 15:31:57 by Hibernate Tools 3.2.2.GA
+// Generated 2017-6-29 17:13:48 by Hibernate Tools 3.2.2.GA
 
 
 import javax.persistence.Column;
@@ -30,7 +30,8 @@ public class QuesCategory  implements java.io.Serializable {
        this.name = name;
     }
    
-    @Id 
+     @Id 
+    
     @Column(name="ROOT_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getRootId() {
         return this.rootId;
@@ -48,6 +49,9 @@ public class QuesCategory  implements java.io.Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+
+
 
 }
 

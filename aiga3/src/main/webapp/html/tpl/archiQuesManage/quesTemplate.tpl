@@ -7,10 +7,10 @@
 			<td>{{occurEnvironment}}</td>
 			<td>{{abstracts}}</td>
 			<td>{{belongProject}}</td>
-			<td>{{sysVersion}}</td>
-			<td>{{idFirst}}</td>
-			<td>{{idSecond}}</td>
-			<td>{{idThird}}</td>
+			<td>{{quesType}}</td>
+			<td>{{firstCategory}}</td>
+			<td>{{secondCategory}}</td>
+			<td>{{thirdCategory}}</td>
 			<td>{{appointedPerson}}</td>
 			<td>{{modifyDate}}</td>
         </tr>

@@ -5,48 +5,26 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 public class ArchiSecondViewOutput implements Serializable {
-	private String id;
-	private String name;
-	private String isNodeName;
-	private List<ArchiSecondViewItem> item;
-	
-	public ArchiSecondViewOutput() {	
+	private String isCross;
+	private List<ArchiSecondCrossContent> crossContent;
+	private List<ArchiSecondContent> content;
+
+	public String getIsCross() {
+		return isCross;
 	}
-	
-	public ArchiSecondViewOutput(String id,String name,String isNodeName) {
-		this.id = id;
-		this.name = name;
-		this.isNodeName = isNodeName;
+	public void setIsCross(String isCross) {
+		this.isCross = isCross;
 	}
-	
-	public ArchiSecondViewOutput(int id,String name,String isNodeName) {
-		this.id = String.valueOf(id);
-		this.name = name;
-		this.isNodeName = isNodeName;
+	public List<ArchiSecondCrossContent> getCrossContent() {
+		return crossContent;
 	}
-	
-	public String getId() {
-		return id;
+	public void setCrossContent(List<ArchiSecondCrossContent> crossContent) {
+		this.crossContent = crossContent;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public List<ArchiSecondContent> getContent() {
+		return content;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getIsNodeName() {
-		return isNodeName;
-	}
-	public void setIsNodeName(String isNodeName) {
-		this.isNodeName = isNodeName;
-	}
-	public List<ArchiSecondViewItem> getItem() {
-		return item;
-	}
-	public void setItem(List<ArchiSecondViewItem> item) {
-		this.item = item;
+	public void setContent(List<ArchiSecondContent> content) {
+		this.content = content;
 	}
 }

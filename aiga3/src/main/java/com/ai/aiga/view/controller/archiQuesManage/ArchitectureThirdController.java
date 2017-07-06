@@ -29,7 +29,7 @@ public class ArchitectureThirdController {
 		return bean;
 	}
 	
-	@RequestMapping(path="/archi/question/findByConditionPage")
+	@RequestMapping(path="/archi/third/findByConditionPage")
 	public @ResponseBody JsonBean findByConditionPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,

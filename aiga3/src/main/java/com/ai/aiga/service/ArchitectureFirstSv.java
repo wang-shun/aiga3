@@ -24,7 +24,7 @@ public class ArchitectureFirstSv extends BaseService {
 	@Autowired
 	private ArchitectureFirstDao architectureFirstDao;
 	
-	public List<ArchitectureFirst>findArchitectureFirsts(){
+	public List<ArchitectureFirst> findArchitectureFirsts(){
 		return architectureFirstDao.findAll();
 	}
 	

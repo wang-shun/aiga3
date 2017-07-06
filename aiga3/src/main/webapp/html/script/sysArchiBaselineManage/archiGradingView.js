@@ -14,8 +14,12 @@ define(function(require, exports, module) {
     //二级数据接口 入参：idFirst level
     srvMap.add("getSecView", pathAlias+"getSecView.json", "archi/view/secView");
 
+    //二级跨层数据接口 入参：idFirst level
+    srvMap.add("getCrossSecView", pathAlias+"getCrossSecView.json", "archi/view/secView");
+
     var Tpl = {
-		getSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getSecView.tpl')
+		getSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getSecView.tpl'),
+		getCrossSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getCrossSecView.tpl')
 	}
 
 	var cache = {
@@ -52,13 +56,74 @@ define(function(require, exports, module) {
 
 				var _idFirst = _form.find("[name='primaryDomain']").val();
 				var cmd= "idFirst="+_idFirst+"&level=122";
-				Rose.ajax.postJson(srvMap.get("getSecView"),cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get("getCrossSecView"),cmd, function(json, status) {
 					if(status) {
-						var template = Handlebars.compile(Tpl.getSecView);
-		        		Page.findName("archiView").html(template(json.data));
+						if(json.data.isCross=="0"){
+							var template = Handlebars.compile(Tpl.getSecView);
+						}else{
+							var template = Handlebars.compile(Tpl.getCrossSecView);
+						}
+		        		Page.findName("archiView").html(template(json.data.content));
 
+		        		var contentArray = json.data.content;
 		        		//计算高度值
 		        		self.setSidebarHeight();
+		        		//处理跨层区域
+		        		if(json.data.crossContent.length>0){
+		        			var crossContentArray = json.data.crossContent,
+		        				positionLeft = 0;
+
+		        			for (x in crossContentArray){
+		        				var startCrossId=crossContentArray[x].startCrossId,
+		        					endCrossId=crossContentArray[x].endCrossId,
+		        					name=crossContentArray[x].name;
+		        					positionTop = 0,
+		        					PositionTopArray = [];
+
+		        				for(i in contentArray){
+		        					var thiz = contentArray[i];
+		        					if(thiz["isNodeName"]=="1"){
+		        						if(thiz["item"].length>0){
+							                var thizItem = thiz["item"];
+							                for(h in thizItem){
+							                	var _thiz = thizItem[h];
+							                	if(thiz["isNodeName"]=="1"){
+							                		if(thiz["id"]!=startCrossId){
+					        							PositionTopArray.push(thiz["id"]);
+					        						}else{
+					        							break;
+					        						}
+							                	}
+							                }
+							            }else{
+							            	if(thiz["id"]!=startCrossId){
+			        							PositionTopArray.push(thiz["id"]);
+			        						}else{
+			        							break;
+			        						}
+							            }
+		        					}
+		        				}
+		        				Rose.log("的首付上浮是范德萨的"+PositionTopArray)
+
+		        				for(y in PositionTopArray){
+		        					positionTop+=Page.find("#cross_"+PositionTopArray[y]).outerHeight();
+		        				}
+
+		        				if(PositionTopArray>0){
+		        					positionTop+=15;
+		        				}
+
+		        				var startHeight = Page.find("#cross_"+startCrossId).outerHeight();
+		        				var endHeight = Page.find("#cross_"+endCrossId).outerHeight();
+		        				var height = startHeight+endHeight;
+		        				var html = $("<div>"+name+"</div>");
+		        				html.css({ "height": height, "left": positionLeft, "top": positionTop});
+		        				Page.findName("crossContent").append(html);
+		        				positionLeft+=50;
+		        			}
+
+		        		}
 					}
 	  			});
 			});

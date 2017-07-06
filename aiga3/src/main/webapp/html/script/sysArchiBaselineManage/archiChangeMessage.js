@@ -7,16 +7,16 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/";
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
-	var Page = Utils.initPage('sysMessageQuery');
+	var Page = Utils.initPage('archiChangeMessage');
     //一级域查询
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 
     //二级数据接口 入参：idFirst level
-    srvMap.add("getSecView", pathAlias+"getSecView.json", "archi/view/secView");
+    srvMap.add("getchangeView", pathAlias+"getSecView.json", "archi/view/changeView");
 
     var Tpl = {
 		getSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getSecView.tpl')
-	}
+	};
 
 	var cache = {
 		datas : ""
@@ -40,6 +40,19 @@ define(function(require, exports, module) {
 		_render: function() {
 			var self = this;
 			self._querydomain();
+		},
+		
+		_getChangeMessage: function(){
+			var self = this;
+			var _form = Page.findId('selectData');
+			var _queryBtn =  _form.find("[name='query']");
+			_queryBtn.off('click').on('click', function() {
+				Rose.ajax.postJson(srvMap.get("getchangeView"),cmd, function(json, status) {
+					if(status) {
+
+					}
+	  			});
+			});
 		},
 		
 		_graphSec: function(myChart) {
@@ -142,19 +155,19 @@ define(function(require, exports, module) {
 		_graphfir: function(myChart) {
 			option = {
 			    title : {
-			        text: '某地区蒸发量和降水量',
-			        subtext: '纯属虚构'
+			        text: '相关系统域变更情况',
+			        subtext: ''
 			    },
 			    tooltip : {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			        data:['蒸发','降水量']
+			        data:['业务支撑域','大数据域','公共域','网络域','管信域','地市域','安全域','总量']
 			    },
 			    toolbox: {
 			        show : true,
 			        feature : {
-			            dataView : {show: true, readOnly: false},
+			            dataView : {show: false, readOnly: false},
 			            magicType : {show: true, type: ['line', 'bar']},
 			            restore : {show: true},
 			            saveAsImage : {show: true}
@@ -174,36 +187,34 @@ define(function(require, exports, module) {
 			    ],
 			    series : [
 			        {
-			            name:'蒸发',
+			            name:'业务支撑域',
 			            type:'bar',
-			            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-			            markPoint : {
-			                data : [
-			                    {type : 'max', name: '最大值'},
-			                    {type : 'min', name: '最小值'}
-			                ]
-			            },
-			            markLine : {
-			                data : [
-			                    {type : 'average', name: '平均值'}
-			                ]
-			            }
+			            data:[2.0, 4.9, 7.0, 23.2, 500, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
 			        },
 			        {
-			            name:'降水量',
+			            name:'大数据域',
 			            type:'bar',
 			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			            markPoint : {
-			                data : [
-			                    {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183},
-			                    {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
-			                ]
-			            },
-			            markLine : {
-			                data : [
-			                    {type : 'average', name : '平均值'}
-			                ]
-			            }
+			        },
+			        {
+			            name:'公共域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'网络域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'管信域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'地市域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
 			        }
 			    ]
 			};
@@ -217,16 +228,8 @@ define(function(require, exports, module) {
 			self._graphfir(myChart);
 			//柱状堆叠模版
 //			self._graphSec(myChart);
-		},
-		setSidebarHeight:function(){
-			Page.find('.mxgif-sidebar').each(function(){
-				var _thiz = $(this);
-				var _pHeight = _thiz.parent().height();
-				_thiz.height(_pHeight);
-			})
 		}
 	};
-
 
 	module.exports = init;
 });

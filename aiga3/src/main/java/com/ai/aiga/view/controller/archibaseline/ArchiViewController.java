@@ -11,18 +11,31 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.domain.ArchitectureFirst;
+import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureSecond;
+import com.ai.aiga.service.ArchitectureFirstSv;
+import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
+import com.ai.aiga.service.ArchitectureThirdSv;
+import com.ai.aiga.view.controller.archibaseline.dto.ArchiChangeMessage;
+import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondViewItem;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondViewItemLast;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondViewOutput;
+import com.ai.aiga.view.controller.archibaseline.dto.ViewSeries;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
 @Api(value = "ArchiViewController", description = "架构分层相关api")
 public class ArchiViewController {
+	@Autowired 
+	private ArchitectureGradingSv architectureGradingSv;
+	@Autowired
+	private ArchitectureFirstSv architectureFirstSv;
 	@Autowired
 	private ArchitectureSecondSv architectureSecondSv;
-	
+	@Autowired
+	private ArchitectureThirdSv architectureThirdSv;
 	/**
 	 * 二级视图使用  获取二级视图信息
 	 * @param input
@@ -98,6 +111,31 @@ public class ArchiViewController {
 		output.add(SaaS);
 		output.add(PaaS);
 		bean.setData(output);
+		return bean;
+	}
+	/**
+	 * 查询
+	 * @return
+	 */
+	@RequestMapping(path = "/archi/view/changeView")
+	public @ResponseBody JsonBean findchangeView() {
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage output = new ArchiChangeMessage();
+		//查询三级系统的操作记录
+		ArchiGradingConditionParam input = new ArchiGradingConditionParam();
+		input.setExt1("3");
+		input.setState("审批通过");
+		try {
+			List<ArchitectureGrading> gradingList = architectureGradingSv.findChangeMessage(input);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		//获取一级域信息
+		List<ArchitectureFirst> firstList = architectureFirstSv.findArchitectureFirsts();
+		for(ArchitectureFirst baseFirst : firstList) {
+			ViewSeries baseSeries = new ViewSeries();
+			baseSeries.setName(baseFirst.getName());
+		}
 		return bean;
 	}
 }

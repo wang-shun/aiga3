@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
-	var Page = Utils.initPage('sysMessageQuery');
+	var Page = Utils.initPage('thirdSysMessage');
     //一级域查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表

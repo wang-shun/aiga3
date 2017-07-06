@@ -50,6 +50,14 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/gradingAdd")
 	public @ResponseBody JsonBean save(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
+		//申请单唯一性校验
+		ArchitectureGrading condition = new ArchitectureGrading();
+		condition.setSysId(architectureGrading.getSysId());
+		condition.setState("申请");
+		if(architectureGradingSv.findTableCondition(condition).size()>0) {
+			bean.fail("该编号存在在途申请单");
+			return bean;
+		}
 		if("新增".equals(architectureGrading.getDescription()) && "1".equals(architectureGrading.getExt1())) {
 			ArchitectureFirst architectureFirst = architectureFirstSv.findOne(architectureGrading.getSysId());
 			if(architectureFirst!=null) {
@@ -101,18 +109,29 @@ public class ArchiGradingController {
 	 */
 	@RequestMapping(path = "/archi/grading/messageGranding")
 	public @ResponseBody JsonBean messageGrading(ArchitectureGrading input) {
+		JsonBean bean = new JsonBean();
 		if("审批未通过".equals(input.getState())) {
 			architectureGradingSv.update(input);
 			return JsonBean.success;
 		}
+		String operation = input.getDescription();
 		if("1".equals(input.getExt1())) {			
 			ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
 			firstInput.setIdFirst(input.getSysId());		
-			if("删除".equals(firstInput.getDescription())) {
+			if("删除".equals(operation)) {
 				firstInput.setDescription("");
 				architectureFirstSv.delete(firstInput.getIdFirst());
+			} else if("新增".equals(operation)) {
+				//校验编号是否在归档表存在				
+				if(architectureFirstSv.findOne(firstInput.getIdFirst())!=null) {
+					bean.fail("编号已存在");
+					return bean;
+				}
+				firstInput.setDescription("");
+				architectureFirstSv.save(firstInput);
 			} else {
 				firstInput.setDescription("");
+				firstInput.setModifyDate(new Date());
 				architectureFirstSv.save(firstInput);
 			}		
 			architectureGradingSv.update(input);
@@ -120,25 +139,43 @@ public class ArchiGradingController {
 			ArchitectureSecondRequest secInput = BeanMapper.map(input,ArchitectureSecondRequest.class);
 			secInput.setIdFirst(input.getIdBelong());
 			secInput.setIdSecond(input.getSysId());
-			if("删除".equals(secInput.getDescription())) {
+			if("删除".equals(operation)) {
 				secInput.setDescription("");
 				architectureSecondSv.delete(secInput.getIdSecond());
-			} else {
+			} else if("新增".equals(operation)) {
+				//校验编号是否在归档表存在				
+				if(architectureSecondSv.findOne(secInput.getIdSecond())!=null) {
+					bean.fail("编号已存在");
+					return bean;
+				}
 				secInput.setDescription("");
 				architectureSecondSv.save(secInput);
-			}	
+			} else {
+				secInput.setDescription("");
+				secInput.setModifyDate(new Date());
+				architectureSecondSv.save(secInput);
+			}		
 			architectureGradingSv.update(input);
 		} else if ("3".equals(input.getExt1())) {		
 			ArchitectureThirdRequest thirdInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
 			thirdInput.setIdSecond(input.getIdBelong());
 			thirdInput.setIdThird(input.getSysId());		
-			if("删除".equals(thirdInput.getDescription())) {
+			if("删除".equals(operation)) {
 				thirdInput.setDescription("");
 				architectureThirdSv.delete(thirdInput.getOnlysysId());
-			} else {
+			} else if("新增".equals(operation)) {
+				//校验编号是否在归档表存在				
+				if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird())!=null) {
+					bean.fail("编号已存在");
+					return bean;
+				}
 				thirdInput.setDescription("");
 				architectureThirdSv.save(thirdInput);
-			}	
+			} else {
+				thirdInput.setModifyDate(new Date());
+				thirdInput.setDescription("");
+				architectureThirdSv.save(thirdInput);
+			}		
 			architectureGradingSv.update(input);
 		} else {
 		}
@@ -146,9 +183,9 @@ public class ArchiGradingController {
 	}
 	
 	@RequestMapping(path = "/archi/grading/findByCondition")
-	public @ResponseBody JsonBean findByCondition(ArchiGradingConditionParam input) throws ParseException {
+	public @ResponseBody JsonBean findByCondition(ArchitectureGrading input) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(architectureGradingSv.findAllCondition(input));
+		bean.setData(architectureGradingSv.findTableCondition(input));
 		return bean;
 	}
 	

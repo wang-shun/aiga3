@@ -101,7 +101,7 @@
 
 .mxgif-wrapper{
     width: 1140px;
-    min-height: 450px;
+    min-height: 250px;
     margin:20px auto;
     border:#eee 1px solid;
 }
@@ -110,7 +110,6 @@
     border:#787878 1px solid;
     padding: 5px 10px;
     margin-bottom: 10px;
-    overflow: hidden;
 }
 
 .mxgif-sidebar{
@@ -131,6 +130,11 @@
     vertical-align: middle;
 }
 
+
+.mxgif-lists-content{
+  position: relative;
+}
+
 .mxgif-container.width-1 .mxgif-sidebar{
     width: 62px;
 }
@@ -143,7 +147,11 @@
 
 .mxgif-container.width-1 .mxgif-lists-content{
     margin-right: 62px;
+
 }
+
+
+
 
 
 .mxgif-container.width-2 .mxgif-sidebar{
@@ -223,6 +231,54 @@
 .mxgif-lists-content.item-5 .mxgif-lists-item{
     width: 20%;
 }
+
+
+.mxgif-lists-content .mxgif-cross-content.width-5{
+  width: 50%;
+  float: right;
+}
+
+.mxgif-position-cross-content{
+  position:relative;
+  float: left;
+  width: 50%;
+}
+
+.mxgif-position-cross-content div{
+  position: absolute;
+  overflow: hidden;
+  width: 20px;
+  padding: 0 10px;
+  background: #bbdcf4;
+  text-align: center;
+  min-height: 100px;
+  box-sizing: content-box;
+}
+
+.mxgif-position-cross-content .show{
+  display: block;
+}
+
+.mxgif-position-cross-content .hide{
+  display: none;
+}
+
+
+/* 清理浮动 */
+.fn-clear:after {
+  visibility:hidden;
+  display:block;
+  font-size:0;
+  content:" ";
+  clear:both;
+  height:0;
+}
+.fn-clear {
+  zoom:1; /* for IE6 IE7 */
+}
+
+
+
 </style>
 <script>
 seajs.use("script/sysArchiBaselineManage/archiGradingView", function(init) {

@@ -56,7 +56,7 @@ define(function(require, exports, module) {
 
 				var _idFirst = _form.find("[name='primaryDomain']").val();
 				var cmd= "idFirst="+_idFirst+"&level=122";
-				Rose.ajax.postJson(srvMap.get("getCrossSecView"),cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get("getSecView"),cmd, function(json, status) {
 					if(status) {
 						if(json.data.isCross=="0"){
 							var template = Handlebars.compile(Tpl.getSecView);
@@ -65,65 +65,13 @@ define(function(require, exports, module) {
 						}
 		        		Page.findName("archiView").html(template(json.data.content));
 
-		        		var contentArray = json.data.content;
-		        		//计算高度值
+		        		// 计算垂直高度值
 		        		self.setSidebarHeight();
-		        		//处理跨层区域
-		        		if(json.data.crossContent.length>0){
-		        			var crossContentArray = json.data.crossContent,
-		        				positionLeft = 0;
 
-		        			for (x in crossContentArray){
-		        				var startCrossId=crossContentArray[x].startCrossId,
-		        					endCrossId=crossContentArray[x].endCrossId,
-		        					name=crossContentArray[x].name;
-		        					positionTop = 0,
-		        					PositionTopArray = [];
+		        		// 处理跨层
+		        		self.setCrossContent(json)
 
-		        				for(i in contentArray){
-		        					var thiz = contentArray[i];
-		        					if(thiz["isNodeName"]=="1"){
-		        						if(thiz["item"].length>0){
-							                var thizItem = thiz["item"];
-							                for(h in thizItem){
-							                	var _thiz = thizItem[h];
-							                	if(thiz["isNodeName"]=="1"){
-							                		if(thiz["id"]!=startCrossId){
-					        							PositionTopArray.push(thiz["id"]);
-					        						}else{
-					        							break;
-					        						}
-							                	}
-							                }
-							            }else{
-							            	if(thiz["id"]!=startCrossId){
-			        							PositionTopArray.push(thiz["id"]);
-			        						}else{
-			        							break;
-			        						}
-							            }
-		        					}
-		        				}
-		        				Rose.log("的首付上浮是范德萨的"+PositionTopArray)
 
-		        				for(y in PositionTopArray){
-		        					positionTop+=Page.find("#cross_"+PositionTopArray[y]).outerHeight();
-		        				}
-
-		        				if(PositionTopArray>0){
-		        					positionTop+=15;
-		        				}
-
-		        				var startHeight = Page.find("#cross_"+startCrossId).outerHeight();
-		        				var endHeight = Page.find("#cross_"+endCrossId).outerHeight();
-		        				var height = startHeight+endHeight;
-		        				var html = $("<div>"+name+"</div>");
-		        				html.css({ "height": height, "left": positionLeft, "top": positionTop});
-		        				Page.findName("crossContent").append(html);
-		        				positionLeft+=50;
-		        			}
-
-		        		}
 					}
 	  			});
 			});
@@ -134,6 +82,82 @@ define(function(require, exports, module) {
 				var _pHeight = _thiz.parent().height();
 				_thiz.height(_pHeight);
 			})
+		},
+		setCrossContent:function(json){
+			var contentArray = json.data.content;
+    		//处理跨层区域
+    		if(json.data.crossContent.length>0){
+    			// 设定二级浮层容器的高度值
+    			Page.findName("crossContent").height(Page.find(".mxgif-wrapper").outerHeight());
+
+    			var crossContentArray = json.data.crossContent,
+    				positionLeft = 0;
+
+    			// 循环计算得出跨层向上的元素
+    			for (x in crossContentArray){
+    				var startCrossId=crossContentArray[x].startCrossId,
+    					endCrossId=crossContentArray[x].endCrossId,
+    					name=crossContentArray[x].name;
+    					positionTop = 0,
+    					PositionTopArray = [];
+
+    				for(i in contentArray){
+    					var thiz = contentArray[i];
+    					if(thiz["isNodeName"]=="1"){
+    						if(thiz["item"].length>0){
+    							if(thiz["name"]!="PaaS"){
+    								if(thiz["id"]!=startCrossId){
+	        							PositionTopArray.push(thiz["id"]);
+	        						}else{
+	        							break;
+	        						}
+    							}
+				                var thizItem = thiz["item"];
+				                for(h in thizItem){
+				                	var thizChild = thizItem[h];
+				                	if(thizChild["isNodeName"]=="1"){
+				                		if(thizChild["id"]!=startCrossId){
+		        							PositionTopArray.push(thizChild["id"]);
+		        						}else{
+		        							break;
+		        						}
+				                	}
+				                }
+				            }else{
+				            	if(thiz["id"]!=startCrossId){
+        							PositionTopArray.push(thiz["id"]);
+        						}else{
+        							break;
+        						}
+				            }
+    					}
+    				}
+
+    				// 通过元素计算出向上定位的总高度值
+    				for(y in PositionTopArray){
+    					positionTop+=Page.find("#cross_"+PositionTopArray[y]).outerHeight();
+    				}
+
+    				// 增加高度值无法计算的两个层之间的间距
+    				if(PositionTopArray.length==1){
+    					positionTop+=15;
+    				}else if(PositionTopArray.length==2){
+						positionTop+=25;
+    				}else if(PositionTopArray.length==3){
+						positionTop+=35;
+    				}
+
+
+    				var startHeight = Page.find("#cross_"+startCrossId).outerHeight();
+    				var endHeight = Page.find("#cross_"+endCrossId).outerHeight();
+    				var height = startHeight+endHeight;
+    				var html = $("<div>"+name+"</div>");
+    				html.css({ "height": height, "left": positionLeft, "top": positionTop});
+    				Page.findName("crossContent").append(html);
+    				positionLeft+=50;
+    			}
+
+    		}
 		}
 	};
 

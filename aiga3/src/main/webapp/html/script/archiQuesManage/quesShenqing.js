@@ -43,6 +43,14 @@ define(function(require, exports, module) {
     srvMap.add("getThirdList", "", "sys/cache/listThirdid");
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
+        //问题分类下拉框
+    srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
+    //一级分类下拉框
+    srvMap.add("getFirstcategoryList", "", "sys/cache/listFirstcategory");
+    //二级分类下拉框
+    srvMap.add("getSecondcategoryList", "", "sys/cache/listSecondcategory");
+    //三级分类下拉框
+    srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),

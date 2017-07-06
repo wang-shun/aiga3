@@ -41,6 +41,14 @@ define(function(require, exports, module) {
     srvMap.add("getSecondList", "", "sys/cache/listSecondid");
     //三级分类下拉框
     srvMap.add("getThirdList", "", "sys/cache/listThirdid");
+    //问题分类下拉框
+    srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
+    //一级分类下拉框
+    srvMap.add("getFirstcategoryList", "", "sys/cache/listFirstcategory");
+    //二级分类下拉框
+    srvMap.add("getSecondcategoryList", "", "sys/cache/listSecondcategory");
+    //三级分类下拉框
+    srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     
 	// 模板对象
 	var Tpl = {

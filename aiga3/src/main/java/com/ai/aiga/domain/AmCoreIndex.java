@@ -1,8 +1,9 @@
 package com.ai.aiga.domain;
-// Generated 2017-7-5 10:32:12 by Hibernate Tools 3.2.2.GA
+// Generated 2017-7-6 15:24:46 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,8 +29,6 @@ public class AmCoreIndex  implements java.io.Serializable {
      private String key1;
      private String key2;
      private String key3;
-     private String key4;
-     private String key5;
      private char state;
      private Date createDate;
      private Long createOpId;
@@ -46,7 +45,7 @@ public class AmCoreIndex  implements java.io.Serializable {
         this.state = state;
         this.createDate = createDate;
     }
-    public AmCoreIndex(long indexId, String indexName, String indexGroup, String schId, String key1, String key2, String key3, String key4, String key5, char state, Date createDate, Long createOpId) {
+    public AmCoreIndex(long indexId, String indexName, String indexGroup, String schId, String key1, String key2, String key3, char state, Date createDate, Long createOpId) {
        this.indexId = indexId;
        this.indexName = indexName;
        this.indexGroup = indexGroup;
@@ -54,13 +53,11 @@ public class AmCoreIndex  implements java.io.Serializable {
        this.key1 = key1;
        this.key2 = key2;
        this.key3 = key3;
-       this.key4 = key4;
-       this.key5 = key5;
        this.state = state;
        this.createDate = createDate;
        this.createOpId = createOpId;
     }
-    
+   
     @Id 
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="AM_CORE_INDEX$SEQ")
  	@SequenceGenerator(name="AM_CORE_INDEX$SEQ",sequenceName="AM_CORE_INDEX$SEQ",allocationSize=1)   
@@ -127,24 +124,6 @@ public class AmCoreIndex  implements java.io.Serializable {
         this.key3 = key3;
     }
     
-    @Column(name="KEY_4", length=100)
-    public String getKey4() {
-        return this.key4;
-    }
-    
-    public void setKey4(String key4) {
-        this.key4 = key4;
-    }
-    
-    @Column(name="KEY_5", length=100)
-    public String getKey5() {
-        return this.key5;
-    }
-    
-    public void setKey5(String key5) {
-        this.key5 = key5;
-    }
-    
     @Column(name="STATE", nullable=false, length=1)
     public char getState() {
         return this.state;
@@ -171,6 +150,9 @@ public class AmCoreIndex  implements java.io.Serializable {
     public void setCreateOpId(Long createOpId) {
         this.createOpId = createOpId;
     }
+
+
+
 
 }
 

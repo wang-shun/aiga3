@@ -10,8 +10,6 @@
 			<td>{{key1}}</td>
 			<td>{{key2}}</td>
 			<td>{{key3}}</td>
-			<td>{{key4}}</td>
-			<td>{{key5}}</td>
 			<td>{{state}}</td>
 			<td>{{createDate}}</td>
 			<td>{{createOpId}}</td>

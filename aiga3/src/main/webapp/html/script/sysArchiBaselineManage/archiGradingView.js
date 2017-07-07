@@ -147,20 +147,25 @@ define(function(require, exports, module) {
 						positionTop+=35;
     				}
 
-
+    				// 计算元素的自身高度值，并赋值height,left及top
     				var startHeight = Page.find("#cross_"+startCrossId).outerHeight();
     				var endHeight = Page.find("#cross_"+endCrossId).outerHeight();
     				var height = startHeight+endHeight;
-    				var html = $("<div>"+name+"</div>");
+    				var html = $("<div><p style='margin-top:10px;line-height:16px;'>"+name+"</p></div>");
     				html.css({ "height": height, "left": positionLeft, "top": positionTop});
     				Page.findName("crossContent").append(html);
     				positionLeft+=50;
     			}
 
+    			// 根据左侧宽度，计算右侧的宽度值
+    			Page.findName("noCrossContent").each(function(){
+    				if($(this).hasClass("width-auto")){
+    					$(this).css({"padding-left":positionLeft});
+    				}
+    			})
+
     		}
 		}
 	};
-
-
 	module.exports = init;
 });

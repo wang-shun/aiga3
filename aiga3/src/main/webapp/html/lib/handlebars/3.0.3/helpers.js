@@ -4,7 +4,6 @@
 /*
  * 计算离左侧的宽度距离
  */
-
 Handlebars.registerHelper('mxgifWidth', function(value, fn) {
     var _width = "width-2";
     for (var i = 0; i < value.length; i++) {
@@ -17,17 +16,27 @@ Handlebars.registerHelper('mxgifWidth', function(value, fn) {
     return _width;
 });
 
+/*
+ * 判断是否有跨层，如果有设置最小高度值
+ */
+Handlebars.registerHelper('setMxgifMinHeight', function(isNodeName, isCross, fn) {
+    if (isNodeName == "1") {
+        if(isCross== "1"){
+            return "min-height";
+        }
+    }
+});
 
 
 /*
  * 计算子元素的高度类型，分1，2，3种类型
  */
 Handlebars.registerHelper('mxgifHeight1', function(value, fn) {
-    var _height = "height-1";
-    if(value.length>5){
-         _height = "height-2";
+    var _height = "height-2";
+    if(value.length>1){
+         _height = "height-1";
     }
-    if(value.length>10){
+    if(value.length>5){
          _height = "height-3";
     }
     for (var i = 0; i < value.length; i++) {
@@ -66,7 +75,7 @@ Handlebars.registerHelper('mxgifHeight2', function(value, fn) {
  * 判断是否需要设置浮动宽度值
  */
 Handlebars.registerHelper('mxgifFloatWidth', function(value, fn) {
-    var _width = "width-5";
+    var _width = "width-auto";
     for (var i = 0; i < value.length; i++) {
         if(value[i]["isNodeName"]=="1"){
             if(value[i].item>=0){

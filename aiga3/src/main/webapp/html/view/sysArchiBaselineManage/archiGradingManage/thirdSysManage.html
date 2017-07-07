@@ -39,7 +39,7 @@
  margin-right: 45px;
 }
 #Page_thirdSysManage .second-label {
- margin-left: 260px;
+ margin-left: 20px;
  margin-right: 20px;
 }
 #Page_thirdSysManage .margin-onl {
@@ -135,10 +135,15 @@
 							<textarea name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
 						</div>
 						<div id="updata-select" class="margin-top-20 col-md-12 form-group">
-	    					<label class="control-label fist-text-label">所属二级子域</label>
-        					<select name="idBelong"  class="form-control select2 input-sm" data-url="getSecondDomainList" data-idkey="idSecond" data-namekey="name" style="width: 170px">
-         					</select>
-         					<label class="control-label second-label">等级信息</label>
+						    <label class="control-label" style="margin-left: 26px;margin-right: 20px">一级域</label>
+                            <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idBelong" style="width: 150px">
+                        		<option value="">请选择</option>
+                    		</select>
+                    		<label class="control-label" style="margin-left: 18px;margin-right: 20px">二级子域</label>
+                    		<select name="idBelong"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 150px">
+                        		<option value="">请选择</option>
+                    		</select>
+         					<label class="control-label" style="margin-left: 30px;margin-right: 20px">等级信息</label>
         			 		<input name="rankInfo" type="text" class="form-control input-sm width-input-167" ></input>
 						</div>
 						<div class="margin-top-20 col-md-12">

@@ -2,7 +2,6 @@ define(function(require, exports, module) {
 
 	//引入公用模块
 	require('global/header.js');
-	var sidebar = require('global/sidebar.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
@@ -18,16 +17,6 @@ define(function(require, exports, module) {
 		datas : "",
 		firName : ""         //一级域名称
 	};
-	var Data = {
-        setPageType:function(type){
-    		return {
-    			"data":{
-    				"type":type
-    			}
-    		};
-    	}
-    };
-
 
 	var init = {
 		init: function() {
@@ -123,7 +112,6 @@ define(function(require, exports, module) {
 			if(cmd){
 				var _cmd = cmd;
 			}
-			Data.queryListCmd = _cmd;
 			var _dom = Page.findId('secSysMessageList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -258,15 +246,6 @@ define(function(require, exports, module) {
 					}					
 				});
 			}
-		},
-
-		// 事件：双击绑定事件
-		eventDClickCallback:function(obj,callback){
-			obj.find("tr").bind('dblclick ', function(event) {
-		        if (callback) {
-					callback();
-				}
-		    });
 		}
 	};
 	module.exports = init;

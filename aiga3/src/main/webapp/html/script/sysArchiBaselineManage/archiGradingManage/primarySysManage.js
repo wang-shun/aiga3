@@ -2,7 +2,6 @@ define(function(require, exports, module) {
 
 	//引入公用模块
 	require('global/header.js');
-	var sidebar = require('global/sidebar.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
@@ -17,15 +16,6 @@ define(function(require, exports, module) {
 	var cache = {
 		datas : ""	
 	};
-	var Data = {
-        setPageType:function(type){
-    		return {
-    			"data":{
-    				"type":type
-    			}
-    		};
-    	}
-    };
 
 	var init = {
 		init: function() {
@@ -44,8 +34,9 @@ define(function(require, exports, module) {
 			var _applyBtn =  _form.find("[name='apply']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
-				self._getCaseTempList(cmd);
+				self._getGridList(cmd);
 			});
+			_queryBtn.click();
 			_applyBtn.off('click').on('click',function() {
 				var _modal = Page.findId('primaryApplyModal');
 				_modal.modal('show');
@@ -72,13 +63,12 @@ define(function(require, exports, module) {
 		},
 
 		// 查询表格数据
-		_getCaseTempList: function(cmd){
+		_getGridList: function(cmd){
 			var self = this;
 			var _cmd = '' ;
 			if(cmd) {
 				var _cmd = cmd;
 			}
-			Data.queryListCmd = _cmd;
 			var _dom = Page.findId('primarySysMessageList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -91,6 +81,7 @@ define(function(require, exports, module) {
         		var tablebtn = _dom.find("[name='content']");
         		tablebtn.html(template(json.data.content));
         		cache.datas = json.data.content;
+        		//复选框美化
         		Utils.eventTrClickCallback(_dom);
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
         			self._band_table_btn($(this),"update");
@@ -117,7 +108,6 @@ define(function(require, exports, module) {
 				var _modal = Page.findId('primaryUpdateModal');
 				_modal.modal('show');
 				Utils.setSelectData(_modal);
-//				_dom.modal('hide');
 				_modal.on('shown.bs.modal', function () {
 					//修改保存按钮
 					var saveBtn = _modal.find("[name='save']");
@@ -154,15 +144,6 @@ define(function(require, exports, module) {
 					}					
 				});
 			}
-		},
-		
-		// 事件：双击绑定事件
-		eventDClickCallback:function(obj,callback){
-			obj.find("tr").bind('dblclick ', function(event) {
-		        if (callback) {
-					callback();
-				}
-		    });
 		}
 	};
 	module.exports = init;

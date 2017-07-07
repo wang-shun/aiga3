@@ -91,24 +91,27 @@
 						<th>指标名称</th>
 						<th>制表分组</th>
 						<th>分表编号</th>
-						<th>主键1</th>
-						<th>主键2</th>
-						<th>主键3</th>
+						<th>数据库名</th>
+						<th>用户名</th>
+						<th>模块名</th>
 						<th>状态</th>
 	 					<th>创建时间</th>
 						<th>操作编号</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>
-                    <tfoot>
+<!--                <tfoot>
                         <tr>
                             <td colspan="6">
                                 <div class="dataTables_paginate" name="pagination"></div>
                             </td>
                         </tr>
-                    </tfoot>
+                    </tfoot> -->
                 </table>
             </div>
+            <div class="box-footer no-border">
+        		<div class="dataTables_paginate" name="pagination"></div>
+    		</div> 
         </div>
         <div class="box" id="JS_getDataMaintainListSec" style="min-height:100px;">
             <div class="box-header ">
@@ -125,23 +128,34 @@
 	                    <th class="iCheckbox" width="15"></th>
 	                    <th>指标编号</th>
 						<th>设定月份</th>
-						<th>主键1</th>
-						<th>主键2</th>
-						<th>主键3</th>
+						<th>数据库名</th>
+						<th>用户名</th>
+						<th>模块名</th>
 						<th>结果值</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>
-                    <tfoot>
+                    
+<!--                <tfoot>
                         <tr>
                             <td colspan="6">
                                 <div class="dataTables_paginate" name="paginationSec"></div>
                             </td>
                         </tr>
-                    </tfoot>
+                    </tfoot> -->
                 </table>
             </div>
+            <div class="box-footer no-border">
+        		<div class="dataTables_paginate" name="paginationSec"></div>
+    		</div> 
         </div>
+	    <div class="box" id="JS_sysMessageView">
+	        <div class="box-header" >
+	        </div>
+	        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px; ">
+	            <!-- 视图 -->
+	        </div>
+	    </div>
     </div>
 </div>
 <!-- Modal -->

@@ -5,7 +5,7 @@
 	        <td><input type="radio" class="minimal" value="{{indexId}}" name="indexId">
 			<td>{{indexId}}</td>
 			<td>{{settMonth}}</td>
-			<td>{{key1}}</td>
+			<td>{{transformatImp key1}}</td>
 			<td>{{key2}}</td>
 			<td>{{key3}}</td>
 			<td>{{resultValue}}</td>

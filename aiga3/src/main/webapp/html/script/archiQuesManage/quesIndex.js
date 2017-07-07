@@ -72,12 +72,15 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			
 			// 默认查询所有
 			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
 			//映射
 			this.hdbarHelp();
+			//
+			this._querydomain();
 		},
 		// 按条件查询
 		queryDataMaintainForm: function() {
@@ -265,7 +268,22 @@ define(function(require, exports, module) {
 			});
 		},
 		//映射处理
-		hdbarHelp: function() {},
+		hdbarHelp: function() {
+			Handlebars.registerHelper("transformatImp", function(value) {
+	                if (value == 'ZJCRMA') {
+	                    return "营业库A";
+	                } else if (value == 'ZJCRMB') {
+	                    return "营业库B";
+	                } else if (value == 'ZJCRMC') {
+	                    return "营业库C";
+	                } else if (value == 'ZJCRMD') {
+	                    return "营业库D";
+	                } else if (value == 'ZJRES') {
+					    return "渠道资源库";
+					}
+	            });
+	         
+			},
 		// 事件：分页
 		initPaging: function(obj, length) {
 			obj.find("table").DataTable({
@@ -277,7 +295,154 @@ define(function(require, exports, module) {
 				"info": true,
 				"autoWidth": false
 			});
+		},
+		
+		_querydomain: function() {
+			var self = this;
+			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
+			//柱状 模版
+//			self._graphfir(myChart);
+			//柱状堆叠模版
+			self._graphSec(myChart);
+		},
+		
+		_graphfir: function(myChart) {
+			option = {
+			    title : {
+			        text: '相关系统域变更情况',
+			        subtext: ''
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			        data:['业务支撑域','大数据域','公共域','网络域','管信域','地市域','安全域','总量']
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            dataView : {show: false, readOnly: false},
+			            magicType : {show: true, type: ['line', 'bar']},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'业务支撑域',
+			            type:'bar',
+			            data:[2.0, 4.9, 7.0, 23.2, 500, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+			        },
+			        {
+			            name:'大数据域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'公共域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'网络域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'管信域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'地市域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        }
+			    ]
+			};
+			myChart.setOption(option);
+		},
+		
+		_graphSec: function(myChart) {
+			option = {
+			    tooltip : {
+			        trigger: 'axis',
+			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+			        }
+			    },
+			    legend: {
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            dataView : {show: false, readOnly: false},
+			            magicType : {show: true, type: ['line', 'bar']},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    grid: {
+			        left: '3%',
+			        right: '4%',
+			        bottom: '3%',
+			        containLabel: true
+			    },
+			    xAxis : [
+			        {
+			            type : 'category',
+			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'营业库A',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0]
+			        },
+			        {
+			            name:'营业库B',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0]
+			        },
+			        {
+			            name:'营业库C',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0]
+			        },
+			        {
+			            name:'营业库D',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0]
+			        },
+			        {
+			            name:'渠道资源库',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
+			        }
+			    ]
+			};
+			myChart.setOption(option);
 		}
+		
 	};
 	module.exports = Query;
 });

@@ -1,5 +1,4 @@
 define(function(require, exports, module) {
-
 	//引入公用模块
 	require('global/header.js');
 	// 通用工具模块
@@ -49,7 +48,10 @@ define(function(require, exports, module) {
 						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
 							if(status) {
 								textModal.modal('hide');
-								XMS.msgbox.show('认定成功，数据已归档！', 'success', 2000);
+								XMS.msgbox.show('认定成功，数据已归档！', 'success', 2000);	
+								setTimeout(function() {
+									Page.findId('querySysDomainForm').find("[name='query']").click();
+								}, 1000);
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					
@@ -64,7 +66,10 @@ define(function(require, exports, module) {
 						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
 							if(status) {
 								textModal.modal('hide');
-								XMS.msgbox.show('认定成功', 'success', 2000);
+								XMS.msgbox.show('认定成功', 'success', 2000);	
+								setTimeout(function() {
+									Page.findId('querySysDomainForm').find("[name='query']").click();
+								}, 1000);								
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					
@@ -72,7 +77,6 @@ define(function(require, exports, module) {
 					});
 				});
 				textModal.modal('show');
-
 			});
 			_from.find("[name='cancel']").off('click').on('click',function() {
 				if(!Page.findId('SysMessageFrom').hasClass('show-nothing')) {

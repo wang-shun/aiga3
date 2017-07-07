@@ -40,13 +40,14 @@ define(function(require, exports, module) {
 			_applyBtn.off('click').on('click',function() {
 				var _modal = Page.findId('primaryApplyModal');
 				_modal.modal('show');
-				Utils.setSelectData(_modal);
-				
+				Utils.setSelectData(_modal);		
 				var saveBtn = _modal.find("[name='save']");
 				saveBtn.off('click').on('click',function(){
 					//获取表单数据
 					var _form = Page.findId("firApplyForm");
 					var _cmd = _form.serialize();	
+					//设置cmd中默认字段的值
+					_cmd = _cmd.replace('sysId=&', 'sysId=0&');
 					_cmd += '&ext1=1&description=新增';
 					//调用服务
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -114,6 +115,7 @@ define(function(require, exports, module) {
 					saveBtn.off('click').on('click',function(){
 						var updateDom = Page.findId('firUpdateForm');
 						var _cmd = updateDom.serialize();
+						_cmd = _cmd.replace('sysId=&', 'sysId=0&');
 						_cmd += '&ext1=1&description=修改';
 						//调服务
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');

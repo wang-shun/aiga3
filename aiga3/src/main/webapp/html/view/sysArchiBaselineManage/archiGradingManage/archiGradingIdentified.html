@@ -8,7 +8,7 @@
 #Page_archiGradingIdentified .from-change-line {
 	margin-bottom: 5px;
 }
-#Page_archiGradingIdentified .show_nothing {
+#Page_archiGradingIdentified .show-nothing {
 	display:none;
 }
 </style> 
@@ -77,7 +77,7 @@
 	        <div class="dataTables_paginate" name="pagination"></div>
 	    </div> 
 	</div>
-	<div class="box show_nothing" id="JS_SysMessageFrom">
+	<div class="box show-nothing" id="JS_SysMessageFrom">
 		<div class="box-header" >
 	        <h3 class="box-title">详细信息</h3>
 	    </div>
@@ -87,7 +87,7 @@
 	     		</div>
 	     	</div>   			
 	    </div>
-	    <div class="box-footer no-border" style="text-align:center;">
+	    <div id="JS_IdentifyButtom" class="box-footer no-border" style="text-align:center;">
 	        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="identify">认定</button>
 	        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="cancel">取消</button>
 	    </div> 
@@ -135,7 +135,12 @@
 	<label class="control-label margin-onl">系统编号:</label>
 	<input name="sysId" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{sysId}}"></input>
 	<label class="control-label margin-onl">系统简称:</label>
-	<input name="code" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{code}}"></input></br>
+	<input name="code" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{code}}"></input>
+	
+	<div name="identifiedModal">
+		<label class="control-label margin-onl">认定信息</label>
+		<textarea name="identifiedInfo" cols="112" rows="4" class="form-control input-sm text-area-sty" disabled="disabled">{{identifiedInfo}}</textarea>
+	</div>
 </script>
 <!-- 二级子域 -->
 <script id="TPL_secondMessageFrom" type="text/x-handlebars-template">
@@ -158,6 +163,11 @@
     <input type="hidden" value="{{primaryDomainId}}" name="primaryDomainId">     			
 	<label class="control-label margin-onl">所属分层:</label>
 	<input name="belongLevel" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{belongLevel}}"></input>
+
+	<div name="identifiedModal">
+		<label class="control-label margin-onl">认定信息</label>
+		<textarea name="identifiedInfo" cols="112" rows="4" class="form-control input-sm text-area-sty" disabled="disabled">{{identifiedInfo}}</textarea>
+	</div>
 </script>
 <!-- 三级系统 -->
 <script id="TPL_thirdMessageFrom" type="text/x-handlebars-template">
@@ -195,6 +205,10 @@
 	<label class="control-label margin-onl">规划设计信息:</label>
 	<input name="designInfo" type="text" class="form-control input-sm from-change-line" disabled="disabled" value="{{designInfo}}"></input>
   	
+	<div name="identifiedModal">
+		<label class="control-label margin-onl">认定信息</label>
+		<textarea name="identifiedInfo" cols="112" rows="4" class="form-control input-sm text-area-sty" disabled="disabled">{{identifiedInfo}}</textarea>
+	</div>
 </script>
 <!-- 表格数据  -->
 <script id="TPL_getSysMessageList" type="text/x-handlebars-template">

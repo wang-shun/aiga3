@@ -34,6 +34,7 @@ public class ArchitectureStaticData  implements java.io.Serializable {
     public ArchitectureStaticData(long dataId) {
         this.dataId = dataId;
     }
+    
     public ArchitectureStaticData(long dataId, String codeType, String codeValue, String codeName, String codeDesc, String ext1, String ext2, String ext3) {
        this.dataId = dataId;
        this.codeType = codeType;
@@ -119,10 +120,6 @@ public class ArchitectureStaticData  implements java.io.Serializable {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
-
-
-
-
 }
 
 

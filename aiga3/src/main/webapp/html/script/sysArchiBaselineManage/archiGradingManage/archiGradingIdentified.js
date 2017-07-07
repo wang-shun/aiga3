@@ -2,7 +2,6 @@ define(function(require, exports, module) {
 
 	//引入公用模块
 	require('global/header.js');
-	var sidebar = require('global/sidebar.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
@@ -18,17 +17,6 @@ define(function(require, exports, module) {
 	
 	//信息认定
 	srvMap.add("MessageGranding", pathAlias+"getSysMessageList.json", "archi/grading/messageGranding");
-
-	var Data = {
-        setPageType:function(type){
-    		return {
-    			"data":{
-    				"type":type
-    			}
-    		};
-    	}
-    };
-
 
 	var init = {
 		init: function() {
@@ -87,8 +75,8 @@ define(function(require, exports, module) {
 
 			});
 			_from.find("[name='cancel']").off('click').on('click',function() {
-				if(!Page.findId('SysMessageFrom').hasClass('show_nothing')) {
-					Page.findId('SysMessageFrom').addClass('show_nothing');
+				if(!Page.findId('SysMessageFrom').hasClass('show-nothing')) {
+					Page.findId('SysMessageFrom').addClass('show-nothing');
 				}
 			});
 		},
@@ -100,8 +88,8 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				if(!Page.findId('SysMessageFrom').hasClass('show_nothing')) {
-					Page.findId('SysMessageFrom').addClass('show_nothing');
+				if(!Page.findId('SysMessageFrom').hasClass('show-nothing')) {
+					Page.findId('SysMessageFrom').addClass('show-nothing');
 				}
 				var cmd = _form.serialize();
 				self._getSysMessageList(cmd);
@@ -115,7 +103,6 @@ define(function(require, exports, module) {
 			if(cmd){
 				var _cmd = cmd;
 			}
-			Data.queryListCmd = _cmd;
 			var _dom = Page.findId('SysMessageList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -131,8 +118,8 @@ define(function(require, exports, module) {
         			var applyId = _input[0].value;
         			var allDatas = cache.datas;
         			if(allDatas) {
-        				if(Page.findId('SysMessageFrom').hasClass('show_nothing')) {
-        					Page.findId('SysMessageFrom').removeClass('show_nothing');
+        				if(Page.findId('SysMessageFrom').hasClass('show-nothing')) {
+        					Page.findId('SysMessageFrom').removeClass('show-nothing');
         				}
         				var index = 0;
         				while(allDatas[index].applyId != applyId) {
@@ -148,8 +135,16 @@ define(function(require, exports, module) {
         					templateFrom = Handlebars.compile(Page.findTpl('secondMessageFrom'));
         				} else {
         					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
-        				}     				
-        				Page.findId('selectData').html(templateFrom(selectData));
+        				}    
+        				var _selectDataModal = Page.findId('selectData');
+        				_selectDataModal.html(templateFrom(selectData));
+        				if(selectData.state == '申请') {
+        					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');
+        					Page.findId('IdentifyButtom').removeClass('show-nothing');
+        				} else {
+        					_selectDataModal.find("[name='identifiedModal']").removeClass('show-nothing');
+        					Page.findId('IdentifyButtom').addClass('show-nothing');
+        				}      				
         			}
         		});
 			},_domPagination);

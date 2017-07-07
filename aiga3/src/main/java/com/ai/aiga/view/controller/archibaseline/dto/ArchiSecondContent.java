@@ -7,9 +7,18 @@ import java.util.List;
 public class ArchiSecondContent implements Serializable {
 	private String id;
 	private String name;
-	private String isNodeName;
+	private String isNodeName;					//	是否是数据节点
+	private String isCross;						//  是否是跨层层级  非数据节点有效
 	private List<ArchiSecondViewItem> item;
 	
+	public String getIsCross() {
+		return isCross;
+	}
+
+	public void setIsCross(String isCross) {
+		this.isCross = isCross;
+	}
+
 	public ArchiSecondContent() {	
 	}
 	
@@ -17,12 +26,14 @@ public class ArchiSecondContent implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.isNodeName = isNodeName;
+		this.isCross = "0";				//此构造方法下默认不跨层	
 	}
 	
 	public ArchiSecondContent(int id,String name,String isNodeName) {
 		this.id = String.valueOf(id);
 		this.name = name;
 		this.isNodeName = isNodeName;
+		this.isCross = "0";          	//此构造方法下默认不跨层	
 	}
 	
 	public String getId() {

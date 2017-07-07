@@ -165,7 +165,7 @@ public class ArchiGradingController {
 				architectureThirdSv.delete(thirdInput.getOnlysysId());
 			} else if("新增".equals(operation)) {
 				//校验编号是否在归档表存在				
-				if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird())!=null) {
+				if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird()).size()>0) {
 					bean.fail("编号已存在");
 					return bean;
 				}

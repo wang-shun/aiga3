@@ -96,51 +96,64 @@ public class ArchiViewController {
 				if(output.getIsCross() == null || !output.getIsCross().equals("1")) {
 					output.setIsCross("1");
 				}
+				PaaS.setIsCross("1");
 				ArchiSecondCrossContent baseCross = new ArchiSecondCrossContent();
 				baseCross.setId(String.valueOf(id++));
 				baseCross.setName(base.getName());	
 				//设置跨层起点
 				if(levels.contains("SaaS")) {
 					baseCross.setStartCrossId(SaaS.getId());
+					SaaS.setIsCross("1");
 				} else if(levels.contains("BPaaS")) {
 					baseCross.setStartCrossId(BPaaS.getId());
+					BPaaS.setIsCross("1");
 				} else if(levels.contains("UPaaS")) {
 					baseCross.setStartCrossId(UPaaS.getId());
+					UPaaS.setIsCross("1");
 				} else if(levels.contains("IPaaS")) {
 					baseCross.setStartCrossId(IPaaS.getId());
+					IPaaS.setIsCross("1");
 				} else if(levels.contains("TPaaS")) {
 					baseCross.setStartCrossId(IPaaS.getId());
+					TPaaS.setIsCross("1");
 				} else {
+					// TO BE CONTINUE ...
 				}
 				//设置跨层终点
 				if(levels.contains("TPaaS")) {
+					TPaaS.setIsCross("1");
 					if(!levels.contains("IPaaS")) {
 						bean.fail("跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(TPaaS.getId());
 				} else if(levels.contains("IPaaS")) {
+					IPaaS.setIsCross("1");
 					if(!levels.contains("UPaaS")) {
 						bean.fail("跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(IPaaS.getId());
 				} else if(levels.contains("UPaaS")) {
+					UPaaS.setIsCross("1");
 					if(!levels.contains("BPaaS")) {
 						bean.fail("跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(UPaaS.getId());
 				} else if(levels.contains("BPaaS")) {
+					BPaaS.setIsCross("1");
 					if(!levels.contains("SaaS")) {
 						bean.fail("跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(BPaaS.getId());
 				} else if(levels.contains("SaaS")) {
+					SaaS.setIsCross("1");
 					bean.fail("数据错误,没有跨层");
 					return bean;
 				} else {
+					// TO BE CONTINUE ...
 				}			
 				crossContent.add(baseCross);
 				continue;
@@ -164,7 +177,7 @@ public class ArchiViewController {
 				ArchiSecondViewItemLast baseTPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"0");
 				itemTPaaS.add(baseTPaaS);
 			} else {
-				
+				// TO BE CONTINUE ...
 			}			
 		}	
 		content.add(SaaS);
@@ -190,7 +203,6 @@ public class ArchiViewController {
 			List<ArchitectureGrading> gradingList = architectureGradingSv.findChangeMessage(input);
 			//获取一级域信息
 			List<ArchitectureFirst> firstList = architectureFirstSv.findArchitectureFirsts();
-			
 			for(ArchitectureGrading gradingBase : gradingList) {
 				gradingBase.getApplyId();
 			}
@@ -199,11 +211,11 @@ public class ArchiViewController {
 				ViewSeries baseSeries = new ViewSeries();
 				baseSeries.setName(baseFirst.getName());
 			}
-			return bean;
+			bean.setData(output);			
 		} catch (ParseException e) {
-			e.printStackTrace();		
+			bean.fail(e.getMessage());
 			return bean;
-		}		
-
+		}	
+		return bean;
 	}
 }

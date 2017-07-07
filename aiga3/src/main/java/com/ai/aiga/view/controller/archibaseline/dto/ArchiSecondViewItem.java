@@ -8,20 +8,31 @@ public class ArchiSecondViewItem implements Serializable {
 	private String id;
 	private String name;
 	private String isNodeName;
+	private String isCross;
 	private List<ArchiSecondViewItemLast> item;
 	
+	public String getIsCross() {
+		return isCross;
+	}
+
+	public void setIsCross(String isCross) {
+		this.isCross = isCross;
+	}
+
 	public ArchiSecondViewItem() {}
 	
 	public ArchiSecondViewItem(String id,String name,String isNodeName) {
 		this.id = id;
 		this.name = name;
 		this.isNodeName = isNodeName;
+		this.isCross = "0";
 	}
 	
 	public ArchiSecondViewItem(int id,String name,String isNodeName) {
 		this.id = String.valueOf(id);
 		this.name = name;
 		this.isNodeName = isNodeName;
+		this.isCross = "0";
 	}
 	
 	public String getId() {

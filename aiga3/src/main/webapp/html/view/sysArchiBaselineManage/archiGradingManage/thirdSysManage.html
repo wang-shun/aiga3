@@ -7,7 +7,7 @@
 	width: 400px;
 }
 #Page_thirdSysManage .btn-center {
- text-align: center;
+	text-align: center;
 }
 #Page_thirdSysManage .btn-table-update {
 	margin-right: 20px;
@@ -27,35 +27,35 @@
 	width: 850px;
 }
 #Page_thirdSysManage .first-name-label {
- margin-left: 40px; 
- margin-right: 20px;
+	margin-left: 40px; 
+	margin-right: 20px;
 }
 #Page_thirdSysManage .second-label-depart {
- margin-left: 30px;
- margin-right: 20px;
+	margin-left: 30px;
+	margin-right: 20px;
 }
 #Page_thirdSysManage .second-label-select {
- margin-left: 30px;
- margin-right: 48px;
+	margin-left: 30px;
+	margin-right: 48px;
 }
 #Page_thirdSysManage .second-label {
- margin-left: 262px;
- margin-right: 20px;
+	margin-left: 262px;
+	margin-right: 20px;
 }
 #Page_thirdSysManage .margin-onl {
- margin-left: 20px;
- margin-right: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
 }
 #Page_thirdSysManage .fist-text-label {
- margin-right: 5px;
+	margin-right: 5px;
 }
 #Page_thirdSysManage .margin-top-20 {
- margin-top: 20px;
+	margin-top: 20px;
 }
 #Page_thirdSysManage .text-area-sty {
- margin-top:10px;
- width: 680px;
- vertical-align:middle; 
+	margin-top:10px;
+	width: 680px;
+	vertical-align:middle; 
 }
 </style> 
 <!-- 页面id -->
@@ -96,11 +96,11 @@
             <thead>
                 <tr>
                     <th class="iCheckbox" width="15"></th>
-                    <th>系统（三级）</th>
-                    <th>别名</th>
-                    <th>编号</th>
-                    <th>系统功能描述</th>
-                    <th>操作</th>
+                    <th style="text-align:center;min-width:120px">系统（三级）</th>
+                    <th style="text-align:center;">别名</th>
+                    <th style="text-align:center;">编号</th>
+                    <th style="text-align:center;">系统功能描述</th>
+                    <th style="text-align:center;">操作</th>
                 </tr>
             </thead>
             <tbody name="content"></tbody>
@@ -113,15 +113,15 @@
 
 <!-- 申请页面 -->
 <div class="modal fade" id="JS_thirdApplyModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog total-width">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">系统（三级）信息申请</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
-				<div class="box-body form-group form-inline total-width">
-					<form id = "JS_thirdApplyForm">
+				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+					<form id="JS_thirdApplyForm">
 						<div class="col-md-12">
 							<label class="control-label first-name-label">名称</label>
 	   						<input name="name" type="text" class="form-control input-sm width-input-167"></input>
@@ -164,14 +164,14 @@
 		    			<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		     			<div class="check-inline">				
 	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label style="width:45px;">SaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"><label style="width:45px;">IPaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"><label style="width:45px;">DaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"><label style="width:45px;">UPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label style="width:45px;">IPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"/><label style="width:45px;">DaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"/><label style="width:45px;">UPaaS</label>
 							<br/>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"><label style="width:45px;">BPaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS"><label style="width:45px;">PaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"><label style="width:45px;">IaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"><label style="width:45px;">TPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"/><label style="width:45px;">BPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS"/><label style="width:45px;">PaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"/><label style="width:45px;">IaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"/><label style="width:45px;">TPaaS</label>
 						</div>						
 					</div>
           	    </div>
@@ -185,7 +185,7 @@
 </div>
 <!-- 修改页面 -->
 <div class="modal fade" id="JS_thirdUpdateModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog total-width">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -204,13 +204,13 @@
 
 <!-- 修改页面模版 -->
 <script id="TPL_thirdUpdateFrom" type="text/x-handlebars-template">
-<div class="box-body form-group form-inline total-width">
+<div class="box-body form-group form-inline" style="margin-bottom: 0px">
 	<form id = "JS_thirdUpdateForm">
 	<div class="col-md-12">
 		<label class="control-label first-name-label">名称</label>
 	    <input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
 	    <label class="control-label margin-onl">简称</label>
-	    <input name="code" type="text" class="form-control input-sm width-input-167" value="{{code}}" ></input>
+	    <input name="code" type="text" class="form-control input-sm width-input-167" value="{{code}}"></input>
 	    <label class="control-label margin-onl">系统编号</label>
 	    <input name="sysId" type="text" class="form-control input-sm width-input-167" value="{{idThird}}"></input>
 	</div>
@@ -246,14 +246,14 @@
 		<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		<div class="check-inline">				
 	       	<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS"/><label style="width:45px;">SaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"><label style="width:45px;">IPaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"><label style="width:45px;">DaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"><label style="width:45px;">UPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"/><label style="width:45px;">IPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"/><label style="width:45px;">DaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"/><label style="width:45px;">UPaaS</label>
 			<br/>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS"><label style="width:45px;">BPaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS"><label style="width:45px;">PaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"><label style="width:45px;">IaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS"><label style="width:45px;">TPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS"/><label style="width:45px;">BPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS"/><label style="width:45px;">PaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"/><label style="width:45px;">IaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS"/><label style="width:45px;">TPaaS</label>
 		</div>
 	</div>
 </div>
@@ -265,11 +265,11 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{onlysysId}}" name="onlysysId"></td>
-    <td>{{name}}</td>
-    <td>{{code}}</td>
-    <td>{{idThird}}</td>
-    <td>{{systemFunction}}</td>
-    <td><button class="btn btn-primary btn-table-update" temp="{{onlysysId}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{onlysysId}}">删除</button></td>
+    <td style="text-align:center;">{{name}}</td>
+    <td style="text-align:center;">{{code}}</td>
+    <td style="text-align:center;">{{idThird}}</td>
+    <td style="text-align:center;">{{systemFunction}}</td>
+    <td style="text-align:center;"><div style="white-space: nowrap"><button class="btn btn-primary btn-table-update" temp="{{onlysysId}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{onlysysId}}">删除</button></div></td>
 </tr>
 {{/each}}
 </script>

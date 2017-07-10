@@ -1,9 +1,9 @@
 <style type="text/css"> 
 #Page_primarySysManage .float-right {
- float: right;
+	float: right;
 }
 #Page_primarySysManage .btn-centen {
- text-align: center;
+	text-align: center;
 }
 #Page_primarySysManage .check-inline-label {
 	display: block;
@@ -14,26 +14,26 @@
 	display: block;
 }
 #Page_primarySysManage .total-width {
-	width: 850px;
+	width: 600px;
 }
 #Page_primarySysManage .first-name-label {
- margin-left: 40px; 
- margin-right: 20px;
+	margin-left: 20px; 
+	margin-right: 20px;
 }
 #Page_primarySysManage .second-label {
- margin-left: 260px;
- margin-right: 20px;
+	margin-left: 260px;
+	margin-right: 20px;
 }
 #Page_primarySysManage .margin-no-label {
- margin-left: 80px;
- margin-right: 20px;
+	margin-left: 40px;
+	margin-right: 20px;
 }
 #Page_primarySysManage .margin-domain-label {
- margin-left: 40px;
- margin-right: 20px;
+	margin-left: 40px;
+	margin-right: 20px;
 }
 #Page_primarySysManage .margin-top-20 {
- margin-top: 20px;
+	margin-top: 20px;
 }
 #Page_primarySysManage .margin-onl {
 	margin-left: 20px;
@@ -76,16 +76,16 @@
 </div>
 <!-- 申请页面 -->
 <div class="modal fade" id="JS_primaryApplyModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog total-width">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">域（一级）信息申请</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
-				<div class="box-body form-group form-inline total-width">
+				<div class="box-body form-group form-inline">
 					<form id="JS_firApplyForm">
-					<div class="col-md-12 margin-top-20">
+					<div class="col-md-12">
 				     	<label class="control-label first-name-label">名称</label>
 				     	<input name="name" type="text" class="form-control input-sm" ></input>
 				     	<label class="control-label margin-no-label">编号</label>
@@ -107,7 +107,7 @@
 </div>
 <!-- 修改页面 -->
 <div class="modal fade" id="JS_primaryUpdateModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog total-width">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -125,9 +125,9 @@
 </div>
 
 <script id="TPL_primaryUpdateFrom" type="text/x-handlebars-template">
-<div class="box-body form-group form-inline total-width">
+<div class="box-body form-group form-inline">
 	<form id="JS_firUpdateForm">
-	<div class="col-md-12 margin-top-20">
+	<div class="col-md-12">
 		<label class="control-label first-name-label">名称</label>
 		<input name="name" type="text" class="form-control input-sm" value="{{name}}"></input>
 		<label class="control-label margin-no-label">编号</label>

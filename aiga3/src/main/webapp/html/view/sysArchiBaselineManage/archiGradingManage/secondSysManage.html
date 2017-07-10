@@ -1,11 +1,10 @@
 <!--Page Start-->
 <style type="text/css"> 
 #Page_secondSysManage .btn-centen {
- text-align: center;
+	text-align: center;
 }
-
 #Page_secondSysManage .input-width-sec {
- width: 170px;
+	width: 170px;
 }
 #Page_secondSysManage .check-inline-label {
 	display: block;
@@ -16,26 +15,26 @@
 	display: block;
 }
 #Page_secondSysManage .total-width {
-	width: 850px;
+	width: 650px;
 }
 #Page_secondSysManage .first-name-label {
- margin-left: 40px; 
- margin-right: 20px;
+	margin-left: 40px; 
+	margin-right: 20px;
 }
 #Page_secondSysManage .second-label {
- margin-left: 260px;
- margin-right: 20px;
+	margin-left: 260px;
+	margin-right: 20px;
 }
 #Page_secondSysManage .margin-no-label {
- margin-left: 80px;
- margin-right: 20px;
+	margin-left: 80px;
+	margin-right: 20px;
 }
 #Page_secondSysManage .margin-domain-label {
- margin-left: 40px;
- margin-right: 18px;
+	margin-left: 40px;
+	margin-right: 18px;
 }
 #Page_secondSysManage .margin-top-20 {
- margin-top: 20px;
+	margin-top: 20px;
 }
 #Page_secondSysManage .margin-onl {
 	margin-left: 20px;
@@ -62,10 +61,10 @@
             <div class="col-md-12">
                 <div id="JS_select_data" class="form-group form-inline">
                 	<form>
-                    <label class="control-label margin-onl">一级域:</label>
-                   	<select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
-                        <option value="">请选择</option>
-                    </select>
+                    	<label class="control-label margin-onl">一级域:</label>
+                   		<select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
+                       		<option value="">请选择</option>
+                    	</select>
                     </form>
                     <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
                     <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
@@ -99,16 +98,16 @@
 </div>
 <!-- 申请页面 -->
 <div class="modal fade" id="JS_secondApplyModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog total-width">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">子域（二级）信息申请</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
-				<div class="box-body form-group form-inline total-width">
+				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
 					<form id="JS_secApplyForm">
-					<div class="col-md-12 margin-top-20">
+					<div class="col-md-12">
 						<label class="control-label first-name-label">名称</label>
 	   					<input name="name" type="text" class="form-control input-sm input-width-sec"></input>
 				     	<label class="control-label margin-no-label">编号</label>
@@ -127,14 +126,14 @@
 	    				<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 	     			    <div class="check-inline">				
 	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label style="width:45px;">SaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"><label style="width:45px;">IPaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"><label style="width:45px;">DaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"><label style="width:45px;">UPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label style="width:45px;">IPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"/><label style="width:45px;">DaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"/><label style="width:45px;">UPaaS</label>
 							<br/>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"><label style="width:45px;">BPaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS"><label style="width:45px;">PaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"><label style="width:45px;">IaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"><label style="width:45px;">TPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"/><label style="width:45px;">BPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="PaaS"/><label style="width:45px;">PaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"/><label style="width:45px;">IaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"/><label style="width:45px;">TPaaS</label>
 					   </div>			
 					</div>
           	   </div>
@@ -148,7 +147,7 @@
 </div>
 <!-- 修改页面 -->
 <div class="modal fade" id="JS_secondUpdateModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog total-width">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -165,9 +164,9 @@
 </div>
 </div>
 <script id="TPL_secondUpdateFrom" type="text/x-handlebars-template">
-<div class="box-body form-group form-inline total-width">
+<div class="box-body form-group form-inline" style="margin-bottom: 0px">
 	<form id="JS_secUpdateForm">
-	<div class="col-md-12 margin-top-20">
+	<div class="col-md-12">
 		<label class="control-label first-name-label">名称</label>
 		<input name="name" type="text" class="form-control input-sm" value="{{name}}"></input>
 		<label class="control-label margin-no-label">编号</label>
@@ -187,14 +186,14 @@
 		<label class="control-label fist-text-label check-inline-label">分层层级</label>        
 		<div class="check-inline">				
 	       	<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS"/><label style="width:45px;">SaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"><label style="width:45px;">IPaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"><label style="width:45px;">DaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"><label style="width:45px;">UPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"/><label style="width:45px;">IPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"/><label style="width:45px;">DaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"/><label style="width:45px;">UPaaS</label>
 			<br/>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS"><label style="width:45px;">BPaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS"><label style="width:45px;">PaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"><label style="width:45px;">IaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS"><label style="width:45px;">TPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS"/><label style="width:45px;">BPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="PaaS"/><label style="width:45px;">PaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"/><label style="width:45px;">IaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS/"><label style="width:45px;">TPaaS</label>
 		</div>
 	</div>
 </div>

@@ -22,10 +22,10 @@ define(function(require,exports,module){
 			this._render();
 		},
 		_render: function() {
-			this.getWelcomeCaseCount();
-			this.getWelcomeFlowList();
-			this.getOnlineCalendar();
-			this.getMyChart();
+//			this.getWelcomeCaseCount();
+//			this.getWelcomeFlowList();
+//			this.getOnlineCalendar();
+//			this.getMyChart();
 		},
 		getMyChart:function(){
 			// 图标

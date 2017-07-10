@@ -30,7 +30,7 @@ define(function(require, exports, module) {
 		
 		//下方认定和取消按钮
 		_band_btn_event: function() {
-			var _from = Page.findId('SysMessageFrom');
+			var _from = Page.findId('sysMessageFrom');
 			_from.find("[name='identify']").off('click').on('click',function() {
 				Page.findId('modalMessage').val("");
 				var textModal = Page.findId('modal');
@@ -46,12 +46,13 @@ define(function(require, exports, module) {
 						var _cmd = jQuery.param(data);
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
-							if(status) {
+							if(status) {							
 								textModal.modal('hide');
+								Page.findId('sysMessageFrom').modal('hide');
 								XMS.msgbox.show('认定成功，数据已归档！', 'success', 2000);	
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
-								}, 1000);
+								}, 1500);
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					
@@ -66,10 +67,11 @@ define(function(require, exports, module) {
 						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
 							if(status) {
 								textModal.modal('hide');
+								Page.findId('sysMessageFrom').modal('hide');
 								XMS.msgbox.show('认定成功', 'success', 2000);	
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
-								}, 1000);								
+								}, 1500);								
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					
@@ -78,11 +80,11 @@ define(function(require, exports, module) {
 				});
 				textModal.modal('show');
 			});
-			_from.find("[name='cancel']").off('click').on('click',function() {
-				if(!Page.findId('SysMessageFrom').hasClass('show-nothing')) {
-					Page.findId('SysMessageFrom').addClass('show-nothing');
-				}
-			});
+//			_from.find("[name='cancel']").off('click').on('click',function() {
+//				if(!Page.findId('SysMessageFrom').hasClass('show-nothing')) {
+//					Page.findId('SysMessageFrom').addClass('show-nothing');
+//				}
+//			});
 		},
 		
 		//查询下拉框数据加载，绑定查询按钮事件
@@ -92,9 +94,6 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				if(!Page.findId('SysMessageFrom').hasClass('show-nothing')) {
-					Page.findId('SysMessageFrom').addClass('show-nothing');
-				}
 				var cmd = _form.serialize();
 				self._getSysMessageList(cmd);
 			});
@@ -122,9 +121,6 @@ define(function(require, exports, module) {
         			var applyId = _input[0].value;
         			var allDatas = cache.datas;
         			if(allDatas) {
-        				if(Page.findId('SysMessageFrom').hasClass('show-nothing')) {
-        					Page.findId('SysMessageFrom').removeClass('show-nothing');
-        				}
         				var index = 0;
         				while(allDatas[index].applyId != applyId) {
         					index++;
@@ -142,12 +138,14 @@ define(function(require, exports, module) {
         				}    
         				var _selectDataModal = Page.findId('selectData');
         				_selectDataModal.html(templateFrom(selectData));
+        				var _modal = Page.findId('sysMessageFrom');
+        				_modal.modal();
         				if(selectData.state == '申请') {
         					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');
-        					Page.findId('IdentifyButtom').removeClass('show-nothing');
+        					Page.findId('IdentifyButtom').find("[name='identify']").removeClass('show-nothing');
         				} else {
         					_selectDataModal.find("[name='identifiedModal']").removeClass('show-nothing');
-        					Page.findId('IdentifyButtom').addClass('show-nothing');
+        					Page.findId('IdentifyButtom').find("[name='identify']").addClass('show-nothing');
         				}      				
         			}
         		});

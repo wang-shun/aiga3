@@ -4,8 +4,8 @@
         {{#if isNodeName}}
         <div class="mxgif-sidebar"><p>{{name}}</p></div>
         {{/if}}
-        <div class="mxgif-lists {{mxgifHeight1 item}}">
-            <div class="mxgif-lists-content {{mxgifLength item}} {{setMxgifMinHeight isNodeName isCross}}">
+        <div class="mxgif-lists {{mxgifHeight1 item}} {{setMxgifMinHeight isNodeName isCross}}">
+            <div class="mxgif-lists-content {{mxgifLength item}} ">
                 <div name="crossContent" class="mxgif-position-cross-content {{isShowPosition item}}"></div>
                 <div class="mxgif-cross-content {{mxgifFloatWidth item}}" name="noCrossContent">
                 {{#each item}}

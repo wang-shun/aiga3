@@ -66,8 +66,7 @@ define(function(require, exports, module) {
 			    tooltip : {
 			        trigger: 'axis'
 			    },
-			    legend: {
-			    	
+			    legend: {			    	
 			        data:['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域']
 			    },
 			    toolbox: {
@@ -140,7 +139,7 @@ define(function(require, exports, module) {
 			    ]
 			};
 			if(json) {
-//				option.legend = json.data.legend;
+				option.legend.data = json.data.legend;
 				option.series = json.data.series;
 			}
 			myChart.setOption(option);

@@ -17,6 +17,9 @@ define(function(require, exports, module) {
 	//信息认定
 	srvMap.add("MessageGranding", pathAlias+"getSysMessageList.json", "archi/grading/messageGranding");
 
+	//数据翻译
+	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "archi/grading/gradingTranslate");
+	
 	var init = {
 		init: function() {
 			this._render();
@@ -126,27 +129,51 @@ define(function(require, exports, module) {
         					index++;
         				}
         				var selectData = allDatas[index];
-        				cache.selectData = selectData;
-        				var type = selectData.ext1;
-        				var templateFrom;
-        				if(type == '1') {
-        					templateFrom = Handlebars.compile(Page.findTpl('primaryMessageFrom'));
-        				} else if(type == '2') {
-        					templateFrom = Handlebars.compile(Page.findTpl('secondMessageFrom'));
+        				var _cmdTrans;
+        				if(selectData.idBelong) {
+        					_cmdTrans = 'idBelong='+selectData.idBelong+'&ext1='+selectData.ext1+'&sysState='+selectData.sysState;
         				} else {
-        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
-        				}    
-        				var _selectDataModal = Page.findId('selectData');
-        				_selectDataModal.html(templateFrom(selectData));
-        				var _modal = Page.findId('sysMessageFrom');
-        				_modal.modal();
-        				if(selectData.state == '申请') {
-        					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');
-        					Page.findId('IdentifyButtom').find("[name='identify']").removeClass('show-nothing');
-        				} else {
-        					_selectDataModal.find("[name='identifiedModal']").removeClass('show-nothing');
-        					Page.findId('IdentifyButtom').find("[name='identify']").addClass('show-nothing');
-        				}      				
+        					_cmdTrans = 'idBelong=0&ext1='+selectData.ext1+'&sysState='+selectData.sysState;
+        				}     
+        				var pass = Page.findId('modal').find("[name='pass']");
+        				if(pass.hasClass('show-nothing')) {
+        					pass.removeClass('show-nothing');
+        				}
+        				//信息翻译
+        				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(json, status){
+    						if(!status) {
+    							XMS.msgbox.show(json.retMessage, 'error', 2000);
+    	        				if(!pass.hasClass('show-nothing')) {
+    	        					pass.addClass('show-nothing');
+    	        				}
+    						} else {
+    							if(json.data) {
+        							selectData.idBelongName = json.data.idBelongName;
+        							selectData.sysStateName = json.data.sysStateName;
+    							}
+    						}
+		      				cache.selectData = selectData;
+	        				var type = selectData.ext1;
+	        				var templateFrom;
+	        				if(type == '1') {
+	        					templateFrom = Handlebars.compile(Page.findTpl('primaryMessageFrom'));
+	        				} else if(type == '2') {
+	        					templateFrom = Handlebars.compile(Page.findTpl('secondMessageFrom'));
+	        				} else {
+	        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
+	        				}    
+	        				var _selectDataModal = Page.findId('selectData');
+	        				_selectDataModal.html(templateFrom(selectData));
+	        				var _modal = Page.findId('sysMessageFrom');
+	        				_modal.modal();
+	        				if(selectData.state == '申请') {
+	        					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');
+	        					Page.findId('IdentifyButtom').find("[name='identify']").removeClass('show-nothing');
+	        				} else {
+	        					_selectDataModal.find("[name='identifiedModal']").removeClass('show-nothing');
+	        					Page.findId('IdentifyButtom').find("[name='identify']").addClass('show-nothing');
+	        				}    														
+    					});  				
         			}
         		});
 			},_domPagination);

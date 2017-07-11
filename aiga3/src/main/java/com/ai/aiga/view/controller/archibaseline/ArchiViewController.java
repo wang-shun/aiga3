@@ -224,11 +224,8 @@ public class ArchiViewController {
 					if(num/10000000 == gradingBase.getIdBelong()/10000000) {
 						int time = gradingBase.getApplyTime().getMonth();
 						data[time]++;
-						it.remove();
-						if(!it.hasNext()) {
-							gradingList = IteratorUtils.toList(it);
-						}				
-					}	
+						it.remove();			
+					}
 				}
 				baseSeries.setData(data);
 				seriesList.add(baseSeries);

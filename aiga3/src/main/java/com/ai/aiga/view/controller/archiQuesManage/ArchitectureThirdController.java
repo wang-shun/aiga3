@@ -63,7 +63,7 @@ public class ArchitectureThirdController {
 		if(idSecond != null && idSecond>0) {
 			bean.setData(architectureThirdSv.findbySec(idSecond));
 		} else {
-			bean.setData(architectureThirdSv.findArchitectureThirds());
+			bean.fail("二级子域编号为空！");
 		}
 		return bean;
 	}

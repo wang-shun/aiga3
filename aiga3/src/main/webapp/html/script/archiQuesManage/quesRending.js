@@ -53,6 +53,10 @@ define(function(require, exports, module) {
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //所属系统静态数据  
 	srvMap.add("getBelongSystem", "", "archi/third/list");
+    //所属工单状态静态数据  
+	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
+    //所属问题状态静态数据  
+	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -60,7 +64,10 @@ define(function(require, exports, module) {
 		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
 
 	};
-
+	var cache = {
+		datas : '',
+		selectData : ''	
+	};
 	/*// 容器对象
 	var Dom = {
 		queryDataMaintainForm: '#JS_queryDataMaintainForm',
@@ -218,9 +225,24 @@ define(function(require, exports, module) {
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
 			_dom.find("#JS_name").html(html);
 
-			var _save = _dom.find("[name='save']");
+			var _save = _dom.find("[name='identify']");
 			_save.unbind('click');
 			_save.bind('click', function() {
+				Page.findId('modalMessage').val("");
+				var textModal = Page.findId('modal');
+				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
+					var data = cache.selectData;
+					data.modifyDate = data.modifyDate.replace(/-/g,"/");
+					data.createDate = data.createDate.replace(/-/g,"/");
+					data.applyTime = data.applyTime.replace(/-/g,"/");
+					//通过
+					
+					
+					//不通过
+					
+					
+				});
+				textModal.modal('show');
 				var _form = Page.findId('updateDataMaintainInfo');
 				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();

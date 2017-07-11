@@ -544,12 +544,44 @@
                 <form id="JS_updateDataMaintainInfo" class="form">
                 </form>
             </div>
-            <div class="modal-footer">
+           	<div id="JS_IdentifyButtom" class="box-footer no-border" style="text-align:center;">
+        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="identify">认定</button>
+        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" data-dismiss="modal">取消</button>
+    		</div> 
+<!--        <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" name="save">认定</button>
-            </div>
+            </div> -->
         </div>
     </div>
+</div>
+<!-- 弹出框  -->
+<div class="modal fade" id="JS_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					认定信息
+				</h4>
+			</div>
+			<div class="modal-body">
+				<textarea id="JS_modalMessage" cols="107" rows="4" class="form-control input-sm"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary" name="pass">
+					通过
+				</button>
+				<button type="button" class="btn btn-primary" name="noPass">
+					不通过
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
 </div>
 <script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
     <div class="box-header with-border">
@@ -637,6 +669,24 @@
                 </div>
             </div>
 		</div>
+		<div class="row">	
+            <div class="form-group col-sm-5">
+				<label for="sysVersion" class="col-sm-3 control-label">工单状态：</label>
+                <div class="col-sm-5">
+				<select id="sysVersion" name="sysVersion" class="form-control input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName">
+			    	<option value="{{sysVersion}}">{{sysVersion}}</option>
+			    </select>
+                </div>
+            </div>
+            <div class="form-group col-sm-5">
+				<label for="state" class="col-sm-3 control-label">问题状态：</label>
+                <div class="col-sm-5">
+					<select id="state" name="state" class="form-control input-sm" data-url="staticQuestionState" data-idkey="codeValue" data-namekey="codeName">
+			    		<option value="{{state}}">{{state}}</option>
+			    	</select>
+                </div>
+            </div>
+		</div>
 		<div class="row">
 			<div class="form-group col-sm-5">
 				<label for="priority" class="col-sm-3 control-label">完成时间：</label>
@@ -666,12 +716,6 @@
             </div>
         </div>
 		<div class="row" style="display:none">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>系统版本</label>
-                    <input type="text" class="form-control input-sm" value="{{sysVersion}}" name="sysVersion">
-                </div>
-            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>优先级别</label>
@@ -686,12 +730,6 @@
             </div>
         </div>
 		<div class="row" style="display:none">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>流程状态</label>
-                    <input type="text" class="form-control input-sm" value="{{state}}" name="state">
-                </div>
-            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>申报信息</label>

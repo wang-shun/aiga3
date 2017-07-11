@@ -19,16 +19,20 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureSecond;
+import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
+import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
+import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateInput;
+import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateOutput;
 //import com.ai.aiga.view.json.AutoTemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -43,6 +47,8 @@ public class ArchiGradingController {
 	private ArchitectureSecondSv architectureSecondSv;
 	@Autowired
 	private ArchitectureThirdSv architectureThirdSv;
+	@Autowired
+	private ArchitectureStaticDataSv architectureStaticDataSv;
     /**
      * 添加申请单
      *@param architectureGrading
@@ -226,5 +232,55 @@ public class ArchiGradingController {
 	public @ResponseBody JsonBean delete(@RequestParam long applyId) {
 		architectureGradingSv.delete(applyId);
 		return JsonBean.success;
+	}
+	@RequestMapping(path = "/archi/grading/gradingTranslate")
+	public @ResponseBody JsonBean translate(GrandingTranslateInput input) {
+		JsonBean bean = new JsonBean();
+		String sysState = input.getSysState();
+		String ext1 = input.getExt1();
+		long idBelong = input.getIdBelong();
+		GrandingTranslateOutput output = new GrandingTranslateOutput();
+		if("2".equals(ext1)) {
+			//查询 所属一级域
+			ArchitectureFirst architectureFirst = architectureFirstSv.findOne(idBelong);
+			if(architectureFirst == null) {
+				bean.fail("所属一级域不存在");
+				return bean;
+			} else {
+				if("".equals(architectureFirst.getName())) {
+					bean.fail("所属一级域没有名称");
+					return bean;
+				} else {
+					String idBelongName = architectureFirst.getName();
+					output.setIdBelongName(idBelongName);
+				}
+			}
+
+		} else if("3".equals(ext1)) {
+			//查询所属二级域 和 系统建设状态
+			ArchitectureSecond architectureSecond = architectureSecondSv.findOne(idBelong);
+			List<ArchitectureStaticData> dataList = architectureStaticDataSv.findByCodeTypeAndCodeValue("SYS_BUILDING_STATE", sysState);
+			if(architectureSecond == null) {
+				bean.fail("所属二级子域不存在");
+				return bean;
+			} else {
+				if("".equals(architectureSecond.getName())) {
+					bean.fail("所属二级子域没有名称");
+					return bean;
+				} else {
+					String idBelongName = architectureSecond.getName();
+					output.setIdBelongName(idBelongName);
+				}
+			}
+			if(dataList.size()>=1) {
+				String sysStateName = dataList.get(0).getCodeName();
+				output.setSysStateName(sysStateName);
+			} else {
+				bean.fail("查询不到该状态");
+				return bean;
+			}
+		}
+		bean.setData(output);
+		return bean;		
 	}
 }

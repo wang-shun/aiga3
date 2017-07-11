@@ -44,7 +44,7 @@ define(function(require, exports, module) {
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
     //所属系统静态数据  
-	srvMap.add("staticBelongSystem", pathAlias+"getSysMessageList.json", "archi/static/archiBelongSystem");
+	srvMap.add("getBelongSystem", "", "archi/third/list");
     //所属处理科室静态数据  
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
 	// 模板对象

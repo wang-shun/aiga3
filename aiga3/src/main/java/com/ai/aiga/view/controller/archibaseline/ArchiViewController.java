@@ -5,8 +5,10 @@ import io.swagger.annotations.Api;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -216,12 +218,17 @@ public class ArchiViewController {
 				legendList.add(name);
 				//给对应的列赋值
 				int[] data = new int[12];
-				for(ArchitectureGrading gradingBase : gradingList) {
-					if(num/10000000 == gradingBase.getSysId()/10000000) {
+				Iterator<ArchitectureGrading> it = gradingList.iterator();
+				while(it.hasNext()){
+					ArchitectureGrading gradingBase = it.next();
+					if(num/10000000 == gradingBase.getIdBelong()/10000000) {
 						int time = gradingBase.getApplyTime().getMonth();
-						time--;
 						data[time]++;
-					}			
+						it.remove();
+						if(!it.hasNext()) {
+							gradingList = IteratorUtils.toList(it);
+						}				
+					}	
 				}
 				baseSeries.setData(data);
 				seriesList.add(baseSeries);

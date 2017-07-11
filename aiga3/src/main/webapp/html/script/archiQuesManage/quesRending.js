@@ -90,6 +90,7 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
+				_cmd=_cmd.replace(/-/g,"/");
 				self.getDataMaintainList(cmd);
 			});
 

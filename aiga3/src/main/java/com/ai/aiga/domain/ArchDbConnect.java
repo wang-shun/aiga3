@@ -19,23 +19,19 @@ public class ArchDbConnect  implements java.io.Serializable {
     private String key1;
     private String key2;
     private String key3;
-    private String key4;
-    private String key5;
     private String resultValue;
     
     public ArchDbConnect(){
     }
 
 	public ArchDbConnect(Long indexId, String settMonth, String key1, String key2,
-			String key3, String key4, String key5, String resultValue) {
+			String key3, String resultValue) {
 		super();
 		this.indexId = indexId;
 		this.settMonth = settMonth;
 		this.key1 = key1;
 		this.key2 = key2;
 		this.key3 = key3;
-		this.key4 = key4;
-		this.key5 = key5;
 		this.resultValue = resultValue;
 	}
 	
@@ -85,24 +81,6 @@ public class ArchDbConnect  implements java.io.Serializable {
        this.key3 = key3;
    }
 
-   @Column(name="KEY_4", length=100)
-   public String getKey4() {
-       return this.key4;
-   }
-   
-   public void setKey4(String key4) {
-       this.key4 = key4;
-   }
-
-   @Column(name="KEY_5", length=100)
-   public String getKey5() {
-       return this.key5;
-   }
-   
-   public void setKey5(String key5) {
-       this.key5 = key5;
-   }
-
    @Column(name="RESULT_VALUE", length=100)
    public String getResultValue() {
        return this.resultValue;
@@ -111,7 +89,6 @@ public class ArchDbConnect  implements java.io.Serializable {
    public void setResultValue(String resultValue) {
        this.resultValue = resultValue;
    }
-
 
 }
 

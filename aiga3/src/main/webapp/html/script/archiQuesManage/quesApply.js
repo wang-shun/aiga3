@@ -67,12 +67,29 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			this.judgeQuesType();
 			// 默认查询所有
 			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
 			//映射
 			this.hdbarHelp();
+		},
+		//判断下拉框quesTypez值
+		judgeQuesType: function(){
+			$("#quesType").unbind('click');
+			$("#quesType").bind('click',function(){
+				var checkValue=$("#quesType").val();  //获取Select选择的Value 
+				if(checkValue=="2" || checkValue=="3"){
+					$("#firstCategorydiv").hide();     
+					$("#secondCategorydiv").hide();          
+					$("#thirdCategorydiv").hide();           
+				}else if(checkValue=="1"){
+					$("#firstCategorydiv").show();   
+					$("#secondCategorydiv").show();          
+					$("#thirdCategorydiv").show();   
+				}
+			});
 		},
 		// 按条件查询
 		queryDataMaintainForm: function() {

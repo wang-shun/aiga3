@@ -12,4 +12,5 @@ public interface AmCoreIndexDao extends JpaRepository<AmCoreIndex, Long>, Search
 	  //根据@Query中的sql执行
 	  @Query("select b from AmCoreIndex a, ArchDbConnect b where a.indexId = b.indexId")
 	  List<AmCoreIndex>findAllConnects();
+	  
 }

@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -200,17 +201,33 @@ public class ArchiViewController {
 		input.setExt1("3");
 		input.setState("审批通过");
 		try {
+			List<String> legendList = new ArrayList<String>();
 			List<ArchitectureGrading> gradingList = architectureGradingSv.findChangeMessage(input);
 			//获取一级域信息
 			List<ArchitectureFirst> firstList = architectureFirstSv.findArchitectureFirsts();
-			for(ArchitectureGrading gradingBase : gradingList) {
-				gradingBase.getApplyId();
-			}
-
+			List<ViewSeries> seriesList = new ArrayList<ViewSeries>();
+			//循环添加数据
 			for(ArchitectureFirst baseFirst : firstList) {
 				ViewSeries baseSeries = new ViewSeries();
+				baseSeries.setType("bar");
 				baseSeries.setName(baseFirst.getName());
+				long num = baseFirst.getIdFirst();
+				String name = baseFirst.getName();
+				legendList.add(name);
+				//给对应的列赋值
+				int[] data = new int[12];
+				for(ArchitectureGrading gradingBase : gradingList) {
+					if(num/10000000 == gradingBase.getSysId()/10000000) {
+						int time = gradingBase.getApplyTime().getMonth();
+						time--;
+						data[time]++;
+					}			
+				}
+				baseSeries.setData(data);
+				seriesList.add(baseSeries);
 			}
+			output.setLegend(legendList);
+			output.setSeries(seriesList);
 			bean.setData(output);			
 		} catch (ParseException e) {
 			bean.fail(e.getMessage());

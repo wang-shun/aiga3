@@ -6,12 +6,13 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ArchiChangeMessage implements Serializable {
 	private List<ViewSeries> series;
-	private String[] legend;
-	public String[] getLegend() {
+	private List<String> legend;
+
+	public List<String> getLegend() {
 		return legend;
 	}
 
-	public void setLegend(String[] legend) {
+	public void setLegend(List<String> legend) {
 		this.legend = legend;
 	}
 

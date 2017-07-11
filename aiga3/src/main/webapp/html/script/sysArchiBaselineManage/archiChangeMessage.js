@@ -39,7 +39,8 @@ define(function(require, exports, module) {
 		},
 		_render: function() {
 			var self = this;
-			self._querydomain();
+			self._getChangeMessage();
+			self._querydomain('');
 		},
 		
 		_getChangeMessage: function(){
@@ -47,13 +48,118 @@ define(function(require, exports, module) {
 			var _form = Page.findId('selectData');
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
-				Rose.ajax.postJson(srvMap.get("getchangeView"),cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get("getchangeView"),'', function(json, status) {
 					if(status) {
-
+						self._querydomain(json);
 					}
 	  			});
 			});
 		},
+
+		_graphfir: function(myChart, json) {
+			option = {
+			    title : {
+			        text: '相关系统域变更情况',
+			        subtext: ''
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			    	
+			        data:['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域']
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            dataView : {show: false, readOnly: false},
+			            magicType : {show: true, type: ['line', 'bar']},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+			    calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'业务支撑域',
+			            type:'bar',
+			            data:[2.0, 4.9, 7.0, 23.2, 500, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+			        },
+			        {
+			            name:'管信域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'BOMC域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'大数据域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'安全域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'公共域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'网络域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'地市域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        },
+			        {
+			            name:'开放域',
+			            type:'bar',
+			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+			        }
+			    ]
+			};
+			if(json) {
+//				option.legend = json.data.legend;
+				option.series = json.data.series;
+			}
+			myChart.setOption(option);
+		},
+		//查询下拉框数据加载，绑定查询按钮事件
+		_querydomain: function(json) {
+			var self = this;
+			var myChart = echarts.init(Page.findId('archiView')[0]);
+			//柱状 模版
+			if(json) {
+				self._graphfir(myChart, json);
+			} else {
+				self._graphfir(myChart, '');
+			} 
+	
+			//柱状堆叠模版
+//			self._graphSec(myChart);
+		},
+		
+		
 		
 		_graphSec: function(myChart) {
 			option = {
@@ -64,7 +170,7 @@ define(function(require, exports, module) {
 			        }
 			    },
 			    legend: {
-			        data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎','百度','谷歌','必应','其他']
+			        data:['邮件营销','直接访问','联盟广告','视频广告','搜索引擎','百度','谷歌','必应','其他']
 			    },
 			    grid: {
 			        left: '3%',
@@ -150,85 +256,10 @@ define(function(require, exports, module) {
 			    ]
 			};
 			myChart.setOption(option);
-		},
-		
-		_graphfir: function(myChart) {
-			option = {
-			    title : {
-			        text: '相关系统域变更情况',
-			        subtext: ''
-			    },
-			    tooltip : {
-			        trigger: 'axis'
-			    },
-			    legend: {
-			        data:['业务支撑域','大数据域','公共域','网络域','管信域','地市域','安全域','总量']
-			    },
-			    toolbox: {
-			        show : true,
-			        feature : {
-			            dataView : {show: false, readOnly: false},
-			            magicType : {show: true, type: ['line', 'bar']},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
-			        }
-			    },
-			    calculable : true,
-			    xAxis : [
-			        {
-			            type : 'category',
-			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value'
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'业务支撑域',
-			            type:'bar',
-			            data:[2.0, 4.9, 7.0, 23.2, 500, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-			        },
-			        {
-			            name:'大数据域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'公共域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'网络域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'管信域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'地市域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        }
-			    ]
-			};
-			myChart.setOption(option);
-		},
-		//查询下拉框数据加载，绑定查询按钮事件
-		_querydomain: function() {
-			var self = this;
-			var myChart = echarts.init(Page.findId('archiView')[0]);
-			//柱状 模版
-			self._graphfir(myChart);
-			//柱状堆叠模版
-//			self._graphSec(myChart);
 		}
+		
+		
+		
 	};
 
 	module.exports = init;

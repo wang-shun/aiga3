@@ -25,7 +25,7 @@
                 </div><br/>
                 <div class="box-body">
                 	<div class="row">
-						<div class="form-group">
+						<div class="form-group col-sm-12" >
 						    <label for="occurEnvironment" class="col-sm-1 control-label">标 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label>
 						    <div class="col-sm-8">
 						      <input name="occurEnvironment" type="text" class="form-control" id="occurEnvironment" placeholder="请输入问题标题">
@@ -34,7 +34,7 @@
                 	</div>
                 	<br/>
                 	<div class="row">
-                		<div class="form-group">
+                		<div class="form-group col-sm-12">
                 			<label for="abstracts" class="col-sm-1 control-label">问题描述：</label>
                 			<div class="col-sm-8">
                 				<textarea name="abstracts" class="form-control" rows="5" id="abstracts" placeholder="请输入问题描述"></textarea>
@@ -43,7 +43,7 @@
                 	</div>
                 	<br/>
 		            <div class="row">
-		                <div class="form-group col-sm-5">
+		                <div class="form-group col-sm-6">
 		                    <label for="quesType" class="col-sm-2 control-label">问题分类：</label>
 		                    <div class="col-sm-4">
 			                    <select id="quesType" name="quesType" class="form-control input-sm" data-url="getQuestypeList" data-subname="firstCategory" data-idkey="quesType" data-namekey="name">
@@ -51,7 +51,7 @@
 			                    </select>
 		                    </div>
 		                </div>
-		                <div class="form-group col-sm-5" id="firstCategorydiv">
+		                <div class="form-group col-sm-6" id="firstCategorydiv">
 		                    <label for="firstCategory" class="col-sm-2 control-label">一级分类：</label>
 		                    <div class="col-sm-4">
 			                    <select id="firstCategory" name="firstCategory" class="form-control input-sm" data-suburl="getFirstcategoryList" data-subname="secondCategory" data-idkey="firstCategory" data-namekey="name">
@@ -61,7 +61,7 @@
 		                </div>
 		            </div>
 		            <div class="row">
-		                <div class="form-group col-sm-5" id="secondCategorydiv">
+		                <div class="form-group col-sm-6" id="secondCategorydiv">
 		                    <label for="secondCategory" class="col-sm-2 control-label">二级分类：</label>
 		                    <div class="col-sm-4">
 			                    <select id="secondCategory" name="secondCategory" class="form-control input-sm" data-suburl="getSecondcategoryList" data-subname="thirdCategory" data-idkey="secondCategory" data-namekey="name">
@@ -69,7 +69,7 @@
 			                    </select>
 			                </div>
 		                </div>
-		                <div class="form-group col-sm-5" id="thirdCategorydiv">
+		                <div class="form-group col-sm-6" id="thirdCategorydiv">
 		                    <label for="thirdCategory" class="col-sm-2 control-label">三级分类：</label>
 		                    <div class="col-sm-4">
 			                    <select id="thirdCategory" name="thirdCategory" class="form-control input-sm" data-suburl="getThirdcategoryList" data-idkey="thirdCategory" data-namekey="name">
@@ -79,7 +79,7 @@
 		                </div>
 		            </div>
 		            <div class="row">
-		                <div class="form-group col-sm-5">
+		                <div class="form-group col-sm-6">
 		                    <label for="priority" class="col-sm-2 control-label">优先级：</label>
 		                    <div class="col-sm-4">
 			                    <select name="priority" class="form-control input-sm">
@@ -91,7 +91,7 @@
 			                    </select>
 			                </div>
 		                </div>
-		                <div class="form-group col-sm-5">
+		                <div class="form-group col-sm-6">
 		                    <label for="belongProject" class="col-sm-2 control-label">所属系统：</label>
 		                    <div class="col-sm-4">
 			                    <select name="belongProject" class="form-control select2 input-sm" data-url="getBelongSystem" data-idkey="idThird" data-namekey="name">
@@ -101,13 +101,13 @@
 		                </div>
 		            </div>
 		            <div class="row">
-		                <div class="form-group col-sm-5">
+		                <div class="form-group col-sm-6">
 		                    <label for="modifyDate" class="col-sm-2 control-label">期望时间:</label>
 		                    <div class="col-sm-4">
 		                    	<input type="text" class="form-control input-sm " name="modifyDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 
 			                </div>
 		                </div>
-		                <div class="form-group col-sm-5">
+		                <div class="form-group col-sm-6">
 		                    <label for="appointedPerson" class="col-sm-2 control-label">处理科室：</label>
 		                    <div class="col-sm-4">
 			                    <select name="appointedPerson" class="form-control select2 input-sm" data-url="staticDealApartment" data-idkey="codeValue" data-namekey="codeName">
@@ -117,10 +117,10 @@
 		                </div>
 		            </div>
 		            <div class="row">
-						<div class="form-group col-sm-5">
-		                    <label for="inputfile" class="col-sm-2 control-label">附件：</label>
+						<div class="form-group col-sm-12">
+		                    <label for="inputfile" class="col-sm-1 control-label">附件：</label>
 							<label class="sr-only" for="inputfile">文件输入</label>
-							<input type="file" id="inputfile">
+							<input type="file" id="inputfile" class="col-sm-6">
 						</div>
 		            </div>
                 </div>

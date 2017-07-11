@@ -42,4 +42,23 @@ public class ArchibuildingStateController {
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
+	
+	//根据Type查询静态数据
+	@RequestMapping(path = "/archi/static/archiProductState")
+	public @ResponseBody JsonBean getProductState(){
+		JsonBean bean = new JsonBean();
+		String codeType = "SYS_PRODUCT_STATE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
+	//根据Type查询静态数据
+	@RequestMapping(path = "/archi/static/archiQuestionState")
+	public @ResponseBody JsonBean getQuestionState(){
+		JsonBean bean = new JsonBean();
+		String codeType = "SYS_QUESTION_STATE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
 }

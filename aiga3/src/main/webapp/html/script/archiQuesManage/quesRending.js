@@ -51,6 +51,8 @@ define(function(require, exports, module) {
     srvMap.add("getSecondcategoryList", "", "sys/cache/listSecondcategory");
     //三级分类下拉框
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
+    //所属系统静态数据  
+	srvMap.add("getBelongSystem", "", "archi/third/list");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),

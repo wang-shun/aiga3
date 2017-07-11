@@ -47,6 +47,8 @@ define(function(require, exports, module) {
 	srvMap.add("getBelongSystem", "", "archi/third/list");
     //所属处理科室静态数据  
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
+    //所属工单状态静态数据  
+	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -115,6 +117,7 @@ define(function(require, exports, module) {
 							setTimeout(function() {
 								self.getDataMaintainList();
 							}, 1000);
+							Page.findId('queryDataMaintainForm').hide();
 							// 关闭弹出层
 							Page.findModal('addDataMaintainModal').modal('hide');
 						}

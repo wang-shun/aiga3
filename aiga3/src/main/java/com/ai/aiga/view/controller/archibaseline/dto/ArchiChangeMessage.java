@@ -7,6 +7,15 @@ import java.util.List;
 public class ArchiChangeMessage implements Serializable {
 	private List<ViewSeries> series;
 	private List<String> legend;
+	private List<String> xAxis;
+	
+	public List<String> getxAxis() {
+		return xAxis;
+	}
+
+	public void setxAxis(List<String> xAxis) {
+		this.xAxis = xAxis;
+	}
 
 	public List<String> getLegend() {
 		return legend;

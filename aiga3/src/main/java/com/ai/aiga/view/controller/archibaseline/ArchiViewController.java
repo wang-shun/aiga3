@@ -3,7 +3,9 @@ package com.ai.aiga.view.controller.archibaseline;
 import io.swagger.annotations.Api;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -198,13 +200,17 @@ public class ArchiViewController {
 	public @ResponseBody JsonBean findchangeView(String beginTime, String endTime) {
 		JsonBean bean = new JsonBean();
 		ArchiChangeMessage output = new ArchiChangeMessage();
-		//查询三级系统的操作记录
-		ArchiGradingConditionParam input = new ArchiGradingConditionParam();
-		input.setBegainTime(beginTime);
-		input.setEndTime(endTime);
-		input.setExt1("3");
-		input.setState("审批通过");
 		try {
+			//获取时间
+			List<String> mounths = getMonthBetween(beginTime,endTime);
+			output.setxAxis(mounths);
+			final int constValue = mounths.size();
+			//查询三级系统的操作记录
+			ArchiGradingConditionParam input = new ArchiGradingConditionParam();
+			input.setBegainTime(beginTime);
+			input.setEndTime(endTime);
+			input.setExt1("3");
+			input.setState("审批通过");
 			List<String> legendList = new ArrayList<String>();
 			List<ArchitectureGrading> gradingList = architectureGradingSv.findChangeMessage(input);
 			//获取一级域信息
@@ -219,14 +225,19 @@ public class ArchiViewController {
 				String name = baseFirst.getName();
 				legendList.add(name);
 				//给对应的列赋值
-				int[] data = new int[12];
+				int[] data = new int[constValue];
 				Iterator<ArchitectureGrading> it = gradingList.iterator();
 				while(it.hasNext()){
 					ArchitectureGrading gradingBase = it.next();
 					if(num/10000000 == gradingBase.getIdBelong()/10000000) {
-						int time = gradingBase.getApplyTime().getMonth();
-						data[time]++;
-						it.remove();			
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+						String applyTime = format.format(gradingBase.getApplyTime());
+						for(int i=0;i<data.length;i++) {
+							if(applyTime.equals(mounths.get(i))) {
+								data[i]++;
+								it.remove();	
+							}
+						}
 					}	
 				}
 				baseSeries.setData(data);
@@ -240,5 +251,24 @@ public class ArchiViewController {
 			return bean;
 		}	
 		return bean;
+	}
+	
+    private List<String> getMonthBetween(String minDate, String maxDate) throws ParseException {
+		ArrayList<String> result = new ArrayList<String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月  
+	    Calendar min = Calendar.getInstance();
+	    Calendar max = Calendar.getInstance();
+	    min.setTime(sdf.parse(minDate));
+	    min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), 1);
+	
+	    max.setTime(sdf.parse(maxDate));
+	    max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
+	 
+	    Calendar curr = min;
+	    while (curr.before(max)) {
+	    	result.add(sdf.format(curr.getTime()));
+	    	curr.add(Calendar.MONTH, 1);
+	    }
+	    return result;
 	}
 }

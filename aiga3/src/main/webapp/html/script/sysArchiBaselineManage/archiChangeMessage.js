@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     //一级域查询
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 
-    //二级数据接口 入参：idFirst level
+    //三级信息变更数据
     srvMap.add("getchangeView", pathAlias+"getSecView.json", "archi/view/changeView");
 
     var Tpl = {

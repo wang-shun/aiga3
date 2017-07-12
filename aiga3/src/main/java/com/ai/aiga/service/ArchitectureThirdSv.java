@@ -27,6 +27,46 @@ public class ArchitectureThirdSv extends BaseService {
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
 	
+	public Object findThirdTransInfo(Long idThird,String name,int pageNumber,int pageSize) {
+		
+		String sql = "select b.name, b.id_third, a.name as sec_name, b.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name "
+				+" from architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second"
+				+" where 1=1";
+//		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, to_char(a.create_date,'YYYY-MM-DD HH24:MI:SS'), a.types,"
+//
+//				+ " to_char(a.done_date,'YYYY-MM-DD HH24:MI:SS'), to_char(a.plan_date,'YYYY-MM-DD HH24:MI:SS'), a.timely, a.result, a.remark, is_finished, a.auto_run_result, a.file_upload_last_time from "
+//
+//				+ "  na_change_plan_onile a left join aiga_staff b  on a.create_op_id = b.staff_id  where  a.sign = 0 ";
+
+		if(idThird>0){
+			sql += " and b.id_third = "+idThird;
+		}
+		if(StringUtils.isNotBlank(name)){
+			sql += " and b.name = "+name;
+		}
+		List<String> list = new ArrayList<String>();
+		list.add("name");
+		list.add("idThird");
+		list.add("secName");
+		list.add("belongLevel");
+		list.add("systemFunction");
+		list.add("department");
+		list.add("projectInfo");
+		list.add("designInfo");
+		list.add("codeName");
+		
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return architectureThirdDao.searchByNativeSQL(sql, pageable, list);
+		
+	}
+	
 	public List<ArchitectureThird>findByIdThirds(long idThird){
 		return architectureThirdDao.findByIdThird(idThird);
 	}

@@ -10,8 +10,8 @@ define(function(require, exports, module) {
     //一级域查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
-	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
-	
+//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
 	var cache = {
 		datas : ""	
 	};

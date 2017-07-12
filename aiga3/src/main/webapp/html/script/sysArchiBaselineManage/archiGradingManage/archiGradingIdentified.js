@@ -39,6 +39,7 @@ define(function(require, exports, module) {
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
 					var data = cache.selectData;
+					//解决时间格式不能传输的问题
 					data.modifyDate = data.modifyDate.replace(/-/g,"/");
 					data.createDate = data.createDate.replace(/-/g,"/");
 					data.applyTime = data.applyTime.replace(/-/g,"/");

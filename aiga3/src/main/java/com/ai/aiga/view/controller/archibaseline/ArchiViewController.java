@@ -191,15 +191,17 @@ public class ArchiViewController {
 		return bean;
 	}
 	/**
-	 * 查询
+	 * 查询三级及系统变更信息
 	 * @return
 	 */
 	@RequestMapping(path = "/archi/view/changeView")
-	public @ResponseBody JsonBean findchangeView() {
+	public @ResponseBody JsonBean findchangeView(String beginTime, String endTime) {
 		JsonBean bean = new JsonBean();
 		ArchiChangeMessage output = new ArchiChangeMessage();
 		//查询三级系统的操作记录
 		ArchiGradingConditionParam input = new ArchiGradingConditionParam();
+		input.setBegainTime(beginTime);
+		input.setEndTime(endTime);
 		input.setExt1("3");
 		input.setState("审批通过");
 		try {

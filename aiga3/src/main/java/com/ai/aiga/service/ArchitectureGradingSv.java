@@ -3,6 +3,7 @@ package com.ai.aiga.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -36,22 +37,27 @@ public class ArchitectureGradingSv extends BaseService {
 		List<Condition> cons = new ArrayList<Condition>();
 		
 		if(StringUtils.isNoneBlank(input.getExt1())){
-		  cons.add(new Condition("ext1", input.getExt1(), Condition.Type.EQ));
+			cons.add(new Condition("ext1", input.getExt1(), Condition.Type.EQ));
 		}
 
 		if(StringUtils.isNoneBlank(input.getState())){
-		  cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
+			cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
 		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		if(StringUtils.isNoneBlank(input.getBegainTime())){
-		  String  dateFir = input.getBegainTime()+" 00:00:00";
-		  Date beginDate = format.parse(dateFir);	
-		  cons.add(new Condition("applyTime", beginDate, Condition.Type.GT));
+			String  dateFir = input.getBegainTime()+"-01 00:00:00";
+			Date beginDate = format.parse(dateFir);	
+			cons.add(new Condition("applyTime", beginDate, Condition.Type.GT));
 		}
 		if(StringUtils.isNoneBlank(input.getEndTime())){
-		  String dateSec = input.getEndTime()+" 23:59:59";
-		  Date endDate = format.parse(dateSec);	
-		  cons.add(new Condition("applyTime", endDate, Condition.Type.LT));
+			//需要查询endtime当月的记录，故月份加一
+		 	String dateSec = input.getEndTime()+"-01 00:00:00";
+		 	Date endDate = format.parse(dateSec);	
+		 	Calendar end = Calendar.getInstance(); 
+		 	end.setTime(endDate);
+		 	end.add(Calendar.MONTH, +1);
+		 	Date endDateIncrease = end.getTime();
+		 	cons.add(new Condition("applyTime", endDateIncrease, Condition.Type.LT));
 		}
 		return architectureGradingDao.search(cons);		
 	}

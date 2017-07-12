@@ -316,8 +316,8 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @Description:计划上线清单
 	 * @param l
 	 * @param list          
-	 */
-	public void saveExcel(Long planId, List<PlanDetailManifestExcel> list,String fileName,Long fileType) {
+	 */                
+	public void saveExcel(Long planId, List<PlanDetailManifestExcel> list,String fileName,Long fileType, Date date) {
 		if(planId == null || planId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
@@ -335,10 +335,10 @@ public class ChangePlanOnileSv extends BaseService{
 				v.setCreateTime(DateUtil.getCurrentTime());
 			}
 		}
-		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
+		NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+				SessionMgrUtil.getStaff().getStaffId(), 0L);
 		planDetailManifestDao.save(values);
 		naFileUploadDao.save(fileEntity);
-		
 	}
 	
 	
@@ -353,7 +353,7 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @param list
 	 * @param fileName           
 	 */
-	public void saveExcelNaProcessChangeList(Long planId, List<NaProcessChangeListExcel> list,String fileName,Long fileType) {
+	public void saveExcelNaProcessChangeList(Long planId, List<NaProcessChangeListExcel> list,String fileName,Long fileType, Date date) {
 		if(planId == null || planId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
@@ -370,10 +370,10 @@ public class ChangePlanOnileSv extends BaseService{
 				
 			}
 		}
-		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
+		NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+				SessionMgrUtil.getStaff().getStaffId(), 0L);
 		naProcessChangeListDao.save(values);
 		naFileUploadDao.save(fileEntity);
-		
 	}
 	
 	/**
@@ -386,7 +386,7 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @param list
 	 * @param fileName          
 	 */
-	public void saveExcelNaServiceChangeOnlineList(Long planId, List<NaServiceChangeOnlineListExcel> list,String fileName,Long fileType) {
+	public void saveExcelNaServiceChangeOnlineList(Long planId, List<NaServiceChangeOnlineListExcel> list,String fileName,Long fileType, Date date) {
 		if(planId == null || planId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
@@ -403,7 +403,8 @@ public class ChangePlanOnileSv extends BaseService{
 				
 			}
 		}
-		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
+		NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+				SessionMgrUtil.getStaff().getStaffId(), 0L);
 		naServiceChangeOnlineListDao.save(values);
 		naFileUploadDao.save(fileEntity);
 		
@@ -420,7 +421,7 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @param list
 	 * @param fileName          
 	 */
-	public void saveExcelNaHostConfigList(Long planId, List<NaHostConfigListExcel> list,String fileName,Long fileType) {
+	public void saveExcelNaHostConfigList(Long planId, List<NaHostConfigListExcel> list,String fileName,Long fileType, Date date) {
 		if(planId == null || planId < 0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
@@ -439,8 +440,9 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 		}
 		naHostConfigListDao.save(values);
-		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
-		
+		NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+				SessionMgrUtil.getStaff().getStaffId(), 0L);
+
 		naFileUploadDao.save(fileEntity);
 		
 	}
@@ -490,37 +492,6 @@ public class ChangePlanOnileSv extends BaseService{
 			return aigaBossTestResultDao.searchByNativeSQL(s.toString());
 		}
 		
-		/**
-		 * 
-		 * @ClassName: NaChangePlanOnileSv :: saveCodeExcel
-		 * @author: liujinfang
-		 * @date: 2017年4月25日 下午3:10:26
-		 *
-		 * @Description:  上线系统模块解析导入
-		 * @param planId
-		 * @param list
-		 */
-		public void saveCodeExcel(Long planId, List<CodePathRequestExcel> list,String fileName,Long fileType) {
-			if(planId == null || planId < 0){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
-			}
-			
-			if(list == null || list.size() <= 0){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
-			}
-			
-			
-			List<NaCodePath> values = BeanMapper.mapList(list, CodePathRequestExcel.class, NaCodePath.class);
-			if(values != null){
-				for(NaCodePath v : values){
-					v.setPlanId(planId);
-					
-				}
-			}
-			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
-			codePathDao.save(values);
-			naFileUploadDao.save(fileEntity);
-		}	
 		
 		/**
 		 * 
@@ -533,7 +504,7 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @param list
 		 */
 		
-		public void testLeaveOverExcel(Long planId, List<TestLeaveOverExcel> list,String fileName,Long fileType) {
+		public void testLeaveOverExcel(Long planId, List<TestLeaveOverExcel> list,String fileName,Long fileType, Date date) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -550,8 +521,9 @@ public class ChangePlanOnileSv extends BaseService{
 					
 				}
 			}
-			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
-		
+			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+					SessionMgrUtil.getStaff().getStaffId(), 0L);
+
 			naFileUploadDao.save(fileEntity);
 			testLeaveOverDao.save(values);
 		}	
@@ -566,7 +538,7 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @param planId
 		 * @param list
 		 */
-		public void requireListExcel(Long planId, List<RequireListExcel> list,String fileName,Long fileType) {
+		public void requireListExcel(Long planId, List<RequireListExcel> list,String fileName,Long fileType, Date date) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -585,8 +557,9 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 			
 			naRequireListDao.save(values);
-			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
-		
+			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+					SessionMgrUtil.getStaff().getStaffId(), 0L);
+
 			naFileUploadDao.save(fileEntity);
 		}	
 		
@@ -630,7 +603,7 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @param planId
 		 * @param list
 		 */
-		public void naGroupAdjustListExcel(Long planId, List<NaGroupAdjustListExcel> list,String fileName,Long fileType) {
+		public void naGroupAdjustListExcel(Long planId, List<NaGroupAdjustListExcel> list,String fileName,Long fileType, Date date) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -647,10 +620,10 @@ public class ChangePlanOnileSv extends BaseService{
 					
 				}
 			}
-			
 			naGroupAdjustListDao.save(values);
-			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
-			
+			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+					SessionMgrUtil.getStaff().getStaffId(), 0L);
+
 			naFileUploadDao.save(fileEntity);
             
 		}			
@@ -665,7 +638,7 @@ public class ChangePlanOnileSv extends BaseService{
 		 * @param planId
 		 * @param list
 		 */
-		public void naGroupRequireList(Long planId, List<NaGroupRequireListExcel> list,String fileName,Long fileType) {
+		public void naGroupRequireList(Long planId, List<NaGroupRequireListExcel> list,String fileName,Long fileType,Date date) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -684,9 +657,10 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 			
 			naGroupRequireListDao.save(values);
-		NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
-				
-		naFileUploadDao.save(fileEntity);
+			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+					SessionMgrUtil.getStaff().getStaffId(), 0L);
+
+			naFileUploadDao.save(fileEntity);
 		}				
 		
 	/**
@@ -699,7 +673,7 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @param planId
 	 * @param list
 	 */
-		public void naHasDeployMenuListExcel(Long planId, List<NaHasDeployMenuListExcel> list,String fileName,Long fileType) {
+		public void naHasDeployMenuListExcel(Long planId, List<NaHasDeployMenuListExcel> list,String fileName,Long fileType, Date date) {
 			if(planId == null || planId < 0){
 				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 			}
@@ -718,9 +692,17 @@ public class ChangePlanOnileSv extends BaseService{
 			}
 			
 			naHasDeployMenuListDao.save(values);
-			NaFileUpload fileEntity = new NaFileUpload(fileName,new Date(),fileType);
-			
+			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+					SessionMgrUtil.getStaff().getStaffId(), 0L);
+
 			naFileUploadDao.save(fileEntity);
 		}				
 		
+		public void saveFileInfo(Long planId, String fileName, Long fileType, Date date) {
+
+			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+					SessionMgrUtil.getStaff().getStaffId(), 0L);
+			naFileUploadDao.save(fileEntity);
+
+		}
 }

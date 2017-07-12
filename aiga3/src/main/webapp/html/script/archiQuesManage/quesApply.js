@@ -49,6 +49,8 @@ define(function(require, exports, module) {
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
     //所属工单状态静态数据  
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
+	//上传文件
+    srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -73,6 +75,9 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			var planId = '99999';
+			this.uploadAnNiu(planId);
+			
 			this.judgeQuesType();
 			// 默认查询所有
 			this.getDataMaintainList();
@@ -81,6 +86,46 @@ define(function(require, exports, module) {
 			//映射
 			this.hdbarHelp();
 		},
+		        //上传上线交付物按钮
+        uploadAnNiu: function(planId) {
+            var self = this;
+            var _form = Page.findModalCId('queryDataMaintainForm');
+            console.log(_form.length)
+            var _saveBtn = _form.find("[name='importFile']");
+            _saveBtn.unbind('click');
+            _saveBtn.bind('click', function() {
+            	Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
+            		var a = '99999';
+	                var cmd = {
+	                    "file": _form.find("[name='fileName']")[0].files[0],
+	                    "planId": planId,
+	                    "fileType": a,
+	                }
+	                console.log(_form.find("[name='fileName']"));
+	                console.log(a);
+                        var task = srvMap.get('uploadFile');
+                        self.jieko(task, cmd, planId)
+	            });
+            });
+        },
+        jieko: function(task, cmd, planId) {
+            var self = this;
+            $.ajaxUpload({
+                url: task,
+                data: cmd,
+                success: function(date, status, xhr) {
+                    console.log(date)
+                    if (date.retCode==200) {
+                        window.XMS.msgbox.show('上传成功！', 'success', 2000);
+                        setTimeout(function() {
+//                            self.uploadDeliverables(planId);
+                        }, 1000)
+                    }else{
+                        window.XMS.msgbox.show(date.retMessage, 'error', 2000);
+                    }
+                }
+            });
+        },
 		//判断下拉框quesTypez值
 		judgeQuesType: function(){
 			$("#quesType").unbind('click');

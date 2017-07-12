@@ -236,13 +236,46 @@ define(function(require, exports, module) {
 					data.createDate = data.createDate.replace(/-/g,"/");
 					data.applyTime = data.applyTime.replace(/-/g,"/");
 					//通过
-					
-					
+					textModal.find("[name='pass']").off('click').on('click', function(){
+						data.state = '确定';
+						data.identifiedInfo = Page.findId('modalMessage').val();
+						var _cmd = jQuery.param(data);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
+							if(status) {							
+								textModal.modal('hide');
+								Page.findId('sysMessageFrom').modal('hide');
+								XMS.msgbox.show('认定成功，数据已归档！', 'success', 2000);	
+								setTimeout(function() {
+									Page.findId('querySysDomainForm').find("[name='query']").click();
+								}, 1500);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+					});
 					//不通过
-					
-					
+					textModal.find("[name='noPass']").off('click').on('click', function(){
+						data.state = '否决';
+						data.identifiedInfo = Page.findId('modalMessage').val();
+						var _cmd = jQuery.param(data);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
+							if(status) {
+								textModal.modal('hide');
+								Page.findId('sysMessageFrom').modal('hide');
+								XMS.msgbox.show('认定成功', 'success', 2000);	
+								setTimeout(function() {
+									Page.findId('querySysDomainForm').find("[name='query']").click();
+								}, 1500);								
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+					});
 				});
 				textModal.modal('show');
+				
 				var _form = Page.findId('updateDataMaintainInfo');
 				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();

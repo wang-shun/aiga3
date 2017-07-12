@@ -34,6 +34,7 @@ public class NaFileUpload  implements java.io.Serializable {
      private String ext2;
      private String ext3;
      private Long fileType;
+     private Long createId;
 
     public NaFileUpload() {
     }
@@ -42,11 +43,18 @@ public class NaFileUpload  implements java.io.Serializable {
     public NaFileUpload(Long id) {
         this.id = id;
     }
-    
-    public NaFileUpload(String fileName, Date createTime,Long fileType) {
+    public NaFileUpload(String fileName, Date createTime) {
+        this.fileName = fileName;
+        this.createTime = createTime;
+
+    }
+    public NaFileUpload(String fileName, Date createTime,Long fileType,Long planId,Long createId , Long uploadCount) {
         this.fileName = fileName;
         this.createTime = createTime;
         this.fileType=fileType;
+        this.planId = planId;
+        this.createId = createId;
+        this.uploadCount = uploadCount;
     }
     
     public NaFileUpload(Long id, String fileName, Date createTime, Date lastUploadTime, Long uploadCount, Date downLoadTime, Long planId, String ext1, String ext2, String ext3, Long fileType) {
@@ -80,7 +88,18 @@ public class NaFileUpload  implements java.io.Serializable {
         return this.fileName;
     }
     
-    public void setFileName(String fileName) {
+    @Column(name="CREATE_ID")
+    public Long getCreateId() {
+		return createId;
+	}
+
+
+	public void setCreateId(Long createId) {
+		this.createId = createId;
+	}
+
+
+	public void setFileName(String fileName) {
         this.fileName = fileName;
     }
     @Temporal(TemporalType.TIMESTAMP)

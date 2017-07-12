@@ -47,7 +47,8 @@ define(function(require, exports, module) {
 			var _form = Page.findId('selectData');
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
-				Rose.ajax.postJson(srvMap.get("getchangeView"),'', function(json, status) {
+				var _cmd = Page.findId('querySysDomainForm').serialize();
+				Rose.ajax.postJson(srvMap.get("getchangeView"), _cmd, function(json, status) {
 					if(status) {
 						self._graphfir(json);
 					}
@@ -138,9 +139,12 @@ define(function(require, exports, module) {
 			        }
 			    ]
 			};
-			if(json) {
+			if(json && json.data) {
 				option.legend.data = json.data.legend;
 				option.series = json.data.series;
+				if(json.data.xAxis) {
+					option.xAxis.data = json.data.xAxis
+				}
 			}
 			myChart.setOption(option);
 		}

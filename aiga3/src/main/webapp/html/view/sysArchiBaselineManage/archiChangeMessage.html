@@ -11,10 +11,11 @@
             <div class="box-body">
                 <div class="col-md-12">
                     <div id="JS_selectData" class="form-group form-inline">
-                        <label class="control-label margin-onl">时间</label>
-                  		<input type="text" class="form-control input-sm " name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+                        <label class="control-label margin-onl">开始时间</label>
+                  		<input type="text" class="form-control input-sm " name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
+                  		<label class="control-label margin-onl">结束时间</label>
+                  		<input type="text" class="form-control input-sm " name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/> 
                         <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
- 
                     </div>             
                 </div>
             </div>
@@ -29,68 +30,17 @@
     </div>
 </div>
 <style type="text/css">
-#Page_archiChangeMessage .sys-sty{
-    z-index: 2;
-    position: absolute;
-    border: 1px solid rgba(6, 6, 6, 0.93);
-    background-color: #85dfec;
-}
 
-#Page_archiChangeMessage .label-left-sty{
-    margin-top: 10px;
-    -webkit-transform: rotate(90deg);
-    width: auto;
-}
-#Page_archiChangeMessage .paas-sty {
-    display: block;
-    margin-left: 30px;
-}
-#Page_archiChangeMessage .border-view-out {
-   width: fit-content;
-   min-width:  600px; 
-   margin-left: auto;
-   margin-right: auto;
-   margin-top: 5px;
-   min-height: 30px;
-}
-#Page_archiChangeMessage .noborder-view {
-   width: auto;
-   min-width:  200px; 
-   margin-left: 10px;
-   margin-top: 2px;
-   min-height: 40px;
-   margin-right: 2px;
-   margin-bottom: 2px;
-}
-#Page_archiChangeMessage .border-view {
-   width: auto;
-   min-width:  200px; 
-   margin-left: 10px;
-   margin-top: 2px;
-   min-height: 40px;
-   border: 1px solid rgba(6, 6, 6, 0.93);
-   margin-right: 2px;
-   margin-bottom: 2px;
-}
-#Page_archiChangeMessage .border-view-inside {
-   width: auto;
-   margin-left: 10px;
-   margin-top: 2px;
-   min-height: 40px;
-   border: 1px solid rgba(6, 6, 6, 0.93);
-   margin-right: 2px;
-   margin-bottom: 2px;
-}
 #Page_archiChangeMessage .first-name-label {
- margin-left: 40px; 
- margin-right: 20px;
+	margin-left: 40px; 
+	margin-right: 20px;
 }
 #Page_archiChangeMessage .second-label {
- margin-left: 260px;
- margin-right: 20px;
+	margin-left: 260px;
+	margin-right: 20px;
 }
 #Page_archiChangeMessage .margin-onl {
- margin-left: 20px;
+	margin-left: 20px;
 }
 
 </style>

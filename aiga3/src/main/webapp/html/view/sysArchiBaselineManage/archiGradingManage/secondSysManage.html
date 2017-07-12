@@ -93,7 +93,7 @@
         </table>
     </div>
     <div class="box-footer no-border">
-        <div class="dataTables_paginate" name="pagination"></div>
+        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
     </div> 
 </div>
 <!-- 申请页面 -->
@@ -108,22 +108,22 @@
 				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
 					<form id="JS_secApplyForm">
 					<div class="col-md-12">
-						<label class="control-label first-name-label">名称</label>
+						<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
 	   					<input name="name" type="text" class="form-control input-sm input-width-sec"></input>
-				     	<label class="control-label margin-no-label">编号</label>
+				     	<label class="control-label margin-no-label">编号<span style="color:red">*</span></label>
 						<input name="sysId" type="text" class="form-control input-sm input-width-sec"></input>
 					</div>
 					<div id="select-load" class="margin-top-20 col-md-12">
-						<label class="control-label first-name-label">简称</label>
+						<label class="control-label first-name-label">简称<span style="color:red">*</span></label>
 						<input name="code" type="text" class="form-control input-sm input-width-sec"></input>
-	    				<label class="control-label margin-domain-label">所属一级域</label>
+	    				<label class="control-label margin-domain-label">所属一级域<span style="color:red">*</span></label>
         				<select name="idBelong"  class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 170px">
             				<option value="">请选择</option>
          				</select>
 					</div>
 					</form>
 					<div class="margin-top-20 col-md-12">	        	
-	    				<label class="control-label fist-text-label check-inline-label">分层层级</label>        
+	    				<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
 	     			    <div class="check-inline">				
 	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label style="width:45px;">SaaS</label>
 							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label style="width:45px;">IPaaS</label>
@@ -167,15 +167,15 @@
 <div class="box-body form-group form-inline" style="margin-bottom: 0px">
 	<form id="JS_secUpdateForm">
 	<div class="col-md-12">
-		<label class="control-label first-name-label">名称</label>
+		<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
 		<input name="name" type="text" class="form-control input-sm" value="{{name}}"></input>
-		<label class="control-label margin-no-label">编号</label>
+		<label class="control-label margin-no-label">编号<span style="color:red">*</span></label>
 		<input name="sysId" type="text" class="form-control input-sm" readonly="readonly" value="{{idSecond}}"></input>
 	</div>
 	<div id="select-load" class="margin-top-20 col-md-12">
-		<label class="control-label first-name-label">简称</label>
+		<label class="control-label first-name-label">简称<span style="color:red">*</span></label>
 		<input name="code" type="text" class="form-control input-sm" value="{{code}}"></input>
-		<label class="control-label margin-domain-label">所属一级域</label>
+		<label class="control-label margin-domain-label">所属一级域<span style="color:red">*</span></label>
 		<input type="text" class="form-control input-sm" readonly="readonly" value="{{idFirstName}}"></input>
 		<input type="hidden" name="idBelong"  value="{{idFirst}}"></input>
 		<input type="hidden" name="createDate" value="{{createDate}}"></input>
@@ -183,7 +183,7 @@
 	</div>
 	</form>
 	<div class="margin-top-20 col-md-12">	    
-		<label class="control-label fist-text-label check-inline-label">分层层级</label>        
+		<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
 		<div class="check-inline">				
 	       	<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS"/><label style="width:45px;">SaaS</label>
 			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"/><label style="width:45px;">IPaaS</label>

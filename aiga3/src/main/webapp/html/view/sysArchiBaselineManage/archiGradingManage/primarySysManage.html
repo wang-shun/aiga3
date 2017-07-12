@@ -71,7 +71,7 @@
         </table>
     </div>
     <div class="box-footer no-border">
-        <div class="dataTables_paginate" name="pagination"></div>
+        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
     </div> 
 </div>
 <!-- 申请页面 -->
@@ -86,13 +86,13 @@
 				<div class="box-body form-group form-inline">
 					<form id="JS_firApplyForm">
 					<div class="col-md-12">
-				     	<label class="control-label first-name-label">名称</label>
+				     	<label class="control-label first-name-label">名称 <span style="color:red">*</span></label>
 				     	<input name="name" type="text" class="form-control input-sm" ></input>
-				     	<label class="control-label margin-no-label">编号</label>
+				     	<label class="control-label margin-no-label">编号 <span style="color:red">*</span></label>
 	    			 	<input name="sysId" type="text" class="form-control input-sm" ></input>
 					</div>
 					<div id="select-load" class="margin-top-20 col-md-12">
-						<label class="control-label first-name-label">简称</label>
+						<label class="control-label first-name-label">简称 <span style="color:red">*</span></label>
 	     				<input name="code" type="text" class="form-control input-sm" ></input>
 					</div>
 					</form>
@@ -128,13 +128,13 @@
 <div class="box-body form-group form-inline">
 	<form id="JS_firUpdateForm">
 	<div class="col-md-12">
-		<label class="control-label first-name-label">名称</label>
+		<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
 		<input name="name" type="text" class="form-control input-sm" value="{{name}}"></input>
-		<label class="control-label margin-no-label">编号</label>
+		<label class="control-label margin-no-label">编号<span style="color:red">*</span></label>
 		<input name="sysId" type="text" class="form-control input-sm" readonly="readonly" value="{{idFirst}}"></input>
 	</div>
 	<div id="select-load" class="margin-top-20 col-md-12">
-		<label class="control-label first-name-label">简称</label>
+		<label class="control-label first-name-label">简称<span style="color:red">*</span></label>
 		<input name="code" type="text" class="form-control input-sm" value="{{code}}"></input>
 		<input type="hidden" name="createDate" value="{{createDate}}"></input>
 		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>

@@ -45,6 +45,15 @@ define(function(require, exports, module) {
 			var _applyBtn = _form.find("[name='apply']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
+				if (cmd.indexOf('idFirst=&')>-1) {
+					XMS.msgbox.show('请选择一级域', 'error', 2000);
+					return
+				}
+				if (cmd.charAt(cmd.length - 1) == '=') {
+					XMS.msgbox.show('请选择二级子域', 'error', 2000);
+					return
+				}
+				
 				self._getGridList(cmd);
 			});
 			_applyBtn.off('click').on('click',function() {
@@ -116,7 +125,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var _cmd = '' ;
 			if(cmd){
-				var _cmd = cmd;
+				_cmd = cmd;
 			}
 			var _dom = Page.findId('thirdSysMessageList');
 			var _domPagination = _dom.find("[name='pagination']");

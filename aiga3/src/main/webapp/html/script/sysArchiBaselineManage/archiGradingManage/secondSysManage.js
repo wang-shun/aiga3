@@ -38,7 +38,9 @@ define(function(require, exports, module) {
 				var cmd = "idFirst="+_form.find("[name='idFirst']").val();
 				//用于解决long型不可空传的问题
 				if(cmd.charAt(cmd.length - 1) == '=') {
-					cmd+='0';
+					XMS.msgbox.show('请选择一级域', 'error', 2000);
+					return;
+//					cmd+='0';
 				}
 				self._getSecGridList(cmd);
 			});

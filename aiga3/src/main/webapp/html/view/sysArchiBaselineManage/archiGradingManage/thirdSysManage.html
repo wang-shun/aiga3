@@ -28,7 +28,7 @@
 }
 #Page_thirdSysManage .first-name-label {
 	margin-left: 40px; 
-	margin-right: 20px;
+	margin-right: 15px;
 }
 #Page_thirdSysManage .second-label-depart {
 	margin-left: 30px;
@@ -36,7 +36,7 @@
 }
 #Page_thirdSysManage .second-label-select {
 	margin-left: 30px;
-	margin-right: 48px;
+	margin-right: 43px;
 }
 #Page_thirdSysManage .second-label {
 	margin-left: 262px;
@@ -123,11 +123,11 @@
 				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
 					<form id="JS_thirdApplyForm">
 						<div class="col-md-12">
-							<label class="control-label first-name-label">名称</label>
+							<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
 	   						<input name="name" type="text" class="form-control input-sm width-input-167"></input>
 	  						<label class="control-label margin-onl">简称</label>
 							<input name="code" type="text" class="form-control input-sm width-input-167"></input>
-					   	 	<label class="control-label margin-onl">系统编号</label>
+					   	 	<label class="control-label margin-onl" style="margin-right: 15px">系统编号<span style="color:red">*</span></label>
 							<input name="sysId" type="text" class="form-control input-sm width-input-167"></input>
 						</div>
 						<div class="margin-top-20 col-md-12">
@@ -139,7 +139,7 @@
                             <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idBelong" style="width: 150px">
                         		<option value="">请选择</option>
                     		</select>
-                    		<label class="control-label" style="margin-left: 18px;margin-right: 20px">二级子域</label>
+                    		<label class="control-label" style="margin-left: 18px;margin-right: 15px">二级子域<span style="color:red">*</span></label>
                     		<select name="idBelong"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 150px">
                         		<option value="">请选择</option>
                     		</select>
@@ -155,13 +155,13 @@
 						<div class="margin-top-20 col-md-12">
 					    	<label class="control-label fist-text-label">规划设计信息</label>
 							<input name="designInfo" type="text" class="form-control input-sm width-input-400"></input>
-					    	<label class="control-label second-label-select">状态</label>
+					    	<label class="control-label second-label-select">状态<span style="color:red">*</span></label>
      			   			<select name="sysState"  class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 167px">
      			   			</select>
 						</div>
 					</form>	
 					<div class="margin-top-20 col-md-12">	    		    	
-		    			<label class="control-label fist-text-label check-inline-label">分层层级</label>        
+		    			<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
 		     			<div class="check-inline">				
 	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label style="width:45px;">SaaS</label>
 							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label style="width:45px;">IPaaS</label>
@@ -207,11 +207,11 @@
 <div class="box-body form-group form-inline" style="margin-bottom: 0px">
 	<form id = "JS_thirdUpdateForm">
 	<div class="col-md-12">
-		<label class="control-label first-name-label">名称</label>
+		<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
 	    <input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
 	    <label class="control-label margin-onl">简称</label>
 	    <input name="code" type="text" class="form-control input-sm width-input-167" value="{{code}}"></input>
-	    <label class="control-label margin-onl">系统编号</label>
+	    <label class="control-label margin-onl" style="margin-right:15px;">系统编号<span style="color:red">*</span></label>
 	    <input name="sysId" type="text" class="form-control input-sm width-input-167" value="{{idThird}}"></input>
 	</div>
 	<div class="margin-top-20 col-md-12">
@@ -219,7 +219,7 @@
 		<textarea name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty">{{systemFunction}}</textarea>
 	</div>
 	<div id="updata-select" class="margin-top-20 col-md-12 form-group">
-	    <label class="control-label fist-text-label">所属二级子域</label>
+	    <label class="control-label">所属二级子域<span style="color:red">*</span></label>
 		<input type="text" class="form-control input-sm" readonly="readonly" value="{{idSecondName}}"></input>
 		<input name="idBelong" type="hidden" value="{{idSecond}}"></input>
         <label class="control-label second-label">等级信息</label>
@@ -237,13 +237,13 @@
 	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">规划设计信息</label>
 		<input name="designInfo" type="text" class="form-control input-sm width-input-400" value="{{designInfo}}"></input>
-		<label class="control-label second-label-select">状态</label>
+		<label class="control-label second-label-select">状态<span style="color:red">*</span></label>
      	<select name="sysState"  class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 167px">
      	</select>
 	</div>
 	</form>
 	<div class="margin-top-20 col-md-12">	    	
-		<label class="control-label fist-text-label check-inline-label">分层层级</label>        
+		<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
 		<div class="check-inline">				
 	       	<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS"/><label style="width:45px;">SaaS</label>
 			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"/><label style="width:45px;">IPaaS</label>

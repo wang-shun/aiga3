@@ -358,7 +358,7 @@ define(function(require, exports, module) {
                 checkboxClass: 'icheckbox_square-blue',
                 radioClass: 'iradio_square-blue'
             });
-            obj.find("tr").bind('click', function(event) {
+            obj.find("tbodys tr").bind('click', function(event) {
                 $(this).find('.minimal').iCheck('check');
                 if (callback) {
                     callback();

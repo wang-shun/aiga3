@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.IteratorUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -200,9 +201,21 @@ public class ArchiViewController {
 	public @ResponseBody JsonBean findchangeView(String beginTime, String endTime) {
 		JsonBean bean = new JsonBean();
 		ArchiChangeMessage output = new ArchiChangeMessage();
+		if(StringUtils.isBlank(beginTime)) {
+			bean.fail("请输入开始时间！");
+			return bean;
+		}
+		if(StringUtils.isBlank(endTime)) {
+			bean.fail("秦输入结束时间！");
+			return bean;
+		}
 		try {
 			//获取时间
 			List<String> mounths = getMonthBetween(beginTime,endTime);
+			if(mounths.size()<=0) {
+				bean.fail("结束时间小于开始时间！");
+				return bean;
+			}
 			output.setxAxis(mounths);
 			final int constValue = mounths.size();
 			//查询三级系统的操作记录
@@ -263,7 +276,9 @@ public class ArchiViewController {
 	
 	    max.setTime(sdf.parse(maxDate));
 	    max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), 2);
-	 
+	    if(max.before(min)) {
+	    	return result;
+	    }
 	    Calendar curr = min;
 	    while (curr.before(max)) {
 	    	result.add(sdf.format(curr.getTime()));

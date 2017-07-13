@@ -48,9 +48,13 @@ define(function(require, exports, module) {
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
 				var _cmd = Page.findId('querySysDomainForm').serialize();
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get("getchangeView"), _cmd, function(json, status) {
 					if(status) {
+						window.XMS.msgbox.hide();
 						self._graphfir(json);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
 			});

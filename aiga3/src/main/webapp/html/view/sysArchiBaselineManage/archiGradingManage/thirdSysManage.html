@@ -155,9 +155,10 @@
 						<div class="margin-top-20 col-md-12">
 					    	<label class="control-label fist-text-label">规划设计信息</label>
 							<input name="designInfo" type="text" class="form-control input-sm width-input-400"></input>
-					    	<label class="control-label second-label-select">状态<span style="color:red">*</span></label>
-     			   			<select name="sysState"  class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 167px">
+					    	<label class="control-label second-label-select">状态<span style="color:red">*</span></label>		    	
+     			   			<select name="sysState" data-toggle="tooltip" title="请选择系统属性" class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 113px">
      			   			</select>
+     			   			<input type="text" class="form-control input-sm" data-toggle="tooltip" title="请选择年份" name="ext2" onclick="WdatePicker({dateFmt:'yyyy'})" style="width: 50px"/> 
 						</div>
 					</form>	
 					<div class="margin-top-20 col-md-12">	    		    	
@@ -238,8 +239,9 @@
 		<label class="control-label fist-text-label">规划设计信息</label>
 		<input name="designInfo" type="text" class="form-control input-sm width-input-400" value="{{designInfo}}"></input>
 		<label class="control-label second-label-select">状态<span style="color:red">*</span></label>
-     	<select name="sysState"  class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 167px">
+     	<select name="sysState" data-toggle="tooltip" title="请选择系统属性" class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 113px">
      	</select>
+		<input type="text" class="form-control input-sm" data-toggle="tooltip" title="请选择年份" name="ext2" onclick="WdatePicker({dateFmt:'yyyy'})" style="width: 50px" value="{{ext2}}"/> 
 	</div>
 	</form>
 	<div class="margin-top-20 col-md-12">	    	
@@ -258,8 +260,6 @@
 	</div>
 </div>
 </script>
-<!--   <input type="hidden" value="{{caseId}}" name="caseId">
- -->
  <!-- 表格数据  -->
 <script id="TPL_getSysMessageList" type="text/x-handlebars-template">
 {{#each this}}

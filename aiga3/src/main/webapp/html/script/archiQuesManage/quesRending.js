@@ -115,6 +115,7 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getQuestionInfoList'), _cmd, function(json, status) {//getQuestionInfoList
+				cache.datas = json.data.content;
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getQuestionInfoList);

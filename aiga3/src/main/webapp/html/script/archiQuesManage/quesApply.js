@@ -108,7 +108,8 @@ define(function(require, exports, module) {
 					_modal.modal('hide');
 					var node = _modal.find("[name='belongProject']");
 					
-					var value = node.val();
+					var value = $("#sbbelongProject").find("option:selected").text();
+//					var value = node.text();
 					
 					_dom.find("[name='belongProjectSrc']").val(value);
 				})

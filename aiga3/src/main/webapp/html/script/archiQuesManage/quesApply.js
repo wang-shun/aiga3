@@ -91,7 +91,7 @@ define(function(require, exports, module) {
             var self = this;
             var _form = Page.findModalCId('queryDataMaintainForm');
             console.log(_form.length)
-            var _saveBtn = _form.find("[name='importFile']");
+            var _saveBtn = _form.find("[name='query']");
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
             	Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
@@ -153,12 +153,13 @@ define(function(require, exports, module) {
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
 					_cmd=_cmd.replace(/-/g,"/");
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					console.log(_cmd);
 					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
-							XMS.msgbox.show('添加成功！', 'success', 2000)
+							//XMS.msgbox.show('添加成功！', 'success', 2000);
+							alert("恭喜，申报成功！");
 							setTimeout(function() {
 								self.getDataMaintainList();
 							}, 1000);

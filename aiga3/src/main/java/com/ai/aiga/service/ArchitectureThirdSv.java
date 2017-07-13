@@ -29,8 +29,8 @@ public class ArchitectureThirdSv extends BaseService {
 	
 	public Object findThirdTransInfo(Long idThird,String name,int pageNumber,int pageSize) {
 		
-		String sql = "select b.name, b.id_third, a.name as sec_name, b.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name "
-				+" from architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second"
+		String sql = "select b.name, b.id_third, a.name as sec_name, d.name as fir_name, b.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name "
+				+" from architecture_first d inner join ( architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second ) on a.id_first = d.id_first"
 				+" where 1=1";
 //		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, to_char(a.create_date,'YYYY-MM-DD HH24:MI:SS'), a.types,"
 //
@@ -48,6 +48,7 @@ public class ArchitectureThirdSv extends BaseService {
 		list.add("name");
 		list.add("idThird");
 		list.add("secName");
+		list.add("firName");
 		list.add("belongLevel");
 		list.add("systemFunction");
 		list.add("department");

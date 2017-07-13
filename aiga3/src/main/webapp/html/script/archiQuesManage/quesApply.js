@@ -76,6 +76,9 @@ define(function(require, exports, module) {
 	var Query = {
 		init: function() {
 			var planId = '99999';
+			
+			this.searchBox();
+			
 			this.uploadAnNiu(planId);
 			
 			this.judgeQuesType();
@@ -85,6 +88,31 @@ define(function(require, exports, module) {
 			this.queryDataMaintainForm();
 			//映射
 			this.hdbarHelp();
+		},
+		
+		searchBox: function(){
+			var self = this;
+			var _dom = Page.findId('queryDataMaintainForm');
+			var _checkBt = _dom.find("[name='checkbox']");
+
+			_checkBt.unbind('click');
+			_checkBt.bind('click', function() {
+//				var template = Handlebars.compile(Page.findTpl('getSearchBoxTemp'));
+//				Page.findId('insertBelongProj').html(template(data));
+				var _modal = Page.findModal('addSearchBoxModal');
+				_modal.modal('show');
+				Utils.setSelectData(_modal);
+				var sureBt = _modal.find("[name='sure']");
+				sureBt.unbind('click');
+				sureBt.bind('click',function(){
+					_modal.modal('hide');
+					var node = _modal.find("[name='belongProject']");
+					
+					var value = node.val();
+					
+					_dom.find("[name='belongProjectSrc']").val(value);
+				})
+			});
 		},
 		        //上传上线交付物按钮
         uploadAnNiu: function(planId) {

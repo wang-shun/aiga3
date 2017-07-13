@@ -92,11 +92,15 @@
 			                </div>
 		                </div>
 		                <div class="form-group col-sm-6">
-		                    <label for="belongProject" class="col-sm-2 control-label">所属系统：</label>
-		                    <div class="col-sm-4">
-			                    <select name="belongProject" class="form-control select2 input-sm" data-url="getBelongSystem" data-idkey="idThird" data-namekey="name">
+		                    <label for="belongProjectSrc" class="col-sm-2 control-label">所属系统：</label>
+		                    <div class="col-sm-3">
+		                    	<input name="belongProjectSrc" type="text" class="form-control" placeholder="请选择所属系统">
+<!-- 			                <select name="belongProject" class="form-control select2 input-sm" data-url="getBelongSystem" data-idkey="idThird" data-namekey="name">
 			                        <option value="请选择">请选择</option>
-			                    </select>
+			                    </select> -->
+			                </div>
+				            <div class="col-sm-1">
+				                <button type="button" class="btn btn-primary" data-toggle="modal" name="checkbox">查看</button>
 			                </div>
 		                </div>
 		            </div>
@@ -191,6 +195,34 @@
                         </tr>
                     </tfoot>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<!-- 新增searchbox弹框 -->
+<div class="modal fade" id="Modal_addSearchBoxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="width:400px; height:auto">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">所属系统选择框</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+				<div class="form-group col-sm-12">
+					<label for="belongProject" class="col-sm-3 control-label">所属系统：</label>
+					<div class="col-sm-7">
+ 						<select name="belongProject" class="form-control select2 input-sm" data-url="getBelongSystem" data-idkey="idThird" data-namekey="name">
+							<option value="请选择">请选择</option>
+						</select>
+					</div>
+				</div><br/><br/>
+            </div>
+            <div class="modal-footer">
+            	<div class="text-center">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+	                <button type="button" class="btn btn-primary pull-right" name="sure">选定</button>
+            	</div>
             </div>
         </div>
     </div>

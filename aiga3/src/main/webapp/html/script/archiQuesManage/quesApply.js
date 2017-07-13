@@ -83,6 +83,8 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			this.initialise();
+			
 			var planId = '99999';
 			
 			this.searchBox();
@@ -98,6 +100,11 @@ define(function(require, exports, module) {
 			this._querydomain();
 			//映射
 			this.hdbarHelp();
+		},
+		initialise: function(){
+			var self = this;
+			var _form = Page.findId('queryDataMaintainForm');
+			Utils.setSelectData(_form);
 		},
 		searchBox: function(){
 			var self = this;
@@ -162,7 +169,10 @@ define(function(require, exports, module) {
                 success: function(date, status, xhr) {
                     console.log(date)
                     if (date.retCode==200) {
-                        window.XMS.msgbox.show('上传成功！', 'success', 2000);
+                        //window.XMS.msgbox.show('上传成功！', 'success', 2000);
+                        queryDataMaintainForm();
+                        window.XMS.msgbox.show('上传成功,申报成功！', 'success', 2000);
+
                         setTimeout(function() {
 //                            self.uploadDeliverables(planId);
                         }, 1000)
@@ -205,7 +215,8 @@ define(function(require, exports, module) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
 //							XMS.msgbox.show('添加成功！', 'success', 2000);
-							alert("恭喜，申报成功！");
+							XMS.msgbox.show('文件上传完毕，申报成功！', 'success', 2000);
+//							alert("恭喜，申报成功！");
 							setTimeout(function() {
 								self.getDataMaintainList();
 							}, 1000);

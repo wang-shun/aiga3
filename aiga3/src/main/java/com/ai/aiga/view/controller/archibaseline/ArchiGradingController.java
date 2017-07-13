@@ -57,65 +57,106 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/gradingAdd")
 	public @ResponseBody JsonBean save(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
-		//申请单唯一性校验
-		ArchitectureGrading condition = new ArchitectureGrading();
+		//非空校验
 		if(architectureGrading.getSysId()==0L) {
 			bean.fail("编号为空！");
 			return bean;
 		}
+		if(StringUtils.isBlank(architectureGrading.getName())) {
+			bean.fail("名称为空！");
+			return bean;
+		}
+		//申请单唯一性校验
+		ArchitectureGrading condition = new ArchitectureGrading();
 		condition.setSysId(architectureGrading.getSysId());
 		condition.setState("申请");
+		//操作类型
 		String description = architectureGrading.getDescription();
+		//所属等级
+		String ext1 = architectureGrading.getExt1();
 		if(architectureGradingSv.findTableCondition(condition).size()>0) {
 			bean.fail("该编号存在在途申请单");
 			return bean;
 		}
-		if("1".equals(architectureGrading.getExt1())) {
+		if("1".equals(ext1)) {
+			//一级域数据校验
 			if("新增".equals(description) || "修改".equals(description)) {
-				if(StringUtils.isBlank(architectureGrading.getName())) {
-					bean.fail("名称为空！");
-					return bean;
-				}
 				if(StringUtils.isBlank(architectureGrading.getCode())) {
 					bean.fail("简称为空！");
 					return bean;
 				}
 				if("新增".equals(description)) {
+					architectureGrading.setCreateDate(new Date());
+					architectureGrading.setModifyDate(new Date());
 					ArchitectureFirst architectureFirst = architectureFirstSv.findOne(architectureGrading.getSysId());
 					if(architectureFirst!=null) {
 						bean.fail("编号已存在");
 						return bean;
 					}
-				}			
+				}	
+				//  TO BE CONTINUE ...    此处由于编号不允许修改，故不做修改状态下的编号校验
 			} 
-		} else if("新增".equals(description) && "2".equals(architectureGrading.getExt1())) {
-			ArchitectureSecond architectureSecond = architectureSecondSv.findOne(architectureGrading.getSysId());
-			if(architectureSecond!=null){
-				bean.fail("编号已存在");
-				return bean;
-			}
-		} else if("3".equals(architectureGrading.getExt1())){
-			if("新增".equals(description)) {
-				List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
-				if(thirdList.size()>0) {
-					bean.fail("系统编号已存在");
+		} else if("2".equals(ext1)) {
+			//二级域数据校验
+			if("新增".equals(description) || "修改".equals(description)) {
+				if(StringUtils.isBlank(architectureGrading.getCode())) {
+					bean.fail("简称为空！");
 					return bean;
 				}
-			} else if("修改".equals(description)) {
-				List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
-				if(thirdList.size()>0) {
-					for(ArchitectureThird baseThird : thirdList) {
-						if(baseThird.getOnlysysId()!=architectureGrading.getOnlysysId()) {
-							bean.fail("系统编号已存在");
-							return bean;
+				if(architectureGrading.getIdBelong() == null || architectureGrading.getIdBelong()<=0) {
+					bean.fail("所属一级域为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getBelongLevel())) {
+					bean.fail("分层层级为空！");
+					return bean;
+				}
+				if("新增".equals(description)) {
+					architectureGrading.setCreateDate(new Date());
+					architectureGrading.setModifyDate(new Date());
+					ArchitectureSecond architectureSecond = architectureSecondSv.findOne(architectureGrading.getSysId());
+					if(architectureSecond!=null){
+						bean.fail("编号已存在");
+						return bean;
+					}
+				}
+				//  TO BE CONTINUE ...    此处由于编号不允许修改，故不做修改状态下的编号校验
+			}
+
+		} else if("3".equals(ext1)){
+			if(!"删除".equals(description)) {
+				if(architectureGrading.getIdBelong() == null || architectureGrading.getIdBelong()<=0) {
+					bean.fail("所属二级域为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getBelongLevel())) {
+					bean.fail("分层层级为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getSysState())) {
+					bean.fail("状态为空！");
+					return bean;
+				}
+				if("新增".equals(description)) {
+					architectureGrading.setCreateDate(new Date());
+					architectureGrading.setModifyDate(new Date());
+					List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
+					if(thirdList.size()>0) {
+						bean.fail("系统编号已存在");
+						return bean;
+					}
+				} else if("修改".equals(description)) {
+					List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
+					if(thirdList.size()>0) {
+						for(ArchitectureThird baseThird : thirdList) {
+							if(baseThird.getOnlysysId()!=architectureGrading.getOnlysysId()) {
+								bean.fail("系统编号已存在");
+								return bean;
+							}
 						}
 					}
 				}
 			}
-		}
-		if("新增".equals(description)) {
-			architectureGrading.setCreateDate(new Date());
-			architectureGrading.setModifyDate(new Date());
 		}
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());

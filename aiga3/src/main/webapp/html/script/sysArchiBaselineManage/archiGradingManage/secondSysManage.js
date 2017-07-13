@@ -143,7 +143,7 @@ define(function(require, exports, module) {
 			Utils.getServerPage(srvMap.get('getCenMessageList'),_cmd,function(json){
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
+				var template = Handlebars.compile(Page.findTpl('getSecMessageList'));
 				
         		var tablebtn = _dom.find("[name='content']");
         		tablebtn.html(template(json.data.content));

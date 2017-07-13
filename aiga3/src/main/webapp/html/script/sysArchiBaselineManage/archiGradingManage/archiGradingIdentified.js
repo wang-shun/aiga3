@@ -118,7 +118,7 @@ define(function(require, exports, module) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				cache.datas = json.data.content;
-				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
+				var template = Handlebars.compile(Page.findTpl('getGrandingMessageList'));
 				
         		_dom.find("[name='content']").html(template(json.data.content));
         		Utils.eventClickChecked(_dom,function(isChecked,_input) {

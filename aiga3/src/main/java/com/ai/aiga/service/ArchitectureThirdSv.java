@@ -42,7 +42,7 @@ public class ArchitectureThirdSv extends BaseService {
 			sql += " and b.id_third = "+idThird;
 		}
 		if(StringUtils.isNotBlank(name)){
-			sql += " and b.name = "+name;
+			sql += " and b.name like '%"+name+"%'";
 		}
 		List<String> list = new ArrayList<String>();
 		list.add("name");

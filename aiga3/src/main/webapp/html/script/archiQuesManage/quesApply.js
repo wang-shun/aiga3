@@ -51,7 +51,15 @@ define(function(require, exports, module) {
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
-	// 模板对象
+	//一级域查询  
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
+	//显示系统信息表
+//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+	var cache = {
+		datas : ""	
+	};
+    // 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesRequest.tpl')
@@ -86,10 +94,11 @@ define(function(require, exports, module) {
 			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
+			
+			this._querydomain();
 			//映射
 			this.hdbarHelp();
 		},
-		
 		searchBox: function(){
 			var self = this;
 			var _dom = Page.findId('queryDataMaintainForm');
@@ -101,17 +110,25 @@ define(function(require, exports, module) {
 //				Page.findId('insertBelongProj').html(template(data));
 				var _modal = Page.findModal('addSearchBoxModal');
 				_modal.modal('show');
-				Utils.setSelectData(_modal);
+//				Utils.setSelectData(_modal);
 				var sureBt = _modal.find("[name='sure']");
 				sureBt.unbind('click');
 				sureBt.bind('click',function(){
 					_modal.modal('hide');
-					var node = _modal.find("[name='belongProject']");
-					
-					var value = $("#sbbelongProject").find("option:selected").text();
+//					var node = _modal.find("[name='sysMessageQuery']");
+					var node = Page.findId('sysMessageQuery');
+					var value = Utils.getRadioCheckedRow(node);
+					var idThird = value.idThird;
+					for(var i=0;i<cache.datas.length;i++){
+						if(cache.datas[i].idThird==idThird){
+							var nameValue = cache.datas[i].name
+							_dom.find("[name='belongProjectSrc']").val(nameValue);
+							break;
+						}
+					};
+//					var value = $("#sbbelongProject").find("option:selected").text();
 //					var value = node.text();
 					
-					_dom.find("[name='belongProjectSrc']").val(value);
 				})
 			});
 		},
@@ -187,7 +204,7 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
-							//XMS.msgbox.show('添加成功！', 'success', 2000);
+//							XMS.msgbox.show('添加成功！', 'success', 2000);
 							alert("恭喜，申报成功！");
 							setTimeout(function() {
 								self.getDataMaintainList();
@@ -345,6 +362,49 @@ define(function(require, exports, module) {
 			});
 
 		},
+		/*--------------------------------------------------*/
+		//查询下拉框数据加载，绑定查询按钮事件
+		_querydomain: function() {
+			var self = this;
+			var _form = Page.findId('querySysDomainForm');
+			Utils.setSelectData(_form);
+			var _queryBtn =  _form.find("[name='query']");
+			_queryBtn.off('click').on('click',function(){
+				var cmd = _form.serialize();
+				//用于解决long型不可空传的问题
+				if(cmd.charAt(cmd.length - 1) == '=') {
+					cmd+='0';
+				}
+				self._getTableDataList(cmd);
+			});
+		},
+
+		// 查询表格数据
+		_getTableDataList: function(cmd){
+			var self = this;
+			var _cmd = '' ;
+			if(cmd) {
+				var _cmd = cmd;
+			}
+			var _dom = Page.findId('sysMessageQuery');
+			var _domPagination = _dom.find("[name='pagination']");
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getSysMessageList'),_cmd,function(json){
+				window.XMS.msgbox.hide();
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
+				
+        		var tablebtn = _dom.find("[name='content']");
+        		tablebtn.html(template(json.data.content));
+        		cache.datas = json.data.content;
+        		Utils.eventTrClickCallback(_dom);
+			},_domPagination);
+		},
+		/*--------------------------------------------------*/
+
+		
+		
 		// 事件：双击选中当前行
 		eventDClickCallback: function(obj, callback) {
 			obj.find("tbody tr").bind('dblclick ', function(event) {

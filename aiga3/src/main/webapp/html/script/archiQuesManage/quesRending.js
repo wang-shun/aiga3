@@ -99,7 +99,6 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();
-				_cmd=_cmd.replace(/-/g,"/");
 				self.getDataMaintainList(cmd);
 			});
 
@@ -216,6 +215,8 @@ define(function(require, exports, module) {
 //			var _modal = Page.findId('updateDataMaintainModal');
 //			_modal.modal('show');
 //			Utils.setSelectData(_modal);
+			data.modifyDate = data.modifyDate.replace(/-/g,"/");
+			data.createDate = data.createDate.replace(/-/g,"/");
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
@@ -232,17 +233,17 @@ define(function(require, exports, module) {
 				Page.findId('modalMessage').val("");
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
-					var data = cache.selectData;
-					data.modifyDate = data.modifyDate.replace(/-/g,"/");
-					data.createDate = data.createDate.replace(/-/g,"/");
-					data.applyTime = data.applyTime.replace(/-/g,"/");
+//					var data = cache.selectData;
+//					data.modifyDate = data.modifyDate.replace(/-/g,"/");
+//					data.createDate = data.createDate.replace(/-/g,"/");
+//					data.applyTime = data.applyTime.replace(/-/g,"/");
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
 						data.state = '确定';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
+						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 							if(status) {							
 								textModal.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');

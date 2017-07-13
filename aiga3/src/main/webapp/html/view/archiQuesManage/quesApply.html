@@ -121,17 +121,17 @@
 		                </div>
 		            </div>
 		            <div class="row">
-		            	<div class="form-group col-sm-6">
+<!-- 		            	<div class="form-group col-sm-6">
 
-		                    <label for="appointedPerson" class="col-sm-2 control-label">工单状态：</label>
+		                    <label for="appointedPerson" class="col-sm-2 control-label" >工单状态：</label>
 		                    <div class="col-sm-4">
 			                    <select name="sysVersion" class="form-control select2 input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName" display="only">
 			                        <option selected="selected" value="待认定">待认定</option>
 			                    </select>
 			                </div>
-		                </div>
+		                </div> -->
 						<div class="form-group col-sm-6">
-		                    <label for="inputfile" class="col-sm-2 control-label">附件：</label>
+		                    <label for="inputfile" class="col-sm-2 control-label">附件上传：</label>
 							<input type="file" name="fileName"  class="col-sm-4">
 <!-- 	                        <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
  -->						</div>
@@ -203,20 +203,61 @@
 <!-- 新增searchbox弹框 -->
 <div class="modal fade" id="Modal_addSearchBoxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" style="width:400px; height:auto">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">所属系统选择框</h4>
             </div>
-            <div class="modal-body" style="padding-bottom: 0">
-				<div class="form-group col-sm-12">
-					<label for="belongProject" class="col-sm-3 control-label">所属系统：</label>
-					<div class="col-sm-7">
- 						<select id="sbbelongProject" name="belongProject" class="form-control select2 input-sm" data-url="getBelongSystem" data-idkey="idThird" data-namekey="name">
-							<option value="请选择">请选择</option>
-						</select>
+            <div class="modal-body" style="padding-bottom: 0">			
+				<div class="box box-primary">
+					<form id="JS_querySysDomainForm" class="form-horizontal">
+						<div class="box-header with-border">
+							<h3 class="box-title">系统信息查询</h3>
+							<div class="box-tools pull-right">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="box-body">
+							<div class="col-md-12">
+								<div id="JS_select_data" class="form-group form-inline">
+									<label class="control-label margin-onl">系统名称</label>
+									<input placeholder="请输入" name="name" type="text" class="form-control input-sm"></input>
+									<label class="control-label margin-onl">系统编号</label> 
+									<input placeholder="请输入" name="idThird" type="text" class="form-control input-sm"></input>                 
+									<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+								</div>             
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="box" id="JS_sysMessageQuery">
+					<div class="box-header" >
+						<h3 class="box-title">系统信息列表</h3>
 					</div>
-				</div><br/><br/>
+					<div class="box-body" >
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="iCheckbox" width="15"></th>
+									<th>系统名称</th>
+									<th>系统编号</th>
+									<th>所属二级域</th>
+									<th>所属分层</th>
+									<th>系统描述</th>
+									<th>责任部门</th>
+									<th>项目立项信息</th>
+									<th>规划设计信息</th>
+									<th>状态</th>
+								</tr>
+							</thead>
+							<tbody name="content"></tbody>
+						</table>
+					</div>
+					<div class="box-footer no-border">
+						<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+					</div> 
+				</div>			
             </div>
             <div class="modal-footer">
             	<div class="text-center">
@@ -227,6 +268,22 @@
         </div>
     </div>
 </div>
+<script id="TPL_getSysMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+    <td>{{name}}</td>
+    <td>{{idThird}}</td>
+	<td>{{secName}}</td>
+	<td>{{belongLevel}}</td>
+	<td>{{systemFunction}}</td>
+	<td>{{department}}</td>
+	<td>{{projectInfo}}</td>
+	<td>{{designInfo}}</td>
+	<td>{{codeName}}</td>
+</tr>
+{{/each}}
+</script>
 <!-- Modal -->
 <!-- 新增弹框 -->
 <div class="modal fade" id="Modal_addDataMaintainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -8,30 +8,13 @@ define(function(require, exports, module) {
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/";
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiChangeMessage');
-    //一级域查询
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 
     //三级信息变更数据
     srvMap.add("getchangeView", pathAlias+"getSecView.json", "archi/view/changeView");
 
-    var Tpl = {
-		getSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getSecView.tpl')
-	};
-
 	var cache = {
 		datas : ""
 	};
-
-
-	var Data = {
-        setPageType:function(type){
-    		return {
-    			"data":{
-    				"type":type
-    			}
-    		};
-    	}
-    };
 
 	var init = {
 		init: function() {
@@ -58,7 +41,7 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
-			_queryBtn.click();
+//			_queryBtn.click();
 		},
 
 		_graphfir: function(json) {

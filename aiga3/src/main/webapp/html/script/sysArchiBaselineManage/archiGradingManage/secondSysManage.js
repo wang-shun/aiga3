@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('secondSysManage');
-    //一级域查询  
+    //一级域下拉框查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
 	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "archi/second/listByfirstPage");

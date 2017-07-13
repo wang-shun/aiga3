@@ -6,12 +6,11 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
-	var Page = Utils.initPage('thirdSysMessage');
-    //一级域查询  
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
-	//显示系统信息表
-//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+	var Page = Utils.initPage('sysMessageQuery');
+
+	//系统信息查询
+    srvMap.add("getTransList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    
 	var cache = {
 		datas : ""	
 	};
@@ -52,7 +51,7 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getSysMessageList'),_cmd,function(json){
+			Utils.getServerPage(srvMap.get('getTransList'),_cmd,function(json){
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));

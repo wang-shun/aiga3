@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('thirdSysManage');
-    //一级域查询  
+    //一级域下拉框查询
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
     //根据一级查询二级子域
     srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
@@ -17,8 +17,6 @@ define(function(require, exports, module) {
 	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findBySecPage");
 	//三级系统操作信息保存
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
-	//三级系统信息修改
-	srvMap.add("thirdSysMessageUpdate", pathAlias+"getSysMessageList.json", "archi/grading/gradingUpdate");
 	//系统状态静态数据  
 	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
 	var cache = {	

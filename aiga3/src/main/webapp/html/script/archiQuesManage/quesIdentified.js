@@ -229,7 +229,7 @@ define(function(require, exports, module) {
 		},
 		// 事件：双击选中当前行
 		eventDClickCallback: function(obj, callback) {
-			obj.find("tr").bind('dblclick ', function(event) {
+			obj.find("tbody tr").bind('dblclick ', function(event) {
 				if (callback) {
 					callback();
 				}

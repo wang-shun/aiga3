@@ -84,6 +84,15 @@ define(function(require, exports, module) {
 					belongLevel=belongLevel.substring(0,belongLevel.length-1);
 					_cmd += '&belongLevel='+belongLevel;
 					_cmd += '&ext1=2&description=新增';
+					//数据校验
+					if(!belongLevel) {
+						XMS.msgbox.show('分层层级为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('name=&')>-1) {
+						XMS.msgbox.show('名称为空！', 'error', 2000);
+						return
+					}
 					//调用服务
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){

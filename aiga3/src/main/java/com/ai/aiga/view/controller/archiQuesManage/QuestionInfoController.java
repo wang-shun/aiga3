@@ -1,13 +1,12 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
 import io.swagger.annotations.Api;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.QuestionInfoSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
@@ -87,6 +86,18 @@ public class QuestionInfoController {
 	
 	@RequestMapping(path = "/archi/question/save")
 	public @ResponseBody JsonBean save(QuestionInfoRequest questionInfoRequest){
+		questionInfoRequest.setSysVersion("待确认");
+		JsonBean bean = new JsonBean();
+		if(StringUtils.isBlank(questionInfoRequest.getQuesType())){
+			bean.fail("未选择问题类型！");
+			return bean;
+		}else{
+			if("2".equals(questionInfoRequest.getQuesType())||"3".equals(questionInfoRequest.getQuesType())){
+				questionInfoRequest.setFirstCategory("-");
+				questionInfoRequest.setSecondCategory("-");
+				questionInfoRequest.setThirdCategory("-");
+			}
+		}
 		questionInfoSv.save(questionInfoRequest);
 		return JsonBean.success;
 	}

@@ -216,7 +216,7 @@ define(function(require, exports, module) {
 //			_modal.modal('show');
 //			Utils.setSelectData(_modal);
 			data.modifyDate = data.modifyDate.replace(/-/g,"/");
-			data.createDate = data.createDate.replace(/-/g,"/");
+			data.createDate = data.modifyDate;
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
@@ -239,15 +239,17 @@ define(function(require, exports, module) {
 //					data.applyTime = data.applyTime.replace(/-/g,"/");
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
-						data.state = '确定';
+						data.sysVersion = '确定';
+						data.state ="未解决";
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 							if(status) {							
 								textModal.modal('hide');
+								_dom.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
-								XMS.msgbox.show('认定成功，数据已归档！', 'success', 2000);	
+								XMS.msgbox.show('认定成功！通过！！！', 'success', 2000);	
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
 								}, 1500);
@@ -258,15 +260,16 @@ define(function(require, exports, module) {
 					});
 					//不通过
 					textModal.find("[name='noPass']").off('click').on('click', function(){
-						data.state = '否决';
+						data.sysVersion = '否决';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						Rose.ajax.postJson(srvMap.get('MessageGranding'),_cmd,function(json, status){
+						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 							if(status) {
 								textModal.modal('hide');
+								_dom.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
-								XMS.msgbox.show('认定成功', 'success', 2000);	
+								XMS.msgbox.show('认定成功！ 不通过！！！', 'success', 2000);	
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
 								}, 1500);								
@@ -278,7 +281,7 @@ define(function(require, exports, module) {
 				});
 				textModal.modal('show');
 				
-				var _form = Page.findId('updateDataMaintainInfo');
+/*				var _form = Page.findId('updateDataMaintainInfo');
 				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();
 				_cmd = _cmd + "&quesId=" + Id;
@@ -291,7 +294,7 @@ define(function(require, exports, module) {
 							_dom.modal('hide');
 						}, 1000)
 					}
-				});
+				});*/
 			});
 
 		},

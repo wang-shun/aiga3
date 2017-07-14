@@ -194,7 +194,7 @@ public class ArchiViewController {
 		return bean;
 	}
 	/**
-	 * 查询三级及系统变更信息
+	 * 查询三级系统变更信息
 	 * @return
 	 */
 	@RequestMapping(path = "/archi/view/changeView")
@@ -265,7 +265,13 @@ public class ArchiViewController {
 		}	
 		return bean;
 	}
-	
+	/**
+	 * 时间校验大小
+	 * @param minDate
+	 * @param maxDate
+	 * @return
+	 * @throws ParseException
+	 */
     private List<String> getMonthBetween(String minDate, String maxDate) throws ParseException {
 		ArrayList<String> result = new ArrayList<String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");//格式化为年月  

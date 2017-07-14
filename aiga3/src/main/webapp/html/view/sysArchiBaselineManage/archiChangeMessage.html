@@ -28,9 +28,25 @@
             <!-- 视图 -->
         </div>
     </div>
+    <div class="box" id="JS_sysMessageTable">
+        <div class="box-header with-border" >
+        	<h3 class="box-title">系统域变更列表</h3>
+        </div>
+        <div class="box-body" >
+        	<table class="table table-bordered table-hover">
+            	<thead>
+                	<tr name='tableHead'>
+                	</tr>
+            	</thead>
+            	<tbody name="content"></tbody>
+        	</table>
+    	</div>
+    	<div class="box-footer no-border">
+        	<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+    	</div> 
+    </div>
 </div>
 <style type="text/css">
-
 #Page_archiChangeMessage .first-name-label {
 	margin-left: 40px; 
 	margin-right: 20px;
@@ -42,8 +58,27 @@
 #Page_archiChangeMessage .margin-onl {
 	margin-left: 20px;
 }
-
 </style>
+<!-- 表格头模版 -->
+<script id="TPL_thirdChangeMessageHead" type="text/x-handlebars-template">
+	<th class="iCheckbox" width="15"></th>
+	<th style="text-align:center;">系统域</th>
+	{{#each this}}
+		<th style="text-align:center;">{{this}}</th>
+	{{/each}}
+</script>
+<!-- 表格内容模版 -->
+<script id="TPL_thirdChangeMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{idFirst}}" name="idFirst"></td>
+    <td style="text-align:center;">{{name}}</td>
+	{{#each data}}
+		<td style="text-align:center;">{{this}}</td>
+	{{/each}}
+</tr>
+{{/each}}
+</script>
 <script>
 seajs.use("script/sysArchiBaselineManage/archiChangeMessage", function(init) {
 	init.init();

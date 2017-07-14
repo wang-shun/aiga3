@@ -27,34 +27,65 @@ define(function(require, exports, module) {
 		
 		_getChangeMessage: function(){
 			var self = this;
+			var init = true;
 			var _form = Page.findId('selectData');
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
 				var _cmd = Page.findId('querySysDomainForm').serialize();
+				if(init) {
+					var date = self.formatDate(new Date()); 		
+					_cmd = 'beginTime='+date+'&endTime='+date;
+					init = false;	
+				}
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get("getchangeView"), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
 						self._graphfir(json);
+						self._gridload(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
 			});
-//			_queryBtn.click();
+			_queryBtn.click();
+		},
+		
+		//表格加载
+		_gridload: function (json) {
+			var _dom = Page.findId('sysMessageTable');
+			var tableHead = _dom.find("[name='tableHead']");
+			var templateHead = Handlebars.compile(Page.findTpl('thirdChangeMessageHead'));
+			tableHead.html(templateHead(json.data.xAxis));
+			var tableContent = _dom.find("[name='content']");
+			var templateContent = Handlebars.compile(Page.findTpl('thirdChangeMessageList'));
+			tableContent.html(templateContent(json.data.series));
+     		Utils.eventTrClickCallback(_dom);
+		},
+		
+		//时间格式化
+		formatDate: function(date) {
+			var d = new Date(date),
+				month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear(); 
+			if (month.length < 2) month = '0' + month;
+			if (day.length < 2) day = '0' + day;
+			return [year, month].join('-');	
 		},
 
 		_graphfir: function(json) {
 			var myChart = echarts.init(Page.findId('archiView')[0]);
 			option = {
 			    title : {
-			        text: '相关系统域变更情况',
+			        text: '系统域变更情况',
 			        subtext: ''
 			    },
 			    tooltip : {
 			        trigger: 'axis'
 			    },
-			    legend: {			    	
+			    legend: {	
+			    	y:'bottom',
 			        data:['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域']
 			    },
 			    toolbox: {
@@ -134,6 +165,7 @@ define(function(require, exports, module) {
 				}
 			}
 			myChart.setOption(option);
+			window.onresize = myChart.resize;
 		}
 		
 	};

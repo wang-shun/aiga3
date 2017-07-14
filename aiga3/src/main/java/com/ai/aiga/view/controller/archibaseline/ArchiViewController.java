@@ -206,7 +206,7 @@ public class ArchiViewController {
 			return bean;
 		}
 		if(StringUtils.isBlank(endTime)) {
-			bean.fail("秦输入结束时间！");
+			bean.fail("请输入结束时间！");
 			return bean;
 		}
 		try {

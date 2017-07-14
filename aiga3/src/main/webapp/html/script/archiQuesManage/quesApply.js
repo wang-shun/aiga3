@@ -129,7 +129,7 @@ define(function(require, exports, module) {
 					for(var i=0;i<cache.datas.length;i++){
 						if(cache.datas[i].idThird==idThird){
 							var nameValue = cache.datas[i].name;
-							_dom.find("[name='belongProjectSrc']").val(nameValue);
+							_dom.find("[name='belongProject']").val(nameValue);
 							break;
 						}
 					};
@@ -140,26 +140,23 @@ define(function(require, exports, module) {
 			});
 		},
 		        //上传上线交付物按钮
-        uploadAnNiu: function(planId) {
+        uploadAnNiu: function() {
+        	var planId = "8888";
             var self = this;
             var _form = Page.findModalCId('queryDataMaintainForm');
             console.log(_form.length);
-            var _saveBtn = _form.find("[name='query']");
-            _saveBtn.unbind('click');
-            _saveBtn.bind('click', function() {
-            	Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
-            		var a = '99999';
-	                var cmd = {
-	                    "file": _form.find("[name='fileName']")[0].files[0],
-	                    "planId": planId,
-	                    "fileType": a,
-	                };
-	                console.log(_form.find("[name='fileName']"));
-	                console.log(a);
-                        var task = srvMap.get('uploadFile');
-                        self.jieko(task, cmd, planId);
-	            });
-            });
+	        Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
+	    		var a = '99999';
+	            var cmd = {
+	                "file": _form.find("[name='fileName']")[0].files[0],
+	                "planId": planId,
+	                "fileType": a
+	            };
+	            console.log(_form.find("[name='fileName']"));
+	            console.log(a);
+	                var task = srvMap.get('uploadFile');
+	                self.jieko(task, cmd, planId);
+	        });
         },
         jieko: function(task, cmd, planId) {
             var self = this;
@@ -170,14 +167,10 @@ define(function(require, exports, module) {
                     console.log(date);
                     if (date.retCode==200) {
                         //window.XMS.msgbox.show('上传成功！', 'success', 2000);
-                        queryDataMaintainForm();
-                        window.XMS.msgbox.show('上传成功,申报成功！', 'success', 2000);
-
-                        setTimeout(function() {
-//                            self.uploadDeliverables(planId);
-                        }, 1000);
+   						return true;
                     }else{
                         window.XMS.msgbox.show(date.retMessage, 'error', 2000);
+                        return false;
                     }
                 }
             });
@@ -204,7 +197,26 @@ define(function(require, exports, module) {
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.bind('click', function() {
+			_queryBtn.unbind('click').bind('click', function() {
+				var planId = "8888";
+				var upState = false;
+		        Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
+		    		var a = '99999';
+
+		            var cmd = {
+		                "file": _form.find("[name='fileName']")[0].files[0],
+		                "planId": planId,
+		                "fileType": a
+		            };
+		            
+		            if(cmd.file) {
+		    			upState = true;
+		    			var task = srvMap.get('uploadFile');
+	                	if(!self.jieko(task, cmd, planId)){
+	                		return;
+	                	}  
+		    		}        
+		        });
 //				self.getDataMaintainList(cmd);
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
@@ -214,8 +226,13 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
+							if(upState) {
+								XMS.msgbox.show('文件上传完毕，申报成功！', 'success', 2000);
+							} else {
+								XMS.msgbox.show('申报成功！', 'success', 2000);
+							}
 //							XMS.msgbox.show('添加成功！', 'success', 2000);
-							XMS.msgbox.show('文件上传完毕，申报成功！', 'success', 2000);
+
 //							alert("恭喜，申报成功！");
 							setTimeout(function() {
 								self.getDataMaintainList();

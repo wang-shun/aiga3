@@ -94,6 +94,28 @@ define(function(require, exports, module) {
 					belongLevel=belongLevel.substring(0,belongLevel.length-1);
 					_cmd += '&belongLevel='+belongLevel;
 					_cmd += '&ext1=3&description=新增';
+					
+					//数据校验
+					if(_cmd.indexOf('name=&')>-1) {
+						XMS.msgbox.show('名称为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('sysId=&')>-1) {
+						XMS.msgbox.show('系统编号为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('idBelong=&')>-1) {
+						XMS.msgbox.show('所属二级域为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('sysState=&')>-1) {
+						XMS.msgbox.show('建设状态为空！', 'error', 2000);
+						return
+					}
+					if(!belongLevel) {
+						XMS.msgbox.show('分层层级为空！', 'error', 2000);
+						return
+					}
 					//调用服务
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){

@@ -47,6 +47,20 @@ define(function(require, exports, module) {
 					//设置cmd中默认字段的值
 					_cmd = _cmd.replace('sysId=&', 'sysId=0&');
 					_cmd += '&ext1=1&description=新增';
+					//数据校验
+					if(_cmd.indexOf('name=&')>-1) {
+						XMS.msgbox.show('名称为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('sysId=0&')>-1) {
+						XMS.msgbox.show('编号为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('code=&')>-1) {
+						XMS.msgbox.show('简称为空！', 'error', 2000);
+						return
+					}
+					
 					//调用服务
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.postJson(srvMap.get('firSysMessageSave'),_cmd,function(json, status){
@@ -115,6 +129,15 @@ define(function(require, exports, module) {
 						var _cmd = updateDom.serialize();
 						_cmd = _cmd.replace('sysId=&', 'sysId=0&');
 						_cmd += '&ext1=1&description=修改';
+						//数据校验
+						if(_cmd.indexOf('name=&')>-1) {
+							XMS.msgbox.show('名称为空！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('code=&')>-1) {
+							XMS.msgbox.show('简称为空！', 'error', 2000);
+							return
+						}
 						//调服务
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						Rose.ajax.postJson(srvMap.get('firSysMessageSave'),_cmd,function(json, status){

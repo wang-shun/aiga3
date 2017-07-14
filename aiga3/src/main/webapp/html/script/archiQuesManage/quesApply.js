@@ -30,7 +30,7 @@ define(function(require, exports, module) {
 	//新增问题
 	srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
 	//修改问题
-	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
+	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update");
 	//刪除問題
 	srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
     //问题分类下拉框
@@ -79,7 +79,7 @@ define(function(require, exports, module) {
 
 	var Data = {
 		queryListCmd: null
-	}
+	};
 
 	var Query = {
 		init: function() {
@@ -128,7 +128,7 @@ define(function(require, exports, module) {
 					var idThird = value.idThird;
 					for(var i=0;i<cache.datas.length;i++){
 						if(cache.datas[i].idThird==idThird){
-							var nameValue = cache.datas[i].name
+							var nameValue = cache.datas[i].name;
 							_dom.find("[name='belongProjectSrc']").val(nameValue);
 							break;
 						}
@@ -136,14 +136,14 @@ define(function(require, exports, module) {
 //					var value = $("#sbbelongProject").find("option:selected").text();
 //					var value = node.text();
 					
-				})
+				});
 			});
 		},
 		        //上传上线交付物按钮
         uploadAnNiu: function(planId) {
             var self = this;
             var _form = Page.findModalCId('queryDataMaintainForm');
-            console.log(_form.length)
+            console.log(_form.length);
             var _saveBtn = _form.find("[name='query']");
             _saveBtn.unbind('click');
             _saveBtn.bind('click', function() {
@@ -153,11 +153,11 @@ define(function(require, exports, module) {
 	                    "file": _form.find("[name='fileName']")[0].files[0],
 	                    "planId": planId,
 	                    "fileType": a,
-	                }
+	                };
 	                console.log(_form.find("[name='fileName']"));
 	                console.log(a);
                         var task = srvMap.get('uploadFile');
-                        self.jieko(task, cmd, planId)
+                        self.jieko(task, cmd, planId);
 	            });
             });
         },
@@ -167,7 +167,7 @@ define(function(require, exports, module) {
                 url: task,
                 data: cmd,
                 success: function(date, status, xhr) {
-                    console.log(date)
+                    console.log(date);
                     if (date.retCode==200) {
                         //window.XMS.msgbox.show('上传成功！', 'success', 2000);
                         queryDataMaintainForm();
@@ -175,7 +175,7 @@ define(function(require, exports, module) {
 
                         setTimeout(function() {
 //                            self.uploadDeliverables(planId);
-                        }, 1000)
+                        }, 1000);
                     }else{
                         window.XMS.msgbox.show(date.retMessage, 'error', 2000);
                     }
@@ -288,7 +288,7 @@ define(function(require, exports, module) {
 						Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
 							if (status) {
 								// 数据备份成功后，刷新用户列表页
-								XMS.msgbox.show('添加成功！', 'success', 2000)
+								XMS.msgbox.show('添加成功！', 'success', 2000);
 								setTimeout(function() {
 									self.getDataMaintainList();
 								}, 1000);
@@ -318,10 +318,10 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('deleQuestionInfo'), cmd, function(json, status) {
 						if (status) {
-							window.XMS.msgbox.show('删除成功！', 'success', 2000)
+							window.XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
 								self.queryDataMaintainForm(Data.queryListCmd);
-							}, 1000)
+							}, 1000);
 						}
 					});
 				}
@@ -363,11 +363,11 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
 				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
 					if (status) {
-						window.XMS.msgbox.show('更新成功！', 'success', 2000)
+						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {
 							self.queryDataMaintainForm(Data.queryListCmd);
 							_dom.modal('hide');
-						}, 1000)
+						}, 1000);
 					}
 				});
 			});

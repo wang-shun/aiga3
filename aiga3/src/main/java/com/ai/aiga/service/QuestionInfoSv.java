@@ -3,7 +3,9 @@ package com.ai.aiga.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.QuestionInfoDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.QuestionInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -157,28 +160,33 @@ public class QuestionInfoSv extends BaseService {
 		questionInfoDao.save(questionInfo);
 	}
 
-	public Object listInfo(QuestionInfoRequest condition, int pageNumber, int pageSize) {
+	public Page<QuestionInfo> listInfo(QuestionInfoRequest condition, int pageNumber, int pageSize) {
         List<Condition> cons = new ArrayList<Condition>();
-        if(condition!=null){
-        	if(condition.getQuesType()!=null){
-        		cons.add(new Condition("quesType", condition.getQuesType(), Condition.Type.EQ));
-        	}
-        	if(condition.getFirstCategory()!=null){
-        		cons.add(new Condition("firstCategory", condition.getFirstCategory(), Condition.Type.EQ));
-        	}
-        	if(condition.getSecondCategory()!=null){
-        		cons.add(new Condition("secondCategory", condition.getSecondCategory(), Condition.Type.EQ));
-        	}
-        	if(condition.getThirdCategory()!=null){
-        		cons.add(new Condition("thirdCategory", condition.getThirdCategory(), Condition.Type.EQ));
-        	}
-        	if(condition.getDiffProblem()!=null){
-        		cons.add(new Condition("diffProblem", condition.getDiffProblem(), Condition.Type.LIKE));
-        	}
-        	if(condition.getState()!=null){
-        		cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
-        	}
-        }
+    	if(StringUtils.isNoneBlank(condition.getQuesType())){
+    		cons.add(new Condition("quesType", condition.getQuesType(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getFirstCategory())){
+    		cons.add(new Condition("firstCategory", condition.getFirstCategory(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getSecondCategory())){
+    		cons.add(new Condition("secondCategory", condition.getSecondCategory(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getThirdCategory())){
+    		cons.add(new Condition("thirdCategory", condition.getThirdCategory(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getDiffProblem())){
+    		cons.add(new Condition("diffProblem", "%".concat(condition.getDiffProblem()).concat("%"), Condition.Type.LIKE));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getState())){
+    		cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getOccurEnvironment())){
+    		cons.add(new Condition("occurEnvironment", "%".concat(condition.getOccurEnvironment()).concat("%"), Condition.Type.LIKE));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getBelongProject())){
+    		cons.add(new Condition("belongProject", condition.getBelongProject(), Condition.Type.EQ));
+    	}
+    	
         if(pageNumber < 0){
             pageNumber = 0;
         }

@@ -33,7 +33,7 @@ public class QuestionInfoController {
             QuestionInfoRequest condition){
 				JsonBean bean = new JsonBean();
 				bean.setData(questionInfoSv.listInfo(condition, pageNumber, pageSize));
-			return null;
+			return bean;
 	}
 	
 	@RequestMapping(path = "/archi/question/findOne")

@@ -15,9 +15,9 @@
                   		<select name="primaryDomain" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
                             <option value="">请选择</option>
                         </select>
-                        <label><input style="margin-left:10px;" name="view" type="radio" value="" />二级架构视图 </label>
-                        <label><input style="margin-left:10px;" name="view" type="radio" value="" />三级架构视图 </label>
-                        <label><input style="margin-left:10px;" name="view" type="radio" value="" />IT系统一级架构视图 </label>             
+                        <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="2"  checked="checked" />二级架构视图 </label>
+                        <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="3" />三级架构视图 </label>
+                        <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="1" />IT系统一级架构视图 </label>             
                         <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
                         <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="export">导出</button>
                     </div>             
@@ -218,6 +218,46 @@
 }
 .fn-clear {
   zoom:1; /* for IE6 IE7 */
+}
+
+
+/*third*/
+.mxgif-wrapper.mxgif-third .mxgif-lists.height-2 .mxgif-lists-item{
+  line-height: 20px;
+  padding: 0 10px;
+}
+
+
+.mxgif-lists.height-2 .mxgif-lists-item h3.mxgif-item-title{
+   font-size: 14px;
+   font-weight: 700;
+   padding: 10px 0;
+   margin: 0;
+}
+
+.mxgif-lists.height-2 .mxgif-lists-item .mxgif-third-item{
+  float: left;
+  width: 150px;
+  height: 30px;
+  line-height: 30px;
+  background:#fff;
+  font-size: 13px;
+  font-weight: 700;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+
+
+.mxgif-state-lists{
+  padding: 20px 0;
+  text-align: center;
+}
+
+.mxgif-state-lists .mxgif-state-item{
+  padding: 7px 15px;
+  margin: 0 5px;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 </style>

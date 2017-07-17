@@ -1,5 +1,5 @@
  <div class="mxgif-wrapper">
-    {{#each this}}
+    {{#each content}}
     <div class="mxgif-container fn-clear {{mxgifWidth item}}">
         {{#if isNodeName}}
         <div class="mxgif-sidebar"><p>{{name}}</p></div>

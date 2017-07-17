@@ -204,10 +204,10 @@ define(function(require, exports, module) {
 		
 			var self = this;
 			var i=0;
-			while(json[i].quesId != Id){
+			while(json.content[i].quesId != Id){
 				i++;
 			}
-			var data = json[i];
+			var data = json.content[i];
 //			var _dom = Page.findModal('updateDataMaintainModal');
 			
 //			var index = _dom.attr("temp");

@@ -35,7 +35,16 @@ define(function(require, exports, module) {
 				if(init) {
 					var date = self.formatDate(new Date()); 		
 					_cmd = 'beginTime='+date+'&endTime='+date;
-					init = false;	
+					init = false;
+			
+				}
+				if(_cmd.indexOf('beginTime=&')>-1) {
+					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					return
+				}
+				if(_cmd.indexOf('endTime=&')>-1) {
+					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					return
 				}
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get("getchangeView"), _cmd, function(json, status) {

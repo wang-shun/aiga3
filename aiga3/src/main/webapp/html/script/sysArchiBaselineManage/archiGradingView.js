@@ -56,6 +56,12 @@ define(function(require, exports, module) {
 
 				var _idFirst = _form.find("[name='primaryDomain']").val();
 				var cmd= "idFirst="+_idFirst+"&level=122";
+				//数据校验
+				if(_idFirst == 0){
+					XMS.msgbox.show('请选择一级域！', 'error', 2000);
+					return
+				}
+				
 				Rose.ajax.postJson(srvMap.get("getSecView"),cmd, function(json, status) {
 					if(status) {
 						if(json.data.isCross=="0"){

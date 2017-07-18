@@ -2,6 +2,7 @@ package com.ai.aiga.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,23 @@ public class ArchitectureThirdSv extends BaseService {
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
 	
+	public List<Map> findByFirst(Long idFirst) {
+		String sql = "select b.belong_level as third_belong_level, b.name, b.id_third, a.name as sec_name, d.name as fir_name, b.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name, c.ext1 as bg_coloe "
+				+" from architecture_first d inner join ( architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second ) on a.id_first = d.id_first"
+				+" where 1=1";
+		if(idFirst == 0) {
+			return null;
+		} else {
+			sql += " and a.id_first = "+idFirst;
+		}		
+		return architectureThirdDao.searchByNativeSQL(sql);	
+	}
+	
 	public Object findThirdTransInfo(Long idThird,String name,int pageNumber,int pageSize) {
 		
 		String sql = "select b.name, b.id_third, a.name as sec_name, d.name as fir_name, b.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name "
 				+" from architecture_first d inner join ( architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second ) on a.id_first = d.id_first"
 				+" where 1=1";
-//		String sql = "select a.online_plan, a.online_plan_name, a.plan_state, b.name as creator_name, to_char(a.create_date,'YYYY-MM-DD HH24:MI:SS'), a.types,"
-//
-//				+ " to_char(a.done_date,'YYYY-MM-DD HH24:MI:SS'), to_char(a.plan_date,'YYYY-MM-DD HH24:MI:SS'), a.timely, a.result, a.remark, is_finished, a.auto_run_result, a.file_upload_last_time from "
-//
-//				+ "  na_change_plan_onile a left join aiga_staff b  on a.create_op_id = b.staff_id  where  a.sign = 0 ";
 
 		if(idThird>0){
 			sql += " and b.id_third = "+idThird;

@@ -9,50 +9,59 @@
                         </button>
                     </div>
                 </div>
-                <div class="box-body">
-		            <div class="row">
-		            	<br/>
+                <div class="box-body"><br/>
+                    <div class="row">
+						<div class="form-group col-sm-12">
+						    <label for="title" class="col-sm-1 control-label">架构问题标题：</label>
+						    <div class="col-sm-8">
+						      <input type="text" class="form-control" name="occurEnvironment" id="title" placeholder="请输入架构问题标题">
+						    </div>
+						</div>
+                	</div>
+                	<br/>
+                	<div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label for="quesId" class="col-sm-2 control-label">问题编号：</label>
+		                    <div class="col-sm-4">
+		                    	<input name="quesId" type="text" class="form-control" placeholder="请输入系统编号">
+			                </div>
+		                </div>
 		                <div class="form-group col-sm-6">
 		                    <label for="quesType" class="col-sm-2 control-label">问题分类：</label>
 		                    <div class="col-sm-4">
-			                    <select name="quesType" class="form-control input-sm" data-url="getQuestypeList" data-subname="firstCategory" data-idkey="quesType" data-namekey="name">
+		                    	<select id="quesType" name="quesType" class="form-control input-sm" data-url="getQuestypeList" data-subname="firstCategory" data-idkey="quesType" data-namekey="name">
 			                        <option value="">请选择</option>
 			                    </select>
-		                    </div>
+			                </div>
 		                </div>
-		                <div class="form-group col-sm-6">
-		                    <label for="firstCategory" class="col-sm-2 control-label">一级分类：</label>
+		            </div>
+                	<div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label for="sysVersion" class="col-sm-2 control-label" >工单状态：</label>
 		                    <div class="col-sm-4">
-			                    <select name="firstCategory" class="col-sm-4 form-control input-sm" data-suburl="getFirstcategoryList" data-subname="secondCategory" data-idkey="firstCategory" data-namekey="name">
+			                    <select name="sysVersion" class="form-control select2 input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName" display="only">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		            	<div class="form-group col-sm-6">
+		                    <label for="state" class="col-sm-2 control-label" >问题状态：</label>
+		                    <div class="col-sm-4">
+			                    <select name="state" class="form-control select2 input-sm" data-url="staticQuestionState" data-idkey="codeValue" data-namekey="codeName" display="only">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
 		            </div>
 		            <div class="row">
-		                <div class="form-group col-sm-6">
-		                    <label for="secondCategory" class="col-sm-2 control-label">二级分类：</label>
-		                    <div class="col-sm-4">
-			                    <select name="secondCategory" class="form-control input-sm" data-suburl="getSecondcategoryList" data-subname="thirdCategory" data-idkey="secondCategory" data-namekey="name">
-			                        <option value="">请选择</option>
-			                    </select>
+		            	<div class="form-group col-sm-6">
+		                    <label for="belongProject" class="col-sm-2 control-label">所属系统：</label>
+		                    <div class="col-sm-3">
+		                    	<input name="belongProject" type="text" class="form-control" placeholder="请选择所属系统">
 			                </div>
-		                </div>
-		                <div class="form-group col-sm-6">
-		                    <label for="thirdCategory" class="col-sm-2 control-label">三级分类：</label>
-		                    <div class="col-sm-4">
-			                    <select name="thirdCategory" class="form-control input-sm" data-suburl="getThirdcategoryList" data-idkey="thirdCategory" data-namekey="name">
-			                        <option value="">请选择</option>
-			                    </select>
+				            <div class="col-sm-1">
+				                <button type="button" class="btn btn-primary" data-toggle="modal" name="checkbox">查看</button>
 			                </div>
-		                </div>
-		            </div>
-		            <div class="row">
-		                <div class="form-group col-sm-6">
-		                    <label for="diffProblem" class="col-sm-2 control-label">疑难问题：</label>
-		                    <div class="col-sm-4">
-		                    	<input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
-		                    </div>
 		                </div>
 		            </div>
                 </div>
@@ -68,8 +77,8 @@
             <div class="box-header ">
                 <h3 class="box-title">架构问题管控列表</h3>
                 <div class="box-tools">
-                    <button type="button" class="btn btn-primary" name="add">添加</button>
-                    <button type="button" class="btn btn-primary" name="del">删除</button>
+<!--                <button type="button" class="btn btn-primary" name="add">添加</button>
+                    <button type="button" class="btn btn-primary" name="del">删除</button> -->
                 </div>
             </div>
             <div class="box-body">
@@ -77,32 +86,18 @@
                     <thead>
 		                <tr>
 	                    <th class="iCheckbox" width="15"></th>
-						<th>问题编号</th>
-						<th>问题类型</th>
+	                    <th>问题编号</th>
+						<th>问题标题</th>
+						<th>问题描述</th>
+						<th>所属系统</th>
+						<th>问题分类</th>
 						<th>一级分类</th>
 						<th>二级分类</th>
 						<th>三级分类</th>
-						<th>疑难问题</th>
-						<th>摘要</th>
-						<th>发生环境</th>
-						<th>所属项目</th>
-						<th>一级域编号</th>
-						<th>二级子域编号</th>
-						<th>三级系统编号</th>
-						<th>系统版本</th>
-						<th>优先级</th>
-						<th>缺陷级别</th>
-						<th>流程状态</th>
-						<th>申报信息</th>
-						<th>认定信息</th>
-						<th>解决信息</th>
-						<th>创建时间</th>
-						<th>修改时间</th>
-						<th>报告人</th>
-						<th>指派人</th>
-						<th>扩展字段1</th>
-						<th>扩展字段2</th>
-						<th>扩展字段3</th>
+						<th>工单状态</th>
+						<th>问题状态</th>
+						<th>处理科室</th>
+						<th>期望完成时间</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -114,6 +109,91 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<!-- 新增searchbox弹框 -->
+<div class="modal fade" id="Modal_addSearchBoxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">所属系统选择框</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">			
+				<div class="box box-primary">
+					<form id="JS_querySysDomainForm" class="form-horizontal">
+						<div class="box-header with-border">
+							<h3 class="box-title">系统信息查询</h3>
+							<div class="box-tools pull-right">
+								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="box-body">
+							<div class="col-md-12">
+								<div id="JS_select_data" class="form-group form-inline">
+									<label class="control-label margin-onl">系统名称</label>
+									<input placeholder="请输入" name="name" type="text" class="form-control input-sm"></input>
+									<label class="control-label margin-onl">系统编号</label> 
+									<input placeholder="请输入" name="idThird" type="text" class="form-control input-sm"></input>                 
+									<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+								</div>             
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="box" id="JS_sysMessageQuery">
+					<div class="box-header" >
+						<h3 class="box-title">系统信息列表</h3>
+					</div>
+					<div class="box-body" >
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="iCheckbox" width="15"></th>
+									<th style="min-width: 83px;">系统名称</th>
+									<th>系统编号</th>
+									<th style="min-width: 83px;">所属二级域</th>
+									<th>所属分层</th>
+									<th>系统描述</th>
+									<th style="min-width: 45px;">责任部门</th>
+									<th>项目立项信息</th>
+									<th style="min-width: 70px;">规划设计信息</th>
+									<th style="min-width: 40px;">状态</th>
+								</tr>
+							</thead>
+							<tbody name="content"></tbody>
+						</table>
+					</div>
+					<div class="box-footer no-border">
+						<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+					</div> 
+				</div>			
+            </div>
+            <div class="modal-footer">
+            	<div class="text-center">
+	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+	                <button type="button" class="btn btn-primary pull-right" name="sure">选定</button>
+            	</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="TPL_getSysMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+    <td>{{name}}</td>
+    <td>{{idThird}}</td>
+	<td>{{secName}}</td>
+	<td>{{belongLevel}}</td>
+	<td>{{systemFunction}}</td>
+	<td>{{department}}</td>
+	<td>{{projectInfo}}</td>
+	<td>{{designInfo}}</td>
+	<td>{{codeName}}</td>
+</tr>
+{{/each}}
+</script>
 <!-- Modal -->
 <!-- 新增弹框 -->
 <div class="modal fade" id="Modal_addDataMaintainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

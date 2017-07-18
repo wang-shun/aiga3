@@ -78,13 +78,16 @@
 	                    <th class="iCheckbox" width="15"></th>
 	                    <th>问题编号</th>
 						<th>问题标题</th>
-						<th>问题描述</th>
 						<th>所属系统</th>
 						<th>问题分类</th>
 						<th>一级分类</th>
 						<th>二级分类</th>
 						<th>三级分类</th>
 						<th>问题状态</th>
+						<th>优化思路</th>
+						<th>具体措施</th>
+						<th>预期结果</th>
+						<th>实际结果</th>
 						<th>处理科室</th>
 						<th>期望完成时间</th>
 		                </tr>
@@ -451,11 +454,11 @@
             </div>
             <div class="modal-footer">
                 <div class="text-center">
-	                <button type="reset" class="btn btn-primary" data-dismiss="modal">开需求单</button>
-	                <button type="reset" class="btn btn-primary" data-dismiss="modal">开任务单</button>
-	                <button type="reset" class="btn btn-primary" data-dismiss="modal">开变更单</button>
-	                <button type="reset" class="btn btn-primary" data-dismiss="modal">后续立项解决</button>
-	                <button type="button" class="btn btn-primary" name="save">关单</button>
+	                <button type="button" class="btn btn-primary" data-dismiss="modal"name="openRequest">开需求单</button>
+	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openTask">开任务单</button>
+	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openUpdate">开变更单</button>
+	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="afterSolved">后续立项解决</button>
+	                <button type="button" class="btn btn-primary" name="closeAll">关单</button>
                 </div>
             </div>
         </div>
@@ -477,7 +480,7 @@
 			<div class="form-group">
 				<label for="optimizePath" class="col-sm-1 control-label">优化思路</label>
 				<div class="col-sm-9">
-					<textarea class="form-control" rows="2" id="optimizePath" placeholder="请输入架构问题优化思路"></textarea>
+					<textarea name="ext1" class="form-control" rows="2" id="optimizePath" placeholder="请输入架构问题优化思路">{{ext1}}</textarea>
 				</div>
 			</div>
 		</div>
@@ -486,7 +489,7 @@
 			<div class="form-group">
 				<label for="specificMeasures" class="col-sm-1 control-label">具体措施</label>
 				<div class="col-sm-9">
-					<textarea class="form-control" rows="2" id="specificMeasures" placeholder="请输入架构问题具体措施"></textarea>
+					<textarea name="ext2" class="form-control" rows="2" id="specificMeasures" placeholder="请输入架构问题具体措施">{{ext2}}</textarea>
 				</div>
 			</div>
 		</div>
@@ -495,7 +498,7 @@
 			<div class="form-group">
 				<label for="expectResult" class="col-sm-1 control-label">预期结果</label>
 				<div class="col-sm-9">
-					<textarea class="form-control" rows="2" id="expectResult" placeholder="请输入架构问题预期结果"></textarea>
+					<textarea name="ext3" class="form-control" rows="2" id="expectResult" placeholder="请输入架构问题预期结果">{{ext3}}</textarea>
 				</div>
 			</div>
 		</div>
@@ -504,7 +507,7 @@
 			<div class="form-group">
 				<label for="realResult" class="col-sm-1 control-label">实际结果</label>
 				<div class="col-sm-9">
-					<textarea class="form-control" rows="2" id="realResult" placeholder="请输入架构问题实际结果"></textarea>
+					<textarea name="solvedInfo" class="form-control" rows="2" id="realResult" placeholder="请输入架构问题实际结果">{{solvedInfo}}</textarea>
 				</div>
 			</div>
 		</div>

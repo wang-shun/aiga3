@@ -12,6 +12,7 @@
 			<td>{{secondCategory}}</td>
 			<td>{{thirdCategory}}</td>
 			<td>{{sysVersion}}</td>
+			<td>{{identifiedInfo}}</td>
 			<td>{{appointedPerson}}</td>
 			<td>{{modifyDate}}</td>
         </tr>

@@ -73,12 +73,9 @@ define(function(require, exports, module) {
 						belongLevel += 'BPaaS' + ',';
 					}
 					if(applyHierarchy[5].checked == true) {
-						belongLevel += 'PaaS' + ',';
-					}
-					if(applyHierarchy[6].checked == true) {
 						belongLevel += 'IaaS' + ',';
 					}
-					if(applyHierarchy[7].checked == true) {
+					if(applyHierarchy[6].checked == true) {
 						belongLevel += 'TPaaS' + ',';
 					}	
 					belongLevel=belongLevel.substring(0,belongLevel.length-1);
@@ -205,14 +202,11 @@ define(function(require, exports, module) {
 						if(belongLevel[i] == 'BPaaS') {
 							hierarchy[4].checked = true;
 						}
-						if(belongLevel[i] == 'PaaS') {
+						if(belongLevel[i] == 'IaaS') {
 							hierarchy[5].checked = true;
 						}
-						if(belongLevel[i] == 'IaaS') {
-							hierarchy[6].checked = true;
-						}
 						if(belongLevel[i] == 'TPaaS') {
-							hierarchy[7].checked = true;
+							hierarchy[6].checked = true;
 						}
 					}					
 					//修改保存按钮
@@ -239,12 +233,9 @@ define(function(require, exports, module) {
 							belongLevel += 'BPaaS' + ',';
 						}
 						if(updateHierarchy[5].checked == true) {
-							belongLevel += 'PaaS' + ',';
-						}
-						if(updateHierarchy[6].checked == true) {
 							belongLevel += 'IaaS' + ',';
 						}
-						if(updateHierarchy[7].checked == true) {
+						if(updateHierarchy[6].checked == true) {
 							belongLevel += 'TPaaS' + ',';
 						}	
 						belongLevel=belongLevel.substring(0,belongLevel.length-1);

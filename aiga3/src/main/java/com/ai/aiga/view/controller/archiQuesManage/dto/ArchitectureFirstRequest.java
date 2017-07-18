@@ -3,6 +3,7 @@ package com.ai.aiga.view.controller.archiQuesManage.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class ArchitectureFirstRequest implements Serializable {
 
     private long idFirst;

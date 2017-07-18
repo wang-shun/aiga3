@@ -232,6 +232,24 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('问题描述为空！', 'error', 2000);
 						return
 					}
+					if(_cmd.indexOf('quesType=&')>-1) {
+						XMS.msgbox.show('问题分类为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('quesType=1')>-1){
+						if(_cmd.indexOf('firstCategory=&')>-1) {
+							XMS.msgbox.show('一级分类为空！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('secondCategory=&')>-1) {
+							XMS.msgbox.show('二级分类为空！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('thirdCategory=&')>-1) {
+							XMS.msgbox.show('三级分类为空！', 'error', 2000);
+							return
+						}
+					}
 					if(_cmd.indexOf('priority=&')>-1) {
 						XMS.msgbox.show('优先级为空！', 'error', 2000);
 						return

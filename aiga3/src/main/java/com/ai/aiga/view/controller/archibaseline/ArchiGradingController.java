@@ -57,27 +57,45 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/gradingAdd")
 	public @ResponseBody JsonBean save(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
-		//非空校验
-		if(architectureGrading.getSysId()==0L) {
-			bean.fail("编号为空！");
-			return bean;
-		}
-		if(StringUtils.isBlank(architectureGrading.getName())) {
-			bean.fail("名称为空！");
-			return bean;
-		}
-		//申请单唯一性校验
-		ArchitectureGrading condition = new ArchitectureGrading();
-		condition.setSysId(architectureGrading.getSysId());
-		condition.setState("申请");
 		//操作类型
 		String description = architectureGrading.getDescription();
 		//所属等级
 		String ext1 = architectureGrading.getExt1();
-		if(architectureGradingSv.findTableCondition(condition).size()>0) {
-			bean.fail("该编号存在在途申请单");
-			return bean;
+		if("新增".equals(description) && "3".equals(ext1)) {
+			//三级系统申请
+			if(StringUtils.isBlank(architectureGrading.getName())) {
+				bean.fail("名称为空！");
+				return bean;
+			}
+			//申请单唯一性校验
+			ArchitectureGrading condition = new ArchitectureGrading();
+			condition.setName(architectureGrading.getName());
+			condition.setState("申请");
+			if(architectureGradingSv.findTableCondition(condition).size()>0) {
+				bean.fail("该系统名称存在在途申请单");
+				return bean;
+			}
+		} else {
+			//非空校验
+			if(architectureGrading.getSysId()==0L) {
+				bean.fail("编号为空！");
+				return bean;
+			}
+			if(StringUtils.isBlank(architectureGrading.getName())) {
+				bean.fail("名称为空！");
+				return bean;
+			}
+			//申请单唯一性校验
+			ArchitectureGrading condition = new ArchitectureGrading();
+			condition.setSysId(architectureGrading.getSysId());
+			condition.setState("申请");
+
+			if(architectureGradingSv.findTableCondition(condition).size()>0) {
+				bean.fail("该编号存在在途申请单");
+				return bean;
+			}
 		}
+
 		if("1".equals(ext1)) {
 			//一级域数据校验
 			if("新增".equals(description) || "修改".equals(description)) {
@@ -134,17 +152,13 @@ public class ArchiGradingController {
 					return bean;
 				}
 				if(StringUtils.isBlank(architectureGrading.getSysState())) {
-					bean.fail("状态为空！");
+					bean.fail("建设状态为空！");
 					return bean;
 				}
 				if("新增".equals(description)) {
 					architectureGrading.setCreateDate(new Date());
 					architectureGrading.setModifyDate(new Date());
-					List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
-					if(thirdList.size()>0) {
-						bean.fail("系统编号已存在");
-						return bean;
-					}
+					architectureGrading.setSysId(architectureGrading.getIdBelong()/100000);
 				} else if("修改".equals(description)) {
 					List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
 					if(thirdList.size()>0) {
@@ -164,7 +178,7 @@ public class ArchiGradingController {
 		architectureGrading.setApplyUser(String.valueOf(subject.getPrincipals()));
 		architectureGrading.setState("申请");
 		architectureGradingSv.save(architectureGrading);
-		return JsonBean.success;
+		return bean;
 	}
 	
 	/**
@@ -177,7 +191,7 @@ public class ArchiGradingController {
 		JsonBean bean = new JsonBean();
 		if("审批未通过".equals(input.getState())) {
 			architectureGradingSv.update(input);
-			return JsonBean.success;
+			return bean;
 		}
 		String operation = input.getDescription();
 		if("1".equals(input.getExt1())) {			
@@ -192,6 +206,7 @@ public class ArchiGradingController {
 					bean.fail("编号已存在");
 					return bean;
 				}
+				firstInput.setCreateDate(new Date());	
 				firstInput.setDescription("");
 				architectureFirstSv.save(firstInput);
 			} else {
@@ -213,6 +228,7 @@ public class ArchiGradingController {
 					bean.fail("编号已存在");
 					return bean;
 				}
+				secInput.setCreateDate(new Date());	
 				secInput.setDescription("");
 				architectureSecondSv.save(secInput);
 			} else {
@@ -234,6 +250,7 @@ public class ArchiGradingController {
 					bean.fail("编号已存在");
 					return bean;
 				}
+				thirdInput.setCreateDate(new Date());	
 				thirdInput.setDescription("");
 				architectureThirdSv.save(thirdInput);
 			} else {
@@ -244,7 +261,7 @@ public class ArchiGradingController {
 			architectureGradingSv.update(input);
 		} else {
 		}
-		return JsonBean.success;
+		return bean;
 	}
 	
 	@RequestMapping(path = "/archi/grading/findByCondition")

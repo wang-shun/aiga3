@@ -35,10 +35,23 @@ define(function(require, exports, module) {
 		_band_btn_event: function() {
 			var _from = Page.findId('sysMessageFrom');
 			_from.find("[name='identify']").off('click').on('click',function() {
+				var data = cache.selectData;
+				//编号校验
+				var sysValue = Page.findId('selectData').find('[name="sysId"]').val();
+				var _sysValue = $.trim(sysValue);
+				if(!_sysValue) {
+                    XMS.msgbox.show('编号为空！', 'error', 1000);
+                    return
+				}
+                var condition =  /^\d{1,8}$/;
+                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
+                    XMS.msgbox.show('请输入8位纯数字！', 'error', 2000);
+                    return
+				}
+                data.sysId = _sysValue;
 				Page.findId('modalMessage').val("");
 				var textModal = Page.findId('modal');
-				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
-					var data = cache.selectData;
+				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {		
 					//解决时间格式不能传输的问题
 					data.modifyDate = data.modifyDate.replace(/-/g,"/");
 					data.createDate = data.createDate.replace(/-/g,"/");
@@ -84,11 +97,6 @@ define(function(require, exports, module) {
 				});
 				textModal.modal('show');
 			});
-//			_from.find("[name='cancel']").off('click').on('click',function() {
-//				if(!Page.findId('SysMessageFrom').hasClass('show-nothing')) {
-//					Page.findId('SysMessageFrom').addClass('show-nothing');
-//				}
-//			});
 		},
 		
 		//查询下拉框数据加载，绑定查询按钮事件
@@ -162,6 +170,11 @@ define(function(require, exports, module) {
 	        					templateFrom = Handlebars.compile(Page.findTpl('secondMessageFrom'));
 	        				} else {
 	        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
+	        					if(selectData.description == '新增') {
+	        						selectData.disabledType = '';
+	        					} else {
+	        						selectData.disabledType = 'readonly="readonly"';
+	        					}
 	        				}    
 	        				var _selectDataModal = Page.findId('selectData');
 	        				_selectDataModal.html(templateFrom(selectData));

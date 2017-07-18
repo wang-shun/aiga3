@@ -44,11 +44,11 @@ define(function(require, exports, module) {
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
 				if (cmd.indexOf('idFirst=&')>-1) {
-					XMS.msgbox.show('请选择一级域', 'error', 2000);
+					XMS.msgbox.show('请选择一级域', 'error', 1000);
 					return
 				}
 				if (cmd.charAt(cmd.length - 1) == '=') {
-					XMS.msgbox.show('请选择二级子域', 'error', 2000);
+					XMS.msgbox.show('请选择二级子域', 'error', 1000);
 					return
 				}
 				
@@ -101,15 +101,6 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('系统编号为空！', 'error', 2000);
 						return
 					}
-					var _for = Page.findId("thirdApplyForm");
-					var str = _for.find("[name='sysId']").val();
-					var _str = $.trim(str);
-					var patt1 =  /^\d{1,8}$/;
-					if(_str.length !=8 || !patt1.test(_str) ){
-						XMS.msgbox.show('请输入8位纯数字！', 'error', 2000);
-						return
-					}
-					
 					if(_cmd.indexOf('idBelong=&')>-1) {
 						XMS.msgbox.show('所属二级域为空！', 'error', 2000);
 						return

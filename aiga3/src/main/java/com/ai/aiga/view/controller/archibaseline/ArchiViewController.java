@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -340,6 +342,12 @@ public class ArchiViewController {
 				}
 			}		
 		}
+		//结果排序
+		Collections.sort(itemSaaS, new MyComparator());
+		Collections.sort(itemBPaaS, new MyComparator());
+		Collections.sort(itemUPaaS, new MyComparator());
+		Collections.sort(itemIPaaS, new MyComparator());
+		Collections.sort(itemTPaaS, new MyComparator());
 		content.setSaaS(SaaS);
 		content.setPaaS(PaaS);
 		output.setStateItems(stateItems);
@@ -347,6 +355,7 @@ public class ArchiViewController {
 		bean.setData(output);
 		return bean;	
 	}
+	
 	/**
 	 * 查询三级系统变更信息
 	 * @return

@@ -48,7 +48,7 @@
     {{/each}}
     <div class="mxgif-state-lists">
         {{#each stateItems}}
-        <span class="mxgif-state-item" style="background: {{bgColor}}">{{name}}</span>
+        <span class="mxgif-state-item" style="background: {{ext1}}">{{codeName}}</span>
         {{/each}}
     </div>
 </div>

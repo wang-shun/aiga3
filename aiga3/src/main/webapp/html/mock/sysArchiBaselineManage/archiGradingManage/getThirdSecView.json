@@ -5,20 +5,20 @@
         "isCross":"0",
         "stateItems":[{
             "id":"10001",
-            "name":"在线",
-            "bgColor":"#ffe979"
+            "codeName":"在线",
+            "ext1":"#ffe979"
         },{
             "id":"10002",
-            "name":"2016年立项优化",
-            "bgColor":"#a9d08d"
+            "codeName":"2016年立项优化",
+            "ext1":"#a9d08d"
         },{
             "id":"10003",
-            "name":"2016年规划新建",
-            "bgColor":"#8abbe3"
+            "codeName":"2016年规划新建",
+            "ext1":"#8abbe3"
         },{
             "id":"10004",
-            "name":"非支撑域承建的具备公共职能的系统",
-            "bgColor":"#e2e2e2"
+            "codeName":"非支撑域承建的具备公共职能的系统",
+            "ext1":"#e2e2e2"
         }],
         "content":[{
             "id":"1000001",
@@ -191,6 +191,26 @@
                         "id":"100000421",
                         "bgColor":"#ffe979",
                         "name":"网状网接口交互平台",
+                        "isNodeName":"0"
+                    }]
+                },{
+                    "id":"10000043",
+                    "name":"数据资产管理中心",
+                    "isNodeName":"0",
+                    "item":[{
+                        "id":"100000431",
+                        "bgColor":"",
+                        "name":"数据资产管控平台",
+                        "isNodeName":"0"
+                    }]
+                },{
+                    "id":"10000043",
+                    "name":"数据资产管理中心",
+                    "isNodeName":"0",
+                    "item":[{
+                        "id":"100000431",
+                        "bgColor":"",
+                        "name":"数据资产管控平台",
                         "isNodeName":"0"
                     }]
                 },{

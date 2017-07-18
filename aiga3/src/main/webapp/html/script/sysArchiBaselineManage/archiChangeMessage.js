@@ -42,7 +42,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
 					return
 				}
-				if(_cmd.indexOf('endTime=&')>-1) {
+				if(_cmd.charAt(_cmd.length - 1) == '=') {
 					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
 					return
 				}

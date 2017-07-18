@@ -35,8 +35,7 @@ define(function(require, exports, module) {
 				if(init) {
 					var date = self.formatDate(new Date()); 		
 					_cmd = 'beginTime='+date+'&endTime='+date;
-					init = false;
-			
+					init = false;			
 				}
 				if(_cmd.indexOf('beginTime=&')>-1) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);

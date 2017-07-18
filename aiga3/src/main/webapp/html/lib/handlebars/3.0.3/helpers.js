@@ -17,6 +17,20 @@ Handlebars.registerHelper('mxgifWidth', function(value, fn) {
 });
 
 /*
+ * 计算三级中心的宽度
+ */
+Handlebars.registerHelper('mxgifThirdWidth', function(value, fn) {
+    var _width = "";
+    if(value.length>3){
+         _width = "width:50%";
+    }
+    if(value.length>5){
+         _width = "width:100%";
+    }
+    return _width;
+});
+
+/*
  * 判断是否有跨层，如果有设置最小高度值
  */
 Handlebars.registerHelper('setMxgifMinHeight', function(isNodeName, isCross, fn) {

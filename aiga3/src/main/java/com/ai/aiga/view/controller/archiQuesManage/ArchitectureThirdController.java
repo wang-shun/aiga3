@@ -12,7 +12,6 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
-import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

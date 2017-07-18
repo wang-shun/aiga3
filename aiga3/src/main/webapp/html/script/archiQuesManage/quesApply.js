@@ -223,6 +223,57 @@ define(function(require, exports, module) {
 					_cmd=_cmd.replace(/-/g,"/");
 					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					console.log(_cmd);
+					
+					if(_cmd.indexOf('occurEnvironment=&')>-1) {
+						XMS.msgbox.show('标题为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('abstracts=&')>-1) {
+						XMS.msgbox.show('问题描述为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('quesType=&')>-1) {
+						XMS.msgbox.show('问题分类为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('quesType=1')>-1){
+						if(_cmd.indexOf('firstCategory=&')>-1) {
+							XMS.msgbox.show('一级分类为空！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('secondCategory=&')>-1) {
+							XMS.msgbox.show('二级分类为空！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('thirdCategory=&')>-1) {
+							XMS.msgbox.show('三级分类为空！', 'error', 2000);
+							return
+						}
+					}
+					if(_cmd.indexOf('priority=&')>-1) {
+						XMS.msgbox.show('优先级为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('belongProject=&')>-1) {
+						XMS.msgbox.show('所属系统为空！', 'error', 2000);
+						return
+					}
+					if(_cmd.indexOf('modifyDate=&')>-1) {
+						XMS.msgbox.show('期望时间为空！', 'error', 2000);
+						return
+					}
+					/*
+					  if(_cmd.indexOf('appointedPerson=&')>-1) {
+						XMS.msgbox.show('处理科室为空！', 'error', 2000);
+						return
+					}
+					 */
+					if(_cmd.charAt(_cmd.length-1)=='=') {
+						XMS.msgbox.show('处理科室为空！', 'error', 2000);
+						return
+					}
+
+					
 					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页

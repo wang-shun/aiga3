@@ -56,6 +56,14 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('编号为空！', 'error', 2000);
 						return
 					}
+					var _for = Page.findId("firApplyForm");
+					var str = _for.find("[name='sysId']").val();
+					var _str = $.trim(str);
+					var patt1 =  /^\d{1,8}$/;
+					if(_str.length !=8 || !patt1.test(_str) ){
+						XMS.msgbox.show('请输入8位纯数字！', 'error', 2000);
+						return
+					}
 					if(_cmd.indexOf('code=&')>-1) {
 						XMS.msgbox.show('简称为空！', 'error', 2000);
 						return

@@ -8,19 +8,25 @@ define(function(require, exports, module) {
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/";
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiGradingView');
-    //一级域下拉框查询
+   //一级域查询
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 
-    //二级数据接口 入参：idFirst level
+    //二级数据接口 入参：idFirst
     srvMap.add("getSecView", pathAlias+"getSecView.json", "archi/view/secView");
 
-    //二级跨层数据接口 入参：idFirst level
+    //二级跨层数据接口 入参：idFirst
     srvMap.add("getCrossSecView", pathAlias+"getCrossSecView.json", "archi/view/secView");
+
+
+    //三级数据接口 入参：idFirst
+    srvMap.add("getThirdSecView", pathAlias+"getThirdSecView.json", "archi/view/thirdView");
 
     var Tpl = {
 		getSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getSecView.tpl'),
-		getCrossSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getCrossSecView.tpl')
+		getCrossSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getCrossSecView.tpl'),
+		getThirdSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getThirdSecView.tpl')
 	}
+
 
 	var cache = {
 		datas : ""
@@ -53,30 +59,46 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-
 				var _idFirst = _form.find("[name='primaryDomain']").val();
-				var cmd= "idFirst="+_idFirst+"&level=122";
-				Rose.ajax.postJson(srvMap.get("getSecView"),cmd, function(json, status) {
+				//数据校验
+				if(_idFirst == 0){
+					XMS.msgbox.show('请选择一级域！', 'error', 2000);
+					return
+				}
+				var _viewLevel = _form.find("[name='viewLevel']:checked").val();
+				var _srvMap = "getSecView";
+				if(_viewLevel=="3"){
+					_srvMap = "getThirdSecView";
+				}
+				var cmd= "idFirst="+_idFirst;
+				Rose.ajax.postJson(srvMap.get(_srvMap),cmd, function(json, status) {
 					if(status) {
-						if(json.data.isCross=="0"){
-							var template = Handlebars.compile(Tpl.getSecView);
-						}else{
-							var template = Handlebars.compile(Tpl.getCrossSecView);
+						if(_viewLevel=="2"){
+							if(json.data.isCross=="0"){
+								var template = Handlebars.compile(Tpl.getSecView);
+							}else{
+								var template = Handlebars.compile(Tpl.getCrossSecView);
+							}
+						}else if(_viewLevel=="3"){
+							var template = Handlebars.compile(Tpl.getThirdSecView);
 						}
-		        		Page.findName("archiView").html(template(json.data.content));
+		        		Page.findName("archiView").html(template(json.data));
 
 		        		// 计算垂直高度值
 		        		self.setSidebarHeight();
 
 		        		// 处理跨层
-		        		self.setCrossContent(json)
-
-
+		        		if(_viewLevel=="2"){
+							if(json.data.isCross=="1"){
+		        				self.setCrossContent(json);
+				        	}
+						}
 					}
 	  			});
 			});
 		},
 		setSidebarHeight:function(){
+			// 循环计算出所有节点的高度值，用于垂直居中对齐
 			Page.find('.mxgif-sidebar').each(function(){
 				var _thiz = $(this);
 				var _pHeight = _thiz.parent().height();
@@ -87,6 +109,7 @@ define(function(require, exports, module) {
 			var contentArray = json.data.content;
     		//处理跨层区域
     		if(json.data.crossContent.length>0){
+
     			// 设定二级浮层容器的高度值
     			Page.findName("crossContent").height(Page.find(".mxgif-wrapper").outerHeight());
 

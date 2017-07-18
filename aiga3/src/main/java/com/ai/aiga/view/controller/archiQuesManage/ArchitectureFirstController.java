@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchitectureFirstSv;
-import com.ai.aiga.service.ArchitectureSecondSv;
-import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

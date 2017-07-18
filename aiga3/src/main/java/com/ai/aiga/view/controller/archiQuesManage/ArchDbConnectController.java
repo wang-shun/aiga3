@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.service.ArchDbConnectSv;
+import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
@@ -30,10 +31,20 @@ public class ArchDbConnectController extends BaseService {
 	@Autowired
 	private ArchDbConnectSv archDbConnectSv;
 	
+	@Autowired
+	private ArchSrvManageSv archSrvManageSv;
+	
 	@RequestMapping(path = "/archi/dbconnect/list")
-	public @ResponseBody JsonBean list(){
+	public @ResponseBody JsonBean listConnect(){
 		JsonBean bean = new JsonBean();
 		bean.setData(archDbConnectSv.findArchDbConnect());
+		return bean;
+	}
+	
+	@RequestMapping(path = "/archi/srvmanage/list")
+	public @ResponseBody JsonBean listManage(){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSrvManageSv.findArchSrvManages());
 		return bean;
 	}
 	
@@ -57,7 +68,7 @@ public class ArchDbConnectController extends BaseService {
 			}
 			output.setxAxis(months);
 			final int constValue = months.size();
-
+			
 			
 		} catch (Exception e) {
 			bean.fail(e.getMessage());

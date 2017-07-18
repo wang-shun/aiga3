@@ -186,6 +186,18 @@ public class QuestionInfoSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getBelongProject())){
     		cons.add(new Condition("belongProject", condition.getBelongProject(), Condition.Type.EQ));
     	}
+    	if(condition.getQuesId()==0){
+    		cons.add(new Condition("quesId", condition.getQuesId(), Condition.Type.GT));
+    	}
+    	if(condition.getQuesId()!=0){
+    		cons.add(new Condition("quesId", condition.getQuesId(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getSysVersion())){
+    		cons.add(new Condition("sysVersion", condition.getSysVersion(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getState())){
+    		cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
+    	}
     	
         if(pageNumber < 0){
             pageNumber = 0;

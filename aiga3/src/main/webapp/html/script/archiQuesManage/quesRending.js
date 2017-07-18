@@ -57,6 +57,10 @@ define(function(require, exports, module) {
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
     //所属问题状态静态数据  
 	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
+		//显示系统信息表
+//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -84,6 +88,10 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			
+			this.searchBox();
+			
+			this._querydomain();
 			// 默认查询所有
 			this.getDataMaintainList();
 			// 初始化查询表单
@@ -91,6 +99,79 @@ define(function(require, exports, module) {
 			//映射
 			this.hdbarHelp();
 		},
+		searchBox: function(){
+			var self = this;
+			var _dom = Page.findId('queryDataMaintainForm');
+			var _checkBt = _dom.find("[name='checkbox']");
+
+			_checkBt.unbind('click');
+			_checkBt.bind('click', function() {
+//				var template = Handlebars.compile(Page.findTpl('getSearchBoxTemp'));
+//				Page.findId('insertBelongProj').html(template(data));
+				var _modal = Page.findModal('addSearchBoxModal');
+				_modal.modal('show');
+//				Utils.setSelectData(_modal);
+				var sureBt = _modal.find("[name='sure']");
+				sureBt.unbind('click');
+				sureBt.bind('click',function(){
+					_modal.modal('hide');
+//					var node = _modal.find("[name='sysMessageQuery']");
+					var node = Page.findId('sysMessageQuery');
+					var value = Utils.getRadioCheckedRow(node);
+					var idThird = value.idThird;
+					for(var i=0;i<cache.datas.length;i++){
+						if(cache.datas[i].idThird==idThird){
+							var nameValue = cache.datas[i].name;
+							_dom.find("[name='belongProject']").val(nameValue);
+							break;
+						}
+					};
+//					var value = $("#sbbelongProject").find("option:selected").text();
+//					var value = node.text();
+					
+				});
+			});
+		},
+		/*--------------------------------------------------*/
+		//查询下拉框数据加载，绑定查询按钮事件
+		_querydomain: function() {
+			var self = this;
+			var _form = Page.findId('querySysDomainForm');
+			Utils.setSelectData(_form);
+			var _queryBtn =  _form.find("[name='query']");
+			_queryBtn.off('click').on('click',function(){
+				var cmd = _form.serialize();
+				//用于解决long型不可空传的问题
+				if(cmd.charAt(cmd.length - 1) == '=') {
+					cmd+='0';
+				}
+				self._getTableDataList(cmd);
+			});
+		},
+
+		// 查询表格数据
+		_getTableDataList: function(cmd){
+			var self = this;
+			var _cmd = '' ;
+			if(cmd) {
+				var _cmd = cmd;
+			}
+			var _dom = Page.findId('sysMessageQuery');
+			var _domPagination = _dom.find("[name='pagination']");
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			// 设置服务器端分页
+			Utils.getServerPage(srvMap.get('getSysMessageList'),_cmd,function(json){
+				window.XMS.msgbox.hide();
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
+				
+        		var tablebtn = _dom.find("[name='content']");
+        		tablebtn.html(template(json.data.content));
+        		cache.datas = json.data.content;
+        		Utils.eventTrClickCallback(_dom);
+			},_domPagination);
+		},
+		/*--------------------------------------------------*/
 		// 按条件查询
 		queryDataMaintainForm: function() {
 			var self = this;
@@ -107,6 +188,12 @@ define(function(require, exports, module) {
 		getDataMaintainList: function(cmd) {
 			var self = this;
 			var _cmd = cmd;
+//			_cmd=_cmd.replace(/-/g,"/");
+			if(_cmd!=null){
+				if(_cmd.indexOf('quesId=&')>-1){
+					_cmd=_cmd.replace("quesId=&","quesId=0&");
+				}
+			}
 //			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');

@@ -15,7 +15,7 @@
 		                <div class="form-group col-sm-6">
 		                    <label for="quesCate" class="col-sm-2 control-label">指标分组：</label>
 		                    <div class="col-sm-4">
-			                    <select name="indexGroup" class="form-control input-sm" data-url="getAmCoreIndexList" data-subname="indexName" data-idkey="indexId" data-namekey="indexGroup">
+			                    <select name="indexGroup" class="form-control input-sm" data-url="getAmCoreIndexList" data-subname="indexName" data-idkey="indexGroup" data-namekey="indexGroup">
 			                        <option value="">请选择</option>
 			                    </select>
 		                    </div>
@@ -23,21 +23,27 @@
 		                <div class="form-group col-sm-6">
 		                    <label for="indexName" class="col-sm-2 control-label">指标名称：</label>
 		                    <div class="col-sm-4">
-			                    <select name="indexName" class="col-sm-4 form-control input-sm" data-suburl="getAmCoreIndexList" data-subname="indexId" data-idkey="indexId" data-namekey="indexName">
+			                    <select name="indexName" class="col-sm-4 form-control input-sm" data-suburl="getAmCoreIndexList" data-subname="indexId" data-idkey="indexName" data-namekey="indexName">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
 		            </div>
+			        <div class="row" id="JS_selectData">
+			        	<div class="form-group col-sm-6">
+	                        <label class="col-sm-2 control-label">开始时间:</label>
+			        		<div class="col-sm-4">
+		                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyyMM'})"/>
+			        		</div>
+			        	</div>
+			        	<div class="form-group col-sm-6">
+	                        <label class="col-sm-2 control-label">结束时间:</label>
+			        		<div class="col-sm-4">
+	                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyyMM'})"/> 
+			        		</div>
+			        	</div>
+	                </div>
 		            <div class="row">
-		                <div class="form-group col-sm-6">
-		                    <label for="schId" class="col-sm-2 control-label">分表编号：</label>
-		                    <div class="col-sm-4">
-			                    <select name="schId" class="form-control input-sm" data-suburl="getAmCoreIndexList" data-subname="indexId" data-idkey="indexId" data-namekey="schId">
-			                        <option value="">请选择</option>
-			                    </select>
-			                </div>
-		                </div>
 		                <div class="form-group col-sm-6">
 		                    <label for="thirdCate" class="col-sm-2 control-label">数据库：</label>
 		                    <div class="col-sm-4">
@@ -46,8 +52,6 @@
 			                    </select>
 			                </div>
 		                </div>
-		            </div>
-		            <div class="row">
 		                <div class="form-group col-sm-6">
 		                    <label for="secondCate" class="col-sm-2 control-label">用户名：</label>
 		                    <div class="col-sm-4">
@@ -56,6 +60,8 @@
 			                    </select>
 			                </div>
 		                </div>
+		            </div>
+		            <div class="row">
 		                <div class="form-group col-sm-6">
 		                    <label for="key3" class="col-sm-2 control-label">模块分类：</label>
 		                    <div class="col-sm-4">

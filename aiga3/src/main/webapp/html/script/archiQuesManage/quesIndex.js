@@ -102,10 +102,11 @@ define(function(require, exports, module) {
 		getDataMaintainList: function(cmd) {
 			var self = this;
 			var _cmd = '' || cmd;
+
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
-			var _dom = Page.findId('getDataMaintainList');
+/*			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getAmCoreIndexList'), _cmd, function(json, status) {
@@ -127,7 +128,7 @@ define(function(require, exports, module) {
 //					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
-			}, _domPagination);
+			}, _domPagination);*/
 			
 			var _domSec = Page.findId('getDataMaintainListSec');
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");

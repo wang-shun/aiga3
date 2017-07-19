@@ -6,12 +6,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -340,6 +339,12 @@ public class ArchiViewController {
 				}
 			}		
 		}
+		//结果排序
+		Collections.sort(itemSaaS, new MyComparator());
+		Collections.sort(itemBPaaS, new MyComparator());
+		Collections.sort(itemUPaaS, new MyComparator());
+		Collections.sort(itemIPaaS, new MyComparator());
+		Collections.sort(itemTPaaS, new MyComparator());
 		content.setSaaS(SaaS);
 		content.setPaaS(PaaS);
 		output.setStateItems(stateItems);
@@ -347,6 +352,7 @@ public class ArchiViewController {
 		bean.setData(output);
 		return bean;	
 	}
+	
 	/**
 	 * 查询三级系统变更信息
 	 * @return
@@ -398,11 +404,12 @@ public class ArchiViewController {
 					ArchitectureGrading gradingBase = it.next();
 					if(num/10000000 == gradingBase.getIdBelong()/10000000) {
 						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-						String applyTime = format.format(gradingBase.getApplyTime());
+						String modifyTime = format.format(gradingBase.getModifyDate());
 						for(int i=0;i<data.length;i++) {
-							if(applyTime.equals(mounths.get(i))) {
+							if(modifyTime.equals(mounths.get(i))) {
 								data[i]++;
-								it.remove();	
+								it.remove();
+								break;		
 							}
 						}
 					}	

@@ -37,18 +37,31 @@ define(function(require, exports, module) {
 			_from.find("[name='identify']").off('click').on('click',function() {
 				var data = cache.selectData;
 				//编号校验
-				var sysValue = Page.findId('selectData').find('[name="sysId"]').val();
-				var _sysValue = $.trim(sysValue);
-				if(!_sysValue) {
-                    XMS.msgbox.show('编号为空！', 'error', 1000);
-                    return
+				if(data.ext1 == '3' && data.description == '新增') {
+    				var pass = Page.findId('modal').find("[name='pass']");
+					var sysValue = Page.findId('selectData').find('[name="sysId"]').val();
+					var _sysValue = $.trim(sysValue);
+					var condition =  /^\d{1,8}$/;
+					if(!_sysValue) {
+	                    XMS.msgbox.show('编号为空！', 'error', 1000);
+        				if(!pass.hasClass('show-nothing')) {
+        					pass.addClass('show-nothing');
+        				}
+					} else {
+		                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
+		                    XMS.msgbox.show('请输入8位纯数字编号！', 'error', 2000);
+	        				if(!pass.hasClass('show-nothing')) {
+	        					pass.addClass('show-nothing');
+	        				}
+						} else {
+	        				if(pass.hasClass('show-nothing')) {
+	        					pass.removeClass('show-nothing');
+	        				}
+						    data.sysId = _sysValue;
+						}
+					}	               
 				}
-                var condition =  /^\d{1,8}$/;
-                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
-                    XMS.msgbox.show('请输入8位纯数字！', 'error', 2000);
-                    return
-				}
-                data.sysId = _sysValue;
+
 				Page.findId('modalMessage').val("");
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {		
@@ -56,8 +69,17 @@ define(function(require, exports, module) {
 					data.modifyDate = data.modifyDate.replace(/-/g,"/");
 					data.createDate = data.createDate.replace(/-/g,"/");
 					data.applyTime = data.applyTime.replace(/-/g,"/");
+					var isRun = false;
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
+				         if(isRun){
+				             return;
+				         } else {
+				        	 isRun = true;
+					         setTimeout(function(){
+					             isRun=false;
+					         },1500); //点击后相隔多长时间可执行
+				         }
 						data.state = '审批通过';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
@@ -77,6 +99,14 @@ define(function(require, exports, module) {
 					});
 					//不通过
 					textModal.find("[name='noPass']").off('click').on('click', function(){
+				         if(isRun){
+				             return;
+				         } else {
+				        	 isRun = true;
+					         setTimeout(function(){
+					             isRun=false;
+					         },1500); //点击后相隔多长时间可执行
+				         }
 						data.state = '审批未通过';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
@@ -148,6 +178,24 @@ define(function(require, exports, module) {
         				if(pass.hasClass('show-nothing')) {
         					pass.removeClass('show-nothing');
         				}
+        				if(selectData.ext1 == '3' && selectData.description == '新增') {
+        				} else {
+        					var _sysValue = $.trim(selectData.sysId);
+        					if(!_sysValue) {
+        	                    XMS.msgbox.show('编号为空！', 'error', 1000);
+    	        				if(!pass.hasClass('show-nothing')) {
+    	        					pass.addClass('show-nothing');
+    	        				}
+        					}
+        	                var condition =  /^\d{1,8}$/;
+        	                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
+        	                    XMS.msgbox.show('编号不为8位纯数字！', 'error', 2000);
+    	        				if(!pass.hasClass('show-nothing')) {
+    	        					pass.addClass('show-nothing');
+    	        				}
+        					}
+        				}
+
         				//信息翻译
         				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(json, status){
     						if(!status) {

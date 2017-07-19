@@ -105,7 +105,6 @@ public class ArchiGradingController {
 				}
 				if("新增".equals(description)) {
 					architectureGrading.setCreateDate(new Date());
-					architectureGrading.setModifyDate(new Date());
 					ArchitectureFirst architectureFirst = architectureFirstSv.findOne(architectureGrading.getSysId());
 					if(architectureFirst!=null) {
 						bean.fail("编号已存在");
@@ -131,7 +130,6 @@ public class ArchiGradingController {
 				}
 				if("新增".equals(description)) {
 					architectureGrading.setCreateDate(new Date());
-					architectureGrading.setModifyDate(new Date());
 					ArchitectureSecond architectureSecond = architectureSecondSv.findOne(architectureGrading.getSysId());
 					if(architectureSecond!=null){
 						bean.fail("编号已存在");
@@ -157,7 +155,6 @@ public class ArchiGradingController {
 				}
 				if("新增".equals(description)) {
 					architectureGrading.setCreateDate(new Date());
-					architectureGrading.setModifyDate(new Date());
 					architectureGrading.setSysId(architectureGrading.getIdBelong()/100000);
 				} else if("修改".equals(description)) {
 					List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
@@ -172,6 +169,7 @@ public class ArchiGradingController {
 				}
 			}
 		}
+		architectureGrading.setModifyDate(new Date());
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
 		Subject subject = SecurityUtils.getSubject();

@@ -407,11 +407,12 @@ public class ArchiViewController {
 					ArchitectureGrading gradingBase = it.next();
 					if(num/10000000 == gradingBase.getIdBelong()/10000000) {
 						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-						String applyTime = format.format(gradingBase.getApplyTime());
+						String modifyTime = format.format(gradingBase.getModifyDate());
 						for(int i=0;i<data.length;i++) {
-							if(applyTime.equals(mounths.get(i))) {
+							if(modifyTime.equals(mounths.get(i))) {
 								data[i]++;
-								it.remove();	
+								it.remove();
+								break;		
 							}
 						}
 					}	

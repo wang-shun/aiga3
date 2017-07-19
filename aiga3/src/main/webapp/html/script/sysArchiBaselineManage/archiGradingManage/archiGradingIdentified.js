@@ -69,8 +69,17 @@ define(function(require, exports, module) {
 					data.modifyDate = data.modifyDate.replace(/-/g,"/");
 					data.createDate = data.createDate.replace(/-/g,"/");
 					data.applyTime = data.applyTime.replace(/-/g,"/");
+					var isRun = false;
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
+				         if(isRun){
+				             return;
+				         } else {
+				        	 isRun = true;
+					         setTimeout(function(){
+					             isRun=false;
+					         },1500); //点击后相隔多长时间可执行
+				         }
 						data.state = '审批通过';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
@@ -90,6 +99,14 @@ define(function(require, exports, module) {
 					});
 					//不通过
 					textModal.find("[name='noPass']").off('click').on('click', function(){
+				         if(isRun){
+				             return;
+				         } else {
+				        	 isRun = true;
+					         setTimeout(function(){
+					             isRun=false;
+					         },1500); //点击后相隔多长时间可执行
+				         }
 						data.state = '审批未通过';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);

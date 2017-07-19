@@ -43,7 +43,10 @@ public class ArchitectureIndexSv extends BaseService {
 //				"and am.index_group = :indexGroup" +
 //				"and am.index_name = :indexName" +
 //				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm')" +
-//				"and to_date(ar.sett_month,'yyyymm') >= to_date(:startMonth, 'yyyymm')");
+//				"and to_date(ar.sett_month,'yyyymm') >= to_date(:startMonth, 'yyyymm') " +
+//				"and ar.key_1 = :key1 " +
+//				"and ar.key_2 = :key2 " +
+//				"and ar.key_3 = :key3 ");
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 
 		if (StringUtils.isNotBlank(condition.getIndexGroup())) {
@@ -61,6 +64,18 @@ public class ArchitectureIndexSv extends BaseService {
 		if (StringUtils.isNotBlank(condition.getEndMonth())) {
 			nativeSql.append("and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm') ");
 			params.add(new ParameterCondition("endMonth", condition.getEndMonth()));
+		}
+		if (StringUtils.isNotBlank(condition.getKey1())) {
+			nativeSql.append("and ar.key_1 = :key1 ");
+			params.add(new ParameterCondition("key1", condition.getKey1()));
+		}
+		if (StringUtils.isNotBlank(condition.getKey2())) {
+			nativeSql.append("and ar.key_2 = :key2 ");
+			params.add(new ParameterCondition("key2", condition.getKey2()));
+		}
+		if (StringUtils.isNotBlank(condition.getKey3())) {
+			nativeSql.append("and ar.key_3 = :key3 ");
+			params.add(new ParameterCondition("key3", condition.getKey3()));
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -79,10 +94,13 @@ public class ArchitectureIndexSv extends BaseService {
 				"select ar.* " +
 				"from am_core_index am, arch_srv_manage ar " +
 				"where am.index_id = ar.index_id " );
-//				"and am.index_group = :indexGroup" +
-//				"and am.index_name = :indexName" +
-//				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm')" +
-//				"and to_date(ar.sett_month,'yyyymm') >= to_date(:startMonth, 'yyyymm')");
+//				"and am.index_group = :indexGroup " +
+//				"and am.index_name = :indexName " +
+//				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm') " +
+//				"and to_date(ar.sett_month,'yyyymm') >= to_date(:startMonth, 'yyyymm') " +
+//				"and ar.key_1 = :key1 " +
+//				"and ar.key_2 = :key2 " +
+//				"and ar.key_3 = :key3 ");
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 		
 		if (StringUtils.isNotBlank(condition.getIndexGroup())) {
@@ -100,6 +118,18 @@ public class ArchitectureIndexSv extends BaseService {
 		if (StringUtils.isNotBlank(condition.getEndMonth())) {
 			nativeSql.append("and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm') ");
 			params.add(new ParameterCondition("endMonth", condition.getEndMonth()));
+		}
+		if (StringUtils.isNotBlank(condition.getKey1())) {
+			nativeSql.append("and ar.key_1 = :key1 ");
+			params.add(new ParameterCondition("key1", condition.getKey1()));
+		}
+		if (StringUtils.isNotBlank(condition.getKey2())) {
+			nativeSql.append("and ar.key_2 = :key2 ");
+			params.add(new ParameterCondition("key2", condition.getKey2()));
+		}
+		if (StringUtils.isNotBlank(condition.getKey3())) {
+			nativeSql.append("and ar.key_3 = :key3 ");
+			params.add(new ParameterCondition("key3", condition.getKey3()));
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;

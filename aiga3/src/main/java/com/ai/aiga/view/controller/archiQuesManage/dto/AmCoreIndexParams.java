@@ -11,4 +11,8 @@ public class AmCoreIndexParams implements Serializable {
     private String indexGroup;
     private String startMonth;
     private String endMonth;
+    private String key1;
+    private String key2;
+    private String key3;
+    
 }

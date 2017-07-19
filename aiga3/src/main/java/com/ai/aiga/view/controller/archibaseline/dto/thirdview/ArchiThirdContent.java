@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class ArchiThirdContent implements Serializable {
-	private ArchiThirdPaaSView PaaS;
 	private ArchiThirdLevelView SaaS;
+	private ArchiThirdPaaSView PaaS;
 	public ArchiThirdPaaSView getPaaS() {
 		return PaaS;
 	}

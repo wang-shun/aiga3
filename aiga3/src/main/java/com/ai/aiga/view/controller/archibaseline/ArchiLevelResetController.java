@@ -53,7 +53,7 @@ public class ArchiLevelResetController {
 				for(String base: Levels) {
 					if(!secLevel.contains(base)) {
 						String Message = String.valueOf(thirdBase.get("firName"))+" 的   "+String.valueOf(thirdBase.get("secName"))+"  分层   "+secLevel+"  --"
-								+ String.valueOf(thirdBase.get("name"))+"  分层  "+thirdLevels+" ";
+								+ String.valueOf(thirdBase.get("name"))+" 分层  "+thirdLevels+" ";
 						data.add(Message);
 						break;
 					}

@@ -37,18 +37,31 @@ define(function(require, exports, module) {
 			_from.find("[name='identify']").off('click').on('click',function() {
 				var data = cache.selectData;
 				//编号校验
-				var sysValue = Page.findId('selectData').find('[name="sysId"]').val();
-				var _sysValue = $.trim(sysValue);
-				if(!_sysValue) {
-                    XMS.msgbox.show('编号为空！', 'error', 1000);
-                    return
+				if(data.ext1 == '3' && data.description == '新增') {
+    				var pass = Page.findId('modal').find("[name='pass']");
+					var sysValue = Page.findId('selectData').find('[name="sysId"]').val();
+					var _sysValue = $.trim(sysValue);
+					var condition =  /^\d{1,8}$/;
+					if(!_sysValue) {
+	                    XMS.msgbox.show('编号为空！', 'error', 1000);
+        				if(!pass.hasClass('show-nothing')) {
+        					pass.addClass('show-nothing');
+        				}
+					} else {
+		                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
+		                    XMS.msgbox.show('请输入8位纯数字编号！', 'error', 2000);
+	        				if(!pass.hasClass('show-nothing')) {
+	        					pass.addClass('show-nothing');
+	        				}
+						} else {
+	        				if(pass.hasClass('show-nothing')) {
+	        					pass.removeClass('show-nothing');
+	        				}
+						    data.sysId = _sysValue;
+						}
+					}	               
 				}
-                var condition =  /^\d{1,8}$/;
-                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
-                    XMS.msgbox.show('请输入8位纯数字！', 'error', 2000);
-                    return
-				}
-                data.sysId = _sysValue;
+
 				Page.findId('modalMessage').val("");
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {		
@@ -148,6 +161,24 @@ define(function(require, exports, module) {
         				if(pass.hasClass('show-nothing')) {
         					pass.removeClass('show-nothing');
         				}
+        				if(selectData.ext1 == '3' && selectData.description == '新增') {
+        				} else {
+        					var _sysValue = $.trim(selectData.sysId);
+        					if(!_sysValue) {
+        	                    XMS.msgbox.show('编号为空！', 'error', 1000);
+    	        				if(!pass.hasClass('show-nothing')) {
+    	        					pass.addClass('show-nothing');
+    	        				}
+        					}
+        	                var condition =  /^\d{1,8}$/;
+        	                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
+        	                    XMS.msgbox.show('编号不为8位纯数字！', 'error', 2000);
+    	        				if(!pass.hasClass('show-nothing')) {
+    	        					pass.addClass('show-nothing');
+    	        				}
+        					}
+        				}
+
         				//信息翻译
         				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(json, status){
     						if(!status) {

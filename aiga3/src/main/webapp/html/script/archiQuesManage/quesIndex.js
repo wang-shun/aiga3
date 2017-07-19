@@ -45,6 +45,10 @@ define(function(require, exports, module) {
     srvMap.add("getAmCoreIndexList", "", "archi/index/list");
     //指标分表
     srvMap.add("getArchDbConnectList", "", "archi/dbconnect/list");
+    //指标主表
+    srvMap.add("listDbConnects", "", "arch/index/listDbConnects");
+    //指标分表
+    srvMap.add("listSrvManages", "", "arch/index/listSrvManages");
     
 	// 模板对象
 	var Tpl = {
@@ -127,12 +131,12 @@ define(function(require, exports, module) {
 			
 			var _domSec = Page.findId('getDataMaintainListSec');
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");
-			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getArchDbConnectList'), _cmd, function(json, status) {
+			// 设置服务器端分页listDbConnects
+			Utils.getServerPage(srvMap.get('listDbConnects'), _cmd, function(json, status) {//getArchDbConnectList
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getArchDbConnectList);
-				_domSec.find("[name='content']").html(template(json.data));
+				_domSec.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_domSec);
 				//新增

@@ -187,6 +187,22 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/messageGranding")
 	public @ResponseBody JsonBean messageGrading(ArchitectureGrading input) {
 		JsonBean bean = new JsonBean();
+		
+		//申请单在途校验
+		ArchitectureGrading checkParam = new ArchitectureGrading();
+		checkParam.setApplyId(input.getApplyId());
+		List<ArchitectureGrading> checkResultList = architectureGradingSv.findTableCondition(checkParam);
+		if(checkResultList.size()<=0) {
+			bean.fail("该申请单不存在！");
+			return bean;
+		} else {
+			ArchitectureGrading checkResult = checkResultList.get(0);
+			if(!"申请".equals(checkResult.getState())) {
+				bean.fail("该申请单已被认定！");
+				return bean;
+			}
+		}
+		//数据校验
 		if("审批未通过".equals(input.getState())) {
 			architectureGradingSv.update(input);
 			return bean;

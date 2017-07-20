@@ -64,7 +64,9 @@ public class ArchitectureGradingSv extends BaseService {
 	
 	public List<ArchitectureGrading> findTableCondition(ArchitectureGrading input){
 		List<Condition> cons = new ArrayList<Condition>();
-
+		if(input.getApplyId()>0) {
+			cons.add(new Condition("applyId", input.getApplyId(), Condition.Type.EQ));
+		}		
 		if(input.getSysId()>0){
 			cons.add(new Condition("sysId", input.getSysId(), Condition.Type.EQ));
 		}

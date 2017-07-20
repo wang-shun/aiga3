@@ -35,7 +35,6 @@ import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondViewItemLast;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondContent;
 import com.ai.aiga.view.controller.archibaseline.dto.ViewSeries;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiSystemItem;
-import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdContent;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdLevelView;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdPaaSView;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdViewCenterItem;

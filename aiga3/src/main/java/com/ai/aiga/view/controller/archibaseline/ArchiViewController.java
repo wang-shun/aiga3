@@ -217,7 +217,7 @@ public class ArchiViewController {
 		List<ArchitectureStaticData> stateItems = architectureStaticDataSv.findByCodeType("SYS_BUILDING_STATE");
 		int id = 0;
 		//不跨层的
-		ArchiThirdContent content = new ArchiThirdContent();
+		List<Object> content = new ArrayList<Object>();
 		// SaaS层
 		ArchiThirdLevelView SaaS = new ArchiThirdLevelView(id++,"SaaS","1");
 		// Paas层
@@ -345,8 +345,8 @@ public class ArchiViewController {
 		Collections.sort(itemUPaaS, new MyComparator());
 		Collections.sort(itemIPaaS, new MyComparator());
 		Collections.sort(itemTPaaS, new MyComparator());
-		content.setSaaS(SaaS);
-		content.setPaaS(PaaS);
+		content.add(SaaS);
+		content.add(PaaS);
 		output.setStateItems(stateItems);
 		output.setContent(content);
 		bean.setData(output);

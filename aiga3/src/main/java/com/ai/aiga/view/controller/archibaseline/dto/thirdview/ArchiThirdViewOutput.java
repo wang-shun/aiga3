@@ -9,7 +9,7 @@ import com.ai.aiga.domain.ArchitectureStaticData;
 public class ArchiThirdViewOutput implements Serializable {
 	private String isCross;
 	private List<ArchitectureStaticData> stateItems;
-	private ArchiThirdContent content;
+	private List<Object> content;
 	public String getIsCross() {
 		return isCross;
 	}
@@ -22,10 +22,10 @@ public class ArchiThirdViewOutput implements Serializable {
 	public void setStateItems(List<ArchitectureStaticData> stateItems) {
 		this.stateItems = stateItems;
 	}
-	public ArchiThirdContent getContent() {
+	public List<Object> getContent() {
 		return content;
 	}
-	public void setContent(ArchiThirdContent content) {
+	public void setContent(List<Object> content) {
 		this.content = content;
 	}
 }

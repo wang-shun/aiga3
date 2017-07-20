@@ -1,12 +1,14 @@
 package com.ai.aiga.view.controller.archibaseline;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import io.swagger.annotations.Api;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,23 +44,40 @@ public class ArchiLevelResetController {
 		//获取所有一级域
 		List<ArchitectureFirst> firstList = architectureFirstSv.findArchitectureFirsts();
 		for(ArchitectureFirst firBase : firstList) {
-			//根据一级域查询三级域
+			//根据一级域查询三级系统
 			List<Map> thirdList = architectureThirdSv.findByFirst(firBase.getIdFirst());
+			//根据一级域查询二级子域
+			List<ArchitectureSecond> secList = architectureSecondSv.findArchiSecondsByFirst(firBase.getIdFirst());
 			Iterator<Map> it = thirdList.iterator();
 			while(it.hasNext()){
 				Map thirdBase = it.next();
 				String thirdLevels = String.valueOf(thirdBase.get("thirdBelongLevel"));
-				String secLevel = String.valueOf(thirdBase.get("belongLevel"));
+				String secLevels = String.valueOf(thirdBase.get("belongLevel"));
 				String[] Levels = thirdLevels.split(",");
 				for(String base: Levels) {
-					if(!secLevel.contains(base)) {
-						String Message = String.valueOf(thirdBase.get("firName"))+" 的   "+String.valueOf(thirdBase.get("secName"))+"  分层   "+secLevel+"  --"
+					if(!secLevels.contains(base)) {
+						String Message = String.valueOf(thirdBase.get("firName"))+" 的   "+String.valueOf(thirdBase.get("secName"))+" 分层   "+secLevels+"  --"
 								+ String.valueOf(thirdBase.get("name"))+" 分层  "+thirdLevels+" ";
 						data.add(Message);
 						break;
+					} else {
+						for(ArchitectureSecond secBases :secList) {
+							if(secBases.getName().equals(thirdBase.get("secName"))) {
+								String secLevel = secBases.getBelongLevel();
+								secBases.setBelongLevel(secLevel.replace(base, ""));
+								break;
+							}
+						}
 					}
 				}
-			}	
+			}
+			for(ArchitectureSecond secBasesCheck :secList) {
+				String checkResult = secBasesCheck.getBelongLevel().replace(",", "");			
+				if(StringUtils.isNotBlank(checkResult)) {
+					String Message = firBase.getName() + " 的    " + secBasesCheck.getName() + " 有多余的分层   " + checkResult;
+					data.add(Message);
+				}
+			}
 		}
 		bean.setData(data);
 		return bean;	

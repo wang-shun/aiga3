@@ -60,15 +60,22 @@
 				data: [5, 20, 36, 10, 10, 20, 2],
                                                 itemStyle:{
                                                     normal:{
-                                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                                                    offset: 0,
-                                                                    color: '#3fa7dc'
-                                                                }, {
-                                                                    offset: 1,
-                                                                    color: '#99d9ea'
-                                                                }]),
-                                                    }
-                                                }
+                                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1,
+                                                            [
+                                                                {offset: 0,color: '#3fa7dc'}, 
+                                                                {offset: 1,color: '#99d9ea'}
+                                                            ]
+                                                        ),
+                                                    },
+                                                    emphasis: {
+                                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1,
+                                                            [
+                                                                {offset: 0, color: '#2482b2'},                     
+                                                                {offset: 1, color: '#3fa7dc'}
+                                                            ]
+                                                        ),
+                                                   }
+                                          }
 			}]
 		};
 

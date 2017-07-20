@@ -24,7 +24,8 @@ define(function(require, exports, module) {
     var Tpl = {
 		getSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getSecView.tpl'),
 		getCrossSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getCrossSecView.tpl'),
-		getThirdSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getThirdSecView.tpl')
+		getThirdSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getThirdSecView.tpl'),
+		getOneSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getOneSecView.tpl')
 	}
 
 
@@ -67,7 +68,11 @@ define(function(require, exports, module) {
 				}
 				var _viewLevel = _form.find("[name='viewLevel']:checked").val();
 				var _srvMap = "getSecView";
-				if(_viewLevel=="3"){
+				if(_viewLevel=="1"){
+					var template = Handlebars.compile(Tpl.getOneSecView);
+					Page.findName("archiView").html(template({}));
+					return;
+				}else if(_viewLevel=="3"){
 					_srvMap = "getThirdSecView";
 				}
 				var cmd= "idFirst="+_idFirst;

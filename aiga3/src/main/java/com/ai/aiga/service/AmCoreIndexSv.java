@@ -41,10 +41,10 @@ public class AmCoreIndexSv extends BaseService {
     public List<AmCoreIndex>selectIndexName(AmCoreIndexSelects condition){
     	List<Condition>cons = new ArrayList<Condition>();
     	if(StringUtils.isNoneBlank(condition.getIndexGroup())){
-    		cons.add(new Condition("indexGroup", condition.getIndexGroup(), Condition.Type.EQ));
+    		cons.add(new Condition("indexGroup", "%".concat(condition.getIndexGroup()).concat("%"), Condition.Type.LIKE));
     	}
     	if(StringUtils.isNoneBlank(condition.getIndexName())){
-    		cons.add(new Condition("indexName", condition.getIndexName(), Condition.Type.EQ));
+    		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
     	}
     	return amCoreIndexDao.search(cons);
     }

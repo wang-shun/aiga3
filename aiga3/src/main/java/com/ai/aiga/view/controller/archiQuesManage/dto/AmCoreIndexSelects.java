@@ -4,11 +4,23 @@ import java.io.Serializable;
 
 import lombok.Data;
 
-@Data
+@SuppressWarnings("serial")
 public class AmCoreIndexSelects implements Serializable {
 
     private String indexName;
     private String indexGroup;
+	public String getIndexName() {
+		return indexName;
+	}
+	public void setIndexName(String indexName) {
+		this.indexName = indexName;
+	}
+	public String getIndexGroup() {
+		return indexGroup;
+	}
+	public void setIndexGroup(String indexGroup) {
+		this.indexGroup = indexGroup;
+	}
 
     
 }

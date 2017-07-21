@@ -97,7 +97,7 @@ define(function(require, exports, module) {
 		queryDataMaintainForm: function() {
 			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');
-			Utils.setSelectData(_form);
+			Utils.setSelectDataPost(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
 				var cmd = _form.serialize();

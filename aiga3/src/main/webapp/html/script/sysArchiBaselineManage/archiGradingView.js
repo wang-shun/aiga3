@@ -61,11 +61,7 @@ define(function(require, exports, module) {
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var _idFirst = _form.find("[name='primaryDomain']").val();
-				//数据校验
-				if(_idFirst == 0){
-					XMS.msgbox.show('请选择一级域！', 'error', 2000);
-					return
-				}
+
 				var _viewLevel = _form.find("[name='viewLevel']:checked").val();
 				var _srvMap = "getSecView";
 				if(_viewLevel=="1"){

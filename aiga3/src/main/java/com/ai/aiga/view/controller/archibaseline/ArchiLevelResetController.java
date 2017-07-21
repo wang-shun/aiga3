@@ -1,5 +1,6 @@
 package com.ai.aiga.view.controller.archibaseline;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -41,6 +42,8 @@ public class ArchiLevelResetController {
 		JsonBean bean = new JsonBean();
 		List<String> data = new ArrayList<String>(); 
 		
+		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
+		
 		//获取所有一级域
 		List<ArchitectureFirst> firstList = architectureFirstSv.findArchitectureFirsts();
 		for(ArchitectureFirst firBase : firstList) {
@@ -54,6 +57,27 @@ public class ArchiLevelResetController {
 				String thirdLevels = String.valueOf(thirdBase.get("thirdBelongLevel"));
 				String secLevels = String.valueOf(thirdBase.get("belongLevel"));
 				String[] Levels = thirdLevels.split(",");
+				int no = Integer.parseInt(String.valueOf(thirdBase.get("idThird")).substring(3,4));
+				if(Levels.length > 1) {		
+					if(no != 0) {
+						String Message = String.valueOf(thirdBase.get("firName"))+" 的   "+String.valueOf(thirdBase.get("secName"))+" 的   "
+								+ String.valueOf(thirdBase.get("name"))+" 编号"+ String.valueOf(thirdBase.get("idThird")) +" 属于跨层系统 编号第四位应为0";
+						data.add(Message);
+					}
+				} else {
+					if(!ruleLevels[no].equals(Levels[0])) {
+						int index = 0;
+						for(int i=0;i<ruleLevels.length;i++) {
+							if(ruleLevels[i].equals(Levels[0])) {
+								index = i;
+								break;
+							}
+						}
+						String Message = String.valueOf(thirdBase.get("firName"))+" 的   "+String.valueOf(thirdBase.get("secName"))+" 的   "
+								+ String.valueOf(thirdBase.get("name"))+" 编号"+ String.valueOf(thirdBase.get("idThird")) +" 第四位"+ no +"所指分层为     "+ ruleLevels[0] +" ,  而录入数据为 "+Levels[0]+"  参考数值"+index;
+						data.add(Message);
+					}
+				}		
 				for(String base: Levels) {
 					if(!secLevels.contains(base)) {
 						String Message = String.valueOf(thirdBase.get("firName"))+" 的   "+String.valueOf(thirdBase.get("secName"))+" 分层   "+secLevels+"  --"
@@ -72,6 +96,10 @@ public class ArchiLevelResetController {
 				}
 			}
 			for(ArchitectureSecond secBasesCheck :secList) {
+				if(secBasesCheck.getIdFirst()/10000000 != secBasesCheck.getIdSecond()/10000000) {
+					String Message = firBase.getName() + " 的编号    "+ firBase.getIdFirst() + " " + secBasesCheck.getName() + " 的编号   " + secBasesCheck.getIdSecond() + "首位不一致";
+					data.add(Message);
+				}				
 				String checkResult = secBasesCheck.getBelongLevel().replace(",", "");			
 				if(StringUtils.isNotBlank(checkResult)) {
 					String Message = firBase.getName() + " 的    " + secBasesCheck.getName() + " 有多余的分层   " + checkResult;

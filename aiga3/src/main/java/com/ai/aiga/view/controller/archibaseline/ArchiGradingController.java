@@ -61,6 +61,9 @@ public class ArchiGradingController {
 		String description = architectureGrading.getDescription();
 		//所属等级
 		String ext1 = architectureGrading.getExt1();
+		//层级数组
+		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
+		String belongLevel = architectureGrading.getBelongLevel();
 		if("新增".equals(description) && "3".equals(ext1)) {
 			//三级系统申请
 			if(StringUtils.isBlank(architectureGrading.getName())) {
@@ -124,7 +127,7 @@ public class ArchiGradingController {
 					bean.fail("所属一级域为空！");
 					return bean;
 				}
-				if(StringUtils.isBlank(architectureGrading.getBelongLevel())) {
+				if(StringUtils.isBlank(belongLevel)) {
 					bean.fail("分层层级为空！");
 					return bean;
 				}
@@ -145,7 +148,7 @@ public class ArchiGradingController {
 					bean.fail("所属二级域为空！");
 					return bean;
 				}
-				if(StringUtils.isBlank(architectureGrading.getBelongLevel())) {
+				if(StringUtils.isBlank(belongLevel)) {
 					bean.fail("分层层级为空！");
 					return bean;
 				}
@@ -155,7 +158,16 @@ public class ArchiGradingController {
 				}
 				if("新增".equals(description)) {
 					architectureGrading.setCreateDate(new Date());
-					architectureGrading.setSysId(architectureGrading.getIdBelong()/100000);
+					int index = 0;
+					if(!belongLevel.contains(",")) {
+						for(int i=0;i<ruleLevels.length;i++) {
+							if(ruleLevels[i].equals(belongLevel)) {
+								index = i;
+								break;
+							}
+						}
+					}
+					architectureGrading.setSysId(architectureGrading.getIdBelong()/100000*10+index);
 				} else if("修改".equals(description)) {
 					List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
 					if(thirdList.size()>0) {

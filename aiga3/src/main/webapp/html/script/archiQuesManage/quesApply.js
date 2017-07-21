@@ -49,6 +49,8 @@ define(function(require, exports, module) {
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
     //所属工单状态静态数据  
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
+    //所属问题分类静态数据  
+	srvMap.add("staticQuesCategory", pathAlias+"getSysMessageList.json", "archi/static/archiQuesCategory");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//一级域查询  
@@ -184,10 +186,12 @@ define(function(require, exports, module) {
 					$("#firstCategorydiv").hide();     
 					$("#secondCategorydiv").hide();          
 					$("#thirdCategorydiv").hide();           
+					$("#defectLeveldiv").attr({style:"display:display"});
 				}else if(checkValue=="1"){
 					$("#firstCategorydiv").show();   
 					$("#secondCategorydiv").show();          
 					$("#thirdCategorydiv").show();   
+					$("#defectLeveldiv").attr({style:"display:none"});
 				}
 			});
 		},
@@ -288,9 +292,11 @@ define(function(require, exports, module) {
 							setTimeout(function() {
 								self.getDataMaintainList();
 							}, 1000);
-							Page.findId('queryDataMaintainForm').hide();
-							// 关闭弹出层
-							Page.findModal('addDataMaintainModal').modal('hide');
+							Page.findId('queryDataMaintainForm')[0].reset();
+//							Page.findId('queryDataMaintainForm').hide();
+//							// 关闭弹出层
+//							Page.findModal('addDataMaintainModal').modal('hide');
+							
 						}
 					});
 				});

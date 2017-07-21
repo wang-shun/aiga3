@@ -61,4 +61,13 @@ public class ArchibuildingStateController {
 		return bean;
 	} 
 	
+	//
+	//根据Type查询静态数据
+	@RequestMapping(path = "/archi/static/archiQuesCategory")
+	public @ResponseBody JsonBean getQuesCategory(){
+		JsonBean bean = new JsonBean();
+		String codeType = "SYS_QUESTION_CATEGORY";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
 }

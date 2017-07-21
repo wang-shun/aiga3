@@ -327,7 +327,7 @@ define(function(require, exports, module) {
 //					data.applyTime = data.applyTime.replace(/-/g,"/");
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
-						data.sysVersion = '确定';
+						data.sysVersion = '已确认';
 						data.state ="未解决";
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
@@ -348,7 +348,7 @@ define(function(require, exports, module) {
 					});
 					//不通过
 					textModal.find("[name='noPass']").off('click').on('click', function(){
-						data.sysVersion = '否决';
+						data.sysVersion = '已否决';
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						var _cmd = jQuery.param(data);
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');

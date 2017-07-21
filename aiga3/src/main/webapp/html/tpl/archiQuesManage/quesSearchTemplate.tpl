@@ -6,10 +6,10 @@
 	        <td>{{quesId}}</td>
 			<td>{{occurEnvironment}}</td>
 			<td>{{belongProject}}</td>
-			<td>{{quesType}}</td>
-			<td>{{firstCategory}}</td>
-			<td>{{secondCategory}}</td>
-			<td>{{thirdCategory}}</td>
+			<td>{{transformatRoot quesType}}</td>
+			<td>{{transformatFirst firstCategory}}</td>
+			<td>{{transformatSecond secondCategory}}</td>
+			<td>{{transformatThird thirdCategory}}</td>
 			<td>{{sysVersion}}</td>
 			<td>{{identifiedInfo}}</td>
 			<td>{{state}}</td>

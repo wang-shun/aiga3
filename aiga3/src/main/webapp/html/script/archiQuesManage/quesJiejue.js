@@ -91,7 +91,7 @@ define(function(require, exports, module) {
 			this.searchBox();
 			this._querydomain();
 			// 默认查询所有
-			this.getDataMaintainList();
+//			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
 			//映射
@@ -449,7 +449,147 @@ define(function(require, exports, module) {
 			});
 		},
 		//映射处理
-		hdbarHelp: function() {},
+		hdbarHelp: function() {
+		
+			Handlebars.registerHelper("transformatRoot", function(value) {
+                if (value == '1') {
+                    return "技术巡检";
+                } else if (value == '2') {
+                    return "系统巡检";
+                } else if (value == '3') {
+                    return "疑难问题";
+                }
+            });
+			Handlebars.registerHelper("transformatFirst", function(value) {
+                if (value == '1001') {
+                    return "容量规划";
+                } else if (value == '1002') {
+                    return "高可用";
+                } else if (value == '1003') {
+                    return "分层";
+                } else if (value == '1004') {
+                	return "柔性可用";
+                } else if (value == '1005') {
+                    return "日志";
+                } else if (value == '1006') {
+                    return "配置";
+                } else if (value == '1007') {
+                    return "监控";
+                } else if (value == '1008') {
+                    return "安全";
+                }
+            });
+			Handlebars.registerHelper("transformatSecond", function(value) {
+                if (value == '2001') {
+                    return "系统容量";
+                } else if (value == '2002') {
+                    return "业务容量";
+                } else if (value == '2003') {
+                    return "系统性能";
+                } else if (value == '2004') {
+                    return "系统级别";
+                } else if (value == '2005') {
+                    return "容灾等级";
+                } else if (value == '2006') {
+                    return "演练结果";
+                } else if (value == '2007') {
+                    return "核心进程主备";
+                } else if (value == '2008') {
+                    return "IaaS";
+                } else if (value == '2009') {
+                    return "PaaS";
+                } else if (value == '2010') {
+                    return "SaaS";
+                } else if (value == '2011') {
+                    return "交互应用";
+                } else if (value == '2012') {
+                    return "数据访问";
+                } else if (value == '2013') {
+                    return "业务设计";
+                } else if (value == '2014') {
+                    return "服务设计";
+                } else if (value == '2015') {
+                    return "其他柔性手段";
+                } else if (value == '2016') {
+                    return "完整性";
+                } else if (value == '2017') {
+                    return "便捷性";
+                } else if (value == '2018') {
+                    return "合规性";
+                } else if (value == '2019') {
+                    return "集中配置";
+                } else if (value == '2020') {
+                    return "配置刷新";
+                } else if (value == '2021') {
+                    return "稽核手段";
+                } else if (value == '2022') {
+                    return "采集方式";
+                } else if (value == '2023') {
+                    return "端到端监控";
+                } else if (value == '2024') {
+                    return "数据一致性稽核";
+                } else if (value == '2025') {
+                    return "单笔业务跟踪";
+                } else if (value == '2026') {
+                    return "账号密码";
+                } else if (value == '2027') {
+                    return "4A系统对接";
+                } else if (value == '2028') {
+                    return "权限管控粒度";
+                }
+            });
+			Handlebars.registerHelper("transformatThird", function(value) {
+                if (value == '3001') {
+                    return "数据库容量";
+                } else if (value == '3002') {
+                    return "网络带宽";
+                } else if (value == '3003') {
+                    return "TPCC";
+                } else if (value == '3004') {
+                    return "存储";
+                } else if (value == '3005') {
+                    return "工单并发量";
+                } else if (value == '3006') {
+                    return "移动号码新入网业务";
+                } else if (value == '3007') {
+                    return "合约业务";
+                } else if (value == '3008') {
+                    return "移动宽带新入网业务";
+                } else if (value == '3009') {
+                    return "亲情网和流量包办理";
+                } else if (value == '3010') {
+                    return "用户量";
+                } else if (value == '3011') {
+                    return "主机运营指标";
+                } else if (value == '3012') {
+                    return "业务并发量";
+                } else if (value == '3013') {
+                    return "CPU";
+                } else if (value == '3014') {
+                    return "内存";
+                } else if (value == '3015') {
+                    return "系统级别";
+                } else if (value == '3016') {
+                    return "容灾等级";
+                } else if (value == '3017') {
+                    return "演练结果";
+                } else if (value == '3018') {
+                    return "核心进程主备";
+                } else if (value == '3019') {
+                    return "硬件标准化";
+                } else if (value == '3020') {
+                    return "软件定义化";
+                } else if (value == '3021') {
+                    return "组件标准化";
+                } else if (value == '3022') {
+                    return "DCOS化";
+                } else if (value == '3023') {
+                    return "服务统一接入管控";
+                }
+            });
+            
+		
+		},
 		// 事件：分页
 		initPaging: function(obj, length) {
 			obj.find("table").DataTable({

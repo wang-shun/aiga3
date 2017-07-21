@@ -178,24 +178,26 @@ define(function(require, exports, module) {
         				if(pass.hasClass('show-nothing')) {
         					pass.removeClass('show-nothing');
         				}
-        				if(selectData.ext1 == '3' && selectData.description == '新增') {
-        				} else if(selectData.description == '删除') {
-        				} else {
-        					var _sysValue = $.trim(selectData.sysId);
-        					if(!_sysValue) {
-        	                    XMS.msgbox.show('编号为空！', 'error', 1000);
-    	        				if(!pass.hasClass('show-nothing')) {
-    	        					pass.addClass('show-nothing');
-    	        				}
-        					}
-        	                var condition =  /^\d{1,8}$/;
-        	                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
-        	                    XMS.msgbox.show('编号不为8位纯数字！', 'error', 2000);
-    	        				if(!pass.hasClass('show-nothing')) {
-    	        					pass.addClass('show-nothing');
-    	        				}
-        					}
-        				}
+        				if(selectData.state == "申请") {
+             				if(selectData.ext1 == '3' && selectData.description == '新增') {
+            				} else if(selectData.description == '删除') {
+            				} else {
+            					var _sysValue = $.trim(selectData.sysId);
+            					if(!_sysValue) {
+            	                    XMS.msgbox.show('编号为空！', 'error', 1000);
+        	        				if(!pass.hasClass('show-nothing')) {
+        	        					pass.addClass('show-nothing');
+        	        				}
+            					}
+            	                var condition =  /^\d{1,8}$/;
+            	                if(_sysValue.length !=8 || !condition.test(_sysValue) ){          
+            	                    XMS.msgbox.show('编号不为8位纯数字！', 'error', 2000);
+        	        				if(!pass.hasClass('show-nothing')) {
+        	        					pass.addClass('show-nothing');
+        	        				}
+            					}
+            				}
+        				}  
 
         				//信息翻译
         				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(json, status){
@@ -219,7 +221,7 @@ define(function(require, exports, module) {
 	        					templateFrom = Handlebars.compile(Page.findTpl('secondMessageFrom'));
 	        				} else {
 	        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
-	        					if(selectData.description == '新增') {
+	        					if(selectData.description == '新增' && selectData.state == "申请") {
 	        						selectData.disabledType = '';
 	        					} else {
 	        						selectData.disabledType = 'readonly="readonly"';

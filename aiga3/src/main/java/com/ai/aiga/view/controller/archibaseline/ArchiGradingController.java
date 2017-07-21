@@ -210,8 +210,13 @@ public class ArchiGradingController {
 		String operation = input.getDescription();
 		if("1".equals(input.getExt1())) {			
 			ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
-			firstInput.setIdFirst(input.getSysId());		
+			firstInput.setIdFirst(input.getSysId());
+			//修改删除时判断数据库是否存在相关数据
 			if("删除".equals(operation)) {
+				if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
+					bean.fail("数据库不存在此条数据");
+					return bean;
+				}
 				firstInput.setDescription("");
 				architectureFirstSv.delete(firstInput.getIdFirst());
 			} else if("新增".equals(operation)) {
@@ -224,6 +229,10 @@ public class ArchiGradingController {
 				firstInput.setDescription("");
 				architectureFirstSv.save(firstInput);
 			} else {
+				if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
+					bean.fail("数据库不存在此条数据");
+					return bean;
+				}
 				firstInput.setDescription("");
 				firstInput.setModifyDate(new Date());
 				architectureFirstSv.save(firstInput);
@@ -235,6 +244,10 @@ public class ArchiGradingController {
 			secInput.setIdFirst(input.getIdBelong());
 			secInput.setIdSecond(input.getSysId());
 			if("删除".equals(operation)) {
+				if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
+					bean.fail("数据库不存在此条数据");
+					return bean;
+				}
 				secInput.setDescription("");
 				architectureSecondSv.delete(secInput.getIdSecond());
 			} else if("新增".equals(operation)) {
@@ -247,6 +260,10 @@ public class ArchiGradingController {
 				secInput.setDescription("");
 				architectureSecondSv.save(secInput);
 			} else {
+				if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
+					bean.fail("数据库不存在此条数据");
+					return bean;
+				}
 				secInput.setDescription("");
 				secInput.setModifyDate(new Date());
 				architectureSecondSv.save(secInput);
@@ -258,6 +275,10 @@ public class ArchiGradingController {
 			thirdInput.setIdSecond(input.getIdBelong());
 			thirdInput.setIdThird(input.getSysId());		
 			if("删除".equals(operation)) {
+				if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
+					bean.fail("数据库不存在此条数据");
+					return bean;
+				}
 				thirdInput.setDescription("");
 				architectureThirdSv.delete(thirdInput.getOnlysysId());
 			} else if("新增".equals(operation)) {
@@ -270,6 +291,10 @@ public class ArchiGradingController {
 				thirdInput.setDescription("");
 				architectureThirdSv.save(thirdInput);
 			} else {
+				if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
+					bean.fail("数据库不存在此条数据");
+					return bean;
+				}
 				thirdInput.setModifyDate(new Date());
 				thirdInput.setDescription("");
 				architectureThirdSv.save(thirdInput);

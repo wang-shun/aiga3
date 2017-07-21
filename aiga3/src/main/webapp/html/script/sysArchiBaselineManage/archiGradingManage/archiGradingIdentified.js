@@ -179,6 +179,7 @@ define(function(require, exports, module) {
         					pass.removeClass('show-nothing');
         				}
         				if(selectData.ext1 == '3' && selectData.description == '新增') {
+        				} else if(selectData.description == '删除') {
         				} else {
         					var _sysValue = $.trim(selectData.sysId);
         					if(!_sysValue) {

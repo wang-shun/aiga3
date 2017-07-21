@@ -49,6 +49,13 @@ define(function(require, exports, module) {
     srvMap.add("listDbConnects", "", "arch/index/listDbConnects");
     //指标分表
     srvMap.add("listSrvManages", "", "arch/index/listSrvManages");
+    //
+    srvMap.add("fetchindexGroup", "", "sys/maplist/indexGroup");
+    srvMap.add("fetchindexName", "", "sys/maplist/indexName");
+    srvMap.add("fetchkey1", "", "sys/maplist/key1");
+    srvMap.add("fetchdistinct", "", "archi/index/distinct");
+    srvMap.add("fetchselectName", "", "archi/index/selectName");
+    srvMap.add("fetchselectKey123", "", "archi/index/selectKey123");
     
 	// 模板对象
 	var Tpl = {

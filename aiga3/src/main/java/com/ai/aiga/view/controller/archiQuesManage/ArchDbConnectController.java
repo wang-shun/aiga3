@@ -15,11 +15,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.cache.AmCoreIndexCacheCmpt;
+import com.ai.aiga.cache.ArchDbConnectCacheCmpt;
+import com.ai.aiga.cache.ArchSrvManageCacheCmpt;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.service.ArchDbConnectSv;
 import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectSelects;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSrvManageSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
 import com.ai.aiga.view.controller.archibaseline.dto.ViewSeries;
@@ -30,9 +36,15 @@ public class ArchDbConnectController extends BaseService {
 
 	@Autowired
 	private ArchDbConnectSv archDbConnectSv;
-	
 	@Autowired
 	private ArchSrvManageSv archSrvManageSv;
+	
+	@Autowired
+	private AmCoreIndexCacheCmpt amCoreIndexCacheCmpt;
+	@Autowired
+	private ArchDbConnectCacheCmpt archDbConnectCacheCmpt;
+	@Autowired
+	private ArchSrvManageCacheCmpt archSrvManageCacheCmpt;
 	
 	@RequestMapping(path = "/archi/dbconnect/list")
 	public @ResponseBody JsonBean listConnect(){
@@ -45,6 +57,52 @@ public class ArchDbConnectController extends BaseService {
 	public @ResponseBody JsonBean listManage(){
 		JsonBean bean = new JsonBean();
 		bean.setData(archSrvManageSv.findArchSrvManages());
+		return bean;
+	}
+	
+	/**
+	 *   获得indexGroup
+	 * @return
+	 */
+	@RequestMapping(path="sys/maplist/indexGroup")
+	public @ResponseBody JsonBean indexGroup(){
+		JsonBean json = new JsonBean();
+		json.setData(amCoreIndexCacheCmpt.getGroupList());
+		return json;
+	}
+	/**
+	 *   获得indexName
+	 * @return
+	 */
+	@RequestMapping(path="sys/maplist/indexName")
+	public @ResponseBody JsonBean indexName(String indexGroup){
+		JsonBean json = new JsonBean();
+		json.setData(amCoreIndexCacheCmpt.getIndexList(indexGroup));
+		return json;
+	}
+
+	/**
+	 *   获得key1
+	 * @return
+	 */
+	@RequestMapping(path="sys/maplist/key1")
+	public @ResponseBody JsonBean key1(Long indexId){
+		JsonBean json = new JsonBean();
+		json.setData(archDbConnectCacheCmpt.getConnectList(indexId));
+		return json;
+	}
+	
+	@RequestMapping(path = "/archi/index/selectKey123")
+	public @ResponseBody JsonBean selectKey123(ArchDbConnectSelects condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(archDbConnectSv.selectKey123(condition));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/archi/index/selectKey1232")
+	public @ResponseBody JsonBean selectKey1232(ArchSrvManageSelects condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSrvManageSv.selectKey123(condition));
 		return bean;
 	}
 	

@@ -13,9 +13,9 @@
 		            <div class="row">
 		            	<br/>
 		                <div class="form-group col-sm-6">
-		                    <label for="quesCate" class="col-sm-2 control-label">指标分组：</label>
+		                    <label for="indexGroup" class="col-sm-2 control-label">指标分组：</label>
 		                    <div class="col-sm-4">
-			                    <select name="indexGroup" class="form-control input-sm" data-url="getAmCoreIndexList" data-subname="indexName" data-idkey="indexGroup" data-namekey="indexGroup">
+			                    <select name="indexGroup" class="form-control input-sm" data-url="fetchdistinct" data-subname="indexName" data-idkey="indexGroup" data-namekey="indexGroup">
 			                        <option value="">请选择</option>
 			                    </select>
 		                    </div>
@@ -23,7 +23,7 @@
 		                <div class="form-group col-sm-6">
 		                    <label for="indexName" class="col-sm-2 control-label">指标名称：</label>
 		                    <div class="col-sm-4">
-			                    <select name="indexName" class="col-sm-4 form-control input-sm" data-suburl="getAmCoreIndexList" data-subname="indexId" data-idkey="indexName" data-namekey="indexName">
+			                    <select name="indexName" class="col-sm-4 form-control input-sm" data-suburl="fetchselectName" data-subname="indexId" data-idkey="indexName" data-namekey="indexName">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
@@ -47,7 +47,7 @@
 		                <div class="form-group col-sm-6">
 		                    <label for="thirdCate" class="col-sm-2 control-label">数据库：</label>
 		                    <div class="col-sm-4">
-			                    <select name="key1" class="form-control input-sm" data-suburl="getArchDbConnectList" data-idkey="key2" data-namekey="key1">
+			                    <select name="key1" class="form-control input-sm" data-suburl="fetchselectKey123" data-subname="key1" data-idkey="key1" data-namekey="key1">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>

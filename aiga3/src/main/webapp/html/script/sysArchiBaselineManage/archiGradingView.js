@@ -61,7 +61,7 @@ define(function(require, exports, module) {
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var _idFirst = _form.find("[name='primaryDomain']").val();
-
+			
 				var _viewLevel = _form.find("[name='viewLevel']:checked").val();
 				var _srvMap = "getSecView";
 				if(_viewLevel=="1"){
@@ -70,6 +70,15 @@ define(function(require, exports, module) {
 					return;
 				}else if(_viewLevel=="3"){
 					_srvMap = "getThirdSecView";
+					if( _idFirst == 0) {
+						XMS.msgbox.show('一级域为空！', 'error', 2000);
+						return
+					}
+				}else{
+					if( _idFirst == 0) {
+						XMS.msgbox.show('一级域为空！', 'error', 2000);
+						return
+					}
 				}
 				var cmd= "idFirst="+_idFirst;
 				Rose.ajax.postJson(srvMap.get(_srvMap),cmd, function(json, status) {

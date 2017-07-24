@@ -71,9 +71,7 @@
 	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->	
 	<mvc:default-servlet-handler/>	
 	
-	<beans profile="qa">
-		<bean class="com.ai.aiga.swagger.SwaggerConfig"/>
-	</beans>
+	<bean class="com.ai.aiga.swagger.SwaggerConfig"/>
 	
 	
 </beans>

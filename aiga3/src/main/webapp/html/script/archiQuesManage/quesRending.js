@@ -339,7 +339,7 @@ define(function(require, exports, module) {
 								Page.findId('sysMessageFrom').modal('hide');
 								XMS.msgbox.show('认定成功！通过！！！', 'success', 2000);	
 								setTimeout(function() {
-									Page.findId('querySysDomainForm').find("[name='query']").click();
+									Page.findId('queryDataMaintainForm').find("[name='query']").click();
 								}, 1500);
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -359,7 +359,7 @@ define(function(require, exports, module) {
 								Page.findId('sysMessageFrom').modal('hide');
 								XMS.msgbox.show('认定成功！ 不通过！！！', 'success', 2000);	
 								setTimeout(function() {
-									Page.findId('querySysDomainForm').find("[name='query']").click();
+									Page.findId('queryDataMaintainForm').find("[name='query']").click();
 								}, 1500);								
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);

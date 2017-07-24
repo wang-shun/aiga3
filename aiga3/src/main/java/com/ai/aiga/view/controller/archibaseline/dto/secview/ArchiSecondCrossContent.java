@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller.archibaseline.dto;
+package com.ai.aiga.view.controller.archibaseline.dto.secview;
 
 import java.io.Serializable;
 

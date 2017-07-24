@@ -1,15 +1,15 @@
-package com.ai.aiga.view.controller.archibaseline.dto;
+package com.ai.aiga.view.controller.archibaseline.dto.secview;
 
 import java.io.Serializable;
 import java.util.List;
 
 @SuppressWarnings("serial")
-public class ArchiSecondContent implements Serializable {
+public class ArchiSecondViewItem implements Serializable {
 	private String id;
 	private String name;
-	private String isNodeName;					//	是否是数据节点
-	private String isCross;						//  是否是跨层层级  非数据节点有效
-	private List<ArchiSecondViewItem> item;
+	private String isNodeName;
+	private String isCross;
+	private List<ArchiSecondViewItemLast> item;
 	
 	public String getIsCross() {
 		return isCross;
@@ -19,21 +19,20 @@ public class ArchiSecondContent implements Serializable {
 		this.isCross = isCross;
 	}
 
-	public ArchiSecondContent() {	
-	}
+	public ArchiSecondViewItem() {}
 	
-	public ArchiSecondContent(String id,String name,String isNodeName) {
+	public ArchiSecondViewItem(String id,String name,String isNodeName) {
 		this.id = id;
 		this.name = name;
 		this.isNodeName = isNodeName;
-		this.isCross = "0";				//此构造方法下默认不跨层	
+		this.isCross = "0";
 	}
 	
-	public ArchiSecondContent(int id,String name,String isNodeName) {
+	public ArchiSecondViewItem(int id,String name,String isNodeName) {
 		this.id = String.valueOf(id);
 		this.name = name;
 		this.isNodeName = isNodeName;
-		this.isCross = "0";          	//此构造方法下默认不跨层	
+		this.isCross = "0";
 	}
 	
 	public String getId() {
@@ -54,10 +53,11 @@ public class ArchiSecondContent implements Serializable {
 	public void setIsNodeName(String isNodeName) {
 		this.isNodeName = isNodeName;
 	}
-	public List<ArchiSecondViewItem> getItem() {
+	public List<ArchiSecondViewItemLast> getItem() {
 		return item;
 	}
-	public void setItem(List<ArchiSecondViewItem> item) {
+	public void setItem(List<ArchiSecondViewItemLast> item) {
 		this.item = item;
 	}
+	
 }

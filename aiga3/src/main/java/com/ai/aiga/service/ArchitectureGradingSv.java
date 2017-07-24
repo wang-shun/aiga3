@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,34 +34,53 @@ public class ArchitectureGradingSv extends BaseService {
 		return architectureGradingDao.findAll();
 	}
 	
-	public List<ArchitectureGrading> findChangeMessage (ArchiGradingConditionParam input) throws ParseException{
-		List<Condition> cons = new ArrayList<Condition>();
+	public List<Map> findChangeMessage (ArchiGradingConditionParam input) throws ParseException{
+		String sql = "select  t.id_belong, t.sys_id, to_char(t.modify_date,'yyyy-mm') from aiam.ARCHITECTURE_GRADING t  where 1=1";
+		if(StringUtils.isNotBlank(input.getState())) {
+			sql += " and t.state = '"+input.getState()+"'";
+		}
+		if(StringUtils.isNotBlank(input.getExt1())) {
+			sql += " and t.ext_1 = '"+input.getExt1()+"'";
+		}
+		if(StringUtils.isNotBlank(input.getBegainTime())) {
+			sql += " and to_char(t.modify_date,'yyyy-mm') >= '"+input.getBegainTime()+"'";
+		}
+		if(StringUtils.isNotBlank(input.getEndTime())) {
+			sql += " and to_char(t.modify_date,'yyyy-mm') <= '"+input.getEndTime()+"'";
+		}
+		sql += " Group by t.id_belong, t.sys_id, to_char(t.modify_date,'yyyy-mm')";
 		
-		if(StringUtils.isNoneBlank(input.getExt1())){
-			cons.add(new Condition("ext1", input.getExt1(), Condition.Type.EQ));
-		}
-
-		if(StringUtils.isNoneBlank(input.getState())){
-			cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
-		}
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-		if(StringUtils.isNoneBlank(input.getBegainTime())){
-			String  dateFir = input.getBegainTime()+"-01 00:00:00";
-			Date beginDate = format.parse(dateFir);	
-			cons.add(new Condition("applyTime", beginDate, Condition.Type.GT));
-		}
-		if(StringUtils.isNoneBlank(input.getEndTime())){
-			//需要查询endtime当月的记录，故月份加一
-		 	String dateSec = input.getEndTime()+"-01 00:00:00";
-		 	Date endDate = format.parse(dateSec);	
-		 	Calendar end = Calendar.getInstance(); 
-		 	end.setTime(endDate);
-		 	end.add(Calendar.MONTH, +1);
-		 	Date endDateIncrease = end.getTime();
-		 	cons.add(new Condition("applyTime", endDateIncrease, Condition.Type.LT));
-		}
-		return architectureGradingDao.search(cons);		
+		return architectureGradingDao.searchByNativeSQL(sql);		
 	}
+	
+//	public List<ArchitectureGrading> findChangeMessage (ArchiGradingConditionParam input) throws ParseException{
+//		List<Condition> cons = new ArrayList<Condition>();
+//		
+//		if(StringUtils.isNoneBlank(input.getExt1())){
+//			cons.add(new Condition("ext1", input.getExt1(), Condition.Type.EQ));
+//		}
+//
+//		if(StringUtils.isNoneBlank(input.getState())){
+//			cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
+//		}
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+//		if(StringUtils.isNoneBlank(input.getBegainTime())){
+//			String  dateFir = input.getBegainTime()+"-01 00:00:00";
+//			Date beginDate = format.parse(dateFir);	
+//			cons.add(new Condition("applyTime", beginDate, Condition.Type.GT));
+//		}
+//		if(StringUtils.isNoneBlank(input.getEndTime())){
+//			//需要查询endtime当月的记录，故月份加一
+//		 	String dateSec = input.getEndTime()+"-01 00:00:00";
+//		 	Date endDate = format.parse(dateSec);	
+//		 	Calendar end = Calendar.getInstance(); 
+//		 	end.setTime(endDate);
+//		 	end.add(Calendar.MONTH, +1);
+//		 	Date endDateIncrease = end.getTime();
+//		 	cons.add(new Condition("applyTime", endDateIncrease, Condition.Type.LT));
+//		}
+//		return architectureGradingDao.search(cons);		
+//	}
 	
 	public List<ArchitectureGrading> findTableCondition(ArchitectureGrading input){
 		List<Condition> cons = new ArrayList<Condition>();

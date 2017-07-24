@@ -219,7 +219,9 @@ public class ArchiGradingController {
 			architectureGradingSv.update(input);
 			return bean;
 		}
+		input.setModifyDate(new Date());
 		String operation = input.getDescription();
+	
 		if("1".equals(input.getExt1())) {			
 			ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
 			firstInput.setIdFirst(input.getSysId());
@@ -249,7 +251,6 @@ public class ArchiGradingController {
 				firstInput.setModifyDate(new Date());
 				architectureFirstSv.save(firstInput);
 			}		
-			input.setModifyDate(new Date());
 			architectureGradingSv.update(input);
 		} else if ("2".equals(input.getExt1())) {
 			ArchitectureSecondRequest secInput = BeanMapper.map(input,ArchitectureSecondRequest.class);
@@ -280,7 +281,6 @@ public class ArchiGradingController {
 				secInput.setModifyDate(new Date());
 				architectureSecondSv.save(secInput);
 			}	
-			input.setModifyDate(new Date());
 			architectureGradingSv.update(input);
 		} else if ("3".equals(input.getExt1())) {		
 			ArchitectureThirdRequest thirdInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
@@ -311,7 +311,6 @@ public class ArchiGradingController {
 				thirdInput.setDescription("");
 				architectureThirdSv.save(thirdInput);
 			}		
-			input.setModifyDate(new Date());
 			architectureGradingSv.update(input);
 		} else {
 		}

@@ -28,12 +28,12 @@ import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondCrossContent;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondViewOutput;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondViewItem;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondViewItemLast;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiSecondContent;
 import com.ai.aiga.view.controller.archibaseline.dto.ViewSeries;
+import com.ai.aiga.view.controller.archibaseline.dto.secview.ArchiSecondContent;
+import com.ai.aiga.view.controller.archibaseline.dto.secview.ArchiSecondCrossContent;
+import com.ai.aiga.view.controller.archibaseline.dto.secview.ArchiSecondViewItem;
+import com.ai.aiga.view.controller.archibaseline.dto.secview.ArchiSecondViewItemLast;
+import com.ai.aiga.view.controller.archibaseline.dto.secview.ArchiSecondViewOutput;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiSystemItem;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdLevelView;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdPaaSView;
@@ -384,7 +384,7 @@ public class ArchiViewController {
 			input.setExt1("3");
 			input.setState("审批通过");
 			List<String> legendList = new ArrayList<String>();
-			List<ArchitectureGrading> gradingList = architectureGradingSv.findChangeMessage(input);
+			List<Map> gradingList = architectureGradingSv.findChangeMessage(input);
 			//获取一级域信息
 			List<ArchitectureFirst> firstList = architectureFirstSv.findArchitectureFirsts();
 			List<ViewSeries> seriesList = new ArrayList<ViewSeries>();
@@ -398,12 +398,12 @@ public class ArchiViewController {
 				legendList.add(name);
 				//给对应的列赋值
 				int[] data = new int[constValue];
-				Iterator<ArchitectureGrading> it = gradingList.iterator();
+				Iterator<Map> it = gradingList.iterator();
 				while(it.hasNext()){
-					ArchitectureGrading gradingBase = it.next();
-					if(num/10000000 == gradingBase.getIdBelong()/10000000) {
-						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
-						String modifyTime = format.format(gradingBase.getModifyDate());
+					Map gradingBase = it.next();
+					int idBelong = Integer.parseInt(String.valueOf(gradingBase.get("idBelong")));
+					if(num/10000000 == idBelong/10000000) {
+						String modifyTime = String.valueOf(gradingBase.get("modifyDate,'yyyy-mm')"));
 						for(int i=0;i<data.length;i++) {
 							if(modifyTime.equals(mounths.get(i))) {
 								data[i]++;

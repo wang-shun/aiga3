@@ -20,6 +20,7 @@ define(function(require,exports,module){
 			Data.planDate = Rose.date.dateTimeWrapper('yyyy-MM-dd');
 			Page.findName("showTime").html(Rose.date.dateTimeWrapper('yyyy年MM月dd日'));
 			this._render();
+			this.getMyEchartsPie();//首页饼图初始化
 		},
 		_render: function() {
 //			this.getWelcomeCaseCount();
@@ -180,6 +181,65 @@ define(function(require,exports,module){
                     myChart.setOption(option);
                 }
             });
+		},
+		getMyEchartsPie:function(){//饼图模块
+			var myChart = echarts.init(document.getElementById('echartsPie')); 
+	                    	option = {
+	                                title : {
+	                                    text: '架构分层管理',
+	                                    subtext: '一级域管理',
+	                                    left:'center'
+	                                },
+	                                tooltip : {
+	                                    trigger: 'none',
+	                                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+	                                },
+	                                legend: {
+	                                    orient: 'horizontal',
+	                                    left: 'center',
+	                                    top:'10%',
+	                                    data: ['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域'],
+	                                    width:400,
+	                                },
+	                                series : [
+	                                    {
+	                                        name: '访问来源',
+	                                        type: 'pie',
+	                                        radius : '55%',
+	                                        center: ['50%', '55%'],
+	                                        label: {
+	                                                    normal: {
+	                                                        position: 'outer',
+	                                                    }
+	                                        },
+	                                        labelLine: {
+	                                                    normal: {
+	                                                        show: true
+	                                                    }
+	                                        },
+	                                        data:[
+	                                            {value:6, name:'业务支撑域'},
+	                                            {value:1, name:'管信域'},
+	                                            {value:3, name:'BOMC域'},
+	                                            {value:2, name:'大数据域'},
+	                                            {value:1, name:'安全域'},
+	                                            {value:7, name:'公共域'},
+	                                            {value:5, name:'网络域'},
+	                                            {value:6, name:'地市域'},
+	                                            {value:3, name:'开放域'},
+
+	                                        ],
+	                                        itemStyle: {
+	                                            emphasis: {
+	                                                shadowBlur: 10,
+	                                                shadowOffsetX: 0,
+	                                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                                            }
+	                                        }
+	                                    }
+	                                ]
+	                            };
+	                            myChart.setOption(option);
 		},
 		getOnlineCalendar:function(){
 			var self = this;

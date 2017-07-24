@@ -47,6 +47,8 @@ define(function(require, exports, module) {
     srvMap.add("getArchDbConnectList", "", "archi/dbconnect/list");
     //指标主表
     srvMap.add("listDbConnects", "", "arch/index/listDbConnects");
+    //指标主表
+    srvMap.add("listDbConnects2", "", "arch/index/listDbConnects2");
     //指标分表
     srvMap.add("listSrvManages", "", "arch/index/listSrvManages");
     //
@@ -76,10 +78,13 @@ define(function(require, exports, module) {
 		updateDataMaintainModal: "#JS_updateDataMaintainModal",
 		updateMaintainInfo: "#JS_updateDataMaintainInfo",
 	};*/
-
+	var cache = {
+		datas : ""
+	};
+	
 	var Data = {
 		queryListCmd: null
-	}
+	};
 
 	var Query = {
 		init: function() {
@@ -91,19 +96,42 @@ define(function(require, exports, module) {
 			//映射
 			this.hdbarHelp();
 			//
-			this._querydomain();
+//			this.getIndexEcharts();
 		},
 		// 按条件查询
 		queryDataMaintainForm: function() {
 			var self = this;
+			var init = true;
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectDataPost(_form);
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.bind('click', function() {
+			_queryBtn.off('click').on('click', function() {
 				var cmd = _form.serialize();
+				var _cmd = Page.findId('queryDataMaintainForm').serialize();
+				if(init) {
+					var date = self.formatDate(new Date()); 		
+					_cmd = 'startMonth='+date+'&endMonth='+date;
+					init = false;			
+				}
+				if(_cmd.indexOf('startMonth=&')>-1) {
+					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					return
+				}
+				if(_cmd.indexOf('endMonth=&')>-1) {
+					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					return
+				}
 				self.getDataMaintainList(cmd);
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get("listDbConnects2"), _cmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.hide();
+						self._graphSec(json);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+	  			});
 			});
-
 		},
 		// 查询数据维护
 		getDataMaintainList: function(cmd) {
@@ -141,6 +169,7 @@ define(function(require, exports, module) {
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");
 			// 设置服务器端分页listDbConnects
 			Utils.getServerPage(srvMap.get('listDbConnects'), _cmd, function(json, status) {//getArchDbConnectList
+				cache.datas = json.data;
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getArchDbConnectList);
@@ -155,11 +184,20 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_domSec, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_domSec);
-
 //					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPaginationSec);
+		},
+		//时间格式化
+		formatDate: function(date) {
+			var d = new Date(date),
+				month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear(); 
+			if (month.length < 2) month = '0' + month;
+			if (day.length < 2) day = '0' + day;
+			return [year, month].join('-');	
 		},
 		//新增数据维护
 		addDataMaintain: function() {
@@ -309,93 +347,52 @@ define(function(require, exports, module) {
 			});
 		},
 		
-		_querydomain: function() {
+/*		getIndexEcharts: function() {
 			var self = this;
-			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
-			//柱状 模版
-//			self._graphfir(myChart);
-			//柱状堆叠模版
-			self._graphSec(myChart);
-		},
+			var init = true;
+			var _form = Page.findId('queryDataMaintainForm');
+			Utils.setSelectDataPost(_form);
+			var _queryBtn = _form.find("[name='query']");
+			_queryBtn.off('click').on('click', function() {
+				var _cmd = Page.findId('queryDataMaintainForm').serialize();
+				if(init) {
+					var date = self.formatDate(new Date()); 		
+					_cmd = 'startMonth='+date+'&endMonth='+date;
+					init = false;			
+				}
+				if(_cmd.indexOf('startMonth=&')>-1) {
+					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					return
+				}
+				if(_cmd.indexOf('endMonth=&')>-1) {
+					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					return
+				}
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get("listDbConnects2"), _cmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.hide();
+						self._graphSec(json);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+	  			});
+			});
+//			_queryBtn.click();
+		},*/
 		
-		_graphfir: function(myChart) {
+		_graphSec: function(json) {
+			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
 			option = {
-			    title : {
-			        text: '相关系统域变更情况',
+				title : {
+			        text: '架构问题指标情况',
 			        subtext: ''
 			    },
 			    tooltip : {
-			        trigger: 'axis'
-			    },
-			    legend: {
-			        data:['业务支撑域','大数据域','公共域','网络域','管信域','地市域','安全域','总量']
-			    },
-			    toolbox: {
-			        show : true,
-			        feature : {
-			            dataView : {show: false, readOnly: false},
-			            magicType : {show: true, type: ['line', 'bar']},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
-			        }
-			    },
-			    calculable : true,
-			    xAxis : [
-			        {
-			            type : 'category',
-			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value'
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'业务支撑域',
-			            type:'bar',
-			            data:[2.0, 4.9, 7.0, 23.2, 500, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-			        },
-			        {
-			            name:'大数据域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'公共域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'网络域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'管信域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        },
-			        {
-			            name:'地市域',
-			            type:'bar',
-			            data:[2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-			        }
-			    ]
-			};
-			myChart.setOption(option);
-		},
-		
-		_graphSec: function(myChart) {
-			option = {
-			    tooltip : {
 			        trigger: 'axis',
-			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-			        }
 			    },
 			    legend: {
+					y:'bottom',
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
 			    },
 			    toolbox: {
@@ -407,12 +404,7 @@ define(function(require, exports, module) {
 			            saveAsImage : {show: true}
 			        }
 			    },
-			    grid: {
-			        left: '3%',
-			        right: '4%',
-			        bottom: '3%',
-			        containLabel: true
-			    },
+				calculable : true,
 			    xAxis : [
 			        {
 			            type : 'category',
@@ -452,7 +444,15 @@ define(function(require, exports, module) {
 			        }
 			    ]
 			};
+			if(json && json.data) {
+				option.legend.data = json.data.legend;
+				option.series = json.data.series;
+				if(json.data.xAxis) {
+					option.xAxis[0].data = json.data.xAxis;
+				}
+			}
 			myChart.setOption(option);
+			window.onresize = myChart.resize;
 		}
 		
 	};

@@ -51,8 +51,30 @@ define(function(require, exports, module) {
 		_render: function() {
 			var self = this;
 			self._querydomain();
+			self._exportPNG();
 		},
-
+		_exportPNG:function(){
+			var _form = Page.findId('selectData');
+			var _exportBtn =  _form.find("[name='export']");
+			var _queryBtn =  _form.find("[name='query']");
+			_exportBtn.off('click').on('click',function(){
+				if(_queryBtn.data("level")=="0"){
+					XMS.msgbox.show('请先完成查询！', 'error', 2000);
+				}else{
+					XMS.msgbox.show('导出中，请稍候...', 'loading');
+					html2canvas($("#archiView"), {
+	                 onrendered: function (canvas) {
+	                     var url = canvas.toDataURL();
+	                      //以下代码为下载此图片功能
+	                     var triggerDownload = $("<a>").attr("href", url).attr("download", "异常信息.png").appendTo("body");
+	                       triggerDownload[0].click();
+	                       triggerDownload.remove();
+	                       window.XMS.msgbox.hide();
+	                   }
+	          		});
+				}
+			})
+		},
 		//查询下拉框数据加载，绑定查询按钮事件
 		_querydomain: function() {
 			var self = this;
@@ -60,8 +82,8 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
+				var _self = $(this)
 				var _idFirst = _form.find("[name='primaryDomain']").val();
-			
 				var _viewLevel = _form.find("[name='viewLevel']:checked").val();
 				var _srvMap = "getSecView";
 				if(_viewLevel=="1"){
@@ -81,6 +103,7 @@ define(function(require, exports, module) {
 					}
 				}
 				var cmd= "idFirst="+_idFirst;
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get(_srvMap),cmd, function(json, status) {
 					if(status) {
 						if(_viewLevel=="2"){
@@ -92,7 +115,10 @@ define(function(require, exports, module) {
 						}else if(_viewLevel=="3"){
 							var template = Handlebars.compile(Tpl.getThirdSecView);
 						}
+
+						_self.data("level",_viewLevel);
 		        		Page.findName("archiView").html(template(json.data));
+		        		window.XMS.msgbox.hide();
 
 		        		// 计算垂直高度值
 		        		self.setSidebarHeight();
@@ -103,6 +129,7 @@ define(function(require, exports, module) {
 		        				self.setCrossContent(json);
 				        	}
 						}
+
 					}
 	  			});
 			});

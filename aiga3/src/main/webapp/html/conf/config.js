@@ -85,7 +85,8 @@ seajs.config({
         'select2':'lib/select2/select2.full.min.js',
         'ajaxUpload':'lib/ajaxupload/2.0.2/jquery.ajaxupload.js',
         'jqueryExtendCSS':'lib/jqueryExtend/jqueryExtend.all.css',
-        'jqueryExtendJS':'lib/jqueryExtend/jqueryExtend.all.js'
+        'jqueryExtendJS':'lib/jqueryExtend/jqueryExtend.all.js',
+        'html2canvas':'lib/html2canvas/html2canvas.min.js'
     },
     preload: [
         'json2',
@@ -119,7 +120,8 @@ seajs.config({
         'select2',
         'ajaxUpload',
         'jqueryExtendCSS',
-        'jqueryExtendJS'
+        'jqueryExtendJS',
+        'html2canvas'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

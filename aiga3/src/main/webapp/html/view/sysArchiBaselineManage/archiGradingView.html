@@ -18,7 +18,7 @@
                         <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="2"  checked="checked" />二级架构视图 </label>
                         <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="3" />三级架构视图 </label>
                         <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="1" />IT系统一级架构视图 </label>
-                        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+                        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query" data-level="0">查询</button>
                         <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="export">导出</button>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
         <div class="box-header" >
             <h3 class="box-title">视图</h3>
         </div>
-        <div class="box-body" name="archiView">
+        <div class="box-body" name="archiView" id="archiView">
             <!-- 视图 -->
         </div>
     </div>

@@ -19,8 +19,16 @@ public class AmCoreIndexSv extends BaseService {
 	@Autowired
 	private AmCoreIndexDao amCoreIndexDao;
 	
-	public List<AmCoreIndex>findAmCoreIndex(){
-		return amCoreIndexDao.findAll();
+	public List<AmCoreIndex>findAmCoreIndex(AmCoreIndexSelects condition){
+    	List<Condition>cons = new ArrayList<Condition>();
+    	if(StringUtils.isNoneBlank(condition.getIndexGroup())){
+    		cons.add(new Condition("indexGroup", "%".concat(condition.getIndexGroup()).concat("%"), Condition.Type.LIKE));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getIndexName())){
+    		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
+    	}
+    	return amCoreIndexDao.search(cons);
+//		return amCoreIndexDao.findAll();
 	}
 	
     public List<AmCoreIndex> distinctAmCoreIndex(){

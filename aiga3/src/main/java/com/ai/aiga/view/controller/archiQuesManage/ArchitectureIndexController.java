@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchDbConnect;
+import com.ai.aiga.domain.ArchSrvManage;
 import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
@@ -51,7 +52,64 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(architectureIndexSv.listSrvManage(pageNumber, pageSize, condition));
 		return bean;
 	}
-
+	
+	@RequestMapping(path = "/arch/index/listSrvManages2")
+	public @ResponseBody JsonBean listSrvManages2(AmCoreIndexParams condition) throws ParseException{
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage output = new ArchiChangeMessage();
+		if(StringUtils.isNoneBlank(condition.getStartMonth())){
+			bean.fail("please input start time");
+			return bean;
+		}
+		if(StringUtils.isNoneBlank(condition.getEndMonth())){
+			bean.fail("please input end time");
+			return bean;
+		}
+		List<String>months = getMonthBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(months.size()<=0){
+			bean.fail("your start time is less than end time");
+			return bean;
+		}
+		output.setxAxis(months);
+		final int DATA_LENGTH = months.size();
+		List<String> legendList = new ArrayList<String>();
+		List<ViewSeries> seriesList = new ArrayList<ViewSeries>();
+		List<ArchSrvManage>manageList = architectureIndexSv.listSrvManage2(condition);
+		List<ArchSrvManage>manageList2=new ArrayList<ArchSrvManage>(manageList);
+		Iterator<ArchSrvManage> iterator = manageList.iterator();
+		while(iterator.hasNext()){
+			ArchSrvManage baseManage = iterator.next();
+			if(!legendList.contains(baseManage.getKey2())){
+				legendList.add(baseManage.getKey2());
+				ViewSeries baseSeries = new ViewSeries();
+				baseSeries.setType("bar");
+				String name = baseManage.getKey2();
+				baseSeries.setName(name);
+				int[] data = new int[DATA_LENGTH];
+				Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
+				while(iterator2.hasNext()){
+					ArchSrvManage archSrvManage = iterator2.next();
+					if(archSrvManage.getKey2().equals(name)){
+						String setMonth = archSrvManage.getSettMonth();
+						for(int i=0;i<DATA_LENGTH;i++){
+							String selectMonth = months.get(i).replace("-", "");
+							if(setMonth.equals(selectMonth)){
+								data[i]=Integer.parseInt(archSrvManage.getResultValue());
+								iterator2.remove();
+							}
+						}
+					}
+				}
+				baseSeries.setData(data);
+				seriesList.add(baseSeries);
+			}
+		}
+		output.setLegend(legendList);
+		output.setSeries(seriesList);
+		bean.setData(output);
+		return bean;
+	}
+	
 	@RequestMapping(path = "/arch/index/listDbConnects2")
 	public @ResponseBody JsonBean listDbConnects2(AmCoreIndexParams condition) throws ParseException {
 		JsonBean bean = new JsonBean();

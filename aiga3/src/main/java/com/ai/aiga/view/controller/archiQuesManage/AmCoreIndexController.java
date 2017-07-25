@@ -22,9 +22,10 @@ public class AmCoreIndexController {
 	private AmCoreIndexSv amCoreIndexSv;
 
 	@RequestMapping(path = "/archi/index/list")
-	public @ResponseBody JsonBean list(){
+	public @ResponseBody JsonBean list(AmCoreIndexSelects condition){
 		JsonBean bean = new JsonBean();
-		bean.setData(amCoreIndexSv.findAmCoreIndex());
+		condition.setIndexGroup(condition.getIndexGroup().trim());
+		bean.setData(amCoreIndexSv.findAmCoreIndex(condition));
 		return bean;
 	}
 	

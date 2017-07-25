@@ -79,7 +79,8 @@ define(function(require, exports, module) {
 		updateMaintainInfo: "#JS_updateDataMaintainInfo",
 	};*/
 	var cache = {
-		datas : ""
+		datas : "",
+		tableName : ""
 	};
 	
 	var Data = {
@@ -138,35 +139,34 @@ define(function(require, exports, module) {
 
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-
-/*			var _dom = Page.findId('getDataMaintainList');
+			//隐藏的主表获取分表表名tableName;
+			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
-			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getAmCoreIndexList'), _cmd, function(json, status) {
+			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
 				_dom.find("[name='content']").html(template(json.data));
+				cache.tableName = json.data[0].schId;
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
-				//新增
-				self.addDataMaintain();
-				//删除
-				self.delDataMaintain();
-				//双击修改
-				self.eventDClickCallback(_dom, function() {
-					//获得当前单选框值
-					var data = Utils.getRadioCheckedRow(_dom);
-
-//					alert(data.quesId);
-					self.updateDataMaintain(data.quesId, json.data);
-				});
-			}, _domPagination);*/
+			}, _domPagination);
 			
 			var _domSec = Page.findId('getDataMaintainListSec');
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");
 			// 设置服务器端分页listDbConnects
-			Utils.getServerPage(srvMap.get('listDbConnects'), _cmd, function(json, status) {//getArchDbConnectList
+			var task = 'listDbConnects';
+			if(cache.tableName){
+				switch(cache.tableName){
+            		case "ARCH_DB_CONNECT":
+            			task = 'listDbConnects';
+            			break;
+            		case "ARCH_SRV_MANAGE":
+            			task = 'listSrvManages';
+            			break;
+            	}
+			}
+			Utils.getServerPage(srvMap.get(task), _cmd, function(json, status) {//getArchDbConnectList
 				cache.datas = json.data;
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
@@ -328,7 +328,13 @@ define(function(require, exports, module) {
 	                    return "营业库D";
 	                } else if (value == 'ZJRES') {
 					    return "渠道资源库";
-					}
+					} else if (value == 'ZJCSF') {
+	                    return "CSF库";
+	                } else if (value == 'ZJPUB') {
+	                    return "公共库";
+	                } else if (value == 'ZJXLOG') {
+	                    return "日志库";
+	                }
 	            });
 	         
 			},

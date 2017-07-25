@@ -57,11 +57,11 @@ public class ArchitectureIndexController extends BaseService {
 	public @ResponseBody JsonBean listSrvManages2(AmCoreIndexParams condition) throws ParseException{
 		JsonBean bean = new JsonBean();
 		ArchiChangeMessage output = new ArchiChangeMessage();
-		if(StringUtils.isNoneBlank(condition.getStartMonth())){
+		if(StringUtils.isBlank(condition.getStartMonth())){
 			bean.fail("please input start time");
 			return bean;
 		}
-		if(StringUtils.isNoneBlank(condition.getEndMonth())){
+		if(StringUtils.isBlank(condition.getEndMonth())){
 			bean.fail("please input end time");
 			return bean;
 		}

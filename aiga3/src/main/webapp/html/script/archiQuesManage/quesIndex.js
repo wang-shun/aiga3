@@ -45,12 +45,14 @@ define(function(require, exports, module) {
     srvMap.add("getAmCoreIndexList", "", "archi/index/list");
     //指标分表
     srvMap.add("getArchDbConnectList", "", "archi/dbconnect/list");
-    //指标主表
+    //指标分表---table
     srvMap.add("listDbConnects", "", "arch/index/listDbConnects");
-    //指标主表
+    //指标分表---echarts
     srvMap.add("listDbConnects2", "", "arch/index/listDbConnects2");
-    //指标分表
+    //指标分表---table
     srvMap.add("listSrvManages", "", "arch/index/listSrvManages");
+    //指标分表---echarts
+    srvMap.add("listSrvManages2", "", "arch/index/listSrvManages2");
     //
     srvMap.add("fetchindexGroup", "", "sys/maplist/indexGroup");
     srvMap.add("fetchindexName", "", "sys/maplist/indexName");
@@ -121,7 +123,18 @@ define(function(require, exports, module) {
 				}
 				self.getDataMaintainList(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get("listDbConnects2"), _cmd, function(json, status) {
+				var task2 = "listDbConnects2";
+				if(cache.tableName){
+					switch(cache.tableName){
+						case "ARCH_DB_CONNECT":
+							task2 = "listDbConnects2";
+							break;
+						case "ARCH_SRV_MANAGE":
+							task2 = "listSrvManages2";
+							break;
+					}
+				}
+				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
 						self._graphSec(json);

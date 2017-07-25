@@ -15,7 +15,7 @@
                                 <div class="mxgif-lists-content {{mxgifLength item}}">
                                     {{#each item}}
                                         {{#if item}}
-                                            <div class="mxgif-lists-item" style="{{mxgifThirdWidth item}}">
+                                            <div class="mxgif-lists-item" >
                                                 <h3 class="mxgif-item-title">{{name}}</h3>
                                                 {{#each item}}
                                                     <div class="mxgif-third-item" style="background: {{bgColor}}">{{name}}</div>
@@ -30,7 +30,7 @@
                         </div>
                         {{else}}
                             {{#if item}}
-                                <div class="mxgif-lists-item" style="{{mxgifThirdWidth item}}">
+                                <div class="mxgif-lists-item" >
                                     <h3 class="mxgif-item-title">{{name}}</h3>
                                     {{#each item}}
                                         <div class="mxgif-third-item" style="background: {{bgColor}}">{{name}}</div>

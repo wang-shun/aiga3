@@ -75,8 +75,8 @@
                 "ext3": null
             }
         ],
-        "content": {
-            "saaS": {
+        "content": [
+            {
                 "id": "0",
                 "name": "SaaS",
                 "isNodeName": "1",
@@ -89,55 +89,61 @@
                         "isCross": "0",
                         "item": [
                             {
-                                "id": "74",
+                                "id": "41",
                                 "bgColor": "#f9f9f9",
                                 "name": "自助终端",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "75",
+                                "id": "42",
                                 "bgColor": "#f9f9f9",
                                 "name": "客户关系管理系统2.0",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "76",
+                                "id": "43",
                                 "bgColor": "#f9f9f9",
                                 "name": "政企业务受理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "77",
+                                "id": "44",
                                 "bgColor": "#f9f9f9",
                                 "name": "合作式渠道业务受理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "78",
+                                "id": "45",
                                 "bgColor": "#f9f9f9",
                                 "name": "集团客户关系管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "79",
+                                "id": "46",
                                 "bgColor": "#f9f9f9",
                                 "name": "移动版政企业务受理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "80",
+                                "id": "47",
+                                "bgColor": "#A6A6A6",
+                                "name": "客户关系管理系统1.0",
+                                "isNodeName": "0"
+                            },
+                            {
+                                "id": "48",
                                 "bgColor": "#f9f9f9",
                                 "name": "移动版客户关系管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "81",
+                                "id": "49",
                                 "bgColor": "#f9f9f9",
                                 "name": "政企业务自助受理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "82",
+                                "id": "50",
                                 "bgColor": "#f9f9f9",
                                 "name": "物联网业务自助受理系统",
                                 "isNodeName": "0"
@@ -151,43 +157,43 @@
                         "isCross": "0",
                         "item": [
                             {
-                                "id": "50",
+                                "id": "34",
                                 "bgColor": "#f9f9f9",
                                 "name": "移动渠道运营管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "51",
+                                "id": "35",
                                 "bgColor": "#f9f9f9",
                                 "name": "集团客户运营管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "52",
+                                "id": "36",
                                 "bgColor": "#f9f9f9",
                                 "name": "营业厅集中化管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "53",
+                                "id": "37",
                                 "bgColor": "#f9f9f9",
                                 "name": "合作式渠道集中化管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "54",
+                                "id": "38",
                                 "bgColor": "#A6A6A6",
                                 "name": "宽带运营管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "55",
+                                "id": "39",
                                 "bgColor": "#f9f9f9",
                                 "name": "终端管理系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "56",
+                                "id": "40",
                                 "bgColor": "#f9f9f9",
                                 "name": "移动版经分系统",
                                 "isNodeName": "0"
@@ -201,162 +207,52 @@
                         "isCross": "0",
                         "item": [
                             {
-                                "id": "83",
+                                "id": "51",
                                 "bgColor": "#f9f9f9",
                                 "name": "客服接入",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "84",
+                                "id": "52",
                                 "bgColor": "#f9f9f9",
                                 "name": "客服业务",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "85",
+                                "id": "53",
                                 "bgColor": "#f9f9f9",
                                 "name": "集中外呼",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "86",
+                                "id": "54",
                                 "bgColor": "#f9f9f9",
                                 "name": "电话经理",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "87",
+                                "id": "55",
                                 "bgColor": "#f9f9f9",
                                 "name": "省内语音充值平台",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "88",
+                                "id": "56",
                                 "bgColor": "#f9f9f9",
                                 "name": "12580综合信息服务系统",
                                 "isNodeName": "0"
                             },
                             {
-                                "id": "89",
-                                "bgColor": "#f9f9f9",
-                                "name": "语音质检",
-                                "isNodeName": "0"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "20",
-                        "name": "电子渠道子域",
-                        "isNodeName": "0",
-                        "isCross": "0",
-                        "item": [
-                            {
                                 "id": "57",
                                 "bgColor": "#f9f9f9",
-                                "name": "手机营业厅业务受理系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "58",
-                                "bgColor": "#f9f9f9",
-                                "name": "短信营业厅业务受理系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "59",
-                                "bgColor": "#f9f9f9",
-                                "name": "交互式语音应答系统（IVR）",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "60",
-                                "bgColor": "#f9f9f9",
-                                "name": "网上营业厅业务受理系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "61",
-                                "bgColor": "#f9f9f9",
-                                "name": "Toolbar上网助手",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "62",
-                                "bgColor": "#f9f9f9",
-                                "name": "APM性能监控工具",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "63",
-                                "bgColor": "#f9f9f9",
-                                "name": "优惠券系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "64",
-                                "bgColor": "#f9f9f9",
-                                "name": "金豆系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "65",
-                                "bgColor": "#f9f9f9",
-                                "name": "统一消息推送平台",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "66",
-                                "bgColor": "#f9f9f9",
-                                "name": "电渠在线客服系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "67",
-                                "bgColor": "#f9f9f9",
-                                "name": "电渠报表系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "68",
-                                "bgColor": "#f9f9f9",
-                                "name": "手厅流量提醒平台",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "69",
-                                "bgColor": "#f9f9f9",
-                                "name": "电渠运营分析平台",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "70",
-                                "bgColor": "#f9f9f9",
-                                "name": "外部电商平台",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "71",
-                                "bgColor": "#f9f9f9",
-                                "name": "用户行为分析系统",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "72",
-                                "bgColor": "#f9f9f9",
-                                "name": "电渠订单中心",
-                                "isNodeName": "0"
-                            },
-                            {
-                                "id": "73",
-                                "bgColor": "#f9f9f9",
-                                "name": "电渠配置中心",
+                                "name": "语音质检",
                                 "isNodeName": "0"
                             }
                         ]
                     }
                 ]
             },
-            "paaS": {
+            {
                 "id": "1",
                 "name": "PaaS",
                 "isNodeName": "1",
@@ -369,15 +265,33 @@
                         "isCross": "0",
                         "item": [
                             {
-                                "id": "9",
-                                "name": "账户中心",
+                                "id": "13",
+                                "name": "零售库存中心",
                                 "isNodeName": "0",
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "95",
+                                        "id": "20",
                                         "bgColor": "#FFFF00",
-                                        "name": "账户中心",
+                                        "name": "零售库存中心",
+                                        "isNodeName": "0"
+                                    },
+                                    {
+                                        "id": "21",
+                                        "bgColor": "#FFFF00",
+                                        "name": "宽带资源管理中心",
+                                        "isNodeName": "0"
+                                    },
+                                    {
+                                        "id": "65",
+                                        "bgColor": "#F8CBAD",
+                                        "name": "资源中心",
+                                        "isNodeName": "0"
+                                    },
+                                    {
+                                        "id": "66",
+                                        "bgColor": "#A6A6A6",
+                                        "name": "有价卡管理",
                                         "isNodeName": "0"
                                     }
                                 ]
@@ -389,19 +303,19 @@
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "24",
+                                        "id": "22",
                                         "bgColor": "#FFFF00",
                                         "name": "融合计费",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "25",
+                                        "id": "23",
                                         "bgColor": "#FFFF00",
                                         "name": "实时账务",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "26",
+                                        "id": "24",
                                         "bgColor": "#FFFF00",
                                         "name": "账详单云平台",
                                         "isNodeName": "0"
@@ -415,21 +329,73 @@
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "30",
+                                        "id": "28",
                                         "bgColor": "#FFFF00",
                                         "name": "稽核中心",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "31",
+                                        "id": "29",
                                         "bgColor": "#FFFF00",
                                         "name": "风控系统",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "33",
+                                        "id": "31",
                                         "bgColor": "#FFFF00",
                                         "name": "电子稽核",
+                                        "isNodeName": "0"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "17",
+                                "name": "业务报表中心",
+                                "isNodeName": "0",
+                                "isCross": "0",
+                                "item": [
+                                    {
+                                        "id": "30",
+                                        "bgColor": "#A6A6A6",
+                                        "name": "生产报表系统",
+                                        "isNodeName": "0"
+                                    },
+                                    {
+                                        "id": "32",
+                                        "bgColor": "#A6A6A6",
+                                        "name": "省级经分报表系统",
+                                        "isNodeName": "0"
+                                    },
+                                    {
+                                        "id": "33",
+                                        "bgColor": "#A6A6A6",
+                                        "name": "黄金眼",
+                                        "isNodeName": "0"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "19",
+                                "name": "订单中心",
+                                "isNodeName": "0",
+                                "isCross": "0",
+                                "item": [
+                                    {
+                                        "id": "58",
+                                        "bgColor": "#FFFF00",
+                                        "name": "固网订单中心",
+                                        "isNodeName": "0"
+                                    },
+                                    {
+                                        "id": "59",
+                                        "bgColor": "#FFFF00",
+                                        "name": "网状网订单中心",
+                                        "isNodeName": "0"
+                                    },
+                                    {
+                                        "id": "60",
+                                        "bgColor": "#FFFF00",
+                                        "name": "政企订单中心",
                                         "isNodeName": "0"
                                     }
                                 ]
@@ -441,47 +407,15 @@
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "27",
+                                        "id": "25",
                                         "bgColor": "#FFFF00",
                                         "name": "综合结算",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "28",
+                                        "id": "26",
                                         "bgColor": "#FFFF00",
                                         "name": "统一酬金",
-                                        "isNodeName": "0"
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "13",
-                                "name": "零售库存中心",
-                                "isNodeName": "0",
-                                "isCross": "0",
-                                "item": [
-                                    {
-                                        "id": "22",
-                                        "bgColor": "#FFFF00",
-                                        "name": "零售库存中心",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "23",
-                                        "bgColor": "#FFFF00",
-                                        "name": "宽带资源管理中心",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "97",
-                                        "bgColor": "#F8CBAD",
-                                        "name": "资源中心",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "98",
-                                        "bgColor": "#A6A6A6",
-                                        "name": "有价卡管理",
                                         "isNodeName": "0"
                                     }
                                 ]
@@ -493,15 +427,29 @@
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "93",
+                                        "id": "61",
                                         "bgColor": "#FFFF00",
                                         "name": "统一开通",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "94",
+                                        "id": "62",
                                         "bgColor": "#FFFF00",
                                         "name": "开通中心",
+                                        "isNodeName": "0"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "9",
+                                "name": "账户中心",
+                                "isNodeName": "0",
+                                "isCross": "0",
+                                "item": [
+                                    {
+                                        "id": "63",
+                                        "bgColor": "#FFFF00",
+                                        "name": "账户中心",
                                         "isNodeName": "0"
                                     }
                                 ]
@@ -513,7 +461,7 @@
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "96",
+                                        "id": "64",
                                         "bgColor": "#f9f9f9",
                                         "name": "统一产品管理",
                                         "isNodeName": "0"
@@ -527,237 +475,9 @@
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "29",
+                                        "id": "27",
                                         "bgColor": "#FFFF00",
                                         "name": "支付中心",
-                                        "isNodeName": "0"
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "17",
-                                "name": "通用业务中心",
-                                "isNodeName": "0",
-                                "isCross": "0",
-                                "item": [
-                                    {
-                                        "id": "35",
-                                        "bgColor": "#F8CBAD",
-                                        "name": "统一规则",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "36",
-                                        "bgColor": "#F8CBAD",
-                                        "name": "到期处理",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "37",
-                                        "bgColor": "#A9D18E",
-                                        "name": "自动化测试",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "38",
-                                        "bgColor": "#FFFF00",
-                                        "name": "满意度调查",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "39",
-                                        "bgColor": "#F8CBAD",
-                                        "name": "营业稽核",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "40",
-                                        "bgColor": "#A9D18E",
-                                        "name": "对账管控",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "41",
-                                        "bgColor": "#FFFF00",
-                                        "name": "渠道协同平台",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "42",
-                                        "bgColor": "#FFFF00",
-                                        "name": "云查询",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "43",
-                                        "bgColor": "#FFFF00",
-                                        "name": "局数据管理",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "44",
-                                        "bgColor": "#FFFF00",
-                                        "name": "积分联盟",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "46",
-                                        "bgColor": "#FFFF00",
-                                        "name": "远程写卡",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "47",
-                                        "bgColor": "#FFFF00",
-                                        "name": "营业厅现场管理",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "48",
-                                        "bgColor": "#FFFF00",
-                                        "name": "无纸化平台",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "49",
-                                        "bgColor": "#FFFF00",
-                                        "name": "营业厅联播",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "99",
-                                        "bgColor": "#FFFF00",
-                                        "name": "排队叫号",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "100",
-                                        "bgColor": "#FFFF00",
-                                        "name": "双屏系统",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "101",
-                                        "bgColor": "#FFFF00",
-                                        "name": "远程写卡",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "102",
-                                        "bgColor": "#FFFF00",
-                                        "name": "营业厅视频会议",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "103",
-                                        "bgColor": "#FFFF00",
-                                        "name": "营业厅客户互动(双屏)",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "104",
-                                        "bgColor": "#FFFF00",
-                                        "name": "无纸化平台",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "105",
-                                        "bgColor": "#FFFF00",
-                                        "name": "营业厅联播",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "106",
-                                        "bgColor": "#FFFF00",
-                                        "name": "语音催缴",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "107",
-                                        "bgColor": "#FFFF00",
-                                        "name": "财务计算中心",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "108",
-                                        "bgColor": "#FFFF00",
-                                        "name": "VGOP增值业务平台",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "109",
-                                        "bgColor": "#FFFF00",
-                                        "name": "网厅SSO系统",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "110",
-                                        "bgColor": "#FFFF00",
-                                        "name": "统一业务管理平台",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "111",
-                                        "bgColor": "#FFFF00",
-                                        "name": "家宽质量分析平台",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "116",
-                                        "bgColor": "#00B0F0",
-                                        "name": "新版SSO系统",
-                                        "isNodeName": "0"
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "18",
-                                "name": "业务报表中心",
-                                "isNodeName": "0",
-                                "isCross": "0",
-                                "item": [
-                                    {
-                                        "id": "32",
-                                        "bgColor": "#A6A6A6",
-                                        "name": "生产报表系统",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "34",
-                                        "bgColor": "#A6A6A6",
-                                        "name": "省级经分报表系统",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "45",
-                                        "bgColor": "#A6A6A6",
-                                        "name": "黄金眼",
-                                        "isNodeName": "0"
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "21",
-                                "name": "订单中心",
-                                "isNodeName": "0",
-                                "isCross": "0",
-                                "item": [
-                                    {
-                                        "id": "90",
-                                        "bgColor": "#FFFF00",
-                                        "name": "固网订单中心",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "91",
-                                        "bgColor": "#FFFF00",
-                                        "name": "网状网订单中心",
-                                        "isNodeName": "0"
-                                    },
-                                    {
-                                        "id": "92",
-                                        "bgColor": "#FFFF00",
-                                        "name": "政企订单中心",
                                         "isNodeName": "0"
                                     }
                                 ]
@@ -778,31 +498,31 @@
                         "isCross": "0",
                         "item": [
                             {
-                                "id": "19",
+                                "id": "18",
                                 "name": "外部接口中心",
                                 "isNodeName": "0",
                                 "isCross": "0",
                                 "item": [
                                     {
-                                        "id": "112",
+                                        "id": "67",
                                         "bgColor": "#FFFF00",
                                         "name": "集团接口交互平台(CBOSS)",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "113",
+                                        "id": "68",
                                         "bgColor": "#FFFF00",
                                         "name": "银行接口",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "114",
+                                        "id": "69",
                                         "bgColor": "#FFFF00",
                                         "name": "全国统一充值",
                                         "isNodeName": "0"
                                     },
                                     {
-                                        "id": "115",
+                                        "id": "70",
                                         "bgColor": "#FFFF00",
                                         "name": "一经系统",
                                         "isNodeName": "0"
@@ -820,6 +540,6 @@
                     }
                 ]
             }
-        }
+        ]
     }
 }

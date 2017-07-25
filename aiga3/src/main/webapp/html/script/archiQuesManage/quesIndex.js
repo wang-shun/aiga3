@@ -88,9 +88,6 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
-			
-			// 默认查询所有
-			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
 			//映射
@@ -132,6 +129,7 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
+			_queryBtn.click();
 		},
 		// 查询数据维护
 		getDataMaintainList: function(cmd) {

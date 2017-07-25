@@ -73,8 +73,11 @@ public class ArchitectureIndexController extends BaseService {
 		final int constantValue = months.size();
 		List<String>legendList = new ArrayList<String>();
 		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
+		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
 		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
 		List<String>newList=new ArrayList<String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");//格式化为年月  
+		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");//格式化为年-月  
 		Iterator<ArchDbConnect>iter=connectList.iterator();
 		while(iter.hasNext()){
 			ArchDbConnect baseConnect = iter.next();
@@ -82,21 +85,25 @@ public class ArchitectureIndexController extends BaseService {
 				ViewSeries baseSeries = new ViewSeries();
 				baseSeries.setType("bar");
 				newList.add(baseConnect.getKey1());
-				baseSeries.setName(baseConnect.getKey1());
 				String name = baseConnect.getKey1();
+				baseSeries.setName(name);		
 				legendList.add(name);
 				//给对应的列赋值
 				int[] data = new int[constantValue];
-				Iterator<ArchDbConnect>iterator = connectList.iterator();
+				Iterator<ArchDbConnect>iterator = connectList2.iterator();
 				while(iterator.hasNext()){
 					ArchDbConnect archDbConnect = iterator.next();
-					String SetMonths = archDbConnect.getSettMonth();
-					for(int i=0;i<data.length;i++){
-						if(SetMonths.equals(months.get(i))){
-							data[i]=Integer.parseInt(archDbConnect.getResultValue());
-							iterator.remove();
+					if(archDbConnect.getKey1().equals(name)) {
+						String SetMonths = archDbConnect.getSettMonth();
+//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
+						for(int i=0;i<data.length;i++){
+							String newMonth = months.get(i);
+							if(SetMonths.equals(newMonth.replace("-", ""))){
+								data[i]=Integer.parseInt(archDbConnect.getResultValue());
+								iterator.remove();
+							}
 						}
-					}
+					}					
 				}
 				baseSeries.setData(data);
 				seriesList.add(baseSeries);

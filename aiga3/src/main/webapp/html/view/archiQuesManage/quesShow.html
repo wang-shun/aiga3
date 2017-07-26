@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>ECharts</title>
-    <!-- 引入 echarts.js -->
-    <script src="echarts.js"></script>
-</head>
-<body>
-    
-<div class="box" id="JS_thirdSysMessageList">
+<div class="row" id="Page_quesShow">
+<div class="box" id="JS_quesShowMessageList">
     <div class="box-header" >
         <h2 class="box-title">问题展示总览</h2>
     </div>
@@ -31,247 +22,17 @@
         <div class="dataTables_paginate" name="pagination"></div>
     </div> 
 </div>
-
-    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-    <div id="main" style="width:100%;height:400px;"></div>
-    <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
-
-        // 指定图表的配置项和数据
-		option = {
-			title: {
-				text: '日解决情况',                             
-                                                left:'center',
-			},
-			tooltip: {},
-			legend: {
-                                                show:false,
-				data:['问题个数'],
-                                                orient:'horizontal',      
-			},
-			xAxis: {
-				data: ["6-1","6-2","6-3","6-4","6-5","6-6","6-7"]
-			},
-			yAxis: {},
-			series: [{
-				name: '问题个数',
-				type: 'bar',
-				data: [5, 20, 36, 10, 10, 20, 2],
-                                                itemStyle:{
-                                                    normal:{
-                                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1,
-                                                            [
-                                                                {offset: 0,color: '#3fa7dc'}, 
-                                                                {offset: 1,color: '#99d9ea'}
-                                                            ]
-                                                        ),
-                                                    },
-                                                    emphasis: {
-                                                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1,
-                                                            [
-                                                                {offset: 0, color: '#2482b2'},                     
-                                                                {offset: 1, color: '#3fa7dc'}
-                                                            ]
-                                                        ),
-                                                   }
-                                          }
-			}]
-		};
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-    </script>
-            
-	
-	<div id="mainsec" style="width:100%;height:300px;"></div>
-	
-    <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('mainsec'));
-
-        // 模拟数据
-        function getVirtulData(year) {
-            year = year || '2017';
-            var date = +echarts.number.parseDate(year + '-01-01');
-            var end = +echarts.number.parseDate(year + '-12-31');
-            var dayTime = 3600 * 24 * 1000;
-            var data = [];
-            for (var time = date; time <= end; time += dayTime) {
-                data.push([
-                    echarts.format.formatTime('yyyy-MM-dd', time),
-                    Math.floor(Math.random() * 10000)
-                ]);
-            }
-            return data;
-        }
-        var option = {
-            title:{
-                    text:'年度流量集合',
-                    left:'center',
-                    top:0,
-            },
-            visualMap: {
-                min: 0,
-                max: 10000,
-                type: 'piecewise',
-                orient: 'horizontal',
-                left: 'center',
-                top:40,
-                textStyle: {
-                    color: '#000'
-                    }
-            },
-            tooltip:{},
-            calendar: {
-                top:100,
-                range: '2017',
-                dayLabel: {
-                    nameMap:'cn',
-                },
-                monthLabel: {
-                    nameMap:'cn',
-                },
-                yearLabel: {
-                    textStyle: {
-                        color:'#000',
-
-                    }
-                }
-            },
-            series: {
-                type: 'heatmap',
-                coordinateSystem: 'calendar',
-                data: getVirtulData(2017)
-            }
-        };
-        myChart.setOption(option);
-    </script>
-    
-<!--     <div id="mainthi" style="width:100%;height:600px;"></div>
-    
-    <script type="text/javascript">
-        var myChart = echarts.init(document.getElementById('mainthi'));
-
-        // 模拟数据
-		var cellSize = [80, 80];
-		var pieRadius = 30;
-		
-		function getVirtulData() {
-		    var date = +echarts.number.parseDate('2017-02-01');
-		    var end = +echarts.number.parseDate('2017-03-01');
-		    var dayTime = 3600 * 24 * 1000;
-		    var data = [];
-		    for (var time = date; time < end; time += dayTime) {
-		        data.push([
-		            echarts.format.formatTime('yyyy-MM-dd', time),
-		            Math.floor(Math.random() * 10000)
-		        ]);
-		    }
-		    return data;
-		}
-		
-		function getPieSeries(scatterData, chart) {
-		    return echarts.util.map(scatterData, function (item, index) {
-		        var center = chart.convertToPixel('calendar', item);
-		        return {
-		            id: index + 'pie',
-		            type: 'pie',
-		            center: center,
-		            label: {
-		                normal: {
-		                    formatter: '{c}',
-		                    position: 'inside'
-		                }
-		            },
-		            radius: pieRadius,
-		            data: [
-		                {name: '已解决', value: Math.round(Math.random() * 24)},
-		                {name: '未解决', value: Math.round(Math.random() * 24)}
-		            ]
-		        };
-		    });
-		}
-		
-		function getPieSeriesUpdate(scatterData, chart) {
-		    return echarts.util.map(scatterData, function (item, index) {
-		        var center = chart.convertToPixel('calendar', item);
-		        return {
-		            id: index + 'pie',
-		            center: center
-		        };
-		    });
-		}
-		
-		var scatterData = getVirtulData();
-		
-		option = {
-		    tooltip : {},
-		    legend: {
-		        data: ['已解决',  '未解决'],
-		        bottom: 20
-		    },
-		    calendar: {
-		        top: 'middle',
-		        left: 'center',
-		        orient: 'vertical',
-		        cellSize: cellSize,
-		        yearLabel: {
-		            show: false,
-		            textStyle: {
-		                fontSize: 30
-		            }
-		        },
-		        dayLabel: {
-		            margin: 20,
-		            firstDay: 1,
-		            nameMap: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
-		        },
-		        monthLabel: {
-		            show: false
-		        },
-		        range: ['2017-02']
-		    },
-		    series: [{
-		        id: 'label',
-		        type: 'scatter',
-		        coordinateSystem: 'calendar',
-		        symbolSize: 1,
-		        label: {
-		            normal: {
-		                show: true,
-		                formatter: function (params) {
-		                    return echarts.format.formatTime('dd', params.value[0]);
-		                },
-		                offset: [-cellSize[0] / 2 + 10, -cellSize[1] / 2 + 10],
-		                textStyle: {
-		                    color: '#000',
-		                    fontSize: 14
-		                }
-		            }
-		        },
-		        data: scatterData
-		    }]
-		};
-		
-		if (!app.inNode) {
-		    var pieInitialized;
-		    setTimeout(function () {
-		        pieInitialized = true;
-		        myChart.setOption({
-		            series: getPieSeries(scatterData, myChart)
-		        });
-		    }, 10);
-		
-		    app.onresize = function () {
-		        if (pieInitialized) {
-		            myChart.setOption({
-		                series: getPieSeriesUpdate(scatterData, myChart)
-		            });
-		        }
-		    };
-		}
-    </script>
- -->    
+<!-- 问题状态饼形图 -->
+<div class="box" id="JS_quesStatePie">
+    <div class="box-header" >
+        <h2 class="box-title">问题状态</h2>
+    </div>
+    <div class="box-body" style="width: 100%; height:500px;">
+    </div>
+    <div class="box-footer no-border">
+    </div> 
+</div>
+  
 <div class="box" id="JS_DomainProblem">
     <div class="box-header" >
         <h2 class="box-title">域问题数</h2>
@@ -365,6 +126,9 @@
         <div class="dataTables_paginate" name="pagination"></div>
     </div> 
 </div>
-	
-</body>
-</html>
+</div>
+<script>
+	seajs.use("script/archiQuesManage/quesShow", function(init) {
+		init.init();
+	});
+</script>

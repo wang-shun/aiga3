@@ -2,6 +2,7 @@ package com.ai.aiga.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class QuestionInfoSv extends BaseService {
 
 	@Autowired
 	private QuestionInfoDao questionInfoDao;
+	
+	public List<Map> findQuestionStatePie(){
+		String sql = "SELECT t.state ,count(T.state) FROM aiam.question_info t Group by t.state";
+		return questionInfoDao.searchByNativeSQL(sql);	
+	}
 	
 	public List<QuestionInfo>findQuestionInfos(){
 		return questionInfoDao.findAll();

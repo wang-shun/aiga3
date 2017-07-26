@@ -49,6 +49,8 @@ define(function(require, exports, module) {
     srvMap.add("listDbConnects", "", "arch/index/listDbConnects");
     //指标分表---echarts
     srvMap.add("listDbConnects2", "", "arch/index/listDbConnects2");
+    //指标分表---echarts especially系统模块数据库连接
+    srvMap.add("listDbConnects22", "", "arch/index/listDbConnects22");
     //指标分表---table
     srvMap.add("listSrvManages", "", "arch/index/listSrvManages");
     //指标分表---echarts
@@ -59,7 +61,9 @@ define(function(require, exports, module) {
     srvMap.add("fetchkey1", "", "sys/maplist/key1");
     srvMap.add("fetchdistinct", "", "archi/index/distinct");
     srvMap.add("fetchselectName", "", "archi/index/selectName");
-    srvMap.add("fetchselectKey123", "", "archi/index/selectKey123");
+    srvMap.add("fetchselectKey1", "", "archi/index/selectKey1");
+    srvMap.add("fetchselectKey2", "", "archi/index/selectKey2");
+//    srvMap.add("fetchselectKey123", "", "archi/index/selectKey123");
     
 	// 模板对象
 	var Tpl = {
@@ -109,11 +113,11 @@ define(function(require, exports, module) {
 				if(checkValue=="系统模块数据库连接"){
 					$("#categoryKey1").attr({style:"display:display"}); 
 					$("#categoryKey2").attr({style:"display:display"});      
-					$("#categoryKey3").attr({style:"display:display"});           
+//					$("#categoryKey3").attr({style:"display:display"});           
 				}else{
 					$("#categoryKey1").attr({style:"display:none"}); 
 					$("#categoryKey2").attr({style:"display:none"});       
-					$("#categoryKey3").attr({style:"display:none"}); 
+//					$("#categoryKey3").attr({style:"display:none"}); 
 				}
 			});
 		},
@@ -144,13 +148,20 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				var task2 = "listDbConnects2";
 				if(cache.tableName){
-					switch(cache.tableName){
+/*					switch(cache.tableName){
 						case "ARCH_DB_CONNECT":
 							task2 = "listDbConnects2";
 							break;
 						case "ARCH_SRV_MANAGE":
 							task2 = "listSrvManages2";
 							break;
+					}*/
+					if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex==2){
+						task2 = "listDbConnects22";
+					}else if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex!=2){
+						task2 = "listDbConnects2";
+					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
+						task2 = "listSrvManages2";
 					}
 				}
 				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {

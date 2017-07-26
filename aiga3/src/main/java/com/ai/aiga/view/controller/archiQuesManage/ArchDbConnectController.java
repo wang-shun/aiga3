@@ -15,9 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import springfox.documentation.spring.web.json.Json;
+
 import com.ai.aiga.cache.AmCoreIndexCacheCmpt;
 import com.ai.aiga.cache.ArchDbConnectCacheCmpt;
 import com.ai.aiga.cache.ArchSrvManageCacheCmpt;
+import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.service.ArchDbConnectSv;
@@ -30,6 +33,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
 import com.ai.aiga.view.controller.archibaseline.dto.ViewSeries;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
 public class ArchDbConnectController extends BaseService {
@@ -92,10 +96,39 @@ public class ArchDbConnectController extends BaseService {
 		return json;
 	}
 	
-	@RequestMapping(path = "/archi/index/selectKey123")
-	public @ResponseBody JsonBean selectKey123(ArchDbConnectSelects condition){
+	@RequestMapping(path = "/archi/index/selectKey1")
+	public @ResponseBody JsonBean selectKey1(ArchDbConnectSelects condition){
 		JsonBean bean = new JsonBean();
-		bean.setData(archDbConnectSv.selectKey123(condition));
+		List<ArchDbConnect>listConnects=archDbConnectSv.selectKey123(condition);
+		List<ArchDbConnect>newConnects=new ArrayList<ArchDbConnect>();
+		List<String>key1List = new ArrayList<String>();
+		Iterator<ArchDbConnect>iterator=listConnects.iterator();
+		while(iterator.hasNext()){
+			ArchDbConnect baseConnect = iterator.next();
+			if(!key1List.contains(baseConnect.getKey1())){
+				key1List.add(baseConnect.getKey1());
+				newConnects.add(baseConnect);
+			}
+		}
+		bean.setData(newConnects);
+		return bean;
+	}
+	
+	@RequestMapping(path = "/archi/index/selectKey2")
+	public @ResponseBody JsonBean selectKey2(ArchDbConnectSelects condition){
+		JsonBean bean = new JsonBean();
+		List<ArchDbConnect>listConnects=archDbConnectSv.selectKey123(condition);
+		List<ArchDbConnect>newConnects=new ArrayList<ArchDbConnect>();
+		Iterator<ArchDbConnect>iterator=listConnects.iterator();
+		List<String>key2List = new ArrayList<String>();
+		while(iterator.hasNext()){
+			ArchDbConnect baseConnect = iterator.next();
+			if(!key2List.contains(baseConnect.getKey2())){
+				key2List.add(baseConnect.getKey2());
+				newConnects.add(baseConnect);
+			}
+		}
+		bean.setData(newConnects);
 		return bean;
 	}
 	

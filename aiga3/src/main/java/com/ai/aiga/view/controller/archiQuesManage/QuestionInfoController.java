@@ -62,15 +62,18 @@ public class QuestionInfoController {
 			}
 			seriesOuter.add(data);
 		}
-		quesStatePieData full = new quesStatePieData();
-		full.setName("跟踪状态");
-		full.setValue(String.valueOf(fullValue));
-		output.setLegend(legend);
-		seriesInner.add(full);		
+		if(fullValue != 0) {
+			quesStatePieData full = new quesStatePieData();
+			legend.add("跟踪状态");
+			full.setName("跟踪状态");
+			full.setValue(String.valueOf(fullValue));
+			seriesInner.add(full);	
+		}
+	
 		//排序
 		Collections.sort(seriesInner, new stateComparator());
 		Collections.sort(seriesOuter, new stateComparator());
-		
+		output.setLegend(legend);
 		output.setSeriesInner(seriesInner);
 		output.setSeriesOuter(seriesOuter);
 		bean.setData(output);

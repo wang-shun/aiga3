@@ -86,7 +86,7 @@ public class QuestionInfoController {
 			if("已解决".equals(o1.getName()) || "未解决".equals(o2.getName())) {
 				return 1;
 			}
-			return 0;
+			return -1;
 		}  
     } 
 	@RequestMapping(path="/archi/question/queryInfo")

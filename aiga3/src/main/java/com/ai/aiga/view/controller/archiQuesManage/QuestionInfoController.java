@@ -1,5 +1,11 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.QuestionInfoSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
+import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieData;
+import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieOutput;
+import com.ai.aiga.view.controller.archibaseline.MyComparator;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -26,6 +35,57 @@ public class QuestionInfoController {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/archi/question/quesStatePie")
+	public @ResponseBody JsonBean quesStatePie(){
+		JsonBean bean = new JsonBean();
+		quesStatePieOutput output = new quesStatePieOutput();
+		List<String> legend = new ArrayList<String>();
+		List<quesStatePieData> seriesInner = new ArrayList<quesStatePieData>();
+		List<quesStatePieData> seriesOuter = new ArrayList<quesStatePieData>();
+		@SuppressWarnings("rawtypes")
+		List<Map> StateList = questionInfoSv.findQuestionStatePie();
+		int fullValue = 0;
+		for(Map base : StateList) {
+			String state = String.valueOf(base.get("state"));
+			String value = String.valueOf(base.get("state)"));
+			if("null".equals(state)) {
+				continue;
+			}
+			legend.add(state);
+			quesStatePieData data = new quesStatePieData();
+			data.setName(state);
+			data.setValue(value);
+			if("已解决".endsWith(state) || "未解决".equals(state)) {
+				seriesInner.add(data);
+			} else {
+				fullValue += Integer.parseInt(value);
+			}
+			seriesOuter.add(data);
+		}
+		quesStatePieData full = new quesStatePieData();
+		full.setName("跟踪状态");
+		full.setValue(String.valueOf(fullValue));
+		output.setLegend(legend);
+		seriesInner.add(full);		
+		//排序
+		Collections.sort(seriesInner, new stateComparator());
+		Collections.sort(seriesOuter, new stateComparator());
+		
+		output.setSeriesInner(seriesInner);
+		output.setSeriesOuter(seriesOuter);
+		bean.setData(output);
+		return bean;
+	}
+	
+    static class stateComparator implements Comparator<quesStatePieData> {  
+		@Override
+		public int compare(quesStatePieData o1, quesStatePieData o2) {
+			if("已解决".equals(o1.getName()) || "未解决".equals(o2.getName())) {
+				return 1;
+			}
+			return 0;
+		}  
+    } 
 	@RequestMapping(path="/archi/question/queryInfo")
 	public @ResponseBody JsonBean queryInfo(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,

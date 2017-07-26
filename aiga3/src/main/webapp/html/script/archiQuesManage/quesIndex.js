@@ -82,7 +82,8 @@ define(function(require, exports, module) {
 	};*/
 	var cache = {
 		datas : "",
-		tableName : ""
+		tableName : "",
+		tableIndex:""
 	};
 	
 	var Data = {
@@ -97,6 +98,24 @@ define(function(require, exports, module) {
 			this.hdbarHelp();
 			//
 //			this.getIndexEcharts();
+		},
+		//判断下拉框indexName值
+		judgeQuesType: function(){
+			$("#indexName").unbind('click');
+			$("#indexName").bind('click',function(){
+				var checkValue=$("#indexName").val();  //获取Select选择的Value 
+				if(checkValue=="2" || checkValue=="3"){
+					$("#firstCategorydiv").hide();     
+					$("#secondCategorydiv").hide();          
+					$("#thirdCategorydiv").hide();           
+					$("#defectLeveldiv").attr({style:"display:display"});
+				}else if(checkValue=="1"){
+					$("#firstCategorydiv").show();   
+					$("#secondCategorydiv").show();          
+					$("#thirdCategorydiv").show();   
+					$("#defectLeveldiv").attr({style:"display:none"});
+				}
+			});
 		},
 		// 按条件查询
 		queryDataMaintainForm: function() {
@@ -161,6 +180,7 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
 				_dom.find("[name='content']").html(template(json.data));
 				cache.tableName = json.data[0].schId;
+				cache.tableIndex= json.data[0].indexId;
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
 			}, _domPagination);

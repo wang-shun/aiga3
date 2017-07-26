@@ -185,11 +185,11 @@ define(function(require,exports,module){
 		getMyEchartsPie:function(){//饼图模块
 			var myChart = echarts.init(document.getElementById('echartsPie')); 
 	                    	option = {
-	                                title : {
+	                               /* title : {
 	                                    text: '架构分层管理',
 	                                    subtext: '一级域管理',
 	                                    left:'center'
-	                                },
+	                                },*/
 	                                tooltip : {
 	                                    trigger: 'none',
 	                                    formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -197,7 +197,7 @@ define(function(require,exports,module){
 	                                legend: {
 	                                    orient: 'horizontal',
 	                                    left: 'center',
-	                                    top:'10%',
+	                                    top:'5%',
 	                                    data: ['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域'],
 	                                    width:400,
 	                                },
@@ -206,7 +206,7 @@ define(function(require,exports,module){
 	                                        name: '访问来源',
 	                                        type: 'pie',
 	                                        radius : '55%',
-	                                        center: ['50%', '55%'],
+	                                        center: ['50%', '50%'],
 	                                        label: {
 	                                                    normal: {
 	                                                        position: 'outer',

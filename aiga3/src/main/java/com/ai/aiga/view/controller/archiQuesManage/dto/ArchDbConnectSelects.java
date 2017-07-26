@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class ArchDbConnectSelects implements Serializable {
 
+	private String indexName;
     private Long indexId;
     private String key1;
     private String key2;

@@ -92,6 +92,8 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			//判断是否查询key1/key2/key3
+			this.judgeIndexName();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
 			//映射
@@ -100,20 +102,18 @@ define(function(require, exports, module) {
 //			this.getIndexEcharts();
 		},
 		//判断下拉框indexName值
-		judgeQuesType: function(){
+		judgeIndexName: function(){
 			$("#indexName").unbind('click');
 			$("#indexName").bind('click',function(){
 				var checkValue=$("#indexName").val();  //获取Select选择的Value 
-				if(checkValue=="2" || checkValue=="3"){
-					$("#firstCategorydiv").hide();     
-					$("#secondCategorydiv").hide();          
-					$("#thirdCategorydiv").hide();           
-					$("#defectLeveldiv").attr({style:"display:display"});
-				}else if(checkValue=="1"){
-					$("#firstCategorydiv").show();   
-					$("#secondCategorydiv").show();          
-					$("#thirdCategorydiv").show();   
-					$("#defectLeveldiv").attr({style:"display:none"});
+				if(checkValue=="系统模块数据库连接"){
+					$("#categoryKey1").attr({style:"display:display"}); 
+					$("#categoryKey2").attr({style:"display:display"});      
+					$("#categoryKey3").attr({style:"display:display"});           
+				}else{
+					$("#categoryKey1").attr({style:"display:none"}); 
+					$("#categoryKey2").attr({style:"display:none"});       
+					$("#categoryKey3").attr({style:"display:none"}); 
 				}
 			});
 		},

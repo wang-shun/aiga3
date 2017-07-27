@@ -1,3 +1,8 @@
+<style type="text/css">
+#Page_archiGradingIdentified .show-nothing {
+	display:none;
+}
+</style>
 <div class="row" id="Page_quesIndexView">
     <div class="col-md-12">
         <div class="box">
@@ -33,13 +38,13 @@
 			        	<div class="form-group col-sm-6">
 	                        <label class="col-sm-2 col-sm-offset-2 control-label">开始时间:</label>
 			        		<div class="col-sm-4">
-		                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
+		                  		<input type="text" class="form-control input-sm " name="startMonth" value="2017-07" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
 			        		</div>
 			        	</div>
 			        	<div class="form-group col-sm-6">
 	                        <label class="col-sm-2 col-sm-offset-2 control-label">结束时间:</label>
 			        		<div class="col-sm-4">
-	                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/> 
+	                  			<input type="text" class="form-control input-sm " name="endMonth" value="2017-07" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/> 
 			        		</div>
 			        	</div>
 	                </div>
@@ -115,7 +120,7 @@
         </div> 
        
     
-        <div class="box" id="JS_getDataMaintainListSec" style="min-height:100px;">
+        <div class="box" id="JS_getDataMaintainListSec" name="initTable" style="min-height:100px;">
             <div class="box-header ">
                 <h3 class="box-title">架构问题指标采集结果</h3>
                 <div class="box-tools">
@@ -151,7 +156,7 @@
         		<div class="dataTables_paginate" name="paginationSec" style="text-align:center"></div>
     		</div> 
         </div>
-	    <div class="box" id="JS_sysMessageView">
+	    <div class="box" id="JS_sysMessageView" name="initEcharts">
 	        <div class="box-header" >
 	        </div>
 	        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px; ">

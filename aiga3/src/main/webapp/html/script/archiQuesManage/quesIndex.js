@@ -129,6 +129,7 @@ define(function(require, exports, module) {
 			Utils.setSelectDataPost(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
+
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
 				if(init) {
@@ -174,6 +175,10 @@ define(function(require, exports, module) {
 	  			});
 			});
 			_queryBtn.click();
+			var iTable = Page.findId('getDataMaintainListSec').find("[name='initTable']");
+			var iEcharts = Page.findId('sysMessageView').find("[name='initEcharts']");
+			iTable.addClass('show-nothing');
+			iEcharts.addClass('show-nothing');
 		},
 		// 查询数据维护
 		getDataMaintainList: function(cmd) {

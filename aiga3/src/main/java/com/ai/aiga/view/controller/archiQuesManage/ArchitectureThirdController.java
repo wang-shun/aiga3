@@ -62,7 +62,6 @@ public class ArchitectureThirdController {
             Long idSecond){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureThirdSv.findbySecPage(idSecond, pageNumber, pageSize));
-
 		return bean;
 	}
 	

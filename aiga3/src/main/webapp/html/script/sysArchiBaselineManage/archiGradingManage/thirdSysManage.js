@@ -150,6 +150,8 @@ define(function(require, exports, module) {
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getSysMessageList'),_cmd,function(json){
 				window.XMS.msgbox.hide();
+				json.data.content.sort(function(a,b){
+		            return a.idThird-b.idThird;});
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getThirdMessageList'));				
         		var tablebtn = _dom.find("[name='content']");

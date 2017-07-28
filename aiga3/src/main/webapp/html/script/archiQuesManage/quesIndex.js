@@ -96,6 +96,7 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+//			this.initTableEcharts();
 			//判断是否查询key1/key2/key3
 			this.judgeIndexName();
 			// 初始化查询表单
@@ -105,6 +106,12 @@ define(function(require, exports, module) {
 			//
 //			this.getIndexEcharts();
 		},
+/*		initTableEcharts: function(){
+			var iTable = Page.findId('getDataMaintainListSec').find("[name='initTable']");
+			var iEcharts = Page.findId('sysMessageView').find("[name='initEcharts']");
+			iTable.addClass('show-nothing');
+			iEcharts.addClass('show-nothing');
+		},*/
 		//判断下拉框indexName值
 		judgeIndexName: function(){
 			$("#indexName").unbind('click');
@@ -129,6 +136,9 @@ define(function(require, exports, module) {
 			Utils.setSelectDataPost(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
+				
+				Page.findId('getDataMaintainListSec').attr({style:"display:display"});      
+				Page.findId('sysMessageView').attr({style:"display:display"});      
 
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
@@ -174,11 +184,7 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
-			_queryBtn.click();
-			var iTable = Page.findId('getDataMaintainListSec').find("[name='initTable']");
-			var iEcharts = Page.findId('sysMessageView').find("[name='initEcharts']");
-			iTable.addClass('show-nothing');
-			iEcharts.addClass('show-nothing');
+//			_queryBtn.click();
 		},
 		// 查询数据维护
 		getDataMaintainList: function(cmd) {

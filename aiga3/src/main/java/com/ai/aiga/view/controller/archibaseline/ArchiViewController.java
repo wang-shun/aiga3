@@ -403,7 +403,7 @@ public class ArchiViewController {
 					Map gradingBase = it.next();
 					int idBelong = Integer.parseInt(String.valueOf(gradingBase.get("idBelong")));
 					if(num/10000000 == idBelong/10000000) {
-						String modifyTime = String.valueOf(gradingBase.get("modifyDate,'yyyy-mm')"));
+						String modifyTime = String.valueOf(gradingBase.get("cntDate"));
 						for(int i=0;i<data.length;i++) {
 							if(modifyTime.equals(mounths.get(i))) {
 								data[i]++;

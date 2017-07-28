@@ -110,7 +110,7 @@
                 <tr>
                     <th class="iCheckbox" width="15"></th>
                     <th style="text-align:center;min-width:120px">系统（三级）</th>
-                    <th style="text-align:center;">别名</th>
+                    <th style="text-align:center;min-width:40px">别名</th>
                     <th style="text-align:center;">编号</th>
                     <th style="text-align:center;">系统功能描述</th>
                     <th style="text-align:center;">操作</th>
@@ -277,11 +277,11 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{onlysysId}}" name="onlysysId"></td>
-    <td style="text-align:center;">{{name}}</td>
-    <td style="text-align:center;">{{code}}</td>
-    <td style="text-align:center;">{{idThird}}</td>
-    <td style="text-align:center;">{{systemFunction}}</td>
-    <td style="text-align:center;"><div style="white-space: nowrap"><button class="btn btn-primary btn-table-update" temp="{{onlysysId}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{onlysysId}}">删除</button></div></td>
+    <td>{{name}}</td>
+    <td>{{code}}</td>
+    <td>{{idThird}}</td>
+    <td>{{systemFunction}}</td>
+    <td><div style="white-space: nowrap"><button class="btn btn-primary btn-table-update" temp="{{onlysysId}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{onlysysId}}">删除</button></div></td>
 </tr>
 {{/each}}
 </script>

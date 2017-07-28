@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
 
     // 用户信息接口
-    srvMap.add("getUserinfo", "global/getUserInfo.json", "html/mock/global/getUserInfo.json");
+    srvMap.add("getUserinfo", "global/getUserInfo.json", "archi/login/getStaffMessage");
 
     // 模板对象
     var Tpl = {

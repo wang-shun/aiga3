@@ -47,7 +47,7 @@ public class QuestionInfoController {
 		int fullValue = 0;
 		for(Map base : StateList) {
 			String state = String.valueOf(base.get("state"));
-			String value = String.valueOf(base.get("state)"));
+			String value = String.valueOf(base.get("cnt"));
 			if("null".equals(state)) {
 				continue;
 			}

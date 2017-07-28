@@ -105,7 +105,7 @@ public class ArchDbConnectController extends BaseService {
 		Iterator<ArchDbConnect>iterator=listConnects.iterator();
 		while(iterator.hasNext()){
 			ArchDbConnect baseConnect = iterator.next();
-			if(baseConnect.getKey1().equals("null")){
+			if(baseConnect.getKey1()==null){
 				continue;
 			}
 			if(!key1List.contains(baseConnect.getKey1())){
@@ -126,7 +126,7 @@ public class ArchDbConnectController extends BaseService {
 		List<String>key2List = new ArrayList<String>();
 		while(iterator.hasNext()){
 			ArchDbConnect baseConnect = iterator.next();
-			if(baseConnect.getKey2().equals("null")){
+			if(baseConnect.getKey2()==null){
 				continue;
 			}
 			if(!key2List.contains(baseConnect.getKey2())){
@@ -134,6 +134,7 @@ public class ArchDbConnectController extends BaseService {
 				newConnects.add(baseConnect);
 			}
 		}
+		System.out.println("ddddddddddd"+newConnects);
 		bean.setData(newConnects);
 		return bean;
 	}

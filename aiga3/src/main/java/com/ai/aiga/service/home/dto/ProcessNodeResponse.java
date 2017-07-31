@@ -20,6 +20,7 @@ public class ProcessNodeResponse {
 	private Long maxNum;
 	private Integer activeNum;
 	private Integer id;
+	private String  planName;
 	private List<NaProcessNodeRecord> flowList;
 }
 

@@ -315,6 +315,30 @@ define(function(require,exports,module){
 	Handlebars.registerHelper("setSmallTag", function(str) {
         return str.replace("%","<small>%</small>");
     });
+    Handlebars.registerHelper("checkIsNotHide", function(index,activeNum) {
+        var _index = parseInt(index+1);
+        var _activeNum = parseInt(activeNum);
+        if (_index == _activeNum) {
+            return "";
+        }else{
+        	return "hide";
+        }
+    });
+    Handlebars.registerHelper("setPercent", function(type) {
+        if (type == 2) {
+            return "%";
+        }
+    });
+    Handlebars.registerHelper("isActive", function(index) {
+        if (index == 0) {
+            return "active";
+        }
+    });
+    Handlebars.registerHelper("isChecked", function(type) {
+        if (type == 1) {
+            return "checked='checked'";
+        }
+    });
     Handlebars.registerHelper("getTypeClassName", function(type) {
         if (type == 1) {
             return "fa-check bg-blue"; //正处理
@@ -331,15 +355,8 @@ define(function(require,exports,module){
             return "已处理"; //已处理
         } else if (type == 3) {
             return "未处理"; //未处理
-        }
-    });
-    Handlebars.registerHelper("checkIsNotHide", function(index,activeNum) {
-        var _index = parseInt(index+1);
-        var _activeNum = parseInt(activeNum);
-        if (_index == _activeNum) {
-            return "";
-        }else{
-        	return "hide";
+        } else if (type == 4) {
+            return "不需处理"; //未处理
         }
     });
     module.exports = Query;

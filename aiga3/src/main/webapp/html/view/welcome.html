@@ -152,11 +152,13 @@
 </script>
 <!-- handlebars/流程节点接口 -->
 <script id="TPL_getWelcomeFlowList" type="text/x-handlebars-template">
+{{#if this}}
 {{#each this}}
+<input type="hidden" name="temp_planName_{{@index}}" value="{{planName}}">
 <ul class="timeline {{checkIsNotHide @index activeNum}}">
     {{#each flowList}}
     <li>
-        <i class="fa {{getTypeClassName type}}" data-toggle="tooltip" data-placement="bottom" title="{{getTypeTitle type}}"></i>
+        <i class="fa {{getTypeClassName type}}" data-node={{node}} data-planid={{planId}} data-toggle="tooltip" data-placement="bottom" title="{{getTypeTitle type}}"></i>
         <div class="timeline-item">
             <span class="time"><i class="fa fa-clock-o"></i> {{time}}</span>
             <h3 class="timeline-header">{{processName}}</h3>
@@ -168,11 +170,18 @@
         </div>
     </li>
     {{/each}}
-    <li>
-        <i class="fa fa-clock-o bg-gray"></i>
-    </li>
+    <!-- <li>
+        <i class="fa fa-clock-o bg-gray null"></i>
+    </li> -->
 </ul>
 {{/each}}
+{{else}}
+    <div class="text-loader">
+        <div class="text-loader-content">
+            <i class="iconfont icon-wushuju"></i>亲，暂无数据！
+        </div>
+    </div>
+    {{/if}}
 </script>
 <script>
 seajs.use("script/welcome", function(Query) {

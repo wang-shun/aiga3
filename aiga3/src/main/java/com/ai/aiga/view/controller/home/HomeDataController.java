@@ -19,36 +19,51 @@ import com.ai.aiga.view.json.base.JsonBean;
  */
 @Controller
 public class HomeDataController {
-	
+
 	@Autowired
 	private HomeDataSv homeDataSv;
-	
-	@RequestMapping(path = "/sys/home/caseCount")
-	public @ResponseBody JsonBean caseCount(String planDate){
+
+	@RequestMapping(path = "/sys/home/kpiList")
+	public @ResponseBody JsonBean kpiList() {
 		JsonBean bean = new JsonBean();
-		bean.setData(homeDataSv.caseCount(planDate));
+		bean.setData(homeDataSv.kpiList());
 		return bean;
 	}
-	
+
 	@RequestMapping(path = "/sys/home/flowText")
-	public @ResponseBody JsonBean flowText(Long onlinePlan){
-		
-		homeDataSv.flowText(onlinePlan);
+	public @ResponseBody JsonBean flowText() {
+		homeDataSv.flowText();
 		return JsonBean.success;
 	}
-	
+
 	@RequestMapping(path = "/sys/home/flowList")
-	public @ResponseBody JsonBean flowList(String planDate){
+	public @ResponseBody JsonBean flowList(String planDate) {
 		JsonBean bean = new JsonBean();
 		bean.setData(homeDataSv.flowList(planDate));
 		return bean;
 	}
-	
+
 	@RequestMapping(path = "/sys/home/information")
-	public @ResponseBody JsonBean information(){
+	public @ResponseBody JsonBean information() {
+		//homeDataSv.addInfo();
 		JsonBean bean = new JsonBean();
-		bean.setData(homeDataSv.information());
+		bean.setData(homeDataSv.informationNew());
 		return bean;
 	}
-}
 
+	@RequestMapping(path = "/sys/home/kpiSave")
+	public @ResponseBody JsonBean kpiSave(String kpiIds) {
+
+		homeDataSv.kpiSave(kpiIds);
+		return JsonBean.success;
+
+	}
+
+	@RequestMapping(path = "/sys/home/kpi")
+	public @ResponseBody JsonBean kpi() {
+		JsonBean bean = new JsonBean();
+		bean.setData(homeDataSv.kpi());
+		return bean;
+	}
+
+}

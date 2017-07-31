@@ -7,8 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureSecond;
@@ -35,6 +34,7 @@ import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateInput;
 import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateOutput;
 //import com.ai.aiga.view.json.AutoTemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Controller
 @Api(value = "ArchiGradingController", description = "架构分层相关api")
@@ -184,8 +184,8 @@ public class ArchiGradingController {
 		architectureGrading.setModifyDate(new Date());
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
-		Subject subject = SecurityUtils.getSubject();
-		architectureGrading.setApplyUser(String.valueOf(subject.getPrincipals()));
+		AigaStaff info = SessionMgrUtil.getStaff();	
+		architectureGrading.setApplyUser(info.getName());
 		architectureGrading.setState("申请");
 		architectureGradingSv.save(architectureGrading);
 		return bean;

@@ -257,43 +257,127 @@ public class ArchiViewController {
 			String levels = base.getBelongLevel();
 			//跨层处理
 			if(levels.contains(",")) {
-				continue;
-			}
-			//不跨层
-			if("SaaS".equals(levels)) {
-				ArchiThirdViewCenterItem baseSaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
-				List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
-				baseSaaS.setItem(itemNull);
-				itemSaaS.add(baseSaaS);
-			} else if ("BPaaS".equals(levels)) {
-				ArchiThirdViewCenterItem baseBPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
-				List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
-				baseBPaaS.setItem(itemNull);
-				itemBPaaS.add(baseBPaaS);
-			} else if ("UPaaS".equals(levels)) {
-				ArchiThirdViewCenterItem baseUPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
-				List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
-				baseUPaaS.setItem(itemNull);
-				itemUPaaS.add(baseUPaaS);
-			} else if ("IPaaS".equals(levels)) {
-				ArchiThirdViewCenterItem baseIPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
-				List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
-				baseIPaaS.setItem(itemNull);
-				itemIPaaS.add(baseIPaaS);
-			} else if ("TPaaS".equals(levels)) {
-				ArchiThirdViewCenterItem baseTPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
-				List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
-				baseTPaaS.setItem(itemNull);
-				itemTPaaS.add(baseTPaaS);
+				String[] acrossLevel = levels.split(",");
+				for(int j=0;j<acrossLevel.length;j++) {
+					if("SaaS".equals(acrossLevel[j])) {
+						ArchiThirdViewCenterItem baseSaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+						List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+						baseSaaS.setItem(itemNull);
+						itemSaaS.add(baseSaaS);
+						continue;
+					} else if ("BPaaS".equals(acrossLevel[j])) {
+						ArchiThirdViewCenterItem baseBPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+						List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+						baseBPaaS.setItem(itemNull);
+						itemBPaaS.add(baseBPaaS);
+						continue;
+					} else if ("UPaaS".equals(acrossLevel[j])) {
+						ArchiThirdViewCenterItem baseUPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+						List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+						baseUPaaS.setItem(itemNull);
+						itemUPaaS.add(baseUPaaS);
+						continue;
+					} else if ("IPaaS".equals(acrossLevel[j])) {
+						ArchiThirdViewCenterItem baseIPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+						List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+						baseIPaaS.setItem(itemNull);
+						itemIPaaS.add(baseIPaaS);
+						continue;
+					} else if ("TPaaS".equals(acrossLevel[j])) {
+						ArchiThirdViewCenterItem baseTPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+						List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+						baseTPaaS.setItem(itemNull);
+						itemTPaaS.add(baseTPaaS);
+						continue;
+					} else {
+						// TO BE CONTINUE ...
+					}			
+				}
 			} else {
-				// TO BE CONTINUE ...
-			}			
+				if("SaaS".equals(levels)) {
+					ArchiThirdViewCenterItem baseSaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+					List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+					baseSaaS.setItem(itemNull);
+					itemSaaS.add(baseSaaS);
+					continue;
+				} else if ("BPaaS".equals(levels)) {
+					ArchiThirdViewCenterItem baseBPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+					List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+					baseBPaaS.setItem(itemNull);
+					itemBPaaS.add(baseBPaaS);
+					continue;
+				} else if ("UPaaS".equals(levels)) {
+					ArchiThirdViewCenterItem baseUPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+					List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+					baseUPaaS.setItem(itemNull);
+					itemUPaaS.add(baseUPaaS);
+					continue;
+				} else if ("IPaaS".equals(levels)) {
+					ArchiThirdViewCenterItem baseIPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+					List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+					baseIPaaS.setItem(itemNull);
+					itemIPaaS.add(baseIPaaS);
+					continue;
+				} else if ("TPaaS".equals(levels)) {
+					ArchiThirdViewCenterItem baseTPaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+					List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+					baseTPaaS.setItem(itemNull);
+					itemTPaaS.add(baseTPaaS);
+					continue;
+				} else {
+					// TO BE CONTINUE ...
+				}			
+			}
 		}	
 		//添加三级系统的节点
 		for(Map base :thirdDatas) {
 			String thirdBelongLevel = String.valueOf(base.get("thirdBelongLevel"));
 			if(thirdBelongLevel.contains(",")) {
 				//跨层
+				String[] thirdAcrossLevel = thirdBelongLevel.split(",");
+				for(int i=0;i<thirdAcrossLevel.length;i++) {
+					if(thirdAcrossLevel[i].equals("SaaS")) {
+						for(ArchiThirdViewCenterItem baseSaaS : itemSaaS) {
+							if(baseSaaS.getName().equals(String.valueOf(base.get("secName")))) {
+								ArchiSystemItem sysData = new ArchiSystemItem(id++,base.get("name"),base.get("bgColoe"),"0");
+								baseSaaS.getItem().add(sysData);
+								continue;
+							}
+						}
+					} else if(thirdAcrossLevel[i].equals("BPaaS")) {
+						for(ArchiThirdViewCenterItem baseBPaaS : itemBPaaS) {
+							if(baseBPaaS.getName().equals(String.valueOf(base.get("secName")))) {
+								ArchiSystemItem sysData = new ArchiSystemItem(id++,base.get("name"),base.get("bgColoe"),"0");
+								baseBPaaS.getItem().add(sysData);
+								continue;
+							}
+						}
+					} else if(thirdAcrossLevel[i].equals("UPaaS")) {
+						for(ArchiThirdViewCenterItem baseUPaaS : itemUPaaS) {
+							if(baseUPaaS.getName().equals(String.valueOf(base.get("secName")))) {
+								ArchiSystemItem sysData = new ArchiSystemItem(id++,base.get("name"),base.get("bgColoe"),"0");
+								baseUPaaS.getItem().add(sysData);
+								continue;
+							}
+						}
+					} else if(thirdAcrossLevel[i].equals("IPaaS")) {
+						for(ArchiThirdViewCenterItem baseIPaaS : itemIPaaS) {
+							if(baseIPaaS.getName().equals(String.valueOf(base.get("secName")))) {
+								ArchiSystemItem sysData = new ArchiSystemItem(id++,base.get("name"),base.get("bgColoe"),"0");
+								baseIPaaS.getItem().add(sysData);
+								continue;
+							}
+						}
+					} else if(thirdAcrossLevel[i].equals("TPaaS")) {
+						for(ArchiThirdViewCenterItem baseTPaaS : itemTPaaS) {
+							if(baseTPaaS.getName().equals(String.valueOf(base.get("secName")))) {
+								ArchiSystemItem sysData = new ArchiSystemItem(id++,base.get("name"),base.get("bgColoe"),"0");
+								baseTPaaS.getItem().add(sysData);
+								continue;
+							}
+						}
+					}
+				}
 			} else {
 				if(thirdBelongLevel.equals("SaaS")) {
 					for(ArchiThirdViewCenterItem baseSaaS : itemSaaS) {
@@ -403,7 +487,7 @@ public class ArchiViewController {
 					Map gradingBase = it.next();
 					int idBelong = Integer.parseInt(String.valueOf(gradingBase.get("idBelong")));
 					if(num/10000000 == idBelong/10000000) {
-						String modifyTime = String.valueOf(gradingBase.get("modifyDate,'yyyy-mm')"));
+						String modifyTime = String.valueOf(gradingBase.get("cntDate"));
 						for(int i=0;i<data.length;i++) {
 							if(modifyTime.equals(mounths.get(i))) {
 								data[i]++;

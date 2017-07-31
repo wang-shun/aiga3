@@ -409,6 +409,8 @@ define(function(require, exports, module) {
 			Handlebars.registerHelper("transformatFirst", function(value) {
                 if (value == '1001') {
                     return "容量规划";
+                } else if (value == '-'){
+                	return "无";
                 } else if (value == '1002') {
                     return "高可用";
                 } else if (value == '1003') {
@@ -428,6 +430,8 @@ define(function(require, exports, module) {
 			Handlebars.registerHelper("transformatSecond", function(value) {
                 if (value == '2001') {
                     return "系统容量";
+                } else if (value == '-'){
+                	return "无";
                 } else if (value == '2002') {
                     return "业务容量";
                 } else if (value == '2003') {
@@ -487,6 +491,8 @@ define(function(require, exports, module) {
 			Handlebars.registerHelper("transformatThird", function(value) {
                 if (value == '3001') {
                     return "数据库容量";
+                } else if (value == '-'){
+                	return "无";
                 } else if (value == '3002') {
                     return "网络带宽";
                 } else if (value == '3003') {
@@ -531,6 +537,80 @@ define(function(require, exports, module) {
                     return "DCOS化";
                 } else if (value == '3023') {
                     return "服务统一接入管控";
+                } else if (value == '3024') {
+                    return "应用无状态化";
+                } else if (value == '3025') {
+                    return "提供标准接口";
+                } else if (value == '3026') {
+                    return "会话无状态化";
+                } else if (value == '3027') {
+                    return "读写分离";
+                } else if (value == '3028') {
+                    return "数据缓存";
+                } else if (value == '3029') {
+                    return "数据库异常隔离";
+                } else if (value == '3030') {
+                    return "业务流程不依赖非关键业务";
+                } else if (value == '3031') {
+                    return "业务服务不依赖非关键原子";
+                } else if (value == '3032') {
+                    return "服务隔离";
+                } else if (value == '3033') {
+                    return "服务降级";
+                } else if (value == '3034') {
+                    return "快速失败";
+                } else if (value == '3035') {
+                    return "熔断";
+                } else if (value == '3036') {
+                    return "分中心隔离";
+                } else if (value == '3037') {
+                    return "弹性扩展";
+                } else if (value == '3038') {
+                    return "服务集成";
+                } else if (value == '3039') {
+                    return "核心系统/非核心系统交互屏蔽";
+                } else if (value == '3040') {
+                    return "日志输出是否完整";
+                } else if (value == '3041') {
+                    return "日志查询方式";
+                } else if (value == '3042') {
+                    return "传送大数据平台";
+                } else if (value == '3043') {
+                    return "BOMC日志分析";
+                } else if (value == '3044') {
+                    return "基础参数";
+                } else if (value == '3045') {
+                    return "业务规则";
+                } else if (value == '3046') {
+                    return "刷新时间";
+                } else if (value == '3047') {
+                    return "刷新方式";
+                } else if (value == '3048') {
+                    return "业务影响";
+                } else if (value == '3049') {
+                    return "稽核手段";
+                } else if (value == '3050') {
+                    return "对接BOMC系统";
+                } else if (value == '3051') {
+                    return "统一采集";
+                } else if (value == '3052') {
+                    return "唯一流水号";
+                } else if (value == '3053') {
+                    return "监控工具";
+                } else if (value == '3054') {
+                    return "数据一致性稽核";
+                } else if (value == '3055') {
+                    return "单笔业务跟踪";
+                } else if (value == '3056') {
+                    return "加密存储";
+                } else if (value == '3057') {
+                    return "定期修改且在线生效";
+                } else if (value == '3058') {
+                    return "系统工号";
+                } else if (value == '3059') {
+                    return "操作员工号";
+                } else if (value == '3060') {
+                    return "权限管控粒度";
                 }
             });
             

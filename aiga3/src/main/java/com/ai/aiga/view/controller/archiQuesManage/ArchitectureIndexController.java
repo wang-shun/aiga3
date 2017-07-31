@@ -243,17 +243,19 @@ public class ArchitectureIndexController extends BaseService {
 				Iterator<ArchDbConnect>iterator = connectList2.iterator();
 				while(iterator.hasNext()){
 					ArchDbConnect archDbConnect = iterator.next();
-					if(archDbConnect.getKey3().equals(name)) {
-						String SetMonths = archDbConnect.getSettMonth();
+					if(archDbConnect.getKey3()!=null){
+						if(archDbConnect.getKey3().equals(name)) {
+							String SetMonths = archDbConnect.getSettMonth();
 //						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
-						for(int i=0;i<data.length;i++){
-							String newMonth = months.get(i);
-							if(SetMonths.equals(newMonth.replace("-", ""))){
-								data[i]=Integer.parseInt(archDbConnect.getResultValue());
-								iterator.remove();
+							for(int i=0;i<data.length;i++){
+								String newMonth = months.get(i);
+								if(SetMonths.equals(newMonth.replace("-", ""))){
+									data[i]=Integer.parseInt(archDbConnect.getResultValue());
+									iterator.remove();
+								}
 							}
-						}
-					}					
+						}					
+					}
 				}
 				baseSeries.setData(data);
 				seriesList.add(baseSeries);

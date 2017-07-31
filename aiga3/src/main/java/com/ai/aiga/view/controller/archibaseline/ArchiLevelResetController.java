@@ -1,8 +1,6 @@
 package com.ai.aiga.view.controller.archibaseline;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchitectureFirst;
-import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureSecond;
 import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
+import com.ai.aiga.view.controller.archibaseline.dto.login.SimpleUserInfo;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Controller
 @Api(value = "ArchiLevelResetController", description = "架构层级相关api")
@@ -108,6 +108,22 @@ public class ArchiLevelResetController {
 			}
 		}
 		bean.setData(data);
+		return bean;	
+	}
+	
+	@RequestMapping(path = "/archi/login/getStaffMessage")
+	public @ResponseBody JsonBean getStaffMessage() {
+		JsonBean bean = new JsonBean();
+		SimpleUserInfo output = new SimpleUserInfo();
+		AigaStaff userInfo = SessionMgrUtil.getStaff();
+		if(userInfo == null) {
+			bean.fail("用户信息不存在！");
+			return bean;	
+		}
+		output.setUserId(userInfo.getCode());
+		output.setUserName(userInfo.getName());
+		output.setToken("1");
+		bean.setData(output);
 		return bean;	
 	}
 }

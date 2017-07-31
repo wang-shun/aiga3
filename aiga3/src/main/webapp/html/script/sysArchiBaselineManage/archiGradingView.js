@@ -26,7 +26,7 @@ define(function(require, exports, module) {
 		getCrossSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getCrossSecView.tpl'),
 		getThirdSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getThirdSecView.tpl'),
 		getOneSecView: require('tpl/sysArchiBaselineManage/archiGradingManage/getOneSecView.tpl')
-	}
+	};
 
 
 	var cache = {
@@ -73,7 +73,7 @@ define(function(require, exports, module) {
 	                   }
 	          		});
 				}
-			})
+			});
 		},
 		//查询下拉框数据加载，绑定查询按钮事件
 		_querydomain: function() {
@@ -82,13 +82,14 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn =  _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				var _self = $(this)
+				var _self = $(this);
 				var _idFirst = _form.find("[name='primaryDomain']").val();
 				var _viewLevel = _form.find("[name='viewLevel']:checked").val();
 				var _srvMap = "getSecView";
 				if(_viewLevel=="1"){
 					var template = Handlebars.compile(Tpl.getOneSecView);
 					Page.findName("archiView").html(template({}));
+					_self.data("level",_viewLevel);
 					return;
 				}else if(_viewLevel=="3"){
 					_srvMap = "getThirdSecView";
@@ -140,7 +141,7 @@ define(function(require, exports, module) {
 				var _thiz = $(this);
 				var _pHeight = _thiz.parent().height();
 				_thiz.height(_pHeight);
-			})
+			});
 		},
 		setCrossContent:function(json){
 			var contentArray = json.data.content;
@@ -222,7 +223,7 @@ define(function(require, exports, module) {
     				if($(this).hasClass("width-auto")){
     					$(this).css({"padding-left":positionLeft});
     				}
-    			})
+    			});
 
     		}
 		}

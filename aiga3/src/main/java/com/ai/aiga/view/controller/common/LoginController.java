@@ -5,12 +5,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.SessionException;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.security.shiro.UserInfo;
+import com.ai.aiga.view.controller.common.dto.CurrentUser;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
@@ -55,13 +58,31 @@ public class LoginController {
 		return bean;
 	}
 	
-	
+	@RequestMapping(path = "/currentUser")
+	@ApiOperation(value = "获得当前用户信息", notes = "暂无")
+	public @ResponseBody JsonBean currentUser(){
+		JsonBean bean = new JsonBean();
+		
+		CurrentUser user = new CurrentUser();
+		
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
+		if(userInfo != null){
+			user.setStaff(userInfo.getStaff());
+			user.setRoles(userInfo.getRoles());
+		}
+		
+		bean.setData(user);
+		return bean;
+	}
 	
 	@RequestMapping(path = "/logout", method=RequestMethod.POST)
 	public String logout(){
-		Subject subject = SecurityUtils.getSubject();
-		UsernamePasswordToken token = new UsernamePasswordToken("zhang", "123");
 		
+		Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.logout();
+        } catch (SessionException ise) {
+        }
 		return "login";
 	}
 	

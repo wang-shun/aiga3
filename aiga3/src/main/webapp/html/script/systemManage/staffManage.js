@@ -200,14 +200,14 @@ define(function(require,exports,module){
 				    })
 
 					// 表格分页
-					$(Dom.getUserinfoListTable).DataTable({
-			          "paging": true,
-			          "lengthChange": false,
-			          "searching": false,
-			          "ordering": false,
-			          "info": true,
-			          "autoWidth": false
-			        });
+//					$(Dom.getUserinfoListTable).DataTable({
+//			          "paging": true,
+//			          "lengthChange": false,
+//			          "searching": false,
+//			          "ordering": false,
+//			          "info": true,
+//			          "autoWidth": false
+//			        });
 				}
 	  		});
 		},

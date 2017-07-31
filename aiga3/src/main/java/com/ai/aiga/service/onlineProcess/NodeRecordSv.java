@@ -1,5 +1,6 @@
 package com.ai.aiga.service.onlineProcess;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -157,8 +158,24 @@ public class NodeRecordSv extends BaseService{
     	if (staffId==null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-    return	naProcessNodeRecordDao.findRole(staffId);
-		
-    	
+    	List<Object[]> list = naProcessNodeRecordDao.findRole(staffId);
+    	List<SysRole>  sys= new ArrayList<SysRole>(list.size());
+    	for(int i=0;i<list.size();i++){
+    		Object[] object = (Object[]) list.get(i);
+    		SysRole sysRole=new SysRole();
+    		sysRole.setCode(object[0].toString());
+    		sysRole.setName(object[1].toString());
+    		sysRole.setNotes(object[2].toString());
+    		//sysRole.setState((Byte)object[3]);
+    		sysRole.setDoneCode((Long)object[4]);
+    		sysRole.setCreateDate((Date)object[5]);
+    		sysRole.setDoneDate((Date)object[6]);
+    		sysRole.setValidDate((Date)object[7]);
+    		sysRole.setExpireDate((Date)object[8]);
+    		sysRole.setOpId((Long)object[9]);
+    		sysRole.setOrgId((Long)object[10]);
+    		sys.add(sysRole);
+    	}
+		return sys;	
     }
 }

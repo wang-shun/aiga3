@@ -35,7 +35,7 @@ public class ArchitectureGradingSv extends BaseService {
 	}
 	
 	public List<Map> findChangeMessage (ArchiGradingConditionParam input) throws ParseException{
-		String sql = "select  t.id_belong, t.sys_id, to_char(t.modify_date,'yyyy-mm') as cnt_date from aiam.ARCHITECTURE_GRADING t  where 1=1";
+		String sql = "select  t.id_belong, t.sys_id, to_char(t.modify_date,'yyyy-mm') as cnt_date from ARCHITECTURE_GRADING t  where 1=1";
 		if(StringUtils.isNotBlank(input.getState())) {
 			sql += " and t.state = '"+input.getState()+"'";
 		}

@@ -29,7 +29,7 @@ public class QuestionInfoSv extends BaseService {
 	private QuestionInfoDao questionInfoDao;
 	
 	public List<Map> findQuestionStatePie(){
-		String sql = "SELECT t.state ,count(T.state) as cnt FROM aiam.question_info t Group by t.state";
+		String sql = "SELECT t.state ,count(T.state) as cnt FROM question_info t Group by t.state";
 		return questionInfoDao.searchByNativeSQL(sql);	
 	}
 	

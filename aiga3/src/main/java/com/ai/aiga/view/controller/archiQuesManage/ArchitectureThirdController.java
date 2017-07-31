@@ -1,5 +1,9 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import io.swagger.annotations.Api;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiWelcomePie;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
+import com.ai.aiga.view.controller.archiQuesManage.dto.PieSeries;
+import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieData;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -20,6 +27,30 @@ public class ArchitectureThirdController {
 
 	@Autowired
 	private ArchitectureThirdSv architectureThirdSv;
+	//nmsn
+	@RequestMapping(path = "/archi/third/welcomePie")
+	public @ResponseBody JsonBean welcomePie(){
+		JsonBean bean = new JsonBean();
+		ArchiWelcomePie output = new ArchiWelcomePie();
+		List<String> legend = new ArrayList<String>();
+		List<PieSeries> series = new ArrayList<PieSeries>();
+		List<Map> StateList = architectureThirdSv.findWelcomePie();
+		for(Map base : StateList) {
+			String sum = String.valueOf(base.get("sum"));
+			String name = String.valueOf(base.get("name"));
+			String rank = String.valueOf(base.get("rank"));
+			legend.add(name);
+			PieSeries data = new PieSeries();
+			data.setName(name);
+			data.setValue(sum);
+			series.add(data);
+
+		}
+		output.setLegend(legend);
+		output.setSeries(series);
+		bean.setData(output);
+		return bean;
+	}
 	
 	@RequestMapping(path = "/archi/third/list")
 	public @ResponseBody JsonBean list(){

@@ -9,7 +9,7 @@ define(function(require,exports,module){
     // 流程节点接口
     srvMap.add("getWelcomeFlowList", "welcome/getWelcomeFlowList.json", "/sys/home/flowList");
     srvMap.add("getWelcomeInformation", "welcome/getWelcomeInformation.json", "/sys/home/information");
-
+    srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "/archi/third/welcomePie");
 
     var Data = {
         planDate:null // 获取日期日期
@@ -20,7 +20,7 @@ define(function(require,exports,module){
 			Data.planDate = Rose.date.dateTimeWrapper('yyyy-MM-dd');
 			Page.findName("showTime").html(Rose.date.dateTimeWrapper('yyyy年MM月dd日'));
 			this._render();
-			this.getMyEchartsPie();//首页饼图初始化
+			this._getWelcomePie();//首页饼图初始化
 		},
 		_render: function() {
 //			this.getWelcomeCaseCount();
@@ -28,7 +28,19 @@ define(function(require,exports,module){
 //			this.getOnlineCalendar();
 //			this.getMyChart();
 		},
-		getMyChart:function(){
+		_getWelcomePie: function(){
+			var self = this;
+			//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			Rose.ajax.postJson(srvMap.get("getWelcomePie"), '', function(json, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+					self.getMyEchartsPie(json);
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+  			});
+		},
+		getMyChart: function(){
 			// 图标
 			var myChart = echarts.init(Page.findId('onlineCharts')[0]);
 
@@ -182,8 +194,9 @@ define(function(require,exports,module){
                 }
             });
 		},
-		getMyEchartsPie:function(){//饼图模块
+		getMyEchartsPie: function(json){//饼图模块
 			var myChart = echarts.init(document.getElementById('echartsPie')); 
+			//var myChart = echarts.init(Page.findId('echartsPie')[0]);
 	                    	option = {
 	                               /* title : {
 	                                    text: '架构分层管理',
@@ -191,7 +204,7 @@ define(function(require,exports,module){
 	                                    left:'center'
 	                                },*/
 	                                tooltip : {
-	                                    trigger: 'none',
+	                                    trigger: 'item',
 	                                    formatter: "{a} <br/>{b} : {c} ({d}%)"
 	                                },
 	                                legend: {
@@ -239,7 +252,14 @@ define(function(require,exports,module){
 	                                    }
 	                                ]
 	                            };
-	                            myChart.setOption(option);
+	                    	if(json && json.data) {
+	                    		console.log(json);
+	                    		console.log(json.data);
+	            				option.legend.data = json.data.legend;
+	            				option.series[0].data = json.data.series;
+	            			}
+	            			myChart.setOption(option);
+	            			window.onresize = myChart.resize;
 		},
 		getOnlineCalendar:function(){
 			var self = this;

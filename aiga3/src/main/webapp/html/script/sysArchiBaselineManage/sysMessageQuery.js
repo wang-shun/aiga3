@@ -38,7 +38,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('请先完成查询！', 'error', 2000);
 					return;
 				}
-				location.href= srvMap.get('getThirdExport'); 
+				location.href = srvMap.get('getThirdExport')+"?cmd="+encodeURIComponent(cache.cmd); 
 			});
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
@@ -62,12 +62,7 @@ define(function(require, exports, module) {
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getTransList'),_cmd,function(json){
-				
-				if(_cmd) {
-					cache.cmd = _cmd;
-				} else {
-					cache.cmd = "all";
-				}
+				cache.cmd = _cmd;
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getFullSysMessageList'));

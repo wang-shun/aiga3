@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.service.ArchitectureThirdSv;
-import com.ai.aiga.view.controller.excelexport.dto.Student;
 
 @Controller
 @Api(value = "ArchitectureThirdController", description = "架构分层相关api")
@@ -32,7 +31,8 @@ public class ExcelExportController {
 	@Autowired
 	private ArchitectureThirdSv architectureThirdSv;
 	
-	String[] excelHeader = { "系统名称", "系统编号", "所属一级域" , "所属二级域", "所属分层", "系统描述", "责任部门", "项目立项信息", "规划设计信息", "状态"};  
+	String[] excelHeader = { "系统名称", "系统编号", "所属一级域" , "所属二级域", "所属分层", "系统描述", "责任部门", "项目立项信息", "规划设计信息", "状态"}; 
+	String[] excelSheet = { "业务支撑域", "管信域", "BOMC域", "安全域", "大数据域", "公共域", "网络域", "地市域", "开放域"};
 	@RequestMapping(path="/excel/export/sysMessage")
 	public @ResponseBody void sysMessageExport(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String input = URLDecoder.decode(request.getParameter("cmd"),"UTF-8");
@@ -63,30 +63,47 @@ public class ExcelExportController {
 	
 	 public HSSFWorkbook export(List<Map> list) {  
 	        HSSFWorkbook wb = new HSSFWorkbook();  
-	        HSSFSheet sheet = wb.createSheet("system");  
-	        HSSFRow row = sheet.createRow((int) 0);  
+	        List<HSSFSheet> sheetList = new ArrayList<HSSFSheet>();
+	        List<HSSFRow> rowList = new ArrayList<HSSFRow>();
+	        int[] num = new int[9];
+	        for(String excelSheetBase : excelSheet) {
+	        	HSSFSheet sheet = wb.createSheet(excelSheetBase);
+	        	sheetList.add(sheet);
+	        	HSSFRow row = sheet.createRow((int) 0);
+	        	rowList.add(row);
+	        }
+	        
 	        HSSFCellStyle style = wb.createCellStyle();  
-	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  	  
-	        for (int i = 0; i < excelHeader.length; i++) {  
-	            HSSFCell cell = row.createCell(i);  
-	            cell.setCellValue(excelHeader[i]);  
-	            cell.setCellStyle(style);  
-	            sheet.autoSizeColumn(i);  
-	         // sheet.SetColumnWidth(i, 100 * 256);  
-	        }  	  
-	        for (int i = 0; i < list.size(); i++) {  
-	            row = sheet.createRow(i + 1);  
-	            Map data = list.get(i);  
-	            row.createCell(0).setCellValue(String.valueOf(data.get("name")));
-	            row.createCell(1).setCellValue(String.valueOf(data.get("idThird")));
-	            row.createCell(2).setCellValue(String.valueOf(data.get("firName")));
-	            row.createCell(3).setCellValue(String.valueOf(data.get("secName")));
-	            row.createCell(4).setCellValue(String.valueOf(data.get("belongLevel")));
-	            row.createCell(5).setCellValue(String.valueOf(data.get("systemFunction")));
-	            row.createCell(6).setCellValue(String.valueOf(data.get("department")));
-	            row.createCell(7).setCellValue(String.valueOf(data.get("projectInfo"))); 
-	            row.createCell(8).setCellValue(String.valueOf(data.get("designInfo")));
-	            row.createCell(9).setCellValue(String.valueOf(data.get("codeName")));
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  
+	        for (int i = 0; i < excelHeader.length; i++) {
+	        	for(int j=0; j < rowList.size(); j++) {
+	        		HSSFCell cell = rowList.get(j).createCell(i);
+		            cell.setCellValue(excelHeader[i]);  
+		            cell.setCellStyle(style); 
+		            if("1,2,3,4,8".contains(String.valueOf(i))) {
+		            	sheetList.get(j).setColumnWidth(i, 12 * 256);
+		            } else if(i==5) {
+		            	sheetList.get(j).setColumnWidth(i, 60 * 256);  
+		            } else {
+		            	sheetList.get(j).setColumnWidth(i, 20 * 256);
+		            }	         
+	        	}
+	         // sheet
+	        }
+	        for (Map data : list) {  
+	        	int index = Integer.parseInt(String.valueOf(data.get("idThird")))/10000000;
+	        	index--;
+	        	HSSFRow row =sheetList.get(index).createRow(++num[index]);  
+	        	row.createCell(0).setCellValue(String.valueOf(data.get("name")));
+	        	row.createCell(1).setCellValue(String.valueOf(data.get("idThird")));
+	        	row.createCell(2).setCellValue(String.valueOf(data.get("firName")));
+	        	row.createCell(3).setCellValue(String.valueOf(data.get("secName")));
+	        	row.createCell(4).setCellValue(String.valueOf(data.get("belongLevel")));
+	        	row.createCell(5).setCellValue(String.valueOf(data.get("systemFunction")));
+	        	row.createCell(6).setCellValue(String.valueOf(data.get("department")));
+	        	row.createCell(7).setCellValue(String.valueOf(data.get("projectInfo"))); 
+	        	row.createCell(8).setCellValue(String.valueOf(data.get("designInfo")));
+	        	row.createCell(9).setCellValue(String.valueOf(data.get("codeName")));
 	        }  
 	        return wb;  
 	    }  

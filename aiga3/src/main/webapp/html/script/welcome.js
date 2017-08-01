@@ -253,8 +253,6 @@ define(function(require,exports,module){
 	                                ]
 	                            };
 	                    	if(json && json.data) {
-	                    		console.log(json);
-	                    		console.log(json.data);
 	            				option.legend.data = json.data.legend;
 	            				option.series[0].data = json.data.series;
 	            			}

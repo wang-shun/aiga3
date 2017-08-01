@@ -21,5 +21,21 @@ public class CurrentUser {
 	
 	private List<SysRole> roles;
 
+	public AigaStaff getStaff() {
+		return staff;
+	}
+
+	public void setStaff(AigaStaff staff) {
+		this.staff = staff;
+	}
+
+	public List<SysRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<SysRole> roles) {
+		this.roles = roles;
+	}
+
 }
 

@@ -10,8 +10,11 @@ define(function(require, exports, module) {
 
 	//系统信息查询
     srvMap.add("getTransList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    //三级系统信息导出
+    srvMap.add("getThirdExport", pathAlias+"getSysMessageList.json", "excel/export/sysMessage");
 	var cache = {
-		datas : ""	
+		datas : "",
+		cmd: ""
 	};
 	
 	var init = {
@@ -28,7 +31,15 @@ define(function(require, exports, module) {
 			var self = this;
 			var _form = Page.findId('querySysDomainForm');
 			Utils.setSelectData(_form);
-			var _queryBtn =  _form.find("[name='query']");
+			var _queryBtn = _form.find("[name='query']");
+			var _exportBtn = _form.find("[name='export']");
+			_exportBtn.off('click').on('click',function(){
+				if(!cache.cmd) {
+					XMS.msgbox.show('请先完成查询！', 'error', 2000);
+					return;
+				}
+				location.href= srvMap.get('getThirdExport'); 
+			});
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
 				//用于解决long型不可空传的问题
@@ -51,6 +62,12 @@ define(function(require, exports, module) {
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getTransList'),_cmd,function(json){
+				
+				if(_cmd) {
+					cache.cmd = _cmd;
+				} else {
+					cache.cmd = "all";
+				}
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getFullSysMessageList'));

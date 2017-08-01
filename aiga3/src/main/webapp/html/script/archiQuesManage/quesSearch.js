@@ -209,12 +209,12 @@ define(function(require, exports, module) {
 				//删除
 				self.delDataMaintain();
 				//双击修改
-/*				self.eventDClickCallback(_dom, function() {
+				self.eventDClickCallback(_dom, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
 					//alert(data.correlationId);
-					self.updateDataMaintain(data.propertyId);
-				});*/
+					self.updateDataMaintain(data.quesId, json.data);
+				});
 			}, _domPagination);
 		},
 		//新增数据维护
@@ -281,32 +281,20 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		updateDataMaintain: function(Id) {
+		updateDataMaintain: function(Id,json) {
 			var self = this;
+			var i=0;
+			while(json.content[i].quesId != Id){
+				i++;
+			}
+			var data = json.content[i];
+			data.modifyDate = data.modifyDate.replace(/-/g,"/");
+			data.createDate = data.modifyDate;
+			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
+			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
-			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
-			_dom.find("#JS_name").html(html);
-
-			var _save = _dom.find("[name='save']");
-			_save.unbind('click');
-			_save.bind('click', function() {
-				var _form = Page.findId('updateDataMaintainInfo');
-				Utils.setSelectData(_form);
-				var _cmd = _form.serialize();
-				_cmd = _cmd + "&correlationId=" + Id;
-				XMS.msgbox.show('执行中，请稍候...', 'loading');
-				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
-					if (status) {
-						window.XMS.msgbox.show('更新成功！', 'success', 2000)
-						setTimeout(function() {
-							self.queryDataMaintainForm(Data.queryListCmd);
-							_dom.modal('hide');
-						}, 1000)
-					}
-				});
-			});
-
+			Utils.setSelectData(_dom);
 		},
 		// 事件：双击选中当前行
 		eventDClickCallback: function(obj, callback) {

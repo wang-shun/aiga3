@@ -13,10 +13,6 @@
 			<td>{{sysVersion}}</td>
 			<td>{{identifiedInfo}}</td>
 			<td>{{state}}</td>
-			<td>{{ext1}}</td>
-			<td>{{ext2}}</td>
-			<td>{{ext3}}</td>
-			<td>{{solvedInfo}}</td>
 			<td>{{appointedPerson}}</td>
 			<td>{{modifyDate}}</td>
         </tr>

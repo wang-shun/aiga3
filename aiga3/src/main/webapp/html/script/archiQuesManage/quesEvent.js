@@ -42,6 +42,12 @@ define(function(require, exports, module) {
 	//显示系统信息表
 //	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    
+    srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
+    srvMap.add("getEventSave", pathAlias+"getSysMessageList.json", "archi/event/save");
+    srvMap.add("getEventDelete", pathAlias+"getSysMessageList.json", "archi/event/delete");
+    srvMap.add("getEventUpdate", pathAlias+"getSysMessageList.json", "archi/event/update");
+
 	var cache = {
 		datas : ""	
 	};
@@ -71,8 +77,6 @@ define(function(require, exports, module) {
 			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
-			
-			this._querydomain();
 			//映射
 			this.hdbarHelp();
 		},
@@ -95,7 +99,7 @@ define(function(require, exports, module) {
 					_cmd=_cmd.replace(/-/g,"/");
 					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					console.log(_cmd);				
-					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('getEventSave'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
 							if(upState) {
@@ -122,11 +126,13 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getQuestionInfoList'), _cmd, function(json, status) {//getQuestionInfoList
+			Utils.getServerPage(srvMap.get('getEventFindALL'), _cmd, function(json, status) {//getQuestionInfoList
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Tpl.getQuestionInfoList);
+				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
+//				var template = Handlebars.compile(Tpl.getQuestionInfoList);
 				_dom.find("[name='content']").html(template(json.data));
+
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
 				//双击修改

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +54,7 @@ public class ExcelExportController {
 			}
 		}
 		List<Map> findData = architectureThirdSv.excelExport(idThird,name);
+		Collections.sort(findData, new sysExportComparator());
         HSSFWorkbook wb = export(findData);  
         response.setContentType("application/vnd.ms-excel");  
         response.setHeader("Content-disposition", "attachment;filename=system.xls");  
@@ -62,49 +65,58 @@ public class ExcelExportController {
 	}
 	
 	 public HSSFWorkbook export(List<Map> list) {  
-	        HSSFWorkbook wb = new HSSFWorkbook();  
-	        List<HSSFSheet> sheetList = new ArrayList<HSSFSheet>();
-	        List<HSSFRow> rowList = new ArrayList<HSSFRow>();
-	        int[] num = new int[9];
-	        for(String excelSheetBase : excelSheet) {
-	        	HSSFSheet sheet = wb.createSheet(excelSheetBase);
-	        	sheetList.add(sheet);
-	        	HSSFRow row = sheet.createRow((int) 0);
-	        	rowList.add(row);
-	        }
-	        
-	        HSSFCellStyle style = wb.createCellStyle();  
-	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  
-	        for (int i = 0; i < excelHeader.length; i++) {
-	        	for(int j=0; j < rowList.size(); j++) {
-	        		HSSFCell cell = rowList.get(j).createCell(i);
-		            cell.setCellValue(excelHeader[i]);  
-		            cell.setCellStyle(style); 
-		            if("1,2,3,4,8".contains(String.valueOf(i))) {
-		            	sheetList.get(j).setColumnWidth(i, 12 * 256);
-		            } else if(i==5) {
-		            	sheetList.get(j).setColumnWidth(i, 60 * 256);  
-		            } else {
-		            	sheetList.get(j).setColumnWidth(i, 20 * 256);
-		            }	         
-	        	}
-	         // sheet
-	        }
-	        for (Map data : list) {  
-	        	int index = Integer.parseInt(String.valueOf(data.get("idThird")))/10000000;
-	        	index--;
-	        	HSSFRow row =sheetList.get(index).createRow(++num[index]);  
-	        	row.createCell(0).setCellValue(String.valueOf(data.get("name")));
-	        	row.createCell(1).setCellValue(String.valueOf(data.get("idThird")));
-	        	row.createCell(2).setCellValue(String.valueOf(data.get("firName")));
-	        	row.createCell(3).setCellValue(String.valueOf(data.get("secName")));
-	        	row.createCell(4).setCellValue(String.valueOf(data.get("belongLevel")));
-	        	row.createCell(5).setCellValue(String.valueOf(data.get("systemFunction")));
-	        	row.createCell(6).setCellValue(String.valueOf(data.get("department")));
-	        	row.createCell(7).setCellValue(String.valueOf(data.get("projectInfo"))); 
-	        	row.createCell(8).setCellValue(String.valueOf(data.get("designInfo")));
-	        	row.createCell(9).setCellValue(String.valueOf(data.get("codeName")));
-	        }  
-	        return wb;  
-	    }  
+        HSSFWorkbook wb = new HSSFWorkbook();  
+        List<HSSFSheet> sheetList = new ArrayList<HSSFSheet>();
+        List<HSSFRow> rowList = new ArrayList<HSSFRow>();
+        int[] num = new int[9];
+        for(String excelSheetBase : excelSheet) {
+        	HSSFSheet sheet = wb.createSheet(excelSheetBase);
+        	sheetList.add(sheet);
+        	HSSFRow row = sheet.createRow((int) 0);
+        	rowList.add(row);
+        }
+        
+        HSSFCellStyle style = wb.createCellStyle();  
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);  
+        for (int i = 0; i < excelHeader.length; i++) {
+        	for(int j=0; j < rowList.size(); j++) {
+        		HSSFCell cell = rowList.get(j).createCell(i);
+	            cell.setCellValue(excelHeader[i]);  
+	            cell.setCellStyle(style); 
+	            if("1,2,3,4,8".contains(String.valueOf(i))) {
+	            	sheetList.get(j).setColumnWidth(i, 12 * 256);
+	            } else if(i==5) {
+	            	sheetList.get(j).setColumnWidth(i, 60 * 256);  
+	            } else {
+	            	sheetList.get(j).setColumnWidth(i, 20 * 256);
+	            }	         
+        	}
+         // sheet
+        }
+        for (Map data : list) {  
+        	int index = Integer.parseInt(String.valueOf(data.get("idThird")))/10000000;
+        	index--;
+        	HSSFRow row =sheetList.get(index).createRow(++num[index]);  
+        	row.createCell(0).setCellValue(String.valueOf(data.get("name")).replace("null", ""));
+        	row.createCell(1).setCellValue(String.valueOf(data.get("idThird")).replace("null", ""));
+        	row.createCell(2).setCellValue(String.valueOf(data.get("firName")).replace("null", ""));
+        	row.createCell(3).setCellValue(String.valueOf(data.get("secName")).replace("null", ""));
+        	row.createCell(4).setCellValue(String.valueOf(data.get("belongLevel")).replace("null", ""));
+        	row.createCell(5).setCellValue(String.valueOf(data.get("systemFunction")).replace("null", ""));
+        	row.createCell(6).setCellValue(String.valueOf(data.get("department")).replace("null", ""));
+        	row.createCell(7).setCellValue(String.valueOf(data.get("projectInfo")).replace("null", "")); 
+        	row.createCell(8).setCellValue(String.valueOf(data.get("designInfo")).replace("null", ""));
+        	row.createCell(9).setCellValue(String.valueOf(data.get("codeName")).replace("null", ""));
+        }  
+        return wb;  
+    }  
+		
+    static class sysExportComparator implements Comparator<Map> {  
+		@Override
+		public int compare(Map o1, Map o2) {
+			int value1 = Integer.parseInt(String.valueOf(o1.get("idThird")));	
+			int value2 = Integer.parseInt(String.valueOf(o2.get("idThird")));
+			return value1-value2;
+		}  
+    } 
 }

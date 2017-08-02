@@ -18,7 +18,6 @@ import com.ai.aiga.service.QuestionInfoSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieOutput;
-import com.ai.aiga.view.controller.archibaseline.MyComparator;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

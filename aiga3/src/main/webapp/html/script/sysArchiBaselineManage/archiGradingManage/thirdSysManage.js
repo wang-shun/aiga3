@@ -87,9 +87,10 @@ define(function(require, exports, module) {
 					}
 					if(applyHierarchy[6].checked == true) {
 						belongLevel += 'TPaaS' + ',';
-					}	
+					}						
 					belongLevel=belongLevel.substring(0,belongLevel.length-1);
 					_cmd += '&belongLevel='+belongLevel;
+					_cmd += '&ext3='+ Page.find("[name='groupApply']:checked").val();
 					_cmd += '&ext1=3&description=新增';
 					
 					//数据校验
@@ -190,7 +191,8 @@ define(function(require, exports, module) {
 				_modal.modal('show');
 				Utils.setSelectData(_modal);
 				_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
-					var hierarchy = Page.find("[name='hierarchysec']");	
+					var hierarchy = Page.find("[name='hierarchysec']");
+					Page.find("[name='groupUpdate'][value='"+subData.ext3+"']").attr("checked",true);
 					var belongLevel = subData.belongLevel.split(',');
 					for(var i=0;i<belongLevel.length;i++) {
 						if(belongLevel[i] == 'SaaS') {
@@ -249,6 +251,7 @@ define(function(require, exports, module) {
 						}	
 						belongLevel=belongLevel.substring(0,belongLevel.length-1);
 						_cmd += '&'+'belongLevel='+belongLevel;
+						_cmd += '&ext3='+ Page.find("[name='groupUpdate']:checked").val();
 						_cmd += '&ext1=3&description=修改';
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){

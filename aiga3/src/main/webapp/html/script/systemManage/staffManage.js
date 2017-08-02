@@ -408,6 +408,33 @@ define(function(require,exports,module){
 					$(Dom.changePasswordSubmit).bind('click',function(){
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						var cmd = $(Dom.changePasswordForm).serialize();
+						//数据校验
+						if(cmd.indexOf('password=&')>-1) {
+							XMS.msgbox.show('密码为空！', 'error', 2000);
+							return
+						}
+					
+						var _for = $(Dom.changePasswordForm);
+						var str = _for.find("[name='password']").val();
+						var _str = $.trim(str);
+						var patt1 =  /(?=.*\d)(?=.*[a-zA-Z])^.{6,10}$/;
+						if(!patt1.test(_str) ){
+							window.XMS.msgbox.show('输入格式不正确！', 'error', 2000);
+							return
+						}
+					
+						var _for = $(Dom.changePasswordForm);
+						var rep = _for.find("[name='recentPassword']").val();
+						var _rep = $.trim(rep);
+						if(_rep == ""){
+							XMS.msgbox.show('请输入重复密码！', 'error', 2000);
+							return
+						}
+						else if(_rep != _str){
+							window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
+							return
+						}
+						
 						Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.show('密码修改成功！', 'success', 2000)

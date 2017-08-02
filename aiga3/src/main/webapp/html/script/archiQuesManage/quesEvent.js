@@ -29,21 +29,17 @@ define(function(require, exports, module) {
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
     //所属系统静态数据  
 	srvMap.add("getBelongSystem", "", "archi/third/list");
-    //所属处理科室静态数据  
-	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
-    //所属工单状态静态数据  
-	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
-    //所属问题分类静态数据  
-	srvMap.add("staticQuesCategory", pathAlias+"getSysMessageList.json", "archi/static/archiQuesCategory");
+    //静态数据  
+	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "archi/static/eventState");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//一级域查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
-//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
     
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
+    srvMap.add("getEventFindALLByPage", pathAlias+"getSysMessageList.json", "archi/event/findAllByPage");
     srvMap.add("getEventSave", pathAlias+"getSysMessageList.json", "archi/event/save");
     srvMap.add("getEventDelete", pathAlias+"getSysMessageList.json", "archi/event/delete");
     srvMap.add("getEventUpdate", pathAlias+"getSysMessageList.json", "archi/event/update");
@@ -102,11 +98,7 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('getEventSave'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
-							if(upState) {
 								XMS.msgbox.show('开巡检事件单成功！', 'success', 2000);
-							} else {
-								XMS.msgbox.show('开巡检事件单失败！', 'success', 2000);
-							}
 							setTimeout(function() {
 								self.getDataMaintainList();
 							}, 1000);
@@ -126,12 +118,12 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getEventFindALL'), _cmd, function(json, status) {//getQuestionInfoList
+			Utils.getServerPage(srvMap.get('getEventFindALLByPage'), _cmd, function(json, status) {//getQuestionInfoList
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
 //				var template = Handlebars.compile(Tpl.getQuestionInfoList);
-				_dom.find("[name='content']").html(template(json.data));
+				_dom.find("[name='content']").html(template(json.data.content));
 
 				//美化单机
 				Utils.eventTrClickCallback(_dom);

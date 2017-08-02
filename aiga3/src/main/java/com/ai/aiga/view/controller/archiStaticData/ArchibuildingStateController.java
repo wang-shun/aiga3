@@ -70,4 +70,13 @@ public class ArchibuildingStateController {
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
+	
+	//根据Type查询静态数据
+	@RequestMapping(path = "/archi/static/eventState")
+	public @ResponseBody JsonBean getEventState(){
+		JsonBean bean = new JsonBean();
+		String codeType = "SYS_EVENT_STATE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
 }

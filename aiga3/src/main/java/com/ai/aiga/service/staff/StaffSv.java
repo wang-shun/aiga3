@@ -208,7 +208,9 @@ public class StaffSv extends BaseService {
 		if (staffRequest.getChgPasswdAlarmDays() == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "ChgPasswdAlarmDays");
 		}
-
+		if (staffRequest.getNotes() == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getNotes");
+		}
 		AigaStaff aigaStaff = BeanMapper.map(staffRequest, AigaStaff.class);
 
 		// AigaStaff aigastaff = new AigaStaff();
@@ -275,6 +277,9 @@ public class StaffSv extends BaseService {
 			if (StringUtils.isNotBlank(staffRequest.getEmail())) {
 				aigaStaff.setEmail(staffRequest.getEmail());
 			}
+			if (StringUtils.isNotBlank(staffRequest.getRecentPassword())) {
+				aigaStaff.setRecentPassword(staffRequest.getRecentPassword());
+			}
 			if (StringUtils.isNotBlank(staffRequest.getRecentPassTimes().toString())) {
 				aigaStaff.setRecentPassTimes(staffRequest.getRecentPassTimes());
 			}
@@ -302,7 +307,9 @@ public class StaffSv extends BaseService {
 			if (StringUtils.isNotBlank(staffRequest.getChgPasswdAlarmDays().toString())) {
 				aigaStaff.setChgPasswdAlarmDays(staffRequest.getChgPasswdAlarmDays());
 			}
-
+			if (StringUtils.isNotBlank(staffRequest.getNotes().toString())) {
+				aigaStaff.setNotes(staffRequest.getNotes());
+			}
 			aigaStaffDao.save(aigaStaff);
 		}
 

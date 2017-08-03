@@ -106,7 +106,7 @@ define(function(require, exports, module) {
 							// 数据备份成功后，刷新用户列表页
 //							XMS.msgbox.show('开巡检事件单成功！', 'success', 2000);
 							setTimeout(function() {
-								self.getDataMaintainList();
+								self.getDataMaintainList(_cmd);
 							}, 1000);
 //							Page.findId('queryDataMaintainForm')[0].reset();							
 						}

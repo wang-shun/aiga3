@@ -231,6 +231,7 @@ define(function(require,exports,module){
 			    });
 			    // 弹出层
 				$(Dom.addUserinfoModal).modal('show');
+				
 
 		        // 锁定状态：否
 		        _form.find("[name='lockFlag']").find("option[value='N']").attr("selected",true).end().attr("readonly",true);
@@ -498,6 +499,7 @@ define(function(require,exports,module){
 
             		// 接口：添加组织
 			        self.addStaffOrg();
+
             		// 接口：删除组织
 			        self.delStaffOrg();
             		// 绑定单机当前行事件
@@ -577,6 +579,11 @@ define(function(require,exports,module){
 			$(Dom.addStaffOrgSubmit).unbind();
 			$(Dom.addStaffOrgSubmit).bind('click',function(){
 				var cmd = $(Dom.addStaffOrgForm).serialize();
+				//数据校验
+				if(cmd.indexOf('organizeId=&')>-1) {
+					XMS.msgbox.show('请选择组织！', 'error', 2000);
+					return
+				}
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {
 					if(status) {

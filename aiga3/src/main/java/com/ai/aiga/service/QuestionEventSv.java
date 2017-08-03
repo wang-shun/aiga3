@@ -78,12 +78,12 @@ public class QuestionEventSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getName())){
     		cons.add(new Condition("name", "%" + condition.getName() + "%", Condition.Type.LIKE));
     	}
-/*    	if(StringUtils.isNoneBlank(String.valueOf(condition.getStartTime()))){
+    	if(StringUtils.isNoneBlank(String.valueOf(condition.getStartTime()))){
     		cons.add(new Condition("startTime", condition.getStartTime(), Condition.Type.GT));
     	}
     	if(StringUtils.isNoneBlank(String.valueOf(condition.getEndTime()))){
     		cons.add(new Condition("endTime", condition.getEndTime(), Condition.Type.LT));
-    	}*/
+    	}
 /*		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		if(StringUtils.isNoneBlank(String.valueOf(condition.getStartTime()))){
 		  String  dateFir = condition.getStartTime()+" 00:00:00";

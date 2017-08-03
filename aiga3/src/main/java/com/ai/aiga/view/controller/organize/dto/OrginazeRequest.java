@@ -29,7 +29,7 @@ public class OrginazeRequest {
 	private Integer contactCardType;
 	private String contactCardId;
 	private String contactBillId;
-	private String isLeaf;
+	private String sLeaf;
 	public Long getOrganizeId() {
 		return organizeId;
 	}
@@ -108,22 +108,22 @@ public class OrginazeRequest {
 	public void setFaxId(String faxId) {
 		this.faxId = faxId;
 	}
-	public String getcontactName() {
+	public String getContactName() {
 		return contactName;
 	}
-	public void setcontactName(String contactName) {
+	public void setContactName(String contactName) {
 		this.contactName = contactName;
 	}
-	public Integer getcontactCardType() {
+	public Integer getContactCardType() {
 		return contactCardType;
 	}
-	public void setcontactCardType(Integer contactCardType) {
+	public void setContactCardType(Integer contactCardType) {
 		this.contactCardType = contactCardType;
 	}
-	public String getcontactCardId() {
+	public String getContactCardId() {
 		return contactCardId;
 	}
-	public void setcontactCardId(String contactCardId) {
+	public void setContactCardId(String contactCardId) {
 		this.contactCardId = contactCardId;
 	}
 	public String getContactBillId() {
@@ -132,11 +132,11 @@ public class OrginazeRequest {
 	public void setContactBillId(String contactBillId) {
 		this.contactBillId = contactBillId;
 	}
-	public String getIsLeaf() {
-		return isLeaf;
+	public String getsLeaf() {
+		return sLeaf;
 	}
-	public void setIsLeaf(String isLeaf) {
-		this.isLeaf = isLeaf;
+	public void setsLeaf(String sLeaf) {
+		this.sLeaf = sLeaf;
 	}
 
 }

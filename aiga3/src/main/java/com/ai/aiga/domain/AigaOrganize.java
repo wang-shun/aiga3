@@ -59,17 +59,17 @@ public class AigaOrganize  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
-     private String SLeaf;
+     private String sLeaf;
 
     public AigaOrganize() {
     }
 
 	
-    public AigaOrganize(Long organizeId, String SLeaf) {
+    public AigaOrganize(Long organizeId, String sLeaf) {
         this.organizeId = organizeId;
-        this.SLeaf = SLeaf;
+        this.sLeaf = sLeaf;
     }
-    public AigaOrganize(Long organizeId, Long parentOrganizeId, String organizeName, String code, Long orgRoleTypeId, String districtId, String shortName, String englishName, Integer memberNum, String managerName, String email, String phoneId, String faxId, String orgAddress, String contactName, Integer contactCardType, String contactCardId, Integer postcode, String contactBillId, Long postProvince, Long postCity, String postAddress, Integer postPostcod, String notes, Integer state, Long doneCode, Date createDate, Date doneDate, Date validDate, Date expireDate, Long opId, Long orgId, String oldCode, String countyId, String oldParentCode, String ext1, String ext2, String ext3, String SLeaf) {
+    public AigaOrganize(Long organizeId, Long parentOrganizeId, String organizeName, String code, Long orgRoleTypeId, String districtId, String shortName, String englishName, Integer memberNum, String managerName, String email, String phoneId, String faxId, String orgAddress, String contactName, Integer contactCardType, String contactCardId, Integer postcode, String contactBillId, Long postProvince, Long postCity, String postAddress, Integer postPostcod, String notes, Integer state, Long doneCode, Date createDate, Date doneDate, Date validDate, Date expireDate, Long opId, Long orgId, String oldCode, String countyId, String oldParentCode, String ext1, String ext2, String ext3, String sLeaf) {
        this.organizeId = organizeId;
        this.parentOrganizeId = parentOrganizeId;
        this.organizeName = organizeName;
@@ -108,7 +108,7 @@ public class AigaOrganize  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
-       this.SLeaf = SLeaf;
+       this.sLeaf = sLeaf;
     }
    
      @Id 
@@ -455,15 +455,17 @@ public class AigaOrganize  implements java.io.Serializable {
     public void setExt3(String ext3) {
         this.ext3 = ext3;
     }
-    
+
     @Column(name="S_LEAF",  length=1)
-    public String getSLeaf() {
-        return this.SLeaf;
-    }
+	public String getsLeaf() {
+		return sLeaf;
+	}
+
+
+	public void setsLeaf(String sLeaf) {
+		this.sLeaf = sLeaf;
+	}
     
-    public void setSLeaf(String SLeaf) {
-        this.SLeaf = SLeaf;
-    }
 
 
 

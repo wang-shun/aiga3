@@ -103,14 +103,14 @@ public class OrganizeSv extends BaseService {
 		if (!StringUtils.isBlank(orginazeRequest.getContactBillId())) {
 			organize.setContactBillId(orginazeRequest.getContactBillId());
 		}
-		if (!StringUtils.isBlank(orginazeRequest.getcontactCardId())) {
-			organize.setContactCardId(orginazeRequest.getcontactCardId());
+		if (!StringUtils.isBlank(orginazeRequest.getContactCardId())) {
+			organize.setContactCardId(orginazeRequest.getContactCardId());
 		}
-		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getcontactCardType()))) {
-			organize.setContactCardType(orginazeRequest.getcontactCardType());
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getContactCardType()))) {
+			organize.setContactCardType(orginazeRequest.getContactCardType());
 		}
-		if (!StringUtils.isBlank(orginazeRequest.getcontactName())) {
-			organize.setContactName(orginazeRequest.getcontactName());
+		if (!StringUtils.isBlank(orginazeRequest.getContactName())) {
+			organize.setContactName(orginazeRequest.getContactName());
 		}
 		if (!StringUtils.isBlank(orginazeRequest.getDistrictId())) {
 			organize.setDistrictId(orginazeRequest.getDistrictId());
@@ -124,8 +124,8 @@ public class OrganizeSv extends BaseService {
 		if (!StringUtils.isBlank(orginazeRequest.getFaxId())) {
 			organize.setFaxId(orginazeRequest.getFaxId());
 		}
-		if (!StringUtils.isBlank(orginazeRequest.getIsLeaf())) {
-			organize.setSLeaf(orginazeRequest.getIsLeaf());
+		if (!StringUtils.isBlank(orginazeRequest.getsLeaf())) {
+			organize.setsLeaf(orginazeRequest.getsLeaf());
 		}
 		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getMemberNum()))) {
 			organize.setMemberNum(orginazeRequest.getMemberNum());

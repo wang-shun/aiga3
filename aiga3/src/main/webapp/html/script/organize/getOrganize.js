@@ -137,7 +137,7 @@ define(function(require, exports, module) {
 				$("#shortName").val("");
 				$("#managerName").val("");
 				$("#contactCardId").val("");
-				$("#isLeaf").val("");
+				$("#sLeaf").val("");
 				$("#orgRoleTypeId").val("");
 				$("#englishName").val("");
 				$("#email").val("");
@@ -222,7 +222,7 @@ define(function(require, exports, module) {
 						$("#shortName").val("");
 						$("#managerName").val("");
 						$("#contactCardId").val("");
-						$("#isLeaf").val("");
+						$("#sLeaf").val("");
 						$("#orgRoleTypeId").val("");
 						$("#englishName").val("");
 						$("#email").val("");

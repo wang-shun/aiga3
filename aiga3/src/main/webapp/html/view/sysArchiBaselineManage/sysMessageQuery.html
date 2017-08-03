@@ -1,16 +1,48 @@
 <!--Page Start-->
 <head> 
 <style type="text/css"> 
+#Page_sysMessageQuery .domain-width {
+	width: 153px;
+}
 #Page_sysMessageQuery .first-name-label {
 	margin-left: 40px; 
 	margin-right: 20px;
 }
 #Page_sysMessageQuery .second-label {
-	margin-left: 260px;
+	margin-left: 30px;
 	margin-right: 20px;
+}
+#Page_sysMessageQuery .margin-on {
+	margin-right: 20px;
+}
+#Page_sysMessageQuery .total-width {
+	width: 850px;
+}
+#Page_sysMessageQuery .second-label-depart {
+	margin-left: 30px;
+	margin-right: 20px;
+}
+#Page_sysMessageQuery .second-label-select {
+	margin-left: 30px;
+	margin-right: 15px;
 }
 #Page_sysMessageQuery .margin-onl {
 	margin-left: 20px;
+	margin-right: 20px;
+}
+#Page_sysMessageQuery .fist-text-label {
+	width: 90px;
+}
+#Page_sysMessageQuery .margin-top-20 {
+	margin-top: 20px;
+}
+#Page_sysMessageQuery .text-area-sty {
+	margin-top:10px;
+	width: 680px;
+	vertical-align:middle; 
+}
+#Page_sysMessageQuery .width-input-400 {
+	width: 400px;
 }
 </style> 
 </head> 
@@ -66,8 +98,65 @@
         <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
     </div> 
 </div>
-
+<!-- 修改页面 -->
+<div class="modal fade" id="JS_fullSystemMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">系统（三级）信息</h4>
+            </div>
+            <div id="JS_queryThirdMessageModal" class="modal-body" style="padding-bottom: 0">
+          	</div>
+        </div>
+    </div>
 </div>
+</div>
+<script id="TPL_fullSystemMessageFrom" type="text/x-handlebars-template">
+<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+	<form id = "JS_thirdUpdateForm">
+	<div class="col-md-12">
+		<label class="control-label first-name-label">名称</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
+	    <label class="control-label margin-onl">简称</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{code}}"></input>
+	    <label class="control-label margin-onl" style="margin-right:15px;">系统编号</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{idThird}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">系统功能描述</label>
+		<textarea cols="107" rows="4" class="form-control input-sm text-area-sty">{{systemFunction}}</textarea>
+	</div>
+	<div id="updata-select" class="margin-top-20 col-md-12 form-group">
+	    <label class="control-label fist-text-label">所属一级域</label>
+		<input type="text" class="form-control input-sm domain-width" value="{{firName}}"></input>
+	    <label class="control-label fist-text-label" style="margin-left: 1px;">所属二级子域</label>
+		<input type="text" class="form-control input-sm domain-width" value="{{secName}}"></input>
+        <label class="control-label second-label">等级信息</label>
+        <input name="rankInfo" type="text" class="form-control input-sm width-input-167" value="{{rankInfo}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">项目立项信息</label>
+		<input name="projectInfo" type="text" class="form-control input-sm width-input-400" value="{{projectInfo}}"></input>
+		<label class="control-label second-label">责任部门</label>
+     	<input name="department" type="text" class="form-control input-sm width-input-167" value="{{department}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">规划设计信息</label>
+		<input type="text" class="form-control input-sm width-input-400" value="{{designInfo}}"></input>
+	
+		<label class="control-label second-label">建设状态</label>
+		<input type="text" class="form-control input-sm" value="{{ext2}}{{codeName}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">	    	
+		<label class="control-label fist-text-label">分层层级</label>
+		<input type="text" class="form-control input-sm" value="{{belongLevel}}"></input>
+		<label class="control-label fist-text-label">媒体</label>
+		<input type="text" class="form-control input-sm" value="{{ext3}}"></input>
+	</div>
+	</form>
+</div>
+</script>
 <script id="TPL_getFullSysMessageList" type="text/x-handlebars-template">
 {{#each this}}
 <tr>

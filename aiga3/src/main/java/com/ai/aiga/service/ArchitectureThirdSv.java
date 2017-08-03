@@ -34,7 +34,7 @@ public class ArchitectureThirdSv extends BaseService {
 	}
 	
 	public List<Map> findByFirst(Long idFirst) {
-		String sql = "select b.belong_level as third_belong_level, b.name, b.id_third, a.name as sec_name, d.name as fir_name, a.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name, c.ext1 as bg_coloe "
+		String sql = "select b.belong_level as third_belong_level, b.name, b.id_third, a.name as sec_name, d.name as fir_name, a.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name, c.ext1 as bg_coloe ,b.ext_3 as media_type"
 				+" from architecture_first d inner join ( architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second ) on a.id_first = d.id_first"
 				+" where 1=1";
 		if(idFirst == 0) {
@@ -63,7 +63,7 @@ public class ArchitectureThirdSv extends BaseService {
 	
 	public Object findThirdTransInfo(Long idThird,String name,int pageNumber,int pageSize) {
 		
-		String sql = "select b.name, b.id_third, a.name as sec_name, d.name as fir_name, b.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name "
+		String sql = "select b.*, a.name as sec_name, d.name as fir_name, c.code_name "
 				+" from architecture_first d inner join ( architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second ) on a.id_first = d.id_first"
 				+" where 1=1";
 
@@ -73,17 +73,6 @@ public class ArchitectureThirdSv extends BaseService {
 		if(StringUtils.isNotBlank(name)){
 			sql += " and b.name like '%"+name+"%'";
 		}
-		List<String> list = new ArrayList<String>();
-		list.add("name");
-		list.add("idThird");
-		list.add("secName");
-		list.add("firName");
-		list.add("belongLevel");
-		list.add("systemFunction");
-		list.add("department");
-		list.add("projectInfo");
-		list.add("designInfo");
-		list.add("codeName");
 		
 		if(pageNumber < 0){
 			pageNumber = 0;
@@ -93,7 +82,7 @@ public class ArchitectureThirdSv extends BaseService {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return architectureThirdDao.searchByNativeSQL(sql, pageable, list);
+		return architectureThirdDao.searchByNativeSQL(sql, pageable);
 		
 	}
 	

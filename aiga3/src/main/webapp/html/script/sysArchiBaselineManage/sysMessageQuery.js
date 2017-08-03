@@ -23,11 +23,11 @@ define(function(require, exports, module) {
 		},
 		_render: function() {
 			var self = this;
-			self._querydomain();
+			self._btn_event();
 		},
 		
 		//查询下拉框数据加载，绑定查询按钮事件
-		_querydomain: function() {
+		_btn_event: function() {
 			var self = this;
 			var _form = Page.findId('querySysDomainForm');
 			Utils.setSelectData(_form);
@@ -65,12 +65,25 @@ define(function(require, exports, module) {
 				cache.cmd = _cmd;
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Page.findTpl('getFullSysMessageList'));
-				
+				var template = Handlebars.compile(Page.findTpl('getFullSysMessageList'));				
         		var tablebtn = _dom.find("[name='content']");
         		tablebtn.html(template(json.data.content));
         		cache.datas = json.data.content;
-        		Utils.eventTrClickCallback(_dom);
+        		Utils.eventClickChecked(_dom,function(isChecked,_input) {
+        			var idThird = _input[0].value;
+        			var allDatas = cache.datas;
+        			if(allDatas) {
+        				var index = 0;
+        				while(allDatas[index].idThird != idThird) {
+        					index++;
+        				}
+        				var selectData = allDatas[index];
+        				var template = Handlebars.compile(Page.findTpl('fullSystemMessageFrom'));
+        				Page.findId('queryThirdMessageModal').html(template(selectData));
+        				var _modal = Page.findId('fullSystemMessageModal');
+        				_modal.modal();
+        			}
+        		});
 			},_domPagination);
 		}	
 	};

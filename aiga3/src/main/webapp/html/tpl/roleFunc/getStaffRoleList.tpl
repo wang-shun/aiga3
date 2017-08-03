@@ -1,4 +1,4 @@
-<div>
+<div style="overflow: hidden; width: auto; height: 500px;">
 <table id="JS_getRoleFuncTable" class="table table-bordered table-hover">
     <thead>
         <tr>

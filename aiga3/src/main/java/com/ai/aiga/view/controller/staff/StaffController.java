@@ -23,13 +23,10 @@ public class StaffController {
 	 * 按条件查询员工信息
 	 * */
 	@RequestMapping(path = "/aiga/staff/list")
-	public @ResponseBody JsonBean listB(
-			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
-			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-			StaffInfoRequest condition,
+	public @ResponseBody JsonBean listB(StaffInfoRequest condition,
 			Long organizeId){
 		JsonBean bean = new JsonBean();
-		bean.setData(aigaStaffSv.findStaff(condition, organizeId, pageNumber, pageSize));
+		bean.setData(aigaStaffSv.findStaff(condition, organizeId));
 		return bean;
 	}
 	/*

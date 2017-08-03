@@ -2,7 +2,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box">
-                <div class="box-body" id="JS_getWelcomeCaseCount"></div>
+                <div class="box-body" id="JS_getWelcomeKpiList">
+                    <div class="text-loader">
+                        <div class="text-loader-content">
+                            <i class="fa fa-refresh fa-spin"></i> 请稍候，数据加载中...
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -117,71 +123,30 @@
         border-color: #ffb733;
     }
 </style>
+
 <!-- handlebars/获取总计结果 -->
-<script id="TPL_getWelcomeCaseCount" type="text/x-handlebars-template">
+<script id="TPL_getWelcomeKpiList" type="text/x-handlebars-template">
 <div class="row info-count">
-    <div class="col-md-3 col-sm-6 col-xs-12">
-        <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
-        <div class="info-box-content">
-            <span class="info-box-text">验收环境用例数</span>
-            <span class="info-box-number text-aqua">{{checkCaseTotalCount}}</span>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-12">
-        <span class="info-box-icon bg-green"><i class="fa fa-pie-chart"></i></span>
-        <div class="info-box-content">
-            <span class="info-box-text">生产环境用例数</span>
-            <span class="info-box-number text-green">{{proCaseTotalCount}}</span>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-12">
-        <span class="info-box-icon bg-red"><i class="fa fa-line-chart"></i></span>
-        <div class="info-box-content">
-            <span class="info-box-text">验收环境自动转换率</span>
-            <span class="info-box-number text-red">{{{setSmallTag checkSucRate}}}</span>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6 col-xs-12">
-        <span class="info-box-icon bg-yellow"><i class="fa fa-area-chart"></i></span>
-        <div class="info-box-content">
-            <span class="info-box-text">生产环境自动转换率</span>
-            <span class="info-box-number text-yellow">{{{setSmallTag proSucRate}}}</span>
-        </div>
-    </div>
-</div>
-</script>
-<!-- handlebars/流程节点接口 -->
-<script id="TPL_getWelcomeFlowList" type="text/x-handlebars-template">
-{{#if this}}
-{{#each this}}
-<input type="hidden" name="temp_planName_{{@index}}" value="{{planName}}">
-<ul class="timeline {{checkIsNotHide @index activeNum}}">
-    {{#each flowList}}
-    <li>
-        <i class="fa {{getTypeClassName type}}" data-node={{node}} data-planid={{planId}} data-toggle="tooltip" data-placement="bottom" title="{{getTypeTitle type}}"></i>
-        <div class="timeline-item">
-            <span class="time"><i class="fa fa-clock-o"></i> {{time}}</span>
-            <h3 class="timeline-header">{{processName}}</h3>
-            {{#if ext1}}
-                <div class="timeline-body">
-                    <p>{{ext1}}</p>
+<div id="welcome_carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {{#each this}}
+        <ul class="row item {{isActive @index}}">
+            {{#each this}}
+            <li class="col-md-3">
+                <span class="info-box-icon bg-{{bgColor}}"><i class="{{icon}}"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">{{shrinkHtmlFilter ext1 10}}</span>
+                    <span class="info-box-number text-{{bgColor}}">{{value}}<small>{{setPercent kpiType}}</small></span>
                 </div>
-            {{/if}}
-        </div>
-    </li>
-    {{/each}}
-    <!-- <li>
-        <i class="fa fa-clock-o bg-gray null"></i>
-    </li> -->
-</ul>
-{{/each}}
-{{else}}
-    <div class="text-loader">
-        <div class="text-loader-content">
-            <i class="iconfont icon-wushuju"></i>亲，暂无数据！
-        </div>
+            </li>
+            {{/each}}
+        </ul>
+        {{/each}}
     </div>
-    {{/if}}
+    <a class="carousel-control left" href="#welcome_carousel" data-slide="prev">Previous</a>
+    <a class="carousel-control right" href="#welcome_carousel" data-slide="next">Next</a>
+  </div>
+</div>
 </script>
 <script>
 seajs.use("script/welcome", function(Query) {

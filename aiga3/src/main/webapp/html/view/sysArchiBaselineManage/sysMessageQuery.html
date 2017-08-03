@@ -1,15 +1,18 @@
 <!--Page Start-->
 <head> 
 <style type="text/css"> 
+#Page_sysMessageQuery .btn-center {
+	text-align: center;
+}
 #Page_sysMessageQuery .domain-width {
-	width: 153px;
+	width: 157px;
 }
 #Page_sysMessageQuery .first-name-label {
 	margin-left: 40px; 
 	margin-right: 20px;
 }
 #Page_sysMessageQuery .second-label {
-	margin-left: 30px;
+	margin-left: 20px;
 	margin-right: 20px;
 }
 #Page_sysMessageQuery .margin-on {
@@ -17,14 +20,6 @@
 }
 #Page_sysMessageQuery .total-width {
 	width: 850px;
-}
-#Page_sysMessageQuery .second-label-depart {
-	margin-left: 30px;
-	margin-right: 20px;
-}
-#Page_sysMessageQuery .second-label-select {
-	margin-left: 30px;
-	margin-right: 15px;
 }
 #Page_sysMessageQuery .margin-onl {
 	margin-left: 20px;
@@ -42,7 +37,7 @@
 	vertical-align:middle; 
 }
 #Page_sysMessageQuery .width-input-400 {
-	width: 400px;
+	width: 412px;
 }
 </style> 
 </head> 
@@ -108,6 +103,9 @@
             </div>
             <div id="JS_queryThirdMessageModal" class="modal-body" style="padding-bottom: 0">
           	</div>
+          	<div class="modal-footer btn-center">
+            	<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+        	</div>
         </div>
     </div>
 </div>
@@ -120,7 +118,7 @@
 	    <input type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
 	    <label class="control-label margin-onl">简称</label>
 	    <input type="text" class="form-control input-sm width-input-167" value="{{code}}"></input>
-	    <label class="control-label margin-onl" style="margin-right:15px;">系统编号</label>
+	    <label class="control-label margin-onl">系统编号</label>
 	    <input type="text" class="form-control input-sm width-input-167" value="{{idThird}}"></input>
 	</div>
 	<div class="margin-top-20 col-md-12">
@@ -148,11 +146,21 @@
 		<label class="control-label second-label">建设状态</label>
 		<input type="text" class="form-control input-sm" value="{{ext2}}{{codeName}}"></input>
 	</div>
-	<div class="margin-top-20 col-md-12">	    	
+	<div class="margin-top-20 col-md-12">
 		<label class="control-label fist-text-label">分层层级</label>
-		<input type="text" class="form-control input-sm" value="{{belongLevel}}"></input>
-		<label class="control-label fist-text-label">媒体</label>
-		<input type="text" class="form-control input-sm" value="{{ext3}}"></input>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{belongLevel}}"></input>
+	    <label class="control-label margin-onl">媒体</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{ext3}}"></input>
+	    <label class="control-label margin-onl">创建时间</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{createDate}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">修改时间</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{modifyDate}}"></input>
+	    <label class="control-label margin-onl">媒体</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{ext3}}"></input>
+	    <label class="control-label margin-onl">创建时间</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{createDate}}"></input>
 	</div>
 	</form>
 </div>

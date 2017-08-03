@@ -15,7 +15,7 @@
 <div class="row" id="Page_quesShenqingView">
     <div class="col-md-12">
         <div class="box">
-            <form id="JS_queryDataMaintainForm" role="form">
+            <form id="JS_queryDataMaintainForm " role="form">
                 <div class="box-header with-border">
                     <h1 class="box-title">架构问题申报</h1>
                     <div class="box-tools pull-right">
@@ -58,7 +58,7 @@
 			                </div>
 		                </div>
 		                <div class="form-group col-sm-6" id="defectLeveldiv" style="display:none">
-		                    <label for="defectLevel" class="col-sm-2 control-label">问题分类：</label>
+		                    <label for="defectLevel" class="col-sm-2 col-sm-offset-2 control-label">问题分类：</label>
 		                    <div class="col-sm-4">
 			                    <select name="defectLevel" class="form-control select2 input-sm" data-url="staticQuesCategory" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
@@ -140,7 +140,15 @@
 		                    <label for="inputfile" class="col-sm-2 col-sm-offset-2 control-label">附件上传：</label>
 							<input type="file" name="fileName"  class="col-sm-5">
 <!-- 	                        <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
- -->						</div>
+ -->					</div>
+ 						<div class="form-group col-sm-6">
+		                    <label for="idFirst" class="col-sm-2 col-sm-offset-2 control-label" >事件单编号：</label>
+		                    <div class="col-sm-4">
+			                    <select name="idFirst" class="form-control select2 input-sm" data-url="getEventFindALL" data-idkey="id" data-namekey="name" display="only">
+			                        <option selected="selected">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
 		            </div>
                 </div>
                 <div class="box-footer">

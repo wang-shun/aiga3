@@ -1,5 +1,6 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,15 @@ public class QuestionEventController {
 		JsonBean bean = new JsonBean();
 		bean.setData(questionEventSv.findAll());
 		return bean;
+	}
+	@RequestMapping(path="/archi/event/queryByCondition")
+	public @ResponseBody JsonBean queryByCondition(
+            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+            QuestionEvent condition) throws ParseException{
+				JsonBean bean = new JsonBean();
+				bean.setData(questionEventSv.queryByCondition(condition, pageNumber, pageSize));
+			return bean;
 	}
 	@RequestMapping(path = "/archi/event/save")
 	public @ResponseBody JsonBean save(QuestionEvent request){

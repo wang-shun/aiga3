@@ -58,6 +58,9 @@ define(function(require, exports, module) {
 	//显示系统信息表
 //	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+ 	//get id
+    srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
+
 	var cache = {
 		datas : ""	
 	};

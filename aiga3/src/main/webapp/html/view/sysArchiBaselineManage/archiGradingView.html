@@ -223,7 +223,7 @@
 
 /*third*/
 .mxgif-wrapper.mxgif-third .mxgif-lists.height-2 .mxgif-lists-item{
-  line-height: 20px;
+  /*line-height: 20px;*/
   padding: 0 10px;
 }
 
@@ -236,14 +236,18 @@
 }
 
 .mxgif-lists .mxgif-lists-item .mxgif-third-item{
-  float: left;
+  /*float: left;*/
+  display: inline-block;
   width: 152px;
   height: 30px;
   line-height: 30px;
   background:#fff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   margin: 3px;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
 }
 
 
@@ -255,6 +259,15 @@
 .mxgif-third .mxgif-lists-content .mxgif-lists-item{
   padding: 0 3px 3px 3px;
 }
+
+
+
+.mxgif-third .mxgif-lists.height-1 .mxgif-lists-item,
+.mxgif-third .mxgif-lists.height-2 .mxgif-lists-item,
+.mxgif-third .mxgif-lists.height-3 .mxgif-lists-item{
+    line-height: 0;
+}
+
 
 .mxgif-state-lists .mxgif-state-item{
   padding: 7px 15px;

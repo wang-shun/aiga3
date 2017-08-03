@@ -199,7 +199,8 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/messageGranding")
 	public @ResponseBody JsonBean messageGrading(ArchitectureGrading input) {
 		JsonBean bean = new JsonBean();
-		
+		AigaStaff info = SessionMgrUtil.getStaff();	
+		input.setIdentifyUser(info.getName());
 		//申请单在途校验
 		ArchitectureGrading checkParam = new ArchitectureGrading();
 		checkParam.setApplyId(input.getApplyId());

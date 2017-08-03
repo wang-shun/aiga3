@@ -74,7 +74,7 @@ public class StaffSv extends BaseService {
 //		return responses;
 	}
 
-	public Object findStaff(StaffInfoRequest condition, Long organizeId, int pageNumber, int pageSize) {
+	public Object findStaff(StaffInfoRequest condition, Long organizeId) {
 
 //		if (StringUtils.isBlank(condition.getCode()) && StringUtils.isBlank(condition.getName())) {
 //			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -102,21 +102,8 @@ public class StaffSv extends BaseService {
 		if(organizeId !=  null){
 			nativeSql.append(" and ar.organize_id = :organizeId");
 			parameters.add(new ParameterCondition("organizeId", organizeId));
-		}
-		
-		if (pageNumber <= 0) {
-			pageNumber = 0;
-		} else {
-			pageNumber--;
-		}
-
-		if (pageSize <= 0) {
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
-
-		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		
-		return aigaStaffDao.searchByNativeSQL(nativeSql.toString(), parameters, SimpleStaff.class, pageable);
+		}	
+		return aigaStaffDao.searchByNativeSQL(nativeSql.toString(), parameters, SimpleStaff.class);
 		
 //		List<Object[]> list = null;
 //		if ((StringUtils.isNotBlank(code) && StringUtils.isNotBlank(name)) || StringUtils.isNotBlank(code)) {

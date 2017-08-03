@@ -66,7 +66,7 @@ define(function(require, exports, module) {
                        var orginazeType =  JSON.stringify(json.data[0].orgRoleTypeId);
                        var certificateType  =  JSON.stringify(json.data[0].contactCardType);
 						$(Dom.getOrganize).html(template(a));
-				        $("#connectCardType").val(certificateType);
+				        $("#contactCardType").val(certificateType);
 	                    $("#orgRoleTypeId").val(orginazeType);
 
 					}
@@ -131,18 +131,18 @@ define(function(require, exports, module) {
 				$("#districtId").val("");
 				$("#memberNum").val("");
 				$("#phoneId").val("");
-				$("#connectCardType").val("");
+				$("#contactCardType").val("");
 				$("#faxId").val("");
 				$("#code").val("");
 				$("#shortName").val("");
 				$("#managerName").val("");
-				$("#connectCardId").val("");
+				$("#contactCardId").val("");
 				$("#isLeaf").val("");
 				$("#orgRoleTypeId").val("");
 				$("#englishName").val("");
 				$("#email").val("");
-				$("#connectName").val("");
-				$("#connectBillId").val("");
+				$("#contactName").val("");
+				$("#contactBillId").val("");
 
 			});
 		},
@@ -159,7 +159,7 @@ define(function(require, exports, module) {
 					} else {
 						_dom.val(Dom.organizeId);
 					}
-					var q = $("#connectCardType option").map(function() {
+					var q = $("#contactCardType option").map(function() {
 						return $(this).text();
 					}).get().join(", ");
 					var cmd = $("#JS_getOrganizeForm").serialize();
@@ -168,7 +168,7 @@ define(function(require, exports, module) {
 						if (status) {
 							Operate_state = "update";
 							XMS.msgbox.show('保存成功！', 'success', 2000)
-							var q = $("#connectCardType option").map(function() {
+							var q = $("#contactCardType option").map(function() {
 								return $(this).text();
 							}).get().join(", ");
 							Rose.ajax.postJson(srvMap.get('organizeTree'), '', function(json, status) {
@@ -216,18 +216,18 @@ define(function(require, exports, module) {
 						$("#districtId").val("");
 						$("#memberNum").val("");
 						$("#phoneId").val("");
-						$("#connectCardType").val("");
+						$("#contactCardType").val("");
 						$("#faxId").val("");
 						$("#code").val("");
 						$("#shortName").val("");
 						$("#managerName").val("");
-						$("#connectCardId").val("");
+						$("#contactCardId").val("");
 						$("#isLeaf").val("");
 						$("#orgRoleTypeId").val("");
 						$("#englishName").val("");
 						$("#email").val("");
-						$("#connectName").val("");
-						$("#connectBillId").val("");
+						$("#contactName").val("");
+						$("#contactBillId").val("");
 
 						Rose.ajax.postJson(srvMap.get('organizeTree'), '', function(json, status) {
 							if (status) {

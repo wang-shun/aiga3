@@ -97,17 +97,20 @@ public class OrganizeSv extends BaseService {
 		} else {
 			organize.setCode(orginazeRequest.getCode());
 		}
-		if (!StringUtils.isBlank(orginazeRequest.getConnectBillId())) {
-			organize.setContactBillId(orginazeRequest.getConnectBillId());
+		if (!StringUtils.isBlank(orginazeRequest.getShortName())) {
+			organize.setShortName(orginazeRequest.getShortName());
 		}
-		if (!StringUtils.isBlank(orginazeRequest.getConnectCardId())) {
-			organize.setContactCardId(orginazeRequest.getConnectCardId());
+		if (!StringUtils.isBlank(orginazeRequest.getContactBillId())) {
+			organize.setContactBillId(orginazeRequest.getContactBillId());
 		}
-		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getConnectCardType()))) {
-			organize.setContactCardType(orginazeRequest.getConnectCardType());
+		if (!StringUtils.isBlank(orginazeRequest.getcontactCardId())) {
+			organize.setContactCardId(orginazeRequest.getcontactCardId());
 		}
-		if (!StringUtils.isBlank(orginazeRequest.getConnectName())) {
-			organize.setContactName(orginazeRequest.getConnectName());
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getcontactCardType()))) {
+			organize.setContactCardType(orginazeRequest.getcontactCardType());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getcontactName())) {
+			organize.setContactName(orginazeRequest.getcontactName());
 		}
 		if (!StringUtils.isBlank(orginazeRequest.getDistrictId())) {
 			organize.setDistrictId(orginazeRequest.getDistrictId());

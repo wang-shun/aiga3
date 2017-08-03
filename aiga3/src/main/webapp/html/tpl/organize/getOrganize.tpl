@@ -21,8 +21,8 @@
 	      </div>
 	      <div class="form-group">
 	        <label>联系人证件类型</label>
-	        <select id="connectCardType"  name="connectCardType" class="form-control select2" style="width: 100%;">
-	        	<!--<option selected="true">{{connectCardType}}</option>-->
+	        <select id="contactCardType"  name="contactCardType" class="form-control select2" style="width: 100%;">
+	        	<!--<option selected="true">{{contactCardType}}</option>-->
 	        	{{#each sflxDataArray}}
 
 	          <option value="{{value}}">{{show}}</option><!---->
@@ -53,7 +53,7 @@
 	      
 	      <div class="form-group">
 	        <label>联系人证件号码</label>
-	        <input  class="form-control" id="connectCardId" name="connectCardId" value="{{connectCardId}}">
+	        <input  class="form-control" id="contactCardId" name="contactCardId" value="{{contactCardId}}">
 	      </div>
 	      <div class="form-group">
 	        <label>是否叶子</label>
@@ -81,11 +81,11 @@
 	      </div>
 	      <div class="form-group">
 	        <label>联系人名称</label>
-	        <input  class="form-control" id="connectName" name="connectName" value="{{connectName}}">
+	        <input  class="form-control" id="contactName" name="contactName" value="{{contactName}}">
 	      </div>
 	      <div class="form-group">
 	        <label>联系人手机号</label>
-	        <input  class="form-control" id="connectBillId" name="connectBillId" value="{{connectBillId}}">
+	        <input  class="form-control" id="contactBillId" name="contactBillId" value="{{contactBillId}}">
 	      </div>
 		</div>
 	</div>							

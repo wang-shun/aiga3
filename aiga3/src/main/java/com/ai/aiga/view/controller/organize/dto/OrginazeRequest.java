@@ -25,10 +25,10 @@ public class OrginazeRequest {
 	private String email;
 	private String phoneId;
 	private String faxId;
-	private String connectName;
-	private Integer connectCardType;
-	private String connectCardId;
-	private String connectBillId;
+	private String contactName;
+	private Integer contactCardType;
+	private String contactCardId;
+	private String contactBillId;
 	private String isLeaf;
 	public Long getOrganizeId() {
 		return organizeId;
@@ -108,29 +108,29 @@ public class OrginazeRequest {
 	public void setFaxId(String faxId) {
 		this.faxId = faxId;
 	}
-	public String getConnectName() {
-		return connectName;
+	public String getcontactName() {
+		return contactName;
 	}
-	public void setConnectName(String connectName) {
-		this.connectName = connectName;
+	public void setcontactName(String contactName) {
+		this.contactName = contactName;
 	}
-	public Integer getConnectCardType() {
-		return connectCardType;
+	public Integer getcontactCardType() {
+		return contactCardType;
 	}
-	public void setConnectCardType(Integer connectCardType) {
-		this.connectCardType = connectCardType;
+	public void setcontactCardType(Integer contactCardType) {
+		this.contactCardType = contactCardType;
 	}
-	public String getConnectCardId() {
-		return connectCardId;
+	public String getcontactCardId() {
+		return contactCardId;
 	}
-	public void setConnectCardId(String connectCardId) {
-		this.connectCardId = connectCardId;
+	public void setcontactCardId(String contactCardId) {
+		this.contactCardId = contactCardId;
 	}
-	public String getConnectBillId() {
-		return connectBillId;
+	public String getContactBillId() {
+		return contactBillId;
 	}
-	public void setConnectBillId(String connectBillId) {
-		this.connectBillId = connectBillId;
+	public void setContactBillId(String contactBillId) {
+		this.contactBillId = contactBillId;
 	}
 	public String getIsLeaf() {
 		return isLeaf;

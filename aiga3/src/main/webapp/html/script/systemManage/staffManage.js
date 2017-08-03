@@ -262,24 +262,51 @@ define(function(require,exports,module){
 
 					// 表单验证
 					Utils.checkForm(_form,function(){
+						 var _form = $(Dom.addUserinfoForm);
 						var cmd = _form.serialize();
-			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
-			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+
+					       //手机号校验
+			            var mbn = _form.find("[name='billId']").val();
+			            var _mbn = $.trim(mbn);
+			            var patt2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+			            if(!patt2.test(_mbn)){
+			            	window.XMS.msgbox.show('请输入正确的手机号！', 'error', 2000);
+							return
+			            }
+			            //邮箱校验
+			            var email = _form.find("[name='email']").val();
+			            var _email = $.trim(email);
+			            var patt3 = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+			            if(!patt3.test(_email)){
+			            	window.XMS.msgbox.show('请输入正确的邮箱！','error',2000);
+			            	return
+			            }
+			            //密码校验
+						var str = _form.find("[name='password']").val();
+						var _str = $.trim(str);
+						var rep = _form.find("[name='recentPassword']").val();
+						var _rep = $.trim(rep);
+						if(_rep != _str){
+							window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
+							return
+						} 
+						
+			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			  			Rose.ajax.postJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('保存成功！', 'success', 2000)
+								XMS.msgbox.show('保存成功！', 'success', 2000);
 								// 关闭弹出层
 								$(Dom.addUserinfoModal).modal('hide');
 								setTimeout(function(){
 									self.getUserinfoList("organizeId="+Data.organizeId);
-								},1000)
+								},1000);
 							}
 			  			});
-					})
-		  		})
-			})
+					});
+		  		});
+			});
 		},
 		getUserinfo:function(){
 			var self = this;
@@ -321,17 +348,46 @@ define(function(require,exports,module){
 						Utils.checkForm(_form,function(){
 							var cmd = _form.serialize();
 				            console.log(cmd);
+				            
+				          //var _form = $(Dom.getUserinfoForm);
+				            //手机号校验
+				            var mbn = _form.find("[name='billId']").val();
+				            var _mbn = $.trim(mbn);
+				            var patt2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
+				            if(!patt2.test(_mbn)){
+				            	window.XMS.msgbox.show('请输入正确的手机号！', 'error', 2000);
+								return
+				            }
+				            //邮箱校验
+				            var email = _form.find("[name='email']").val();
+				            var _email = $.trim(email);
+				            var patt3 = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+				            if(!patt3.test(_email)){
+				            	window.XMS.msgbox.show('请输入正确的邮箱！','error',2000);
+				            	return
+				            }
+				            //密码校验
+							var str = _form.find("[name='password']").val();
+							var _str = $.trim(str);
+							var rep = _form.find("[name='recentPassword']").val();
+							var _rep = $.trim(rep);
+							if(_rep != _str){
+								window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
+								return
+							}
+						
+							
 				  			// self.getUserinfoList(cmd);
-				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				  			Rose.ajax.postJson(srvMap.get('updateUserinfo'), cmd, function(json, status) {
 								if(status) {
 									// 添加用户成功后，刷新用户列表页
-									XMS.msgbox.show('保存成功！', 'success', 2000)
+									XMS.msgbox.show('保存成功！', 'success', 2000);
 									// 关闭弹出层
 									$(Dom.addUserinfoModal).modal('hide');
 									setTimeout(function(){
 										self.getUserinfoList("organizeId="+Data.organizeId);
-									},1000)
+									},1000);
 								}
 				  			});
 						});

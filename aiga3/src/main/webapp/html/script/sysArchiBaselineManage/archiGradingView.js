@@ -63,14 +63,14 @@ define(function(require, exports, module) {
 				}else{
 					XMS.msgbox.show('导出中，请稍候...', 'loading');
 					html2canvas($("#archiView"), {
-	                 onrendered: function (canvas) {
-	                     var url = canvas.toDataURL();
-	                      //以下代码为下载此图片功能
-	                     var triggerDownload = $("<a>").attr("href", url).attr("download", "异常信息.png").appendTo("body");
-	                       triggerDownload[0].click();
-	                       triggerDownload.remove();
-	                       window.XMS.msgbox.hide();
-	                   }
+						onrendered: function (canvas) {
+	                    	var url = canvas.toDataURL();
+	                    	//以下代码为下载此图片功能
+	                    	var triggerDownload = $("<a>").attr("href", url).attr("download", "系统架构图.png").appendTo("body");
+	                        triggerDownload[0].click();
+	                        triggerDownload.remove();
+	                        window.XMS.msgbox.hide();
+	                    }
 	          		});
 				}
 			});

@@ -57,7 +57,7 @@
 	      </div>
 	      <div class="form-group">
 	        <label>是否叶子</label>
-	        <input  class="form-control" id="isLeaf" name="isLeaf" value="{{isLeaf}}">
+	        <input  class="form-control" id="sLeaf" name="sLeaf" value="{{sLeaf}}">
 	      </div>
 		</div>
 	<!-- /.col 333333333333333333333333333333333333333333333333333-->

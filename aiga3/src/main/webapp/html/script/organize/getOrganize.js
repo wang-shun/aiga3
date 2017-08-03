@@ -137,7 +137,7 @@ define(function(require, exports, module) {
 				$("#shortName").val("");
 				$("#managerName").val("");
 				$("#contactCardId").val("");
-				$("#isLeaf").val("");
+				$("#sLeaf").val("");
 				$("#orgRoleTypeId").val("");
 				$("#englishName").val("");
 				$("#email").val("");
@@ -161,9 +161,8 @@ define(function(require, exports, module) {
 					}
 					var q = $("#contactCardType option").map(function() {
 						return $(this).text();
-					}).get().join(", ");
+					}).get().join(", ");									
 					var cmd = $("#JS_getOrganizeForm").serialize();
-
 					Rose.ajax.postJson(srvMap.get('saveOrganize'), cmd, function(json, status) {
 						if (status) {
 							Operate_state = "update";
@@ -181,6 +180,32 @@ define(function(require, exports, module) {
 
 				} else {
 					var cmd = "organizeId="+Dom.organizeId;
+					
+					if($("#organizeName").val()==""){
+						XMS.msgbox.show('组织名称不可为空！', 'error', 2000);
+						return
+					}
+					if($("#code").val()==""){
+						XMS.msgbox.show('编码不可为空！', 'error', 2000);
+						return
+					}
+					
+					if(isNaN($("#memberNum").val())){
+						XMS.msgbox.show('人数格式不符！', 'error', 2000);
+						return
+					}
+					else{
+						if($("#memberNum").val()> 999999){
+							XMS.msgbox.show('人数超出限制！', 'error', 2000);
+							return
+						}
+					}
+					
+					if($("#sLeaf").val().length>1){
+						XMS.msgbox.show('叶子节点目前只支持一位字符！', 'error', 2000);
+						return
+					}
+					
 					cmd = cmd+"&"+$("#JS_getOrganizeForm").serialize();
 					Rose.ajax.postJson(srvMap.get('updateOrganize'), cmd, function(json, status) {
 						if (status) {
@@ -222,7 +247,7 @@ define(function(require, exports, module) {
 						$("#shortName").val("");
 						$("#managerName").val("");
 						$("#contactCardId").val("");
-						$("#isLeaf").val("");
+						$("#sLeaf").val("");
 						$("#orgRoleTypeId").val("");
 						$("#englishName").val("");
 						$("#email").val("");

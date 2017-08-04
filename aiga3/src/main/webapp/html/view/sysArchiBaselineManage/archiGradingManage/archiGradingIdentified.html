@@ -224,8 +224,14 @@
 			<label class="control-label margin-label-grading">等级信息:</label>
 			<input name="rankInfo" type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{rankInfo}}"></input>
 			<label class="control-label margin-label-grading">所属二级子域:</label>
-			<input name="idBelong" type="hidden" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{idBelong}}"></input>
-			<input name="idBelongName" type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{idBelongName}}"></input>
+			{{#if isSelected}}
+					<select name="idBelong"  class="form-control select2 input-sm margin-input-grading">
+                		<option value="">请选择</option>
+            		</select>
+            {{else}}
+					<input name="idBelong" type="hidden" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{idBelong}}"></input>
+					<input name="idBelongName" type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{idBelongName}}"></input>
+            {{/if}}
 		</div>	
 		<div class="col-md-12 margin-bottom-col">
 			<label class="control-label margin-label-grading">项目立项信息:</label>

@@ -381,6 +381,7 @@ public class ArchiGradingController {
 					return bean;
 				} else {
 					String idBelongName = architectureSecond.getName();
+					output.setSecData(architectureSecondSv.findArchiSecondsByFirst(architectureSecond.getIdFirst()));
 					output.setIdBelongName(idBelongName);
 				}
 			}

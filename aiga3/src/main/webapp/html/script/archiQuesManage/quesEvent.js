@@ -234,7 +234,7 @@ define(function(require, exports, module) {
 				_cmd=_cmd.replace(/-/g,"/");
 				_cmd = _cmd + "&id=" + Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
-				Rose.ajax.getJson(srvMap.get('getEventUpdate'), _cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('getEventUpdate'), _cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {

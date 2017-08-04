@@ -23,10 +23,13 @@ public class StaffController {
 	 * 按条件查询员工信息
 	 * */
 	@RequestMapping(path = "/aiga/staff/list")
-	public @ResponseBody JsonBean listB(StaffInfoRequest condition,
+	public @ResponseBody JsonBean listB(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			StaffInfoRequest condition,
 			Long organizeId){
 		JsonBean bean = new JsonBean();
-		bean.setData(aigaStaffSv.findStaff(condition, organizeId));
+		bean.setData(aigaStaffSv.findStaff(condition, organizeId, pageNumber, pageSize));
 		return bean;
 	}
 	/*
@@ -66,7 +69,10 @@ public class StaffController {
 	 * */
 	@RequestMapping(path = "/aiga/staff/changePass")
 	public @ResponseBody JsonBean changePass(Long staffId,String password){
-		aigaStaffSv.changePass(staffId,password);
+		Boolean change = aigaStaffSv.changePass(staffId,password);
+		if(!change){
+			return new JsonBean("isChange","false");
+		}
 		return JsonBean.success;
 	}
 	/*

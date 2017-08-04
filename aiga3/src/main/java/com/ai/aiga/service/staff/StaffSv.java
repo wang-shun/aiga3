@@ -74,7 +74,7 @@ public class StaffSv extends BaseService {
 //		return responses;
 	}
 
-	public Object findStaff(StaffInfoRequest condition, Long organizeId) {
+	public Object findStaff(StaffInfoRequest condition, Long organizeId, int pageNumber, int pageSize) {
 
 //		if (StringUtils.isBlank(condition.getCode()) && StringUtils.isBlank(condition.getName())) {
 //			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -102,8 +102,21 @@ public class StaffSv extends BaseService {
 		if(organizeId !=  null){
 			nativeSql.append(" and ar.organize_id = :organizeId");
 			parameters.add(new ParameterCondition("organizeId", organizeId));
-		}	
-		return aigaStaffDao.searchByNativeSQL(nativeSql.toString(), parameters, SimpleStaff.class);
+		}
+		
+		if (pageNumber <= 0) {
+			pageNumber = 0;
+		} else {
+			pageNumber--;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return aigaStaffDao.searchByNativeSQL(nativeSql.toString(), parameters, SimpleStaff.class, pageable);
 		
 //		List<Object[]> list = null;
 //		if ((StringUtils.isNotBlank(code) && StringUtils.isNotBlank(name)) || StringUtils.isNotBlank(code)) {
@@ -338,7 +351,7 @@ public class StaffSv extends BaseService {
 	/*
 	 * 操作员修改密码
 	 */
-	public void changePass(Long staffId, String password) {
+	public boolean changePass(Long staffId, String password) {
 		if (staffId == null || staffId < 0) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
 		}
@@ -346,8 +359,13 @@ public class StaffSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "password");
 		}
 		AigaStaff aigaStaff = aigaStaffDao.findOne(staffId);
+		
+		if(aigaStaff.getAllowChangePassword().equals('N')){
+			return false;
+		}
 		aigaStaff.setPassword(password);
 		aigaStaffDao.save(aigaStaff);
+		return true;
 	}
 
 	/*

@@ -375,7 +375,8 @@ define(function(require,exports,module){
 								window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
 								return
 							}
-						
+							
+					
 							
 				  			// self.getUserinfoList(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -491,17 +492,21 @@ define(function(require,exports,module){
 							window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
 							return
 						}
-						
-						Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json, status) {
-							if(status) {
-								window.XMS.msgbox.show('密码修改成功！', 'success', 2000)
-								$(Dom.changePasswordModal).modal('hide')
+
+						Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json,isChange) {
+							if(isChange == false){
+								window.XMS.msgbox.show('此账号不允许修改密码！', 'error', 3000);
+								$(Dom.changePasswordModal).modal('hide');
+							}
+							else{								
+								window.XMS.msgbox.show('密码修改成功！', 'success', 2000);
+								$(Dom.changePasswordModal).modal('hide');
 								setTimeout(function(){
 									self.getUserinfoList("organizeId="+Data.organizeId);
-								},1000)
+								},1000);
 							}
 			  			});
-			  		})
+			  		});
 				}
 			});
 		},

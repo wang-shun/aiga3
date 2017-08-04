@@ -95,9 +95,7 @@
 						<th>开始事件</th>
                         <th>结束时间</th>
                         <th>巡检状态</th>
-						<th>扩展字段1</th>
-						<th>扩展字段2</th>
-						<th>扩展字段3</th>
+						<th>备注</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>
@@ -183,6 +181,92 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<!-- 属性维护修改弹框 -->
+<div class="modal fade" id="Modal_updateDataMaintainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">巡检事件单修改</h4>
+            </div>
+            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
+                <form id="JS_updateDataMaintainInfo" class="form">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
+    <div class="box-header with-border">
+        <h3 class="box-title">巡检事件单修改</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <div class="form-group">
+                    <label for="id" class="col-sm-3 control-label">巡检编号</label>
+					<div class="col-sm-7">
+                    	<input type="text" class="form-control input-sm" value="{{id}}" name="id">
+					</div>
+                </div>
+            </div>
+			<div class="form-group col-sm-6">
+                <div class="form-group">
+                    <label for="name" class="col-sm-3 control-label">巡检名称</label>
+					<div class="col-sm-7">
+                    	<input type="text" class="form-control input-sm" value="{{name}}" name="name">
+					</div>
+                </div>
+            </div>
+        </div>
+		<div class="row">
+			<div class="form-group col-sm-6">
+                <div class="form-group">
+                    <label for="startTime" class="col-sm-3 control-label">开始时间</label>
+					<div class="col-sm-7">
+				    	<input type="text" class="form-control input-sm " name="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="{{startTime}}"> 
+					</div>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <div class="form-group">
+                    <label for="endTime" class="col-sm-3 control-label">结束时间</label>
+					<div class="col-sm-7">
+                    	<input type="text" class="form-control input-sm" name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" value="{{endTime}}"> 
+					</div>
+                </div>
+            </div>
+		</div>
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <div class="form-group">
+                    <label for="state" class="col-sm-3 control-label">巡检状态</label>
+					<div class="col-sm-7">
+                    	<input type="text" class="form-control input-sm" value="{{state}}" name="state">
+    				</div>
+            	</div>
+            </div>
+			<div class="form-group col-sm-6">
+                <div class="form-group">
+                    <label for="ext1" class="col-sm-3 control-label">备注</label>
+					<div class="col-sm-7">
+                    	<input type="text" class="form-control input-sm" value="{{ext1}}" name="ext1">
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
 <script id="TPL_getSysMessageList" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
@@ -193,8 +277,6 @@
 	<td>{{endTime}}</td>
 	<td>{{state}}</td>
 	<td>{{ext1}}</td>
-	<td>{{ext2}}</td>
-	<td>{{ext3}}</td>
 </tr>
 {{/each}}
 </script>

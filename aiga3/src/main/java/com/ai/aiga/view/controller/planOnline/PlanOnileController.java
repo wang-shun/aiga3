@@ -352,5 +352,61 @@ public class PlanOnileController {
 
 			return bean;
 		}
+		
+		//excelBatch批量处理
+		@RequestMapping(path = "/group/excel/batch")
+		public @ResponseBody JsonBean excelBatch(@RequestParam Long planId, @RequestParam MultipartFile file,
+				@RequestParam Long fileType) {
+			JsonBean bean = new JsonBean();
+			try {
+				// 获取文件名称
+				String fileName = file.getOriginalFilename();
 
+				Date date = new Date();
+
+				// 设置主机上的文件名
+				String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+
+				// 把文件上传到主机
+				FileUtil.uploadFile(file, fileNameNew);
+
+				// 解析excel，把数据存入表里
+				List<TestLeaveOverExcel> list = POIExcelUtil.excelToList(file, TestLeaveOverExcel.class);
+
+				naChangePlanOnileSv.testLeaveOverExcel(planId, list, fileName, fileType, date);
+
+			} catch (Exception e) {
+				log.error("解析excel失败", e);
+				bean.fail("解析excel失败!");
+			}
+			return bean;
+		}
+		
+		//EXCEL BATCH DEAL
+		@RequestMapping(path = "/group/excel/batchDeal")
+		public @ResponseBody JsonBean excelBatchDeal(@RequestParam Long planId, @RequestParam MultipartFile file,
+				@RequestParam Long fileType) {
+			JsonBean bean = new JsonBean();
+			// 获取文件名称
+			String fileName = file.getOriginalFilename();
+
+			Date date = new Date();
+
+			// 设置主机上的文件名
+			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+
+			// 把文件上传到主机
+			FileUtil.uploadFile(file, fileNameNew);
+
+			try {
+				List<NaGroupAdjustListExcel> list = POIExcelUtil.excelToList(file, NaGroupAdjustListExcel.class);
+
+				naChangePlanOnileSv.naGroupAdjustListExcel(planId, list, fileName, fileType, date);
+
+			} catch (Exception e) {
+				log.error("解析excel失败", e);
+				bean.fail("解析excel失败!");
+			}
+			return bean;
+		}
 }

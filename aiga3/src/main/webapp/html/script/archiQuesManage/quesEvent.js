@@ -141,7 +141,7 @@ define(function(require, exports, module) {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
 
-					self.updateDataMaintain(data.quesId, json.data);
+					self.updateDataMaintain(data.id, json.data);
 				});
 			}, _domPagination);
 		},
@@ -213,10 +213,10 @@ define(function(require, exports, module) {
 		updateDataMaintain: function(Id, json) {		
 			var self = this;
 			var i=0;
-			while(json[i].quesId != Id){
+			while(json.content[i].id != Id){
 				i++;
 			}
-			var data = json[i];
+			var data = json.content[i];
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
@@ -231,13 +231,15 @@ define(function(require, exports, module) {
 				var _form = Page.findId('updateDataMaintainInfo');
 				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();
-				_cmd = _cmd + "&quesId=" + Id;
+				_cmd=_cmd.replace(/-/g,"/");
+				_cmd = _cmd + "&id=" + Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
-				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
+				Rose.ajax.getJson(srvMap.get('getEventUpdate'), _cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {
-							self.queryDataMaintainForm(Data.queryListCmd);
+							self.getDataMaintainList();
+//							self.queryDataMaintainForm(Data.queryListCmd);
 							_dom.modal('hide');
 						}, 1000);
 					}

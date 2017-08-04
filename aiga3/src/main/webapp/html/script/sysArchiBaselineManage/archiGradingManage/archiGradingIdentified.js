@@ -20,6 +20,9 @@ define(function(require, exports, module) {
 	//数据翻译
 	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "archi/grading/gradingTranslate");
 	
+    //根据一级查询二级子域
+    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
+	
 	var init = {
 		init: function() {
 			this._render();
@@ -61,7 +64,7 @@ define(function(require, exports, module) {
 						}
 					}	               
 				}
-
+				data.idBelong = Page.findId('selectData').find('[name="idBelong"]').val();
 				Page.findId('modalMessage').val("");
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {		
@@ -222,7 +225,11 @@ define(function(require, exports, module) {
 	        				} else {
 	        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
 	        					if(selectData.description == '新增' && selectData.state == "申请") {
+	        						selectData.isSelected = 1;
 	        						selectData.disabledType = '';
+	        					} else if(selectData.description == '修改' && selectData.state == "申请") {
+	        						selectData.isSelected = 1;
+	        						selectData.disabledType = 'readonly="readonly"';
 	        					} else {
 	        						selectData.disabledType = 'readonly="readonly"';
 	        					}
@@ -230,7 +237,21 @@ define(function(require, exports, module) {
 	        				var _selectDataModal = Page.findId('selectData');
 	        				_selectDataModal.html(templateFrom(selectData));
 	        				var _modal = Page.findId('sysMessageFrom');
-	        				_modal.modal();
+	        				_modal.modal('show');
+	        				_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+	        					if(selectData.description != '删除' && selectData.state == "申请") {
+	        						var selectDom = Page.findId('selectData').find('[name="idBelong"]');
+	        	                    var secData = json.data.secData;
+	        	                    var _html;
+	        	                    for (var i in secData) {
+	        	                        var _json = secData[i];
+	        	                        _html += '<option value="' + _json.idSecond + '">' + _json.name + '</option>';
+
+	        	                    }
+	        	                    selectDom.html(_html);
+	        	                    selectDom.val(selectData.idBelong);
+	        					}
+	        				});
 	        				if(selectData.state == '申请') {
 	        					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');
 	        					Page.findId('IdentifyButtom').find("[name='identify']").removeClass('show-nothing');

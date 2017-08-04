@@ -133,15 +133,19 @@
         
         <import resource="dev/spring-mail.xml"/>
     </beans>
+    <beans profile="prod">
+    	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/prod/*.properties" />
+    	
+    	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    		<property name="configLocation" value="classpath:/prod/ehcache.xml"></property>
+    	</bean>
+        
+        <import resource="prod/spring-mail.xml"/>
+    </beans>
 
 	<!-- 定义测试的profile -->
     <beans profile="qa">
         <import resource="qa/spring-mail.xml"/>
-    </beans>
-
-	<!-- 定义生产的profile -->
-    <beans profile="prod">
-        <import resource="prod/spring-mail.xml"/>
     </beans>
 	
 	

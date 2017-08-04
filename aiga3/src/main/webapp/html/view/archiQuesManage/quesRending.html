@@ -776,6 +776,15 @@
                     <input type="text" class="form-control input-sm" value="{{modifyDate}}" name="modifyDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
                 </div>
             </div>
+			<div class="form-group col-sm-6">
+				<label for="priority" class="col-sm-4 control-label">问题附件：</label>
+                <div class="col-sm-4">                   
+                    <input type="text" class="form-control input-sm" value="{{fileName}}" name="fileName">
+                </div>
+				<div class="col-sm-1">
+					<button type="button" class="btn btn-primary" data-toggle="modal" name="checkbox">下载</button>
+			    </div>
+            </div>
 		</div>
 		<div class="row" style="display:none">
             <div class="col-md-4">

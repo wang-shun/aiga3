@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
@@ -16,55 +20,130 @@
 		http://cxf.apache.org/jaxws https://cxf.apache.org/schemas/jaxws.xsd">
 
 	<description>Spring公共配置 </description>
-
+	
 	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
 	<context:component-scan base-package="com.ai.aiga">
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.context.annotation.Configuration" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.web.bind.annotation.RestController" />
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
-	<!-- db 事务 -->
-	<import resource="classpath*:/spring-db.xml" />
+	<!-- 数据源 -->
+	<bean id="base" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+		<!-- Connection Info -->
+		<property name="driverClassName" value="${jdbc.dev.driver}" />
+		<property name="url" value="${jdbc.dev.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 
+		<!-- Connection Pooling Info -->
+		<property name="maxActive" value="${jdbc.pool.maxActive}" />
+		<property name="maxIdle" value="${jdbc.pool.maxIdle}" />
+		<property name="testOnBorrow" value="${jdbc.pool.testOnBorrow}" />
+		<property name="validationInterval" value="${jdbc.pool.validationInterval}" />
+		<property name="validationQuery" value="${jdbc.pool.validationQuery}" />
+		<property name="defaultAutoCommit" value="false" />
+		<!-- 连接Idle一个小时后超时 -->
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+	</bean>
+	
+	<bean id="dynamicDataSource" class="com.ai.aiga.core.datasource.DynamicDataSource" >  
+        <property name="defaultTargetDataSource" ref="base"/>
+    </bean>
+    
+    <bean class="com.ai.aiga.core.datasource.DynamicDataSourceListener" >
+    </bean>  
+
+	<bean id="hibernateJpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="databasePlatform" value="org.hibernate.dialect.Oracle10gDialect" />
+		<property name="showSql" value="false" />
+	</bean>
+
+	<!-- Jpa Entity Manager 配置 -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dynamicDataSource" />
+		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
+		<property name="packagesToScan" value="com.ai.aiga.domain" />
+		<property name="jpaProperties">
+			<props>
+				<!-- 命名规则 My_NAME->MyName -->
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<!-- <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.naming.ImprovedNamingStrategyDelegator</prop>  -->
+			</props>
+		</property>
+	</bean>
+	
+	<!-- Enabling @AspectJ Support with XML configuration -->
+	<aop:aspectj-autoproxy />
+
+	<!-- 在 Spring 配置文件中启用扫描并自动创建代理的功能 -->
+	<!-- 需要在 <beans> 标签中增加对 jpa 命名空间的引用 -->
+	<jpa:repositories base-package="com.ai.aiga.dao" transaction-manager-ref="transactionManager"
+		entity-manager-factory-ref="entityManagerFactory" base-class="com.ai.aiga.dao.jpa.SearchAndPageRepositoryImpl"/>
+
+	<!-- Jpa 事务配置 -->
+<!--  -->	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<!-- 实验事务
+	<bean id="transactionManager-my" class="com.ai.aiga.core.transaction.MultipleTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dynamicDataSource" ref="dynamicDataSource" />
+	</bean> -->
+
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+<!-- 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+		<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>	 
+-->
+	
+	<cache:annotation-driven />
+	
 	<!-- 让系统可以用到该上线文 -->
 	<bean class="com.ai.aiga.util.spring.ApplicationContextUtil" />
-
-	<!-- 缓存 -->
-	<import resource="classpath*:/spring-ehcache.xml" />
-
-	<!-- webservice -->
-	<import resource="classpath*:/spring-soap-server.xml" />
-
-	<!-- 邮件 -->
-	<import resource="classpath*:/spring-mail.xml" />
 	
-	<!-- shiro -->
-	<import resource="classpath*:/spring-shiro.xml" />
+	<!-- simple cache manager -->
+	<!-- 
+	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+	   	 <property name="caches">
+	        <set>
+	            <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="default"/>
+	            <bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean" p:name="SysConstant"/>
+	        </set>
+	    </property>
+	</bean> -->
 	
-
+	<bean id="cacheManager"  class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
+	
+	<import resource="spring-soap-server.xml"/>
+	
+	
 	<!-- 定义开发的profile -->
-	<beans profile="dev">
-		<context:property-placeholder
-			ignore-unresolvable="true" location="classpath*:/dev/app.properties" />
-	</beans>
+    <beans profile="dev">
+    	<context:property-placeholder ignore-unresolvable="true" location="classpath*:/dev/*.properties" />
+    	
+    	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+    		<property name="configLocation" value="classpath:/dev/ehcache.xml"></property>
+    	</bean>
+        
+        <import resource="dev/spring-mail.xml"/>
+    </beans>
 
 	<!-- 定义测试的profile -->
-	<beans profile="qa">
-		<context:property-placeholder
-			ignore-unresolvable="true" location="classpath*:/qa/app.properties" />
-	</beans>
+    <beans profile="qa">
+        <import resource="qa/spring-mail.xml"/>
+    </beans>
 
 	<!-- 定义生产的profile -->
-	<beans profile="prod">
-		<context:property-placeholder
-			ignore-unresolvable="true" location="classpath*:/prod/app.properties" />
-	</beans>
-
-
+    <beans profile="prod">
+        <import resource="prod/spring-mail.xml"/>
+    </beans>
+	
+	
+ 
 </beans>

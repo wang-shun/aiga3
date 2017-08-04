@@ -366,6 +366,94 @@ define(function(require, exports, module) {
             });
             return data;
         },
+                /**
+         * 设置下拉框数据
+         *
+         * @method obj 表单父元素
+         */
+        setSelectDataPost: function(obj, other, callback) {
+            var self = this;
+            obj.find("select").each(function(index) {
+                var _this = $(this);
+                var _url = _this.data("url");
+                var _cmd = _this.data("cmd") || '';
+                if (other) {
+                    _cmd += "&" + other;
+                }
+                if (_url) {
+                    if (callback) {
+                        self.setSelectHtmlPost(_this, _url, _cmd, callback());
+                    } else {
+                        self.setSelectHtmlPost(_this, _url, _cmd);
+                    }
+
+                }
+
+            });
+
+            obj.on("change", "select[data-subname]", function() {
+                var _this = $(this);
+
+                // 判断如果有异步子项，统一做处理
+                var _subname = _this.data("subname");
+                if (_subname) {
+                    var _thisSub = obj.find("select[name=" + _subname + "]");
+                    var suburl = _thisSub.data("suburl");
+                    var subcmd = _this.attr("name") + "=" + _this.val();
+                    if (suburl) {
+                        self.setSelectHtmlPost(_thisSub, suburl, subcmd);
+                    }
+                }
+            })
+        },
+		        /**
+         * 设置下拉框option节点
+         *
+         * @method obj 元素
+         * @method obj 接口
+         * @method obj 接口参数
+         */
+        setSelectHtmlPost: function(obj, url, cmd, callback) {
+            var self = this;
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            Rose.ajax.postJson(srvMap.get(url), cmd, function(json, status) {
+                if (status) {
+                    window.XMS.msgbox.hide();
+                    var _data = json.data;
+                    var _html = '<option value="">请选择</option>';
+
+                    var idv = obj.data("idkey");
+                    var namev = obj.data("namekey");
+
+                    for (var i in _data) {
+                        var _json = _data[i];
+                        var _key, _value;
+
+                        if (idv && namev) {
+                            _key = _json[idv];
+                            _value = _json[namev];
+                        } else {
+                            for (var key in _json) {
+                                if (key.indexOf("Id") >= 0) {
+                                    _key = _json[key];
+                                }
+                                if (key.indexOf("Name") >= 0) {
+                                    _value = _json[key];
+                                }
+                            }
+                        }
+                        _html += '<option value="' + _key + '">' + _value + '</option>';
+
+                    }
+                    obj.html(_html);
+
+                    self.clearSubOptions(obj);
+                    if (callback) {
+                        callback();
+                    }
+                }
+            });
+        },
         /**
          * 获取复选框当前值和状态
          *

@@ -88,6 +88,8 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			this.batchAdd();
+			
 			this.initialise();
 			
 			var planId = '99999';
@@ -106,6 +108,7 @@ define(function(require, exports, module) {
 			//映射
 			this.hdbarHelp();
 		},
+		
 		initialise: function(){
 			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');

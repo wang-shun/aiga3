@@ -1,13 +1,14 @@
 define(function(require, exports, module) {
-
-    //引入公用模块
+	require("lib/ztree/3.5.28/js/jquery.ztree.excheck.min.js");
+    // 通用工具模块
+    var Utils = require("global/utils.js");
     //路径重命名
     var pathAlias = "roleFunc/";
     // 初始化列表
     // srvMap.add("getUserinfoList", "home/getUserinfoList.json", "/sys/role/list");
     //获取所有角色
     srvMap.add("getStaffRoleList", "staffRole/getStaffRoleList.json", "sys/role/list");
-    //获取所有功能菜单	
+    //获取所有功能菜单  
     srvMap.add("getFuncList", "roleFunc/getFuncList.json", "sys/menu/list");
     //根据当前角色ID调取已选择的功能菜单funcIds
     srvMap.add("getRoleFuncCheckedList", "roleFunc/getRoleFuncCheckedList.json", "sys/rolefunc/list");
@@ -17,7 +18,7 @@ define(function(require, exports, module) {
         getStaffRoleList: require('tpl/roleFunc/getStaffRoleList.tpl')
     };
     var Mod2 = {
-        getStaffRoleList: '#Page_getStaffRoleList2'
+        getStaffRoleList: '#Page_getStaffRoleListR'
     };
     var Dom = {
         getRoleFuncTable: "#JS_getRoleFuncTable",
@@ -34,9 +35,10 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-            this.getLeftTree();
+            this.getRightTreeR();
             this.getStaffRoleList();
             this.rolefuncUpdate();
+            Utils.customCollapse($("#Page_RoleFunc"));
         },
         getStaffRoleList: function() {
             var self = this;
@@ -45,21 +47,16 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Tpl2.getStaffRoleList);
                     console.log(json.data)
                     $(Mod2.getStaffRoleList).html(template(json.data));
-                    //iCheck
-                    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-                        checkboxClass: 'icheckbox_minimal-blue',
-                        radioClass: 'iradio_minimal-blue'
-                    });
-                    // 事件：双击选中当前行数据
-                    $(Dom.getRoleFuncTable).find("tr").bind('click', function(event) {
-                        $(this).find('.minimal').iCheck('check');
-                        var _data = self.getCheckedRole();
+
+                    Utils.eventTrClickIfChanged($(Dom.getRoleFuncTable),function(){
+                         var _data = self.getCheckedRole();
                         var _roleId = _data.roleId;
                         var cmd = "roleId=" + _roleId;
                         Data.roleId = _roleId;
                         console.log(cmd);
                         self.getRoleFuncCheckedList(cmd);
-                    });
+                    })
+                    
                     // 滚动条
                     $(Dom.getRoleFuncTable).parent().slimScroll({
                         "height": '500px'
@@ -68,13 +65,13 @@ define(function(require, exports, module) {
             });
         },
         getRoleFuncCheckedList: function(cmd) {
-            var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTree");
+            var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeR");
             treeObj.checkAllNodes(false);
             Rose.ajax.postJson(srvMap.get('getRoleFuncCheckedList'), cmd, function(json, status) {
                 if (status) {
                     var _json = json.data;
                     console.log(_json);
-                    var zTree_Menu = $.fn.zTree.getZTreeObj("Tree_getRightTree");
+                    var zTree_Menu = $.fn.zTree.getZTreeObj("Tree_getRightTreeR");
 
                     for (i in _json) {
                         var node = zTree_Menu.getNodeByParam('funcId', _json[i].funcId);
@@ -85,12 +82,11 @@ define(function(require, exports, module) {
                 }
             })
         },
-        getLeftTree: function(cmd) {
+        getRightTreeR: function(cmd) {
 
             Rose.ajax.postJson(srvMap.get('getFuncList'), 'cmd', function(json, status) {
                 if (status) {
                     console.log(json.data)
-                    require('zTreeExcheckJS');
                     //checkbox代码块
                     var setting = {
                         check: {
@@ -113,9 +109,10 @@ define(function(require, exports, module) {
                             }
                         }
                     };
-                    $.fn.zTree.init($("#Tree_getRightTree"), setting, json.data);
+                    $.fn.zTree.init($("#Tree_getRightTreeR"), setting, json.data);
 
-
+                    //调用树结构搜索，入参1、树结构容器 2、树搜索容器 3、搜索的key
+                    Utils.zTreeSearchInit($("#Tree_getRightTreeR"),$("#Tree_getRightTreeRSearch"),'name');
 
                 }
             });
@@ -145,8 +142,8 @@ define(function(require, exports, module) {
         },
         getCheckedRole: function() {
             // funcIdNum = treeNode.funcId;
-            var _obj = $('#Page_getStaffRoleList').find("input[type='radio']:checked").parents("tr");
-            var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTree");
+            var _obj = $('#Page_getStaffRoleListR').find("input[type='radio']:checked").parents("tr");
+            var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeR");
             console.log(treeObj);
             var nodes = treeObj.getCheckedNodes(true);
             console.log(nodes);

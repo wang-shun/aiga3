@@ -1,38 +1,51 @@
 <!-- 主内容 -->
-<section class="content">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="box">
-                <div class="box-header">
-                    <div class="box-title">岗位类型</div>
-                    <div class="box-body">
-                        <div class="active tab-pane" id="activity">
-                            <div class="box-body" style="min-height: 100px;" id="Page_getStaffRoleList2"></div>
-                        </div>
+<div class="row" id="Page_RoleFunc">
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-title">岗位类型</div>
+            </div>
+            <div class="box-body" style="min-height: 520px;" id="Page_getStaffRoleListR">
+                <div class="text-loader min-height">
+                    <div class="text-loader-content">
+                        <i class="fa fa-refresh fa-spin"></i>请稍候，数据加载中...
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="box">
-                <div class="box-header">
-                    <div class="box-title">关联权限</div>
-                    <div class="box-tools">
-                        <div class="btn-group">
-                            <button id="JS_rolefuncUpdate" type="button" name="update" onclick="" class="btn btn-primary" data-toggle="modal" data-target="#myModal">更新</button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="active tab-pane" id="activity">
-                            <ul id="Tree_getRightTree" class="ztree"></ul>
+    </div>
+    <div class="col-md-6">
+        <div class="box">
+            <div class="box-header with-border">
+                <div class="box-title">关联权限</div>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-sm btn-default" name="customCollapse" data-collapse='Tree_getRightTreeRSearch'>搜索</button>
+                    <button id="JS_rolefuncUpdate" type="button" name="update" class="btn btn-sm btn-primary">保存</button>
+                </div>
+            </div>
+            <div class="box-body" style="min-height: 520px;">
+                <div class="active tab-pane" id="activity">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group input-group-sm ztree-search" id="Tree_getRightTreeRSearch" style="display: none;">
+                                <input type="text" class="form-control" name="searchValue" placeholder="请输入关键字，如『移动』">
+                                <span class="input-group-btn">
+                                      <button type="button" class="btn btn-primary" name="searchBtn"><i class="fa fa-search"></i></button>
+                                    </span>
+                            </div>
+                            <ul id="Tree_getRightTreeR" class="ztree">
+                                <div class="text-loader min-height">
+                                    <div class="text-loader-content">
+                                        <i class="fa fa-refresh fa-spin"></i>请稍候，数据加载中...
+                                    </div>
+                                </div>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-</div>
 </div>
 <!-- Modal -->
 <script>

@@ -59,8 +59,6 @@ seajs.config({
         'echarts':'lib/echarts/echarts.min.js',
         'zTreeCSS':'lib/ztree/3.5.28/css/zTreeStyle/zTreeStyle.css',
         'zTreeJS':'lib/ztree/3.5.28/js/jquery.ztree.core.js',
-        'zTreeCSS':'lib/ztree/3.5.28/css/zTreeStyle/zTreeStyle.css',
-        'zTreeJS':'lib/ztree/3.5.28/js/jquery.ztree.core.js',
         'jsmindJS':'lib/jsmind/jsmind.all.js',
         'jsmindCSS':'lib/jsmind/jsmind.css',
         'datatablesCSS':'lib/datatables/dataTables.bootstrap.css',

@@ -1,6 +1,9 @@
 define(function(require,exports,module){
 	// 通用工具模块
     var Utils = require("global/utils.js");
+
+    // 初始化页面ID(和文件名一致)，不需要带'#Page_'
+    var Page = Utils.initPage('staffManage');
 	// 路径重命名
 	var pathAlias = "systemManage/staffManage/";
 
@@ -75,11 +78,14 @@ define(function(require,exports,module){
         addStaffOrgScroll:'#JS_addStaffOrgScroll',
         addStaffOrgForm:'#JS_addStaffOrgForm',
         addStaffOrgSubmit:'#JS_addStaffOrgSubmit',
+        updateStaffOrg: '#JS_updateStaffOrg',
         delStaffOrg: '#JS_delStaffOrg'
+
     };
 
     var Data = {
-    	organizeId: null,
+    	idCondition: false,
+    	organizeId: 0,
     	addOrganizeId: null, // 添加关联组织ID
     	staffId: null,
     	isOrganize: function(){
@@ -102,6 +108,7 @@ define(function(require,exports,module){
 			// 默认只加载组织结构及条件查询
 			this.getOrganizeList();
 			this.getUserinfoListB();
+			Utils.customCollapse($("#Page_staffManage"));
 		},
 		// 组织结构
 		getOrganizeList: function(){
@@ -127,11 +134,15 @@ define(function(require,exports,module){
 							 	Data.organizeId = _organizeId;
 							 	// 隐藏关联组织
 							 	$(Dom.getStaffOrgList).addClass('hide');
-							 	self.getUserinfoList(_data)
-
+							 	self.getUserinfoList(_data);
+							 	Data.idCondition = false;
+							 	$(Dom.getUserinfoList).find("[name='loader']").hide().siblings().show();
 							 }
 						}
 					}, json.data);
+
+					//搜索树
+					Utils.zTreeSearchInit($(Dom.getOrganizeListTree),$("#JS_getOrganizeListTreeSearch"),'organizeName');
 				}
 	  		});
 		},
@@ -147,9 +158,10 @@ define(function(require,exports,module){
 				// 表单校验：成功后调取接口
 				//_form.bootstrapValidator('validate').on('success.form.bv', function(e) {
 		            // e.preventDefault();
-		            // 隐藏关联组织
+		            // 隐藏关联组织				
 		            $(Dom.getStaffOrgList).addClass('hide');
 		            var cmd = $(Dom.getUserinfoForm).serialize();
+		            Data.idCondition = cmd;
 		  			self.getUserinfoList(cmd);
 	        	//});
 	  		})
@@ -168,14 +180,40 @@ define(function(require,exports,module){
 	        }else{
 	        	_url = srvMap.get('getUserinfoListB')
 	        }
-			Rose.ajax.postJson(_url, data, function(json, status) {
+            // 设置服务器端分页
+            Utils.getServerPage(_url, data, function(json) {
+                XMS.msgbox.hide()
+                var template = Handlebars.compile(Tpl.getUserinfoList);
+        		$(Dom.getUserinfoList).find("[name='content']").html(template(json.data));
+        		XMS.msgbox.hide()
+
+        		self.addUserinfo();
+        		self.updateUserinfo();
+        		self.startUserinfo();
+				self.stopUserinfo();
+				self.changePassword();
+				self.resetPassword();
+				self.clearPower();
+
+				// 绑定单机当前行事件
+			    self.eventClickChecked($(Dom.getUserinfoList),function(){
+			    	// 请求：关联组织
+		        	self.getStaffOrgList();
+			    })
+
+			    // 绑定双击当前行事件
+			    self.eventDClickCallback($(Dom.getUserinfoList),function(){
+			    	// 请求：用户基本信息
+		        	self.getUserinfo();
+			    })
+
+            }, $(Dom.getUserinfoList).find("[name='pagination']"));
+
+			/*Rose.ajax.postJson(_url, data, function(json, status) {
 				if(status) {
 					var template = Handlebars.compile(Tpl.getUserinfoList);
 					console.log(json.data)
-					// 待删除：用于测试搜索数据
-					/*if(!Data.isOrganize()){
-			        	json.data.length = 1;
-			        }*/
+					
             		$(Dom.getUserinfoList).html(template(json.data.content));
             		XMS.msgbox.hide()
 
@@ -200,16 +238,16 @@ define(function(require,exports,module){
 				    })
 
 					// 表格分页
-//					$(Dom.getUserinfoListTable).DataTable({
-//			          "paging": true,
-//			          "lengthChange": false,
-//			          "searching": false,
-//			          "ordering": false,
-//			          "info": true,
-//			          "autoWidth": false
-//			        });
+					$(Dom.getUserinfoListTable).DataTable({
+			          "paging": true,
+			          "lengthChange": false,
+			          "searching": false,
+			          "ordering": false,
+			          "info": true,
+			          "autoWidth": false
+			        });
 				}
-	  		});
+	  		});*/
 		},
 		// 添加用户
 		addUserinfo:function(){
@@ -231,7 +269,6 @@ define(function(require,exports,module){
 			    });
 			    // 弹出层
 				$(Dom.addUserinfoModal).modal('show');
-				
 
 		        // 锁定状态：否
 		        _form.find("[name='lockFlag']").find("option[value='N']").attr("selected",true).end().attr("readonly",true);
@@ -262,51 +299,55 @@ define(function(require,exports,module){
 
 					// 表单验证
 					Utils.checkForm(_form,function(){
-						 var _form = $(Dom.addUserinfoForm);
+						if(!Rose.validate.Check('name',_form.find("input[name='name']").val())){
+								XMS.msgbox.show('亲，真实姓名由汉字、英文字母、空格和点组成！', 'error', 2000);
+								return false;
+							}
+							if(!Rose.validate.Check('mobile',_form.find("input[name='billId']").val())){
+								XMS.msgbox.show('亲，手机号码填写不正确！', 'error', 2000);
+								return false;
+							}
+							if(!Rose.validate.Check('email',_form.find("input[name='email']").val())){
+								XMS.msgbox.show('亲，邮箱格式填写不正确！', 'error', 2000);
+								return false;
+							}
+							//alert(_form.find("input[name='password']").val());
+							if(!Rose.validate.Check('passwrd',_form.find("input[name='password']").val())){
+								XMS.msgbox.show('亲，密码长度在6-10位之间，包含大写字母、小写字母及数字！', 'error', 2000);
+								return false;
+							}
+							if(_form.find("input[name='password']").val()!=_form.find("input[name='recentPassword']").val()){
+								XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
+								return false;
+							}
+							if(_form.find("select[name='cardTypeId'] option:selected").val()==0){
+								if(!Rose.validate.Check('idcard',_form.find("input[name='cardNo']").val())){
+									XMS.msgbox.show('亲，身份证格式填写不正确！', 'error', 2000);
+									return false;
+								}
+							}
 						var cmd = _form.serialize();
+			            console.log(cmd);
 			  			// self.getUserinfoList(cmd);
-
-					       //手机号校验
-			            var mbn = _form.find("[name='billId']").val();
-			            var _mbn = $.trim(mbn);
-			            var patt2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
-			            if(!patt2.test(_mbn)){
-			            	window.XMS.msgbox.show('请输入正确的手机号！', 'error', 2000);
-							return
-			            }
-			            //邮箱校验
-			            var email = _form.find("[name='email']").val();
-			            var _email = $.trim(email);
-			            var patt3 = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
-			            if(!patt3.test(_email)){
-			            	window.XMS.msgbox.show('请输入正确的邮箱！','error',2000);
-			            	return
-			            }
-			            //密码校验
-						var str = _form.find("[name='password']").val();
-						var _str = $.trim(str);
-						var rep = _form.find("[name='recentPassword']").val();
-						var _rep = $.trim(rep);
-						if(_rep != _str){
-							window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
-							return
-						} 
-						
-			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			  			XMS.msgbox.show('数据加载中，请稍候...', 'loading')
 			  			Rose.ajax.postJson(srvMap.get('addUserinfo'), cmd, function(json, status) {
 							if(status) {
 								// 添加用户成功后，刷新用户列表页
-								XMS.msgbox.show('保存成功！', 'success', 2000);
+								XMS.msgbox.show('保存成功！', 'success', 2000)
 								// 关闭弹出层
 								$(Dom.addUserinfoModal).modal('hide');
 								setTimeout(function(){
-									self.getUserinfoList("organizeId="+Data.organizeId);
-								},1000);
+									if(Data.idCondition) {
+										self.getUserinfoList(Data.idCondition);
+									} else {
+										self.getUserinfoList("organizeId="+Data.organizeId);
+									}								
+								},1000)
 							}
 			  			});
-					});
-		  		});
-			});
+					})
+		  		})
+			})
 		},
 		getUserinfo:function(){
 			var self = this;
@@ -346,49 +387,50 @@ define(function(require,exports,module){
 
 						// 表单验证成功后提交
 						Utils.checkForm(_form,function(){
+							if(!Rose.validate.Check('name',_form.find("input[name='name']").val())){
+								XMS.msgbox.show('亲，真实姓名由汉字、英文字母、空格和点组成！', 'error', 2000);
+								return false;
+							}
+							if(!Rose.validate.Check('mobile',_form.find("input[name='billId']").val())){
+								XMS.msgbox.show('亲，手机号码填写不正确！', 'error', 2000);
+								return false;
+							}
+							if(!Rose.validate.Check('email',_form.find("input[name='email']").val())){
+								XMS.msgbox.show('亲，邮箱格式填写不正确！', 'error', 2000);
+								return false;
+							}
+							//alert(_form.find("input[name='password']").val());
+							if(!Rose.validate.Check('passwrd',_form.find("input[name='password']").val())){
+								XMS.msgbox.show('亲，密码长度在6-10位之间，包含大写字母、小写字母及数字！', 'error', 2000);
+								return false;
+							}
+							if(_form.find("input[name='password']").val()!=_form.find("input[name='recentPassword']").val()){
+								XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
+								return false;
+							}
+							if(_form.find("select[name='cardTypeId'] option:selected").val()==0){
+								if(!Rose.validate.Check('idcard',_form.find("input[name='cardNo']").val())){
+									XMS.msgbox.show('亲，身份证格式填写不正确！', 'error', 2000);
+									return false;
+								}
+							}
 							var cmd = _form.serialize();
 				            console.log(cmd);
-				            
-				          //var _form = $(Dom.getUserinfoForm);
-				            //手机号校验
-				            var mbn = _form.find("[name='billId']").val();
-				            var _mbn = $.trim(mbn);
-				            var patt2 = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1})|(14[0-9]{1}))+\d{8})$/;
-				            if(!patt2.test(_mbn)){
-				            	window.XMS.msgbox.show('请输入正确的手机号！', 'error', 2000);
-								return
-				            }
-				            //邮箱校验
-				            var email = _form.find("[name='email']").val();
-				            var _email = $.trim(email);
-				            var patt3 = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
-				            if(!patt3.test(_email)){
-				            	window.XMS.msgbox.show('请输入正确的邮箱！','error',2000);
-				            	return
-				            }
-				            //密码校验
-							var str = _form.find("[name='password']").val();
-							var _str = $.trim(str);
-							var rep = _form.find("[name='recentPassword']").val();
-							var _rep = $.trim(rep);
-							if(_rep != _str){
-								window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
-								return
-							}
-							
-					
-							
 				  			// self.getUserinfoList(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				  			Rose.ajax.postJson(srvMap.get('updateUserinfo'), cmd, function(json, status) {
 								if(status) {
 									// 添加用户成功后，刷新用户列表页
-									XMS.msgbox.show('保存成功！', 'success', 2000);
+									XMS.msgbox.show('保存成功！', 'success', 2000)
 									// 关闭弹出层
 									$(Dom.addUserinfoModal).modal('hide');
 									setTimeout(function(){
-										self.getUserinfoList("organizeId="+Data.organizeId);
-									},1000);
+										if(Data.idCondition) {
+											self.getUserinfoList(Data.idCondition);
+										} else {
+											self.getUserinfoList("organizeId="+Data.organizeId);
+										}	
+									},1000)
 								}
 				  			});
 						});
@@ -419,7 +461,11 @@ define(function(require,exports,module){
 								// 启用成功后，重新加载用户列表
 								window.XMS.msgbox.show('启用成功！', 'success', 2000);
 								setTimeout(function(){
-									self.getUserinfoList("organizeId="+Data.organizeId);
+									if(Data.idCondition) {
+										self.getUserinfoList(Data.idCondition);
+									} else {
+										self.getUserinfoList("organizeId="+Data.organizeId);
+									}	
 								},1000)
 							}
 			  			});
@@ -442,7 +488,11 @@ define(function(require,exports,module){
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('停用成功！', 'success', 2000);
 								setTimeout(function(){
-									self.getUserinfoList("organizeId="+Data.organizeId);
+									if(Data.idCondition) {
+										self.getUserinfoList(Data.idCondition);
+									} else {
+										self.getUserinfoList("organizeId="+Data.organizeId);
+									}	
 								},1000)
 							}
 			  			});
@@ -458,55 +508,40 @@ define(function(require,exports,module){
 			$(Dom.changePassword).bind('click', function() {
 				var _data = self.getUserCheckedRow();
 				if(_data){
+					var _modal = $(Dom.changePasswordModal);
 					// 弹出层
-					$(Dom.changePasswordModal).modal('show');
+					_modal.modal('show');
 					// 设置staffId
 					$(Dom.changePasswordForm).find("input[name='staffId']").val(Data.staffId);
 					// 表单提交
 					$(Dom.changePasswordSubmit).bind('click',function(){
-						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						var cmd = $(Dom.changePasswordForm).serialize();
-						//数据校验
-						if(cmd.indexOf('password=&')>-1) {
-							XMS.msgbox.show('密码为空！', 'error', 2000);
-							return
-						}
-					
-						var _for = $(Dom.changePasswordForm);
-						var str = _for.find("[name='password']").val();
-						var _str = $.trim(str);
-						var patt1 =  /(?=.*\d)(?=.*[a-zA-Z])^.{6,10}$/;
-						if(!patt1.test(_str) ){
-							window.XMS.msgbox.show('输入格式不正确！', 'error', 2000);
-							return
-						}
-					
-						var _for = $(Dom.changePasswordForm);
-						var rep = _for.find("[name='recentPassword']").val();
-						var _rep = $.trim(rep);
-						if(_rep == ""){
-							XMS.msgbox.show('请输入重复密码！', 'error', 2000);
-							return
-						}
-						else if(_rep != _str){
-							window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
-							return
-						}
-
-						Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json,isChange) {
-							if(isChange == false){
-								window.XMS.msgbox.show('此账号不允许修改密码！', 'error', 3000);
-								$(Dom.changePasswordModal).modal('hide');
+						// 表单验证成功后提交
+						Utils.checkForm(_modal,function(){
+							if(!Rose.validate.Check('passwrd',_modal.find("input[name='password']").val())){
+								XMS.msgbox.show('亲，密码长度在6-10位之间，包含大写字母、小写字母及数字！', 'error', 2000);
+								return false;
 							}
-							else{								
-								window.XMS.msgbox.show('密码修改成功！', 'success', 2000);
-								$(Dom.changePasswordModal).modal('hide');
-								setTimeout(function(){
-									self.getUserinfoList("organizeId="+Data.organizeId);
-								},1000);
+							if(_modal.find("input[name='password']").val()!=_modal.find("input[name='recentPassword']").val()){
+								XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
+								return false;
 							}
-			  			});
-			  		});
+							XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+							var cmd = $(Dom.changePasswordForm).serialize();
+							Rose.ajax.getJson(srvMap.get('changePassword'), cmd, function(json, status) {
+								if(status) {
+									window.XMS.msgbox.show('密码修改成功！', 'success', 2000)
+									$(Dom.changePasswordModal).modal('hide')
+									setTimeout(function(){
+										if(Data.idCondition) {
+											self.getUserinfoList(Data.idCondition);
+										} else {
+											self.getUserinfoList("organizeId="+Data.organizeId);
+										}	
+									},1000)
+								}
+				  			});
+						})
+			  		})
 				}
 			});
 		},
@@ -539,7 +574,11 @@ define(function(require,exports,module){
 								// 停用成功后，重新加载用户列表
 								window.XMS.msgbox.show('权限清除成功！', 'success', 2000)
 								setTimeout(function(){
-									self.getUserinfoList("organizeId="+Data.organizeId);
+									if(Data.idCondition) {
+										self.getUserinfoList(Data.idCondition);
+									} else {
+										self.getUserinfoList("organizeId="+Data.organizeId);
+									}	
 								},1000)
 							}
 		  				});
@@ -560,9 +599,10 @@ define(function(require,exports,module){
 
             		// 接口：添加组织
 			        self.addStaffOrg();
-
             		// 接口：删除组织
 			        self.delStaffOrg();
+			        // 事件：绑定修改组织
+			        self.updateStaffOrgBind();
             		// 绑定单机当前行事件
 				    self.eventClickChecked($(Dom.getStaffOrgList))
 				    self.eventDClickCallback($(Dom.getStaffOrgList),function(){
@@ -584,7 +624,7 @@ define(function(require,exports,module){
 			    // 弹出层
 				$(Dom.addStaffOrgModal).modal('show');
 				// 滚动条
-		        $(Dom.addStaffOrgScroll).slimScroll({
+		        $(Dom.addStaffOrgTree).slimScroll({
 			        "height": '320px'
 			    });
 		        // 请求关联组织树
@@ -610,6 +650,8 @@ define(function(require,exports,module){
 								 }
 							}
 						}, json.data);
+
+						Utils.zTreeSearchInit($(Dom.addStaffOrgTree),$("#JS_addStaffOrgTreeSearch"),'organizeName');
 					}
 		  		});
 		  		// 提交保存
@@ -640,11 +682,6 @@ define(function(require,exports,module){
 			$(Dom.addStaffOrgSubmit).unbind();
 			$(Dom.addStaffOrgSubmit).bind('click',function(){
 				var cmd = $(Dom.addStaffOrgForm).serialize();
-				//数据校验
-				if(cmd.indexOf('organizeId=&')>-1) {
-					XMS.msgbox.show('请选择组织！', 'error', 2000);
-					return
-				}
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get(_srvMap), cmd, function(json, status) {
 					if(status) {
@@ -674,6 +711,15 @@ define(function(require,exports,module){
 						}
 		  			});
 				}
+			});
+		},
+		// 删除组织结构
+		updateStaffOrgBind: function(){
+			var self = this;
+			$(Dom.updateStaffOrg).unbind('click');
+			$(Dom.updateStaffOrg).bind('click', function() {
+				// 双击修改组织信息
+				self.updateStaffOrg();
 			});
 		},
 		// 获取员工列表当前选中行

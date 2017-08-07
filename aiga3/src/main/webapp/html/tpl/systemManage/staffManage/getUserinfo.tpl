@@ -93,7 +93,7 @@
         <div class="col-md-3">
             <div class="form-group input-group-sm">
                 <label>IPMAC绑定</label>
-                <select class="form-control" name="bandType" data-selected="{{bandType}}" required>
+                <select class="form-control" name="bandType" data-selected="{{bandType}}">
                     <option value="">请选择</option>
                     <option value="1">有效</option>
                     <option value="0">无效</option>
@@ -188,8 +188,8 @@
         </div>
         <div class="col-md-3">
             <div class="form-group input-group-sm">
-                <label>备注<i class="text-red">*</i></label>
-                <input type="text" class="form-control" name="notes" value="{{notes}}" required>
+                <label>备注</label>
+                <input type="text" class="form-control" name="notes" value="{{notes}}" >
             </div>
         </div>
     </div>

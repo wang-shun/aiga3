@@ -114,6 +114,9 @@ define(function(require, exports, module) {
 								var template = Handlebars.compile(Tpl.getCrossSecView);
 							}
 						}else if(_viewLevel=="3"){
+							if(json.data.hasDaaS){
+								json.data.content[1].item[0].item.push(json.data.hasDaaS);
+							}
 							var template = Handlebars.compile(Tpl.getThirdSecView);
 						}
 

@@ -212,6 +212,7 @@ public class ArchiViewController {
 	public @ResponseBody JsonBean findThirdView(long idFirst) {
 		JsonBean bean = new JsonBean();
 		ArchiThirdViewOutput output = new ArchiThirdViewOutput();
+		int addDaaS = 0; 
 		output.setIsCross("0");
 		List<ArchitectureStaticData> stateItems = architectureStaticDataSv.findByCodeType("SYS_BUILDING_STATE");
 		int id = 0;
@@ -231,6 +232,8 @@ public class ArchiViewController {
 		ArchiThirdLevelView IPaaS = new ArchiThirdLevelView(id++,"IPaaS","1");
 		// TPaaS层
 		ArchiThirdLevelView TPaaS = new ArchiThirdLevelView(id++,"TPaaS","1");
+		// DaaS层
+		ArchiThirdLevelView DaaS = new ArchiThirdLevelView(id++,"DaaS","1");
 		
 		//各层List节点
 		List<ArchiThirdViewCenterItem> itemSaaS = new ArrayList<ArchiThirdViewCenterItem>();
@@ -238,6 +241,8 @@ public class ArchiViewController {
 		List<ArchiThirdViewCenterItem> itemUPaaS = new ArrayList<ArchiThirdViewCenterItem>();
 		List<ArchiThirdViewCenterItem> itemIPaaS = new ArrayList<ArchiThirdViewCenterItem>();
 		List<ArchiThirdViewCenterItem> itemTPaaS = new ArrayList<ArchiThirdViewCenterItem>();
+		List<ArchiThirdViewCenterItem> itemDaaS = new ArrayList<ArchiThirdViewCenterItem>();
+		DaaS.setItem(itemDaaS);
 		BPaaS.setItem(itemBPaaS);
 		UPaaS.setItem(itemUPaaS);
 		IPaaS.setItem(itemIPaaS);
@@ -288,7 +293,13 @@ public class ArchiViewController {
 					itemTPaaS.add(baseTPaaS);
 					continue;
 				} else {
-					// TO BE CONTINUE ...
+					//DaaS层
+					ArchiThirdViewCenterItem baseDaaS = new ArchiThirdViewCenterItem(id++,base.getName(),"0");
+					List<ArchiSystemItem> itemNull = new ArrayList<ArchiSystemItem>();
+					baseDaaS.setItem(itemNull);
+					itemDaaS.add(baseDaaS);
+					addDaaS = 1;
+					continue;
 				}			
 			}
 		}	
@@ -337,6 +348,14 @@ public class ArchiViewController {
 							continue;
 						}
 					}
+				} else {
+					for(ArchiThirdViewCenterItem baseDaaS : itemDaaS) {
+						if(baseDaaS.getName().equals(String.valueOf(base.get("secName")))) {
+							ArchiSystemItem sysData = new ArchiSystemItem(id++,base.get("name"),base.get("bgColoe"),"0",base.get("mediaType"));
+							baseDaaS.getItem().add(sysData);
+							continue;
+						}
+					}
 				}			
 			}		
 		}
@@ -348,6 +367,9 @@ public class ArchiViewController {
 		Collections.sort(itemTPaaS, new MyComparator());
 		content.add(SaaS);
 		content.add(PaaS);
+		if(addDaaS == 1) {
+			output.setHasDaaS(DaaS);
+		}
 		output.setStateItems(stateItems);
 		output.setContent(content);
 		bean.setData(output);

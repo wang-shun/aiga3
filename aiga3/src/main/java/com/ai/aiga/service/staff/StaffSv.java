@@ -76,10 +76,6 @@ public class StaffSv extends BaseService {
 
 	public Object findStaff(StaffInfoRequest condition, Long organizeId, int pageNumber, int pageSize) {
 
-//		if (StringUtils.isBlank(condition.getCode()) && StringUtils.isBlank(condition.getName())) {
-//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-//		}
-		
 		StringBuilder nativeSql = new StringBuilder(
 				"select af.staff_id,af.code,af.name,af.state,"
 				+ " ao.organize_id,ao.organize_name,ao.code as organize_code"

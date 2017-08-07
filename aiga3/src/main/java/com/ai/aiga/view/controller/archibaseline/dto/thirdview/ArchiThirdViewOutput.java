@@ -10,6 +10,13 @@ public class ArchiThirdViewOutput implements Serializable {
 	private String isCross;
 	private List<ArchitectureStaticData> stateItems;
 	private List<Object> content;
+	private ArchiThirdLevelView hasDaaS;
+	public ArchiThirdLevelView getHasDaaS() {
+		return hasDaaS;
+	}
+	public void setHasDaaS(ArchiThirdLevelView hasDaaS) {
+		this.hasDaaS = hasDaaS;
+	}
 	public String getIsCross() {
 		return isCross;
 	}

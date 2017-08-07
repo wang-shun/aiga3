@@ -35,6 +35,7 @@ import com.ai.aiga.service.home.dto.CaseCountResponse;
 import com.ai.aiga.service.home.dto.NetInfoResponse;
 import com.ai.aiga.service.home.dto.ProcessNodeResponse;
 import com.ai.aiga.util.DateUtil;
+import com.ai.aiga.util.MathUtils;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
 import io.swagger.models.properties.ObjectProperty;
@@ -99,7 +100,7 @@ public class HomeDataSv {
 						//将指标的value设置成sql返回的map的value值
 						Map<String, Object> map = list.get(0);
 						Object object = map.get(kpi.getKpiName());
-						kpi.setValue(((BigDecimal) object));
+						kpi.setValue(MathUtils.getBigDecimal(object));
 						//设置当前用户的指标显示
 						kpi.setIsShow(1L);
 					}
@@ -115,7 +116,7 @@ public class HomeDataSv {
 				List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
 				Map<String, Object> map = list.get(0);
 				Object object = map.get(kpi.getKpiName());
-				kpi.setValue(((BigDecimal) object));
+				kpi.setValue(MathUtils.getBigDecimal(object));
 				kpi.setIsShow(1L);
 			}
 		}

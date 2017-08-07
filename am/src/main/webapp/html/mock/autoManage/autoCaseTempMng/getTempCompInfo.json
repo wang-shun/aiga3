@@ -1,0 +1,12 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "compName":"######## ###按钮",
+        "createTime":"2017-03-03 16:23:30",
+        "updateId":"111",
+        "creatorId":"111",
+        "compDesc":"这是一个标准的十五字你看是不是",
+        "script":"<html></html>"
+    }
+}

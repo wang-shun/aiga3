@@ -1,0 +1,85 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data":[{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "1",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    },{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "2",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    },{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "3",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    },{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "4",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    },{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "5",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    },{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "6",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    },{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "1",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    },{
+        "id":"001",
+        "serviceId": "1001",
+        "serviceName": "001",
+        "operatId": "1",
+        "totalTime":"1",
+        "runResult": "呀",
+        "bfprodData": "002",
+        "afprodData":"001",
+        "isMatching": "1001"
+    }]
+}

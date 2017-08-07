@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="aiga3"
+  id="myeclipse.1494230751551"
+  context-root="/aiga3"
+  j2ee-spec="6.0"
+  archive="aiga3.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+

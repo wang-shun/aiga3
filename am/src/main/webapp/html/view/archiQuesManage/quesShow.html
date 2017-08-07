@@ -1,0 +1,133 @@
+<div class="row" id="Page_quesShow">
+<!-- 问题状态饼形图 -->
+<div class="box" id="JS_quesStatePie">
+    <div class="box-header" >
+        <h2 class="box-title">问题状态</h2>
+    </div>
+    <div class="box-body" style="width: 100%; height:500px;">
+    </div>
+    <div class="box-footer no-border">
+    </div> 
+</div>
+<div class="box" id="JS_quesShowMessageList">
+    <div class="box-header" >
+        <h2 class="box-title">问题展示总览</h2>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>问题系统(本月/总数)</th>
+                    <th>问题申报数(本月/总数)</th>
+                    <th>问题解决数(本月/总数)</th>
+                    <th>遗留未解决(本月/总数)</th>
+                </tr>
+            </thead>
+            <tbody name="content">
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div> 
+</div>  
+<div class="box" id="JS_DomainProblem">
+    <div class="box-header" >
+        <h2 class="box-title">域问题数</h2>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>问题总数</th>
+                    <th>技术巡检问题</th>
+                    <th>疑难问题</th>
+                    <th>遗留问题</th>
+                </tr>
+            </thead>
+            <tbody name="content">
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div> 
+</div>
+<div class="box" id="JS_DomainProblemSolve">
+    <div class="box-header" >
+        <h2 class="box-title">域问题解决情况</h2>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>解决总数</th>
+                    <th>技术巡检问题</th>
+                    <th>疑难问题</th>
+                    <th>遗留问题</th>
+                </tr>
+            </thead>
+            <tbody name="content">
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div> 
+</div>
+
+<div class="box" id="JS_SysProblem">
+    <div class="box-header" >
+        <h2 class="box-title">系统问题数</h2>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>问题总数</th>
+                    <th>技术巡检问题</th>
+                    <th>疑难问题</th>
+                    <th>遗留问题</th>
+                </tr>
+            </thead>
+            <tbody name="content">
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div> 
+</div>
+<div class="box" id="JS_SysProblemSolve">
+    <div class="box-header" >
+        <h2 class="box-title">系统解决情况</h2>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>解决总数</th>
+                    <th>技术巡检问题</th>
+                    <th>疑难问题</th>
+                    <th>遗留问题</th>
+                </tr>
+            </thead>
+            <tbody name="content">
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div> 
+</div>
+</div>
+<script>
+	seajs.use("script/archiQuesManage/quesShow", function(init) {
+		init.init();
+	});
+</script>

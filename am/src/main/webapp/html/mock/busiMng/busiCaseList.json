@@ -1,0 +1,46 @@
+{
+    "retCode":"200",
+    "retMessage":null,
+    "data":{
+        "content":[
+            {
+                "caseId":"T100",  
+                "caseName":"测试用例1",
+                "busiId":"业务1",
+                "modulName":"模块",
+                "information":"资产信息",
+                "busiId":"11",
+                "sqlInfo":"select * form aiga_***",
+                
+            },
+            {
+                "caseId":"T101",
+                "caseName":"测试用例1",
+                "busiId":"业务1",
+                "modulName":"模块",
+                "information":"资产信息",
+                "busiId":"11",
+                "sqlInfo":"select * form aiga_***",
+               
+            },
+            {
+                "caseId":"T102",
+                "caseName":"测试用例1",
+                "busiId":"业务1",
+                "modulName":"模块",
+                "information":"资产信息",
+                "busiId":"11",
+                "sqlInfo":"select * form aiga_***",
+               
+            }
+        ],
+        "totalPages":1,
+        "totalElements":3,
+        "last":true,
+        "number":0,
+        "size":10,
+        "sort":null,
+        "first":true,
+        "numberOfElements":3
+    }
+}

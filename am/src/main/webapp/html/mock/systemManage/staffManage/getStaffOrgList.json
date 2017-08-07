@@ -1,0 +1,10 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": [{
+        "organizeId": "10732",
+        "organizeName": "新炬",
+        "isAdminStaff": "N",
+        "isBaseOrg": "Y"
+    }]
+}

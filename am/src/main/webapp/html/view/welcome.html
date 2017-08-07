@@ -1,0 +1,155 @@
+<div id="Page_welcome" class="page-welcome">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-body" id="JS_getWelcomeKpiList">
+                    <div class="text-loader">
+                        <div class="text-loader-content">
+                            <i class="fa fa-refresh fa-spin"></i> 请稍候，数据加载中...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid">
+               <!--  <div class="box-header">
+                    <h3 class="box-title">上线日历</h3>
+                    <div class="pull-right">2017年4月13日</div>
+                </div> -->
+                <div class="box-body no-padding" style="overflow: hidden;">
+                    <div class="row welcome-calendar">
+                        <div class="col-md-5 calendar-title">
+                            <h3>上线日历</h3>
+                            <p name="showTime"></p>
+                        </div>
+                        <div class="col-md-7">
+                            <!--The calendar -->
+                            <div id="JS_onlineCalendar" class="calendar-content" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box box-solid">
+                <div class="box-header">
+                    <h3 class="box-title">近半年入网信息分析</h3>
+                </div>
+                <div class="box-body">
+                    <!--The calendar -->
+                    <div id="JS_onlineCharts" style="width: 100%; height:300px; margin-top: -35px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid">
+                <div class="box-header">
+                    <h3 class="box-title">系统数量统计</h3>
+                    <div class="box-tools">
+                        <div class="page-list pull-right">
+                            <ul name="complimeNum"></ul>
+                        </div>
+                        <!-- <span class="flow-online-tips pull-right">本次上线已发布<span name="maxNum"></span>次</span> -->
+                    </div>
+                </div>
+                <div class="box-body" id="JS_getWelcomeFlowList" style="padding: 10px 0;">
+                    <div id="echartsPie" style="width:100%;height:515px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .page-welcome .box .timeline-item{
+        box-shadow:none;
+    }
+    .page-welcome .page-list,
+    .page-welcome .page-list ul li{
+        list-style: none;
+        font-size:12px;
+        color:#999;
+        line-height:20px;
+        float:left;
+        margin-left:5px;
+        padding: 0;
+    }
+    .page-welcome .page-list ul{
+        padding: 0;
+        margin-right: 10px;
+    }
+    .page-welcome .page-list ul li{
+        width:20px;
+        height: 20px;
+        border-radius: 50%;
+        text-align:center;
+        border:1px solid #999;
+        cursor:pointer;
+    }
+    .page-welcome .page-list ul li.active{
+        color:#fff;
+        background:#44abe6;
+        border:1px solid #44abe6;
+    }
+    .page-welcome .flow-online-tips{
+        color: #787878;
+    }
+    .page-welcome .datepicker table tr td.disabled,
+    .page-welcome .datepicker table tr td.disabled:hover{
+        color: #ddd;
+    }
+    .page-welcome .calendar-content .datepicker table tr td,
+    .page-welcome .calendar-content .datepicker table tr th{
+        border-radius: 5px;
+    }
+    .page-welcome .datepicker table tr td,
+    .page-welcome .datepicker table tr th{
+        width: auto;
+        height: 30px;
+        line-height: 22px;
+    }
+    .page-welcome .datepicker table tr td.active.active,
+    .page-welcome .datepicker table tr td.active:hover.active{
+        background: #44abe5;
+        border-color: #44abe5;
+        color: #fff !important;
+    }
+    .page-welcome .datepicker table tr td.today,
+    .page-welcome .datepicker table tr td.today:hover,
+    .page-welcome .datepicker table tr td.today.disabled,
+    .page-welcome .datepicker table tr td.today.disabled:hover {
+        color: #000000;
+        background: rgba(156,156,156,0.2);
+        border-color: #ffb733;
+    }
+</style>
+
+<!-- handlebars/获取总计结果 -->
+<script id="TPL_getWelcomeKpiList" type="text/x-handlebars-template">
+<div class="row info-count">
+<div id="welcome_carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        {{#each this}}
+        <ul class="row item {{isActive @index}}">
+            {{#each this}}
+            <li class="col-md-3">
+                <span class="info-box-icon bg-{{bgColor}}"><i class="{{icon}}"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">{{shrinkHtmlFilter ext1 10}}</span>
+                    <span class="info-box-number text-{{bgColor}}">{{value}}<small>{{setPercent kpiType}}</small></span>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+        {{/each}}
+    </div>
+    <a class="carousel-control left" href="#welcome_carousel" data-slide="prev">Previous</a>
+    <a class="carousel-control right" href="#welcome_carousel" data-slide="next">Next</a>
+  </div>
+</div>
+</script>
+<script>
+seajs.use("script/welcome", function(Query) {
+    Query.init();
+});
+</script>

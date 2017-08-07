@@ -1,0 +1,137 @@
+{
+  "retCode": "200",
+  "retMessage": null,
+  "data": [
+    {
+      "sysName": "4ASSO",
+      "sysDesc": "4A登录系统",
+      "maxNum": 3,
+      "activeNum":3,
+      "naCodePathCompileExp": {
+        "before": [
+          {
+            "status": "COMMIT",
+            "haderrors": "true",
+            "hadwarnings": "false",
+            "isabort": "false",
+            "iscancelled": "false",
+            "targeturi": "false",
+            "value": null,
+            "planDate": "2017-05-04 00:00:00",
+            "compileNum": 1,
+            "ext1": "编译",
+            "ext2": null,
+            "startTime": "2017-05-04 00:01:00",
+            "stopTime": "2017-05-04 00:00:24",
+            "total": -36000,
+            "result": "false"
+          },
+          {
+            "status": "COMMIT",
+            "haderrors": "false",
+            "hadwarnings": "false",
+            "isabort": "false",
+            "iscancelled": "false",
+            "targeturi": "false",
+            "value": null,
+            "planDate": "2017-05-04 00:00:00",
+            "compileNum": 1,
+            "ext1": "下载",
+            "ext2": null,
+            "startTime": "2017-05-04 00:01:00",
+            "stopTime": "2017-05-04 00:00:24",
+            "total": -36000,
+            "result": "true"
+          },
+          {
+            "status": "RUNNING",
+            "haderrors": "false",
+            "hadwarnings": "false",
+            "isabort": "false",
+            "iscancelled": "false",
+            "targeturi": "false",
+            "value": null,
+            "planDate": "2017-05-04 00:00:00",
+            "compileNum": 1,
+            "ext1": "推送",
+            "ext2": null,
+            "startTime": "2017-05-04 00:01:00",
+            "stopTime": "2017-05-04 00:00:24",
+            "total": -36000,
+            "result": "true"
+          },
+          {
+            "status": "",
+            "haderrors": "false",
+            "hadwarnings": "false",
+            "isabort": "false",
+            "iscancelled": "false",
+            "targeturi": "false",
+            "value": null,
+            "planDate": "2017-05-04 00:00:00",
+            "compileNum": 1,
+            "ext1": "起服",
+            "ext2": null,
+            "startTime": "2017-05-04 00:01:00",
+            "stopTime": "2017-05-04 00:00:24",
+            "total": -36000,
+            "result": "true"
+          }
+        ],
+        "after": [
+          {
+            "status": "",
+            "haderrors": "false",
+            "hadwarnings": "false",
+            "isabort": "false",
+            "iscancelled": "false",
+            "targeturi": "false",
+            "value": null,
+            "planDate": "2017-05-04 00:00:00",
+            "compileNum": 1,
+            "ext1": "发布",
+            "ext2": null,
+            "startTime": "2017-05-04 00:01:00",
+            "stopTime": "2017-05-04 00:00:24",
+            "total": -36000,
+            "result": "true"
+          },
+          {
+            "status": "",
+            "haderrors": "false",
+            "hadwarnings": "false",
+            "isabort": "false",
+            "iscancelled": "false",
+            "targeturi": "false",
+            "value": null,
+            "planDate": "2017-05-04 00:00:00",
+            "compileNum": 1,
+            "ext1": "停服",
+            "ext2": null,
+            "startTime": "2017-05-04 00:01:00",
+            "stopTime": "2017-05-04 00:00:24",
+            "total": -36000,
+            "result": "true"
+          },
+          {
+            "status": "",
+            "haderrors": "false",
+            "hadwarnings": "false",
+            "isabort": "false",
+            "iscancelled": "false",
+            "targeturi": "false",
+            "value": null,
+            "planDate": "2017-05-04 00:00:00",
+            "compileNum": 1,
+            "ext1": "环境验证",
+            "ext2": null,
+            "startTime": "2017-05-04 00:01:00",
+            "stopTime": "2017-05-04 00:00:24",
+            "total": -36000,
+            "result": "true"
+          }
+        ]
+      }
+    }
+  ]
+}

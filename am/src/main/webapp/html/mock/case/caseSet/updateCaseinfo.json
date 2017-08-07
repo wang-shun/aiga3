@@ -1,0 +1,13 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data":{
+        "collectlId":"001",
+        "collectName": "1001",
+        "caseType": "001",
+        "caseNum": "H",
+        "opName":"1",
+        "createTime": "呀",
+        "repairsId": "002"
+    }
+}

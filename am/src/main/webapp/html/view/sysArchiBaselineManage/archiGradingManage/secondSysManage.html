@@ -1,0 +1,217 @@
+<!--Page Start-->
+<style type="text/css"> 
+#Page_secondSysManage .btn-centen {
+	text-align: center;
+}
+#Page_secondSysManage .input-width-sec {
+	width: 170px;
+}
+#Page_secondSysManage .check-inline-label {
+	display: block;
+	float:left;
+	margin-top: 10px;
+}
+#Page_secondSysManage .check-inline {
+	display: block;
+}
+#Page_secondSysManage .total-width {
+	width: 650px;
+}
+#Page_secondSysManage .first-name-label {
+	margin-left: 40px; 
+	margin-right: 20px;
+}
+#Page_secondSysManage .second-label {
+	margin-left: 260px;
+	margin-right: 20px;
+}
+#Page_secondSysManage .margin-no-label {
+	margin-left: 80px;
+	margin-right: 20px;
+}
+#Page_secondSysManage .margin-domain-label {
+	margin-left: 40px;
+	margin-right: 18px;
+}
+#Page_secondSysManage .margin-top-20 {
+	margin-top: 20px;
+}
+#Page_secondSysManage .margin-onl {
+	margin-left: 20px;
+}
+#Page_secondSysManage .btn-table-update {
+	margin-right: 20px;
+}
+#Page_secondSysManage .btn-table-delete {
+	margin-right: 20px;
+}
+</style> 
+<div class="row" id="Page_secondSysManage">
+<div class="box box-primary">
+    <form id="JS_querySysDomainForm" class="form-horizontal">
+        <div class="box-header with-border">
+            <h3 class="box-title">按条件查询</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div id="JS_select_data" class="form-group form-inline">
+                	<form>
+                    	<label class="control-label margin-onl">一级域:</label>
+                   		<select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
+                       		<option value="">请选择</option>
+                    	</select>
+                    </form>
+                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+                    <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
+                </div>             
+            </div>
+        </div>
+    </form>
+</div>
+<div class="box" id="JS_secSysMessageList">
+    <div class="box-header" >
+        <h3 class="box-title">系统信息列表</h3>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>中心(二级)</th>
+                    <th>简称</th>
+                    <th>编号</th>
+                    <th>所在分层分级</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody name="content"></tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+    </div> 
+</div>
+<!-- 申请页面 -->
+<div class="modal fade" id="JS_secondApplyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">子域（二级）信息申请</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+					<form id="JS_secApplyForm">
+					<div class="col-md-12">
+						<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
+	   					<input name="name" type="text" class="form-control input-sm input-width-sec"></input>
+				     	<label class="control-label margin-no-label">编号<span style="color:red">*</span></label>
+						<input name="sysId" type="text" class="form-control input-sm input-width-sec"></input>
+					</div>
+					<div id="select-load" class="margin-top-20 col-md-12">
+						<label class="control-label first-name-label">简称<span style="color:red">*</span></label>
+						<input name="code" type="text" class="form-control input-sm input-width-sec"></input>
+	    				<label class="control-label margin-domain-label">所属一级域<span style="color:red">*</span></label>
+        				<select name="idBelong"  class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 170px">
+            				<option value="">请选择</option>
+         				</select>
+					</div>
+					</form>
+					<div class="margin-top-20 col-md-12">	        	
+	    				<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
+	     			    <div class="check-inline">				
+	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label style="width:45px;">SaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label style="width:45px;">IPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"/><label style="width:45px;">DaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"/><label style="width:45px;">UPaaS</label>
+							<br/>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"/><label style="width:45px;">BPaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"/><label style="width:45px;">IaaS</label>
+							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"/><label style="width:45px;">TPaaS</label>
+					   </div>			
+					</div>
+          	   </div>
+          	</div>
+            <div class="modal-footer btn-centen">
+         	    <button type="button" class="btn btn-primary" name="save">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改页面 -->
+<div class="modal fade" id="JS_secondUpdateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">子域（二级）信息修改</h4>
+            </div>
+            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
+          	</div>
+            <div class="modal-footer btn-centen">
+         	    <button type="button" class="btn btn-primary" name="save">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script id="TPL_secondUpdateFrom" type="text/x-handlebars-template">
+<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+	<form id="JS_secUpdateForm">
+	<div class="col-md-12">
+		<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
+		<input name="name" type="text" class="form-control input-sm" value="{{name}}"></input>
+		<label class="control-label margin-no-label">编号<span style="color:red">*</span></label>
+		<input name="sysId" type="text" class="form-control input-sm" readonly="readonly" value="{{idSecond}}"></input>
+	</div>
+	<div id="select-load" class="margin-top-20 col-md-12">
+		<label class="control-label first-name-label">简称<span style="color:red">*</span></label>
+		<input name="code" type="text" class="form-control input-sm" value="{{code}}"></input>
+		<label class="control-label margin-domain-label">所属一级域<span style="color:red">*</span></label>
+		<input type="text" class="form-control input-sm" readonly="readonly" value="{{idFirstName}}"></input>
+		<input type="hidden" name="idBelong"  value="{{idFirst}}"></input>
+		<input type="hidden" name="createDate" value="{{createDate}}"></input>
+		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>
+	</div>
+	</form>
+	<div class="margin-top-20 col-md-12">	    
+		<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
+		<div class="check-inline">				
+	       	<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS"/><label style="width:45px;">SaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"/><label style="width:45px;">IPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"/><label style="width:45px;">DaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"/><label style="width:45px;">UPaaS</label>
+			<br/>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS"/><label style="width:45px;">BPaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"/><label style="width:45px;">IaaS</label>
+			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS/"><label style="width:45px;">TPaaS</label>
+		</div>
+	</div>
+</div>
+</script>
+<!--   <input type="hidden" value="{{caseId}}" name="caseId">
+ -->
+<script id="TPL_getSecMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{idSecond}}" name="idSecond"></td>
+    <td>{{name}}</td>
+    <td>{{code}}</td>
+    <td>{{idSecond}}</td>
+    <td>{{belongLevel}}</td>
+    <td><button class="btn btn-primary btn-table-update" temp="{{idSecond}}">修改</button><button class="btn btn-primary btn-table-delete" temp="{{idSecond}}">删除</button></td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/sysArchiBaselineManage/archiGradingManage/secondSysManage", function(init) {
+	init.init();
+});
+</script>
+

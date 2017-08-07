@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd 
+		http://cxf.apache.org/jaxws https://cxf.apache.org/schemas/jaxws.xsd">
+
+	<description>Spring公共配置 </description>
+
+	<!-- 使用annotation 自动注册bean, 并保证@Required、@Autowired的属性被注入 -->
+	<context:component-scan base-package="com.ai.am">
+		<context:exclude-filter type="annotation" expression="org.springframework.context.annotation.Configuration" />
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<!-- db 事务 -->
+	<import resource="classpath*:/spring-db.xml" />
+
+	<!-- 让系统可以用到该上线文 -->
+	<bean class="com.ai.am.util.spring.ApplicationContextUtil" />
+
+	<!-- 缓存 -->
+	<import resource="classpath*:/spring-ehcache.xml" />
+
+	<!-- webservice
+	<import resource="classpath*:/spring-soap-server.xml" />
+	 -->
+
+	<!-- 邮件 -->
+	<import resource="classpath*:/spring-mail.xml" />
+	
+	
+	<!-- shiro -->
+	<import resource="classpath*:/spring-shiro.xml" />
+	
+
+	<!-- 定义开发的profile -->
+	<beans profile="dev">
+		<context:property-placeholder
+			ignore-unresolvable="true" location="classpath*:/dev/app.properties" />
+	</beans>
+
+	<!-- 定义测试的profile -->
+	<beans profile="qa">
+		<context:property-placeholder
+			ignore-unresolvable="true" location="classpath*:/qa/app.properties" />
+	</beans>
+
+	<!-- 定义生产的profile -->
+	<beans profile="prod">
+		<context:property-placeholder
+			ignore-unresolvable="true" location="classpath*:/prod/app.properties" />
+	</beans>
+
+
+</beans>

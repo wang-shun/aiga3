@@ -1,0 +1,297 @@
+<div class="row" id="Page_archiGradingView">
+    <div class="box box-primary">
+        <form id="JS_querySysDomainForm" class="form-horizontal">
+            <div class="box-header with-border">
+                <h3 class="box-title">按条件查询</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-12">
+                    <div id="JS_selectData" class="form-group form-inline">
+                        <label class="control-label margin-onl">一级域:</label>
+                  		<select name="primaryDomain" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
+                            <option value="">请选择</option>
+                        </select>
+                        <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="2"  checked="checked" />二级架构视图 </label>
+                        <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="3" />三级架构视图 </label>
+                        <label><input style="margin-left:10px;" name="viewLevel" type="radio" value="1" />IT系统一级架构视图 </label>
+                        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query" data-level="0">查询</button>
+                        <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="export">导出</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="box" id="JS_sysMessageView">
+        <div class="box-header" >
+            <h3 class="box-title">视图</h3>
+        </div>
+        <div class="box-body" name="archiView" id="archiView">
+            <!-- 视图 -->
+        </div>
+    </div>
+</div>
+<style type="text/css">
+#Page_archiGradingView .margin-onl {
+	margin-left: 20px;
+}
+
+.mxgif-wrapper{
+    width: 1140px;
+    min-height: 250px;
+    margin:20px auto;
+    border:#eee 1px solid;
+}
+
+.mxgif-container{
+    border:#787878 1px solid;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+}
+
+
+.mxgif-container .mxgif-container{
+    padding-right: 0;
+}
+
+.mxgif-sidebar{
+    float: left;
+}
+
+.mxgif-sidebar{
+    display:table;
+    text-align: left;
+    font-weight: 700;
+    font-size: 14px;
+    /*height: 100px;*/
+}
+
+.mxgif-sidebar p{
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.mxgif-lists.min-height{
+  min-height: 60px;
+}
+
+.mxgif-lists-content{
+  position: relative;
+}
+
+.mxgif-container.width-1 .mxgif-sidebar{
+    width: 62px;
+}
+
+.mxgif-container.width-1 .mxgif-lists{
+    margin-right: -62px;
+    float: right;
+    width: 100%;
+}
+
+.mxgif-container.width-1 .mxgif-lists-content{
+    margin-right: 62px;
+
+}
+.mxgif-container.width-2 .mxgif-sidebar{
+    width: 136px;
+}
+
+.mxgif-container.width-2 .mxgif-lists{
+    margin-right: -136px;
+    float: right;
+    width: 100%;
+}
+
+.mxgif-container.width-2 .mxgif-lists-content{
+    margin-right: 136px;
+}
+
+.mxgif-container.width-3 .mxgif-sidebar{
+    width: 204px;
+}
+
+.mxgif-container.width-3 .mxgif-lists{
+    margin-right: -204px;
+    float: right;
+    width: 100%;
+}
+
+.mxgif-container.width-3 .mxgif-lists-content{
+    margin-right: 204px;
+}
+
+
+
+.mxgif-lists.height-1 .mxgif-lists-item{
+    min-height: 110px;
+    line-height: 110px;
+    margin: 5px 0;
+}
+
+.mxgif-lists.height-2 .mxgif-lists-item{
+    min-height: 50px;
+    line-height: 50px;
+    margin: 5px 0;
+}
+
+.mxgif-lists.height-3 .mxgif-lists-item{
+    min-height: 30px;
+    line-height: 30px;
+    margin: 5px 0;
+}
+
+.mxgif-lists-content .mxgif-lists-item{
+    float: left;
+    text-align: center;
+    background: #bbdcf4;
+    font-weight: 700;
+    border-right: #fff 5px solid;
+    border-left: #fff 5px solid;
+}
+
+.mxgif-lists-content.item-1 .mxgif-lists-item{
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.mxgif-lists-content.item-2 .mxgif-lists-item{
+    width: 50%;
+}
+
+.mxgif-lists-content.item-3 .mxgif-lists-item{
+    width: 33.3%;
+}
+
+.mxgif-lists-content.item-4 .mxgif-lists-item{
+    width: 25%;
+}
+
+.mxgif-lists-content.item-5 .mxgif-lists-item{
+    width: 20%;
+}
+
+
+.mxgif-lists-content .mxgif-cross-content.width-auto{
+  width: 100%;
+  float: right;
+}
+
+.mxgif-position-cross-content{
+  position:absolute;
+  float: left;
+  width: 50%;
+  z-index: 1000;
+}
+
+.mxgif-position-cross-content div{
+  position: absolute;
+  overflow: hidden;
+  width: 20px;
+  padding: 0 10px;
+  background: #bbdcf4;
+  text-align: center;
+  box-sizing: content-box;
+}
+
+.mxgif-position-cross-content .show{
+  display: block;
+}
+
+.mxgif-position-cross-content .hide{
+  display: none;
+}
+
+
+/* 清理浮动 */
+.fn-clear:after {
+  visibility:hidden;
+  display:block;
+  font-size:0;
+  content:" ";
+  clear:both;
+  height:0;
+}
+.fn-clear {
+  zoom:1; /* for IE6 IE7 */
+}
+
+
+/*third*/
+.mxgif-wrapper.mxgif-third .mxgif-lists.height-2 .mxgif-lists-item{
+  /*line-height: 20px;*/
+  padding: 0 10px;
+}
+
+
+.mxgif-lists .mxgif-lists-item h3.mxgif-item-title{
+   font-size: 14px;
+   font-weight: 700;
+   padding: 10px 0;
+   margin: 0;
+}
+
+.mxgif-lists .mxgif-lists-item .mxgif-third-item{
+  /*float: left;*/
+  display: inline-block;
+  width: 152px;
+  height: 30px;
+  line-height: 30px;
+  background:#fff;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 3px;
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+
+.mxgif-state-lists{
+  padding: 20px 0;
+  text-align: center;
+}
+
+.mxgif-third .mxgif-lists-content .mxgif-lists-item{
+  padding: 0 3px 3px 3px;
+}
+
+
+
+.mxgif-third .mxgif-lists.height-1 .mxgif-lists-item,
+.mxgif-third .mxgif-lists.height-2 .mxgif-lists-item,
+.mxgif-third .mxgif-lists.height-3 .mxgif-lists-item{
+    line-height: 0;
+}
+
+
+.mxgif-state-lists .mxgif-state-item{
+  padding: 7px 15px;
+  margin: 0 5px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mxgif-one .mxgif-lists.height-2 .mxgif-lists-item{
+  min-height: 40px;
+  line-height: 40px;
+}
+
+.mxgif-one .mxgif-position-cross-content div{
+  background: #64bbe6;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+
+</style>
+<script>
+seajs.use("script/sysArchiBaselineManage/archiGradingView", function(init) {
+	init.init();
+});
+</script>
+

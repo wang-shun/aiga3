@@ -1,0 +1,44 @@
+{
+    "retCode":"200",
+    "retMessage":null,
+    "data":{
+        "totalElements":12, //总条数
+  	    "content":
+        [{
+            "configName": "赵岩_CRM与家开平台的接口增加userid的变更需求主机配置",
+        	"bmConfig": "BM配置1",
+        	"onlineConfigList":"无需操作",
+    	   	"testConfigRecord": "OK",
+    	   	"zConfigRecord": "OK",
+    	   	"bm": "郑炜"
+        },{
+      		"configName": "赵岩_CRM与家开平台的接口增加userid的变更需求主机配置",
+        	"bmConfig": "BM配置1",
+        	"onlineConfigList":"无需操作",
+    	   	"testConfigRecord": "OK",
+    	   	"zConfigRecord": "OK",
+    	   	"bm": "郑炜"
+        },{
+      		"configName": "赵岩_CRM与家开平台的接口增加userid的变更需求主机配置",
+        	"bmConfig": "BM配置1",
+        	"onlineConfigList":"无需操作",
+    	   	"testConfigRecord": "OK",
+    	   	"zConfigRecord": "OK",
+    	   	"bm": "郑炜"
+        },{
+      		"configName": "赵岩_CRM与家开平台的接口增加userid的变更需求主机配置",
+        	"bmConfig": "BM配置1",
+        	"onlineConfigList":"无需操作",
+    	   	"testConfigRecord": "OK",
+    	   	"zConfigRecord": "OK",
+    	   	"bm": "郑炜"
+        },{
+      		"configName": "赵岩_CRM与家开平台的接口增加userid的变更需求主机配置",
+        	"bmConfig": "BM配置1",
+        	"onlineConfigList":"无需操作",
+    	   	"testConfigRecord": "OK",
+    	   	"zConfigRecord": "OK",
+    	   	"bm": "郑炜"
+        }]
+    }
+}

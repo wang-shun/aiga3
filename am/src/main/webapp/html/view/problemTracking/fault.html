@@ -1,0 +1,294 @@
+<div class="row" id="Page_fault">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">按条件查询</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <form id="JS_queryFaultForm">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">变更计划名称</label>
+                                <select name="onlinePlans" class="form-control input-sm">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">类别</label>
+                                <select name="bugType" class="form-control select2 input-sm" data-url="getSysList" data-subname="bugLevel" data-idkey="bugType" data-namekey="sysName">
+                                    <option value="">请选择</option>
+                                    <option value="1">故障</option>
+                                    <option value="2">异常</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">故障级别</label>
+                                <select name="bugLevel" data-suburl="getSubsysList" data-subname="funId" data-idkey="bugLevel" data-namekey="sysName" class="form-control select2 input-sm">
+                                    <option value="">请选择</option>
+                                    <option value="1">红色</option>
+                                    <option value="2">橙色</option>
+                                    <option value="3">黄色</option>
+                                    <option value="4">蓝色</option>
+                                    <option value="5">灰色</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">需求名称</label>
+                                <input type="text" class="form-control input-sm " name="requireName">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>是否解决</label>
+                                <select name="resove" class="form-control input-sm">
+                                    <option value="">请选择</option>
+                                    <option value="1">是</option>
+                                    <option value="2">否</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>解决时间</label>
+                                <input type="text" class="form-control input-sm " name="doneDate" onClick="WdatePicker({dateFmt:'yyyyMMdd'})">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="text-center">
+                            <button type="reset" class="btn btn-default" name="chongZhi">重置</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="JS_getFaultList" class="box" style="min-height: 100px">
+            <div class="box-header">
+                <div class="col-md-2">
+                    <h3 class="box-title">故障&异常</h3>
+                </div>
+                <div class="col-md-4">
+                    <form id="JS_importFile" class="form-horizontal" role="form">
+                        <div class="form-group form-inline">
+                            <label>导&nbsp;&nbsp;入&nbsp;&nbsp;文&nbsp;&nbsp;件&nbsp;&nbsp;:</label>
+                            <input type="text" class="form-control input-sm " name="doneDate"> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="import">导入</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="download">下载模板</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-tools">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" name="save"><i class="fa fa-edit"></i> 新增</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="javascript:;" name="edit">修改</a></li>
+                            <li><a href="javascript:;" name="delete">删除</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div name="getFaultList" class="box-body" style="min-height: 100px;">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>计划名称</th>
+                            <th>类别</th>
+                            <th>故障级别</th>
+                            <th>需求名称</th>
+                            <th>问题描述</th>
+                            <th>原因分析</th>
+                            <th>改进措施</th>
+                            <th>责任方</th>
+                            <th>原因分类</th>
+                            <th>创建人</th>
+                            <th>创建时间</th>
+                            <th>是否解决</th>
+                            <th>解决时间</th>
+                            <th>发现时间</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                </table>
+            </div>
+            <div class="box-footer no-border">
+                <div class="dataTables_paginate" name="pagination"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 编辑故障 -->
+<div class="modal fade" id="JS_addFaultFormModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">新增故障&异常</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0" id="JS_addFaultForm">
+            </div>
+        </div>
+    </div>
+</div>
+<script id="TPL_getFautList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{bugId}}" name="bugId">
+        </td>
+        <td>{{onlinePlanName}}</td>
+        <td>{{td_types bugType}}</td>
+        <td>{{bugLevels bugLevel}}</td>
+        <td>{{requireName}}</td>
+        <td>{{question}}</td>
+        <td>{{resons}}</td>
+        <td>{{methods}}</td>
+        <td>{{deal}}</td>
+        <td>{{type}}</td>
+        <td>{{createId}}</td>
+        <td>{{createDate}}</td>
+        <td>{{resoves resove}}</td>
+        <td>{{doneDate}}</td>
+        <td>{{foundDate}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_addFaultForm" type="text/x-handlebars-template">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <form name="addFaultForm">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>变更计划名称</label>
+                                    <select name="onlinePlans" class="form-control input-sm">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>类别</label>
+                                    <select name="bugType" class="form-control select2 input-sm" data-url="getSysList" data-subname="bugLevel" data-idkey="bugType" data-namekey="sysName">
+                                        <option value="">请选择</option>
+                                        <option value="1">故障</option>
+                                        <option value="2">异常</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>故障级别</label>
+                                    <select name="bugLevel" class="form-control select2 input-sm" disabled="disabled">
+                                        <option value="">请选择</option>
+                                        <option value="1">红色</option>
+                                        <option value="2">橙色</option>
+                                        <option value="3">黄色</option>
+                                        <option value="4">蓝色</option>
+                                        <option value="5">灰色</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>发现时间:</label>
+                                    <input type="text" class="form-control input-sm " value="{{foundDate}}" name="foundDate" onClick="WdatePicker({dateFmt:'yyyyMMdd'})">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>是否解决</label>
+                                    <select name="resove" class="form-control select2 input-sm" data-url="getSysList" data-subname="bugLevel" data-idkey="bugType" data-namekey="sysName">
+                                        <option value="">请选择</option>
+                                        <option value="1">是</option>
+                                        <option value="2">否</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>解决时间</label>
+                                    <input type="text" class="form-control input-sm " name="doneDate" value="{{doneDate}}" onClick="WdatePicker({dateFmt:'yyyyMMdd'})">
+                                </div>
+                            </div>
+                            <div class="col-md-3 ">
+                                <div class=" form-group">
+                                    <label>责任方</label>
+                                    <input type="text" class="form-control input-sm " name="deal" value="{{deal}}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>原因分类</label>
+                                    <input type="text" class="form-control input-sm " name="type" value="{{type}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>需求名称：</label>
+                                    <textarea class="form-control" rows="3" name="requireName">{{requireName}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>问题描述：</label>
+                                    <textarea class="form-control" rows="3" name="question">{{question}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>原因分析：</label>
+                                    <textarea class="form-control" rows="3" name="reasons">{{reasons}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>改进措施：</label>
+                                    <textarea class="form-control" rows="3" name="methods">{{methods}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default pull-left" name="cancel" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" name="save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script>
+seajs.use("script/problemTracking/fault", function(getFault) {
+    getFault.init();
+});
+</script>

@@ -1,0 +1,40 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":[{
+    "email": "lining@asiainfo.com1,lining@asiainfo.com1,lining@asiainfo.com1,lining@asiainfo.com1,lining@asiainfo.com1",
+    "name":"团队1",
+  },{
+    "email": "lining@asiainfo.com1",
+    "name":"李宁&lt;lining@asisadasdasdasainfo.com1&gt;",
+  },{
+    "email": "lining@asiainfo.com2",
+    "name":"李宁&lt;lig@nin.com2&gt;",
+	
+  },{
+    "email": "lining@asiainfo.com3",
+    "name":"李宁 lining@asiainfo.com3",
+	
+  },{
+    "email": "lining@asiainfo.com4",
+    "name":"李宁 lining@asiainfo.com4",
+  },{
+    "email": "lining@asiainfo.com5",
+    "name":"李宁 lining@asiainfo.com5",
+  },{
+    "email": "lining@asiainfo.com6",
+    "name":"李宁 lining@asiainfo.com6",
+  },{
+    "email": "lining@asiainfo.com7",
+    "name":"李宁 lining@asiainfo.com7",
+  },{
+    "email": "lining@asiainfo.com8",
+    "name":"李宁 lining@asiainfo.com8",
+  },{
+    "email": "lining@asiainfo.com9",
+    "name":"李宁 lining@asiainfo.com9",
+  },{
+    "email": "lining@asiainfo.com10",
+    "name":"李宁 lining@asiainfo.com10",
+  }]
+}

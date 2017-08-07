@@ -1,0 +1,14 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data":{
+	"machineId":"1",
+    "machineIp": "10102",
+    "machineName":"机器名称1",
+	"status": "机器状态1",
+	"machineAccount":"账号1",
+	"machinePassword":"密码1",
+	"requestTime":"2017-2-02 08:00:00",
+	"taskId": "1"
+  	}
+}

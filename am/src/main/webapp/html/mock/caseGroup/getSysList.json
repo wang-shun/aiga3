@@ -1,0 +1,37 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":[{
+    "sysId": "11",
+    "sysName":"系统大类",
+  },{
+    "sysId": "22",
+    "sysName":"系统大类",
+	
+  },{
+    "sysId": "33",
+    "sysName":"系统大类",
+	
+  },{
+    "sysId": "44",
+    "sysName":"系统大类",
+  },{
+    "sysId": "55",
+    "sysName":"系统大类",
+  },{
+    "sysId": "66",
+    "sysName":"系统大类",
+  },{
+    "sysId": "77",
+    "sysName":"系统大类",
+  },{
+    "sysId": "00",
+    "sysName":"系统大类",
+  },{
+    "sysId": "88",
+    "sysName":"系统大类",
+  },{
+    "sysId": "99",
+    "sysName":"系统大类",
+  }]
+}

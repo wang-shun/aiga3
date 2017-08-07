@@ -1,0 +1,186 @@
+<!--Page Start-->
+<head> 
+<style type="text/css"> 
+#Page_sysMessageQuery .btn-center {
+	text-align: center;
+}
+#Page_sysMessageQuery .domain-width {
+	width: 157px;
+}
+#Page_sysMessageQuery .first-name-label {
+	margin-left: 40px; 
+	margin-right: 20px;
+}
+#Page_sysMessageQuery .second-label {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#Page_sysMessageQuery .margin-on {
+	margin-right: 20px;
+}
+#Page_sysMessageQuery .total-width {
+	width: 850px;
+}
+#Page_sysMessageQuery .margin-onl {
+	margin-left: 20px;
+	margin-right: 20px;
+}
+#Page_sysMessageQuery .fist-text-label {
+	width: 90px;
+}
+#Page_sysMessageQuery .margin-top-20 {
+	margin-top: 20px;
+}
+#Page_sysMessageQuery .text-area-sty {
+	margin-top:10px;
+	width: 680px;
+	vertical-align:middle; 
+}
+#Page_sysMessageQuery .width-input-400 {
+	width: 412px;
+}
+</style> 
+</head> 
+<div class="row" id="Page_sysMessageQuery">
+<div class="box box-primary">
+    <form id="JS_querySysDomainForm" class="form-horizontal">
+        <div class="box-header with-border">
+            <h3 class="box-title">系统信息查询</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div id="JS_select_data" class="form-group form-inline">
+                    <label class="control-label margin-onl">系统名称:</label>
+                    <input name="name" type="text" class="form-control input-sm"></input>
+                    <label class="control-label margin-onl">系统编号:</label> 
+                    <input name="idThird" type="text" class="form-control input-sm"></input>                 
+                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="export">导出</button>
+                </div>             
+            </div>
+        </div>
+    </form>
+</div>
+<div class="box" id="JS_sysMessageQuery">
+    <div class="box-header" >
+        <h3 class="box-title">系统信息列表</h3>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th style="min-width: 45px">系统名称</th>
+                    <th>系统编号</th>
+                    <th style="min-width: 69px">所属一级域</th>
+                    <th style="min-width: 51px">所属二级域</th>
+                    <th>所属分层</th>
+                    <th>系统描述</th>
+                    <th style="min-width: 50px">责任部门</th>
+                    <th style="min-width: 50px">项目立项信息</th>
+                    <th style="min-width: 50px">规划设计信息</th>
+                    <th style="min-width: 45px">状态</th>
+                </tr>
+            </thead>
+            <tbody name="content"></tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+    </div> 
+</div>
+<!-- 修改页面 -->
+<div class="modal fade" id="JS_fullSystemMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">系统（三级）信息</h4>
+            </div>
+            <div id="JS_queryThirdMessageModal" class="modal-body" style="padding-bottom: 0">
+          	</div>
+          	<div class="modal-footer btn-center">
+            	<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+        	</div>
+        </div>
+    </div>
+</div>
+</div>
+<script id="TPL_fullSystemMessageFrom" type="text/x-handlebars-template">
+<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+	<form id = "JS_thirdUpdateForm">
+	<div class="col-md-12">
+		<label class="control-label first-name-label">名称</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
+	    <label class="control-label margin-onl">简称</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{code}}"></input>
+	    <label class="control-label margin-onl">系统编号</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{idThird}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">系统功能描述</label>
+		<textarea cols="107" rows="4" class="form-control input-sm text-area-sty">{{systemFunction}}</textarea>
+	</div>
+	<div id="updata-select" class="margin-top-20 col-md-12 form-group">
+	    <label class="control-label fist-text-label">所属一级域</label>
+		<input type="text" class="form-control input-sm domain-width" value="{{firName}}"></input>
+	    <label class="control-label fist-text-label" style="margin-left: 1px;">所属二级子域</label>
+		<input type="text" class="form-control input-sm domain-width" value="{{secName}}"></input>
+        <label class="control-label second-label">等级信息</label>
+        <input name="rankInfo" type="text" class="form-control input-sm width-input-167" value="{{rankInfo}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">项目立项信息</label>
+		<input name="projectInfo" type="text" class="form-control input-sm width-input-400" value="{{projectInfo}}"></input>
+		<label class="control-label second-label">责任部门</label>
+     	<input name="department" type="text" class="form-control input-sm width-input-167" value="{{department}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">规划设计信息</label>
+		<input type="text" class="form-control input-sm width-input-400" value="{{designInfo}}"></input>
+	
+		<label class="control-label second-label">建设状态</label>
+		<input type="text" class="form-control input-sm" value="{{ext2}}{{codeName}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">分层层级</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{belongLevel}}"></input>
+	    <label class="control-label margin-onl">媒体</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{ext3}}"></input>
+	    <label class="control-label margin-onl">创建时间</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{createDate}}"></input>
+	</div>
+	<div class="margin-top-20 col-md-12">
+		<label class="control-label fist-text-label">修改时间</label>
+	    <input type="text" class="form-control input-sm width-input-167" value="{{modifyDate}}"></input>
+	</div>
+	</form>
+</div>
+</script>
+<script id="TPL_getFullSysMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+    <td>{{name}}</td>
+    <td>{{idThird}}</td>
+	<td>{{firName}}</td>
+	<td>{{secName}}</td>
+	<td>{{belongLevel}}</td>
+	<td>{{systemFunction}}</td>
+	<td>{{department}}</td>
+	<td>{{projectInfo}}</td>
+	<td>{{designInfo}}</td>
+	<td>{{codeName}}</td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/sysArchiBaselineManage/sysMessageQuery", function(init) {
+	init.init();
+});
+</script>
+

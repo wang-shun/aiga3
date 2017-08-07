@@ -1,0 +1,686 @@
+<div class="row" id="Page_changePlanOnile">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">条件查询</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <form id="JS_queryChangePlanOnileForm">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>变更计划名称</label>
+                                <select name="onlinePlan" class="form-control input-sm" data-url="queryOnlinePlanName" data-idkey="onlinePlan" data-namekey="onlinePlanName">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>计划状态</label>
+                                <select name="planState" class="form-control input-sm">
+                                    <option value="">请选择</option>
+                                    <option value="1">新建</option>
+                                    <option value="2">处理中</option>
+                                    <option value="3">完成</option>
+                                    <option value="4">取消</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>变更类型</label>
+                                <select name="types" class="form-control input-sm">
+                                    <option value="">请选择</option>
+                                    <option value="1">计划上线</option>
+                                    <option value="2">紧急上线</option>
+                                    <option value="3">计划变更</option>
+                                    <option value="4">紧急变更</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>起始时间</label>
+                                <input type="text" class="form-control input-sm " name="time1" id="JS_createDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请选择起始时间">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label>终止时间</label>
+                                <input type="text" class="form-control input-sm " name="time2" id="JS_doneDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请选择终止时间">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class=" text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" id="JS_queryChangePlanOnileBtn" name="submit">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_changePlanOnlie">
+            <div class="box-header">
+                <h3 class="box-title">变更计划列表</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-primary" name="addSummary">添加上线变更总结
+                    </button>
+                    <button type="button" class="btn btn-primary" name="queryDel">查看交付物
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" name="add" data-toggle="modal">添加
+                        </button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span> <span class="sr-only">Toggle
+							Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="javascript:;" name="modify">修改</a></li>
+                            <li><a href="javascript:;" name="scrap">废弃</a></li>
+                            <li><a href="javascript:;" name="cancel">取消</a></li>
+                            <li><a href="javascript:;" name="reviewDel">评审交付物</a></li>
+                            <li><a href="javascript:;" name="upload">上传交付物</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="JS_getChangePlanOnlieList" class="box-body table-scrollable">
+                <table class="table table-bordered table-hover" style="width: 2200px;">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>变更计划名称</th>
+                            <th>类型</th>
+                            <th>计划状态</th>
+                            <th>计划上线时间</th>
+                            <th>上线结论</th>
+                            <th>上线申请是否及时</th>
+                            <th>创建人</th>
+                            <th>创建时间</th>
+                            <th>完成时间</th>
+                            <th>备注</th>
+                            <th>截止时间</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                </table>
+            </div>
+            <div class="box-footer no-border">
+                <div class="dataTables_paginate" name="pagination"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 弹框，新增 -->
+<div class="modal fade" id="Modal_addChangePlanFormModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 name="head" class="box-title">新增计划</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-body">
+                            <form>
+                                <div class="alert alert-warning alert-dismissible">
+                                    <h4><i class="icon fa fa-warning"></i> 小提示</h4> 变更计划名称根据变更时间和类型自动组合而成。
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="JS_addChangePlanForm">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 弹框，查看交付物 -->
+<div class="modal fade" id="Modal_seeRequFormModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 name="head" class="box-title">查看交付物</h4>
+            </div>
+            <div class="modal-body" id="JS_seeRequForm">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加交付物 -->
+<div class="modal fade" id="Modal_addDdeliverablesModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 name="head" class="box-title">上线交付物</h4>
+            </div>
+            <div class="modal-body" id="JS_addDdeliverablesForm">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <form id="JS_uploadDeliveryForm">
+                                <div class="col-md-12">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>导入文件</label>
+                                                        <input type="file" name="fileName" class="form-control input-sm">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>文件类型</label>
+                                                        <select name="category" class="form-control input-sm" data-cmd="category=enclosuretype" data-url="getCategory" data-idkey="value" data-namekey="show">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadTemp">下载模板</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">上线交付物列表</h3>
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-primary" name="add">下载文档</button>
+                            <button type="button" class="btn btn-primary" name="bianyi">删除文档</button>
+                        </div>
+                    </div>
+                    <div class="box-body" style="min-height: 100px;">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="iCheckbox" width="15"></th>
+                                    <th>文件名称</th>
+                                    <th>上传时间</th>
+                                    <th>最后一次上传时间</th>
+                                    <th>上传次数</th>
+                                    <th>下载时间</th>
+                                    <th>文件类型</th>
+                                </tr>
+                            </thead>
+                            <tbody name="content"></tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border">
+                        <div class="dataTables_paginate" name="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 变更交付物导入 -->
+<div class="modal fade" id="Modal_changeDeliverable" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">变更交付物</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="box">
+                    <form id="JS_changeDeliverableForm">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>导入文件</label>
+                                        <input type="file" name="fileName" class="form-control input-sm">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>文件类型</label>
+                                        <select name="category" class="form-control input-sm">
+                                            <option value="">请选择</option>
+                                            <option value="20">变更交付物</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadTemp">下载模板</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="box" style="min-height: 100px" id="JS_getChangeDeliverableList">
+                    <div class="box-header">
+                        <h3 class="box-title">变更交付物列表</h3>
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="downloadDocument">下载文档</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" name="deleteDocument">删除文档</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="iCheckbox" width="15"></th>
+                                    <th>文件名称</th>
+                                    <th>上传时间</th>
+                                    <th>最后一次上传时间</th>
+                                    <th>上传次数</th>
+                                    <th>下载时间</th>
+                                    <th>文件类型</th>
+                                </tr>
+                            </thead>
+                            <tbody name="content"></tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border">
+                        <div class="dataTables_paginate" name="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 添加上线变更总结 -->
+<div class="modal fade" id="Modal_addChangePlanResultFormModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="box-tools pull-right">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="box" style="min-height: 100px">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">添加上线变更总结</h3>
+                    </div>
+                    <div class="box-body">
+                        <form id="JS_addChangePlanResulForm" role="form"></form>
+                    </div>
+                </div>
+                <div class="box" style="min-height: 100px" id="JS_addChangePlanResulList">
+                    <div class="box-header">
+                        <form>
+                            <div class="form-group form-inline">
+                                <label>选择文件：</label>
+                                <input type="text" class="form-control input-sm" name="fileName">
+                                <button type="reset" class="btn btn-default" name="reset">上传文档</button>
+                            </div>
+                        </form>
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-primary">删除文档
+                            </button>
+                            <button type="button" class="btn btn-primary">下载文档
+                            </button>
+                            <!-- <button type="button" class="btn btn-primary">下载文档
+                            </button> -->
+                        </div>
+                    </div>
+                    <div class="box" style="min-height: 100px;" id="JS_getChangePlanResulList">
+                        <div class="box-body">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="iCheckbox" width="15"></th>
+                                        <th>文件名称</th>
+                                        <th>上传时间</th>
+                                        <th>最后一次上传时间</th>
+                                        <th>上传次数</th>
+                                        <th>下载时间</th>
+                                        <th>文件类型</th>
+                                    </tr>
+                                </thead>
+                                <tbody name="content"></tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer no-border">
+                            <div class="dataTables_paginate" name="pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <div class="text-center">
+                    <button type="reset" class="btn btn-default" id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="JS_addCaseSetinfoSubmit">确认</button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<script id="TPL_getChangePlanOnlieList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{onlinePlan}}" name="onlinePlan">
+        </td>
+        <td>
+            <input type="hidden" value="{{onlinePlanName}}" name="onlinePlanName">{{onlinePlanName}}</td>
+        <td>
+            <input type="hidden" value="{{types}}" name="types">{{type types}}</td>
+        <td>
+            <input type="hidden" value="{{planState}}" name="planState">{{plan_state planState}}</td>
+        <td>
+            <input type="hidden" value="{{planDate}}" name="planDate">{{planDate}}</td>
+        <td>{{results result}}</td>
+        <td>{{timelys timely}}</td>
+        <td>{{createName}}</td>
+        <td>{{createDate}}</td>
+        <td>{{doneDate}}</td>
+        <td>{{remark}}</td>
+        <td>
+            <input type="hidden" value="{{fileUploadLastTime}}" name="fileUploadLastTime">{{fileUploadLastTime}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_addChangePlanForm" type="text/x-handlebars-template">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body">
+                <form name="addChangePlanForm" role="form">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更上线开始时间<i class="text-red">*</i></label>
+                                <input type="text" class="form-control input-sm " name="planDate" id="JS_planDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}" placeholder="请选择变更上线开始时间" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更上线类型<i class="text-red">*</i></label>
+                                <select name="types" id="JS_types" class="form-control input-sm" required>
+                                    <option value="">请选择</option>
+                                    <option value="0">计划上线</option>
+                                    <option value="1">紧急上线</option>
+                                    <option value="2">计划变更</option>
+                                    <option value="3">紧急变更</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更上线计划名称<i class="text-red">*</i></label>
+                                <input type="text" class="form-control input-sm" name="onlinePlanName" id="JS_onlinePlanName" value="{{onlinePlanName}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>备注</label>
+                                <input type="text" class="form-control input-sm" name="remark" value="{{remark}}">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="text-center">
+                    <button type="reset" class="btn btn-default" id="JS_addCaseSetinfoReset" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" name="submit">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="TPL_releaseList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>{{fileName}}</td>
+        <td>{{createTime}}</td>
+        <td>{{lastUploadTime}}</td>
+        <td>{{uploadCount}}</td>
+        <td>{{downLoadTime}}</td>
+        <td>{{fileTypes fileType}}</td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更交付物列表 -->
+<script id="TPL_getChangeDeliverableList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>{{fileName}}</td>
+        <td>{{createTime}}</td>
+        <td>{{lastUploadTime}}</td>
+        <td>{{uploadCount}}</td>
+        <td>{{downLoadTime}}</td>
+        <td>{{fileTypes fileType}}</td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/上线变更总结交付物列表 -->
+<script id="TPL_getChangePlanResulList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>{{fileName}}</td>
+        <td>{{createTime}}</td>
+        <td>{{lastUploadTime}}</td>
+        <td>{{uploadCount}}</td>
+        <td>{{downLoadTime}}</td>
+        <td>{{fileTypes fileType}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_addChangePlanResulForm" type="text/x-handlebars-template">
+    <div class="box-body">
+        <!-- 新增 -->
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>变更上线计划名称</label>
+                    <input disabled="disabled" type="text" class="form-control input-sm" name="onlinePlanName" value="{{onlinePlanName}}">
+                    <input type="hidden" name="onlinePlan" value="{{onlinePlan}}">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>计划状态</label>
+                    <select disabled="disabled" name="planState" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">新建</option>
+                        <option value="2">处理中</option>
+                        <option value="3">完成</option>
+                        <option value="4">取消</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>类型</label>
+                    <select disabled="disabled" name="types" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="0">计划上线</option>
+                        <option value="1">紧急上线</option>
+                        <option value="2">计划变更</option>
+                        <option value="3">紧急变更</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>计划变更上线时间</label>
+                    <input disabled="disabled" type="text" class="form-control input-sm " name="planDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{{planDate}}">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>上线是否及时</label>
+                    <select name="timely" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>结果<i class="text-red">*</i></label>
+                    <select name="result" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">通过</option>
+                        <option value="2">不通过</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>上线总结</label>
+                <textarea class="form-control" rows="3" name="ext2">{{ext2}}</textarea>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="text-center">
+                <button type="reset" class="btn btn-default" name="reset">重置</button>
+                <button type="button" class="btn btn-primary" name="update">修改</button>
+                <button type="button" class="btn btn-primary" name="submit">提交</button>
+                <button type="button" class="btn btn-primary" name="make">生成总结报告</button>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="TPL_seeRequForm" type="text/x-handlebars-template">
+    <div class="box" style="min-height: 100px">
+        <div class="box-header">
+            <h3 class="box-title">需求列表</h3>
+        </div>
+        <div class="box-body" name="seeRequFormList" style="min-height: 100px;">
+        </div>
+    </div>
+</script>
+<script id="TPL_seeRequList" type="text/x-handlebars-template">
+    <form name="seeRequForm">
+        <div class="form-group form-inline">
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;需求名称：</label>
+            <input type="text" class="form-control input-sm" name="requireName" value="{{requireName}}"> &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" name="query">查&nbsp;&nbsp;询</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" name="save">保&nbsp;&nbsp;存</button>
+        </div>
+    </form>
+    <div class="box-body table-scrollable" name="seeTpl">
+        <table class="table table-bordered table-hover" id="JS_requListab" style="width: 1630px;">
+            <!--id="JS_conCaseList"-->
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>发布状态</th>
+                    <th>需求编号</th>
+                    <th>需求名称</th>
+                    <th>需求管理员</th>
+                    <th>开发管理员</th>
+                    <th>测试管理员</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this}}
+                <tr>
+                    <td>
+                        <input type="checkbox" class="minimal" value="{{id}}" name="id">
+                    </td>
+                    <td>
+                        <select name="introducedState" class="form-control input-sm">
+                            <option value="">请选择</option>
+                            <option value="1">成功</option>
+                            <option value="2">失败</option>
+                            <option value="4">取消</option>
+                        </select>
+                    </td>
+                    <td>{{requireCode}}</td>
+                    <td>{{requireName}}</td>
+                    <td>{{requireMan}}</td>
+                    <td>{{devManager}}</td>
+                    <td>{{testManager}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>
+<script id="TPL_seeChangeList" type="text/x-handlebars-template">
+    <form name="seeRequForm">
+        <div class="form-group form-inline">
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;变更名称：</label>
+            <input type="text" class="form-control input-sm" name="changeName" value="{{changeName}}"> &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" name="query">查&nbsp;&nbsp;询</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" name="save">保&nbsp;&nbsp;存</button>
+        </div>
+    </form>
+    <div class="box-body" name="seeTpl" style="min-height: 100px;">
+        <table class="table table-bordered table-hover" id="JS_changeListab">
+            <!--id="JS_conCaseList"-->
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>处理结果状态</th>
+                    <th>变更名称</th>
+                    <th>变更管理员</th>
+                    <th>变更执行人</th>
+                    <th>变更标题</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this}}
+                <tr>
+                    <td>
+                        <input type="checkbox" class="minimal" value="{{changeId}}" name="changeId">
+                    </td>
+                    <td>
+                        <select name="resultState" class="form-control input-sm">
+                            <option value="">请选择</option>
+                            <option value="1">成功</option>
+                            <option value="2">失败</option>
+                            <option value="4">取消</option>
+                        </select>
+                    </td>
+                    <td>{{changeName}}</td>
+                    <td>{{changeManager}}</td>
+                    <td>{{changeMan}}</td>
+                    <td>{{changeTitle}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</script>
+<script>
+seajs.use("script/netFlowManage/changePlan/changePlanOnlie.js", function(getChangePlanOnlie) {
+    getChangePlanOnlie.init();
+});
+</script>

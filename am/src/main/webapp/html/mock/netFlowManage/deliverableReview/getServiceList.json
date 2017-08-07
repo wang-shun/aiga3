@@ -1,0 +1,69 @@
+{
+	"retCode":"200",
+  	"retMessage":null,
+  	"data":{
+  		"totalElements":12, //总条数
+  		"content":
+  		[{
+  			"changeType": "新增",
+	    	"serviceName": "多终端共享流量历史月查询",
+	    	"serviceId":"ESB_CS_QRY_BILL_CUSTQRY_019",
+		   	"requireId": "SR201503242501",
+		   	"taskId": "SER201503242501010101",
+		   	"sysName": "CRM系统",
+		   	"sysSubName": "综合查询",
+		   	"servicePrivideSystem": "账单云",
+		   	"testResult": "测试不通过，不同意。需要给出合理解释或者优化后重新测试。",
+		   	"devMan": "郭二阳",
+		   	"requireMan": "孙超"
+  		},{
+	  		"changeType": "新增",
+	    	"serviceName": "多终端共享流量历史月查询",
+	    	"serviceId":"ESB_CS_QRY_BILL_CUSTQRY_019",
+		   	"requireId": "SR201503242501",
+		   	"taskId": "SER201503242501010101",
+		   	"sysName": "CRM系统",
+		   	"sysSubName": "综合查询",
+		   	"servicePrivideSystem": "账单云",
+		   	"testResult": "测试不通过，不同意。需要给出合理解释或者优化后重新测试。",
+		   	"devMan": "郭二阳",
+		   	"requireMan": "孙超"
+  		},{
+	  		"changeType": "新增",
+	    	"serviceName": "多终端共享流量历史月查询",
+	    	"serviceId":"ESB_CS_QRY_BILL_CUSTQRY_019",
+		   	"requireId": "SR201503242501",
+		   	"taskId": "SER201503242501010101",
+		   	"sysName": "CRM系统",
+		   	"sysSubName": "综合查询",
+		   	"servicePrivideSystem": "账单云",
+		   	"testResult": "测试不通过，不同意。需要给出合理解释或者优化后重新测试。",
+		   	"devMan": "郭二阳",
+		   	"requireMan": "孙超"
+  		},{
+	  		"changeType": "新增",
+	    	"serviceName": "多终端共享流量历史月查询",
+	    	"serviceId":"ESB_CS_QRY_BILL_CUSTQRY_019",
+		   	"requireId": "SR201503242501",
+		   	"taskId": "SER201503242501010101",
+		   	"sysName": "CRM系统",
+		   	"sysSubName": "综合查询",
+		   	"servicePrivideSystem": "账单云",
+		   	"testResult": "测试不通过，不同意。需要给出合理解释或者优化后重新测试。",
+		   	"devMan": "郭二阳",
+		   	"requireMan": "孙超"
+  		},{
+	  		"changeType": "新增",
+	    	"serviceName": "多终端共享流量历史月查询",
+	    	"serviceId":"ESB_CS_QRY_BILL_CUSTQRY_019",
+		   	"requireId": "SR201503242501",
+		   	"taskId": "SER201503242501010101",
+		   	"sysName": "CRM系统",
+		   	"sysSubName": "综合查询",
+		   	"servicePrivideSystem": "账单云",
+		   	"testResult": "测试不通过，不同意。需要给出合理解释或者优化后重新测试。",
+		   	"devMan": "郭二阳",
+		   	"requireMan": "孙超"
+  		}]
+	}
+}

@@ -1,0 +1,110 @@
+{
+    "retCode":"200",
+    "retMessage":null,
+    "data":{
+        "isCross":"1",
+        "crossContent":[{
+            "id":"60001",
+            "startCrossId":"1000001",
+            "endCrossId":"10000021",
+            "name":"智慧运营管理中心"
+        },{
+            "id":"60002",
+            "startCrossId":"10000021",
+            "endCrossId":"1000003",
+            "name":"云管理中心"
+        },{
+            "id":"60003",
+            "startCrossId":"1000003",
+            "endCrossId":"1000004",
+            "name":"云管理中心"
+        },{
+            "id":"60004",
+            "startCrossId":"1000004",
+            "endCrossId":"1000005",
+            "name":"云管理中心"
+        }],
+        "content":[{
+            "id":"1000001",
+            "name":"SaaS",
+            "isNodeName":"1",
+            "isCross":"1",
+            "item":[{
+                "id":"10000013",
+                "name":"业务受理中心",
+                "isCross": "0",
+                "isNodeName":"0"
+            },{
+                "id":"10000014",
+                "name":"运营管理中心",
+                "isCross": "0",
+                "isNodeName":"0"
+            },{
+                "id":"10000015",
+                "name":"热线渠道",
+                "isCross": "0",
+                "isNodeName":"0"
+            },{
+                "id":"10000016",
+                "name":"电子渠道",
+                "isCross": "0",
+                "isNodeName":"0"
+            }]
+        },{
+            "id":"1000002",
+            "name":"PaaS",
+            "isNodeName":"1",
+            "isCross":"1",
+            "item":[{
+                "id":"10000021",
+                "name":"BPaaS",
+                "isNodeName":"1",
+                "isCross": "1",
+                "item":[{
+                    "id":"100000211",
+                    "name":"业务受理中心",
+                    "isCross": "0",
+                    "isNodeName":"0"
+                },{
+                    "id":"100000212",
+                    "name":"运营管理中心",
+                    "isCross": "0",
+                    "isNodeName":"0"
+                },{
+                    "id":"100000213",
+                    "name":"运营管理中心",
+                    "isCross": "0",
+                    "isNodeName":"0"
+                },{
+                    "id":"100000214",
+                    "name":"运营管理中心",
+                    "isCross": "0",
+                    "isNodeName":"0"
+                }],
+            },{
+                "id":"1000003",
+                "name":"UPaaS",
+                "isNodeName":"1",
+                "isCross": "1",
+                "item":[]
+            },{
+                "id":"1000004",
+                "name":"IPaaS",
+                "isNodeName":"1",
+                "isCross": "1",
+                "item":[{
+                    "id":"10000041",
+                    "name":"外部接口子域",
+                    "isCross": "0",
+                    "isNodeName":"0"
+                }]
+            },{
+                "id":"1000005",
+                "name":"TPaaS",
+                "isNodeName":"1",
+                "isCross": "1",
+                "item":[]
+            }]
+        }]
+    }
+}

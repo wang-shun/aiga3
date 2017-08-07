@@ -1,0 +1,1257 @@
+<!-- Page Start -->
+<div class="row" id="Page_changeAlterReview">
+    <div class="col-md-12">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#CTab_1" data-toggle="tab" aria-expanded="false">变更评审结论</a>
+                </li>
+                <li class=""><a href="#CTab_2" data-toggle="tab" aria-expanded="false">历史记录</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="CTab_1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getChangeReviewConclusionC">
+                                <div class="box-header">
+                                    <h3 class="box-title">变更评审结论</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="commitConclusion">提交结论</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="saveConclusionC">保存结论</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="setTime">设置下一次评审时间</button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>附件名称</th>
+                                                <th>评审结论</th>
+                                                <th>评审结果</th>
+                                                <th>评审人</th>
+                                                <th>评审时间</th>
+                                                <th>计划评审时间</th>
+                                                <th>评审次数</th>
+                                                <th>备注</th>
+                                                <th>操作</th>
+                                                <th style="display:none;">扩展字段</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="CTab_2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getHistoryList">
+                                <div class="box-header">
+                                    <h3 class="box-title">变更评审结论历史记录</h3>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>附件名称</th>
+                                                <th>评审结论</th>
+                                                <th>评审结果</th>
+                                                <th>评审人</th>
+                                                <th>评审时间</th>
+                                                <th>计划评审时间</th>
+                                                <th>评审次数</th>
+                                                <th>备注</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box collapsed-box">
+            <form id="JS_queryFileTypeForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>交付物名称</label>
+                                <select name="fileName" class="form-control input-sm" data-url="findFileList" data-cmd="" data-idkey="fileId" data-namekey="fileName">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#CdeliverableTab_1" data-toggle="tab" aria-expanded="false">变更概况</a>
+                </li>
+                <li class=""><a href="#CdeliverableTab_2" data-toggle="tab" aria-expanded="false">变更内容</a></li>
+                <li class=""><a href="#CdeliverableTab_3" data-toggle="tab" aria-expanded="false">时间及人员</a>
+                </li>
+                <li class=""><a href="#CdeliverableTab_4" data-toggle="tab" aria-expanded="false">变更设备</a></li>
+                <li class=""><a href="#CdeliverableTab_5" data-toggle="tab" aria-expanded="false">变更详细方案</a></li>
+                <li class=""><a href="#CdeliverableTab_6" data-toggle="tab" aria-expanded="false">变更验证</a></li>
+                <li class=""><a href="#CdeliverableTab_7" data-toggle="tab" aria-expanded="false">风险评估</a></li>
+                <li class=""><a href="#CdeliverableTab_8" data-toggle="tab" aria-expanded="false">信息通告</a></li>
+                <li class=""><a href="#CdeliverableTab_9" data-toggle="tab" aria-expanded="false">附件</a></li>
+            </ul>
+            <div class="tab-content">
+                <!-- tab页签1 -->
+                <div class="tab-pane active" id="CdeliverableTab_1">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getChangeProfileList">
+                                <div class="box-header">
+                                    <div class="box-title">变更概况</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>变更标题</th>
+                                                <th>所属专业组</th>
+                                                <th>变更对象类型</th>
+                                                <th>变更方案类型</th>
+                                                <th>变更申请理由</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签2 -->
+                <div class="tab-pane" id="CdeliverableTab_2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getChangeContentList">
+                                <div class="box-header">
+                                    <div class="box-title">变更内容</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>问题现象描述</th>
+                                                <th>变更对象</th>
+                                                <th>业务系统归属</th>
+                                                <th>变更目的</th>
+                                                <th>变更风险等级</th>
+                                                <th>业务影响范围</th>
+                                                <th>集团考核影响</th>
+                                                <th>集团直采影响</th>
+                                                <th>信息安全影响</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签3 -->
+                <div class="tab-pane" id="CdeliverableTab_3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getTimePersonList">
+                                <div class="box-header">
+                                    <div class="box-title">时间及人员</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>申请提交时间</th>
+                                                <th>开始执行时间</th>
+                                                <th>执行结束时间</th>
+                                                <th>人员角色</th>
+                                                <th>姓名</th>
+                                                <th>联系电话</th>
+                                                <th>所属专业组</th>
+                                                <th>人员职责</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签4 -->
+                <div class="tab-pane" id="CdeliverableTab_4">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getChangeDeviceList">
+                                <div class="box-header">
+                                    <div class="box-title">变更目标设备</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>资源类型</th>
+                                                <th>设备名称</th>
+                                                <th>IP地址</th>
+                                                <th>归属系统</th>
+                                                <th>搜索代码</th>
+                                                <th>变更内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getChangeConfigList">
+                                <div class="box-header">
+                                    <div class="box-title">变更配置更新</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>配置是否更新</th>
+                                                <th>资源类型</th>
+                                                <th>名称</th>
+                                                <th>配置更新前</th>
+                                                <th>配置更新后</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getWarningList">
+                                <div class="box-header">
+                                    <div class="box-title">告警屏蔽</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>屏蔽主机</th>
+                                                <th>IP地址</th>
+                                                <th>告警屏蔽时间</th>
+                                                <th>屏蔽内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签5 -->
+                <div class="tab-pane" id="CdeliverableTab_5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getPrepareList">
+                                <div class="box-header">
+                                    <div class="box-title">变更准备工作</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>是否准备就绪</th>
+                                                <th>实施步骤</th>
+                                                <th>实施人员</th>
+                                                <th>实施开始时间</th>
+                                                <th>实施结束时间</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getRunStepList">
+                                <div class="box-header">
+                                    <div class="box-title">变更实施步骤</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body table-scrollable">
+                                    <table class="table table-bordered table-hover" style="width: 1500px;">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>是否配置参数</th>
+                                                <th>主机是否重启</th>
+                                                <th>是否重启集群</th>
+                                                <th>是否更换硬件</th>
+                                                <th>是否重启数据库</th>
+                                                <th>是否重启应用服务</th>
+                                                <th>实施步骤</th>
+                                                <th>实施人员</th>
+                                                <th>实施开始时间</th>
+                                                <th>实施结束时间</th>
+                                                <th>操作脚本</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getOperationManageList">
+                                <div class="box-header">
+                                    <div class="box-title">变更运维管理</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>添加监控</th>
+                                                <th>实施人员</th>
+                                                <th>实施开始时间</th>
+                                                <th>实施结束时间</th>
+                                                <th>操作脚本</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getRollbackList">
+                                <div class="box-header">
+                                    <div class="box-title">变更回退方案</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>是否具备回退</th>
+                                                <th>回退步骤</th>
+                                                <th>回退人员</th>
+                                                <th>回退开始时间</th>
+                                                <th>回退结束时间</th>
+                                                <th>回退脚本</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签6 -->
+                <div class="tab-pane" id="CdeliverableTab_6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getResultValidateList">
+                                <div class="box-header">
+                                    <div class="box-title">结果验证</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>变更验证</th>
+                                                <th>验证内容</th>
+                                                <th>测试时间</th>
+                                                <th>测试步骤</th>
+                                                <th>测试人员</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getServiceValidateList">
+                                <div class="box-header">
+                                    <div class="box-title">业务验证</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>是否业务验证</th>
+                                                <th>业务系统</th>
+                                                <th>业务功能</th>
+                                                <th>测试时间</th>
+                                                <th>测试步骤</th>
+                                                <th>测试人员</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签7 -->
+                <div class="tab-pane" id="CdeliverableTab_7">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getDangerList">
+                                <div class="box-header">
+                                    <div class="box-title">风险评估</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>类型</th>
+                                                <th>内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getRiskRatingList">
+                                <div class="box-header">
+                                    <div class="box-title">风险等级量化评估表</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>衡量因素</th>
+                                                <th>条件</th>
+                                                <th>自评</th>
+                                                <th>得分</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getRiskScoreList">
+                                <div class="box-header">
+                                    <div class="box-title">风险等级</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>总分</th>
+                                                <th>实际得分</th>
+                                                <th>风险等级</th>
+                                                <th>审批级别</th>
+                                                <th>保障机制</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签8 -->
+                <div class="tab-pane" id="CdeliverableTab_8">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getNoticeList">
+                                <div class="box-header">
+                                    <div class="box-title">信息通报</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>类型</th>
+                                                <th>通报时间</th>
+                                                <th>通报内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab页签9 -->
+                <div class="tab-pane" id="CdeliverableTab_9">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box" id="JS_getFileList">
+                                <div class="box-header">
+                                    <div class="box-title">附件列表</div>
+                                    <div class="box-tools">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存更改</button>
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="iCheckbox" width="15"></th>
+                                                <th>文件名称</th>
+                                                <th>上传时间</th>
+                                                <th>最后一次上传时间</th>
+                                                <th>上传次数</th>
+                                                <th>下载时间</th>
+                                                <th>文件类型</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody name="content"></tbody>
+                                    </table>
+                                </div>
+                                <div class="box-footer no-border">
+                                    <div class="dataTables_paginate" name="pagination"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 设置下一次评审时间弹出框 -->
+<div class="modal fade" id="Modal_setReviewTimeModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" name="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">设置下一次评审时间</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box">
+                            <form id="JS_setReviewTimeForm">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title"></h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>第几次评审<i class="text-red">*</i></label>
+                                                <input type="number" name="reviewNum" placeholder="请选择" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>评审时间<i class="text-red">*</i></label>
+                                                <input type="text" class="form-control input-sm " name="planReviewDate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" placeholder="请选择起始时间" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" name="save">保存</button>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <button type="reset" class="btn btn-default" name="reset">重置</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- handlebars/交付物评审结论 -->
+<script id="TPL_getDeliverableReviewConclusionC" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td style="display: none;">
+            <input type="hidden" name="fileId" value="{{fileId}}">
+        </td>
+        <td>
+            <input type="hidden" name="fileName" value="{{fileName}}">{{fileName}}</td>
+        <td>
+            <div class="col-xs-1">
+                <select id="JS_conclusion" name="conclusion" class="" value="{{conclusion}}">
+                    <option value="">请选择</option>
+                    <option value="1">通过</option>
+                    <option value="2">未通过</option>
+                </select>
+            </div>
+        </td>
+        <td>
+            <div class="col-xs-1">
+                <input type="text" size="" class="" name="reviewResult" value="{{reviewResult}}" placeholder="">
+            </div>
+        </td>
+        <td>{{reviewer}}</td>
+        <td>{{reviewDate}}</td>
+        <td>{{planReviewDate}}</td>
+        <td>{{reviewNum}}</td>
+        <td>
+            <div class="col-xs-1">
+                <input type="text" size="" class="" name="remark" value="{{remark}}" placeholder="">
+            </div>
+        </td>
+        <td>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" id="JS_rollback" name="rollback">回退</button>
+            </div>
+        </td>
+        <td style="display:none;"><input type="hidden" value="{{ext1}}" name="ext1">{{ext1}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_getHistoryList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td style="display: none;">{{fileId}}</td>
+        <td>{{fileName}}</td>
+        <td>{{conclusion}}</td>
+        <td>{{reviewResult}}</td>
+        <td>{{reviewer}}</td>
+        <td>{{reviewDate}}</td>
+        <td>{{planReviewDate}}</td>
+        <td>{{reviewNum}}</td>
+        <td>{{remark}}</td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更概况列表 -->
+<script id="TPL_getChangeProfileList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="changeTitle" value="{{changeTitle}}">
+        </td>
+        <td>
+            <input type="text" name="changeGroup" value="{{changeGroup}}">
+        </td>
+        <td>
+            <input type="text" name="changeObjectType" value="{{changeObjectType}}">
+        </td>
+        <td>
+            <input type="text" name="changeMethodType" value="{{changeMethodType}}">
+        </td>
+        <td>
+            <input type="text" name="changeReason" value="{{changeReason}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更内容列表 -->
+<script id="TPL_getChangeContentList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="questionDesc" value="{{questionDesc}}">
+        </td>
+        <td>
+            <input type="text" name="changeObject" value="{{changeObject}}">
+        </td>
+        <td>
+            <input type="text" name="sysName" value="{{sysName}}">
+        </td>
+        <td>
+            <input type="text" name="changeGoal" value="{{changeGoal}}">
+        </td>
+        <td>
+            <input type="text" name="changeDangerous" value="{{changeDangerous}}">
+        </td>
+        <td>
+            <input type="text" name="impactRange" value="{{impactRange}}">
+        </td>
+        <td>
+            <input type="text" name="groupCheckImpact" value="{{groupCheckImpact}}">
+        </td>
+        <td>
+            <input type="text" name="groupImpact" value="{{groupImpact}}">
+        </td>
+        <td>
+            <input type="text" name="imfoImpact" value="{{imfoImpact}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/时间及人员列表 -->
+<script id="TPL_getTimePersonList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="applyTime" value="{{applyTime}}">
+        </td>
+        <td>
+            <input type="text" name="startRunTime" value="{{startRunTime}}">
+        </td>
+        <td>
+            <input type="text" name="stopRunTime" value="{{stopRunTime}}">
+        </td>
+        <td>
+            <input type="text" name="personRole" value="{{personRole}}">
+        </td>
+        <td>
+            <input type="text" name="personName" value="{{personName}}">
+        </td>
+        <td>
+            <input type="text" name="personPhone" value="{{personPhone}}">
+        </td>
+        <td>
+            <input type="text" name="personGroup" value="{{personGroup}}">
+        </td>
+        <td>
+            <input type="text" name="personDuty" value="{{personDuty}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更目标设备列表 -->
+<script id="TPL_getChangeDeviceList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="resourceType" value="{{resourceType}}">
+        </td>
+        <td>
+            <input type="text" name="deviceName" value="{{deviceName}}">
+        </td>
+        <td>
+            <input type="text" name="ipAddressee" value="{{ipAddressee}}">
+        </td>
+        <td>
+            <input type="text" name="sysName" value="{{sysName}}">
+        </td>
+        <td>
+            <input type="text" name="searchCode" value="{{searchCode}}">
+        </td>
+        <td>
+            <input type="text" name="changeContent" value="{{changeContent}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更配置更新列表 -->
+<script id="TPL_getChangeConfigList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="configIsUpdate" value="{{configIsUpdate}}">
+        </td>
+        <td>
+            <input type="text" name="resourceType" value="{{resourceType}}">
+        </td>
+        <td>
+            <input type="text" name="name" value="{{name}}">
+        </td>
+        <td>
+            <input type="text" name="configUpdateBefore" value="{{configUpdateBefore}}">
+        </td>
+        <td>
+            <input type="text" name="configUpdateAfter" value="{{configUpdateAfter}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/告警屏蔽列表 -->
+<script id="TPL_getWarningList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="shieldHost" value="{{shieldHost}}">
+        </td>
+        <td>
+            <input type="text" name="ipAddress" value="{{ipAddress}}">
+        </td>
+        <td>
+            <input type="text" name="shieldTime" value="{{shieldTime}}">
+        </td>
+        <td>
+            <input type="text" name="shieldContent" value="{{shieldContent}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更准备工作列表 -->
+<script id="TPL_getPrepareList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="isReady" value="{{isReady}}">
+        </td>
+        <td>
+            <input type="text" name="runStep" value="{{runStep}}">
+        </td>
+        <td>
+            <input type="text" name="runPerson" value="{{runPerson}}">
+        </td>
+        <td>
+            <input type="text" name="startRunTime" value="{{startRunTime}}">
+        </td>
+        <td>
+            <input type="text" name="stopRunTime" value="{{stopRunTime}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更实施步骤列表 -->
+<script id="TPL_getRunStepList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="isConfigArg" value="{{isConfigArg}}">
+        </td>
+        <td>
+            <input type="text" name="isRestartHost" value="{{isRestartHost}}">
+        </td>
+        <td>
+            <input type="text" name="isRestartCollection" value="{{isRestartCollection}}">
+        </td>
+        <td>
+            <input type="text" name="isChangeHardware" value="{{isChangeHardware}}">
+        </td>
+        <td>
+            <input type="text" name="isRestartDb" value="{{isRestartDb}}">
+        </td>
+        <td>
+            <input type="text" name="isRestartApplication" value="{{isRestartApplication}}">
+        </td>
+        <td>
+            <input type="text" name="runStep" value="{{runStep}}">
+        </td>
+        <td>
+            <input type="text" name="runPerson" value="{{runPerson}}">
+        </td>
+        <td>
+            <input type="text" name="startRunTime" value="{{startRunTime}}">
+        </td>
+        <td>
+            <input type="text" name="stopRunTime" value="{{stopRunTime}}">
+        </td>
+        <td>
+            <input type="text" name="opreationScript" value="{{opreationScript}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更运维管理列表 -->
+<script id="TPL_getOperationManageList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="isAddMonitor" value="{{isAddMonitor}}">
+        </td>
+        <td>
+            <input type="text" name="runPerson" value="{{runPerson}}">
+        </td>
+        <td>
+            <input type="text" name="startRunTime" value="{{startRunTime}}">
+        </td>
+        <td>
+            <input type="text" name="stopRunTime" value="{{stopRunTime}}">
+        </td>
+        <td>
+            <input type="text" name="opreationScript" value="{{opreationScript}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/变更回退方案列表 -->
+<script id="TPL_getRollbackList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="isRollback" value="{{isRollback}}">
+        </td>
+        <td>
+            <input type="text" name="rollbackStep" value="{{rollbackStep}}">
+        </td>
+        <td>
+            <input type="text" name="rollbackPerson" value="{{rollbackPerson}}">
+        </td>
+        <td>
+            <input type="text" name="startRollbackTime" value="{{startRollbackTime}}">
+        </td>
+        <td>
+            <input type="text" name="stopRollbackTime" value="{{stopRollbackTime}}">
+        </td>
+        <td>
+            <input type="text" name="rollbackScript" value="{{rollbackScript}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/服务变更上线清单列表 -->
+<script id="TPL_getResultValidateList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="isChangeValidate" value="{{isChangeValidate}}">
+        </td>
+        <td>
+            <input type="text" name="validateContent" value="{{validateContent}}">
+        </td>
+        <td>
+            <input type="text" name="testTime" value="{{testTime}}">
+        </td>
+        <td>
+            <input type="text" name="testStep" value="{{testStep}}">
+        </td>
+        <td>
+            <input type="text" name="testMan" value="{{testMan}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/主机配置列表 -->
+<script id="TPL_getServiceValidateList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="isServiceValidate" value="{{isServiceValidate}}">
+        </td>
+        <td>
+            <input type="text" name="sysName" value="{{sysName}}">
+        </td>
+        <td>
+            <input type="text" name="serviceFunction" value="{{serviceFunction}}">
+        </td>
+        <td>
+            <input type="text" name="testTime" value="{{testTime}}">
+        </td>
+        <td>
+            <input type="text" name="testStep" value="{{testStep}}">
+        </td>
+        <td>
+            <input type="text" name="testMan" value="{{testMan}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/风险评估列表 -->
+<script id="TPL_getDangerList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" size="120" name="types" value="{{types}}">
+        </td>
+        <td>
+            <input type="text" size="120" name="content" value="{{content}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/风险等级评估量化列表 -->
+<script id="TPL_getRiskRatingList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" size="50" name="measureFactor" value="{{measureFactor}}">
+        </td>
+        <td>
+            <input type="text" name="condition" value="{{condition}}">
+        </td>
+        <td>
+            <input type="text" name="selfEvalution" value="{{selfEvalution}}">
+        </td>
+        <td>
+            <input type="text" name="score" value="{{score}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/风险等级列表 -->
+<script id="TPL_getRiskScoreList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="totalScore" value="{{totalScore}}">
+        </td>
+        <td>
+            <input type="text" name="actualScore" value="{{actualScore}}">
+        </td>
+        <td>
+            <input type="text" name="riskGrade" value="{{riskGrade}}">
+        </td>
+        <td>
+            <input type="text" name="approvalLevel" value="{{approvalLevel}}">
+        </td>
+        <td>
+            <input type="text" name="guaranteeMechanism" value="{{guaranteeMechanism}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/需联调需求列表 -->
+<script id="TPL_getNoticeList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>
+            <input type="text" name="noticeType" value="{{noticeType}}">
+        </td>
+        <td>
+            <input type="text" size="30" name="noticeTime" value="{{noticeTime}}">
+        </td>
+        <td>
+            <input type="text" size="120" name="noticeContent" value="{{noticeContent}}">
+        </td>
+    </tr>
+    {{/each}}
+</script>
+<!-- handlebars/生产环境需配置菜单需求列表 -->
+<script id="TPL_getFileList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>{{fileName}}</td>
+        <td>{{createTime}}</td>
+        <td>{{lastUploadTime}}</td>
+        <td>{{uploadCount}}</td>
+        <td>{{downloadTime}}</td>
+        <td>{{fileType}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script>
+seajs.use("script/netFlowManage/changeReview/changeAlterReview", function(changeAlterReview) {
+    changeAlterReview.init();
+});
+</script>

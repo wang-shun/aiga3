@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+    <title>架构资产管控平台</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="lib/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- AdminLTE Theme skin-blue  -->
+    <link rel="stylesheet" href="lib/AdminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="lib/fakeLoader/fakeLoader.css">
+    <!--[if lt IE 9]>
+      <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+      <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <script src="lib/jquery/1.11.3/jquery.js"></script>
+    <![endif]-->
+</head>
+
+<!-- <body class="skin-blue fixed sidebar-mini fixed"> -->
+<body class="skin-blue fixed sidebar-mini" style="background: #ecf0f5;">
+    <div class="wrapper">
+        <!-- 导航栏 -->
+        <header class="main-header" >
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+                <span class="logo-mini"><i class="iconfont icon-zhongguoyidong"></i></span>
+                <span class="logo-lg"><i class="iconfont icon-zhongguoyidong"></i>架构资产管控平台</span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                <!-- 收缩按钮-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">切换导航</span>
+                </a>
+                <!--请求：用户信息-->
+                <div class="navbar-custom-menu" id="Mod_header">
+                    <div class="text-loader text-inline">
+                        <div class="text-loader-content">
+                            <i class="fa fa-refresh fa-spin"></i> 用户信息加载中...
+                        </div>
+                    </div>
+                </div> 
+            </nav>
+
+        </header>
+
+        <!-- 侧边菜单栏-->
+        <aside class="main-sidebar" id="JS_sidebar">
+            <div class="text-loader min-height">
+                <div class="text-loader-content">
+                    <i class="fa fa-refresh fa-spin"></i> 嘛咪嘛咪吼，努力加载中...
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容包裹区 -->
+        <div class="content-wrapper" style="min-height: 500px;">
+            <div class="nav-tabs-custom main-tab">
+                <ul class="nav nav-tabs" id="JS_mainTabs"></ul>
+                <div class="tab-content" id="JS_mainTabsContent"></div>
+                <div class="fakeloader"></div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal -->
+    <div class="modal fade" id="Modal_getHeaderKpiListConfig" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">指标配置</h4>
+                </div>
+                <div class="modal-body welcome-kpiList" style="min-height: 100px;" id="JS_getHeaderKpiListConfig"></div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" name="save">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 确认框 -->
+    <div class="modal fade" id="Modal_confirm" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">确认框</h4>
+                </div>
+                <div class="modal-body" style=' text-align:center;'>
+                    <h4>是否确认删除？</h4>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+                        <button type="button" class="btn btn-primary" name="Y">是</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
+    <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="lib/fakeLoader/fakeLoader.js"></script>
+    <script src="lib/seajs/sea.js"></script>
+    <script src="lib/seajs/sea-plugins.js"></script>
+    <script src="conf/config.js"></script>
+    <script>
+    $(document).ready(function(){
+        $(".fakeloader").fakeLoader({
+            timeToHide:2700,
+            pos:"absolute",
+            bgColor:"#ecf0f5",
+            spinner:"spinner4"
+        });
+    });
+
+    seajs.use("script/index");
+    </script>
+</body>
+
+</html>

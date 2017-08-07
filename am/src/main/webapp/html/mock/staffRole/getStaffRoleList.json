@@ -1,0 +1,49 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data":  [{
+            "roleAuthorId":"001",
+            "roleId": "1001",
+            "name": "测试组长"
+        },{
+            "roleAuthorId":"002",
+            "roleId":"1002",
+            "name": "测试人员"
+    },{
+            "roleAuthorId":"003",
+            "roleId":"1003",
+            "name": "自动化测试人员"
+    },{
+            "roleAuthorId":"004",
+            "roleId":"1004",
+            "name": "编译发布人员"
+    },{
+            "roleAuthorId":"005",
+            "roleId":"1005",
+            "name": "功能点管理员"
+    },{
+            "roleAuthorId":"006",
+            "roleId":"1006",
+            "name": "用户体验"
+    },{
+            "roleAuthorId":"007",
+            "roleId":"1007",
+            "name": "项目测试人员"
+    },{
+            "roleAuthorId":"008",
+            "roleId":"1008",
+            "name": "项目厂商测试组长"
+    },{
+            "roleAuthorId":"009",
+            "roleId":"1009",
+            "name": "安全管理员"
+    },{
+            "roleAuthorId":"010",
+            "roleId":"1010",
+            "name": "开发内部人员"
+    },{
+            "roleAuthorId":"011",
+            "roleId":"1011",
+            "name": "自动化测试组长"
+    }]
+}

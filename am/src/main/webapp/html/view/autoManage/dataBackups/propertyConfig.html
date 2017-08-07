@@ -1,0 +1,297 @@
+<div class="row" id="Page_propertyConfigView">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryPropertyConfigForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool input-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>属性名称</label>
+                                <select data-idkey="propertyId" name="propertyId" data-namekey="propertyName" class="form-control " data-url="getPropertyName" class="form-control input-sm" required>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>依赖表</label>
+                                <input class="form-control input-sm" name="dependencyTable" placeholder="请输入表名" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>依赖字段</label>
+                                <input class="form-control input-sm" name="dependencyField" placeholder="请输入字段名" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_getPropertyConfigList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">属性配置列表</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-primary" name="add">
+                        </i> 添加</button>
+                    <button type="button" class="btn btn-primary" name="del">
+                        </i> 删除</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="PropertyConfigListTable">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox" width="15"></th>
+                            <th>属性</th>
+                            <th>依赖表</th>
+                            <th>依赖字段</th>
+                            <th>别名</th>
+                            <th>数据库</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                </table>
+                <div class="box-footer no-border">
+                    <div class="dataTables_paginate" name="pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Modal -->
+<!-- 新增弹框 -->
+<div class="modal fade" id="Modal_addPropertyConfigModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增属性配置字段</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <form id="JS_addPropertyConfigInfo" class="form">
+                    <div class="box-body">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>属性名称</label>
+                                        <select data-idkey="propertyId" class="form-control select2" id="propertyNameSelect" name="propertyName1" data-namekey="propertyName" data-url="getPropertyName" style="width: 100%" required>
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>属性ID</label>
+                                        <input data-idkey="propertyId" id="JS_propertyIdInput" name="propertyId" data-namekey="propertyName" class="form-control " data-url="getPropertyName" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>属性字段</label>
+                                        <input name="propertyField" class="form-control" placeholder="请输入属性字段" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>字段别名</label>
+                                        <input name="alias" class="form-control " placeholder="请输入别名" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>依赖表</label>
+                                        <input name="dependencyTable" class="form-control " placeholder="请输入依赖表" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>依赖字段</label>
+                                        <input name="dependencyField" id="JS_dependencyField" class="form-control " placeholder="请输入依赖字段" required>
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>数据库</label>
+                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList" required>
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<!-- Modal -->
+<!-- 新增属性弹框 -->
+<!-- <div class="modal fade" id="JS_addPropertyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增属性配置字段</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <form id="JS_addPropertyInfo" class="form">
+                    <div class="box-body">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <i class="text-red">* </i>
+                                        <label>属性名称</label>
+                                        <input name="propertyName" class="form-control " placeholder="请输入属性名称" required>
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+<!-- Modal -->
+<!-- 属性维护修改弹框 -->
+<div class="modal fade" id="Modal_updatePropertyConfigModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改属性配置</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <form id="JS_updatePropertyConfigInfo" class="form">
+                    <div class="box-body">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>属性名</label>
+                                        <div id="JS_name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>依赖表</label>
+                                        <input name="dependencyTable" class="form-control" placeholder="请输入依赖表">
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>依赖字段</label>
+                                        <input name="dependencyField" class="form-control" placeholder="请输入依赖字段">
+                                        </input>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>数据库</label>
+                                        <select data-idkey="db" name="db" data-namekey="db" class="form-control " data-url="getDbList" required>
+                                            <option value="">
+                                                请选择
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>别名</label>
+                                        <input name="alias" class="form-control" placeholder="请输入别名">
+                                        </input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<script id="TPL_getPropertyConfigTemp" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{cfgId}}" name="cfgId">
+            <input type="hidden" class="minimal" value="{{propertyName}}" name="propertyName" style="display: none">
+            <td>{{propertyName}}
+                <input type="hidden" value="{{cfgId}}" name="cfgId">
+            </td>
+            <td title="{{dependencyTable}}">{{shrink dependencyTable 20}}</td>
+            <td>{{dependencyField}}</td>
+            <td>{{alias}}</td>
+            <td>{{db}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_seachAddInput" type="text/x-handlebars-template">
+    <ul>
+        {{#each this}}
+        <li>{{propertyName}}</li>
+        {{/each}}
+    </ul>
+</script>
+<script type="text/javascript">
+$(".select2").select2({
+    placeholder: '请选择属性名称',
+    tags: true
+
+});
+</script>
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/autoManage/dataBackups/propertyConfig", function(Init) {
+    Init.init();
+});
+//]]>
+</script>

@@ -1,0 +1,69 @@
+{
+    "retCode": "200",
+    "retMessage": null,
+    "data": {
+        "totalElements": 12, //总条数
+        "content": [{
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }, {
+            "configIsUpdate": "是",
+            "resourceType": "类型1",
+            "name": "配置1",
+            "configUpdateBefore": "是",
+            "configUpdateAfter": "否"
+        }]
+    }
+}

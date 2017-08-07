@@ -1,0 +1,165 @@
+<div class="row" id="Page_taskMonitoring">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryMonitoringTaskForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>变更计划名称</label>
+                                <select name="onlinePlan" class="form-control input-sm" data-url="getOnlinePlanList" data-idkey="onlinePlan" data-namekey="onlinePlanName">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>监控任务名称</label>
+                                <input type="text" class="form-control input-sm" name="taskName" placeholder="请输入监控任务名称">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_getMonitoringTaskList">
+            <div class="box-header ">
+                <h3 class="box-title">部署监控任务列表</h3>
+                <div class="box-tools">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" name="save"><i class="fa fa-gears"></i> 保存</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body table-scrollable">
+                <table class="table table-bordered table-hover" style="width: 5500px;">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox"></th>
+                            <th>部署状态</th>
+                            <th>监控状态</th>
+                            <th>监控任务单</th>
+                            <th>监控任务名称</th>
+                            <th>变更计划名称</th>
+                            <th>变更时间</th>
+                            <th>开发子任务编号</th>
+                            <th>开发子任务名称</th>
+                            <th>开发/集成商</th>
+                            <th>进程变更类型</th>
+                            <th>业务影响范围</th>
+                            <th>名称</th>
+                            <th>资源类型</th>
+                            <th>资源描述</th>
+                            <th>系统子域</th>
+                            <th>子系统</th>
+                            <th>模块</th>
+                            <th>子模块</th>
+                            <th>类型</th>
+                            <th>状态</th>
+                            <th>进程名称</th>
+                            <th>实例名称</th>
+                            <th>归属服务器</th>
+                            <th>运行用户</th>
+                            <th>预计消耗内存(MB)</th>
+                            <th>执行目录</th>
+                            <th>启动脚本</th>
+                            <th>停止脚本</th>
+                            <th>监控脚本</th>
+                            <th>日志目录</th>
+                            <th>日志名称</th>
+                            <th>数据库连接</th>
+                            <th>进程重启依赖描述</th>
+                            <th>集团考核</th>
+                            <th>是否常驻进程</th>
+                            <th>实例数</th>
+                            <th>上线时间</th>
+                            <th>下线时间</th>
+                            <th>计划ID</th>
+                            <th>备注</th>
+                        </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                </table>
+            </div>
+            <div class="box-footer no-border">
+                <div class="dataTables_paginate" name="pagination"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="TPL_getMonitoringTaskList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{id}}" name="id">
+        </td>
+        <td>{{getDeployState deployState}}</td>
+        <td>
+            <select type="hidden" name="monitorState" value="{{monitorState}}">
+                <option value="">请选择</option>
+                <option value="1">未监控</option>
+                <option value="2">已监控</option>
+                <option value="3">取消监控</option>
+            </select>
+        </td>
+        <td>
+            <input type="text" name="monitorOrder" value="{{monitorOrder}}"></td>
+        <td>{{taskName}}</td>
+        <td>{{onlinePlanName}}</td>
+        <td>{{changeTime}}</td>
+        <td>{{subTaskId}}</td>
+        <td>{{subTaskName}}</td>
+        <td>{{integrator}}</td>
+        <td>{{courseTypeChange}}</td>
+        <td>{{influenceScope}}</td>
+        <td>{{name}}</td>
+        <td>{{resourceType}}</td>
+        <td>{{resourceDescribe}}</td>
+        <td>{{systemSubDomin}}</td>
+        <td>{{subSystem}}</td>
+        <td>{{module}}</td>
+        <td>{{subModule}}</td>
+        <td>{{type}}</td>
+        <td>{{state}}</td>
+        <td>{{courseName}}</td>
+        <td>{{exampleName}}</td>
+        <td>{{affiliationServer}}</td>
+        <td>{{opreationUser}}</td>
+        <td>{{planOnConsumeRam}}</td>
+        <td>{{executecatalogue}}</td>
+        <td>{{startScript}}</td>
+        <td>{{stopScript}}</td>
+        <td>{{monitoringScript}}</td>
+        <td>{{logCatalog}}</td>
+        <td>{{logName}}</td>
+        <td>{{databaseConnection}}</td>
+        <td>{{courseRestartRelyOn}}</td>
+        <td>{{groupAssess}}</td>
+        <td>{{residentCourse}}</td>
+        <td>{{instanceNumber}}</td>
+        <td>{{onlineTime}}</td>
+        <td>{{insertingCoilTime}}</td>
+        <td>{{planId}}</td>
+        <td>{{remark}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script>
+seajs.use("script/netFlowManage/changeRelease/taskMonitoring.js", function(Query) {
+    Query.init();
+});
+</script>

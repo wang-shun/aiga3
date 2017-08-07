@@ -1,0 +1,12 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "paramId":"1001",
+        "paramName": "WF_TEST_HW",
+        "paramValue": "手工人员",
+        "paramDesc": "自动化",
+        "paramSql":"select * from",
+        "paramExpect":"无预期"
+    }
+}

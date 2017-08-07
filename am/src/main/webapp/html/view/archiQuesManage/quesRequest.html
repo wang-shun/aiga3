@@ -1,0 +1,392 @@
+<div class="box">
+    <form id="JS_queryAutoCaseForm">
+        <div class="box-header with-border">
+            <h3 class="box-title">按条件查询</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label>问题分类</label>
+                    <select name="rootId" class="form-control input-sm" data-url="getRootList" data-subname="firstId" data-idkey="rootId" data-namekey="name">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>一级分类</label>
+                    <select name="firstId" class="form-control input-sm" data-suburl="getFirstList" data-subname="secondId" data-idkey="firstId" data-namekey="name">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label>二级分类</label>
+                    <select name="secondId" class="form-control input-sm" data-suburl="getSecondList" data-subname="thirdId" data-idkey="secondId" data-namekey="name">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>三级分类</label>
+                    <select name="thirdId" class="form-control input-sm" data-suburl="getThirdList" data-idkey="thirdId" data-namekey="name">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">疑难问题</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="text-center">
+                <button type="reset" name="reset" class="btn btn-default">重置</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="JS_getAutoCaseList" class="box" style="min-height: 100px">
+    <div class="box-header">
+        <h3 class="box-title">架构问题管控列表</h3>
+        <div class="box-tools">
+            <div class="btn-group">
+                <button id="Js_btnEdit" type="button" class="btn btn-primary" name="edit"><i class="fa fa-edit"></i> 编辑用例</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="javascript:;" id="JS_deleAutoCase">删除用例</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="box-body" style="min-height: 100px;">
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+					<th>问题编号</th>
+					<th>问题类型</th>
+					<th>一级分类</th>
+					<th>二级分类</th>
+					<th>三级分类</th>
+					<th>疑难问题</th>
+					<th>摘要</th>
+					<th>发生环境</th>
+					<th>所属项目</th>
+					<th>一级域编号</th>
+					<th>二级子域编号</th>
+					<th>三级系统编号</th>
+					<th>系统版本</th>
+					<th>优先级</th>
+					<th>缺陷级别</th>
+					<th>流程状态</th>
+					<th>申报信息</th>
+					<th>认定信息</th>
+					<th>解决信息</th>
+					<th>创建时间</th>
+					<th>修改时间</th>
+					<th>报告人</th>
+					<th>指派人</th>
+					<th>扩展字段1</th>
+					<th>扩展字段2</th>
+					<th>扩展字段3</th>
+                </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div>
+</div>
+<!-- 编辑用例 -->
+<div class="modal fade" id="JS_editAutoCaseModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">编辑用例</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">组件列表</h3>
+                            </div>
+                            <div class="box-body" id="JS_sideAutoCompList">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <form>
+                            <div class="box">
+                                <div class="box-body">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-inline">
+                                            <label><i class="text-red">*  </i>自动化用例名称：
+                                            </label>
+                                            <input type="text" class="form-control" name="autoName" value="">&nbsp;&nbsp;&nbsp;
+                                            <label><i class="text-red">*  </i>环境类型：</label>
+                                            <select class="form-control" name="environmentType">
+                                                <option value="">请选择</option>
+                                                <option value="1">验收环境</option>
+                                                <option value="2">准发布环境</option>
+                                                <option value="3">生产环境</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="box-header ">
+                                    <h3 class="box-title">参数列表</h3>
+                                </div>
+                                <div class="box-body table-scrollable" style="min-height: 300px;">
+                                    <table name="table" class="table table-condensed table-hover" id="JS_parameterList" style="width: 1000px;">
+                                        <thead>
+                                            <tr>
+                                                <th>参数名</th>
+                                                <th>参数值</th>
+                                                <th>参数描述</th>
+                                                <th>取值SQL</th>
+                                                <th>预期值</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 问题申报 -->
+<div class="box">
+    <form id="JS_submitAutoCaseForm">
+        <div class="box-header with-border">
+            <h3 class="box-title">问题详细信息</h3>
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label>问题分类</label>
+                    <select name="caseType" class="form-control input-sm">
+                        <option value="0">请选择</option>
+                        <option value="1">系统巡检</option>
+                        <option value="2">技术巡检</option>
+                        <option value="3">疑难问题</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label">一级分类</label>
+                    <select name="funId" data-suburl="getFunList" data-idkey="funId" data-namekey="sysName" class="form-control select2 input-sm">
+                        <option value="0">请选择</option>
+                        <option value="1">容量规划</option>
+                        <option value="2">高可用</option>
+                        <option value="3">分层</option>
+                        <option value="4">柔性可用</option>
+                        <option value="5">日志</option>
+                        <option value="6">配置</option>
+                        <option value="7">监控</option>
+                        <option value="8">安全</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label>二级分类</label>
+                    <select name="important" class="form-control input-sm">
+                        <option value="0">请选择</option>
+                        <option value="1">系统容量</option>
+                        <option value="2">业务容量</option>
+                        <option value="3">系统性能</option>
+                    </select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label">三级分类</label>
+                    <select id="queryCase_busi" data-url="getBusiList" data-idkey="busiId" data-namekey="busiName" name="busiId" class="form-control select2 input-sm">
+                        <option value="0">请选择</option>
+                        <option value="1">数据库容量</option>
+                        <option value="2">网络宽带</option>
+                        <option value="3">TPCC</option>
+                        <option value="4">存储</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">疑难问题</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">问题摘要</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">所属项目</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">发生环境</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">所属系统</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">系统版本</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">解决状态</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">报告时间</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">缺陷级别</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">分配指派人</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label for="caseName" class="control-label">报告者</label>
+                    <input placeholder="请手动输入" id="caseName" type="text" class="form-control input-sm" name="autoName">
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <div class="text-center">
+                <button type="reset" name="reset" class="btn btn-default">申报</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-primary" data-toggle="modal" name="query">取消</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- ---------------------------------------- 
+<script id="TPL_questionInfoList" type="text/x-handlebars-template">
+	
+</script>
+--------------------------------------------->
+<!--------------------------------------------
+<script id="TPL_autoCaseList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="radio" class="minimal" value="{{autoId}}" name="autoId">
+        </td>
+        <td>
+            <input type="hidden" name="autoName" value="{{autoName}}">{{autoName}}</td>
+        <td>
+            <input type="hidden" name="sysId" value="{{sysId}}">{{sysId}}</td>
+        <td>
+            <input type="hidden" name="sysSubId" value="{{sysSubId}}">{{sysSubId}}</td>
+        <td>
+            <input type="hidden" name="funId" value="{{funId}}">{{funId}}</td>
+        <td>
+            <input type="hidden" name="busiId" value="{{busiId}}">{{transformatBusi busiId}}</td>
+        <td>
+            <input type="hidden" name="environmentType" value="{{environmentType}}">{{transformatEnv environmentType}}</td>
+        <td>
+            <input type="hidden" name="status" value="{{status}}">{{transformatStatus status}}</td>
+        <td>
+            <input type="hidden" name="creator" value="{{creator}}">{{creator}}</td>
+        <td>
+            <input type="hidden" name="update" value="{{update}}">{{update}}</td>
+        <td>
+            <input type="hidden" name="updateTime" value="{{updateTime}}">{{updateTime}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_sideTempCompList" type="text/x-handlebars-template">
+    <table class="table table-bordered table-hover">
+        <tbody>
+            {{#each this}}
+            <tr>
+                <input type="hidden" value="{{compOrder}}" name="compOrder">
+                <td width="15">
+                    <input type="checkbox" class="minimal" value="{{compId}}" name="compId">
+                </td>
+                <td>{{compName}}
+                    <input type="hidden" value="{{compName}}" name="compName">
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+<script id="TPL_parameterList" type="text/x-handlebars-template">
+    <tbody name="{{compId}}_{{compOrder}}">
+        <input type="hidden" name="compId" value="{{compId}}">
+        <input type="hidden" name="compOrder" value="{{compOrder}}">
+        <tr class="bg-light-blue color-palette">
+            <td>组件名：{{compName}}_{{compOrder}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {{#each this}}
+        <tr>
+            <td>
+                <input type="hidden" name="paramId" value="{{paramId}}">
+                <input type="hidden" name="paramName" value="{{paramName}}" style="width: 100px;">{{paramName}}</td>
+            <td title="{{paramValue}}">
+                <input type="text" name="paramValue" value="{{paramValue}}" style="width: 100px;">
+            </td>
+            <td>
+                <input type="hidden" name="paramDesc" value="{{paramDesc}}" style="width: 100px;">{{paramDesc}}</td>
+            <td>
+                <input type="text" name="paramSql" value="{{paramSql}}" style="width: 100px;">
+            </td>
+            <td>
+                <input type="text" name="paramExpect" value="{{paramExpect}}" style="width: 100px;">
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</script>
+------------------------------------------------------------>
+<script>
+seajs.use("script/archiQuesManage/quesRequest", function(init) {
+    init.init();
+});
+</script>

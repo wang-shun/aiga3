@@ -1,0 +1,34 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":{
+    "caseId": "10101",
+    "caseName":"用例模板1",
+    "sysId": "30",
+    "caseType": "2",
+    "creator": "创建人",
+    "update": "修改人",
+    "updateTime":"2017-2-02 08:00:00",
+    "important": "2", 
+    "busiId":"11",
+    "sysSubId":"11",
+    "funId":"11",
+    "messageId":"10",
+    "messageName":"Name",
+    "validParam":"比对参数",
+    "address":"http://10.70.80.212",
+    "factors":[{
+      "factorId":"11",
+      "factorName":"因子1",
+      "remark":"因子描述"
+    },{
+      "factorId":"11",
+      "factorName":"因子1",
+      "remark":"影子在描述"
+    },{
+  	  "factorId":"11",
+      "factorName":"因子1",
+      "remark":"因子描述"
+    }]
+  }
+}

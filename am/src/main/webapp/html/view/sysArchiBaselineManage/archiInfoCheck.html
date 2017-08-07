@@ -1,0 +1,42 @@
+<!--Page Start-->
+<head> 
+<style type="text/css"> 
+</style> 
+</head> 
+<div class="row" id="Page_archiInfoCheck">
+
+
+<div class="box" id="JS_wrongMessageQuery">
+    <div class="box-header" >
+        <h3 class="box-title">分层错误信息列表</h3>
+    </div>
+    <div class="box-body" >
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th style="min-width: 45px">错误信息</th>
+                </tr>
+            </thead>
+            <tbody name="content"></tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+    </div> 
+</div>
+</div>
+<script id="TPL_getWrongMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+    <td>{{this}}</td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/sysArchiBaselineManage/archiInfoCheck", function(init) {
+	init.init();
+});
+</script>
+

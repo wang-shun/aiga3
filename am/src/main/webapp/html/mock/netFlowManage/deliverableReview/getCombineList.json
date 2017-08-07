@@ -1,0 +1,44 @@
+{
+    "retCode":"200",
+    "retMessage":null,
+    "data":{
+        "totalElements":12, //总条数
+  	    "content":
+        [{
+            "devTaskId": "TSK20150120120101",
+    	   "requireName": "呼叫中西直连业务流程优化[集团长流程业务]",
+    	   "testMan":"章诚凯（上线当晚冯敏联调）",
+	   	   "otherSysName": "IMEP",
+	   	   "otherSysMan": "浩伟东",
+	   	   "otherSysManTel": "QQ：576388597"
+        },{
+      		"devTaskId": "TSK20150120120101",
+        	"requireName": "呼叫中西直连业务流程优化[集团长流程业务]",
+        	"testMan":"章诚凯（上线当晚冯敏联调）",
+    	   	"otherSysName": "IMEP",
+    	   	"otherSysMan": "浩伟东",
+    	   	"otherSysManTel": "QQ：576388597"
+        },{
+      		"devTaskId": "TSK20150120120101",
+        	"requireName": "呼叫中西直连业务流程优化[集团长流程业务]",
+        	"testMan":"章诚凯（上线当晚冯敏联调）",
+    	   	"otherSysName": "IMEP",
+    	   	"otherSysMan": "浩伟东",
+    	   	"otherSysManTel": "QQ：576388597"
+        },{
+      		"devTaskId": "TSK20150120120101",
+        	"requireName": "呼叫中西直连业务流程优化[集团长流程业务]",
+        	"testMan":"章诚凯（上线当晚冯敏联调）",
+    	   	"otherSysName": "IMEP",
+    	   	"otherSysMan": "浩伟东",
+    	   	"otherSysManTel": "QQ：576388597"
+        },{
+      		"devTaskId": "TSK20150120120101",
+        	"requireName": "呼叫中西直连业务流程优化[集团长流程业务]",
+        	"testMan":"章诚凯（上线当晚冯敏联调）",
+    	   	"otherSysName": "IMEP",
+    	   	"otherSysMan": "浩伟东",
+    	   	"otherSysManTel": "QQ：576388597"
+        }]
+    }
+}

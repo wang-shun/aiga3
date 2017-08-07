@@ -1,0 +1,68 @@
+{
+    "retCode": "200",
+    "retMessage": "系统异常，请稍后再试",
+    "data": {
+        "totalElements":12, //总条数
+        "content": [{
+            "groupId": "10101",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10102",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10103",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10104",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10105",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10106",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10107",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10108",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10101",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }, {
+            "groupId": "10109",
+            "groupName": "用例组1",
+            "creatorId": "创建人",
+            "updateId": "修改人",
+            "updateTime": "2017-2-02 08:00:00"
+        }]
+    }
+}

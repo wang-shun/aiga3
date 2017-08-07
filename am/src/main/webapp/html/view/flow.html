@@ -1,0 +1,218 @@
+<div class="row" id="Page_flow">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header flow-result-tips">
+                <h3 class="box-title" id="JS_getComplimeResultInfo"></h3>
+            </div>
+            <div class="box-body" id="JS_getComplimeInfo"></div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+.flow-result-tips{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    border-bottom: #44abe6 3px solid !important;
+}
+.flow-result-tips h3{
+    color: #44abe5;
+    font-weight: 100 !important;
+
+}
+.flow-content{
+    padding: 5px;
+    border-bottom:#cdcdcd 1px dashed;
+}
+.flow-content .flow-online-tips{
+    color: #787878;
+    font-size: 16px;
+    margin-top: 3px;
+}
+.flow-content i.fa-rocket{
+    font-size: 20px;
+    margin-left:2px;
+    color: #44abe5;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.flow-content i.fa-rocket:hover{
+    color: #21acfb;
+}
+.flow-content  h4{
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+.flow-content .flow-node{
+    overflow: hidden;
+    padding: 10px 0;
+}
+.flow-content .flow-node li{
+    list-style: none;
+    padding:0 15px;
+}
+.flow-content .flow-node li:last-child i.fa{
+    display: none
+}
+.flow-content .flow-node .flow-node-items{
+    position: relative;
+   /* float: left;*/
+    width: 100%;
+    height: 110px;
+    border:#8ac14a 2px solid;
+    border-radius:3px;
+    margin:10px 0;
+}
+
+
+.flow-content .flow-node .flow-node-items.status-running{
+    border:#44abe5 2px solid;
+}
+
+.flow-content .flow-node .flow-node-items.status-running h5.flow-node-title{
+    background:#44abe5;
+}
+
+.flow-content .flow-node .flow-node-items.status-error{
+    border:#f8235b 2px solid;
+}
+
+.flow-content .flow-node .flow-node-items.status-error h5.flow-node-title{
+    background:#f8235b;
+}
+
+.flow-content .flow-node .flow-node-items.status-null{
+    border:#cccccc 2px solid;
+}
+
+.flow-content .flow-node .flow-node-items.status-null h5.flow-node-title{
+    background:#ccc;
+    color: #333;
+}
+
+
+.flow-content .flow-node .flow-node-items h5.flow-node-title{
+    position: relative;
+    display: block;
+    width: 76%;
+    height: 22px;
+    line-height: 22px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -10px;
+    background: #8ac14a;
+    color: #fff;
+    text-align: center;
+    border-radius:10px;
+}
+.flow-content .flow-node .flow-node-items .fa{
+    float: right;
+    color: #ccc;
+    margin-right: -25px;
+    margin-top: -65px;
+    font-size: 16px;
+
+}
+.flow-content .flow-node .flow-node-content{
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.flow-content .flow-node .flow-node-content i.node-text{
+    display: inline-block;
+    text-align: justify;
+    width: 60px;
+    font-style: normal;
+}
+.flow-content .page-list,
+.flow-content .page-list ul li{
+    list-style: none;
+    font-size:12px;
+    color:#999;
+    line-height:20px;
+    float:left;
+    margin-left:5px;
+    padding: 0;
+}
+.flow-content .page-list ul{
+    padding: 0;
+    margin-right: 10px;
+}
+.flow-content .page-list ul li{
+    width:20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align:center;
+    border:1px solid #999;
+    cursor:pointer;
+}
+.flow-content .page-list ul li.active{
+    color:#fff;
+    background:#44abe6;
+    border:1px solid #44abe6;
+}
+</style>
+<!-- handlebars/获取流水结果信息 -->
+<script id="TPL_getComplimeResultInfo" type="text/x-handlebars-template">
+本次上线需发布{{totalNum}}个系统，当前已发布成功{{successNum}}个，<span class="text-red">失败{{failNum}}个系统</span>
+</script>
+<!-- handlebars/获取流水信息/获取某一次节点信息(编译) -->
+<script id="TPL_getComplimeInfo" type="text/x-handlebars-template">
+{{#each this}}
+<div class="flow-content">
+    <h4>
+        <span>{{sysDesc}}</span>
+        <i class="fa fa-rocket pull-right" name="compile" data-toggle="tooltip" data-sysnames="{{sysName}}" data-placement="bottom" title="编译"></i>
+        <div class="pull-right">
+            <div class="page-list pull-right">
+                <ul name="complimeNum">
+                    {{{creatPageList maxNum activeNum}}}
+                </ul>
+            </div>
+            <span class="flow-online-tips pull-right">本次上线已发布{{maxNum}}次</span>
+        </div>
+    </h4>
+    <div id="carousel_{{stringTrim sysName}}" class="carousel slide" data-ride="carousel">
+        <div class="flow-items carousel-inner">
+            <ul class="row item active flow-node">
+                {{#each naCodePathCompileExp.before}}
+                <li class="col-md-3">
+                    <div class="flow-node-items {{addStatusClass result status}}">
+                        <h5 class="flow-node-title">{{ext1}}</h5>
+                        <div class="flow-node-content">
+                            <p><i class="node-text">开始时间</i>{{startTime}}</p>
+                            <p><i class="node-text">结束时间</i>{{stopTime}}</p>
+                            <p><i class="node-text">耗时</i>{{total}}秒</p>
+                        </div>
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+            <ul class="row item flow-node">
+                {{#each naCodePathCompileExp.after}}
+                <li class="col-md-3">
+                    <div class="flow-node-items {{addStatusClass result status}}">
+                        <h5 class="flow-node-title">{{ext1}}</h5>
+                        <div class="flow-node-content">
+                            <p><i class="node-text">开始时间</i>{{startTime}}</p>
+                            <p><i class="node-text">结束时间</i>{{stopTime}}</p>
+                            <p><i class="node-text">耗时</i>{{total}}秒</p>
+                        </div>
+                        <i class="fa fa-arrow-right"></i>
+                    </div>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <a class="carousel-control left" href="#carousel_{{stringTrim sysName}}" data-slide="prev">Previous</a>
+        <a class="carousel-control right" href="#carousel_{{stringTrim sysName}}" data-slide="next">Next</a>
+    </div>
+</div>
+{{/each}}
+</script>
+<script>
+seajs.use("script/flow", function(Query) {
+    Query.init();
+});
+</script>

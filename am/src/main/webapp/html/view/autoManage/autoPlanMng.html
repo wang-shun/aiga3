@@ -1,0 +1,536 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">条件查询</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form id="JS_queryPlanForm">
+        <div class="box-body">
+            <!-- 搜索表单 -->
+            <div class="row">
+                <div class="col-sm-3 form-group">
+                    <label class="control-label">计划名称</label>
+                    <input type="text" class="form-control input-sm" id="queryPlanName" name="planName">
+                </div>
+                <div class="col-sm-3 form-group">
+                    <label class="control-label">执行方式</label>
+                    <select id="query_runType" name="runType" class="form-control input-sm">
+                        <option value="">请选择</option>
+                        <option value="1">立即执行</option>
+                        <option value="2">定时执行</option>
+                        <option value="3">分布式执行</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 form-group">
+                    <label class="control-label">创建时间</label>
+                    <div class="form-inline">
+                        <input type="text" class="form-control input-sm " name="createTime" id="createTime1" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 至
+                        <input type="text" class="form-control input-sm " name="updateTime" id="createTime2" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <div class=" text-center">
+                <button type="reset" class="btn btn-default" name="reset">重置</button>
+                <button type="button" class="btn btn-primary" id="queryBtn" name="submit">查询</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="JS_getAutoPlanList" class="box" style="min-height: 100px">
+    <div class="box-header">
+        <h3 class="box-title">计划列表</h3>
+        <div class="box-tools">
+            <button type="button" class="btn btn-primary" id="JS_runPlan"><i class="fa  fa-flash"></i> 一键执行</button>
+            <button type="button" class="btn btn-primary" id="JS_linkCase" data-toggle="modal"><i class="fa fa-share-alt"></i> 关联用例</button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_autoPlanForm" id="JS_addPlan"><i class="fa fa-plus"></i> 新增计划</button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li><a href="javascript:;" id="JS_delePlan">删除计划</a></li>
+                    <li><a href="javascript:;" id="JS_newTask">生成任务</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="box-body" style="min-height: 100px;">
+        <table id="Tab_getPlanList" class="table table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th class="iCheckbox" width="15"></th>
+                    <th>计划编号</th>
+                    <th>计划名称</th>
+                    <th>计划类型</th>
+                    <th>执行方式</th>
+                    <th>创建人</th>
+                    <th>默认执行机</th>
+                    <th>创建时间</th>
+                    <th>更新时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="box-footer no-border">
+        <div class="dataTables_paginate" name="pagination"></div>
+    </div>
+</div>
+<!-- 新增测试计划 -->
+<div class="modal fade in" id="modal_autoPlanForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <form id="JS_planInfoForm">
+                <input type="hidden" class="form-control input-sm" name="planId" value="">
+                <input type="hidden" class="form-control input-sm" name="planTag" value="">
+                <input type="hidden" class="form-control input-sm" name="createTime" value="">
+                <input type="hidden" class="form-control input-sm" name="creatorId" value="">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="queryCaseName" class="control-label">计划名称<i class="text-red">* </i></label>
+                            <input type="text" class="form-control input-sm" name="planName" value="{{caseName}}" required>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">轮循方式<i class="text-red">* </i></label>
+                            <select name="cycleType" class="form-control input-sm" required>
+                                <option value="">请选择</option>
+                                <option value="1">不轮循</option>
+                                <option value="2">查询类轮循</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="control-label">执行类型<i class="text-red">* </i></label>
+                            <select name="runType" class="form-control input-sm" required>
+                                <option value="">请选择</option>
+                                <option value="1">立即执行</option>
+                                <option value="2">定时执行</option>
+                                <option value="3">分布式执行</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="queryCaseName" class="control-label">默认执行机<i class="text-red">* </i></label>
+                            <input type="text" class="form-control input-sm" name="machineIp" value="{{caseName}}" required>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" name="cancel">取消</button>
+                <button type="button" class="btn btn-primary" name="submit">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 生成任务 -->
+<div class="modal fade" id="modal_newTaskForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">生成任务</h4>
+            </div>
+            <div id="JS_newTaskForm">
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" name="cancel" id="JS_AutoCaseTempReset">取消</button>
+                    <button type="button" class="btn btn-primary" name="save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 关联用例 -->
+<div class="modal fade" id="modal_linkTestCase" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+<!-- TPL模板 -->
+<script id="TPL_autoPlanList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{planId}}" name="planId">
+        </td>
+        <td>
+            <input type="hidden" name="planTag" value="{{planTag}}">{{planTag}}</td>
+        <td>
+            <input type="hidden" name="planName" value="{{planName}}">{{planName}}</td>
+        <td>
+            <input type="hidden" name="cycleType" value="{{cycleType}}">{{transformatCycleType cycleType}}</td>
+        <td>
+            <input type="hidden" name="runType" value="{{runType}}">{{transformatRunType runType}}</td>
+        <td>
+            <input type="hidden" name="creatorId" value="{{creatorId}}">{{creatorId}}</td>
+        <td>
+            <input type="hidden" name="machineIp" value="{{machineIp}}">{{machineIp}}</td>
+        <td>
+            <input type="hidden" name="createTime" value="{{createTime}}">{{createTime}}</td>
+        <td>
+            <input type="hidden" name="updateTime" value="{{updateTime}}">{{updateTime}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_modalLinkCase" type="text/x-handlebars-template">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">关联用例</h4>
+    </div>
+    <div class="modal-body">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#connectTab_1" id="JS_casetable1" data-toggle="tab" aria-expanded="false">关联用例</a>
+                </li>
+                <li class=""><a href="#connectTab_2" id="JS_casetable2" data-toggle="tab" aria-expanded="false">关联用例组</a></li>
+                <li class=""><a href="#connectTab_3" id="JS_casetable3" data-toggle="tab" aria-expanded="false">关联用例集</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="connectTab_1">
+                    <form id="JS_queryUnlinkCaseForm">
+                        <div class="row">
+                            <div class="form-group col-sm-4">
+                                <label for="caseName" class="control-label">用例名称</label>
+                                <input type="hidden" class="form-control" name="planId" value="{{planId}}">
+                                <input id="caseName" type="text" class="form-control input-sm" name="autoName" >
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label class="control-label">系统大类</label>
+                                <select name="sysId" class="form-control select2 input-sm" data-url="getSysList" data-subname="sysSubId" >
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label class="control-label">系统子类</label>
+                                <select name="sysSubId" data-suburl="getSubsysList" data-subname="funId" data-idkey="subsysId" data-namekey="sysName" class="form-control select2 input-sm" >
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label class="control-label">功能点</label>
+                                <select name="funId" data-suburl="getFunList" data-idkey="funId" data-namekey="sysName" class="form-control select2 input-sm" >
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-2">
+                                <label class="control-label">业务</label>
+                                <select id="queryCase_busi" data-url="getBusiList" data-idkey="busiId" data-namekey="busiName" name="busiId" class="form-control select2 input-sm" >
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-3">
+                            <button type="button" class="btn btn-primary btn-sm " name="submit" style="width: 70px">查询</button>
+                            &nbsp;
+                            <button type="button" class="btn btn-primary btn-sm" name="link" style="width: 70px">关联用例</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="table-scrollable">
+                        <table id="JS_unLinkCaseList" class="table table-bordered table-hover" style="width: 1200px;">
+                        </table>
+                    </div>
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane table-scrollable" id="connectTab_2">
+                    <form id="Js_queryUnlinkCaseGroupForm">
+                        <div class="form-group form-inline">
+                            <label class="control-label">用例组名称：</label>
+                            <input type="hidden" class="form-control" name="planId" value="{{planId}}">
+                            <input type="text" class="form-control input-sm" name="groupName" value="{{groupName}}"> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary btn-sm" name="submit">查询</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary btn-sm" name="link">关联用例组</button>
+                        </div>
+                    </form>
+                    <table id="Js_unlinkCaseGroupList" class="table table-bordered table-hover" style="min-height: 100px;">
+                    </table>
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane table-scrollable" id="connectTab_3">
+                    <form id="Js_queryUnlinkCaseCollectForm">
+                        <div class="form-group form-inline">
+                            <label class="control-label">用例集名称：</label>
+                            <input type="hidden" class="form-control" name="planId" value="{{planId}}">
+                            <input type="text" class="form-control input-sm" name="collectName" value="{{collectName}}"> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary btn-sm" id="connectCaseGroupBtn" name="submit">查询</button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary btn-sm" id="relCaseGroupBtn" name="link">关联用例集</button>
+                        </div>
+                    </form>
+                    <table id="Js_unlinkCaseCollectList" class="table table-bordered table-hover" style="min-height: 100px;"></table>
+                </div>
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <div class="box" style="min-height: 100px">
+            <div class="box-header">
+                <a>已关联用例信息</a>
+                <div class="box-tools">
+                    <div class="btn-group">
+                        <button type="button" id="delLinked" class="btn btn-primary btn-sm " name="dele"><i class="fa  fa-remove"></i>取消关联</button>
+                    </div>
+                </div>
+                <!-- <h3 class="box-title " id="infos">已关联用例信息</h3> -->
+            </div>
+            <div class="box-body table-scrollable" style="min-height: 100px;">
+                <table id="JS_linked" class="table table-bordered table-hover" style="min-height: 100px;width: 1500px">
+                </table>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="TPL_modalNewTaskInfo" type="text/x-handlebars-template">
+    <form id="Js_taskForm">
+        <div class="row">
+            <div class="hide">
+                <input type="text" class="form-control input-sm" name="planId" value="{{planId}}">
+            </div>
+            <div class="col-sm-6 form-group">
+                <label class="control-label">任务名称<i class="text-red">* </i></label>
+                <input type="text" class="form-control input-sm" name="taskName" required>
+            </div>
+            <div class="col-sm-4 form-group">
+                <label class="control-label">执行主机<i class="text-red">* </i></label>
+                <input id="taskMachineIp" type="text" class="form-control input-sm" name="machineIp" required>
+            </div>
+            <div class="hide col-sm-6 form-group">
+                <label class="control-label">创建人<i class="text-red">* </i></label>
+                <input type="text" class="hide form-control input-sm" name="creatId">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-3">
+                <label class="control-label">执行类型<i class="text-red">* </i></label>
+                <select name="runType" class="form-control input-sm" required>
+                    <option value="">请选择</option>
+                    <option value="1">立即执行</option>
+                    <option value="2">定时执行</option>
+                    <option value="3">分布式执行</option>
+                </select>
+            </div>
+            <div id="inputCycleTiming" class="col-sm-3 form-group">
+                <label class="control-label">轮循定时类型</label>
+                <select type="text" class="form-control input-sm" name="cycleTiming" value="1">
+                    <option value="">请选择</option>
+                    <option value="1">每周</option>
+                    <option value="2">每天</option>
+                    <option value="3">每月</option>
+                </select>
+            </div>
+            <div class="col-sm-3 form-group" title="目前只有ESB和http接口类用例支持并行执行！
+    其他用例请勿更改并行执行数！">
+                <label class="control-label">并行数<i class="text-red">* </i></label>
+                <input type="text" class="form-control input-sm" name="parallelType" value="1">
+            </div required>
+            <div class="hide form-group col-sm-4">
+                <label class="control-label">轮循方式<i class="text-red">* </i></label>
+                <select name="cycleType" class="form-control input-sm">
+                    <option value="">请选择</option>
+                    <option value="1">不轮循</option>
+                    <option value="2">轮循</option>
+                </select>
+            </div>
+            <div id="inputRunTime" class="form-group col-sm-3">
+                <label class="control-label">开始执行时间<i class="text-red">* </i></label>
+                <input type="text" class="form-control input-sm " name="beginRunTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" required>
+            </div>
+        </div>
+        <div class="row" id="Js_cycleInput">
+            <div class="col-sm-3 form-group">
+                <label class="control-label">轮循执行次数<i class="text-red">* </i></label>
+                <input type="text" class="form-control input-sm" name="runTimes" value="1" required>
+            </div>
+            <div title="单位：分" class="col-sm-3 form-group">
+                <label class="control-label">轮循间隔时间</label>
+                <input type="text" class="form-control input-sm " name="intervalTime">
+            </div>
+            <div class="col-sm-3 form-group">
+                <label class="control-label">短信通知<i class="text-red">* </i></label>
+                <select name="smsType" class="form-control input-sm " required>
+                    <option value="">请选择</option>
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+            <div class="col-sm-3 form-group">
+                <label class="control-label">邮件通知<i class="text-red">* </i></label>
+                <select name="mailType" class="form-control input-sm" required>
+                    <option value="">请选择</option>
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+    </form>
+    <div id="Js_machineList" class="box" style="min-height: 100px">
+        <div class="box-header">
+            <a>主机列表</a>
+            <div class="box-tools">
+            </div>
+            <!-- <h3 class="box-title " id="infos">已关联用例信息</h3> -->
+        </div>
+        <div class="box-body" style="min-height: 100px;">
+            <form id="Js_queryMachine">
+                <div class="form-group form-inline">
+                    <label class="control-label">主机地址：</label>
+                    <input type="text" class="form-control input-sm" name="machineIp"> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary btn-sm" name="submit">查询</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary btn-sm" name="using">使用选中主机</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </form>
+            <div id="Js_chooseMachine">
+                <table id="Js_chooseMachineList" class="table table-bordered table-hover" style="min-height: 100px;">
+                    <thead>
+                        <tr>
+                            <th class="iCheckbox"></th>
+                            <th>主机IP</th>
+                            <th>主机名称</th>
+                            <th>是否占用</th>
+                            <th>占用任务ID</th>
+                            <th class="hide">占用任务类型</th>
+                            <th class="hide">占用任务单</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="TPL_autoCaseList" type="text/x-handlebars-template">
+    <table id="Tab_getAutoCaseList" class="table table-condensed table-hover">
+        <thead>
+            <tr>
+                <th class="iCheckbox" width="15"></th>
+                <th>用例名称</th>
+                <th>系统大类</th>
+                <th>系统子类</th>
+                <th>功能点</th>
+                <th>业务</th>
+                <th>环境</th>
+                <th>用例状态</th>
+                <th>创建人</th>
+                <th>修改人</th>
+                <th>更新时间</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each this}}
+            <tr>
+                <td>
+                    <input type=checkbox class="minimal" value="{{autoId}}" name="autoId">
+                </td>
+                <td>
+                    <input type="hidden" name="autoName" value="{{autoName}}">{{autoName}}</td>
+                <td>
+                    <input type="hidden" name="sysId" value="{{sysId}}">{{sysId}}</td>
+                <td>
+                    <input type="hidden" name="sysSubId" value="{{sysSubId}}">{{sysSubId}}</td>
+                <td>
+                    <input type="hidden" name="funId" value="{{funId}}">{{funId}}</td>
+                <td>
+                    <input type="hidden" name="busiId" value="{{busiId}}">{{busiId}}</td>
+                <td>
+                    <input type="hidden" name="environmentType" value="{{environmentType}}">{{transformatEnv environmentType}}</td>
+                <td>
+                    <input type="hidden" name="status" value="{{status}}">{{transformatStatus status}}</td>
+                <td>
+                    <input type="hidden" name="creator" value="{{creator}}">{{creator}}</td>
+                <td>
+                    <input type="hidden" name="update" value="{{update}}">{{update}}</td>
+                <td>
+                    <input type="hidden" name="updateTime" value="{{updateTime}}">{{updateTime}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+<script id="TPL_caseGroupList" type="text/x-handlebars-template">
+    <thead>
+        <tr>
+            <th class="iCheckbox" width="15"></th>
+            <th>用例组名称</th>
+            <th>创建人</th>
+            <th>更新人</th>
+            <th>更新时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each this}}
+        <tr>
+            <td>
+                <input type="checkbox" class="minimal" value="{{groupId}}" name="groupId">
+            </td>
+            <td>{{groupName}}</td>
+            <td>{{creatorId}}</td>
+            <td>{{updateId}}</td>
+            <td>{{updateTime}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</script>
+<script id="TPL_caseCollectList" type="text/x-handlebars-template">
+    <thead>
+        <tr>
+            <th class="iCheckbox" width="15"></th>
+            <th>用例集名称</th>
+            <th>关联用例集类型</th>
+            <th>创建人</th>
+            <th>维护人</th>
+            <th>创建时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each this}}
+        <tr>
+            <td>
+                <input type="checkbox" class="minimal" value="{{collectId}}" name="collectId">
+            </td>
+            <td>{{collectName}}</td>
+            <td>{{caseType}}</td>
+            <td>{{operator}}</td>
+            <td>{{repairId}}</td>
+            <td>{{createDate}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</script>
+<script id="TPL_machineList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td>
+            <input type="checkbox" class="minimal" value="{{machineId}}" name="machineId">
+        </td>
+        <td>
+            <input type="hidden" name="planName" value="{{machineIp}}">{{machineIp}}</td>
+        <td>{{machineName}}</td>
+        <td>
+            <input type="hidden" name="planName" value="{{status}}">{{transformatStatus status}}</td>
+        <td>
+            <input type="hidden" name="taskId" value="{{taskId}}">{{taskId}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script>
+seajs.use("script/autoManage/autoPlanMng", function(init) {
+    init.init();
+});
+</script>

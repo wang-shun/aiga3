@@ -1,0 +1,12 @@
+{
+	"retCode":"200",
+  	"retMessage":null,
+  	"data":{
+  		"totalElements":12, //总条数
+  		"content":
+  		[{
+	    	"requireImport": "hhh",
+	    	"sql":"select"
+		}]
+	}
+}

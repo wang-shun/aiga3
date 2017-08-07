@@ -1,0 +1,37 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":[{
+    "collectId": "11",
+    "collectName":"用力集1",
+  },{
+    "collectId": "22",
+    "collectName":"用力集2",
+	
+  },{
+    "collectId": "33",
+    "collectName":"用力集3",
+	
+  },{
+    "collectId": "44",
+    "collectName":"用力集4",
+  },{
+    "collectId": "55",
+    "collectName":"用力集5",
+  },{
+    "collectId": "66",
+    "collectName":"用力集6",
+  },{
+    "collectId": "77",
+    "collectName":"用力集7",
+  },{
+    "collectId": "00",
+    "collectName":"用力集8",
+  },{
+    "collectId": "88",
+    "collectName":"用力集9",
+  },{
+    "collectId": "99",
+    "collectName":"用力集10",
+  }]
+}

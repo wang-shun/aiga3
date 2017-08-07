@@ -1,0 +1,51 @@
+{
+  "retCode":"200",
+  "retMessage":null,
+  "data":[{
+    "funId": "11",
+    "sysName":"功能点",
+  },{
+    "funId": "22",
+    "sysName":"功能点",
+	
+  },{
+    "funId": "33",
+    "sysName":"功能点",
+	
+  },{
+    "funId": "44",
+    "sysName":"功能点",
+	
+	
+  },{
+    "funId": "55",
+    "sysName":"功能点",
+	
+	
+  },{
+    "funId": "66",
+    "sysName":"功能点",
+	
+	
+  },{
+    "funId": "77",
+    "sysName":"功能点",
+	
+	
+  },{
+    "funId": "00",
+    "sysName":"功能点",
+	
+	
+  },{
+    "funId": "88",
+    "sysName":"功能点",
+	
+	
+  },{
+    "funId": "99",
+    "sysName":"功能点",
+	
+	
+  }]
+}

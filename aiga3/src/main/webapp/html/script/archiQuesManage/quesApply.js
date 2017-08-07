@@ -167,10 +167,6 @@ define(function(require, exports, module) {
 //				alert(json.data.quesId);
 				if(status) {
 					idcache.quesId=json.data.quesId;
-//					XMS.msgbox.show('认定成功！ 不通过！！！', 'success', 2000);	
-//					setTimeout(function() {
-//						Page.findId('queryDataMaintainForm').find("[name='query']").click();
-//					}, 1500);								
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					

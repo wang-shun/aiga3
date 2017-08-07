@@ -36,6 +36,7 @@ public interface NaFileUploadDao extends SearchAndPageRepository<NaFileUpload, L
 	@Query(value="select count(*) from na_file_upload where plan_id = ?1  and file_type = ?2", nativeQuery = true)
 	Integer selectCount(Long planId, Long fileType);
 	
-	
+	@Query(value="select * from na_file_upload where plan_id = ?1", nativeQuery = true)
+	public NaFileUpload selectFileName(Long quesId);
 
 }

@@ -60,6 +60,8 @@ define(function(require, exports, module) {
 		//显示系统信息表
 //	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+	//
+    srvMap.add("getFileName", pathAlias+"getSysMessageList.json", "archi/question/getFileName");
 
 	// 模板对象
 	var Tpl = {
@@ -71,6 +73,10 @@ define(function(require, exports, module) {
 	var cache = {
 		datas : '',
 		selectData : ''	
+	};
+	var idcache = {
+		quesId : '',
+		fileName : ''
 	};
 	/*// 容器对象
 	var Dom = {
@@ -295,8 +301,8 @@ define(function(require, exports, module) {
 				i++;
 			}
 			var data = json.content[i];
+			idcache.quesId=Id;
 //			var _dom = Page.findModal('updateDataMaintainModal');
-			
 //			var index = _dom.attr("temp");
 //			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 //			Page.findId('updateModal').html(template(json.data[index]));
@@ -305,6 +311,18 @@ define(function(require, exports, module) {
 //			Utils.setSelectData(_modal);
 			data.modifyDate = data.modifyDate.replace(/-/g,"/");
 			data.createDate = data.modifyDate;
+			
+			var cmd = 'quesId=' + Id;
+			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){
+				if(status) {
+//					idcache.quesId=json.data.quesId;
+					idcache.fileName=json2.data.fileName;
+				} else {
+					XMS.msgbox.show(json2.retMessage, 'error', 2000);
+				}					
+			});
+			
+			data.fileName = idcache.fileName;
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');

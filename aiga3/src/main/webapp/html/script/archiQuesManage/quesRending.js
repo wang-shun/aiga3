@@ -60,9 +60,10 @@ define(function(require, exports, module) {
 		//显示系统信息表
 //	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
-	//
+	//get附件名
     srvMap.add("getFileName", pathAlias+"getSysMessageList.json", "archi/question/getFileName");
-
+    //下载文档
+    srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -404,6 +405,27 @@ define(function(require, exports, module) {
 			});
 
 		},
+		// 变更交付物下载文档
+        downloadDocument: function() {
+            var self = this;
+            var _dom = Page.findId('getChangeDeliverableList');
+            var _download = _dom.find("[name='downloadDocument']");
+            _download.unbind('click');
+            _download.bind('click', function() {
+            	var _data = Utils.getCheckboxCheckedRow(_dom);
+                if (_data) {
+                	XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                	var cmd = "ids=";
+                    for (var i in _data) {
+                        cmd += _data[i].id + ',';
+                    }
+                    cmd = cmd.substring(0, cmd.length - 1);
+                	$(this).attr("href", srvMap.get('downloadFile')+"?"+cmd);
+                }else{
+                    return false;
+                }
+            });
+        },
 		// 事件：双击选中当前行
 		eventDClickCallback: function(obj, callback) {
 			obj.find("tbody tr").bind('dblclick ', function(event) {

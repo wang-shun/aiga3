@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaServiceChangeOnlineList;
+import com.ai.aiga.service.NaChangePlanOnileSv;
 import com.ai.aiga.service.PlanOnile.ChangePlanOnileSv;
 import com.ai.aiga.service.workFlowNew.dto.NaHostConfigListExcel;
 import com.ai.aiga.service.workFlowNew.dto.NaProcessChangeListExcel;
@@ -40,6 +42,8 @@ public class PlanOnileController {
 	
 	@Autowired
 	private ChangePlanOnileSv naChangePlanOnileSv ;
+	@Autowired
+	private NaChangePlanOnileSv changePlanOnileSv;
 //保存
 	@RequestMapping(path = "/sys/changeplanonile/save")
 	public @ResponseBody JsonBean save(NaChangePlanOnileRequest request){
@@ -443,5 +447,31 @@ public class PlanOnileController {
 			Object NaFileUploadList = naChangePlanOnileSv.findNaFileUpload(planId, fileType, pageNumber, pageSize,fileName);
 			bean.setData(NaFileUploadList);
 			return bean;
+		}
+		
+		/**
+		 * 批量下载并打包文件成zip
+		 * 
+		 */
+		@RequestMapping(value = "/sys/changeplanonile/downloadFileBatch")
+	    public @ResponseBody ResponseEntity downloadFileBatch(String ids) {
+			try {
+				return changePlanOnileSv.downloadFileBatch(ids);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
+		/**
+		 * 下载文档
+		 * 
+		 * @param fileName
+		 * @return
+		 * id用于更新下载文件的信息，例如更新文件下载时间
+		 */
+		@RequestMapping(path = "/sys/changeplanonile/downloadFile")
+		public @ResponseBody ResponseEntity downloadFile(String fileName, Long id) {
+			return changePlanOnileSv.downloadFile(fileName, id);
 		}
 }

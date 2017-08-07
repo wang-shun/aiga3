@@ -409,4 +409,39 @@ public class PlanOnileController {
 			}
 			return bean;
 		}
+		
+		// sql清单，后续包括所有的上传
+		@RequestMapping(path = "/produce/sqlList/upload")
+		public @ResponseBody JsonBean sqlList(@RequestParam Long planId, @RequestParam MultipartFile file,
+				@RequestParam Long fileType) {
+			JsonBean bean = new JsonBean();
+
+			// 获取文件名称
+			String fileName = file.getOriginalFilename();
+
+			Date date = new Date();
+
+			// 设置主机上的文件名
+			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+
+			// 把文件上传到主机
+			FileUtil.uploadFile(file, fileNameNew);
+
+			naChangePlanOnileSv.saveFileInfo(planId, fileName, fileType, date);
+
+			return bean;
+		}
+		
+		// 查看上线交付物列表
+		@RequestMapping(path = "/produce/plan/findNaFileUpload")
+		public @ResponseBody JsonBean findNaFileUpload(Long planId, Long fileType,
+				@ApiParam(name = "page", value = "页码") @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT
+						+ "") int pageNumber,
+				@ApiParam(name = "pageSize", value = "页数") @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT
+						+ "") int pageSize,String fileName) {
+			JsonBean bean = new JsonBean();
+			Object NaFileUploadList = naChangePlanOnileSv.findNaFileUpload(planId, fileType, pageNumber, pageSize,fileName);
+			bean.setData(NaFileUploadList);
+			return bean;
+		}
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.QuestionInfoSv;
+import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionId;
 import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieOutput;
@@ -175,6 +176,20 @@ public class QuestionInfoController {
 				@RequestParam Long quesId){
 		questionInfoSv.delete(quesId);
 		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/archi/question/getCurrvalId")
+	public @ResponseBody JsonBean getCurrvalId(){
+		JsonBean bean = new JsonBean();
+		QuestionId output = new QuestionId();
+		List<Map>list=questionInfoSv.findQuestionId();
+		for(Map base : list) {
+			String value = String.valueOf(base.get("quesid"));
+			Long quesId = Long.parseLong(value);
+			output.setQuesId(quesId);
+		}
+		bean.setData(output);
+		return bean;
 	}
 
 }

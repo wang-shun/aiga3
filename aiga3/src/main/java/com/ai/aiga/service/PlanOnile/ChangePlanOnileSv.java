@@ -471,6 +471,32 @@ public class ChangePlanOnileSv extends BaseService{
 		return naFileUploadDao.searchByNativeSQL(sql.toString(), pageable);
 	}
 	
+	// 查看上线交付物列表
+	public Object findNaFileUpload(Long planId, Long type, int pageNumber, int pageSize, String fileName) {
+		List<Condition> cons = new ArrayList<Condition>();
+		StringBuilder sql = new StringBuilder("select a.*,b.name from NA_FILE_UPLOAD a , aiga_staff b where a.create_id = b.staff_id");
+		if (planId != null) {
+			sql = sql.append(" and a.plan_Id = " + planId);
+
+		}
+		if (type != null) {
+			sql = sql.append(" and a.file_Type like '" + type + "%'");
+
+		}
+		if (StringUtils.isNotBlank(fileName)) {
+			sql = sql.append(" and a.file_name like '"+ fileName+"%'");
+		}
+		sql.append(" order by CREATE_TIME desc");
+		if (pageNumber < 0) {
+			pageNumber = 0;
+		}
+		if (pageSize <= 0) {
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return naFileUploadDao.searchByNativeSQL(sql.toString(), pageable);
+	}
 	/**
 	 * 查询包含其他任务的计划
 	 * @param type

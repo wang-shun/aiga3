@@ -19,7 +19,7 @@
                 <div class="box-header with-border">
                     <h1 class="box-title">架构问题申报</h1>
 	                <div class="box-tools">
-	                    <button type="button" class="btn btn-primary" name="batchadd">批量导入</button>
+	                    <button type="button" class="btn btn-primary" name="batchAdd">批量导入</button>
 <!-- 	                    <button type="button" class="btn btn-primary" name="batchdel">批量删除</button>
  -->	                </div>
 <!--                     <div class="box-tools pull-right">
@@ -149,7 +149,7 @@
 		                    <label for="idFirst" class="col-sm-2 col-sm-offset-2 control-label" >事件单编号：</label>
 		                    <div class="col-sm-4">
 			                    <select name="idFirst" class="form-control select2 input-sm" data-url="getEventFindALL" data-idkey="id" data-namekey="name" display="only">
-			                        <option selected="selected">请选择</option>
+			                        <option value="1000000000">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
@@ -302,6 +302,90 @@
 </tr>
 {{/each}}
 </script>
+<!-- 添加交付物 -->
+<div class="modal fade" id="Modal_addDdeliverablesModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 name="head" class="box-title">架构问题批量添加</h4>
+            </div>
+            <div class="modal-body" id="JS_addDdeliverablesForm">
+                <div class="box">
+                    <div class="box-body">
+                        <form>
+                            <div class="alert alert-warning alert-dismissible">
+                                <i class="icon fa fa-warning  text-yellow"></i>注意：架构问题批量添加功能所导入的Excel必须按照规定的格式填写！
+                            </div>
+                        </form>
+                        <div class="row">
+                            <form id="JS_uploadDeliveryForm">
+                                <div class="col-md-12">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>文件类型<i class="text-red">*</i></label>
+                                                        <select name="category" class="form-control input-sm" data-cmd="category=enclosuretype" data-url="getCategory" data-idkey="value" data-namekey="show" required>
+                                                        	<option value="">请选择</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>导入文件<i class="text-red">*</i></label>
+                                                        <input type="file" name="fileName" class="form-control input-sm" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
+                                                <a class="btn btn-primary" name="downloadTemp">下载模板</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">上线交付物列表</h3>
+                        <div class="box-tools">
+      
+                            <a class="btn btn-primary" name="add">下载文档</a>
+                            <button type="button" class="btn btn-primary" name="bianyi">删除文档</button>
+                        </div>
+                    </div>
+                    <div class="box-body table-scrollable" style="min-height: 100px;">
+                        <table class="table table-bordered table-hover" style="width: 1300px;">
+                            <thead>
+                                <tr>
+                                    <th class="iCheckbox" width="15"></th>
+                                    <th>文件名称</th>
+                                    <th>文件类型</th>
+                                    <th>上传人</th>
+                                    <th>上传时间</th>
+                                    <th>下载时间</th>
+                                    <th>驳回次数</th>
+                                    <th>驳回时间</th>
+                                </tr>
+                            </thead>
+                            <tbody name="content"></tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border">
+                        <div class="dataTables_paginate" name="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal -->
 <!-- 新增弹框 -->
 <div class="modal fade" id="Modal_addDataMaintainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

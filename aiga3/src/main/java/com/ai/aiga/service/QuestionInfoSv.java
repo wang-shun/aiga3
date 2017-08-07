@@ -33,6 +33,11 @@ public class QuestionInfoSv extends BaseService {
 		return questionInfoDao.searchByNativeSQL(sql);	
 	}
 	
+	public List<Map> findQuestionId(){
+		String sql = "select aiam.seq_ques_info.nextval as quesId from dual ";
+		return questionInfoDao.searchByNativeSQL(sql);	
+	}
+	
 	public List<QuestionInfo>findQuestionInfos(){
 		return questionInfoDao.findAll();
 	}

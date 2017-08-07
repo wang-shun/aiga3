@@ -60,10 +60,15 @@ define(function(require, exports, module) {
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
  	//get id
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
+    //get question sequence currval id
+    srvMap.add("getCurrvalId", pathAlias+"getSysMessageList.json", "archi/question/getCurrvalId");
 
 	var cache = {
 		datas : ""	
 	};
+	var idcache = {
+		quesId : ""
+	}
     // 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -92,11 +97,11 @@ define(function(require, exports, module) {
 			
 			this.initialise();
 			
-			var planId = '99999';
+//			var planId = '99999';
 			
 			this.searchBox();
 			
-			this.uploadAnNiu(planId);
+			this.uploadAnNiu();
 			
 			this.judgeQuesType();
 			// 默认查询所有
@@ -108,7 +113,14 @@ define(function(require, exports, module) {
 			//映射
 			this.hdbarHelp();
 		},
-		
+		batchAdd: function(){
+			var _form = Page.findId('queryDataMaintainForm');
+			var _batchBtn = _form.find("[name='batchAdd']");
+			_batchBtn.unbind('click').bind('click', function() {
+				var _modal = Page.findModal('addDdeliverablesModal');
+				_modal.modal('show');
+			});
+		},
 		initialise: function(){
 			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');
@@ -149,7 +161,22 @@ define(function(require, exports, module) {
 		},
 		        //上传上线交付物按钮
         uploadAnNiu: function() {
-        	var planId = "8888";
+        	
+        	var _cmd = "";
+			Rose.ajax.postJson(srvMap.get('getCurrvalId'),_cmd,function(json, status){
+//				alert(json.data.quesId);
+				if(status) {
+					idcache.quesId=json.data.quesId;
+//					XMS.msgbox.show('认定成功！ 不通过！！！', 'success', 2000);	
+//					setTimeout(function() {
+//						Page.findId('queryDataMaintainForm').find("[name='query']").click();
+//					}, 1500);								
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+			});
+			
+        	var planId = idcache.quesId + 1;
             var self = this;
             var _form = Page.findModalCId('queryDataMaintainForm');
             console.log(_form.length);
@@ -208,7 +235,7 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.unbind('click').bind('click', function() {
-				var planId = "8888";
+				planId = idcache.quesId + 1;
 				var upState = false;
 		        Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
 		    		var a = '99999';
@@ -278,12 +305,20 @@ define(function(require, exports, module) {
 						return
 					}
 					 */
-					if(_cmd.charAt(_cmd.length-1)=='=') {
+					if(_cmd.indexOf('appointedPerson=&')>-1) {
 						XMS.msgbox.show('处理科室为空！', 'error', 2000);
 						return
 					}
+					if(_cmd.charAt(_cmd.length-1)=='=') {
+						XMS.msgbox.show('请选择所属巡检事件', 'error', 2000);
+						return
+					}
 
-					
+					if(_cmd!=null){
+						if(_cmd.indexOf('idFirst=&')>-1){
+							_cmd=_cmd.replace("idFirst=&","idFirst=0&");
+						}
+					}
 					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页

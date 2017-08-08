@@ -19,14 +19,20 @@ public class ArchitectureFirstController {
 
 	@Autowired
 	private ArchitectureFirstSv architectureFirstSv;
-	
+	/**
+	 * 查询一级域
+	 * @return
+	 */
 	@RequestMapping(path = "/archi/first/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureFirstSv.findArchitectureFirsts());
 		return bean;
 	} 
-	
+	/**
+	 * 查询一级域，带分业
+	 * @return
+	 */
 	@RequestMapping(path = "/archi/first/listPage")
 	public @ResponseBody JsonBean listPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,

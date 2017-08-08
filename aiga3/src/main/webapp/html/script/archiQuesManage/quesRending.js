@@ -64,6 +64,8 @@ define(function(require, exports, module) {
     srvMap.add("getFileName", pathAlias+"getSysMessageList.json", "archi/question/getFileName");
     //下载文档
     srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
+    //下载模板
+     srvMap.add("downloadTemp", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFile");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -77,7 +79,8 @@ define(function(require, exports, module) {
 	};
 	var idcache = {
 		quesId : '',
-		fileName : ''
+		fileName : '',
+		datas : ''
 	};
 	/*// 容器对象
 	var Dom = {
@@ -103,6 +106,8 @@ define(function(require, exports, module) {
 //			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
+			//下载文档
+//			this.downloadFile(idcache.quesId);
 			//映射
 			this.hdbarHelp();
 		},
@@ -318,6 +323,7 @@ define(function(require, exports, module) {
 				if(status) {
 //					idcache.quesId=json.data.quesId;
 					idcache.fileName=json2.data.fileName;
+					idcache.datas=json2.data;
 				} else {
 					XMS.msgbox.show(json2.retMessage, 'error', 2000);
 				}					
@@ -329,6 +335,8 @@ define(function(require, exports, module) {
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
 			Utils.setSelectData(_dom);
+			
+			this.downloadFile(idcache.quesId);
 			
 //			_dom.modal('show');
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
@@ -405,27 +413,35 @@ define(function(require, exports, module) {
 			});
 
 		},
-		// 变更交付物下载文档
-        downloadDocument: function() {
+        //上线交付物下载文档
+        downloadFile: function(planId) {
             var self = this;
-            var _dom = Page.findId('getChangeDeliverableList');
-            var _download = _dom.find("[name='downloadDocument']");
-            _download.unbind('click');
-            _download.bind('click', function() {
-            	var _data = Utils.getCheckboxCheckedRow(_dom);
+            var _dom = Page.findId('updateDataMaintainInfo');
+            var _deleteDocument = _dom.find("[name='add']");
+            _deleteDocument.unbind('click');
+            _deleteDocument.bind('click', function() {
+            	alert("aaaaaaaaaaaaa");
+//            	var _data = Utils.getCheckboxCheckedRow(_dom);
+            	var _data = idcache.datas;
                 if (_data) {
                 	XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 	var cmd = "ids=";
-                    for (var i in _data) {
-                        cmd += _data[i].id + ',';
-                    }
+//                    for (var i in _data) {
+//                        cmd += _data.id + ',';
+//                    }
+                    cmd += _data.id + ',';
+                	
                     cmd = cmd.substring(0, cmd.length - 1);
-                	$(this).attr("href", srvMap.get('downloadFile')+"?"+cmd);
+                	_deleteDocument.attr("href", srvMap.get('downloadFile')+"?"+cmd);
+                    setTimeout(function() {
+//                        self.uploadDeliverables(planId);
+                    }, 1000) 
                 }else{
                     return false;
                 }
             });
         },
+
 		// 事件：双击选中当前行
 		eventDClickCallback: function(obj, callback) {
 			obj.find("tbody tr").bind('dblclick ', function(event) {

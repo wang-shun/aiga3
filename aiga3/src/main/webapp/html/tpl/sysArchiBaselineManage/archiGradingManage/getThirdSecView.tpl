@@ -37,7 +37,7 @@
                                             </div>
                                             {{else}}
                                                 {{#if item}}
-                                                    <div class="mxgif-lists-item"  style="float: none">
+                                                    <div class="mxgif-lists-item"  style="float: none;display: inline-block;">
                                                         <h3 class="mxgif-item-title">{{name}}</h3>
                                                         {{#each item}}
                                                             <div class="mxgif-third-item" style="background: {{bgColor}}">{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</div>

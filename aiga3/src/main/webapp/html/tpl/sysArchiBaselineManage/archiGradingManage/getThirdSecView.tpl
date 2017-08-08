@@ -2,7 +2,7 @@
     {{#each content}}
     <div class="mxgif-container fn-clear {{mxgifWidth item}}">
         {{#if isNodeName}}
-        <div class="mxgif-sidebar"><p>{{name}}</p></div>
+        <div class="mxgif-sidebar"><p>{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</p></div>
         {{/if}}
         <div class="mxgif-lists {{mxgifHeight1 item}}">
             <div class="mxgif-lists-content {{mxgifLength item}}">
@@ -10,19 +10,43 @@
                     {{#if isNodeName}}
                         {{#isNodeNameCompare isNodeName 1}}
                         <div class="mxgif-container fn-clear">
-                            <div class="mxgif-sidebar {{mxgifWidth item}}"><p>{{name}}</p></div>
+                            <div class="mxgif-sidebar {{mxgifWidth item}}"><p>{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</p></div>
                             <div class="mxgif-lists {{mxgifHeight2 item}}">
                                 <div class="mxgif-lists-content {{mxgifLength item}}">
                                     {{#each item}}
-                                        {{#if item}}
-                                            <div class="mxgif-lists-item" >
-                                                <h3 class="mxgif-item-title">{{name}}</h3>
-                                                {{#each item}}
-                                                    <div class="mxgif-third-item" style="background: {{bgColor}}">{{name}}</div>
-                                                {{/each}}
+                                       {{#if isNodeName}}
+                                            {{#isNodeNameCompare isNodeName 1}}
+                                            <div class="mxgif-container fn-clear">
+                                                <div class="mxgif-sidebar {{mxgifWidth item}}"><p>{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</p></div>
+                                                <div class="mxgif-lists {{mxgifHeight2 item}}">
+                                                    <div class="mxgif-lists-content {{mxgifLength item}}">
+                                                        {{#each item}}
+                                                            {{#if item}}
+                                                                <div class="mxgif-lists-item" >
+                                                                    <h3 class="mxgif-item-title">{{name}}</h3>
+                                                                    {{#each item}}
+                                                                        <div class="mxgif-third-item" style="background: {{bgColor}}">{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</div>
+                                                                    {{/each}}
+                                                                </div>
+                                                            {{else}}
+                                                                <div class="mxgif-lists-item">{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</div>
+                                                            {{/if}}
+                                                        {{/each}}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        {{else}}
-                                            <div class="mxgif-lists-item">{{name}}</div>
+                                            {{else}}
+                                                {{#if item}}
+                                                    <div class="mxgif-lists-item"  style="float: none">
+                                                        <h3 class="mxgif-item-title">{{name}}</h3>
+                                                        {{#each item}}
+                                                            <div class="mxgif-third-item" style="background: {{bgColor}}">{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</div>
+                                                        {{/each}}
+                                                    </div>
+                                                {{else}}
+                                                    <div class="mxgif-lists-item">{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</div>
+                                                {{/if}}
+                                            {{/isNodeNameCompare}}
                                         {{/if}}
                                     {{/each}}
                                 </div>
@@ -33,11 +57,11 @@
                                 <div class="mxgif-lists-item" >
                                     <h3 class="mxgif-item-title">{{name}}</h3>
                                     {{#each item}}
-                                        <div class="mxgif-third-item" style="background: {{bgColor}}">{{name}}</div>
+                                        <div class="mxgif-third-item" style="background: {{bgColor}}">{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</div>
                                     {{/each}}
                                 </div>
                             {{else}}
-                                <div class="mxgif-lists-item">{{name}}</div>
+                                <div class="mxgif-lists-item">{{#if isNodeName}}{{#isAppCompare mediaType}}<i class="fa fa-fw fa-mobile text-yellow"></i>{{/isAppCompare}}{{/if}}{{name}}</div>
                             {{/if}}
                         {{/isNodeNameCompare}}
                     {{/if}}

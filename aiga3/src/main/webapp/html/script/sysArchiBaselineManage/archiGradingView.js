@@ -90,6 +90,13 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.getOneSecView);
 					Page.findName("archiView").html(template({}));
 					_self.data("level",_viewLevel);
+
+					// 一级域点击直接跳转对应的二级域
+					$(".menu-href").on("click",function(){
+						_form.find("[name='primaryDomain']").val($(this).data("id"));
+						_form.find("input[name=viewLevel][value=2]").click();
+						_queryBtn.click();
+					})
 					return;
 				}else if(_viewLevel=="3"){
 					_srvMap = "getThirdSecView";

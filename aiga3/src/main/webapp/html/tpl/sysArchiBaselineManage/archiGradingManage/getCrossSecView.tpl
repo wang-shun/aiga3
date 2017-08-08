@@ -17,7 +17,24 @@
                                 <div class="mxgif-lists-content {{mxgifLength item}}">
                                     <div class="mxgif-cross-content width-auto" name="noCrossContent">
                                     {{#each item}}
-                                    <div class="mxgif-lists-item">{{name}}</div>
+                                    {{#if isNodeName}}
+                                        {{#isNodeNameCompare isNodeName 1}}
+                                        <div class="mxgif-container fn-clear" id="cross_{{id}}">
+                                            <div class="mxgif-sidebar {{mxgifWidth item}}"><p>{{name}}</p></div>
+                                            <div class="mxgif-lists {{mxgifHeight1 item}} {{setMxgifMinHeight isNodeName isCross}}">
+                                                <div class="mxgif-lists-content {{mxgifLength item}}">
+                                                    <div class="mxgif-cross-content width-auto">
+                                                    {{#each item}}
+                                                    <div class="mxgif-lists-item">{{name}}</div>
+                                                    {{/each}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{else}}
+                                            <div class="mxgif-lists-item" style="float: none;    display: inline-block;">{{name}}</div>
+                                        {{/isNodeNameCompare}}
+                                    {{/if}}
                                     {{/each}}
                                     </div>
                                 </div>

@@ -5,43 +5,43 @@
         </div>
         <div class="mxgif-lists height-1 min-height">
             <div class="mxgif-lists-content item-4 ">
-                <div name="crossContent" class="mxgif-position-cross-content show" style="/* height: 554px; */width: 0;opacity: .98;">
-                    <div style="width: 93px;height: 235px;left: 0px;top: 0px; background: #bcdcf5">
+                <div name="crossContent" class="mxgif-position-cross-content show" style="width: 0;opacity: .98;">
+                    <div class="menu-href" data-id="10000000" style="width: 93px;height: 235px;left: 0px;top: 0px; cursor: pointer; background: #bcdcf5">
                         <p style="margin-top:10px;line-height:16px;">业务支撑域</p>
                         <div style="width: 65%;height: 81%;background: #63bbeb;"></div>
                     </div>
-                    <div style="width: 93px;height: 235px;left: 123px;top: 0px; background:#fff2ae ">
+                    <div class="menu-href" data-id="20000000" style="width: 93px;height: 235px;left: 123px;top: 0px; cursor: pointer;background:#fff2ae ">
                         <p style="margin-top:10px;line-height:16px;">管信域</p>
                         <div style="width: 65%;height: 81%;background: #63bbeb;"></div>
                     </div>
-                    <div style="width: 93px;height: 235px;left: 246px;top: 0px; background:#fce38f ">
+                    <div class="menu-href" data-id="30000000" style="width: 93px;height: 235px;left: 246px;top: 0px; cursor: pointer;background:#fce38f ">
                         <p style="margin-top:10px;line-height:16px;">BOMC域</p>
                         <div style="width: 65%;height: 81%;background: #63bbeb;"></div>
                     </div>
-                    <div style="width: 93px;height: 295px;left: 369px;top: 0px; background:#fec279 ">
+                    <div class="menu-href" data-id="50000000" style="width: 93px;height: 295px;left: 369px;top: 0px; cursor: pointer;background:#fec279 ">
                         <p style="margin-top:10px;line-height:16px;">大数据域</p>
                         <div style="width: 65%;height: 85%;background: #63bbeb;"></div>
                     </div>
-                    <div style="width: 93px;height: 235px;left: 493px;top: 0px; background:#ffa990 ">
+                    <div class="menu-href" data-id="40000000" style="width: 93px;height: 235px;left: 493px;top: 0px; cursor: pointer;background:#ffa990 ">
                         <p style="margin-top:10px;line-height:16px;">安全管理域</p>
                         <div style="width: 65%;height: 81%;background: #63bbeb;"></div>
                     </div>
-                    <div style="width: 93px;height: 235px;left: 617px;top: 0px; background:#fc91ad">
+                    <div class="menu-href" data-id="70000000" style="width: 93px;height: 235px;left: 617px;top: 0px; cursor: pointer;background:#fc91ad">
                         <p style="margin-top:10px;line-height:16px;">网络域</p>
                         <div style="width: 65%;height: 81%;background: #63bbeb;"></div>
                     </div>
-                    <div style="width: 93px;height: 235px;left: 741px;top: 0px; background:#a6ebd6 ">
+                    <div class="menu-href" data-id="80000000" style="width: 93px;height: 235px;left: 741px;top: 0px; cursor: pointer;background:#a6ebd6 ">
                         <p style="margin-top:10px;line-height:16px;">地市域</p>
                         <div style="width: 65%;height: 81%;background: #63bbeb;"></div>
                     </div>
-                    <div style="width: 93px;height: 235px;left: 866px;top: 0px; background: #cae3bb">
+                    <div class="menu-href" data-id="90000000" style="width: 93px;height: 235px;left: 866px;top: 0px; cursor: pointer;background: #cae3bb">
                         <p style="margin-top:10px;line-height:16px;">开放域</p>
                         <div style="width: 65%;height: 81%;background: #63bbeb;"></div>
                     </div>
                     <div style="width: 960px;height: 122px;line-height: 122px;left: -2px;top: 307px;opacity: 0.3;">
                         <p style="margin-top:10px;line-height: 86px;font-size: 16px;font-weight: 700;"></p>
                     </div>
-                    <div style="width: 955px;height: 122px;line-height: 122px;left: 4px;top: 307px;background: transparent;">
+                    <div class="menu-href" data-id="60000000" style="width: 955px;height: 122px;line-height: 122px;left: 4px;top: 307px;background: transparent;cursor: pointer;">
                         <p style="margin-top:10px;line-height: 86px;font-size: 16px;font-weight: 700;">公共域</p>
                     </div>
                 </div>

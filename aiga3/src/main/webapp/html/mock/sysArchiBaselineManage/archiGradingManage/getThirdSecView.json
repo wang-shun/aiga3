@@ -403,50 +403,6 @@
                     }
                 ]
             }
-        ],
-        "hasDaaS": {
-            "id": "6",
-            "name": "DaaS",
-            "isNodeName": "1",
-            "isCross": "0",
-            "item": [
-                {
-                    "id": "12",
-                    "name": "数据模型",
-                    "isNodeName": "0",
-                    "isCross": "0",
-                    "item": [
-                        {
-                            "id": "36",
-                            "bgColor": "#FFFF00",
-                            "name": "基础数据模型",
-                            "isNodeName": "0",
-                            "mediaType": "0"
-                        },
-                        {
-                            "id": "37",
-                            "bgColor": "#FFFF00",
-                            "name": "融合数据模型",
-                            "isNodeName": "0",
-                            "mediaType": "0"
-                        },
-                        {
-                            "id": "38",
-                            "bgColor": "#FFFF00",
-                            "name": "标签模型",
-                            "isNodeName": "0",
-                            "mediaType": "0"
-                        },
-                        {
-                            "id": "39",
-                            "bgColor": "#FFFF00",
-                            "name": "数据挖掘模型",
-                            "isNodeName": "0",
-                            "mediaType": "0"
-                        }
-                    ]
-                }
-            ]
-        }
+        ]
     }
 }

@@ -90,6 +90,13 @@ define(function(require, exports, module) {
 					var template = Handlebars.compile(Tpl.getOneSecView);
 					Page.findName("archiView").html(template({}));
 					_self.data("level",_viewLevel);
+
+					// 一级域点击直接跳转对应的二级域
+					$(".menu-href").on("click",function(){
+						_form.find("[name='primaryDomain']").val($(this).data("id"));
+						_form.find("input[name=viewLevel][value=2]").click();
+						_queryBtn.click();
+					})
 					return;
 				}else if(_viewLevel=="3"){
 					_srvMap = "getThirdSecView";
@@ -115,7 +122,7 @@ define(function(require, exports, module) {
 							}
 						}else if(_viewLevel=="3"){
 							if(json.data.hasDaaS){
-								json.data.content[1].item[0].item.push(json.data.hasDaaS);
+								json.data.content[1].item[0].item.splice(0, 0, json.data.hasDaaS);
 							}
 							var template = Handlebars.compile(Tpl.getThirdSecView);
 						}

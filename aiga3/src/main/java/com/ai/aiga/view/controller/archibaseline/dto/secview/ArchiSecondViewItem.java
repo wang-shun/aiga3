@@ -9,7 +9,7 @@ public class ArchiSecondViewItem implements Serializable {
 	private String name;
 	private String isNodeName;
 	private String isCross;
-	private List<ArchiSecondViewItemLast> item;
+	private List<Object> item;
 	
 	public String getIsCross() {
 		return isCross;
@@ -53,10 +53,11 @@ public class ArchiSecondViewItem implements Serializable {
 	public void setIsNodeName(String isNodeName) {
 		this.isNodeName = isNodeName;
 	}
-	public List<ArchiSecondViewItemLast> getItem() {
+	public List<Object> getItem() {
 		return item;
 	}
-	public void setItem(List<ArchiSecondViewItemLast> item) {
+
+	public void setItem(List<Object> item) {
 		this.item = item;
 	}
 	

@@ -64,6 +64,7 @@ public class ArchiViewController {
 		JsonBean bean = new JsonBean();
 		ArchiSecondViewOutput output = new ArchiSecondViewOutput();
 		output.setIsCross("0");
+		boolean hasDaaS = false;
 		int id = 0;
 		//跨层的
 		List<ArchiSecondCrossContent> crossContent = new ArrayList<ArchiSecondCrossContent>();
@@ -84,16 +85,19 @@ public class ArchiViewController {
 		ArchiSecondViewItem IPaaS = new ArchiSecondViewItem(id++,"IPaaS","1");
 		// TPaaS层
 		ArchiSecondViewItem TPaaS = new ArchiSecondViewItem(id++,"TPaaS","1");
-		
+		// DaaS层
+		ArchiSecondViewItem DaaS = new ArchiSecondViewItem(id++,"DaaS","1");
 		//各层List节点
-		List<ArchiSecondViewItemLast> itemBPaaS = new ArrayList<ArchiSecondViewItemLast>();
-		List<ArchiSecondViewItemLast> itemUPaaS = new ArrayList<ArchiSecondViewItemLast>();
-		List<ArchiSecondViewItemLast> itemIPaaS = new ArrayList<ArchiSecondViewItemLast>();
-		List<ArchiSecondViewItemLast> itemTPaaS = new ArrayList<ArchiSecondViewItemLast>();
+		List<Object> itemBPaaS = new ArrayList<Object>();
+		List<Object> itemUPaaS = new ArrayList<Object>();
+		List<Object> itemIPaaS = new ArrayList<Object>();
+		List<Object> itemTPaaS = new ArrayList<Object>();
+		List<Object> itemDaaS = new ArrayList<Object>();
 		BPaaS.setItem(itemBPaaS);
 		UPaaS.setItem(itemUPaaS);
 		IPaaS.setItem(itemIPaaS);
 		TPaaS.setItem(itemTPaaS);
+		DaaS.setItem(itemDaaS);
 		itemPaaS.add(BPaaS);
 		itemPaaS.add(UPaaS);
 		itemPaaS.add(IPaaS);
@@ -176,7 +180,7 @@ public class ArchiViewController {
 			//不跨层
 			if("SaaS".equals(levels)) {
 				ArchiSecondViewItem baseSaaS = new ArchiSecondViewItem(id++,base.getName(),"0");
-				List<ArchiSecondViewItemLast> itemNull = new ArrayList<ArchiSecondViewItemLast>();
+				List<Object> itemNull = new ArrayList<Object>();
 				baseSaaS.setItem(itemNull);
 				itemSaaS.add(baseSaaS);
 			} else if ("BPaaS".equals(levels)) {
@@ -191,10 +195,15 @@ public class ArchiViewController {
 			} else if ("TPaaS".equals(levels)) {
 				ArchiSecondViewItemLast baseTPaaS = new ArchiSecondViewItemLast(id++,base.getName(),"0");
 				itemTPaaS.add(baseTPaaS);
-			} else {
-				// TO BE CONTINUE ...
+			} else if ("DaaS".equals(levels)){
+				ArchiSecondViewItemLast baseDaaS = new ArchiSecondViewItemLast(id++,base.getName(),"0");
+				itemDaaS.add(baseDaaS);
+				hasDaaS = true;
 			}			
 		}	
+		if(hasDaaS) {
+			itemBPaaS.add(DaaS);
+		}
 		content.add(SaaS);
 		content.add(PaaS);
 		output.setCrossContent(crossContent);

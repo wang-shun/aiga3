@@ -150,6 +150,21 @@ Handlebars.registerHelper("isNodeNameCompare",function(v1,v2,options){
 });
 
 
+/*
+ * 判断是否为节点展示
+ */
+Handlebars.registerHelper("isAppCompare",function(v1,options){
+    if(v1=="app"){
+        //满足添加继续执行
+        return options.fn(this);
+      }else{
+       //不满足条件执行{{else}}部分
+        return options.inverse(this);
+      }
+});
+
+
+
 
 
 /*

@@ -18,7 +18,7 @@ public class ArchiSystemItem implements Serializable {
 		this.isNodeName = isNodeName;
 		this.bgColor = String.valueOf(bgColor);
 		if("app".equals(String.valueOf(mediaType))) {
-			this.mediaType = "1";
+			this.mediaType = "app";
 		}else {
 			this.mediaType = "0";
 		}
@@ -30,7 +30,7 @@ public class ArchiSystemItem implements Serializable {
 		this.isNodeName = isNodeName;
 		this.bgColor = String.valueOf(bgColor);
 		if("app".equals(String.valueOf(mediaType))) {
-			this.mediaType = "1";
+			this.mediaType = "app";
 		}else {
 			this.mediaType = "0";
 		}

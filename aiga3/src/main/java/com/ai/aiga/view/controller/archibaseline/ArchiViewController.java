@@ -368,7 +368,7 @@ public class ArchiViewController {
 				}			
 			}		
 		}
-		//结果排序
+		//按照系统数量给中心排序
 		Collections.sort(itemSaaS, new MyComparator());
 		Collections.sort(itemBPaaS, new MyComparator());
 		Collections.sort(itemUPaaS, new MyComparator());

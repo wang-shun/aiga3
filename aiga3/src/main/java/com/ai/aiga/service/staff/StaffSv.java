@@ -102,8 +102,6 @@ public class StaffSv extends BaseService {
 		
 		if (pageNumber <= 0) {
 			pageNumber = 0;
-		} else {
-			pageNumber--;
 		}
 
 		if (pageSize <= 0) {
@@ -316,7 +314,7 @@ public class StaffSv extends BaseService {
 			if (StringUtils.isNotBlank(staffRequest.getChgPasswdAlarmDays().toString())) {
 				aigaStaff.setChgPasswdAlarmDays(staffRequest.getChgPasswdAlarmDays());
 			}
-			if (StringUtils.isNotBlank(staffRequest.getNotes().toString())) {
+			if (StringUtils.isNotBlank(staffRequest.getNotes())) {
 				aigaStaff.setNotes(staffRequest.getNotes());
 			}
 			aigaStaffDao.save(aigaStaff);
@@ -360,6 +358,7 @@ public class StaffSv extends BaseService {
 			return false;
 		}
 		aigaStaff.setPassword(password);
+		aigaStaff.setRecentPassword(password);
 		aigaStaffDao.save(aigaStaff);
 		return true;
 	}

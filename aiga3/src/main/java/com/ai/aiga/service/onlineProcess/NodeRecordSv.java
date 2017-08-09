@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.dao.NaChangePlanOnileDao;
 import com.ai.aiga.dao.NaProcessNodeRecordDao;
 import com.ai.aiga.domain.NaProcessNodeRecord;
-import com.ai.aiga.domain.NaTeamInfo;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.onlineProcess.dto.NodeRecordRequest;
-import com.ai.aiga.view.controller.role.dto.Role;
-import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
 
 @Service
 @Transactional

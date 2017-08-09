@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ai.aiga.dao.NaBusinessDao;
-import com.ai.aiga.domain.AigaSystemFolder;
 import com.ai.aiga.domain.NaBusiness;
 
 

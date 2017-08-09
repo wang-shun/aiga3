@@ -336,7 +336,10 @@ define(function(require, exports, module) {
 			_dom.modal('show');
 			Utils.setSelectData(_dom);
 			
-			this.downloadFile(idcache.quesId);
+        	_dom.off('shown.bs.modal').on('shown.bs.modal', function () {
+				self.downloadFile(idcache.quesId);
+			});
+			
 			
 //			_dom.modal('show');
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
@@ -420,7 +423,7 @@ define(function(require, exports, module) {
             var _deleteDocument = _dom.find("[name='add']");
             _deleteDocument.unbind('click');
             _deleteDocument.bind('click', function() {
-            	alert("aaaaaaaaaaaaa");
+//            	alert("aaaaaaaaaaaaa");
 //            	var _data = Utils.getCheckboxCheckedRow(_dom);
             	var _data = idcache.datas;
                 if (_data) {
@@ -432,7 +435,8 @@ define(function(require, exports, module) {
                     cmd += _data.id + ',';
                 	
                     cmd = cmd.substring(0, cmd.length - 1);
-                	_deleteDocument.attr("href", srvMap.get('downloadFile')+"?"+cmd);
+                    var downloadurl = srvMap.get('downloadFile')+"?"+cmd;
+                	_deleteDocument.attr("href", downloadurl.toString());
                     setTimeout(function() {
 //                        self.uploadDeliverables(planId);
                     }, 1000) 

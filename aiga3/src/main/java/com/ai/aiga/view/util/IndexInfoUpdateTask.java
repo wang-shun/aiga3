@@ -41,6 +41,11 @@ public class IndexInfoUpdateTask extends TimerTask {
     				//将执行当前用户的指标的sql语句，语句返回的key=kpiName的map
     				List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
     				//将指标的value设置成sql返回的map的value值
+    				if(list==null) {
+    					kpi.setValue(MathUtils.getBigDecimal(0));
+    					context.log("任务" + ++j + "/" + kpiList.size()+"   sql查询结果为空");
+    					continue;
+    				}
     				Map<String, Object> map = list.get(0);
     				Object object = map.get(kpi.getKpiName());
     				kpi.setValue(MathUtils.getBigDecimal(object));

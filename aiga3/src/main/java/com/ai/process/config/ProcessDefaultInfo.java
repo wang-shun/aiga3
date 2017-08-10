@@ -28,7 +28,7 @@ public class ProcessDefaultInfo {
 	/**
 	 * spring配置文件默认位置
 	 */
-	public static final String QUARTZ_SPRING_LOCATION = "classpath:spring.xml";
+	public static final String QUARTZ_SPRING_LOCATION = "classpath:/process/spring-process.xml";
 	
 	/**
 	 * 环境
@@ -55,6 +55,9 @@ public class ProcessDefaultInfo {
 	public static final String JOB_GROUPNAME = "AI_PROCESS_JOB";
 	public static final String JOB_TRIGGER_GROUPNAME = "AI_PROCESS_JOB_TRIGGER";
 	public static final String JOB_TASKS_HOLDER = "AI_PROCESS_TASKS_DB";
+	public static final String JOB_TASKS_TRIGGER_STOP = "AI_PROCESS_JOB_TRIGGER_STOP";
+	
+	public static final String JOB_TASKS_PARAMETER_HOLDER = "AI_PROCESS_TASKS_PARAMETER_HOLDER";
 	
 
 }

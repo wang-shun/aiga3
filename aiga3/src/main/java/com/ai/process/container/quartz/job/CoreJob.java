@@ -11,6 +11,9 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ai.aiga.domain.Tasks;
+import com.ai.aiga.service.task.TaskCmpt;
+import com.ai.aiga.service.task.TaskSv;
 import com.ai.aiga.util.spring.ApplicationContextUtil;
 import com.ai.process.container.quartz.JobAndTrigger;
 import com.ai.process.container.quartz.QuartzContext;
@@ -55,7 +58,9 @@ public class CoreJob implements Job {
 						
 						//TODO 虽然存在bug 但是这次就这样吧.
 					}catch (Exception e) {
-						cmpt.saveTaskErrorInfo(tf, e.getMessage());
+						log.error("启动TF : ID = " + tf.getId() + "报错 ",e);
+						
+						cmpt.saveTaskErrorInfo(tf, e);
 					}
 				}
 			}
@@ -81,7 +86,8 @@ public class CoreJob implements Job {
 						log.info("开始调度TASK : ID = " + task.getId());
 					}
 				}catch (Exception e) {
-					cmpt.saveTaskErrorInfo(task, e.getMessage());
+					log.error("调用TASK : ID = " + task.getId() + "报错 ",e);
+					cmpt.saveTaskErrorInfo(task, e);
 				}
 			}
 		}

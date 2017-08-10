@@ -27,10 +27,6 @@ public class CaseRunJob implements Job{
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		
-		JobDataMap dataMap = context.getMergedJobDataMap();
-		
-		String month = dataMap.getString(KEY_MONTH);
-		String type = dataMap.getString(KEY_TYPE);
 		CaseRunCountSv sv = ApplicationContextUtil.getBean(CaseRunCountSv.class);
 		sv.caseCount();
 	}

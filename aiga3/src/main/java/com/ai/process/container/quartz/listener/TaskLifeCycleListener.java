@@ -1,8 +1,11 @@
 package com.ai.process.container.quartz.listener;
 
+import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,25 +52,27 @@ public class TaskLifeCycleListener implements JobListener{
 			return ;
 		}
 		
+		if(jobException != null){
+			log.error("id : " + task.getId() + ", name : " + task.getTaskName() + ", " + context.getJobDetail() + " 执行出现异常, ", jobException);
+		}
+		
 		if (TaskConstant.TASKS_TYPE_TF == task.getTaskType()) {
 			//认为是驻留, 就不处理了.
 		} else if (TaskConstant.TASKS_TYPE_TASK == task.getTaskType()) {
 			TaskCmpt cmpt = ApplicationContextUtil.getBean(TaskCmpt.class);
 			if(jobException != null){
 				
-				String msg = ExceptionUtil.stackTraceText(jobException);
+				cmpt.saveTaskErrorInfo(task, jobException);
 				
-				if(msg != null && msg.getBytes().length > 2000){
-					String[] ss = MoreStringUtil.substringAsL(msg, 2000);
-					if(ss != null && ss.length > 0){
-						msg = ss[0];
-					}else{
-						msg = "";
-					}
-				}
-				cmpt.saveTaskErrorInfo(task, msg);
 			}else{
-				cmpt.saveTaskFinish(task);
+				
+				Trigger trogger = context.getTrigger();
+				Object stop = context.getMergedJobDataMap().get(ProcessDefaultInfo.JOB_TASKS_TRIGGER_STOP);
+				
+				if(!trogger.mayFireAgain() || Boolean.TRUE.equals(stop)){
+					cmpt.saveTaskFinish(task);
+				}
+				
 			}
 		}
 	}

@@ -315,7 +315,7 @@
                     <div class="box-body">
                         <form>
                             <div class="alert alert-warning alert-dismissible">
-                                <i class="icon fa fa-warning  text-yellow"></i>注意：架构问题批量添加功能所导入的Excel必须按照规定的格式填写！
+                                <i class="icon fa fa-warning  text-yellow"></i>注意：请先选择架构疑难问题申报表下载模板，并按模板样式填写后，进行文件上传批量导入！
                             </div>
                         </form>
                         <div class="row">
@@ -327,8 +327,8 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>文件类型<i class="text-red">*</i></label>
-                                                        <select name="category" class="form-control input-sm" data-cmd="category=enclosuretype" data-url="getCategory" data-idkey="value" data-namekey="show" required>
-                                                        	<option value="">请选择</option>
+                                                        <select name="fileName" class="form-control select2 input-sm" data-url="staticFileCategory" data-idkey="codeValue" data-namekey="codeName" required>
+                                                        	<option value="">请选择</option><!-- data-cmd="category=enclosuretype" -->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -354,7 +354,7 @@
                 </div>
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">上线交付物列表</h3>
+                        <h3 class="box-title">上传架构文件列表</h3>
                         <div class="box-tools">
       
                             <a class="btn btn-primary" name="add">下载文档</a>

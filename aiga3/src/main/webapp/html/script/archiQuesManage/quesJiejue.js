@@ -338,6 +338,7 @@ define(function(require, exports, module) {
 					if(status) {							
 						_dom.modal('hide');
 						XMS.msgbox.show('开需求单成功！！！', 'success', 2000);	
+						window.location.href="www.baidu.com";
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
 						}, 1500);

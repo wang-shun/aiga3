@@ -51,6 +51,8 @@ define(function(require, exports, module) {
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
     //所属问题分类静态数据  
 	srvMap.add("staticQuesCategory", pathAlias+"getSysMessageList.json", "archi/static/archiQuesCategory");
+    //批量导入文件类型静态数据  
+	srvMap.add("staticFileCategory", pathAlias+"getSysMessageList.json", "archi/static/archiFileCategory");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//一级域查询  
@@ -62,8 +64,13 @@ define(function(require, exports, module) {
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
     //get question sequence currval id
     srvMap.add("getCurrvalId", pathAlias+"getSysMessageList.json", "archi/question/getCurrvalId");
-
-	var cache = {
+    //下载文档
+    srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
+    //下载模板
+    srvMap.add("downloadTemp", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFile");
+    //进程变更清单
+    srvMap.add("uploadNaProcessChangeList", pathAlias + "getDeliverablesList.json", "produce/plan/uploadNaProcessChangeList");
+    var cache = {
 		datas : ""	
 	};
 	var idcache = {
@@ -114,11 +121,16 @@ define(function(require, exports, module) {
 			this.hdbarHelp();
 		},
 		batchAdd: function(){
+			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');
 			var _batchBtn = _form.find("[name='batchAdd']");
 			_batchBtn.unbind('click').bind('click', function() {
 				var _modal = Page.findModal('addDdeliverablesModal');
 				_modal.modal('show');
+				Utils.setSelectData(_modal);
+
+				self.downloadTempShanxian();
+
 			});
 		},
 		initialise: function(){
@@ -159,7 +171,7 @@ define(function(require, exports, module) {
 				});
 			});
 		},
-		        //上传上线交付物按钮
+		//上传上线交付物按钮
         uploadAnNiu: function() {
         	
         	var _cmd = "";
@@ -188,6 +200,37 @@ define(function(require, exports, module) {
 	                var task = srvMap.get('uploadFile');
 	                self.jieko(task, cmd, planId);
 	        });
+        },
+        //上传批量上线交付物按钮
+        uploadAnNiuBatch: function(planId) {
+            var self = this;
+            var _form = Page.findModalCId('addDdeliverablesForm');
+            console.log(_form.length)
+            var _saveBtn = _form.find("[name='importFile']");
+            _saveBtn.unbind('click');
+            _saveBtn.bind('click', function() {
+            	Utils.checkForm(Page.findId('addDdeliverablesForm'),function(){
+	                var a = _form.find("[name='fileName']").val();
+	                console.log(a);
+	                var cmd = {
+	                    "file": _form.find("[name='fileName']")[0].files[0],
+	                    "planId": planId,
+	                    "fileType": a,
+	                }
+	                console.log(_form.find("[name='fileName']"));
+	                console.log(a);
+	                switch (a) {
+	                    case "99": //架构疑难问题申报表
+	                        var task = srvMap.get('Path');
+	                        self.jieko(task, cmd, planId)
+	                        break;
+	                    case "104": //架构疑难问题申报表
+	                        var task = srvMap.get('uploadNaProcessChangeList');
+	                        self.jieko(task, cmd, planId)
+	                        break;
+	                }
+	            });
+            });
         },
         jieko: function(task, cmd, planId) {
             var self = this;
@@ -525,7 +568,33 @@ define(function(require, exports, module) {
 		},
 		/*--------------------------------------------------*/
 
-		
+		//// 上线交付物下载模板
+        downloadTempShanxian: function() {
+            var self = this;
+            var _form = Page.findId('uploadDeliveryForm');
+            var _downloadTemp = _form.find("[name='downloadTemp']");
+            _downloadTemp.unbind();
+            _downloadTemp.click(function() {
+            	var a = _form.find("[name='fileName']").val();
+            	var cmd = "fileName=";
+                if (a) {
+                	switch (a) {
+                		    case "99": //架构疑难问题申报表
+    	                        var cmd = cmd+"架构疑难问题申报表.xlsx";
+    	                        break;
+    	                    case "104": //架构疑难问题申报表
+    	                        var cmd = cmd+"架构疑难问题申报表.xlsx";
+    	                        break;
+    	                }
+    	                cmd = cmd + "&id=77"
+                        $(this).attr("href", srvMap.get('downloadTemp')+"?"+cmd);
+                        return true;
+                }else{
+                    window.XMS.msgbox.show('请选择要下载文件类型！', 'error', 2000)
+                    return false;
+                }
+            });
+        },
 		
 		// 事件：双击选中当前行
 		eventDClickCallback: function(obj, callback) {

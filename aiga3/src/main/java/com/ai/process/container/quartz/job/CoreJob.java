@@ -11,9 +11,6 @@ import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ai.aiga.domain.Tasks;
-import com.ai.aiga.service.task.TaskCmpt;
-import com.ai.aiga.service.task.TaskSv;
 import com.ai.aiga.util.spring.ApplicationContextUtil;
 import com.ai.process.container.quartz.JobAndTrigger;
 import com.ai.process.container.quartz.QuartzContext;

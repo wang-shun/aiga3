@@ -1,13 +1,10 @@
 package com.ai.process.task.quartz;
 
-import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.ai.process.container.quartz.QuartzHelper;
 
 
 /**
@@ -17,11 +14,10 @@ import com.ai.process.container.quartz.QuartzHelper;
  * @Description:
  * 
  */
-@DisallowConcurrentExecution
 public class SaySmTask2 implements Job{
 	
 	 private static Logger log = LoggerFactory.getLogger(SaySmTask2.class);
-	 
+
 
 	/**
 	 * @Function: Job :: execute
@@ -34,13 +30,17 @@ public class SaySmTask2 implements Job{
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		
-		String test = "测试--" + System.currentTimeMillis() + "yingjj 你是猪么? 222222222222222222222 ";
+		String test = "测试--" + System.currentTimeMillis() + "yingjj 你是猪么?" ;
+		
+		try {
+			Thread.sleep(10*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		log.info(test);
-		
-		QuartzHelper.stopJobScheduler(context);
-		
-		//throw new JobExecutionException("taoyf -test");
+		System.out.println(test);
 		
 	}
 

@@ -7,9 +7,7 @@ import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ai.aiga.service.report.CaseRunCountSv;
 import com.ai.aiga.util.spring.ApplicationContextUtil;
-import com.ai.process.container.quartz.QuartzHelper;
 
 /**
  * @ClassName: StaffRunJob
@@ -28,8 +26,8 @@ public class StaffRunJob implements Job{
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap dataMap = context.getMergedJobDataMap();
 		
-		String month = (String) QuartzHelper.getValue(dataMap, KEY_MONTH);
-		String type = (String) QuartzHelper.getValue(dataMap, KEY_TYPE);
+		String month = dataMap.getString(KEY_MONTH);
+		String type = dataMap.getString(KEY_TYPE);
 		CaseRunCountSv sv = ApplicationContextUtil.getBean(CaseRunCountSv.class);
 		sv.staffCount();
 	}

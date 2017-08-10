@@ -6,18 +6,13 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.slf4j.Logger;
@@ -70,11 +65,9 @@ public class QuartzHelper {
 		// jobDataMap
 		List<TasksParameter> parameters = tf.getParameters();
 		if (parameters != null) {
-			HashMap map = new HashMap();
 			for (TasksParameter p : parameters) {
-				map.put(p.getName(), p.getValue());
+				job.getJobDataMap().put(p.getName(), p.getValue());
 			}
-			job.getJobDataMap().put(ProcessDefaultInfo.JOB_TASKS_PARAMETER_HOLDER, map);
 		}
 		job.getJobDataMap().put(ProcessDefaultInfo.JOB_TASKS_HOLDER, tf);
 
@@ -147,41 +140,7 @@ public class QuartzHelper {
 			}
 
 			return builder.build();
-		} else if (TaskConstant.TASK_TRIGGER_TYPE_LIMITED == tf.getTaskTriggerType()) {
-			TriggerBuilder builder = newTrigger().withIdentity(jobName + ProcessDefaultInfo.JOB_TRIGGER_NAME_SUFFIX,
-					ProcessDefaultInfo.JOB_TRIGGER_GROUPNAME);
-			
-			Date date = tf.getExecuteTime();
-			if (date != null) {
-				builder.startAt(date);
-			} else {
-				builder.startNow();
-			}
-			
-			SimpleScheduleBuilder ssb = simpleSchedule();
-			Long intervalTime = tf.getIntervalTime();
-			Long intervalCount = tf.getIntervalCount();
-			
-			if(intervalTime != null && intervalTime > 0){
-				ssb.withIntervalInSeconds(intervalTime.intValue());
-			}else{
-				ssb.withIntervalInSeconds(5);
-			}
-			
-			if(intervalCount != null && intervalCount > 0){
-				ssb.withRepeatCount((intervalCount.intValue() - 1));
-			}else{
-				ssb.withRepeatCount(1);
-			}
-			
-			builder.withSchedule(ssb);
-			
-			//Trigger tttt = 
-			
-
-			return builder.build();
 		}
-		
 
 		ExceptionUtil.throwException(error(tf, "TASK 暂不支持这种触发模式"));
 		return null;
@@ -289,30 +248,6 @@ public class QuartzHelper {
 		}
 
 		return jobDetail != null;
-	}
-	
-	
-	public static void stopJobScheduler(JobExecutionContext context){
-		Scheduler scheduler = context.getScheduler();
-		
-		try {
-			scheduler.unscheduleJob(context.getTrigger().getKey());
-			context.getMergedJobDataMap().put(ProcessDefaultInfo.JOB_TASKS_TRIGGER_STOP, Boolean.TRUE);
-			
-		} catch (SchedulerException e) {
-			log.error("关闭job失败!", e);
-		}
-		
-	}
-	
-	public static Object getValue(JobDataMap dataMap, Object key){
-		HashMap map = (HashMap) dataMap.get(ProcessDefaultInfo.JOB_TASKS_PARAMETER_HOLDER);
-		return map.get(key);
-	}
-	
-	public static HashMap getMap(JobDataMap dataMap){
-		HashMap map = (HashMap) dataMap.get(ProcessDefaultInfo.JOB_TASKS_PARAMETER_HOLDER);
-		return map;
 	}
 
 }

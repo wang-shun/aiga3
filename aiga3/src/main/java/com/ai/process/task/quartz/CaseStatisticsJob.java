@@ -1,9 +1,5 @@
 package com.ai.process.task.quartz;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -25,19 +21,16 @@ public class CaseStatisticsJob implements Job{
 	
 	 private static Logger log = LoggerFactory.getLogger(SaySmTask.class);
 	 
-	// public static final String KEY_MONTH = "month";
-	 //public static final String KEY_TYPE = "type";
+	 public static final String KEY_MONTH = "month";
+	 public static final String KEY_TYPE = "type";
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		
-		//JobDataMap dataMap = context.getMergedJobDataMap();
+		JobDataMap dataMap = context.getMergedJobDataMap();
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMM");
-		Calendar calendar = Calendar.getInstance();  
-		calendar.setTime(new Date());
-		String month = formatter.format(calendar.getTime());
-		String type = "job";
+		String month = dataMap.getString(KEY_MONTH);
+		String type = dataMap.getString(KEY_TYPE);
 		
 		CaseConstructionSv sv = ApplicationContextUtil.getBean(CaseConstructionSv.class);
 		

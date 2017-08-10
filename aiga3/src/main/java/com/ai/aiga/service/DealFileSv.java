@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaFileUploadDao;
-import com.ai.aiga.dao.PlanDetailManifestDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaFileUpload;
-import com.ai.aiga.domain.PlanDetailManifest;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.ArchIndex.dto.QuestionInfoListExcel;
@@ -29,44 +27,8 @@ import com.ai.aiga.view.util.SessionMgrUtil;
 public class DealFileSv extends BaseService{
 	
 	@Autowired
-	private PlanDetailManifestDao planDetailManifestDao;
-	
-	@Autowired
 	private NaFileUploadDao naFileUploadDao;
 	
-
-	/**
-	 * @ClassName: NaChangePlanOnileSv :: saveExcel
-	 * @author: taoyf
-	 * @date: 2017年4月11日 下午4:05:15
-	 *
-	 * @Description:计划上线清单
-	 * @param l
-	 * @param list          
-	 */                
-	public void saveExcel(Long planId, List<PlanDetailManifestExcel> list,String fileName,Long fileType, Date date) {
-		if(planId == null || planId < 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
-		}
-		
-		if(list == null || list.size() <= 0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
-		}
-		
-		
-		List<PlanDetailManifest> values = BeanMapper.mapList(list, PlanDetailManifestExcel.class, PlanDetailManifest.class);
-		if(values != null){
-			for(PlanDetailManifest v : values){
-				v.setPlanId(planId);
-				v.setCreatorId(SessionMgrUtil.getStaff().getOpId());
-				v.setCreateTime(DateUtil.getCurrentTime());
-			}
-		}
-		NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
-				SessionMgrUtil.getStaff().getStaffId(), 0L);
-		planDetailManifestDao.save(values);
-		naFileUploadDao.save(fileEntity);
-	}
 	
 	// 查看上线交付物列表
 	public Object findNaFileUpload(Long planId, Long type, int pageNumber, int pageSize, String fileName) {

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.domain.NaServiceChangeOnlineList;
 import com.ai.aiga.service.DealFileSv;
 import com.ai.aiga.service.NaChangePlanOnileSv;
 import com.ai.aiga.service.ArchIndex.dto.QuestionInfoListExcel;
@@ -35,37 +34,6 @@ public class DealFileController {
 	private DealFileSv dealFileSv ;
 	@Autowired
 	private NaChangePlanOnileSv changePlanOnileSv;
-	
-	
-	//计划上线清单解析
-	@RequestMapping(path = "/produce/plan/upload")
-	public @ResponseBody JsonBean upload(@RequestParam Long planId, @RequestParam MultipartFile file,
-			@RequestParam Long fileType) {
-		JsonBean bean = new JsonBean();
-
-		// 获取文件名称
-		String fileName = file.getOriginalFilename();
-
-		Date date = new Date();
-
-		// 设置主机上的文件名
-		String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
-
-		// 把文件上传到主机
-		FileUtil.uploadFile(file, fileNameNew);
-
-		try {
-			List<PlanDetailManifestExcel> list = POIExcelUtil.excelToList(file, PlanDetailManifestExcel.class);
-
-			dealFileSv.saveExcel(planId, list, fileName, fileType, date);
-
-		} catch (Exception e) {
-			log.error("解析excel失败", e);
-			bean.fail("解析excel失败!");
-		}
-		return bean;
-	}
-
 		
 		// 系统架构上传文件
 		@RequestMapping(path = "/group/require/uploadFile")

@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.NaServiceChangeOnlineList;
 import com.ai.aiga.service.NaChangePlanOnileSv;
+import com.ai.aiga.service.ArchIndex.dto.QuestionInfoListExcel;
 import com.ai.aiga.service.PlanOnile.ChangePlanOnileSv;
 import com.ai.aiga.service.workFlowNew.dto.NaHostConfigListExcel;
 import com.ai.aiga.service.workFlowNew.dto.NaProcessChangeListExcel;
@@ -474,4 +475,108 @@ public class PlanOnileController {
 		public @ResponseBody ResponseEntity downloadFile(String fileName, Long id) {
 			return changePlanOnileSv.downloadFile(fileName, id);
 		}
+		
+		// 集团需求解析(上传文件)
+		@RequestMapping(path = "/group/require/adjustListExcel")
+		public @ResponseBody JsonBean naGroupRequireList(@RequestParam Long planId, @RequestParam MultipartFile file,
+				@RequestParam Long fileType) {
+			JsonBean bean = new JsonBean();
+			// 获取文件名称
+			String fileName = file.getOriginalFilename();
+
+			Date date = new Date();
+
+			// 设置主机上的文件名
+			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+
+			// 把文件上传到主机
+			FileUtil.uploadFile(file, fileNameNew);
+
+			try {
+				List<NaGroupRequireListExcel> list = POIExcelUtil.excelToList(file, NaGroupRequireListExcel.class);
+
+				naChangePlanOnileSv.naGroupRequireList(planId, list, fileName, fileType, date);
+
+			} catch (Exception e) {
+				log.error("解析excel失败", e);
+				bean.fail("解析excel失败!");
+			}
+			return bean;
+		}
+		/**
+		 * @ClassName: PlanOnileController :: uplodaNaProcessChangeList
+		 * @author: ly
+		 * @date: 2017年8月9日 
+		 *
+		 * @Description:进程变更清单
+		 * @param planId
+		 * @param file
+		 * @return
+		 */
+		@RequestMapping(path = "/produce/plan/uploadNaProcessChangeList")
+		public @ResponseBody JsonBean uplodaNaProcessChangeList(@RequestParam Long planId, @RequestParam MultipartFile file,
+				@RequestParam Long fileType) {
+			JsonBean bean = new JsonBean();
+
+			// 获取文件名称
+			String fileName = file.getOriginalFilename();
+
+			Date date = new Date();
+
+			// 设置主机上的文件名
+			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+
+			// 把文件上传到主机
+			FileUtil.uploadFile(file, fileNameNew);
+
+			try {
+				List<NaProcessChangeListExcel> list = POIExcelUtil.excelToList(file, NaProcessChangeListExcel.class);
+
+				naChangePlanOnileSv.saveExcelNaProcessChangeList(planId, list, fileName, fileType, date);
+
+			} catch (Exception e) {
+				log.error("解析excel失败", e);
+				bean.fail("解析excel失败!");
+			}
+			return bean;
+		}
+		
+		/**
+		 * @ClassName: PlanOnileController :: uplodaNaProcessChangeList
+		 * @author: ly
+		 * @date: 2017年8月9日 
+		 *
+		 * @Description:进程变更清单
+		 * @param planId
+		 * @param file
+		 * @return
+		 */
+		@RequestMapping(path = "/produce/plan/uplodaQuestionInfo")
+		public @ResponseBody JsonBean uplodaQuestionInfo(@RequestParam Long planId, @RequestParam MultipartFile file,
+				@RequestParam Long fileType) {
+			JsonBean bean = new JsonBean();
+			
+			// 获取文件名称
+			String fileName = file.getOriginalFilename();
+			
+			Date date = new Date();
+			
+			// 设置主机上的文件名
+			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+			
+			// 把文件上传到主机
+			FileUtil.uploadFile(file, fileNameNew);
+			
+			try {
+				List<QuestionInfoListExcel> list = POIExcelUtil.excelToList(file, QuestionInfoListExcel.class);
+				
+				naChangePlanOnileSv.saveExcelQuestionInfoList(planId, list, fileName, fileType, date);
+				
+			} catch (Exception e) {
+				log.error("解析excel失败", e);
+				bean.fail("解析excel失败!");
+			}
+			return bean;
+		}
+		
 }

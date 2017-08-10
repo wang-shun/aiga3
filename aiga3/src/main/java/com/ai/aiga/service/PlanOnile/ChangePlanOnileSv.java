@@ -60,6 +60,7 @@ import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 
+import com.ai.aiga.service.ArchIndex.dto.QuestionInfoListExcel;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.enums.WorkFlowNewEnum;
 import com.ai.aiga.service.onlineProcess.NodeRecordSv;
@@ -351,29 +352,35 @@ public class ChangePlanOnileSv extends BaseService{
 	 * @Description:进程变更清单
 	 * @param planId
 	 * @param list
-	 * @param fileName           
+	 * @param fileName
 	 */
-	public void saveExcelNaProcessChangeList(Long planId, List<NaProcessChangeListExcel> list,String fileName,Long fileType, Date date) {
-		if(planId == null || planId < 0){
+	public void saveExcelNaProcessChangeList(Long planId, List<NaProcessChangeListExcel> list, String fileName,
+			Long fileType, Date date) {
+		if (planId == null || planId < 0) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
 		}
-		
-		if(list == null || list.size() <= 0){
+
+		if (list == null || list.size() <= 0) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
 		}
-		
-		
-		List<NaProcessChangeList> values = BeanMapper.mapList(list, NaProcessChangeListExcel.class, NaProcessChangeList.class);
-		if(values != null){
-			for(NaProcessChangeList v : values){
+
+		// 根据计划删除表中信息
+		naProcessChangeListDao.deleteByPlanId(planId);
+
+		// 把excel信息解析到表里面
+		List<NaProcessChangeList> values = BeanMapper.mapList(list, NaProcessChangeListExcel.class,
+				NaProcessChangeList.class);
+		if (values != null) {
+			for (NaProcessChangeList v : values) {
 				v.setPlanId(planId);
-				
+				v.setExt_1(fileName);
 			}
 		}
 		NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
 				SessionMgrUtil.getStaff().getStaffId(), 0L);
 		naProcessChangeListDao.save(values);
 		naFileUploadDao.save(fileEntity);
+
 	}
 	
 	/**
@@ -730,5 +737,13 @@ public class ChangePlanOnileSv extends BaseService{
 					SessionMgrUtil.getStaff().getStaffId(), 0L);
 			naFileUploadDao.save(fileEntity);
 
+		}
+
+
+		public void saveExcelQuestionInfoList(Long planId,
+				List<QuestionInfoListExcel> list, String fileName,
+				Long fileType, Date date) {
+			// TODO Auto-generated method stub
+			
 		}
 }

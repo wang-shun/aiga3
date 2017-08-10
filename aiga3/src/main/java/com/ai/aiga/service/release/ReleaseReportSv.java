@@ -50,7 +50,6 @@ import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.plan.dto.PlanDetailManifestExcel;
 import com.ai.aiga.view.controller.release.dto.DbExecutionExceptionRequest;
 import com.ai.aiga.view.controller.release.dto.NaReleaseReportRequest;
-import com.ai.aiga.view.controller.team.dto.TeamInfoRequest;
 import com.ai.aiga.view.json.ExecutionExceptionExcel;
 
 import com.ai.aiga.view.json.OnlineSysReleaseExcel;

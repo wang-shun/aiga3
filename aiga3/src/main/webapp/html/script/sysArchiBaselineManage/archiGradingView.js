@@ -129,6 +129,16 @@ define(function(require, exports, module) {
 
 						_self.data("level",_viewLevel);
 		        		Page.findName("archiView").html(template(json.data));
+		        		Page.find(".mxgif-third-item").on('click', function() {
+							$(this).fadeOut(function(){
+								self.setSidebarHeight();
+							});
+						});
+						Page.find(".mxgif-item-title").on('click', function() {
+							$(this).parent().fadeOut(function(){
+								self.setSidebarHeight();
+							});
+						});
 		        		window.XMS.msgbox.hide();
 
 		        		// 计算垂直高度值
@@ -149,9 +159,17 @@ define(function(require, exports, module) {
 			// 循环计算出所有节点的高度值，用于垂直居中对齐
 			Page.find('.mxgif-sidebar').each(function(){
 				var _thiz = $(this);
+				_thiz.height(0);
 				var _pHeight = _thiz.parent().height();
 				_thiz.height(_pHeight);
 			});
+		},
+		setActiveSidebarHeight:function(obj){
+			// 循环计算出所有节点的高度值，用于垂直居中对齐
+			var $sidebar = $(obj).parents(".mxgif-lists").prev();
+			var containerHeight = $sidebar.parent().height();
+			$sidebar.height(0);
+			//$sidebar.height(containerHeight);
 		},
 		setCrossContent:function(json){
 			var contentArray = json.data.content;

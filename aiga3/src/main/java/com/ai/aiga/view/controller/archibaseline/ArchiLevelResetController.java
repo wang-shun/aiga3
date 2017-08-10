@@ -74,7 +74,7 @@ public class ArchiLevelResetController {
 							}
 						}
 						String Message = String.valueOf(thirdBase.get("firName"))+" 的   "+String.valueOf(thirdBase.get("secName"))+" 的   "
-								+ String.valueOf(thirdBase.get("name"))+" 编号"+ String.valueOf(thirdBase.get("idThird")) +" 第四位"+ no +"所指分层为     "+ ruleLevels[0] +" ,  而录入数据为 "+Levels[0]+"  参考数值"+index;
+								+ String.valueOf(thirdBase.get("name"))+" 编号"+ String.valueOf(thirdBase.get("idThird")) +" 第四位"+ no +"所指分层为     "+ ruleLevels[no] +" ,  而录入数据为 "+Levels[0]+"  参考数值"+index;
 						data.add(Message);
 					}
 				}		

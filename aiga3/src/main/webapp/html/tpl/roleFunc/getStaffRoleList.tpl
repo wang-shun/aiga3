@@ -12,7 +12,7 @@
             <td><input type="radio" class="minimal" name="roleAuthorId" value="{{roleAuthorId}}" id="">
               <input type="hidden" value="{{roleId}}" name="roleId">
             </td>
-            <td>{{name}}1</td>
+            <td>{{name}}</td>
         </tr>
         {{/each}}
     </tbody>

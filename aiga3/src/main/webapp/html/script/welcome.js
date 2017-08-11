@@ -7,7 +7,7 @@ define(function(require,exports,module){
     // 工作台
     srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json", "sys/home/kpiList");
     // 饼图
-    srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "/archi/third/welcomePie");
+    srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "archi/third/welcomePie");
 
     var Data = {
         planDate:null // 获取日期日期

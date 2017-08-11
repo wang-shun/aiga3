@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiWelcomePie;
@@ -138,7 +139,7 @@ public class ArchitectureThirdController {
 	@RequestMapping(path = "/archi/third/getThirdId")
 	public @ResponseBody JsonBean getThirdId(){
 		JsonBean bean = new JsonBean();
-		ArchitectureThirdRequest output = new ArchitectureThirdRequest();
+		ArchitectureThird output = new ArchitectureThird();
 		List<Map>list=architectureThirdSv.findIdThirds();
 		for(Map base : list) {
 			String value = String.valueOf(base.get("onlysysid"));

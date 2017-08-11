@@ -35,6 +35,6 @@ public interface ArchitectureThirdDao extends SearchAndPageRepository<Architectu
 	//根据二级查三级
 	public List<ArchitectureThird> findByIdSecond(Long idSecond);
 	
-	List<ArchitectureThird> findByOnlysysId(Long onlysysId);
+
 	
 }

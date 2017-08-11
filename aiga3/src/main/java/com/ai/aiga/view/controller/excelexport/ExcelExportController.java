@@ -36,24 +36,8 @@ public class ExcelExportController {
 	String[] excelHeader = { "系统名称", "系统编号", "所属一级域" , "所属二级域", "所属分层", "系统描述", "责任部门", "项目立项信息", "规划设计信息", "状态"}; 
 	String[] excelSheet = { "业务支撑域", "管信域", "BOMC域", "安全域", "大数据域", "公共域", "网络域", "地市域", "开放域"};
 	@RequestMapping(path="/excel/export/sysMessage")
-	public @ResponseBody void sysMessageExport(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		String input = URLDecoder.decode(request.getParameter("cmd"),"UTF-8");
-		long idThird = 0L;
-		String name = "";
-		String[] inputs = input.split("&");
-		for(String baseInput : inputs) {
-			String[] baseInputIn = baseInput.split("=");
-			if("name".equals(baseInputIn[0])) {
-				if(baseInputIn.length>1) {
-					name = baseInputIn[1];
-				}			
-			} else if("idThird".equals(baseInputIn[0])) {
-				if(baseInputIn.length>1) {
-					idThird = Long.parseLong(baseInputIn[1]);
-				}					
-			}
-		}
-		List<Map> findData = architectureThirdSv.excelExport(idThird,name);
+	public @ResponseBody void sysMessageExport(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		List<Map> findData = architectureThirdSv.excelExport(0L,"");
 		Collections.sort(findData, new sysExportComparator());
         HSSFWorkbook wb = export(findData);  
         response.setContentType("application/vnd.ms-excel");  

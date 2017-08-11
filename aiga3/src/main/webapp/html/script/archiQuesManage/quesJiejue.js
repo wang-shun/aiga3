@@ -338,8 +338,8 @@ define(function(require, exports, module) {
 					if(status) {							
 						_dom.modal('hide');
 						XMS.msgbox.show('开需求单成功！！！', 'success', 2000);	
-						window.location.href="www.baidu.com";
-						setTimeout(function() {
+						window.open("http://apc.zj.chinamobile.com/");  
+					setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
 						}, 1500);
 					} else {
@@ -363,6 +363,7 @@ define(function(require, exports, module) {
 					if(status) {							
 						_dom.modal('hide');
 						XMS.msgbox.show('开任务单成功！！！', 'success', 2000);	
+						window.open("http://apc.zj.chinamobile.com/");  
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
 						}, 1500);
@@ -386,6 +387,7 @@ define(function(require, exports, module) {
 					if(status) {							
 						_dom.modal('hide');
 						XMS.msgbox.show('开变更单成功！！！', 'success', 2000);	
+						window.open("http://apc.zj.chinamobile.com/"); 
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
 						}, 1500);
@@ -409,6 +411,7 @@ define(function(require, exports, module) {
 					if(status) {							
 						_dom.modal('hide');
 						XMS.msgbox.show('后续立项解决成功！！！', 'success', 2000);	
+						window.open("http://apc.zj.chinamobile.com/"); 
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
 						}, 1500);

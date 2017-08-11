@@ -216,7 +216,7 @@
                 <div class="form-group">
                     <label for="id" class="col-sm-3 control-label">巡检编号</label>
 					<div class="col-sm-7">
-                    	<input type="text" class="form-control input-sm" value="{{id}}" name="id">
+                    	<input type="text" class="form-control input-sm" value="{{id}}" name="id"  disabled="disabled">
 					</div>
                 </div>
             </div>
@@ -252,7 +252,9 @@
                 <div class="form-group">
                     <label for="state" class="col-sm-3 control-label">巡检状态</label>
 					<div class="col-sm-7">
-                    	<input type="text" class="form-control input-sm" value="{{state}}" name="state">
+			            <select name="state" class="form-control select2 input-sm" data-url="staticEventState" data-idkey="codeValue" data-namekey="codeName">
+			                 <option value="{{state}}"></option>
+			            </select>
     				</div>
             	</div>
             </div>

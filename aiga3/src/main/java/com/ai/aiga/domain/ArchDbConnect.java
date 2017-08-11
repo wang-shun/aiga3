@@ -45,7 +45,7 @@ public class ArchDbConnect  implements java.io.Serializable {
        this.indexId = indexId;
    }
 
-   @Column(name="SETT_MONTH", length=6)
+   @Column(name="SETT_MONTH", length=20)
    public String getSettMonth() {
        return this.settMonth;
    }

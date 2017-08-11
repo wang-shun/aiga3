@@ -10,6 +10,8 @@ import java.util.List;
 
 import io.swagger.annotations.Api;
 
+import oracle.net.aso.s;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -90,7 +92,7 @@ public class ArchitectureIndexController extends BaseService {
 				while(iterator2.hasNext()){
 					ArchSrvManage archSrvManage = iterator2.next();
 					if(archSrvManage.getKey2().equals(name)){
-						String setMonth = archSrvManage.getSettMonth();
+						String setMonth = archSrvManage.getSettMonth().substring(0, 6);
 						for(int i=0;i<DATA_LENGTH;i++){
 							String selectMonth = months.get(i).replace("-", "");
 							if(setMonth.equals(selectMonth)){
@@ -152,7 +154,7 @@ public class ArchitectureIndexController extends BaseService {
 				while(iterator.hasNext()){
 					ArchDbConnect archDbConnect = iterator.next();
 					if(archDbConnect.getKey1().equals(name)) {
-						String SetMonths = archDbConnect.getSettMonth();
+						String SetMonths = archDbConnect.getSettMonth().substring(0, 6);
 //						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 						for(int i=0;i<data.length;i++){
 							String newMonth = months.get(i);
@@ -245,7 +247,7 @@ public class ArchitectureIndexController extends BaseService {
 					ArchDbConnect archDbConnect = iterator.next();
 					if(archDbConnect.getKey3()!=null){
 						if(archDbConnect.getKey3().equals(name)) {
-							String SetMonths = archDbConnect.getSettMonth();
+							String SetMonths = archDbConnect.getSettMonth().substring(0, 6);
 //						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 							for(int i=0;i<data.length;i++){
 								String newMonth = months.get(i);

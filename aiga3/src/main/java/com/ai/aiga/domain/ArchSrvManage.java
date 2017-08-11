@@ -45,7 +45,7 @@ public class ArchSrvManage  implements java.io.Serializable {
        this.indexId = indexId;
    }
 
-   @Column(name="SETT_MONTH", length=6)
+   @Column(name="SETT_MONTH", length=8)
    public String getSettMonth() {
        return this.settMonth;
    }

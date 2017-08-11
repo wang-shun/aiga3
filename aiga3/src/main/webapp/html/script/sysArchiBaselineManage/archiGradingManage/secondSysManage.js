@@ -12,7 +12,7 @@ define(function(require, exports, module) {
 	//显示系统信息表
 	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "archi/second/listByfirstPage");
 	//二级系统操作信息保存
-	srvMap.add("secSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
+	srvMap.add("secSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/secGradingAdd");
 	var cache = {
 		datas : "",
 		firName : ""         //一级域名称

@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 	//显示系统信息表
 	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findBySecPage");
 	//三级系统操作信息保存
-	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
+	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/thirdGradingAdd");
 	//系统状态静态数据  
 	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
 	

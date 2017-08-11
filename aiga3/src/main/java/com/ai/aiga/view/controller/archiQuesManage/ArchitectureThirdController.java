@@ -18,6 +18,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiWelcomePie;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.PieSeries;
+import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionId;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieData;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -132,5 +133,19 @@ public class ArchitectureThirdController {
 				@RequestParam Long onlysysId){
 		architectureThirdSv.delete(onlysysId);
 		return JsonBean.success;
+	}
+	
+	@RequestMapping(path = "/archi/third/getThirdId")
+	public @ResponseBody JsonBean getThirdId(){
+		JsonBean bean = new JsonBean();
+		ArchitectureThirdRequest output = new ArchitectureThirdRequest();
+		List<Map>list=architectureThirdSv.findIdThirds();
+		for(Map base : list) {
+			String value = String.valueOf(base.get("onlysysid"));
+			Long onlysysId = Long.parseLong(value);
+			output.setOnlysysId(onlysysId);
+		}
+		bean.setData(output);
+		return bean;
 	}
 }

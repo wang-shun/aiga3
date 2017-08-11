@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureThird;
+import com.ai.aiga.domain.QuestionInfo;
 
 public interface ArchitectureThirdDao extends SearchAndPageRepository<ArchitectureThird, Long> {
 
@@ -33,5 +34,7 @@ public interface ArchitectureThirdDao extends SearchAndPageRepository<Architectu
 
 	//根据二级查三级
 	public List<ArchitectureThird> findByIdSecond(Long idSecond);
+	
+	List<ArchitectureThird> findByOnlysysId(Long onlysysId);
 	
 }

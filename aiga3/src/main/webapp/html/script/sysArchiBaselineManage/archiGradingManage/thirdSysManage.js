@@ -19,6 +19,18 @@ define(function(require, exports, module) {
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/gradingAdd");
 	//系统状态静态数据  
 	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
+	
+	//上传文件
+    srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
+    
+    srvMap.add("getThirdId", pathAlias+"getSysMessageList.json", "archi/third/getThirdId");
+    
+    //srvMap.add("getCurrvalId", pathAlias+"getSysMessageList.json", "archi/question/getCurrvalId");
+        
+	var idcache = {
+		onlysysId : ""
+	}
+	
 	var cache = {	
 		datas : "",     	//查询出的系统信息
 		secName: ""			//二级子域名称
@@ -28,11 +40,61 @@ define(function(require, exports, module) {
 		init: function() {
 			var self = this;
 			self._render();
+			
 		},
 		_render: function() {
 			var self = this;
 			self._querydomain();
+
 		},
+		
+		//上传按钮
+       uploadAnNiu: function() {	
+    	   var self = this;
+    	   var _cmd = "";
+		   Rose.ajax.postJson(srvMap.get('getThirdId'),_cmd,function(json, status){
+				if(status) {
+					idcache.onlysysId=json.data.onlysysId;
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+		   });
+			
+		   var planId = idcache.onlysysId + 1;
+
+           var _form = Page.findModalCId('thirdApplyForm');
+           console.log(_form.length);
+	        Utils.checkForm(Page.findId('thirdApplyForm'),function(){
+	    		var a = '99999';
+	            var cmd = {
+	                "file": _form.find("[name='fileName']")[0].files[0],
+	                "planId": planId,
+	                "fileType": a
+	            };
+	            console.log(_form.find("[name='fileName']"));
+	            console.log(a);
+	                var task = srvMap.get('uploadFile');
+	                self.jieko(task, cmd, planId);
+	        });
+       	},
+	     jieko: function(task, cmd, planId) {
+	           var self = this;
+	           $.ajaxUpload({
+	               url: task,
+	               data: cmd,
+	               success: function(date, status, xhr) {
+	                   console.log(date);
+	                   if (date.retCode==200) {
+	                       //window.XMS.msgbox.show('上传成功！', 'success', 2000);
+	  						return true;
+	                   }else{
+	                       window.XMS.msgbox.show(date.retMessage, 'error', 2000);
+	                       return false;
+	                   }
+	               }
+	           });
+	       },
+		
 	
 		//查询下拉框数据加载，绑定查询按钮事件
 		_querydomain: function() {
@@ -54,13 +116,19 @@ define(function(require, exports, module) {
 				
 				self._getGridList(cmd);
 			});
+		
 			_applyBtn.off('click').on('click',function() {
 				//打开模态框
 				var _modal = Page.findId('thirdApplyModal');
 				_modal.modal('show');
 				Utils.setSelectData(_modal);
+				
+				
+				
 				var saveBtn = _modal.find("[name='save']");
 				saveBtn.off('click').on('click',function(){
+					self.uploadAnNiu();
+
 					//获取表单数据
 					var _form = Page.findId("thirdApplyForm");
 					var _cmd = _form.serialize();	
@@ -114,11 +182,13 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('分层层级为空！', 'error', 2000);
 						return
 					}
+					
 					//调用服务
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){
 						if(status) {
 							_modal.modal('hide');
+//							self.uploadAnNiu();
 							XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
 						} else {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -138,6 +208,8 @@ define(function(require, exports, module) {
 			});
 		},
 
+		
+		 
 		// 查询表格数据
 		_getGridList: function(cmd){
 			var self = this;

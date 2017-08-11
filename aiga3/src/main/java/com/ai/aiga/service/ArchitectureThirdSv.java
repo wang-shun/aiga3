@@ -27,12 +27,16 @@ public class ArchitectureThirdSv extends BaseService {
 
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
-	//nmsn
+
 	public List<Map> findWelcomePie(){
 		String sql = "select count(*) as sum,b.name,substr(b.id_first,0,1) as rank from architecture_third a,architecture_first b where substr(a.id_third,0,1) = substr(b.id_first,0,1)group by b.name,substr(b.id_first,0,1) order by substr(b.id_first,0,1)";
 		return architectureThirdDao.searchByNativeSQL(sql);	
 	}
 	
+	public List<Map> findIdThirds(){
+		String sql = "select onlysys_id as onlysysId from aiam.architecture_third";
+		return architectureThirdDao.searchByNativeSQL(sql);			
+	}
 	public List<Map> findByFirst(Long idFirst) {
 		String sql = "select b.belong_level as third_belong_level, b.name, b.id_third, a.name as sec_name, d.name as fir_name, a.belong_level, b.system_function, b.department, b.project_info, b.design_info, c.code_name, c.ext1 as bg_coloe ,b.ext_3 as media_type"
 				+" from architecture_first d inner join ( architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second ) on a.id_first = d.id_first"

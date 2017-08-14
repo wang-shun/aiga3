@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaFileUploadDao;
+import com.ai.aiga.dao.QuestionInfoDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaFileUpload;
+import com.ai.aiga.domain.QuestionInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.ArchIndex.dto.QuestionInfoListExcel;
@@ -28,7 +30,8 @@ public class DealFileSv extends BaseService{
 	
 	@Autowired
 	private NaFileUploadDao naFileUploadDao;
-	
+	@Autowired
+	private QuestionInfoDao questionInfoDao;
 	
 	// 查看上线交付物列表
 	public Object findNaFileUpload(Long planId, Long type, int pageNumber, int pageSize, String fileName) {
@@ -66,10 +69,41 @@ public class DealFileSv extends BaseService{
 		}
 
 
-		public void saveExcelQuestionInfoList(Long planId,
-				List<QuestionInfoListExcel> list, String fileName,
+		/**
+		 *  批量上传QuestionInfo
+		 * @param planId
+		 * @param list
+		 * @param fileName
+		 * @param fileType
+		 * @param date
+		 */
+		public void saveExcelQuestionInfoList(Long planId, List<QuestionInfoListExcel> list, String fileName,
 				Long fileType, Date date) {
-			// TODO Auto-generated method stub
-			
+			if (planId == null || planId < 0) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "planId");
+			}
+
+			if (list == null || list.size() <= 0) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "导入内容");
+			}
+
+			// 根据计划删除表中信息
+//			questionInfoDao.deleteByQuesId(planId);
+
+			// 把excel信息解析到表里面
+			List<QuestionInfo> values = BeanMapper.mapList(list, QuestionInfoListExcel.class,
+					QuestionInfo.class);
+//			if (values != null) {
+//				for (QuestionInfo v : values) {
+//					v.setPlanId(planId);
+//					v.setExt_1(fileName);
+//				}
+//			}
+			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
+					SessionMgrUtil.getStaff().getStaffId(), 0L);
+			questionInfoDao.save(values);
+			naFileUploadDao.save(fileEntity);
+
 		}
+
 }

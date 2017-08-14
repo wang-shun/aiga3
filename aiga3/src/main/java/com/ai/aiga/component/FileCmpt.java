@@ -62,7 +62,7 @@ public class FileCmpt {
 			System.out.println("ftpPath" + new File(ftpPath).exists());
 			// 定义上传路径
 			String path = ftpPath + File.separator + fileName;
-			
+			System.out.println("bbbbbbbpath"+path);
 			File localFile = new File(path);
 	
 			try {
@@ -84,7 +84,7 @@ public class FileCmpt {
 	 */
 	public ResponseEntity<byte[]> downloadFile(String name) throws Exception {
 		// 文件名，防止乱码
-		String fileName = new String(name.getBytes("utf-8"), "utf-8");
+		String fileName = new String(name.getBytes("ISO-8859-1"), "utf-8");
 		// 下载的后的文件名称
 		String fileNameNew = "";
 		if (fileName.indexOf("_") != -1) {
@@ -96,6 +96,7 @@ public class FileCmpt {
 		System.out.println("ftpPath" + new File(ftpPath).exists());
 		String path = ftpPath + File.separator + fileName;
 
+		System.out.println("lujingpath"+path);
 		File file = new File(path);
 		if (!file.exists()) {
 			throw new Exception("指定文件不存在！");

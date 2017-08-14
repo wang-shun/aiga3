@@ -21,6 +21,10 @@ public interface QuestionInfoDao extends JpaRepository<QuestionInfo, Long>, Sear
     @Query(value="delete from Question_Info where ques_id=?1", nativeQuery = true)
     int deleteByQuesId(Long quesId);
     
+	@Modifying
+	@Query(value="delete from Na_Process_Change_List where plan_id = ?1", nativeQuery = true)
+	void deleteByPlanId(Long planId);
+	
     //主键查
 	List<QuestionInfo> findByQuesId(Long quesId);
     //问题分类查

@@ -131,34 +131,34 @@ public class NaChangePlanOnileSv extends BaseService{
 	}
 	
 		
-		/**
-		 * 下载文档
-		 * 
-		 * @param fileName
-		 * @return
-		 */
-		public ResponseEntity downloadFile(String fileName, Long id) {
+	/**
+	 * 下载文档
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public ResponseEntity downloadFile(String fileName, Long id) {
 
-			if (StringUtils.isBlank(fileName)) {
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "fileName");
-			}
-
-			ResponseEntity entity = null;
-			if (id != null) {
-				// 更新下载信息
-				NaFileUpload file = naFileUploadDao.findOne(id);
-				file.setDownLoadTime(new Date());
-				naFileUploadDao.save(file);
-			}
-
-			try {
-				entity = FileUtil.downloadFile(fileName);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return entity;
-
+		if (StringUtils.isBlank(fileName)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "fileName");
 		}
+
+		ResponseEntity entity = null;
+		if (id != null) {
+			// 更新下载信息
+			NaFileUpload file = naFileUploadDao.findOne(id);
+			file.setDownLoadTime(new Date());
+			naFileUploadDao.save(file);
+		}
+
+		try {
+			entity = FileUtil.downloadFile(fileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return entity;
+
+	}
 
 		/**
 		 * 批量下载

@@ -68,8 +68,8 @@ define(function(require, exports, module) {
     srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
     //下载模板
     srvMap.add("downloadTemp", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFile");
-    //进程变更清单
-    srvMap.add("uploadNaProcessChangeList", pathAlias + "getDeliverablesList.json", "produce/plan/uploadNaProcessChangeList");
+    //批量上传QuestionInfo																		
+    srvMap.add("uploadQuestionInfo", pathAlias + "getDeliverablesList.json", "produce/plan/uploadQuestionInfo");
     var cache = {
 		datas : ""	
 	};
@@ -130,7 +130,9 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);
 
 				self.downloadTempShanxian();
-
+				var planId = 77777;
+				self.uploadAnNiuBatch(planId);
+				
 			});
 		},
 		initialise: function(){
@@ -213,15 +215,15 @@ define(function(require, exports, module) {
 	                var a = _form.find("[name='fileName']").val();
 	                console.log(a);
 	                var cmd = {
-	                    "file": _form.find("[name='fileName']")[0].files[0],
+	                    "file": _form.find("[name='fileName2']")[0].files[0],
 	                    "planId": planId,
 	                    "fileType": a,
 	                }
-	                console.log(_form.find("[name='fileName']"));
+	                console.log(_form.find("[name='fileName2']"));
 	                console.log(a);
 	                switch (a) {
 	                    case "99": //架构疑难问题申报表
-	                        var task = srvMap.get('Path');
+	                        var task = srvMap.get('uploadQuestionInfo');
 	                        self.jieko(task, cmd, planId)
 	                        break;
 	                    case "104": //架构疑难问题申报表
@@ -587,7 +589,7 @@ define(function(require, exports, module) {
     	                        var cmd = cmd+"架构疑难问题申报表.xlsx";
     	                        break;
     	                }
-    	                cmd = cmd + "&id=77"
+//    	                cmd = cmd + "&id=77"
                         $(this).attr("href", srvMap.get('downloadTemp')+"?"+cmd);
                         return true;
                 }else{

@@ -133,46 +133,44 @@ public class DealFileController {
 		 * @param file
 		 * @return
 		 *//*
-		@RequestMapping(path = "/produce/plan/uploadNaProcessChangeList")
-		public @ResponseBody JsonBean uplodaNaProcessChangeList(@RequestParam Long planId, @RequestParam MultipartFile file,
-				@RequestParam Long fileType) {
-			JsonBean bean = new JsonBean();
+	@RequestMapping(path = "/produce/plan/uploadNaProcessChangeList")
+	public @ResponseBody JsonBean uplodaNaProcessChangeList(@RequestParam Long planId, @RequestParam MultipartFile file,
+			@RequestParam Long fileType) {
+		JsonBean bean = new JsonBean();
 
-			// 获取文件名称
-			String fileName = file.getOriginalFilename();
+		// 获取文件名称
+		String fileName = file.getOriginalFilename();
 
-			Date date = new Date();
+		Date date = new Date();
 
-			// 设置主机上的文件名
-			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+		// 设置主机上的文件名
+		String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
 
-			// 把文件上传到主机
-			FileUtil.uploadFile(file, fileNameNew);
+		// 把文件上传到主机
+		FileUtil.uploadFile(file, fileNameNew);
 
-			try {
-				List<NaProcessChangeListExcel> list = POIExcelUtil.excelToList(file, NaProcessChangeListExcel.class);
+		try {
+			List<NaProcessChangeListExcel> list = POIExcelUtil.excelToList(file, NaProcessChangeListExcel.class);
 
-				naChangePlanOnileSv.saveExcelNaProcessChangeList(planId, list, fileName, fileType, date);
+			naChangePlanOnileSv.saveExcelNaProcessChangeList(planId, list, fileName, fileType, date);
 
-			} catch (Exception e) {
-				log.error("解析excel失败", e);
-				bean.fail("解析excel失败!");
-			}
-			return bean;
+		} catch (Exception e) {
+			log.error("解析excel失败", e);
+			bean.fail("解析excel失败!");
+		}
+		return bean;
 		}*/
 		
+
 		/**
-		 * @ClassName: PlanOnileController :: uplodaNaProcessChangeList
-		 * @author: ly
-		 * @date: 2017年8月9日 
-		 *
-		 * @Description:进程变更清单
+		 * 批量上传QuestionInfo
 		 * @param planId
 		 * @param file
+		 * @param fileType
 		 * @return
 		 */
-		@RequestMapping(path = "/produce/plan/uplodaQuestionInfo")
-		public @ResponseBody JsonBean uplodaQuestionInfo(@RequestParam Long planId, @RequestParam MultipartFile file,
+		@RequestMapping(path = "/produce/plan/uploadQuestionInfo")
+		public @ResponseBody JsonBean uploadQuestionInfo(@RequestParam Long planId, @RequestParam MultipartFile file,
 				@RequestParam Long fileType) {
 			JsonBean bean = new JsonBean();
 			
@@ -183,9 +181,10 @@ public class DealFileController {
 			
 			// 设置主机上的文件名
 			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
-			
+			String fileNameNew2 = fileName.split("\\.")[0]+"_"+DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS)+"."+fileName.split("\\.")[1];
+			System.out.println("cccccc"+fileNameNew+"\t"+fileNameNew2);
 			// 把文件上传到主机
-			FileUtil.uploadFile(file, fileNameNew);
+//			FileUtil.uploadFile(file, fileNameNew2);
 			
 			try {
 				List<QuestionInfoListExcel> list = POIExcelUtil.excelToList(file, QuestionInfoListExcel.class);

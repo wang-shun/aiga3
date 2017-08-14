@@ -133,12 +133,12 @@
 	  						<label class="control-label margin-onl">简称</label>
 							<input name="code" type="text" class="form-control input-sm width-input-167"></input>
 					   	 	<label class="control-label margin-onl" style="margin-right: 20px">系统编号</label>
-					   	 	<input type="text" disabled="disabled" class="form-control input-sm width-input-167" value="认定时分配"></input>
+					   	 	<label class="form-control input-sm width-input-167">认定时分配</label>
 							<input name="sysId" type="hidden" value="0"></input>
 						</div>
 						<div class="margin-top-20 col-md-12">
 							<label class="control-label fist-text-label">系统功能描述</label>
-							<textarea name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
+							<textarea type="textarea" name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
 						</div>
 						<div id="updata-select" class="margin-top-20 col-md-12 form-group">
 						    <label class="control-label" style="margin-left: 26px;margin-right: 20px">一级域</label>
@@ -166,29 +166,28 @@
      			   			</select>
      			   			<input type="text" class="form-control input-sm" data-toggle="tooltip" title="年份" name="ext2" onclick="WdatePicker({dateFmt:'yyyy'})" style="width: 50px"/> 
 						</div>
-
-					<div class="margin-top-20 col-md-8">	    		    	
-		    			<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
-		     			<div class="check-inline">				
-	    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label data-toggle="tooltip" title="交互应用层" style="width:45px;">SaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label data-toggle="tooltip" title="应用集成平台服务层" style="width:45px;">IPaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"/><label data-toggle="tooltip" title="大数据模型层" style="width:45px;">DaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"/><label data-toggle="tooltip" title="通用服务中心层" style="width:45px;">UPaaS</label>
-							<br/>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"/><label data-toggle="tooltip" title="核心业务中心层" style="width:45px;">BPaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"/><label data-toggle="tooltip" title="基础设施服务层" style="width:45px;">IaaS</label>
-							<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"/><label data-toggle="tooltip" title="通用技术组件平台服务层" style="width:45px;">TPaaS</label>
-						</div>	
-					</div>
-					<div class="col-md-4" style="margin-top: 30px;">
-						<label class="control-label" style="margin-right: 20px;">媒体</label>
-						<label class="radio inline" style="width:60px"><input type="radio" value="app"  name="groupApply">APP端</label>
-						<label class="radio inline" style="width:60px"><input type="radio" value="pc" checked="checked" name="groupApply">PC端</label>
-					</div>
-					<div class="form-group col-sm-8 margin-top-20">
+						<div class="margin-top-20 col-md-8">	    		    	
+			    			<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
+			     			<div class="check-inline">				
+		    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label data-toggle="tooltip" title="交互应用层" style="width:45px;">SaaS</label>
+								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label data-toggle="tooltip" title="应用集成平台服务层" style="width:45px;">IPaaS</label>
+								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"/><label data-toggle="tooltip" title="大数据模型层" style="width:45px;">DaaS</label>
+								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"/><label data-toggle="tooltip" title="通用服务中心层" style="width:45px;">UPaaS</label>
+								<br/>
+								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"/><label data-toggle="tooltip" title="核心业务中心层" style="width:45px;">BPaaS</label>
+								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"/><label data-toggle="tooltip" title="基础设施服务层" style="width:45px;">IaaS</label>
+								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"/><label data-toggle="tooltip" title="通用技术组件平台服务层" style="width:45px;">TPaaS</label>
+							</div>	
+						</div>
+						<div class="col-md-4" style="margin-top: 30px;">
+							<label class="control-label" style="margin-right: 20px;">媒体</label>
+							<label class="radio inline" style="width:60px"><input type="radio" value="app"  name="groupApply">APP端</label>
+							<label class="radio inline" style="width:60px"><input type="radio" value="pc" checked="checked" name="groupApply">PC端</label>
+						</div>
+						<div class="form-group col-sm-8 margin-top-20">
 		                    <label for="inputfile" class="col-sm-2  control-label">附件上传</label>
 							<input type="file" name="fileName"  class="col-sm-5">
-					</div>
+						</div>
 					</form>	
           	    </div>
           	</div>

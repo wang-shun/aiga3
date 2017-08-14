@@ -49,53 +49,119 @@ define(function(require, exports, module) {
 		},
 		
 		//上传按钮
-       uploadAnNiu: function() {	
-    	   var self = this;
-    	   var _cmd = "";
-		   Rose.ajax.postJson(srvMap.get('getThirdId'),_cmd,function(json, status){
-				if(status) {
-					idcache.onlysysId=json.data.onlysysId;
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}					
-		   });
-			
-		   var planId = idcache.onlysysId + 1;
-
-           var _form = Page.findModalCId('thirdApplyForm');
-           console.log(_form.length);
+		uploadAnNiu: function(_modal) {	
+    		var self = this;
+    		var _cmd = "";
+			var planId = new Date().getTime();
+			var _form = Page.findModalCId('thirdApplyForm');
 	        Utils.checkForm(Page.findId('thirdApplyForm'),function(){
-	    		var a = '99999';
+	    		var a = '88888';
 	            var cmd = {
 	                "file": _form.find("[name='fileName']")[0].files[0],
 	                "planId": planId,
 	                "fileType": a
 	            };
-	            console.log(_form.find("[name='fileName']"));
-	            console.log(a);
-	                var task = srvMap.get('uploadFile');
-	                self.jieko(task, cmd, planId);
+	            if(cmd.file) {
+		            var task = srvMap.get('uploadFile');
+                	self.uploadAjax(task, cmd, planId, _modal);
+	            } else {
+	            	//没有文件上传直接提交
+	            	self._apply_save_event(_modal);
+	            }
+	            
 	        });
        	},
-	     jieko: function(task, cmd, planId) {
-	           var self = this;
-	           $.ajaxUpload({
-	               url: task,
-	               data: cmd,
-	               success: function(date, status, xhr) {
-	                   console.log(date);
-	                   if (date.retCode==200) {
-	                       //window.XMS.msgbox.show('上传成功！', 'success', 2000);
-	  						return true;
-	                   }else{
-	                       window.XMS.msgbox.show(date.retMessage, 'error', 2000);
-	                       return false;
-	                   }
-	               }
-	           });
-	       },
-		
-	
+       	uploadAjax: function(task, cmd, planId, _modal) {
+        	var self = this;
+        	$.ajaxUpload({
+        		url: task,
+        		data: cmd,
+        		success: function(date, status, xhr) {
+        			console.log(date);
+        			if (date.retCode==200) {
+                    	self._apply_save_event(_modal, planId);
+        			}else{
+        				window.XMS.msgbox.show(date.retMessage, 'error', 2000);
+                    }
+                }
+            });
+        },
+        
+        //申请页表单清除
+        _apply_data_clear: function() {
+        	var domInput = Page.findId("thirdApplyForm").find('input,textarea');
+        	domInput.each(function() {
+        		var domNow = $(this);
+        		if(domNow.attr("type") == 'text') {
+        			domNow.val('');
+        		} else if(domNow.attr("type") == 'checkbox') {
+        			domNow.removeAttr("checked");
+        		} else if(domNow.attr("type") == 'textarea') {
+        			domNow.val('');
+        		} else if(domNow.attr("type") == 'file') {
+        			domNow.after(domNow.clone().val(""));      
+        			domNow.remove();  
+        		}
+        	});
+        },
+		//申请页中保存按钮提交事件
+        _apply_save_event: function(_modal, planId) {
+        	var self = this;
+			//获取表单数据
+			var _form = Page.findId("thirdApplyForm");
+			var _cmd = _form.serialize();	
+			//获取分层层级
+			var applyHierarchy = Page.find("[name='hierarchy']");	
+			var belongLevel = '';
+			Page.find("[name='hierarchy']:checked").each(function() {
+				belongLevel += $(this).val()+',';
+	        });			
+			belongLevel=belongLevel.substring(0,belongLevel.length-1);
+			_cmd += '&belongLevel='+belongLevel;
+			if(planId) {
+				_cmd += '&fileId='+planId;
+			}	
+			_cmd += '&ext3='+ Page.find("[name='groupApply']:checked").val();
+			_cmd += '&ext1=3&description=新增';
+			//数据校验
+			if(_cmd.indexOf('name=&')>-1) {
+				XMS.msgbox.show('名称为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('sysId=&')>-1) {
+				XMS.msgbox.show('系统编号为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('idBelong=&')>-1) {
+				XMS.msgbox.show('所属二级域为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('sysState=&')>-1) {
+				XMS.msgbox.show('建设状态为空！', 'error', 2000);
+				return
+			}
+			if(!belongLevel) {
+				XMS.msgbox.show('分层层级为空！', 'error', 2000);
+				return
+			}
+			
+			//调用服务
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){
+				if(status) {
+					_modal.modal('hide');
+					if(planId) {
+						XMS.msgbox.show('文件已上传，申请成功，请等待认定！', 'success', 2000);
+					} else {
+						XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+					}	
+					//成功后表单清除
+					self._apply_data_clear();
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+			});
+        },
 		//查询下拉框数据加载，绑定查询按钮事件
 		_querydomain: function() {
 			var self = this;
@@ -112,88 +178,19 @@ define(function(require, exports, module) {
 				if (cmd.charAt(cmd.length - 1) == '=') {
 					XMS.msgbox.show('请选择二级子域', 'error', 1000);
 					return
-				}
-				
+				}				
 				self._getGridList(cmd);
-			});
-		
+			});		
 			_applyBtn.off('click').on('click',function() {
 				//打开模态框
 				var _modal = Page.findId('thirdApplyModal');
 				_modal.modal('show');
-				Utils.setSelectData(_modal);
-				
-				
-				
+				Utils.setSelectData(_modal);	
+				//保存按钮
 				var saveBtn = _modal.find("[name='save']");
 				saveBtn.off('click').on('click',function(){
-					self.uploadAnNiu();
-
-					//获取表单数据
-					var _form = Page.findId("thirdApplyForm");
-					var _cmd = _form.serialize();	
-					//获取分层层级
-					var applyHierarchy = Page.find("[name='hierarchy']");	
-					var belongLevel = '';
-					if(applyHierarchy[0].checked == true) {
-						belongLevel += 'SaaS' + ',';
-					}
-					if(applyHierarchy[1].checked == true) {
-						belongLevel += 'IPaaS' + ',';
-					}
-					if(applyHierarchy[2].checked == true) {
-						belongLevel += 'DaaS' + ',';
-					}
-					if(applyHierarchy[3].checked == true) {
-						belongLevel += 'UPaaS' + ',';
-					}
-					if(applyHierarchy[4].checked == true) {
-						belongLevel += 'BPaaS' + ',';
-					}
-					if(applyHierarchy[5].checked == true) {
-						belongLevel += 'IaaS' + ',';
-					}
-					if(applyHierarchy[6].checked == true) {
-						belongLevel += 'TPaaS' + ',';
-					}						
-					belongLevel=belongLevel.substring(0,belongLevel.length-1);
-					_cmd += '&belongLevel='+belongLevel;
-					_cmd += '&ext3='+ Page.find("[name='groupApply']:checked").val();
-					_cmd += '&ext1=3&description=新增';
-					
-					//数据校验
-					if(_cmd.indexOf('name=&')>-1) {
-						XMS.msgbox.show('名称为空！', 'error', 2000);
-						return
-					}
-					if(_cmd.indexOf('sysId=&')>-1) {
-						XMS.msgbox.show('系统编号为空！', 'error', 2000);
-						return
-					}
-					if(_cmd.indexOf('idBelong=&')>-1) {
-						XMS.msgbox.show('所属二级域为空！', 'error', 2000);
-						return
-					}
-					if(_cmd.indexOf('sysState=&')>-1) {
-						XMS.msgbox.show('建设状态为空！', 'error', 2000);
-						return
-					}
-					if(!belongLevel) {
-						XMS.msgbox.show('分层层级为空！', 'error', 2000);
-						return
-					}
-					
-					//调用服务
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){
-						if(status) {
-							_modal.modal('hide');
-//							self.uploadAnNiu();
-							XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
-						} else {
-							XMS.msgbox.show(json.retMessage, 'error', 2000);
-						}					
-					});
+					//先文件上传，成功后再提交
+					self.uploadAnNiu(_modal);
 				});
 			});
 			//查询二级域名称
@@ -206,9 +203,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					
 			});
-		},
-
-		
+		},	
 		 
 		// 查询表格数据
 		_getGridList: function(cmd){

@@ -291,7 +291,8 @@ define(function(require, exports, module) {
 	                	if(!self.jieko(task, cmd, planId)){
 	                		return;
 	                	}  
-		    		}        
+		    		}  
+		            
 		        });
 //				self.getDataMaintainList(cmd);
 				Utils.checkForm(_form, function() {

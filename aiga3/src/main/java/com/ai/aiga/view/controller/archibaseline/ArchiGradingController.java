@@ -179,8 +179,6 @@ public class ArchiGradingController {
 		
 		//层级数组
 		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
-		//非空校验
-		
 		if("新增".equals(description)) {
 			//三级系统申请
 			if(StringUtils.isBlank(architectureGrading.getName())) {

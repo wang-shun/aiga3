@@ -54,30 +54,11 @@ define(function(require, exports, module) {
 					//获取表单数据
 					var _form = Page.findId("secApplyForm");
 					var _cmd = _form.serialize();	
-					//获取分层层级
-					var applyHierarchy = Page.find("[name='hierarchy']");	
+					//获取分层层级	
 					var belongLevel = '';
-					if(applyHierarchy[0].checked == true) {
-						belongLevel += 'SaaS' + ',';
-					}
-					if(applyHierarchy[1].checked == true) {
-						belongLevel += 'IPaaS' + ',';
-					}
-					if(applyHierarchy[2].checked == true) {
-						belongLevel += 'DaaS' + ',';
-					}
-					if(applyHierarchy[3].checked == true) {
-						belongLevel += 'UPaaS' + ',';
-					}
-					if(applyHierarchy[4].checked == true) {
-						belongLevel += 'BPaaS' + ',';
-					}
-					if(applyHierarchy[5].checked == true) {
-						belongLevel += 'IaaS' + ',';
-					}
-					if(applyHierarchy[6].checked == true) {
-						belongLevel += 'TPaaS' + ',';
-					}	
+					Page.find("[name='hierarchy']:checked").each(function() {
+						belongLevel += $(this).val()+',';
+			        });	
 					belongLevel=belongLevel.substring(0,belongLevel.length-1);
 					_cmd += '&belongLevel='+belongLevel;
 					_cmd += '&ext1=2&description=新增';
@@ -215,29 +196,10 @@ define(function(require, exports, module) {
 						var updateDom = Page.findId('secUpdateForm');
 						var _cmd = updateDom.serialize();
 						//获取分层层级
-						var updateHierarchy = Page.find("[name='hierarchysec']");	
 						var belongLevel = '';
-						if(updateHierarchy[0].checked == true) {
-							belongLevel += 'SaaS' + ',';
-						}
-						if(updateHierarchy[1].checked == true) {
-							belongLevel += 'IPaaS' + ',';
-						}
-						if(updateHierarchy[2].checked == true) {
-							belongLevel += 'DaaS' + ',';
-						}
-						if(updateHierarchy[3].checked == true) {
-							belongLevel += 'UPaaS' + ',';
-						}
-						if(updateHierarchy[4].checked == true) {
-							belongLevel += 'BPaaS' + ',';
-						}
-						if(updateHierarchy[5].checked == true) {
-							belongLevel += 'IaaS' + ',';
-						}
-						if(updateHierarchy[6].checked == true) {
-							belongLevel += 'TPaaS' + ',';
-						}	
+						Page.find("[name='hierarchysec']:checked").each(function() {
+							belongLevel += $(this).val()+',';
+				        });	
 						belongLevel=belongLevel.substring(0,belongLevel.length-1);
 						_cmd += '&'+'belongLevel='+belongLevel;
 						_cmd += '&ext1=2&description=修改';

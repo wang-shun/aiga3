@@ -16,14 +16,8 @@ public class BusiSecurityFilter extends AuthorizationFilter{
 		Subject subject = getSubject(request, response);
 		String requestURI = this.getPathWithinApplication(request);
 		System.out.println("BusiSecurityFilter :" + requestURI);
-		
-        String rolesArray[] = (String[])(String[])mappedValue;  
-        if(rolesArray == null || rolesArray.length == 0)  
-        {  
-            return false;  
-        } else {  
+
             return true;  
-        }  
 	}
 
 }

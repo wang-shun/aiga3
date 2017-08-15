@@ -93,12 +93,13 @@ public class DealFileSv extends BaseService{
 			// 把excel信息解析到表里面
 			List<QuestionInfo> values = BeanMapper.mapList(list, QuestionInfoListExcel.class,
 					QuestionInfo.class);
-//			if (values != null) {
-//				for (QuestionInfo v : values) {
-//					v.setPlanId(planId);
-//					v.setExt_1(fileName);
-//				}
-//			}
+			if (values != null) {
+				long quesId = 4100000000L;
+				for (QuestionInfo v : values) {
+					v.setQuesId(quesId);
+					quesId++;
+				}
+			}
 			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
 					SessionMgrUtil.getStaff().getStaffId(), 0L);
 			questionInfoDao.save(values);

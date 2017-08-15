@@ -22,6 +22,12 @@ define(function(require, exports, module) {
 	
     //根据一级查询二级子域
     srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
+    
+	//获取附件信息
+    srvMap.add("getFileInfo", pathAlias+"getSysMessageList.json", "archi/question/findByPlanIdAndFileType");
+    
+    //下载文档
+    srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
 	
 	var init = {
 		init: function() {
@@ -171,6 +177,18 @@ define(function(require, exports, module) {
         					index++;
         				}
         				var selectData = allDatas[index];
+        				//附件信息获取
+        				if(selectData.fileId) {
+            				var fileCondition = 'planId=' + selectData.fileId + '&fileType=88888';
+            				Rose.ajax.postJsonSync(srvMap.get('getFileInfo'), fileCondition,function(json2, status){
+            					if(status) {
+            						selectData.fileName=json2.data.fileName;
+            						selectData.fileIndex=json2.data.id;
+            					} else {
+            						XMS.msgbox.show(json2.retMessage, 'error', 2000);
+            					}					
+            				});
+        				}
         				var _cmdTrans;
         				if(selectData.idBelong) {
         					_cmdTrans = 'idBelong='+selectData.idBelong+'&ext1='+selectData.ext1+'&sysState='+selectData.sysState;
@@ -251,6 +269,19 @@ define(function(require, exports, module) {
 	        	                    selectDom.html(_html);
 	        	                    selectDom.val(selectData.idBelong);
 	        					}
+	        					//附件下载事件绑定
+	        				
+             					var downloadButton = _modal.find('[name="download"]');
+	        					downloadButton.off('click').on('click',function() {
+	        						if(selectData.fileId) {
+		        						var downloadParam = 'ids=' + selectData.fileIndex;
+		        	                    var downloadurl = srvMap.get('downloadFile')+"?"+downloadParam;
+		        	                    downloadButton.attr("href", downloadurl.toString());
+	        						} else {
+	        							XMS.msgbox.show('没有可下载的附件！', 'error', 1000);
+	        						}
+	        					});
+	        					   
 	        				});
 	        				if(selectData.state == '申请') {
 	        					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');

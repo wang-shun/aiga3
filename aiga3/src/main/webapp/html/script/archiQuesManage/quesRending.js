@@ -326,14 +326,19 @@ define(function(require, exports, module) {
 			Rose.ajax.postJsonSync(srvMap.get('findByPlanIdAndFileType'), cmd,function(json2, status){
 				if(status) {
 //					idcache.quesId=json.data.quesId;
-					idcache.fileName=json2.data.fileName;
-					idcache.datas=json2.data;
+					if(json2.data!=null){
+						idcache.fileName=json2.data.fileName;
+						idcache.datas=json2.data;
+					}
 				} else {
 					XMS.msgbox.show(json2.retMessage, 'error', 2000);
 				}					
 			});
-			
-			data.fileName = idcache.fileName;
+			if(idcache.fileName){
+				data.fileName = idcache.fileName;
+			}else{
+				data.fileName = "无";
+			}
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');

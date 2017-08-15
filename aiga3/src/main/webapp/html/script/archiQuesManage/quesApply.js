@@ -203,6 +203,23 @@ define(function(require, exports, module) {
 	                self.jieko(task, cmd, planId);
 	        });
         },
+        jieko: function(task, cmd, planId) {
+            var self = this;
+            $.ajaxUpload({
+                url: task,
+                data: cmd,
+                success: function(date, status, xhr) {
+                    console.log(date);
+                    if (date.retCode==200) {
+                        //window.XMS.msgbox.show('上传成功！', 'success', 2000);
+   						return true;
+                    }else{
+                        window.XMS.msgbox.show(date.retMessage, 'error', 2000);
+                        return false;
+                    }
+                }
+            });
+        },
         //上传批量上线交付物按钮
         uploadAnNiuBatch: function(planId) {
             var self = this;
@@ -224,25 +241,25 @@ define(function(require, exports, module) {
 	                switch (a) {
 	                    case "99": //架构疑难问题申报表
 	                        var task = srvMap.get('uploadQuestionInfo');
-	                        self.jieko(task, cmd, planId)
+	                        self.jiekoBatch(task, cmd, planId)
 	                        break;
 	                    case "104": //架构疑难问题申报表
 	                        var task = srvMap.get('uploadNaProcessChangeList');
-	                        self.jieko(task, cmd, planId)
+	                        self.jiekoBatch(task, cmd, planId)
 	                        break;
 	                }
 	            });
             });
         },
-        jieko: function(task, cmd, planId) {
+        jiekoBatch: function(task, cmd, planId) {
             var self = this;
             $.ajaxUpload({
                 url: task,
-                data: cmd,
+                data: cmd, 
                 success: function(date, status, xhr) {
                     console.log(date);
                     if (date.retCode==200) {
-                        //window.XMS.msgbox.show('上传成功！', 'success', 2000);
+                        window.XMS.msgbox.show('恭喜！批量上传成功！', 'success', 2000);
    						return true;
                     }else{
                         window.XMS.msgbox.show(date.retMessage, 'error', 2000);

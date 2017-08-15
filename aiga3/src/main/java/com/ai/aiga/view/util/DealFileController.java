@@ -184,7 +184,7 @@ public class DealFileController {
 			String fileNameNew2 = fileName.split("\\.")[0]+"_"+DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS)+"."+fileName.split("\\.")[1];
 			System.out.println("cccccc"+fileNameNew+"\t"+fileNameNew2);
 			// 把文件上传到主机
-//			FileUtil.uploadFile(file, fileNameNew2);
+			FileUtil.uploadFile(file, fileNameNew2);
 			
 			try {
 				List<QuestionInfoListExcel> list = POIExcelUtil.excelToList(file, QuestionInfoListExcel.class);

@@ -317,8 +317,10 @@ define(function(require, exports, module) {
 //			var _modal = Page.findId('updateDataMaintainModal');
 //			_modal.modal('show');
 //			Utils.setSelectData(_modal);
-			data.modifyDate = data.modifyDate.replace(/-/g,"/");
-			data.createDate = data.modifyDate;
+			if(data.modifyDate){
+				data.modifyDate = data.modifyDate.replace(/-/g,"/");
+				data.createDate = data.modifyDate;
+			}
 			
 //			var cmd = 'quesId=' + Id;
 //			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){

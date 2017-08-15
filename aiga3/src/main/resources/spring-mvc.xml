@@ -14,7 +14,7 @@
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
       
-    <!-- 默认的注解映射的支持 -->  
+    <!-- 支持spring mvc的注解  提供了请求信息的转换(读写XML、读写JSON)、数据转换、数据格式化以及数据校验等支持 -->  
     <mvc:annotation-driven>  
     
     <!-- 处理responseBody 里面日期类型 -->  
@@ -72,7 +72,9 @@
 	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->	
 	<mvc:default-servlet-handler/>	
 	
-	<bean class="com.ai.aiga.swagger.SwaggerConfig"/>
+	<beans profile="qa">
+		<bean class="com.ai.aiga.swagger.SwaggerConfig"/>
+	</beans>
 	
 	
 </beans>

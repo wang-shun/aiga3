@@ -62,6 +62,8 @@ define(function(require, exports, module) {
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
 	//get附件名
     srvMap.add("getFileName", pathAlias+"getSysMessageList.json", "archi/question/getFileName");
+	//get附件名update
+    srvMap.add("findByPlanIdAndFileType", pathAlias+"getSysMessageList.json", "archi/question/findByPlanIdAndFileType");
     //下载文档
     srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
     //下载模板
@@ -318,8 +320,10 @@ define(function(require, exports, module) {
 			data.modifyDate = data.modifyDate.replace(/-/g,"/");
 			data.createDate = data.modifyDate;
 			
-			var cmd = 'quesId=' + Id;
-			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){
+//			var cmd = 'quesId=' + Id;
+//			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){
+			var cmd = 'planId=' + Id + '&fileType=99999' 
+			Rose.ajax.postJsonSync(srvMap.get('findByPlanIdAndFileType'), cmd,function(json2, status){
 				if(status) {
 //					idcache.quesId=json.data.quesId;
 					idcache.fileName=json2.data.fileName;

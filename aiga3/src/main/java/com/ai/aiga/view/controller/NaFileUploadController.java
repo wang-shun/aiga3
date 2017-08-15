@@ -26,4 +26,12 @@ public class NaFileUploadController {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/archi/question/findByPlanIdAndFileType")
+	public @ResponseBody JsonBean findByPlanIdAndFileType(
+			@RequestParam Long planId, @RequestParam Long fileType){
+		JsonBean bean = new JsonBean();
+		bean.setData(naFileUploadSv.findByPlanIdAndFileType(planId, fileType));
+		return bean;
+	}
+	
 }

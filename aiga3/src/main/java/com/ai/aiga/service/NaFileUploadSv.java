@@ -18,4 +18,8 @@ public class NaFileUploadSv extends BaseService {
 	public NaFileUpload findFileName(Long quesId){
 		return naFileUploadDao.selectFileName(quesId);
 	}
+	
+	public NaFileUpload findByPlanIdAndFileType(Long planId, Long fileType){
+		return naFileUploadDao.findByPlanIdAndFileType(planId, fileType);
+	}
 }

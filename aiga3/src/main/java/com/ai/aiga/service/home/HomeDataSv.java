@@ -1,6 +1,7 @@
 package com.ai.aiga.service.home;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,8 @@ import com.ai.aiga.dao.NaStaffKpiRelaDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaIndexAllocation;
 import com.ai.aiga.domain.NaStaffKpiRela;
+import com.ai.aiga.exception.BusinessException;
+import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
 /**
@@ -83,5 +86,30 @@ public class HomeDataSv {
 
 		List<NaIndexAllocation> list = naIndexAllocationDao.findAll();
 		return list;
+	}
+	
+	/**
+	 * @ClassName: HomeDataSv :: kpiSave
+	 * @author: dongch
+	 * @date: 2017年5月12日 下午3:17:58
+	 *
+	 * @Description:指标配置保存
+	 * @param kpis
+	 */
+	public void kpiSave(String kpiIds) {
+		if (kpiIds == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "kpiIds");
+		}
+		naStaffKpiRelaDao.deleteByStaffId(SessionMgrUtil.getStaff().getStaffId());
+		String[] kpiId = kpiIds.split(",");
+		for (int i = 0; i < kpiId.length; i++) {
+			NaStaffKpiRela rela = new NaStaffKpiRela();
+			rela.setKpiId(Long.valueOf(kpiId[i]).longValue());
+			rela.setCreateDate(new Date());
+			rela.setStaffId(SessionMgrUtil.getStaff().getStaffId());
+			rela.setOpId(SessionMgrUtil.getStaff().getStaffId());
+			rela.setState(1L);
+			naStaffKpiRelaDao.save(rela);
+		}
 	}
 }

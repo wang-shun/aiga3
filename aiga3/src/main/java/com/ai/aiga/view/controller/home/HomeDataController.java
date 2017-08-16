@@ -36,5 +36,13 @@ public class HomeDataController {
 		bean.setData(homeDataSv.kpi());
 		return bean;
 	}
+	
+	@RequestMapping(path = "/sys/home/kpiSave")
+	public @ResponseBody JsonBean kpiSave(String kpiIds) {
+
+		homeDataSv.kpiSave(kpiIds);
+		return JsonBean.success;
+
+	}
 
 }

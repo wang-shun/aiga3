@@ -250,7 +250,7 @@ define(function(require, exports, module) {
 				year = d.getFullYear(); 
 			if (month.length < 2) month = '0' + month;
 			if (day.length < 2) day = '0' + day;
-			return [year, month].join('-');	
+			return [year, month, day].join('-');	
 		},
 		//新增数据维护
 		addDataMaintain: function() {

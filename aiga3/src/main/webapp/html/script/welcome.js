@@ -11,7 +11,7 @@ define(function(require,exports,module){
 
     var Data = {
         planDate:null // 获取日期日期
-    }
+    };
 
 	var Query = {
 		init: function(){
@@ -23,6 +23,33 @@ define(function(require,exports,module){
 		_render: function() {
 			this.getWelcomeKpiList();
 			this._getWelcomePie();//首页饼图初始化
+			this._start('');
+		},
+		_start: function(value){			
+			var docthis = Page.find('[name="wordGull"]');
+			//默认参数
+			value=$.extend({
+				 "li_h":"30",
+				 "time":2000,
+				 "movetime":1000
+			},value);
+			
+			//向上滑动动画
+			function autoani(){
+				$("li:first",docthis).animate({"margin-top":-value.li_h},value.movetime,function(){
+					$(this).css("margin-top",0).appendTo(".line");
+				});
+			}
+			
+			//自动间隔时间向上滑动
+			var anifun = setInterval(autoani,value.time);
+			
+			//悬停时停止滑动，离开时继续执行
+			$(docthis).children("li").hover(function(){
+				clearInterval(anifun);			//清除自动滑动动画
+			},function(){
+				anifun = setInterval(autoani,value.time);	//继续执行动画
+			});
 		},
 		getWelcomeKpiList: function() { // 获取工作台信息
             var self = this;
@@ -47,9 +74,9 @@ define(function(require,exports,module){
                             result.push(array.slice(start, end));
                         }
                         return result;
-                    }
+                    };
                     var template = Handlebars.compile(Page.findTpl('getWelcomeKpiList'));
-                    Page.findId('getWelcomeKpiList').html(template(chunk(newDataArray, 4)))
+                    Page.findId('getWelcomeKpiList').html(template(chunk(newDataArray, 4)));
                 }
             });
         },
@@ -130,7 +157,8 @@ define(function(require,exports,module){
 	            			myChart.setOption(option);
 	            			window.onresize = myChart.resize;
 		}
-	}
+	};
+	
 	Handlebars.registerHelper("setSmallTag", function(str) {
         return str.replace("%","<small>%</small>");
     });

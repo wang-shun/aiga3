@@ -25,7 +25,7 @@ define(function(require,exports,module){
 			this._getWelcomePie();//首页饼图初始化
 			this._start('');
 		},
-		_start: function(value){			
+		_start: function(value) {			
 			var docthis = Page.find('[name="wordGull"]');
 			//默认参数
 			value=$.extend({
@@ -51,6 +51,7 @@ define(function(require,exports,module){
 				anifun = setInterval(autoani,value.time);	//继续执行动画
 			});
 		},
+		
 		getWelcomeKpiList: function() { // 获取工作台信息
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');

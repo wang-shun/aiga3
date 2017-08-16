@@ -87,13 +87,14 @@ define(function(require,exports,module){
 	                                },
 	                                series : [
 	                                    {
-	                                        name: '访问来源',
+	                                        name: '一级域',
 	                                        type: 'pie',
 	                                        radius : '55%',
 	                                        center: ['50%', '50%'],
 	                                        label: {
 	                                                    normal: {
-	                                                        position: 'outer',
+	                                                    	formatter:"{b} : {c}",
+	                                                        position: 'outside',
 	                                                    }
 	                                        },
 	                                        labelLine: {

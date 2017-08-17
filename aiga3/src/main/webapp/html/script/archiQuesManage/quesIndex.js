@@ -142,10 +142,18 @@ define(function(require, exports, module) {
 
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
-				if(init) {
-					var date = self.formatDate(new Date()); 		
-					_cmd = 'startMonth='+date+'&endMonth='+date;
-					init = false;			
+//				if(init) {
+//					var date = self.formatDate(new Date()); 		
+//					_cmd = 'startMonth='+date+'&endMonth='+date;
+//					init = false;			
+//				}
+				if(_cmd.indexOf('indexGroup=&')>-1) {
+					XMS.msgbox.show('请选择指标组！', 'error', 2000);
+					return
+				}
+				if(_cmd.indexOf('indexName=&')>-1) {
+					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
+					return
 				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
@@ -157,8 +165,8 @@ define(function(require, exports, module) {
 				}
 				self.getDataMaintainList(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				var task2 = "listDbConnects2";
 				if(cache.tableName){
+					var task2 = "";
 /*					switch(cache.tableName){
 						case "ARCH_DB_CONNECT":
 							task2 = "listDbConnects2";

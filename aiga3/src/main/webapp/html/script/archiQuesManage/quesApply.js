@@ -600,7 +600,7 @@ define(function(require, exports, module) {
                 if (a) {
                 	switch (a) {
                 		    case "99": //架构疑难问题申报表
-    	                        var cmd = cmd+"架构疑难问题申报表.xlsx";
+    	                        var cmd = cmd+"架构疑难问题录入模版.xlsx";
     	                        break;
     	                    case "104": //架构疑难问题申报表
     	                        var cmd = cmd+"架构疑难问题申报表.xlsx";

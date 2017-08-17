@@ -461,7 +461,7 @@ define(function(require, exports, module) {
 			        subtext: ''
 			    },
 			    tooltip : {
-			        trigger: 'axis',
+			        trigger: 'axis'
 			    },
 			    legend: {
 					y:'bottom',
@@ -492,33 +492,61 @@ define(function(require, exports, module) {
 			        {
 			            name:'营业库A',
 			            type:'bar',
-			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0]
+			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
 			        },
 			        {
 			            name:'营业库B',
 			            type:'bar',
-			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0]
+			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
 			        },
 			        {
 			            name:'营业库C',
 			            type:'bar',
-			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0]
+			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
 			        },
 			        {
 			            name:'营业库D',
 			            type:'bar',
-			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0]
+			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
 			        },
 			        {
 			            name:'渠道资源库',
 			            type:'bar',
 			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
 			        }
 			    ]
 			};
 			if(json && json.data) {
 				option.legend.data = json.data.legend;
 				option.series = json.data.series;
+				for(var indexSeries in option.series) {
+					option.series[indexSeries].markLine = {
+		                data : [
+		                    {type : 'average', name: '平均值'}
+		                ]
+		            };
+		            option.series[indexSeries].markPoint = {
+		                data : [
+		                    {type : 'max', name: '最大值'},
+		                    {type : 'min', name: '最小值'}
+		                ]
+		            }
+				}
 				if(json.data.xAxis) {
 					option.xAxis[0].data = json.data.xAxis;
 				}

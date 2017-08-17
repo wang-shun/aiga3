@@ -33,12 +33,14 @@
 
   <script type="text/javascript">
     $(function () {
-      var url = window.location.search.match(/url=([^&]+)/);
+    debugger
+      var url = window.location.host;
       if (url && url.length > 1) {
-        url = decodeURIComponent(url[1]);
+      	url = "http://"+url;
+        url += "/aiga3/v2/api-docs";
       } else {
         //url = "http://petstore.swagger.io/v2/swagger.json";
-        url = "http://127.0.0.1:8080/aiga3/v2/api-docs"
+        url = "http://127.0.0.1:8080/aiga3/v2/api-docs";
       }
 
       hljs.configure({

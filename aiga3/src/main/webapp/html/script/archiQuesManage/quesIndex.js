@@ -167,9 +167,14 @@ define(function(require, exports, module) {
 							task2 = "listSrvManages2";
 							break;
 					}*/
-					if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex==2){
+/*					if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex==2){
 						task2 = "listDbConnects22";
 					}else if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex!=2){
+						task2 = "listDbConnects2";
+					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
+						task2 = "listSrvManages2";
+					}*/
+					if(cache.tableName=="ARCH_DB_CONNECT"){
 						task2 = "listDbConnects2";
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
 						task2 = "listSrvManages2";

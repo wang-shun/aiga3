@@ -42,7 +42,7 @@ import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdViewCen
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdViewOutput;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
-@Api(value = "ArchiViewController", description = "架构分层相关api")
+@Api(value = "ArchiViewController", description = "架构视图api")
 public class ArchiViewController {
 	@Autowired 
 	private ArchitectureGradingSv architectureGradingSv;

@@ -11,7 +11,7 @@ import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
-@Api(value = "ArchiStaticDataController", description = "架构分层相关api")
+@Api(value = "ArchiStaticDataController", description = "静态数据api")
 public class ArchiStaticDataController {
 	@Autowired
 	private ArchitectureStaticDataSv architectureStaticDataSv;

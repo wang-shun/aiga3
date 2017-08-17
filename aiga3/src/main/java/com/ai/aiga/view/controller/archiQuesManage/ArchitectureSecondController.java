@@ -14,7 +14,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
-@Api(value = "ArchitectureSecondController", description = "架构分层相关api")
+@Api(value = "ArchitectureSecondController", description = "架构二级子域相关api")
 public class ArchitectureSecondController {
 
 	@Autowired

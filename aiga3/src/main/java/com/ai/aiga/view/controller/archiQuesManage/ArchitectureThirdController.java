@@ -24,7 +24,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePie
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
-@Api(value = "ArchitectureThirdController", description = "架构分层相关api")
+@Api(value = "ArchitectureThirdController", description = "架构三级系统相关api")
 public class ArchitectureThirdController {
 
 	@Autowired

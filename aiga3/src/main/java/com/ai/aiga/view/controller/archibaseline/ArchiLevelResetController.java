@@ -24,7 +24,7 @@ import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Controller
-@Api(value = "ArchiLevelResetController", description = "架构层级相关api")
+@Api(value = "ArchiLevelResetController", description = "系统信息稽核相关api")
 public class ArchiLevelResetController {
 	@Autowired
 	private ArchitectureFirstSv architectureFirstSv;
@@ -108,22 +108,6 @@ public class ArchiLevelResetController {
 			}
 		}
 		bean.setData(data);
-		return bean;	
-	}
-	
-	@RequestMapping(path = "/archi/login/getStaffMessage")
-	public @ResponseBody JsonBean getStaffMessage() {
-		JsonBean bean = new JsonBean();
-		SimpleUserInfo output = new SimpleUserInfo();
-		AigaStaff userInfo = SessionMgrUtil.getStaff();
-		if(userInfo == null) {
-			bean.fail("用户信息不存在！");
-			return bean;	
-		}
-		output.setUserId(userInfo.getCode());
-		output.setUserName(userInfo.getName());
-		output.setToken("1");
-		bean.setData(output);
 		return bean;	
 	}
 }

@@ -37,7 +37,7 @@ import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Controller
-@Api(value = "ArchiGradingController", description = "架构分层相关api")
+@Api(value = "ArchiGradingController", description = "系统架构申请单相关api")
 public class ArchiGradingController {
 	@Autowired 
 	private ArchitectureGradingSv architectureGradingSv;

@@ -14,7 +14,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
-@Api(value = "ArchitectureFirstController", description = "架构分层相关api")
+@Api(value = "ArchitectureFirstController", description = "架构一级域相关api")
 public class ArchitectureFirstController {
 
 	@Autowired

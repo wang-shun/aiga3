@@ -26,7 +26,7 @@ define(function(require,exports,module){
 			this._start('');
 		},
 		_start: function(value) {			
-			var docthis = Page.find('[name="wordGull"]');
+			var docthis = Page.find('ul[name="wordGull"]');
 			//默认参数
 			value=$.extend({
 				 "li_h":"30",
@@ -96,68 +96,68 @@ define(function(require,exports,module){
 	
 		getMyEchartsPie: function(json){//饼图模块
 			var myChart = echarts.init(document.getElementById('echartsPie')); 
-	                    	option = {
-	                               /* title : {
-	                                    text: '架构分层管理',
-	                                    subtext: '一级域管理',
-	                                    left:'center'
-	                                },*/
-	                                tooltip : {
-	                                    trigger: 'item',
-	                                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-	                                },
-	                                legend: {
-	                                    orient: 'horizontal',
-	                                    left: 'center',
-	                                    top:'5%',
-	                                    data: ['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域'],
-	                                    width:400,
-	                                },
-	                                series : [
-	                                    {
-	                                        name: '一级域',
-	                                        type: 'pie',
-	                                        radius : '55%',
-	                                        center: ['50%', '50%'],
-	                                        label: {
-	                                                    normal: {
-	                                                    	formatter:"{b} : {c}",
-	                                                        position: 'outside',
-	                                                    }
-	                                        },
-	                                        labelLine: {
-	                                                    normal: {
-	                                                        show: true
-	                                                    }
-	                                        },
-	                                        data:[
-	                                            {value:6, name:'业务支撑域'},
-	                                            {value:1, name:'管信域'},
-	                                            {value:3, name:'BOMC域'},
-	                                            {value:2, name:'大数据域'},
-	                                            {value:1, name:'安全域'},
-	                                            {value:7, name:'公共域'},
-	                                            {value:5, name:'网络域'},
-	                                            {value:6, name:'地市域'},
-	                                            {value:3, name:'开放域'},
+        	option = {
+               /* title : {
+                    text: '架构分层管理',
+                    subtext: '一级域管理',
+                    left:'center'
+                },*/
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'horizontal',
+                    left: 'center',
+                    top:'5%',
+                    data: ['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域'],
+                    width:400,
+                },
+                series : [
+                    {
+                        name: '一级域',
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '50%'],
+                        label: {
+                            normal: {
+                            	formatter:"{b} : {c}",
+                                position: 'outside',
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: true
+                            }
+                        },
+                        data:[
+                            {value:6, name:'业务支撑域'},
+                            {value:1, name:'管信域'},
+                            {value:3, name:'BOMC域'},
+                            {value:2, name:'大数据域'},
+                            {value:1, name:'安全域'},
+                            {value:7, name:'公共域'},
+                            {value:5, name:'网络域'},
+                            {value:6, name:'地市域'},
+                            {value:3, name:'开放域'},
 
-	                                        ],
-	                                        itemStyle: {
-	                                            emphasis: {
-	                                                shadowBlur: 10,
-	                                                shadowOffsetX: 0,
-	                                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-	                                            }
-	                                        }
-	                                    }
-	                                ]
-	                            };
-	                    	if(json && json.data) {
-	            				option.legend.data = json.data.legend;
-	            				option.series[0].data = json.data.series;
-	            			}
-	            			myChart.setOption(option);
-	            			window.onresize = myChart.resize;
+                        ],
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+        	if(json && json.data) {
+				option.legend.data = json.data.legend;
+				option.series[0].data = json.data.series;
+			}
+			myChart.setOption(option);
+			window.onresize = myChart.resize;
 		}
 	};
 	

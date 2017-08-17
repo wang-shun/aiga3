@@ -139,8 +139,36 @@ public class ArchDbConnectController extends BaseService {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/archi/index/selectKey3")
+	public @ResponseBody JsonBean selectKey3(ArchDbConnectSelects condition){
+		JsonBean bean = new JsonBean();
+		List<ArchDbConnect>listConnects=archDbConnectSv.selectKey123(condition);
+		List<ArchDbConnect>newConnects=new ArrayList<ArchDbConnect>();
+		Iterator<ArchDbConnect>iterator=listConnects.iterator();
+		List<String>key3List = new ArrayList<String>();
+		while(iterator.hasNext()){
+			ArchDbConnect baseConnect = iterator.next();
+			if(baseConnect.getKey3()==null){
+				continue;
+			}
+			if(!key3List.contains(baseConnect.getKey3())){
+				key3List.add(baseConnect.getKey3());
+				newConnects.add(baseConnect);
+			}
+		}
+		bean.setData(newConnects);
+		return bean;
+	}
+	
 	@RequestMapping(path = "/archi/index/selectKey1232")
 	public @ResponseBody JsonBean selectKey1232(ArchSrvManageSelects condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSrvManageSv.selectKey123(condition));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/archi/index/selectKey123")
+	public @ResponseBody JsonBean selectKey123(ArchSrvManageSelects condition){
 		JsonBean bean = new JsonBean();
 		bean.setData(archSrvManageSv.selectKey123(condition));
 		return bean;

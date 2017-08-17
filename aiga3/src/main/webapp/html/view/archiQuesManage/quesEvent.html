@@ -125,7 +125,7 @@
                     <div class="box-body">
                         <div class="box-body">
                             <div class="row">
-				                <div class="form-group col-sm-6">
+				                <div class="form-group col-sm-6" style="display:none">
 				                    <label for="id" class="col-sm-3 control-label">巡检编号:</label>
 				                    <div class="col-sm-7">
 				                    	<input name="id" type="text" class="form-control" placeholder="请输入巡检编号">
@@ -137,22 +137,20 @@
 				                    	<input name="name" type="text" class="form-control" placeholder="请输入巡检名称">
 					                </div>
 				                </div>
-				            </div>
-                            <div class="row">
 				                <div class="form-group col-sm-6">
 				                    <label for="startTime" class="col-sm-3 control-label">开始时间:</label>
 				                    <div class="col-sm-7">
 				                    	<input type="text" class="form-control input-sm " name="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 
 					                </div>
 				                </div>
+				            </div>
+                            <div class="row">
 				                <div class="form-group col-sm-6">
 				                    <label for="endTime" class="col-sm-3 control-label">结束时间:</label>
 				                    <div class="col-sm-7">
 				                    	<input type="text" class="form-control input-sm " name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 
 					                </div>
 				                </div>
-		            		</div>
-				            <div class="row">
 				                <div class="form-group col-sm-6">
 				                    <label for="state" class="col-sm-3 control-label">巡检状态：</label>
 				                    <div class="col-sm-7">
@@ -161,6 +159,8 @@
 					                    </select>
 					                </div>
 				                </div>
+		            		</div>
+				            <div class="row">
 				                <div class="form-group col-sm-6">
 				                    <label for="ext1" class="col-sm-3 control-label">备注：</label>
 				                    <div class="col-sm-7">

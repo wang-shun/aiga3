@@ -165,6 +165,9 @@ define(function(require, exports, module) {
 				_saveBt.bind('click', function() {
 					Utils.checkForm(_form, function() {
 						var _cmd = _form.serialize();
+						if(_cmd.indexOf('id=&')>-1){
+							_cmd=_cmd.replace("id=&","id=110000000&");
+						}
 						_cmd=_cmd.replace(/-/g,"/");
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						console.log(_cmd);

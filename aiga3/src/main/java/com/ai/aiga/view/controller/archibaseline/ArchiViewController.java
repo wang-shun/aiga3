@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -369,6 +370,9 @@ public class ArchiViewController {
 			}		
 		}
 		//按照系统数量给中心排序
+		for(ArchiThirdViewCenterItem appBase : itemSaaS) {
+			Collections.sort(appBase.getItem(), new appComparator());
+		}
 		Collections.sort(itemSaaS, new MyComparator());
 		Collections.sort(itemBPaaS, new MyComparator());
 		Collections.sort(itemUPaaS, new MyComparator());
@@ -384,6 +388,20 @@ public class ArchiViewController {
 		bean.setData(output);
 		return bean;	
 	}
+	
+    static class appComparator implements Comparator<ArchiSystemItem> {  
+		@Override
+		public int compare(ArchiSystemItem o1, ArchiSystemItem o2) {
+			if("app".equals(o2.getMediaType())) {
+				if("app".equals(o1.getMediaType())) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+			return -1;
+		}  
+    } 
 	
 	/**
 	 * 查询三级系统变更信息

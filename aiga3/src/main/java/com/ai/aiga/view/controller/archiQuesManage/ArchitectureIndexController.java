@@ -125,6 +125,8 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		List<String>months = getMonthBetween(condition.getStartMonth(),condition.getEndMonth());
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		System.out.println("qqqqqqqqqqq"+months2);
 		if(months.size()<=0){
 			bean.fail("结束时间小于开始时间！");
 			return bean;
@@ -202,6 +204,33 @@ public class ArchitectureIndexController extends BaseService {
 	    }
 	    return result;
 	}
+    /**
+     * 校验DAY
+     * @param minDate
+     * @param maxDate
+     * @return
+     * @throws ParseException
+     */
+    private List<String> getDayBetween(String minDate, String maxDate) throws ParseException {
+    	ArrayList<String> result = new ArrayList<String>();
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//格式化为年月  
+    	Calendar min = Calendar.getInstance();
+    	Calendar max = Calendar.getInstance();
+    	min.setTime(sdf.parse(minDate));
+    	min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), min.get(Calendar.DAY_OF_MONTH));
+    	
+    	max.setTime(sdf.parse(maxDate));
+    	max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), min.get(Calendar.DAY_OF_MONTH));
+    	if(max.before(min)) {
+    		return result;
+    	}
+    	Calendar curr = min;
+    	while (curr.before(max)) {
+    		result.add(sdf.format(curr.getTime()));
+    		curr.add(Calendar.DAY_OF_MONTH, 1);
+    	}
+    	return result;
+    }
 
     //系统模块数据库连接特殊取值
 	@RequestMapping(path = "/arch/index/listDbConnects22")

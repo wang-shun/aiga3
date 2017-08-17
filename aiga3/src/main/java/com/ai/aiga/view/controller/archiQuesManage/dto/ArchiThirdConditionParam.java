@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public class ArchiThirdConditionParam implements Serializable {
-    private long idThird;
+    private Long idThird;
     private String name;
 	public long getIdThird() {
 		return idThird;
 	}
-	public void setIdThird(long idThird) {
+	public void setIdThird(Long idThird) {
 		this.idThird = idThird;
 	}
 	public String getName() {

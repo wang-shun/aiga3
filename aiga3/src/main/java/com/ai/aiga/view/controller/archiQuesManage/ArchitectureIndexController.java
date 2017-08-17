@@ -68,12 +68,13 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		List<String>months = getMonthBetween(condition.getStartMonth(),condition.getEndMonth());
-		if(months.size()<=0){
+		List<String>days = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(days.size()<=0){
 			bean.fail("your start time is less than end time");
 			return bean;
 		}
-		output.setxAxis(months);
-		final int DATA_LENGTH = months.size();
+		output.setxAxis(days);
+		final int DATA_LENGTH = days.size();
 		List<String> legendList = new ArrayList<String>();
 		List<ViewSeries> seriesList = new ArrayList<ViewSeries>();
 		List<ArchSrvManage>manageList = architectureIndexSv.listSrvManage2(condition);
@@ -92,9 +93,9 @@ public class ArchitectureIndexController extends BaseService {
 				while(iterator2.hasNext()){
 					ArchSrvManage archSrvManage = iterator2.next();
 					if(archSrvManage.getKey2().equals(name)){
-						String setMonth = archSrvManage.getSettMonth().substring(0, 6);
+						String setMonth = archSrvManage.getSettMonth().trim();
 						for(int i=0;i<DATA_LENGTH;i++){
-							String selectMonth = months.get(i).replace("-", "");
+							String selectMonth = days.get(i).replace("-", "").trim();
 							if(setMonth.equals(selectMonth)){
 								data[i]=Integer.parseInt(archSrvManage.getResultValue());
 								iterator2.remove();
@@ -127,19 +128,17 @@ public class ArchitectureIndexController extends BaseService {
 		List<String>months = getMonthBetween(condition.getStartMonth(),condition.getEndMonth());
 		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
 		System.out.println("qqqqqqqqqqq"+months2);
-		if(months.size()<=0){
+		if(months2.size()<=0){
 			bean.fail("结束时间小于开始时间！");
 			return bean;
 		}
-		output.setxAxis(months);
-		final int constantValue = months.size();
+		output.setxAxis(months2);
+		final int constantValue = months2.size();
 		List<String>legendList = new ArrayList<String>();
 		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
 		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
 		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
 		List<String>newList=new ArrayList<String>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");//格式化为年月  
-		SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");//格式化为年-月  
 		Iterator<ArchDbConnect>iter=connectList.iterator();
 		while(iter.hasNext()){
 			ArchDbConnect baseConnect = iter.next();
@@ -156,11 +155,12 @@ public class ArchitectureIndexController extends BaseService {
 				while(iterator.hasNext()){
 					ArchDbConnect archDbConnect = iterator.next();
 					if(archDbConnect.getKey1().equals(name)) {
-						String SetMonths = archDbConnect.getSettMonth().substring(0, 6);
+						String SetMonths = archDbConnect.getSettMonth().trim();
 //						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 						for(int i=0;i<data.length;i++){
-							String newMonth = months.get(i);
-							if(SetMonths.equals(newMonth.replace("-", ""))){
+							String newMonth = months2.get(i).trim();
+							String newDay = newMonth.replace("-", "");
+							if(SetMonths.equals(newDay)){
 								data[i]=Integer.parseInt(archDbConnect.getResultValue());
 								iterator.remove();
 							}
@@ -220,7 +220,7 @@ public class ArchitectureIndexController extends BaseService {
     	min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), min.get(Calendar.DAY_OF_MONTH));
     	
     	max.setTime(sdf.parse(maxDate));
-    	max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), min.get(Calendar.DAY_OF_MONTH));
+    	max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), max.get(Calendar.DAY_OF_MONTH)+1);
     	if(max.before(min)) {
     		return result;
     	}
@@ -246,12 +246,13 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		List<String>months = getMonthBetween(condition.getStartMonth(),condition.getEndMonth());
-		if(months.size()<=0){
+		List<String>days = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(days.size()<=0){
 			bean.fail("结束时间小于开始时间！");
 			return bean;
 		}
-		output.setxAxis(months);
-		final int constantValue = months.size();
+		output.setxAxis(days);
+		final int constantValue = days.size();
 		List<String>legendList = new ArrayList<String>();
 		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
 		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
@@ -276,10 +277,10 @@ public class ArchitectureIndexController extends BaseService {
 					ArchDbConnect archDbConnect = iterator.next();
 					if(archDbConnect.getKey3()!=null){
 						if(archDbConnect.getKey3().equals(name)) {
-							String SetMonths = archDbConnect.getSettMonth().substring(0, 6);
+							String SetMonths = archDbConnect.getSettMonth().trim();
 //						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 							for(int i=0;i<data.length;i++){
-								String newMonth = months.get(i);
+								String newMonth = days.get(i).trim();
 								if(SetMonths.equals(newMonth.replace("-", ""))){
 									data[i]=Integer.parseInt(archDbConnect.getResultValue());
 									iterator.remove();

@@ -5,7 +5,7 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class ArchitectureThirdRequest implements Serializable {
-	private long onlysysId;
+    private long onlysysId;
     private long idThird;
     private String name;
     private String systemCode;
@@ -17,8 +17,10 @@ public class ArchitectureThirdRequest implements Serializable {
     private String department;
     private String projectInfo;
     private String designInfo;
+    private String rankInfo;
+    private String sysState;
     private String state;
-    private long applyId;
+    private Long applyId;
     private String applyUser;
     private Date createDate;
     private Date modifyDate;
@@ -27,8 +29,6 @@ public class ArchitectureThirdRequest implements Serializable {
     private String ext1;
     private String ext2;
     private String ext3;
-    private String sysState;
-    private String rankInfo;
 	public long getOnlysysId() {
 		return onlysysId;
 	}

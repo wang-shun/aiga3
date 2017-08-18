@@ -106,8 +106,7 @@ define(function(require, exports, module) {
 			//
 //			this.getIndexEcharts();
 			var now = new Date(); 
-			$('input[name="startMonth"]').val(now.getFullYear() + "-"+ (now.getMonth()+1)+"-"+"1");
-			//$('input[name="endMonth"]').val(now.getFullYear() + "-"+ (now.getMonth()+1)+"-"+now.getDate());
+			$('input[name="startMonth"]').val(this.formatMonthFirst(now));
 			$('input[name="endMonth"]').val(this.formatDate(now));
 		},
 /*		initTableEcharts: function(){
@@ -267,6 +266,14 @@ define(function(require, exports, module) {
 				year = d.getFullYear(); 
 			if (month.length < 2) month = '0' + month;
 			if (day.length < 2) day = '0' + day;
+			return [year, month, day].join('-');	
+		},
+		formatMonthFirst: function(date) {
+			var d = new Date(date),
+				month = '' + (d.getMonth() + 1),
+				year = d.getFullYear(), 
+				day = '01';
+			if (month.length < 2) month = '0' + month;
 			return [year, month, day].join('-');	
 		},
 		//新增数据维护

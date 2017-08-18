@@ -136,7 +136,7 @@ ul.line li{height:30px;text-indent:15px; font-size:12px; line-height:30px;list-s
 <div id="welcome_carousel" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
         {{#each this}}
-        <ul class="row item {{isActive @index}}">
+        <ul class="row item {{isActive @index}}" style="list-style:none">
             {{#each this}}
             <li class="col-md-3">
                 <span class="info-box-icon bg-{{bgColor}}"><i class="{{icon}}"></i></span>

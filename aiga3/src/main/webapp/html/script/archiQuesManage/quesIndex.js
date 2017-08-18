@@ -105,6 +105,10 @@ define(function(require, exports, module) {
 			this.hdbarHelp();
 			//
 //			this.getIndexEcharts();
+			var now = new Date(); 
+			$('input[name="startMonth"]').val(now.getFullYear() + "-"+ (now.getMonth()+1)+"-"+"1");
+			//$('input[name="endMonth"]').val(now.getFullYear() + "-"+ (now.getMonth()+1)+"-"+now.getDate());
+			$('input[name="endMonth"]').val(this.formatDate(now));
 		},
 /*		initTableEcharts: function(){
 			var iTable = Page.findId('getDataMaintainListSec').find("[name='initTable']");
@@ -457,7 +461,7 @@ define(function(require, exports, module) {
 			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
 			option = {
 				title : {
-			        text: '架构问题指标情况',
+			        text: '指标情况',
 			        subtext: ''
 			    },
 			    tooltip : {

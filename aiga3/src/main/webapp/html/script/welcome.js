@@ -8,7 +8,8 @@ define(function(require,exports,module){
     srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json", "sys/home/kpiList");
     // 饼图
     srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "archi/third/welcomePie");
-
+    // 获取问题
+    srvMap.add("getQueryInfo", "welcome/getQueryInfo.json", "archi/question/queryInfo");
     var Data = {
         planDate:null // 获取日期日期
     };
@@ -23,9 +24,29 @@ define(function(require,exports,module){
 		_render: function() {
 			this.getWelcomeKpiList();
 			this._getWelcomePie();//首页饼图初始化
-			this._start('');
+			this._questionShow();
 		},
-		_start: function(value) {			
+		_questionShow: function() {
+			var self = this;
+			Rose.ajax.postJson(srvMap.get("getQueryInfo"), '', function(json, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+					var docthis = Page.find('ul[name="wordGull"]');
+                    var quesList = json.data.content;
+                    var _html = '';
+                    for (var i in quesList) {
+                        var _json = quesList[i];
+                        _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" href="#">'+ _json.occurEnvironment +'</a>&nbsp&nbsp&nbsp&nbsp' + _json.createDate + '</li>';
+                    }
+                    docthis.html(_html);
+					self._wordRoll();
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+  			});
+	
+		},
+		_wordRoll: function(value) {			
 			var docthis = Page.find('ul[name="wordGull"]');
 			//默认参数
 			value=$.extend({

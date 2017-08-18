@@ -36,7 +36,8 @@ define(function(require,exports,module){
                     var _html = '';
                     for (var i in quesList) {
                         var _json = quesList[i];
-                        _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" href="#">'+ _json.occurEnvironment +'</a>&nbsp&nbsp&nbsp&nbsp' + _json.createDate + '</li>';
+                        _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="#">'
+                        + _json.occurEnvironment +'</a><span class="ques-state">' + _json.state + '</span><span class="ques-time">' + _json.createDate + '</span></li>';
                     }
                     docthis.html(_html);
 					self._wordRoll();
@@ -57,8 +58,9 @@ define(function(require,exports,module){
 			
 			//向上滑动动画
 			function autoani(){
-				$("li:first",docthis).animate({"margin-top":-value.li_h},value.movetime,function(){
-					$(this).css("margin-top",0).appendTo(".line");
+				var newDom = docthis.find("li:first");
+				newDom.animate({"margin-top":-value.li_h},value.movetime,function(){
+					newDom.css("margin-top",0).appendTo(".indexline");
 				});
 			}
 			

@@ -413,13 +413,6 @@ public class ArchiGradingController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/archi/grading/findByCondition")
-	public @ResponseBody JsonBean findByCondition(ArchitectureGrading input) throws ParseException {
-		JsonBean bean = new JsonBean();
-		bean.setData(architectureGradingSv.findTableCondition(input));
-		return bean;
-	}
-	
 	@RequestMapping(path = "/archi/grading/findByConditionPage")
 	public @ResponseBody JsonBean findByConditionPage(            
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,

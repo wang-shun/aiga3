@@ -122,20 +122,6 @@ public class ArchitectureGradingSv extends BaseService {
 		return architectureGradingDao.search(cons,pageable);		
 	}
 	
-	public Page<ArchitectureGrading> findAllConditionPage(int pageNumber, int pageSize){
-		List<Condition> cons = new ArrayList<Condition>();
-		if(pageNumber < 0){
-			pageNumber = 0;
-		}
-		
-		if(pageSize <= 0){
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
-
-		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return architectureGradingDao.search(cons, pageable);
-	}
-	
 	public ArchitectureGrading findOne(Long id){
 		if(id==null||id<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);

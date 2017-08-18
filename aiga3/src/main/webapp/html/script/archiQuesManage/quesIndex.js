@@ -242,6 +242,8 @@ define(function(require, exports, module) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getArchDbConnectList);
+				//按月份排序
+				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
 				_domSec.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_domSec);

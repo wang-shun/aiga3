@@ -13,7 +13,9 @@ define(function(require,exports,module){
     var Data = {
         planDate:null // 获取日期日期
     };
-
+    var cache = {
+    	anifun : ''
+    };
 	var Query = {
 		init: function(){
 			Data.planDate = Rose.date.dateTimeWrapper('yyyy-MM-dd');
@@ -63,15 +65,17 @@ define(function(require,exports,module){
 					newDom.css("margin-top",0).appendTo(".indexline");
 				});
 			}
-			
+			if(cache.anifun) {
+				clearInterval(cache.anifun);
+			}
 			//自动间隔时间向上滑动
-			var anifun = setInterval(autoani,value.time);
+			cache.anifun = setInterval(autoani,value.time);
 			
 			//悬停时停止滑动，离开时继续执行
 			$(docthis).children("li").hover(function(){
-				clearInterval(anifun);			//清除自动滑动动画
+				clearInterval(cache.anifun);			//清除自动滑动动画
 			},function(){
-				anifun = setInterval(autoani,value.time);	//继续执行动画
+				cache.anifun = setInterval(autoani,value.time);	//继续执行动画
 			});
 		},
 		

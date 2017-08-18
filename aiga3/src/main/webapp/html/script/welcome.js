@@ -28,7 +28,7 @@ define(function(require,exports,module){
 		},
 		_questionShow: function() {
 			var self = this;
-			Rose.ajax.postJson(srvMap.get("getQueryInfo"), '', function(json, status) {
+			Rose.ajax.postJson(srvMap.get("getQueryInfo"), 'pageSize=100&sysVersion=已确认', function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
 					var docthis = Page.find('ul[name="wordGull"]');

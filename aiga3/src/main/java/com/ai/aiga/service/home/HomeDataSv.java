@@ -65,7 +65,7 @@ public class HomeDataSv {
 			}
 		}else{   //如果当前用户没有指标，加载默认
 			List<Condition> cons = new ArrayList<Condition>();
-			cons.add(new Condition("isDefault", 1, Condition.Type.EQ));
+			cons.add(new Condition("ext2", 1, Condition.Type.EQ));
 			kpiList=naIndexAllocationDao.search(cons );
 			for (int i = 0; i < kpiList.size(); i++) {
 				NaIndexAllocation kpi = kpiList.get(i);

@@ -61,7 +61,6 @@ public class HomeDataSv {
 						kpi.setIsShow(1L);
 					}
 				}
-
 			}
 		}else{   //如果当前用户没有指标，加载默认
 			List<Condition> cons = new ArrayList<Condition>();

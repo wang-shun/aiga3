@@ -67,8 +67,8 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getUserinfoList'), _cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getUserinfoList);
-                    console.log(json.data)
-                    $(Mod.getUserinfoList).html(template(json.data));
+                    console.log(json.data.content);
+                    $(Mod.getUserinfoList).html(template(json.data.content));
 
                     Utils.eventTrClickCallback($(Dom.getUserinfoListTable))
 

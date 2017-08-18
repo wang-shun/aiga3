@@ -105,7 +105,7 @@ public class StaffSv extends BaseService {
 		}
 
 		if (pageSize <= 0) {
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			pageSize = 1000;
 		}
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);

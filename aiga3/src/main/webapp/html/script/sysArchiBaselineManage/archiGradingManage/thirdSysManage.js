@@ -19,13 +19,8 @@ define(function(require, exports, module) {
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/thirdGradingAdd");
 	//系统状态静态数据  
 	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
-	
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
-    
-    srvMap.add("getThirdId", pathAlias+"getSysMessageList.json", "archi/third/getThirdId");
-    
-    //srvMap.add("getCurrvalId", pathAlias+"getSysMessageList.json", "archi/question/getCurrvalId");
         
 	var idcache = {
 		onlysysId : ""

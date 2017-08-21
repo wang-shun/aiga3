@@ -35,7 +35,6 @@ import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
 import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateInput;
 import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateOutput;
 import com.ai.aiga.view.controller.archibaseline.dto.identify.CheckIdentifyRole;
-//import com.ai.aiga.view.json.AutoTemplateRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
 

@@ -9,7 +9,8 @@ define(function(require, exports, module) {
 	
 	var cache = {
 		datas : '',
-		selectData : ''	
+		selectData : '',
+		roleCheck : false
 	};
 	//显示认定信息表
 	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "archi/grading/findByConditionPage");
@@ -28,7 +29,9 @@ define(function(require, exports, module) {
     
     //下载文档
     srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
-	
+    
+    //角色校验
+    srvMap.add("idenifyRoleCheck", pathAlias + "getDeliverablesList.json", "archi/grading/roleCheck");
 	var init = {
 		init: function() {
 			this._render();
@@ -38,6 +41,17 @@ define(function(require, exports, module) {
 			var self = this;
 			self._querydomain();
 			self._band_btn_event();
+			self._role_check();
+		},
+		//角色校验 
+		_role_check: function() {
+			Rose.ajax.postJson(srvMap.get('idenifyRoleCheck'),'',function(json, status){
+				if(status) {							
+					cache.roleCheck = json.data.isRole;
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}	
+			});
 		},
 		
 		//下方认定和取消按钮
@@ -269,8 +283,7 @@ define(function(require, exports, module) {
 	        	                    selectDom.html(_html);
 	        	                    selectDom.val(selectData.idBelong);
 	        					}
-	        					//附件下载事件绑定
-	        				
+	        					//附件下载事件绑定	        				
              					var downloadButton = _modal.find('[name="download"]');
 	        					downloadButton.off('click').on('click',function() {
 	        						if(selectData.fileId) {
@@ -280,16 +293,20 @@ define(function(require, exports, module) {
 	        						} else {
 	        							XMS.msgbox.show('没有可下载的附件！', 'error', 1000);
 	        						}
-	        					});
-	        					   
+	        					});        					   
 	        				});
 	        				if(selectData.state == '申请') {
 	        					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');
-	        					Page.findId('IdentifyButtom').find("[name='identify']").removeClass('show-nothing');
+	        					if(cache.roleCheck == 'true') {
+		        					Page.findId('IdentifyButtom').find("[name='identify']").removeClass('show-nothing');
+	        					} else {
+	        						Page.findId('IdentifyButtom').find("[name='identify']").addClass('show-nothing');
+	        					}
 	        				} else {
 	        					_selectDataModal.find("[name='identifiedModal']").removeClass('show-nothing');
 	        					Page.findId('IdentifyButtom').find("[name='identify']").addClass('show-nothing');
-	        				}    														
+	        				}   
+	        				
     					});  				
         			}
         		});

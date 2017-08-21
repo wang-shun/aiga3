@@ -5,7 +5,7 @@ define(function(require,exports,module){
 	var Page = Utils.initPage('welcome');
 
     // 工作台
-    srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json", "sys/home/kpiList");
+    srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json" , "sys/home/kpiList");
     // 饼图
     srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "archi/third/welcomePie");
     // 获取问题

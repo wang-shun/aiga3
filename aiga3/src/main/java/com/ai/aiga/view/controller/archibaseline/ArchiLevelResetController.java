@@ -13,15 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureSecond;
 import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
-import com.ai.aiga.view.controller.archibaseline.dto.login.SimpleUserInfo;
 import com.ai.aiga.view.json.base.JsonBean;
-import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Controller
 @Api(value = "ArchiLevelResetController", description = "系统信息稽核相关api")

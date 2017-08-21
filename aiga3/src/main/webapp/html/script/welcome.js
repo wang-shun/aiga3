@@ -5,7 +5,7 @@ define(function(require,exports,module){
 	var Page = Utils.initPage('welcome');
 
     // 工作台
-    srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json", "sys/home/kpiList");
+    srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json" , "sys/home/kpiList");
     // 饼图
     srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "archi/third/welcomePie");
     // 获取问题
@@ -38,6 +38,9 @@ define(function(require,exports,module){
                     var _html = '';
                     for (var i in quesList) {
                         var _json = quesList[i];
+                        if(_json.state == '已解决') {
+                        	continue;
+                        }
                         _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="#">'
                         + _json.occurEnvironment +'</a><span class="ques-state">' + _json.state + '</span><span class="ques-time">' + _json.createDate + '</span></li>';
                     }

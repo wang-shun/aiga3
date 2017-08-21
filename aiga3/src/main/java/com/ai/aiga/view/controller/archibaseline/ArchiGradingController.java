@@ -20,6 +20,8 @@ import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureSecond;
 import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.domain.ArchitectureThird;
+import com.ai.aiga.domain.SysRole;
+import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
@@ -32,7 +34,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
 import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateInput;
 import com.ai.aiga.view.controller.archibaseline.dto.GrandingTranslateOutput;
-//import com.ai.aiga.view.json.AutoTemplateRequest;
+import com.ai.aiga.view.controller.archibaseline.dto.identify.CheckIdentifyRole;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
@@ -483,5 +485,30 @@ public class ArchiGradingController {
 		}
 		bean.setData(output);
 		return bean;		
+	}
+	
+	@RequestMapping(path = "/archi/grading/roleCheck")
+	public @ResponseBody JsonBean roleCheck() throws ParseException {
+		JsonBean bean = new JsonBean();
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
+		CheckIdentifyRole data = new CheckIdentifyRole();
+		data.setIsRole("false");
+		//SYS_CONFIRM 基线认定
+		String roles = "SYS_CONFIRM,admin";
+		if(userInfo == null){
+			bean.fail("用户未登陆!");
+			return bean;
+		}else{
+			data.setRoles(roles);
+			data.setStaffId(userInfo.getStaff().getCode());
+			for(SysRole baseRole: userInfo.getRoles()) {
+				if(roles.contains(String.valueOf(baseRole.getCode()))){
+					data.setIsRole("true");
+					break;
+				}
+			}
+		}	
+		bean.setData(data);
+		return bean;
 	}
 }

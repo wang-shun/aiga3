@@ -169,9 +169,6 @@ public class SysRole  implements java.io.Serializable {
         this.orgId = orgId;
     }
 
-
-
-
 }
 
 

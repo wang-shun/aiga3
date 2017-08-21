@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.bytebuddy.implementation.bytecode.Throw;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.ai.aiga.exception.BusinessException;
 
 @Component
 @Lazy
@@ -63,12 +67,14 @@ public class FileCmpt {
 			// 定义上传路径
 			String path = ftpPath + File.separator + fileName;
 			System.out.println("bbbbbbbpath"+path);
+			File localFile = new File(path);
+	
 			try {
-				File localFile = new File(path);
 				file.transferTo(localFile);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
+				BusinessException.throwBusinessException("文件上传失败");
+			} 
 		}
 	}
 

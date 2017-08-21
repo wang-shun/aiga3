@@ -59,7 +59,12 @@ public class DealFileSv extends BaseService{
 	}
 		
 		public void saveFileInfo(Long planId, String fileName, Long fileType, Date date) {
-
+			
+			List<NaFileUpload> fileList = naFileUploadDao.findByPlanId(planId);
+			if(fileList.size()>0) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_only, "planId");
+				return;
+			}
 			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
 					SessionMgrUtil.getStaff().getStaffId(), 0L);
 			naFileUploadDao.save(fileEntity);

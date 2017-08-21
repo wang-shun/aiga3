@@ -63,9 +63,8 @@ public class FileCmpt {
 			// 定义上传路径
 			String path = ftpPath + File.separator + fileName;
 			System.out.println("bbbbbbbpath"+path);
-			File localFile = new File(path);
-	
 			try {
+				File localFile = new File(path);
 				file.transferTo(localFile);
 			} catch (Exception e) {
 				e.printStackTrace();

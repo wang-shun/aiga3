@@ -17,6 +17,7 @@ public interface NaFileUploadDao extends SearchAndPageRepository<NaFileUpload, L
 	@Query(value="delete from na_file_upload where file_name like ?1 ", nativeQuery = true)
 	void deleteByFileName(String fileName);
 	
+	List<NaFileUpload> findByPlanId(Long planId);
 	
 	@Query(value="select id from  na_file_upload where file_name like ?1 and plan_id =?2", nativeQuery = true)
 	List<Long> findByFileName(String fileName,Long planId);

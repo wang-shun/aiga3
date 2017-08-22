@@ -25,7 +25,7 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.enums.CheckAcceptEnum;
 import com.ai.aiga.view.json.NaOnlineTaskDistributeResponse;
 import com.ai.aiga.view.util.SessionMgrUtil;
-import com.huawei.msp.mmap.server.TaskMessageClient;
+//import com.huawei.msp.mmap.server.TaskMessageClient;
 
 @Service
 @Transactional

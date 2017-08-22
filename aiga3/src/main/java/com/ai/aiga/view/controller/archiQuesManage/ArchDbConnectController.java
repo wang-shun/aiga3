@@ -15,25 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import springfox.documentation.spring.web.json.Json;
-
 import com.ai.aiga.cache.AmCoreIndexCacheCmpt;
 import com.ai.aiga.cache.ArchDbConnectCacheCmpt;
-import com.ai.aiga.cache.ArchSrvManageCacheCmpt;
 import com.ai.aiga.domain.ArchDbConnect;
-import com.ai.aiga.domain.ArchitectureFirst;
-import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.service.ArchDbConnectSv;
 import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSrvManageSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
-import com.ai.aiga.view.controller.archibaseline.dto.ViewSeries;
 import com.ai.aiga.view.json.base.JsonBean;
-import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
 public class ArchDbConnectController extends BaseService {
@@ -47,8 +38,6 @@ public class ArchDbConnectController extends BaseService {
 	private AmCoreIndexCacheCmpt amCoreIndexCacheCmpt;
 	@Autowired
 	private ArchDbConnectCacheCmpt archDbConnectCacheCmpt;
-	@Autowired
-	private ArchSrvManageCacheCmpt archSrvManageCacheCmpt;
 	
 	@RequestMapping(path = "/archi/dbconnect/list")
 	public @ResponseBody JsonBean listConnect(){

@@ -7,9 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.cache.AmCoreIndexCacheCmpt;
-import com.ai.aiga.cache.ArchDbConnectCacheCmpt;
-import com.ai.aiga.cache.ArchSrvManageCacheCmpt;
 import com.ai.aiga.service.AmCoreIndexSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
 import com.ai.aiga.view.json.base.JsonBean;

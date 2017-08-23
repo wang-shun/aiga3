@@ -197,4 +197,27 @@ public class DealFileController {
 			return bean;
 		}
 		
+		// 上传 图片
+		@RequestMapping(path = "/group/require/uploadImage")
+		public @ResponseBody JsonBean uploadImage(@RequestParam Long planId,
+				@RequestParam MultipartFile file, @RequestParam Long fileType) {
+			JsonBean bean = new JsonBean();
+
+			// 获取图片名称
+			String fileName = file.getOriginalFilename();
+
+			Date date = new Date();
+
+			// 设置主机上的文件名
+			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+
+			// 把图片上传到主机
+			FileUtil.uploadImage(file, fileNameNew);
+			
+			String isShared = new String("N");
+
+			dealFileSv.saveImageInfo(fileName, isShared, fileType, date);
+
+			return bean;
+		}
 }

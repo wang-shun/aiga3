@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.NaFileUploadDao;
+import com.ai.aiga.dao.NaImageUploadDao;
 import com.ai.aiga.dao.QuestionInfoDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaFileUpload;
+import com.ai.aiga.domain.NaImageUpload;
 import com.ai.aiga.domain.QuestionInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -30,6 +32,8 @@ public class DealFileSv extends BaseService{
 	private NaFileUploadDao naFileUploadDao;
 	@Autowired
 	private QuestionInfoDao questionInfoDao;
+	@Autowired
+	private NaImageUploadDao naImageUploadDao;
 	
 	// 查看上线交付物列表
 	public Object findNaFileUpload(Long planId, Long type, int pageNumber, int pageSize, String fileName) {
@@ -69,6 +73,14 @@ public class DealFileSv extends BaseService{
 					SessionMgrUtil.getStaff().getStaffId(), 0L);
 			naFileUploadDao.save(fileEntity);
 
+		}
+		
+		public void saveImageInfo(String fileName, String isShared, Long fileType, Date date) {
+			
+			NaImageUpload imageEntity = new NaImageUpload(fileName, isShared,
+					date, fileType, SessionMgrUtil.getStaff().getStaffId());
+			naImageUploadDao.save(imageEntity);
+			
 		}
 
 

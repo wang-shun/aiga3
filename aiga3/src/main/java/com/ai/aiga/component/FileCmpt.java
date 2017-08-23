@@ -23,6 +23,9 @@ public class FileCmpt {
 
 	@Value("${app.ftp.path}")
 	private String ftpPath;
+	
+	@Value("${app.image.path}")
+	private String imagePath;
 
 
 	/**
@@ -67,6 +70,34 @@ public class FileCmpt {
 			System.out.println("bbbbbbbpath"+path);
 			File localFile = new File(path);
 	
+			try {
+				file.transferTo(localFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+				BusinessException.throwBusinessException("文件上传失败");
+			} 
+		}
+	}
+	
+	/**
+	 * 图片上传
+	 * 
+	 * @param file
+	 * @param fileName
+	 */
+	public void uploadImage(MultipartFile file, String fileName) {
+		// 如果名称不为“”,说明该文件存在，否则说明该文件不存在
+		if (fileName.trim() != "") {
+			// 重命名上传后的文件名
+			String fileNameNew = fileName + new SimpleDateFormat("yyyyMMddHH24mmss").format(new Date());
+			
+			System.out.println("imagePath" +imagePath);
+			System.out.println("imagePath" + new File(imagePath).exists());
+			// 定义上传路径
+			String path = imagePath + File.separator + fileName;
+			System.out.println("bbbbbbbpath"+path);
+			File localFile = new File(path);
+			
 			try {
 				file.transferTo(localFile);
 			} catch (Exception e) {

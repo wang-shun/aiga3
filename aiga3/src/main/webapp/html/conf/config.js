@@ -46,9 +46,9 @@ var srvMap = (function($){
 var timeStamp = '$1?ver=' + new Date().getTime();
 var basePref = ["/html/","/aiga3/html/"];
 seajs.config({
-//    'map': [
-//        [/^(.*\.(?:css|js))(.*)$/i, timeStamp]
-//    ],
+    'map': [
+        [/^(.*\.(?:css|js))(.*)$/i, timeStamp]
+    ],
     base: basePref[conf],
     alias: {
         'AdminLTE':'lib/AdminLTE/js/app.js',

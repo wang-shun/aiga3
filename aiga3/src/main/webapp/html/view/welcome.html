@@ -1,6 +1,3 @@
-<style type="text/css">
-
-</style>
 <div id="Page_welcome" class="page-welcome">
     <div class="row">
         <div class="col-md-12">
@@ -17,21 +14,36 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+        	<div class="box box-solid">
+              <!--  <div class="box-header">
+                   <h3 class="box-title">上线日历</h3>
+                   <div class="pull-right">2017年4月13日</div>
+               </div> -->
+               <div class="box-body no-padding" style="overflow: hidden;">
+                   <div class="row welcome-calendar">
+                       <div class="col-md-4 calendar-title">
+                           <h3>上线日历</h3>
+                           <p name="showTime"></p>
+                       </div>
+                       <div class="col-md-8">
+                           <!--The calendar -->
+                           <div id="JS_getWelcomePlanDate" class="calendar-content" >
+                               <div class="text-loader min-height">
+                                   <div class="text-loader-content">
+                                       <i class="fa fa-refresh fa-spin"></i> 请稍候，数据加载中...
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+            </div>
             <div class="box box-solid">
                 <div class="box-header">
                     <h3 class="box-title">问题展示</h3>
                 </div>
 				<ul class="indexline" name="wordGull">
 				</ul>
-            </div>
-            <div class="box box-solid">
-                <div class="box-header">
-                    <h3 class="box-title">近半年入网信息分析</h3>
-                </div>
-                <div class="box-body">
-                    <!--The calendar -->
-                    <div id="JS_onlineCharts" style="width: 100%; height:300px; margin-top: -35px;"></div>
-                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -73,6 +85,77 @@
 		overflow: hidden;
 	} 
 	.page-welcome ul.indexline li{height:30px;text-indent:15px; font-size:12px; line-height:30px;list-style:none} 
+     .page-welcome h3.box-title{
+       color: #44abe5;
+    }
+    .page-welcome .info-count{
+        padding: 10px;
+    }
+    .page-welcome .info-count ul,.page-welcome .info-count li{
+        list-style: none;
+    }
+    .page-welcome .info-box-icon{
+        height: 50px;
+        width: 50px;
+        font-size: 26px;
+        line-height: 50px;
+        border-radius:0;
+    }
+    .page-welcome .info-box-content{
+        margin-left: 50px;
+        padding: 2px 15px;
+    }
+
+    .page-welcome .info-box-content .info-box-number{
+        font-weight:normal;
+        font-size: 22px;
+    }
+
+    .page-welcome .info-box-content .info-box-text{
+        color: #666;
+    }
+    .page-welcome .info-count .text-aqua{
+        color: #44abe5 !important;
+    }
+    .page-welcome .info-count .text-red{
+        color: #f7245b !important;
+    }
+    .page-welcome .info-count .text-green{
+        color: #8ac14a !important;
+    }
+    .page-welcome .info-count .text-yellow{
+        color: #ff9922 !important;
+    }
+
+
+    .welcome-calendar .calendar-title{
+        background: #f9f9f9;
+        height: 270px;
+        padding-left: 40px;
+    }
+
+    .welcome-calendar .calendar-title h3{
+        font-size: 16px;
+        font-weight: bold;
+        color: #44abe5;
+        margin-top: 100px;
+    }
+    .welcome-calendar .calendar-title p{
+        color: #44abe5;
+        font-size: 16px;
+    }
+    .welcome-calendar .calendar-content{
+        width: 320px;
+        margin: 0 auto;
+        padding: 10px 10px 0 0;
+    }
+
+    .page-welcome .timeline > li > .timeline-item > .timeline-header{
+        font-size: 14px
+    }
+    .page-welcome .timeline .timeline-body {
+        font-size: 12px
+    }
     .page-welcome .box .timeline-item{
         box-shadow:none;
     }
@@ -106,33 +189,18 @@
     .page-welcome .flow-online-tips{
         color: #787878;
     }
-    .page-welcome .datepicker table tr td.disabled,
-    .page-welcome .datepicker table tr td.disabled:hover{
-        color: #ddd;
+    .welcome-kpiList{
+        padding-top: 20px;
     }
-    .page-welcome .calendar-content .datepicker table tr td,
-    .page-welcome .calendar-content .datepicker table tr th{
-        border-radius: 5px;
+    .welcome-kpiList label{
+        font-weight: 100;
+        margin-left: 5px;
     }
-    .page-welcome .datepicker table tr td,
-    .page-welcome .datepicker table tr th{
-        width: auto;
-        height: 30px;
-        line-height: 22px;
+    .welcome-kpiList .col-md-3{
+        margin-bottom: 10px;
     }
-    .page-welcome .datepicker table tr td.active.active,
-    .page-welcome .datepicker table tr td.active:hover.active{
-        background: #44abe5;
-        border-color: #44abe5;
-        color: #fff !important;
-    }
-    .page-welcome .datepicker table tr td.today,
-    .page-welcome .datepicker table tr td.today:hover,
-    .page-welcome .datepicker table tr td.today.disabled,
-    .page-welcome .datepicker table tr td.today.disabled:hover {
-        color: #000000;
-        background: rgba(156,156,156,0.2);
-        border-color: #ffb733;
+    .page-welcome .timeline > li > .fa{
+        cursor: pointer;
     }
 </style>
 

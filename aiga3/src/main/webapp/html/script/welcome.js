@@ -27,7 +27,37 @@ define(function(require,exports,module){
 			this.getWelcomeKpiList();
 			this._getWelcomePie();//首页饼图初始化
 			this._questionShow();
+			this.getWelcomePlanDate();
 		},
+		
+		 getWelcomePlanDate: function() {
+	            var self = this;
+	            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+	            // 初始化日历
+	            var specialDates = function(specialDates) {
+	                WdatePicker({
+	                	skin: 'welcome',
+	                    eCont: 'JS_getWelcomePlanDate',
+	                    specialDates: specialDates,
+	                    onpicked: function(dp) {
+	                        //alert('你选择的日期是:' + dp.cal.getDateStr())
+	                        Data.planDate = dp.cal.getDateStr();
+	                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
+	                    }
+	                })
+	            }
+                specialDates(["2017-08-10","2017-08-11","2017-08-17","2017-08-18","2017-08-22","2017-08-31"]);
+	            //var cmd = "year="+Data.planDateYear+"&month="+Data.planDateMonth;
+//	            Rose.ajax.getJson(srvMap.get('getWelcomePlanDate'), '', function(json, status) {
+//	                if (status) {
+//	                    window.XMS.msgbox.hide();
+//
+//	                }
+//	            });
+
+
+	        },
+		
 		_questionShow: function() {
 			var self = this;
 			Rose.ajax.postJson(srvMap.get("getQueryInfo"), 'pageSize=100&sysVersion=已确认', function(json, status) {

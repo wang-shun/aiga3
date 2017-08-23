@@ -46,6 +46,16 @@ public final class FileUtil {
 	}
 	
 	/**
+	 * 图片上传
+	 * @param file
+	 * @param fileName
+	 */
+	public static void uploadImage(MultipartFile file , String fileName){
+		FileCmpt fileCmpt = ApplicationContextUtil.getBean(FileCmpt.class);
+		fileCmpt.uploadImage(file, fileName);
+	}
+	
+	/**
 	 * 获取下载文件
 	 * @param name 文件名
 	 * @return 下载的文件

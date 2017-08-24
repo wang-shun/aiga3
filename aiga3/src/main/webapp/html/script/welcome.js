@@ -76,7 +76,8 @@ define(function(require,exports,module){
                         _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="#">'
                         + _json.occurEnvironment +'</a><span class="ques-state">' + _json.state + '</span><span class="ques-time">' + _json.createDate + '</span></li>';
                     }
-                    if(dataLength <9) {
+                    while(dataLength <9) {
+                    	dataLength += dataLength
                     	_html+=_html;
                     }
                     docthis.html(_html);

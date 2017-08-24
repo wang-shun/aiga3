@@ -1,4 +1,8 @@
 <head>
+<link href="css/iconfont.css" rel="stylesheet" type="text/css"/>
+<link href="css/fileUpload.css" rel="stylesheet" type="text/css"/>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
 <style type="text/css"> 
 #Page_archiGradingIdentified .margin-onl {
 	width: 90px;
@@ -12,15 +16,29 @@
 }
 </style> 
 </head>
-<div class="row" id="Page_quesShenqingView">
+<div class="row" id="Page_commonImageView">
     <div class="col-md-12">
         <div class="box">
-            <form id="JS_queryDataMaintainForm" role="form">
+            <form id="JS_showMyImageForm" role="form">
                 <div class="box-header with-border">
                     <h1 class="box-title">公共照片墙</h1>
                 </div><br/>
                 <div class="box-body">
-                	
+					<!-- 文件上传 -->
+    				<div id="fileUploadContent" class="fileUploadContent"></div>
+					
+					<div id="main">
+						<ul id="waterfall" name="content">
+					        
+					    </ul>
+					    
+					    <br/>
+					    
+						<div style="visibility:hidden" id=loading class=loading><p><img src="images/loading.gif"><IMG src="images/load.gif"></p></div>
+					
+					</div>
+					
+						                	
                 </div>
                 <div class="box-footer">
                     <div class="text-center">
@@ -31,21 +49,12 @@
     </div>
 </div>
 
-<!-- Modal -->
-<script id="TPL_getImageTemp" type="text/x-handlebars-template">
-    {{#each this}}
-        <li>
-        	<div class="img_block">
-            	<img src="{{imgSrc}}" />
-                <a href="#" rel="lightbox[plants]" title="测试标题" class="zoom">放大</a>
-                <a href="#" class="ilike">我喜欢</a>
-      		</div>
-            <h3>{{title}}</h3>
-            <div class="iNum"><span>{{likeCount}}</span><a href="#">{{commentCount}}</a></div>
-          	<p>{{description}}</p>
-		</li>
-    {{/each}}
-</script>
+<script src="js/lightbox.js"></script>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/jquery.masonry.min.js"></script>
+<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="js/fileUpload.js"></script>
+
 <script type="text/javascript">
 //<![CDATA[
 seajs.use("script/photoWall/commonImage", function(Init) {

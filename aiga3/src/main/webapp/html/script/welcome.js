@@ -161,7 +161,7 @@ define(function(require,exports,module){
 		},
 	
 		getMyEchartsPie: function(json){//饼图模块
-			var myChart = echarts.init(document.getElementById('echartsPie')); 
+			var myChart = echarts.init(Page.findId('echartsPie')[0]);
         	option = {
                /* title : {
                     text: '架构分层管理',

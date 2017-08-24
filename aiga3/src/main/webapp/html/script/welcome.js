@@ -1,4 +1,5 @@
 define(function(require,exports,module){
+	require("echatrsFreeStyle");
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	// 初始化页面ID，易于拷贝，不需要带'#'
@@ -164,7 +165,7 @@ define(function(require,exports,module){
 		},
 	
 		getMyEchartsPie: function(json){//饼图模块
-			var myChart = echarts.init(Page.findId('echartsPie')[0]);
+			var myChart = echarts.init(Page.findId('echartsPie')[0],'echatrsFreeStyle');
         	option = {
                /* title : {
                     text: '架构分层管理',

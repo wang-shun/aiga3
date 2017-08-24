@@ -78,7 +78,7 @@ define(function(require,exports,module){
                     }
                     if(dataLength != 0) {
                         while(dataLength <9) {
-                        	dataLength += dataLength
+                        	dataLength += dataLength;
                         	_html+=_html;
                         }
                     }

@@ -1,6 +1,7 @@
 package com.ai.aiga.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -126,7 +127,8 @@ public class QuestionInfoSv extends BaseService {
 		questionInfo.setRequestInfo(request.getRequestInfo());
 		questionInfo.setIdentifiedInfo(request.getIdentifiedInfo());
 		questionInfo.setSolvedInfo(request.getSolvedInfo());
-		questionInfo.setCreateDate(request.getCreateDate());
+		Date date = new Date();
+		questionInfo.setCreateDate(date);
 		questionInfo.setModifyDate(request.getModifyDate());
 		questionInfo.setReportor(request.getReportor());
 		questionInfo.setAppointedPerson(request.getAppointedPerson());

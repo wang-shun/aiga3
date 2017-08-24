@@ -1,10 +1,12 @@
 package com.ai.aiga.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ import com.ai.aiga.view.util.SessionMgrUtil;
 @Service
 @Transactional
 public class DealFileSv extends BaseService{
+	
+	@Value("${app.image.path}")
+	private String imagePath;
 	
 	@Autowired
 	private NaFileUploadDao naFileUploadDao;
@@ -77,10 +82,17 @@ public class DealFileSv extends BaseService{
 		
 		public void saveImageInfo(String fileName, String isShared, Long fileType, Date date) {
 			
-			NaImageUpload imageEntity = new NaImageUpload(fileName, isShared,
-					date, fileType, SessionMgrUtil.getStaff().getStaffId());
-			naImageUploadDao.save(imageEntity);
+			String imgSrc = imagePath + File.separator + fileName;
+			String imgSrc2 = "files/" + fileName;
+			System.out.println("imagepath:"+imgSrc2);
 			
+			String title = "标题";
+			String description = "图片简介";
+			long likeCount = 0L;
+		    long commentCount = 0L;
+			NaImageUpload imageEntity3 = new NaImageUpload(fileName, imgSrc2, title, description,
+					likeCount, commentCount, isShared, date, fileType, SessionMgrUtil.getStaff().getStaffId());
+			naImageUploadDao.save(imageEntity3);
 		}
 
 

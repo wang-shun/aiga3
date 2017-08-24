@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-*{ margin:0; padding:0; font-size:12px; line-height:22px; color:#666;}
+*{ margin:0; padding:0; /* font-size:12px; */ line-height:22px; /* color:#666; */}
 body{ background:url(../images/body_bg.jpg);}
 .float{ float:left;}
 br{ clear:both; line-height:0;}
@@ -27,7 +27,7 @@ br{ clear:both; line-height:0;}
 .img_block{ position:relative; padding:10px;}
 
 .zoom,.ilike{ position:absolute; line-height:25px; padding:0 0 2px 18px; text-align:center; top:14px; display:block; text-decoration:none; background:url(../images/pic_ilike.png) no-repeat -200px 0;}
-.zoom{ left:14px; width:42px; background-position:0 -71px;}
+.zoom{ left:14px; width:62px; background-position:0 -71px;}
 .zoom:hover{ background-position:0 -99px;}
 .ilike{ right:14px; width:57px; background-position:0 -140px;}
 .ilike:hover{ background-position:0 -167px;}

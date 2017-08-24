@@ -46,10 +46,11 @@ public class DealFileController {
 			Date date = new Date();
 
 			// 设置主机上的文件名
-			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+//			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+			String fileNameNew2 = fileName.split("\\.")[0]+"_"+DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS)+"."+fileName.split("\\.")[1];
 
 			// 把文件上传到主机
-			FileUtil.uploadFile(file, fileNameNew);
+			FileUtil.uploadFile(file, fileNameNew2);
 
 			dealFileSv.saveFileInfo(planId, fileName, fileType, date);
 
@@ -199,8 +200,7 @@ public class DealFileController {
 		
 		// 上传 图片
 		@RequestMapping(path = "/group/require/uploadImage")
-		public @ResponseBody JsonBean uploadImage(@RequestParam Long planId,
-				@RequestParam MultipartFile file, @RequestParam Long fileType) {
+		public @ResponseBody JsonBean uploadImage(@RequestParam MultipartFile file) {
 			JsonBean bean = new JsonBean();
 
 			// 获取图片名称
@@ -209,12 +209,13 @@ public class DealFileController {
 			Date date = new Date();
 
 			// 设置主机上的文件名
-			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+			String fileNameNew2 = fileName.split("\\.")[0]+"_"+DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS)+"."+fileName.split("\\.")[1];
 
 			// 把图片上传到主机
-			FileUtil.uploadImage(file, fileNameNew);
+			FileUtil.uploadImage(file, fileName);
 			
 			String isShared = new String("N");
+			long fileType = 66666;
 
 			dealFileSv.saveImageInfo(fileName, isShared, fileType, date);
 

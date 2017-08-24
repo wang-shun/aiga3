@@ -52,6 +52,35 @@ public class NaImageUpload  implements java.io.Serializable {
 		this.createId = createId;
 	}
 
+	public NaImageUpload(String fileName, String imgSrc, String isShared,
+			Date createTime, Long fileType, Long createId) {
+		super();
+		this.fileName = fileName;
+		this.imgSrc = imgSrc;
+		this.isShared = isShared;
+		this.createTime = createTime;
+		this.fileType = fileType;
+		this.createId = createId;
+	}
+	
+
+
+	public NaImageUpload(String fileName, String imgSrc, String title,
+			String description, Long likeCount, Long commentCount,
+			String isShared, Date createTime, Long fileType, Long createId) {
+		super();
+		this.fileName = fileName;
+		this.imgSrc = imgSrc;
+		this.title = title;
+		this.description = description;
+		this.likeCount = likeCount;
+		this.commentCount = commentCount;
+		this.isShared = isShared;
+		this.createTime = createTime;
+		this.fileType = fileType;
+		this.createId = createId;
+	}
+
 
 
 	public NaImageUpload(long id, String fileName) {

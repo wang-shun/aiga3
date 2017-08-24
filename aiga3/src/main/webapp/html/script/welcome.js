@@ -66,13 +66,18 @@ define(function(require,exports,module){
 					var docthis = Page.find('ul[name="wordGull"]');
                     var quesList = json.data.content;
                     var _html = '';
+                    var dataLength = 0;
                     for (var i in quesList) {
                         var _json = quesList[i];
                         if(_json.state == '已解决') {
                         	continue;
                         }
+                        dataLength++;
                         _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="#">'
                         + _json.occurEnvironment +'</a><span class="ques-state">' + _json.state + '</span><span class="ques-time">' + _json.createDate + '</span></li>';
+                    }
+                    if(dataLength <9) {
+                    	_html+=_html;
                     }
                     docthis.html(_html);
 					self._wordRoll();

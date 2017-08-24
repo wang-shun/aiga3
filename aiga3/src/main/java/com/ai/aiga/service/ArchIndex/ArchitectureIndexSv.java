@@ -19,6 +19,7 @@ import com.ai.aiga.dao.ArchSrvManageDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.domain.ArchSrvManage;
+import com.ai.aiga.domain.IndexConnect;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 @Service
@@ -35,11 +36,11 @@ public class ArchitectureIndexSv extends BaseService {
 		return archDbConnectDao.findAll();
 	}
 	
-	public Page<ArchDbConnect>listDbConnects(int pageNumber, int pageSize, AmCoreIndexParams condition){
+	public Page<IndexConnect>listDbConnects(int pageNumber, int pageSize, AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-			"select ar.*" +
-				"from am_core_index am, arch_db_connect ar " +
-				"where am.index_id = ar.index_id " );
+			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
+				" from am_core_index am, arch_db_connect ar " +
+				" where am.index_id = ar.index_id " );
 //				"and am.index_group = :indexGroup" +
 //				"and am.index_name = :indexName" +
 //				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm')" +
@@ -86,7 +87,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnect.class, pageable);
+		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, IndexConnect.class, pageable);
 	}
 	
 	public List<ArchDbConnect>listDbConnects2(AmCoreIndexParams condition){
@@ -134,11 +135,11 @@ public class ArchitectureIndexSv extends BaseService {
 		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnect.class);
 	}
 	
-	public Page<ArchSrvManage>listSrvManage(int pageNumber, int pageSize, AmCoreIndexParams condition){
+	public Page<IndexConnect>listSrvManage(int pageNumber, int pageSize, AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-				"select ar.* " +
-				"from am_core_index am, arch_srv_manage ar " +
-				"where am.index_id = ar.index_id " );
+			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
+				" from am_core_index am, arch_srv_manage ar " +
+				" where am.index_id = ar.index_id " );
 //				"and am.index_group = :indexGroup " +
 //				"and am.index_name = :indexName " +
 //				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm') " +
@@ -185,7 +186,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchSrvManage.class, pageable);
+		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, IndexConnect.class, pageable);
 	}
 	
 	public List<ArchSrvManage>listSrvManage2(AmCoreIndexParams condition){

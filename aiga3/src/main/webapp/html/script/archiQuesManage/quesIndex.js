@@ -63,8 +63,8 @@ define(function(require, exports, module) {
     srvMap.add("fetchselectName", "", "archi/index/selectName");
     srvMap.add("fetchselectKey1", "", "archi/index/selectKey1");
     srvMap.add("fetchselectKey2", "", "archi/index/selectKey2");
+    // 获取上线时间
     srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
-//    srvMap.add("fetchselectKey123", "", "archi/index/selectKey123");
     
 	// 模板对象
 	var Tpl = {
@@ -546,7 +546,6 @@ define(function(require, exports, module) {
 			    ]
 			};
 			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
-				debugger
 				if(status) {
 					window.XMS.msgbox.hide();
 				} else {
@@ -575,7 +574,7 @@ define(function(require, exports, module) {
 	                    }
 			            option.series[indexSeries].markPoint = {
 			                data : markData
-			            }
+			            };
 					}
 				}
 				myChart.setOption(option);

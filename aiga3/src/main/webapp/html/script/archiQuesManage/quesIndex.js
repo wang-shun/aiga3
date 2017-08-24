@@ -63,6 +63,7 @@ define(function(require, exports, module) {
     srvMap.add("fetchselectName", "", "archi/index/selectName");
     srvMap.add("fetchselectKey1", "", "archi/index/selectKey1");
     srvMap.add("fetchselectKey2", "", "archi/index/selectKey2");
+    srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
 //    srvMap.add("fetchselectKey123", "", "archi/index/selectKey123");
     
 	// 模板对象
@@ -333,7 +334,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('deleQuestionInfo'), cmd, function(json, status) {
 						if (status) {
-							window.XMS.msgbox.show('删除成功！', 'success', 2000)
+							window.XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
 								self.queryDataMaintainForm(Data.queryListCmd);
 							}, 1000)
@@ -378,7 +379,7 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
 				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
 					if (status) {
-						window.XMS.msgbox.show('更新成功！', 'success', 2000)
+						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {
 							self.queryDataMaintainForm(Data.queryListCmd);
 							_dom.modal('hide');
@@ -544,28 +545,43 @@ define(function(require, exports, module) {
 			        }
 			    ]
 			};
-			if(json && json.data) {
-				option.legend.data = json.data.legend;
-				option.series = json.data.series;
-				for(var indexSeries in option.series) {
-					option.series[indexSeries].markLine = {
-		                data : [
-		                    {type : 'average', name: '平均值'}
-		                ]
-		            };
-		            option.series[indexSeries].markPoint = {
-		                data : [
-		                    {type : 'max', name: '最大值'},
-		                    {type : 'min', name: '最小值'}
-		                ]
-		            }
+			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
+				debugger
+				if(status) {
+					window.XMS.msgbox.hide();
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}
-				if(json.data.xAxis) {
-					option.xAxis[0].data = json.data.xAxis;
+				if(json && json.data) {
+					option.legend.data = json.data.legend;
+					option.series = json.data.series;
+					if(json.data.xAxis) {
+						option.xAxis[0].data = json.data.xAxis;
+					}
+					for(var indexSeries in option.series) {
+						option.series[indexSeries].markLine = {
+			                data : [
+			                    {type : 'average', name: '平均值'}
+			                ]
+			            };
+						var markData = [];
+	                    for(var onlineIndex in onlinejson.data) {
+	                    	var onlineDate = onlinejson.data[onlineIndex];
+	                    	var datePosition = json.data.xAxis.indexOf(onlineDate);
+	                    	if(datePosition) {
+	                    		var plan =  {name : '上线', xAxis: datePosition, yAxis: option.series[indexSeries].data[datePosition]};
+	                    		markData.push(plan);
+	                    	}                    
+	                    }
+			            option.series[indexSeries].markPoint = {
+			                data : markData
+			            }
+					}
 				}
-			}
-			myChart.setOption(option);
-			window.onresize = myChart.resize;
+				myChart.setOption(option);
+				window.onresize = myChart.resize;
+  			});
+			
 		}
 		
 	};

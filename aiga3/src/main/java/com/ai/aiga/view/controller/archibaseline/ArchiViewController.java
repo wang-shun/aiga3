@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller.archibaseline;
 
 import io.swagger.annotations.Api;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdPaaSVie
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdViewCenterItem;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdViewOutput;
 import com.ai.aiga.view.json.base.JsonBean;
+@SuppressWarnings("unused")
 @Controller
 @Api(value = "ArchiViewController", description = "架构视图api")
 public class ArchiViewController {

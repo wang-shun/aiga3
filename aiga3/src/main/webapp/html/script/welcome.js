@@ -66,13 +66,19 @@ define(function(require,exports,module){
 					var docthis = Page.find('ul[name="wordGull"]');
                     var quesList = json.data.content;
                     var _html = '';
+                    var dataLength = 0;
                     for (var i in quesList) {
                         var _json = quesList[i];
                         if(_json.state == '已解决') {
                         	continue;
                         }
+                        dataLength++;
                         _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="#">'
                         + _json.occurEnvironment +'</a><span class="ques-state">' + _json.state + '</span><span class="ques-time">' + _json.createDate + '</span></li>';
+                    }
+                    while(dataLength <9) {
+                    	dataLength += dataLength
+                    	_html+=_html;
                     }
                     docthis.html(_html);
 					self._wordRoll();
@@ -155,7 +161,7 @@ define(function(require,exports,module){
 		},
 	
 		getMyEchartsPie: function(json){//饼图模块
-			var myChart = echarts.init(document.getElementById('echartsPie')); 
+			var myChart = echarts.init(Page.findId('echartsPie')[0]);
         	option = {
                /* title : {
                     text: '架构分层管理',

@@ -51,7 +51,7 @@ seajs.config({
     ],
     base: basePref[conf],
     alias: {
-    	'echatrsFreeStyle' : 'lib/echarts/echatrsFreeStyle.js',
+    	'macarons' : 'lib/echarts/macarons.js',
         'AdminLTE':'lib/AdminLTE/js/app.js',
         'iCheckCSS':'lib/iCheck/all.css',
         'iCheckJS':'lib/iCheck/icheck.min.js',

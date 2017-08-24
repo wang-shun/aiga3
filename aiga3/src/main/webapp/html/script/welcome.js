@@ -1,5 +1,5 @@
 define(function(require,exports,module){
-	require("echatrsFreeStyle");
+	require("macarons");
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	// 初始化页面ID，易于拷贝，不需要带'#'
@@ -11,6 +11,8 @@ define(function(require,exports,module){
     srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "archi/third/welcomePie");
     // 获取问题
     srvMap.add("getQueryInfo", "welcome/getQueryInfo.json", "archi/question/queryInfo");
+    // 获取上线时间
+    srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
     var Data = {
         planDate:null // 获取日期日期
     };
@@ -45,16 +47,16 @@ define(function(require,exports,module){
 	                        Data.planDate = dp.cal.getDateStr();
 	                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
 	                    }
-	                })
-	            }
-                specialDates(["2017-08-10","2017-08-11","2017-08-17","2017-08-18","2017-08-22","2017-08-31"]);
+	                });
+	            };
 	            //var cmd = "year="+Data.planDateYear+"&month="+Data.planDateMonth;
-//	            Rose.ajax.getJson(srvMap.get('getWelcomePlanDate'), '', function(json, status) {
-//	                if (status) {
-//	                    window.XMS.msgbox.hide();
-//
-//	                }
-//	            });
+	            Rose.ajax.getJson(srvMap.get('onlineTimeFind'), '', function(json, status) {
+	                if (status) {
+	                    specialDates(json.data);	
+	                } else {
+	    				XMS.msgbox.show(json.retMessage, 'error', 2000);
+	                }
+	            });
 
 
 	        },
@@ -165,7 +167,7 @@ define(function(require,exports,module){
 		},
 	
 		getMyEchartsPie: function(json){//饼图模块
-			var myChart = echarts.init(Page.findId('echartsPie')[0],'echatrsFreeStyle');
+			var myChart = echarts.init(Page.findId('echartsPie')[0],'macarons');
         	option = {
                /* title : {
                     text: '架构分层管理',

@@ -11,6 +11,8 @@ define(function(require, exports, module) {
 	srvMap.add("findMyImages", pathAlias + "dataMaintain.json", "archi/image/findMyImages");
 	//查询公共的照片墙
 	srvMap.add("findCommonImages", pathAlias + "dataMaintain.json", "archi/image/findCommonImages");
+	//我喜欢后isShared改变共享状态
+	srvMap.add("updateIsSharedState", pathAlias + "dataMaintain.json", "archi/image/updateIsSharedState");
 
 	var cache = {
 		datas : ""	
@@ -30,6 +32,7 @@ define(function(require, exports, module) {
 			this.waterFall();
 			this.uploadImage();
 			this.imageShow();
+			this.ilikeButton();
 			},
 		refreshStyle: function(){
 			var self = this;
@@ -100,6 +103,28 @@ define(function(require, exports, module) {
 				}					
 			});
 		},	
+		ilikeButton: function(){
+			var self = this;
+			var _form = Page.findId('showMyImageForm');
+			Utils.setSelectData(_form);
+			var _ilikeBtn = _form.find("[name='ilike']");
+			_ilikeBtn.unbind('click').bind('click', function() {
+				var _cmd = _form.serialize();
+				if(_cmd!=null){
+					if(_cmd.indexOf('isShared=N')>-1){
+						_cmd=_cmd.replace("isShared=N","isShared=Y");
+					}
+				}
+				Rose.ajax.postJson(srvMap.get('updateIsSharedState'),_cmd,function(json, status){
+					if(status) {
+						window.XMS.msgbox.show('共享成功！', 'success', 2000);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}					
+				});
+			});
+		},	
+		
 	};
 	module.exports = Query;
 });

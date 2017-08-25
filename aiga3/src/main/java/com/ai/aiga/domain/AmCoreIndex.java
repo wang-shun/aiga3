@@ -32,7 +32,8 @@ public class AmCoreIndex  implements java.io.Serializable {
      private char state;
      private Date createDate;
      private Long createOpId;
-
+     private Long groupId;
+     
     public AmCoreIndex() {
     }
 
@@ -58,7 +59,25 @@ public class AmCoreIndex  implements java.io.Serializable {
        this.createOpId = createOpId;
     }
    
-    @Id 
+    public AmCoreIndex(long indexId, String indexName, String indexGroup,
+			String schId, String key1, String key2, String key3, char state,
+			Date createDate, Long createOpId, Long groupId) {
+		super();
+		this.indexId = indexId;
+		this.indexName = indexName;
+		this.indexGroup = indexGroup;
+		this.schId = schId;
+		this.key1 = key1;
+		this.key2 = key2;
+		this.key3 = key3;
+		this.state = state;
+		this.createDate = createDate;
+		this.createOpId = createOpId;
+		this.groupId = groupId;
+	}
+
+
+	@Id 
     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="AM_CORE_INDEX$SEQ")
  	@SequenceGenerator(name="AM_CORE_INDEX$SEQ",sequenceName="AM_CORE_INDEX$SEQ",allocationSize=1)   
     @Column(name="INDEX_ID", unique=true, nullable=false, precision=12, scale=0)
@@ -151,7 +170,17 @@ public class AmCoreIndex  implements java.io.Serializable {
         this.createOpId = createOpId;
     }
 
+    @Column(name="GROUP_ID", precision=12, scale=0)
+	public Long getGroupId() {
+		return groupId;
+	}
 
+
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
+	}
+
+    
 
 
 }

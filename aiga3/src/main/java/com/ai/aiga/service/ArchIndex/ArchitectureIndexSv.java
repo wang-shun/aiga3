@@ -40,7 +40,7 @@ public class ArchitectureIndexSv extends BaseService {
 		StringBuilder nativeSql = new StringBuilder(
 			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
 				" from am_core_index am, arch_db_connect ar " +
-				" where am.index_id = ar.index_id " );
+				" where am.group_id = ar.group_id " );
 //				"and am.index_group = :indexGroup" +
 //				"and am.index_name = :indexName" +
 //				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm')" +
@@ -94,7 +94,7 @@ public class ArchitectureIndexSv extends BaseService {
 		StringBuilder nativeSql = new StringBuilder(
 				"select ar.*" +
 						"from am_core_index am, arch_db_connect ar " +
-				"where am.index_id = ar.index_id " );
+				"where am.group_id = ar.group_id " );
 //				"and am.index_group = :indexGroup" +
 //				"and am.index_name = :indexName" +
 //				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm')" +
@@ -109,7 +109,7 @@ public class ArchitectureIndexSv extends BaseService {
 			params.add(new ParameterCondition("indexGroup", condition.getIndexGroup()));
 		}
 		if (StringUtils.isNotBlank(condition.getIndexName())) {
-			nativeSql.append("and am.index_name = :indexName ");
+			nativeSql.append("and am.index_name = :indexName and am.index_id = ar.index_id ");
 			params.add(new ParameterCondition("indexName", condition.getIndexName()));
 		}
 		if (StringUtils.isNotBlank(condition.getStartMonth())) {
@@ -139,7 +139,7 @@ public class ArchitectureIndexSv extends BaseService {
 		StringBuilder nativeSql = new StringBuilder(
 			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
 				" from am_core_index am, arch_srv_manage ar " +
-				" where am.index_id = ar.index_id " );
+				" where am.group_id = ar.group_id " );
 //				"and am.index_group = :indexGroup " +
 //				"and am.index_name = :indexName " +
 //				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm') " +
@@ -193,7 +193,7 @@ public class ArchitectureIndexSv extends BaseService {
 		StringBuilder nativeSql = new StringBuilder(
 				"select ar.* " +
 						"from am_core_index am, arch_srv_manage ar " +
-				"where am.index_id = ar.index_id " );
+				"where am.group_id = ar.group_id " );
 //				"and am.index_group = :indexGroup " +
 //				"and am.index_name = :indexName " +
 //				"and to_date(ar.sett_month,'yyyymm') <= to_date(:endMonth, 'yyyymm') " +
@@ -208,7 +208,7 @@ public class ArchitectureIndexSv extends BaseService {
 			params.add(new ParameterCondition("indexGroup", condition.getIndexGroup()));
 		}
 		if (StringUtils.isNotBlank(condition.getIndexName())) {
-			nativeSql.append("and am.index_name = :indexName ");
+			nativeSql.append("and am.index_name = :indexName and am.index_id = ar.index_id ");
 			params.add(new ParameterCondition("indexName", condition.getIndexName()));
 		}
 		if (StringUtils.isNotBlank(condition.getStartMonth())) {

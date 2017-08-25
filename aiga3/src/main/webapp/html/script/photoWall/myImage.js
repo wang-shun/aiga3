@@ -32,7 +32,7 @@ define(function(require, exports, module) {
 			this.waterFall();
 			this.uploadImage();
 			this.imageShow();
-			this.ilikeButton();
+			
 			},
 		refreshStyle: function(){
 			var self = this;
@@ -96,8 +96,10 @@ define(function(require, exports, module) {
 			
 			Rose.ajax.postJson(srvMap.get('findMyImages'),_cmd,function(json, status){
 				if(status) {
+					cache.datas=json.data;
 					var template = Handlebars.compile(Tpl.getImageList);
 					_dom.find("[name='content']").html(template(json.data));
+					self.ilikeButton();
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					
@@ -109,7 +111,8 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _ilikeBtn = _form.find("[name='ilike']");
 			_ilikeBtn.unbind('click').bind('click', function() {
-				var _cmd = _form.serialize();
+				var self2 = this;
+				var _cmd = _form.find("[name='initImage']").serialize();
 				if(_cmd!=null){
 					if(_cmd.indexOf('isShared=N')>-1){
 						_cmd=_cmd.replace("isShared=N","isShared=Y");

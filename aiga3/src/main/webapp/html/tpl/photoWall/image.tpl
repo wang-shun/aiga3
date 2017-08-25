@@ -1,7 +1,7 @@
 <table class="table table-bordered table-hover" style="width: 2400px;">
     <tbody>
         {{#each this}}
-	        <li>
+	        <li name="initImage">
 	        	<div class="img_block">
 	            	<img src="{{imgSrc}}" />
 	                <a href="#" rel="lightbox[plants]" title="测试标题" class="zoom">放大</a>

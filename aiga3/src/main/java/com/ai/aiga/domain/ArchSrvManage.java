@@ -20,6 +20,7 @@ public class ArchSrvManage  implements java.io.Serializable {
     private String key2;
     private String key3;
     private String resultValue;
+    private Long groupId;
     
     public ArchSrvManage(){
     }
@@ -35,6 +36,18 @@ public class ArchSrvManage  implements java.io.Serializable {
 		this.resultValue = resultValue;
 	}
 	
+	public ArchSrvManage(Long indexId, String settMonth, String key1,
+			String key2, String key3, String resultValue, Long groupId) {
+		super();
+		this.indexId = indexId;
+		this.settMonth = settMonth;
+		this.key1 = key1;
+		this.key2 = key2;
+		this.key3 = key3;
+		this.resultValue = resultValue;
+		this.groupId = groupId;
+	}
+
 	@Id 
    @Column(name="INDEX_ID", precision=12, scale=0)
    public Long getIndexId() {
@@ -89,7 +102,17 @@ public class ArchSrvManage  implements java.io.Serializable {
    public void setResultValue(String resultValue) {
        this.resultValue = resultValue;
    }
+   
+    @Column(name="GROUP_ID", precision=12, scale=0)
+	public Long getGroupId() {
+		return groupId;
+	}
+	
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
+	}
 
+   
 }
 
 

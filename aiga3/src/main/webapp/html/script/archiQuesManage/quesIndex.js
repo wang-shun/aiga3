@@ -121,7 +121,7 @@ define(function(require, exports, module) {
 			$("#indexName").unbind('click');
 			$("#indexName").bind('click',function(){
 				var checkValue=$("#indexName").val();  //获取Select选择的Value 
-				if(checkValue=="系统模块数据库连接"){
+/*				if(checkValue=="系统模块数据库连接"){
 					$("#categoryKey1").attr({style:"display:display"}); 
 					$("#categoryKey2").attr({style:"display:display"});      
 //					$("#categoryKey3").attr({style:"display:display"});           
@@ -129,7 +129,7 @@ define(function(require, exports, module) {
 					$("#categoryKey1").attr({style:"display:none"}); 
 					$("#categoryKey2").attr({style:"display:none"});       
 //					$("#categoryKey3").attr({style:"display:none"}); 
-				}
+				}*/
 			});
 		},
 		// 按条件查询
@@ -155,10 +155,10 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);
 					return
 				}
-				if(_cmd.indexOf('indexName=&')>-1) {
-					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
-					return
-				}
+//				if(_cmd.indexOf('indexName=&')>-1) {
+//					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
+//					return
+//				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
 					return

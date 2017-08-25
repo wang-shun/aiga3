@@ -2,6 +2,7 @@ package com.ai.aiga.service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,21 @@ public class ArchiOnlinePlanSv extends BaseService {
 			output.add(sdf.format(base.getOnlineTime()));
 		}
 		return output;
+	}
+	
+	public String setOnlineTime(Date onlineTime) {
+		ArchiOnlinePlan hasRecord = archiOnlinePlanDao.findOne(onlineTime);
+		String outputMessage = "这是消息";
+		if(hasRecord == null) {
+			hasRecord = new ArchiOnlinePlan();
+			hasRecord.setOnlineTime(onlineTime);
+			hasRecord.setCreatTime(new Date());
+			archiOnlinePlanDao.save(hasRecord);
+			outputMessage = "添加该上线时间成功"; 
+		} else {
+			archiOnlinePlanDao.delete(hasRecord);
+			outputMessage = "删除该上线时间成功"; 
+		}
+		return outputMessage;		
 	}
 }

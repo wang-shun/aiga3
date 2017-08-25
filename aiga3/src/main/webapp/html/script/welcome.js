@@ -13,11 +13,14 @@ define(function(require,exports,module){
     srvMap.add("getQueryInfo", "welcome/getQueryInfo.json", "archi/question/queryInfo");
     // 获取上线时间
     srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
+    // 添加上线时间
+    srvMap.add("onlineTimeSet", "", "archi/online/timeSet");
     var Data = {
         planDate:null // 获取日期日期
     };
     var cache = {
-    	anifun : ''
+    	anifun : '',
+    	clickTime : 0
     };
 	var Query = {
 		init: function(){
@@ -43,15 +46,34 @@ define(function(require,exports,module){
 	                    eCont: 'JS_getWelcomePlanDate',
 	                    specialDates: specialDates,
 	                    onpicked: function(dp) {
-	                        //alert('你选择的日期是:' + dp.cal.getDateStr())
-	                        Data.planDate = dp.cal.getDateStr();
-	                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
+	                    	cache.clickTime++;
+							setTimeout(function() {
+								cache.clickTime--;
+							}, 200);
+							if(cache.clickTime>1) {
+					            Rose.ajax.postJson(srvMap.get('onlineTimeSet'), 'onlineTime='+Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy/MM/dd'), function(json, status) {
+					                if (status) {
+					                    XMS.msgbox.show(json.data, 'success', 1500);
+										setTimeout(function() {
+											 self.getWelcomePlanDate();
+										}, 1500);
+					                   
+					                } else {
+					    				XMS.msgbox.show(json.retMessage, 'error', 2000);
+					                }
+					            });
+							} else {
+		                        //alert('你选择的日期是:' + dp.cal.getDateStr())
+		                        Data.planDate = dp.cal.getDateStr();
+		                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
+							}
 	                    }
 	                });
 	            };
 	            //var cmd = "year="+Data.planDateYear+"&month="+Data.planDateMonth;
 	            Rose.ajax.getJson(srvMap.get('onlineTimeFind'), '', function(json, status) {
 	                if (status) {
+	                    window.XMS.msgbox.hide();
 	                    specialDates(json.data);	
 	                } else {
 	    				XMS.msgbox.show(json.retMessage, 'error', 2000);

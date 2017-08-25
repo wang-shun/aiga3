@@ -1,5 +1,7 @@
 package com.ai.aiga.view.controller.archibaseline;
 
+import java.util.Date;
+
 import io.swagger.annotations.Api;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,17 @@ public class ArchiOnlinePlanController {
 	public @ResponseBody JsonBean onlineTimeFind() {
 		JsonBean bean = new JsonBean();
 		bean.setData(archiOnlinePlanSv.findAllTime());
+		return bean;
+	}
+    /**
+     * 设置上线时间
+     *@param 
+     *@return
+     */
+	@RequestMapping(path = "/archi/online/timeSet")
+	public @ResponseBody JsonBean onlineTimeSet(String onlineTime) {
+		JsonBean bean = new JsonBean();
+		bean.setData(archiOnlinePlanSv.setOnlineTime(new Date(onlineTime)));
 		return bean;
 	}
 }

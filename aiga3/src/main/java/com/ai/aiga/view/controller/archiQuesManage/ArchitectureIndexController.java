@@ -26,7 +26,9 @@ import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
@@ -58,7 +60,7 @@ public class ArchitectureIndexController extends BaseService {
 	@RequestMapping(path = "/arch/index/listSrvManages2")
 	public @ResponseBody JsonBean listSrvManages2(AmCoreIndexParams condition) throws ParseException{
 		JsonBean bean = new JsonBean();
-		ArchiChangeMessage output = new ArchiChangeMessage();
+		ArchiChangeMessage2 output = new ArchiChangeMessage2();
 		if(StringUtils.isBlank(condition.getStartMonth())){
 			bean.fail("please input start time");
 			return bean;
@@ -76,7 +78,7 @@ public class ArchitectureIndexController extends BaseService {
 		output.setxAxis(days);
 		final int DATA_LENGTH = days.size();
 		List<String> legendList = new ArrayList<String>();
-		List<ViewSeries> seriesList = new ArrayList<ViewSeries>();
+		List<ViewSeries2> seriesList = new ArrayList<ViewSeries2>();
 		List<ArchSrvManage>manageList = architectureIndexSv.listSrvManage2(condition);
 		List<ArchSrvManage>manageList2=new ArrayList<ArchSrvManage>(manageList);
 		Iterator<ArchSrvManage> iterator = manageList.iterator();
@@ -84,11 +86,11 @@ public class ArchitectureIndexController extends BaseService {
 			ArchSrvManage baseManage = iterator.next();
 			if(!legendList.contains(baseManage.getKey2())){
 				legendList.add(baseManage.getKey2());
-				ViewSeries baseSeries = new ViewSeries();
+				ViewSeries2 baseSeries = new ViewSeries2();
 				baseSeries.setType("bar");
 				String name = baseManage.getKey2();
 				baseSeries.setName(name);
-				int[] data = new int[DATA_LENGTH];
+				double[] data = new double[DATA_LENGTH];
 				Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
 				while(iterator2.hasNext()){
 					ArchSrvManage archSrvManage = iterator2.next();
@@ -97,7 +99,8 @@ public class ArchitectureIndexController extends BaseService {
 						for(int i=0;i<DATA_LENGTH;i++){
 							String selectMonth = days.get(i).replace("-", "").trim();
 							if(setMonth.equals(selectMonth)){
-								data[i]=Integer.parseInt(archSrvManage.getResultValue());
+
+								data[i]=Double.parseDouble(archSrvManage.getResultValue());
 								iterator2.remove();
 							}
 						}

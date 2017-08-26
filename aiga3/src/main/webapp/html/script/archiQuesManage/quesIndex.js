@@ -55,6 +55,10 @@ define(function(require, exports, module) {
     srvMap.add("listSrvManages", "", "arch/index/listSrvManages");
     //指标分表---echarts
     srvMap.add("listSrvManages2", "", "arch/index/listSrvManages2");
+    //指标月份分表---table
+    srvMap.add("listMonthIndex", "", "arch/index/listMonthIndex");
+    //指标月份分表---echarts
+    srvMap.add("listMonthIndex2", "", "arch/index/listMonthIndex2");
     //
     srvMap.add("fetchindexGroup", "", "sys/maplist/indexGroup");
     srvMap.add("fetchindexName", "", "sys/maplist/indexName");
@@ -102,13 +106,14 @@ define(function(require, exports, module) {
 			this.judgeIndexName();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
+			this.queryDataMaintainForm2();
 			//映射
 			this.hdbarHelp();
 			//
 //			this.getIndexEcharts();
-			var now = new Date(); 
-			$('input[name="startMonth"]').val(this.formatMonthFirst(now));
-			$('input[name="endMonth"]').val(this.formatDate(now));
+//			var now = new Date(); 
+//			$('input[name="startMonth"]').val(this.formatMonthFirst(now));
+//			$('input[name="endMonth"]').val(this.formatDate(now));
 		},
 /*		initTableEcharts: function(){
 			var iTable = Page.findId('getDataMaintainListSec').find("[name='initTable']");
@@ -138,6 +143,9 @@ define(function(require, exports, module) {
 			var init = true;
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectDataPost(_form);
+			var now = new Date(); 
+			_form.find('input[name="startMonth"]').val(this.formatMonthFirst(now));
+			_form.find('input[name="endMonth"]').val(this.formatDate(now));
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
 				
@@ -271,6 +279,15 @@ define(function(require, exports, module) {
 			if (day.length < 2) day = '0' + day;
 			return [year, month, day].join('-');	
 		},
+		formatDate2: function(date) {
+			var d = new Date(date),
+				month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear(); 
+			if (month.length < 2) month = '0' + month;
+			if (day.length < 2) day = '0' + day;
+			return [year, month].join('-');	
+		},
 		formatMonthFirst: function(date) {
 			var d = new Date(date),
 				month = '' + (d.getMonth() + 1),
@@ -278,6 +295,14 @@ define(function(require, exports, module) {
 				day = '01';
 			if (month.length < 2) month = '0' + month;
 			return [year, month, day].join('-');	
+		},
+		formatMonthFirst2: function(date) {
+			var d = new Date(date),
+				month = '' + (d.getMonth() + 1),
+				year = d.getFullYear(), 
+				day = '01';
+			if (month.length < 2) month = '0' + month;
+			return [year, month].join('-');	
 		},
 		//新增数据维护
 		addDataMaintain: function() {
@@ -581,8 +606,143 @@ define(function(require, exports, module) {
 				window.onresize = myChart.resize;
   			});
 			
-		}
-		
+		},
+/* --------------------------------------------------PAGE--2--------------------------------------------------------------- */
+		// 按条件查询
+		queryDataMaintainForm2: function() {
+			var self = this;
+			var init = true;
+			var _form = Page.findId('queryDataMaintainForm2');
+			Utils.setSelectDataPost(_form);
+			var now = new Date(); 
+			_form.find('input[name="startMonth"]').val(this.formatMonthFirst2(now));
+			_form.find('input[name="endMonth"]').val(this.formatDate2(now));
+			var _queryBtn = _form.find("[name='query']");
+			_queryBtn.off('click').on('click', function() {
+				
+				Page.findId('getDataMaintainListSec2').attr({style:"display:display"});      
+				Page.findId('sysMessageView2').attr({style:"display:display"});      
+
+				var cmd = _form.serialize();
+				var _cmd = Page.findId('queryDataMaintainForm2').serialize();
+//				if(init) {
+//					var date = self.formatDate(new Date()); 		
+//					_cmd = 'startMonth='+date+'&endMonth='+date;
+//					init = false;			
+//				}
+				if(_cmd.indexOf('indexGroup=&')>-1) {
+					XMS.msgbox.show('请选择指标组！', 'error', 2000);
+					return
+				}
+//				if(_cmd.indexOf('indexName=&')>-1) {
+//					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
+//					return
+//				}
+				if(_cmd.indexOf('startMonth=&')>-1) {
+					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					return
+				}
+				if(_cmd.indexOf('endMonth=&')>-1) {
+					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					return
+				}
+				self.getDataMaintainList2(cmd);
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				if(cache.tableName){
+					var task2 = "";
+/*					switch(cache.tableName){
+						case "ARCH_DB_CONNECT":
+							task2 = "listDbConnects2";
+							break;
+						case "ARCH_SRV_MANAGE":
+							task2 = "listSrvManages2";
+							break;
+					}*/
+/*					if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex==2){
+						task2 = "listDbConnects22";
+					}else if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex!=2){
+						task2 = "listDbConnects2";
+					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
+						task2 = "listSrvManages2";
+					}*/
+					if(cache.tableName=="ARCH_DB_CONNECT"){
+						task2 = "listDbConnects2";
+					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
+						task2 = "listSrvManages2";
+					}
+				}
+				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.hide();
+						self._graphSec(json);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+	  			});
+			});
+//			_queryBtn.click();
+		},
+		// 查询数据维护
+		getDataMaintainList2: function(cmd) {
+			var self = this;
+			var _cmd = '' || cmd;
+
+			Data.queryListCmd = _cmd;
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			//隐藏的主表获取分表表名tableName;
+			var _dom = Page.findId('getDataMaintainList2');
+			var _domPagination = _dom.find("[name='pagination']");
+			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), _cmd, function(json, status) {
+				window.XMS.msgbox.hide();
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
+				_dom.find("[name='content']").html(template(json.data));
+				cache.tableName = json.data[0].schId;
+				cache.tableIndex= json.data[0].indexId;
+				//美化单机
+				Utils.eventTrClickCallback(_dom);
+			}, _domPagination);
+			
+			var _domSec = Page.findId('getDataMaintainListSec2');
+			var _domPaginationSec = _domSec.find("[name='paginationSec2']");
+			// 设置服务器端分页listDbConnects
+			var task = 'listDbConnects';
+			if(cache.tableName){
+				switch(cache.tableName){
+					case "ARCH_MONTH_INDEX":
+						task = '';
+						break;
+            		case "ARCH_DB_CONNECT":
+            			task = 'listDbConnects';
+            			break;
+            		case "ARCH_SRV_MANAGE":
+            			task = 'listSrvManages';
+            			break;
+            	}
+			}
+			Utils.getServerPage(srvMap.get(task), _cmd, function(json, status) {//getArchDbConnectList
+				cache.datas = json.data;
+				window.XMS.msgbox.hide();
+				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+				var template = Handlebars.compile(Tpl.getArchDbConnectList);
+				//按月份排序
+				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
+				_domSec.find("[name='content']").html(template(json.data.content));
+				//美化单机
+				Utils.eventTrClickCallback(_domSec);
+				//新增
+				self.addDataMaintain();
+				//删除
+				self.delDataMaintain();
+				//双击修改
+				self.eventDClickCallback(_domSec, function() {
+					//获得当前单选框值
+					var data = Utils.getRadioCheckedRow(_domSec);
+//					alert(data.quesId);
+					self.updateDataMaintain(data.quesId, json.data);
+				});
+			}, _domPaginationSec);
+		},
 	};
 	module.exports = Query;
 });

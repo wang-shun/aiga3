@@ -36,7 +36,12 @@ define(function(require, exports, module) {
 			},
 		refreshStyle: function(){
 			var self = this;
-			$(document).ready(function(){	
+//			$(document).ready(function(){
+				
+			var _dom = Page.findId('showMyImageForm');
+//			var _checkBt = _dom.find("[name='checkbox']");
+//			_checkBt.unbind('click');
+			
 				$(".zoom,.ilike").hide();
 			
 				$(".zoom").each(function(){//遍历所有对象
@@ -58,7 +63,7 @@ define(function(require, exports, module) {
 					$(this).removeClass("hover");
 					$(this).find(".zoom,.ilike").hide();
 				});
-			});
+//			});
 		},
 		waterFall: function(){
 		  $(function(){

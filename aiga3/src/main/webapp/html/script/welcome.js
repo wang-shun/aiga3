@@ -37,51 +37,46 @@ define(function(require,exports,module){
 		},
 		
 		 getWelcomePlanDate: function() {
-	            var self = this;
-	            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-	            // 初始化日历
-	            var specialDates = function(specialDates) {
-	                WdatePicker({
-	                	skin: 'welcome',
-	                    eCont: 'JS_getWelcomePlanDate',
-	                    specialDates: specialDates,
-	                    onpicked: function(dp) {
-	                    	cache.clickTime++;
-							setTimeout(function() {
-								cache.clickTime--;
-							}, 200);
-							if(cache.clickTime>1) {
-					            Rose.ajax.postJson(srvMap.get('onlineTimeSet'), 'onlineTime='+Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy/MM/dd'), function(json, status) {
-					                if (status) {
-					                    XMS.msgbox.show(json.data, 'success', 1500);
-										setTimeout(function() {
-											 self.getWelcomePlanDate();
-										}, 1500);
-					                   
-					                } else {
-					    				XMS.msgbox.show(json.retMessage, 'error', 2000);
-					                }
-					            });
-							} else {
-		                        //alert('你选择的日期是:' + dp.cal.getDateStr())
-		                        Data.planDate = dp.cal.getDateStr();
-		                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
-							}
-	                    }
-	                });
-	            };
-	            //var cmd = "year="+Data.planDateYear+"&month="+Data.planDateMonth;
-	            Rose.ajax.getJson(srvMap.get('onlineTimeFind'), '', function(json, status) {
-	                if (status) {
-	                    window.XMS.msgbox.hide();
-	                    specialDates(json.data);	
-	                } else {
-	    				XMS.msgbox.show(json.retMessage, 'error', 2000);
-	                }
-	            });
-
-
-	        },
+            var self = this;
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            // 初始化日历
+            var specialDatesInit = function(specialDates) {
+                WdatePicker({
+                	skin: 'welcome',
+                    eCont: 'JS_getWelcomePlanDate',
+                    specialDates: specialDates,
+                    onpicked: function(dp) {
+                    	cache.clickTime++;
+						setTimeout(function() {
+							cache.clickTime--;
+						}, 200);
+						if(cache.clickTime>1) {
+				            Rose.ajax.postJson(srvMap.get('onlineTimeSet'), 'onlineTime='+Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy/MM/dd'), function(json, status) {
+				                if (status) {
+				                    XMS.msgbox.show(json.data.outputMessage, 'success', 1500);
+				                    specialDatesInit(json.data.onlineDate);				                   
+				                } else {
+				    				XMS.msgbox.show(json.retMessage, 'error', 2000);
+				                }
+				            });
+						} else {
+	                        //alert('你选择的日期是:' + dp.cal.getDateStr())
+	                        Data.planDate = dp.cal.getDateStr();
+	                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
+						}
+                    }
+                });
+            };
+            //var cmd = "year="+Data.planDateYear+"&month="+Data.planDateMonth;
+            Rose.ajax.getJson(srvMap.get('onlineTimeFind'), '', function(json, status) {
+                if (status) {
+                    window.XMS.msgbox.hide();
+                    specialDatesInit(json.data);	
+                } else {
+    				XMS.msgbox.show(json.retMessage, 'error', 2000);
+                }
+            });
+        },
 		
 		_questionShow: function() {
 			var self = this;

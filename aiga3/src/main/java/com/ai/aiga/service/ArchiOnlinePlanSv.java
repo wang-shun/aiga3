@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.dao.ArchiOnlinePlanDao;
 import com.ai.aiga.domain.ArchiOnlinePlan;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archibaseline.dto.plandate.OnLineTimeSetOutput;
 
 @Service
 @Transactional
@@ -29,8 +30,9 @@ public class ArchiOnlinePlanSv extends BaseService {
 		return output;
 	}
 	
-	public String setOnlineTime(Date onlineTime) {
+	public OnLineTimeSetOutput setOnlineTime(Date onlineTime) {
 		ArchiOnlinePlan hasRecord = archiOnlinePlanDao.findOne(onlineTime);
+		OnLineTimeSetOutput data = new OnLineTimeSetOutput();
 		String outputMessage = "这是消息";
 		if(hasRecord == null) {
 			hasRecord = new ArchiOnlinePlan();
@@ -42,6 +44,8 @@ public class ArchiOnlinePlanSv extends BaseService {
 			archiOnlinePlanDao.delete(hasRecord);
 			outputMessage = "删除该上线时间成功"; 
 		}
-		return outputMessage;		
+		data.setOutputMessage(outputMessage);
+		data.setOnlineDate(findAllTime());
+		return data;		
 	}
 }

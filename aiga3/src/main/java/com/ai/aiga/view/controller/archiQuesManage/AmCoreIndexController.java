@@ -32,6 +32,12 @@ public class AmCoreIndexController {
 		bean.setData(amCoreIndexSv.distinctAmCoreIndex());
 		return bean;
 	}
+	@RequestMapping(path = "/archi/index/distinctMonth")
+	public @ResponseBody JsonBean distinctMonth(){
+		JsonBean bean = new JsonBean();
+		bean.setData(amCoreIndexSv.distinctMonthAmCoreIndex());
+		return bean;
+	}
 	
 	@RequestMapping(path = "/archi/index/selectName")
 	public @ResponseBody JsonBean selectName(AmCoreIndexSelects condition){
@@ -40,4 +46,5 @@ public class AmCoreIndexController {
 		bean.setData(amCoreIndexSv.selectIndexName(condition));
 		return bean;
 	}
+	
 }

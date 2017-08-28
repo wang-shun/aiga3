@@ -8,23 +8,6 @@ define(function(require, exports, module) {
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesIndexView');
 	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
-	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyCorrelation");
-	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyCorrelation");
-	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyCorrelation");
-	//属性下拉菜单
-	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
-	//数据库下拉菜单
-	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
-	//cfgId下拉菜单
-
-	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
-
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
-
 	//问题展示
 	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
 	//新增问题
@@ -63,7 +46,10 @@ define(function(require, exports, module) {
     srvMap.add("fetchindexGroup", "", "sys/maplist/indexGroup");
     srvMap.add("fetchindexName", "", "sys/maplist/indexName");
     srvMap.add("fetchkey1", "", "sys/maplist/key1");
+    //日下拉菜单1
     srvMap.add("fetchdistinct", "", "archi/index/distinct");
+    //月下拉菜单1
+    srvMap.add("fetchdistinctMonth", "", "archi/index/distinctMonth");
     srvMap.add("fetchselectName", "", "archi/index/selectName");
     srvMap.add("fetchselectKey1", "", "archi/index/selectKey1");
     srvMap.add("fetchselectKey2", "", "archi/index/selectKey2");

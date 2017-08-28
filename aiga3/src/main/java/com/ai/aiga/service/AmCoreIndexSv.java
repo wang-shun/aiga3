@@ -32,7 +32,7 @@ public class AmCoreIndexSv extends BaseService {
 	}
 	
     public List<AmCoreIndex> distinctAmCoreIndex(){
-    	List<AmCoreIndex>list = amCoreIndexDao.findAll();
+    	List<AmCoreIndex>list = amCoreIndexDao.findAllDayConnects();
     	List<AmCoreIndex>newList = new ArrayList<AmCoreIndex>(); 
         List<String>indexGrouplist = new ArrayList<String>(); 
         Iterator iter= list.iterator();//List接口实现了Iterable接口  
@@ -44,6 +44,21 @@ public class AmCoreIndexSv extends BaseService {
          	}
       }  
         return newList;
+    }
+    
+    public List<AmCoreIndex> distinctMonthAmCoreIndex(){
+    	List<AmCoreIndex>list = amCoreIndexDao.findAllMonthConnects();
+    	List<AmCoreIndex>newList = new ArrayList<AmCoreIndex>(); 
+    	List<String>indexGrouplist = new ArrayList<String>(); 
+    	Iterator iter= list.iterator();//List接口实现了Iterable接口  
+    	while(iter.hasNext()){  
+    		AmCoreIndex am=(AmCoreIndex)iter.next();  
+    		if(!indexGrouplist.contains(am.getIndexGroup().trim())){
+    			indexGrouplist.add(am.getIndexGroup().trim());
+    			newList.add(am);
+    		}
+    	}  
+    	return newList;
     }
     
     public List<AmCoreIndex>selectIndexName(AmCoreIndexSelects condition){

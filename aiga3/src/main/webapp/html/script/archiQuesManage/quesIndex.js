@@ -78,6 +78,7 @@ define(function(require, exports, module) {
 	var cache = {
 		datas : "",
 		tableName : "",
+		tableName2 : "",
 		tableIndex:""
 	};
 	
@@ -634,8 +635,8 @@ define(function(require, exports, module) {
 				}
 				self.getDataMaintainList2(cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				if(cache.tableName){
-					var task2 = "";
+				if(cache.tableName2){
+					var task2 = "listMonthIndex2";
 /*					switch(cache.tableName){
 						case "ARCH_DB_CONNECT":
 							task2 = "listDbConnects2";
@@ -651,11 +652,11 @@ define(function(require, exports, module) {
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
 						task2 = "listSrvManages2";
 					}*/
-					if(cache.tableName=="ARCH_DB_CONNECT"){
+					if(cache.tableName2=="ARCH_DB_CONNECT"){
 						task2 = "listDbConnects2";
-					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
+					}else if(cache.tableName2=="ARCH_SRV_MANAGE"){
 						task2 = "listSrvManages2";
-					}else if(cache.tableName=="ARCH_MONTH_INDEX"){
+					}else if(cache.tableName2=="ARCH_MONTH_INDEX"){
 						task2 = "listMonthIndex2";
 					}
 				}
@@ -685,7 +686,7 @@ define(function(require, exports, module) {
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
 				_dom.find("[name='content']").html(template(json.data));
-				cache.tableName = json.data[0].schId;
+				cache.tableName2 = json.data[0].schId;
 				cache.tableIndex= json.data[0].indexId;
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
@@ -695,8 +696,8 @@ define(function(require, exports, module) {
 			var _domPaginationSec = _domSec.find("[name='paginationSec2']");
 			// 设置服务器端分页listDbConnects
 			var task = 'listMonthIndex';
-			if(cache.tableName){
-				switch(cache.tableName){
+			if(cache.tableName2){
+				switch(cache.tableName2){
 					case "ARCH_MONTH_INDEX":
 						task = 'listMonthIndex';
 						break;

@@ -28,8 +28,10 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessageL;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeriesL;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
@@ -70,7 +72,7 @@ public class ArchitectureIndexController extends BaseService {
 	@RequestMapping(path = "/arch/index/listMonthIndex2")
 	public @ResponseBody JsonBean listMonthIndex2(AmCoreIndexParams condition) throws ParseException {
 		JsonBean bean = new JsonBean();
-		ArchiChangeMessage output = new ArchiChangeMessage();
+		ArchiChangeMessageL output = new ArchiChangeMessageL();
 		if(StringUtils.isBlank(condition.getStartMonth())) {
 			bean.fail("请输入开始时间！");
 			return bean;
@@ -91,20 +93,20 @@ public class ArchitectureIndexController extends BaseService {
 		List<String>legendList = new ArrayList<String>();
 		List<ArchMonthIndex>monthIndexList = architectureIndexSv.listMonthIndex2(condition);
 		List<ArchMonthIndex>monthIndexList2 = new ArrayList<ArchMonthIndex>(monthIndexList);       
-		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
+		List<ViewSeriesL>seriesList = new ArrayList<ViewSeriesL>();
 		List<String>newList=new ArrayList<String>();
 		Iterator<ArchMonthIndex>iter=monthIndexList.iterator();
 		while(iter.hasNext()){
 			ArchMonthIndex baseConnect = iter.next();
 			if(!newList.contains(baseConnect.getKey1())){
-				ViewSeries baseSeries = new ViewSeries();
+				ViewSeriesL baseSeries = new ViewSeriesL();
 				baseSeries.setType("bar");
 				newList.add(baseConnect.getKey1());
 				String name = baseConnect.getKey1();
 				baseSeries.setName(name);		
 				legendList.add(name);
 				//给对应的列赋值
-				int[] data = new int[constantValue];
+				long[] data = new long[constantValue];
 				Iterator<ArchMonthIndex>iterator = monthIndexList2.iterator();
 				while(iterator.hasNext()){
 					ArchMonthIndex archMonthIndex = iterator.next();
@@ -115,7 +117,7 @@ public class ArchitectureIndexController extends BaseService {
 							String newMonth = months.get(i).trim();
 							String newDay = newMonth.replace("-", "");
 							if(SetMonths.equals(newDay)){
-								data[i]=Integer.parseInt(archMonthIndex.getResultValue());
+								data[i]=Long.parseLong(archMonthIndex.getResultValue());
 								iterator.remove();
 							}
 						}

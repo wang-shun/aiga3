@@ -17,7 +17,7 @@ define(function(require, exports, module) {
 	};
     // 模板对象
 	var Tpl = {
-		getImageList: require('tpl/photoWall/image.tpl')
+		getImageCommonList: require('tpl/photoWall/imageCommon.tpl')
 	};
 
 	var Data = {
@@ -93,7 +93,7 @@ define(function(require, exports, module) {
 			
 			Rose.ajax.postJson(srvMap.get('findCommonImages'),_cmd,function(json, status){
 				if(status) {
-					var template = Handlebars.compile(Tpl.getImageList);
+					var template = Handlebars.compile(Tpl.getImageCommonList);
 					_dom.find("[name='content']").html(template(json.data));
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);

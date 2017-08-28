@@ -118,7 +118,7 @@ define(function(require, exports, module) {
 			_ilikeBtn.unbind('click').bind('click', function() {
 				var self2 = this;
 				
-				var node = Page.findId('sysMessageQuery');
+				var node = Page.findId('main');
 				var value = Utils.getRadioCheckedRow(node);
 
 				var _cmd = _form.find("[name='initImage']").serialize();

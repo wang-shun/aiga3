@@ -221,4 +221,27 @@ public class DealFileController {
 
 			return bean;
 		}
+		// 上传 公共图片
+		@RequestMapping(path = "/group/require/uploadImageCommon")
+		public @ResponseBody JsonBean uploadImageCommon(@RequestParam MultipartFile file) {
+			JsonBean bean = new JsonBean();
+			
+			// 获取图片名称
+			String fileName = file.getOriginalFilename();
+			
+			Date date = new Date();
+			
+			// 设置主机上的文件名
+			String fileNameNew2 = fileName.split("\\.")[0]+"_"+DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS)+"."+fileName.split("\\.")[1];
+			
+			// 把图片上传到主机
+			FileUtil.uploadImage(file, fileName);
+			
+			String isShared = new String("Y");
+			long fileType = 66666;
+			
+			dealFileSv.saveImageInfo(fileName, isShared, fileType, date);
+			
+			return bean;
+		}
 }

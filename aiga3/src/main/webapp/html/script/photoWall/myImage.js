@@ -74,7 +74,7 @@ define(function(require, exports, module) {
 		  });
 		},
 		uploadImage: function(){
-		    $("#fileUploadContent").initUpload({
+		    Page.findId('fileUploadContent').initUpload({
 	        "uploadUrl":"http://localhost:8080/aiga3/group/require/uploadImage",//上传文件信息地址
 //	        "progressUrl":"#",//获取进度信息地址，可选，注意需要返回的data格式如下（{bytesRead: 102516060, contentLength: 102516060, items: 1, percent: 100, startTime: 1489223136317, useTime: 2767}）
 	        //"showSummerProgress":false,//总进度条，默认限制
@@ -117,6 +117,10 @@ define(function(require, exports, module) {
 			var _ilikeBtn = _form.find("[name='ilike']");
 			_ilikeBtn.unbind('click').bind('click', function() {
 				var self2 = this;
+				
+				var node = Page.findId('sysMessageQuery');
+				var value = Utils.getRadioCheckedRow(node);
+
 				var _cmd = _form.find("[name='initImage']").serialize();
 				if(_cmd!=null){
 					if(_cmd.indexOf('isShared=N')>-1){

@@ -655,12 +655,14 @@ define(function(require, exports, module) {
 						task2 = "listDbConnects2";
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
 						task2 = "listSrvManages2";
+					}else if(cache.tableName=="ARCH_MONTH_INDEX"){
+						task2 = "listMonthIndex2";
 					}
 				}
 				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
-						self._graphSec(json);
+						self._graphSec2(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -692,11 +694,11 @@ define(function(require, exports, module) {
 			var _domSec = Page.findId('getDataMaintainListSec2');
 			var _domPaginationSec = _domSec.find("[name='paginationSec2']");
 			// 设置服务器端分页listDbConnects
-			var task = 'listDbConnects';
+			var task = 'listMonthIndex';
 			if(cache.tableName){
 				switch(cache.tableName){
 					case "ARCH_MONTH_INDEX":
-						task = '';
+						task = 'listMonthIndex';
 						break;
             		case "ARCH_DB_CONNECT":
             			task = 'listDbConnects';
@@ -728,6 +730,121 @@ define(function(require, exports, module) {
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPaginationSec);
+		},
+		_graphSec2: function(json) {
+			var myChart = echarts.init(Page.findId('archiIndexView2')[0]);
+			option = {
+				title : {
+			        text: '指标情况',
+			        subtext: ''
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+					y:'bottom',
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
+			    },
+			    toolbox: {
+			        show : true,
+			        feature : {
+			            dataView : {show: false, readOnly: false},
+			            magicType : {show: true, type: ['line', 'bar']},
+			            restore : {show: true},
+			            saveAsImage : {show: true}
+			        }
+			    },
+				calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'营业库A',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库B',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库C',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库D',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'渠道资源库',
+			            type:'bar',
+			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        }
+			    ]
+			};
+			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+				if(json && json.data) {
+					option.legend.data = json.data.legend;
+					option.series = json.data.series;
+					if(json.data.xAxis) {
+						option.xAxis[0].data = json.data.xAxis;
+					}
+					for(var indexSeries in option.series) {
+						option.series[indexSeries].markLine = {
+			                data : [
+			                    {type : 'average', name: '平均值'}
+			                ]
+			            };
+						var markData = [];
+	                    for(var onlineIndex in onlinejson.data) {
+	                    	var onlineDate = onlinejson.data[onlineIndex];
+	                    	var datePosition = json.data.xAxis.indexOf(onlineDate);
+	                    	if(datePosition) {
+	                    		var plan =  {name : '上线', xAxis: datePosition, yAxis: option.series[indexSeries].data[datePosition]};
+	                    		markData.push(plan);
+	                    	}                    
+	                    }
+			            option.series[indexSeries].markPoint = {
+			                data : markData
+			            };
+					}
+				}
+				myChart.setOption(option);
+				window.onresize = myChart.resize;
+  			});
+			
 		},
 	};
 	module.exports = Query;

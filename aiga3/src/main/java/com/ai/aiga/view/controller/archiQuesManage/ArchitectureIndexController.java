@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchDbConnect;
+import com.ai.aiga.domain.ArchMonthIndex;
 import com.ai.aiga.domain.ArchSrvManage;
 import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
 import com.ai.aiga.service.base.BaseService;
@@ -79,7 +80,7 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		List<String>months = getMonthBetween(condition.getStartMonth(),condition.getEndMonth());
-		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+//		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
 		System.out.println("qqqqqqqqqqq"+months);
 		if(months.size()<=0){
 			bean.fail("结束时间小于开始时间！");
@@ -88,13 +89,13 @@ public class ArchitectureIndexController extends BaseService {
 		output.setxAxis(months);
 		final int constantValue = months.size();
 		List<String>legendList = new ArrayList<String>();
-		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
-		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
+		List<ArchMonthIndex>monthIndexList = architectureIndexSv.listMonthIndex2(condition);
+		List<ArchMonthIndex>monthIndexList2 = new ArrayList<ArchMonthIndex>(monthIndexList);       
 		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
 		List<String>newList=new ArrayList<String>();
-		Iterator<ArchDbConnect>iter=connectList.iterator();
+		Iterator<ArchMonthIndex>iter=monthIndexList.iterator();
 		while(iter.hasNext()){
-			ArchDbConnect baseConnect = iter.next();
+			ArchMonthIndex baseConnect = iter.next();
 			if(!newList.contains(baseConnect.getKey1())){
 				ViewSeries baseSeries = new ViewSeries();
 				baseSeries.setType("bar");
@@ -104,17 +105,17 @@ public class ArchitectureIndexController extends BaseService {
 				legendList.add(name);
 				//给对应的列赋值
 				int[] data = new int[constantValue];
-				Iterator<ArchDbConnect>iterator = connectList2.iterator();
+				Iterator<ArchMonthIndex>iterator = monthIndexList2.iterator();
 				while(iterator.hasNext()){
-					ArchDbConnect archDbConnect = iterator.next();
-					if(archDbConnect.getKey1().equals(name)) {
-						String SetMonths = archDbConnect.getSettMonth().trim();
+					ArchMonthIndex archMonthIndex = iterator.next();
+					if(archMonthIndex.getKey1().equals(name)) {
+						String SetMonths = archMonthIndex.getSettMonth().trim();
 //						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 						for(int i=0;i<data.length;i++){
 							String newMonth = months.get(i).trim();
 							String newDay = newMonth.replace("-", "");
 							if(SetMonths.equals(newDay)){
-								data[i]=Integer.parseInt(archDbConnect.getResultValue());
+								data[i]=Integer.parseInt(archMonthIndex.getResultValue());
 								iterator.remove();
 							}
 						}

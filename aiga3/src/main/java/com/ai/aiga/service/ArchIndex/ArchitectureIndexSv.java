@@ -18,6 +18,7 @@ import com.ai.aiga.dao.ArchDbConnectDao;
 import com.ai.aiga.dao.ArchSrvManageDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.ArchDbConnect;
+import com.ai.aiga.domain.ArchMonthIndex;
 import com.ai.aiga.domain.ArchSrvManage;
 import com.ai.aiga.domain.IndexConnect;
 import com.ai.aiga.service.base.BaseService;
@@ -237,7 +238,7 @@ public class ArchitectureIndexSv extends BaseService {
 	public Page<IndexConnect>listMonthIndex(int pageNumber, int pageSize, AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
 				" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
-						" from am_core_index am, arch_manage_index ar " +
+						" from am_core_index am, arch_month_index ar " +
 				" where am.group_id = ar.group_id and am.index_id = ar.index_id " );
 //				"and am.index_group = :indexGroup " +
 //				"and am.index_name = :indexName " +
@@ -288,10 +289,10 @@ public class ArchitectureIndexSv extends BaseService {
 		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, IndexConnect.class, pageable);
 	}
 	
-	public List<ArchSrvManage>listMonthIndex2(AmCoreIndexParams condition){
+	public List<ArchMonthIndex>listMonthIndex2(AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
 				"select ar.* " +
-						"from am_core_index am, arch_manage_index ar " +
+						"from am_core_index am, arch_month_index ar " +
 				"where am.group_id = ar.group_id and am.index_id = ar.index_id " );
 //				"and am.index_group = :indexGroup " +
 //				"and am.index_name = :indexName " +
@@ -330,7 +331,7 @@ public class ArchitectureIndexSv extends BaseService {
 			nativeSql.append("and ar.key_3 = :key3 ");
 			params.add(new ParameterCondition("key3", condition.getKey3()));
 		}
-		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchSrvManage.class);
+		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchMonthIndex.class);
 	}
 	
 }

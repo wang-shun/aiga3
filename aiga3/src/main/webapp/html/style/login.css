@@ -6884,7 +6884,7 @@ td.visible-print {
   box-sizing: border-box;
 }
 body {
-  background-color: #eceff4;
+  background-color: #ffffff;
   font-family: 'Roboto', sans-serif;
 }
 h1,
@@ -8901,7 +8901,7 @@ hr.dots:before {
 }
 #login,
 #register {
-  background-color: #44abe5;
+  background-color: #ffffff;
 }
 #login header,
 #register header {
@@ -9426,8 +9426,8 @@ display: block;
 .icon-zhongguoyidong:before { content: "\e601"; }
 
 #login .login {
-  height: 350px;
-  padding-top:110px; 
+    height: 288px;
+    margin-top: 5%;
 }
 #login .loginform {
   margin-top: 0;

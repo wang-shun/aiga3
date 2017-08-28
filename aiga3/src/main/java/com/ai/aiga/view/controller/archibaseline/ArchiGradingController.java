@@ -5,6 +5,9 @@ import io.swagger.annotations.Api;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import oracle.net.resolver.TNSNamesNamingAdapter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -459,6 +462,21 @@ public class ArchiGradingController {
 			}
 
 		} else if("3".equals(ext1)) {
+			//生成三级系统编号
+			Long preId = input.getIdThird();
+			if(preId.toString().length()==4) {
+				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
+				if(result != null) {
+					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
+					int sysIndex  =Integer.valueOf(adviceThirdId);
+					sysIndex++;
+					adviceThirdId = String.valueOf(sysIndex);
+					if(adviceThirdId.length()<2) {
+						adviceThirdId = "0"+adviceThirdId;
+					}
+					output.setAdviceThirdId(preId+adviceThirdId+"10");
+				}
+			}
 			//查询所属二级域 和 系统建设状态
 			ArchitectureSecond architectureSecond = architectureSecondSv.findOne(idBelong);
 			List<ArchitectureStaticData> dataList = architectureStaticDataSv.findByCodeTypeAndCodeValue("SYS_BUILDING_STATE", sysState);
@@ -510,5 +528,5 @@ public class ArchiGradingController {
 		}	
 		bean.setData(data);
 		return bean;
-	}
+	}	
 }

@@ -12,4 +12,5 @@ public class GrandingTranslateOutput implements Serializable {
 	private List<ArchitectureSecond> secData;
 	private String idBelongName;
 	private String sysStateName;
+	private String adviceThirdId;
 }

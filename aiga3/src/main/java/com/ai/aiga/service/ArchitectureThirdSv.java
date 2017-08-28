@@ -27,7 +27,7 @@ public class ArchitectureThirdSv extends BaseService {
 
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
-
+	
 	public List<Map> findWelcomePie(){
 		String sql = "select count(*) as sum,b.name,substr(b.id_first,0,1) as rank from architecture_third a,architecture_first b where substr(a.id_third,0,1) = substr(b.id_first,0,1)group by b.name,substr(b.id_first,0,1) order by substr(b.id_first,0,1)";
 		return architectureThirdDao.searchByNativeSQL(sql);	
@@ -46,6 +46,11 @@ public class ArchitectureThirdSv extends BaseService {
 		} else {
 			sql += " and a.id_first = "+idFirst;
 		}		
+		return architectureThirdDao.searchByNativeSQL(sql);	
+	}
+	
+	public List<Map> getSystemIdNow(Long idThird) {
+		String sql = "SELECT max(substr(t.id_third,5,2)) as sys_index FROM  AIAM.Architecture_Third t where t.id_third like '"+idThird+"%'";	
 		return architectureThirdDao.searchByNativeSQL(sql);	
 	}
 	

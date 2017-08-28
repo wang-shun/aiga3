@@ -59,7 +59,7 @@ define(function(require, exports, module) {
 			var _from = Page.findId('sysMessageFrom');
 			_from.find("[name='identify']").off('click').on('click',function() {
 				var data = cache.selectData;
-				//编号校验
+				//编号校验 不允许异常数据认定通过
 				if(data.ext1 == '3' && data.description == '新增') {
     				var pass = Page.findId('modal').find("[name='pass']");
 					var sysValue = Page.findId('selectData').find('[name="sysId"]').val();
@@ -182,15 +182,17 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Page.findTpl('getGrandingMessageList'));
 				
         		_dom.find("[name='content']").html(template(json.data.content));
+        		//绑定表格的click事件
         		Utils.eventClickChecked(_dom,function(isChecked,_input) {
         			var applyId = _input[0].value;
         			var allDatas = cache.datas;
         			if(allDatas) {
+        				//获取当前选中数据
         				var index = 0;
         				while(allDatas[index].applyId != applyId) {
         					index++;
         				}
-        				var selectData = allDatas[index];
+        				var selectData = $.extend(true,{},allDatas[index]);
         				//附件信息获取
         				if(selectData.fileId) {
             				var fileCondition = 'planId=' + selectData.fileId + '&fileType=88888';
@@ -203,16 +205,19 @@ define(function(require, exports, module) {
             					}					
             				});
         				}
+        				//拼装数据翻译服务的入参
         				var _cmdTrans;
         				if(selectData.idBelong) {
-        					_cmdTrans = 'idBelong='+selectData.idBelong+'&ext1='+selectData.ext1+'&sysState='+selectData.sysState;
+        					_cmdTrans = 'idBelong='+selectData.idBelong+'&ext1='+selectData.ext1+'&sysState='+selectData.sysState+'&idThird='+selectData.sysId;
         				} else {
         					_cmdTrans = 'idBelong=0&ext1='+selectData.ext1+'&sysState='+selectData.sysState;
         				}     
+        				//重置认定通过的样式  可显示
         				var pass = Page.findId('modal').find("[name='pass']");
         				if(pass.hasClass('show-nothing')) {
         					pass.removeClass('show-nothing');
         				}
+        				//参数校验 异常则隐藏认定通过按钮
         				if(selectData.state == "申请") {
              				if(selectData.ext1 == '3' && selectData.description == '新增') {
             				} else if(selectData.description == '删除') {
@@ -234,7 +239,7 @@ define(function(require, exports, module) {
             				}
         				}  
 
-        				//信息翻译
+        				//获取系统建设状态和所属域的名称
         				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(json, status){
     						if(!status) {
     							XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -255,8 +260,11 @@ define(function(require, exports, module) {
 	        				} else if(type == '2') {
 	        					templateFrom = Handlebars.compile(Page.findTpl('secondMessageFrom'));
 	        				} else {
+	        					//设置三级系统模板
 	        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
+	        					//设置所属于是否可选，编号是否可修改
 	        					if(selectData.description == '新增' && selectData.state == "申请") {
+	        						selectData.sysId = json.data.adviceThirdId;
 	        						selectData.isSelected = 1;
 	        						selectData.disabledType = '';
 	        					} else if(selectData.description == '修改' && selectData.state == "申请") {
@@ -270,7 +278,9 @@ define(function(require, exports, module) {
 	        				_selectDataModal.html(templateFrom(selectData));
 	        				var _modal = Page.findId('sysMessageFrom');
 	        				_modal.modal('show');
+	        				//模态框加载后事件
 	        				_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+	        					//认定页允许所属域修改
 	        					if(selectData.description != '删除' && selectData.state == "申请") {
 	        						var selectDom = Page.findId('selectData').find('[name="idBelong"]');
 	        	                    var secData = json.data.secData;
@@ -278,7 +288,6 @@ define(function(require, exports, module) {
 	        	                    for (var i in secData) {
 	        	                        var _json = secData[i];
 	        	                        _html += '<option value="' + _json.idSecond + '">' + _json.name + '</option>';
-
 	        	                    }
 	        	                    selectDom.html(_html);
 	        	                    selectDom.val(selectData.idBelong);
@@ -297,16 +306,18 @@ define(function(require, exports, module) {
 	        				});
 	        				if(selectData.state == '申请') {
 	        					_selectDataModal.find("[name='identifiedModal']").addClass('show-nothing');
+	        					//判断用户是否有认定权限
 	        					if(cache.roleCheck == 'true') {
 		        					Page.findId('IdentifyButtom').find("[name='identify']").removeClass('show-nothing');
 	        					} else {
+	        						//隐藏认定按钮
 	        						Page.findId('IdentifyButtom').find("[name='identify']").addClass('show-nothing');
 	        					}
 	        				} else {
+	        					//非申请状态的单子不允许认定操作
 	        					_selectDataModal.find("[name='identifiedModal']").removeClass('show-nothing');
 	        					Page.findId('IdentifyButtom').find("[name='identify']").addClass('show-nothing');
-	        				}   
-	        				
+	        				}           				
     					});  				
         			}
         		});

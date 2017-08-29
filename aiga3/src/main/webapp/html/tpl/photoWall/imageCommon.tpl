@@ -5,7 +5,7 @@
 	        	<div class="img_block">
 	            	<img src="{{imgSrc}}" />
 	                <a href="#" rel="lightbox[plants]" title="测试标题" class="zoom">放大</a>
-	                <a href="#" class="ilike" name="ilike">取消</a>
+	                <a href="#" class="ilike" name="ilike" imgid="{{id}}">取消</a>
 	      		</div>
 	            <h3>{{title}}</h3>
 	            <div class="iNum"><span>{{likeCount}}</span><a href="#">{{commentCount}}</a></div>

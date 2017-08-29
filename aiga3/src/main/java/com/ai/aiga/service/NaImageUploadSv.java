@@ -77,6 +77,9 @@ public class NaImageUploadSv extends BaseService {
 	public List<NaImageUpload>findMyImages(String isShared, Long createId){
 		return naImageUploadDao.findByIsSharedAndCreateId(isShared, createId);
 	}
+	public List<NaImageUpload>findMyImages2(String isShared, Long createId){
+		return naImageUploadDao.findAll();
+	}
 	
 	public List<NaImageUpload>findCommonImages(String isShared){
 		return naImageUploadDao.findByIsShared(isShared);

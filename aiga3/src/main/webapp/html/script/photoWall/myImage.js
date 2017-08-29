@@ -116,18 +116,28 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _ilikeBtn = _form.find("[name='ilike']");
 			_ilikeBtn.unbind('click').bind('click', function() {
-				var self2 = this;
+				var self2 = $(this);
+				var id = self2.attr('imgId');
+                for(var i in cache.datas) {
+					if(id==cache.datas[i].id){
+						_cmd=cache.datas[i];
+					}           
+                }
+                var now = new Date(); 
+				var cmd = "";
+				cmd = cmd + "id="+_cmd.id + "&";
+				cmd = cmd + "fileName="+_cmd.fileName + "&";
+				cmd = cmd + "imgSrc="+_cmd.imgSrc + "&";
+				cmd = cmd + "title="+_cmd.title + "&";
+				cmd = cmd + "description="+_cmd.description + "&";
+				cmd = cmd + "likeCount="+_cmd.likeCount + "&";
+				cmd = cmd + "commentCount="+_cmd.commentCount + "&";
+				cmd = cmd + "isShared=Y&";
+				cmd = cmd + "createTime="+ self.formatDate(now) + "&";
+				cmd = cmd + "fileType="+_cmd.fileType + "&";
+				cmd = cmd + "createId="+_cmd.createId;
 				
-				var node = Page.findId('main');
-				var value = Utils.getRadioCheckedRow(node);
-
-				var _cmd = _form.find("[name='initImage']").serialize();
-				if(_cmd!=null){
-					if(_cmd.indexOf('isShared=N')>-1){
-						_cmd=_cmd.replace("isShared=N","isShared=Y");
-					}
-				}
-				Rose.ajax.postJson(srvMap.get('updateIsSharedState'),_cmd,function(json, status){
+				Rose.ajax.postJson(srvMap.get('updateIsSharedState'),cmd,function(json, status){
 					if(status) {
 						window.XMS.msgbox.show('共享成功！', 'success', 2000);
 					} else {
@@ -136,7 +146,16 @@ define(function(require, exports, module) {
 				});
 			});
 		},	
-		
+		//时间格式化
+		formatDate: function(date) {
+			var d = new Date(date),
+				month = '' + (d.getMonth() + 1),
+				day = '' + d.getDate(),
+				year = d.getFullYear(); 
+			if (month.length < 2) month = '0' + month;
+			if (day.length < 2) day = '0' + day;
+			return [year, month, day].join('/');	
+		},
 	};
 	module.exports = Query;
 });

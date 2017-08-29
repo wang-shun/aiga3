@@ -36,9 +36,9 @@ public interface NaImageUploadDao extends  JpaRepository<NaImageUpload, Long>,Se
 	@Query(value="select * from na_image_upload where plan_id = ?1 and file_type = ?2", nativeQuery = true)
 	public NaImageUpload findByPlanIdAndFileType(Long planId, Long fileType);
 	//whether or not shared select common images
-	@Query(value="select * from na_image_upload where is_shared = ?1", nativeQuery = true)
+	@Query(value="select * from na_image_upload where is_shared = ?1 and create_id is not null ", nativeQuery = true)
 	public List<NaImageUpload> findByIsShared(String isShared);
 	//whether or not shared select belong images
-	@Query(value="select * from na_image_upload where is_shared = ?1 and create_id=?2", nativeQuery = true)
+	@Query(value="select * from na_image_upload where is_shared = ?1 and create_id=?2 ", nativeQuery = true)
 	public List<NaImageUpload> findByIsSharedAndCreateId(String isShared, Long createId);
 }

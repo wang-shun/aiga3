@@ -45,7 +45,7 @@ public class NaImageUploadController {
 	public @ResponseBody JsonBean findMyImages(
 			@RequestParam String isShared, @RequestParam Long createId){
 		JsonBean bean = new JsonBean();
-		bean.setData(naImageUploadSv.findMyImages(isShared, createId));
+		bean.setData(naImageUploadSv.findMyImages2(isShared, createId));
 		return bean;
 	}
 	//查询公共图片库

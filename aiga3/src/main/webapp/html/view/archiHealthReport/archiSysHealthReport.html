@@ -1,0 +1,36 @@
+<!--Page Start-->
+<div class="row" id="Page_archiSysHealthReport">
+	<div class="col-md-12">
+		<div class="box box-solid">
+			<div class="box-header">
+				<h3 class="box-title">选择系统</h3>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="box box-solid">
+			<div class="box-header">
+				<h3 class="box-title">系统身份</h3>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="box box-solid">
+			<div class="box-body">
+				<div id="JS_echartsRadar" style="width:100%;height:400px"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="box box-solid">
+			<div class="box-header">
+				<h3 class="box-title">系统体检报告</h3>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+seajs.use("script/archiHealthReport/archiSysHealthReport", function(init) {
+	init.init();
+});
+</script>

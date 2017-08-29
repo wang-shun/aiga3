@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
 	//引入Echarts样式
 	require("macarons");
+	require("lib/comboSelect/js/jquery.combo.select.js");
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
@@ -24,8 +25,13 @@ define(function(require, exports, module) {
 		_querydomain: function() {
 			var self = this;
 			self._getEchartsRadar();
+			self._load_combo_select();
 		},
-		
+		_load_combo_select: function() {
+			Page.findId("monthSelect1").comboSelect();
+			Page.findId("monthSelect2").comboSelect();
+			Page.findId("monthSelect3").comboSelect();
+		},
 		_getEchartsRadar: function() {
 			var myChart = echarts.init(Page.findId('echartsRadar')[0],'macarons');
 			option = {

@@ -468,11 +468,15 @@ public class ArchiGradingController {
 				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
 				if(result != null) {
 					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
-					int sysIndex  =Integer.valueOf(adviceThirdId);
-					sysIndex++;
-					adviceThirdId = String.valueOf(sysIndex);
-					if(adviceThirdId.length()<2) {
-						adviceThirdId = "0"+adviceThirdId;
+					if(adviceThirdId == null || adviceThirdId == "00") {
+						adviceThirdId = "01";
+					} else {
+						int sysIndex  =Integer.valueOf(adviceThirdId);
+						sysIndex++;
+						adviceThirdId = String.valueOf(sysIndex);
+						if(adviceThirdId.length()<2) {
+							adviceThirdId = "0"+adviceThirdId;
+						}
 					}
 					output.setAdviceThirdId(preId+adviceThirdId+"10");
 				}

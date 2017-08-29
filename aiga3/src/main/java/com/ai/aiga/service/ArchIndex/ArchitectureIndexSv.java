@@ -258,11 +258,11 @@ public class ArchitectureIndexSv extends BaseService {
 			params.add(new ParameterCondition("indexName", condition.getIndexName()));
 		}
 		if (StringUtils.isNotBlank(condition.getStartMonth())) {
-			nativeSql.append("and to_date(ar.sett_month,'yyyyMM') >= to_date(:startMonth, 'yyyy-MM') ");
+			nativeSql.append("and to_date(substr(ar.sett_month, 0, 6),'yyyyMM') >= to_date(:startMonth, 'yyyy-MM') ");
 			params.add(new ParameterCondition("startMonth", condition.getStartMonth()));
 		}
 		if (StringUtils.isNotBlank(condition.getEndMonth())) {
-			nativeSql.append("and to_date(ar.sett_month,'yyyyMM') <= to_date(:endMonth, 'yyyy-MM') ");
+			nativeSql.append("and to_date(substr(ar.sett_month, 0, 6),'yyyyMM') <= to_date(:endMonth, 'yyyy-MM') ");
 			params.add(new ParameterCondition("endMonth", condition.getEndMonth()));
 		}
 		if (StringUtils.isNotBlank(condition.getKey1())) {
@@ -312,11 +312,11 @@ public class ArchitectureIndexSv extends BaseService {
 			params.add(new ParameterCondition("indexName", condition.getIndexName()));
 		}
 		if (StringUtils.isNotBlank(condition.getStartMonth())) {
-			nativeSql.append("and to_date(ar.sett_month,'yyyyMM') >= to_date(:startMonth, 'yyyy-MM') ");
+			nativeSql.append("and to_date(substr(ar.sett_month, 0, 6),'yyyyMM') >= to_date(:startMonth, 'yyyy-MM') ");
 			params.add(new ParameterCondition("startMonth", condition.getStartMonth()));
 		}
 		if (StringUtils.isNotBlank(condition.getEndMonth())) {
-			nativeSql.append("and to_date(ar.sett_month,'yyyyMM') <= to_date(:endMonth, 'yyyy-MM') ");
+			nativeSql.append("and to_date(substr(ar.sett_month, 0, 6),'yyyyMM') <= to_date(:endMonth, 'yyyy-MM') ");
 			params.add(new ParameterCondition("endMonth", condition.getEndMonth()));
 		}
 		if (StringUtils.isNotBlank(condition.getKey1())) {

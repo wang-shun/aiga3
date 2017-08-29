@@ -72,7 +72,7 @@ public class ArchitectureIndexController extends BaseService {
 	@RequestMapping(path = "/arch/index/listMonthIndex2")
 	public @ResponseBody JsonBean listMonthIndex2(AmCoreIndexParams condition) throws ParseException {
 		JsonBean bean = new JsonBean();
-		ArchiChangeMessageL output = new ArchiChangeMessageL();
+		ArchiChangeMessage2 output = new ArchiChangeMessage2();
 		if(StringUtils.isBlank(condition.getStartMonth())) {
 			bean.fail("请输入开始时间！");
 			return bean;
@@ -93,31 +93,31 @@ public class ArchitectureIndexController extends BaseService {
 		List<String>legendList = new ArrayList<String>();
 		List<ArchMonthIndex>monthIndexList = architectureIndexSv.listMonthIndex2(condition);
 		List<ArchMonthIndex>monthIndexList2 = new ArrayList<ArchMonthIndex>(monthIndexList);       
-		List<ViewSeriesL>seriesList = new ArrayList<ViewSeriesL>();
+		List<ViewSeries2>seriesList = new ArrayList<ViewSeries2>();
 		List<String>newList=new ArrayList<String>();
 		Iterator<ArchMonthIndex>iter=monthIndexList.iterator();
 		while(iter.hasNext()){
 			ArchMonthIndex baseConnect = iter.next();
-			if(!newList.contains(baseConnect.getKey1())){
-				ViewSeriesL baseSeries = new ViewSeriesL();
+			if(!newList.contains(baseConnect.getKey2())){
+				ViewSeries2 baseSeries = new ViewSeries2();
 				baseSeries.setType("bar");
-				newList.add(baseConnect.getKey1());
-				String name = baseConnect.getKey1();
+				newList.add(baseConnect.getKey2());
+				String name = baseConnect.getKey2();
 				baseSeries.setName(name);		
 				legendList.add(name);
 				//给对应的列赋值
-				long[] data = new long[constantValue];
+				double[] data = new double[constantValue];
 				Iterator<ArchMonthIndex>iterator = monthIndexList2.iterator();
 				while(iterator.hasNext()){
 					ArchMonthIndex archMonthIndex = iterator.next();
-					if(archMonthIndex.getKey1().equals(name)) {
-						String SetMonths = archMonthIndex.getSettMonth().trim();
+					if(archMonthIndex.getKey2().equals(name)) {
+						String SetMonths = archMonthIndex.getSettMonth().trim().substring(0, 6);
 //						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 						for(int i=0;i<data.length;i++){
 							String newMonth = months.get(i).trim();
 							String newDay = newMonth.replace("-", "");
 							if(SetMonths.equals(newDay)){
-								data[i]=Long.parseLong(archMonthIndex.getResultValue());
+								data[i]=Double.parseDouble(archMonthIndex.getResultValue());
 								iterator.remove();
 							}
 						}

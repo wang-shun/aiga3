@@ -124,6 +124,9 @@ public class DealFileSv extends BaseService{
 				long quesId = 4100000000L;
 				for (QuestionInfo v : values) {
 					v.setQuesId(quesId);
+					v.setSysVersion("待确认");
+					v.setCreateDate(date);
+					v.setModifyDate(date);
 					quesId++;
 				}
 			}

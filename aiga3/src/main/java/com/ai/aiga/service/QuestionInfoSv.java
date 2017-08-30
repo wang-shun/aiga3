@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.QuestionInfoDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.QuestionInfo;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -32,6 +33,13 @@ public class QuestionInfoSv extends BaseService {
 	public List<Map> findQuestionStatePie(){
 		String sql = "SELECT t.state ,count(T.state) as cnt FROM question_info t Group by t.state";
 		return questionInfoDao.searchByNativeSQL(sql);	
+	}
+	
+	public List<Map> findQuestionStatePie(String idFirst){
+		String sql = " SELECT t.state ,count(T.state) as cnt FROM question_info t where t.id_First = :idFirst Group by t.state ";
+		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+		params.add(new ParameterCondition("idFirst", idFirst));
+		return questionInfoDao.searchByNativeSQL(sql,params);	
 	}
 	
 	public List<Map> findQuestionId(){

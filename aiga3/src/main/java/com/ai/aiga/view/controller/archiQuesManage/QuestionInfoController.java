@@ -80,6 +80,51 @@ public class QuestionInfoController {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/archi/question/quesStatePie2")
+	public @ResponseBody JsonBean quesStatePie2(@RequestParam String idFirst){
+		JsonBean bean = new JsonBean();
+		quesStatePieOutput output = new quesStatePieOutput();
+		List<String> legend = new ArrayList<String>();
+		List<quesStatePieData> seriesInner = new ArrayList<quesStatePieData>();
+		List<quesStatePieData> seriesOuter = new ArrayList<quesStatePieData>();
+		@SuppressWarnings("rawtypes")
+		List<Map> StateList = questionInfoSv.findQuestionStatePie(idFirst);
+		int fullValue = 0;
+		for(Map base : StateList) {
+			String state = String.valueOf(base.get("state"));
+			String value = String.valueOf(base.get("cnt"));
+			if("null".equals(state)) {
+				continue;
+			}
+			legend.add(state);
+			quesStatePieData data = new quesStatePieData();
+			data.setName(state);
+			data.setValue(value);
+			if("已解决".endsWith(state) || "未解决".equals(state)) {
+				seriesInner.add(data);
+			} else {
+				fullValue += Integer.parseInt(value);
+			}
+			seriesOuter.add(data);
+		}
+		if(fullValue != 0) {
+			quesStatePieData full = new quesStatePieData();
+			legend.add("跟踪状态");
+			full.setName("跟踪状态");
+			full.setValue(String.valueOf(fullValue));
+			seriesInner.add(full);	
+		}
+		
+		//排序
+		Collections.sort(seriesInner, new stateComparator());
+		Collections.sort(seriesOuter, new stateComparator());
+		output.setLegend(legend);
+		output.setSeriesInner(seriesInner);
+		output.setSeriesOuter(seriesOuter);
+		bean.setData(output);
+		return bean;
+	}
+	
     static class stateComparator implements Comparator<quesStatePieData> {  
 		@Override
 		public int compare(quesStatePieData o1, quesStatePieData o2) {

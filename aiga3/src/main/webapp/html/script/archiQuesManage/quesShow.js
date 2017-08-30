@@ -10,6 +10,10 @@ define(function(require, exports, module) {
 
     //三级信息变更数据
     srvMap.add("quesStatePie", pathAlias+"getSecView.json", "archi/question/quesStatePie");
+    //三级信息变更数据 根据event查询
+    srvMap.add("quesStatePie2", pathAlias+"getSecView.json", "archi/question/quesStatePie2");
+ 	//get id
+    srvMap.add("getEventFindAll", pathAlias+"getSysMessageList.json", "archi/event/findAll");
 
 	var cache = {
 		datas : ""
@@ -21,9 +25,45 @@ define(function(require, exports, module) {
 		},
 		_render: function() {
 			var self = this;
+			self.initialise();
+			self.queryDataMaintainForm();
 			self._getChangeMessage();
 		},
-		
+		initialise: function(){
+			var self = this;
+			var _form = Page.findId('queryDataMaintainForm');
+			Utils.setSelectData(_form);
+		},
+		// 按条件查询
+		queryDataMaintainForm: function() {
+			var self = this;
+			var _form = Page.findId('queryDataMaintainForm');
+			Utils.setSelectData(_form);
+			var _queryBtn = _form.find("[name='query']");
+			_queryBtn.bind('click', function() {
+				var cmd = _form.serialize();
+				self.getDataMaintainList(cmd);
+			});
+		},
+		// 查询数据维护
+		getDataMaintainList: function(cmd) {
+			var self = this;
+			var _cmd = cmd;
+			if(_cmd.length>8) {
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get("quesStatePie2"), _cmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.hide();
+						self._graphfir(json);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+	  			});
+				return
+			}else{
+				self._getChangeMessage();
+			}
+		},
 		_getChangeMessage: function(){
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');

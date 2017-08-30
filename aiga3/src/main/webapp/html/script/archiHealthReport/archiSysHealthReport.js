@@ -40,7 +40,6 @@ define(function(require, exports, module) {
 				    },
 				    legend: {
 				    	enabled: false,
-				        data: ['预算分配（Allocated Budget）']
 				    },
 				    radar: {
 				        // shape: 'circle',

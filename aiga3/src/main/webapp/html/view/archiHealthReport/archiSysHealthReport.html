@@ -1,24 +1,34 @@
 <!--Page Start-->
 <link rel="stylesheet" href="lib/comboSelect/css/combo.select.css">
 <style>
-	.img-wod-sty {
-		font-size:100px;
-		color: transparent;
-		background-color : black;
-		text-shadow : rgba(255,255,255,0.5) 0 5px 6px, rgba(255,255,255,0.2) 1px 3px 3px;
-		-webkit-background-clip : text;
-	}
-	.card-word-sty {
-		margin-bottom: 10px
-	}
-	.card-word-intro {
-	    border: dotted;
-    	height: 120px;
-	}
-	.select-label-word {
-	    margin-top: 13px;
-	    width: 80px;
-	}
+.img-wod-sty {
+	font-size: 100px;
+	color: transparent;
+	background-color: black;
+	text-shadow: rgba(255, 255, 255, 0.5) 0 5px 6px,
+		rgba(255, 255, 255, 0.2) 1px 3px 3px;
+	-webkit-background-clip: text;
+}
+
+.card-word-sty {
+	margin-bottom: 10px
+}
+
+.card-word-intro {
+	border: dotted;
+	height: 120px;
+}
+
+.select-label-word {
+	margin-top: 13px;
+	width: 80px;
+}
+
+.echar-radar-stay {
+	width: 100%;
+	height: 300px;
+	z-index: 0;
+}
 </style>
 <div class="row" id="Page_archiSysHealthReport">
 	<div class="col-md-12">
@@ -45,7 +55,7 @@
 					</select>
 				</div>
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">一级域</label> <select id="JS_monthSelect2">
+					<label class="select-label-word">二级子域</label> <select id="JS_monthSelect2">
 						<option value="">月份</option>
 						<option value="一月">一月</option>
 						<option value="二月">二月</option>
@@ -62,7 +72,7 @@
 					</select>
 				</div>
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">一级域</label> <select id="JS_monthSelect3">
+					<label class="select-label-word">三级系统</label> <select id="JS_monthSelect3">
 						<option value="">月份</option>
 						<option value="一月">一月</option>
 						<option value="二月">二月</option>
@@ -115,7 +125,7 @@
 	<div class="col-md-6">
 		<div class="box box-solid">
 			<div class="box-body">
-				<div id="JS_echartsRadar" style="width:100%;height:300px"></div>
+				<div id="JS_echartsRadar" class="echar-radar-stay"></div>
 			</div>
 		</div>
 	</div>

@@ -47,6 +47,10 @@ public class OrganizeSv extends BaseService {
 	public List<AigaOrganize> findOrganize(Long organizeId) {
 		return organizeDao.findByOrganizeId(organizeId);
 	}
+	
+	public List<AigaOrganize> findAll() {
+		return organizeDao.findAll();
+	}
 
 	/**
 	 * 查询组织树

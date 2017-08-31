@@ -41,6 +41,14 @@ public class StaffController {
 		return JsonBean.success;
 	}
 	/*
+	 * 注册
+	 * */
+	@RequestMapping(path = "/aiga/staff/saveSignIn")
+	public @ResponseBody JsonBean saveSignIn(StaffInfoRequest staffRequest,Long organizeId,Long roleId){
+		aigaStaffSv.saveStaffOrgSignIn(staffRequest,organizeId,roleId);
+		return JsonBean.success;
+	}
+	/*
 	 * 修改操作员信息
 	 * */
 	@RequestMapping(path = "/aiga/staff/update")

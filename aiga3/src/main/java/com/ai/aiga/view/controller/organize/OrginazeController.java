@@ -35,6 +35,12 @@ public class OrginazeController {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/sys/organize/findAllOrg")
+	public @ResponseBody JsonBean findAllOrg() {
+		JsonBean bean = new JsonBean();
+		bean.setData(organizeSv.findAll());
+		return bean;
+	}
 
 	@RequestMapping(path = "/sys/organize/treeList", method = {RequestMethod.GET, RequestMethod.POST})
 	@ApiOperation(value = "查询组织树", response = AigaOrganize.class, notes = "查询组织树")

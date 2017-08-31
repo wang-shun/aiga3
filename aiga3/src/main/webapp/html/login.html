@@ -15,7 +15,7 @@
 </head>
 
 <body >
-<div id="login">
+<div id="login" id="Page_loginSignIn">
     <div class="wrapper">
         <div style="margin-left:40px;margin-top:20px">
             <!-- Logo -->
@@ -115,44 +115,62 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <form id="JS_signInForm">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">修改密码</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row" >
-                        <div class="col-md-12">
-                            <div class="form-group input-group-sm">
-                                <label>用户名<i class="text-red">*</i></label>
-                                <input type="text" class="form-control" name="code" required>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group input-group-sm">
-                                <label>原密码<i class="text-red">*</i></label>
-                                <input type="password" class="form-control" name="password" required>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group input-group-sm">
-                                <label>新密码<i class="text-red">*</i></label>
-                                <input type="password" class="form-control" name="newPassword" required>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group input-group-sm">
-                                <label>重复密码<i class="text-red">*</i></label>
-                                <input type="password" class="form-control" name="recentnewPassword" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="text-center">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="button" class="btn btn-primary" name="submit">确认</button>
-                    </div>
-                </div>
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">新用户注册</h4>
+	            </div>
+	            <div class="modal-body">
+                	<div class="row">
+				        <div class="col-md-6">
+				            <div class="form-group input-group-sm">
+				                <label>工号</label>
+				                <input type="text" class="form-control" name="code" required>
+				            </div>
+				        </div>
+				        <div class="col-md-6">
+				            <div class="form-group input-group-sm">
+				                <label>姓名</label>
+				                <input type="text" class="form-control" name="name" required>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="row">
+				        <div class="col-md-6">
+				            <div class="form-group input-group-sm">
+				                <label>密码</label>
+				                <input type="password" class="form-control" name="password" required>
+				            </div>
+				        </div>
+				        <div class="col-md-6">
+				            <div class="form-group input-group-sm">
+				                <label>重复密码</label>
+				                <input type="password" class="form-control" name="recentPassword" required>
+				            </div>
+				        </div>
+				    </div>
+				    <div class="row">
+				        <div class="col-md-6">
+				            <div class="form-group input-group-sm">
+				                <label>组织</label>
+						         <select name="organizeId" class="form-control select2 input-sm" data-url="findAllOrg" data-idkey="organizeId" data-namekey="organizeName">
+						             <option value="">请选择</option>
+						         </select>				            
+						    </div>
+				        </div>
+						<div class="form-group col-sm-6">
+					        <label for="roleId" >角色</label>
+					         <select name="roleId" class="form-control select2 input-sm" data-url="getSysRole" data-idkey="roleId" data-namekey="name">
+					             <option value="">请选择</option>
+					         </select>
+					    </div>
+				    </div>
+	            </div>
+	            <div class="modal-footer">
+	                <div class="text-center">
+	                    <button type="reset" class="btn btn-default" id="JS_addUserinfoReset" data-dismiss="modal">取消</button>
+	                    <button type="button" class="btn btn-primary" id="JS_addUserinfoSubmit" name="signin">确认</button>
+	                </div>
+	            </div>
             </form>
         </div>
     </div>
@@ -166,7 +184,7 @@
   <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <script src="lib/jquery/1.11.3/jquery.js"></script>
 <![endif]-->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     $(function() {
             $('#login #password').focus(function() {
                 $('#owl-login').addClass('password');
@@ -218,8 +236,9 @@
             $("#JS_changePassword").bind("click",function(){
             var _modal = $("#JS_changePasswordModal");
             var _form = $("#JS_changePasswordForm");
+			Utils.setSelectData(_form);
             $("#JS_changePasswordModal").modal('show');
-
+			
             _modal.find("[name='submit']").click(function(){
                 if($.trim(_form.find("input[name='code']").val())=='' || $.trim(_form.find("input[name='password']").val())==''){
                     XMS.msgbox.show('亲，用户名和原密码不能为空！', 'error', 2000);
@@ -260,51 +279,57 @@
             })
         })
         //注册function
+        // 添加员工
         $("#JS_signIn").bind("click",function(){
             var _modal = $("#JS_signInModal");
             var _form = $("#JS_signInForm");
-            $("#JS_signInModal").modal('show');
+            _modal.modal('show');
+			var cmd = _form.serialize();
 
-            _modal.find("[name='submit']").click(function(){
+            _modal.find("[name='signin']").click(function(){
                 if($.trim(_form.find("input[name='code']").val())=='' || $.trim(_form.find("input[name='password']").val())==''){
                     XMS.msgbox.show('亲，用户名和原密码不能为空！', 'error', 2000);
                     return false;
                 }
-                if($.trim(_form.find("input[name='newPassword']").val())=='' || $.trim(_form.find("input[name='recentnewPassword']").val())==''){
+                if($.trim(_form.find("input[name='password']").val())=='' || $.trim(_form.find("input[name='recentPassword']").val())==''){
                     XMS.msgbox.show('亲，新密码和重复密码不能为空！', 'error', 2000);
                     return false;
                 }
-                if(!Rose.validate.Check('passwrd',_form.find("input[name='newPassword']").val())){
+                if(!Rose.validate.Check('passwrd',_form.find("input[name='password']").val())){
                     XMS.msgbox.show('亲，密码长度在6-10位之间，包含大写字母、小写字母及数字！', 'error', 2000);
                     return false;
                 }
-                if(_form.find("input[name='newPassword']").val()!=_form.find("input[name='recentnewPassword']").val()){
+                if(_form.find("input[name='password']").val()!=_form.find("input[name='recentPassword']").val()){
                     XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
                     return false;
                 }
-                XMS.msgbox.show('密码修改中，请稍候...', 'loading');
-                var data = {
-                    code: $.trim(_form.find("input[name='code']").val()),
-                    password: $.trim(_form.find("input[name='password']").val()),
-                    newPassword: $.trim(_form.find("input[name='newPassword']").val())
-                }
-                $.post("/aiga3/aiga/staff/changeMyPass", data, function(d) {
-	                if (d) {
-	                    var status = d["retCode"];
-	                    if (status == "200") {
-	                        XMS.msgbox.show('密码修改成功', 'success', 2000);
-	                        setTimeout(function(){
-	                            _modal.modal('hide');
-	                        },1500)
-	                    } else {
-	                        window.XMS.msgbox.show(d["retMessage"], 'error', 2000);
-	                        //$("#tips-error").html(d["retMessage"]);
-	                    }
-	                }
-            	});
+				
+			  	XMS.msgbox.show('数据加载中，请稍候...', 'loading')
+                Rose.ajax.postJson("/aiga3/aiga/staff/saveSignIn", cmd, function(json, status) {
+					if(status) {
+						// 添加用户成功后，刷新用户列表页
+						XMS.msgbox.show('保存成功！', 'success', 2000)
+						// 关闭弹出层
+						$(Dom.addUserinfoModal).modal('hide');
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+	  			});
+                
             })
         })
     });
-    </script>
+    </script> -->
+    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
+    <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="lib/fakeLoader/fakeLoader.js"></script>
+    <script src="lib/seajs/sea.js"></script>
+    <script src="lib/seajs/sea-plugins.js"></script>
+    <script src="conf/config.js"></script>
+<script>
+seajs.use("script/login", function(Query) {
+    Query.init();
+});
+</script>
 </body>
 </html>

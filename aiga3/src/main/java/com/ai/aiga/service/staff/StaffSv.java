@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.core.datasource.DynamicDB;
+import com.ai.aiga.dao.AigaAuthorDao;
 import com.ai.aiga.dao.AigaStaffDao;
 import com.ai.aiga.dao.AigaStaffOrgRelatDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
+import com.ai.aiga.domain.AigaAuthor;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.AigaStaffOrgRelat;
 import com.ai.aiga.exception.BusinessException;
@@ -34,6 +36,8 @@ public class StaffSv extends BaseService {
 	private AigaStaffDao aigaStaffDao;
 	@Autowired
 	private AigaStaffOrgRelatDao aigaStaffOrgRelatDao;
+	@Autowired
+	private AigaAuthorDao aigaAuthorDao;
 
 	public List<AigaStaff> findStaffAll() {
 		return aigaStaffDao.findAll();
@@ -246,6 +250,49 @@ public class StaffSv extends BaseService {
 		// aigastaff.setNotes(staffRequest.getNotes());
 		aigaStaff.setState(StaffConstant.STATE_NORMAL);
 		// AigaStaff aigaStaff= aigaStaffDao.save(staffRequest);
+		return aigaStaffDao.save(aigaStaff);
+	}
+	
+	public void saveStaffOrgSignIn(StaffInfoRequest StaffRequest, Long organizeId, Long roleId) {
+		AigaStaff aigaStaff = saveStaffSignIn(StaffRequest);
+		if (aigaStaff == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		if (aigaStaff.getStaffId() < 0 || aigaStaff.getStaffId() == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
+		}
+		if (organizeId == null || organizeId < 0) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");
+		}
+		AigaStaffOrgRelat aigaStaffOrgRelat = new AigaStaffOrgRelat();
+		aigaStaffOrgRelat.setStaffId(aigaStaff.getStaffId());
+		aigaStaffOrgRelat.setOrganizeId(organizeId);
+		aigaStaffOrgRelat.setIsAdminStaff(StaffConstant.ADMIN_RELATION_N);
+		aigaStaffOrgRelat.setIsBaseOrg(StaffConstant.BASE_RELATION_Y);
+		aigaStaffOrgRelatDao.save(aigaStaffOrgRelat);
+		AigaAuthor author = new AigaAuthor();
+		author.setRoleId(roleId);
+		author.setStaffId(aigaStaff.getStaffId());
+		aigaAuthorDao.save(author);
+	}
+	
+	public AigaStaff saveStaffSignIn(StaffInfoRequest staffRequest) {
+		if (staffRequest == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		if (StringUtils.isBlank(staffRequest.getCode())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Code");
+		}
+		if (StringUtils.isBlank(staffRequest.getName())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Name");
+		}
+		if (StringUtils.isBlank(staffRequest.getPassword())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Password");
+		}
+		AigaStaff aigaStaff = BeanMapper.map(staffRequest, AigaStaff.class);
+		
+		aigaStaff.setState(StaffConstant.STATE_NORMAL);
+		
 		return aigaStaffDao.save(aigaStaff);
 	}
 

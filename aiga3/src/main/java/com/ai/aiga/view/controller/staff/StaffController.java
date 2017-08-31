@@ -11,6 +11,7 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
 import com.ai.aiga.view.controller.staff.dto.StaffOrgRelatRequest;
+import com.ai.aiga.view.controller.staff.dto.StaffSignIn;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -46,6 +47,14 @@ public class StaffController {
 	@RequestMapping(path = "/aiga/staff/saveSignIn")
 	public @ResponseBody JsonBean saveSignIn(StaffInfoRequest staffRequest,Long organizeId,Long roleId){
 		aigaStaffSv.saveStaffOrgSignIn(staffRequest,organizeId,roleId);
+		return JsonBean.success;
+	}
+	/*
+	 * 改密
+	 * */
+	@RequestMapping(path = "/aiga/staff/changeMyPass")
+	public @ResponseBody JsonBean changeMyPass(StaffSignIn staffRequest){
+		aigaStaffSv.changeStaff(staffRequest);
 		return JsonBean.success;
 	}
 	/*

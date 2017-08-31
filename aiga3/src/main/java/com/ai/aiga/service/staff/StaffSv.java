@@ -27,6 +27,7 @@ import com.ai.aiga.service.staff.dto.StaffOrgRelation;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
 import com.ai.aiga.view.controller.staff.dto.StaffOrgRelatRequest;
+import com.ai.aiga.view.controller.staff.dto.StaffSignIn;
 
 @Service
 @Transactional
@@ -297,7 +298,7 @@ public class StaffSv extends BaseService {
 	}
 
 	public void updateStaff(StaffInfoRequest staffRequest) {
-
+		
 		if (staffRequest == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
 		}
@@ -366,7 +367,40 @@ public class StaffSv extends BaseService {
 			}
 			aigaStaffDao.save(aigaStaff);
 		}
-
+	}
+	
+	public void changeStaff(StaffSignIn staffRequest) {
+		if (staffRequest == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		AigaStaff staff = aigaStaffDao.findByCode(staffRequest.getCode());
+		if(staff.getPassword().equals(staffRequest.getPassword())){
+			staffRequest.setStaffId(staff.getStaffId());
+			if (staffRequest.getStaffId() == null || staffRequest.getStaffId() < 0) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
+			}
+			
+			AigaStaff aigaStaff = aigaStaffDao.findOne(staffRequest.getStaffId());
+			if (aigaStaff == null) {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_invalid, "aigaStaff");
+			}
+			if (aigaStaff != null) {
+				if (StringUtils.isNotBlank(staffRequest.getCode())) {
+					aigaStaff.setCode(staffRequest.getCode());
+				}
+				if (StringUtils.isNotBlank(staffRequest.getName())) {
+					aigaStaff.setName(staffRequest.getName());
+				}
+				if (StringUtils.isNotBlank(staffRequest.getNewPassword())) {
+					aigaStaff.setPassword(staffRequest.getNewPassword());
+					aigaStaff.setRecentPassword(staffRequest.getNewPassword());
+				}
+				aigaStaffDao.save(aigaStaff);
+			}else {
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "用户名原密码错误！");
+			}
+		}
+		
 	}
 
 	public void staffStart(Long staffId) {

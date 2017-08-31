@@ -8,14 +8,14 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('loginSignIn');
 
- 	//get id
-    srvMap.add("getEventFindAll", pathAlias+"getSysMessageList.json", "archi/event/findAll");
 	// 添加员工
 	srvMap.add("addUserinfoSignIn", pathAlias + "retMessage.json", "aiga/staff/saveSignIn");
- 	//get id
+ 	//get org
     srvMap.add("findAllOrg", pathAlias+"getSysMessageList.json", "sys/organize/findAllOrg");
- 	//get id
+ 	//get rol
     srvMap.add("getSysRole", pathAlias+"getSysMessageList.json", "sys/role/list");
+ 	//change pwd
+    srvMap.add("changeMyPass", pathAlias+"getSysMessageList.json", "aiga/staff/changeMyPass");
 
 	var Query = {
 		init: function(){

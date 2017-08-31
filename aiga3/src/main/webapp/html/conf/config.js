@@ -51,6 +51,8 @@ seajs.config({
     ],
     base: basePref[conf],
     alias: {
+    	'comboSelectCSS' : 'lib/comboSelect/css/combo.select.css',
+    	'comboSelectJS' : 'lib/comboSelect/js/jquery.combo.select.js',
     	'macarons' : 'lib/echarts/macarons.js',
         'AdminLTE':'lib/AdminLTE/js/app.js',
         'iCheckCSS':'lib/iCheck/all.css',
@@ -120,7 +122,9 @@ seajs.config({
         'ajaxUpload',
         'jqueryExtendCSS',
         'jqueryExtendJS',
-        'html2canvas'
+        'html2canvas',
+        'comboSelectJS',
+        'comboSelectCSS'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

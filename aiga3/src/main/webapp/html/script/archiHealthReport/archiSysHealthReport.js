@@ -7,7 +7,11 @@ define(function(require, exports, module) {
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiSysHealthReport');
-
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
+    //根据一级域查询二级子域
+    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
+    //根据二级子域查询三级系统
+    srvMap.add("getThirdBySecond", pathAlias+"secondDomainList.json", "archi/third/findBySec");
 	var cache = {
 		datas : ""	
 	};
@@ -27,11 +31,12 @@ define(function(require, exports, module) {
 			self._getEchartsRadar();
 			self._load_combo_select();
 		},
+		//渲染下拉框
 		_load_combo_select: function() {
-			Page.findId("monthSelect1").comboSelect();
-			Page.findId("monthSelect2").comboSelect();
-			Page.findId("monthSelect3").comboSelect();
+			var group = Page.findId("selectGroup");
+			Utils.setSelectDataPost(group,true);
 		},
+		//雷达图
 		_getEchartsRadar: function() {
 			var myChart = echarts.init(Page.findId('echartsRadar')[0],'macarons');
 			option = {

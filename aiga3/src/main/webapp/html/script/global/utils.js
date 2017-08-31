@@ -371,7 +371,7 @@ define(function(require, exports, module) {
          *
          * @method obj 表单父元素
          */
-        setSelectDataPost: function(obj, other, callback) {
+        setSelectDataPost: function(obj, isComboSelect, other, callback) {
             var self = this;
             obj.find("select").each(function(index) {
                 var _this = $(this);
@@ -382,9 +382,9 @@ define(function(require, exports, module) {
                 }
                 if (_url) {
                     if (callback) {
-                        self.setSelectHtmlPost(_this, _url, _cmd, callback());
+                        self.setSelectHtmlPost(_this,isComboSelect, _url, _cmd, callback());
                     } else {
-                        self.setSelectHtmlPost(_this, _url, _cmd);
+                        self.setSelectHtmlPost(_this,isComboSelect, _url, _cmd);
                     }
 
                 }
@@ -401,7 +401,7 @@ define(function(require, exports, module) {
                     var suburl = _thisSub.data("suburl");
                     var subcmd = _this.attr("name") + "=" + _this.val();
                     if (suburl) {
-                        self.setSelectHtmlPost(_thisSub, suburl, subcmd);
+                        self.setSelectHtmlPost(_thisSub,isComboSelect, suburl, subcmd);
                     }
                 }
             })
@@ -413,7 +413,7 @@ define(function(require, exports, module) {
          * @method obj 接口
          * @method obj 接口参数
          */
-        setSelectHtmlPost: function(obj, url, cmd, callback) {
+        setSelectHtmlPost: function(obj,isComboSelect, url, cmd, callback) {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             Rose.ajax.postJson(srvMap.get(url), cmd, function(json, status) {
@@ -446,8 +446,13 @@ define(function(require, exports, module) {
 
                     }
                     obj.html(_html);
-
-                    self.clearSubOptions(obj);
+                
+                    if(isComboSelect) {
+                    	self.clearSubOptions(obj,isComboSelect);
+                    	obj.comboSelect();
+                    } else {
+                        self.clearSubOptions(obj);
+                    }                
                     if (callback) {
                         callback();
                     }
@@ -535,15 +540,20 @@ define(function(require, exports, module) {
         /**
          * 清除子的option
          */
-        clearSubOptions: function(obj) {
+        clearSubOptions: function(obj,isComboSelect) {
 
             // 判断如果有异步子项，统一做处理
             var _subname = obj.data("subname");
             if (_subname) {
                 var _thisSub = $("select[name=" + _subname + "]");
                 _thisSub.html('<option value="">请选择</option>');
-
-                this.clearSubOptions(_thisSub);
+                if(isComboSelect) {
+                	_thisSub.comboSelect();
+                	 this.clearSubOptions(_thisSub,isComboSelect);
+                } else {
+                    this.clearSubOptions(_thisSub);
+                }          
+          
             }
         },
 
@@ -1077,19 +1087,17 @@ define(function(require, exports, module) {
                 }
             });
         }
-
     };
 
-    Rose.ajax.download = function(url) {
-            if (url) {
-                var downa = $('<form class="mydownload" action="' + url + '" method="get"></form>');
-                downa.appendTo("body");
-                downa.submit();
-                downa.remove();
-            }
-        },
+	Rose.ajax.download = function(url) {
+		if (url) {
+			var downa = $('<form class="mydownload" action="' + url
+					+ '" method="get"></form>');
+			downa.appendTo("body");
+			downa.submit();
+			downa.remove();
+		}
+	},
 
-
-
-        module.exports = Utils;
+	module.exports = Utils;
 });

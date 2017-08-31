@@ -36,56 +36,20 @@
 			<div class="box-header">
 				<h3 class="box-title">选择系统</h3>
 			</div>
-			<div class="box-body">
+			<div class="box-body" id="JS_selectGroup">
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">一级域</label> <select id="JS_monthSelect1">
-						<option value="">月份</option>
-						<option value="一月">一月</option>
-						<option value="二月">二月</option>
-						<option value="三月">三月</option>
-						<option value="四月">四月</option>
-						<option value="五月">五月</option>
-						<option value="六月">六月</option>
-						<option value="七月">七月</option>
-						<option value="八月">八月</option>
-						<option value="九月">九月</option>
-						<option value="十月">十月</option>
-						<option value="十一月">十一月</option>
-						<option value="十二月">十二月</option>
+					<label class="select-label-word">一级域</label> 
+				    <select name="idFirst" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond">           
 					</select>
 				</div>
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">二级子域</label> <select id="JS_monthSelect2">
-						<option value="">月份</option>
-						<option value="一月">一月</option>
-						<option value="二月">二月</option>
-						<option value="三月">三月</option>
-						<option value="四月">四月</option>
-						<option value="五月">五月</option>
-						<option value="六月">六月</option>
-						<option value="七月">七月</option>
-						<option value="八月">八月</option>
-						<option value="九月">九月</option>
-						<option value="十月">十月</option>
-						<option value="十一月">十一月</option>
-						<option value="十二月">十二月</option>
+					<label class="select-label-word">二级子域</label> 
+					<select name="idSecond" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" data-subname="idThird">
 					</select>
 				</div>
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">三级系统</label> <select id="JS_monthSelect3">
-						<option value="">月份</option>
-						<option value="一月">一月</option>
-						<option value="二月">二月</option>
-						<option value="三月">三月</option>
-						<option value="四月">四月</option>
-						<option value="五月">五月</option>
-						<option value="六月">六月</option>
-						<option value="七月">七月</option>
-						<option value="八月">八月</option>
-						<option value="九月">九月</option>
-						<option value="十月">十月</option>
-						<option value="十一月">十一月</option>
-						<option value="十二月">十二月</option>
+					<label class="select-label-word">三级系统</label> 
+					<select name="idThird" data-suburl="getThirdBySecond" data-idkey="idThird" data-namekey="name">
 					</select>
 				</div>
 

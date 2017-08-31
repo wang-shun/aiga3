@@ -534,26 +534,24 @@ define(function(require, exports, module) {
                         self.setSelectHtml(_thisSub, suburl, subcmd);
                     }
                 }
-            })
+            });
         },
 
         /**
          * 清除子的option
          */
         clearSubOptions: function(obj,isComboSelect) {
-
             // 判断如果有异步子项，统一做处理
             var _subname = obj.data("subname");
             if (_subname) {
                 var _thisSub = $("select[name=" + _subname + "]");
                 _thisSub.html('<option value="">请选择</option>');
-                if(isComboSelect) {
+                if(isComboSelect) {      
                 	_thisSub.comboSelect();
                 	 this.clearSubOptions(_thisSub,isComboSelect);
                 } else {
                     this.clearSubOptions(_thisSub);
-                }          
-          
+                }                  
             }
         },
 

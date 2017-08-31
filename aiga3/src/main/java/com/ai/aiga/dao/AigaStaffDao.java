@@ -31,5 +31,6 @@ public interface AigaStaffDao extends SearchAndPageRepository<AigaStaff,Long>{
 
 	AigaStaff findByCode(String code);
 	
+	AigaStaff findByBillId(String billId);
 	
 }

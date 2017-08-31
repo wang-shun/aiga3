@@ -255,6 +255,15 @@ public class StaffSv extends BaseService {
 	}
 	
 	public void saveStaffOrgSignIn(StaffInfoRequest StaffRequest, Long organizeId, Long roleId) {
+		AigaStaff srcStaff = aigaStaffDao.findByCode(StaffRequest.getCode());
+		if(srcStaff!=null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，账号已存在");
+		}
+		AigaStaff srcStaff2 = aigaStaffDao.findByBillId(StaffRequest.getBillId());
+		if(srcStaff2!=null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，手机号码已存在");
+		}
+		
 		AigaStaff aigaStaff = saveStaffSignIn(StaffRequest);
 		if (aigaStaff == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
@@ -289,6 +298,9 @@ public class StaffSv extends BaseService {
 		}
 		if (StringUtils.isBlank(staffRequest.getPassword())) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Password");
+		}
+		if (StringUtils.isBlank(staffRequest.getBillId())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "BillId");
 		}
 		AigaStaff aigaStaff = BeanMapper.map(staffRequest, AigaStaff.class);
 		

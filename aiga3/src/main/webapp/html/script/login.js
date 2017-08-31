@@ -152,7 +152,7 @@ define(function(require, exports, module) {
                 Rose.ajax.postJson(srvMap.get('addUserinfoSignIn'), cmd, function(json, status) {
 					if(status) {
 						// 添加用户成功后，刷新用户列表页
-						XMS.msgbox.show('保存成功！', 'success', 2000);
+						XMS.msgbox.show('注册成功！', 'success', 2000);
 						_modal.modal('hide');
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);

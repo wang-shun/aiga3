@@ -136,6 +136,10 @@ define(function(require, exports, module) {
                     XMS.msgbox.show('亲，用户名和密码不能为空！', 'error', 2000);
                     return false;
                 }
+                if($.trim(_form.find("input[name='billId']").val())==''){
+                    XMS.msgbox.show('亲，手机号码不能为空！', 'error', 2000);
+                    return false;
+                }
                 if($.trim(_form.find("input[name='password']").val())=='' || $.trim(_form.find("input[name='recentPassword']").val())==''){
                     XMS.msgbox.show('亲，密码和重复密码不能为空！', 'error', 2000);
                     return false;

@@ -133,22 +133,21 @@ define(function(require, exports, module) {
             _modal.find("[name='signin']").click(function(){
             	var cmd = _form.serialize();
                 if($.trim(_form.find("input[name='code']").val())=='' || $.trim(_form.find("input[name='password']").val())==''){
-                    XMS.msgbox.show('亲，用户名和原密码不能为空！', 'error', 2000);
+                    XMS.msgbox.show('亲，用户名和密码不能为空！', 'error', 2000);
                     return false;
                 }
                 if($.trim(_form.find("input[name='password']").val())=='' || $.trim(_form.find("input[name='recentPassword']").val())==''){
-                    XMS.msgbox.show('亲，新密码和重复密码不能为空！', 'error', 2000);
-                    return false;
-                }
-                if(!Rose.validate.Check('passwrd',_form.find("input[name='password']").val())){
-                    XMS.msgbox.show('亲，密码长度在6-10位之间，包含大写字母、小写字母及数字！', 'error', 2000);
+                    XMS.msgbox.show('亲，密码和重复密码不能为空！', 'error', 2000);
                     return false;
                 }
                 if(_form.find("input[name='password']").val()!=_form.find("input[name='recentPassword']").val()){
                     XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
                     return false;
                 }
-				
+				if($.trim(_form.find("select[name='organizeId']").val())=='' || $.trim(_form.find("select[name='roleId']").val())==''){
+                    XMS.msgbox.show('亲，用户所属组织和用户角色不能为空！', 'error', 2000);
+                    return false;
+                }
                 Rose.ajax.postJson(srvMap.get('addUserinfoSignIn'), cmd, function(json, status) {
 					if(status) {
 						// 添加用户成功后，刷新用户列表页

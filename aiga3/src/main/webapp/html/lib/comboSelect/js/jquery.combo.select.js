@@ -570,7 +570,7 @@
 			if(isMobile) return;
 
 			/* Open combo */
-
+			this._filter(event.target.value);
 			if(!this.opened) this.$container.trigger('comboselect:open');
 			
 			/* Select the input */

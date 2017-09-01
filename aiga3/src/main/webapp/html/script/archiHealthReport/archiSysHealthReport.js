@@ -11,6 +11,8 @@ define(function(require, exports, module) {
     srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
     //根据二级子域查询三级系统
     srvMap.add("getThirdBySecond", pathAlias+"secondDomainList.json", "archi/third/findBySec");
+    //雷达图数据获取
+    srvMap.add("getRadarIndexData", pathAlias+"secondDomainList.json", "archi/index/getSysIndexData");
 	var cache = {
 		datas : ""	
 	};
@@ -32,52 +34,74 @@ define(function(require, exports, module) {
 		},
 		//渲染下拉框
 		_load_combo_select: function() {
+			var self = this;
 			var group = Page.findId("selectGroup");
 			Utils.setSelectDataPost(group,true);
+			group.find('[name="idThird"]').on('change',function() {
+		        var _this = $(this);	        
+				self._getEchartsRadar(_this.val());
+			});
 		},
 		//雷达图
-		_getEchartsRadar: function() {
+		_getEchartsRadar: function(onlysysId) {
 			var myChart = echarts.init(Page.findId('echartsRadar')[0],'macarons');
 			option = {
-				    tooltip: {
-				    	show:false
-				    },
-				    legend: {
-				    	enabled: false,
-				    },
-				    radar: {
-				        // shape: 'circle',
-				        name: {
-				            textStyle: {
-				                color: '#0d0d0d',
-				                backgroundColor: '#999',
-				                borderRadius: 3,
-				                padding: [3, 5]
-				           }
-				        },
-				        indicator: [
-				           { name: '销售（sales）', max: 6500},
-				           { name: '管理（Administration）', max: 16000},
-				           { name: '信息技术（Information Techology）', max: 30000},
-				           { name: '客服（Customer Support）', max: 38000},
-				           { name: '研发（Development）', max: 52000},
-				           { name: '市场（Marketing）', max: 25000}
-				        ]
-				    },
-				    series: [{
-				        name: '预算 vs 开销（Budget vs spending）',
-				        type: 'radar',
-				        // areaStyle: {normal: {}},
-				        data : [
-				            {
-				                value : [4300, 10000, 28000, 35000, 50000, 19000],
-				                name : '预算分配（Allocated Budget）'
-				            }
-				        ]
-				    }]
-				};
-			myChart.setOption(option);
-			window.onresize = myChart.resize;
+			    tooltip: {
+			    	show:false
+			    },
+			    legend: {
+			    	enabled: false,
+			    },
+			    radar: {
+			        // shape: 'circle',
+			        name: {
+			            textStyle: {
+			                color: '#0d0d0d',
+			                backgroundColor: '#999',
+			                borderRadius: 3,
+			                padding: [3, 5]
+			           }
+			        },
+			        indicator: [
+			           { name: '指标一', max: 6500},
+			           { name: '指标二', max: 16000},
+			           { name: '指标三', max: 30000},
+			           { name: '指标四', max: 38000},
+			           { name: '指标五', max: 52000},
+			           { name: '指标六', max: 25000}
+			        ]
+			    },
+			    series: [{
+			        name: '系统指标',
+			        type: 'radar',
+			        // areaStyle: {normal: {}},
+			        data : [
+			            {
+			                value : [4300, 10000, 28000, 35000, 50000, 19000],
+			                name : '系统指标'
+			            }
+			        ]
+			    }]
+			};
+			if(onlysysId) {
+				Rose.ajax.postJson(srvMap.get('getRadarIndexData'), 'onlysysId='+onlysysId, function(json, status) {
+					if(status) {
+						if(json.data) {
+							option.radar.indicator = json.data.indicator;
+							option.series[0].data.value = json.data.value;
+						} else {
+							XMS.msgbox.show('该系统没有配置指标', 'error', 1500);
+						}
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}	
+					myChart.setOption(option);
+					window.onresize = myChart.resize;
+				});
+			} else {
+				myChart.setOption(option);
+				window.onresize = myChart.resize;
+			}	
 		}
 	};
 	module.exports = init;

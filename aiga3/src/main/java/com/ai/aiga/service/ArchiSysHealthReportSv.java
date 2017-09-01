@@ -1,7 +1,11 @@
 package com.ai.aiga.service;
 
-import com.ai.aiga.service.base.BaseService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.service.base.BaseService;
+@Service
+@Transactional
 public class ArchiSysHealthReportSv extends BaseService {
 
 }

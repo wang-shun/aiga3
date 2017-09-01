@@ -1,13 +1,10 @@
 package com.ai.aiga.domain;
-// Generated 2017-8-18 15:18:08 by Hibernate Tools 3.2.2.GA
+// Generated 2017-9-1 15:12:38 by Hibernate Tools 3.2.2.GA
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -22,6 +19,7 @@ public class ArchiSysIndexRela  implements java.io.Serializable {
      private Long onlysysId;
      private Long indexId;
      private String indexName;
+     private Long indexValue;
      private Character state;
      private String ext1;
      private String ext2;
@@ -36,11 +34,12 @@ public class ArchiSysIndexRela  implements java.io.Serializable {
     public ArchiSysIndexRela(long realId) {
         this.realId = realId;
     }
-    public ArchiSysIndexRela(long realId, Long onlysysId, Long indexId, String indexName, Character state, String ext1, String ext2, String ext3, String ext4, String ext5) {
+    public ArchiSysIndexRela(long realId, Long onlysysId, Long indexId, String indexName, Long indexValue, Character state, String ext1, String ext2, String ext3, String ext4, String ext5) {
        this.realId = realId;
        this.onlysysId = onlysysId;
        this.indexId = indexId;
        this.indexName = indexName;
+       this.indexValue = indexValue;
        this.state = state;
        this.ext1 = ext1;
        this.ext2 = ext2;
@@ -50,8 +49,7 @@ public class ArchiSysIndexRela  implements java.io.Serializable {
     }
    
      @Id 
-     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHI_SYS_INDEX_RELA$SEQ")
-     @SequenceGenerator(name="ARCHI_SYS_INDEX_RELA$SEQ",sequenceName="ARCHI_SYS_INDEX_RELA$SEQ",allocationSize=1)    
+    
     @Column(name="REAL_ID", unique=true, nullable=false, precision=14, scale=0)
     public long getRealId() {
         return this.realId;
@@ -86,6 +84,15 @@ public class ArchiSysIndexRela  implements java.io.Serializable {
     
     public void setIndexName(String indexName) {
         this.indexName = indexName;
+    }
+    
+    @Column(name="INDEX_VALUE", precision=10, scale=0)
+    public Long getIndexValue() {
+        return this.indexValue;
+    }
+    
+    public void setIndexValue(Long indexValue) {
+        this.indexValue = indexValue;
     }
     
     @Column(name="STATE", length=1)

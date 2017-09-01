@@ -600,7 +600,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var init = true;
 			var _form = Page.findId('queryDataMaintainForm2');
-			Utils.setSelectDataPost(_form);
+			Utils.setSelectDataPost(_form,true);
 			var now = new Date(); 
 			_form.find('input[name="startMonth"]').val(this.formatMonthFirst2(now));
 			_form.find('input[name="endMonth"]').val(this.formatDate2(now));

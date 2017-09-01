@@ -55,7 +55,7 @@
 				</div>
 				<div class="col-md-4" style="display: -webkit-inline-box;">
 					<label class="select-label-word">三级系统</label> 
-					<select name="idThird" data-suburl="getThirdBySecond" data-idkey="idThird" data-namekey="name">
+					<select name="idThird" data-suburl="getThirdBySecond" data-idkey="onlysysId" data-namekey="name">
 					</select>
 				</div>
 
@@ -67,11 +67,11 @@
 			<div class="box-header">
 				<h3 class="box-title">系统身份</h3>
 			</div>
-			<div class="box-body" style="height:270px">
-				<div class="col-md-4">
-					<div class="img-wod-sty" style="width:100%;">同</div>
+			<div id="JS_systemInfoCard"class="box-body" style="height:270px">
+				<div class="col-md-5">
+					<div class="img-wod-sty" style="width:100%;margin-left:20%;">同</div>
 				</div>
-				<div class="col-md-8">
+				<div class="col-md-7">
 					<div class="card-word-sty">
 						<label>系统编号：</label> <label>系统编号</label> 
 					</div>
@@ -117,6 +117,31 @@
 		</div>
 	</div>
 </div>
+
+<script id="TPL_systemInfoCard" type="text/x-handlebars-template">
+<div class="col-md-5">
+	<div class="img-wod-sty" style="width:100%;margin-left: 20%;">{{titleWord}}</div>
+</div>
+<div class="col-md-7">
+	<div class="card-word-sty">
+		<label>系统编号：</label> <label>{{idThird}}</label> 
+	</div>
+	<div  class="card-word-sty">
+		<label>系统名字：</label> <label>{{name}}</label>
+	</div>
+	<div  class="card-word-sty">
+		<label>所属域：</label> <label>{{firName}}</label> <label>{{secName}}</label>
+	</div>
+	<div  class="card-word-sty" style="margin-bottom: 0">
+		<label>所属层级：</label> <label>{{belongLevel}}</label>
+	</div>
+</div>
+<div class="col-md-12 card-word-intro">
+	<label>系统介绍：</label> 
+	<label>{{systemFunction}}</label> 
+</div>
+</script>
+
 <script>
 seajs.use("script/archiHealthReport/archiSysHealthReport", function(init) {
 	init.init();

@@ -13,6 +13,8 @@ define(function(require, exports, module) {
     srvMap.add("getThirdBySecond", pathAlias+"secondDomainList.json", "archi/third/findBySec");
     //雷达图数据获取
     srvMap.add("getRadarIndexData", pathAlias+"secondDomainList.json", "archi/index/getSysIndexData");
+    //系统信息查询
+    srvMap.add("getSystemInfoCardData", pathAlias+"secondDomainList.json", "archi/third/findTransPage");
 	var cache = {
 		datas : ""	
 	};
@@ -38,8 +40,29 @@ define(function(require, exports, module) {
 			var group = Page.findId("selectGroup");
 			Utils.setSelectDataPost(group,true);
 			group.find('[name="idThird"]').on('change',function() {
-		        var _this = $(this);	        
-				self._getEchartsRadar(_this.val());
+		        var _this = $(this);
+		        var onlysysId = _this.val()
+		        //雷达图加载
+				self._getEchartsRadar(onlysysId);
+				//系统信息卡加载
+				self._getSystemInfoCard(onlysysId);
+			});
+		},
+		//系统信息卡
+		_getSystemInfoCard: function(onlysysId){
+			Rose.ajax.postJson(srvMap.get('getSystemInfoCardData'), 'onlysysId='+onlysysId, function(json, status) {
+				if(status) {
+					var data = json.data.content[0];
+					if(data) {
+						var template = Handlebars.compile(Page.findTpl('systemInfoCard'));	
+						data.titleWord = data.name.charAt(0);
+						Page.findId("systemInfoCard").html(template(data));
+					} else {
+						XMS.msgbox.show("没有查到系统信息", 'error', 2000);
+					}
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}	
 			});
 		},
 		//雷达图

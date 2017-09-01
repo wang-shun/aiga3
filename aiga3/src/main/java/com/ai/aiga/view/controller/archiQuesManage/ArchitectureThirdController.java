@@ -77,7 +77,7 @@ public class ArchitectureThirdController {
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
             ArchiThirdConditionParam condition){
 				JsonBean bean = new JsonBean();
-				bean.setData(architectureThirdSv.findThirdTransInfo(condition.getIdThird(), condition.getName(), pageNumber, pageSize));
+				bean.setData(architectureThirdSv.findThirdTransInfo(condition.getOnlysysId(),condition.getIdThird(), condition.getName(), pageNumber, pageSize));
 			return bean;
 	}
 	
@@ -110,8 +110,7 @@ public class ArchitectureThirdController {
 	}
 	
 	@RequestMapping(path = "/archi/third/findOne")
-	public @ResponseBody JsonBean findOne(
-				@RequestParam Long onlysysId){
+	public @ResponseBody JsonBean findOne(Long onlysysId){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureThirdSv.findOne(onlysysId));
 		return bean;
@@ -134,19 +133,5 @@ public class ArchitectureThirdController {
 				@RequestParam Long onlysysId){
 		architectureThirdSv.delete(onlysysId);
 		return JsonBean.success;
-	}
-	
-	@RequestMapping(path = "/archi/third/getThirdId")
-	public @ResponseBody JsonBean getThirdId(){
-		JsonBean bean = new JsonBean();
-		ArchitectureThird output = new ArchitectureThird();
-		List<Map>list=architectureThirdSv.findIdThirds();
-		for(Map base : list) {
-			String value = String.valueOf(base.get("onlysysid"));
-			Long onlysysId = Long.parseLong(value);
-			output.setOnlysysId(onlysysId);
-		}
-		bean.setData(output);
-		return bean;
 	}
 }

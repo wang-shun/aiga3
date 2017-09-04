@@ -125,6 +125,7 @@ define(function(require, exports, module) {
 	},
     //注册function
 	signin:function(){
+		var self = this;
         $("#JS_signIn").bind("click",function(){
             var _modal = $("#JS_signInModal");
             var _form = $("#JS_signInForm");
@@ -148,15 +149,24 @@ define(function(require, exports, module) {
                     XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
                     return false;
                 }
-				if($.trim(_form.find("select[name='organizeId']").val())=='' || $.trim(_form.find("select[name='roleId']").val())==''){
+				if($.trim(_form.find("select[name='organizeId']").val())=='' || $.trim(_form.find("input[name='roleId']").val())==''){
                     XMS.msgbox.show('亲，用户所属组织和用户角色不能为空！', 'error', 2000);
                     return false;
                 }
-                Rose.ajax.postJson(srvMap.get('addUserinfoSignIn'), cmd, function(json, status) {
+                var strs= new Array(); //定义一数组
+				strs=cmd.split("&roleId="); //字符分割
+				var _cmd = strs[0]+"&roleId=";
+				for(var i = 1;i < strs.length; i++) {
+					_cmd += strs[i] + ",";
+                }
+                _cmd = _cmd.substring(0, _cmd.length - 1);
+                Rose.ajax.postJson(srvMap.get('addUserinfoSignIn'), _cmd, function(json, status) {
 					if(status) {
 						// 添加用户成功后，刷新用户列表页
 						XMS.msgbox.show('注册成功！', 'success', 2000);
 						_modal.modal('hide');
+						//成功后表单清除
+						self._apply_data_clear();
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -165,6 +175,25 @@ define(function(require, exports, module) {
             })
         })
 	  },
+	  //申请页表单清除
+        _apply_data_clear: function() {
+        	var domInput = $("#JS_signInForm").find('input,textarea');
+        	domInput.each(function() {
+        		var domNow = $(this);
+        		if(domNow.attr("type") == 'text') {
+        			domNow.val('');
+        		} else if(domNow.attr("type") == 'password') {
+        			domNow.val('');
+        		} else if(domNow.attr("type") == 'checkbox') {
+        			domNow.removeAttr("checked");
+        		} else if(domNow.attr("type") == 'textarea') {
+        			domNow.val('');
+        		} else if(domNow.attr("type") == 'file') {
+        			domNow.after(domNow.clone().val(""));      
+        			domNow.remove();  
+        		}
+        	});
+        },
 	}
     module.exports = Query;
 });

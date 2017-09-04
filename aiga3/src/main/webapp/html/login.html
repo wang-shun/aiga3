@@ -76,25 +76,25 @@
                     <div class="row" >
                         <div class="col-md-12">
                             <div class="form-group input-group-sm">
-                                <label>用户名<i class="text-red">*</i></label>
+                                <label>用户名<i class="text-red" style="color:red">*</i></label>
                                 <input type="text" class="form-control" name="code" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group input-group-sm">
-                                <label>原密码<i class="text-red">*</i></label>
+                                <label>原密码<i class="text-red" style="color:red">*</i></label>
                                 <input type="password" class="form-control" name="password" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group input-group-sm">
-                                <label>新密码<i class="text-red">*</i></label>
+                                <label>新密码<i class="text-red" style="color:red">*</i></label>
                                 <input type="password" class="form-control" name="newPassword" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group input-group-sm">
-                                <label>重复密码<i class="text-red">*</i></label>
+                                <label>重复密码<i class="text-red" style="color:red">*</i></label>
                                 <input type="password" class="form-control" name="recentnewPassword" required>
                             </div>
                         </div>
@@ -123,13 +123,13 @@
                 	<div class="row">
 				        <div class="col-md-6">
 				            <div class="form-group input-group-sm">
-				                <label>账号<i class="text-red">*</i></label>
+				                <label>账号<i class="text-red" style="color:red">*</i></label>
 				                <input type="text" class="form-control" name="code" required>
 				            </div>
 				        </div>
 				        <div class="col-md-6">
 				            <div class="form-group input-group-sm">
-				                <label>姓名<i class="text-red">*</i></label>
+				                <label>姓名<i class="text-red" style="color:red">*</i></label>
 				                <input type="text" class="form-control" name="name" required>
 				            </div>
 				        </div>
@@ -137,13 +137,13 @@
 				    <div class="row">
 				        <div class="col-md-6">
 				            <div class="form-group input-group-sm">
-				                <label>密码<i class="text-red">*</i></label>
+				                <label>密码<i class="text-red" style="color:red">*</i></label>
 				                <input type="password" class="form-control" name="password" required>
 				            </div>
 				        </div>
 				        <div class="col-md-6">
 				            <div class="form-group input-group-sm">
-				                <label>重复密码<i class="text-red">*</i></label>
+				                <label>重复密码<i class="text-red" style="color:red">*</i></label>
 				                <input type="password" class="form-control" name="recentPassword" required>
 				            </div>
 				        </div>
@@ -151,28 +151,38 @@
 				    <div class="row">
 				        <div class="col-md-6">
 				            <div class="form-group input-group-sm">
-				                <label>手机号码<i class="text-red">*</i></label>
+				                <label>手机号码<i class="text-red" style="color:red">*</i></label>
 				                <input type="text" class="form-control" name="billId" required>
 				            </div>
 				        </div>
-				    </div>
-				    <div class="row">
 				        <div class="col-md-6">
 				            <div class="form-group input-group-sm">
-				                <label>组织<i class="text-red">*</i></label>
+				                <label>组织<i class="text-red" style="color:red">*</i></label>
 						         <select name="organizeId" class="form-control select2 input-sm" data-url="findAllOrg" data-idkey="organizeId" data-namekey="organizeName">
 						             <option value="">请选择</option>
 						         </select>				            
 						    </div>
 				        </div>
+				    </div>
+<!-- 				    <div class="row">
 						<div class="form-group col-sm-6">
-					        <label for="roleId" >角色<i class="text-red">*</i></label>
+					        <label for="roleId" >角色<i class="text-red" style="color:red">*</i></label>
 					         <select name="roleId" class="form-control select2 input-sm" data-url="getSysRole" data-idkey="roleId" data-namekey="name">
 					             <option value="">请选择</option>
 					         </select>
 					    </div>
+				    </div> -->
+				    <div class="row">
+					    <div class="form-group col-sm-12">	    	
+							<label class="control-label fist-text-label check-inline-label">角色选择<span style="color:red">*</span></label>        
+							<div class="check-inline">				
+						       	<input type="checkbox" name="roleId" value="1"/><label data-toggle="tooltip" title="系统基线申请" style="width:90px;">系统基线申请</label>
+								<input style="margin-left:20px;" type="checkbox" name="roleId" value="21"/><label data-toggle="tooltip" title="系统基线认定" style="width:90px;">系统基线认定</label>
+								<input style="margin-left:20px;" type="checkbox" name="roleId" value="11"/><label data-toggle="tooltip" title="系统基线查询" style="width:90px;">系统基线查询</label>
+								<input style="margin-left:20px;" type="checkbox" name="roleId" value="31"/><label data-toggle="tooltip" title="系统指标查询" style="width:90px;">系统指标查询</label>
+							</div>
+						</div>
 				    </div>
-
 	            </div>
 	            <div class="modal-footer">
 	                <div class="text-center">

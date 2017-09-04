@@ -254,7 +254,7 @@ public class StaffSv extends BaseService {
 		return aigaStaffDao.save(aigaStaff);
 	}
 	
-	public void saveStaffOrgSignIn(StaffInfoRequest StaffRequest, Long organizeId, Long roleId) {
+	public void saveStaffOrgSignIn(StaffInfoRequest StaffRequest, Long organizeId, String roleId) {
 		AigaStaff srcStaff = aigaStaffDao.findByCode(StaffRequest.getCode());
 		if(srcStaff!=null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，账号已存在");
@@ -280,10 +280,15 @@ public class StaffSv extends BaseService {
 		aigaStaffOrgRelat.setIsAdminStaff(StaffConstant.ADMIN_RELATION_N);
 		aigaStaffOrgRelat.setIsBaseOrg(StaffConstant.BASE_RELATION_Y);
 		aigaStaffOrgRelatDao.save(aigaStaffOrgRelat);
-		AigaAuthor author = new AigaAuthor();
-		author.setRoleId(roleId);
-		author.setStaffId(aigaStaff.getStaffId());
-		aigaAuthorDao.save(author);
+		String[] roleIdList = roleId.split(",");
+		Long newRoleId = null;
+		for(int i=0;i<roleIdList.length;i++){
+			AigaAuthor author = new AigaAuthor();
+			newRoleId = Long.parseLong(roleIdList[i]);
+			author.setRoleId(newRoleId);
+			author.setStaffId(aigaStaff.getStaffId());
+			aigaAuthorDao.save(author);
+		}
 	}
 	
 	public AigaStaff saveStaffSignIn(StaffInfoRequest staffRequest) {

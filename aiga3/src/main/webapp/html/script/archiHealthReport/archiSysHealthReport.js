@@ -3,18 +3,20 @@ define(function(require, exports, module) {
 	require("macarons");
 	// 通用工具模块
 	var Utils = require("global/utils.js");
-	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
+	var pathAlias = ""; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiSysHealthReport');
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
+    srvMap.add("getPrimaryDomainList", '', "archi/first/list");
     //根据一级域查询二级子域
-    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
+    srvMap.add("getSecondByFirst", '', "archi/second/listByfirst");
     //根据二级子域查询三级系统
-    srvMap.add("getThirdBySecond", pathAlias+"secondDomainList.json", "archi/third/findBySec");
+    srvMap.add("getThirdBySecond", '', "archi/third/findBySec");
     //雷达图数据获取
-    srvMap.add("getRadarIndexData", pathAlias+"secondDomainList.json", "archi/index/getSysIndexData");
+    srvMap.add("getRadarIndexData", '', "archi/index/getSysIndexData");
     //系统信息查询
-    srvMap.add("getSystemInfoCardData", pathAlias+"secondDomainList.json", "archi/third/findTransPage");
+    srvMap.add("getSystemInfoCardData", '', "archi/third/findTransPage");
+    //系统体检结果查询
+    srvMap.add("getSystemHealthReport", '', "archi/report/sysHealth");   
 	var cache = {
 		datas : ""	
 	};
@@ -41,11 +43,13 @@ define(function(require, exports, module) {
 			Utils.setSelectDataPost(group,true);
 			group.find('[name="idThird"]').on('change',function() {
 		        var _this = $(this);
-		        var onlysysId = _this.val()
+		        var onlysysId = _this.val();
 		        //雷达图加载
 				self._getEchartsRadar(onlysysId);
 				//系统信息卡加载
 				self._getSystemInfoCard(onlysysId);
+				//体检结果加载
+				self._health_report(onlysysId);
 			});
 		},
 		//系统信息卡
@@ -54,11 +58,27 @@ define(function(require, exports, module) {
 				if(status) {
 					var data = json.data.content[0];
 					if(data) {
-						var template = Handlebars.compile(Page.findTpl('systemInfoCard'));	
+						var template = Handlebars.compile(Page.findTpl('systemInfoCard'));
+						//标题字
 						data.titleWord = data.name.charAt(0);
 						Page.findId("systemInfoCard").html(template(data));
 					} else {
 						XMS.msgbox.show("没有查到系统信息", 'error', 2000);
+					}
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}	
+			});
+		},
+		//系统体检结果
+		_health_report: function(onlysysId) {
+			Rose.ajax.postJson(srvMap.get('getSystemHealthReport'), 'onlysysId='+onlysysId, function(json, status) {
+				if(status) {
+					if(json.data) {
+						var template = Handlebars.compile(Page.findTpl('systemHealthReport'));
+						Page.findId("healthReport").html(template(json.data));
+					} else {
+						XMS.msgbox.show("没有查到系统体检结果", 'error', 2000);
 					}
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -127,5 +147,12 @@ define(function(require, exports, module) {
 			}	
 		}
 	};
+	var handleHelper = Handlebars.registerHelper("indexGrouptitle",function(index){
+		//利用+1的时机，在父级循环对象中添加一个_index属性，用来保存父级每次循环的索引
+		var chnNumChar = ['零', '一','二','三','四','五','六','七','八','九'];
+		var num = index+1;
+		//返回+1之后的结果
+		return chnNumChar[num];
+	});
 	module.exports = init;
 });

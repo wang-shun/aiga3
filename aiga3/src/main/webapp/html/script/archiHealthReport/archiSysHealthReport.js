@@ -131,7 +131,7 @@ define(function(require, exports, module) {
 					if(status) {
 						if(json.data) {
 							option.radar.indicator = json.data.indicator;
-							option.series[0].data.value = json.data.value;
+							option.series[0].data[0].value = json.data.value;
 						} else {
 							XMS.msgbox.show('该系统没有配置指标', 'error', 1500);
 						}
@@ -148,10 +148,9 @@ define(function(require, exports, module) {
 		}
 	};
 	var handleHelper = Handlebars.registerHelper("indexGrouptitle",function(index){
-		//利用+1的时机，在父级循环对象中添加一个_index属性，用来保存父级每次循环的索引
-		var chnNumChar = ['零', '一','二','三','四','五','六','七','八','九'];
+		//将阿拉伯数字转成中文
+		var chnNumChar = ['零','一','二','三','四','五','六','七','八','九','十'];
 		var num = index+1;
-		//返回+1之后的结果
 		return chnNumChar[num];
 	});
 	module.exports = init;

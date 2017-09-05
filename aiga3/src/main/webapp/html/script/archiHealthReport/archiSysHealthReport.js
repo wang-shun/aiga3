@@ -23,15 +23,11 @@ define(function(require, exports, module) {
 	
 	var init = {
 		init: function() {
-			this._render();
+			this._view_load();
 		},
-		_render: function() {
-			var self = this;
-			self._querydomain();
-		},
-		
+
 		//查询下拉框数据加载，绑定查询按钮事件
-		_querydomain: function() {
+		_view_load: function() {
 			var self = this;
 			self._getEchartsRadar();
 			self._load_combo_select();
@@ -41,6 +37,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var group = Page.findId("selectGroup");
 			Utils.setSelectDataPost(group,true);
+			//三级系统下拉框change事件绑定
 			group.find('[name="idThird"]').on('change',function() {
 		        var _this = $(this);
 		        var onlysysId = _this.val();
@@ -147,7 +144,7 @@ define(function(require, exports, module) {
 			}	
 		}
 	};
-	var handleHelper = Handlebars.registerHelper("indexGrouptitle",function(index){
+	var handleHelper = Handlebars.registerHelper("indexGrouptitle",function(index) {
 		//将阿拉伯数字转成中文
 		var chnNumChar = ['零','一','二','三','四','五','六','七','八','九','十'];
 		var num = index+1;

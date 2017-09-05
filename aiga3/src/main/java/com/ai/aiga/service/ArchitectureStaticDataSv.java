@@ -27,4 +27,8 @@ public class ArchitectureStaticDataSv extends BaseService {
 	public List<ArchitectureStaticData>findByCodeTypeAndCodeValue(String codeType,String codeValue){
 		return architectureStaticDataDao.findByCodeTypeAndCodeValue(codeType,codeValue);
 	}
+	//体检指标分组使用
+	public List<ArchitectureStaticData>findByCodeTypeAndCodeName(String codeType,String codeName){
+		return architectureStaticDataDao.findByCodeTypeAndCodeName(codeType,codeName);
+	}
 }

@@ -13,4 +13,6 @@ public interface ArchitectureStaticDataDao  extends JpaRepository<ArchitectureSt
     //根据Type和CodeValue查询
 	List<ArchitectureStaticData> findByCodeTypeAndCodeValue(String codeTypes,String codeValue);
 	
+	//根据Type和CodeName查询
+	List<ArchitectureStaticData> findByCodeTypeAndCodeName(String codeTypes,String CodeName);
 }

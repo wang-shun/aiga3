@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.domain.ArchiSysHealthReport;
+import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.service.ArchiSysHealthReportSv;
+import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.view.controller.archibaseline.dto.syshealthreport.SysHealthReportGroup;
 import com.ai.aiga.view.controller.archibaseline.dto.syshealthreport.SysHealthReportIndex;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -21,6 +23,8 @@ import com.ai.aiga.view.json.base.JsonBean;
 public class SysHealthReportController {
 	@Autowired 
 	private ArchiSysHealthReportSv archiSysHealthReportSv;
+	@Autowired 
+	private ArchitectureStaticDataSv architectureStaticDataSv;
     /**
      * 系统体检结果
      *@param 
@@ -37,11 +41,13 @@ public class SysHealthReportController {
 				Boolean hasGroup = false;
 				indexBase.setIndexName(base.getKey());
 				//根据指标查询所属分组
-				String groupValue = base.getKey();
-				if(StringUtils.isBlank(groupValue)) {
+				List<ArchitectureStaticData> groupStaticData = architectureStaticDataSv.findByCodeTypeAndCodeName("HEALTH_REPORT_INDEX_GROUP", base.getKey());
+			
+				if(groupStaticData == null || groupStaticData.size()<=0) {
 					bean.fail(indexBase.getIndexName()+"  指标未查询到分组");
 					return bean;
 				}
+				String groupValue = groupStaticData.get(0).getCodeValue();
 				//打分规则
 				indexBase.setIndexValue(base.getValue());
 	

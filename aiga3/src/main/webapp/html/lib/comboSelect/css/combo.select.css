@@ -10,7 +10,8 @@
   margin-bottom: 15px;
   font: 100% Helvetica, Arial, Sans-serif;
   border: 1px #ccc solid;
-  border-radius: 3px; }
+  border-radius: 3px;
+  font-size: 12px; }
   .combo-select .combo-input {
     margin-bottom: 0; }
 

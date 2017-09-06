@@ -1,5 +1,6 @@
 package com.ai.aiga.view.controller.archibaseline;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,40 @@ public class SysHealthReportController {
 				}
 				String groupValue = groupStaticData.get(0).getCodeValue();
 				//打分规则
-				indexBase.setIndexValue(base.getValue());
+				List<ArchitectureStaticData> indexGrade = architectureStaticDataSv.findByCodeTypeAndCodeValue("HEALTH_REPORT_INDEX_GRADE", base.getKey());
+				if(indexGrade ==null || indexGrade.size()<=0) {
+					bean.fail(indexBase.getIndexName()+"  指标没有配置打分规则");
+					return bean;
+				}
+				ArchitectureStaticData gradeRule = indexGrade.get(0);
+				try{
+					if("1".equals(gradeRule.getCodeName())) {
+						Double lowValue = Double.parseDouble(gradeRule.getExt1());
+						Double hightValue = Double.parseDouble(gradeRule.getExt2());
+						lowValue = lowValue == null? lowValue:0;
+						hightValue = hightValue == null? hightValue:100;
+						Double value = (Double.parseDouble(base.getValue())-lowValue)/(hightValue-lowValue)*100;
+						value = value>0? value:0;
+						value = value<100? value:100;
+			            DecimalFormat df = new DecimalFormat("#.00");
+						indexBase.setIndexValue(df.format(value).toString());
+					} else if("2".equals(gradeRule.getCodeName())) {
+						Double lowValue = Double.parseDouble(gradeRule.getExt1());
+						Double hightValue = Double.parseDouble(gradeRule.getExt2());
+						lowValue = lowValue == null? lowValue:0;
+						hightValue =  hightValue == null? hightValue:100;
+						Double value = (hightValue-Double.parseDouble(base.getValue()))/(hightValue-lowValue)*100;
+						value = value>0? value:0;
+						value = value<100? value:100;
+			            DecimalFormat df = new DecimalFormat("#.00");
+						indexBase.setIndexValue(df.format(value).toString());
+					} else if("3".equals(gradeRule.getCodeName())) {
+						
+					}
+				}catch (Exception e) {
+					bean.fail(indexBase.getIndexName()+"  得分错误     "+e.getMessage());
+					return bean;
+				}	
 	
 				//查找List中是否有该group
 				for(SysHealthReportGroup group :groupIndexList) {

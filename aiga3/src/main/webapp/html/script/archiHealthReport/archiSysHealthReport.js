@@ -57,7 +57,7 @@ define(function(require, exports, module) {
 					if(data) {
 						var template = Handlebars.compile(Page.findTpl('systemInfoCard'));
 						//标题字
-						data.titleWord = data.name.charAt(0);
+						data.titleWord = data.name.length%6;
 						Page.findId("systemInfoCard").html(template(data));
 					} else {
 						XMS.msgbox.show("没有查到系统信息", 'error', 2000);

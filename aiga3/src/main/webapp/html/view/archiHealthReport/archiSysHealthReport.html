@@ -25,12 +25,14 @@
 	margin-left:20%;
 }
 .score-word-pre {
-	float:left;margin-left:25%;margin-top: 8px;
+	float:left;margin-left:20%;
+	font-size:28px;font-family:\5fae\8f6f\96c5\9ed1,\9ed1\4f53;line-height:34px;color:#f4a830;
 }
 .score-step, .score-state-left, .score-state-right{background:url('style/img/ucenter_1.png') no-repeat 0 0;}
 .score-step{background-position:0 -138px;width:435px;height:10px;margin:14px 0 0 0;display:inline;float:left}
 .score-state-left{float:left;height:10px;background-position:0 -180px;}
 .score-state-right{float:left;width:5px;height:10px;background-position:right -180px;}
+.score-num{font-size:28px;font-family:\5fae\8f6f\96c5\9ed1,\9ed1\4f53;margin-left:10px;line-height:34px;float:left;color:#f4a830;}
 </style>
 <div class="row" id="Page_archiSysHealthReport">
 	<div class="col-md-12">
@@ -101,14 +103,14 @@
 				<h3 class="box-title">系统体检报告</h3>
 			</div>
 			<div class="col-md-12">
-			<label class="score-word-pre" >系统得分：</label>
+				<label class="score-word-pre" >系统得分：</label>
 				<div class="score-step">
 					<div class="score-state-left"></div>
 					<div class="score-state-right" style="width:0px"></div>
 				</div>
+				<div class="score-num" ><span id="JS_scoreNum"></span>分!</div>
 			</div>
-			<div id="JS_healthReport" class="box-body">
-
+			<div id="JS_healthReport" class="box-body" style="margin-top: 45px;">
 				<div class="col-md-12">
 					<div class="report-group-sty"><label>一、csf类</label></div>
 					<div class="report-index-sty"><label>指标一：</label><label>得分一</label></div>

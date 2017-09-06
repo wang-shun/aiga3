@@ -73,6 +73,19 @@ define(function(require, exports, module) {
 				if(status) {
 					if(json.data) {
 						var template = Handlebars.compile(Page.findTpl('systemHealthReport'));
+						var index=0;
+						var total=0;
+						for(var i in json.data) {
+							for(var j in json.data[i].sysHealthReportIndex){
+								index++;
+								total += parseFloat(json.data[i].sysHealthReportIndex[j].indexValue);
+							}
+						}
+						var average = total/index;
+						var averageWidth = average*4.35;
+						$(".score-state-right").animate({width:averageWidth+"px"},1500,function(){
+							Page.findId("scoreNum").html(average);
+						});
 						Page.findId("healthReport").html(template(json.data));
 					} else {
 						XMS.msgbox.show("没有查到系统体检结果", 'error', 2000);

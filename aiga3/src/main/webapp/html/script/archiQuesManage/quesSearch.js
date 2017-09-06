@@ -7,24 +7,6 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesSearchView');
-	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
-	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyCorrelation");
-	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyCorrelation");
-	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyCorrelation");
-	//属性下拉菜单
-	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
-	//数据库下拉菜单
-	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
-	//cfgId下拉菜单
-
-	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
-
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
-
 	//问题展示
 	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
 	//新增问题
@@ -33,14 +15,6 @@ define(function(require, exports, module) {
 	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
 	//刪除問題
 	srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
-    //问题分类下拉框
-    srvMap.add("getRootList", "", "sys/cache/listRootid");
-    //一级分类下拉框
-    srvMap.add("getFirstList", "", "sys/cache/listFirstid");
-    //二级分类下拉框
-    srvMap.add("getSecondList", "", "sys/cache/listSecondid");
-    //三级分类下拉框
-    srvMap.add("getThirdList", "", "sys/cache/listThirdid");
     //问题分类下拉框
     srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
     //一级分类下拉框
@@ -52,7 +26,6 @@ define(function(require, exports, module) {
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
     //显示系统信息表
-//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
     //所属工单状态静态数据  
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
@@ -124,9 +97,6 @@ define(function(require, exports, module) {
 							break;
 						}
 					};
-//					var value = $("#sbbelongProject").find("option:selected").text();
-//					var value = node.text();
-					
 				});
 			});
 		},

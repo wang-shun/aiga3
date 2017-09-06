@@ -3,13 +3,13 @@
 	display:none;
 }
 </style>
-<div class="row" id="Page_quesIndexView">
+<div class="row" id="Page_quesTypeinView">
     <div class="col-md-12">
     
     	<div class="nav-tabs-custom">
 		    <ul class="nav nav-tabs">
-		        <li class="active"><a href="#deliverableTab_1" data-toggle="tab" aria-expanded="false">按日查询</a></li>
-		        <li class=""><a href="#deliverableTab_2" data-toggle="tab" aria-expanded="false">按月查询</a></li>
+		        <li class="active"><a href="#deliverableTab_1" data-toggle="tab" aria-expanded="false">日指标录入</a></li>
+		        <li class=""><a href="#deliverableTab_2" data-toggle="tab" aria-expanded="false">月指标录入</a></li>
 		    </ul>
 			<div class="tab-content">
 		        <!-- tab页签1 -->
@@ -58,6 +58,35 @@
 						        		</div>
 						        	</div>
 				                </div>
+					            <div class="row" >
+					                <div class="form-group col-sm-6" id="categoryKey1" style="display:none">
+					                    <label for="key1" class="col-sm-2 control-label">数据库：</label>
+					                    <div class="col-sm-4">
+						                    <select name="key1" class="form-control input-sm" data-suburl="fetchselectKey1" data-subname="key2" data-idkey="key1" data-namekey="key1">
+						                        <option value="">请选择</option>
+						                    </select>
+						                </div>
+					                </div>
+					                <div class="form-group col-sm-6" id="categoryKey2" style="display:none">
+					                    <label for="key2" class="col-sm-2  control-label">用户名：</label>
+					                    <div class="col-sm-4">
+						                    <select name="key2" class="form-control input-sm" data-suburl="fetchselectKey2" data-idkey="key2" data-namekey="key2">
+						                        <option value="">请选择</option>
+						                    </select>
+						                </div>
+					                </div>
+					            </div>
+					            <!-- data-subname="key3"  -->
+			<!-- 		            <div class="row">
+					                <div class="form-group col-sm-6" id="categoryKey3" style="display:none">
+					                    <label for="key3" class="col-sm-2 col-sm-offset-2 control-label">模块分类：</label>
+					                    <div class="col-sm-4">
+						                    <select name="key3" class="form-control input-sm" data-suburl="fetchselectKey123" data-idkey="key3" data-namekey="key3">
+						                        <option value="">请选择</option>
+						                    </select>
+						                </div>
+					                </div>
+					            </div> -->
 			                </div>
 			                <div class="box-footer">
 			                    <div class="text-center">
@@ -67,7 +96,7 @@
 			                </div>
 			            </form>
 			        </div>
-			        <div class="box" id="JS_getDataMaintainList" style="min-height:100px; display:none">
+			        <div class="box" id="JS_getDataMaintainList" style="min-height:100px;">
 			            <div class="box-header ">
 			                <h3 class="box-title">指标分类</h3>
 			                <div class="box-tools">
@@ -229,11 +258,11 @@
 			                </div>
 			            </form>
 			        </div>
-			        <div class="box" id="JS_getDataMaintainList2" style="min-height:100px; display:none">
+			        <div class="box" id="JS_getDataMaintainList2" style="min-height:100px;">
 			            <div class="box-header ">
 			                <h3 class="box-title">指标分类</h3>
 			                <div class="box-tools">
-			               <button type="button" class="btn btn-primary" name="add">添加</button>
+			               		<button type="button" class="btn btn-primary" name="add">添加</button>
 			                    <button type="button" class="btn btn-primary" name="del">删除</button>
 			                </div>
 			            </div>
@@ -317,7 +346,7 @@
 
 <script type="text/javascript">
 //<![CDATA[
-seajs.use("script/archiQuesManage/quesIndex", function(Init) {
+seajs.use("script/archiQuesManage/quesTypein", function(Init) {
     Init.init();
 });
 //]]>

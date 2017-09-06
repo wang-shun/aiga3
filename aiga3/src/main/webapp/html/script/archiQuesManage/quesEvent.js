@@ -7,34 +7,10 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesEventView');
-	//分页根据条件查询功能点归属
-
-	//问题展示
-	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
-	//新增问题
-	srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
-	//修改问题
-	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update");
-	//刪除問題
-	srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
-    //问题分类下拉框
-    srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
-    //一级分类下拉框
-    srvMap.add("getFirstcategoryList", "", "sys/cache/listFirstcategory");
-    //二级分类下拉框
-    srvMap.add("getSecondcategoryList", "", "sys/cache/listSecondcategory");
-    //三级分类下拉框
-    srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
-    //所属系统静态数据  
-	srvMap.add("getBelongSystem", "", "archi/third/list");
     //静态数据  
 	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "archi/static/eventState");
-	//上传文件
-    srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
-	//一级域查询  
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
     

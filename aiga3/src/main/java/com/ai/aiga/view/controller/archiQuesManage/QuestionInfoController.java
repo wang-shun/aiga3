@@ -144,54 +144,6 @@ public class QuestionInfoController {
 			return bean;
 	}
 	
-	@RequestMapping(path = "/archi/question/findOne")
-	public @ResponseBody JsonBean findone(
-				@RequestParam Long quesId){
-		JsonBean bean = new JsonBean();
-		bean.setData(questionInfoSv.findOne(quesId));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/question/findByQuesId")
-	public @ResponseBody JsonBean findByQuesId(
-				@RequestParam Long quesId){
-		JsonBean bean = new JsonBean();
-		bean.setData(questionInfoSv.findByQuesId(quesId));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/question/findByQuesType")
-	public @ResponseBody JsonBean findByQuesType(
-				@RequestParam String quesType){
-		JsonBean bean = new JsonBean();
-		bean.setData(questionInfoSv.findByQuesType(quesType));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/question/findByFirstCategory")
-	public @ResponseBody JsonBean findByFirstCategory(
-				@RequestParam String firstCategory){
-		JsonBean bean = new JsonBean();
-		bean.setData(questionInfoSv.findByFirstCategory(firstCategory));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/question/findByFirstCategoryAndSecondCategory")
-	public @ResponseBody JsonBean findByFirstCategoryAndSecondCategory(
-				@RequestParam String firstCategory, @RequestParam String secondCategory){
-		JsonBean bean = new JsonBean();
-		bean.setData(questionInfoSv.findByFirstCategoryAndSecondCategory(firstCategory, secondCategory));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/question/findByFirstCategoryAndSecondCategoryAndThirdCategory")
-	public @ResponseBody JsonBean findByFirstCategoryAndSecondCategoryAndThirdCategory(
-				@RequestParam String firstCategory, @RequestParam String secondCategory, @RequestParam String thirdCategory){
-		JsonBean bean = new JsonBean();
-		bean.setData(questionInfoSv.findByFirstCategoryAndSecondCategoryAndThirdCategory(firstCategory, secondCategory, thirdCategory));
-		return bean;
-	}
-	
 	@RequestMapping(path = "/archi/question/save")
 	public @ResponseBody JsonBean save(QuestionInfoRequest questionInfoRequest){
 		questionInfoRequest.setSysVersion("待确认");

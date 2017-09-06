@@ -7,24 +7,6 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesRendingView');
-	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
-	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyCorrelation");
-	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyCorrelation");
-	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyCorrelation");
-	//属性下拉菜单
-	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
-	//数据库下拉菜单
-	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
-	//cfgId下拉菜单
-
-	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
-
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
-
 	//问题展示
 	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
 	//新增问题
@@ -51,14 +33,11 @@ define(function(require, exports, module) {
     srvMap.add("getSecondcategoryList", "", "sys/cache/listSecondcategory");
     //三级分类下拉框
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
-    //所属系统静态数据  
-	srvMap.add("getBelongSystem", "", "archi/third/list");
     //所属工单状态静态数据  
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
     //所属问题状态静态数据  
 	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
-		//显示系统信息表
-//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
+	//显示系统信息表
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
 	//get附件名
     srvMap.add("getFileName", pathAlias+"getSysMessageList.json", "archi/question/getFileName");

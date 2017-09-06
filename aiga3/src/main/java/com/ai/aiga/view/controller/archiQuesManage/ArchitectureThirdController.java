@@ -54,23 +54,6 @@ public class ArchitectureThirdController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/archi/third/list")
-	public @ResponseBody JsonBean list(){
-		JsonBean bean = new JsonBean();
-		bean.setData(architectureThirdSv.findArchitectureThirds());
-		return bean;
-	}
-	
-	@RequestMapping(path="/archi/third/findByConditionPage")
-	public @ResponseBody JsonBean findByConditionPage(
-            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            ArchiThirdConditionParam condition){
-				JsonBean bean = new JsonBean();
-				bean.setData(architectureThirdSv.findbyCoditionPage(condition.getIdThird(), condition.getName(), pageNumber, pageSize));
-			return bean;
-	}
-	
 	@RequestMapping(path="/archi/third/findTransPage")
 	public @ResponseBody JsonBean findTransPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -109,29 +92,4 @@ public class ArchitectureThirdController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/archi/third/findOne")
-	public @ResponseBody JsonBean findOne(Long onlysysId){
-		JsonBean bean = new JsonBean();
-		bean.setData(architectureThirdSv.findOne(onlysysId));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/third/save")
-	public @ResponseBody JsonBean save(ArchitectureThirdRequest architectureThirdRequest){
-		architectureThirdSv.save(architectureThirdRequest);
-		return JsonBean.success;
-	}
-	
-	@RequestMapping(path = "/archi/third/update")
-	public @ResponseBody JsonBean update(ArchitectureThirdRequest architectureThirdRequest){
-		architectureThirdSv.update(architectureThirdRequest);
-		return JsonBean.success;
-	}
-	
-	@RequestMapping(path = "/archi/third/delete")
-	public @ResponseBody JsonBean delete(
-				@RequestParam Long onlysysId){
-		architectureThirdSv.delete(onlysysId);
-		return JsonBean.success;
-	}
 }

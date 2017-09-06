@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.ai.aiga.dao.FirstCategoryDao;
 import com.ai.aiga.dao.FirstDao;
 import com.ai.aiga.domain.First;
-import com.ai.aiga.domain.FirstCategory;
 
 @Component
 public class FirstCacheCmpt extends AbstractCache {

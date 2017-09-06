@@ -7,24 +7,6 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesJiejueView');
-	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
-	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyCorrelation");
-	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyCorrelation");
-	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyCorrelation");
-	//属性下拉菜单
-	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
-	//数据库下拉菜单
-	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
-	//cfgId下拉菜单
-
-	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
-
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
-
 	//问题展示
 	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
 	//新增问题
@@ -33,22 +15,6 @@ define(function(require, exports, module) {
 	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
 	//刪除問題
 	srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
-    //问题分类下拉框
-    srvMap.add("getRootList", "", "sys/cache/listRootid");
-    //一级分类下拉框
-    srvMap.add("getFirstList", "", "sys/cache/listFirstid");
-    //二级分类下拉框
-    srvMap.add("getSecondList", "", "sys/cache/listSecondid");
-    //三级分类下拉框
-    srvMap.add("getThirdList", "", "sys/cache/listThirdid");
-    //问题分类下拉框
-    srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
-    //一级分类下拉框
-    srvMap.add("getFirstcategoryList", "", "sys/cache/listFirstcategory");
-    //二级分类下拉框
-    srvMap.add("getSecondcategoryList", "", "sys/cache/listSecondcategory");
-    //三级分类下拉框
-    srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
     //所属工单状态静态数据  
@@ -56,7 +22,6 @@ define(function(require, exports, module) {
     //所属问题状态静态数据  
 	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
 	//显示系统信息表
-//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
 
 	// 模板对象
@@ -66,16 +31,6 @@ define(function(require, exports, module) {
 		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
 
 	};
-
-	/*// 容器对象
-	var Dom = {
-		queryDataMaintainForm: '#JS_queryDataMaintainForm',
-		getDataMaintainList: '#JS_getDataMaintainList',
-		addDataMaintainModal: "#JS_addDataMaintainModal",
-		addDataMaintainInfo: "#JS_addDataMaintainInfo",
-		updateDataMaintainModal: "#JS_updateDataMaintainModal",
-		updateMaintainInfo: "#JS_updateDataMaintainInfo",
-	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -113,7 +68,6 @@ define(function(require, exports, module) {
 				sureBt.unbind('click');
 				sureBt.bind('click',function(){
 					_modal.modal('hide');
-//					var node = _modal.find("[name='sysMessageQuery']");
 					var node = Page.findId('sysMessageQuery');
 					var value = Utils.getRadioCheckedRow(node);
 					var idThird = value.idThird;
@@ -124,9 +78,6 @@ define(function(require, exports, module) {
 							break;
 						}
 					};
-//					var value = $("#sbbelongProject").find("option:selected").text();
-//					var value = node.text();
-					
 				});
 			});
 		},
@@ -213,7 +164,6 @@ define(function(require, exports, module) {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
 
-//					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPagination);
@@ -269,7 +219,6 @@ define(function(require, exports, module) {
 				if (data) {
 					console.log(data);
 					var cmd = 'quesId=' + data.quesId;
-					//alert(cmd);//////////
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('deleQuestionInfo'), cmd, function(json, status) {
 						if (status) {
@@ -292,41 +241,16 @@ define(function(require, exports, module) {
 			var data = json.content[i];
 			data.modifyDate = data.modifyDate.replace(/-/g,"/");
 			data.createDate = data.modifyDate;
-//			var _dom = Page.findModal('updateDataMaintainModal');
-			
-//			var index = _dom.attr("temp");
-//			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
-//			Page.findId('updateModal').html(template(json.data[index]));
-//			var _modal = Page.findId('updateDataMaintainModal');
-//			_modal.modal('show');
-//			Utils.setSelectData(_modal);
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
 			Utils.setSelectData(_dom);
 			
-//			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
-//			_dom.find("#JS_name").html(html);
-
 			//开需求单
 			var _openRequest = _dom.find("[name='openRequest']");
 			_openRequest.unbind('click');
 			_openRequest.bind('click', function() {
-//				var _form = Page.findId('updateDataMaintainInfo');
-//				Utils.setSelectData(_form);
-//				var _cmd = _form.serialize();
-//				_cmd = _cmd + "&quesId=" + Id;
-//				XMS.msgbox.show('执行中，请稍候...', 'loading');
-//				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
-//					if (status) {
-//						window.XMS.msgbox.show('更新成功！', 'success', 2000)
-//						setTimeout(function() {
-//							self.queryDataMaintainForm(Data.queryListCmd);
-//							_dom.modal('hide');
-//						}, 1000)
-//					}
-//				});
 				data.state ="需求单跟踪";
 				data.ext1 = Page.findId('optimizePath').val();
 				data.ext2 = Page.findId('specificMeasures').val();

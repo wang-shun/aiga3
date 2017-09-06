@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
-	var Page = Utils.initPage('quesIndexView');
+	var Page = Utils.initPage('quesTypeinView');
     //指标主表
     srvMap.add("getAmCoreIndexList", "", "archi/index/list");
     //指标分表
@@ -23,6 +23,9 @@ define(function(require, exports, module) {
     srvMap.add("listMonthIndex", "", "arch/index/listMonthIndex");
     //指标月份分表---echarts
     srvMap.add("listMonthIndex2", "", "arch/index/listMonthIndex2");
+    //
+    srvMap.add("fetchindexGroup", "", "sys/maplist/indexGroup");
+    srvMap.add("fetchindexName", "", "sys/maplist/indexName");
     //日指标分组
     srvMap.add("fetchdistinct", "", "archi/index/distinct");
     //月指标分组
@@ -113,7 +116,7 @@ define(function(require, exports, module) {
 			_queryBtn.off('click').on('click', function() {
 				
 				Page.findId('getDataMaintainListSec').attr({style:"display:display"});      
-				Page.findId('sysMessageView').attr({style:"display:display"});      
+//				Page.findId('sysMessageView').attr({style:"display:display"});      
 
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
@@ -584,7 +587,7 @@ define(function(require, exports, module) {
 			_queryBtn.off('click').on('click', function() {
 				
 				Page.findId('getDataMaintainListSec2').attr({style:"display:display"});      
-				Page.findId('sysMessageView2').attr({style:"display:display"});      
+//				Page.findId('sysMessageView2').attr({style:"display:display"});      
 
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm2').serialize();

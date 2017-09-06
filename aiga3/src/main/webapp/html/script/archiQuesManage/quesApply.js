@@ -7,24 +7,6 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesShenqingView');
-	//分页根据条件查询功能点归属
-	srvMap.add("getDataMaintainList", pathAlias + "dataMaintain.json", "sys/property/getPropertyCorrelationList");
-	//新增备份
-	srvMap.add("addDataMaintain", pathAlias + "retMessage.json", "sys/property/addPropertyCorrelation");
-	//删除备份
-	srvMap.add("delDataMaintain", pathAlias + "retMessage.json", "sys/property/delPropertyCorrelation");
-	//修改备份
-	srvMap.add("updateDataMaintain", pathAlias + "retMessage.json", "sys/property/updatePropertyCorrelation");
-	//属性下拉菜单
-	srvMap.add("getPropertyName", pathAlias + "retMessage.json", "sys/backup/getPropertyConfigList");
-	//数据库下拉菜单
-	srvMap.add("getDbList", pathAlias + "retMessage.json", "sys/property/getDbList");
-	//cfgId下拉菜单
-
-	srvMap.add("getCfgIdList", pathAlias + "retMessage.json", "sys/property/getCigIdList");
-
-	srvMap.add("getPropertyConfigList", pathAlias + "propertyConfig.json", "sys/property/getPropertyFieldList");
-
 	//问题展示
 	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
 	//新增问题
@@ -43,8 +25,6 @@ define(function(require, exports, module) {
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
-    //所属系统静态数据  
-	srvMap.add("getBelongSystem", "", "archi/third/list");
     //所属处理科室静态数据  
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
     //所属工单状态静态数据  
@@ -55,10 +35,7 @@ define(function(require, exports, module) {
 	srvMap.add("staticFileCategory", pathAlias+"getSysMessageList.json", "archi/static/archiFileCategory");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
-	//一级域查询  
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
 	//显示系统信息表
-//	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findByConditionPage");
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
  	//get id
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
@@ -234,7 +211,7 @@ define(function(require, exports, module) {
 	                var cmd = {
 	                    "file": _form.find("[name='fileName2']")[0].files[0],
 	                    "planId": planId,
-	                    "fileType": a,
+	                    "fileType": a
 	                }
 	                console.log(_form.find("[name='fileName2']"));
 	                console.log(a);

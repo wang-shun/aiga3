@@ -41,32 +41,5 @@ public class ArchitectureFirstController {
 		bean.setData(architectureFirstSv.findArchitectureFirstsPage(pageNumber, pageSize));
 		return bean;
 	} 
-	
-	@RequestMapping(path = "/archi/first/findOne")
-	public @ResponseBody JsonBean findOne(
-			@RequestParam Long idFirst){
-		JsonBean bean = new JsonBean();
-		bean.setData(architectureFirstSv.findOne(idFirst));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/first/save")
-	public @ResponseBody JsonBean save(ArchitectureFirstRequest architectureFirstRequest){
-		architectureFirstSv.save(architectureFirstRequest);
-		return JsonBean.success;
-	}
-	
-	@RequestMapping(path = "/archi/first/update")
-	public @ResponseBody JsonBean update(ArchitectureFirstRequest architectureFirstRequest){
-		architectureFirstSv.update(architectureFirstRequest);
-		return JsonBean.success;
-	}
-	
-	@RequestMapping(path = "/archi/first/delete")
-	public @ResponseBody JsonBean delete(
-				@RequestParam Long idFirst){
-		architectureFirstSv.delete(idFirst);
-		return JsonBean.success;
-	}
 
 }

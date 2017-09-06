@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.ai.aiga.dao.SecondCategoryDao;
 import com.ai.aiga.dao.SecondDao;
 import com.ai.aiga.domain.Second;
-import com.ai.aiga.domain.SecondCategory;
 @Component
 public class SecondCacheCmpt extends AbstractCache {
 

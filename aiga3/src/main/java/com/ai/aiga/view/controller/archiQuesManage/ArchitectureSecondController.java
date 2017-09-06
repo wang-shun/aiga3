@@ -48,30 +48,4 @@ public class ArchitectureSecondController {
 		return bean;
 	} 
 	
-	@RequestMapping(path = "/archi/second/findOne")
-	public @ResponseBody JsonBean findOne(
-			@RequestParam Long idSecond){
-		JsonBean bean = new JsonBean();
-		bean.setData(architectureSecondSv.findOne(idSecond));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/second/save")
-	public @ResponseBody JsonBean save(ArchitectureSecondRequest architectureSecondRequest){
-		architectureSecondSv.save(architectureSecondRequest);
-		return JsonBean.success;
-	}
-	
-	@RequestMapping(path = "/archi/second/update")
-	public @ResponseBody JsonBean update(ArchitectureSecondRequest architectureSecondRequest){
-		architectureSecondSv.update(architectureSecondRequest);
-		return JsonBean.success;
-	}
-	
-	@RequestMapping(path = "/archi/second/delete")
-	public @ResponseBody JsonBean delete(
-				@RequestParam Long idSecond){
-		architectureSecondSv.delete(idSecond);
-		return JsonBean.success;
-	}
 }

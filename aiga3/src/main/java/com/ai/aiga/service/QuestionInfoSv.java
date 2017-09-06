@@ -51,61 +51,6 @@ public class QuestionInfoSv extends BaseService {
 		return questionInfoDao.findAll();
 	}
 	
-	public QuestionInfo findOne(Long quesId){
-		if(quesId==null||quesId<0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		return questionInfoDao.findOne(quesId);
-	}
-
-	//主键查
-	public List<QuestionInfo>findByQuesId(Long quesId){
-		if(quesId==null||quesId<0){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		return questionInfoDao.findByQuesId(quesId);
-	}
-	
-	//问题分类查
-	public List<QuestionInfo>findByQuesType(String quesType){
-		if(quesType==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		return questionInfoDao.findByQuesType(quesType);
-	}
-	
-	//一级分类查
-	public List<QuestionInfo>findByFirstCategory(String firstCategory){
-		if(firstCategory==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		return questionInfoDao.findByFirstCategory(firstCategory);
-	}
-	
-	//一二级分类查
-	public List<QuestionInfo>findByFirstCategoryAndSecondCategory(String firstCategory, String secondCategory){
-		if(firstCategory==null||secondCategory==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		return questionInfoDao.findByFirstCategoryAndSecondCategory(firstCategory, secondCategory);
-	}
-	
-	//一二三级分类查
-	public List<QuestionInfo>findByFirstCategoryAndSecondCategoryAndThirdCategory(String firstCategory, String secondCategory, String thirdCategory){
-		if(firstCategory==null||secondCategory==null||thirdCategory==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		return questionInfoDao.findByFirstCategoryAndSecondCategoryAndThirdCategory(firstCategory, secondCategory, thirdCategory);
-	}
-	
-	//疑难问题查
-	public List<QuestionInfo>findByDiffProblem(String diffProblem){
-		if(diffProblem==null){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
-		}
-		return questionInfoDao.findByDiffProblem(diffProblem);
-	}
-	
 	public void delete(Long quesId){
 		if(quesId==null||quesId<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);

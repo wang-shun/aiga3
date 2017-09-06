@@ -13,11 +13,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.cache.AmCoreIndexCacheCmpt;
 import com.ai.aiga.cache.ArchDbConnectCacheCmpt;
+import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchDbConnect;
+import com.ai.aiga.domain.QuestionEvent;
 import com.ai.aiga.service.ArchDbConnectSv;
 import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.base.BaseService;
@@ -218,5 +221,86 @@ public class ArchDbConnectController extends BaseService {
 	    	curr.add(Calendar.MONTH, 1);
 	    }
 	    return result;
+	}
+    
+	@RequestMapping(path = "/index/typein/findAllDbs")
+	public @ResponseBody JsonBean findAllDbs(){
+		JsonBean bean = new JsonBean();
+		bean.setData(archDbConnectSv.findAll());
+		return bean;
+	}
+	@RequestMapping(path="/index/typein/queryDbsByCondition")
+	public @ResponseBody JsonBean queryDbsByCondition(
+            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+            ArchDbConnect condition) throws ParseException{
+				JsonBean bean = new JsonBean();
+				bean.setData(archDbConnectSv.queryByCondition(condition, pageNumber, pageSize));
+			return bean;
+	}
+	@RequestMapping(path = "/index/typein/saveDbs")
+	public @ResponseBody JsonBean saveDbs(ArchDbConnect request){
+		JsonBean bean = new JsonBean();
+		archDbConnectSv.save(request);
+		return JsonBean.success;
+	}
+	@RequestMapping(path = "/index/typein/deleteDbs")
+	public @ResponseBody JsonBean deleteDbs(long indexId){
+		archDbConnectSv.delete(indexId);
+		return JsonBean.success;
+	}
+	@RequestMapping(path = "/index/typein/updateDbs")
+	public @ResponseBody JsonBean updateDbs(ArchDbConnect request){
+		archDbConnectSv.update(request);
+		return JsonBean.success;
+	}
+	@RequestMapping(path="/index/typein/findAllDbsByPage")
+	public @ResponseBody JsonBean findAllDbsByPage(
+            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+            ArchDbConnect request){
+				JsonBean bean = new JsonBean();
+				bean.setData(archDbConnectSv.findAllByPage(request, pageNumber, pageSize));
+			return bean;
+	}
+	@RequestMapping(path = "/index/typein/findAllSrvs")
+	public @ResponseBody JsonBean findAllSrvs(){
+		JsonBean bean = new JsonBean();
+		bean.setData(archDbConnectSv.findAll());
+		return bean;
+	}
+	@RequestMapping(path="/index/typein/querySrvsByCondition")
+	public @ResponseBody JsonBean querySrvsByCondition(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			ArchDbConnect condition) throws ParseException{
+		JsonBean bean = new JsonBean();
+		bean.setData(archDbConnectSv.queryByCondition(condition, pageNumber, pageSize));
+		return bean;
+	}
+	@RequestMapping(path = "/index/typein/saveSrvs")
+	public @ResponseBody JsonBean saveSrvs(ArchDbConnect request){
+		JsonBean bean = new JsonBean();
+		archDbConnectSv.save(request);
+		return JsonBean.success;
+	}
+	@RequestMapping(path = "/index/typein/deleteSrvs")
+	public @ResponseBody JsonBean deleteSrvs(long indexId){
+		archDbConnectSv.delete(indexId);
+		return JsonBean.success;
+	}
+	@RequestMapping(path = "/index/typein/updateSrvs")
+	public @ResponseBody JsonBean updateSrvs(ArchDbConnect request){
+		archDbConnectSv.update(request);
+		return JsonBean.success;
+	}
+	@RequestMapping(path="/index/typein/findAllSrvsByPage")
+	public @ResponseBody JsonBean findAllSrvsByPage(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			ArchDbConnect request){
+		JsonBean bean = new JsonBean();
+		bean.setData(archDbConnectSv.findAllByPage(request, pageNumber, pageSize));
+		return bean;
 	}
 }

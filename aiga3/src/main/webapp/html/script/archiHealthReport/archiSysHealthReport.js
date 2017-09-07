@@ -6,11 +6,8 @@ define(function(require, exports, module) {
 	var pathAlias = ""; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiSysHealthReport');
-    srvMap.add("getPrimaryDomainList", '', "archi/first/list");
-    //根据一级域查询二级子域
-    srvMap.add("getSecondByFirst", '', "archi/second/listByfirst");
-    //根据二级子域查询三级系统
-    srvMap.add("getThirdBySecond", '', "archi/third/findBySec");
+	//三级系统下拉框
+    srvMap.add("getThirdSysNum", '', "archi/third/list");
     //雷达图数据获取
     srvMap.add("getRadarIndexData", '', "archi/index/getSysIndexData");
     //系统信息查询
@@ -29,17 +26,19 @@ define(function(require, exports, module) {
 		//查询下拉框数据加载，绑定查询按钮事件
 		_view_load: function() {
 			var self = this;
+			//雷达图
 			self._getEchartsRadar();
+			//下拉框
 			self._load_combo_select();
 		},
-		//渲染下拉框
+		//渲染下拉框  查询按钮
 		_load_combo_select: function() {
 			var self = this;
 			var group = Page.findId("selectGroup");
-			Utils.setSelectDataPost(group,true);
-			//三级系统下拉框change事件绑定
-			group.find('[name="idThird"]').on('change',function() {
-		        var _this = $(this);
+			Utils.setSelectDataPost(group,true);	
+			//三级系统查询按钮事件绑定
+			group.find("[name='query']").off('click').on('click',function() {
+		        var _this = group.find("[name='idThird']");
 		        var onlysysId = _this.val();
 		        //雷达图加载
 				self._getEchartsRadar(onlysysId);
@@ -67,8 +66,16 @@ define(function(require, exports, module) {
 				}	
 			});
 		},
+		
 		//系统体检结果
 		_health_report: function(onlysysId) {
+//			Page.find('[class="score-state-right"]').css("width","0px");
+			var current=0;
+			var scoreDom = Page.findId("scoreNum");
+			function increment(){
+				current++;
+				scoreDom.html(current);
+			}
 			Rose.ajax.postJson(srvMap.get('getSystemHealthReport'), 'onlysysId='+onlysysId, function(json, status) {
 				if(status) {
 					if(json.data) {
@@ -76,15 +83,19 @@ define(function(require, exports, module) {
 						var index=0;
 						var total=0;
 						for(var i in json.data) {
-							for(var j in json.data[i].sysHealthReportIndex){
-								index++;
-								total += parseFloat(json.data[i].sysHealthReportIndex[j].indexValue);
+							for(var m in json.data[i].sysHealthReportGroups) {
+								var sysHealthReportGroup = json.data[i].sysHealthReportGroups[m];
+								for(var j in sysHealthReportGroup.sysHealthReportIndexs){
+									index++;
+									total += parseFloat(sysHealthReportGroup.sysHealthReportIndexs[j].indexValue);
+								}
 							}
 						}
-						var average = total/index;
-						var averageWidth = average*4.35;
-						$(".score-state-right").animate({width:averageWidth+"px"},1500,function(){
-							Page.findId("scoreNum").html(average);
+						var average = index==0? 0:total/index;
+						var snum = setInterval(increment,50);
+						Page.find('[class="score-state-right"]').animate({width:average*4.35+"px"},average*50,function(){
+							scoreDom.html(average);
+							window.clearInterval(snum);
 						});
 						Page.findId("healthReport").html(template(json.data));
 					} else {
@@ -157,11 +168,15 @@ define(function(require, exports, module) {
 			}	
 		}
 	};
-	var handleHelper = Handlebars.registerHelper("indexGrouptitle",function(index) {
+	var handleHelper = Handlebars.registerHelper("preGroupTitle",function(index) {
 		//将阿拉伯数字转成中文
 		var chnNumChar = ['零','一','二','三','四','五','六','七','八','九','十'];
 		var num = index+1;
 		return chnNumChar[num];
+	});
+	var handleHelper = Handlebars.registerHelper("nextGroupTitle",function(index) {
+		var num = index+1;
+		return num;
 	});
 	module.exports = init;
 });

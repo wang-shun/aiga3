@@ -6,27 +6,14 @@
 .img-wod-sty-3 {background: url('style/img/step4.png') no-repeat 0 0;width:100%;margin-left: 20%;height: 130px;}
 .img-wod-sty-4 {background: url('style/img/step5.png') no-repeat 0 0;width:100%;margin-left: 20%;height: 130px;}
 .img-wod-sty-5 {background: url('style/img/step6.png') no-repeat 0 0;width:100%;margin-left: 20%;height: 130px;}
-.report-sys-intro {
-	margin-top:10px;
-}
-.card-word-sty {
-	margin-bottom: 10px
-}
-.card-word-intro {
-	border-top: ridge;height: 120px;margin-top: 10px;
-}
-.select-label-word {
-	margin-top: 7px;width: 70px;
-}
-.echar-radar-stay {
-	width: 100%;height: 300px;z-index: 0;
-}
-.report-group-sty {
-	margin-left:15%;
-}
-.report-index-sty {
-	margin-left:20%;
-}
+.report-sys-intro {margin-top:10px;}
+.card-word-sty {margin-bottom: 10px}
+.card-word-intro {border-top: ridge;height: 90px;margin-top: 10px;}
+.select-label-word {margin-top: 7px;width: 70px;}
+.echar-radar-sty {width: 100%;height: 270px;z-index: 0;}
+.report-group-sty {margin-left:15%;}
+.report-group-sty-2 {margin-left:20%;}
+.report-index-sty {margin-left:25%;}
 .score-word-pre {
 	float:left;margin-left:20%;
 	font-size:28px;font-family:\5fae\8f6f\96c5\9ed1,\9ed1\4f53;line-height:34px;color:#f4a830;
@@ -45,19 +32,16 @@
 			</div>
 			<div class="box-body" id="JS_selectGroup">
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">一级域</label> 
-				    <select name="idFirst" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond">           
-					</select>
-				</div>
-				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">二级子域</label> 
-					<select name="idSecond" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" data-subname="idThird">
-					</select>
-				</div>
-				<div class="col-md-4" style="display: -webkit-inline-box;">
 					<label class="select-label-word">三级系统</label> 
-					<select name="idThird" data-suburl="getThirdBySecond" data-idkey="onlysysId" data-namekey="name">
+					<select name="idThird" data-url="getThirdSysNum" data-idkey="onlysysId" data-namekey="name">
 					</select>
+				</div>
+				<div class="col-md-4" style="display: -webkit-inline-box;">
+					<label class="select-label-word">开始时间:</label>
+	                <input type="text" class="form-control input-sm" style="width:200px" name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+				</div>
+				<div class="col-md-4" style="display: -webkit-inline-box;">
+					<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
 				</div>
 
 			</div>
@@ -68,7 +52,7 @@
 			<div class="box-header">
 				<h3 class="box-title">系统身份</h3>
 			</div>
-			<div id="JS_systemInfoCard"class="box-body" style="height:270px">
+			<div id="JS_systemInfoCard"class="box-body" style="height:240px">
 				<div class="col-md-5">
 					<div class="img-wod-sty-0"></div>
 				</div>
@@ -95,7 +79,7 @@
 	<div class="col-md-6">
 		<div class="box box-solid">
 			<div class="box-body">
-				<div id="JS_echartsRadar" class="echar-radar-stay"></div>
+				<div id="JS_echartsRadar" class="echar-radar-sty"></div>
 			</div>
 		</div>
 	</div>
@@ -115,10 +99,12 @@
 			<div id="JS_healthReport" class="box-body" style="margin-top: 45px;">
 				<div class="col-md-12">
 					<div class="report-group-sty"><label>一、csf类</label></div>
+					<div class="report-group-sty-2"><label>1.子分组</label></div>				
 					<div class="report-index-sty"><label>指标一：</label><label>得分一</label></div>
 				</div>
 				<div class="col-md-12">
 					<div class="report-group-sty"><label>二、消费类</label></div>
+					<div class="report-group-sty-2"><label>1.子分组</label></div>
 					<div class="report-index-sty"><label>指标二：</label><label>得分二</label></div>
 				</div>
 			</div>
@@ -152,9 +138,12 @@
 <script id="TPL_systemHealthReport" type="text/x-handlebars-template">
 {{#each this}}
 <div class="col-md-12">
-	<div class="report-group-sty"><label>{{indexGrouptitle @index}}、{{groupName}}</label></div>
-	{{#each sysHealthReportIndex}}
-	<div class="report-index-sty"><label>{{indexName}}：</label><label>{{indexValue}}</label></div>
+	<div class="report-group-sty"><label>{{preGroupTitle @index}}、{{groupName}}</label></div>
+	{{#each sysHealthReportGroups}}
+		<div class="report-group-sty-2"><label>{{nextGroupTitle @index}}.{{groupName}}</label></div>
+		{{#each sysHealthReportIndexs}}
+		<div class="report-index-sty"><label>{{indexName}}：</label><label>{{indexValue}}</label></div>
+		{{/each}}
 	{{/each}}
 </div>
 {{/each}}

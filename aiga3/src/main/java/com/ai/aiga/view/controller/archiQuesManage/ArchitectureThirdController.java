@@ -53,15 +53,21 @@ public class ArchitectureThirdController {
 		bean.setData(output);
 		return bean;
 	}
+	@RequestMapping(path="/archi/third/list")
+	public @ResponseBody JsonBean findAll(){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureThirdSv.findArchitectureThirds());
+		return bean;
+	}
 	
 	@RequestMapping(path="/archi/third/findTransPage")
 	public @ResponseBody JsonBean findTransPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            ArchiThirdConditionParam condition){
-				JsonBean bean = new JsonBean();
-				bean.setData(architectureThirdSv.findThirdTransInfo(condition.getOnlysysId(),condition.getIdThird(), condition.getName(), pageNumber, pageSize));
-			return bean;
+        ArchiThirdConditionParam condition){
+			JsonBean bean = new JsonBean();
+			bean.setData(architectureThirdSv.findThirdTransInfo(condition.getOnlysysId(),condition.getIdThird(), condition.getName(), pageNumber, pageSize));
+		return bean;
 	}
 	
 	@RequestMapping(path = "/archi/third/findByCondition")

@@ -17,6 +17,7 @@ import com.ai.aiga.service.ArchiSysHealthReportSv;
 import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.view.controller.archibaseline.dto.syshealthreport.SysHealthReportGroup;
 import com.ai.aiga.view.controller.archibaseline.dto.syshealthreport.SysHealthReportIndex;
+import com.ai.aiga.view.controller.archibaseline.dto.syshealthreport.SysReportGroupBelong;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
 @Api(value = "SysHealthReportController", description = "架构视图api")
@@ -33,7 +34,8 @@ public class SysHealthReportController {
 	@RequestMapping(path = "/archi/report/sysHealth")
 	public @ResponseBody JsonBean reportSysHealth(Long onlysysId) {
 		JsonBean bean = new JsonBean();
-		List<SysHealthReportGroup> groupIndexList = new ArrayList<SysHealthReportGroup>(); 
+		List<SysReportGroupBelong> groupList = new ArrayList<SysReportGroupBelong>(); 
+		List<ArchitectureStaticData> groupToGroup = architectureStaticDataSv.findByCodeType("HEALTH_REPORT_GROUP_GROUP");
 		List<ArchiSysHealthReport> indexResult = archiSysHealthReportSv.getSystemIndex(onlysysId);
 		if(indexResult !=null && indexResult.size()>0) {
 			for(ArchiSysHealthReport base : indexResult) {
@@ -41,7 +43,7 @@ public class SysHealthReportController {
 				Boolean hasGroup = false;
 				indexBase.setIndexName(base.getKey());
 				//根据指标查询所属分组
-				List<ArchitectureStaticData> groupStaticData = architectureStaticDataSv.findByCodeTypeAndCodeName("HEALTH_REPORT_INDEX_GROUP", base.getKey());
+				List<ArchitectureStaticData> groupStaticData = architectureStaticDataSv.findByCodeTypeAndCodeName("HEALTH_REPORT_GROUP_INDEX", base.getKey());
 			
 				if(groupStaticData == null || groupStaticData.size()<=0) {
 					bean.fail(indexBase.getIndexName()+"  指标未查询到分组");
@@ -83,27 +85,61 @@ public class SysHealthReportController {
 					bean.fail(indexBase.getIndexName()+"  得分错误     "+e.getMessage());
 					return bean;
 				}	
-	
-				//查找List中是否有该group
-				for(SysHealthReportGroup group :groupIndexList) {
-					String groupName = group.getGroupName();
-					if(groupName.equals(groupValue)) {
-						hasGroup = true;
-						group.getSysHealthReportIndex().add(indexBase);
-						continue;
+				String totalGroupName = null;
+				//查找子group的group分类
+				for(ArchitectureStaticData groupBase: groupToGroup) {
+					if(groupValue.equals(groupBase.getCodeName())) {
+						totalGroupName = groupBase.getCodeValue();
+						break;
 					}
 				}
-				//如果没有则添加进List
-				if(!hasGroup) {
-					SysHealthReportGroup newGroup = new SysHealthReportGroup();
-					newGroup.setGroupName(groupValue);
-					newGroup.setSysHealthReportIndex(new ArrayList<SysHealthReportIndex>());
-					newGroup.getSysHealthReportIndex().add(indexBase);
-					groupIndexList.add(newGroup);
+				if(totalGroupName !=null) {
+					boolean hasTotalGroupName = false;
+					for(SysReportGroupBelong groupListBase: groupList) {
+						if(groupListBase.getGroupName().equals(totalGroupName)) {
+							hasTotalGroupName = true;
+							//查找List中是否有该group
+							for(SysHealthReportGroup childgroup :groupListBase.getSysHealthReportGroups()) {
+								String groupName = childgroup.getGroupName();
+								if(groupName.equals(groupValue)) {
+									hasGroup = true;
+									childgroup.getSysHealthReportIndexs().add(indexBase);
+									continue;
+								}
+							}
+							//如果没有则添加进List
+							if(!hasGroup) {
+								SysHealthReportGroup newGroup = new SysHealthReportGroup();
+								newGroup.setGroupName(groupValue);
+								newGroup.setSysHealthReportIndexs(new ArrayList<SysHealthReportIndex>());
+								newGroup.getSysHealthReportIndexs().add(indexBase);
+								groupListBase.getSysHealthReportGroups().add(newGroup);
+							}
+							break;
+						}
+					}
+					if(!hasTotalGroupName) {
+						//建立分组
+						SysReportGroupBelong sysReportGroupBelong = new SysReportGroupBelong();
+						sysReportGroupBelong.setGroupName(totalGroupName);
+						sysReportGroupBelong.setSysHealthReportGroups(new ArrayList<SysHealthReportGroup>());
+						groupList.add(sysReportGroupBelong);
+						hasTotalGroupName = true;
+						//子分组
+						SysHealthReportGroup newGroup = new SysHealthReportGroup();
+						newGroup.setGroupName(groupValue);
+						newGroup.setSysHealthReportIndexs(new ArrayList<SysHealthReportIndex>());
+						newGroup.getSysHealthReportIndexs().add(indexBase);
+						sysReportGroupBelong.getSysHealthReportGroups().add(newGroup);
+					
+					}
+				} else {
+					bean.fail(groupValue+"没有所属分组");
+					return bean;
 				}
 			}
 		}
-		bean.setData(groupIndexList);
+		bean.setData(groupList);
 		return bean;
 	}
 }

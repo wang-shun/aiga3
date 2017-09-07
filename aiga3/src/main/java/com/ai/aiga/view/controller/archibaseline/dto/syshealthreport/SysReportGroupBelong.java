@@ -4,10 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import lombok.Data;
-
 @SuppressWarnings("serial")
 @Data
-public class SysHealthReportGroup implements Serializable {
+public class SysReportGroupBelong implements Serializable {
 	public String groupName;
-	public List<SysHealthReportIndex> sysHealthReportIndexs;
+	public List<SysHealthReportGroup> sysHealthReportGroups;
 }

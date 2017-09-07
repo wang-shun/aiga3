@@ -93,7 +93,9 @@ define(function(require, exports, module) {
 						}
 						var average = index==0? 0:total/index;
 						var snum = setInterval(increment,50);
-						Page.find('[class="score-state-right"]').animate({width:average*4.35+"px"},average*50,function(){
+						var scoreRight = Page.find('[class="score-state-right"]');
+						scoreRight.css("width","0px");
+						scoreRight.animate({width:average*4.35+"px"},average*50,function(){
 							scoreDom.html(average);
 							window.clearInterval(snum);
 						});

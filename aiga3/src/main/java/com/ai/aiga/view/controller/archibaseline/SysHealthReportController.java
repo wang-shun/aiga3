@@ -36,6 +36,7 @@ public class SysHealthReportController {
 		JsonBean bean = new JsonBean();
 		List<SysReportGroupBelong> groupList = new ArrayList<SysReportGroupBelong>(); 
 		List<ArchitectureStaticData> groupToGroup = architectureStaticDataSv.findByCodeType("HEALTH_REPORT_GROUP_GROUP");
+		//查询系统指标
 		List<ArchiSysHealthReport> indexResult = archiSysHealthReportSv.getSystemIndex(onlysysId);
 		if(indexResult !=null && indexResult.size()>0) {
 			for(ArchiSysHealthReport base : indexResult) {

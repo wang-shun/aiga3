@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller.archibaseline;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.swagger.annotations.Api;
@@ -32,12 +33,12 @@ public class SysHealthReportController {
      *@return
      */
 	@RequestMapping(path = "/archi/report/sysHealth")
-	public @ResponseBody JsonBean reportSysHealth(Long onlysysId) {
+	public @ResponseBody JsonBean reportSysHealth(Long onlysysId,Date time) {
 		JsonBean bean = new JsonBean();
 		List<SysReportGroupBelong> groupList = new ArrayList<SysReportGroupBelong>(); 
 		List<ArchitectureStaticData> groupToGroup = architectureStaticDataSv.findByCodeType("HEALTH_REPORT_GROUP_GROUP");
 		//查询系统指标
-		List<ArchiSysHealthReport> indexResult = archiSysHealthReportSv.getSystemIndex(onlysysId);
+		List<ArchiSysHealthReport> indexResult = archiSysHealthReportSv.getSystemIndex(onlysysId,time);
 		if(indexResult !=null && indexResult.size()>0) {
 			for(ArchiSysHealthReport base : indexResult) {
 				SysHealthReportIndex indexBase = new SysHealthReportIndex();

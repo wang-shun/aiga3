@@ -35,17 +35,26 @@ define(function(require, exports, module) {
 		_load_combo_select: function() {
 			var self = this;
 			var group = Page.findId("selectGroup");
+			var timeDom = group.find("[name='begainTime']");
+			var now = new Date();
+			now.setDate(now.getDate()-1);
+			timeDom.val(Rose.date.dateTime2str(now,"yyyy-MM-dd"));
+			//comboselect
 			Utils.setSelectDataPost(group,true);	
 			//三级系统查询按钮事件绑定
 			group.find("[name='query']").off('click').on('click',function() {
-		        var _this = group.find("[name='idThird']");
-		        var onlysysId = _this.val();
+		        var time = timeDom.val().replace(/-/g,"/");
+		        var onlysysId =  group.find("[name='idThird']").val();
+		        if(!time) {
+		        	XMS.msgbox.show("请输入时间", 'error', 1000);
+		        	return
+		        }
 		        //雷达图加载
 				self._getEchartsRadar(onlysysId);
 				//系统信息卡加载
 				self._getSystemInfoCard(onlysysId);
 				//体检结果加载
-				self._health_report(onlysysId);
+				self._health_report(onlysysId, time);
 			});
 		},
 		//系统信息卡
@@ -68,7 +77,7 @@ define(function(require, exports, module) {
 		},
 		
 		//系统体检结果
-		_health_report: function(onlysysId) {
+		_health_report: function(onlysysId,time) {
 //			Page.find('[class="score-state-right"]').css("width","0px");
 			var current=0;
 			var scoreDom = Page.findId("scoreNum");
@@ -76,7 +85,7 @@ define(function(require, exports, module) {
 				current++;
 				scoreDom.html(current);
 			}
-			Rose.ajax.postJson(srvMap.get('getSystemHealthReport'), 'onlysysId='+onlysysId, function(json, status) {
+			Rose.ajax.postJson(srvMap.get('getSystemHealthReport'), 'onlysysId='+onlysysId+"&time="+time, function(json, status) {
 				if(status) {
 					if(json.data) {
 						var template = Handlebars.compile(Page.findTpl('systemHealthReport'));

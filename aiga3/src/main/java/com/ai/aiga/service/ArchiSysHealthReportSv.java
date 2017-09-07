@@ -1,5 +1,6 @@
 package com.ai.aiga.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,10 @@ public class ArchiSysHealthReportSv extends BaseService {
 	@Autowired
 	private ArchiSysHealthReportDao archiSysHealthReportDao;
 	
-	public List<ArchiSysHealthReport> getSystemIndex(Long onlysysId) {
+	public List<ArchiSysHealthReport> getSystemIndex(Long onlysysId,Date time) {
 		if(onlysysId == null || onlysysId<=0) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "onlysysId");
 		}
-		return archiSysHealthReportDao.findByOnlysysId(onlysysId);		
+		return archiSysHealthReportDao.findByOnlysysIdAndTime(onlysysId,time);		
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchiTopList;
 import com.ai.aiga.service.ArchiTopListSv;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiTopListParams;
 import com.ai.aiga.view.json.base.JsonBean;
 import io.swagger.annotations.Api;
 
@@ -29,9 +30,9 @@ public class ArchiTopListController {
 	public @ResponseBody JsonBean queryByCondition(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            ArchiTopList condition) throws ParseException{
+            ArchiTopListParams condition) throws ParseException{
 				JsonBean bean = new JsonBean();
-				bean.setData(archiTopListSv.queryByCondition(condition, pageNumber, pageSize));
+				bean.setData(archiTopListSv.queryByCondition(pageNumber, pageSize, condition));
 			return bean;
 	}
 	@RequestMapping(path = "/archi/toplist/save")

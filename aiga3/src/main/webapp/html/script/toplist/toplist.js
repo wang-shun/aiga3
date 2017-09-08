@@ -27,6 +27,7 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			this.queryTopListForm();
 			this.refreshStyle();
 			this.toplistShow();
 			
@@ -73,10 +74,30 @@ define(function(require, exports, module) {
 		    },
 		    300);
 		},
-		toplistShow: function(){
+		//按条件查询
+		queryTopListForm: function() {
+			var self = this;
+			var _form = Page.findId('queryTopListForm');
+			Utils.setSelectData(_form);
+			var _queryBtn = _form.find("[name='query']");
+			_queryBtn.bind('click', function() {
+				var cmd = _form.serialize();
+				self.toplistShow(cmd);
+			});
+		},
+		toplistShow: function(cmd){
 			var self = this;
 			var _dom = Page.findId('showTopListForm');
 			var _cmd = 'indexGroup=各中心csf服务调用量TOP10服务';
+			var _cmd2 = 'indexGroup=各中心失败率TOP10csf服务';
+			var _cmd3 = 'indexGroup=各中心平均耗时TOP10csf服务';
+			var _cmd4 = 'indexGroup=各中心消息处理量TOP3主题';
+			if(cmd) {
+				_cmd = _cmd + "&" + cmd;
+				_cmd2 = _cmd2 + "&" + cmd;
+				_cmd3 = _cmd3 + "&" + cmd;
+				_cmd4 = _cmd4 + "&" + cmd;
+			}
 			Rose.ajax.postJson(srvMap.get('queryTopList'),_cmd,function(json, status){
 				if(status) {
 					cache.datas=json.data;
@@ -88,7 +109,6 @@ define(function(require, exports, module) {
 			});
 			
 			var _dom2 = Page.findId('showTopListForm2');
-			var _cmd2 = 'indexGroup=各中心失败率TOP10csf服务';
 			Rose.ajax.postJson(srvMap.get('queryTopList'),_cmd2,function(json2, status){
 				if(status) {
 					cache.datas2=json2.data;
@@ -100,7 +120,6 @@ define(function(require, exports, module) {
 			});
 			
 			var _dom3 = Page.findId('showTopListForm3');
-			var _cmd3 = 'indexGroup=各中心平均耗时TOP10csf服务';
 			Rose.ajax.postJson(srvMap.get('queryTopList'),_cmd3,function(json3, status){
 				if(status) {
 					cache.datas3=json3.data;
@@ -112,7 +131,6 @@ define(function(require, exports, module) {
 			});
 			
 			var _dom4 = Page.findId('showTopListForm4');
-			var _cmd4 = 'indexGroup=各中心消息处理量TOP3主题';
 			Rose.ajax.postJson(srvMap.get('queryTopList'),_cmd4,function(json4, status){
 				if(status) {
 					cache.datas4=json4.data;

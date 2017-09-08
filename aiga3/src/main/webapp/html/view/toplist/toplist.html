@@ -1,0 +1,165 @@
+<head>
+<link rel="stylesheet" href="css/zzsc.css" type="text/css" media="screen"/> 
+</head>
+
+<div class="row" id="Page_TopListView">
+    <div class="col-md-12">
+     	<div class="box">
+            <form id="JS_queryDataMaintainForm">
+                <div class="box-header with-border">
+                    <h1 class="box-title">指时间条件查询</h1>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+			        <div class="row" id="JS_selectData">
+			        	<div class="form-group col-sm-6">
+	                        <label class="col-sm-2 control-label">开始时间:</label>
+			        		<div class="col-sm-6">
+		                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+			        		</div>
+			        	</div>
+			        	<div class="form-group col-sm-6">
+	                        <label class="col-sm-2 control-label">结束时间:</label>
+			        		<div class="col-sm-6">
+	                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+			        		</div>
+			        	</div>
+	                </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- toplist 1 -->
+    <div class="col-md-3">
+        <div class="box">
+            <form id="JS_showTopListForm" role="form">
+                <div class="box-header with-border">
+                    <h1 class="box-title">各中心指标数据排行榜TOP10</h1>
+                </div><br/>
+                <div class="box-body">
+                
+			   		<div class="s-index-side"> 
+			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			     			<div class="title">
+			      			<h3>各中心调用量TOP10csf服务</h3>
+			      			<span class="s-index-icon game-top10-icon">icon图标</span>
+			     			</div> 
+			     			<ul class="weekly-list cls" name="content"> 
+			     			
+			     			</ul> 
+			    		</div> 
+			   		</div> 
+					
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- toplist 2 -->
+    <div class="col-md-3">
+        <div class="box">
+            <form id="JS_showTopListForm2" role="form">
+                <div class="box-header with-border">
+                    <h1 class="box-title">各中心csf服务失败率TOP10</h1>
+                </div><br/>
+                <div class="box-body">
+                
+			   		<div class="s-index-side"> 
+			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			     			<div class="title">
+			      			<h3>各中心csf服务失败率TOP10</h3>
+			      			<span class="s-index-icon game-top10-icon">icon图标</span>
+			     			</div> 
+			     			<ul class="weekly-list cls" name="content2"> 
+			     			
+			     			</ul> 
+			    		</div> 
+			   		</div> 
+					
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- toplist 3 -->
+    <div class="col-md-3">
+        <div class="box">
+            <form id="JS_showTopListForm3" role="form">
+                <div class="box-header with-border">
+                    <h1 class="box-title">各中心csf服务平均耗时TOP10</h1>
+                </div><br/>
+                <div class="box-body">
+                
+			   		<div class="s-index-side"> 
+			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			     			<div class="title">
+			      			<h3>各中心csf服务平均耗时TOP10</h3>
+			      			<span class="s-index-icon game-top10-icon">icon图标</span>
+			     			</div> 
+			     			<ul class="weekly-list cls" name="content3"> 
+			     			
+			     			</ul> 
+			    		</div> 
+			   		</div> 
+					
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- toplist 4 -->
+    <div class="col-md-3">
+        <div class="box">
+            <form id="JS_showTopListForm4" role="form">
+                <div class="box-header with-border">
+                    <h1 class="box-title">各中心消息主题处理量TOP3</h1>
+                </div><br/>
+                <div class="box-body">
+                
+			   		<div class="s-index-side"> 
+			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			     			<div class="title">
+			      			<h3>各中心消息主题处理量TOP3</h3>
+			      			<span class="s-index-icon game-top10-icon">icon图标</span>
+			     			</div> 
+			     			<ul class="weekly-list cls" name="content4"> 
+			     			
+			     			</ul> 
+			    		</div> 
+			   		</div> 
+					
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/toplist/toplist", function(Init) {
+    Init.init();
+});
+//]]>
+</script>

@@ -66,8 +66,6 @@
             <div class="box-header ">
                 <h3 class="box-title">架构问题管控列表</h3>
                 <div class="box-tools">
-<!--                <button type="button" class="btn btn-primary" name="add">添加</button>
-                    <button type="button" class="btn btn-primary" name="del">删除</button> -->
                 </div>
             </div>
             <div class="box-body">
@@ -203,8 +201,7 @@
                                     <div class="form-group">
                                         <i class="text-red">* </i>
                                         <label>问题编号</label>
-                                        <input name="quesId" class="form-control" placeholder="请输入" required>
-                                        </input>
+                                        <input name="quesId" class="form-control" placeholder="请输入" required/>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -464,16 +461,6 @@
     </div>
 </div>
 <script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
-<!-- 
-    <div class="box-header with-border">
-    <h3 class="box-title">架构问题解决</h3>
-    <div class="box-tools pull-right">
-        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-        </button>
-        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-    </div>
-</div> 
--->
     <div class="box-body">
 		<div class="row">
 			<div class="form-group">
@@ -513,26 +500,8 @@
 		<br/>
     </div>
 </script>
-<!-- Modal -->
-<script id="TPL_getDataMaintainTemp" type="text/x-handlebars-template">
-    {{#each this}}
-    <tr>
-        <td>
-            <input type="radio" class="minimal" value="{{correlationId}}" name="correlationId">
-            <td>{{propertyId}}
-                <input type="hidden" value="{{correlationId}}" name="correlationId">
-            </td>
-            <td>{{correlationTable}}</td>
-            <td>{{correlationField}}</td>
-            <!-- <td>{{alias}}</td> -->
-            <td>{{db}}</td>
-    </tr>
-    {{/each}}
-</script>
 <script type="text/javascript">
-//<![CDATA[
 seajs.use("script/archiQuesManage/quesJiejue", function(Init) {
     Init.init();
 });
-//]]>
 </script>

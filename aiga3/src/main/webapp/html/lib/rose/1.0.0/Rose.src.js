@@ -1372,7 +1372,9 @@ Rose.ajax = {
 	 * @param {Function}
 	 *            callback [optional,default=undefined] 载入成功时回调函数
 	 */
-	loadHtml : function(obj, url, data, callback) {
+	loadHtml : function(obj, url, data, callback) {	
+		var timeStamp = '?ver=' + new Date().getTime();
+		url = url+timeStamp;
 		$(obj).load(url, data, function(response, status, xhr) {
 			callback = callback ? callback : function() {
 			};

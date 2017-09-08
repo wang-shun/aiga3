@@ -55,7 +55,7 @@ define(function(require, exports, module) {
         	if($(objId).length > 0){
                 $("a[href='" + objId + "']").click();
                 $('#JS_childTab_' + objData.id).data("cmd", objData.cmd); // 页面重新加载时，传入新参数
-                Rose.ajax.loadHtml($('#JS_childTab_' + objData.id), objData.href + timeStamp);
+                Rose.ajax.loadHtml($('#JS_childTab_' + objData.id), objData.href);
         	}else{
         		if($(Dom.mainTabs).children("li").length < 8){
         			var _delDom = '';

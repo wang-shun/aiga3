@@ -23,7 +23,8 @@ define(function(require, exports, module) {
 	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
 	//显示系统信息表
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
-
+    //问题分类下拉框
+    srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
 	// 模板对象
 	var Tpl = {
 		getQuestionInfoList: require('tpl/archiQuesManage/quesJiejueTemplate.tpl')
@@ -40,6 +41,11 @@ define(function(require, exports, module) {
 	
 	var Query = {
 		init: function() {
+			
+			var syscmd = Page.getParentCmd();
+			if(syscmd.length>0){
+				this.queryDataMaintainForm(syscmd);
+			}
 			this.searchBox();
 			this._querydomain();
 			// 默认查询所有
@@ -119,13 +125,18 @@ define(function(require, exports, module) {
 		},
 		/*--------------------------------------------------*/
 		// 按条件查询
-		queryDataMaintainForm: function() {
+		queryDataMaintainForm: function(syscmd) {
 			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.bind('click', function() {
+			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
+				var _syscmd = syscmd
+				if(_syscmd){
+					cmd=_syscmd;
+					_queryBtn.click();
+				}
 				self.getDataMaintainList(cmd);
 			});
 

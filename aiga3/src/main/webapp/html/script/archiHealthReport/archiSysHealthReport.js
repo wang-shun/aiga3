@@ -36,17 +36,20 @@ define(function(require, exports, module) {
 			var self = this;
 			var group = Page.findId("selectGroup");
 			var timeDom = group.find("[name='begainTime']");
-			var now = new Date();
-			now.setDate(now.getDate()-1);
-			timeDom.val(Rose.date.dateTime2str(now,"yyyy-MM-dd"));
+			var yesterdsay = new Date(new Date().getTime() - 86400000);
+			timeDom.val(Rose.date.dateTime2str(yesterdsay,"yyyy-MM-dd"));
 			//comboselect
 			Utils.setSelectDataPost(group,true);	
 			//三级系统查询按钮事件绑定
 			group.find("[name='query']").off('click').on('click',function() {
 		        var time = timeDom.val().replace(/-/g,"/");
 		        var onlysysId =  group.find("[name='idThird']").val();
+		        if(!onlysysId) {
+		        	XMS.msgbox.show("请选择系统", 'info', 1000);
+		        	return
+		        }
 		        if(!time) {
-		        	XMS.msgbox.show("请输入时间", 'error', 1000);
+		        	XMS.msgbox.show("请输入时间", 'info', 1000);
 		        	return
 		        }
 		        //雷达图加载
@@ -87,31 +90,30 @@ define(function(require, exports, module) {
 			}
 			Rose.ajax.postJson(srvMap.get('getSystemHealthReport'), 'onlysysId='+onlysysId+"&time="+time, function(json, status) {
 				if(status) {
-					if(json.data) {
-						var template = Handlebars.compile(Page.findTpl('systemHealthReport'));
-						var index=0;
-						var total=0;
-						for(var i in json.data) {
-							for(var m in json.data[i].sysHealthReportGroups) {
-								var sysHealthReportGroup = json.data[i].sysHealthReportGroups[m];
-								for(var j in sysHealthReportGroup.sysHealthReportIndexs){
-									index++;
-									total += parseFloat(sysHealthReportGroup.sysHealthReportIndexs[j].indexValue);
-								}
+					var template = Handlebars.compile(Page.findTpl('systemHealthReport'));
+					if(json.data.length==0) {
+						XMS.msgbox.show("没有查到系统体检结果", 'error', 2000);
+					}					
+					var index=0;
+					var total=0;
+					for(var i in json.data) {
+						for(var m in json.data[i].sysHealthReportGroups) {
+							var sysHealthReportGroup = json.data[i].sysHealthReportGroups[m];
+							for(var j in sysHealthReportGroup.sysHealthReportIndexs){
+								index++;
+								total += parseFloat(sysHealthReportGroup.sysHealthReportIndexs[j].indexValue);
 							}
 						}
-						var average = index==0? 0:total/index;
-						var snum = setInterval(increment,50);
-						var scoreRight = Page.find('[class="score-state-right"]');
-						scoreRight.css("width","0px");
-						scoreRight.animate({width:average*4.35+"px"},average*50,function(){
-							scoreDom.html(average);
-							window.clearInterval(snum);
-						});
-						Page.findId("healthReport").html(template(json.data));
-					} else {
-						XMS.msgbox.show("没有查到系统体检结果", 'error', 2000);
 					}
+					var average = index==0? 0:total/index;
+					var snum = setInterval(increment,50);
+					var scoreRight = Page.find('[class="score-state-right"]');
+					scoreRight.css("width","0px");
+					scoreRight.animate({width:average*4.35+"px"},average*50,function(){
+						scoreDom.html(average);
+						window.clearInterval(snum);
+					});
+					Page.findId("healthReport").html(template(json.data));					
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}	

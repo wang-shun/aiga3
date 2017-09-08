@@ -6,11 +6,11 @@
 .img-wod-sty-3 {background: url('style/img/step4.png') no-repeat 0 0;}
 .img-wod-sty-4 {background: url('style/img/step5.png') no-repeat 0 0;}
 .img-wod-sty-5 {background: url('style/img/step6.png') no-repeat 0 0;}
-.report-sys-intro {margin-top:10px;}
+.report-sys-intro {margin-top:10px;padding:0px;}
 .card-word-sty {margin-bottom: 10px}
-.card-word-intro {border-top: ridge;height: 90px;margin-top: 10px;}
+.card-word-intro {border-top: ridge;height: 90px;margin-top: 10px;                                                                                             }
 .select-label-word {margin-top: 7px;width: 70px;}
-.echar-radar-sty {width: 100%;height: 270px;z-index: 0;}
+.echar-radar-sty {width: 100%;height: 300px;z-index: 0;}
 .report-group-sty {margin-left:15%;}
 .report-group-sty-2 {margin-left:20%;}
 .report-index-sty {margin-left:25%;}
@@ -29,12 +29,12 @@
 			</div>
 			<div class="box-body" id="JS_selectGroup">
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">三级系统</label> 
+					<label class="select-label-word">三级系统:</label> 
 					<select name="idThird" data-url="getThirdSysNum" data-idkey="onlysysId" data-namekey="name">
 					</select>
 				</div>
 				<div class="col-md-4" style="display: -webkit-inline-box;">
-					<label class="select-label-word">时间:</label>
+					<label class="select-label-word">评分时间:</label>
 	                <input type="text" class="form-control input-sm" style="width:200px" name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
 				</div>
 				<div class="col-md-4" style="display: -webkit-inline-box;">
@@ -49,7 +49,7 @@
 			<div class="box-header">
 				<h3 class="box-title">系统身份</h3>
 			</div>
-			<div id="JS_systemInfoCard"class="box-body" style="height:240px">
+			<div id="JS_systemInfoCard"class="box-body" style="height:270px">
 				<div class="col-md-5">
 					<div class="img-wod-sty-0"></div>
 				</div>

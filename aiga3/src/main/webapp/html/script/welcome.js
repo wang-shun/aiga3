@@ -2,6 +2,9 @@ define(function(require,exports,module){
 	require("macarons");
 	// 通用工具模块
 	var Utils = require("global/utils.js");
+	//	
+	var Tab = require('global/sidebar.js');
+
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('welcome');
 
@@ -77,7 +80,6 @@ define(function(require,exports,module){
                 }
             });
         },
-		
 		_questionShow: function() {
 			var self = this;
 			Rose.ajax.postJson(srvMap.get("getQueryInfo"), 'pageSize=100&sysVersion=已确认', function(json, status) {
@@ -93,7 +95,7 @@ define(function(require,exports,module){
                         	continue;
                         }
                         dataLength++;
-                        _html += '<li style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="#">'
+                        _html += '<li data-quesid="'+_json.quesId+'" style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="javascript:void(0)">'
                         + _json.occurEnvironment +'</a><span class="ques-state">' + _json.state + '</span><span class="ques-time">' + _json.createDate + '</span></li>';
                     }
                     if(dataLength != 0) {
@@ -102,8 +104,20 @@ define(function(require,exports,module){
                         	_html+=_html;
                         }
                     }
-
                     docthis.html(_html);
+                    //click事件绑定
+                    Page.find("ul[name='wordGull']").delegate('li', "click",function(){
+                    	var quesId = $(this).attr("data-quesid");
+                    	//问题解决页面
+        				var objData = {
+        						id : '137',
+        						name : '架构问题解决',
+        						href : "view/archiQuesManage/quesJiejue.html",
+        	                    cmd : "quesId="+quesId
+        				};
+                    	Tab.creatTab(objData);
+                    	
+                    });
 					self._wordRoll();
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);

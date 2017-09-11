@@ -1,7 +1,5 @@
 define(function(require, exports, module) {
 
-	//引入公用模块
-	require('global/header.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/";

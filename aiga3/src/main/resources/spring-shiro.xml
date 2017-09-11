@@ -42,7 +42,7 @@ xmlns:p="http://www.springframework.org/schema/p"
 			<value>
 				/logout = logout
 				/html/index.html = authc
-				/global/** = authc
+				/global/** = anon
 				/html/view/** = authc, busi
 				/html/** = anon
 				/webService/** = anon

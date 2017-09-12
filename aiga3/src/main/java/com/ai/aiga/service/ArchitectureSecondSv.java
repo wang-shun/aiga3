@@ -3,7 +3,6 @@ package com.ai.aiga.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +17,7 @@ import com.ai.aiga.domain.ArchitectureSecond;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 
 @Service
@@ -71,51 +71,13 @@ public class ArchitectureSecondSv extends BaseService {
 		architectureSecondDao.delete(idSecond);
 	}
 	
-	public void save(ArchitectureSecondRequest request){
-		
-		ArchitectureSecond architectureSecond = new ArchitectureSecond();
-		architectureSecond.setIdSecond(request.getIdSecond());
-		architectureSecond.setName(request.getName());
-		architectureSecond.setShortName(request.getShortName());
-		architectureSecond.setDescription(request.getDescription());
-		architectureSecond.setCode(request.getCode());
-		architectureSecond.setIdFirst(request.getIdFirst());
-		architectureSecond.setBelongLevel(request.getBelongLevel());
-		architectureSecond.setState(request.getState());
-		architectureSecond.setApplyId(request.getApplyId());
-		architectureSecond.setApplyUser(request.getApplyUser());
-		architectureSecond.setCreateDate(request.getCreateDate());
-		architectureSecond.setModifyDate(request.getModifyDate());
-		architectureSecond.setIdentifiedInfo(request.getIdentifiedInfo());
-		architectureSecond.setFileInfo(request.getFileInfo());
-		architectureSecond.setExt1(request.getExt1());
-		architectureSecond.setExt2(request.getExt2());
-		architectureSecond.setExt3(request.getExt3());
-		
+	public void save(ArchitectureSecondRequest request){	
+		ArchitectureSecond architectureSecond = BeanMapper.map(request, ArchitectureSecond.class);			
 		architectureSecondDao.save(architectureSecond);
 	}
 	
 	public void update(ArchitectureSecondRequest request){
-		
-		ArchitectureSecond architectureSecond = new ArchitectureSecond();
-		architectureSecond.setIdSecond(request.getIdSecond());
-		architectureSecond.setName(request.getName());
-		architectureSecond.setShortName(request.getShortName());
-		architectureSecond.setDescription(request.getDescription());
-		architectureSecond.setCode(request.getCode());
-		architectureSecond.setIdFirst(request.getIdFirst());
-		architectureSecond.setBelongLevel(request.getBelongLevel());
-		architectureSecond.setState(request.getState());
-		architectureSecond.setApplyId(request.getApplyId());
-		architectureSecond.setApplyUser(request.getApplyUser());
-		architectureSecond.setCreateDate(request.getCreateDate());
-		architectureSecond.setModifyDate(request.getModifyDate());
-		architectureSecond.setIdentifiedInfo(request.getIdentifiedInfo());
-		architectureSecond.setFileInfo(request.getFileInfo());
-		architectureSecond.setExt1(request.getExt1());
-		architectureSecond.setExt2(request.getExt2());
-		architectureSecond.setExt3(request.getExt3());
-		
+		ArchitectureSecond architectureSecond = BeanMapper.map(request, ArchitectureSecond.class);	
 		architectureSecondDao.save(architectureSecond);
 	}
 }

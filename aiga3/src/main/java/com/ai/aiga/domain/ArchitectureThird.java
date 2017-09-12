@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-7-5 11:11:42 by Hibernate Tools 3.2.2.GA
+// Generated 2017-9-11 10:15:24 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -45,27 +45,22 @@ public class ArchitectureThird  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
+     private String developer;
 
     public ArchitectureThird() {
     }
 
 	
-    public ArchitectureThird(long onlysysId, long idThird, String name, String systemFunction, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, Date createDate) {
+    public ArchitectureThird(long onlysysId, long idThird, String name, long idSecond, String belongLevel, String sysState, Date createDate) {
         this.onlysysId = onlysysId;
         this.idThird = idThird;
         this.name = name;
-        this.systemFunction = systemFunction;
-        this.code = code;
         this.idSecond = idSecond;
         this.belongLevel = belongLevel;
-        this.department = department;
-        this.projectInfo = projectInfo;
-        this.designInfo = designInfo;
-        this.rankInfo = rankInfo;
         this.sysState = sysState;
         this.createDate = createDate;
     }
-    public ArchitectureThird(long onlysysId, long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3) {
+    public ArchitectureThird(long onlysysId, long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, String developer) {
        this.onlysysId = onlysysId;
        this.idThird = idThird;
        this.name = name;
@@ -90,11 +85,12 @@ public class ArchitectureThird  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
+       this.developer = developer;
     }
    
      @Id 
-     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_THIRD$SEQ")
-   	@SequenceGenerator(name="ARCHITECTURE_THIRD$SEQ",sequenceName="ARCHITECTURE_THIRD$SEQ",allocationSize=1) 
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_THIRD$SEQ")
+    @SequenceGenerator(name="ARCHITECTURE_THIRD$SEQ",sequenceName="ARCHITECTURE_THIRD$SEQ",allocationSize=1)    
     @Column(name="ONLYSYS_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getOnlysysId() {
         return this.onlysysId;
@@ -131,7 +127,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.systemCode = systemCode;
     }
     
-    @Column(name="SYSTEM_FUNCTION", nullable=false, length=500)
+    @Column(name="SYSTEM_FUNCTION", length=500)
     public String getSystemFunction() {
         return this.systemFunction;
     }
@@ -176,7 +172,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.belongLevel = belongLevel;
     }
     
-    @Column(name="DEPARTMENT", nullable=false)
+    @Column(name="DEPARTMENT")
     public String getDepartment() {
         return this.department;
     }
@@ -185,7 +181,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.department = department;
     }
     
-    @Column(name="PROJECT_INFO", nullable=false)
+    @Column(name="PROJECT_INFO")
     public String getProjectInfo() {
         return this.projectInfo;
     }
@@ -194,7 +190,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.projectInfo = projectInfo;
     }
     
-    @Column(name="DESIGN_INFO", nullable=false)
+    @Column(name="DESIGN_INFO")
     public String getDesignInfo() {
         return this.designInfo;
     }
@@ -203,7 +199,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.designInfo = designInfo;
     }
     
-    @Column(name="RANK_INFO", nullable=false)
+    @Column(name="RANK_INFO")
     public String getRankInfo() {
         return this.rankInfo;
     }
@@ -309,6 +305,15 @@ public class ArchitectureThird  implements java.io.Serializable {
     
     public void setExt3(String ext3) {
         this.ext3 = ext3;
+    }
+    
+    @Column(name="DEVELOPER")
+    public String getDeveloper() {
+        return this.developer;
+    }
+    
+    public void setDeveloper(String developer) {
+        this.developer = developer;
     }
 
 

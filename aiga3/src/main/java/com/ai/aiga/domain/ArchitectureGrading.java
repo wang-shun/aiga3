@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-8-14 10:41:21 by Hibernate Tools 3.2.2.GA
+// Generated 2017-9-11 10:15:24 by Hibernate Tools 3.2.2.GA
 
 
 import java.math.BigDecimal;
@@ -47,6 +47,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
      private Long onlysysId;
      private String identifyUser;
      private BigDecimal fileId;
+     private String developer;
 
     public ArchitectureGrading() {
     }
@@ -59,7 +60,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.state = state;
         this.applyUser = applyUser;
     }
-    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId) {
+    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId, String developer) {
        this.applyId = applyId;
        this.identifiedInfo = identifiedInfo;
        this.sysId = sysId;
@@ -85,6 +86,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
        this.onlysysId = onlysysId;
        this.identifyUser = identifyUser;
        this.fileId = fileId;
+       this.developer = developer;
     }
    
      @Id 
@@ -313,6 +315,15 @@ public class ArchitectureGrading  implements java.io.Serializable {
     
     public void setFileId(BigDecimal fileId) {
         this.fileId = fileId;
+    }
+    
+    @Column(name="DEVELOPER")
+    public String getDeveloper() {
+        return this.developer;
+    }
+    
+    public void setDeveloper(String developer) {
+        this.developer = developer;
     }
 
 

@@ -1,4 +1,9 @@
 <ul class="nav navbar-nav">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" id="JS_openWorkbench" data-toggle="dropdown" aria-expanded="true">
+            <i class="fa fa-tachometer"></i><span class="hidden-xs"> 工作台</span>
+        </a>
+    </li>	
     <!-- 用户信息 -->
     <li class="dropdown user user-menu notifications-menu">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">

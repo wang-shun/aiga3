@@ -1,6 +1,5 @@
 <!--Page Start-->
 <style type="text/css"> 
-
 #Page_thirdSysManage .width-input-167 {
 	width: 167px;
 }
@@ -21,44 +20,30 @@
 	float:left;
 	margin-top: 10px;
 }
-#Page_thirdSysManage .check-inline {
-	display: block;
-}
 #Page_thirdSysManage .total-width {
 	width: 850px;
-}
-#Page_thirdSysManage .first-name-label {
-	margin-left: 40px; 
-	margin-right: 15px;
-}
-#Page_thirdSysManage .second-label-depart {
-	margin-left: 30px;
-	margin-right: 20px;
-}
-#Page_thirdSysManage .second-label-select {
-	margin-left: 30px;
-	margin-right: 15px;
-}
-#Page_thirdSysManage .second-label {
-	margin-left: 262px;
-	margin-right: 20px;
 }
 #Page_thirdSysManage .margin-onl {
 	margin-left: 20px;
 	margin-right: 20px;
 }
-#Page_thirdSysManage .margin-on {
-	margin-left: 20px;
-
+#Page_thirdSysManage .query-data-label {
+	width: 80px;
 }
-#Page_thirdSysManage .fist-text-label {
+#Page_thirdSysManage .fist-text-label, .col2-sec-label, .col3-after-label {
 	margin-right: 5px;
+	width: 84px;
 }
-#Page_thirdSysManage .margin-top-20 {
-	margin-top: 20px;
+#Page_thirdSysManage .col2-sec-label {
+	margin-left: 250px;
+}
+#Page_thirdSysManage .col3-after-label {
+	margin-left: 17px;
+}
+#Page_thirdSysManage .line-sen-top {
+	margin-top: 15px;
 }
 #Page_thirdSysManage .text-area-sty {
-	margin-top:10px;
 	width: 680px;
 	vertical-align:middle; 
 }
@@ -77,11 +62,11 @@
         <div class="box-body">
             <div class="col-md-12">
                 <div class="form-group form-inline">
-                    <label class="control-label margin-on">一级域:</label>
+                    <label class="control-label query-data-label">一级域:</label>
                     <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
-                    <label class="control-label margin-on">二级子域:</label>
+                    <label class="control-label query-data-label">二级子域:</label>
                     <select name="idSecond"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 160px">
                         <option value="">请选择</option>
                     </select>
@@ -128,63 +113,65 @@
 				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
 					<form id="JS_thirdApplyForm">
 						<div class="col-md-12">
-							<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
+							<label class="control-label fist-text-label">名称<span style="color:red">*</span></label>
 	   						<input name="name" type="text" class="form-control input-sm width-input-167"></input>
 	  						<label class="control-label margin-onl">简称</label>
 							<input name="code" type="text" class="form-control input-sm width-input-167"></input>
-					   	 	<label class="control-label margin-onl" style="margin-right: 20px">系统编号</label>
+					   	 	<label class="control-label margin-onl">系统编号</label>
 					   	 	<label class="form-control input-sm width-input-167">认定时分配</label>
 							<input name="sysId" type="hidden" value="0"></input>
 						</div>
-						<div class="margin-top-20 col-md-12">
+						<div class="line-sen-top col-md-12">
 							<label class="control-label fist-text-label">系统功能描述</label>
 							<textarea type="textarea" name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
 						</div>
-						<div id="updata-select" class="margin-top-20 col-md-12 form-group">
-						    <label class="control-label" style="margin-left: 26px;margin-right: 20px">一级域</label>
-                            <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idBelong" style="width: 150px">
+						<div id="updata-select" class="line-sen-top col-md-12 form-group">
+						    <label class="control-label fist-text-label">一级域</label>
+                            <select name="idFirst" class="form-control select2 input-sm width-input-167" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idBelong">
                         		<option value="">请选择</option>
                     		</select>
-                    		<label class="control-label" style="margin-left: 18px;margin-right: 15px">二级子域<span style="color:red">*</span></label>
-                    		<select name="idBelong"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 150px">
+                    		<label class="control-label col2-sec-label">二级子域<span style="color:red">*</span></label>
+                    		<select name="idBelong"  class="form-control select2 input-sm width-input-167" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name">
                         		<option value="">请选择</option>
                     		</select>
-         					<label class="control-label" style="margin-left: 30px;margin-right: 20px">等级信息</label>
-        			 		<input name="rankInfo" type="text" class="form-control input-sm width-input-167" ></input>
 						</div>
-						<div class="margin-top-20 col-md-12">
+						<div class="line-sen-top col-md-12">
+						    <label class="control-label fist-text-label">等级信息</label>
+        			 		<input name="rankInfo" type="text" class="form-control input-sm width-input-167" ></input>
+		                    <label class="control-label col2-sec-label">开发厂商</label>
+							<input name="developer" class="form-control input-sm width-input-167" ></input>
+						</div>	
+						<div class="line-sen-top col-md-12">
 					   	    <label class="control-label fist-text-label">项目立项信息</label>
 					   		<input name="projectInfo" type="text" class="form-control input-sm width-input-400"></input>
-					   		<label class="control-label second-label-depart">责任部门</label>
+					   		<label class="control-label col3-after-label">责任部门</label>
      			    		<input name="department" type="text" class="form-control input-sm width-input-167"></input>
 						</div>
-						<div class="margin-top-20 col-md-12">
+						<div class="line-sen-top col-md-12">
 					    	<label class="control-label fist-text-label">规划设计信息</label>
 							<input name="designInfo" type="text" class="form-control input-sm width-input-400"></input>
-					    	<label class="control-label second-label-select">建设状态<span style="color:red">*</span></label>		    	
+					    	<label class="control-label col3-after-label">建设状态<span style="color:red">*</span></label>		    	
      			   			<select name="sysState" data-toggle="tooltip" title="系统属性值" class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 113px">
      			   			</select>
      			   			<input type="text" class="form-control input-sm" data-toggle="tooltip" title="年份" name="ext2" onclick="WdatePicker({dateFmt:'yyyy'})" style="width: 50px"/> 
 						</div>
-						<div class="margin-top-20 col-md-8">	    		    	
-			    			<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
-			     			<div class="check-inline">				
-		    			   		<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="SaaS"/><label data-toggle="tooltip" title="交互应用层" style="width:45px;">SaaS</label>
+						<div class="line-sen-top col-md-8">	    		    	
+			    			<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        	
+		    			   		<input style="margin-left:10px;" type="checkbox" name="hierarchy" value="SaaS"/><label data-toggle="tooltip" title="交互应用层" style="width:45px;">SaaS</label>
 								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IPaaS"/><label data-toggle="tooltip" title="应用集成平台服务层" style="width:45px;">IPaaS</label>
 								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="DaaS"/><label data-toggle="tooltip" title="大数据模型层" style="width:45px;">DaaS</label>
 								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="UPaaS"/><label data-toggle="tooltip" title="通用服务中心层" style="width:45px;">UPaaS</label>
 								<br/>
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="BPaaS"/><label data-toggle="tooltip" title="核心业务中心层" style="width:45px;">BPaaS</label>
+								<input style="margin-left:10px;" type="checkbox" name="hierarchy" value="BPaaS"/><label data-toggle="tooltip" title="核心业务中心层" style="width:45px;">BPaaS</label>
 								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="IaaS"/><label data-toggle="tooltip" title="基础设施服务层" style="width:45px;">IaaS</label>
-								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"/><label data-toggle="tooltip" title="通用技术组件平台服务层" style="width:45px;">TPaaS</label>
-							</div>	
+								<input style="margin-left:40px;" type="checkbox" name="hierarchy" value="TPaaS"/><label data-toggle="tooltip" title="通用技术组件平台服务层" style="width:45px;">TPaaS</label>	
 						</div>
 						<div class="col-md-4" style="margin-top: 30px;">
 							<label class="control-label" style="margin-right: 20px;">媒体</label>
 							<label class="radio inline" style="width:60px"><input type="radio" value="app"  name="groupApply">APP端</label>
 							<label class="radio inline" style="width:60px"><input type="radio" value="pc" checked="checked" name="groupApply">PC端</label>
 						</div>
-						<div class="form-group col-sm-8 margin-top-20">
+						<div class="form-group col-sm-8 line-sen-top">
 		                    <label for="inputfile" class="col-sm-2  control-label">附件上传</label>
 							<input type="file" name="fileName"  class="col-sm-5">
 						</div>
@@ -222,54 +209,54 @@
 <div class="box-body form-group form-inline" style="margin-bottom: 0px">
 	<form id = "JS_thirdUpdateForm">
 	<div class="col-md-12">
-		<label class="control-label first-name-label">名称<span style="color:red">*</span></label>
+		<label class="control-label fist-text-label">名称<span style="color:red">*</span></label>
 	    <input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
 	    <label class="control-label margin-onl">简称</label>
 	    <input name="code" type="text" class="form-control input-sm width-input-167" value="{{code}}"></input>
 	    <label class="control-label margin-onl" style="margin-right:15px;">系统编号<span style="color:red">*</span></label>
 	    <input name="sysId" type="text" class="form-control input-sm width-input-167" value="{{idThird}}"></input>
 	</div>
-	<div class="margin-top-20 col-md-12">
+	<div class="line-sen-top col-md-12">
 		<label class="control-label fist-text-label">系统功能描述</label>
 		<textarea name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty">{{systemFunction}}</textarea>
 	</div>
-	<div id="updata-select" class="margin-top-20 col-md-12 form-group">
-	    <label class="control-label">所属二级子域<span style="color:red">*</span></label>
+	<div id="updata-select" class="line-sen-top col-md-12 form-group">
+	    <label class="control-label fist-text-label">所属二级子域</label>
 		<input type="text" class="form-control input-sm" readonly="readonly" style="width:168px;" value="{{idSecondName}}"></input>
 		<input name="idBelong" type="hidden" value="{{idSecond}}"></input>
         <label class="control-label second-label">等级信息</label>
         <input name="rankInfo" type="text" class="form-control input-sm width-input-167" value="{{rankInfo}}"></input>
+		<label class="control-label col3-after-label">开发厂商</label>
+     	<input name="developer" type="text" class="form-control input-sm width-input-167" value="{{developer}}"></input>
 	</div>
-	<div class="margin-top-20 col-md-12">
+	<div class="line-sen-top col-md-12">
 		<label class="control-label fist-text-label">项目立项信息</label>
 		<input name="projectInfo" type="text" class="form-control input-sm width-input-400" value="{{projectInfo}}"></input>
-		<label class="control-label second-label-depart">责任部门</label>
+		<label class="control-label col3-after-label">责任部门</label>
      	<input name="department" type="text" class="form-control input-sm width-input-167" value="{{department}}"></input>
 		<input type="hidden" name="onlysysId" value="{{onlysysId}}"></input>
 		<input type="hidden" name="createDate" value="{{createDate}}"></input>
 		<input type="hidden" name="modifyDate" value="{{modifyDate}}"></input>
 	</div>
-	<div class="margin-top-20 col-md-12">
+	<div class="line-sen-top col-md-12">
 		<label class="control-label fist-text-label">规划设计信息</label>
 		<input name="designInfo" type="text" class="form-control input-sm width-input-400" value="{{designInfo}}"></input>
-		<label class="control-label second-label-select">建设状态<span style="color:red">*</span></label>
+		<label class="control-label col3-after-label">建设状态<span style="color:red">*</span></label>
      	<select name="sysState" data-toggle="tooltip" title="系统属性值" class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 113px">
      	</select>
 		<input type="text" class="form-control input-sm" data-toggle="tooltip" title="年份" name="ext2" onclick="WdatePicker({dateFmt:'yyyy'})" style="width: 50px" value="{{ext2}}"/> 
 	</div>
 	</form>
-	<div class="margin-top-20 col-md-8">	    	
-		<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        
-		<div class="check-inline">				
-	       	<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="SaaS"/><label data-toggle="tooltip" title="交互应用层" style="width:45px;">SaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"/><label data-toggle="tooltip" title="应用集成平台服务层" style="width:45px;">IPaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"/><label data-toggle="tooltip" title="大数据模型层" style="width:45px;">DaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"/><label data-toggle="tooltip" title="通用服务中心层" style="width:45px;">UPaaS</label>
-			<br/>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="BPaaS"/><label data-toggle="tooltip" title="核心业务中心层" style="width:45px;">BPaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"/><label data-toggle="tooltip" title="基础设施服务层" style="width:45px;">IaaS</label>
-			<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS"/><label data-toggle="tooltip" title="通用技术组件平台服务层" style="width:45px;">TPaaS</label>
-		</div>
+	<div class="line-sen-top col-md-8">	    	
+		<label class="control-label fist-text-label check-inline-label">分层层级<span style="color:red">*</span></label>        		
+		<input style="margin-left:10px;" type="checkbox" name="hierarchysec" value="SaaS"/><label data-toggle="tooltip" title="交互应用层" style="width:45px;">SaaS</label>
+		<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IPaaS"/><label data-toggle="tooltip" title="应用集成平台服务层" style="width:45px;">IPaaS</label>
+		<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="DaaS"/><label data-toggle="tooltip" title="大数据模型层" style="width:45px;">DaaS</label>
+		<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="UPaaS"/><label data-toggle="tooltip" title="通用服务中心层" style="width:45px;">UPaaS</label>
+		<br/>
+		<input style="margin-left:10px;" type="checkbox" name="hierarchysec" value="BPaaS"/><label data-toggle="tooltip" title="核心业务中心层" style="width:45px;">BPaaS</label>
+		<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="IaaS"/><label data-toggle="tooltip" title="基础设施服务层" style="width:45px;">IaaS</label>
+		<input style="margin-left:40px;" type="checkbox" name="hierarchysec" value="TPaaS"/><label data-toggle="tooltip" title="通用技术组件平台服务层" style="width:45px;">TPaaS</label>
 	</div>
 	<div class="col-md-4" style="margin-top: 30px;">
 		<label class="control-label" style="margin-right: 20px;">媒体</label>
@@ -278,7 +265,8 @@
 	</div>
 </div>
 </script>
- <!-- 表格数据  -->
+	
+<!-- 表格数据  -->
 <script id="TPL_getThirdMessageList" type="text/x-handlebars-template">
 {{#each this}}
 <tr>

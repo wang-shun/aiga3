@@ -1,3 +1,19 @@
+/* 常量定义 */
+var Static = (function() {
+    var constants = {
+        "workbench":"10000",
+        "email" : '10001',
+        "perTestCase": '10002',
+        "perTestReport": '10003'
+    }
+    var PAGE = {};
+    PAGE.getConstantID=function(name){
+        return constants[name];
+    }
+    return PAGE;
+})();
+
+
 /*
  * 配置数据和 tpl
  * 0 为本地， 1 为远程

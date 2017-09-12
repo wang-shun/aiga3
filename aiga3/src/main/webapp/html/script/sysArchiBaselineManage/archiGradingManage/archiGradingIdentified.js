@@ -14,22 +14,16 @@ define(function(require, exports, module) {
 	};
 	//显示认定信息表
 	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "archi/grading/findByConditionPage");
-	
 	//信息认定
 	srvMap.add("MessageGranding", pathAlias+"getSysMessageList.json", "archi/grading/messageGranding");
-
 	//数据翻译
-	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "archi/grading/gradingTranslate");
-	
+	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "archi/grading/gradingTranslate");	
     //根据一级查询二级子域
-    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
-    
+    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst"); 
 	//获取附件信息
     srvMap.add("getFileInfo", pathAlias+"getSysMessageList.json", "archi/question/findByPlanIdAndFileType");
-    
     //下载文档
-    srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
-    
+    srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch"); 
     //角色校验
     srvMap.add("idenifyRoleCheck", pathAlias + "getDeliverablesList.json", "archi/grading/roleCheck");
 	var init = {
@@ -111,10 +105,10 @@ define(function(require, exports, module) {
 							if(status) {							
 								textModal.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
-								XMS.msgbox.show('认定成功，数据已归档！', 'success', 2000);	
+								XMS.msgbox.show('认定成功，数据已归档！', 'success', 1500);	
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
-								}, 1500);
+								}, 1000);
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					
@@ -138,10 +132,10 @@ define(function(require, exports, module) {
 							if(status) {
 								textModal.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
-								XMS.msgbox.show('认定成功', 'success', 2000);	
+								XMS.msgbox.show('认定成功', 'success', 1500);	
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
-								}, 1500);								
+								}, 1000);								
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					
@@ -197,13 +191,15 @@ define(function(require, exports, module) {
         				if(selectData.fileId) {
             				var fileCondition = 'planId=' + selectData.fileId + '&fileType=88888';
             				Rose.ajax.postJsonSync(srvMap.get('getFileInfo'), fileCondition,function(json2, status){
-            					if(status) {
-            						selectData.fileName=json2.data.fileName;
+            					if(status) {      					
+            						selectData.fileName=json2.data.fileName?json2.data.fileName:"没有可下载文件";
             						selectData.fileIndex=json2.data.id;
             					} else {
             						XMS.msgbox.show(json2.retMessage, 'error', 2000);
             					}					
             				});
+        				} else {
+            				selectData.fileName = "没有可下载文件";
         				}
         				//拼装数据翻译服务的入参
         				var _cmdTrans;

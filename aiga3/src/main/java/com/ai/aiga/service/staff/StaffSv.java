@@ -224,33 +224,7 @@ public class StaffSv extends BaseService {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "getNotes");
 		}
 		AigaStaff aigaStaff = BeanMapper.map(staffRequest, AigaStaff.class);
-
-		// AigaStaff aigastaff = new AigaStaff();
-		// aigastaff.setCode(staffRequest.getCode());
-		// aigastaff.setName(staffRequest.getName());
-		// aigastaff.setPassword(staffRequest.getPassword());
-		// aigastaff.setBillId(staffRequest.getBillId());
-		// aigastaff.setCardTypeId(staffRequest.getCardTypeId());
-		// aigastaff.setCardNo(staffRequest.getCardNo());
-		// aigastaff.setEmail(staffRequest.getEmail());
-		// aigastaff.setRecentPassTimes(staffRequest.getRecentPassTimes());
-		// aigastaff.setMinPasswdLength(staffRequest.getMinPasswdLength());
-		// aigastaff.setAllowChangePassword(staffRequest.getAllowChangePassword());
-		// aigastaff.setAcctEffectDate(staffRequest.getAcctEffectDate());
-		// aigastaff.setAcctExpireDate(staffRequest.getAcctExpireDate());
-		// aigastaff.setMultiLoginFlag(staffRequest.getMultiLoginFlag());
-		// aigastaff.setTryTimes(staffRequest.getTryTimes());
-		// aigastaff.setLockFlag(staffRequest.getLockFlag());
-		// aigastaff.setChgPasswdAlarmDays(staffRequest.getChgPasswdAlarmDays());
-		// aigastaff.setOpType(staffRequest.getOpType());
-		// aigastaff.setExt1(staffRequest.getExt1());
-		// aigastaff.setExt2(staffRequest.getExt2());
-		// aigastaff.setExt3(staffRequest.getExt3());
-		// aigastaff.setOpLvl(staffRequest.getOpLvl());
-		// aigastaff.setBandType(staffRequest.getBandType());
-		// aigastaff.setNotes(staffRequest.getNotes());
 		aigaStaff.setState(StaffConstant.STATE_NORMAL);
-		// AigaStaff aigaStaff= aigaStaffDao.save(staffRequest);
 		return aigaStaffDao.save(aigaStaff);
 	}
 	

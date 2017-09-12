@@ -15,6 +15,7 @@ import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 
 @Service
@@ -56,48 +57,12 @@ public class ArchitectureFirstSv extends BaseService {
 	}
 	
 	public void save(ArchitectureFirstRequest request){
-		
-		ArchitectureFirst architectureFirst = new ArchitectureFirst();
-		architectureFirst.setIdFirst(request.getIdFirst());
-		architectureFirst.setName(request.getName());
-		architectureFirst.setShortName(request.getShortName());
-		architectureFirst.setDescription(request.getDescription());
-		architectureFirst.setCode(request.getCode());
-		architectureFirst.setBelongLevel(request.getBelongLevel());
-		architectureFirst.setState(request.getState());
-		architectureFirst.setApplyId(request.getApplyId());
-		architectureFirst.setApplyUser(request.getApplyUser());
-		architectureFirst.setCreateDate(request.getCreateDate());
-		architectureFirst.setModifyDate(request.getModifyDate());
-		architectureFirst.setIdentifiedInfo(request.getIdentifiedInfo());
-		architectureFirst.setFileInfo(request.getFileInfo());
-		architectureFirst.setExt1(request.getExt1());
-		architectureFirst.setExt2(request.getExt2());
-		architectureFirst.setExt3(request.getExt3());
-		
+		ArchitectureFirst architectureFirst = BeanMapper.map(request, ArchitectureFirst.class);	
 		architectureFirstDao.save(architectureFirst);
 	}
 	
 	public void update(ArchitectureFirstRequest request){
-		
-		ArchitectureFirst architectureFirst = new ArchitectureFirst();
-		architectureFirst.setIdFirst(request.getIdFirst());
-		architectureFirst.setName(request.getName());
-		architectureFirst.setShortName(request.getShortName());
-		architectureFirst.setDescription(request.getDescription());
-		architectureFirst.setCode(request.getCode());
-		architectureFirst.setBelongLevel(request.getBelongLevel());
-		architectureFirst.setState(request.getState());
-		architectureFirst.setApplyId(request.getApplyId());
-		architectureFirst.setApplyUser(request.getApplyUser());
-		architectureFirst.setCreateDate(request.getCreateDate());
-		architectureFirst.setModifyDate(request.getModifyDate());
-		architectureFirst.setIdentifiedInfo(request.getIdentifiedInfo());
-		architectureFirst.setFileInfo(request.getFileInfo());
-		architectureFirst.setExt1(request.getExt1());
-		architectureFirst.setExt2(request.getExt2());
-		architectureFirst.setExt3(request.getExt3());
-		
+		ArchitectureFirst architectureFirst = BeanMapper.map(request, ArchitectureFirst.class);			
 		architectureFirstDao.save(architectureFirst);
 	}
 }

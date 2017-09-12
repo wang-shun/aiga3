@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
 
     var Welcome =  require('script/welcome');
+    var Sidebar = require('global/sidebar.js');
     // 用户信息接口
     srvMap.add("getUserinfo", "global/getUserInfo.json", "currentUser");
     // 获取总计结果 无入参
@@ -37,8 +38,16 @@ define(function(require, exports, module) {
                         if (confirm('尊敬的用户' + json.data.staff.name + '，您确认退出吗？')) {
                             window.parent.location.href='login.html';
                         }
+                    });
+                    //打开工作台
+                    $("#JS_openWorkbench").click(function() {
+                        Sidebar.creatTab({
+                            id: Static.getConstantID("workbench"),
+                            name: '工作台',
+                            href: 'view/workbench.html',
+                            cmd: ''
+                        })
                     })
-
                 }
             });
         },

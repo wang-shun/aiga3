@@ -1,0 +1,216 @@
+<div id="Page_workbench" class="page-workbench">
+    <div class="row" id="JS_getOwnHomeInfo">
+        <div class="text-loader min-height">
+            <div class="text-loader-content">
+                <i class="fa fa-refresh fa-spin"></i> 数据加载中，请稍候...
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-workbench .info-box-icon{
+        height: 50px;
+        width: 50px;
+        font-size: 26px;
+        line-height: 50px;
+        border-radius:0;
+    }
+    .page-workbench .info-box-content{
+        margin-left: 50px;
+        padding: 2px 15px;
+    }
+
+    .page-workbench .info-count{
+        padding:10px 15px;
+    }
+    .page-workbench .info-count h5{
+        padding-left: 5px;
+        font-weight: 700;
+        border-bottom: 1px solid #f4f4f4;
+        padding-bottom: 10px;
+        color: #44abe5;
+    }
+    .page-workbench .info-count .fa {
+        font-size: 24px;
+    }
+
+    .page-workbench .description-block{
+        padding-bottom: 20px;
+    }
+    .page-workbench .description-header{
+        font-size: 26px;
+        padding-bottom: 5px;
+    }
+    .page-workbench .info-box-content .info-box-number{
+        font-weight:normal;
+        font-size: 22px;
+    }
+    .page-workbench .info-box-content .info-box-text{
+        color: #666;
+    }
+    .page-workbench .info-count .text-aqua{
+        color: #44abe5 !important;
+    }
+    .page-workbench .info-count .text-red{
+        color: #f7245b !important;
+    }
+    .page-workbench .info-count .text-green{
+        color: #8ac14a !important;
+    }
+    .page-workbench .info-count .text-yellow{
+        color: #ff9922 !important;
+    }
+</style>
+<!-- handlebars -->
+<script id="TPL_getOwnHomeInfo" type="text/x-handlebars-template">
+    <div class="col-md-7">
+            <div class="box box-solid">
+               <div class="box-header">
+                    <h3 class="box-title">个人待办任务详情</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="row info-count">
+                            <h5>验收任务</h5>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <span class="info-box-icon bg-green"><i class="fa fa-area-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">前台任务验收</span>
+                                    <span class="info-box-number text-green">{{receptionTask}}</span>
+                                </div> 
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">后台验收任务</span>
+                                    <span class="info-box-number text-aqua">{{backstageTask}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <span class="info-box-icon bg-red"><i class="fa fa-server"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">非功能验收任务</span>
+                                    <span class="info-box-number text-red">{{nonfunctionalTask}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row info-count">
+                            <h5>验收子任务</h5>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <span class="info-box-icon bg-yellow"><i class="fa fa-line-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">前台验收子任务</span>
+                                    <span class="info-box-number text-yellow">{{receptionSubTask}}</span>
+                                </div> 
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <span class="info-box-icon bg-navy"><i class="fa fa-pie-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">后台验收子任务</span>
+                                    <span class="info-box-number text-navy">{{backstageSubTask}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <span class="info-box-icon bg-teal"><i class="fa fa-th"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">非功能验收子任务</span>
+                                    <span class="info-box-number text-teal">{{nonfunctionalSubTask}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row info-count">
+                            <h5>生产任务</h5>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <span class="info-box-icon bg-purple"><i class="fa fa-stack-overflow"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">前台生产子任务</span>
+                                    <span class="info-box-number text-purple">{{proReceptionSubTask}}</span>
+                                </div> 
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="box box-solid">
+                <div class="box-header">
+                    <h3 class="box-title">个人维护信息</h3>
+                </div>
+                <div class="box-body">
+                   <div class="row">
+                        <div class="row">
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{caseTemplate}}</h5>
+                            <span class="description-text">所属用例模板</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{autoTemplate}}</h5>
+                            <span class="description-text">所属自动化用例模板</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{testCase}}</h5>
+                            <span class="description-text">所属测试用例</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{autoCase}}</h5>
+                            <span class="description-text">所属自动化用例</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{caseGroup}}</h5>
+                            <span class="description-text">所属用例组</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{collection}}</h5>
+                            <span class="description-text">所属用例集</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{control}}</h5>
+                            <span class="description-text">所属控件</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-6 col-xs-6">
+                          <div class="description-block border-right">
+                            <h5 class="description-header">{{component}}</h5>
+                            <span class="description-text">所属组件</span>
+                          </div>
+                          <!-- /.description-block -->
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+</script>
+<script>
+seajs.use("script/workbench", function(Query) {
+    Query.init();
+});
+</script>

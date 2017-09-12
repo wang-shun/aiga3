@@ -260,10 +260,10 @@ define(function(require, exports, module) {
 			_openRequest.unbind('click');
 			_openRequest.bind('click', function() {
 				data.state ="需求单跟踪";
-				data.ext1 = Page.findId('optimizePath').val();
-				data.ext2 = Page.findId('specificMeasures').val();
-				data.ext3 = Page.findId('expectResult').val();
-				data.solvedInfo = Page.findId('realResult').val();
+				data.ext1 = $('#optimizePath').val();
+				data.ext2 = $('#specificMeasures').val();
+				data.ext3 = $('#expectResult').val();
+				data.solvedInfo = $('#realResult').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
@@ -285,10 +285,10 @@ define(function(require, exports, module) {
 			_openTask.unbind('click');
 			_openTask.bind('click',function(){
 				data.state ="任务单跟踪";
-				data.ext1 = Page.findId('optimizePath').val();
-				data.ext2 = Page.findId('specificMeasures').val();
-				data.ext3 = Page.findId('expectResult').val();
-				data.solvedInfo = Page.findId('realResult').val();
+				data.ext1 = $('#optimizePath').val();
+				data.ext2 = $('#specificMeasures').val();
+				data.ext3 = $('#expectResult').val();
+				data.solvedInfo = $('#realResult').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
@@ -309,10 +309,10 @@ define(function(require, exports, module) {
 			_openUpdate.unbind('click');
 			_openUpdate.bind('click',function(){
 				data.state ="变更单跟踪";
-				data.ext1 = Page.findId('optimizePath').val();
-				data.ext2 = Page.findId('specificMeasures').val();
-				data.ext3 = Page.findId('expectResult').val();
-				data.solvedInfo = Page.findId('realResult').val();
+				data.ext1 = $('#optimizePath').val();
+				data.ext2 = $('#specificMeasures').val();
+				data.ext3 = $('#expectResult').val();
+				data.solvedInfo = $('#realResult').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
@@ -333,10 +333,10 @@ define(function(require, exports, module) {
 			_afterSolved.unbind('click');
 			_afterSolved.bind('click',function(){
 				data.state ="待立项规划";
-				data.ext1 = Page.findId('optimizePath').val();
-				data.ext2 = Page.findId('specificMeasures').val();
-				data.ext3 = Page.findId('expectResult').val();
-				data.solvedInfo = Page.findId('realResult').val();
+				data.ext1 = $('#optimizePath').val();
+				data.ext2 = $('#specificMeasures').val();
+				data.ext3 = $('#expectResult').val();
+				data.solvedInfo = $('#realResult').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
@@ -357,10 +357,10 @@ define(function(require, exports, module) {
 			_closeAll.unbind('click');
 			_closeAll.bind('click',function(){
 				data.state ="已解决";
-				data.ext1 = Page.findId('optimizePath').val();
-				data.ext2 = Page.findId('specificMeasures').val();
-				data.ext3 = Page.findId('expectResult').val();
-				data.solvedInfo = Page.findId('realResult').val();
+				data.ext1 = $('#optimizePath').val();
+				data.ext2 = $('#specificMeasures').val();
+				data.ext3 = $('#expectResult').val();
+				data.solvedInfo = $('#realResult').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){

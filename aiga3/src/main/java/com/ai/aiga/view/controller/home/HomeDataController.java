@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.domain.AigaStaff;
+import com.ai.aiga.domain.SysRole;
+import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.home.HomeDataSv;
 import com.ai.aiga.view.json.base.JsonBean;
 import com.ai.aiga.view.util.SessionMgrUtil;
@@ -49,12 +51,22 @@ public class HomeDataController {
 	@RequestMapping(path = "/sys/home/taskInfo")
 	public @ResponseBody JsonBean taskInfo() {
 		JsonBean bean = new JsonBean();
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
 		AigaStaff info = SessionMgrUtil.getStaff();	
 		if(info==null) {
 			bean.fail("用户未登录");
 			return bean;
 		}
-		bean.setData(homeDataSv.dealTaskInfo(info.getName()));		
+		//SYS_CONFIRM 基线认定
+		String sysRoles = "SYS_CONFIRM,admin";
+		String hasSysRole = "false";
+		for(SysRole baseRole: userInfo.getRoles()) {
+			if(sysRoles.contains(String.valueOf(baseRole.getCode()))){
+				hasSysRole = "true";
+				break;
+			}
+		}
+		bean.setData(homeDataSv.dealTaskInfo(info.getName(),hasSysRole));		
 		return bean;
 
 	}

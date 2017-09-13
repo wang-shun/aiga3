@@ -131,16 +131,35 @@ public class HomeDataSv {
 	 * @Description:查询工作台信息
 	 * @param staffId
 	 */
-	public DealTaskInfo dealTaskInfo(String name) {
+	public DealTaskInfo dealTaskInfo(String name,String hasSysRole) {
 		DealTaskInfo data = new DealTaskInfo();	
 		if(org.apache.commons.lang3.StringUtils.isBlank(name)) {
 			return data;
+		} else {
+			String applySql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+name+"'";	
+			List<Map> applyResults = architectureGradingDao.searchByNativeSQL(applySql);	
+			Map applyResult =  applyResults.get(0);
+			if(applyResult.get("applyFirst") == null) {
+				data.setApplyData("0", "0", "0");
+			} else {
+				data.setApplyFirst(applyResult.get("applyFirst").toString());			
+				data.setApplySecond(applyResult.get("applySecond").toString());
+				data.setApplyThird(applyResult.get("applyThird").toString());
+			}
 		}
-		String sql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+name+"'";	
-		List<Map> result = architectureGradingDao.searchByNativeSQL(sql);	
-		data.setApplyFirst(result.get(0).get("applyFirst").toString());
-		data.setApplySecond(result.get(0).get("applySecond").toString());
-		data.setApplyThird(result.get(0).get("applyThird").toString());
+		data.setHasSysRole(hasSysRole);
+		if("true".equals(hasSysRole)) {
+			String dealSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as deal_first ,sum(case when t.ext_1='2' then 1 else 0 end) as deal_second, sum(case when t.ext_1='3' then 1 else 0 end) as deal_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请'";	
+			List<Map> dealResults = architectureGradingDao.searchByNativeSQL(dealSql);	
+			Map dealResult =  dealResults.get(0);
+			if(dealResult.get("dealFirst") == null) {
+				data.setDealData("0", "0", "0");
+			} else {
+				data.setDealFirst(dealResult.get("dealFirst").toString());
+				data.setDealSecond(dealResult.get("dealSecond").toString());
+				data.setDealThird(dealResult.get("dealThird").toString());
+			}
+		}
 		return data;
 	}
 }

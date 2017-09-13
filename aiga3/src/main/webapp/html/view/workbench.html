@@ -61,6 +61,9 @@
     .page-workbench .info-count .text-yellow{
         color: #ff9922 !important;
     }
+    .page-workbench .show-nothing {
+    	display: none;
+    }
 </style>
 <!-- handlebars -->
 <script id="TPL_getOwnHomeInfo" type="text/x-handlebars-template">
@@ -95,27 +98,27 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row info-count">
+                        <div class="row info-count {{sysRoleSty}}">
                             <h5>待处理任务</h5>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-yellow"><i class="fa fa-line-chart"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">一级域</span>
-                                    <span class="info-box-number text-yellow">{{receptionSubTask}}</span>
+                                    <span class="info-box-number text-yellow">{{dealFirst}}</span>
                                 </div> 
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-navy"><i class="fa fa-pie-chart"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">二级子域</span>
-                                    <span class="info-box-number text-navy">{{backstageSubTask}}</span>
+                                    <span class="info-box-number text-navy">{{dealSecond}}</span>
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-teal"><i class="fa fa-th"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">三级系统</span>
-                                    <span class="info-box-number text-teal">{{nonfunctionalSubTask}}</span>
+                                    <span class="info-box-number text-teal">{{dealThird}}</span>
                                 </div>
                             </div>
                         </div>

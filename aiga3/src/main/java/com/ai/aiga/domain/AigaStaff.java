@@ -22,7 +22,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name="AIGA_STAFF")
 public class AigaStaff  implements java.io.Serializable {
 
-
      private Long staffId;
      private String code;
      private String name;

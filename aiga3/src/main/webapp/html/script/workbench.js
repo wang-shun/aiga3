@@ -18,7 +18,10 @@ define(function(require, exports, module) {
 	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
 	            if (status) {
 	                var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
-	                Page.findId('getOwnHomeInfo').html(template(json.data))
+	                if(json.data.hasSysRole != true) {
+	                	json.data.sysRoleSty = 'show-nothing';
+	                }
+	                Page.findId('getOwnHomeInfo').html(template(json.data));
 	            }
 	        });
         }

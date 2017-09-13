@@ -458,7 +458,6 @@ public class ArchiGradingController {
 					output.setIdBelongName(idBelongName);
 				}
 			}
-
 		} else if("3".equals(ext1)) {
 			//生成三级系统编号
 			Long preId = input.getIdThird();

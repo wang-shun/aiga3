@@ -4,7 +4,7 @@ define(function(require, exports, module) {
     // 初始化页面ID，易于拷贝，不需要带'#'
     var Page = Utils.initPage('workbench');
 
-    srvMap.add("getOwnHomeInfo", "workbench/getOwnHomeInfo.json", "sys/ownHome/info");
+    srvMap.add("getOwnHomeInfo", "", "sys/home/taskInfo");
 
     var Query = {
         init: function() {
@@ -13,17 +13,14 @@ define(function(require, exports, module) {
         _render: function() {
             this.getOwnHomeInfo();
         },
-        getOwnHomeInfo: function() { // 获取流水结果信息
-            var self = this;
-          var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
-          Page.findId('getOwnHomeInfo').html(template(''))
-            
-//            Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
-//                if (status) {
-//                    var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
-//                    Page.findId('getOwnHomeInfo').html(template(json.data))
-//                }
-//            });
+        getOwnHomeInfo: function() { // 获取待办任务信息
+            var self = this;         
+	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
+	            if (status) {
+	                var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
+	                Page.findId('getOwnHomeInfo').html(template(json.data))
+	            }
+	        });
         }
     }
     module.exports = Query;

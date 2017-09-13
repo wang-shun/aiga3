@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.service.home.HomeDataSv;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.aiga.view.util.SessionMgrUtil;
 
 
 
@@ -44,5 +46,17 @@ public class HomeDataController {
 		return JsonBean.success;
 
 	}
+	@RequestMapping(path = "/sys/home/taskInfo")
+	public @ResponseBody JsonBean taskInfo() {
+		JsonBean bean = new JsonBean();
+		AigaStaff info = SessionMgrUtil.getStaff();	
+		if(info==null) {
+			bean.fail("用户未登录");
+			return bean;
+		}
+		bean.setData(homeDataSv.dealTaskInfo(info.getName()));		
+		return bean;
 
+	}
+	
 }

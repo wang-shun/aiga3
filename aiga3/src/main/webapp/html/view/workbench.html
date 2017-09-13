@@ -64,7 +64,7 @@
 </style>
 <!-- handlebars -->
 <script id="TPL_getOwnHomeInfo" type="text/x-handlebars-template">
-    <div class="col-md-7">
+    <div class="col-md-12">
             <div class="box box-solid">
                <div class="box-header">
                     <h3 class="box-title">个人待办任务详情</h3>
@@ -72,49 +72,49 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="row info-count">
-                            <h5>验收任务</h5>
+                            <h5>申请中的任务</h5>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-green"><i class="fa fa-area-chart"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">前台任务验收</span>
-                                    <span class="info-box-number text-green">{{receptionTask}}</span>
+                                    <span class="info-box-text">一级域</span>
+                                    <span class="info-box-number text-green">{{applyFirst}}</span>
                                 </div> 
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">后台验收任务</span>
-                                    <span class="info-box-number text-aqua">{{backstageTask}}</span>
+                                    <span class="info-box-text">二级子域</span>
+                                    <span class="info-box-number text-aqua">{{applySecond}}</span>
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-red"><i class="fa fa-server"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">非功能验收任务</span>
-                                    <span class="info-box-number text-red">{{nonfunctionalTask}}</span>
+                                    <span class="info-box-text">三级系统</span>
+                                    <span class="info-box-number text-red">{{applyThird}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="row info-count">
-                            <h5>验收子任务</h5>
+                            <h5>待处理任务</h5>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-yellow"><i class="fa fa-line-chart"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">前台验收子任务</span>
+                                    <span class="info-box-text">一级域</span>
                                     <span class="info-box-number text-yellow">{{receptionSubTask}}</span>
                                 </div> 
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-navy"><i class="fa fa-pie-chart"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">后台验收子任务</span>
+                                    <span class="info-box-text">二级子域</span>
                                     <span class="info-box-number text-navy">{{backstageSubTask}}</span>
                                 </div>
                             </div>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <span class="info-box-icon bg-teal"><i class="fa fa-th"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">非功能验收子任务</span>
+                                    <span class="info-box-text">三级系统</span>
                                     <span class="info-box-number text-teal">{{nonfunctionalSubTask}}</span>
                                 </div>
                             </div>
@@ -130,81 +130,6 @@
                             </div>
                         </div> 
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="box box-solid">
-                <div class="box-header">
-                    <h3 class="box-title">个人维护信息</h3>
-                </div>
-                <div class="box-body">
-                   <div class="row">
-                        <div class="row">
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{caseTemplate}}</h5>
-                            <span class="description-text">所属用例模板</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{autoTemplate}}</h5>
-                            <span class="description-text">所属自动化用例模板</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{testCase}}</h5>
-                            <span class="description-text">所属测试用例</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{autoCase}}</h5>
-                            <span class="description-text">所属自动化用例</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{caseGroup}}</h5>
-                            <span class="description-text">所属用例组</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{collection}}</h5>
-                            <span class="description-text">所属用例集</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{control}}</h5>
-                            <span class="description-text">所属控件</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-6 col-xs-6">
-                          <div class="description-block border-right">
-                            <h5 class="description-header">{{component}}</h5>
-                            <span class="description-text">所属组件</span>
-                          </div>
-                          <!-- /.description-block -->
-                        </div>
-                      </div>
                 </div>
             </div>
         </div>

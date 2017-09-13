@@ -3,10 +3,17 @@ package com.ai.aiga.service.home;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import antlr.StringUtils;
+
+import com.ai.aiga.dao.ArchitectureGradingDao;
+import com.ai.aiga.dao.ArchitectureSecondDao;
+import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.NaIndexAllocationDao;
 import com.ai.aiga.dao.NaStaffKpiRelaDao;
 import com.ai.aiga.dao.jpa.Condition;
@@ -14,6 +21,9 @@ import com.ai.aiga.domain.NaIndexAllocation;
 import com.ai.aiga.domain.NaStaffKpiRela;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.home.dto.DealTaskInfo;
+import com.ai.aiga.service.home.dto.TaskApplyInfo;
+import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.util.SessionMgrUtil;
 
 /**
@@ -32,7 +42,9 @@ public class HomeDataSv {
 
 	@Autowired
 	private NaIndexAllocationDao naIndexAllocationDao;
-
+	
+	@Autowired
+	private ArchitectureGradingDao architectureGradingDao;
 	/**
 	 * @ClassName: HomeDataSv :: caseCount
 	 * @author: dongch
@@ -110,5 +122,25 @@ public class HomeDataSv {
 			rela.setState(1L);
 			naStaffKpiRelaDao.save(rela);
 		}
+	}
+	/**
+	 * @ClassName: HomeDataSv :: dealTaskInfo
+	 * @author: DuPeng
+	 * @date: 2017年9月12日 20:28:32
+	 *
+	 * @Description:查询工作台信息
+	 * @param staffId
+	 */
+	public DealTaskInfo dealTaskInfo(String name) {
+		DealTaskInfo data = new DealTaskInfo();	
+		if(org.apache.commons.lang3.StringUtils.isBlank(name)) {
+			return data;
+		}
+		String sql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+name+"'";	
+		List<Map> result = architectureGradingDao.searchByNativeSQL(sql);	
+		data.setApplyFirst(result.get(0).get("applyFirst").toString());
+		data.setApplySecond(result.get(0).get("applySecond").toString());
+		data.setApplyThird(result.get(0).get("applyThird").toString());
+		return data;
 	}
 }

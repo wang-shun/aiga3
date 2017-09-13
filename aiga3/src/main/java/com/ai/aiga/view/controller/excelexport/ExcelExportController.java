@@ -3,9 +3,12 @@ package com.ai.aiga.view.controller.excelexport;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLDecoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +44,10 @@ public class ExcelExportController {
 		Collections.sort(findData, new sysExportComparator());
         HSSFWorkbook wb = export(findData);  
         response.setContentType("application/vnd.ms-excel");  
-        response.setHeader("Content-disposition", "attachment;filename=system.xls");  
+        Date nowtime = new Date();
+        DateFormat format=new SimpleDateFormat("yyyyMMdd");
+        String time=format.format(nowtime);
+        response.setHeader("Content-disposition", "attachment;filename="+new String("系统基线_".getBytes(),"iso-8859-1")+time+".xls");  
         OutputStream ouputStream = response.getOutputStream();  
         wb.write(ouputStream);  
         ouputStream.flush();  

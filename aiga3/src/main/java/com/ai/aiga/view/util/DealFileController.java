@@ -46,11 +46,11 @@ public class DealFileController {
 			Date date = new Date();
 
 			// 设置主机上的文件名
-//			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
-			String fileNameNew2 = fileName.split("\\.")[0]+"_"+DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS)+"."+fileName.split("\\.")[1];
+			String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+//			String fileNameNew2 = fileName.split("\\.")[0]+"_"+DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS)+"."+fileName.split("\\.")[1];
 
 			// 把文件上传到主机
-			FileUtil.uploadFile(file, fileNameNew2);
+			FileUtil.uploadFile(file, fileNameNew);
 
 			dealFileSv.saveFileInfo(planId, fileName, fileType, date);
 

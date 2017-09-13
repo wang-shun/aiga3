@@ -17,8 +17,8 @@ define(function(require, exports, module) {
             var self = this;         
 	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
 	            if (status) {
-	                var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
-	                if(json.data.hasSysRole != true) {
+	            	var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
+	                if(json.data.hasSysRole != 'true') {
 	                	json.data.sysRoleSty = 'show-nothing';
 	                }
 	                Page.findId('getOwnHomeInfo').html(template(json.data));

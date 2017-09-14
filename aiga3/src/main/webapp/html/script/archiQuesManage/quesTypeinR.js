@@ -6,44 +6,33 @@ define(function(require, exports, module) {
 	// 路径重命名
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
-	var Page = Utils.initPage('quesTypeinView');
-    //级联查询
-    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
-    //静态数据  
-	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "archi/static/eventState");
-	//显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
-    
-    srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
-    srvMap.add("getEventFindALLByPage", pathAlias+"getSysMessageList.json", "archi/event/findAllByPage");
-    srvMap.add("getEventSave", pathAlias+"getSysMessageList.json", "archi/event/save");
-    srvMap.add("getEventDelete", pathAlias+"getSysMessageList.json", "archi/event/delete");
-    srvMap.add("getEventUpdate", pathAlias+"getSysMessageList.json", "archi/event/update");
+	var Page = Utils.initPage('quesTypeinRView');
     srvMap.add("getQueryByCondition", pathAlias+"getSysMessageList.json", "archi/event/queryByCondition");
-    //日指标分组
-    srvMap.add("fetchdistinct", "", "archi/index/distinct");
-    //月指标分组
-    srvMap.add("fetchdistinctMonth", "", "archi/index/distinctMonth");
-    //指标名称
-    srvMap.add("fetchselectName", "", "archi/index/selectName");
-    //指标主表
-    srvMap.add("getAmCoreIndexListByPage", "", "archi/index/listByPage");
-    //指标分表
-    srvMap.add("getArchDbConnectList", "", "archi/dbconnect/list");
-    //主表新增
-    srvMap.add("saveAmCores", "", "index/typein/saveAmCores");
-    //主表修改
-    srvMap.add("updateAmCores", "", "index/typein/updateAmCores");
-    //主表删除
-    srvMap.add("deleteAmCores", "", "index/typein/deleteAmCores");
+    //选择分表
+    srvMap.add("distinctdbname", "", "archi/index/distinctdbname");
+    //分表查询
+    srvMap.add("queryDbsByCondition", "", "index/typein/queryDbsByCondition");
+    //分表新增
+    srvMap.add("saveDbs", "", "index/typein/saveDbs");
+    //分表删除
+    srvMap.add("deleteDbs", "", "index/typein/deleteDbs");
+    //分表修改
+    srvMap.add("updateDbs", "", "index/typein/updateDbs");
+    //分表查询
+    srvMap.add("querySrvsByCondition", "", "index/typein/querySrvsByCondition");
+    //分表新增
+    srvMap.add("saveSrvs", "", "index/typein/saveSrvs");
+    //分表删除
+    srvMap.add("deleteSrvs", "", "index/typein/deleteSrvs");
+    //分表修改
+    srvMap.add("updateSrvs", "", "index/typein/updateSrvs");
 	var cache = {
-		datas : ""	
+		datas : ""	,
+		tableName:"",
 	};
     // 模板对象
 	var Tpl = {
-		getQuestionInfoList: $('#TPL_getSysMessageList'),
-		getAmCoreIndexList: require('tpl/archiQuesManage/AmCoreIndex.tpl'),
-		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl')
+		ArchIndexSubtable: require('tpl/archiQuesManage/ArchIndexSubtable.tpl'),
 	};
 	var Data = {
 		queryListCmd: null
@@ -74,16 +63,16 @@ define(function(require, exports, module) {
 			_queryBtn.unbind('click').bind('click', function() {
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
+					if(_cmd!=null){
+						
+					}
 					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					console.log(_cmd);				
 					Rose.ajax.postJson(srvMap.get('getQueryByCondition'), _cmd, function(json, status) {
 						if (status) {
-							// 数据备份成功后，刷新用户列表页
-//							XMS.msgbox.show('开巡检事件单成功！', 'success', 2000);
 							setTimeout(function() {
 								self.getDataMaintainList(_cmd);
 							}, 1000);
-//							Page.findId('queryDataMaintainForm')[0].reset();							
 						}
 					});
 				});	
@@ -99,9 +88,9 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getAmCoreIndexListByPage'), _cmd, function(json, status) {//getQuestionInfoList
+			Utils.getServerPage(srvMap.get('queryDbsByCondition'), _cmd, function(json, status) {//getQuestionInfoList
 				window.XMS.msgbox.hide();
-				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
+				var template = Handlebars.compile(Tpl.ArchIndexSubtable);
 				_dom.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
@@ -138,7 +127,7 @@ define(function(require, exports, module) {
 					Utils.checkForm(_form, function() {
 						var _cmd = _form.serialize();
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						Rose.ajax.postJson(srvMap.get('saveAmCores'), _cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('saveDbs'), _cmd, function(json, status) {
 							if (status) {
 								XMS.msgbox.show('新增记录成功！！', 'success', 2000);
 								setTimeout(function() {
@@ -166,7 +155,7 @@ define(function(require, exports, module) {
 					console.log(data);
 					var cmd = 'indexId=' + data.indexId;
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('deleteAmCores'), cmd, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('deleteDbs'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
@@ -197,7 +186,7 @@ define(function(require, exports, module) {
 				var _cmd = _form.serialize();
 				_cmd = _cmd + "&indexId=" + indexId;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('updateAmCores'), _cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('updateDbs'), _cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {

@@ -1,6 +1,8 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.swagger.annotations.Api;
 
@@ -31,7 +33,22 @@ public class AmCoreIndexController {
 		bean.setData(amCoreIndexSv.findAmCoreIndex(condition));
 		return bean;
 	}
+	@RequestMapping(path="/archi/index/listByPage")
+	public @ResponseBody JsonBean listByPage(
+            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+            AmCoreIndexSelects condition) throws ParseException{
+				JsonBean bean = new JsonBean();
+				bean.setData(amCoreIndexSv.findAmCoreIndexByPage(condition, pageNumber, pageSize));
+			return bean;
+	}	
 	
+	@RequestMapping(path = "/archi/index/distinctdbname")
+	public @ResponseBody JsonBean distinctdbname(){
+		JsonBean bean = new JsonBean();
+		bean.setData(amCoreIndexSv.distinctAmCoreIndexDbname());
+		return bean;
+	}
 	@RequestMapping(path = "/archi/index/distinct")
 	public @ResponseBody JsonBean distinct(){
 		JsonBean bean = new JsonBean();
@@ -70,7 +87,12 @@ public class AmCoreIndexController {
 	}
 	@RequestMapping(path = "/index/typein/saveAmCores")
 	public @ResponseBody JsonBean save(AmCoreIndex request){
-		JsonBean bean = new JsonBean();
+		Date date = new Date();
+		if(request!= null){
+			request.setState("U".charAt(0));
+			request.setCreateOpId(10208021L);
+			request.setCreateDate(date);
+		}
 		amCoreIndexSv.save(request);
 		return JsonBean.success;
 	}
@@ -81,6 +103,12 @@ public class AmCoreIndexController {
 	}
 	@RequestMapping(path = "/index/typein/updateAmCores")
 	public @ResponseBody JsonBean update(AmCoreIndex request){
+		Date date = new Date();
+		if(request!= null){
+			request.setState("U".charAt(0));
+			request.setCreateOpId(10208021L);
+			request.setCreateDate(date);
+		}
 		amCoreIndexSv.update(request);
 		return JsonBean.success;
 	}

@@ -39,9 +39,40 @@ public class AmCoreIndexSv extends BaseService {
     		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
     	}
     	return amCoreIndexDao.search(cons);
-//		return amCoreIndexDao.findAll();
 	}
 	
+	public Page<AmCoreIndex> findAmCoreIndexByPage(AmCoreIndexSelects condition, int pageNumber,
+			int pageSize) throws ParseException {
+        List<Condition> cons = new ArrayList<Condition>();
+    	if(StringUtils.isNoneBlank(condition.getIndexGroup())){
+    		cons.add(new Condition("indexGroup", "%".concat(condition.getIndexGroup()).concat("%"), Condition.Type.LIKE));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getIndexName())){
+    		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
+    	}
+        if(pageNumber < 0){
+            pageNumber = 0;
+        }
+        if(pageSize <= 0){
+            pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+        }
+        Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return amCoreIndexDao.search(cons, pageable);
+	}	
+	public List<AmCoreIndex> distinctAmCoreIndexDbname(){
+		List<AmCoreIndex>list = amCoreIndexDao.findAll();
+		List<AmCoreIndex>newList = new ArrayList<AmCoreIndex>(); 
+		List<String>indexGrouplist = new ArrayList<String>(); 
+		Iterator iter= list.iterator();
+		while(iter.hasNext()){  
+			AmCoreIndex am=(AmCoreIndex)iter.next();  
+			if(!indexGrouplist.contains(am.getSchId().trim())){
+				indexGrouplist.add(am.getSchId().trim());
+				newList.add(am);
+			}
+		}  
+		return newList;
+	}
     public List<AmCoreIndex> distinctAmCoreIndex(){
     	List<AmCoreIndex>list = amCoreIndexDao.findAllDayConnects();
     	List<AmCoreIndex>newList = new ArrayList<AmCoreIndex>(); 

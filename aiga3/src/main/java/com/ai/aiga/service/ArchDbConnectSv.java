@@ -71,12 +71,12 @@ public class ArchDbConnectSv extends BaseService {
 	public Page<ArchDbConnect> queryByCondition(ArchDbConnect condition, int pageNumber,
 			int pageSize) throws ParseException {
         List<Condition> cons = new ArrayList<Condition>();
-    	if(condition.getIndexId()==0){
+/*    	if(condition.getIndexId()==0){
     		cons.add(new Condition("indexId", condition.getIndexId(), Condition.Type.GT));
     	}
     	if(condition.getIndexId()!=0){
     		cons.add(new Condition("indexId", condition.getIndexId(), Condition.Type.EQ));
-    	}
+    	}*/
     	if(StringUtils.isNoneBlank(condition.getSettMonth())){
     		cons.add(new Condition("settMonth", "%" + condition.getSettMonth() + "%", Condition.Type.EQ));
     	}

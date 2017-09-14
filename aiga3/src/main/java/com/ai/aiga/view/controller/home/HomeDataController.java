@@ -52,7 +52,11 @@ public class HomeDataController {
 	public @ResponseBody JsonBean taskInfo() {
 		JsonBean bean = new JsonBean();
 		UserInfo userInfo = SessionMgrUtil.getUserInfo();
-		AigaStaff info = SessionMgrUtil.getStaff();	
+		if(userInfo==null) {
+			bean.fail("用户未登录");
+			return bean;
+		}
+		AigaStaff info = userInfo.getStaff();	
 		if(info==null) {
 			bean.fail("用户未登录");
 			return bean;

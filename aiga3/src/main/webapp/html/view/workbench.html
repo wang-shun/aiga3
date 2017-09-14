@@ -34,7 +34,6 @@
     .page-workbench .info-count .fa {
         font-size: 24px;
     }
-
     .page-workbench .description-block{
         padding-bottom: 20px;
     }
@@ -64,6 +63,9 @@
     .page-workbench .show-nothing {
     	display: none;
     }
+    .page-workbench .header-point {
+    	cursor:pointer;
+    }
 </style>
 <!-- handlebars -->
 <script id="TPL_getOwnHomeInfo" type="text/x-handlebars-template">
@@ -76,62 +78,94 @@
                     <div class="row">
                         <div class="row info-count">
                             <h5>申请中的任务</h5>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <span class="info-box-icon bg-green"><i class="fa fa-area-chart"></i></span>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <span name="applyFirst" number={{applyFirst}} class="info-box-icon bg-green header-point"><i class="fa fa-area-chart"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">一级域</span>
                                     <span class="info-box-number text-green">{{applyFirst}}</span>
                                 </div> 
                             </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <span class="info-box-icon bg-aqua"><i class="fa fa-bar-chart"></i></span>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <span name="applySecond" number={{applySecond}} class="info-box-icon bg-aqua header-point"><i class="fa fa-bar-chart"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">二级子域</span>
                                     <span class="info-box-number text-aqua">{{applySecond}}</span>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <span class="info-box-icon bg-red"><i class="fa fa-server"></i></span>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <span name="applyThird" number={{applyThird}} class="info-box-icon bg-red header-point"><i class="fa fa-server"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">三级系统</span>
                                     <span class="info-box-number text-red">{{applyThird}}</span>
                                 </div>
                             </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <span name="applyIndentyQues" number={{applyIndentyQues}} class="info-box-icon bg-yellow header-point"><i class="fa fa-line-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">待认定的问题单</span>
+                                    <span class="info-box-number text-yellow">{{applyIndentyQues}}</span>
+                                </div> 
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <span name="applyResolveQues" number={{applyResolveQues}} class="info-box-icon bg-navy header-point"><i class="fa fa-pie-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">待解决的问题单</span>
+                                    <span class="info-box-number text-navy">{{applyResolveQues}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <span name="applyCloseQues" number={{applyCloseQues}} class="info-box-icon bg-purple header-point"><i class="fa fa-stack-overflow"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">解决中的问题单</span>
+                                    <span class="info-box-number text-navy">{{applyCloseQues}}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row info-count {{sysRoleSty}}">
+                        <div class="row info-count {{dealshow}}">
                             <h5>待处理任务</h5>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <span class="info-box-icon bg-yellow"><i class="fa fa-line-chart"></i></span>
+                            <div class="col-md-3 col-sm-6 col-xs-12 {{sysRoleSty}}">
+                                <span name="dealFirst" number={{dealFirst}} class="info-box-icon bg-green header-point"><i class="fa fa-area-chart"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">一级域</span>
-                                    <span class="info-box-number text-yellow">{{dealFirst}}</span>
+                                    <span class="info-box-number text-green">{{dealFirst}}</span>
                                 </div> 
                             </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <span class="info-box-icon bg-navy"><i class="fa fa-pie-chart"></i></span>
+                            <div class="col-md-3 col-sm-6 col-xs-12 {{sysRoleSty}}">
+                                <span name="dealSecond" number={{dealSecond}} class="info-box-icon bg-aqua header-point"><i class="fa fa-bar-chart"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">二级子域</span>
-                                    <span class="info-box-number text-navy">{{dealSecond}}</span>
+                                    <span class="info-box-number text-aqua">{{dealSecond}}</span>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <span class="info-box-icon bg-teal"><i class="fa fa-th"></i></span>
+                            <div class="col-md-3 col-sm-6 col-xs-12 {{sysRoleSty}}">
+                                <span name="dealThird" number={{dealThird}} class="info-box-icon bg-red header-point"><i class="fa fa-server"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">三级系统</span>
-                                    <span class="info-box-number text-teal">{{dealThird}}</span>
+                                    <span class="info-box-number text-red">{{dealThird}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 {{quesRoleSty}}">
+                                <span name="dealIndentyQues" number={{dealIndentyQues}} class="info-box-icon bg-yellow header-point"><i class="fa fa-line-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">待认定的问题单</span>
+                                    <span class="info-box-number text-yellow">{{dealIndentyQues}}</span>
+                                </div> 
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 {{quesRoleSty}}">
+                                <span name="dealResolveQues" number={{dealResolveQues}} class="info-box-icon bg-navy header-point"><i class="fa fa-pie-chart"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">待解决的问题单</span>
+                                    <span class="info-box-number text-navy">{{dealResolveQues}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 {{quesRoleSty}}">
+                                <span name="dealCloseQues" number={{dealCloseQues}} class="info-box-icon bg-purple header-point"><i class="fa fa-stack-overflow"></i></span>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">解决中的问题单</span>
+                                    <span class="info-box-number text-navy">{{dealCloseQues}}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="row info-count">
-                            <h5>生产任务</h5>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <span class="info-box-icon bg-purple"><i class="fa fa-stack-overflow"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">前台生产子任务</span>
-                                    <span class="info-box-number text-purple">{{proReceptionSubTask}}</span>
-                                </div> 
-                            </div>
-                        </div> 
                     </div>
                 </div>
             </div>

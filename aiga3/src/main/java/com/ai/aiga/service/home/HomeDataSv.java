@@ -133,6 +133,8 @@ public class HomeDataSv {
 	 */
 	public DealTaskInfo dealTaskInfo(String name,String hasSysRole) {
 		DealTaskInfo data = new DealTaskInfo();	
+		//默认为false
+		data.setHasQuesRole("false");
 		if(org.apache.commons.lang3.StringUtils.isBlank(name)) {
 			return data;
 		} else {
@@ -140,7 +142,7 @@ public class HomeDataSv {
 			List<Map> applyResults = architectureGradingDao.searchByNativeSQL(applySql);	
 			Map applyResult =  applyResults.get(0);
 			if(applyResult.get("applyFirst") == null) {
-				data.setApplyData("0", "0", "0");
+				data.setApplySysData("0", "0", "0");
 			} else {
 				data.setApplyFirst(applyResult.get("applyFirst").toString());			
 				data.setApplySecond(applyResult.get("applySecond").toString());
@@ -153,13 +155,18 @@ public class HomeDataSv {
 			List<Map> dealResults = architectureGradingDao.searchByNativeSQL(dealSql);	
 			Map dealResult =  dealResults.get(0);
 			if(dealResult.get("dealFirst") == null) {
-				data.setDealData("0", "0", "0");
+				data.setDealSysData("0", "0", "0");
 			} else {
 				data.setDealFirst(dealResult.get("dealFirst").toString());
 				data.setDealSecond(dealResult.get("dealSecond").toString());
 				data.setDealThird(dealResult.get("dealThird").toString());
 			}
 		}
+		//问题类查询
+		data.setApplyQuesData("1", "2", "3");
+
+		data.setHasQuesRole("true");
+		data.setDealQuesData("1", "2", "3");
 		return data;
 	}
 }

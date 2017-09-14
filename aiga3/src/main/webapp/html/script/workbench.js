@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
     // 通用工具模块
     var Utils = require("global/utils.js");
+    var Sidebar = require('global/sidebar.js');
     // 初始化页面ID，易于拷贝，不需要带'#'
     var Page = Utils.initPage('workbench');
 
@@ -18,10 +19,59 @@ define(function(require, exports, module) {
 	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
 	            if (status) {
 	            	var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
-	                if(json.data.hasSysRole != 'true') {
-	                	json.data.sysRoleSty = 'show-nothing';
+	            	var data = json.data;
+	            	if(data.hasSysRole != 'true' && data.hasQuesRole != 'true') {
+	                	data.dealshow = 'show-nothing';          		
+	            	} else {
+		                if(data.hasSysRole != 'true') {
+		                	data.sysRoleSty = 'show-nothing';
+		                }
+		                if(data.hasQuesRole != 'true') {
+		                	data.quesRoleSty = 'show-nothing';
+		                }
+	            	}
+	                Page.findId('getOwnHomeInfo').html(template(data));
+	                if(data.hasSysRole == 'true') {
+	                	data.sysRoleSty = 'show-nothing';
 	                }
-	                Page.findId('getOwnHomeInfo').html(template(json.data));
+	                Page.find(".info-box-icon").off('click').on('click',function() {
+	                	var number = $(this).attr("number");
+	                	var name = $(this).attr("name");
+	                	if(number < 1 || typeof(name) == 'undefined') {
+	                		return
+	                	}
+	                	if(name == 'applyFirst' || name == 'applySecond' || name == 'applyThird') {
+	                        Sidebar.creatTab({
+	                            id: '118',
+	                            name: '架构分级认定',
+	                            href: 'view/sysArchiBaselineManage/archiGradingManage/archiGradingIdentified.html',
+	                            cmd: ''
+	                        });
+	                	} else if ( name == 'dealFirst'|| name == 'dealSecond'|| name == 'dealThird') {
+	                        Sidebar.creatTab({
+	                            id: '135',
+	                            name: '架构问题查询',
+	                            href: 'view/archiQuesManage/quesRending.html',
+	                            cmd: ''
+	                        });
+	                	} else if (name == 'applyIndentyQues' || name == 'applyResolveQues' || name == 'applyCloseQues') {
+	                        Sidebar.creatTab({
+	                            id: '135',
+	                            name: '架构问题查询',
+	                            href: 'view/archiQuesManage/quesRending.html',
+	                            cmd: ''
+	                        });
+	                	} else if (name == 'dealIndentyQues' || name == 'dealResolveQues' || name == 'dealCloseQues') {
+	                        Sidebar.creatTab({
+	                            id: '135',
+	                            name: '架构问题查询',
+	                            href: 'view/archiQuesManage/quesRending.html',
+	                            cmd: ''
+	                        });
+	                	}else {
+	                		
+	                	}
+	                });
 	            }
 	        });
         }

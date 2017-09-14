@@ -20,6 +20,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieOutput;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.aiga.view.util.SessionMgrUtil;
 
 @Controller
 @Api(value = "QuestionInfoController", description = "架构问题相关api")
@@ -147,6 +148,8 @@ public class QuestionInfoController {
 	@RequestMapping(path = "/archi/question/save")
 	public @ResponseBody JsonBean save(QuestionInfoRequest questionInfoRequest){
 		questionInfoRequest.setSysVersion("待确认");
+		String name = SessionMgrUtil.getUserInfo().getStaff().getName();
+		questionInfoRequest.setReportor(name);
 		JsonBean bean = new JsonBean();
 		if(StringUtils.isBlank(questionInfoRequest.getQuesType())){
 			bean.fail("未选择问题类型！");

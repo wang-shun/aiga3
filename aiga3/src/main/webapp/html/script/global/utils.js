@@ -490,9 +490,16 @@ define(function(require, exports, module) {
          * @callback Fun 回调函数
          */
         eventDClickCallback: function(obj, callback) {
+            obj.find('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
+            });
             obj.find("tr").bind('dblclick ', function(event) {
+                var _input = $(this).find('.minimal');
+                _input.iCheck('toggle');
+                var isChecked = _input.parent("div").attr("aria-checked");
                 if (callback) {
-                    callback();
+                    callback(isChecked, _input);
                 }
             });
         },

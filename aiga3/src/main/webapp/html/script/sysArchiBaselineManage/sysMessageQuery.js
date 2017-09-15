@@ -63,7 +63,7 @@ define(function(require, exports, module) {
         		var tablebtn = _dom.find("[name='content']");
         		tablebtn.html(template(json.data.content));
         		cache.datas = json.data.content;
-        		Utils.eventClickChecked(_dom,function(isChecked,_input) {
+        		Utils.eventDClickCallback(_dom,function(isChecked,_input) {
         			var idThird = _input[0].value;
         			var allDatas = cache.datas;
         			if(allDatas) {

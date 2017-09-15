@@ -59,22 +59,22 @@ define(function(require, exports, module) {
 	                	} else if (name == 'applyIndentyQues' || name == 'applyResolveQues' || name == 'applyCloseQues') {
 	                		var indentyQues = 'sysVersion=待确认&reportor='+name;
 	                		var resolveQues = 'sysVersion=待确认&state=未解决&reportor='+name;
-	                		var resolveQues = 'sysVersion=待确认&state=解决中&reportor='+name;
+	                		var closeQues = 'sysVersion=待确认&state=解决中&reportor='+name;
 	                        Sidebar.creatTab({
 	                            id: '136',
 	                            name: '架构问题检索',
 	                            href: 'view/archiQuesManage/quesSearch.html',
-	                            cmd: name == 'applyIndentyQues'? indentyQues: name== 'applyResolveQues' ? resolveQues: name == 'applyCloseQues' ? resolveQues:''
+	                            cmd: name == 'applyIndentyQues'? indentyQues: name== 'applyResolveQues' ? resolveQues: name == 'applyCloseQues' ? closeQues:''
 	                        });
 	                	} else if (name == 'dealIndentyQues' || name == 'dealResolveQues' || name == 'dealCloseQues') {
 	                		var indentyQues = 'sysVersion=待确认&identifiedName='+name;
 	                		var resolveQues = 'sysVersion=待确认&state=未解决&solvedName='+name;
-	                		var resolveQues = 'sysVersion=待确认&state=解决中&solvedName='+name;
+	                		var closeQues = 'sysVersion=待确认&state=解决中&solvedName='+name;
 	                        Sidebar.creatTab({
 	                            id: '135',
 	                            name: '架构问题查询',
 	                            href: 'view/archiQuesManage/quesRending.html',
-	                            cmd: name == 'dealIndentyQues'? indentyQues: name== 'dealResolveQues' ? resolveQues: name == 'dealCloseQues' ? resolveQues:''
+	                            cmd: name == 'dealIndentyQues'? indentyQues: name== 'dealResolveQues' ? resolveQues: name == 'dealCloseQues' ? closeQues:''
 	                        });
 	                	} else {
 	    		        	XMS.msgbox.show("没有配置跳转路径", 'error', 1000);

@@ -57,9 +57,9 @@ define(function(require, exports, module) {
 	                            cmd: 'state=申请&ext1='+ext
 	                        });
 	                	} else if (name == 'applyIndentyQues' || name == 'applyResolveQues' || name == 'applyCloseQues') {
-	                		var indentyQues = 'sysVersion=待确认&reportor='+name;
-	                		var resolveQues = 'sysVersion=待确认&state=未解决&reportor='+name;
-	                		var closeQues = 'sysVersion=待确认&state=解决中&reportor='+name;
+	                		var indentyQues = 'sysVersion=待确认&reportor='+userName;
+	                		var resolveQues = 'sysVersion=待确认&state=未解决&reportor='+userName;
+	                		var closeQues = 'sysVersion=待确认&state=解决中&reportor='+userName;
 	                        Sidebar.creatTab({
 	                            id: '136',
 	                            name: '架构问题检索',
@@ -67,9 +67,9 @@ define(function(require, exports, module) {
 	                            cmd: name == 'applyIndentyQues'? indentyQues: name== 'applyResolveQues' ? resolveQues: name == 'applyCloseQues' ? closeQues:''
 	                        });
 	                	} else if (name == 'dealIndentyQues' || name == 'dealResolveQues' || name == 'dealCloseQues') {
-	                		var indentyQues = 'sysVersion=待确认&identifiedName='+name;
-	                		var resolveQues = 'sysVersion=待确认&state=未解决&solvedName='+name;
-	                		var closeQues = 'sysVersion=待确认&state=解决中&solvedName='+name;
+	                		var indentyQues = 'sysVersion=待确认&identifiedName='+userName;
+	                		var resolveQues = 'sysVersion=待确认&state=未解决&solvedName='+userName;
+	                		var closeQues = 'sysVersion=待确认&state=解决中&solvedName='+userName;
 	                        Sidebar.creatTab({
 	                            id: '135',
 	                            name: '架构问题查询',

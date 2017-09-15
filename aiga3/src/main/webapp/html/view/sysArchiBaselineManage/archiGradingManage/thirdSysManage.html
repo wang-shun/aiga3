@@ -51,31 +51,50 @@
 <!-- 页面id -->
 <div class="row" id="Page_thirdSysManage">
 <div class="box box-primary">
-    <form id="JS_querySysDomainForm" class="form-horizontal">
-        <div class="box-header with-border">
-            <h3 class="box-title">按条件查询</h3>
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-            </div>
-        </div>
-        <div class="box-body">
-            <div class="col-md-12">
-                <div class="form-group form-inline">
-                    <label class="control-label query-data-label">一级域:</label>
-                    <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond" style="width: 160px">
-                        <option value="">请选择</option>
-                    </select>
-                    <label class="control-label query-data-label">二级子域:</label>
-                    <select name="idSecond"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 160px">
-                        <option value="">请选择</option>
-                    </select>
-                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
-                    <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
-                </div>             
-            </div>
-        </div>
-    </form>
+	<div class="nav-tabs-custom">	
+        <ul class="nav nav-tabs" role="tablist">  
+			<li role="presentation" class="active"><a href="#qryByType" role="tab" data-toggle="tab">按分类查询</a></li>  
+			<li role="presentation"><a href="#qryByCondition" role="tab" data-toggle="tab">按条件查询</a></li>  
+		</ul> 
+		<div class="tab-content">  
+			<div role="tabpanel" class="tab-pane active" id="qryByType">
+			    <form id="JS_querySysDomainTypeForm" class="form-horizontal">		
+			        <div class="box-body">
+			            <div class="col-md-12">
+			                <div class="form-group form-inline">
+			                    <label class="control-label query-data-label">一级域:</label>
+			                    <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond" style="width: 160px">
+			                        <option value="">请选择</option>
+			                    </select>
+			                    <label class="control-label query-data-label">二级子域:</label>
+			                    <select name="idSecond"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 160px">
+			                        <option value="">请选择</option>
+			                    </select>
+			                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+			                    <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
+			                </div>             
+			            </div>
+			        </div>
+		        </form>		        
+			</div>  
+ 			<div role="tabpanel" class="tab-pane" id="qryByCondition">
+				<form id="JS_querySysDomainConditionForm" class="form-horizontal">		
+			        <div class="box-body">
+			            <div class="col-md-12">
+			                <div class="form-group form-inline">
+			                    <label class="control-label query-data-label">系统名称:</label>
+			                    <input name="name" type="text" class="form-control input-sm"></input>
+			                    <label class="control-label query-data-label">系统编号:</label> 
+			                    <input name="idThird" type="text" class="form-control input-sm"></input>   
+			                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
+			                    <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
+			                </div>             
+			            </div>
+			        </div>
+		        </form>		
+			</div>
+		</div> 
+	</div>		   
 </div>
 <div class="box" id="JS_thirdSysMessageList">
     <div class="box-header" >

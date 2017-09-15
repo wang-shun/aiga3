@@ -62,7 +62,7 @@ public class ArchitectureThirdController {
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
         ArchiThirdConditionParam condition){
 			JsonBean bean = new JsonBean();
-			bean.setData(architectureThirdSv.findThirdTransInfo(condition.getOnlysysId(),condition.getIdThird(), condition.getName(), pageNumber, pageSize));
+			bean.setData(architectureThirdSv.findThirdTransInfo(condition.getIdSecond(), condition.getOnlysysId(),condition.getIdThird(), condition.getName(), pageNumber, pageSize));
 		return bean;
 	}
 	
@@ -70,16 +70,6 @@ public class ArchitectureThirdController {
 	public @ResponseBody JsonBean findByCondition(ArchiThirdConditionParam input){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureThirdSv.findbyCodition(input.getIdThird(), input.getName()));
-		return bean;
-	}
-	
-	@RequestMapping(path = "/archi/third/findBySecPage")
-	public @ResponseBody JsonBean findBySecPage(
-            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            Long idSecond){
-		JsonBean bean = new JsonBean();
-		bean.setData(architectureThirdSv.findbySecPage(idSecond, pageNumber, pageSize));
 		return bean;
 	}
 	

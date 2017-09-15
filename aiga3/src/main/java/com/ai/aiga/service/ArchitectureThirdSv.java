@@ -73,7 +73,7 @@ public class ArchitectureThirdSv extends BaseService {
 		
 	}
 	
-	public Object findThirdTransInfo(Long onlysysId, Long idThird,String name,int pageNumber,int pageSize) {
+	public Object findThirdTransInfo(Long idSecond, Long onlysysId, Long idThird,String name,int pageNumber,int pageSize) {
 		
 		String sql = "select b.*, a.name as sec_name, d.name as fir_name, c.code_name "
 				+" from architecture_first d inner join ( architecture_second a inner join ( architecture_third b inner join architecture_static_data c on c.code_type = 'SYS_BUILDING_STATE' and b.sys_state = c.code_value ) on a.id_second= b.id_second ) on a.id_first = d.id_first"
@@ -86,6 +86,9 @@ public class ArchitectureThirdSv extends BaseService {
 		}
 		if(StringUtils.isNotBlank(name)){
 			sql += " and b.name like '%"+name+"%'";
+		}
+		if(idSecond != null && idSecond>0) {
+			sql += " and b.id_second = "+idSecond;
 		}
 		
 		if(pageNumber < 0){

@@ -14,7 +14,7 @@ define(function(require, exports, module) {
     //二级子域查询
     srvMap.add("getSecondDomainList", pathAlias+"secondDomainList.json", "archi/second/list");
 	//显示系统信息表
-	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findBySecPage");
+	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
 	//三级系统操作信息保存
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/thirdGradingAdd");
 	//系统状态静态数据  
@@ -39,8 +39,8 @@ define(function(require, exports, module) {
 		},
 		_render: function() {
 			var self = this;
-			self._querydomain();
-
+			self._queryTypeDomain();
+			self._queryConditionDomain();
 		},
 		
 		//上传按钮
@@ -158,9 +158,9 @@ define(function(require, exports, module) {
 			});
         },
 		//查询下拉框数据加载，绑定查询按钮事件
-		_querydomain: function() {
+        _queryTypeDomain: function() {
 			var self = this;
-			var _form = Page.findId('querySysDomainForm');
+			var _form = Page.findId('querySysDomainTypeForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			var _applyBtn = _form.find("[name='apply']");
@@ -199,7 +199,30 @@ define(function(require, exports, module) {
 				}					
 			});
 		},	
-		 
+		//condition绑定查询按钮事件
+		_queryConditionDomain: function() {
+			var self = this;
+			var _form = Page.findId('querySysDomainConditionForm');
+			Utils.setSelectData(_form);
+			var _queryBtn = _form.find("[name='query']");
+			var _applyBtn = _form.find("[name='apply']");
+			_queryBtn.off('click').on('click',function(){
+				var cmd = _form.serialize();			
+				self._getGridList(cmd);
+			});		
+			_applyBtn.off('click').on('click',function() {
+				//打开模态框
+				var _modal = Page.findId('thirdApplyModal');
+				_modal.modal('show');
+				Utils.setSelectData(_modal);	
+				//保存按钮
+				var saveBtn = _modal.find("[name='save']");
+				saveBtn.off('click').on('click',function(){
+					//先文件上传，成功后再提交
+					self.uploadAnNiu(_modal);
+				});
+			});
+		},
 		// 查询表格数据
 		_getGridList: function(cmd){
 			var self = this;

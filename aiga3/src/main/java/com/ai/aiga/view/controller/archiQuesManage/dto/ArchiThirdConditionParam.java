@@ -9,4 +9,5 @@ public class ArchiThirdConditionParam implements Serializable {
     private Long idThird;
     private String name;
     private Long onlysysId;
+    private Long idSecond;
 }

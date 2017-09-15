@@ -1863,6 +1863,9 @@ Rose.browser = {
 	 * 
 	 */
 	mapQuery : function(uri) {
+		if(!uri) {
+			return null;
+		}
 		var i, key, value, uri = uri && uri.split('#')[0]
 				|| window.location.search, // remove hash
 		index = uri.indexOf("?"), pieces = uri.substring(index + 1).split("&"), params = {};

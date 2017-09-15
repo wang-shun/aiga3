@@ -37,9 +37,8 @@ define(function(require, exports, module) {
 			self._band_btn_event();
 			self._role_check();
 			var _data = Page.getParentCmd();
-			var dataUrl = Utils.jsonToUrl(_data);
-			if(dataUrl) {
-				self._getSysMessageList(dataUrl);
+			if(_data) {
+				self._getSysMessageList(Utils.jsonToUrl(_data));
 			}
 		},
 

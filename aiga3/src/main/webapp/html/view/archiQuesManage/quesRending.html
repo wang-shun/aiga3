@@ -495,7 +495,18 @@
 				</h4>
 			</div>
 			<div class="modal-body">
+			    <label>认定信息:</label>
+				<br/>
 				<textarea id="JS_modalMessage" cols="107" rows="4" class="form-control input-sm"></textarea>
+				<br/>
+              	<div class="form-group col-sm-6">
+                    <label for="identifiedName" class="col-sm-4  control-label" >认定人员:</label>
+                    <div class="col-sm-6">
+                        <input id="JS_identifiedName" name="identifiedName" class="form-control" placeholder="请输入认定人员" required>
+	                </div>
+                </div>
+                <br/>
+                <br/>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -814,6 +825,15 @@ seajs.use("script/archiQuesManage/quesRending", function(Init) {
 				<label for="realResult" class="col-sm-1 control-label">实际结果</label>
 				<div class="col-sm-9">
 					<textarea name="solvedInfo" class="form-control" rows="2" id="realResult" placeholder="请输入架构问题实际结果">{{solvedInfo}}</textarea>
+				</div>
+			</div>
+		</div>		
+		<br/>
+		<div class="row">
+			<div class="form-group">
+				<label for="solvedName" class="col-sm-1 control-label">解决人员</label>
+				<div class="col-sm-4">
+                     <input name="solvedName" id="solvedName" class="form-control" placeholder="请输入解决人员" value="{{solvedName}}">
 				</div>
 			</div>
 		</div>

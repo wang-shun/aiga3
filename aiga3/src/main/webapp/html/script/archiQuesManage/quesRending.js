@@ -340,6 +340,7 @@ define(function(require, exports, module) {
 			_save.unbind('click');
 			_save.bind('click', function() {
 				Page.findId('modalMessage').val("");
+				Page.findId('identifiedName').val("");
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
 //					var data = cache.selectData;
@@ -351,6 +352,7 @@ define(function(require, exports, module) {
 						data.sysVersion = '已确认';
 						data.state ="未解决";
 						data.identifiedInfo = Page.findId('modalMessage').val();
+						data.identifiedName = Page.findId('identifiedName').val();
 						var _cmd = jQuery.param(data);
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
@@ -371,6 +373,7 @@ define(function(require, exports, module) {
 					textModal.find("[name='noPass']").off('click').on('click', function(){
 						data.sysVersion = '已否决';
 						data.identifiedInfo = Page.findId('modalMessage').val();
+						data.identifiedName = Page.findId('identifiedName').val();
 						var _cmd = jQuery.param(data);
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
@@ -421,12 +424,13 @@ define(function(require, exports, module) {
 				data.ext2 = $('#specificMeasures').val();
 				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
+				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 					if(status) {							
 						_dom.modal('hide');
-						XMS.msgbox.show('开需求单成功！！！', 'success', 2000);	
+						XMS.msgbox.show('开需求单成功！！！', 'success', 5000);	
 						window.open("http://apc.zj.chinamobile.com/");  
 					setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
@@ -446,12 +450,13 @@ define(function(require, exports, module) {
 				data.ext2 = $('#specificMeasures').val();
 				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
+				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 					if(status) {							
 						_dom.modal('hide');
-						XMS.msgbox.show('开任务单成功！！！', 'success', 2000);	
+						XMS.msgbox.show('开任务单成功！！！', 'success', 5000);	
 						window.open("http://apc.zj.chinamobile.com/");  
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
@@ -470,12 +475,13 @@ define(function(require, exports, module) {
 				data.ext2 = $('#specificMeasures').val();
 				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
+				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 					if(status) {							
 						_dom.modal('hide');
-						XMS.msgbox.show('开变更单成功！！！', 'success', 2000);	
+						XMS.msgbox.show('开变更单成功！！！', 'success', 5000);	
 						window.open("http://apc.zj.chinamobile.com/"); 
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
@@ -494,12 +500,13 @@ define(function(require, exports, module) {
 				data.ext2 = $('#specificMeasures').val();
 				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
+				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 					if(status) {							
 						_dom.modal('hide');
-						XMS.msgbox.show('后续立项解决成功！！！', 'success', 2000);	
+						XMS.msgbox.show('后续立项解决成功！！！', 'success', 5000);	
 						window.open("http://apc.zj.chinamobile.com/"); 
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
@@ -518,12 +525,13 @@ define(function(require, exports, module) {
 				data.ext2 = $('#specificMeasures').val();
 				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
+				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
 					if(status) {							
 						_dom.modal('hide');
-						XMS.msgbox.show('问题解决成功！！！', 'success', 2000);	
+						XMS.msgbox.show('问题解决成功！！！', 'success', 5000);	
 						setTimeout(function() {
 							Page.findId('queryDataMaintainForm').find("[name='query']").click();
 						}, 1500);

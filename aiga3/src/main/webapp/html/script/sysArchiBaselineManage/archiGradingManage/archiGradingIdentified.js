@@ -36,7 +36,14 @@ define(function(require, exports, module) {
 			self._querydomain();
 			self._band_btn_event();
 			self._role_check();
+			var _data = Page.getParentCmd();
+			debugger
+			var dataUrl = Utils.jsonToUrl(_data);
+			if(dataUrl) {
+				self._getSysMessageList(dataUrl);
+			}
 		},
+
 		//角色校验 
 		_role_check: function() {
 			Rose.ajax.postJson(srvMap.get('idenifyRoleCheck'),'',function(json, status){

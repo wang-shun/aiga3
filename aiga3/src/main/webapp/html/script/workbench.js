@@ -41,11 +41,12 @@ define(function(require, exports, module) {
 	                		return
 	                	}
 	                	if(name == 'applyFirst' || name == 'applySecond' || name == 'applyThird') {
+	                		var ext = name == 'applyFirst'? 1: name== 'applySecond' ? 2: name == 'applyThird' ? 3:0;
 	                        Sidebar.creatTab({
 	                            id: '118',
 	                            name: '架构分级认定',
 	                            href: 'view/sysArchiBaselineManage/archiGradingManage/archiGradingIdentified.html',
-	                            cmd: ''
+	                            cmd: 'state=申请&ext1='+ext+"&applyUser=admin"
 	                        });
 	                	} else if ( name == 'dealFirst'|| name == 'dealSecond'|| name == 'dealThird') {
 	                        Sidebar.creatTab({
@@ -68,8 +69,8 @@ define(function(require, exports, module) {
 	                            href: 'view/archiQuesManage/quesRending.html',
 	                            cmd: ''
 	                        });
-	                	}else {
-	                		
+	                	} else {
+	    		        	XMS.msgbox.show("没有配置跳转路径", 'error', 1000);
 	                	}
 	                });
 	            }

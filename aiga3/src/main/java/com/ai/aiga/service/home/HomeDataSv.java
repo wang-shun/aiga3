@@ -138,31 +138,32 @@ public class HomeDataSv {
 		if(org.apache.commons.lang3.StringUtils.isBlank(name)) {
 			return data;
 		} else {
-			String applySql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+name+"'";	
-			List<Map> applyResults = architectureGradingDao.searchByNativeSQL(applySql);	
-			Map applyResult =  applyResults.get(0);
-			if(applyResult.get("applyFirst") == null) {
+			String applySysSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+name+"'";	
+			List<Map> applySysResults = architectureGradingDao.searchByNativeSQL(applySysSql);	
+			Map applySysResult =  applySysResults.get(0);
+			if(applySysResult.get("applyFirst") == null) {
 				data.setApplySysData("0", "0", "0");
 			} else {
-				data.setApplyFirst(applyResult.get("applyFirst").toString());			
-				data.setApplySecond(applyResult.get("applySecond").toString());
-				data.setApplyThird(applyResult.get("applyThird").toString());
+				data.setApplyFirst(applySysResult.get("applyFirst").toString());			
+				data.setApplySecond(applySysResult.get("applySecond").toString());
+				data.setApplyThird(applySysResult.get("applyThird").toString());
 			}
 		}
 		data.setHasSysRole(hasSysRole);
 		if("true".equals(hasSysRole)) {
-			String dealSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as deal_first ,sum(case when t.ext_1='2' then 1 else 0 end) as deal_second, sum(case when t.ext_1='3' then 1 else 0 end) as deal_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请'";	
-			List<Map> dealResults = architectureGradingDao.searchByNativeSQL(dealSql);	
-			Map dealResult =  dealResults.get(0);
-			if(dealResult.get("dealFirst") == null) {
+			String dealSysSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as deal_first ,sum(case when t.ext_1='2' then 1 else 0 end) as deal_second, sum(case when t.ext_1='3' then 1 else 0 end) as deal_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请'";	
+			List<Map> dealSysResults = architectureGradingDao.searchByNativeSQL(dealSysSql);	
+			Map dealSysResult =  dealSysResults.get(0);
+			if(dealSysResult.get("dealFirst") == null) {
 				data.setDealSysData("0", "0", "0");
 			} else {
-				data.setDealFirst(dealResult.get("dealFirst").toString());
-				data.setDealSecond(dealResult.get("dealSecond").toString());
-				data.setDealThird(dealResult.get("dealThird").toString());
+				data.setDealFirst(dealSysResult.get("dealFirst").toString());
+				data.setDealSecond(dealSysResult.get("dealSecond").toString());
+				data.setDealThird(dealSysResult.get("dealThird").toString());
 			}
 		}
 		//问题类查询
+		//TODO 等待问题的数据改造
 		data.setApplyQuesData("1", "2", "3");
 
 		data.setHasQuesRole("true");

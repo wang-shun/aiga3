@@ -1084,6 +1084,21 @@ define(function(require, exports, module) {
                     _modal.modal('hide');
                 }
             });
+        },
+        //json 序列化 url格式
+        jsonToUrl: function(param, key) {
+        	debugger
+        	var self = this;
+		    var paramStr="";
+		    if(param instanceof String||param instanceof Number||param instanceof Boolean){
+		        paramStr+="&"+key+"="+encodeURIComponent(param);
+		    }else{
+		        $.each(param,function(i){
+		            var k= key==null?i:key+(param instanceof Array?"["+i+"]":"."+i);
+		            paramStr+='&'+ self.jsonToUrl(this, k);
+		        });
+		    }
+		    return paramStr.substr(1);
         }
     };
 

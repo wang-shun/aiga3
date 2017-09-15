@@ -32,6 +32,9 @@ public class QuestionInfoRequest implements Serializable {
     private String ext1;
     private String ext2;
     private String ext3;
+    private String identifiedName;
+    private String solvedName;
+    
 	public long getQuesId() {
 		return quesId;
 	}
@@ -188,6 +191,18 @@ public class QuestionInfoRequest implements Serializable {
 	public void setExt3(String ext3) {
 		this.ext3 = ext3;
 	}
+	public String getIdentifiedName() {
+		return identifiedName;
+	}
+	public void setIdentifiedName(String identifiedName) {
+		this.identifiedName = identifiedName;
+	}
+	public String getSolvedName() {
+		return solvedName;
+	}
+	public void setSolvedName(String solvedName) {
+		this.solvedName = solvedName;
+	}
 	@Override
 	public String toString() {
 		return "QuestionInfoRequest [quesId=" + quesId + ", quesType="
@@ -204,8 +219,8 @@ public class QuestionInfoRequest implements Serializable {
 				+ solvedInfo + ", createDate=" + createDate + ", modifyDate="
 				+ modifyDate + ", reportor=" + reportor + ", appointedPerson="
 				+ appointedPerson + ", ext1=" + ext1 + ", ext2=" + ext2
-				+ ", ext3=" + ext3 + "]";
+				+ ", ext3=" + ext3 + ", identifiedName=" + identifiedName
+				+ ", solvedName=" + solvedName + "]";
 	}
-	
-    
+
 }

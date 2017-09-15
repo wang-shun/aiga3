@@ -50,6 +50,8 @@ public class QuestionInfo  implements java.io.Serializable {
      private String ext1;
      private String ext2;
      private String ext3;
+     private String identifiedName;
+     private String solvedName;
 
     public QuestionInfo() {
     }
@@ -80,7 +82,7 @@ public class QuestionInfo  implements java.io.Serializable {
         this.reportor = reportor;
         this.appointedPerson = appointedPerson;
     }
-    public QuestionInfo(long quesId, String quesType, String firstCategory, String secondCategory, String thirdCategory, String diffProblem, String abstracts, String occurEnvironment, String belongProject, long idFirst, long idSecond, long idThird, String sysVersion, String priority, String defectLevel, String state, String requestInfo, String identifiedInfo, String solvedInfo, Date createDate, Date modifyDate, String reportor, String appointedPerson, String ext1, String ext2, String ext3) {
+    public QuestionInfo(long quesId, String quesType, String firstCategory, String secondCategory, String thirdCategory, String diffProblem, String abstracts, String occurEnvironment, String belongProject, long idFirst, long idSecond, long idThird, String sysVersion, String priority, String defectLevel, String state, String requestInfo, String identifiedInfo, String solvedInfo, Date createDate, Date modifyDate, String reportor, String appointedPerson, String ext1, String ext2, String ext3, String identifiedName, String solvedName) {
        this.quesId = quesId;
        this.quesType = quesType;
        this.firstCategory = firstCategory;
@@ -107,6 +109,8 @@ public class QuestionInfo  implements java.io.Serializable {
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
+       this.identifiedName = identifiedName;
+       this.solvedName = solvedName;
     }
    
     @Id 
@@ -346,6 +350,24 @@ public class QuestionInfo  implements java.io.Serializable {
         this.ext3 = ext3;
     }
 
+    @Column(name="IDENTIFIED_NAME")
+	public String getIdentifiedName() {
+		return identifiedName;
+	}
+
+	public void setIdentifiedName(String identifiedName) {
+		this.identifiedName = identifiedName;
+	}
+
+    @Column(name="SOLVED_NAME")
+	public String getSolvedName() {
+		return solvedName;
+	}
+
+	public void setSolvedName(String solvedName) {
+		this.solvedName = solvedName;
+	}
+    
 
 }
 

@@ -1087,7 +1087,6 @@ define(function(require, exports, module) {
         },
         //json 序列化 url格式
         jsonToUrl: function(param, key) {
-        	debugger
         	var self = this;
 		    var paramStr="";
 		    if(param instanceof String||param instanceof Number||param instanceof Boolean){

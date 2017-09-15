@@ -16,6 +16,7 @@ import com.ai.aiga.dao.ArchitectureSecondDao;
 import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.NaIndexAllocationDao;
 import com.ai.aiga.dao.NaStaffKpiRelaDao;
+import com.ai.aiga.dao.QuestionInfoDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.NaIndexAllocation;
 import com.ai.aiga.domain.NaStaffKpiRela;
@@ -45,6 +46,9 @@ public class HomeDataSv {
 	
 	@Autowired
 	private ArchitectureGradingDao architectureGradingDao;
+	
+	@Autowired
+	private QuestionInfoDao questionInfoDao;
 	/**
 	 * @ClassName: HomeDataSv :: caseCount
 	 * @author: dongch
@@ -163,12 +167,32 @@ public class HomeDataSv {
 				data.setDealThird(dealSysResult.get("dealThird").toString());
 			}
 		}
-		//问题类查询
-		//TODO 等待问题的数据改造
-		data.setApplyQuesData("1", "2", "3");
-
-		data.setHasQuesRole("true");
-		data.setDealQuesData("1", "2", "3");
+		//申请中问题查询
+		String applyQuesSql = "SELECT sum(case when t.sys_version = '待确认' then 1 else 0 end) as apply_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' then 1 else 0 end) as apply_resolve_ues,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决' then 1 else 0 end) as apply_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and t.state != '已解决' and  t.reportor='"+name+"'";	
+		List<Map> applyQuesResults = questionInfoDao.searchByNativeSQL(applyQuesSql);	
+		Map applyQuesResult =  applyQuesResults.get(0);
+		if(applyQuesResult.get("applyIndentyQues") == null) {
+			data.setApplyQuesData("0", "0", "0");
+		} else {
+			data.setApplyIndentyQues(applyQuesResult.get("applyIndentyQues").toString());
+			data.setApplyResolveQues(applyQuesResult.get("applyResolveQues").toString());
+			data.setApplyCloseQues(applyQuesResult.get("applyCloseQues").toString());
+		}
+		//待办问题查询
+		String dealQuesSql = "SELECT sum(case when t.sys_version = '待确认' and t.identified_name = '"+name
+				+"' then 1 else 0 end) as deal_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' and t.solved_name = '"+name
+				+"' then 1 else 0 end) as deal_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决'  and t.solved_name = '"+name
+				+"' then 1 else 0 end) as deal_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and t.state != '已解决' and (t.identified_name= '"+name+"' "+"or t.solved_name='"+name+"' )" ;	
+		List<Map> dealQuesResults = questionInfoDao.searchByNativeSQL(dealQuesSql);	
+		Map dealQuesResult =  dealQuesResults.get(0);
+		if(applyQuesResult.get("dealIndentyQues") == null) {
+			data.setDealQuesData("0", "0", "0");
+		} else {
+			data.setHasQuesRole("true");
+			data.setDealIndentyQues(dealQuesResult.get("dealIndentyQues").toString());
+			data.setDealResolveQues(dealQuesResult.get("dealResolveQues").toString());
+			data.setDealCloseQues(dealQuesResult.get("dealCloseQues").toString());
+		}
 		return data;
 	}
 }

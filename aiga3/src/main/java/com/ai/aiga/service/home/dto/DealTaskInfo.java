@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @SuppressWarnings("serial")
 public class DealTaskInfo implements Serializable {
+	private String userName;
 	private String applyFirst;
 	private String applySecond;
 	private String applyThird;

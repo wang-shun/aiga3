@@ -135,6 +135,7 @@ public class HomeDataSv {
 		DealTaskInfo data = new DealTaskInfo();	
 		//默认为false
 		data.setHasQuesRole("false");
+		data.setUserName(name);
 		if(org.apache.commons.lang3.StringUtils.isBlank(name)) {
 			return data;
 		} else {

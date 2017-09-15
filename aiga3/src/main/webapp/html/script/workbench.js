@@ -46,14 +46,14 @@ define(function(require, exports, module) {
 	                            id: '118',
 	                            name: '架构分级认定',
 	                            href: 'view/sysArchiBaselineManage/archiGradingManage/archiGradingIdentified.html',
-	                            cmd: 'state=申请&ext1='+ext+"&applyUser=admin"
+	                            cmd: 'state=申请&ext1='+ext+'&applyUser='+data.userName
 	                        });
 	                	} else if ( name == 'dealFirst'|| name == 'dealSecond'|| name == 'dealThird') {
 	                        Sidebar.creatTab({
 	                            id: '135',
 	                            name: '架构问题查询',
 	                            href: 'view/archiQuesManage/quesRending.html',
-	                            cmd: ''
+	                            cmd: 'state=申请ext1='+ext
 	                        });
 	                	} else if (name == 'applyIndentyQues' || name == 'applyResolveQues' || name == 'applyCloseQues') {
 	                        Sidebar.creatTab({

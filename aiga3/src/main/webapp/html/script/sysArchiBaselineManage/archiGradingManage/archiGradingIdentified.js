@@ -36,12 +36,18 @@ define(function(require, exports, module) {
 			self._querydomain();
 			self._band_btn_event();
 			self._role_check();
+			//初始化数据查询
+			self._init_data_query();
+		},
+		
+		//初始化数据查询
+		_init_data_query: function() {
 			var _data = Page.getParentCmd();
 			if(_data) {
-				self._getSysMessageList(Utils.jsonToUrl(_data));
+				this._getSysMessageList(Utils.jsonToUrl(_data));
 			}
 		},
-
+		 
 		//角色校验 
 		_role_check: function() {
 			Rose.ajax.postJson(srvMap.get('idenifyRoleCheck'),'',function(json, status){

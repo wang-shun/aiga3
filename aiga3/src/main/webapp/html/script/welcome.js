@@ -110,9 +110,9 @@ define(function(require,exports,module){
                     	var quesId = $(this).attr("data-quesid");
                     	//问题解决页面
         				var objData = {
-        						id : '137',
-        						name : '架构问题解决',
-        						href : "view/archiQuesManage/quesJiejue.html",
+        						id : '135',
+        						name : '架构问题判定',
+        						href : "view/archiQuesManage/quesRending.html",
         	                    cmd : "quesId="+quesId
         				};
                     	Tab.creatTab(objData);

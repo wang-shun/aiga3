@@ -843,7 +843,6 @@ define(function(require, exports, module) {
 
         /*树的搜索（初始版本）*/
         zTreeSearchInit: function(ztreeObj, ztreeSearchObj, searchKey) {
-
             var _searchObj = $(ztreeSearchObj);
             var _btn = $(ztreeSearchObj).find('[name=searchBtn]');
             var _key = searchKey || "organizeName";
@@ -1001,6 +1000,12 @@ define(function(require, exports, module) {
         },
         /*全选*/
         selectAll: function(_table) {
+            _table.find("[name='selectAll']").iCheck('destroy');
+            _table.find("[name='selectAll']").iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass: 'iradio_minimal-blue'
+            });
+            _table.find("[name='selectAll']").iCheck('uncheck');
             _table.find("[name='selectAll']").unbind();
             _table.find("[name='selectAll']").bind('ifChecked', function(event) {
                 /* Act on the event */

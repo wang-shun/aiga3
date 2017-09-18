@@ -60,12 +60,25 @@
         _setting = {
             treeId: "",
             treeObj: null,
+            check: {
+                enable: false
+            },
             view: {
                 addDiyDom: null,
                 autoCancelSelected: true,
                 dblClickExpand: true,
-                expandSpeed: "fast",
-                fontCss: {},
+                fontCss: function(treeId, treeNode){
+                    if(treeNode){
+                       if (treeNode.isParent == false){
+                            //叶子节点
+                            return (!!treeNode.highlight) ? {color:"#f7245b", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+                        } else {
+                            //父节点
+                            return (!!treeNode.highlight) ? {color:"#f7245b", "font-weight":"bold"} : {color:"#333", "font-weight":"normal"};
+                        }
+                    }
+                },
+                expandSpeed :'',
                 nameIsHTML: false,
                 selectedMulti: true,
                 showIcon: false,

@@ -1,5 +1,6 @@
 package com.ai.aiga.view.controller.mail;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,11 +29,11 @@ public class MailController {
 			@RequestParam(required=false) String ccList,
 			@RequestParam String subject,
 			@RequestParam(required=false) String content,
-			@RequestParam(required=false) MultipartFile[] files){
+			@RequestParam(required=false) MultipartFile[] files) throws UnsupportedEncodingException{
 		JsonBean bean = new JsonBean();
 		
 		if(StringUtils.isNotBlank(content)){
-			content = URLDecoder.decode(content);
+			content = URLDecoder.decode(content,"utf-8");
 		}
 		
 		mailCmpt.sendMail(addressee, ccList, subject, content, files);

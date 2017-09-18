@@ -49,24 +49,29 @@ define(function(require,exports,module){
                     eCont: 'JS_getWelcomePlanDate',
                     specialDates: specialDates,
                     onpicked: function(dp) {
-                    	cache.clickTime++;
-						setTimeout(function() {
-							cache.clickTime--;
-						}, 200);
-						if(cache.clickTime>1) {
-				            Rose.ajax.postJson(srvMap.get('onlineTimeSet'), 'onlineTime='+Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy/MM/dd'), function(json, status) {
-				                if (status) {
-				                    XMS.msgbox.show(json.data.outputMessage, 'success', 1500);
-				                    specialDatesInit(json.data.onlineDate);				                   
-				                } else {
-				    				XMS.msgbox.show(json.retMessage, 'error', 2000);
-				                }
-				            });
-						} else {
-	                        //alert('你选择的日期是:' + dp.cal.getDateStr())
-	                        Data.planDate = dp.cal.getDateStr();
-	                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
-						}
+//                    	cache.clickTime++;
+//						setTimeout(function() {
+//							cache.clickTime--;
+//						}, 200);
+//						if(cache.clickTime>1) {
+//				            Rose.ajax.postJson(srvMap.get('onlineTimeSet'), 'onlineTime='+Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy/MM/dd'), function(json, status) {
+//				                if (status) {
+//				                    XMS.msgbox.show(json.data.outputMessage, 'success', 1500);
+//				                    specialDatesInit(json.data.onlineDate);				                   
+//				                } else {
+//				    				XMS.msgbox.show(json.retMessage, 'error', 2000);
+//				                }
+//				            });
+//						} else {
+//	                        //alert('你选择的日期是:' + dp.cal.getDateStr())
+//	                        Data.planDate = dp.cal.getDateStr();
+//	                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
+//						}
+
+                        //alert('你选择的日期是:' + dp.cal.getDateStr())
+                        Data.planDate = dp.cal.getDateStr();
+                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
+					
                     }
                 });
             };

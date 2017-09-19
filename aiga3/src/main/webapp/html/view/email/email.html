@@ -6,13 +6,14 @@
                     <h3 class="box-title">发送邮件</h3>
                 </div>
                 <!-- /.box-header -->
+                
                 <div class="box-body">
                     <div class="form-group">
-                        <select id="addressee" class="form-control select2" multiple="multiple" data-placeholder="收件人:" name="addressee" data-url="getAddresseeList" data-idkey="email" data-namekey="name" style="width: 100%;" required>
+                        <select id="addressee" class="form-control select2" multiple="multiple" data-placeholder="收件人:" name="addressee"  style="width: 100%;" required>
                         </select>
                     </div>
                     <div class="form-group">
-                        <select id="ccList" class="form-control select2" multiple="multiple" data-placeholder="抄送人:" name="ccList" data-url="getAddresseeList" data-idkey="email" data-namekey="name" style="width: 100%;">
+                        <select id="ccList" class="form-control select2" multiple="multiple" data-placeholder="抄送人:" name="ccList" style="width: 100%;">
                         </select>
                     </div>
                     <div class="form-group">
@@ -76,9 +77,9 @@ $(function() {
             ['misc', ['fullscreen', 'codeview', 'undo', 'redo']],
             ['mybutton', ['onlineModalbtn']]
         ],
-        buttons: {
-            onlineModalbtn: OnlineModalButton
-        },
+      //  buttons: {
+      //     onlineModalbtn: OnlineModalButton
+      //  },
         placeholder: '请填写邮件内容...',
         lang: 'zh-CN', // default: 'en-US'
         height: 300, // set editor height

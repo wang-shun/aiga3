@@ -32,8 +32,7 @@ define(function(require,exports,module){
 		init: function(){
 			Data.planDate = Rose.date.dateTimeWrapper('yyyy-MM-dd');
 			Page.findName("showTime").html(Rose.date.dateTimeWrapper('yyyy年MM月dd日'));
-			this._render();
-			
+			this._render();			
 		},
 		_render: function() {
 			this._getWelcomeKpiList();

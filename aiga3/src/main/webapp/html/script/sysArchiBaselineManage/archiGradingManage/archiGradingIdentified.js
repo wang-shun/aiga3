@@ -188,7 +188,7 @@ define(function(require, exports, module) {
 				
         		_dom.find("[name='content']").html(template(json.data.content));
         		//绑定表格的click事件
-        		Utils.eventClickChecked(_dom,function(isChecked,_input) {
+        		Utils.eventDClickCallback(_dom,function(isChecked,_input) {
         			var applyId = _input[0].value;
         			var allDatas = cache.datas;
         			if(allDatas) {

@@ -168,7 +168,7 @@ public class HomeDataSv {
 			}
 		}
 		//申请中问题查询
-		String applyQuesSql = "SELECT sum(case when t.sys_version = '待确认' then 1 else 0 end) as apply_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' then 1 else 0 end) as apply_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决' then 1 else 0 end) as apply_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and t.state != '已解决' and  t.reportor='"+name+"'";	
+		String applyQuesSql = "SELECT sum(case when t.sys_version = '待确认' then 1 else 0 end) as apply_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' then 1 else 0 end) as apply_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决' then 1 else 0 end) as apply_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and (t.state != '已解决' or t.state is null)and  t.reportor='"+name+"'";	
 		List<Map> applyQuesResults = questionInfoDao.searchByNativeSQL(applyQuesSql);	
 		Map applyQuesResult =  applyQuesResults.get(0);
 		if(applyQuesResult.get("applyIndentyQues") == null) {
@@ -182,7 +182,7 @@ public class HomeDataSv {
 		String dealQuesSql = "SELECT sum(case when t.sys_version = '待确认' and t.identified_name = '"+name
 				+"' then 1 else 0 end) as deal_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' and t.solved_name = '"+name
 				+"' then 1 else 0 end) as deal_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决'  and t.solved_name = '"+name
-				+"' then 1 else 0 end) as deal_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and t.state != '已解决' and (t.identified_name= '"+name+"' "+"or t.solved_name='"+name+"' )" ;	
+				+"' then 1 else 0 end) as deal_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and (t.state != '已解决' or t.state is null) and (t.identified_name= '"+name+"' "+"or t.solved_name='"+name+"' )" ;	
 		List<Map> dealQuesResults = questionInfoDao.searchByNativeSQL(dealQuesSql);	
 		Map dealQuesResult =  dealQuesResults.get(0);
 		if(applyQuesResult.get("dealIndentyQues") == null) {

@@ -165,6 +165,9 @@ public class QuestionInfoSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getState())){
     		cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
     	}
+    	if(StringUtils.isNoneBlank(condition.getReportor())){
+    		cons.add(new Condition("reportor", condition.getReportor(), Condition.Type.EQ));
+    	}
     	if(StringUtils.isNoneBlank(condition.getIdentifiedName())){
     		cons.add(new Condition("identifiedName", "%".concat(condition.getIdentifiedName()).concat("%"), Condition.Type.LIKE));
     	}

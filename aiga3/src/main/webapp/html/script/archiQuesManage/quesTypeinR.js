@@ -73,7 +73,11 @@ define(function(require, exports, module) {
 			_queryBtn.unbind('click').bind('click', function() {
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
-					console.log(_cmd);				
+					if(_cmd!=null){
+						if(_cmd.indexOf('indexId=')>-1){
+							_cmd=_cmd.replace("indexId=","indexId=0");
+						}
+					}
 					Rose.ajax.postJson(srvMap.get('queryAmCoreExts'), _cmd, function(json, status) {
 						if (status) {
 							setTimeout(function() {

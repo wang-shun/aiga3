@@ -63,12 +63,20 @@ define(function(require, exports, module) {
 			_queryBtn.unbind('click').bind('click', function() {
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
+					var task = "queryDbsByCondition";
 					if(_cmd!=null){
-						
+						_cmd = _cmd.split("=")[1];
+						if(_cmd=="ARCH_DB_CONNECT"){
+							task = "queryDbsByCondition";
+						}else if(_cmd=="ARCH_SRV_MANAGE"){
+							task = "querySrvsByCondition";
+						}else if(_cmd=="ARCH_MONTH_INDEX"){
+							task = "querySrvsByCondition";
+						}
 					}
 					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					console.log(_cmd);				
-					Rose.ajax.postJson(srvMap.get('getQueryByCondition'), _cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get(task), '', function(json, status) {
 						if (status) {
 							setTimeout(function() {
 								self.getDataMaintainList(_cmd);
@@ -84,11 +92,20 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-
+			var task2 = "queryDbsByCondition";
+			if(cmd!=null){
+				if(cmd=="ARCH_DB_CONNECT"){
+					task2 = "queryDbsByCondition";
+				}else if(cmd=="ARCH_SRV_MANAGE"){
+					task2 = "querySrvsByCondition";
+				}else if(cmd=="ARCH_MONTH_INDEX"){
+					task2 = "querySrvsByCondition";
+				}
+			}
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('queryDbsByCondition'), _cmd, function(json, status) {//getQuestionInfoList
+			Utils.getServerPage(srvMap.get(task2), '', function(json, status) {//getQuestionInfoList
 				window.XMS.msgbox.hide();
 				var template = Handlebars.compile(Tpl.ArchIndexSubtable);
 				_dom.find("[name='content']").html(template(json.data.content));

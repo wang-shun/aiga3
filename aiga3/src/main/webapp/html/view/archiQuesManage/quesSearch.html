@@ -510,7 +510,6 @@
                 </div>
             </div>
 		</div>
-		<br/>
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="belongSys" class="col-sm-4 control-label">所属系统：</label>
@@ -579,6 +578,26 @@
                     <input type="text" class="form-control input-sm" value="{{modifyDate}}" name="modifyDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
                 </div>
             </div>
+			<div class="form-group col-sm-6">
+				<label for="reportor" class="col-sm-4 control-label">申报人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor">
+                </div>
+            </div>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="reportor" class="col-sm-4 control-label">认定人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{identifiedName}}" name="identifiedName">
+                </div>
+            </div>
+			<div class="form-group col-sm-6">
+				<label for="reportor" class="col-sm-4 control-label">解决人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{solvedName}}" name="solvedName">
+                </div>
+            </div>
 		</div>
 		<div class="row" style="display:none">
             <div class="col-md-4">
@@ -635,12 +654,7 @@
                     <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate">
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>报告人</label>
-                    <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor">
-                </div>
-            </div>
+
         </div>
 		<div class="row">
 			<div class="form-group col-sm-12">

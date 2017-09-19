@@ -247,16 +247,16 @@ define(function(require, exports, module) {
         				}  
 
         				//获取系统建设状态和所属域的名称
-        				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(json, status){
+        				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(json3, status){
     						if(!status) {
-    							XMS.msgbox.show(json.retMessage, 'error', 2000);
+    							XMS.msgbox.show(json3.retMessage, 'error', 2000);
     	        				if(!pass.hasClass('show-nothing')) {
     	        					pass.addClass('show-nothing');
     	        				}
     						} else {
-    							if(json.data) {
-        							selectData.idBelongName = json.data.idBelongName;
-        							selectData.sysStateName = json.data.sysStateName;
+    							if(json3.data) {
+        							selectData.idBelongName = json3.data.idBelongName;
+        							selectData.sysStateName = json3.data.sysStateName;
     							}
     						}
 		      				cache.selectData = selectData;
@@ -271,7 +271,7 @@ define(function(require, exports, module) {
 	        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
 	        					//设置所属于是否可选，编号是否可修改
 	        					if(selectData.description == '新增' && selectData.state == "申请") {
-	        						selectData.sysId = json.data.adviceThirdId;
+	        						selectData.sysId = json3.data.adviceThirdId;
 	        						selectData.isSelected = 1;
 	        						selectData.disabledType = '';
 	        					} else if(selectData.description == '修改' && selectData.state == "申请") {
@@ -290,7 +290,7 @@ define(function(require, exports, module) {
 	        					//认定页允许所属域修改
 	        					if(selectData.description != '删除' && selectData.state == "申请") {
 	        						var selectDom = Page.findId('selectData').find('[name="idBelong"]');
-	        	                    var secData = json.data.secData;
+	        	                    var secData = json3.data.secData;
 	        	                    var _html;
 	        	                    for (var i in secData) {
 	        	                        var _json = secData[i];

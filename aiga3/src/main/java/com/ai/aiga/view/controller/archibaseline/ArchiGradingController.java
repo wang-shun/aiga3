@@ -465,7 +465,7 @@ public class ArchiGradingController {
 				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
 				if(result != null) {
 					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
-					if(adviceThirdId == null || adviceThirdId == "00") {
+					if(adviceThirdId == null ||  "null".equals(adviceThirdId) || StringUtils.isBlank(adviceThirdId)) {
 						adviceThirdId = "01";
 					} else {
 						int sysIndex  =Integer.valueOf(adviceThirdId);

@@ -367,7 +367,7 @@ define(function(require, exports, module) {
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
 						data.sysVersion = '已确认';
-						data.state ="未解决";
+						data.state ="解决中";
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						data.identifiedName = Page.findId('identifiedName').val();
 						var _cmd = jQuery.param(data);

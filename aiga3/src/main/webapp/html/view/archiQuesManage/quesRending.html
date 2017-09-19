@@ -94,7 +94,6 @@
 	                    <th class="iCheckbox" width="15"></th>
 	                    <th>问题编号</th>
 						<th>问题标题</th>
-						<th>问题描述</th>
 						<th>所属系统</th>
 						<th>问题分类</th>
 						<th>一级分类</th>
@@ -793,6 +792,15 @@ seajs.use("script/archiQuesManage/quesRending", function(Init) {
 
 <script id="TPL_modifyQuesIdentifiedInfo2" type="text/x-handlebars-template">
     <div class="box-body">
+		<div class="row">
+			<div class="form-group">
+				<label for="optimizePath" class="col-sm-1 control-label">问题描述</label>
+				<div class="col-sm-9">
+					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入架构问题优化思路">{{abstracts}}</textarea>
+				</div>
+			</div>
+		</div>
+		<br/>
 		<div class="row">
 			<div class="form-group">
 				<label for="optimizePath" class="col-sm-1 control-label">优化思路</label>

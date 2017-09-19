@@ -5,7 +5,6 @@
 	        <td><input type="radio" class="minimal" value="{{quesId}}" name="quesId">
 	        <td>{{quesId}}</td>
 			<td>{{occurEnvironment}}</td>
-			<td>{{abstracts}}</td>
 			<td>{{belongProject}}</td>
 			<td>{{transformatRoot quesType}}</td>
 			<td>{{transformatFirst firstCategory}}</td>

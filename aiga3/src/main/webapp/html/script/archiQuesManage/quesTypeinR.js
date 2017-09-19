@@ -26,13 +26,23 @@ define(function(require, exports, module) {
     srvMap.add("deleteSrvs", "", "index/typein/deleteSrvs");
     //分表修改
     srvMap.add("updateSrvs", "", "index/typein/updateSrvs");
+    //分表查寻
+    srvMap.add("findAllAmCoreExts", "", "index/typein/findAllAmCoreExts");
+    //分表查寻
+    srvMap.add("queryAmCoreExts", "", "index/typein/queryAmCoreExts");
+    //分表新增
+    srvMap.add("saveAmCoreExts", "", "index/typein/saveAmCoreExts");
+    //分表修改
+    srvMap.add("updateAmCoreExts", "", "index/typein/updateAmCoreExts");
+    //分表删除
+    srvMap.add("deleteAmCoreExts", "", "index/typein/deleteAmCoreExts");
 	var cache = {
 		datas : ""	,
 		tableName:"",
 	};
     // 模板对象
 	var Tpl = {
-		ArchIndexSubtable: require('tpl/archiQuesManage/ArchIndexSubtable.tpl'),
+		AmCoreIndexExt: require('tpl/archiQuesManage/AmCoreIndexExt.tpl'),
 	};
 	var Data = {
 		queryListCmd: null
@@ -63,20 +73,8 @@ define(function(require, exports, module) {
 			_queryBtn.unbind('click').bind('click', function() {
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
-					var task = "queryDbsByCondition";
-					if(_cmd!=null){
-						_cmd = _cmd.split("=")[1];
-						if(_cmd=="ARCH_DB_CONNECT"){
-							task = "queryDbsByCondition";
-						}else if(_cmd=="ARCH_SRV_MANAGE"){
-							task = "querySrvsByCondition";
-						}else if(_cmd=="ARCH_MONTH_INDEX"){
-							task = "querySrvsByCondition";
-						}
-					}
-					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					console.log(_cmd);				
-					Rose.ajax.postJson(srvMap.get(task), '', function(json, status) {
+					Rose.ajax.postJson(srvMap.get('queryAmCoreExts'), _cmd, function(json, status) {
 						if (status) {
 							setTimeout(function() {
 								self.getDataMaintainList(_cmd);
@@ -92,22 +90,12 @@ define(function(require, exports, module) {
 			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			var task2 = "queryDbsByCondition";
-			if(cmd!=null){
-				if(cmd=="ARCH_DB_CONNECT"){
-					task2 = "queryDbsByCondition";
-				}else if(cmd=="ARCH_SRV_MANAGE"){
-					task2 = "querySrvsByCondition";
-				}else if(cmd=="ARCH_MONTH_INDEX"){
-					task2 = "querySrvsByCondition";
-				}
-			}
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get(task2), '', function(json, status) {//getQuestionInfoList
+			Utils.getServerPage(srvMap.get('queryAmCoreExts'), _cmd, function(json, status) {//getQuestionInfoList
 				window.XMS.msgbox.hide();
-				var template = Handlebars.compile(Tpl.ArchIndexSubtable);
+				var template = Handlebars.compile(Tpl.AmCoreIndexExt);
 				_dom.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
@@ -144,7 +132,7 @@ define(function(require, exports, module) {
 					Utils.checkForm(_form, function() {
 						var _cmd = _form.serialize();
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						Rose.ajax.postJson(srvMap.get('saveDbs'), _cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('saveAmCoreExts'), _cmd, function(json, status) {
 							if (status) {
 								XMS.msgbox.show('新增记录成功！！', 'success', 2000);
 								setTimeout(function() {
@@ -172,7 +160,7 @@ define(function(require, exports, module) {
 					console.log(data);
 					var cmd = 'indexId=' + data.indexId;
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.getJson(srvMap.get('deleteDbs'), cmd, function(json, status) {
+					Rose.ajax.getJson(srvMap.get('deleteAmCoreExts'), cmd, function(json, status) {
 						if (status) {
 							window.XMS.msgbox.show('删除成功！', 'success', 2000);
 							setTimeout(function() {
@@ -203,7 +191,7 @@ define(function(require, exports, module) {
 				var _cmd = _form.serialize();
 				_cmd = _cmd + "&indexId=" + indexId;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('updateDbs'), _cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get('updateAmCoreExts'), _cmd, function(json, status) {
 					if (status) {
 						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {

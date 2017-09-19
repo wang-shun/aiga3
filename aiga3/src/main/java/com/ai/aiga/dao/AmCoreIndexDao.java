@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.AmCoreIndex;
-import com.ai.aiga.domain.ArchitectureStaticData;
 
 public interface AmCoreIndexDao extends JpaRepository<AmCoreIndex, Long>, SearchAndPageRepository<AmCoreIndex, Long> {
 

@@ -60,6 +60,8 @@ define(function(require, exports, module) {
 	
 	var Query = {
 		init: function() {
+			this.jumpPage();
+			
 			this.searchBox();
 			
 			this._querydomain();
@@ -69,6 +71,21 @@ define(function(require, exports, module) {
 			this.queryDataMaintainForm();
 			//映射
 			this.hdbarHelp();
+		},
+		jumpPage : function(){
+			var syscmd = Page.getParentCmd();
+			var result = Utils.jsonToUrl(syscmd);
+			if(result!=null){
+				var self = this;
+				var _form = Page.findId('queryDataMaintainForm');
+				Utils.setSelectData(_form);
+				var _queryBtn = _form.find("[name='query']");
+				_queryBtn.unbind('click').bind('click', function() {
+					var cmd = result;
+					self.getDataMaintainList(cmd);
+				});
+				_queryBtn.click();
+			}
 		},
 		searchBox: function(){
 			var self = this;
@@ -146,7 +163,7 @@ define(function(require, exports, module) {
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.bind('click', function() {
+			_queryBtn.unbind('click').bind('click', function() {
 				var cmd = _form.serialize();
 				self.getDataMaintainList(cmd);
 			});

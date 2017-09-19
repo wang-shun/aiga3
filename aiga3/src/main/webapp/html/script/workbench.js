@@ -31,9 +31,6 @@ define(function(require, exports, module) {
 		                }
 	            	}
 	                Page.findId('getOwnHomeInfo').html(template(data));
-	                if(data.hasSysRole == 'true') {
-	                	data.sysRoleSty = 'show-nothing';
-	                }
 	                Page.find(".info-box-icon").off('click').on('click',function() {
 	                	var number = $(this).attr("number");
 	                	var name = $(this).attr("name");

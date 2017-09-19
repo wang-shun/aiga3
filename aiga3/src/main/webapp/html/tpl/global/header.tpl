@@ -2,6 +2,7 @@
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" id="JS_openWorkbench" data-toggle="dropdown" aria-expanded="true">
             <i class="fa fa-tachometer"></i><span class="hidden-xs"> 工作台</span>
+            <span class="label label-success" name="getWorkBenchShowSize">0</span>
         </a>
     </li>	
     <!-- 用户信息 -->

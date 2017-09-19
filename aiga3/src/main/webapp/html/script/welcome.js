@@ -2,7 +2,7 @@ define(function(require,exports,module){
 	require("macarons");
 	// 通用工具模块
 	var Utils = require("global/utils.js");
-	//	
+	//		
 	var Tab = require('global/sidebar.js');
 
 	// 初始化页面ID，易于拷贝，不需要带'#'
@@ -18,6 +18,9 @@ define(function(require,exports,module){
     srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
     // 添加上线时间
     srvMap.add("onlineTimeSet", "", "archi/online/timeSet");
+    // 工作台查询
+    srvMap.add("getOwnHomeInfo", "", "sys/home/taskInfo");
+
     var Data = {
         planDate:null // 获取日期日期
     };
@@ -33,13 +36,31 @@ define(function(require,exports,module){
 			
 		},
 		_render: function() {
-			this.getWelcomeKpiList();
+			this._getWelcomeKpiList();
 			this._getWelcomePie();//首页饼图初始化
 			this._questionShow();
-			this.getWelcomePlanDate();
+			this._getWelcomePlanDate();
+			this._load_workbench_size();
+		},
+		_load_workbench_size: function() {
+	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
+	        	if (status) {
+	        		var workBenchSize = 0;
+	        		var re = /^[0-9]+.?[0-9]*$/; //判断字符串是否为数字 //判断正整数 /^[1-9]+[0-9]*]*$/ 
+	        		$.each(json.data, function(key, value){        			
+	        			if (typeof(value) != 'undefined' && re.test(value)) {
+	        				workBenchSize += parseInt(value);
+	        			}
+	        		});
+	                $("span[name='getWorkBenchShowSize']").text(workBenchSize);
+	        	} else {	
+    				XMS.msgbox.show(json.retMessage, 'error', 2000);
+	        	}
+	        });
+			//设置工作台显示数字
 		},
 		
-		 getWelcomePlanDate: function() {
+		_getWelcomePlanDate: function() {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             // 初始化日历
@@ -159,7 +180,7 @@ define(function(require,exports,module){
 			});
 		},
 		
-		getWelcomeKpiList: function() { // 获取工作台信息
+		_getWelcomeKpiList: function() { // 获取指标信息
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             //var cmd = "planDate="+Data.planDate;

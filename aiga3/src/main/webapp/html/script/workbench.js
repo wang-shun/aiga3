@@ -55,8 +55,8 @@ define(function(require, exports, module) {
 	                        });
 	                	} else if (name == 'applyIndentyQues' || name == 'applyResolveQues' || name == 'applyCloseQues') {
 	                		var indentyQues = 'sysVersion=待确认&reportor='+data.userName;
-	                		var resolveQues = 'sysVersion=待确认&state=未解决&reportor='+data.userName;
-	                		var closeQues = 'sysVersion=待确认&state=解决中&reportor='+data.userName;
+	                		var resolveQues = 'sysVersion=已确认&state=未解决&reportor='+data.userName;
+	                		var closeQues = 'sysVersion=已确认&state=解决中&reportor='+data.userName;
 	                        Sidebar.creatTab({
 	                            id: '136',
 	                            name: '架构问题检索',
@@ -65,8 +65,8 @@ define(function(require, exports, module) {
 	                        });
 	                	} else if (name == 'dealIndentyQues' || name == 'dealResolveQues' || name == 'dealCloseQues') {
 	                		var indentyQues = 'sysVersion=待确认&identifiedName='+data.userName;
-	                		var resolveQues = 'sysVersion=待确认&state=未解决&solvedName='+data.userName;
-	                		var closeQues = 'sysVersion=待确认&state=解决中&solvedName='+data.userName;
+	                		var resolveQues = 'sysVersion=已确认&state=未解决&solvedName='+data.userName;
+	                		var closeQues = 'sysVersion=已确认&state=解决中&solvedName='+data.userName;
 	                        Sidebar.creatTab({
 	                            id: '135',
 	                            name: '架构问题查询',

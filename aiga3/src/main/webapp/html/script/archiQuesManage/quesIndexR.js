@@ -110,7 +110,7 @@ define(function(require, exports, module) {
                             simpleData: {
                                 enable: true,
                                 idKey: "indexId",
-//                                pIdKey: "parentId"
+                                pIdKey: "groupId"
                             }
                         },
                         callback: {

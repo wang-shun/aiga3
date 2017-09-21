@@ -57,8 +57,7 @@ define(function(require,exports,module){
 	        	}
 	        });
 			//设置工作台显示数字
-		},
-		
+		},		
 		_getWelcomePlanDate: function() {
             var self = this;
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');

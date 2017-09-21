@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +41,8 @@ public class ArchiOnlinePlanSv extends BaseService {
 			hasRecord.setCreatTime(new Date());
 			archiOnlinePlanDao.save(hasRecord);
 			outputMessage = "添加该上线时间成功"; 
+		} else if(hasRecord.getExt1() != null || "null".equals(hasRecord.getExt1()) || StringUtils.isBlank(hasRecord.getExt1()) ) {
+			outputMessage = "同步数据不支持删除"; 
 		} else {
 			archiOnlinePlanDao.delete(hasRecord);
 			outputMessage = "删除该上线时间成功"; 

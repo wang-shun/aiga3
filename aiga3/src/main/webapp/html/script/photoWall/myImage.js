@@ -67,7 +67,7 @@ define(function(require, exports, module) {
 		},
 		waterFall: function(){
 		  $(function(){
-		    var $waterfall = $('#waterfall');
+		    var $waterfall = Page.findId('waterfall');
 		    $waterfall.masonry({
 		      columnWidth: 230
 		    });

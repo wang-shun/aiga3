@@ -92,8 +92,7 @@ define(function(require,exports,module){
 						}
 //                        //alert('你选择的日期是:' + dp.cal.getDateStr())
 //                        Data.planDate = dp.cal.getDateStr();
-//                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
-					
+//                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));			
                     }
                 });
             };

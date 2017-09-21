@@ -513,7 +513,7 @@ public class ArchiGradingController {
 		CheckIdentifyRole data = new CheckIdentifyRole();
 		data.setIsRole("false");
 		//SYS_CONFIRM 基线认定
-		String roles = "SYS_CONFIRM,admin";
+		String roles = "SYS_CONFIRM,ROLE";
 		if(userInfo == null){
 			bean.fail("用户未登陆!");
 			return bean;

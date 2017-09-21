@@ -41,11 +41,11 @@ public class ArchiOnlinePlanSv extends BaseService {
 			hasRecord.setCreatTime(new Date());
 			archiOnlinePlanDao.save(hasRecord);
 			outputMessage = "添加该上线时间成功"; 
-		} else if(hasRecord.getExt1() != null || "null".equals(hasRecord.getExt1()) || StringUtils.isBlank(hasRecord.getExt1()) ) {
-			outputMessage = "同步数据不支持删除"; 
-		} else {
+		} else if(hasRecord.getExt1() == null || "null".equals(hasRecord.getExt1()) || StringUtils.isBlank(hasRecord.getExt1()) ) {
 			archiOnlinePlanDao.delete(hasRecord);
 			outputMessage = "删除该上线时间成功"; 
+		} else {
+			outputMessage = "同步数据不支持删除"; 
 		}
 		data.setOutputMessage(outputMessage);
 		data.setOnlineDate(findAllTime());

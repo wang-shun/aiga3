@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class OnLineTimeSetOutput {
+	private boolean ifSynchroData;
 	private String outputMessage;
 	private List<String> onlineDate;
 }

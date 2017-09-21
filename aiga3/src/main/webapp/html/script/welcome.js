@@ -75,8 +75,12 @@ define(function(require,exports,module){
 						if(cache.clickTime>1) {
 				            Rose.ajax.postJson(srvMap.get('onlineTimeSet'), 'onlineTime='+Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy/MM/dd'), function(json, status) {
 				                if (status) {
-				                    XMS.msgbox.show(json.data.outputMessage, 'success', 1500);
-				                    specialDatesInit(json.data.onlineDate);				                   
+				                	if(json.data.ifSynchroData == true) {
+				                		XMS.msgbox.show(json.data.outputMessage, 'info', 1500);
+				                	} else {
+					                    XMS.msgbox.show(json.data.outputMessage, 'success', 1500);
+					                    specialDatesInit(json.data.onlineDate);		
+				                	}	                   
 				                } else {
 				    				XMS.msgbox.show(json.retMessage, 'error', 2000);
 				                }

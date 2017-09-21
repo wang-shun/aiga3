@@ -35,6 +35,7 @@ public class ArchiOnlinePlanSv extends BaseService {
 		ArchiOnlinePlan hasRecord = archiOnlinePlanDao.findOne(onlineTime);
 		OnLineTimeSetOutput data = new OnLineTimeSetOutput();
 		String outputMessage = "这是消息";
+		boolean ifSynchroData = false; 
 		if(hasRecord == null) {
 			hasRecord = new ArchiOnlinePlan();
 			hasRecord.setOnlineTime(onlineTime);
@@ -45,8 +46,10 @@ public class ArchiOnlinePlanSv extends BaseService {
 			archiOnlinePlanDao.delete(hasRecord);
 			outputMessage = "删除该上线时间成功"; 
 		} else {
-			outputMessage = "同步数据不支持删除"; 
+			ifSynchroData = true;
+			outputMessage = "同步数据不支持删除";
 		}
+		data.setIfSynchroData(ifSynchroData);
 		data.setOutputMessage(outputMessage);
 		data.setOnlineDate(findAllTime());
 		return data;		

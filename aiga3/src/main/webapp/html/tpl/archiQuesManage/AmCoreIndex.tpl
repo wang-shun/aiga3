@@ -13,6 +13,7 @@
 			<td>{{state}}</td>
 			<td>{{createDate}}</td>
 			<td>{{createOpId}}</td>
+			<td>{{groupId}}</td>
         </tr>
         {{/each}}
     </tbody>

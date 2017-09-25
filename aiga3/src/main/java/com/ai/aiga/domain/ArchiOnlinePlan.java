@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-8-24 16:24:56 by Hibernate Tools 3.2.2.GA
+// Generated 2017-9-25 10:51:26 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -19,7 +19,7 @@ public class ArchiOnlinePlan  implements java.io.Serializable {
 
 
      private Date onlineTime;
-     private Date creatTime;
+     private Date createTime;
      private String ext1;
      private String ext2;
      private String ext3;
@@ -31,9 +31,9 @@ public class ArchiOnlinePlan  implements java.io.Serializable {
     public ArchiOnlinePlan(Date onlineTime) {
         this.onlineTime = onlineTime;
     }
-    public ArchiOnlinePlan(Date onlineTime, Date creatTime, String ext1, String ext2, String ext3) {
+    public ArchiOnlinePlan(Date onlineTime, Date createTime, String ext1, String ext2, String ext3) {
        this.onlineTime = onlineTime;
-       this.creatTime = creatTime;
+       this.createTime = createTime;
        this.ext1 = ext1;
        this.ext2 = ext2;
        this.ext3 = ext3;
@@ -50,13 +50,13 @@ public class ArchiOnlinePlan  implements java.io.Serializable {
         this.onlineTime = onlineTime;
     }
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="CREAT_TIME", length=7)
-    public Date getCreatTime() {
-        return this.creatTime;
+    @Column(name="CREATE_TIME", length=7)
+    public Date getCreateTime() {
+        return this.createTime;
     }
     
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
     
     @Column(name="EXT_1")

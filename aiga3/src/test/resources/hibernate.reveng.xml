@@ -4,30 +4,6 @@
 <hibernate-reverse-engineering>       
 <!--<schema-selection match-schema="TMDCS"/>-->       
 <!-- <table-filter match-schema="cityhome"  match-name=".*"/> -->       
-<!-- 	<schema-selection match-schema="ORDER_CFG" match-table="OCC_BUSI_CMPT"/>   -->
-<!-- 		<schema-selection match-schema="AIGA" match-table="AIGA_P2P_FUNCTION_POINT"/> -->
-		<!--  <schema-selection match-schema="AIGA" match-table="AIGA_STAFF"/>-->
-		<!--  <schema-selection match-schema="AIGA" match-table="AIGA_ONLINE_CASE_COLLECTION"/>--> 
-		<!-- <schema-selection match-schema="AIGA"  match-table="NA_AUTO_RUN_PLAN"/> -->
-			<!--  <schema-selection match-schema="AIGA"  match-table="NA_AUTO_RUN_PLAN_CASE"/>-->
-			<!-- <schema-selection match-schema="AIGA"  match-table="NA_PLAN_CASE_RESULT_EXP_SUM"/> -->
-
-				<!--	<schema-selection match-schema="AIGA"  match-table="NA_TEST_SITUATION"/>-->
-
-				<!--<schema-selection match-schema="AIGA"  match-table="NA_DB_SCRIPT_LIST"/>-->
-
-				<!-- <schema-selection match-schema="AIGA"  match-table="NA_SYSTEM_ARCHITECTURE_LIST"/>
-
-				
-				<schema-selection match-schema="AIGA"  match-table="NA_GROUP_REQUIRE_LIST"/>
-				<schema-selection match-schema="AIGA"  match-table="NA_GROUP_ADJUST_LIST"/>
-				<schema-selection match-schema="AIGA"  match-table="NA_HAS_DEPLOY_MENU_LIST"/>
-				<schema-selection match-schema="AIGA"  match-table="NA_SERVICE_CHANGE_ONLINE_LIST"/>
-
-				<schema-selection match-schema="AIGA"  match-table="NA_HOST_CONFIG_LIST"/>
-				<schema-selection match-schema="AIGA"  match-table="NA_TEST_PROCESS"/>
-
-				<schema-selection match-schema="AIGA"  match-table="NA_HOST_CONFIG_LIST"/>-->
 			<!--  <schema-selection match-schema="AIGA"  match-table="NA_ONLINE_GENERAL_STEPS"/>-->	
 
 					<!--  <schema-selection match-schema="AIGA"  match-table="NA_CHANGE_CONDITION"/>
@@ -51,5 +27,4 @@
 					<schema-selection match-schema="AIGA"  match-table="THIRD_CATEGORY"/> 
 					<schema-selection match-schema="AIGA"  match-table="ARCHITECTURE_GRADING"/> 
 					<schema-selection match-schema="AIGA"  match-table="ARCHITECTURE_STATIC_DATA"/> -->
-
  </hibernate-reverse-engineering>

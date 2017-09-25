@@ -32,22 +32,29 @@ public class ArchiOnlinePlanSv extends BaseService {
 	}
 	
 	public OnLineTimeSetOutput setOnlineTime(Date onlineTime) {
-		ArchiOnlinePlan hasRecord = archiOnlinePlanDao.findOne(onlineTime);
+		List<ArchiOnlinePlan> queryData = archiOnlinePlanDao.findOnlineTime(onlineTime);
+		ArchiOnlinePlan hasRecord = new ArchiOnlinePlan();
 		OnLineTimeSetOutput data = new OnLineTimeSetOutput();
 		String outputMessage = "这是消息";
 		boolean ifSynchroData = false; 
-		if(hasRecord == null) {
+		if(queryData.size()>0) {
+			for(ArchiOnlinePlan base : queryData) {
+				if(base.getExt1() == null || "null".equals(base.getExt1()) || StringUtils.isBlank(base.getExt1()) ) {
+					archiOnlinePlanDao.delete(base);
+					if(!"同步数据不支持删除".equals(outputMessage)) {
+						outputMessage = "删除该上线时间成功"; 
+					}  	
+				} else {
+					ifSynchroData = true;
+					outputMessage = "同步数据不支持删除";
+				}
+			}
+		} else {
 			hasRecord = new ArchiOnlinePlan();
 			hasRecord.setOnlineTime(onlineTime);
-			hasRecord.setCreatTime(new Date());
+			hasRecord.setCreateTime(new Date());
 			archiOnlinePlanDao.save(hasRecord);
 			outputMessage = "添加该上线时间成功"; 
-		} else if(hasRecord.getExt1() == null || "null".equals(hasRecord.getExt1()) || StringUtils.isBlank(hasRecord.getExt1()) ) {
-			archiOnlinePlanDao.delete(hasRecord);
-			outputMessage = "删除该上线时间成功"; 
-		} else {
-			ifSynchroData = true;
-			outputMessage = "同步数据不支持删除";
 		}
 		data.setIfSynchroData(ifSynchroData);
 		data.setOutputMessage(outputMessage);

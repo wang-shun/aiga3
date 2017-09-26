@@ -3,6 +3,7 @@ package com.ai.aiga.view.controller.archibaseline;
 import io.swagger.annotations.Api;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.component.MailCmpt;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchitectureFirst;
@@ -28,6 +30,7 @@ import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
+import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
@@ -52,7 +55,10 @@ public class ArchiGradingController {
 	private ArchitectureThirdSv architectureThirdSv;
 	@Autowired
 	private ArchitectureStaticDataSv architectureStaticDataSv;
-	
+	@Autowired
+	private StaffSv aigaStaffSv;
+	@Autowired
+	private MailCmpt mailCmpt;
 	/**
 	 * 一级域 添加申请单
 	 * @param architectureGrading
@@ -61,6 +67,7 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/firstGradingAdd")
 	public @ResponseBody JsonBean firstSave(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
 		//操作类型
 		String description = architectureGrading.getDescription();
 		//非空校验
@@ -100,10 +107,22 @@ public class ArchiGradingController {
 		architectureGrading.setModifyDate(new Date());
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
-		AigaStaff info = SessionMgrUtil.getStaff();	
-		architectureGrading.setApplyUser(info.getName());
+		AigaStaff staffInfo = userInfo.getStaff();	
+		architectureGrading.setApplyUser(staffInfo.getName());
 		architectureGrading.setState("申请");
 		architectureGradingSv.save(architectureGrading);
+		//操作完成后发送短信
+		String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（一级域） ,等待认定</p>";
+		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
+			if(StringUtils.isNotBlank(addressee)) {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffInfo.getEmail() :"";
+			} else {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffInfo.getEmail() :"";
+			}
+		}
+		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
 		return bean;	
 	}
 	/**
@@ -114,6 +133,7 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/secGradingAdd")
 	public @ResponseBody JsonBean secSave(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
 		//操作类型
 		String description = architectureGrading.getDescription();
 		String belongLevel = architectureGrading.getBelongLevel();
@@ -162,10 +182,22 @@ public class ArchiGradingController {
 		architectureGrading.setModifyDate(new Date());
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
-		AigaStaff info = SessionMgrUtil.getStaff();	
-		architectureGrading.setApplyUser(info.getName());
+		AigaStaff staffInfo = userInfo.getStaff();	
+		architectureGrading.setApplyUser(staffInfo.getName());
 		architectureGrading.setState("申请");
 		architectureGradingSv.save(architectureGrading);
+		//操作完成后发送短信
+		String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（二级子域） ,等待认定</p>";
+		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
+			if(StringUtils.isNotBlank(addressee)) {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffInfo.getEmail() :"";
+			} else {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffInfo.getEmail() :"";
+			}
+		}
+		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
 		return bean;	
 	}
 	/**
@@ -176,6 +208,7 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/thirdGradingAdd")
 	public @ResponseBody JsonBean thirdSave(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
 		//操作类型
 		String description = architectureGrading.getDescription();
 		String belongLevel = architectureGrading.getBelongLevel();
@@ -282,10 +315,22 @@ public class ArchiGradingController {
 		architectureGrading.setModifyDate(new Date());
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
-		AigaStaff info = SessionMgrUtil.getStaff();	
-		architectureGrading.setApplyUser(info.getName());
+		AigaStaff staffInfo = userInfo.getStaff();	
+		architectureGrading.setApplyUser(staffInfo.getName());
 		architectureGrading.setState("申请");
-		architectureGradingSv.save(architectureGrading);
+		architectureGradingSv.save(architectureGrading);	
+		//操作完成后发送短信
+		String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（三级系统域） ,等待认定</p>";
+		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
+			if(StringUtils.isNotBlank(addressee)) {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffInfo.getEmail() :"";
+			} else {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffInfo.getEmail() :"";
+			}
+		}
+		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
 		return bean;	
 	}
 

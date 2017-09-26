@@ -44,6 +44,24 @@ public class StaffSv extends BaseService {
 		return aigaStaffDao.findAll();
 	}
 
+	public List<AigaStaff> findStaffByRole(String role) {
+		
+		if (role == null || StringUtils.isBlank(role)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "role");
+		}
+
+		String nativeSQL = "select af.*"
+				+ " from aiga_staff af , sys_role sr , aiga_author aa"
+				+ " where aa.role_id = sr.role_id"
+				+ " and aa.staff_id = af.staff_id "
+				+ " and sr.code = :code";
+		
+		List<ParameterCondition> parameters = new ArrayList<ParameterCondition>();
+		parameters.add(new ParameterCondition("code", role));
+		
+		return aigaStaffDao.searchByNativeSQL(nativeSQL, parameters, AigaStaff.class);
+	}
+	
 	public List<SimpleStaff> findStaffByOrg(Long organizeId) {
 		if (organizeId == null || organizeId < 0) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");

@@ -75,7 +75,7 @@ define(function(require, exports, module) {
 		},
 		uploadImage: function(){
 		    Page.findId('fileUploadContent').initUpload({
-	        "uploadUrl":"http://http://arch.zj.chinamobile.com/aiga3/group/require/uploadImage",//上传文件信息地址
+	        "uploadUrl":"http://arch.zj.chinamobile.com/aiga3/group/require/uploadImage",//上传文件信息地址
 //	        "progressUrl":"#",//获取进度信息地址，可选，注意需要返回的data格式如下（{bytesRead: 102516060, contentLength: 102516060, items: 1, percent: 100, startTime: 1489223136317, useTime: 2767}）
 	        //"showSummerProgress":false,//总进度条，默认限制
 	        //"size":350,//文件大小限制，单位kb,默认不限制

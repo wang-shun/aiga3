@@ -198,7 +198,7 @@ public class QuestionInfoController {
 		questionInfoSv.update(questionInfoRequest);
 		String reportorName = questionInfoRequest.getReportor();
 		String appointedPerson = questionInfoRequest.getAppointedPerson();
-		if(questionInfoRequest.getState().equals("")){
+		if(questionInfoRequest.getState().equals("未解决")||StringUtils.isNotBlank(questionInfoRequest.getState())){
 			//操作完成后发送邮件  申请人 认定人 处理科室
 			String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
 			AigaStaff aigaStaff = aigaStaffSv.findStaffByCode(reportorName);

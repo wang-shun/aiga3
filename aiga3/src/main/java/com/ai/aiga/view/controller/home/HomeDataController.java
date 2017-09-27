@@ -62,7 +62,7 @@ public class HomeDataController {
 			return bean;
 		}
 		//SYS_CONFIRM 基线认定
-		String sysRoles = "SYS_CONFIRM,admin";
+		String sysRoles = "SYS_CONFIRM,ROLE";
 		String hasSysRole = "false";
 		for(SysRole baseRole: userInfo.getRoles()) {
 			if(sysRoles.contains(String.valueOf(baseRole.getCode()))){
@@ -70,7 +70,7 @@ public class HomeDataController {
 				break;
 			}
 		}
-		bean.setData(homeDataSv.dealTaskInfo(info.getName(),hasSysRole));		
+		bean.setData(homeDataSv.dealTaskInfo(info.getCode(), info.getName(), hasSysRole));		
 		return bean;
 
 	}

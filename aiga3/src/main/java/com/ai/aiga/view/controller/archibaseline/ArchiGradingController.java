@@ -108,7 +108,7 @@ public class ArchiGradingController {
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
 		AigaStaff staffInfo = userInfo.getStaff();	
-		architectureGrading.setApplyUser(staffInfo.getName());
+		architectureGrading.setApplyUser(staffInfo.getCode());
 		architectureGrading.setState("申请");
 		architectureGradingSv.save(architectureGrading);
 		//操作完成后发送短信
@@ -117,9 +117,9 @@ public class ArchiGradingController {
 		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（一级域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffInfo.getEmail() :"";
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
 			} else {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffInfo.getEmail() :"";
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
 			}
 		}
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
@@ -183,7 +183,7 @@ public class ArchiGradingController {
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
 		AigaStaff staffInfo = userInfo.getStaff();	
-		architectureGrading.setApplyUser(staffInfo.getName());
+		architectureGrading.setApplyUser(staffInfo.getCode());
 		architectureGrading.setState("申请");
 		architectureGradingSv.save(architectureGrading);
 		//操作完成后发送短信
@@ -192,9 +192,9 @@ public class ArchiGradingController {
 		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（二级子域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffInfo.getEmail() :"";
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
 			} else {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffInfo.getEmail() :"";
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
 			}
 		}
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
@@ -316,7 +316,7 @@ public class ArchiGradingController {
 		architectureGrading.setApplyId(0L);
 		architectureGrading.setApplyTime(new Date());
 		AigaStaff staffInfo = userInfo.getStaff();	
-		architectureGrading.setApplyUser(staffInfo.getName());
+		architectureGrading.setApplyUser(staffInfo.getCode());
 		architectureGrading.setState("申请");
 		architectureGradingSv.save(architectureGrading);	
 		//操作完成后发送短信
@@ -325,9 +325,9 @@ public class ArchiGradingController {
 		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（三级系统域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffInfo.getEmail() :"";
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
 			} else {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffInfo.getEmail() :"";
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
 			}
 		}
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
@@ -342,8 +342,8 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/messageGranding")
 	public @ResponseBody JsonBean messageGrading(ArchitectureGrading input) {
 		JsonBean bean = new JsonBean();
-		AigaStaff info = SessionMgrUtil.getStaff();	
-		input.setIdentifyUser(info.getName());
+		AigaStaff staffInfo = SessionMgrUtil.getStaff();	
+		input.setIdentifyUser(staffInfo.getName());
 		//申请单在途校验
 		ArchitectureGrading checkParam = new ArchitectureGrading();
 		checkParam.setApplyId(input.getApplyId());
@@ -361,103 +361,111 @@ public class ArchiGradingController {
 		//数据校验
 		if("审批未通过".equals(input.getState())) {
 			architectureGradingSv.update(input);
-			return bean;
-		}
-		input.setModifyDate(new Date());
-		String operation = input.getDescription();
-	
-		if("1".equals(input.getExt1())) {			
-			ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
-			firstInput.setIdFirst(input.getSysId());
-			//修改删除时判断数据库是否存在相关数据
-			if("删除".equals(operation)) {
-				if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
-					bean.fail("数据库不存在此条数据");
-					return bean;
-				}
-				firstInput.setDescription("");
-				architectureFirstSv.delete(firstInput.getIdFirst());
-			} else if("新增".equals(operation)) {
-				//校验编号是否在归档表存在				
-				if(architectureFirstSv.findOne(firstInput.getIdFirst())!=null) {
-					bean.fail("编号已存在");
-					return bean;
-				}
-				firstInput.setCreateDate(new Date());	
-				firstInput.setDescription("");
-				architectureFirstSv.save(firstInput);
-			} else {
-				if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
-					bean.fail("数据库不存在此条数据");
-					return bean;
-				}
-				firstInput.setDescription("");
-				firstInput.setModifyDate(new Date());
-				architectureFirstSv.save(firstInput);
-			}		
-			architectureGradingSv.update(input);
-		} else if ("2".equals(input.getExt1())) {
-			ArchitectureSecondRequest secInput = BeanMapper.map(input,ArchitectureSecondRequest.class);
-			secInput.setIdFirst(input.getIdBelong());
-			secInput.setIdSecond(input.getSysId());
-			if("删除".equals(operation)) {
-				if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
-					bean.fail("数据库不存在此条数据");
-					return bean;
-				}
-				secInput.setDescription("");
-				architectureSecondSv.delete(secInput.getIdSecond());
-			} else if("新增".equals(operation)) {
-				//校验编号是否在归档表存在				
-				if(architectureSecondSv.findOne(secInput.getIdSecond())!=null) {
-					bean.fail("编号已存在");
-					return bean;
-				}
-				secInput.setCreateDate(new Date());	
-				secInput.setDescription("");
-				architectureSecondSv.save(secInput);
-			} else {
-				if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
-					bean.fail("数据库不存在此条数据");
-					return bean;
-				}
-				secInput.setDescription("");
-				secInput.setModifyDate(new Date());
-				architectureSecondSv.save(secInput);
-			}	
-			architectureGradingSv.update(input);
-		} else if ("3".equals(input.getExt1())) {		
-			ArchitectureThirdRequest thirdInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
-			thirdInput.setIdSecond(input.getIdBelong());
-			thirdInput.setIdThird(input.getSysId());		
-			if("删除".equals(operation)) {
-				if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
-					bean.fail("数据库不存在此条数据");
-					return bean;
-				}
-				thirdInput.setDescription("");
-				architectureThirdSv.delete(thirdInput.getOnlysysId());
-			} else if("新增".equals(operation)) {
-				//校验编号是否在归档表存在				
-				if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird()).size()>0) {
-					bean.fail("编号已存在");
-					return bean;
-				}
-				thirdInput.setCreateDate(new Date());	
-				thirdInput.setDescription("");
-				architectureThirdSv.save(thirdInput);
-			} else {
-				if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
-					bean.fail("数据库不存在此条数据");
-					return bean;
-				}
-				thirdInput.setModifyDate(new Date());
-				thirdInput.setDescription("");
-				architectureThirdSv.save(thirdInput);
-			}		
-			architectureGradingSv.update(input);
 		} else {
-		}
+			//认定通过逻辑
+			
+			input.setModifyDate(new Date());
+			String operation = input.getDescription();
+		
+			if("1".equals(input.getExt1())) {			
+				ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
+				firstInput.setIdFirst(input.getSysId());
+				//修改删除时判断数据库是否存在相关数据
+				if("删除".equals(operation)) {
+					if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
+						bean.fail("数据库不存在此条数据");
+						return bean;
+					}
+					firstInput.setDescription("");
+					architectureFirstSv.delete(firstInput.getIdFirst());
+				} else if("新增".equals(operation)) {
+					//校验编号是否在归档表存在				
+					if(architectureFirstSv.findOne(firstInput.getIdFirst())!=null) {
+						bean.fail("编号已存在");
+						return bean;
+					}
+					firstInput.setCreateDate(new Date());	
+					firstInput.setDescription("");
+					architectureFirstSv.save(firstInput);
+				} else {
+					if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
+						bean.fail("数据库不存在此条数据");
+						return bean;
+					}
+					firstInput.setDescription("");
+					firstInput.setModifyDate(new Date());
+					architectureFirstSv.save(firstInput);
+				}		
+				architectureGradingSv.update(input);
+			} else if ("2".equals(input.getExt1())) {
+				ArchitectureSecondRequest secInput = BeanMapper.map(input,ArchitectureSecondRequest.class);
+				secInput.setIdFirst(input.getIdBelong());
+				secInput.setIdSecond(input.getSysId());
+				if("删除".equals(operation)) {
+					if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
+						bean.fail("数据库不存在此条数据");
+						return bean;
+					}
+					secInput.setDescription("");
+					architectureSecondSv.delete(secInput.getIdSecond());
+				} else if("新增".equals(operation)) {
+					//校验编号是否在归档表存在				
+					if(architectureSecondSv.findOne(secInput.getIdSecond())!=null) {
+						bean.fail("编号已存在");
+						return bean;
+					}
+					secInput.setCreateDate(new Date());	
+					secInput.setDescription("");
+					architectureSecondSv.save(secInput);
+				} else {
+					if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
+						bean.fail("数据库不存在此条数据");
+						return bean;
+					}
+					secInput.setDescription("");
+					secInput.setModifyDate(new Date());
+					architectureSecondSv.save(secInput);
+				}	
+				architectureGradingSv.update(input);
+			} else if ("3".equals(input.getExt1())) {		
+				ArchitectureThirdRequest thirdInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
+				thirdInput.setIdSecond(input.getIdBelong());
+				thirdInput.setIdThird(input.getSysId());		
+				if("删除".equals(operation)) {
+					if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
+						bean.fail("数据库不存在此条数据");
+						return bean;
+					}
+					thirdInput.setDescription("");
+					architectureThirdSv.delete(thirdInput.getOnlysysId());
+				} else if("新增".equals(operation)) {
+					//校验编号是否在归档表存在				
+					if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird()).size()>0) {
+						bean.fail("编号已存在");
+						return bean;
+					}
+					thirdInput.setCreateDate(new Date());	
+					thirdInput.setDescription("");
+					architectureThirdSv.save(thirdInput);
+				} else {
+					if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
+						bean.fail("数据库不存在此条数据");
+						return bean;
+					}
+					thirdInput.setModifyDate(new Date());
+					thirdInput.setDescription("");
+					architectureThirdSv.save(thirdInput);
+				}		
+				architectureGradingSv.update(input);
+			} else {
+			}
+		}	
+		//认定发送邮件
+		AigaStaff applyUser = aigaStaffSv.findStaffByCode(input.getApplyUser());
+		String addressee = StringUtils.isNotBlank(applyUser.getEmail())? applyUser.getEmail() :"";
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
+		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
 		return bean;
 	}
 	

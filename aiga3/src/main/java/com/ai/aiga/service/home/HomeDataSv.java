@@ -135,15 +135,15 @@ public class HomeDataSv {
 	 * @Description:查询工作台信息
 	 * @param staffId
 	 */
-	public DealTaskInfo dealTaskInfo(String name,String hasSysRole) {
+	public DealTaskInfo dealTaskInfo(String code, String name, String hasSysRole) {
 		DealTaskInfo data = new DealTaskInfo();	
 		//默认为false
 		data.setHasQuesRole("false");
 		data.setUserName(name);
-		if(org.apache.commons.lang3.StringUtils.isBlank(name)) {
+		if(org.apache.commons.lang3.StringUtils.isBlank(code)) {
 			return data;
 		} else {
-			String applySysSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+name+"'";	
+			String applySysSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+code+"'";	
 			List<Map> applySysResults = architectureGradingDao.searchByNativeSQL(applySysSql);	
 			Map applySysResult =  applySysResults.get(0);
 			if(applySysResult.get("applyFirst") == null) {
@@ -168,7 +168,7 @@ public class HomeDataSv {
 			}
 		}
 		//申请中问题查询
-		String applyQuesSql = "SELECT sum(case when t.sys_version = '待确认' then 1 else 0 end) as apply_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' then 1 else 0 end) as apply_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决' then 1 else 0 end) as apply_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and (t.state != '已解决' or t.state is null)and  t.reportor='"+name+"'";	
+		String applyQuesSql = "SELECT sum(case when t.sys_version = '待确认' then 1 else 0 end) as apply_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' then 1 else 0 end) as apply_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决' then 1 else 0 end) as apply_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and (t.state != '已解决' or t.state is null)and  t.reportor='"+code+"'";	
 		List<Map> applyQuesResults = questionInfoDao.searchByNativeSQL(applyQuesSql);	
 		Map applyQuesResult =  applyQuesResults.get(0);
 		if(applyQuesResult.get("applyIndentyQues") == null) {
@@ -179,10 +179,10 @@ public class HomeDataSv {
 			data.setApplyCloseQues(applyQuesResult.get("applyCloseQues").toString());
 		}
 		//待办问题查询
-		String dealQuesSql = "SELECT sum(case when t.sys_version = '待确认' and t.identified_name = '"+name
-				+"' then 1 else 0 end) as deal_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' and t.solved_name = '"+name
-				+"' then 1 else 0 end) as deal_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决'  and t.solved_name = '"+name
-				+"' then 1 else 0 end) as deal_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and (t.state != '已解决' or t.state is null) and (t.identified_name= '"+name+"' "+"or t.solved_name='"+name+"' )" ;	
+		String dealQuesSql = "SELECT sum(case when t.sys_version = '待确认' and t.identified_name = '"+code
+				+"' then 1 else 0 end) as deal_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' and t.solved_name = '"+code
+				+"' then 1 else 0 end) as deal_resolve_ques,sum(case when t.sys_version='已确认' and t.state != '未解决' and  t.state != '已解决'  and t.solved_name = '"+code
+				+"' then 1 else 0 end) as deal_close_ques FROM QUESTION_INFO t WHERE t.sys_version != '已否决' and (t.state != '已解决' or t.state is null) and (t.identified_name= '"+code+"' "+"or t.solved_name='"+code+"' )" ;	
 		List<Map> dealQuesResults = questionInfoDao.searchByNativeSQL(dealQuesSql);	
 		Map dealQuesResult =  dealQuesResults.get(0);
 		if(applyQuesResult.get("dealIndentyQues") == null) {

@@ -40,6 +40,13 @@ public class StaffSv extends BaseService {
 	@Autowired
 	private AigaAuthorDao aigaAuthorDao;
 
+	public AigaStaff findStaffByCode(String code) {
+		if (code == null || StringUtils.isBlank(code)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		return aigaStaffDao.findByCode(code);
+	}
+	
 	public List<AigaStaff> findStaffAll() {
 		return aigaStaffDao.findAll();
 	}

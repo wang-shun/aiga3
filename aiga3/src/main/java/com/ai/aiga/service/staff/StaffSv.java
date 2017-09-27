@@ -69,6 +69,24 @@ public class StaffSv extends BaseService {
 		return aigaStaffDao.searchByNativeSQL(nativeSQL, parameters, AigaStaff.class);
 	}
 	
+	public List<AigaStaff> findStaffByOrganizeName(String organizeName) {
+		
+		if (organizeName == null || StringUtils.isBlank(organizeName)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeName");
+		}
+
+		String nativeSQL = "select af.*"
+				+ " from aiga_staff af , aiga_organize ao , aiga_staff_org_relat aso "
+				+ " where aso.organize_id = ao.organize_id"
+				+ " and af.staff_id = aso.staff_id "
+				+ " and ao.organize_name = :organizeName";
+		
+		List<ParameterCondition> parameters = new ArrayList<ParameterCondition>();
+		parameters.add(new ParameterCondition("organizeName", organizeName));
+		
+		return aigaStaffDao.searchByNativeSQL(nativeSQL, parameters, AigaStaff.class);
+	}
+	
 	public List<SimpleStaff> findStaffByOrg(Long organizeId) {
 		if (organizeId == null || organizeId < 0) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "organizeId");

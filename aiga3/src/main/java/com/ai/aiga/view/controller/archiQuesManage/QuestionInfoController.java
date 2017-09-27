@@ -1,8 +1,10 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +15,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.ai.aiga.component.MailCmpt;
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.AigaStaff;
+import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.QuestionInfoSv;
+import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionId;
 import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.quesstatepie.quesStatePieData;
@@ -28,6 +35,10 @@ public class QuestionInfoController {
 
 	@Autowired
 	private QuestionInfoSv questionInfoSv;
+	@Autowired
+	private StaffSv aigaStaffSv;
+	@Autowired
+	private MailCmpt mailCmpt;
 	
 	@RequestMapping(path = "/archi/question/list")
 	public @ResponseBody JsonBean list(){
@@ -148,7 +159,9 @@ public class QuestionInfoController {
 	@RequestMapping(path = "/archi/question/save")
 	public @ResponseBody JsonBean save(QuestionInfoRequest questionInfoRequest){
 		questionInfoRequest.setSysVersion("待确认");
-		String name = SessionMgrUtil.getUserInfo().getStaff().getName();
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
+		AigaStaff staffInfo = userInfo.getStaff();	
+		String name = staffInfo.getCode();
 		questionInfoRequest.setReportor(name);
 		JsonBean bean = new JsonBean();
 		if(StringUtils.isBlank(questionInfoRequest.getQuesType())){
@@ -162,12 +175,64 @@ public class QuestionInfoController {
 			}
 		}
 		questionInfoSv.save(questionInfoRequest);
+
+		//操作完成后发送邮件 申请人 认定人
+		String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;申报了一条架构问题申请 ,等待认定</p>";
+		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_QUESTION_CONFIRM")) {
+			if(StringUtils.isNotBlank(addressee)) {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+			} else {
+				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+			}
+		}
+		mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题申报", content, null);
 		return JsonBean.success;
 	}
 	
 	@RequestMapping(path = "/archi/question/update")
 	public @ResponseBody JsonBean update(QuestionInfoRequest questionInfoRequest){
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
+		AigaStaff staffInfo = userInfo.getStaff();	
 		questionInfoSv.update(questionInfoRequest);
+		String reportorName = questionInfoRequest.getReportor();
+		String appointedPerson = questionInfoRequest.getAppointedPerson();
+		if(questionInfoRequest.getState().equals("")){
+			//操作完成后发送邮件  申请人 认定人 处理科室
+			String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
+			AigaStaff aigaStaff = aigaStaffSv.findStaffByCode(reportorName);
+			if(aigaStaff != null){
+				addressee += StringUtils.isNotBlank(aigaStaff.getEmail())? ","+aigaStaff.getEmail() :"";
+			}
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+			String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;认定了一条架构问题，认定状态： </p>"+questionInfoRequest.getSysVersion();
+			for(AigaStaff staffBase : aigaStaffSv.findStaffByOrganizeName(appointedPerson)) {
+				if(StringUtils.isNotBlank(addressee)) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				} else {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				}
+			}
+			mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题认定", content, null);
+		}else if(questionInfoRequest.getState().equals("需求单跟踪")||questionInfoRequest.getState().equals("任务单跟踪")||questionInfoRequest.getState().equals("变更单跟踪")||questionInfoRequest.getState().equals("待立项规划")||questionInfoRequest.getState().equals("已解决")){
+			//操作完成后发送邮件 处理科室 申请人
+			String addressee = "";
+			AigaStaff aigaStaff = aigaStaffSv.findStaffByCode(reportorName);
+			if(aigaStaff != null){
+				addressee += StringUtils.isNotBlank(aigaStaff.getEmail())? ","+aigaStaff.getEmail() :"";
+			}
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+			String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;解决了一条架构问题，问题状态： </p>"+questionInfoRequest.getState();
+			for(AigaStaff staffBase : aigaStaffSv.findStaffByOrganizeName(appointedPerson)) {
+				if(StringUtils.isNotBlank(addressee)) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				} else {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				}
+			}
+			mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题解决", content, null);
+		}
 		return JsonBean.success;
 	}
 	

@@ -464,7 +464,7 @@ public class ArchiGradingController {
 		AigaStaff applyUser = aigaStaffSv.findStaffByCode(input.getApplyUser());
 		String addressee = StringUtils.isNotBlank(applyUser.getEmail())? applyUser.getEmail() :"";
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-		String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
 		return bean;
 	}

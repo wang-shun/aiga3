@@ -578,9 +578,4 @@ public class StaffSv extends BaseService {
 		aigaStaffOrgRelatDao.updateByStaffIdAndOrgId(sorRequest.getStaffId(), sorRequest.getOrganizeId(),
 				sorRequest.getIsAdminStaff(), sorRequest.getIsBaseOrg());
 	}
-
-	public AigaStaff getStaffByCode(String code) {
-		return aigaStaffDao.findByCode(code);
-	}
-
 }

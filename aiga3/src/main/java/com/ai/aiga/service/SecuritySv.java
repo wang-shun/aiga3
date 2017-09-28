@@ -30,7 +30,7 @@ public class SecuritySv extends BaseService{
 	private FunctionSv functionSv;
 
 	public AigaStaff getUserByName(String username) {
-		AigaStaff user = aigaStaffSv.getStaffByCode(username);
+		AigaStaff user = aigaStaffSv.findStaffByCode(username);
 		return user;
 	}
 	

@@ -117,9 +117,13 @@ public class ArchiGradingController {
 		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（一级域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				if(!addressee.contains(staffBase.getEmail())) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				}				
 			} else {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				if(!addressee.contains(staffBase.getEmail())) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				}
 			}
 		}
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
@@ -192,9 +196,13 @@ public class ArchiGradingController {
 		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（二级子域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				if(!addressee.contains(staffBase.getEmail())) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				}				
 			} else {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				if(!addressee.contains(staffBase.getEmail())) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				}
 			}
 		}
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
@@ -325,9 +333,13 @@ public class ArchiGradingController {
 		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（三级系统域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				if(!addressee.contains(staffBase.getEmail())) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+				}				
 			} else {
-				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				if(!addressee.contains(staffBase.getEmail())) {
+					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+				}
 			}
 		}
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
@@ -362,8 +374,7 @@ public class ArchiGradingController {
 		if("审批未通过".equals(input.getState())) {
 			architectureGradingSv.update(input);
 		} else {
-			//认定通过逻辑
-			
+			//认定通过逻辑			
 			input.setModifyDate(new Date());
 			String operation = input.getDescription();
 		

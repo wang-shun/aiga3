@@ -20,6 +20,8 @@ define(function(require, exports, module) {
     srvMap.add("getEventDelete", pathAlias+"getSysMessageList.json", "archi/event/delete");
     srvMap.add("getEventUpdate", pathAlias+"getSysMessageList.json", "archi/event/update");
     srvMap.add("getQueryByCondition", pathAlias+"getSysMessageList.json", "archi/event/queryByCondition");
+    //指标分组
+    srvMap.add("fetchdistinctsec", "", "archi/index/distinctsec");
     //日指标分组
     srvMap.add("fetchdistinct", "", "archi/index/distinct");
     //月指标分组

@@ -87,6 +87,20 @@ public class AmCoreIndexSv extends BaseService {
       }  
         return newList;
     }
+    public List<AmCoreIndex> distinctAmCoreIndex2(){
+    	List<AmCoreIndex>list = amCoreIndexDao.findAll();
+    	List<AmCoreIndex>newList = new ArrayList<AmCoreIndex>(); 
+    	List<String>indexGrouplist = new ArrayList<String>(); 
+    	Iterator iter= list.iterator();
+    	while(iter.hasNext()){  
+    		AmCoreIndex am=(AmCoreIndex)iter.next();  
+    		if(!indexGrouplist.contains(am.getIndexGroup().trim())){
+    			indexGrouplist.add(am.getIndexGroup().trim());
+    			newList.add(am);
+    		}
+    	}  
+    	return newList;
+    }
     
     public List<AmCoreIndex> distinctMonthAmCoreIndex(){
     	List<AmCoreIndex>list = amCoreIndexDao.findAllMonthConnects();

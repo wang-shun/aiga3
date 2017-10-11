@@ -20,6 +20,7 @@
 .score-state-right{float:left;width:5px;height:10px;background-position:right -180px;}
 .score-word-pre,.score-num{font-size:28px;font-family:\5fae\8f6f\96c5\9ed1,\9ed1\4f53;margin-left:10px;line-height:34px;float:left;color:#f4a830;}
 .score-word-pre {margin-left:20%;}
+/*.index-line-from {border: 1px solid black} */
 </style>
 <div class="row" id="Page_archiSysHealthReport">
 	<div class="col-md-12">
@@ -84,28 +85,34 @@
 		</div>
 	</div>
 	<div class="col-md-12">
-		<div class="box box-solid">
+		<div class="box box-solid collapsed-box">
 			<div class="box-header">
 				<h3 class="box-title">系统体检报告</h3>
+				<div class="box-tools pull-right">
+               		<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                	</button>               
+            	</div>
 			</div>
-			<div class="col-md-12">
-				<label class="score-word-pre" >系统得分：</label>
-				<div class="score-step">
-					<div class="score-state-left"></div>
-					<div class="score-state-right" style="width:0px"></div>
+			<div class="box-body">
+				<div class="col-md-12">
+					<label class="score-word-pre" >系统得分：</label>
+					<div class="score-step">
+						<div class="score-state-left"></div>
+						<div class="score-state-right" style="width:0px"></div>
+					</div>
+					<div class="score-num" ><span id="JS_scoreNum"></span>分!</div>
 				</div>
-				<div class="score-num" ><span id="JS_scoreNum"></span>分!</div>
-			</div>
-			<div id="JS_healthReport" class="box-body" style="margin-top: 45px;">
-				<div class="col-md-6">
-					<div class="report-group-sty"><label>一、csf类</label></div>
-					<div class="report-group-sty-2"><label>1.子分组</label></div>				
-					<div class="report-index-sty"><label>指标一：</label><label>得分一</label></div>
-				</div>
-				<div class="col-md-6">
-					<div class="report-group-sty"><label>二、消费类</label></div>
-					<div class="report-group-sty-2"><label>1.子分组</label></div>
-					<div class="report-index-sty"><label>指标二：</label><label>得分二</label></div>
+				<div id="JS_healthReport" class="box-body" style="margin-top: 45px;">
+					<div class="col-md-6">
+						<div class="report-group-sty"><label>一、csf类</label></div>
+						<div class="report-group-sty-2"><label>1.子分组</label></div>				
+						<div class="report-index-sty"><label>指标一：</label><label>得分一</label></div>
+					</div>
+					<div class="col-md-6">
+						<div class="report-group-sty"><label>二、消费类</label></div>
+						<div class="report-group-sty-2"><label>1.子分组</label></div>
+						<div class="report-index-sty"><label>指标二：</label><label>得分二</label></div>
+					</div>
 				</div>
 			</div>
 		</div>

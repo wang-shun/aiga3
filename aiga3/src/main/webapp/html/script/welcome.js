@@ -102,6 +102,7 @@ define(function(require,exports,module){
                     window.XMS.msgbox.hide();
                     specialDatesInit(json.data);	
                 } else {
+                	specialDatesInit('');
     				XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });

@@ -33,7 +33,6 @@ public class SecuritySv extends BaseService{
 		AigaStaff user = aigaStaffSv.findStaffByCode(username);
 		return user;
 	}
-	
 
 	public Set<String> findRoles(String username) {
 		// TODO Auto-generated method stub

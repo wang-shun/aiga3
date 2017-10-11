@@ -43,7 +43,7 @@ define(function(require, exports, module) {
 	                            id: '118',
 	                            name: '架构分级认定',
 	                            href: 'view/sysArchiBaselineManage/archiGradingManage/archiGradingIdentified.html',
-	                            cmd: 'state=申请&ext1='+ext+'&applyUser='+data.userName
+	                            cmd: 'state=申请&ext1='+ext+'&applyUser='+data.userCode
 	                        });
 	                	} else if ( name == 'dealFirst'|| name == 'dealSecond'|| name == 'dealThird') {
 	                		var ext = name == 'dealFirst'? 1: name== 'dealSecond' ? 2: name == 'dealThird' ? 3:0;
@@ -54,9 +54,9 @@ define(function(require, exports, module) {
 	                            cmd: 'state=申请&ext1='+ext
 	                        });
 	                	} else if (name == 'applyIndentyQues' || name == 'applyResolveQues' || name == 'applyCloseQues') {
-	                		var indentyQues = 'sysVersion=待确认&reportor='+data.userName;
-	                		var resolveQues = 'sysVersion=已确认&state=未解决&reportor='+data.userName;
-	                		var closeQues = 'sysVersion=已确认&state=解决中&reportor='+data.userName;
+	                		var indentyQues = 'sysVersion=待确认&reportor='+data.userCode;
+	                		var resolveQues = 'sysVersion=已确认&state=未解决&reportor='+data.userCode;
+	                		var closeQues = 'sysVersion=已确认&state=解决中&reportor='+data.userCode;
 	                        Sidebar.creatTab({
 	                            id: '136',
 	                            name: '架构问题检索',
@@ -64,9 +64,9 @@ define(function(require, exports, module) {
 	                            cmd: name == 'applyIndentyQues'? indentyQues: name== 'applyResolveQues' ? resolveQues: name == 'applyCloseQues' ? closeQues:''
 	                        });
 	                	} else if (name == 'dealIndentyQues' || name == 'dealResolveQues' || name == 'dealCloseQues') {
-	                		var indentyQues = 'sysVersion=待确认&identifiedName='+data.userName;
-	                		var resolveQues = 'sysVersion=已确认&state=未解决&solvedName='+data.userName;
-	                		var closeQues = 'sysVersion=已确认&state=解决中&solvedName='+data.userName;
+	                		var indentyQues = 'sysVersion=待确认&identifiedName='+data.userCode;
+	                		var resolveQues = 'sysVersion=已确认&state=未解决&solvedName='+data.userCode;
+	                		var closeQues = 'sysVersion=已确认&state=解决中&solvedName='+data.userCode;
 	                        Sidebar.creatTab({
 	                            id: '135',
 	                            name: '架构问题查询',

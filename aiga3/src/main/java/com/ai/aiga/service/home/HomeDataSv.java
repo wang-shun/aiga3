@@ -138,6 +138,7 @@ public class HomeDataSv {
 	public DealTaskInfo dealTaskInfo(String code, String name, String hasSysRole) {
 		DealTaskInfo data = new DealTaskInfo();	
 		//默认为false
+		data.setUserCode(code);
 		data.setHasQuesRole("false");
 		data.setUserName(name);
 		if(org.apache.commons.lang3.StringUtils.isBlank(code)) {

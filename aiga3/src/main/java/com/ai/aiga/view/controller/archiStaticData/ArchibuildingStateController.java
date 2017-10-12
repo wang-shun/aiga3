@@ -61,7 +61,6 @@ public class ArchibuildingStateController {
 		return bean;
 	} 
 	
-	//
 	//根据Type查询静态数据
 	@RequestMapping(path = "/archi/static/archiQuesCategory")
 	public @ResponseBody JsonBean getQuesCategory(){
@@ -83,6 +82,14 @@ public class ArchibuildingStateController {
 	public @ResponseBody JsonBean getEventState(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_EVENT_STATE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	//根据Type查询静态数据
+	@RequestMapping(path = "/archi/static/rankInfo")
+	public @ResponseBody JsonBean getRankInfo(){
+		JsonBean bean = new JsonBean();
+		String codeType = "SYSTEM_RANK_INFO";
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 

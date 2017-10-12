@@ -21,7 +21,8 @@ define(function(require, exports, module) {
 	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
-        
+	//等级信息
+    srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "archi/static/rankInfo");    
 	var idcache = {
 		onlysysId : ""
 	}

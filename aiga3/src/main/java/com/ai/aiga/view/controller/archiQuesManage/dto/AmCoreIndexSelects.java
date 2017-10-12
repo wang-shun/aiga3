@@ -9,6 +9,8 @@ public class AmCoreIndexSelects implements Serializable {
 
     private String indexName;
     private String indexGroup;
+    private long groupId;
+    
 	public String getIndexName() {
 		return indexName;
 	}
@@ -21,6 +23,10 @@ public class AmCoreIndexSelects implements Serializable {
 	public void setIndexGroup(String indexGroup) {
 		this.indexGroup = indexGroup;
 	}
-
-    
+	public long getGroupId() {
+		return groupId;
+	}
+	public void setGroupId(long groupId) {
+		this.groupId = groupId;
+	}
 }

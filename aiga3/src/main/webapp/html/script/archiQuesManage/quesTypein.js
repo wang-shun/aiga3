@@ -77,17 +77,12 @@ define(function(require, exports, module) {
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
 					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					console.log(_cmd);				
-					Rose.ajax.postJson(srvMap.get('getQueryByCondition'), _cmd, function(json, status) {
-						if (status) {
-							// 数据备份成功后，刷新用户列表页
-//							XMS.msgbox.show('开巡检事件单成功！', 'success', 2000);
-							setTimeout(function() {
-								self.getDataMaintainList(_cmd);
-							}, 1000);
-//							Page.findId('queryDataMaintainForm')[0].reset();							
+					if(_cmd!=null){
+						if(_cmd.charAt(_cmd.length-1)=='=') {
+							_cmd=_cmd.replace("groupId=","groupId=0");
 						}
-					});
+					}
+					self.getDataMaintainList(_cmd);
 				});	
 			});
 		},

@@ -80,12 +80,8 @@ public class ArchiTopListSv extends BaseService {
 			params.add(new ParameterCondition("indexName", condition.getIndexName()));
 		}
 		if (StringUtils.isNotBlank(condition.getStartMonth())) {
-			nativeSql.append("and to_date(ar.sett_month,'yyyyMMdd') >= to_date(:startMonth, 'yyyy-MM-dd') ");
+			nativeSql.append("and to_date(ar.sett_month,'yyyyMMdd') = to_date(:startMonth, 'yyyy-MM-dd') ");
 			params.add(new ParameterCondition("startMonth", condition.getStartMonth()));
-		}
-		if (StringUtils.isNotBlank(condition.getEndMonth())) {
-			nativeSql.append("and to_date(ar.sett_month,'yyyyMMdd') <= to_date(:endMonth, 'yyyy-MM-dd') ");
-			params.add(new ParameterCondition("endMonth", condition.getEndMonth()));
 		}
 		if (StringUtils.isNotBlank(condition.getKey1())) {
 			nativeSql.append("and ar.key_1 = :key1 ");

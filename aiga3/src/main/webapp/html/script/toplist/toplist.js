@@ -79,8 +79,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var _form = Page.findId('queryTopListForm');
 			var now = new Date(); 
-			_form.find('input[name="startMonth"]').val(this.formatMonthFirst(now));
-			_form.find('input[name="endMonth"]').val(this.formatDate(now));
+			_form.find('input[name="startMonth"]').val(this.formatDate(now));
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.bind('click', function() {
@@ -153,15 +152,7 @@ define(function(require, exports, module) {
 			if (month.length < 2) month = '0' + month;
 			if (day.length < 2) day = '0' + day;
 			return [year, month, day].join('-');	
-		},
-		formatMonthFirst: function(date) {
-			var d = new Date(date),
-				month = '' + (d.getMonth() + 1),
-				year = d.getFullYear(), 
-				day = '01';
-			if (month.length < 2) month = '0' + month;
-			return [year, month, day].join('-');	
-		},
+		}
 	};
 	module.exports = Query;
 });

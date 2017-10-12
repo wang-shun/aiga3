@@ -50,6 +50,12 @@ public class AmCoreIndexSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getIndexName())){
     		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
     	}
+    	if(condition.getGroupId()==0){
+    		cons.add(new Condition("groupId", condition.getGroupId(), Condition.Type.GT));
+    	}
+    	if(condition.getGroupId()!=0){
+    		cons.add(new Condition("groupId", condition.getGroupId(), Condition.Type.EQ));
+    	}
         if(pageNumber < 0){
             pageNumber = 0;
         }

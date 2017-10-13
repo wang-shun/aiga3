@@ -90,10 +90,10 @@ define(function(require, exports, module) {
 		toplistShow: function(cmd){
 			var self = this;
 			var _dom = Page.findId('showTopListForm');
-			var _cmd = 'indexGroup=各中心csf服务调用量TOP10服务';
-			var _cmd2 = 'indexGroup=各中心失败率TOP10csf服务';
-			var _cmd3 = 'indexGroup=各中心平均耗时TOP10csf服务';
-			var _cmd4 = 'indexGroup=各中心消息处理量TOP3主题';
+			var _cmd = 'indexGroup=3001';
+			var _cmd2 = 'indexGroup=3002';
+			var _cmd3 = 'indexGroup=3003';
+			var _cmd4 = 'indexGroup=3004';
 			if(cmd) {
 				_cmd = _cmd + "&" + cmd;
 				_cmd2 = _cmd2 + "&" + cmd;

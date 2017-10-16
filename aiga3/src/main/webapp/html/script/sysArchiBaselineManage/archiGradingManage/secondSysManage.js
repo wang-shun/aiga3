@@ -21,12 +21,27 @@ define(function(require, exports, module) {
 	var init = {
 		init: function() {
 			this._render();
+			this.jumpPage();
 		},
 		_render: function() {
 			var self = this;
 			self._querydomain();
 		},
-		
+		jumpPage : function(){
+			var syscmd = Page.getParentCmd();
+			var result = Utils.jsonToUrl(syscmd);
+			if(result!=null){
+				var self = this;
+				var _form = Page.findId('querySysDomainForm');
+				Utils.setSelectData(_form);
+				var _queryBtn = _form.find("[name='query']");
+				_queryBtn.unbind('click').bind('click', function() {
+					var cmd = result;
+					self._getSecGridList(cmd);
+				});
+				_queryBtn.click();
+			}
+		},
 		//查询下拉框数据加载，绑定查询按钮事件
 		_querydomain: function() {
 			var self = this;

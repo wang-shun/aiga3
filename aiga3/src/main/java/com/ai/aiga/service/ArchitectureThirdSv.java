@@ -32,10 +32,12 @@ public class ArchitectureThirdSv extends BaseService {
 	private ArchitectureThirdDao architectureThirdDao;
 	
 	public List<Map> findWelcomePie(){
-		String sql = "select count(*) as sum,b.name,substr(b.id_first,0,1) as rank from architecture_third a,architecture_first b where substr(a.id_third,0,1) = substr(b.id_first,0,1)group by b.name,substr(b.id_first,0,1) order by substr(b.id_first,0,1)";
+		String sql = "select count(*) as sum,b.id_first as id,b.name,substr(b.id_first,0,1) as rank "
+					+" from architecture_third a,architecture_first b "
+					+" where substr(a.id_third,0,1) = substr(b.id_first,0,1)"
+					+" group by b.id_first,b.name,substr(b.id_first,0,1) order by substr(b.id_first,0,1)";
 		return architectureThirdDao.searchByNativeSQL(sql);	
 	}
-	
 	public List<Map> findIdThirds(){
 		String sql = "select onlysys_id as onlysysId from aiam.architecture_third";
 		return architectureThirdDao.searchByNativeSQL(sql);			

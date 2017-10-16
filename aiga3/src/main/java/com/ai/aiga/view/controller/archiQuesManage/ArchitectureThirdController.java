@@ -35,10 +35,12 @@ public class ArchitectureThirdController {
 		List<Map> StateList = architectureThirdSv.findWelcomePie();
 		for(Map base : StateList) {
 			String sum = String.valueOf(base.get("sum"));
+			String id = String.valueOf(base.get("id"));
 			String name = String.valueOf(base.get("name"));
 			String rank = String.valueOf(base.get("rank"));
 			legend.add(name);
 			PieSeries data = new PieSeries();
+			data.setId(id);
 			data.setName(name);
 			data.setValue(sum);
 			series.add(data);

@@ -287,6 +287,16 @@ define(function(require,exports,module){
 				option.series[0].data = json.data.series;
 			}
 			myChart.setOption(option);
+			myChart.on('click',function(params){
+				console.log(params,params.data.id);
+				var objData = {
+						id : '116',
+						name : '二级系统管理',
+						href : "view/sysArchiBaselineManage/archiGradingManage/secondSysManage.html",
+	                    cmd : "idFirst=" + params.data.id
+				};
+            	Tab.creatTab(objData);
+            });
 			window.onresize = myChart.resize;
 		}
 	};

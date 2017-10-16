@@ -36,7 +36,11 @@ public class AmCoreIndex  implements java.io.Serializable {
      
     public AmCoreIndex() {
     }
-
+    
+    public AmCoreIndex(long indexId,long groupId) {
+    	this.groupId = groupId;
+    	this.indexId = indexId;
+    }
 	
     public AmCoreIndex(long indexId, String indexName, String indexGroup, String schId, char state, Date createDate) {
         this.indexId = indexId;

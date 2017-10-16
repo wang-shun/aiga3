@@ -78,8 +78,11 @@ define(function(require, exports, module) {
 					var _cmd = _form.serialize();
 					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					if(_cmd!=null){
-						if(_cmd.charAt(_cmd.length-1)=='=') {
+						if(_cmd.indexOf('groupId=&')>-1) {
 							_cmd=_cmd.replace("groupId=","groupId=0");
+						}
+						if(_cmd.charAt(_cmd.length-1)=='=') {
+							_cmd=_cmd.replace("indexId=","indexId=0");
 						}
 					}
 					self.getDataMaintainList(_cmd);

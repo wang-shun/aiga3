@@ -38,12 +38,20 @@ public class AmCoreIndexSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getIndexName())){
     		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
     	}
+    	
+    	
     	return amCoreIndexDao.search(cons);
 	}
 	
 	public Page<AmCoreIndex> findAmCoreIndexByPage(AmCoreIndexSelects condition, int pageNumber,
 			int pageSize) throws ParseException {
         List<Condition> cons = new ArrayList<Condition>();
+        if(condition.getIndexId()==0){
+    		cons.add(new Condition("indexId", condition.getIndexId(), Condition.Type.GT));
+    	}
+    	if(condition.getIndexId()!=0){
+    		cons.add(new Condition("indexId", condition.getIndexId(), Condition.Type.EQ));
+    	}
     	if(StringUtils.isNoneBlank(condition.getIndexGroup())){
     		cons.add(new Condition("indexGroup", "%".concat(condition.getIndexGroup()).concat("%"), Condition.Type.LIKE));
     	}

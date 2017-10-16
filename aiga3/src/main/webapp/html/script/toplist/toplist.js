@@ -90,10 +90,10 @@ define(function(require, exports, module) {
 		toplistShow: function(cmd){
 			var self = this;
 			var _dom = Page.findId('showTopListForm');
-			var _cmd = 'indexGroup=3001';
-			var _cmd2 = 'indexGroup=3002';
-			var _cmd3 = 'indexGroup=3003';
-			var _cmd4 = 'indexGroup=3004';
+			var _cmd = 'indexGroup=3001001';
+			var _cmd2 = 'indexGroup=3001002';
+			var _cmd3 = 'indexGroup=3001003';
+			var _cmd4 = 'indexGroup=3001004';
 			if(cmd) {
 				_cmd = _cmd + "&" + cmd;
 				_cmd2 = _cmd2 + "&" + cmd;
@@ -105,6 +105,9 @@ define(function(require, exports, module) {
 					cache.datas=json.data;
 					var template = Handlebars.compile(Tpl.getTopList);
 					_dom.find("[name='content']").html(template(json.data.content));
+					if(json.data.content.length==0){
+						_dom.attr({style:"display:none"});
+					}
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					
@@ -116,6 +119,9 @@ define(function(require, exports, module) {
 					cache.datas2=json2.data;
 					var template2 = Handlebars.compile(Tpl.getTopList);
 					_dom2.find("[name='content2']").html(template2(json2.data.content));
+					if(json2.data.content.length==0){
+						_dom2.attr({style:"display:none"});
+					}
 				} else {
 					XMS.msgbox.show(json2.retMessage, 'error', 2000);
 				}					
@@ -127,6 +133,9 @@ define(function(require, exports, module) {
 					cache.datas3=json3.data;
 					var template3 = Handlebars.compile(Tpl.getTopList);
 					_dom3.find("[name='content3']").html(template3(json3.data.content));
+					if(json3.data.content.length==0){
+						_dom3.attr({style:"display:none"});
+					}
 				} else {
 					XMS.msgbox.show(json3.retMessage, 'error', 2000);
 				}					
@@ -138,6 +147,9 @@ define(function(require, exports, module) {
 					cache.datas4=json4.data;
 					var template4 = Handlebars.compile(Tpl.getTopList);
 					_dom4.find("[name='content4']").html(template4(json4.data.content));
+					if(json4.data.content.length==0){
+						_dom4.attr({style:"display:none"});
+					}
 				} else {
 					XMS.msgbox.show(json4.retMessage, 'error', 2000);
 				}					

@@ -133,16 +133,26 @@ public class ArchitectureGradingSv extends BaseService {
 		if(id==null||id<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		architectureGradingDao.delete(id);
+		try {
+			architectureGradingDao.delete(id);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}	
 	}
 	
 	public void save(ArchitectureGrading architectureGrading){
-			
-		architectureGradingDao.save(architectureGrading);
+		try {
+			architectureGradingDao.save(architectureGrading);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}	
 	}
 	
 	public void update(ArchitectureGrading architectureGrading){
-			
-		architectureGradingDao.save(architectureGrading);
+		try {
+			architectureGradingDao.save(architectureGrading);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}	
 	}
 }

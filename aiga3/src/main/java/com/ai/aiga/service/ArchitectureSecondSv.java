@@ -68,16 +68,28 @@ public class ArchitectureSecondSv extends BaseService {
 		if(idSecond==null||idSecond<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		architectureSecondDao.delete(idSecond);
+		try {
+			architectureSecondDao.delete(idSecond);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}	
 	}
 	
 	public void save(ArchitectureSecondRequest request){	
-		ArchitectureSecond architectureSecond = BeanMapper.map(request, ArchitectureSecond.class);			
-		architectureSecondDao.save(architectureSecond);
+		ArchitectureSecond architectureSecond = BeanMapper.map(request, ArchitectureSecond.class);	
+		try {
+			architectureSecondDao.save(architectureSecond);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}		
 	}
 	
 	public void update(ArchitectureSecondRequest request){
 		ArchitectureSecond architectureSecond = BeanMapper.map(request, ArchitectureSecond.class);	
-		architectureSecondDao.save(architectureSecond);
+		try {
+			architectureSecondDao.save(architectureSecond);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}	
 	}
 }

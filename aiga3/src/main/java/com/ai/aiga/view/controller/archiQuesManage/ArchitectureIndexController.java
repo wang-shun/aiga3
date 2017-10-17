@@ -49,6 +49,15 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(architectureIndexSv.listDbConnects(pageNumber, pageSize, condition));
 		return bean;
 	}
+	@RequestMapping(path = "/arch/index/listDbConnects22")
+	public @ResponseBody JsonBean listDbConnects22(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			AmCoreIndexParams condition) {
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureIndexSv.listDbConnects2(pageNumber, pageSize, condition));
+		return bean;
+	}
 	
 	@RequestMapping(path = "/arch/index/listSrvManages")
 	public @ResponseBody JsonBean listSrvManages(

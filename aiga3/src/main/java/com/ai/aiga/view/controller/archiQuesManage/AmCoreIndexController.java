@@ -29,10 +29,13 @@ public class AmCoreIndexController {
 	@RequestMapping(path = "/archi/index/list")
 	public @ResponseBody JsonBean list(AmCoreIndexSelects condition){
 		JsonBean bean = new JsonBean();
-		condition.setIndexGroup(condition.getIndexGroup().trim());
+		if(condition.getIndexGroup()!=null){
+			condition.setIndexGroup(condition.getIndexGroup().trim());
+		}
 		bean.setData(amCoreIndexSv.findAmCoreIndex(condition));
 		return bean;
 	}
+	
 	@RequestMapping(path="/archi/index/listByPage")
 	public @ResponseBody JsonBean listByPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,

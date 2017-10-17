@@ -22,6 +22,8 @@ define(function(require, exports, module) {
     srvMap.add("getArchDbConnectList", "", "archi/dbconnect/list");
     //指标分表---table
     srvMap.add("listDbConnects", "", "arch/index/listDbConnects");
+    //指标分表---table
+    srvMap.add("listDbConnects22", "", "arch/index/listDbConnects22");
     //指标分表---echarts
     srvMap.add("listDbConnects2", "", "arch/index/listDbConnects2");
     //指标分表---table
@@ -68,7 +70,10 @@ define(function(require, exports, module) {
 		tableIndex:""
 	};
 	var Tpl = {
-        getIndexGroupList: require('tpl/archiQuesManage/getIndexGroupList.tpl')
+        getIndexGroupList: require('tpl/archiQuesManage/getIndexGroupList.tpl'),
+        getAmCoreIndexList: require('tpl/archiQuesManage/AmCoreIndex.tpl'),
+		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
+		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl'),
     };
     var Mod = {
         getIndexGroupR: '#Page_getIndexGroupR'
@@ -78,13 +83,14 @@ define(function(require, exports, module) {
         rolefuncUpdate: "#JS_rolefuncUpdate"
     };
 	var Data = {
-		queryListCmd: null
+		queryListCmd: null,
+		indexId:"",
 	};
 
 	var Query = {
 		init: function() {
 			this.getRightTreeR();
-			this.getStaffRoleList();
+//			this.getStaffRoleList();
 //			this.initTableEcharts();
 			//判断是否查询key1/key2/key3
 			this.judgeIndexName();
@@ -117,6 +123,7 @@ define(function(require, exports, module) {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
                                 console.log(funcIdNum);
+                                Data.indexId=funcIdNum;
                             }
                         }
                     };
@@ -232,6 +239,10 @@ define(function(require, exports, module) {
 
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
+				if(Data.indexId){
+					cmd += "&indexId=" + Data.indexId;
+					_cmd += "&indexId=" + Data.indexId;
+				}
 //				if(init) {
 //					var date = self.formatDate(new Date()); 		
 //					_cmd = 'startMonth='+date+'&endMonth='+date;
@@ -313,11 +324,11 @@ define(function(require, exports, module) {
 			var _domSec = Page.findId('getDataMaintainListSec');
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");
 			// 设置服务器端分页listDbConnects
-			var task = 'listDbConnects';
+			var task = 'listDbConnects22';
 			if(cache.tableName){
 				switch(cache.tableName){
             		case "ARCH_DB_CONNECT":
-            			task = 'listDbConnects';
+            			task = 'listDbConnects22';
             			break;
             		case "ARCH_SRV_MANAGE":
             			task = 'listSrvManages';
@@ -793,7 +804,7 @@ define(function(require, exports, module) {
 						task = 'listMonthIndex';
 						break;
             		case "ARCH_DB_CONNECT":
-            			task = 'listDbConnects';
+            			task = 'listDbConnects22';
             			break;
             		case "ARCH_SRV_MANAGE":
             			task = 'listSrvManages';

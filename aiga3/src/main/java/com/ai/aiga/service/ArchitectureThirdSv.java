@@ -181,17 +181,29 @@ public class ArchitectureThirdSv extends BaseService {
 	public void delete(Long onlysysId){
 		if(onlysysId==null||onlysysId<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}		
+		try {
+			architectureThirdDao.delete(onlysysId);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
 		}
-		architectureThirdDao.delete(onlysysId);
 	}
 	
 	public void save(ArchitectureThirdRequest request){
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
-		architectureThirdDao.save(architectureThird);
+		try {
+			architectureThirdDao.save(architectureThird);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}
 	}
 	
 	public void update(ArchitectureThirdRequest request){
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
-		architectureThirdDao.save(architectureThird);
+		try {
+			architectureThirdDao.save(architectureThird);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}		
 	}
 }

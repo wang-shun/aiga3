@@ -58,11 +58,19 @@ public class ArchitectureFirstSv extends BaseService {
 	
 	public void save(ArchitectureFirstRequest request){
 		ArchitectureFirst architectureFirst = BeanMapper.map(request, ArchitectureFirst.class);	
-		architectureFirstDao.save(architectureFirst);
+		try {
+			architectureFirstDao.save(architectureFirst);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}
 	}
 	
 	public void update(ArchitectureFirstRequest request){
-		ArchitectureFirst architectureFirst = BeanMapper.map(request, ArchitectureFirst.class);			
-		architectureFirstDao.save(architectureFirst);
+		ArchitectureFirst architectureFirst = BeanMapper.map(request, ArchitectureFirst.class);	
+		try {
+			architectureFirstDao.save(architectureFirst);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}	
 	}
 }

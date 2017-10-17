@@ -123,7 +123,7 @@ define(function(require, exports, module) {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
                                 console.log(funcIdNum);
-                                Data.indexId=funcIdNum;
+                                Data.indexId += funcIdNum + ",";
                             }
                         }
                     };
@@ -240,6 +240,7 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
 				if(Data.indexId){
+					Data.indexId=Data.indexId.substring(0,Data.indexId.length-1);
 					cmd += "&indexId=" + Data.indexId;
 					_cmd += "&indexId=" + Data.indexId;
 				}
@@ -310,7 +311,8 @@ define(function(require, exports, module) {
 			//隐藏的主表获取分表表名tableName;
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
-			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), _cmd, function(json, status) {
+			var tcmd = _cmd.split(",")[0];
+			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), tcmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getAmCoreIndexList);

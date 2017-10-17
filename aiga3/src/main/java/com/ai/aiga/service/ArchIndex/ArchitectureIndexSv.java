@@ -104,9 +104,31 @@ public class ArchitectureIndexSv extends BaseService {
 //				"and ar.key_2 = :key2 " +
 //				"and ar.key_3 = :key3 ");
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
-		if (condition.getIndexId()!=null){
-			nativeSql.append("and am.index_id = :indexId ");
-			params.add(new ParameterCondition("indexId", condition.getIndexId()));
+//		if (condition.getIndexId()!=null){
+//			long[] ids = condition.getIndexId();
+//			for(int i=0;i<ids.length;i++){
+//				if(i==0){
+//					long id = ids[i];
+//					nativeSql.append(" and am.index_id = :id ");
+//					params.add(new ParameterCondition("id", ids[i]));
+//				}else{
+//					long id = ids[i];
+//					nativeSql.append(" or am.index_id = :id ");
+//					params.add(new ParameterCondition("id", ids[i]));
+//				}
+//			}
+//		}
+		if(condition.getIndexId()!=null){
+			long[] ids = condition.getIndexId();
+			String idx = new String();
+			for(int j=0;j<ids.length;j++){
+				idx += ids[j] + ",";
+			}
+			idx = idx.substring(0,idx.length()-1);
+			System.out.println("ids======"+ids);
+			System.out.println("idx======"+idx);
+			nativeSql.append(" and am.index_id in ( :idx ) ");
+			params.add(new ParameterCondition( "idx" , idx));
 		}
 		if (StringUtils.isNotBlank(condition.getIndexGroup())) {
 			nativeSql.append("and am.index_group = :indexGroup ");
@@ -161,9 +183,31 @@ public class ArchitectureIndexSv extends BaseService {
 //				"and ar.key_2 = :key2 " +
 //				"and ar.key_3 = :key3 ");
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
-		if (condition.getIndexId()!=null){
-			nativeSql.append("and am.index_id = :indexId ");
-			params.add(new ParameterCondition("indexId", condition.getIndexId()));
+//		if (condition.getIndexId()!=null){
+//			long[] ids = condition.getIndexId();
+//			for(int i=0;i<ids.length;i++){
+//				if(i==0){
+//					long id = ids[i];
+//					nativeSql.append(" and am.index_id = :id ");
+//					params.add(new ParameterCondition("id", ids[i]));
+//				}else{
+//					long id = ids[i];
+//					nativeSql.append(" or am.index_id = :id ");
+//					params.add(new ParameterCondition("id", ids[i]));
+//				}
+//			}
+//		}
+		if(condition.getIndexId()!=null){
+			long[] ids = condition.getIndexId();
+			String idx = new String();
+			for(int j=0;j<ids.length;j++){
+				idx += ids[j] + ",";
+			}
+			idx = idx.substring(0,idx.length()-1);
+			System.out.println("ids======"+ids);
+			System.out.println("idx======"+idx);
+			nativeSql.append(" and am.index_id in ( :idx ) ");
+			params.add(new ParameterCondition( "idx" , idx));
 		}
 		if (StringUtils.isNotBlank(condition.getIndexGroup())) {
 			nativeSql.append("and am.index_group = :indexGroup ");

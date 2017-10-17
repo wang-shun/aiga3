@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class AmCoreIndexParams implements Serializable {
 
-	private Long   indexId;
+	private long[] indexId;
     private String indexName;
     private String indexGroup;
     private String startMonth;

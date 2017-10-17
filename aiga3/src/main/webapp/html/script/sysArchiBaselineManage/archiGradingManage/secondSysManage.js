@@ -2,6 +2,7 @@ define(function(require, exports, module) {
 
 	//引入公用模块
 	require('global/header.js');
+	var Tab = require('global/sidebar.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	var pathAlias = "sysArchiBaselineManage/archiGradingManage/"; 
@@ -20,8 +21,8 @@ define(function(require, exports, module) {
 
 	var init = {
 		init: function() {
-			this._render();
 			this.jumpPage();
+			this._render();
 		},
 		_render: function() {
 			var self = this;
@@ -37,6 +38,9 @@ define(function(require, exports, module) {
 				var _queryBtn = _form.find("[name='query']");
 				_queryBtn.unbind('click').bind('click', function() {
 					var cmd = result;
+					if(cmd ==''){
+						cmd = 'idFirst=0';
+					}
 					self._getSecGridList(cmd);
 				});
 				_queryBtn.click();
@@ -53,9 +57,7 @@ define(function(require, exports, module) {
 				var cmd = "idFirst="+_form.find("[name='idFirst']").val();
 				//用于解决long型不可空传的问题
 				if(cmd.charAt(cmd.length - 1) == '=') {
-					XMS.msgbox.show('请选择一级域', 'error', 2000);
-					return;
-//					cmd+='0';
+					cmd+='0';
 				}
 				self._getSecGridList(cmd);
 			});
@@ -150,6 +152,18 @@ define(function(require, exports, module) {
         		tablebtn.html(template(json.data.content));
         		cache.datas = json.data.content;
         		Utils.eventTrClickCallback(_dom);
+        		self.eventDClickCallback(_dom, function(event){
+        			//获得二级域id
+        			var data = Utils.getRadioCheckedRow(_dom);
+        			var objData = {
+    						id : '114',
+    						name : '三级系统管理',
+    						href : "view/sysArchiBaselineManage/archiGradingManage/thirdSysManage.html",
+    	                    cmd : "idFirst=" + data.idSecond.substring(0,1)+"0000000" + "&idSecond=" + data.idSecond
+    				};
+                	Tab.creatTab(objData);
+        		});
+        		
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
         			self._band_table_btn($(this),"update");
         		});
@@ -269,6 +283,13 @@ define(function(require, exports, module) {
 					}					
 				});
 			}
+		},
+		eventDClickCallback: function(obj, callback) {
+			obj.find("tbody tr").bind('dblclick ', function(event) {
+				if (callback) {
+					callback();
+				}
+			});
 		}
 	};
 	module.exports = init;

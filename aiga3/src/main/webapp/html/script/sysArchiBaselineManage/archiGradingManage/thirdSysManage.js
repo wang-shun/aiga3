@@ -35,6 +35,7 @@ define(function(require, exports, module) {
 	var init = {
 		init: function() {
 			var self = this;
+			self.jumpPage();
 			self._render();
 			
 		},
@@ -42,6 +43,24 @@ define(function(require, exports, module) {
 			var self = this;
 			self._queryTypeDomain();
 			self._queryConditionDomain();
+		},
+		jumpPage : function(){
+			var syscmd = Page.getParentCmd();
+			var result = Utils.jsonToUrl(syscmd);
+			if(result!=null){
+				var self = this;
+				var _form = Page.findId('querySysDomainTypeForm');
+				Utils.setSelectData(_form);
+				var _queryBtn = _form.find("[name='query']");
+				_queryBtn.unbind('click').bind('click', function() {
+					var cmd = result;
+//					if(cmd ==''){
+//						cmd = 'idFirst=0';
+//					}
+					self._getGridList(cmd);
+				});
+				_queryBtn.click();
+			}
 		},
 		
 		//上传按钮

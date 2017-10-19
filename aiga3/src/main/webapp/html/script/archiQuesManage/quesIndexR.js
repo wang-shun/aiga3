@@ -98,7 +98,8 @@ define(function(require, exports, module) {
 			this.judgeIndexName();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
-			this.queryDataMaintainForm2();
+//			this.getRightTreeR2();
+//			this.queryDataMaintainForm2();
 			//映射
 			this.hdbarHelp();
 		},
@@ -701,6 +702,40 @@ define(function(require, exports, module) {
 			
 		},
 /* --------------------------------------------------PAGE--2--------------------------------------------------------------- */
+		getRightTreeR2: function(cmd) {
+            Rose.ajax.postJson(srvMap.get('findAllAmCores'), cmd, function(json, status) {
+                if (status) {
+                    console.log(json.data)
+                    //checkbox代码块
+                    var setting = {
+                        check: {
+                            enable: true
+                        },
+                        data: {
+                            key: {
+                                name: "indexName"
+                            },
+                            simpleData: {
+                                enable: true,
+                                idKey: "indexId",
+                                pIdKey: "groupId"
+                            }
+                        },
+                        callback: {
+                            onCheck: function(event, treeId, treeNode) {
+                                funcIdNum = treeNode.indexId;
+                                console.log(funcIdNum);
+                                Data.indexId += funcIdNum + ",";
+                            }
+                        }
+                    };
+                    $.fn.zTree.init($("#Tree_getRightTreeR2"), setting, json.data);
+                    //调用树结构搜索，入参1、树结构容器 2、树搜索容器 3、搜索的key
+                    Utils.zTreeSearchInit($("#Tree_getRightTreeR2"),$("#Tree_getRightTreeR2Search"),'name');
+                }
+            });
+
+        },
 		// 按条件查询
 		queryDataMaintainForm2: function() {
 			var self = this;

@@ -1,48 +1,34 @@
-<style type="text/css">
-#Page_archiGradingIdentified .show-nothing {
-	display:none;
-}
-</style>
 <div class="row" id="Page_quesIndexRView">
     <div class="col-md-12">
-    
-    	<div class="nav-tabs-custom">
-		    <ul class="nav nav-tabs">
-		        <li class="active"><a href="#deliverableTab_1" data-toggle="tab" aria-expanded="false">按日查询</a></li>
-		        <li class=""><a href="#deliverableTab_2" data-toggle="tab" aria-expanded="false">按月查询</a></li>
-		    </ul>
-			<div class="tab-content">
-		        <!-- tab页签1 -->
-		        <div class="tab-pane active" id="deliverableTab_1">
-		        
-			        <div class="box">
-			            <form id="JS_queryDataMaintainForm">
-			                <div class="box-header with-border">
-			                    <h1 class="box-title">指标按条件查询</h1>
-			                    <div class="box-tools pull-right">
-			                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-			                        </button>
-			                    </div>
-			                </div>
-			                <div class="box-body">
-			                	<div class="row" id="JS_selectData" style="width:250px">
-						        	<div class="form-group col-sm-12">
-				                        <label class="col-sm-4 control-label">开始时间:</label>
-						        		<div class="col-sm-8">
-					                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
-						        		</div>
-						        	</div>
-						        </div>
-						        <div class="row" id="JS_selectData2" style="width:250px">
-						        	<div class="form-group col-sm-12">
-				                        <label class="col-sm-4 control-label">结束时间:</label>
-						        		<div class="col-sm-8">
-				                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
-						        		</div>
-						        	</div>
-				                </div>
-								<!-- 主内容 -->
-								<div class="row" id="Page_RoleFunc">
+		<div class="col-md-4">
+	        <div class="box">
+	            <form id="JS_queryDataMaintainForm">
+	                <div class="box-header with-border">
+	                    <h1 class="box-title">指标按条件查询</h1>
+	                    <div class="box-tools pull-right">
+	                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+	                        </button>
+	                    </div>
+	                </div>
+	                <div class="box-body">
+	                	<div class="row" id="JS_selectData" style="width:250px">
+				        	<div class="form-group col-sm-12">
+		                        <label class="col-sm-4 control-label">开始时间:</label>
+				        		<div class="col-sm-8">
+			                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+				        		</div>
+				        	</div>
+				        </div>
+				        <div class="row" id="JS_selectData2" style="width:250px">
+				        	<div class="form-group col-sm-12">
+		                        <label class="col-sm-4 control-label">结束时间:</label>
+				        		<div class="col-sm-8">
+		                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+				        		</div>
+				        	</div>
+		                </div>
+						<!-- 主内容 -->
+						<div class="row" id="Page_RoleFunc">
 <!-- 								    <div class="col-md-6" style="display:none">
 								        <div class="box">
 								            <div class="box-header with-border">
@@ -57,265 +43,118 @@
 								            </div>
 								        </div>
 								    </div> -->
-								    <div class="col-md-6">
-								        <div class="box">
-								            <div class="box-header with-border">
-								                <div class="box-title">指标名称</div>
-								                <div class="box-tools">
-								                </div>
-								            </div>
-								            <div class="box-body" style="min-height: 520px;">
-								                <div class="active tab-pane" id="activity">
-								                    <div class="row">
-								                        <div class="col-md-12">
+						    <div class="col-md-6">
+						        <div class="box">
+						            <div class="box-header with-border">
+						                <div class="box-title">指标名称</div>
+						                <div class="box-tools">
+						                </div>
+						            </div>
+						            <div class="box-body" style="min-height: 520px;">
+						                <div class="active tab-pane" id="activity">
+						                    <div class="row">
+						                        <div class="col-md-12">
 <!-- 								                            <div class="input-group input-group-sm ztree-search" id="Tree_getRightTreeRSearch" style="display: none;">
 								                                <input type="text" class="form-control" name="searchValue" placeholder="请输入关键字，如『移动』">
 								                                <span class="input-group-btn">
 								                                      <button type="button" class="btn btn-primary" name="searchBtn"><i class="fa fa-search"></i></button>
 								                                    </span>
 								                            </div> -->
-								                            <ul id="Tree_getRightTreeR" class="ztree">
-								                                <div class="text-loader min-height">
-								                                    <div class="text-loader-content">
-								                                        <i class="fa fa-refresh fa-spin"></i>请稍候，数据加载中...
-								                                    </div>
-								                                </div>
-								                            </ul>
-								                        </div>
-								                    </div>
-								                </div>
-								            </div>
-								        </div>
-								    </div>
-								</div>
-
-			                </div>
-			                <div class="box-footer">
-			                    <div class="text-center">
-			                        <button type="reset" class="btn btn-default">重置</button>
-			                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-			                    </div>
-			                </div>
-			            </form>
-			        </div>
-			        <div class="box" id="JS_getDataMaintainList" style="min-height:100px; display:none">
-			            <div class="box-header ">
-			                <h3 class="box-title">指标分类</h3>
-			                <div class="box-tools">
-			               <button type="button" class="btn btn-primary" name="add">添加</button>
-			                    <button type="button" class="btn btn-primary" name="del">删除</button>
-			                </div>
-			            </div>
-			            <div class="box-body">
-			                <table class="table table-bordered table-hover" id="dataMaintainListTable">
-			                    <thead>
-					                <tr>
-				                    <th class="iCheckbox" width="15"></th>
-				                    <th>指标定义</th>
-									<th>指标名称</th>
-									<th>指标分组</th>
-									<th>分表编号</th>
-									<th>数据库名</th>
-									<th>用户名</th>
-									<th>模块名</th>
-									<th>状态</th>
-				 					<th>创建时间</th>
-									<th>操作编号</th>
-					                </tr>
-			                    </thead>
-			                    <tbody name="content"></tbody>
-			                </table>
-			            </div>
-			            <div class="box-footer no-border">
-			        		<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-			    		</div> 
-			        </div> 
-			       
-			    
-			        <div class="box" id="JS_getDataMaintainListSec" name="initTable" style="min-height:100px;display:none">
-			            <div class="box-header ">
-			                <h3 class="box-title">指标采集结果</h3>
-			                <div class="box-tools">
-			<!--                <button type="button" class="btn btn-primary" name="add">添加</button>
-			                    <button type="button" class="btn btn-primary" name="del">删除</button> -->
-			                </div>
-			            </div>
-			            <div class="box-body">
-			                <table class="table table-bordered table-hover" id="dataMaintainListTable">
-			                    <thead>
-					                <tr>
-				                    <th class="iCheckbox" width="15"></th>
-				                    <th>指标名称</th>
-									<th>指标日期</th>
-									<th>指标分组</th>
-									<th>指标名称</th>
-									<!-- <th>模块名</th> -->
-									<th>指标值</th>
-					                </tr>
-			                    </thead>
-			                    <tbody name="content"></tbody>
-			                    
-			<!--                <tfoot>
-			                        <tr>
-			                            <td colspan="6">
-			                                <div class="dataTables_paginate" name="paginationSec"></div>
-			                            </td>
-			                        </tr>
-			                    </tfoot> -->
-			                </table>
-			            </div>
-			            <div class="box-footer no-border">
-			        		<div class="dataTables_paginate" name="paginationSec" style="text-align:center"></div>
-			    		</div> 
-			        </div>
-				    <div class="box" id="JS_sysMessageView" name="initEcharts" style="display:none">
-				        <div class="box-header" >
-				        </div>
-				        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px; ">
-				            <!-- 视图 -->
-				        </div>
-				    </div>
-				</div>
-		        <!-- tab页签2 -->
-		        <div class="tab-pane" id="deliverableTab_2">
-		        
-			        <div class="box">
-			            <form id="JS_queryDataMaintainForm2">
-			                <div class="box-header with-border">
-			                    <h1 class="box-title">指标按条件查询</h1>
-			                    <div class="box-tools pull-right">
-			                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-			                        </button>
-			                    </div>
-			                </div>
-			                <div class="box-body">
-					            <div class="row">
-					            	<br/>
-					                <div class="form-group col-sm-6">
-					                    <label for="indexGroup" class="col-sm-2 control-label">指标分组：</label>
-					                    <div class="col-sm-6">
-						                    <select name="indexGroup" class="form-control input-sm" data-url="fetchdistinctMonth" data-subname="indexName" data-idkey="indexGroup" data-namekey="indexGroup">
-						                        <option value="">请选择</option>
-						                    </select>
-					                    </div>
-					                </div>
-					                <div class="form-group col-sm-6" >
-					                    <label for="indexName" class="col-sm-2 control-label">指标名称：</label>
-					                    <div class="col-sm-6">
-						                    <select name="indexName" class="col-sm-4 form-control input-sm" data-suburl="fetchselectName" data-subname="key1" data-idkey="indexName" data-namekey="indexName" id="indexName">
-						                        <option value="">请选择</option>
-						                    </select>
+						                            <ul id="Tree_getRightTreeR" class="ztree">
+						                                <div class="text-loader min-height">
+						                                    <div class="text-loader-content">
+						                                        <i class="fa fa-refresh fa-spin"></i>请稍候，数据加载中...
+						                                    </div>
+						                                </div>
+						                            </ul>
+						                        </div>
+						                    </div>
 						                </div>
-					                </div>
-					            </div>
-						        <div class="row" id="JS_selectData">
-						        	<div class="form-group col-sm-6">
-				                        <label class="col-sm-2 control-label">开始月份:</label>
-						        		<div class="col-sm-6">
-					                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
-						        		</div>
-						        	</div>
-						        	<div class="form-group col-sm-6">
-				                        <label class="col-sm-2 control-label">结束月份:</label>
-						        		<div class="col-sm-6">
-				                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/> 
-						        		</div>
-						        	</div>
-				                </div>
-			                </div>
-			                <div class="box-footer">
-			                    <div class="text-center">
-			                        <button type="reset" class="btn btn-default">重置</button>
-			                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-			                    </div>
-			                </div>
-			            </form>
-			        </div>
-			        <div class="box" id="JS_getDataMaintainList2" style="min-height:100px; display:none">
-			            <div class="box-header ">
-			                <h3 class="box-title">指标分类</h3>
-			                <div class="box-tools">
-			               <button type="button" class="btn btn-primary" name="add">添加</button>
-			                    <button type="button" class="btn btn-primary" name="del">删除</button>
-			                </div>
-			            </div>
-			            <div class="box-body">
-			                <table class="table table-bordered table-hover" id="dataMaintainListTable2">
-			                    <thead>
-					                <tr>
-				                    <th class="iCheckbox" width="15"></th>
-				                    <th>指标定义</th>
-									<th>指标名称</th>
-									<th>指标分组</th>
-									<th>分表编号</th>
-									<th>数据库名</th>
-									<th>用户名</th>
-									<th>模块名</th>
-									<th>状态</th>
-				 					<th>创建时间</th>
-									<th>操作编号</th>
-					                </tr>
-			                    </thead>
-			                    <tbody name="content"></tbody>
-			                </table>
-			            </div>
-			            <div class="box-footer no-border">
-			        		<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-			    		</div> 
-			        </div> 
+						            </div>
+						        </div>
+						    </div>
+						</div>
+
+	                </div>
+	                <div class="box-footer">
+	                    <div class="text-center">
+	                        <button type="reset" class="btn btn-default">重置</button>
+	                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+	                    </div>
+	                </div>
+	            </form>
+	        </div>
+		</div>
+		<div class="col-md-8">
+	        <div class="box" id="JS_getDataMaintainList" style="min-height:100px; display:none">
+	            <div class="box-header ">
+	                <h3 class="box-title">指标分类</h3>
+	                <div class="box-tools">
+	               <button type="button" class="btn btn-primary" name="add">添加</button>
+	                    <button type="button" class="btn btn-primary" name="del">删除</button>
+	                </div>
+	            </div>
+	            <div class="box-body">
+	                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+	                    <thead>
+			                <tr>
+		                    <th class="iCheckbox" width="15"></th>
+		                    <th>指标定义</th>
+							<th>指标名称</th>
+							<th>指标分组</th>
+							<th>分表编号</th>
+							<th>数据库名</th>
+							<th>用户名</th>
+							<th>模块名</th>
+							<th>状态</th>
+		 					<th>创建时间</th>
+							<th>操作编号</th>
+			                </tr>
+	                    </thead>
+	                    <tbody name="content"></tbody>
+	                </table>
+	            </div>
+	            <div class="box-footer no-border">
+	        		<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+	    		</div> 
+	        </div> 
 			       
-			    
-			        <div class="box" id="JS_getDataMaintainListSec2" name="initTable" style="min-height:100px;display:none">
-			            <div class="box-header ">
-			                <h3 class="box-title">指标采集结果</h3>
-			                <div class="box-tools">
-			<!--                <button type="button" class="btn btn-primary" name="add">添加</button>
-			                    <button type="button" class="btn btn-primary" name="del">删除</button> -->
-			                </div>
-			            </div>
-			            <div class="box-body">
-			                <table class="table table-bordered table-hover" id="dataMaintainListTable2">
-			                    <thead>
-					                <tr>
-				                    <th class="iCheckbox" width="15"></th>
-				                    <th>指标名称</th>
-									<th>指标日期</th>
-									<th>指标分组</th>
-									<th>指标名称</th>
-									<!-- <th>模块名</th> -->
-									<th>指标值</th>
-					                </tr>
-			                    </thead>
-			                    <tbody name="content"></tbody>
-			                    
-			<!--                <tfoot>
-			                        <tr>
-			                            <td colspan="6">
-			                                <div class="dataTables_paginate" name="paginationSec2"></div>
-			                            </td>
-			                        </tr>
-			                    </tfoot> -->
-			                </table>
-			            </div>
-			            <div class="box-footer no-border">
-			        		<div class="dataTables_paginate" name="paginationSec2" style="text-align:center"></div>
-			    		</div> 
-			        </div>
-				    <div class="box" id="JS_sysMessageView2" name="initEcharts2" style="display:none">
-				        <div class="box-header" >
-				        </div>
-				        <div class="box-body" id="JS_archiIndexView2" style="width: 100%; height:350px; ">
-				            <!-- 视图 -->
-				        </div>
-				    </div>
-				</div>
-			</div>
+	    	<div class="box" id="JS_sysMessageView" name="initEcharts" style="display:none">
+		        <div class="box-header" >
+		        </div>
+		        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px; ">
+		            <!-- 视图 -->
+		        </div>
+		    </div>
+				    
+	        <div class="box" id="JS_getDataMaintainListSec" name="initTable" style="min-height:100px;display:none">
+	            <div class="box-header ">
+	                <h3 class="box-title">指标采集结果</h3>
+	                <div class="box-tools">
+	                </div>
+	            </div>
+	            <div class="box-body">
+	                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+	                    <thead>
+			                <tr>
+		                    <th class="iCheckbox" width="15"></th>
+		                    <th>指标名称</th>
+							<th>指标日期</th>
+							<th>指标分组</th>
+							<th>指标名称</th>
+							<th>指标值</th>
+			                </tr>
+	                    </thead>
+	                    <tbody name="content"></tbody>
+	                </table>
+	            </div>
+	            <div class="box-footer no-border">
+	        		<div class="dataTables_paginate" name="paginationSec" style="text-align:center"></div>
+	    		</div> 
+	        </div>
 		</div>
     </div>
 </div>
-
-
-
 
 <script type="text/javascript">
 //<![CDATA[

@@ -18,6 +18,8 @@ define(function(require, exports, module) {
     srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
     //指标主表
     srvMap.add("getAmCoreIndexList", "", "archi/index/list");
+    //指标主表
+    srvMap.add("getAmCoreIndexList2", "", "archi/index/listidx");
     //指标分表
     srvMap.add("getArchDbConnectList", "", "archi/dbconnect/list");
     //指标分表---table
@@ -312,7 +314,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			var tcmd = _cmd.split(",")[0];
-			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), tcmd, function(json, status) {
+			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList2'), tcmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
@@ -785,7 +787,7 @@ define(function(require, exports, module) {
 			//隐藏的主表获取分表表名tableName;
 			var _dom = Page.findId('getDataMaintainList2');
 			var _domPagination = _dom.find("[name='pagination']");
-			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), _cmd, function(json, status) {
+			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList2'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getAmCoreIndexList);

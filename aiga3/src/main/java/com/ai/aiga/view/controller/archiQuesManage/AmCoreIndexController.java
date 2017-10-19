@@ -17,6 +17,7 @@ import com.ai.aiga.domain.AmCoreIndex;
 import com.ai.aiga.domain.QuestionEvent;
 import com.ai.aiga.service.AmCoreIndexSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
+import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelectsNew;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -33,6 +34,15 @@ public class AmCoreIndexController {
 			condition.setIndexGroup(condition.getIndexGroup().trim());
 		}
 		bean.setData(amCoreIndexSv.findAmCoreIndex(condition));
+		return bean;
+	}
+	@RequestMapping(path = "/archi/index/listidx")
+	public @ResponseBody JsonBean listidx(AmCoreIndexSelectsNew condition){
+		JsonBean bean = new JsonBean();
+		if(condition.getIndexGroup()!=null){
+			condition.setIndexGroup(condition.getIndexGroup().trim());
+		}
+		bean.setData(amCoreIndexSv.findAmCoreIndexNew(condition));
 		return bean;
 	}
 	

@@ -23,6 +23,7 @@ import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
+import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelectsNew;
 @Service
 @Transactional
 public class AmCoreIndexSv extends BaseService {
@@ -41,6 +42,19 @@ public class AmCoreIndexSv extends BaseService {
     	
     	
     	return amCoreIndexDao.search(cons);
+	}
+	public List<AmCoreIndex>findAmCoreIndexNew(AmCoreIndexSelectsNew condition){
+		List<Condition>cons = new ArrayList<Condition>();
+		if(StringUtils.isNoneBlank(condition.getIndexGroup())){
+			cons.add(new Condition("indexGroup", "%".concat(condition.getIndexGroup()).concat("%"), Condition.Type.LIKE));
+		}
+		if(StringUtils.isNoneBlank(condition.getIndexName())){
+			cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
+		}
+		if(condition.getIndexId()!=null){
+			cons.add(new Condition("indexId", condition.getIndexId()[0], Condition.Type.EQ));
+		}
+		return amCoreIndexDao.search(cons);
 	}
 	
 	public Page<AmCoreIndex> findAmCoreIndexByPage(AmCoreIndexSelects condition, int pageNumber,

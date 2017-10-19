@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
     // 通用工具模块
     var Utils = require("global/utils.js");
-
+    var Page = Utils.initPage('staffRole');
     //路径重命名
     var pathAlias = "staffRole/";
     // 查询所有员工
@@ -22,14 +22,14 @@ define(function(require, exports, module) {
 
     // 容器对象
     var Mod = {
-        getUserinfoList: '#Page_getUserinfoList',
-        getStaffRoleList: '#Page_getStaffRoleList'
+        getUserinfoList: 'getUserinfoList',
+        getStaffRoleList: 'getStaffRoleList'
     };
     var Dom = {
-        saveStaffRole: "#JS_saveStaffRole",
-        getUserinfoListTable: '#JS_getUserinfoListTable',
-        getStaffRoleListTable: '#JS_getStaffRoleListTable',
-        queryStaffForm: '#JS_queryStaffForm'
+        saveStaffRole: "saveStaffRole",
+        getUserinfoListTable: 'getUserinfoListTable',
+        getStaffRoleListTable: 'getStaffRoleListTable',
+        queryStaffForm: 'queryStaffForm'
     };
     var Data = {
         staffId: null,
@@ -52,7 +52,7 @@ define(function(require, exports, module) {
         },
         queryStaffForm: function() {
             var self = this;
-            var _form = $(Dom.queryStaffForm);
+            var _form = Page.findId(Dom.queryStaffForm);
             var _queryBtn = _form.find("[name='query']");
             _queryBtn.unbind('click');
             _queryBtn.bind('click', function() {
@@ -68,22 +68,22 @@ define(function(require, exports, module) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getUserinfoList);
                     console.log(json.data.content);
-                    $(Mod.getUserinfoList).html(template(json.data.content));
+                    Page.findId(Mod.getUserinfoList).html(template(json.data.content));
+                    var userInfoTable = Page.findId(Dom.getUserinfoListTable);
+                    Utils.eventTrClickCallback(userInfoTable);
 
-                    Utils.eventTrClickCallback($(Dom.getUserinfoListTable))
-
-                    $(Dom.getUserinfoListTable).find("tr").bind('click', function(event) {
+                    userInfoTable.find("tr").bind('click', function(event) {
                         $(this).find('.minimal').iCheck('check');
                         var _data = self.getCheckedRole();
                         var _stafId = _data.staffId;
-                        var cmd = "staffId=" + _stafId;
+                         var cmd = "staffId=" + _stafId;
                         Data.staffId = _stafId;
                         console.log(cmd);
                         self.getStaffRoleCheckedList(cmd)
                     });
 
                     // 滚动条
-                    $(Dom.getUserinfoListTable).parent().slimScroll({
+                    userInfoTable.parent().slimScroll({
                         "height": '500px'
                     });
 
@@ -109,7 +109,7 @@ define(function(require, exports, module) {
                 if (status) {
                     var template = Handlebars.compile(Tpl.getStaffRoleList);
                     console.log(json.data)
-                    $(Mod.getStaffRoleList).html(template(json.data));
+                    Page.findId(Mod.getStaffRoleList).html(template(json.data));
                     //iCheck
                     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                         checkboxClass: 'icheckbox_minimal-blue',
@@ -129,8 +129,8 @@ define(function(require, exports, module) {
         },
         saveStaffRole: function() {
             var self = this;
-            $(Dom.saveStaffRole).bind('click', function() {
-                var _dom = $(Dom.getStaffRoleListTable).find("input[name='roleId']:checked");
+            Page.findId(Dom.saveStaffRole).bind('click', function() {
+                var _dom = Page.findId(Dom.getStaffRoleListTable).find("input[name='roleId']:checked");
                 var _roleIdsArray = [];
                 _dom.each(function() {
                     _roleIdsArray.push($(this).val());
@@ -153,7 +153,7 @@ define(function(require, exports, module) {
             });
         },
         getCheckedRole: function() {
-            var _obj = $(Dom.getUserinfoListTable).find("input[type='radio']:checked").parents("tr");
+            var _obj = Page.findId(Dom.getUserinfoListTable).find("input[type='radio']:checked").parents("tr");
             var _staffId = _obj.find("input[name='staffId']")
             if (_staffId.length == 0) {
                 window.XMS.msgbox.show('请先选择一个员工！', 'error', 2000);

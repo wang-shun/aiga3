@@ -413,6 +413,14 @@ define(function(require,exports,module){
 									window.XMS.msgbox.show('对不起，两次输入的密码不一致！', 'error', 2000);
 									return
 								}
+								//密码修改校验次数
+								var recentPassTimes = _form.find("[name='recentPassTimes']").val();
+								var rulepass = /^(\d|[1-9]\d)$/;
+								if(rulepass.test(recentPassTimes)) {
+								} else {
+									window.XMS.msgbox.show('密码修改校验次数 请输入0-99间的正整数！', 'error', 2000);
+									return
+								}
 				  			// self.getUserinfoList(cmd);
 				  			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				  			Rose.ajax.postJson(srvMap.get('updateUserinfo'), cmd, function(json, status) {

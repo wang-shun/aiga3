@@ -101,7 +101,7 @@ public class AmCoreIndexController {
 	@RequestMapping(path = "/index/typein/findAllAmCores")
 	public @ResponseBody JsonBean findAll(){
 		JsonBean bean = new JsonBean();
-		bean.setData(amCoreIndexSv.findAll());
+		bean.setData(amCoreIndexSv.findAllIndexs());
 		return bean;
 	}
 	@RequestMapping(path = "/index/typein/saveAmCores")

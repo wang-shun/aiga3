@@ -26,4 +26,9 @@ public interface AmCoreIndexDao extends JpaRepository<AmCoreIndex, Long>, Search
 	  @Modifying
 	  @Query(value = " select a.* from am_core_index a where a.group_id like '2___' ", nativeQuery = true)
 	  List<AmCoreIndex>findAllMonthConnects();
+	  
+	  //汇总指标查询所有
+	  @Modifying
+	  @Query(value = " select a.* from am_core_index a where a.group_id != '3001' ", nativeQuery = true)
+	  List<AmCoreIndex>findAllIndexs();
 }

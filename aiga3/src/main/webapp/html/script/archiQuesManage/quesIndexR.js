@@ -130,9 +130,9 @@ define(function(require, exports, module) {
                             }
                         }
                     };
-                    $.fn.zTree.init($("#Tree_getRightTreeR"), setting, json.data);
+                    $.fn.zTree.init($("#Tree_getRightTreeRR"), setting, json.data);
                     //调用树结构搜索，入参1、树结构容器 2、树搜索容器 3、搜索的key
-                    Utils.zTreeSearchInit($("#Tree_getRightTreeR"),$("#Tree_getRightTreeRSearch"),'name');
+                    Utils.zTreeSearchInit($("#Tree_getRightTreeRR"),$("#Tree_getRightTreeRRSearch"),'name');
                 }
             });
 

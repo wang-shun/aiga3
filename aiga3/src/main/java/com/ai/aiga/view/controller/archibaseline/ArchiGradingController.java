@@ -356,6 +356,7 @@ public class ArchiGradingController {
 		JsonBean bean = new JsonBean();
 		AigaStaff staffInfo = SessionMgrUtil.getStaff();	
 		input.setIdentifyUser(staffInfo.getName());
+		String mailMessage = "";
 		//申请单在途校验
 		ArchitectureGrading checkParam = new ArchitectureGrading();
 		checkParam.setApplyId(input.getApplyId());
@@ -373,6 +374,8 @@ public class ArchiGradingController {
 		//数据校验
 		if("审批未通过".equals(input.getState())) {
 			architectureGradingSv.update(input);
+			mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批不通过&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
+			mailMessage += input.getIdentifiedInfo()==""?"无":input.getIdentifiedInfo();
 		} else {
 			//认定通过逻辑			
 			input.setModifyDate(new Date());
@@ -470,12 +473,14 @@ public class ArchiGradingController {
 				architectureGradingSv.update(input);
 			} else {
 			}
+			mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 		}	
 		//认定发送邮件
 		AigaStaff applyUser = aigaStaffSv.findStaffByCode(input.getApplyUser());
 		String addressee = StringUtils.isNotBlank(applyUser.getEmail())? applyUser.getEmail() :"";
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 		String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
+		content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
 		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
 		return bean;
 	}

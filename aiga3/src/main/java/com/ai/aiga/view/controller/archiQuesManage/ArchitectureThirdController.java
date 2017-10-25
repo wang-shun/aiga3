@@ -44,7 +44,6 @@ public class ArchitectureThirdController {
 			data.setName(name);
 			data.setValue(sum);
 			series.add(data);
-
 		}
 		output.setLegend(legend);
 		output.setSeries(series);

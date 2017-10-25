@@ -241,6 +241,10 @@ public class ArchiGradingController {
 				bean.fail("建设状态为空！");
 				return bean;
 			}
+			if(StringUtils.isBlank(architectureGrading.getRankInfo())) {
+				bean.fail("等级信息为空！");
+				return bean;
+			}
 			//申请单唯一性校验
 			ArchitectureGrading condition = new ArchitectureGrading();
 			condition.setName(architectureGrading.getName());

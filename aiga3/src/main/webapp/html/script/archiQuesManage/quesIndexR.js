@@ -125,8 +125,20 @@ define(function(require, exports, module) {
                         callback: {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
+                                var a =treeNode.getCheckStatus();
+                                console.log(a);
                                 console.log(funcIdNum);
-                                Data.indexId += funcIdNum + ",";
+                                if(a.checked==true){
+	                                Data.indexId += funcIdNum + ",";
+                                }else{
+                                	var gg = Data.indexId.indexOf(funcIdNum)
+                                	if(gg>0){
+	                                	var tou = Data.indexId.substring(0,gg);
+                                		var wei = Data.indexId.substring(gg+funcIdNum.length)
+                                		Data.indexId = tou + wei ;
+                                	}
+
+                                }
                             }
                         }
                     };

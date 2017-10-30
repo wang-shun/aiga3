@@ -421,7 +421,103 @@ public class ArchitectureIndexSv extends BaseService {
 //				"and ar.key_2 = :key2 " +
 //				"and ar.key_3 = :key3 ");
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
-		
+		long[] ids = null;
+		long id0,id1,id2,id3,id4,id5,id6,id7,id8,id9,id10;
+		long id11,id12,id13,id14,id15,id16,id17,id18,id19,id20;
+		if (condition.getIndexId()!=null){
+			ids = condition.getIndexId();
+			if(ids.length>20){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+			}
+			for(int i=0;i<ids.length;i++){
+				if(i==0){
+					id0 = ids[0];
+					nativeSql.append(" and ( am.index_id = :id0 ");
+					params.add(new ParameterCondition("id0", id0));
+				}else if(i==1){
+					id1 = ids[i];
+					nativeSql.append(" or am.index_id = :id1 ");
+					params.add(new ParameterCondition("id1", id1));
+				}else if(i==2){
+					id2 = ids[i];
+					nativeSql.append(" or am.index_id = :id2 ");
+					params.add(new ParameterCondition("id2", id2));
+				}else if(i==3){
+					id3 = ids[i];
+					nativeSql.append(" or am.index_id = :id3 ");
+					params.add(new ParameterCondition("id3", id3));
+				}else if(i==4){
+					id4 = ids[i];
+					nativeSql.append(" or am.index_id = :id4 ");
+					params.add(new ParameterCondition("id4", id4));
+				}else if(i==5){
+					id5 = ids[i];
+					nativeSql.append(" or am.index_id = :id5 ");
+					params.add(new ParameterCondition("id5", id5));
+				}else if(i==6){
+					id6 = ids[i];
+					nativeSql.append(" or am.index_id = :id6 ");
+					params.add(new ParameterCondition("id6", id6));
+				}else if(i==7){
+					id7 = ids[i];
+					nativeSql.append(" or am.index_id = :id7 ");
+					params.add(new ParameterCondition("id7", id7));
+				}else if(i==8){
+					id8 = ids[i];
+					nativeSql.append(" or am.index_id = :id8 ");
+					params.add(new ParameterCondition("id8", id8));
+				}else if(i==9){
+					id9 = ids[i];
+					nativeSql.append(" or am.index_id = :id9 ");
+					params.add(new ParameterCondition("id9", id9));
+				}else if(i==10){
+					id10 = ids[i];
+					nativeSql.append(" or am.index_id = :id10 ");
+					params.add(new ParameterCondition("id10", id10));
+				}else if(i==11){
+					id11 = ids[i];
+					nativeSql.append(" or am.index_id = :id11 ");
+					params.add(new ParameterCondition("id11", id11));
+				}else if(i==12){
+					id12 = ids[i];
+					nativeSql.append(" or am.index_id = :id12 ");
+					params.add(new ParameterCondition("id12", id12));
+				}else if(i==13){
+					id13 = ids[i];
+					nativeSql.append(" or am.index_id = :id13 ");
+					params.add(new ParameterCondition("id13", id13));
+				}else if(i==14){
+					id14 = ids[i];
+					nativeSql.append(" or am.index_id = :id14 ");
+					params.add(new ParameterCondition("id14", id14));
+				}else if(i==15){
+					id15 = ids[i];
+					nativeSql.append(" or am.index_id = :id15 ");
+					params.add(new ParameterCondition("id15", id15));
+				}else if(i==16){
+					id16 = ids[i];
+					nativeSql.append(" or am.index_id = :id16 ");
+					params.add(new ParameterCondition("id16", id16));
+				}else if(i==17){
+					id17 = ids[i];
+					nativeSql.append(" or am.index_id = :id17 ");
+					params.add(new ParameterCondition("id17", id17));
+				}else if(i==18){
+					id18 = ids[i];
+					nativeSql.append(" or am.index_id = :id18 ");
+					params.add(new ParameterCondition("id18", id18));
+				}else if(i==19){
+					id19 = ids[i];
+					nativeSql.append(" or am.index_id = :id19 ");
+					params.add(new ParameterCondition("id19", id19));
+				}else if(i==20){
+					id20 = ids[i];
+					nativeSql.append(" or am.index_id = :id20 ");
+					params.add(new ParameterCondition("id20", id20));
+				}
+			}
+			nativeSql.append(" ) ");
+		}
 		if (StringUtils.isNotBlank(condition.getIndexGroup())) {
 			nativeSql.append("and am.index_group = :indexGroup ");
 			params.add(new ParameterCondition("indexGroup", condition.getIndexGroup()));
@@ -475,7 +571,103 @@ public class ArchitectureIndexSv extends BaseService {
 //				"and ar.key_2 = :key2 " +
 //				"and ar.key_3 = :key3 ");
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
-		
+		long[] ids = null;
+		long id0,id1,id2,id3,id4,id5,id6,id7,id8,id9,id10;
+		long id11,id12,id13,id14,id15,id16,id17,id18,id19,id20;
+		if (condition.getIndexId()!=null){
+			ids = condition.getIndexId();
+			if(ids.length>20){
+				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+			}
+			for(int i=0;i<ids.length;i++){
+				if(i==0){
+					id0 = ids[0];
+					nativeSql.append(" and ( am.index_id = :id0 ");
+					params.add(new ParameterCondition("id0", id0));
+				}else if(i==1){
+					id1 = ids[i];
+					nativeSql.append(" or am.index_id = :id1 ");
+					params.add(new ParameterCondition("id1", id1));
+				}else if(i==2){
+					id2 = ids[i];
+					nativeSql.append(" or am.index_id = :id2 ");
+					params.add(new ParameterCondition("id2", id2));
+				}else if(i==3){
+					id3 = ids[i];
+					nativeSql.append(" or am.index_id = :id3 ");
+					params.add(new ParameterCondition("id3", id3));
+				}else if(i==4){
+					id4 = ids[i];
+					nativeSql.append(" or am.index_id = :id4 ");
+					params.add(new ParameterCondition("id4", id4));
+				}else if(i==5){
+					id5 = ids[i];
+					nativeSql.append(" or am.index_id = :id5 ");
+					params.add(new ParameterCondition("id5", id5));
+				}else if(i==6){
+					id6 = ids[i];
+					nativeSql.append(" or am.index_id = :id6 ");
+					params.add(new ParameterCondition("id6", id6));
+				}else if(i==7){
+					id7 = ids[i];
+					nativeSql.append(" or am.index_id = :id7 ");
+					params.add(new ParameterCondition("id7", id7));
+				}else if(i==8){
+					id8 = ids[i];
+					nativeSql.append(" or am.index_id = :id8 ");
+					params.add(new ParameterCondition("id8", id8));
+				}else if(i==9){
+					id9 = ids[i];
+					nativeSql.append(" or am.index_id = :id9 ");
+					params.add(new ParameterCondition("id9", id9));
+				}else if(i==10){
+					id10 = ids[i];
+					nativeSql.append(" or am.index_id = :id10 ");
+					params.add(new ParameterCondition("id10", id10));
+				}else if(i==11){
+					id11 = ids[i];
+					nativeSql.append(" or am.index_id = :id11 ");
+					params.add(new ParameterCondition("id11", id11));
+				}else if(i==12){
+					id12 = ids[i];
+					nativeSql.append(" or am.index_id = :id12 ");
+					params.add(new ParameterCondition("id12", id12));
+				}else if(i==13){
+					id13 = ids[i];
+					nativeSql.append(" or am.index_id = :id13 ");
+					params.add(new ParameterCondition("id13", id13));
+				}else if(i==14){
+					id14 = ids[i];
+					nativeSql.append(" or am.index_id = :id14 ");
+					params.add(new ParameterCondition("id14", id14));
+				}else if(i==15){
+					id15 = ids[i];
+					nativeSql.append(" or am.index_id = :id15 ");
+					params.add(new ParameterCondition("id15", id15));
+				}else if(i==16){
+					id16 = ids[i];
+					nativeSql.append(" or am.index_id = :id16 ");
+					params.add(new ParameterCondition("id16", id16));
+				}else if(i==17){
+					id17 = ids[i];
+					nativeSql.append(" or am.index_id = :id17 ");
+					params.add(new ParameterCondition("id17", id17));
+				}else if(i==18){
+					id18 = ids[i];
+					nativeSql.append(" or am.index_id = :id18 ");
+					params.add(new ParameterCondition("id18", id18));
+				}else if(i==19){
+					id19 = ids[i];
+					nativeSql.append(" or am.index_id = :id19 ");
+					params.add(new ParameterCondition("id19", id19));
+				}else if(i==20){
+					id20 = ids[i];
+					nativeSql.append(" or am.index_id = :id20 ");
+					params.add(new ParameterCondition("id20", id20));
+				}
+			}
+			nativeSql.append(" ) ");
+		}
 		if (StringUtils.isNotBlank(condition.getIndexGroup())) {
 			nativeSql.append("and am.index_group = :indexGroup ");
 			params.add(new ParameterCondition("indexGroup", condition.getIndexGroup()));

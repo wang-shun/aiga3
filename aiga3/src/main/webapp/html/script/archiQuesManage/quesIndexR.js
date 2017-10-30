@@ -255,9 +255,11 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
 				if(Data.indexId){
-					Data.indexId=Data.indexId.substring(0,Data.indexId.length-1);
+//					Data.indexId=Data.indexId.substring(0,Data.indexId.length-1);
 					cmd += "&indexId=" + Data.indexId;
 					_cmd += "&indexId=" + Data.indexId;
+					cmd = cmd.substring(0,cmd.length-1);
+					_cmd = cmd.substring(0,cmd.length-1);
 				}
 //				if(init) {
 //					var date = self.formatDate(new Date()); 		

@@ -259,7 +259,7 @@ define(function(require, exports, module) {
 					cmd += "&indexId=" + Data.indexId;
 					_cmd += "&indexId=" + Data.indexId;
 					cmd = cmd.substring(0,cmd.length-1);
-					_cmd = cmd.substring(0,cmd.length-1);
+					_cmd = cmd.substring(0,_cmd.length-1);
 				}
 //				if(init) {
 //					var date = self.formatDate(new Date()); 		

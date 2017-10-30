@@ -18,6 +18,8 @@ define(function(require, exports, module) {
     srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
     //指标主表
     srvMap.add("getAmCoreIndexList", "", "archi/index/list");
+    srvMap.add("getAmCoreIndexListfk", "", "archi/index/list2");
+    srvMap.add("getAmCoreIndexListfksb", "", "archi/index/list3");
     //指标主表
     srvMap.add("getAmCoreIndexList2", "", "archi/index/listidx");
     //指标分表
@@ -87,7 +89,10 @@ define(function(require, exports, module) {
 	var Data = {
 		queryListCmd: null,
 		indexId:"",
-		isSame:""
+		isSame:"",
+		isOtherSame: new Array(100),
+		i:1,
+		indexIds:""
 	};
 
 	var Query = {
@@ -130,34 +135,72 @@ define(function(require, exports, module) {
                                 console.log(a);
                                 console.log(funcIdNum);
                                 //判断指标名称是否在同一个指标分组里面
-//                                var i=0;
-//                                if(i==0){
-//                                	var pcmd = "indexId="+funcIdNum;
-//									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), pcmd, function(json, status) {
-//										if(status) {
-//											window.XMS.msgbox.hide();
-//											Data.isSame=json.data.groupId;
-//										} else {
-//											XMS.msgbox.show(json.retMessage, 'error', 2000);
-//										}
-//						  			});
-//						  			i++;
-//                                }
-                                if(a.checked==true){
-//                                	if(1001<=funcIdNum<=2010){
-//                                		//调用后台接口查询indexIds 返回long[]
-//                                	}
-	                                Data.indexId += funcIdNum + ",";
-                                }else{
-                                	var gg = Data.indexId.indexOf(funcIdNum)
-                                	if(gg>0){
-	                                	var tou = Data.indexId.substring(0,gg);
-	                                	var one = funcIdNum.toString();
-	                                	var pg = gg+one.length;
-                                		var wei = Data.indexId.substring(pg+1);
-	                                	Data.indexId = tou + wei ;
-                                	}
-
+                                if(Data.i==1){
+                                	var pcmd = "indexId="+funcIdNum;
+									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
+										if(status) {
+											window.XMS.msgbox.hide();
+											Data.isSame=json.data[0].groupId;
+										} else {
+											XMS.msgbox.show(json.retMessage, 'error', 2000);
+										}
+						  			});
+						  			Data.i++;
+                                }else if(Data.i>=2){
+                                	var pcmd = "indexId="+funcIdNum;
+									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
+										if(status) {
+											window.XMS.msgbox.hide();
+											Data.isOtherSame[Data.i+1]=json.data[0].groupId;
+										} else {
+											XMS.msgbox.show(json.retMessage, 'error', 2000);
+										}
+						  			});
+						  			Data.i++;
+                                }
+                                if(Data.isOtherSame[Data.i]==Data.isSame || Data.isOtherSame[Data.i]==Data.isOtherSame[Data.i-1]){
+	                                if(a.checked==true){
+	                                	if(1001<=funcIdNum<=2010){
+	                                		//调用后台接口查询indexIds 返回long[]
+	                                		var lkcmd = "groupId="+ funcIdNum;
+			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
+												if(status) {
+													window.XMS.msgbox.hide();
+													for(var i=0;i<json.data.length;i++){
+														Data.indexIds += json.data[i].indexId+",";
+														console.log(Data.indexIds);
+														Data.indexId = Data.indexIds;
+													}
+												} else {
+													XMS.msgbox.show(json.retMessage, 'error', 2000);
+												}
+								  			});
+	                                	}else if(300001<=funcIdNum<=300010){
+	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
+	                                	}
+		                                Data.indexId += funcIdNum + ",";
+	                                }else{
+	                                	var gg = Data.indexId.indexOf(funcIdNum)
+	                                	if(gg>0){
+		                                	var tou = Data.indexId.substring(0,gg);
+		                                	var one = funcIdNum.toString();
+		                                	var pg = gg+one.length;
+	                                		var wei = Data.indexId.substring(pg+1);
+		                                	Data.indexId = tou + wei ;
+	                                	}
+	
+	                                }
+                                }else if(Data.isOtherSame[Data.i]!=Data.isSame || Data.isOtherSame[Data.i]!=Data.isOtherSame[Data.i-1]){
+                                	var textModal = Page.findId('modall');
+									textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
+										//是
+										textModal.find("[name='pass']").off('click').on('click', function(){
+											textModal.modal('hide');
+										});
+									});
+									textModal.modal('show');
+                                	Data.indexId = '';
+                                	Data.indexId = funcIdNum + ",";
                                 }
                             }
                         }

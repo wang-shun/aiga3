@@ -39,10 +39,37 @@ public class AmCoreIndexSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getIndexName())){
     		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
     	}
-    	
-    	
     	return amCoreIndexDao.search(cons);
 	}
+	
+	public List<AmCoreIndex>findAmCoreIndex2(AmCoreIndexSelects condition){
+		List<Condition>cons = new ArrayList<Condition>();
+		if(StringUtils.isNoneBlank(condition.getIndexGroup())){
+			cons.add(new Condition("indexGroup", "%".concat(condition.getIndexGroup()).concat("%"), Condition.Type.LIKE));
+		}
+		if(StringUtils.isNoneBlank(condition.getIndexName())){
+			cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
+		}
+		if(condition.getIndexId()!=0){
+			cons.add(new Condition("indexId", condition.getIndexId(), Condition.Type.EQ));
+		}
+		return amCoreIndexDao.search(cons);
+	}
+	
+	public List<AmCoreIndex>findAmCoreIndex3(AmCoreIndexSelects condition){
+		List<Condition>cons = new ArrayList<Condition>();
+		if(StringUtils.isNoneBlank(condition.getIndexGroup())){
+			cons.add(new Condition("indexGroup", "%".concat(condition.getIndexGroup()).concat("%"), Condition.Type.LIKE));
+		}
+		if(StringUtils.isNoneBlank(condition.getIndexName())){
+			cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
+		}
+		if(condition.getGroupId()!=0){
+			cons.add(new Condition("groupId", condition.getGroupId(), Condition.Type.EQ));
+		}
+		return amCoreIndexDao.search(cons);
+	}
+	
 	public List<AmCoreIndex>findAmCoreIndexNew(AmCoreIndexSelectsNew condition){
 		List<Condition>cons = new ArrayList<Condition>();
 		if(StringUtils.isNoneBlank(condition.getIndexGroup())){

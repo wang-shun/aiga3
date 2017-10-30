@@ -36,6 +36,24 @@ public class AmCoreIndexController {
 		bean.setData(amCoreIndexSv.findAmCoreIndex(condition));
 		return bean;
 	}
+	@RequestMapping(path = "/archi/index/list2")
+	public @ResponseBody JsonBean list2(AmCoreIndexSelects condition){
+		JsonBean bean = new JsonBean();
+		if(condition.getIndexGroup()!=null){
+			condition.setIndexGroup(condition.getIndexGroup().trim());
+		}
+		bean.setData(amCoreIndexSv.findAmCoreIndex2(condition));
+		return bean;
+	}
+	@RequestMapping(path = "/archi/index/list3")
+	public @ResponseBody JsonBean list3(AmCoreIndexSelects condition){
+		JsonBean bean = new JsonBean();
+		if(condition.getIndexGroup()!=null){
+			condition.setIndexGroup(condition.getIndexGroup().trim());
+		}
+		bean.setData(amCoreIndexSv.findAmCoreIndex3(condition));
+		return bean;
+	}
 	@RequestMapping(path = "/archi/index/listidx")
 	public @ResponseBody JsonBean listidx(AmCoreIndexSelectsNew condition){
 		JsonBean bean = new JsonBean();

@@ -87,6 +87,7 @@ define(function(require, exports, module) {
 	var Data = {
 		queryListCmd: null,
 		indexId:"",
+		isSame:""
 	};
 
 	var Query = {
@@ -128,14 +129,33 @@ define(function(require, exports, module) {
                                 var a =treeNode.getCheckStatus();
                                 console.log(a);
                                 console.log(funcIdNum);
+                                //判断指标名称是否在同一个指标分组里面
+//                                var i=0;
+//                                if(i==0){
+//                                	var pcmd = "indexId="+funcIdNum;
+//									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList'), pcmd, function(json, status) {
+//										if(status) {
+//											window.XMS.msgbox.hide();
+//											Data.isSame=json.data.groupId;
+//										} else {
+//											XMS.msgbox.show(json.retMessage, 'error', 2000);
+//										}
+//						  			});
+//						  			i++;
+//                                }
                                 if(a.checked==true){
+//                                	if(1001<=funcIdNum<=2010){
+//                                		//调用后台接口查询indexIds 返回long[]
+//                                	}
 	                                Data.indexId += funcIdNum + ",";
                                 }else{
                                 	var gg = Data.indexId.indexOf(funcIdNum)
                                 	if(gg>0){
 	                                	var tou = Data.indexId.substring(0,gg);
-                                		var wei = Data.indexId.substring(gg+funcIdNum.length)
-                                		Data.indexId = tou + wei ;
+	                                	var one = funcIdNum.toString();
+	                                	var pg = gg+one.length;
+                                		var wei = Data.indexId.substring(pg+1);
+	                                	Data.indexId = tou + wei ;
                                 	}
 
                                 }

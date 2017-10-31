@@ -183,7 +183,9 @@ define(function(require, exports, module) {
 	                                	}else if(300001<=funcIdNum<=300010){
 	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
 	                                	}
-		                                Data.indexId += funcIdNum + ",";
+	                                	if(1001>funcIdNum || funcIdNum>2010){
+			                                Data.indexId += funcIdNum + ",";
+	                                	}
 	                                }else{
 	                                	var gg = Data.indexId.indexOf(funcIdNum);
 	                                	if(gg>=0){
@@ -215,7 +217,9 @@ define(function(require, exports, module) {
 	                                	}else if(300001<=funcIdNum<=300010){
 	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
 	                                	}
-		                                Data.indexId += funcIdNum + ",";
+	                                	if(1001>funcIdNum || funcIdNum>2010){
+			                                Data.indexId += funcIdNum + ",";
+	                                	}
 	                                }else if(a.checked==false){
 	                                	var gg = Data.indexId.indexOf(funcIdNum);
 	                                	if(gg>=0){

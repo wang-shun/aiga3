@@ -122,6 +122,12 @@ public class AmCoreIndexController {
 		bean.setData(amCoreIndexSv.findAllIndexs());
 		return bean;
 	}
+	@RequestMapping(path = "/index/typein/findAllAmCores2")
+	public @ResponseBody JsonBean findAll2(){
+		JsonBean bean = new JsonBean();
+		bean.setData(amCoreIndexSv.findAllIndexs2());
+		return bean;
+	}
 	@RequestMapping(path = "/index/typein/saveAmCores")
 	public @ResponseBody JsonBean save(AmCoreIndex request){
 		Date date = new Date();

@@ -48,6 +48,7 @@ define(function(require, exports, module) {
     srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
     //
     srvMap.add("findAllAmCores", "", "index/typein/findAllAmCores");
+    srvMap.add("findAllAmCores2", "", "index/typein/findAllAmCores2");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -89,12 +90,19 @@ define(function(require, exports, module) {
 	var Data = {
 		queryListCmd: null,
 		indexId:"",
+		indexId2:"",
 		isSame:"",
 		isOtherSame: new Array(100),
 		isParent:"",
 		isOtherParent: new Array(100),
+		isSame2:"",
+		isOtherSame2: new Array(100),
+		isParent2:"",
+		isOtherParent2: new Array(100),
 		i:1,
-		indexIds:""
+		j:1,
+		indexIds:"",
+		indexIds2:""
 	};
 
 	var Query = {
@@ -106,8 +114,8 @@ define(function(require, exports, module) {
 			this.judgeIndexName();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
-//			this.getRightTreeR2();
-//			this.queryDataMaintainForm2();
+			this.getRightTreeR2();
+			this.queryDataMaintainForm2();
 			//映射
 			this.hdbarHelp();
 		},
@@ -408,6 +416,8 @@ define(function(require, exports, module) {
 						task2 = "listDbConnects2";
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
 						task2 = "listSrvManages2";
+					}else if(cache.tableName2=="ARCH_MONTH_INDEX"){
+						task2 = "listMonthIndex2";
 					}
 				}
 				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {
@@ -455,6 +465,9 @@ define(function(require, exports, module) {
             		case "ARCH_SRV_MANAGE":
             			task = 'listSrvManages';
             			break;
+            		case "ARCH_MONTH_INDEX":
+						task = 'listMonthIndex';
+						break;
             	}
 			}
 			Utils.getServerPage(srvMap.get(task), _cmd, function(json, status) {//getArchDbConnectList
@@ -820,7 +833,7 @@ define(function(require, exports, module) {
 		},
 /* --------------------------------------------------PAGE--2--------------------------------------------------------------- */
 		getRightTreeR2: function(cmd) {
-            Rose.ajax.postJson(srvMap.get('findAllAmCores'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('findAllAmCores2'), cmd, function(json, status) {
                 if (status) {
                     console.log(json.data)
                     //checkbox代码块
@@ -841,14 +854,121 @@ define(function(require, exports, module) {
                         callback: {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
+                                var a =treeNode.getCheckStatus();
+                                console.log(a);
                                 console.log(funcIdNum);
-                                Data.indexId += funcIdNum + ",";
+                                //判断指标名称是否在同一个指标分组里面
+                                if(Data.j==1){
+                                	var pcmd = "indexId="+funcIdNum;
+									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
+										if(status) {
+											window.XMS.msgbox.hide();
+											Data.isSame2=json.data[0].groupId;
+											Data.isParent2=json.data[0].indexId;
+										} else {
+											XMS.msgbox.show(json.retMessage, 'error', 2000);
+										}
+						  			});
+						  			Data.j++;
+                                }else if(Data.j>=2){
+                                	var pcmd = "indexId="+funcIdNum;
+									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
+										if(status) {
+											window.XMS.msgbox.hide();
+											Data.isOtherSame2[Data.j+1]=json.data[0].groupId;
+											Data.isOtherParent2[Data.j+1]=json.data[0].indexId;
+										} else {
+											XMS.msgbox.show(json.retMessage, 'error', 2000);
+										}
+						  			});
+						  			Data.j++;
+                                }
+                                if(Data.isOtherSame2[Data.j]==Data.isSame2 || Data.isOtherSame2[Data.j]==Data.isOtherSame2[Data.j-1]){
+	                                if(a.checked==true){
+	                                	if(1001<=funcIdNum<=2010){
+	                                		Data.indexIds2 ="";
+	                                		//调用后台接口查询indexIds 返回long[]
+	                                		var lkcmd = "groupId="+ funcIdNum;
+			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
+												if(status) {
+													window.XMS.msgbox.hide();
+													for(var i=0;i<json.data.length;i++){
+														Data.indexIds2 += json.data[i].indexId+",";
+														console.log(Data.indexIds2);
+														Data.indexId2 = Data.indexIds2;
+													}
+												} else {
+													XMS.msgbox.show(json.retMessage, 'error', 2000);
+												}
+								  			});
+	                                	}else if(300001<=funcIdNum<=300010){
+	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
+	                                	}
+	                                	if(1001>funcIdNum || funcIdNum>2010){
+			                                Data.indexId2 += funcIdNum + ",";
+	                                	}
+	                                }else{
+	                                	var gg = Data.indexId2.indexOf(funcIdNum);
+	                                	if(gg>=0){
+		                                	var tou = Data.indexId2.substring(0,gg);
+		                                	var one = funcIdNum.toString();
+		                                	var pg = gg+one.length;
+	                                		var wei = Data.indexId2.substring(pg+1);
+		                                	Data.indexId2 = tou + wei ;
+	                                	}
+	                                }
+                                }else if(Data.isOtherSame2[Data.j]==Data.isParent2 || Data.isOtherSame2[Data.j]==Data.isOtherParent2[Data.j-1]){
+	                                if(a.checked==true){
+	                                	if(1001<=funcIdNum<=2010){
+	                                		Data.indexIds2 ="";
+	                                		//调用后台接口查询indexIds 返回long[]
+	                                		var lkcmd = "groupId="+ funcIdNum;
+			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
+												if(status) {
+													window.XMS.msgbox.hide();
+													for(var i=0;i<json.data.length;i++){
+														Data.indexIds2 += json.data[i].indexId+",";
+														console.log(Data.indexIds2);
+														Data.indexId2 = Data.indexIds2;
+													}
+												} else {
+													XMS.msgbox.show(json.retMessage, 'error', 2000);
+												}
+								  			});
+	                                	}else if(300001<=funcIdNum<=300010){
+	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
+	                                	}
+	                                	if(1001>funcIdNum || funcIdNum>2010){
+			                                Data.indexId2 += funcIdNum + ",";
+	                                	}
+	                                }else if(a.checked==false){
+	                                	var gg = Data.indexId2.indexOf(funcIdNum);
+	                                	if(gg>=0){
+		                                	var tou = Data.indexId2.substring(0,gg);
+		                                	var one = funcIdNum.toString();
+		                                	var pg = gg+one.length;
+	                                		var wei = Data.indexId2.substring(pg+1);
+		                                	Data.indexId2 = tou + wei ;
+	                                	}
+	                                }
+                                }else if(Data.isOtherSame2[Data.j]!=Data.isSame2 || Data.isOtherSame2[Data.j]!=Data.isOtherSame2[Data.j-1]){
+                                	var textModal = Page.findId('modall');
+									textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
+										//是
+										textModal.find("[name='pass']").off('click').on('click', function(){
+											textModal.modal('hide');
+										});
+									});
+									textModal.modal('show');
+                                	Data.indexId2 = '';
+                                	Data.indexId2 = funcIdNum + ",";
+                                }
                             }
                         }
                     };
-                    $.fn.zTree.init($("#Tree_getRightTreeR2"), setting, json.data);
+                    $.fn.zTree.init($("#Tree_getRightTreeRR2"), setting, json.data);
                     //调用树结构搜索，入参1、树结构容器 2、树搜索容器 3、搜索的key
-                    Utils.zTreeSearchInit($("#Tree_getRightTreeR2"),$("#Tree_getRightTreeR2Search"),'name');
+                    Utils.zTreeSearchInit($("#Tree_getRightTreeRR2"),$("#Tree_getRightTreeRR2Search"),'name');
                 }
             });
 
@@ -870,6 +990,13 @@ define(function(require, exports, module) {
 
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm2').serialize();
+				if(Data.indexId2){
+//					Data.indexId=Data.indexId.substring(0,Data.indexId.length-1);
+					cmd += "&indexId=" + Data.indexId2;
+					_cmd += "&indexId=" + Data.indexId2;
+					cmd = cmd.substring(0,cmd.length-1);
+					_cmd = cmd.substring(0,_cmd.length-1);
+				}
 //				if(init) {
 //					var date = self.formatDate(new Date()); 		
 //					_cmd = 'startMonth='+date+'&endMonth='+date;

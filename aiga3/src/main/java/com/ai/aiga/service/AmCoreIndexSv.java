@@ -204,6 +204,9 @@ public class AmCoreIndexSv extends BaseService {
 	public List<AmCoreIndex> findAllIndexs(){
 		return amCoreIndexDao.findAllIndexs();
 	}
+	public List<AmCoreIndex> findAllIndexs2(){
+		return amCoreIndexDao.findAllIndexs2();
+	}
 	
 	public void update(AmCoreIndex amCoreIndex){
 		amCoreIndexDao.save(amCoreIndex);

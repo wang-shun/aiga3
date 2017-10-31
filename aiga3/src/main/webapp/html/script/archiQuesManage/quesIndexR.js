@@ -161,6 +161,7 @@ define(function(require, exports, module) {
                                 if(Data.isOtherSame[Data.i]==Data.isSame || Data.isOtherSame[Data.i]==Data.isOtherSame[Data.i-1]){
 	                                if(a.checked==true){
 	                                	if(1001<=funcIdNum<=2010){
+	                                		Data.indexIds ="";
 	                                		//调用后台接口查询indexIds 返回long[]
 	                                		var lkcmd = "groupId="+ funcIdNum;
 			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
@@ -180,26 +181,8 @@ define(function(require, exports, module) {
 	                                	}
 		                                Data.indexId += funcIdNum + ",";
 	                                }else{
-	                                	if(1001<=funcIdNum<=2010){
-	                                		//调用后台接口查询indexIds 返回long[]
-	                                		var lkcmd = "groupId="+ funcIdNum;
-			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
-												if(status) {
-													window.XMS.msgbox.hide();
-													for(var i=0;i<json.data.length;i++){
-														Data.indexIds += json.data[i].indexId+",";
-														console.log(Data.indexIds);
-														Data.indexId = Data.indexIds;
-													}
-												} else {
-													XMS.msgbox.show(json.retMessage, 'error', 2000);
-												}
-								  			});
-	                                	}else if(300001<=funcIdNum<=300010){
-	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
-	                                	}
 	                                	var gg = Data.indexId.indexOf(funcIdNum)
-	                                	if(gg>0){
+	                                	if(gg>=0){
 		                                	var tou = Data.indexId.substring(0,gg);
 		                                	var one = funcIdNum.toString();
 		                                	var pg = gg+one.length;

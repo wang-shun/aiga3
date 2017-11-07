@@ -22,6 +22,7 @@ public class ArchiThirdApplyParams  implements java.io.Serializable {
      private String media;
      private String sysState;
      private String sysStateTime;
+     private String developer;
      private MultipartFile file;
 
 }

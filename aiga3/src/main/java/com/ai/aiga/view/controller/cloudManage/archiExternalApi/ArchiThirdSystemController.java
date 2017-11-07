@@ -38,7 +38,7 @@ public class ArchiThirdSystemController {
 			bean.fail("未选择云管平台创建业务系统订单编号！");
 			return bean;
 		}
-		architectureThirdSv.newSave(request);
+		architectureGradingSv.newSave(request);
 		return JsonBean.success;
 	}
 	

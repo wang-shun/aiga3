@@ -38,8 +38,7 @@ public class ArchitectureThirdSv extends BaseService {
 
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
-	@Autowired
-	private DealFileSv dealFileSv;
+
 	
 	public List<Map> findWelcomePie(){
 		String sql = "select count(*) as sum,b.id_first as id,b.name,substr(b.id_first,0,1) as rank "
@@ -234,41 +233,6 @@ public class ArchitectureThirdSv extends BaseService {
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
 		try {
 			architectureThirdDao.save(architectureThird);
-		} catch (Exception e) {
-			BusinessException.throwBusinessException(e.getMessage());
-		}
-	}
-	
-	public void newSave(ArchiThirdApplyParams request){
-//		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
-		ArchitectureThird architectureThird = new ArchitectureThird();
-		architectureThird.setCloudOrderId(request.getCloudOrderId());
-		architectureThird.setName(request.getName());
-		architectureThird.setSystemFunction(request.getSystemFunction());
-		architectureThird.setDescription(request.getDescription());
-		architectureThird.setCode(request.getCode());
-		architectureThird.setIdSecond(request.getIdSecond());
-		architectureThird.setBelongLevel(request.getBelongLevel());
-		architectureThird.setDepartment(request.getDepartment());
-		architectureThird.setProjectInfo(request.getProjectInfo());
-		architectureThird.setDesignInfo(request.getDesignInfo());
-		architectureThird.setRankInfo(request.getRankInfo());
-		architectureThird.setApplyUser(request.getApplyUser());
-		architectureThird.setExt1(request.getMedia());
-		architectureThird.setSysState(request.getSysState());
-		architectureThird.setExt2(request.getSysStateTime());
-		MultipartFile file = request.getFile();
-		// 获取文件名称
-		String fileName = file.getOriginalFilename();
-		Date date = new Date();
-		// 设置主机上的文件名
-		String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
-		try {
-			architectureThirdDao.save(architectureThird);
-			// 把文件上传到主机
-			FileUtil.uploadFile(file, fileNameNew);
-			//约定planId=3/fileType=3
-			dealFileSv.saveFileInfo(3L, fileName, 3L, date);
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());
 		}

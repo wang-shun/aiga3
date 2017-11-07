@@ -15,22 +15,29 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureGradingDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.ArchitectureGrading;
+import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.DateUtil;
+import com.ai.aiga.util.FileUtil;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionInput;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
+import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdApplyParams;
 
 @Service
 @Transactional
 public class ArchitectureGradingSv extends BaseService {
 	@Autowired
 	private ArchitectureGradingDao architectureGradingDao;
+	@Autowired
+	private DealFileSv dealFileSv;
 	public List<ArchitectureGrading> findAll(){
 		return architectureGradingDao.findAll();
 	}
@@ -176,6 +183,60 @@ public class ArchitectureGradingSv extends BaseService {
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());
 		}	
+	}
+	
+	public void newSave(ArchiThirdApplyParams request){
+//		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
+		ArchitectureGrading architectureGrading = new ArchitectureGrading();
+		//层级数组
+		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
+		int index = 0;		
+		Date date = new Date();
+		String belongLevel = architectureGrading.getBelongLevel();
+		if(!belongLevel.contains(",")) {
+			for(int i=0;i<ruleLevels.length;i++) {
+				if(ruleLevels[i].equals(belongLevel)) {
+					index = i;
+					break;
+				}
+			}
+		}
+		architectureGrading.setSysId(request.getIdSecond()/100000*10+index);		
+		architectureGrading.setCloudOrderId(request.getCloudOrderId());
+		architectureGrading.setName(request.getName());
+		architectureGrading.setSystemFunction(request.getSystemFunction());
+		architectureGrading.setDescription(request.getDescription());
+		architectureGrading.setCode(request.getCode());
+		architectureGrading.setIdBelong(request.getIdSecond());
+		architectureGrading.setBelongLevel(request.getBelongLevel());
+		architectureGrading.setDepartment(request.getDepartment());
+		architectureGrading.setProjectInfo(request.getProjectInfo());
+		architectureGrading.setDesignInfo(request.getDesignInfo());
+		architectureGrading.setSysState(request.getSysState());
+		architectureGrading.setState("申请");
+		architectureGrading.setRankInfo(request.getRankInfo());
+		architectureGrading.setApplyUser(request.getApplyUser());
+		architectureGrading.setApplyTime(date);
+		architectureGrading.setModifyDate(date);
+		architectureGrading.setCreateDate(date);
+		architectureGrading.setExt1("3");
+		architectureGrading.setExt2(request.getSysStateTime());
+		architectureGrading.setExt3(request.getMedia());
+		architectureGrading.setDeveloper(request.getDeveloper());
+		MultipartFile file = request.getFile();
+		// 获取文件名称
+		String fileName = file.getOriginalFilename();
+		// 设置主机上的文件名
+		String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+		try {
+			architectureGradingDao.save(architectureGrading);
+			// 把文件上传到主机
+			FileUtil.uploadFile(file, fileNameNew);
+			//约定planId=3/fileType=3
+			dealFileSv.saveFileInfo(3L, fileName, 3L, date);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}
 	}
 	
 	public void update(ArchitectureGrading architectureGrading){

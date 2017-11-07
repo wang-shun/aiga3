@@ -30,6 +30,7 @@ import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
+import com.ai.aiga.service.cloudmanage.CloudService;
 import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
@@ -59,6 +60,8 @@ public class ArchiGradingController {
 	private StaffSv aigaStaffSv;
 	@Autowired
 	private MailCmpt mailCmpt;
+	@Autowired
+	private CloudService cloudService;
 	/**
 	 * 一级域 添加申请单
 	 * @param architectureGrading
@@ -396,6 +399,8 @@ public class ArchiGradingController {
 					}
 					firstInput.setDescription("");
 					architectureFirstSv.delete(firstInput.getIdFirst());
+					//云管同步数据
+					cloudService.firstDelete(firstInput);
 				} else if("新增".equals(operation)) {
 					//校验编号是否在归档表存在				
 					if(architectureFirstSv.findOne(firstInput.getIdFirst())!=null) {
@@ -405,6 +410,8 @@ public class ArchiGradingController {
 					firstInput.setCreateDate(new Date());	
 					firstInput.setDescription("");
 					architectureFirstSv.save(firstInput);
+					//云管同步数据
+					cloudService.firstAdd(firstInput);
 				} else {
 					if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
 						bean.fail("数据库不存在此条数据");
@@ -413,6 +420,8 @@ public class ArchiGradingController {
 					firstInput.setDescription("");
 					firstInput.setModifyDate(new Date());
 					architectureFirstSv.save(firstInput);
+					//云管同步数据
+					cloudService.firstModify(firstInput);
 				}		
 				architectureGradingSv.update(input);
 			} else if ("2".equals(input.getExt1())) {
@@ -426,6 +435,8 @@ public class ArchiGradingController {
 					}
 					secInput.setDescription("");
 					architectureSecondSv.delete(secInput.getIdSecond());
+					//云管同步数据
+					cloudService.secondDelete(secInput);
 				} else if("新增".equals(operation)) {
 					//校验编号是否在归档表存在				
 					if(architectureSecondSv.findOne(secInput.getIdSecond())!=null) {
@@ -435,6 +446,8 @@ public class ArchiGradingController {
 					secInput.setCreateDate(new Date());	
 					secInput.setDescription("");
 					architectureSecondSv.save(secInput);
+					//云管同步数据
+					cloudService.secondAdd(secInput);
 				} else {
 					if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
 						bean.fail("数据库不存在此条数据");
@@ -443,6 +456,8 @@ public class ArchiGradingController {
 					secInput.setDescription("");
 					secInput.setModifyDate(new Date());
 					architectureSecondSv.save(secInput);
+					//云管同步数据
+					cloudService.secondModify(secInput);
 				}	
 				architectureGradingSv.update(input);
 			} else if ("3".equals(input.getExt1())) {		
@@ -456,6 +471,8 @@ public class ArchiGradingController {
 					}
 					thirdInput.setDescription("");
 					architectureThirdSv.delete(thirdInput.getOnlysysId());
+					//云管同步数据
+					cloudService.thirdDelete(thirdInput);
 				} else if("新增".equals(operation)) {
 					//校验编号是否在归档表存在				
 					if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird()).size()>0) {
@@ -465,6 +482,8 @@ public class ArchiGradingController {
 					thirdInput.setCreateDate(new Date());	
 					thirdInput.setDescription("");
 					architectureThirdSv.save(thirdInput);
+					//云管同步数据
+					cloudService.thirdAdd(thirdInput);
 				} else {
 					if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
 						bean.fail("数据库不存在此条数据");
@@ -473,9 +492,12 @@ public class ArchiGradingController {
 					thirdInput.setModifyDate(new Date());
 					thirdInput.setDescription("");
 					architectureThirdSv.save(thirdInput);
+					cloudService.thirdModify(thirdInput);
 				}		
 				architectureGradingSv.update(input);
 			} else {
+				bean.fail("异常分类，没有该层");
+				return bean;
 			}
 			mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 		}	

@@ -11,7 +11,7 @@ import com.ai.aiga.service.cloudmanage.dto.cloudOutput;
 import com.ai.aiga.util.ExceptionUtil;
 
 public class CloudServiceUtil {
-	private static Boolean isTest = true;
+	private static Boolean isTest = false;
 	private static String URL = "http://devopstest.yw.zj.chinamobile.com/v1/businessventer/";
 	private static String testURL = "http://192.168.2.236:8080/aiga3/";// "http://localhost:8080/aiga3/";
 	/**

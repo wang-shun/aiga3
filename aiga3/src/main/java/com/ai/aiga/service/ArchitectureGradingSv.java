@@ -23,6 +23,7 @@ import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionInput;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
 
 @Service
@@ -120,6 +121,35 @@ public class ArchitectureGradingSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return architectureGradingDao.search(cons,pageable);		
+	}
+	
+	public List<ArchitectureGrading> findByCondition(ArchiGradingConditionInput input) throws ParseException{
+		List<Condition> cons = new ArrayList<Condition>();
+		
+		if(input.getApplyId()==0){
+			cons.add(new Condition("applyId", input.getName(), Condition.Type.GT));
+		}
+		if(input.getApplyId()!=0){
+			cons.add(new Condition("applyId", input.getName(), Condition.Type.EQ));
+		}
+		
+		if(StringUtils.isNoneBlank(input.getName())){
+			cons.add(new Condition("name", "%".concat(input.getName()).concat("%"), Condition.Type.LIKE));
+		}
+		
+		if(input.getOnlysysId()!=null){
+			cons.add(new Condition("onlysysId", input.getOnlysysId(), Condition.Type.EQ));
+		}
+		
+		if(StringUtils.isNoneBlank(input.getState())){
+			cons.add(new Condition("state", input.getState(), Condition.Type.EQ));
+		}
+		
+		if(StringUtils.isNoneBlank(input.getCloudOrderId())){
+			cons.add(new Condition("cloudOrderId", input.getCloudOrderId(), Condition.Type.EQ));
+		}
+		
+		return architectureGradingDao.search(cons);		
 	}
 	
 	public ArchitectureGrading findOne(Long id){

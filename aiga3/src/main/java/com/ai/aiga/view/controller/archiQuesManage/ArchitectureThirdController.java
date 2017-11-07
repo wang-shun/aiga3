@@ -70,7 +70,7 @@ public class ArchitectureThirdController {
 	@RequestMapping(path = "/archi/third/findByCondition")
 	public @ResponseBody JsonBean findByCondition(ArchiThirdConditionParam input){
 		JsonBean bean = new JsonBean();
-		bean.setData(architectureThirdSv.findbyCodition(input.getIdThird(), input.getName()));
+		bean.setData(architectureThirdSv.querybyCodition(input));
 		return bean;
 	}
 	

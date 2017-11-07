@@ -17,11 +17,13 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.AigaStaff;
+import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
 
 @Service
@@ -117,6 +119,37 @@ public class ArchitectureThirdSv extends BaseService {
 		List<Condition> cons = new ArrayList<Condition>();
 		if(StringUtils.isNoneBlank(name)){
 			 cons.add(new Condition("name", "%".concat(name).concat("%"), Condition.Type.LIKE));
+		}
+		if(idThird != null && idThird > 0) {
+			cons.add(new Condition("idThird", idThird, Condition.Type.EQ));
+		}
+		return architectureThirdDao.search(cons);
+	}
+	
+	public List<ArchitectureThird> querybyCodition(ArchiThirdConditionParam input){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(input.getIdThird()!=null && input.getIdThird() > 0){
+			cons.add(new Condition("idThird", input.getIdThird(), Condition.Type.EQ));
+		}
+		
+		if(StringUtils.isNoneBlank(input.getName())){
+			cons.add(new Condition("name", "%".concat(input.getName()).concat("%"), Condition.Type.LIKE));
+		}
+		
+		if(input.getOnlysysId()!=null && input.getOnlysysId() > 0){
+			cons.add(new Condition("onlysysId", input.getOnlysysId(), Condition.Type.EQ));
+		}
+		
+		if(input.getIdSecond()!=null && input.getIdSecond() > 0){
+			cons.add(new Condition("idSecond", input.getIdSecond(), Condition.Type.EQ));
+		}
+		return architectureThirdDao.search(cons);		
+	}
+	
+	public List<ArchitectureThird> querybyCodition(Long idThird,String name){
+		List<Condition> cons = new ArrayList<Condition>();
+		if(StringUtils.isNoneBlank(name)){
+			cons.add(new Condition("name", "%".concat(name).concat("%"), Condition.Type.LIKE));
 		}
 		if(idThird != null && idThird > 0) {
 			cons.add(new Condition("idThird", idThird, Condition.Type.EQ));

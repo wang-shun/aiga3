@@ -46,6 +46,7 @@ public class ArchitectureThird  implements java.io.Serializable {
      private String ext2;
      private String ext3;
      private String developer;
+     private String cloudOrderId;
 
     public ArchitectureThird() {
     }
@@ -60,7 +61,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.sysState = sysState;
         this.createDate = createDate;
     }
-    public ArchitectureThird(long onlysysId, long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, String developer) {
+    public ArchitectureThird(long onlysysId, long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, String developer, String cloudOrderId) {
        this.onlysysId = onlysysId;
        this.idThird = idThird;
        this.name = name;
@@ -86,6 +87,7 @@ public class ArchitectureThird  implements java.io.Serializable {
        this.ext2 = ext2;
        this.ext3 = ext3;
        this.developer = developer;
+       this.cloudOrderId = cloudOrderId;
     }
    
      @Id 
@@ -316,8 +318,14 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.developer = developer;
     }
 
+    @Column(name="CLOUD_ORDER_ID")
+	public String getCloudOrderId() {
+		return cloudOrderId;
+	}
 
-
+	public void setCloudOrderId(String cloudOrderId) {
+		this.cloudOrderId = cloudOrderId;
+	}
 
 }
 

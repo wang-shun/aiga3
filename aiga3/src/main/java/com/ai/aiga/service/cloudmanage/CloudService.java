@@ -5,21 +5,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.cloudmanage.dto.cloudOutput;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
-import com.ai.aiga.view.json.base.JsonBean;
 
 @Service
 @Transactional
 public class CloudService extends BaseService {
-	public JsonBean test() {
-		ArchiThirdConditionParam params = new ArchiThirdConditionParam();
-		params.setName("订单");
-		JsonBean bean = (JsonBean) CloudServiceUtil.template("archi/third/findByCondition", params, JsonBean.class);
-		return bean;
-	}
+
 	/**
 	 * 新增业务系统一级域同步
 	 * @param params

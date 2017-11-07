@@ -75,6 +75,9 @@ public class CloudServiceUtil {
 				url = URL+service;
 			}		
 			bean = restTemplate.postForObject(url, formEntity, cloudOutput.class);
+			if(bean.getSuccess() != 1L) {
+				throw new Exception(bean.getMessage());
+			}
 		} catch (Exception e) {				
 			throw ExceptionUtil.unchecked(e);
 		}

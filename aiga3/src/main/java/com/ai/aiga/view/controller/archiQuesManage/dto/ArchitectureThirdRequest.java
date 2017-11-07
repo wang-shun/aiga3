@@ -32,4 +32,5 @@ public class ArchitectureThirdRequest implements Serializable {
     private String ext2;
     private String ext3;
     private String developer;  
+    private String cloudOrderId;
 }

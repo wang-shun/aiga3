@@ -192,7 +192,7 @@ public class ArchitectureGradingSv extends BaseService {
 		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
 		int index = 0;		
 		Date date = new Date();
-		String belongLevel = architectureGrading.getBelongLevel();
+		String belongLevel = request.getBelongLevel();
 		if(!belongLevel.contains(",")) {
 			for(int i=0;i<ruleLevels.length;i++) {
 				if(ruleLevels[i].equals(belongLevel)) {
@@ -223,17 +223,17 @@ public class ArchitectureGradingSv extends BaseService {
 		architectureGrading.setExt2(request.getSysStateTime());
 		architectureGrading.setExt3(request.getMedia());
 		architectureGrading.setDeveloper(request.getDeveloper());
-		MultipartFile file = request.getFile();
-		// 获取文件名称
-		String fileName = file.getOriginalFilename();
-		// 设置主机上的文件名
-		String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+//		MultipartFile file = request.getFile();
+//		// 获取文件名称
+//		String fileName = file.getOriginalFilename();
+//		// 设置主机上的文件名
+//		String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
 		try {
 			architectureGradingDao.save(architectureGrading);
-			// 把文件上传到主机
-			FileUtil.uploadFile(file, fileNameNew);
-			//约定planId=3/fileType=3
-			dealFileSv.saveFileInfo(3L, fileName, 3L, date);
+//			// 把文件上传到主机
+//			FileUtil.uploadFile(file, fileNameNew);
+//			//约定planId=3/fileType=3
+//			dealFileSv.saveFileInfo(3L, fileName, 3L, date);
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());
 		}

@@ -6,7 +6,7 @@ import lombok.Data;
 
 @SuppressWarnings("serial")
 @Data
-public class cloudOutput implements Serializable {
+public class CloudOutput implements Serializable {
 	public Long success;
 	public String message;
 }

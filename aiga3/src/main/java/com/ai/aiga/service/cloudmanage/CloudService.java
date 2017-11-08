@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.service.cloudmanage.dto.cloudOutput;
+import com.ai.aiga.service.cloudmanage.dto.CloudOutput;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
@@ -18,7 +18,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput firstAdd(ArchitectureFirstRequest params) {
+	public CloudOutput firstAdd(ArchitectureFirstRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/first/add",params);
 	}
 	
@@ -27,7 +27,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput firstModify(ArchitectureFirstRequest params) {
+	public CloudOutput firstModify(ArchitectureFirstRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/first/modify",params);
 	}
 	
@@ -36,7 +36,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput firstDelete(ArchitectureFirstRequest params) {
+	public CloudOutput firstDelete(ArchitectureFirstRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/first/delete",params);
 	}
 	/**
@@ -44,7 +44,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput secondAdd(ArchitectureSecondRequest params) {
+	public CloudOutput secondAdd(ArchitectureSecondRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/second/add",params);
 	}
 	
@@ -53,7 +53,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput secondModify(ArchitectureSecondRequest params) {
+	public CloudOutput secondModify(ArchitectureSecondRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/second/modify",params);
 	}
 	
@@ -62,7 +62,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput secondDelete(ArchitectureSecondRequest params) {
+	public CloudOutput secondDelete(ArchitectureSecondRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/second/delete",params);
 	}
 	/**
@@ -70,7 +70,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput thirdAdd(ArchitectureThirdRequest params) {
+	public CloudOutput thirdAdd(ArchitectureThirdRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/third/add",params);
 	}
 	
@@ -79,7 +79,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput thirdModify(ArchitectureThirdRequest params) {
+	public CloudOutput thirdModify(ArchitectureThirdRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/third/modify",params);
 	}
 	
@@ -88,7 +88,7 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public cloudOutput thirdDelete(ArchitectureThirdRequest params) {
+	public CloudOutput thirdDelete(ArchitectureThirdRequest params) {
 		return CloudServiceUtil.cloudRestfulcall("architecture/third/delete",params);
 	}
 }

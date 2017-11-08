@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
-import com.ai.aiga.service.cloudmanage.dto.cloudOutput;
+import com.ai.aiga.service.cloudmanage.dto.CloudOutput;
 import com.ai.aiga.util.ExceptionUtil;
 
 public class CloudServiceUtil {
@@ -56,8 +56,8 @@ public class CloudServiceUtil {
 	 * @param params   入参
 	 * @return
 	 */
-	public static cloudOutput cloudRestfulcall(String service, Object params) {
-		cloudOutput bean = new cloudOutput();
+	public static CloudOutput cloudRestfulcall(String service, Object params) {
+		CloudOutput bean = new CloudOutput();
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
@@ -74,7 +74,7 @@ public class CloudServiceUtil {
 			} else {
 				url = URL+service;
 			}		
-			bean = restTemplate.postForObject(url, formEntity, cloudOutput.class);
+			bean = restTemplate.postForObject(url, formEntity, CloudOutput.class);
 		} catch (Exception e) {				
 			bean.setSuccess(0L);
 			bean.setMessage(e.getMessage());

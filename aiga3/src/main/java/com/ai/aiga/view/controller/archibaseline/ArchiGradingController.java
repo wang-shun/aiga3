@@ -31,6 +31,7 @@ import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.service.cloudmanage.CloudService;
+import com.ai.aiga.service.cloudmanage.dto.CloudOutput;
 import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
@@ -400,7 +401,7 @@ public class ArchiGradingController {
 					firstInput.setDescription("");
 					architectureFirstSv.delete(firstInput.getIdFirst());
 					//云管同步数据
-					cloudService.firstDelete(firstInput);
+					cloudMessageBean(bean,cloudService.firstDelete(firstInput));
 				} else if("新增".equals(operation)) {
 					//校验编号是否在归档表存在				
 					if(architectureFirstSv.findOne(firstInput.getIdFirst())!=null) {
@@ -411,7 +412,7 @@ public class ArchiGradingController {
 					firstInput.setDescription("");
 					architectureFirstSv.save(firstInput);
 					//云管同步数据
-					cloudService.firstAdd(firstInput);
+					cloudMessageBean(bean,cloudService.firstAdd(firstInput));				
 				} else {
 					if(architectureFirstSv.findOne(firstInput.getIdFirst())==null) {
 						bean.fail("数据库不存在此条数据");
@@ -625,4 +626,14 @@ public class ArchiGradingController {
 		bean.setData(data);
 		return bean;
 	}	
+	/**
+	 * 云管返回信息处理
+	 * @param bean
+	 * @param cloudBean
+	 */
+	public void cloudMessageBean(JsonBean bean,CloudOutput cloudBean) {
+		if(cloudBean.getSuccess() != 1L) {
+			bean.fail("云管数据同步失败："+cloudBean.getMessage());
+		}
+	}
 }

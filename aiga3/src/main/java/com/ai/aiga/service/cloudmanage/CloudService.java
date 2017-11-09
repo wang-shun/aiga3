@@ -48,20 +48,21 @@ public class CloudService extends BaseService {
 		//三级域
 		ArchitectureThirdRequest param = new ArchitectureThirdRequest();
 		param.setOnlysysId(9999L);
-		param.setApplyId(780L);
-		param.setApplyUser("admin");
-		param.setCode("数据新增");
-		param.setCreateDate(new Date());
-		param.setExt1("3");
-		param.setIdThird(19919910L);
-		param.setIdSecond(19900000L);
-		param.setBelongLevel("SaaS");
-		param.setModifyDate(new Date());
-		param.setName("三级域测试数据");
-		param.setState("审批通过");
-		param.setSysState("1");
-		param.setExt3("pc");
-		System.out.println(new CloudService().thirdAdd(param).getMessage());
+//		param.setApplyId(780L);
+//		param.setApplyUser("admin");
+//		param.setCode("数据删除");
+//		param.setCreateDate(new Date());
+//		param.setExt1("3");
+//		param.setIdThird(19919910L);
+//		param.setIdSecond(19900000L);
+//		param.setBelongLevel("SaaS");
+//		param.setModifyDate(new Date());
+//		param.setName("三级域测试数据");
+//		param.setState("审批通过");
+//		param.setSysState("1");
+//		param.setExt3("pc");
+//		param.setSystemFunction("测试数据删除");
+		System.out.println(new CloudService().thirdDelete(param,"admin").getMessage());
 	}
 	
 	/**
@@ -71,8 +72,12 @@ public class CloudService extends BaseService {
 	 */
 	public CloudOutput firstAdd(ArchitectureFirstRequest params) {
 		CloudFirstParam cloudFirstParam = BeanMapper.map(params, CloudFirstParam.class);
-		cloudFirstParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		if(params.getCreateDate() != null) {
+			cloudFirstParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/first/add",cloudFirstParam);
 	}
 	
@@ -83,8 +88,12 @@ public class CloudService extends BaseService {
 	 */
 	public CloudOutput firstModify(ArchitectureFirstRequest params) {
 		CloudFirstParam cloudFirstParam = BeanMapper.map(params, CloudFirstParam.class);
-		cloudFirstParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		if(params.getCreateDate() != null) {
+			cloudFirstParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/first/modify",cloudFirstParam);
 	}
 	
@@ -95,8 +104,12 @@ public class CloudService extends BaseService {
 	 */
 	public CloudOutput firstDelete(ArchitectureFirstRequest params) {
 		CloudFirstParam cloudFirstParam = BeanMapper.map(params, CloudFirstParam.class);
-		cloudFirstParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		if(params.getCreateDate() != null) {
+			cloudFirstParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/first/delete",cloudFirstParam);
 	}
 	/**
@@ -106,8 +119,12 @@ public class CloudService extends BaseService {
 	 */
 	public CloudOutput secondAdd(ArchitectureSecondRequest params) {
 		CloudSecondParam cloudSecondParam = BeanMapper.map(params, CloudSecondParam.class);
-		cloudSecondParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		if(params.getCreateDate() != null) {
+			cloudSecondParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/second/add",cloudSecondParam);
 	}
 	
@@ -118,8 +135,12 @@ public class CloudService extends BaseService {
 	 */
 	public CloudOutput secondModify(ArchitectureSecondRequest params) {
 		CloudSecondParam cloudSecondParam = BeanMapper.map(params, CloudSecondParam.class);
-		cloudSecondParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		if(params.getCreateDate() != null) {
+			cloudSecondParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/second/modify",cloudSecondParam);
 	}
 	
@@ -130,8 +151,12 @@ public class CloudService extends BaseService {
 	 */
 	public CloudOutput secondDelete(ArchitectureSecondRequest params) {
 		CloudSecondParam cloudSecondParam = BeanMapper.map(params, CloudSecondParam.class);
-		cloudSecondParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		if(params.getCreateDate() != null) {
+			cloudSecondParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/second/delete",cloudSecondParam);
 	}
 	/**
@@ -139,10 +164,15 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public CloudOutput thirdAdd(ArchitectureThirdRequest params) {
+	public CloudOutput thirdAdd(ArchitectureThirdRequest params,String identifyUser) {
 		CloudThirdParam cloudThirdParam = BeanMapper.map(params, CloudThirdParam.class);
-		cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		cloudThirdParam.setIdentifyUser(identifyUser);
+		if(params.getCreateDate() != null) {
+			cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/third/add",cloudThirdParam);
 	}
 	
@@ -151,10 +181,15 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public CloudOutput thirdModify(ArchitectureThirdRequest params) {
+	public CloudOutput thirdModify(ArchitectureThirdRequest params,String identifyUser) {
 		CloudThirdParam cloudThirdParam = BeanMapper.map(params, CloudThirdParam.class);
-		cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		cloudThirdParam.setIdentifyUser(identifyUser);
+		if(params.getCreateDate() != null) {
+			cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/third/modify",cloudThirdParam);
 	}
 	
@@ -163,10 +198,15 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public CloudOutput thirdDelete(ArchitectureThirdRequest params) {
+	public CloudOutput thirdDelete(ArchitectureThirdRequest params,String identifyUser) {
 		CloudThirdParam cloudThirdParam = BeanMapper.map(params, CloudThirdParam.class);
-		cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
-		cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		cloudThirdParam.setIdentifyUser(identifyUser);
+		if(params.getCreateDate() != null) {
+			cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
+		}
+		if(params.getModifyDate() != null) {
+			cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
+		}
 		return CloudServiceUtil.cloudRestfulcall("architecture/third/delete",cloudThirdParam);
 	}
 }

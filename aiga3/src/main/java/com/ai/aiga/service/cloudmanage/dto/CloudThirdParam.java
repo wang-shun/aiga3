@@ -31,4 +31,5 @@ public class CloudThirdParam implements Serializable {
     private String ext3;
     private String developer;  
     private String cloudOrderId;
+    private String identifyUser;
 }

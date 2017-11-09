@@ -365,6 +365,7 @@ public class ArchiGradingController {
 		AigaStaff staffInfo = SessionMgrUtil.getStaff();	
 		input.setIdentifyUser(staffInfo.getName());
 		String mailMessage = "";
+		String operation = input.getDescription();
 		//申请单在途校验
 		ArchitectureGrading checkParam = new ArchitectureGrading();
 		checkParam.setApplyId(input.getApplyId());
@@ -381,14 +382,27 @@ public class ArchiGradingController {
 		}
 		//数据校验
 		if("审批未通过".equals(input.getState())) {
+			//失败信息同步给云管
+			if(StringUtils.isBlank(input.getCloudOrderId())  || "0".equals(input.getCloudOrderId())) {
+				if("3".equals(input.getExt1())) {
+					ArchitectureThirdRequest cloudInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
+					String Identyname = aigaStaffSv.findStaffByCode(input.getIdentifyUser()).getName();
+					if("新增".equals(operation)) {
+						cloudMessageBean(bean,cloudService.thirdAdd(cloudInput,Identyname));
+					} else if("修改".equals(operation)) {
+						cloudMessageBean(bean,cloudService.thirdModify(cloudInput,Identyname));	
+					} else if("删除".equals(operation)) {
+						cloudMessageBean(bean,cloudService.thirdDelete(cloudInput,Identyname));	
+					} else {					
+					}
+				}
+			}
 			architectureGradingSv.update(input);
 			mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批不通过&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
 			mailMessage += input.getIdentifiedInfo()==""?"无":input.getIdentifiedInfo();
 		} else {
 			//认定通过逻辑			
-			input.setModifyDate(new Date());
-			String operation = input.getDescription();
-		
+			input.setModifyDate(new Date());				
 			if("1".equals(input.getExt1())) {			
 				ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
 				firstInput.setIdFirst(input.getSysId());
@@ -422,7 +436,7 @@ public class ArchiGradingController {
 					firstInput.setModifyDate(new Date());
 					architectureFirstSv.save(firstInput);
 					//云管同步数据
-					cloudService.firstModify(firstInput);
+					cloudMessageBean(bean,cloudService.firstModify(firstInput));				
 				}		
 				architectureGradingSv.update(input);
 			} else if ("2".equals(input.getExt1())) {
@@ -437,7 +451,7 @@ public class ArchiGradingController {
 					secInput.setDescription("");
 					architectureSecondSv.delete(secInput.getIdSecond());
 					//云管同步数据
-					cloudService.secondDelete(secInput);
+					cloudMessageBean(bean,cloudService.secondDelete(secInput));				
 				} else if("新增".equals(operation)) {
 					//校验编号是否在归档表存在				
 					if(architectureSecondSv.findOne(secInput.getIdSecond())!=null) {
@@ -448,7 +462,7 @@ public class ArchiGradingController {
 					secInput.setDescription("");
 					architectureSecondSv.save(secInput);
 					//云管同步数据
-					cloudService.secondAdd(secInput);
+					cloudMessageBean(bean,cloudService.secondAdd(secInput));	
 				} else {
 					if(architectureSecondSv.findOne(secInput.getIdSecond())==null) {
 						bean.fail("数据库不存在此条数据");
@@ -458,7 +472,7 @@ public class ArchiGradingController {
 					secInput.setModifyDate(new Date());
 					architectureSecondSv.save(secInput);
 					//云管同步数据
-					cloudService.secondModify(secInput);
+					cloudMessageBean(bean,cloudService.secondModify(secInput));	
 				}	
 				architectureGradingSv.update(input);
 			} else if ("3".equals(input.getExt1())) {		
@@ -473,7 +487,7 @@ public class ArchiGradingController {
 					thirdInput.setDescription("");
 					architectureThirdSv.delete(thirdInput.getOnlysysId());
 					//云管同步数据
-					cloudService.thirdDelete(thirdInput);
+					cloudMessageBean(bean,cloudService.thirdDelete(thirdInput));	
 				} else if("新增".equals(operation)) {
 					//校验编号是否在归档表存在				
 					if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird()).size()>0) {
@@ -484,7 +498,7 @@ public class ArchiGradingController {
 					thirdInput.setDescription("");
 					architectureThirdSv.save(thirdInput);
 					//云管同步数据
-					cloudService.thirdAdd(thirdInput);
+					cloudMessageBean(bean,cloudService.thirdAdd(thirdInput));	
 				} else {
 					if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
 						bean.fail("数据库不存在此条数据");
@@ -493,7 +507,8 @@ public class ArchiGradingController {
 					thirdInput.setModifyDate(new Date());
 					thirdInput.setDescription("");
 					architectureThirdSv.save(thirdInput);
-					cloudService.thirdModify(thirdInput);
+					//云管同步数据
+					cloudMessageBean(bean,cloudService.thirdModify(thirdInput));	
 				}		
 				architectureGradingSv.update(input);
 			} else {

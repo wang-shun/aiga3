@@ -223,19 +223,22 @@ public class ArchitectureGradingSv extends BaseService {
 		architectureGrading.setExt2(request.getSysStateTime());
 		architectureGrading.setExt3(request.getMedia());
 		architectureGrading.setDeveloper(request.getDeveloper());
-//		MultipartFile file = request.getFile();
-//		// 获取文件名称
-//		String fileName = file.getOriginalFilename();
-//		// 设置主机上的文件名
-//		String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
 		try {
 			architectureGradingDao.save(architectureGrading);
-//			// 把文件上传到主机
-//			FileUtil.uploadFile(file, fileNameNew);
-//			//约定planId=3/fileType=3
-//			dealFileSv.saveFileInfo(3L, fileName, 3L, date);
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());
+		} finally {
+			MultipartFile file = request.getFile();
+			if(file!=null){
+				// 获取文件名称
+				String fileName = file.getOriginalFilename();
+				// 设置主机上的文件名
+				String fileNameNew = fileName + "_" + DateUtil.getDateStringByDate(date, DateUtil.YYYYMMDDHHMMSS);
+				// 把文件上传到主机
+				FileUtil.uploadFile(file, fileNameNew);
+				//约定planId=3/fileType=3
+				dealFileSv.saveFileInfo(3L, fileName, 3L, date);
+			}
 		}
 	}
 	

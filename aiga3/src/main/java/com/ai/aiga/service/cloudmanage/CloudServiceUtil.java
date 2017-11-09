@@ -12,7 +12,7 @@ import com.ai.aiga.util.ExceptionUtil;
 
 public class CloudServiceUtil {
 	private static Boolean isTest = false;
-	private static String URL = "http://devopstest.yw.zj.chinamobile.com/v1/businessventer/";
+	private static String URL = "http://devopstest.yw.zj.chinamobile.com:10005/v1/businesscenter/";
 	private static String testURL = "http://192.168.2.236:8080/aiga3/";// "http://localhost:8080/aiga3/";
 	/**
 	 * 使用restTemplate发起post请求
@@ -64,7 +64,7 @@ public class CloudServiceUtil {
 			MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
 			headers.setContentType(type);
 			headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-				
+			headers.add("businesscenter", "businesscenter");
 			JSONObject jsonObj = JSONObject.fromObject(params);	          
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);
 			String url = "";
@@ -83,8 +83,4 @@ public class CloudServiceUtil {
 		return bean;
 	}
 	
-	
-//	public static void main(String[] args) {
-//		template("archi/third/list", null, JsonBean.class);
-//	}
 }

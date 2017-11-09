@@ -64,6 +64,7 @@ public class CloudServiceUtil {
 			MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
 			headers.setContentType(type);
 			headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+			//添加businesscenter绕过运营中心检测 
 			headers.add("businesscenter", "businesscenter");
 			JSONObject jsonObj = JSONObject.fromObject(params);	          
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);

@@ -40,7 +40,7 @@
 
 	<!-- 私库配置, 私库的优先级比中央仓库的优先级高 -->
         <repositories> <repository> <id>zj-crm-repo</id> <name>zj crm personal 
-		repository</name> <url>http://10.70.181.10:8081/nexus/content/groups/public/</url> 
+		repository</name> <url>http://nexus.zj.chinamobile.com:8081/nexus/content/groups/public/</url> 
 		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>true</enabled> 
 		</snapshots> </repository> </repositories> 
 

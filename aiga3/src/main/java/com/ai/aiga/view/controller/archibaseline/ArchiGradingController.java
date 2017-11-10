@@ -404,7 +404,7 @@ public class ArchiGradingController {
 			}
 			architectureGradingSv.update(input);
 			mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批不通过&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
-			mailMessage += input.getIdentifiedInfo()==""?"无":input.getIdentifiedInfo();
+			mailMessage += StringUtils.isBlank(input.getIdentifiedInfo())?"无":input.getIdentifiedInfo();
 		} else {
 			//认定通过逻辑			
 			input.setModifyDate(new Date());				

@@ -648,12 +648,12 @@ public class ArchiGradingController {
 	}	
 	/**
 	 * 云管返回信息处理
-	 * @param bean
-	 * @param cloudBean
+	 * @param bean       系统侧的消息
+	 * @param cloudBean  从云管侧返回的消息
 	 */
 	public void cloudMessageBean(JsonBean bean,CloudOutput cloudBean) {
 		if(cloudBean.getSuccess() != 1L) {
-			bean.fail("云管数据同步失败："+cloudBean.getMessage());
+			bean.fail("云管数据同步异常："+cloudBean.getMessage());
 		}
 	}
 }

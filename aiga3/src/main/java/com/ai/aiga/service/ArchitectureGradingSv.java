@@ -3,11 +3,9 @@ package com.ai.aiga.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,12 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureGradingDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.ArchitectureGrading;
-import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
@@ -186,7 +182,6 @@ public class ArchitectureGradingSv extends BaseService {
 	}
 	
 	public void newSave(ArchiThirdApplyParams request){
-//		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
 		ArchitectureGrading architectureGrading = new ArchitectureGrading();
 		//层级数组
 		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};

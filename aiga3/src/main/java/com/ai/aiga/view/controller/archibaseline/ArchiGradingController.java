@@ -74,6 +74,11 @@ public class ArchiGradingController {
 		UserInfo userInfo = SessionMgrUtil.getUserInfo();
 		//操作类型
 		String description = architectureGrading.getDescription();
+		if("新增".equals(description) || "修改".equals(description) || "删除".equals(description)) {		
+		} else {
+			bean.fail("操作类型有误！");
+			return bean;
+		}
 		//非空校验
 		if(architectureGrading.getSysId()==0L) {
 			bean.fail("编号为空！");
@@ -577,7 +582,12 @@ public class ArchiGradingController {
 		} else if("3".equals(ext1)) {
 			//生成三级系统编号
 			Long preId = input.getIdThird();
-			if(preId.toString().length()==4) {
+			if(preId == null || preId==0) {
+				//若编号字段空或者没有值 TO DO
+				bean.fail("三级编号生成失败");
+				return bean;
+			} else if(preId.toString().length()==4) {
+				//继申请是申成的4位编号 生成之后的几位，变成完整的系统编号
 				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
 				if(result != null) {
 					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
@@ -648,12 +658,12 @@ public class ArchiGradingController {
 	}	
 	/**
 	 * 云管返回信息处理
-	 * @param bean
-	 * @param cloudBean
+	 * @param bean       系统侧的消息
+	 * @param cloudBean  从云管侧返回的消息
 	 */
 	public void cloudMessageBean(JsonBean bean,CloudOutput cloudBean) {
 		if(cloudBean.getSuccess() != 1L) {
-			bean.fail("云管数据同步失败："+cloudBean.getMessage());
+			bean.fail("云管数据同步异常："+cloudBean.getMessage());
 		}
 	}
 }

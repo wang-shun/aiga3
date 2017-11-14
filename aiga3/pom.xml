@@ -39,13 +39,55 @@
 	</properties>
 
 	<!-- 私库配置, 私库的优先级比中央仓库的优先级高 -->
-        <repositories> <repository> <id>zj-crm-repo</id> <name>zj crm personal 
-		repository</name> <url>http://nexus.zj.chinamobile.com:8081/nexus/content/groups/public/</url> 
-		<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>true</enabled> 
-		</snapshots> </repository> </repositories> 
-
-	<dependencies>
-
+	<repositories>
+		<repository>
+			<id>public-adcloud</id>
+			<name>public-adcloud</name>
+			<url>http://nexus.zj.chinamobile.com:8081/nexus/content/repositories/maven_public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>asiainfo-adcloud</id>
+			<name>asiainfo-adcloud</name>
+			<url>http://nexus.zj.chinamobile.com:8081/nexus/content/repositories/public-adcloud/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public-adcloud</id>
+			<name>public-adcloud</name>
+			<url>http://nexus.zj.chinamobile.com:8081/nexus/content/repositories/maven_public/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>asiainfo-adcloud</id>
+			<name>asiainfo-adcloud</name>
+			<url>http://nexus.zj.chinamobile.com:8081/nexus/content/repositories/public-adcloud/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+    <dependencies>
 		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>

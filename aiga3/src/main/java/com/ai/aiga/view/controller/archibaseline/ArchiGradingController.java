@@ -385,7 +385,7 @@ public class ArchiGradingController {
 				return bean;
 			}
 		}
-		String Identyname = aigaStaffSv.findStaffByCode(input.getIdentifyUser()).getName();
+		String Identyname = input.getIdentifyUser();
 		if(StringUtils.isBlank(Identyname)) {
 			Identyname = "用户数据错误";
 		}

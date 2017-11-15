@@ -481,11 +481,13 @@ public class ArchiGradingController {
 		}	
 		//认定发送邮件
 		AigaStaff applyUser = aigaStaffSv.findStaffByCode(input.getApplyUser());
-		String addressee = StringUtils.isNotBlank(applyUser.getEmail())? applyUser.getEmail() :"";
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-		String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
-		content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
-		mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
+		if(applyUser != null) {
+			String addressee = StringUtils.isNotBlank(applyUser.getEmail())? applyUser.getEmail() :"";
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+			String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
+			content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
+			mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
+		}
 		return bean;
 	}
 	

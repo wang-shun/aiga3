@@ -229,13 +229,15 @@ public class ArchitectureThirdSv extends BaseService {
 		}
 	}
 	
-	public void save(ArchitectureThirdRequest request){
+	public ArchitectureThirdRequest save(ArchitectureThirdRequest request){
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
+		ArchitectureThird outData = new ArchitectureThird();
 		try {
-			architectureThirdDao.save(architectureThird);
+			 outData = architectureThirdDao.save(architectureThird);
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());
 		}
+		return BeanMapper.map(outData, ArchitectureThirdRequest.class);
 	}
 	
 	public void update(ArchitectureThirdRequest request){

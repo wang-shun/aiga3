@@ -506,9 +506,9 @@ public class ArchiGradingController {
 					}
 					thirdInput.setCreateDate(new Date());	
 					thirdInput.setDescription("");
-					architectureThirdSv.save(thirdInput);
+					ArchitectureThirdRequest param = architectureThirdSv.save(thirdInput);
 					//云管同步数据
-					cloudMessageBean(bean,cloudService.thirdAdd(thirdInput,Identyname));	
+					cloudMessageBean(bean,cloudService.thirdAdd(param,Identyname));	
 				} else {
 					if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
 						bean.fail("数据库不存在此条数据");

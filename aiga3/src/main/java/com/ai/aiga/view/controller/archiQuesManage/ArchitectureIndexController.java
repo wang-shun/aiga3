@@ -194,30 +194,58 @@ public class ArchitectureIndexController extends BaseService {
 					seriesList.add(baseSeries);
 				}
 			}else{
-				if(!legendList.contains(baseManage.getKey2())){
-					legendList.add(baseManage.getKey2());
-					ViewSeries2 baseSeries = new ViewSeries2();
-					baseSeries.setType("bar");
-					String name = baseManage.getKey2();
-					baseSeries.setName(name);
-					double[] data = new double[DATA_LENGTH];
-					Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
-					while(iterator2.hasNext()){
-						ArchSrvManage archSrvManage = iterator2.next();
-						if(archSrvManage.getKey2().equals(name)){
-							String setMonth = archSrvManage.getSettMonth().trim();
-							for(int i=0;i<DATA_LENGTH;i++){
-								String selectMonth = days.get(i).replace("-", "").trim();
-								if(setMonth.equals(selectMonth)){
-									
-									data[i]=Double.parseDouble(archSrvManage.getResultValue());
-									iterator2.remove();
+				if(baseManage.getKey3()==null){
+					if(!legendList.contains(baseManage.getKey2())){
+						legendList.add(baseManage.getKey2());
+						ViewSeries2 baseSeries = new ViewSeries2();
+						baseSeries.setType("bar");
+						String name = baseManage.getKey2();
+						baseSeries.setName(name);
+						double[] data = new double[DATA_LENGTH];
+						Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
+						while(iterator2.hasNext()){
+							ArchSrvManage archSrvManage = iterator2.next();
+							if(archSrvManage.getKey2().equals(name)){
+								String setMonth = archSrvManage.getSettMonth().trim();
+								for(int i=0;i<DATA_LENGTH;i++){
+									String selectMonth = days.get(i).replace("-", "").trim();
+									if(setMonth.equals(selectMonth)){
+										
+										data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										iterator2.remove();
+									}
 								}
 							}
 						}
+						baseSeries.setData(data);
+						seriesList.add(baseSeries);
 					}
-					baseSeries.setData(data);
-					seriesList.add(baseSeries);
+				}else if(baseManage.getKey3()!=null){
+					if(!legendList.contains(baseManage.getKey2().trim()+baseManage.getKey3().trim())){
+						legendList.add(baseManage.getKey2().trim()+baseManage.getKey3().trim());
+						ViewSeries2 baseSeries = new ViewSeries2();
+						baseSeries.setType("bar");
+						String name = baseManage.getKey2().trim()+baseManage.getKey3().trim();
+						baseSeries.setName(name);
+						double[] data = new double[DATA_LENGTH];
+						Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
+						while(iterator2.hasNext()){
+							ArchSrvManage archSrvManage = iterator2.next();
+							if((archSrvManage.getKey2().trim()+archSrvManage.getKey3().trim()).equals(name)){
+								String setMonth = archSrvManage.getSettMonth().trim();
+								for(int i=0;i<DATA_LENGTH;i++){
+									String selectMonth = days.get(i).replace("-", "").trim();
+									if(setMonth.equals(selectMonth)){
+										
+										data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										iterator2.remove();
+									}
+								}
+							}
+						}
+						baseSeries.setData(data);
+						seriesList.add(baseSeries);
+					}
 				}
 			}
 		}

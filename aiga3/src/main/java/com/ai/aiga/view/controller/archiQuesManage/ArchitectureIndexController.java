@@ -194,30 +194,58 @@ public class ArchitectureIndexController extends BaseService {
 					seriesList.add(baseSeries);
 				}
 			}else{
-				if(!legendList.contains(baseManage.getKey2())){
-					legendList.add(baseManage.getKey2());
-					ViewSeries2 baseSeries = new ViewSeries2();
-					baseSeries.setType("bar");
-					String name = baseManage.getKey2();
-					baseSeries.setName(name);
-					double[] data = new double[DATA_LENGTH];
-					Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
-					while(iterator2.hasNext()){
-						ArchSrvManage archSrvManage = iterator2.next();
-						if(archSrvManage.getKey2().equals(name)){
-							String setMonth = archSrvManage.getSettMonth().trim();
-							for(int i=0;i<DATA_LENGTH;i++){
-								String selectMonth = days.get(i).replace("-", "").trim();
-								if(setMonth.equals(selectMonth)){
-									
-									data[i]=Double.parseDouble(archSrvManage.getResultValue());
-									iterator2.remove();
+				if(baseManage.getKey3()==null){
+					if(!legendList.contains(baseManage.getKey2())){
+						legendList.add(baseManage.getKey2());
+						ViewSeries2 baseSeries = new ViewSeries2();
+						baseSeries.setType("bar");
+						String name = baseManage.getKey2();
+						baseSeries.setName(name);
+						double[] data = new double[DATA_LENGTH];
+						Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
+						while(iterator2.hasNext()){
+							ArchSrvManage archSrvManage = iterator2.next();
+							if(archSrvManage.getKey2().equals(name)){
+								String setMonth = archSrvManage.getSettMonth().trim();
+								for(int i=0;i<DATA_LENGTH;i++){
+									String selectMonth = days.get(i).replace("-", "").trim();
+									if(setMonth.equals(selectMonth)){
+										
+										data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										iterator2.remove();
+									}
 								}
 							}
 						}
+						baseSeries.setData(data);
+						seriesList.add(baseSeries);
 					}
-					baseSeries.setData(data);
-					seriesList.add(baseSeries);
+				}else if(baseManage.getKey3()!=null){
+					if(!legendList.contains(baseManage.getKey2().trim()+baseManage.getKey3().trim())){
+						legendList.add(baseManage.getKey2().trim()+baseManage.getKey3().trim());
+						ViewSeries2 baseSeries = new ViewSeries2();
+						baseSeries.setType("bar");
+						String name = baseManage.getKey2().trim()+baseManage.getKey3().trim();
+						baseSeries.setName(name);
+						double[] data = new double[DATA_LENGTH];
+						Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
+						while(iterator2.hasNext()){
+							ArchSrvManage archSrvManage = iterator2.next();
+							if((archSrvManage.getKey2().trim()+archSrvManage.getKey3().trim()).equals(name)){
+								String setMonth = archSrvManage.getSettMonth().trim();
+								for(int i=0;i<DATA_LENGTH;i++){
+									String selectMonth = days.get(i).replace("-", "").trim();
+									if(setMonth.equals(selectMonth)){
+										
+										data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										iterator2.remove();
+									}
+								}
+							}
+						}
+						baseSeries.setData(data);
+						seriesList.add(baseSeries);
+					}
 				}
 			}
 		}
@@ -256,34 +284,66 @@ public class ArchitectureIndexController extends BaseService {
 		Iterator<ArchDbConnect>iter=connectList.iterator();
 		while(iter.hasNext()){
 			ArchDbConnect baseConnect = iter.next();
-			if(!newList.contains(baseConnect.getKey1())){
-				ViewSeries baseSeries = new ViewSeries();
-				baseSeries.setType("bar");
-				newList.add(baseConnect.getKey1());
-				String name = baseConnect.getKey1();
-				baseSeries.setName(name);		
-				legendList.add(name);
-				//给对应的列赋值
-				int[] data = new int[constantValue];
-				Iterator<ArchDbConnect>iterator = connectList2.iterator();
-				while(iterator.hasNext()){
-					ArchDbConnect archDbConnect = iterator.next();
-					if(archDbConnect.getKey1().equals(name)) {
-						String SetMonths = archDbConnect.getSettMonth().trim();
-//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
-						for(int i=0;i<data.length;i++){
-							String newMonth = months2.get(i).trim();
-							String newDay = newMonth.replace("-", "");
-							if(SetMonths.equals(newDay)){
-								data[i]=Integer.parseInt(archDbConnect.getResultValue());
-								iterator.remove();
+			if(baseConnect.getKey3()==null){
+
+				if(!newList.contains(baseConnect.getKey1())){
+					ViewSeries baseSeries = new ViewSeries();
+					baseSeries.setType("bar");
+					newList.add(baseConnect.getKey1());
+					String name = baseConnect.getKey1();
+					baseSeries.setName(name);		
+					legendList.add(name);
+					//给对应的列赋值
+					int[] data = new int[constantValue];
+					Iterator<ArchDbConnect>iterator = connectList2.iterator();
+					while(iterator.hasNext()){
+						ArchDbConnect archDbConnect = iterator.next();
+						if(archDbConnect.getKey1().equals(name)) {
+							String SetMonths = archDbConnect.getSettMonth().trim();
+	//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
+							for(int i=0;i<data.length;i++){
+								String newMonth = months2.get(i).trim();
+								String newDay = newMonth.replace("-", "");
+								if(SetMonths.equals(newDay)){
+									data[i]=Integer.parseInt(archDbConnect.getResultValue());
+									iterator.remove();
+								}
 							}
-						}
-					}					
-				}
-				baseSeries.setData(data);
-				seriesList.add(baseSeries);
-		    }
+						}					
+					}
+					baseSeries.setData(data);
+					seriesList.add(baseSeries);
+			    }
+			}else{
+				if(!newList.contains(baseConnect.getKey2().trim()+baseConnect.getKey3().trim())){
+					ViewSeries baseSeries = new ViewSeries();
+					baseSeries.setType("bar");
+					newList.add(baseConnect.getKey2().trim()+baseConnect.getKey3().trim());
+					String name = baseConnect.getKey2().trim()+baseConnect.getKey3().trim();
+					baseSeries.setName(name);		
+					legendList.add(name);
+					//给对应的列赋值
+					int[] data = new int[constantValue];
+					Iterator<ArchDbConnect>iterator = connectList2.iterator();
+					while(iterator.hasNext()){
+						ArchDbConnect archDbConnect = iterator.next();
+						if((archDbConnect.getKey2().trim()+archDbConnect.getKey3().trim()).equals(name)) {
+							String SetMonths = archDbConnect.getSettMonth().trim();
+	//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
+							for(int i=0;i<data.length;i++){
+								String newMonth = months2.get(i).trim();
+								String newDay = newMonth.replace("-", "");
+								if(SetMonths.equals(newDay)){
+									data[i]=Integer.parseInt(archDbConnect.getResultValue());
+									iterator.remove();
+								}
+							}
+						}					
+					}
+					baseSeries.setData(data);
+					seriesList.add(baseSeries);
+			    }
+			}
 		};
 		output.setLegend(legendList);
 		output.setSeries(seriesList);

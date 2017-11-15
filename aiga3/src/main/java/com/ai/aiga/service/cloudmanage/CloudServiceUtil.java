@@ -11,9 +11,9 @@ import com.ai.aiga.service.cloudmanage.dto.CloudOutput;
 import com.ai.aiga.util.ExceptionUtil;
 
 public class CloudServiceUtil {
-	private static Boolean isTest = false;
-	private static String URL = "http://devopstest.yw.zj.chinamobile.com:10005/v1/businesscenter/";
-	private static String testURL = "http://192.168.2.236:8080/aiga3/";// "http://localhost:8080/aiga3/";
+	private static Boolean isTest = true;
+	private static String URL = "http://businesscenter.cmp.zj.chinamobile.com/v1/businessventer/";
+	private static String testURL = "http://20.26.25.152:10005/v1/businesscenter/";// "http://localhost:8080/aiga3/";
 	/**
 	 * 使用restTemplate发起post请求
 	 * @param service      服务名称

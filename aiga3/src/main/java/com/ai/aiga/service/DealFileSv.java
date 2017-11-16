@@ -75,7 +75,7 @@ public class DealFileSv extends BaseService{
 				return;
 			}
 			NaFileUpload fileEntity = new NaFileUpload(fileName, date, fileType, planId,
-					SessionMgrUtil.getStaff().getStaffId(), 0L);
+					11L, 0L);
 			naFileUploadDao.save(fileEntity);
 
 		}

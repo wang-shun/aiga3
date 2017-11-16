@@ -664,8 +664,13 @@ public class ArchiGradingController {
 	 * @param cloudBean  从云管侧返回的消息
 	 */
 	public void cloudMessageBean(JsonBean bean,CloudOutput cloudBean) {
-		if(cloudBean.getSuccess() != 1L) {
-			bean.fail("云管数据同步异常："+cloudBean.getMessage());
+		if(cloudBean != null) {
+			if(cloudBean.getSuccess() != 1L) {
+				bean.fail("云管数据同步异常："+cloudBean.getMessage());
+			}
+		} else {
+			bean.fail("云管数据同步异常："+"未接受到返回信息");
 		}
+
 	}
 }

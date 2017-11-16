@@ -1,7 +1,5 @@
 package com.ai.aiga.service.cloudmanage;
 
-import java.util.Date;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +28,7 @@ public class CloudService extends BaseService {
 //		param.setModifyDate(new Date());
 //		param.setName("一级域测试数据");
 //		param.setState("审批通过");
-//		System.out.println(new CloudService().firstDelete(param).getMessage());
+//		System.out.println(new CloudService().firstModify(param).getMessage());
 		//二级测试
 //		ArchitectureSecondRequest param = new ArchitectureSecondRequest();
 //		param.setApplyId(760L);
@@ -46,23 +44,9 @@ public class CloudService extends BaseService {
 //		param.setState("审批通过");
 //		System.out.println(new CloudService().secondDelete(param).getMessage());
 		//三级域
-		ArchitectureThirdRequest param = new ArchitectureThirdRequest();
-		param.setOnlysysId(9999L);
-//		param.setApplyId(780L);
-//		param.setApplyUser("admin");
-//		param.setCode("数据删除");
-//		param.setCreateDate(new Date());
-//		param.setExt1("3");
-//		param.setIdThird(19919910L);
-//		param.setIdSecond(19900000L);
-//		param.setBelongLevel("SaaS");
-//		param.setModifyDate(new Date());
-//		param.setName("三级域测试数据");
-//		param.setState("审批通过");
-//		param.setSysState("1");
-//		param.setExt3("pc");
-//		param.setSystemFunction("测试数据删除");
-		System.out.println(new CloudService().thirdDelete(param,"admin").getMessage());
+//		ArchitectureThirdRequest param = new ArchitectureThirdRequest();
+//		param.setOnlysysId(9999L);
+//		System.out.println(new CloudService().thirdDelete(param,"admin").getMessage());
 	}
 	
 	/**

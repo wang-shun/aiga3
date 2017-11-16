@@ -1,36 +1,26 @@
 package com.ai.aiga.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.sl.draw.BitmapImageRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.jpa.Condition;
-import com.ai.aiga.domain.AigaStaff;
-import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.util.DateUtil;
-import com.ai.aiga.util.FileUtil;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
-import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdApplyParams;
-import com.ai.aiga.view.json.base.JsonBean;
 
 @Service
 @Transactional

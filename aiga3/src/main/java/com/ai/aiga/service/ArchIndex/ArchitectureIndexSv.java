@@ -41,7 +41,7 @@ public class ArchitectureIndexSv extends BaseService {
 	
 	public Page<IndexConnect>listDbConnects(int pageNumber, int pageSize, AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
+			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value,ar.key_2,ar.key_3 " +
 				" from am_core_index am, arch_db_connect ar " +
 				" where am.group_id = ar.group_id and am.index_id = ar.index_id " );
 //				"and am.index_group = :indexGroup" +
@@ -95,7 +95,7 @@ public class ArchitectureIndexSv extends BaseService {
 	
 	public Page<IndexConnect>listDbConnects2(int pageNumber, int pageSize, AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-				" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
+				" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value,ar.key_2,ar.key_3 " +
 						" from am_core_index am, arch_db_connect ar " +
 				" where am.group_id = ar.group_id and am.index_id = ar.index_id " );
 //				"and am.index_group = :indexGroup" +
@@ -410,7 +410,7 @@ public class ArchitectureIndexSv extends BaseService {
 	
 	public Page<IndexConnect>listSrvManage(int pageNumber, int pageSize, AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value " +
+			" select am.index_id,ar.sett_month,am.index_group,am.index_name,ar.result_value,ar.key_2,ar.key_3 " +
 				" from am_core_index am, arch_srv_manage ar " +
 				" where am.group_id = ar.group_id and am.index_id = ar.index_id " );
 //				"and am.index_group = :indexGroup " +

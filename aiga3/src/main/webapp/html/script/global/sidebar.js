@@ -57,25 +57,24 @@ define(function(require, exports, module) {
                 $('#JS_childTab_' + objData.id).data("cmd", objData.cmd); // 页面重新加载时，传入新参数
                 Rose.ajax.loadHtml($('#JS_childTab_' + objData.id), objData.href);
         	}else{
-        		if($(Dom.mainTabs).children("li").length < 8){
-        			var _delDom = '';
-        			if(objData.name!="首页"){
-        				_delDom = '<i class="fa fa-remove"></i>';
-        			}
-                    var _dataCmd = objData.cmd || '';
-	        		$(Dom.mainTabs).children('li.active').removeClass('active').end().append('<li class="active">'+
-	        					'<a href="#JS_childTab_'+objData.id+'" data-toggle="tab" title="'+objData.name+'" data-id="'+objData.id+'">'+
-	        						Rose.string.substr(objData.name,6) + _delDom +
-	                        	'</a>'+
-	                    	'</li>');
-	        		$(Dom.mainTabsContent).children('div.active').removeClass('active').end().append('<div class="tab-pane active" id="JS_childTab_'+objData.id+'" data-funid ="'+objData.id+'" data-cmd ="'+_dataCmd+'"></div>');
-	        		Rose.ajax.loadHtml($('#JS_childTab_'+objData.id),objData.href);
+                if($(Dom.mainTabs).children("li").length >= 8) {
+                    $(Dom.mainTabs).children("li").eq(1).find(".fa-remove").click();
+                }
+				var _delDom = '';
+				if(objData.name!="首页"){
+					_delDom = '<i class="fa fa-remove"></i>';
+				}
+				var _dataCmd = objData.cmd || '';
+				$(Dom.mainTabs).children('li.active').removeClass('active').end().append('<li class="active">'+
+							'<a href="#JS_childTab_'+objData.id+'" data-toggle="tab" title="'+objData.name+'" data-id="'+objData.id+'">'+
+								Rose.string.substr(objData.name,6) + _delDom +
+							'</a>'+
+						'</li>');
+				$(Dom.mainTabsContent).children('div.active').removeClass('active').end().append('<div class="tab-pane active" id="JS_childTab_'+objData.id+'" data-funid ="'+objData.id+'" data-cmd ="'+_dataCmd+'"></div>');
+				Rose.ajax.loadHtml($('#JS_childTab_'+objData.id),objData.href);
 
-	        		// 绑定删除事件
-	        		self.bindTabDelEvent();
-        		}else{
-           			window.XMS.msgbox.show('页签最多只能打开8个！', 'error', 3000);
-    			}
+				// 绑定删除事件
+				self.bindTabDelEvent();
         	}
 
         },

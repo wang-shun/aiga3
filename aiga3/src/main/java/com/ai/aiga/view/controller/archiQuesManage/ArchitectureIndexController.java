@@ -221,17 +221,17 @@ public class ArchitectureIndexController extends BaseService {
 						seriesList.add(baseSeries);
 					}
 				}else if(baseManage.getKey3()!=null){
-					if(!legendList.contains(baseManage.getKey2().trim()+"-"+baseManage.getKey3().trim())){
-						legendList.add(baseManage.getKey2().trim()+"-"+baseManage.getKey3().trim());
+					if(!legendList.contains(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")")){
+						legendList.add(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")");
 						ViewSeries2 baseSeries = new ViewSeries2();
 						baseSeries.setType("bar");
-						String name = baseManage.getKey2().trim()+"-"+baseManage.getKey3().trim();
+						String name = baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")";
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
 						Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
 						while(iterator2.hasNext()){
 							ArchSrvManage archSrvManage = iterator2.next();
-							if((archSrvManage.getKey2().trim()+"-"+archSrvManage.getKey3().trim()).equals(name)){
+							if((archSrvManage.getKey2().trim()+"("+archSrvManage.getKey3().trim()+")").equals(name)){
 								String setMonth = archSrvManage.getSettMonth().trim();
 								for(int i=0;i<DATA_LENGTH;i++){
 									String selectMonth = days.get(i).replace("-", "").trim();
@@ -315,11 +315,11 @@ public class ArchitectureIndexController extends BaseService {
 					seriesList.add(baseSeries);
 			    }
 			}else{
-				if(!newList.contains(baseConnect.getKey2().trim()+"-"+baseConnect.getKey3().trim())){
+				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
 					baseSeries.setType("bar");
-					newList.add(baseConnect.getKey2().trim()+"-"+baseConnect.getKey3().trim());
-					String name = baseConnect.getKey2().trim()+"-"+baseConnect.getKey3().trim();
+					newList.add(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")");
+					String name = baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")";
 					baseSeries.setName(name);		
 					legendList.add(name);
 					//给对应的列赋值
@@ -327,7 +327,7 @@ public class ArchitectureIndexController extends BaseService {
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
-						if((archDbConnect.getKey2().trim()+"-"+archDbConnect.getKey3().trim()).equals(name)) {
+						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
 	//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 							for(int i=0;i<data.length;i++){

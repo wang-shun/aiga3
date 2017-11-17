@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.sl.draw.BitmapImageRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.jpa.Condition;
-import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;

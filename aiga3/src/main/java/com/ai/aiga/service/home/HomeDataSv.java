@@ -64,6 +64,7 @@ public class HomeDataSv {
 				1L);
 		//初始化全部的指标默认不显示
 		naIndexAllocationDao.update();
+		Boolean hasShow = false;
 		//获取全部的指标的具体信息
 		List<NaIndexAllocation> kpiList = naIndexAllocationDao.findAll();
 		//如果当前用户有指标
@@ -74,6 +75,16 @@ public class HomeDataSv {
 					//找到当前用户的指标id
 					if (kpi.getKpiId() == rela.getKpiId()) {
 						//设置当前用户的指标显示
+						kpi.setIsShow(1L);
+						hasShow = true;
+					}
+				}
+				if(!hasShow) {
+					List<Condition> cons = new ArrayList<Condition>();
+					cons.add(new Condition("ext2", 1, Condition.Type.EQ));
+					kpiList=naIndexAllocationDao.search(cons );
+					for (int i = 0; i < kpiList.size(); i++) {
+						NaIndexAllocation kpi = kpiList.get(i);
 						kpi.setIsShow(1L);
 					}
 				}

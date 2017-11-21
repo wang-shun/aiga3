@@ -11,10 +11,11 @@ define(function(require, exports, module) {
  	//get org
     srvMap.add("findAllOrg", pathAlias+"getSysMessageList.json", "sys/organize/findAllOrg");
  	//get rol
-    srvMap.add("getSysRole", pathAlias+"getSysMessageList.json", "sys/role/list");
+    srvMap.add("getSysRole", pathAlias+"getSysMessageList.json", "sys/role/list");  
  	//change pwd
     srvMap.add("changeMyPass", pathAlias+"getSysMessageList.json", "aiga/staff/changeMyPass");
-
+	//查询账户信息
+	srvMap.add("getAccountInfo", pathAlias+"getSysMessageList.json", "aiga/staff/list");
 	var Query = {
 		init: function(){
 			this._render();
@@ -23,8 +24,8 @@ define(function(require, exports, module) {
 			this.login();
 			this.changepwd();
 			this.signin();
+			this.accountSearch();
 		},
-//		    $(function() {
 		login:function(){
             $('#login #password').focus(function() {
                 $('#owl-login').addClass('password');
@@ -120,6 +121,32 @@ define(function(require, exports, module) {
             	});
             })
         })
+	},
+	//账号查询
+	accountSearch: function() {
+		var self = this;
+		$("#JS_accountSearch").off('click').on('click',function() {
+            var _modal = $("#JS_accountSearchModal");
+            var _form = $("#JS_accountSearchForm");
+            var _dom = $("#JS_accountList");
+            _modal.modal('show');
+			var _queryBtn = _form.find("[name='query']");
+			_queryBtn.off('click').on('click',function() {
+				var _cmd = _form.serialize();
+				if(_cmd=='name=&billId='){					
+					return;
+				}
+				var _domPagination = _form.find("[name='pagination']");
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Utils.getServerPage(srvMap.get('getAccountInfo'),_cmd,function(json){
+					window.XMS.msgbox.hide();
+					var template = Handlebars.compile($('#TPL_accountList').html());				
+	        		var tablebtn = _form.find("[name='content']");
+	        		tablebtn.html(template(json.data.content));
+	        		Utils.eventTrClickCallback(_dom);
+				},_domPagination);
+			});
+		});
 	},
     //注册function
 	signin:function(){

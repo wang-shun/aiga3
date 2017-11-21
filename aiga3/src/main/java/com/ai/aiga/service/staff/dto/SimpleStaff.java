@@ -16,10 +16,9 @@ public class SimpleStaff {
 	private String code;
 	private String name;
 	private Integer state;
+	private String billId;
 	private Long organizeId;
 	private String organizeName;
 	private String organizeCode;
-	
-
 }
 

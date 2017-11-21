@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,8 @@ import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.service.ArchDbConnectSv;
 import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectSelects;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSrvManageSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
@@ -179,4 +182,55 @@ public class ArchDbConnectController extends BaseService {
 		bean.setData(archDbConnectSv.findAllByPage(request, pageNumber, pageSize));
 		return bean;
 	}
+    @RequestMapping(path = "/archi/index/selectKey1")
+    public @ResponseBody JsonBean selectKey1(ArchDbConnectSelects condition){
+        JsonBean bean = new JsonBean();
+        List<ArchDbConnect>listConnects=archDbConnectSv.selectKey123(condition);
+        List<ArchDbConnect>newConnects=new ArrayList<ArchDbConnect>();
+        List<String>key1List = new ArrayList<String>();
+        Iterator<ArchDbConnect>iterator=listConnects.iterator();
+        while(iterator.hasNext()){
+            ArchDbConnect baseConnect = iterator.next();
+            if(baseConnect.getKey1()==null){
+                continue;
+            }
+            if(!key1List.contains(baseConnect.getKey1())){
+                key1List.add(baseConnect.getKey1());
+                newConnects.add(baseConnect);
+            }
+        }
+        bean.setData(newConnects);
+        return bean;
+    }
+    
+    @RequestMapping(path = "/archi/index/selectKey2")
+    public @ResponseBody JsonBean selectKey2(ArchDbConnectSelects condition){
+        JsonBean bean = new JsonBean();
+        List<ArchDbConnect>listConnects=archDbConnectSv.selectKey123(condition);
+        List<ArchDbConnect>newConnects=new ArrayList<ArchDbConnect>();
+        Iterator<ArchDbConnect>iterator=listConnects.iterator();
+        List<String>key2List = new ArrayList<String>();
+        while(iterator.hasNext()){
+            ArchDbConnect baseConnect = iterator.next();
+            if(baseConnect.getKey2()==null){
+                continue;
+            }
+            if(!key2List.contains(baseConnect.getKey2())){
+                key2List.add(baseConnect.getKey2());
+                newConnects.add(baseConnect);
+            }
+        }
+        System.out.println("ddddddddddd"+newConnects);
+        bean.setData(newConnects);
+        return bean;
+    }
+    
+    @RequestMapping(path = "/archi/index/selectKey123")
+    public @ResponseBody JsonBean selectKey123(ArchSrvManageSelects condition){
+        JsonBean bean = new JsonBean();
+        bean.setData(archSrvManageSv.selectKey123(condition));
+        return bean;
+    }
+    
+
 }

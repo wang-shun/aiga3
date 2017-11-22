@@ -134,13 +134,16 @@
 		        <div class="box-header" >
 		        </div>
 		        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px; ">
-		            <!-- 视图 -->
-		            <!--用于存放上下翻页按钮.js-eclegend-tool容器-->
-<!-- 		            <div class="js-eclegend-tool" style="position: absolute;right: 20px;top: 40%">
-		            	<img id="js-prePage" class="btn btn-primary" name="pre"></img>
-	                    <img id="js-nextPage" class="btn btn-primary" name="next"></img>
-		            </div> -->
+		            
 		        </div>
+		        <!-- 视图 -->
+					<div class="ibox">
+				            <!--初始化echarts实例的容器-->
+				        <div id="eBaiduMap" class="ibox-size" style="width: 100%;"></div>
+				            <!--用于存放上下翻页按钮.js-eclegend-tool容器，页面中的修改只需增加下面这一句-->
+				        <div class="js-eclegend-tool" id="initLegengds" style="position: absolute;right: 120px;top: 40%;z-index:100">
+				        </div>
+				    </div>
 		    </div>
 				    
 	        <div class="box" id="JS_getDataMaintainListSec" name="initTable" style="display:none">

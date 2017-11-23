@@ -730,7 +730,7 @@ define(function(require, exports, module) {
 			    legend: {
 			    	    orient: 'vertical', //注意
 					    right:0,
-					    top: 30, //注意
+					    top: 0, //注意
 					    //bottom:0,
 					    //left:0,
 					    //width:200,
@@ -741,11 +741,11 @@ define(function(require, exports, module) {
 					    textStyle: {
 					        fontWeight: 'bolder',
 					        fontSize: 12,
-					        color:'#fff'
+					        color:'#666666'
 					    },
 					    inactiveColor:'#aaa',
 					    padding: [20, 30,20,2],
-					    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+					    backgroundColor: 'rgba(0, 0, 0, 0)',
 					    shadowColor: 'rgba(0, 0, 0, 0.5)',
 					    shadowBlur: 5,
 					    zlevel: 100,
@@ -753,11 +753,24 @@ define(function(require, exports, module) {
 			    },
 			    toolbox: {
 			        show : true,
+			        x:120,
+        			y:0,
 			        feature : {
-			            dataView : {show: false, readOnly: false},
-			            magicType : {show: true, type: ['line', 'bar']},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
+	                    restore: { //重置
+	                        show: true
+	                    },
+	                    dataZoom: { //数据缩放视图
+	                        show: true
+	                    },
+	                    saveAsImage: {//保存图片
+	                        show: true
+	                    },
+	                    magicType: {//动态类型切换
+	                        type: ['bar', 'line']
+	                    },
+				        dataView: { //数据视图
+	                        show: true
+	                    },
 			        }
 			    },
 				calculable : true,

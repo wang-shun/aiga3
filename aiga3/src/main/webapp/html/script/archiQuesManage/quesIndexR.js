@@ -744,7 +744,7 @@ define(function(require, exports, module) {
 					        color:'#fff'
 					    },
 					    inactiveColor:'#aaa',
-					    //padding: [20, 15],
+					    padding: [20, 30,20,2],
 					    backgroundColor: 'rgba(0, 0, 0, 0.7)',
 					    shadowColor: 'rgba(0, 0, 0, 0.5)',
 					    shadowBlur: 5,

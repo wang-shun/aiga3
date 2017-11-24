@@ -3,11 +3,14 @@ package com.ai.aiga.service.cloudmanage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.cloudmanage.dto.CloudFirstParam;
 import com.ai.aiga.service.cloudmanage.dto.CloudOutput;
 import com.ai.aiga.service.cloudmanage.dto.CloudSecondParam;
 import com.ai.aiga.service.cloudmanage.dto.CloudThirdParam;
+import com.ai.aiga.service.cloudmanage.dto.CloudThirdParamNew;
+import com.ai.aiga.service.cloudmanage.dto.CloudUserInfo;
 import com.ai.aiga.util.mapper.BeanMapper;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureFirstRequest;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
@@ -148,9 +151,15 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public CloudOutput thirdAdd(ArchitectureThirdRequest params,String identifyUser) {
-		CloudThirdParam cloudThirdParam = BeanMapper.map(params, CloudThirdParam.class);
-		cloudThirdParam.setIdentifyUser(identifyUser);
+	public CloudOutput thirdAdd(ArchitectureThirdRequest params,AigaStaff identifyUser) {
+		CloudThirdParamNew cloudThirdParam = BeanMapper.map(params, CloudThirdParamNew.class);
+		CloudUserInfo userInfo = new CloudUserInfo();
+		userInfo.setAccount(identifyUser.getCode());
+		userInfo.setEmail(identifyUser.getEmail());
+		userInfo.setMobile(identifyUser.getBillId());
+		userInfo.setName(identifyUser.getName());
+		cloudThirdParam.setIdentifyUser(identifyUser.getName());
+		cloudThirdParam.setApplyUser(userInfo);
 		if(params.getCreateDate() != null) {
 			cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
 		}
@@ -165,9 +174,9 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public CloudOutput thirdModify(ArchitectureThirdRequest params,String identifyUser) {
+	public CloudOutput thirdModify(ArchitectureThirdRequest params,AigaStaff identifyUser) {
 		CloudThirdParam cloudThirdParam = BeanMapper.map(params, CloudThirdParam.class);
-		cloudThirdParam.setIdentifyUser(identifyUser);
+		cloudThirdParam.setIdentifyUser(identifyUser.getName());
 		if(params.getCreateDate() != null) {
 			cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
 		}
@@ -182,9 +191,9 @@ public class CloudService extends BaseService {
 	 * @param params
 	 * @return
 	 */
-	public CloudOutput thirdDelete(ArchitectureThirdRequest params,String identifyUser) {
+	public CloudOutput thirdDelete(ArchitectureThirdRequest params,AigaStaff identifyUser) {
 		CloudThirdParam cloudThirdParam = BeanMapper.map(params, CloudThirdParam.class);
-		cloudThirdParam.setIdentifyUser(identifyUser);
+		cloudThirdParam.setIdentifyUser(identifyUser.getName());
 		if(params.getCreateDate() != null) {
 			cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
 		}

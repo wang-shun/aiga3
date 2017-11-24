@@ -385,10 +385,6 @@ public class ArchiGradingController {
 				return bean;
 			}
 		}
-		String Identyname = input.getIdentifyUser();
-		if(StringUtils.isBlank(Identyname)) {
-			Identyname = "用户数据错误";
-		}
 		//数据校验
 		if("审批未通过".equals(input.getState())) {
 			//失败信息同步给云管
@@ -397,11 +393,11 @@ public class ArchiGradingController {
 					ArchitectureThirdRequest cloudInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
 
 					if("新增".equals(operation)) {
-						cloudMessageBean(bean,cloudService.thirdAdd(cloudInput,Identyname));
+						cloudMessageBean(bean,cloudService.thirdAdd(cloudInput,staffInfo));
 					} else if("修改".equals(operation)) {
-						cloudMessageBean(bean,cloudService.thirdModify(cloudInput,Identyname));	
+						cloudMessageBean(bean,cloudService.thirdModify(cloudInput,staffInfo));	
 					} else if("删除".equals(operation)) {
-						cloudMessageBean(bean,cloudService.thirdDelete(cloudInput,Identyname));	
+						cloudMessageBean(bean,cloudService.thirdDelete(cloudInput,staffInfo));	
 					} else {					
 						//无此操作类型
 					}
@@ -497,7 +493,7 @@ public class ArchiGradingController {
 					thirdInput.setDescription("");
 					architectureThirdSv.delete(thirdInput.getOnlysysId());
 					//云管同步数据
-					cloudMessageBean(bean,cloudService.thirdDelete(thirdInput,Identyname));	
+					cloudMessageBean(bean,cloudService.thirdDelete(thirdInput,staffInfo));	
 				} else if("新增".equals(operation)) {
 					//校验编号是否在归档表存在				
 					if(architectureThirdSv.findByIdThirds(thirdInput.getIdThird()).size()>0) {
@@ -508,7 +504,7 @@ public class ArchiGradingController {
 					thirdInput.setDescription("");
 					ArchitectureThirdRequest param = architectureThirdSv.save(thirdInput);
 					//云管同步数据
-					cloudMessageBean(bean,cloudService.thirdAdd(param,Identyname));	
+					cloudMessageBean(bean,cloudService.thirdAdd(param,staffInfo));	
 				} else {
 					if(architectureThirdSv.findOne(thirdInput.getOnlysysId())==null) {
 						bean.fail("数据库不存在此条数据");
@@ -518,7 +514,7 @@ public class ArchiGradingController {
 					thirdInput.setDescription("");
 					architectureThirdSv.save(thirdInput);
 					//云管同步数据
-					cloudMessageBean(bean,cloudService.thirdModify(thirdInput,Identyname));	
+					cloudMessageBean(bean,cloudService.thirdModify(thirdInput,staffInfo));	
 				}		
 				architectureGradingSv.update(input);
 			} else {

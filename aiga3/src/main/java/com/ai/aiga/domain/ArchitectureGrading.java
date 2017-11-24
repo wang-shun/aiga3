@@ -49,6 +49,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
      private BigDecimal fileId;
      private String developer;
      private String cloudOrderId;
+     private String applyUserInfo;
 
     public ArchitectureGrading() {
     }
@@ -61,7 +62,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.state = state;
         this.applyUser = applyUser;
     }
-    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId, String developer, String cloudOrderId) {
+    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId, String developer, String cloudOrderId, String applyUserInfo) {
        this.applyId = applyId;
        this.identifiedInfo = identifiedInfo;
        this.sysId = sysId;
@@ -89,6 +90,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
        this.fileId = fileId;
        this.developer = developer;
        this.cloudOrderId = cloudOrderId;
+       this.applyUserInfo = applyUserInfo;
     }
    
      @Id 
@@ -336,6 +338,17 @@ public class ArchitectureGrading  implements java.io.Serializable {
 	public void setCloudOrderId(String cloudOrderId) {
 		this.cloudOrderId = cloudOrderId;
 	}
+
+	@Column(name="APPLY_USER_INFO")
+	public String getApplyUserInfo() {
+		return applyUserInfo;
+	}
+
+	public void setApplyUserInfo(String applyUserInfo) {
+		this.applyUserInfo = applyUserInfo;
+	}
+	
+	
 
 }
 

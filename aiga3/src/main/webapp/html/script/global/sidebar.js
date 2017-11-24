@@ -58,7 +58,6 @@ define(function(require, exports, module) {
                 Rose.ajax.loadHtml($('#JS_childTab_' + objData.id), objData.href);
         	}else{
                 if($(Dom.mainTabs).children("li").length >= 8) {
-                    //$(Dom.mainTabs).children("li:not(.active)").find(".fa-remove").eq(0).click();
                     $(Dom.mainTabs).find("li:not(.active) .fa-remove").eq(0).click();
                 }
 				var _delDom = '';

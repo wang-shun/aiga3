@@ -114,6 +114,7 @@ define(function(require, exports, module) {
 			this.judgeIndexName();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
+//			this.legendinit();
 			this.getRightTreeR2();
 			this.queryDataMaintainForm2();
 			//映射
@@ -727,16 +728,49 @@ define(function(require, exports, module) {
 			        trigger: 'axis'
 			    },
 			    legend: {
-					y:'bottom',
+			    	    orient: 'vertical', //注意
+					    right:0,
+					    top: 0, //注意
+					    //bottom:0,
+					    //left:0,
+					    //width:200,
+					    pagemode: true, //注意,自定义的字段，开启图例分页模式，只有orient: 'vertical'时才有效
+					    height:"100%",
+					    itemHeight:18,
+					    itemWidth: 18,
+					    textStyle: {
+					        fontWeight: 'bolder',
+					        fontSize: 12,
+					        color:'#666666'
+					    },
+					    inactiveColor:'#aaa',
+					    padding: [20, 30,20,2],
+					    backgroundColor: 'rgba(0, 0, 0, 0)',
+					    shadowColor: 'rgba(0, 0, 0, 0.5)',
+					    shadowBlur: 5,
+					    zlevel: 100,
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
 			    },
 			    toolbox: {
 			        show : true,
+			        x:120,
+        			y:0,
 			        feature : {
-			            dataView : {show: false, readOnly: false},
-			            magicType : {show: true, type: ['line', 'bar']},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
+	                    restore: { //重置
+	                        show: true
+	                    },
+	                    dataZoom: { //数据缩放视图
+	                        show: true
+	                    },
+	                    saveAsImage: {//保存图片
+	                        show: true
+	                    },
+	                    magicType: {//动态类型切换
+	                        type: ['bar', 'line']
+	                    },
+				        dataView: { //数据视图
+	                        show: true
+	                    },
 			        }
 			    },
 				calculable : true,
@@ -804,6 +838,15 @@ define(function(require, exports, module) {
 					option.legend.data = json.data.legend;
 					option.series = json.data.series;
 					if(json.data.xAxis) {
+						
+						for(var indexXAxis in json.data.xAxis){
+							for(var indexOnline in onlinejson.data){
+								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
+									json.data.xAxis[indexXAxis] += "上线";
+								}
+							}
+						}
+						
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {
@@ -827,9 +870,55 @@ define(function(require, exports, module) {
 					}
 				}
 				myChart.setOption(option);
+				
+	        	var clickCount = 0;
+				/*=====legend 的分页控制 事件=s===*/
+		        var PageEvent = function (i) {
+		            var percent = -i * 98 + '%';
+		            myChart.setOption({
+		                legend: {
+		                    top: percent
+		                }
+		            });
+		        };
+		
+		        if (option.legend.pagemode) {
+		            $("#initLegengds").on('click', '.js-prePage', function () {
+		
+		                if (clickCount > 0) {
+		                    clickCount = clickCount - 1;
+		                    PageEvent(clickCount);
+		                    //console.log(clickCount+'上一页');
+		                    $('.js-prePage img').attr({'src': 'images/up-icon.png', 'title': '上一页'});
+		                    $('.js-prePage img').css('cursor','pointer');
+		                    //$('.js-nextPage img').attr('src','images/down-icon.png');
+		                    if(clickCount==0){
+		                        $('.js-prePage img').attr({'src': 'images/up-disable.png', 'title': '已经是第一页'});
+		                        $('.js-prePage img').css('cursor','no-drop');
+		                    }
+		                } else {
+		                    //console.log(clickCount+'已经是第一页');
+		                    $('.js-prePage img').attr({'src': 'images/up-disable.png', 'title': '已经是第一页'});
+		                    $('.js-prePage img').css('cursor','no-drop');
+		                }
+		            });
+		            $("#initLegengds").on('click', '.js-nextPage', function () {
+		                clickCount = clickCount + 1;
+		                //console.log(clickCount);
+		                PageEvent(clickCount);
+		                $('.js-prePage img').attr({'src': 'images/up-icon.png', 'title': '上一页'});
+		                $('.js-prePage img').css('cursor','pointer');
+		            });
+		        }
+		        /*=====legend 的分页控制 事件=e===*/
+				
 				window.onresize = myChart.resize;
   			});
 			
+		},
+
+		legendinit :function(){
+
 		},
 /* --------------------------------------------------PAGE--2--------------------------------------------------------------- */
 		getRightTreeR2: function(cmd) {

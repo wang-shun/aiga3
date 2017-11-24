@@ -125,7 +125,7 @@ public class StaffSv extends BaseService {
 	public Object findStaff(StaffInfoRequest condition, Long organizeId, int pageNumber, int pageSize) {
 
 		StringBuilder nativeSql = new StringBuilder(
-				"select af.staff_id,af.code,af.name,af.state,"
+				"select af.staff_id,af.code,af.name,af.state,af.bill_id,"
 				+ " ao.organize_id,ao.organize_name,ao.code as organize_code"
 				+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar"
 				+ " where af.staff_id = ar.staff_id"
@@ -141,6 +141,11 @@ public class StaffSv extends BaseService {
 		if(StringUtils.isNotBlank(condition.getName())){
 			nativeSql.append(" and af.name like :name");
 			parameters.add(new ParameterCondition("name", "%" + condition.getName() + "%"));
+		}
+		
+		if(StringUtils.isNotBlank(condition.getBillId())){
+			nativeSql.append(" and af.bill_id like :billId");
+			parameters.add(new ParameterCondition("billId", "%" + condition.getBillId() + "%"));
 		}
 		
 		if(organizeId !=  null){

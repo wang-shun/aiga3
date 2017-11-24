@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <title>登录系统</title>
@@ -13,7 +12,6 @@
     <link rel="stylesheet" href="lib/xsm-msgbox/0.2.0/css/xsm-msgbox.css">
     <link rel="stylesheet" href="style/login.css">
 </head>
-
 <body >
 <div id="login" id="Page_loginSignIn">
     <div class="wrapper">
@@ -55,7 +53,10 @@
                     </div>
                     <div id="tips-error" style="color: red; padding: 5px 3px;"></div>
                 </div>
-                <div class="form-actions"><a href="#nogo" tabindex="5" id="JS_changePassword" class="btn pull-left btn-link text-muted">修改密码</a><a href="#nogo" tabindex="6" id="JS_signIn" class="btn btn-link text-muted">注册</a>
+                <div class="form-actions">
+                	<a href="#nogo" tabindex="5" id="JS_changePassword" class="btn pull-left btn-link text-muted">修改密码</a>
+                	<a href="#nogo" tabindex="6" id="JS_accountSearch" class="btn pull-left btn-link text-muted">账号查询</a>
+                	<a href="#nogo" tabindex="7" id="JS_signIn" class="btn btn-link text-muted">注册</a>
                     <button id="mysubmit" type="submit" tabindex="4" class="btn btn-primary">登录系统</button>
                 </div>
             </div>
@@ -106,6 +107,59 @@
                         <button type="button" class="btn btn-primary" name="submit">确认</button>
                     </div>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- 账号查询  -->
+<div class="modal fade" id="JS_accountSearchModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <form id="JS_accountSearchForm">
+            	<div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">账号查询</h4>
+	            </div>
+	            <div class="modal-body">
+                	<div class="row">
+                		<div class="col-md-5">
+                			<label class="control-label margin-onl">名称:</label>
+	     					<input name="name" type="text" class="form-control input-sm"></input>
+                		</div>
+						<div class="col-md-5">
+                			<label class="control-label margin-onl">手机号码:</label>
+	     					<input name="billId" type="text" class="form-control input-sm"></input>
+                		</div>
+                		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query" style="margin-top: 22px">查询</button>
+               			<div id="JS_accountList" class="col-md-12">
+						    <label class="box-title">账号信息列表</label>
+						    <div class="box-body" >
+						        <table class="table table-bordered table-hover">
+						            <thead>
+						                <tr>
+						                    <th class="iCheckbox" width="15"></th>
+						                    <th>工号</th>
+						                    <th>名称</th>
+						                    <th>组织名称</th>
+						                    <th>组织编号</th>
+						                    <th>手机号码</th>
+						                </tr>
+						            </thead>
+						            <tbody name="content"></tbody>
+						        </table>
+						    </div>
+						    <div class="box-footer no-border">
+						        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+						    </div> 
+						</div>
+                	</div>
+                </div>
+<!--               	<div class="modal-footer">
+	                <div class="text-center">
+	                    <button type="reset" class="btn btn-default" id="JS_accountSearchReset" data-dismiss="modal">取消</button>
+	                    <button type="button" class="btn btn-primary" id="JS_accountSearchSubmit" name="signin">确认</button>
+	                </div>
+	            </div> -->
             </form>
         </div>
     </div>
@@ -202,6 +256,19 @@
         </div>
     </div>
 </div>
+<!-- 表格数据  -->
+<script id="TPL_accountList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{applyId}}" name="applyId"></td>
+    <td>{{code}}</td>
+    <td>{{name}}</td>
+	<td>{{organizeName}}</td>	
+    <td>{{organizeCode}}</td>
+    <td>{{billId}}</td>
+</tr>
+{{/each}}
+</script>
 <script src="lib/jquery/2.2.3/jquery.min.js"></script>
 <script src="lib/xsm-msgbox/0.2.0/js/xsm-msgbox.min.js"></script>
 <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>

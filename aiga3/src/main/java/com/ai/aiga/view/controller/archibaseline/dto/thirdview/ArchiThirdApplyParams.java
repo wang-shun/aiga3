@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller.archibaseline.dto.thirdview;
 
 
 import org.springframework.web.multipart.MultipartFile;
+import com.ai.aiga.service.cloudmanage.dto.CloudUserInfo;
 import lombok.Data;
 
 @Data
@@ -18,7 +19,7 @@ public class ArchiThirdApplyParams  implements java.io.Serializable {
      private String projectInfo;
      private String designInfo;
      private String rankInfo;
-     private ApplyUser applyUser;
+     private CloudUserInfo applyUser;
      private String media;
      private String sysState;
      private String sysStateTime;

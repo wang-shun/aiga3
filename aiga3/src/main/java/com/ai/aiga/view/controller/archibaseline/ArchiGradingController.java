@@ -368,6 +368,10 @@ public class ArchiGradingController {
 	public @ResponseBody JsonBean messageGrading(ArchitectureGrading input) {
 		JsonBean bean = new JsonBean();
 		AigaStaff staffInfo = SessionMgrUtil.getStaff();	
+		if(staffInfo==null) {
+			bean.fail("获取认定人信息失败！");
+			return bean;
+		}
 		input.setIdentifyUser(staffInfo.getName());
 		String mailMessage = "";
 		String operation = input.getDescription();

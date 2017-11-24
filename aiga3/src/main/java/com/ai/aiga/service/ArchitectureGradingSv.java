@@ -210,7 +210,7 @@ public class ArchitectureGradingSv extends BaseService {
 		architectureGrading.setSysState(request.getSysState());
 		architectureGrading.setState("申请");
 		architectureGrading.setRankInfo(request.getRankInfo());
-		architectureGrading.setApplyUser(request.getApplyUser());
+		architectureGrading.setApplyUser(request.getApplyUser().getName());
 		architectureGrading.setApplyTime(date);
 		architectureGrading.setModifyDate(date);
 		architectureGrading.setCreateDate(date);
@@ -218,6 +218,7 @@ public class ArchitectureGradingSv extends BaseService {
 		architectureGrading.setExt2(request.getSysStateTime());
 		architectureGrading.setExt3(request.getMedia());
 		architectureGrading.setDeveloper(request.getDeveloper());
+		architectureGrading.setApplyUserInfo(request.getApplyUser().toString());
 		try {
 			architectureGradingDao.save(architectureGrading);
 		} catch (Exception e) {

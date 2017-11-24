@@ -18,7 +18,7 @@ public class ArchiThirdApplyParams  implements java.io.Serializable {
      private String projectInfo;
      private String designInfo;
      private String rankInfo;
-     private String applyUser;
+     private ApplyUser applyUser;
      private String media;
      private String sysState;
      private String sysStateTime;

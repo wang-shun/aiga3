@@ -85,7 +85,7 @@ public class ArchitectureThirdSv extends BaseService {
 			sql += " and b.id_third = "+idThird;
 		}
 		if(StringUtils.isNotBlank(name)){
-			sql += " and b.name like '%"+name+"%'";
+			sql += " and (b.name like '%"+name+"%' or b.code like '%"+name+"%')";
 		}
 		if(idSecond != null && idSecond>0) {
 			sql += " and b.id_second = "+idSecond;

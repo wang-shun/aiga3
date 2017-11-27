@@ -33,6 +33,7 @@ define(function(require, exports, module) {
     srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
     srvMap.add("fetchselectKey1", "", "archi/index/selectKey1");
     srvMap.add("fetchselectKey2", "", "archi/index/selectKey2");
+    srvMap.add("fetchselectKey3", "", "archi/index/selectKey3");
     srvMap.add("fetchselectKey123", "", "archi/index/selectKey123");
 
 	// 模板对象

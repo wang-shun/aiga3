@@ -547,6 +547,15 @@ define(function(require, exports, module) {
 					option.legend.data = json.data.legend;
 					option.series = json.data.series;
 					if(json.data.xAxis) {
+						                        
+                        for(var indexXAxis in json.data.xAxis){
+                            for(var indexOnline in onlinejson.data){
+                                if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
+                                    json.data.xAxis[indexXAxis] += "上线";
+                                }
+                            }
+                        }
+                        
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {

@@ -79,7 +79,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		if (StringUtils.isNotBlank(condition.getKey3())) {
 			nativeSql.append("and ar.key_3 = :key3 ");
-			params.add(new ParameterCondition("key3", condition.getKey3()));
+			params.add(new ParameterCondition("key3", condition.getKey3().substring(0, condition.getKey3().length()-1)));
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -241,7 +241,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		if (StringUtils.isNotBlank(condition.getKey3())) {
 			nativeSql.append("and ar.key_3 = :key3 ");
-			params.add(new ParameterCondition("key3", condition.getKey3()));
+			params.add(new ParameterCondition("key3", condition.getKey3().substring(0, condition.getKey3().length()-1)));
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -403,7 +403,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		if (StringUtils.isNotBlank(condition.getKey3())) {
 			nativeSql.append("and ar.key_3 = :key3 ");
-			params.add(new ParameterCondition("key3", condition.getKey3()));
+			params.add(new ParameterCondition("key3", condition.getKey3().substring(0, condition.getKey3().length()-1)));
 		}
 		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnect.class);
 	}
@@ -544,7 +544,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		if (StringUtils.isNotBlank(condition.getKey3())) {
 			nativeSql.append("and ar.key_3 = :key3 ");
-			params.add(new ParameterCondition("key3", condition.getKey3()));
+			params.add(new ParameterCondition("key3", condition.getKey3().substring(0, condition.getKey3().length()-1)));
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -694,7 +694,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		if (StringUtils.isNotBlank(condition.getKey3())) {
 			nativeSql.append("and ar.key_3 = :key3 ");
-			params.add(new ParameterCondition("key3", condition.getKey3()));
+			params.add(new ParameterCondition("key3", condition.getKey3().substring(0, condition.getKey3().length()-1)));
 		}
 		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchSrvManage.class);
 	}
@@ -835,7 +835,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		if (StringUtils.isNotBlank(condition.getKey3())) {
 			nativeSql.append("and ar.key_3 = :key3 ");
-			params.add(new ParameterCondition("key3", condition.getKey3()));
+			params.add(new ParameterCondition("key3", condition.getKey3().substring(0, condition.getKey3().length()-1)));
 		}
 		if (pageNumber < 0) {
 			pageNumber = 0;
@@ -985,7 +985,7 @@ public class ArchitectureIndexSv extends BaseService {
 		}
 		if (StringUtils.isNotBlank(condition.getKey3())) {
 			nativeSql.append("and ar.key_3 = :key3 ");
-			params.add(new ParameterCondition("key3", condition.getKey3()));
+			params.add(new ParameterCondition("key3", condition.getKey3().substring(0, condition.getKey3().length()-1)));
 		}
 		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchMonthIndex.class);
 	}

@@ -116,6 +116,10 @@ public class ArchitectureIndexController extends BaseService {
 				legendList.add(name);
 				//给对应的列赋值
 				double[] data = new double[constantValue];
+				int[] a =new int[constantValue];
+				for(int i=0;i<a.length;i++){
+					a[i]=1;
+				}	
 				Iterator<ArchMonthIndex>iterator = monthIndexList2.iterator();
 				while(iterator.hasNext()){
 					ArchMonthIndex archMonthIndex = iterator.next();
@@ -126,7 +130,12 @@ public class ArchitectureIndexController extends BaseService {
 							String newMonth = months.get(i).trim();
 							String newDay = newMonth.replace("-", "");
 							if(SetMonths.equals(newDay)){
-								data[i]=Double.parseDouble(archMonthIndex.getResultValue());
+								if(data[i]==0){
+									data[i]=Double.parseDouble(archMonthIndex.getResultValue());
+								}else{
+									data[i]=((data[i]*a[i])+Double.parseDouble(archMonthIndex.getResultValue()))/(a[i]+1);
+									a[i]++;
+								}
 								iterator.remove();
 							}
 						}
@@ -176,6 +185,10 @@ public class ArchitectureIndexController extends BaseService {
 					String name = baseManage.getKey1();
 					baseSeries.setName(name);
 					double[] data = new double[DATA_LENGTH];
+					int[] a =new int[DATA_LENGTH];
+					for(int i=0;i<a.length;i++){
+						a[i]=1;
+					}	
 					Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
 					while(iterator2.hasNext()){
 						ArchSrvManage archSrvManage = iterator2.next();
@@ -184,7 +197,12 @@ public class ArchitectureIndexController extends BaseService {
 							for(int i=0;i<DATA_LENGTH;i++){
 								String selectMonth = days.get(i).replace("-", "").trim();
 								if(setMonth.equals(selectMonth)){
-									data[i]=Double.parseDouble(archSrvManage.getResultValue());
+									if(data[i]==0){
+										data[i]=Double.parseDouble(archSrvManage.getResultValue());
+									}else{
+										data[i]=((data[i]*a[i])+Double.parseDouble(archSrvManage.getResultValue()))/(a[i]+1);
+										a[i]++;
+									}
 									iterator2.remove();
 								}
 							}
@@ -202,6 +220,10 @@ public class ArchitectureIndexController extends BaseService {
 						String name = baseManage.getKey2();
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
+						int[] a =new int[DATA_LENGTH];
+						for(int i=0;i<a.length;i++){
+							a[i]=1;
+						}
 						Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
 						while(iterator2.hasNext()){
 							ArchSrvManage archSrvManage = iterator2.next();
@@ -210,8 +232,12 @@ public class ArchitectureIndexController extends BaseService {
 								for(int i=0;i<DATA_LENGTH;i++){
 									String selectMonth = days.get(i).replace("-", "").trim();
 									if(setMonth.equals(selectMonth)){
-										
-										data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										if(data[i]==0){
+											data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										}else{
+											data[i]=((data[i]*a[i])+Double.parseDouble(archSrvManage.getResultValue()))/(a[i]+1);
+											a[i]++;
+										}
 										iterator2.remove();
 									}
 								}
@@ -228,6 +254,10 @@ public class ArchitectureIndexController extends BaseService {
 						String name = baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")";
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
+						int[] a =new int[DATA_LENGTH];
+						for(int i=0;i<a.length;i++){
+							a[i]=1;
+						}
 						Iterator<ArchSrvManage> iterator2 = manageList2.iterator();
 						while(iterator2.hasNext()){
 							ArchSrvManage archSrvManage = iterator2.next();
@@ -236,8 +266,12 @@ public class ArchitectureIndexController extends BaseService {
 								for(int i=0;i<DATA_LENGTH;i++){
 									String selectMonth = days.get(i).replace("-", "").trim();
 									if(setMonth.equals(selectMonth)){
-										
-										data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										if(data[i]==0){
+											data[i]=Double.parseDouble(archSrvManage.getResultValue());
+										}else{
+											data[i]=((data[i]*a[i])+Double.parseDouble(archSrvManage.getResultValue()))/(a[i]+1);
+											a[i]++;
+										}
 										iterator2.remove();
 									}
 								}
@@ -295,6 +329,10 @@ public class ArchitectureIndexController extends BaseService {
 					legendList.add(name);
 					//给对应的列赋值
 					int[] data = new int[constantValue];
+					int[] a =new int[constantValue];
+					for(int i=0;i<a.length;i++){
+						a[i]=1;
+					}					
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
@@ -305,7 +343,12 @@ public class ArchitectureIndexController extends BaseService {
 								String newMonth = months2.get(i).trim();
 								String newDay = newMonth.replace("-", "");
 								if(SetMonths.equals(newDay)){
-									data[i]=Integer.parseInt(archDbConnect.getResultValue());
+									if(data[i]==0){
+										data[i]=Integer.parseInt(archDbConnect.getResultValue());
+									}else{
+										data[i]=((data[i]*a[i])+Integer.parseInt(archDbConnect.getResultValue()))/(a[i]+1);
+										a[i]++;
+									}
 									iterator.remove();
 								}
 							}
@@ -324,6 +367,10 @@ public class ArchitectureIndexController extends BaseService {
 					legendList.add(name);
 					//给对应的列赋值
 					int[] data = new int[constantValue];
+					int[] a =new int[constantValue];
+					for(int i=0;i<a.length;i++){
+						a[i]=1;
+					}	
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
@@ -334,7 +381,12 @@ public class ArchitectureIndexController extends BaseService {
 								String newMonth = months2.get(i).trim();
 								String newDay = newMonth.replace("-", "");
 								if(SetMonths.equals(newDay)){
-									data[i]=Integer.parseInt(archDbConnect.getResultValue());
+									if(data[i]==0){
+										data[i]=Integer.parseInt(archDbConnect.getResultValue());
+									}else{
+										data[i]=((data[i]*a[i])+Integer.parseInt(archDbConnect.getResultValue()))/(a[i]+1);
+										a[i]++;
+									}
 									iterator.remove();
 								}
 							}

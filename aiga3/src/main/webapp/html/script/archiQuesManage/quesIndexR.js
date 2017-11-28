@@ -223,7 +223,7 @@ define(function(require, exports, module) {
 													XMS.msgbox.show(json.retMessage, 'error', 2000);
 												}
 								  			});
-	                                	}else if(300001<=funcIdNum<=300010){
+	                                	}else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
 	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
 	                                	}
 	                                	if(1001>funcIdNum || funcIdNum>2010){

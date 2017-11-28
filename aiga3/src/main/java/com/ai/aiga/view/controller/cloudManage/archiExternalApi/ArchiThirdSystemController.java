@@ -7,6 +7,7 @@ import java.util.Date;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,7 +42,7 @@ public class ArchiThirdSystemController {
 	}
 	
 	@RequestMapping(path = "/archi/third/apply")
-	public @ResponseBody JsonBean apply(ArchiThirdApplyParams request){
+	public @ResponseBody JsonBean apply(@RequestBody ArchiThirdApplyParams request){
 		JsonBean bean = new JsonBean();
 		//操作类型
 		String description = request.getDescription();

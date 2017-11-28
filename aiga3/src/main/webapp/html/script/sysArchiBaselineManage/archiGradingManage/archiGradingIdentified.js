@@ -178,7 +178,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var _cmd = '' ;
 			if(cmd){
-				var _cmd = cmd;
+				_cmd = cmd;
 			}
 			var _dom = Page.findId('SysMessageList');
 			var _domPagination = _dom.find("[name='pagination']");
@@ -275,7 +275,7 @@ define(function(require, exports, module) {
 	        					templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
 	        					//设置所属于是否可选，编号是否可修改
 	        					if(selectData.description == '新增' && selectData.state == "申请") {
-	        						selectData.sysId = json3.data.adviceThirdId;
+	        						selectData.sysId = json3.data?json3.data.adviceThirdId:0;
 	        						selectData.isSelected = 1;
 	        						selectData.disabledType = '';
 	        					} else if(selectData.description == '修改' && selectData.state == "申请") {
@@ -293,15 +293,17 @@ define(function(require, exports, module) {
 	        				_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
 	        					//认定页允许所属域修改
 	        					if(selectData.description != '删除' && selectData.state == "申请") {
-	        						var selectDom = Page.findId('selectData').find('[name="idBelong"]');
-	        	                    var secData = json3.data.secData;
-	        	                    var _html;
-	        	                    for (var i in secData) {
-	        	                        var _json = secData[i];
-	        	                        _html += '<option value="' + _json.idSecond + '">' + _json.name + '</option>';
-	        	                    }
-	        	                    selectDom.html(_html);
-	        	                    selectDom.val(selectData.idBelong);
+	        						if(json3.data && json3.data.secData) {
+	        	  						var selectDom = Page.findId('selectData').find('[name="idBelong"]');
+		        	                    var secData = json3.data.secData;
+		        	                    var _html;
+		        	                    for (var i in secData) {
+		        	                        var _json = secData[i];
+		        	                        _html += '<option value="' + _json.idSecond + '">' + _json.name + '</option>';
+		        	                    }
+		        	                    selectDom.html(_html);
+		        	                    selectDom.val(selectData.idBelong);
+	        						} 
 	        					}
 	        					//附件下载事件绑定	        				
              					var downloadButton = _modal.find('[name="download"]');

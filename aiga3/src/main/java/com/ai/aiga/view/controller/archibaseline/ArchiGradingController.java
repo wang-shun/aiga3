@@ -623,6 +623,8 @@ public class ArchiGradingController {
 					}
 					output.setAdviceThirdId(preId+adviceThirdId+"10");
 				}
+			} else {
+				//没有此场景
 			}
 			//查询所属二级域 和 系统建设状态
 			ArchitectureSecond architectureSecond = architectureSecondSv.findOne(idBelong);

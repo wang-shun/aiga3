@@ -444,7 +444,7 @@ public class ArchiGradingController {
 					}
 					firstInput.setDescription("");
 					firstInput.setModifyDate(new Date());
-					architectureFirstSv.save(firstInput);
+					architectureFirstSv.update(firstInput);
 					//云管同步数据
 					cloudMessageBean(bean,cloudService.firstModify(firstInput));				
 				}		
@@ -480,7 +480,7 @@ public class ArchiGradingController {
 					}
 					secInput.setDescription("");
 					secInput.setModifyDate(new Date());
-					architectureSecondSv.save(secInput);
+					architectureSecondSv.update(secInput);
 					//云管同步数据
 					cloudMessageBean(bean,cloudService.secondModify(secInput));	
 				}	
@@ -516,7 +516,7 @@ public class ArchiGradingController {
 					}
 					thirdInput.setModifyDate(new Date());
 					thirdInput.setDescription("");
-					architectureThirdSv.save(thirdInput);
+					architectureThirdSv.update(thirdInput);
 					//云管同步数据
 					cloudMessageBean(bean,cloudService.thirdModify(thirdInput,staffInfo));	
 				}		
@@ -589,7 +589,25 @@ public class ArchiGradingController {
 				bean.fail("三级编号生成失败");
 				return bean;
 			} else if(preId.toString().length()==4) {
-				//继申请是申成的4位编号 生成之后的几位，变成完整的系统编号
+				//继申请时生成的4位编号 生成之后的几位，变成完整的系统编号
+				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
+				if(result != null) {
+					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
+					if(adviceThirdId == null ||  "null".equals(adviceThirdId) || StringUtils.isBlank(adviceThirdId)) {
+						adviceThirdId = "01";
+					} else {
+						int sysIndex  =Integer.valueOf(adviceThirdId);
+						sysIndex++;
+						adviceThirdId = String.valueOf(sysIndex);
+						if(adviceThirdId.length()<2) {
+							adviceThirdId = "0"+adviceThirdId;
+						}
+					}
+					output.setAdviceThirdId(preId+adviceThirdId+"10");
+				}
+			} else if(preId.toString().length()==8) {
+				//若单号已申请过，则更新编号，只有申请时才有此场景
+				preId = preId/10000;
 				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
 				if(result != null) {
 					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
@@ -665,12 +683,11 @@ public class ArchiGradingController {
 	 */
 	public void cloudMessageBean(JsonBean bean,CloudOutput cloudBean) {
 		if(cloudBean != null) {
-			if(cloudBean.getSuccess() != 1L) {
-				bean.fail("云管数据同步异常："+cloudBean.getMessage());
+			if(cloudBean.getSuccess() == null || cloudBean.getSuccess() != 1L) {
+				bean.setRetMessage("云管数据同步异常："+cloudBean.getMessage());
 			}
 		} else {
-			bean.fail("云管数据同步异常："+"未接受到返回信息");
+			bean.setRetMessage("云管数据同步异常：未接受到返回信息");
 		}
-
 	}
 }

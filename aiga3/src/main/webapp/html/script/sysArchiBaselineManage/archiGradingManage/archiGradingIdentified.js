@@ -116,7 +116,11 @@ define(function(require, exports, module) {
 							if(status) {							
 								textModal.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
-								XMS.msgbox.show('认定成功，数据已归档！', 'success', 1500);	
+								if(json.retMessage) {
+									XMS.msgbox.show('认定成功，数据已归档！'+json.retMessage, 'info', 1500);
+								} else {
+									XMS.msgbox.show('认定成功，数据已归档！', 'success', 1500);
+								}
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
 								}, 1000);
@@ -143,7 +147,7 @@ define(function(require, exports, module) {
 							if(status) {
 								textModal.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
-								XMS.msgbox.show('认定成功', 'success', 1500);	
+								XMS.msgbox.show('认定成功', 'success', 1500);					
 								setTimeout(function() {
 									Page.findId('querySysDomainForm').find("[name='query']").click();
 								}, 1000);								

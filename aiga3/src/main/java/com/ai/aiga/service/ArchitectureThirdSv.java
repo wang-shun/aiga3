@@ -12,8 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.ArchitectureSecondDao;
 import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.ArchitectureSecond;
 import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -29,7 +31,8 @@ public class ArchitectureThirdSv extends BaseService {
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
 
-	
+	@Autowired
+	private ArchitectureSecondDao architectureSecondDao;
 	public List<Map> findWelcomePie(){
 		String sql = "select count(*) as sum,b.id_first as id,b.name,substr(b.id_first,0,1) as rank "
 					+" from architecture_third a,architecture_first b "
@@ -223,6 +226,20 @@ public class ArchitectureThirdSv extends BaseService {
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
 		ArchitectureThird outData = new ArchitectureThird();
 		try {
+			ArchitectureSecond architectureSecond = architectureSecondDao.findOne(architectureThird.getIdSecond());
+			String[] levels = architectureThird.getBelongLevel().split(",");
+			String secLevel = architectureSecond.getBelongLevel();
+			Boolean change = false;
+			for(String level:levels) {
+				if(!secLevel.contains(level)) {
+					secLevel += ","+level;
+					change = true;
+				}
+			}
+			if(change) {
+				architectureSecond.setBelongLevel(secLevel);
+				architectureSecondDao.save(architectureSecond);
+			}
 			 outData = architectureThirdDao.save(architectureThird);
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());

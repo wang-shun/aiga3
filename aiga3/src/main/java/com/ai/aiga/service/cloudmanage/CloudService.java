@@ -158,8 +158,7 @@ public class CloudService extends BaseService {
 		userInfo.setEmail(identifyUser.getEmail());
 		userInfo.setMobile(identifyUser.getBillId());
 		userInfo.setName(identifyUser.getName());
-		cloudThirdParam.setIdentifyUser(identifyUser.getName());
-		cloudThirdParam.setApplyUser(userInfo);
+		cloudThirdParam.setIdentifyUser(userInfo);
 		if(params.getCreateDate() != null) {
 			cloudThirdParam.setCreateDate(String.valueOf(params.getCreateDate().getTime()));
 		}

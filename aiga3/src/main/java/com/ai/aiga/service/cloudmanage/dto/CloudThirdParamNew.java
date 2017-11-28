@@ -21,7 +21,7 @@ public class CloudThirdParamNew implements Serializable {
     private String sysState;
     private String state;
     private Long applyId;
-    private CloudUserInfo applyUser;
+    private String applyUser;
     private String createDate;
     private String modifyDate;
     private String identifiedInfo;
@@ -31,5 +31,5 @@ public class CloudThirdParamNew implements Serializable {
     private String ext3;
     private String developer;  
     private String cloudOrderId;
-    private String identifyUser;
+    private CloudUserInfo identifyUser;
 }

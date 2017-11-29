@@ -1,5 +1,6 @@
 package com.ai.aiga.service;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -162,6 +163,19 @@ public class ArchitectureGradingSv extends BaseService {
 		return architectureGradingDao.findOne(id);
 	}
 	
+	public ArchitectureGrading findByCloudOrderId(String cloudOrderId){
+		if(cloudOrderId==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		return architectureGradingDao.findByCloudOrderId(cloudOrderId);
+	}
+	public List<ArchitectureGrading> findByName(String name){
+		if(name==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		return architectureGradingDao.findByName(name);
+	}
+	
 	public void delete(Long id){
 		if(id==null||id<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
@@ -217,6 +231,7 @@ public class ArchitectureGradingSv extends BaseService {
 		architectureGrading.setExt1("3");
 		architectureGrading.setExt2(request.getSysStateTime());
 		architectureGrading.setExt3(request.getMedia());
+		architectureGrading.setFileId(new BigDecimal(date.getTime()));
 		architectureGrading.setDeveloper(request.getDeveloper());
 		architectureGrading.setApplyUserInfo(request.getApplyUser().toString());
 		try {

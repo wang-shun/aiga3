@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.ArchitectureGrading;
+import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.DealFileSv;
 import com.ai.aiga.service.NaChangePlanOnileSv;
 import com.ai.aiga.service.ArchIndex.dto.QuestionInfoListExcel;
@@ -33,10 +35,12 @@ public class DealFileController {
 	private DealFileSv dealFileSv ;
 	@Autowired
 	private NaChangePlanOnileSv changePlanOnileSv;
+	@Autowired
+	private ArchitectureGradingSv architectureGradingSv;
 		
 		// 系统架构上传文件
 		@RequestMapping(path = "/group/require/uploadFile")
-		public @ResponseBody JsonBean naSystemArchitectureListExcel(@RequestParam Long planId,
+		public @ResponseBody JsonBean naSystemArchitectureListExcel(@RequestParam String planId,
 				@RequestParam MultipartFile file, @RequestParam Long fileType) {
 			JsonBean bean = new JsonBean();
 
@@ -51,8 +55,14 @@ public class DealFileController {
 
 			// 把文件上传到主机
 			FileUtil.uploadFile(file, fileNameNew);
-
-			dealFileSv.saveFileInfo(planId, fileName, fileType, date);
+			Long planId2=0L;
+			if(planId.length()>=20){
+				ArchitectureGrading architectureGrading= architectureGradingSv.findByCloudOrderId(planId);
+				planId2 = architectureGrading.getFileId().longValue();
+			}else{
+				planId2 = Long.parseLong(planId);
+			}
+			dealFileSv.saveFileInfo(planId2, fileName, fileType, date);
 
 			return bean;
 		}

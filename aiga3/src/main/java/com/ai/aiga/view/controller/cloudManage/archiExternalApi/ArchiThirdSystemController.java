@@ -3,6 +3,7 @@ package com.ai.aiga.view.controller.cloudManage.archiExternalApi;
 import io.swagger.annotations.Api;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,13 @@ public class ArchiThirdSystemController {
 					bean.fail("所属二级系统不存在");
 					return bean;
 				}
-			}	
+				String name = request.getName();
+				List<ArchitectureGrading> list = architectureGradingSv.findByName(name);
+				if(list.size()>=1){
+					bean.fail("该三级系统已存在！");
+					return bean;
+				}
+			}
 		} 
 		if(StringUtils.isBlank(request.getCloudOrderId())){
 			bean.fail("未选择云管平台创建业务系统订单编号！");

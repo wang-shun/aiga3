@@ -205,6 +205,7 @@ define(function(require, exports, module) {
         				//附件信息获取
         				if(selectData.fileId) {
         					var fileCondition = '';
+        					//存在 cloudOrderId 为云管附件 type为3
         					if(selectData.cloudOrderId) {
         						fileCondition = 'planId=' + selectData.fileId + '&fileType=3';
         					} else {

@@ -1,7 +1,10 @@
 package com.ai.aiga.view.util;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import lombok.Data;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,15 +58,20 @@ public class DealFileController {
 
 			// 把文件上传到主机
 			FileUtil.uploadFile(file, fileNameNew);
-			Long planId2=0L;
-			if(planId.length()>=20){
-				ArchitectureGrading architectureGrading= architectureGradingSv.findByCloudOrderId(planId);
-				planId2 = architectureGrading.getFileId().longValue();
+			if(fileType==3){
+				Long planId2 = date.getTime();
+				if(planId.length()>=20){
+					ArchitectureGrading architectureGrading= architectureGradingSv.findByCloudOrderId(planId);
+					if(architectureGrading != null){
+						architectureGrading.setFileId(new BigDecimal(planId2));
+						architectureGradingSv.update(architectureGrading);
+					}
+				}
+				dealFileSv.saveFileInfo(planId2, fileName, fileType, date);
 			}else{
-				planId2 = Long.parseLong(planId);
+				Long planId2 = Long.parseLong(planId);
+				dealFileSv.saveFileInfo(planId2, fileName, fileType, date);
 			}
-			dealFileSv.saveFileInfo(planId2, fileName, fileType, date);
-
 			return bean;
 		}
 		

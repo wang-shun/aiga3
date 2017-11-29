@@ -204,7 +204,12 @@ define(function(require, exports, module) {
         				var selectData = $.extend(true,{},allDatas[index]);
         				//附件信息获取
         				if(selectData.fileId) {
-            				var fileCondition = 'planId=' + selectData.fileId + '&fileType=88888';
+        					var fileCondition = '';
+        					if(selectData.cloudOrderId) {
+        						fileCondition = 'planId=' + selectData.fileId + '&fileType=3';
+        					} else {
+        						fileCondition = 'planId=' + selectData.fileId + '&fileType=88888';
+        					}
             				Rose.ajax.postJsonSync(srvMap.get('getFileInfo'), fileCondition,function(json2, status){
             					if(status) {      					
             						selectData.fileName=json2.data.fileName?json2.data.fileName:"没有可下载文件";

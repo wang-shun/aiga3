@@ -2,6 +2,8 @@ package com.ai.aiga.service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -180,7 +182,13 @@ public class AmCoreIndexSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getIndexName())){
     		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
     	}
-    	return amCoreIndexDao.search(cons);
+    	List<AmCoreIndex>list = amCoreIndexDao.search(cons);
+        Collections.sort(list, new Comparator<AmCoreIndex>() {
+            public int compare(AmCoreIndex arg0, AmCoreIndex arg1) {
+                return arg0.getIndexName().compareTo(arg1.getIndexName());
+            }
+        });
+    	return list;
     }
     
     public List<AmCoreIndex>justIndexName(String indexGroup){

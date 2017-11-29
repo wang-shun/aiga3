@@ -50,6 +50,10 @@ public class DealFileController {
 			// 获取文件名称
 			String fileName = file.getOriginalFilename();
 
+			if(fileName.contains("?")){
+				fileName = "未命名";
+			}
+
 			Date date = new Date();
 
 			// 设置主机上的文件名

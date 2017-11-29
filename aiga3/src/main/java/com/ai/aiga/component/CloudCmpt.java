@@ -1,19 +1,23 @@
-package com.ai.aiga.service.cloudmanage;
+package com.ai.aiga.component;
 
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.ai.aiga.service.cloudmanage.dto.CloudOutput;
 import com.ai.aiga.util.ExceptionUtil;
-
-public class CloudServiceUtil {
-	private static Boolean isTest = true;
-	private static String URL = "http://businesscenter.cmp.zj.chinamobile.com/v1/businessventer/";
-	private static String testURL = "http://20.26.25.152:10005/v1/businesscenter/";// "http://localhost:8080/aiga3/";
+@Component
+@Lazy
+public class CloudCmpt {
+	
+	@Value("${cloudmanage.address.url}")
+	private String addressUrl;
 	/**
 	 * 使用restTemplate发起post请求
 	 * @param service      服务名称
@@ -21,7 +25,7 @@ public class CloudServiceUtil {
 	 * @param outputClass  出参class
 	 * @return
 	 */
-	public static Object template(String service, Object params, Class<?> outputClass) {
+	public Object template(String service, Object params, Class<?> outputClass) {
 		Object bean = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -32,18 +36,12 @@ public class CloudServiceUtil {
 				
 			JSONObject jsonObj = JSONObject.fromObject(params);	          
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);
-			String url = "";
-			//测试开关
-			if(isTest) {
-				url= testURL+service;
-			} else {
-				url = URL+service;
-			}
+			String cloudUrl = addressUrl + service;
 			//没有传出参类则默认为Object
 			if(outputClass == null) {
 				outputClass = Object.class;
 			}			
-			bean = restTemplate.postForObject(url, formEntity, outputClass);
+			bean = restTemplate.postForObject(cloudUrl, formEntity, outputClass);
 		} catch (Exception e) {				
 			throw ExceptionUtil.unchecked(e);
 		}
@@ -56,7 +54,7 @@ public class CloudServiceUtil {
 	 * @param params   入参
 	 * @return
 	 */
-	public static CloudOutput cloudRestfulcall(String service, Object params) {
+	public CloudOutput cloudRestfulcall(String service, Object params) {
 		CloudOutput bean = new CloudOutput();
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -68,14 +66,8 @@ public class CloudServiceUtil {
 			headers.add("businesscenter", "businesscenter");
 			JSONObject jsonObj = JSONObject.fromObject(params);	          
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);
-			String url = "";
-			//测试开关
-			if(isTest) {
-				url= testURL+service;
-			} else {
-				url = URL+service;
-			}		
-			bean = restTemplate.postForObject(url, formEntity, CloudOutput.class);
+			String cloudUrl = addressUrl+service;	
+			bean = restTemplate.postForObject(cloudUrl, formEntity, CloudOutput.class);
 		} catch (Exception e) {				
 			bean.setSuccess(0L);
 			bean.setMessage(e.getMessage());

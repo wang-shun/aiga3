@@ -6,7 +6,7 @@ define(function(require, exports, module) {
 	var Utils = require("global/utils.js");
 	var pathAlias = "workManage/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
-	var Page = Utils.initPage('workplan');
+	var Page = Utils.initPage('workPlan');
     //一级域下拉框查询
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
     //根据一级查询二级子域

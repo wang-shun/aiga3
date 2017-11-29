@@ -1,5 +1,4 @@
-
-  <style type="text/css">
+<style type="text/css">
 	#Page_workPlan .width-input-167 {width: 167px;}
 	#Page_workPlan .width-input-400 {width: 400px;}
 	#Page_workPlan .btn-center {text-align: center;}
@@ -14,11 +13,8 @@
 	#Page_workPlan .col3-after-label {margin-left: 17px;}
 	#Page_workPlan .line-sen-top {margin-top: 15px;}
 	#Page_workPlan .text-area-sty {width: 680px;vertical-align:middle; }
-  </style>
-
-  
-  <body>
-    <div class="row" id="Page_workPlan">
+</style>
+<div class="row" id="Page_workPlan">
     <div class="col-md-12">
         <div class="box">
             <form id="JS_queryDataMaintainForm">
@@ -184,49 +180,48 @@
 </div>
 </div>
 
+
 <!-- 修改页面模版 -->
 <script id="TPL_workUpdateFrom" type="text/x-handlebars-template">
 	<div class="box-body form-group form-inline" style="margin-bottom: 0px">
-					<form id="JS_workApplyForm">
-						<div class="col-md-12">
-							<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
-	   						<input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
-	  						<label class="control-label margin-onl">事项</label>
-							<input name="matters" type="text" class="form-control input-sm width-input-167" value="{{matters}}"></input>
-						</div>
-						<div class="line-sen-top col-md-12">
-					   	    <label class="control-label fist-text-label">完成情况</label>
-					   		<input name="completion" type="text" class="form-control input-sm width-input-400" value="{{completion}}"></input>
-					   		<label class="control-label margin-onl">分类</label>
-                            <input name="classification" class="form-control select2 input-sm width-input-167" value="{{classification}}">                       	
-						</div>
-						<div class="line-sen-top col-md-12">
-							<label class="control-label fist-text-label">工作内容</label>
-							<textarea type="textarea" name="jobContent" cols="107" rows="4" class="form-control input-sm text-area-sty">{{jobContent}}</textarea>
-						</div>
-						<div class="line-sen-top col-md-12">
-					   	    <label class="control-label fist-text-label">计划完成率</label>
-					   		<input name="projectCompletion" type="text" class="form-control input-sm width-input-400">{{projectCompletion}}</input>
-					   		<label class="control-label col3-after-label">提交及时性</label>
-     			    		<input name="submitTimely" type="text" class="form-control input-sm width-input-167">{{submitTimely}}</input>
-						</div>
-						<div class="line-sen-top col-md-12">
-					   	    <label class="control-label fist-text-label">质量说明</label>
-					   		<input name="Quality" type="text" class="form-control input-sm width-input-400" value="{{Quality}}"></input>
-					   		<label class="control-label col3-after-label">填写质量</label>
-     			    		<input name="fillQuality" type="text" class="form-control input-sm width-input-167" value="{{fillQuality}}></input>
-						</div>
+		<form id="JS_workApplyForm">
+			<div class="col-md-12">
+				<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
+ 						<input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
+						<label class="control-label margin-onl">事项</label>
+				<input name="matters" type="text" class="form-control input-sm width-input-167" value="{{matters}}"></input>
+			</div>
+			<div class="line-sen-top col-md-12">
+		   	    <label class="control-label fist-text-label">完成情况</label>
+		   		<input name="completion" type="text" class="form-control input-sm width-input-400" value="{{completion}}"></input>
+		   		<label class="control-label margin-onl">分类</label>
+                         <input name="classification" class="form-control select2 input-sm width-input-167" value="{{classification}}">                       	
+			</div>
+			<div class="line-sen-top col-md-12">
+				<label class="control-label fist-text-label">工作内容</label>
+				<textarea type="textarea" name="jobContent" cols="107" rows="4" class="form-control input-sm text-area-sty">{{jobContent}}</textarea>
+			</div>
+			<div class="line-sen-top col-md-12">
+		   	    <label class="control-label fist-text-label">计划完成率</label>
+		   		<input name="projectCompletion" type="text" class="form-control input-sm width-input-400">{{projectCompletion}}</input>
+		   		<label class="control-label col3-after-label">提交及时性</label>
+  			    		<input name="submitTimely" type="text" class="form-control input-sm width-input-167">{{submitTimely}}</input>
+			</div>
+			<div class="line-sen-top col-md-12">
+		   	    <label class="control-label fist-text-label">质量说明</label>
+		   		<input name="Quality" type="text" class="form-control input-sm width-input-400" value="{{Quality}}"></input>
+		   		<label class="control-label col3-after-label">填写质量</label>
+  			    <input name="fillQuality" type="text" class="form-control input-sm width-input-167" value="{{fillQuality}}></input>
+			</div>
 
-						<div id="updata-select" class="line-sen-top col-md-12 form-group">
-						   <label class="control-label fist-text-label">开始时间</label>
-                    	   <input type="text" class="form-control input-sm " name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
-                    		
-                    		<label class="control-label col2-sec-label">结束时间</label>
-                    		<input type="text" class="form-control input-sm " name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
-                    		
-						</div> 						
-					</form>	
-      </div>
+			<div id="updata-select" class="line-sen-top col-md-12 form-group">
+			   <label class="control-label fist-text-label">开始时间</label>
+               <input type="text" class="form-control input-sm " name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+               <label class="control-label col2-sec-label">结束时间</label>
+               <input type="text" class="form-control input-sm " name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>              		
+			</div> 						
+		</form>	
+     </div>
 </script>
 
 

@@ -12,11 +12,11 @@ import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
 @Api(value = "ArchibuildingStateController", description = "架构分层相关api")
-public class ArchibuildingStateController {
+public class StaticTnterfaceController {
 	@Autowired
 	private ArchitectureStaticDataSv architectureStaticDataSv;
 	
-	//根据Type查询静态数据
+	//查询 系统建设状态
 	@RequestMapping(path = "/archi/static/archiBuildingState")
 	public @ResponseBody JsonBean type(){
 		JsonBean bean = new JsonBean();

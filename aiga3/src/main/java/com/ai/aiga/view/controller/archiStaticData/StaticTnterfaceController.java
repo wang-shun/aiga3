@@ -76,7 +76,7 @@ public class StaticTnterfaceController {
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
-	//根据Type查询静态数据
+	//查询 
 	@RequestMapping(path = "/archi/static/rankInfo")
 	public @ResponseBody JsonBean getRankInfo(){
 		JsonBean bean = new JsonBean();
@@ -84,4 +84,21 @@ public class StaticTnterfaceController {
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
+	
+	//获取报表时间类型
+	@RequestMapping(path = "/archi/static/logReportTimeType")
+	public @ResponseBody JsonBean getLogReportTimeType(){
+		JsonBean bean = new JsonBean();
+		String codeType = "LOGREPORT_TIME_TYPE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
+	//获取指定时间类型下报表模板
+	@RequestMapping(path = "/archi/static/getLogReportModel")
+	public @ResponseBody JsonBean getLogReportModel(String codeVaule){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureStaticDataSv.findByCodeType(codeVaule));
+		return bean;
+	}
 }

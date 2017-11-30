@@ -1,0 +1,40 @@
+<style>
+#Page_indexOperationReport .select-label-word {margin-top: 7px;width: 70px;}
+</style>
+<div class="row" id="Page_indexOperationReport">
+	<div class="col-md-12">
+		<div class="box box-solid">
+			<div class="box-header">
+				<h3 class="box-title">条件查询</h3>
+			</div>
+			<div class="box-body" id="JS_selectGroup">
+				<div class="col-md-3" style="display: -webkit-inline-box;">
+					<label class="select-label-word">报表类型:</label> 
+					<select name="reportType" data-url="logReportTimeType" data-idkey="codeValue" data-namekey="codeName" data-subname="reportMode">
+					</select>
+				</div>
+				<div class="col-md-3" style="display: -webkit-inline-box;">
+					<label class="select-label-word">报表模板:</label> 
+					<select name="reportMode" data-suburl="getLogReportModel" data-idkey="codeValue" data-namekey="codeName">
+					</select>
+				</div>
+				<div class="col-md-3" style="display: -webkit-inline-box;">
+					<label class="select-label-word">评分时间:</label>
+	                <input type="text" class="form-control input-sm" style="width:200px" name="modeTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+				</div>
+				<div class="col-md-3" style="display: -webkit-inline-box;">
+					<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="box" id="JS_logList">
+		</div>
+	</div>
+</div>
+<script>
+seajs.use("script/indexOperationReport/indexOperationReport", function(init) {
+	init.init();
+});
+</script>

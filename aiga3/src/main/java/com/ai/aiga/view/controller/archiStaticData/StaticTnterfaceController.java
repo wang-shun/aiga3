@@ -96,9 +96,9 @@ public class StaticTnterfaceController {
 	
 	//获取指定时间类型下报表模板
 	@RequestMapping(path = "/archi/static/getLogReportModel")
-	public @ResponseBody JsonBean getLogReportModel(String codeVaule){
+	public @ResponseBody JsonBean getLogReportModel(String reportType){
 		JsonBean bean = new JsonBean();
-		bean.setData(architectureStaticDataSv.findByCodeType(codeVaule));
+		bean.setData(architectureStaticDataSv.findByCodeType(reportType));
 		return bean;
 	}
 }

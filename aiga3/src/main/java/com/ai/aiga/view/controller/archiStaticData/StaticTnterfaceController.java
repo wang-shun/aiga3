@@ -26,15 +26,6 @@ public class StaticTnterfaceController {
 	} 
 	
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/archiBelongSystem")
-	public @ResponseBody JsonBean getBelongSystem(){
-		JsonBean bean = new JsonBean();
-		String codeType = "ARCH_BELONG_SYSTEM";
-		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
-		return bean;
-	} 
-	
-	//根据Type查询静态数据
 	@RequestMapping(path = "/archi/static/archiDealApartment")
 	public @ResponseBody JsonBean getDealApartment(){
 		JsonBean bean = new JsonBean();

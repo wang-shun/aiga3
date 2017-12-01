@@ -37,7 +37,7 @@ define(function(require, exports, module) {
 			Utils.setSelectDataPost(group,true);	
 			//查询按钮事件绑定
 			group.find("[name='query']").off('click').on('click',function() {
-				var modelType = Page.find("[name='reportMode']").val(), modelCode = Page.find("[name='reportMode']").val(); 
+				var modelType = Page.find("[name='reportType']").val(), modelCode = Page.find("[name='reportMode']").val(); 
 				switch (modelType) {
 					case "LOGREPORT_MODEL_DAY":
 						self._dayModelRequest(modelCode);

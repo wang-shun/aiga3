@@ -1,13 +1,18 @@
 package com.ai.aiga.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import lombok.Data;
 
 import oracle.net.aso.k;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.janino.Java.NewAnonymousClassInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -175,9 +180,15 @@ public class ArchSrvManageSv extends BaseService {
 						"select ar.* from am_core_index am, arch_srv_manage ar where am.index_id = ar.index_id and am.index_name like '%CSF服务调用成功率环比变化%' "+
 						") " );
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+		//查询条件非空按settMonth查询
 		if (StringUtils.isNotBlank(condition.getSettMonth())) {
 			nativeSql.append(" where sett_month = :settMonth ");
 			params.add(new ParameterCondition("settMonth", condition.getSettMonth()));
+		}else{//查询条件为空默认查询今天today
+			SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMdd"); 
+			String date = sDateFormat.format(new java.util.Date()); 
+			nativeSql.append(" where sett_month = :settMonth ");
+			params.add(new ParameterCondition("settMonth", date));
 		}
 		List<ArchSrvManage>outlist = archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchSrvManage.class);
 		List<ArchSrvManage>inlist = new ArrayList<ArchSrvManage>(outlist);

@@ -1,5 +1,5 @@
 <div class="box-header with-border" >
-    <h3 class="box-title">日志报表</h3>
+    <h3 class="box-title">各中心CSF服务运行情况日报</h3>
 </div>
 <div class="box-body" >
     <table class="table table-bordered table-hover">

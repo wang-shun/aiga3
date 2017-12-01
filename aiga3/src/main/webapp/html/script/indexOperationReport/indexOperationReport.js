@@ -53,6 +53,7 @@ define(function(require, exports, module) {
 						self._monthModelRequest();
 						break;
 					default:
+						 Page.findId("logList").html("");
 				}
 			});
 		},

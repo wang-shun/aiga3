@@ -14,18 +14,19 @@ define(function(require, exports, module) {
     
     //模板
     var Tpl = {
-		centerCSFModel: require('tpl/indexOperationReport/day/centerCSFModel.tpl'),
-		taskSchedulEModel: require('tpl/indexOperationReport/day/taskSchedulEModel.tpl'),
-		processSchedulEModel: require('tpl/indexOperationReport/day/processSchedulEModel.tpl'),
-		cacheAccessModel: require('tpl/indexOperationReport/day/cacheAccessModel.tpl'),
-		mqMessageModel: require('tpl/indexOperationReport/day/mqMessageModel.tpl')
+		centerCSFModel: require('tpl/indexOperationReport/day/centerCSFModel.tpl'), 			//各中心CSF服务运行情况日报
+		taskSchedulEModel: require('tpl/indexOperationReport/day/taskSchedulEModel.tpl'),		//任务调度运行情况日报
+		processSchedulEModel: require('tpl/indexOperationReport/day/processSchedulEModel.tpl'),	//流程调度运行情况日报
+		cacheAccessModel: require('tpl/indexOperationReport/day/cacheAccessModel.tpl'),			//缓存云平台接入情况日报
+		mqMessageModel: require('tpl/indexOperationReport/day/mqMessageModel.tpl')				//各中心MQ消息队列运行情况日报
     };
 	//向外暴露的模块
 	var init = {
 		init: function() {
+			//渲染下拉框  绑定按钮事件
 			this._load_combo_select();
 		},	
-		//渲染下拉框  查询按钮
+		//渲染下拉框  绑定按钮事件
 		_load_combo_select: function() {
 			var self = this;
 			var group = Page.findId("selectGroup");
@@ -37,16 +38,19 @@ define(function(require, exports, module) {
 			Utils.setSelectDataPost(group,true);	
 			//查询按钮事件绑定
 			group.find("[name='query']").off('click').on('click',function() {
-				var modelType = Page.find("[name='reportType']").val(), modelCode = Page.find("[name='reportMode']").val(); 
+				var modelType = Page.find("[name='reportType']").val(); 
 				switch (modelType) {
 					case "LOGREPORT_MODEL_DAY":
-						self._dayModelRequest(modelCode);
+						//日
+						self._dayModelRequest();
 						break;
 					case "LOGREPORT_MODEL_WEEK":
-						self._weekModelRequest(modelCode);
+						//周
+						self._weekModelRequest();
 						break;
 					case "LOGREPORT_MODEL_MONTH":
-						self._monthModelRequest(modelCode);
+						//月
+						self._monthModelRequest();
 						break;
 					default:
 				}
@@ -54,8 +58,8 @@ define(function(require, exports, module) {
 		},
 		
 		//调用day日志模板，渲染数据
-		_dayModelRequest : function(modelCode) {
-			var dom = Page.findId("logList");
+		_dayModelRequest : function() {
+			var dom = Page.findId("logList"),modelCode = Page.find("[name='reportMode']").val();
 			//TODO 调用接口
 			switch (modelCode) {
 			    case "1":
@@ -85,25 +89,28 @@ define(function(require, exports, module) {
 			        break;
 			    default:
 					dom.html("");
-			}	
+			}
+    		Utils.eventTrClickCallback(dom);
 		},
 		//调用周日志模板，渲染数据
-		_weekModelRequest : function(modelCode) {
-			var dom = Page.findId("logList");
+		_weekModelRequest : function() {
+			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
 			//TODO 调用接口
 			switch (modelCode) {
 			    default:
 					dom.html("");
 			}	
+    		Utils.eventTrClickCallback(dom);
 		},
 		//调用月日志模板，渲染数据
-		_monthModelRequest : function(modelCode) {
-			var dom = Page.findId("logList");
+		_monthModelRequest : function() {
+			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
 			//TODO 调用接口
 			switch (modelCode) {
 			    default:
 					dom.html("");
 			}	
+    		Utils.eventTrClickCallback(dom);
 		}
 	};
 	module.exports = init;

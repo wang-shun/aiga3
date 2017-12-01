@@ -42,18 +42,22 @@ define(function(require, exports, module) {
 			//查询按钮事件绑定
 			group.find("[name='query']").off('click').on('click',function() {
 				var modelType = Page.find("[name='reportType']").val(); 
+				//服务入参
+				var _cmd = {
+					settMonth: timeDom.val().replace(/-/g,"")
+				};
 				switch (modelType) {
 					case "LOGREPORT_MODEL_DAY":
 						//日
-						self._dayModelRequest(timeDom.val());
+						self._dayModelRequest(_cmd);
 						break;
 					case "LOGREPORT_MODEL_WEEK":
 						//周
-						self._weekModelRequest(timeDom.val());
+						self._weekModelRequest(_cmd);
 						break;
 					case "LOGREPORT_MODEL_MONTH":
 						//月
-						self._monthModelRequest(timeDom.val());
+						self._monthModelRequest(_cmd);
 						break;
 					default:
 						 Page.findId("logList").html("");
@@ -62,16 +66,13 @@ define(function(require, exports, module) {
 		},
 		
 		//调用day日志模板，渲染数据
-		_dayModelRequest : function(time) {
+		_dayModelRequest : function(_cmd) {
 			var dom = Page.findId("logList"),modelCode = Page.find("[name='reportMode']").val();
-			var cmd = {
-				settMonth: time.replace(/-/g,"")
-			};
 			//TODO 调用接口
 			switch (modelCode) {
 			    case "1":
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			    	Rose.ajax.postJson(srvMap.get('csfsrvReport'),cmd,function(json, status){
+			    	Rose.ajax.postJson(srvMap.get('csfsrvReport'),_cmd,function(json, status){
 						window.XMS.msgbox.hide();
 						if(status) {
 							//各中心CSF服务运行情况日报
@@ -113,7 +114,7 @@ define(function(require, exports, module) {
 			}
 		},
 		//调用周日志模板，渲染数据
-		_weekModelRequest : function(time) {
+		_weekModelRequest : function(_cmd) {
 			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
 			//TODO 调用接口
 			switch (modelCode) {
@@ -123,7 +124,7 @@ define(function(require, exports, module) {
 			}	
 		},
 		//调用月日志模板，渲染数据
-		_monthModelRequest : function(time) {
+		_monthModelRequest : function(_cmd) {
 			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
 			//TODO 调用接口
 			switch (modelCode) {

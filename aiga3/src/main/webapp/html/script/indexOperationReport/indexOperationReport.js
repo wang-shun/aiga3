@@ -23,41 +23,62 @@ define(function(require, exports, module) {
 		cacheAccessModel: require('tpl/indexOperationReport/day/cacheAccessModel.tpl'),			//缓存云平台接入情况日报
 		mqMessageModel: require('tpl/indexOperationReport/day/mqMessageModel.tpl')				//各中心MQ消息队列运行情况日报
     };
+    //节点
+    Dom = {
+    	dayTimeDom: '',
+    	monthTimeDom : ''
+    };
 	//向外暴露的模块
 	var init = {
 		init: function() {
+			this._dom_init();
 			//渲染下拉框  绑定按钮事件
 			this._load_combo_select();
 		},	
+		
+		_dom_init: function() {
+			Dom.dayTimeDom = Page.find("[name='dayModeTime']");
+			Dom.monthTimeDom = Page.find("[name='monthModeTime']");
+		},
+		
 		//渲染下拉框  绑定按钮事件
 		_load_combo_select: function() {
 			var self = this;
-			var group = Page.findId("selectGroup");
-			//设置默认时间  昨天
-			var timeDom = group.find("[name='modeTime']");
+	        var group = Page.findId("selectGroup");
 			var yesterdsay = new Date(new Date().getTime() - 86400000);
-			timeDom.val(Rose.date.dateTime2str(yesterdsay,"yyyy-MM-dd"));
+			Dom.dayTimeDom.val(Rose.date.dateTime2str(yesterdsay,"yyyy-MM-dd"));
+			Dom.monthTimeDom.val(Rose.date.dateTime2str(yesterdsay,"yyyy-MM"));
 			//comboselect
 			Utils.setSelectDataPost(group,true);	
+			//日期切换
+			group.find("[name='reportType']").on('change',function(){
+				var typeValue = this.value;		
+				if(typeValue == "LOGREPORT_MODEL_MONTH") {
+					Dom.monthTimeDom.removeClass("show-nothing");
+					Dom.dayTimeDom.addClass("show-nothing");
+				} else {
+					if(Dom.dayTimeDom.hasClass("show-nothing")) {
+						Dom.monthTimeDom.addClass("show-nothing");
+						Dom.dayTimeDom.removeClass("show-nothing");
+					}
+				}
+			});
+
 			//查询按钮事件绑定
 			group.find("[name='query']").off('click').on('click',function() {
 				var modelType = Page.find("[name='reportType']").val(); 
-				//服务入参
-				var _cmd = {
-					settMonth: timeDom.val().replace(/-/g,"")
-				};
 				switch (modelType) {
 					case "LOGREPORT_MODEL_DAY":
 						//日
-						self._dayModelRequest(_cmd);
+						self._dayModelRequest();
 						break;
 					case "LOGREPORT_MODEL_WEEK":
 						//周
-						self._weekModelRequest(_cmd);
+						self._weekModelRequest();
 						break;
 					case "LOGREPORT_MODEL_MONTH":
 						//月
-						self._monthModelRequest(_cmd);
+						self._monthModelRequest();
 						break;
 					default:
 						 Page.findId("logList").html("");
@@ -65,9 +86,13 @@ define(function(require, exports, module) {
 			});
 		},
 		
-		//调用day日志模板，渲染数据
-		_dayModelRequest : function(_cmd) {
+		//调用日报表模板，渲染数据
+		_dayModelRequest : function() {
 			var dom = Page.findId("logList"),modelCode = Page.find("[name='reportMode']").val();
+			//服务入参
+			var _cmd = {
+				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
+			};
 			//TODO 调用接口
 			switch (modelCode) {
 			    case "1":
@@ -113,9 +138,13 @@ define(function(require, exports, module) {
 			    	Utils.eventClickChecked(dom);
 			}
 		},
-		//调用周日志模板，渲染数据
-		_weekModelRequest : function(_cmd) {
+		//调用周报表模板，渲染数据
+		_weekModelRequest : function() {
 			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
+			//服务入参
+			var _cmd = {
+				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
+			};
 			//TODO 调用接口
 			switch (modelCode) {
 			    default:
@@ -123,9 +152,13 @@ define(function(require, exports, module) {
 			    	Utils.eventClickChecked(dom);
 			}	
 		},
-		//调用月日志模板，渲染数据
+		//调用月报表模板，渲染数据
 		_monthModelRequest : function(_cmd) {
 			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
+			//服务入参
+			var _cmd = {
+				settMonth: Dom.monthTimeDom.val().replace(/-/g,"")
+			};
 			//TODO 调用接口
 			switch (modelCode) {
 			    default:

@@ -5,14 +5,12 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class CacheCloudPlatformReport implements Serializable {
+public class CacheCloudPlatformReport extends PlatcormOperateBase implements Serializable {
 
-    private String key1;
     private String cacheBlockIsZero;
     private String cacheBlockGtTenM;
     private String increaseCacheBlockNum;
     private String totalCacheBlockNum;
     private String changeChainRatio;
-    private String settMonth;
     
 }

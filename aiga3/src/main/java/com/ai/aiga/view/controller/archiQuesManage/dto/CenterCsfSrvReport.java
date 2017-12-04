@@ -5,9 +5,8 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class CenterCsfSrvReport implements Serializable {
+public class CenterCsfSrvReport extends PlatcormOperateBase implements Serializable {
 
-    private String key1;
     private String dayCsfSrvNum;
     private String totalCsfNum;
     private String activeCsfNum;
@@ -15,6 +14,5 @@ public class CenterCsfSrvReport implements Serializable {
     private String csfSrvChainRatio;
     private String predayCsfSuccessRate;
     private String csfSuccessRateChainRatio;
-    private String settMonth;
     
 }

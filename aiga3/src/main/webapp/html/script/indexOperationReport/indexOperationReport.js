@@ -25,7 +25,6 @@ define(function(require, exports, module) {
     };
     //节点
     Dom = {
-        group : Page.findId("selectGroup"),
     	dayTimeDom: Page.find("[name='dayModeTime']"),
     	monthTimeDom : Page.find("[name='monthModeTime']")
     };
@@ -38,13 +37,14 @@ define(function(require, exports, module) {
 		//渲染下拉框  绑定按钮事件
 		_load_combo_select: function() {
 			var self = this;
+	        var group = Page.findId("selectGroup");
 			var yesterdsay = new Date(new Date().getTime() - 86400000);
 			Dom.dayTimeDom.val(Rose.date.dateTime2str(yesterdsay,"yyyy-MM-dd"));
 			Dom.monthTimeDom.val(Rose.date.dateTime2str(yesterdsay,"yyyy-MM"));
 			//comboselect
-			Utils.setSelectDataPost(Dom.group,true);	
-			//
-			Dom.group.find("[name='reportType']").on('change',function(){
+			Utils.setSelectDataPost(group,true);	
+			//日期切换
+			group.find("[name='reportType']").on('change',function(){
 				var typeValue = this.value;		
 				if(typeValue == "LOGREPORT_MODEL_MONTH") {
 					Dom.monthTimeDom.removeClass("show-nothing");
@@ -58,7 +58,7 @@ define(function(require, exports, module) {
 			});
 
 			//查询按钮事件绑定
-			Dom.group.find("[name='query']").off('click').on('click',function() {
+			group.find("[name='query']").off('click').on('click',function() {
 				var modelType = Page.find("[name='reportType']").val(); 
 				switch (modelType) {
 					case "LOGREPORT_MODEL_DAY":

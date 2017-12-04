@@ -5,7 +5,7 @@ import java.io.Serializable;
 import lombok.Data;
 
 @Data
-public class CenterCsfSrvReportParams implements Serializable {
+public class PlatformOperateReportParams implements Serializable {
 
     private String settMonth;
 

@@ -13,7 +13,7 @@ public class TaskDispatchReport implements Serializable {
     private String nonresidentTaskNum;
     private String batchTaskNum;
     private String predayTaskTriggerNum;
-    private String csfSuccessRateChainRatio;
+    private String changeChainRatio;
     private String settMonth;
     
 }

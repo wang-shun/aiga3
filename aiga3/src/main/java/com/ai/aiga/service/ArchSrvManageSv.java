@@ -34,7 +34,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSrvManageSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.CenterCsfSrvReport;
-import com.ai.aiga.view.controller.archiQuesManage.dto.CenterCsfSrvReportParams;
+import com.ai.aiga.view.controller.archiQuesManage.dto.PlatformOperateReportParams;
 @Service
 @Transactional
 public class ArchSrvManageSv extends BaseService {
@@ -169,7 +169,7 @@ public class ArchSrvManageSv extends BaseService {
 	    return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchSrvManage.class);
 	}
 
-	public List<CenterCsfSrvReport>report(CenterCsfSrvReportParams condition){
+	public List<CenterCsfSrvReport>report(PlatformOperateReportParams condition){
 		StringBuilder nativeSql = new StringBuilder(
 				"select * from (select ar.* from am_core_index am, arch_srv_manage ar where am.index_id = ar.index_id and am.index_name like '%日新增CSF服务数量%' union "+
 						"select ar.* from am_core_index am, arch_srv_manage ar where am.index_id = ar.index_id and am.index_name like '%累计接入服务数量%' union "+

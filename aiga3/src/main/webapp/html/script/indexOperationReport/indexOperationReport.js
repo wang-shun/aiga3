@@ -25,15 +25,22 @@ define(function(require, exports, module) {
     };
     //节点
     Dom = {
-    	dayTimeDom: Page.find("[name='dayModeTime']"),
-    	monthTimeDom : Page.find("[name='monthModeTime']")
+    	dayTimeDom: '',
+    	monthTimeDom : ''
     };
 	//向外暴露的模块
 	var init = {
 		init: function() {
+			this._dom_init();
 			//渲染下拉框  绑定按钮事件
 			this._load_combo_select();
 		},	
+		
+		_dom_init: function() {
+			Dom.dayTimeDom = Page.find("[name='dayModeTime']");
+			Dom.monthTimeDom = Page.find("[name='monthModeTime']");
+		},
+		
 		//渲染下拉框  绑定按钮事件
 		_load_combo_select: function() {
 			var self = this;

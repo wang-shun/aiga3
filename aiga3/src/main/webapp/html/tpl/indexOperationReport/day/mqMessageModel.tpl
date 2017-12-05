@@ -20,11 +20,11 @@
 				<tr>
 				    <td><input type="radio" class="minimal" name="radioBox"></td>
 				    <td>{{key1}}</td>
-				    <td>{{dayCsfSrvNum}}</td>
-				    <td>{{totalCsfNum}}</td>
-				    <td>{{activeCsfNum}}</td>
-				    <td>{{centerCsfNum}}</td>
-				    <td>{{csfSrvChainRatio}}</td>
+				    <td>{{predayMqConsumeNum}}</td>
+				    <td>{{changeNumChainRatio}}</td>
+				    <td>{{messageConsumeSuccessRate}}</td>
+				    <td>{{successRateChainRatio}}</td>
+				    <td>{{messageCheckSameRate}}</td>
 				    <td>{{settMonth}}</td>
 				</tr>
 			{{/each}}

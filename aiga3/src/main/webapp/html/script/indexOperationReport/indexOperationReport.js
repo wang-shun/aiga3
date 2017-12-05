@@ -12,6 +12,14 @@ define(function(require, exports, module) {
     srvMap.add("getLogReportModel", '', "archi/static/getLogReportModel");	
 	//各中心CSF服务运行情况日报数据获取
     srvMap.add("csfsrvReport", '', "arch/csfsrv/report");	
+	//任务调度运行情况日报数据获取
+    srvMap.add("taskdispatchReport", '', "arch/taskdispatch/report");	
+	//流程调度运行情况日报数据获取
+    srvMap.add("flowdispatchReport", '', "arch/flowdispatch/report");	
+	//缓存云平台接入情况日报数据获取
+    srvMap.add("cachecloudReport", '', "arch/cachecloud/report");	
+	//各中心CSF服务运行情况日报数据获取
+    srvMap.add("centermqReport", '', "arch/centermq/report");	
     
 	/*后台接口 end*/
     
@@ -110,28 +118,60 @@ define(function(require, exports, module) {
 					});
 			        break;
 			    case "2":
-					//任务调度运行情况日报
-					var template = Handlebars.compile(Tpl.taskSchedulEModel);
-					dom.html(template());
-		    		Utils.eventClickChecked(dom);
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			    	Rose.ajax.postJson(srvMap.get('taskdispatchReport'),_cmd,function(json, status){
+						window.XMS.msgbox.hide();
+						if(status) {
+							//任务调度运行情况日报
+							var template = Handlebars.compile(Tpl.taskSchedulEModel);
+							dom.html(template());
+				    		Utils.eventClickChecked(dom);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}					
+					});
 			        break;
 			    case "3":
-					//流程调度运行情况日报
-					var template = Handlebars.compile(Tpl.processSchedulEModel);
-					dom.html(template());
-					Utils.eventClickChecked(dom);
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			    	Rose.ajax.postJson(srvMap.get('flowdispatchReport'),_cmd,function(json, status){
+						window.XMS.msgbox.hide();
+						if(status) {
+							//流程调度运行情况日报
+							var template = Handlebars.compile(Tpl.processSchedulEModel);
+							dom.html(template());
+							Utils.eventClickChecked(dom);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}					
+					});			
 			        break;
 			    case "4":
-					//缓存云平台接入情况日报
-					var template = Handlebars.compile(Tpl.cacheAccessModel);
-					dom.html(template());
-					Utils.eventClickChecked(dom);
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			    	Rose.ajax.postJson(srvMap.get('cachecloudReport'),_cmd,function(json, status){
+						window.XMS.msgbox.hide();
+						if(status) {
+							//缓存云平台接入情况日报
+							var template = Handlebars.compile(Tpl.cacheAccessModel);
+							dom.html(template());
+							Utils.eventClickChecked(dom);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}					
+					});							
 			        break;
 			    case "5":
-					//各中心MQ消息队列运行情况日报
-					var template = Handlebars.compile(Tpl.mqMessageModel);
-					dom.html(template());
-					Utils.eventClickChecked(dom);
+					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			    	Rose.ajax.postJson(srvMap.get('centermqReport'),_cmd,function(json, status){
+						window.XMS.msgbox.hide();
+						if(status) {
+							//各中心MQ消息队列运行情况日报
+							var template = Handlebars.compile(Tpl.mqMessageModel);
+							dom.html(template());
+							Utils.eventClickChecked(dom);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}					
+					});					
 			        break;
 			    default:
 					dom.html("");

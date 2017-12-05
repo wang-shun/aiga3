@@ -21,12 +21,12 @@
 				<tr>
 				    <td><input type="radio" class="minimal" name="radioBox"></td>
 				    <td>{{key1}}</td>
-				    <td>{{dayCsfSrvNum}}</td>
-				    <td>{{totalCsfNum}}</td>
-				    <td>{{activeCsfNum}}</td>
-				    <td>{{centerCsfNum}}</td>
-				    <td>{{csfSrvChainRatio}}</td>
-				    <td>{{predayCsfSuccessRate}}</td>
+				    <td>{{addFlowConnectNum}}</td>
+				    <td>{{totalFlowConnectNum}}</td>
+				    <td>{{predayDispatchNum}}</td>
+				    <td>{{dispatchChainRatio}}</td>
+				    <td>{{dealAverageTime}}</td>
+				    <td>{{dealTimeChainRatio}}</td>
 				    <td>{{settMonth}}</td>
 				</tr>
 			{{/each}}

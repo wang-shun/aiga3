@@ -20,11 +20,11 @@
 				<tr>
 				    <td><input type="radio" class="minimal" name="radioBox"></td>
 				    <td>{{key1}}</td>
-				    <td>{{dayCsfSrvNum}}</td>
-				    <td>{{totalCsfNum}}</td>
-				    <td>{{activeCsfNum}}</td>
-				    <td>{{centerCsfNum}}</td>
-				    <td>{{csfSrvChainRatio}}</td>
+				    <td>{{cacheBlockIsZero}}</td>
+				    <td>{{cacheBlockGtTenM}}</td>
+				    <td>{{increaseCacheBlockNum}}</td>
+				    <td>{{totalCacheBlockNum}}</td>
+				    <td>{{changeChainRatio}}</td>
 				    <td>{{settMonth}}</td>
 				</tr>
 			{{/each}}

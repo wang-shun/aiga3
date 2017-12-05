@@ -24,12 +24,12 @@
 				<tr>
 				    <td><input type="radio" class="minimal" name="radioBox"></td>
 				    <td>{{key1}}</td>
-				    <td>{{dayCsfSrvNum}}</td>
-				    <td>{{totalCsfNum}}</td>
-				    <td>{{activeCsfNum}}</td>
-				    <td>{{centerCsfNum}}</td>
-				    <td>{{csfSrvChainRatio}}</td>
-				    <td>{{predayCsfSuccessRate}}</td>
+				    <td>{{predayAddTaskNum}}</td>
+				    <td>{{residentTaskNum}}</td>
+				    <td>{{nonresidentTaskNum}}</td>
+				    <td>{{batchTaskNum}}</td>
+				    <td>{{predayTaskTriggerNum}}</td>
+				    <td>{{changeChainRatio}}</td>
 				    <td>{{settMonth}}</td>
 				</tr>
 			{{/each}}

@@ -103,7 +103,8 @@ define(function(require, exports, module) {
 		j:1,
 		indexIds:"",
 		indexIds2:"",
-		isOtherNode:new Array(100)
+		isOtherNode:new Array(100),
+		isOtherNode2:new Array(100)
 	};
 
 	var Query = {
@@ -128,7 +129,8 @@ define(function(require, exports, module) {
                     //checkbox代码块
                     var setting = {
                         check: {
-                            enable: true
+                            enable: true,
+                            chkStyle:"checkbox"
                         },
                         data: {
                             key: {
@@ -164,7 +166,6 @@ define(function(require, exports, module) {
 						  			});
 						  			Data.i++;
                                 }else if(Data.i>=2){
-									var PreNode = treeNode.getPreNode();
                                 	var pcmd = "indexId="+funcIdNum;
 									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
 										if(status) {
@@ -259,6 +260,9 @@ define(function(require, exports, module) {
 									var cancel = Data.isOtherNode[Data.i-2];
 									cancel.checked=false;
 									cancel.check_Child_State=0;
+									//取消勾选全部节点
+									var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
+									treeObj.checkAllNodes(false);
                                 	Data.indexId = '';
                                 	Data.indexId = funcIdNum + ",";
                                 }
@@ -944,7 +948,8 @@ define(function(require, exports, module) {
                     //checkbox代码块
                     var setting = {
                         check: {
-                            enable: true
+                            enable: true,
+                            chkStyle:"checkbox"
                         },
                         data: {
                             key: {
@@ -959,8 +964,8 @@ define(function(require, exports, module) {
                         callback: {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
-                                var a =treeNode.getCheckStatus();
-                                console.log(a);
+                                var node =treeNode.getCheckStatus();
+                                console.log(node);
                                 console.log(funcIdNum);
                                 //判断指标名称是否在同一个指标分组里面
                                 if(Data.j==1){
@@ -970,6 +975,8 @@ define(function(require, exports, module) {
 											window.XMS.msgbox.hide();
 											Data.isSame2=json.data[0].groupId;
 											Data.isParent2=json.data[0].indexId;
+											var parentNode = treeNode.getParentNode();
+                                            Data.isOtherNode2[Data.j] = parentNode;
 										} else {
 											XMS.msgbox.show(json.retMessage, 'error', 2000);
 										}
@@ -982,6 +989,8 @@ define(function(require, exports, module) {
 											window.XMS.msgbox.hide();
 											Data.isOtherSame2[Data.j+1]=json.data[0].groupId;
 											Data.isOtherParent2[Data.j+1]=json.data[0].indexId;
+											var parentNode = treeNode.getParentNode();
+                                            Data.isOtherNode2[Data.j]=parentNode;
 										} else {
 											XMS.msgbox.show(json.retMessage, 'error', 2000);
 										}
@@ -989,7 +998,7 @@ define(function(require, exports, module) {
 						  			Data.j++;
                                 }
                                 if(Data.isOtherSame2[Data.j]==Data.isSame2 || Data.isOtherSame2[Data.j]==Data.isOtherSame2[Data.j-1]){
-	                                if(a.checked==true){
+	                                if(node.checked==true){
 	                                	if(1001<=funcIdNum<=2010){
 	                                		Data.indexIds2 ="";
 	                                		//调用后台接口查询indexIds 返回long[]
@@ -1006,7 +1015,7 @@ define(function(require, exports, module) {
 													XMS.msgbox.show(json.retMessage, 'error', 2000);
 												}
 								  			});
-	                                	}else if(300001<=funcIdNum<=300010){
+                                        }else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
 	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
 	                                	}
 	                                	if(1001>funcIdNum || funcIdNum>2010){
@@ -1023,7 +1032,7 @@ define(function(require, exports, module) {
 	                                	}
 	                                }
                                 }else if(Data.isOtherSame2[Data.j]==Data.isParent2 || Data.isOtherSame2[Data.j]==Data.isOtherParent2[Data.j-1]){
-	                                if(a.checked==true){
+	                                if(node.checked==true){
 	                                	if(1001<=funcIdNum<=2010){
 	                                		Data.indexIds2 ="";
 	                                		//调用后台接口查询indexIds 返回long[]
@@ -1040,13 +1049,13 @@ define(function(require, exports, module) {
 													XMS.msgbox.show(json.retMessage, 'error', 2000);
 												}
 								  			});
-	                                	}else if(300001<=funcIdNum<=300010){
+	                                	}else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
 	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
 	                                	}
 	                                	if(1001>funcIdNum || funcIdNum>2010){
 			                                Data.indexId2 += funcIdNum + ",";
 	                                	}
-	                                }else if(a.checked==false){
+	                                }else if(node.checked==false){
 	                                	var gg = Data.indexId2.indexOf(funcIdNum);
 	                                	if(gg>=0){
 		                                	var tou = Data.indexId2.substring(0,gg);
@@ -1065,6 +1074,12 @@ define(function(require, exports, module) {
 										});
 									});
 									textModal.modal('show');
+									var cancel = Data.isOtherNode2[Data.j-2];
+                                    cancel.checked=false;
+                                    cancel.check_Child_State=0;
+									//取消勾选全部节点
+									var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR2");
+									treeObj.checkAllNodes(false);
                                 	Data.indexId2 = '';
                                 	Data.indexId2 = funcIdNum + ",";
                                 }

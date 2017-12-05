@@ -22,22 +22,19 @@ define(function(require, exports, module) {
 	
 	
 	var cache = {
-			datas : "",
+			datas : ""
 		};
 	var init = {
 				
-		init: function() {
-			 
-			var self = this;
-			self._render();			
+		init: function() {			 
+			this._render();
 		},
 		
 		_render: function() {
-			 
-			var self = this;
-			self._queryTypeDomain();
-			self._applydomain();
-			self._getGridList();
+			//查询
+			this._query_event();
+			this._applydomain();
+			this._getGridList();
 			
 		},
 		
@@ -143,12 +140,9 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					
 					Rose.ajax.postJson(srvMap.get('workPlanSave'),_CMD,function(json, status){
-
-						if(status) {
-							
+						if(status) {							
 							_modal.modal('hide');
 							XMS.msgbox.show('新增成功！', 'success', 2000);
-							debugger;
 							setTimeout(function() {
 								self._getGridList();
 							}, 1000);
@@ -161,7 +155,7 @@ define(function(require, exports, module) {
 		},
 		
 		//查询下拉框数据加载，绑定查询按钮事件
-        _queryTypeDomain: function() {
+        _query_event: function() {
         	 
 			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');
@@ -197,31 +191,26 @@ define(function(require, exports, module) {
 			var template = Handlebars.compile(Page.findTpl('workUpdateFrom'));
 			Page.findId('updateDataWorkPlan').html(template(data));
 			var _dom = Page.findModal('workUpdateModal');
-			_dom.modal('show');
-			Utils.setSelectData(_dom);
-			
-			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
-			_dom.find("#JS_name").html(html);
-			
+			_dom.modal('show');			
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				
-				debugger;
-				
+				debugger
 				var _form = Page.findId('updateDataWorkPlan');
-				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();
 				_cmd=_cmd.replace(/-/g,"/");
 				_cmd = _cmd + "&id=" + Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('workplanUpdate'), _cmd, function(json, status) {
 					if (status) {
+						debugger
 						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {
 							self._getGridList();
 							_dom.modal('hide');
 						}, 1000);
+					} else {
+							window.XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 				});
 			});
@@ -263,7 +252,7 @@ define(function(require, exports, module) {
 					callback();
 				}
 			});
-		},
+		}
         
         
         

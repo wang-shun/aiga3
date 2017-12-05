@@ -1,8 +1,6 @@
 package com.ai.aiga.view.controller.WorkPlanControl;
 
 import java.text.ParseException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,12 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.domain.QuestionEvent;
-import com.ai.aiga.domain.WorkPlan;
-import com.ai.aiga.service.QuestionEventSv;
+import com.ai.aiga.domain.Workplan;
 import com.ai.aiga.service.WorkPlanSv;
-import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionEventRequest;
-import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionInfoRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 import io.swagger.annotations.Api;
@@ -37,14 +31,13 @@ public class WorkPlanController {
 	public @ResponseBody JsonBean queryByCondition(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            WorkPlan condition) throws ParseException{
+            Workplan condition) throws ParseException{
 				JsonBean bean = new JsonBean();
 				bean.setData(workPlanSv.queryByCondition(condition, pageNumber, pageSize));
 			return bean;
 	}
 	@RequestMapping(path = "/archi/workplan/save")
-	public @ResponseBody JsonBean save(WorkPlan request){
-		JsonBean bean = new JsonBean();
+	public @ResponseBody JsonBean save(Workplan request){
 		workPlanSv.save(request);
 		return JsonBean.success;
 	}
@@ -54,7 +47,7 @@ public class WorkPlanController {
 		return JsonBean.success;
 	}
 	@RequestMapping(path = "/archi/workplan/update")
-	public @ResponseBody JsonBean update(WorkPlan request){
+	public @ResponseBody JsonBean update(Workplan request){
 		workPlanSv.update(request);
 		return JsonBean.success;
 	}
@@ -62,7 +55,7 @@ public class WorkPlanController {
 	public @ResponseBody JsonBean findAllByPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            WorkPlan request){
+            Workplan request){
 				JsonBean bean = new JsonBean();
 				bean.setData(workPlanSv.findAllByPage(request, pageNumber, pageSize));
 			return bean;

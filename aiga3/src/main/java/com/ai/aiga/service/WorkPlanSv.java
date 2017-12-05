@@ -1,9 +1,7 @@
 package com.ai.aiga.service;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,17 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ai.aiga.domain.ArchitectureGrading;
-import com.ai.aiga.domain.QuestionEvent;
-import com.ai.aiga.domain.WorkPlan;
+import com.ai.aiga.domain.Workplan;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.dao.QuestionEventDao;
 import com.ai.aiga.dao.WorkPlanDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.archiQuesManage.dto.QuestionEventRequest;
 
 @Service
 @Transactional
@@ -34,12 +28,12 @@ public class WorkPlanSv extends BaseService {
 	private WorkPlanDao workPlanDao;
 	
 	//find
-	public List<WorkPlan> findAll(){
+	public List<Workplan> findAll(){
 		return workPlanDao.findAll();
 	}
 	
 	//add
-	public void save(WorkPlan request){
+	public void save(Workplan request){
 		workPlanDao.save(request);
 	}
 	
@@ -52,11 +46,11 @@ public class WorkPlanSv extends BaseService {
 	}
 
 	//update
-	public void update(WorkPlan request){
+	public void update(Workplan request){
 		workPlanDao.save(request);
 	}
 
-	public Page<WorkPlan> findAllByPage(WorkPlan request, int pageNumber, int pageSize) {
+	public Page<Workplan> findAllByPage(Workplan request, int pageNumber, int pageSize) {
         List<Condition> cons = new ArrayList<Condition>();
         if(pageNumber < 0){
             pageNumber = 0;
@@ -68,7 +62,7 @@ public class WorkPlanSv extends BaseService {
         return workPlanDao.search(cons, pageable);
 	}
 
-	public Page<WorkPlan> queryByCondition(WorkPlan condition, int pageNumber,
+	public Page<Workplan> queryByCondition(Workplan condition, int pageNumber,
 			int pageSize) throws ParseException {
         List<Condition> cons = new ArrayList<Condition>();
     	if(condition.getId()==0){

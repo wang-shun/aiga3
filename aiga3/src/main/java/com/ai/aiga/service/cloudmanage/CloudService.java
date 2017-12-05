@@ -1,8 +1,11 @@
 package com.ai.aiga.service.cloudmanage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ai.aiga.component.CloudCmpt;
+import com.ai.aiga.component.MailCmpt;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.service.cloudmanage.dto.CloudFirstParam;
@@ -20,38 +23,8 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureThirdRequest;
 @Transactional
 public class CloudService extends BaseService {
 	
-	public static void main(String[] args) {
-//		ArchitectureFirstRequest param = new ArchitectureFirstRequest();
-//		param.setApplyId(759L);
-//		param.setApplyUser("admin");
-//		param.setCode("数据修改");
-//		param.setCreateDate(new Date());
-//		param.setExt1("1");
-//		param.setIdFirst(99000000L);
-//		param.setModifyDate(new Date());
-//		param.setName("一级域测试数据");
-//		param.setState("审批通过");
-//		System.out.println(new CloudService().firstModify(param).getMessage());
-		//二级测试
-//		ArchitectureSecondRequest param = new ArchitectureSecondRequest();
-//		param.setApplyId(760L);
-//		param.setApplyUser("admin");
-//		param.setCode("数据修改");
-//		param.setCreateDate(new Date());
-//		param.setExt1("2");
-//		param.setIdFirst(10000000L);
-//		param.setIdSecond(19900000L);
-//		param.setBelongLevel("SaaS");
-//		param.setModifyDate(new Date());
-//		param.setName("二级域测试数据修改");
-//		param.setState("审批通过");
-//		System.out.println(new CloudService().secondDelete(param).getMessage());
-		//三级域
-//		ArchitectureThirdRequest param = new ArchitectureThirdRequest();
-//		param.setOnlysysId(9999L);
-//		System.out.println(new CloudService().thirdDelete(param,"admin").getMessage());
-	}
-	
+	@Autowired
+	private CloudCmpt cloudCmpt;
 	/**
 	 * 新增业务系统一级域同步
 	 * @param params
@@ -65,7 +38,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/first/add",cloudFirstParam);
+		return cloudCmpt.cloudRestfulcall("architecture/first/add",cloudFirstParam);
 	}
 	
 	/**
@@ -81,7 +54,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/first/modify",cloudFirstParam);
+		return cloudCmpt.cloudRestfulcall("architecture/first/modify",cloudFirstParam);
 	}
 	
 	/**
@@ -97,7 +70,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudFirstParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/first/delete",cloudFirstParam);
+		return cloudCmpt.cloudRestfulcall("architecture/first/delete",cloudFirstParam);
 	}
 	/**
 	 * 新增业务系统二级域同步
@@ -112,7 +85,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/second/add",cloudSecondParam);
+		return cloudCmpt.cloudRestfulcall("architecture/second/add",cloudSecondParam);
 	}
 	
 	/**
@@ -128,7 +101,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/second/modify",cloudSecondParam);
+		return cloudCmpt.cloudRestfulcall("architecture/second/modify",cloudSecondParam);
 	}
 	
 	/**
@@ -144,7 +117,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudSecondParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/second/delete",cloudSecondParam);
+		return cloudCmpt.cloudRestfulcall("architecture/second/delete",cloudSecondParam);
 	}
 	/**
 	 * 新增业务系统三级域同步
@@ -165,7 +138,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/third/add",cloudThirdParam);
+		return cloudCmpt.cloudRestfulcall("architecture/third/add",cloudThirdParam);
 	}
 	
 	/**
@@ -182,7 +155,7 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/third/modify",cloudThirdParam);
+		return cloudCmpt.cloudRestfulcall("architecture/third/modify",cloudThirdParam);
 	}
 	
 	/**
@@ -199,6 +172,6 @@ public class CloudService extends BaseService {
 		if(params.getModifyDate() != null) {
 			cloudThirdParam.setModifyDate(String.valueOf(params.getModifyDate().getTime()));
 		}
-		return CloudServiceUtil.cloudRestfulcall("architecture/third/delete",cloudThirdParam);
+		return cloudCmpt.cloudRestfulcall("architecture/third/delete",cloudThirdParam);
 	}
 }

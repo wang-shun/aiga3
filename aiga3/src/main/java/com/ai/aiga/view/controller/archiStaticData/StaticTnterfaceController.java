@@ -12,7 +12,7 @@ import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
 @Api(value = "ArchibuildingStateController", description = "架构分层相关api")
-public class ArchibuildingStateController {
+public class StaticTnterfaceController {
 	@Autowired
 	private ArchitectureStaticDataSv architectureStaticDataSv;
 	
@@ -25,21 +25,11 @@ public class ArchibuildingStateController {
 		return bean;
 	} 
 	
-	
-	//根据Type查询静态数据
+	//查询 系统建设状态
 	@RequestMapping(path = "/archi/static/archiBuildingState")
 	public @ResponseBody JsonBean type(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_BUILDING_STATE";
-		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
-		return bean;
-	} 
-	
-	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/archiBelongSystem")
-	public @ResponseBody JsonBean getBelongSystem(){
-		JsonBean bean = new JsonBean();
-		String codeType = "ARCH_BELONG_SYSTEM";
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
@@ -95,7 +85,7 @@ public class ArchibuildingStateController {
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
-	//根据Type查询静态数据
+	//查询 
 	@RequestMapping(path = "/archi/static/rankInfo")
 	public @ResponseBody JsonBean getRankInfo(){
 		JsonBean bean = new JsonBean();
@@ -103,4 +93,21 @@ public class ArchibuildingStateController {
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
+	
+	//获取报表时间类型
+	@RequestMapping(path = "/archi/static/logReportTimeType")
+	public @ResponseBody JsonBean getLogReportTimeType(){
+		JsonBean bean = new JsonBean();
+		String codeType = "LOGREPORT_TIME_TYPE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
+	//获取指定时间类型下报表模板
+	@RequestMapping(path = "/archi/static/getLogReportModel")
+	public @ResponseBody JsonBean getLogReportModel(String reportType){
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureStaticDataSv.findByCodeType(reportType));
+		return bean;
+	}
 }

@@ -1,50 +1,88 @@
-<div class="row" id="Page_quesRendingView">
+<div class="row" id="Page_questionApplyView">
     <div class="col-md-12">
         <div class="box">
-            <form id="JS_queryDataMaintainForm">
+            <form id="JS_queryDataMaintainForm" role="form">
                 <div class="box-header with-border">
-                    <h1 class="box-title">架构问题查询</h1>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="box-body"><br/>
-                    <div class="row">
+                    <h1 class="box-title">架构巡检申报</h1>
+	                <div class="box-tools">
+	                    <button type="button" class="btn btn-primary" name="batchAdd">批量导入</button>
+                </div><br/>
+                <div class="box-body">
+                	<div class="row">
 						<div class="form-group col-sm-12">
-						    <label for="title" class="col-sm-1 control-label">标 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label>
+						    <label for="occurEnvironment" class="col-sm-1 control-label">标 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label>
 						    <div class="col-sm-8">
-						      <input type="text" class="form-control" name="occurEnvironment" id="title" placeholder="请输入架构问题标题">
+						      <input name="occurEnvironment" type="text" class="form-control" id="occurEnvironment" placeholder="请输入问题标题">
 						    </div>
 						</div>
                 	</div>
                 	<div class="row">
-                		<div class="form-group col-sm-6">
-		                    <label for="quesId" class="col-sm-2 control-label">问题编号：</label>
+                		<div class="form-group col-sm-12">
+                			<label for="abstracts" class="col-sm-1 control-label">巡检描述：</label>
+                			<div class="col-sm-8">
+                				<textarea name="abstracts" class="form-control" rows="5" id="abstracts" placeholder="请输入问题描述"></textarea>
+                			</div>
+                		</div>
+                	</div>
+		            <div class="row">
+		                <div class="form-group col-sm-6">
+		                    <label for="quesType" class="col-sm-2 control-label">问题来源：</label>
 		                    <div class="col-sm-4">
-		                    	<input name="quesId" type="text" class="form-control" placeholder="请输入系统编号">
+			                    <select id="quesType" name="quesType" class="form-control input-sm" data-url="getQuestypeList" data-subname="firstCategory" data-idkey="quesType" data-namekey="name">
+			                        <option value="">请选择</option>
+			                    </select>
+		                    </div>
+		                </div>
+		                <div class="form-group col-sm-6" id="firstCategorydiv">
+		                    <label for="firstCategory" class="col-sm-2 control-label">一级分类：</label>
+		                    <div class="col-sm-4">
+			                    <select id="firstCategory" name="firstCategory" class="form-control input-sm" data-suburl="getFirstcategoryList" data-subname="secondCategory" data-idkey="firstCategory" data-namekey="name">
+			                        <option value="">请选择</option>
+			                    </select>
 			                </div>
 		                </div>
-		                <div class="form-group col-sm-6">
-		                    <label for="quesType" class="col-sm-2   control-label">问题来源：</label>
+		                <div class="form-group col-sm-6" id="defectLeveldiv" style="display:none">
+		                    <label for="defectLevel" class="col-sm-2 control-label">问题分类：</label>
 		                    <div class="col-sm-4">
-		                    	<select id="quesType" name="quesType" class="form-control input-sm" data-url="getQuestypeList" data-subname="firstCategory" data-idkey="quesType" data-namekey="name">
+			                    <select name="defectLevel" class="form-control select2 input-sm" data-url="staticQuesCategory" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
 		            </div>
-                	<div class="row">
-		            	<div class="form-group col-sm-6">
-		                    <label for="sysVersion" class="col-sm-2 control-label" >工单状态：</label>
+		            <div class="row">
+		                <div class="form-group col-sm-6" id="secondCategorydiv">
+		                    <label for="secondCategory" class="col-sm-2 control-label">二级分类：</label>
 		                    <div class="col-sm-4">
-			                    <select name="sysVersion" class="form-control select2 input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName" display="only">
+			                    <select id="secondCategory" name="secondCategory" class="form-control input-sm" data-suburl="getSecondcategoryList" data-subname="thirdCategory" data-idkey="secondCategory" data-namekey="name">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
+		                <div class="form-group col-sm-6" id="thirdCategorydiv">
+		                    <label for="thirdCategory" class="col-sm-2 control-label">三级分类：</label>
+		                    <div class="col-sm-4">
+			                    <select id="thirdCategory" name="thirdCategory" class="form-control input-sm" data-suburl="getThirdcategoryList" data-idkey="thirdCategory" data-namekey="name">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		            </div>
+		            <div class="row">
 		                <div class="form-group col-sm-6">
-		                    <label for="belongProject" class="col-sm-2   control-label">所属系统：</label>
+		                    <label for="priority" class="col-sm-2 control-label">优先级：</label>
+		                    <div class="col-sm-4">
+			                    <select name="priority" class="form-control input-sm">
+			                        <option value="">请选择</option>
+   			                        <option value="紧急">紧急</option>
+   			                        <option value="高">高</option>
+   			                        <option value="中">中</option>
+   			                        <option value="低">低</option>
+			                    </select>
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    <label for="belongProject" class="col-sm-2 control-label">所属系统：</label>
 		                    <div class="col-sm-3">
 		                    	<input name="belongProject" type="text" class="form-control" placeholder="请选择所属系统">
 			                </div>
@@ -54,11 +92,41 @@
 		                </div>
 		            </div>
 		            <div class="row">
-		            	<div class="form-group col-sm-6">
-		                    <label for="state" class="col-sm-2  control-label" >问题状态：</label>
+		                <div class="form-group col-sm-6">
+		                    <label for="modifyDate" class="col-sm-2 control-label">期望时间:</label>
 		                    <div class="col-sm-4">
-			                    <select name="state" class="form-control select2 input-sm" data-url="staticQuestionState" data-idkey="codeValue" data-namekey="codeName" display="only">
+		                    	<input type="text" class="form-control input-sm " name="modifyDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"> 
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    <label for="appointedPerson" class="col-sm-2 control-label">处理科室：</label>
+		                    <div class="col-sm-4">
+			                    <select name="appointedPerson" class="form-control select2 input-sm" data-url="staticDealApartment" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		            </div>
+		            <div class="row">
+<!-- 		            	<div class="form-group col-sm-6">
+
+		                    <label for="appointedPerson" class="col-sm-2 control-label" >工单状态：</label>
+		                    <div class="col-sm-4">
+			                    <select name="sysVersion" class="form-control select2 input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName" display="only">
+			                        <option selected="selected" value="待认定">待认定</option>
+			                    </select>
+			                </div>
+		                </div> -->
+						<div class="form-group col-sm-6">
+		                    <label for="inputfile" class="col-sm-2 control-label">附件上传：</label>
+							<input type="file" name="fileName"  class="col-sm-5">
+<!-- 	                        <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
+ -->					</div>
+ 						<div class="form-group col-sm-6">
+		                    <label for="idFirst" class="col-sm-2 control-label" >事件单编号：</label>
+		                    <div class="col-sm-4">
+			                    <select name="idFirst" class="form-control select2 input-sm" data-url="getEventFindALL" data-idkey="id" data-namekey="name" display="only">
+			                        <option value="1000000000">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
@@ -66,18 +134,18 @@
                 </div>
                 <div class="box-footer">
                     <div class="text-center">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                        <button type="reset" class="btn btn-default">取消</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">申报</button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="box" id="JS_getDataMaintainList" style="min-height:100px;">
+		<div class="box show_nothing" id="JS_getDataMaintainList" style="min-height:100px; display:none ">
             <div class="box-header ">
                 <h3 class="box-title">架构问题管控列表</h3>
                 <div class="box-tools">
-<!--                <button type="button" class="btn btn-primary" name="add">添加</button>
-                    <button type="button" class="btn btn-primary" name="del">删除</button> -->
+                    <button type="button" class="btn btn-primary" name="add">问题申报</button>
+                    <button type="button" class="btn btn-primary" name="del">删除</button>
                 </div>
             </div>
             <div class="box-body">
@@ -85,31 +153,47 @@
                     <thead>
 		                <tr>
 	                    <th class="iCheckbox" width="15"></th>
-	                    <th>问题编号</th>
-						<th>问题标题</th>
-						<th>所属系统</th>
-						<th>问题分类</th>
+						<th>问题编号</th>
+						<th>问题类型</th>
 						<th>一级分类</th>
 						<th>二级分类</th>
 						<th>三级分类</th>
-						<th>工单状态</th>
-						<th>问题状态</th>
-						<th>优化思路</th>
-						<th>具体措施</th>
-						<th>预期结果</th>
-						<th>实际结果</th>
+						<th>疑难问题</th>
+						<th>摘要</th>
+						<th>发生环境</th>
+						<th>所属项目</th>
+						<th>一级域编号</th>
+						<th>二级子域编号</th>
+						<th>三级系统编号</th>
+						<th>系统版本</th>
+						<th>优先级</th>
+						<th>缺陷级别</th>
+						<th>流程状态</th>
+						<th>申报信息</th>
 						<th>认定信息</th>
-						<th>处理科室</th>
-						<th>期望完成时间</th>
+						<th>解决信息</th>
+						<th>创建时间</th>
+						<th>修改时间</th>
+						<th>报告人</th>
+						<th>指派人</th>
+						<th>扩展字段1</th>
+						<th>扩展字段2</th>
+						<th>扩展字段3</th>
 		                </tr>
                     </thead>
-                    <tbody name="content"></tbody>          
+                    <tbody name="content"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <div class="dataTables_paginate" name="pagination"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <div class="box-footer no-border">
-                <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-                </div>
             </div>
         </div>
+    </div>
+</div>
 <!-- Modal -->
 <!-- 新增searchbox弹框 -->
 <div class="modal fade" id="Modal_addSearchBoxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -157,8 +241,8 @@
 									<th>所属分层</th>
 									<th>系统描述</th>
 									<th style="min-width: 45px;">责任部门</th>
-									<th>项目立项信息</th>
-									<th style="min-width: 70px;">规划设计信息</th>
+									<th style="min-width: 60px;">项目立项信息</th>
+									<th style="min-width: 60px;">规划设计信息</th>
 									<th style="min-width: 40px;">状态</th>
 								</tr>
 							</thead>
@@ -195,6 +279,88 @@
 </tr>
 {{/each}}
 </script>
+<!-- 添加交付物 -->
+<div class="modal fade" id="Modal_addDdeliverablesModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 name="head" class="box-title">架构问题批量添加</h4>
+            </div>
+            <div class="modal-body" id="JS_addDdeliverablesForm">
+                <div class="box">
+                    <div class="box-body">
+                        <form>
+                            <div class="alert alert-warning alert-dismissible">
+                                <i class="icon fa fa-warning  text-yellow"></i>注意：请先选择架构疑难问题申报表下载模板，并按模板样式填写后，进行文件上传批量导入！
+                            </div>
+                        </form>
+                        <div class="row">
+                            <form id="JS_uploadDeliveryForm">
+                                <div class="col-md-12">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>文件类型<i class="text-red">*</i></label>
+                                                        <select name="fileName" class="form-control select2 input-sm" data-url="staticFileCategory" data-idkey="codeValue" data-namekey="codeName" required>
+                                                        	<option value="">请选择</option><!-- data-cmd="category=enclosuretype" -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>导入文件<i class="text-red">*</i></label>
+                                                        <input type="file" name="fileName2" class="form-control input-sm" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-footer">
+                                            <div class="text-center">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" name="importFile">上传文件</button>
+                                                <a class="btn btn-primary" name="downloadTemp">下载模板</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+<!--                 <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">上传架构文件列表</h3>
+                        <div class="box-tools">
+      
+                            <a class="btn btn-primary" name="add">下载文档</a>
+                            <button type="button" class="btn btn-primary" name="bianyi">删除文档</button>
+                        </div>
+                    </div>
+                    <div class="box-body table-scrollable" style="min-height: 100px;">
+                        <table class="table table-bordered table-hover" style="width: 1300px;">
+                            <thead>
+                                <tr>
+                                    <th class="iCheckbox" width="15"></th>
+                                    <th>文件名称</th>
+                                    <th>文件类型</th>
+                                    <th>上传人</th>
+                                    <th>上传时间</th>
+                                    <th>下载时间</th>
+                                    <th>驳回次数</th>
+                                    <th>驳回时间</th>
+                                </tr>
+                            </thead>
+                            <tbody name="content"></tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border">
+                        <div class="dataTables_paginate" name="pagination"></div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
     </div>
 </div>
 <!-- Modal -->
@@ -204,7 +370,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">问题添加</h4>
+                <h4 class="modal-title" id="myModalLabel">问题申请</h4>
             </div>
             <div class="modal-body" style="padding-bottom: 0">
                 <form id="JS_addDataMaintainInfo" class="form">
@@ -457,111 +623,62 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">问题认定</h4>
+                <h4 class="modal-title" id="myModalLabel">问题修改</h4>
             </div>
             <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
                 <form id="JS_updateDataMaintainInfo" class="form">
                 </form>
             </div>
-           	<div id="JS_IdentifyButtom" class="box-footer no-border" style="text-align:center;">
-        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="identify">认定</button>
-        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" data-dismiss="modal">取消</button>
-    		</div> 
-<!--        <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" name="save">认定</button>
-            </div> -->
-        </div>
-    </div>
-</div>
-<!-- 弹出框  -->
-<div class="modal fade" id="JS_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title">
-					认定信息
-				</h4>
-			</div>
-			<div class="modal-body">
-			    <label>认定信息:</label>
-				<br/>
-				<textarea id="JS_modalMessage" cols="107" rows="4" class="form-control input-sm"></textarea>
-				<br/>
-              	<div class="form-group col-sm-6">
-                    <label for="identifiedName" class="col-sm-4  control-label" >认定人员:</label>
-                    <div class="col-sm-6">
-                        <input id="JS_identifiedName" name="identifiedName" class="form-control" placeholder="请输入认定人员" required>
-	                </div>
-                </div>
-                <br/>
-                <br/>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="button" class="btn btn-primary" name="pass">
-					通过
-				</button>
-				<button type="button" class="btn btn-primary" name="noPass">
-					不通过
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
-
-<!-- Modal -->
-<!-- 属性维护修改弹框 -->
-<div class="modal fade" id="Modal_updateDataMaintainModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">架构问题解决</h4>
-            </div>
-            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
-                <form id="JS_updateDataMaintainInfo2" class="form">
-                </form>
-            </div>
             <div class="modal-footer">
-                <div class="text-center">
-	                <button type="button" class="btn btn-primary" data-dismiss="modal"name="openRequest">开需求单</button>
-	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openTask">开任务单</button>
-	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openUpdate">开变更单</button>
-	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="afterSolved">后续立项解决</button>
-	                <button type="button" class="btn btn-primary" name="closeAll">关单</button>
-                </div>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
             </div>
         </div>
     </div>
 </div>
-
-
 <script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
- <!-- 
     <div class="box-header with-border">
-     <h3 class="box-title">问题认定</h3>
-     <div class="box-tools pull-right">
-         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-         </button>
-         <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-     </div>
- </div> 
-   -->
-    <div class="box-body" >
-        <div class="row" style="display:none">
+        <h3 class="box-title">问题认定</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label>问题编号</label>
                     <input type="text" class="form-control input-sm" value="{{quesId}}" name="quesId">
                 </div>
             </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>问题类型</label>
+                    <input type="text" class="form-control input-sm" value="{{quesType}}" name="quesType">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>一级分类</label>
+                    <input type="text" class="form-control input-sm" value="{{firstCategory}}" name="firstCategory">
+                </div>
+            </div>
         </div>
-        <div class="row" style="display:none">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>二级分类</label>
+                    <input type="text" class="form-control input-sm" value="{{secondCategory}}" name="secondCategory">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>三级分类</label>
+                    <input type="text" class="form-control input-sm" value="{{thirdCategory}}" name="thirdCategory">
+                </div>
+            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>疑难问题</label>
@@ -570,102 +687,26 @@
             </div>
         </div>
         <div class="row">
-			<div class="form-group2 col-sm-12">
-				<label for="title" class="col-sm-2 control-label">架构问题标题：</label>
-                <div class="col-sm-8">                   
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>摘要</label>
+                    <input type="text" class="form-control input-sm" value="{{abstracts}}" name="abstracts">
+                </div>
+            </div>
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>发生环境</label>
                     <input type="text" class="form-control input-sm" value="{{occurEnvironment}}" name="occurEnvironment">
                 </div>
             </div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group col-sm-12">
-				<label for="description" class="col-sm-2 control-label">架构问题描述：</label>
-                <div class="col-sm-8">
-                    <textarea class="form-control input-sm" rows="5" id="description" name="abstracts">{{abstracts}}</textarea>
-                </div>
-            </div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group col-sm-6">
-				<label for="belongSys" class="col-sm-4 control-label">所属系统：</label>
-                <div class="col-sm-5">                    
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>所属项目</label>
                     <input type="text" class="form-control input-sm" value="{{belongProject}}" name="belongProject">
                 </div>
             </div>
-			<div class="form-group col-sm-6">
-				<label for="category" class="col-sm-4 control-label">问题分类：</label>
-                <div class="col-sm-5">                   
-                    <input type="text" class="form-control input-sm" value="{{transformatRoot quesType}}" name="quesType">
-                </div>
-            </div>
         </div>
-
-		<div class="row">	
-			<div class="form-group col-sm-6">
-				<label for="firstCategory" class="col-sm-4 control-label">一级分类:</label>
-                <div class="col-sm-5">                    
-                    <input type="text" class="form-control input-sm" value="{{transformatFirst firstCategory}}" name="firstCategory">
-                </div>
-            </div>
-			<div class="form-group col-sm-6">
-				<label for="secondDomain" class="col-sm-4 control-label">二级分类:</label>
-                <div class="col-sm-5">                   
-                    <input type="text" class="form-control input-sm" value="{{transformatSecond secondCategory}}" name="secondCategory">
-                </div>
-            </div>
-		</div>
 		<div class="row">
-			<div class="form-group col-sm-6">
-				<label for="thirdCategory" class="col-sm-4 control-label">三级分类：</label>
-                <div class="col-sm-5">                   
-                    <input type="text" class="form-control input-sm" value="{{transformatThird thirdCategory}}" name="thirdCategory">
-                </div>
-            </div>
-			<div class="form-group col-sm-6">
-				<label for="dealGroup" class="col-sm-4 control-label">处理科室：</label>
-                <div class="col-sm-5">                   
-                    <input type="text" class="form-control input-sm" value="{{appointedPerson}}" name="appointedPerson">
-                </div>
-            </div>
-		</div>
-		<div class="row" style="display:none">	
-            <div class="form-group col-sm-6">
-				<label for="sysVersion" class="col-sm-4 control-label">工单状态：</label>
-                <div class="col-sm-5">
-				<select id="sysVersion" name="sysVersion" class="form-control input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName">
-			    	<option value="{{sysVersion}}">{{sysVersion}}</option>
-			    </select>
-                </div>
-            </div>
-            <div class="form-group col-sm-6">
-				<label for="state" class="col-sm-4 control-label">问题状态：</label>
-                <div class="col-sm-5">
-					<select id="state" name="state" class="form-control input-sm" data-url="staticQuestionState" data-idkey="codeValue" data-namekey="codeName">
-			    		<option value="{{state}}">{{state}}</option>
-			    	</select>
-                </div>
-            </div>
-		</div>
-		<div class="row">
-			<div class="form-group col-sm-6">
-				<label for="priority" class="col-sm-4 control-label">完成时间：</label>
-                <div class="col-sm-5">                   
-                    <input type="text" class="form-control input-sm" value="{{modifyDate}}" name="modifyDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})">
-                </div>
-            </div>
-			<div class="form-group col-sm-6">
-				<label for="priority" class="col-sm-4 control-label">问题附件：</label>
-                <div class="col-sm-4">                   
-                    <input type="text" class="form-control input-sm" value="{{fileName}}" name="fileName">
-                </div>
-				<div class="col-sm-1">
-					<a type="button" class="btn btn-primary" name="add">下载</a>
-			    </div>
-            </div>
-		</div>
-		<div class="row" style="display:none">
             <div class="col-md-4">
                 <div class="form-group">
                     <label>一级域编号</label>
@@ -685,7 +726,13 @@
                 </div>
             </div>
         </div>
-		<div class="row" style="display:none">
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>系统版本</label>
+                    <input type="text" class="form-control input-sm" value="{{sysVersion}}" name="sysVersion">
+                </div>
+            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>优先级别</label>
@@ -699,7 +746,13 @@
                 </div>
             </div>
         </div>
-		<div class="row" style="display:none">
+		<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>流程状态</label>
+                    <input type="text" class="form-control input-sm" value="{{state}}" name="state">
+                </div>
+            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>申报信息</label>
@@ -713,7 +766,7 @@
                 </div>
             </div>
         </div>
-		<div class="row" style="display:none">
+		<div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label>解决信息</label>
@@ -726,16 +779,26 @@
                     <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate">
                 </div>
             </div>
-
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>修改时间</label>
+                    <input type="text" class="form-control input-sm" value="{{modifyDate}}" name="modifyDate">
+                </div>
+            </div>
         </div>
-		<div class="row" style="display:none">
+		<div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label>报告人</label>
                     <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor">
                 </div>
             </div>
-
+			<div class="col-md-4">
+                <div class="form-group">
+                    <label>指派人</label>
+                    <input type="text" class="form-control input-sm" value="{{appointedPerson}}" name="appointedPerson">
+                </div>
+            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>扩展字段1</label>
@@ -743,7 +806,7 @@
                 </div>
             </div>
         </div>
-		<div class="row" style="display:none">
+		<div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     <label>扩展字段2</label>
@@ -777,69 +840,8 @@
 </script>
 <script type="text/javascript">
 //<![CDATA[
-seajs.use("script/archiQuesManage/quesRending", function(Init) {
+seajs.use("script/archiQuesManage/questionApply", function(Init) {
     Init.init();
 });
 //]]>
 </script>
-
-<script id="TPL_modifyQuesIdentifiedInfo2" type="text/x-handlebars-template">
-    <div class="box-body">
-		<div class="row">
-			<div class="form-group">
-				<label for="optimizePath" class="col-sm-1 control-label">问题描述</label>
-				<div class="col-sm-9">
-					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入架构问题优化思路">{{abstracts}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="optimizePath" class="col-sm-1 control-label">优化思路</label>
-				<div class="col-sm-9">
-					<textarea name="ext1" class="form-control" rows="2" id="optimizePath" placeholder="请输入架构问题优化思路">{{ext1}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="specificMeasures" class="col-sm-1 control-label">具体措施</label>
-				<div class="col-sm-9">
-					<textarea name="ext2" class="form-control" rows="2" id="specificMeasures" placeholder="请输入架构问题具体措施">{{ext2}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="expectResult" class="col-sm-1 control-label">预期结果</label>
-				<div class="col-sm-9">
-					<textarea name="ext3" class="form-control" rows="2" id="expectResult" placeholder="请输入架构问题预期结果">{{ext3}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="realResult" class="col-sm-1 control-label">实际结果</label>
-				<div class="col-sm-9">
-					<textarea name="solvedInfo" class="form-control" rows="2" id="realResult" placeholder="请输入架构问题实际结果">{{solvedInfo}}</textarea>
-				</div>
-			</div>
-		</div>		
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="solvedName" class="col-sm-1 control-label">解决人员</label>
-				<div class="col-sm-4">
-                     <input name="solvedName" id="solvedName" class="form-control" placeholder="请输入解决人员" value="{{solvedName}}">
-				</div>
-			</div>
-		</div>
-		<br/>
-    </div>
-</script>
-
-

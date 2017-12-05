@@ -1,9 +1,9 @@
-<div class="row" id="Page_quesRendingView">
+<div class="row" id="Page_questionSearchView">
     <div class="col-md-12">
         <div class="box">
             <form id="JS_queryDataMaintainForm">
                 <div class="box-header with-border">
-                    <h1 class="box-title">架构问题查询</h1>
+                    <h3 class="box-title">架构巡检按条件查询</h3>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
@@ -12,21 +12,21 @@
                 <div class="box-body"><br/>
                     <div class="row">
 						<div class="form-group col-sm-12">
-						    <label for="title" class="col-sm-1 control-label">标 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label>
+						    <label for="title" class="col-sm-1  control-label">标 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label>
 						    <div class="col-sm-8">
-						      <input type="text" class="form-control" name="occurEnvironment" id="title" placeholder="请输入架构问题标题">
+						      <input type="text" class="form-control" name="occurEnvironment" id="title" placeholder="请输入架构巡检标题">
 						    </div>
 						</div>
                 	</div>
                 	<div class="row">
                 		<div class="form-group col-sm-6">
-		                    <label for="quesId" class="col-sm-2 control-label">问题编号：</label>
+		                    <label for="quesId" class="col-sm-2  control-label">问题编号：</label>
 		                    <div class="col-sm-4">
 		                    	<input name="quesId" type="text" class="form-control" placeholder="请输入系统编号">
 			                </div>
 		                </div>
 		                <div class="form-group col-sm-6">
-		                    <label for="quesType" class="col-sm-2   control-label">问题来源：</label>
+		                    <label for="quesType" class="col-sm-2  control-label">问题来源：</label>
 		                    <div class="col-sm-4">
 		                    	<select id="quesType" name="quesType" class="form-control input-sm" data-url="getQuestypeList" data-subname="firstCategory" data-idkey="quesType" data-namekey="name">
 			                        <option value="">请选择</option>
@@ -35,31 +35,31 @@
 		                </div>
 		            </div>
                 	<div class="row">
-		            	<div class="form-group col-sm-6">
-		                    <label for="sysVersion" class="col-sm-2 control-label" >工单状态：</label>
+                		<div class="form-group col-sm-6">
+		                    <label for="sysVersion" class="col-sm-2  control-label" >工单状态：</label>
 		                    <div class="col-sm-4">
 			                    <select name="sysVersion" class="form-control select2 input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName" display="only">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
-		                <div class="form-group col-sm-6">
-		                    <label for="belongProject" class="col-sm-2   control-label">所属系统：</label>
-		                    <div class="col-sm-3">
-		                    	<input name="belongProject" type="text" class="form-control" placeholder="请选择所属系统">
-			                </div>
-				            <div class="col-sm-1">
-				                <button type="button" class="btn btn-primary" data-toggle="modal" name="checkbox">查看</button>
-			                </div>
-		                </div>
-		            </div>
-		            <div class="row">
 		            	<div class="form-group col-sm-6">
 		                    <label for="state" class="col-sm-2  control-label" >问题状态：</label>
 		                    <div class="col-sm-4">
 			                    <select name="state" class="form-control select2 input-sm" data-url="staticQuestionState" data-idkey="codeValue" data-namekey="codeName" display="only">
 			                        <option value="">请选择</option>
 			                    </select>
+			                </div>
+		                </div>
+		            </div>
+		            <div class="row">
+		            	<div class="form-group col-sm-6">
+		                    <label for="belongProject" class="col-sm-2  control-label">所属系统：</label>
+		                    <div class="col-sm-3">
+		                    	<input name="belongProject" type="text" class="form-control" placeholder="请选择所属系统">
+			                </div>
+				            <div class="col-sm-1">
+				                <button type="button" class="btn btn-primary" data-toggle="modal" name="checkbox">查看</button>
 			                </div>
 		                </div>
 		            </div>
@@ -74,7 +74,7 @@
         </div>
         <div class="box" id="JS_getDataMaintainList" style="min-height:100px;">
             <div class="box-header ">
-                <h3 class="box-title">架构问题管控列表</h3>
+                <h3 class="box-title">架构巡检管控列表</h3>
                 <div class="box-tools">
 <!--                <button type="button" class="btn btn-primary" name="add">添加</button>
                     <button type="button" class="btn btn-primary" name="del">删除</button> -->
@@ -93,23 +93,21 @@
 						<th>二级分类</th>
 						<th>三级分类</th>
 						<th>工单状态</th>
-						<th>问题状态</th>
-						<th>优化思路</th>
-						<th>具体措施</th>
-						<th>预期结果</th>
-						<th>实际结果</th>
 						<th>认定信息</th>
+						<th>问题状态</th>
 						<th>处理科室</th>
 						<th>期望完成时间</th>
 		                </tr>
                     </thead>
-                    <tbody name="content"></tbody>          
+                    <tbody name="content"></tbody>         
                 </table>
                 <div class="box-footer no-border">
-                <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 <!-- Modal -->
 <!-- 新增searchbox弹框 -->
 <div class="modal fade" id="Modal_addSearchBoxModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -195,8 +193,6 @@
 </tr>
 {{/each}}
 </script>
-    </div>
-</div>
 <!-- Modal -->
 <!-- 新增弹框 -->
 <div class="modal fade" id="Modal_addDataMaintainModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -457,94 +453,22 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">问题认定</h4>
+                <h4 class="modal-title" id="myModalLabel">巡检详细信息</h4>
             </div>
             <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
                 <form id="JS_updateDataMaintainInfo" class="form">
                 </form>
             </div>
            	<div id="JS_IdentifyButtom" class="box-footer no-border" style="text-align:center;">
-        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="identify">认定</button>
-        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" data-dismiss="modal">取消</button>
+        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" data-dismiss="modal">关闭</button>
     		</div> 
-<!--        <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" name="save">认定</button>
-            </div> -->
         </div>
     </div>
 </div>
-<!-- 弹出框  -->
-<div class="modal fade" id="JS_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title">
-					认定信息
-				</h4>
-			</div>
-			<div class="modal-body">
-			    <label>认定信息:</label>
-				<br/>
-				<textarea id="JS_modalMessage" cols="107" rows="4" class="form-control input-sm"></textarea>
-				<br/>
-              	<div class="form-group col-sm-6">
-                    <label for="identifiedName" class="col-sm-4  control-label" >认定人员:</label>
-                    <div class="col-sm-6">
-                        <input id="JS_identifiedName" name="identifiedName" class="form-control" placeholder="请输入认定人员" required>
-	                </div>
-                </div>
-                <br/>
-                <br/>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
-				</button>
-				<button type="button" class="btn btn-primary" name="pass">
-					通过
-				</button>
-				<button type="button" class="btn btn-primary" name="noPass">
-					不通过
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal -->
-</div>
-
-<!-- Modal -->
-<!-- 属性维护修改弹框 -->
-<div class="modal fade" id="Modal_updateDataMaintainModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">架构问题解决</h4>
-            </div>
-            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
-                <form id="JS_updateDataMaintainInfo2" class="form">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="text-center">
-	                <button type="button" class="btn btn-primary" data-dismiss="modal"name="openRequest">开需求单</button>
-	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openTask">开任务单</button>
-	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openUpdate">开变更单</button>
-	                <button type="button" class="btn btn-primary" data-dismiss="modal" name="afterSolved">后续立项解决</button>
-	                <button type="button" class="btn btn-primary" name="closeAll">关单</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
  <!-- 
     <div class="box-header with-border">
-     <h3 class="box-title">问题认定</h3>
+     <h3 class="box-title">巡检认定</h3>
      <div class="box-tools pull-right">
          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
          </button>
@@ -571,7 +495,7 @@
         </div>
         <div class="row">
 			<div class="form-group2 col-sm-12">
-				<label for="title" class="col-sm-2 control-label">架构问题标题：</label>
+				<label for="title" class="col-sm-2 control-label">架构巡检问题标题：</label>
                 <div class="col-sm-8">                   
                     <input type="text" class="form-control input-sm" value="{{occurEnvironment}}" name="occurEnvironment">
                 </div>
@@ -580,13 +504,12 @@
 		<br/>
 		<div class="row">
 			<div class="form-group col-sm-12">
-				<label for="description" class="col-sm-2 control-label">架构问题描述：</label>
+				<label for="description" class="col-sm-2 control-label">架构巡检问题描述：</label>
                 <div class="col-sm-8">
                     <textarea class="form-control input-sm" rows="5" id="description" name="abstracts">{{abstracts}}</textarea>
                 </div>
             </div>
 		</div>
-		<br/>
 		<div class="row">
 			<div class="form-group col-sm-6">
 				<label for="belongSys" class="col-sm-4 control-label">所属系统：</label>
@@ -656,13 +579,24 @@
                 </div>
             </div>
 			<div class="form-group col-sm-6">
-				<label for="priority" class="col-sm-4 control-label">问题附件：</label>
-                <div class="col-sm-4">                   
-                    <input type="text" class="form-control input-sm" value="{{fileName}}" name="fileName">
+				<label for="reportor" class="col-sm-4 control-label">申报人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor">
                 </div>
-				<div class="col-sm-1">
-					<a type="button" class="btn btn-primary" name="add">下载</a>
-			    </div>
+            </div>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="reportor" class="col-sm-4 control-label">认定人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{identifiedName}}" name="identifiedName">
+                </div>
+            </div>
+			<div class="form-group col-sm-6">
+				<label for="reportor" class="col-sm-4 control-label">解决人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{solvedName}}" name="solvedName">
+                </div>
             </div>
 		</div>
 		<div class="row" style="display:none">
@@ -714,12 +648,6 @@
             </div>
         </div>
 		<div class="row" style="display:none">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>解决信息</label>
-                    <input type="text" class="form-control input-sm" value="{{solvedInfo}}" name="solvedInfo">
-                </div>
-            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>创建时间</label>
@@ -728,35 +656,38 @@
             </div>
 
         </div>
-		<div class="row" style="display:none">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>报告人</label>
-                    <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor">
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label for="description" class="col-sm-2 control-label">优化思路：</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control input-sm" rows="2" name="ext1">{{ext1}}</textarea>
                 </div>
             </div>
-
-			<div class="col-md-4">
-                <div class="form-group">
-                    <label>扩展字段1</label>
-                    <input type="text" class="form-control input-sm" value="{{ext1}}" name="ext1">
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label for="description" class="col-sm-2 control-label">具体措施：</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control input-sm" rows="2" name="ext2">{{ext2}}</textarea>
                 </div>
             </div>
-        </div>
-		<div class="row" style="display:none">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>扩展字段2</label>
-                    <input type="text" class="form-control input-sm" value="{{ext2}}" name="ext2">
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label for="description" class="col-sm-2 control-label">预期结果：</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control input-sm" rows="2" name="ext3">{{ext3}}</textarea>
                 </div>
             </div>
-			<div class="col-md-4">
-                <div class="form-group">
-                    <label>扩展字段3</label>
-                    <input type="text" class="form-control input-sm" value="{{ext3}}" name="ext3">
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-12">
+				<label for="description" class="col-sm-2 control-label">实际结果：</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control input-sm" rows="2" name="solvedInfo">{{solvedInfo}}</textarea>
                 </div>
             </div>
-        </div>
+		</div>
     </div>
 </script>
 <!-- Modal -->
@@ -777,69 +708,8 @@
 </script>
 <script type="text/javascript">
 //<![CDATA[
-seajs.use("script/archiQuesManage/quesRending", function(Init) {
+seajs.use("script/archiQuesManage/questionSearch", function(Init) {
     Init.init();
 });
 //]]>
 </script>
-
-<script id="TPL_modifyQuesIdentifiedInfo2" type="text/x-handlebars-template">
-    <div class="box-body">
-		<div class="row">
-			<div class="form-group">
-				<label for="optimizePath" class="col-sm-1 control-label">问题描述</label>
-				<div class="col-sm-9">
-					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入架构问题优化思路">{{abstracts}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="optimizePath" class="col-sm-1 control-label">优化思路</label>
-				<div class="col-sm-9">
-					<textarea name="ext1" class="form-control" rows="2" id="optimizePath" placeholder="请输入架构问题优化思路">{{ext1}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="specificMeasures" class="col-sm-1 control-label">具体措施</label>
-				<div class="col-sm-9">
-					<textarea name="ext2" class="form-control" rows="2" id="specificMeasures" placeholder="请输入架构问题具体措施">{{ext2}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="expectResult" class="col-sm-1 control-label">预期结果</label>
-				<div class="col-sm-9">
-					<textarea name="ext3" class="form-control" rows="2" id="expectResult" placeholder="请输入架构问题预期结果">{{ext3}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="realResult" class="col-sm-1 control-label">实际结果</label>
-				<div class="col-sm-9">
-					<textarea name="solvedInfo" class="form-control" rows="2" id="realResult" placeholder="请输入架构问题实际结果">{{solvedInfo}}</textarea>
-				</div>
-			</div>
-		</div>		
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="solvedName" class="col-sm-1 control-label">解决人员</label>
-				<div class="col-sm-4">
-                     <input name="solvedName" id="solvedName" class="form-control" placeholder="请输入解决人员" value="{{solvedName}}">
-				</div>
-			</div>
-		</div>
-		<br/>
-    </div>
-</script>
-
-

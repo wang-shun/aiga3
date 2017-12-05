@@ -1,0 +1,48 @@
+<div class="row" id="Page_questionShow">
+        <div class="box">
+            <form id="JS_queryDataMaintainForm">
+                <div class="box-header with-border">
+                    <h1 class="box-title">架构巡检展示</h1>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>
+                    <div class="row">
+						<div class="form-group col-sm-6">
+					        <label for="idFirst" class="col-sm-2 control-label" >事件单编号：</label>
+					        <div class="col-sm-4">
+					         <select name="idFirst" class="form-control select2 input-sm" data-url="getEventFindAll" data-idkey="id" data-namekey="name">
+					             <option value="">请选择</option>
+					         </select>
+					     	</div>
+					    </div>
+                	</div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+<!-- 问题状态饼形图 -->
+<div class="box" id="JS_quesStatePie">
+    <div class="box-header" >
+        <h2 class="box-title">问题状态</h2>
+    </div>
+    <div class="box-body" style="width: 100%; height:500px;">
+    </div>
+    <div class="box-footer no-border">
+    </div> 
+</div>
+  
+</div>
+<script>
+	seajs.use("script/archiQuesManage/questionShow", function(init) {
+		init.init();
+	});
+</script>

@@ -220,6 +220,11 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Tpl.getArchDbConnectList);
 				//按月份排序
 				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
+				for(var i=0;i<json.data.content.length;i++){
+					if(json.data.content[i].key3!=null){
+						json.data.content[i].key3="("+json.data.content[i].key3+")";
+					}
+				};
 				_domSec.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_domSec);
@@ -705,6 +710,11 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Tpl.getArchDbConnectList);
 				//按月份排序
 				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
+				for(var i=0;i<json.data.content.length;i++){
+					if(json.data.content[i].key3!=null){
+						json.data.content[i].key3="("+json.data.content[i].key3+")";
+					}
+				};
 				_domSec.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_domSec);

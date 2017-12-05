@@ -102,7 +102,8 @@ define(function(require, exports, module) {
 		i:1,
 		j:1,
 		indexIds:"",
-		indexIds2:""
+		indexIds2:"",
+		isOtherNode:new Array(100)
 	};
 
 	var Query = {
@@ -142,9 +143,11 @@ define(function(require, exports, module) {
                         callback: {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
-                                var a =treeNode.getCheckStatus();
-                                console.log(a);
+                                var node =treeNode.getCheckStatus();
+
+                                console.log(node);
                                 console.log(funcIdNum);
+
                                 //判断指标名称是否在同一个指标分组里面
                                 if(Data.i==1){
                                 	var pcmd = "indexId="+funcIdNum;
@@ -153,18 +156,23 @@ define(function(require, exports, module) {
 											window.XMS.msgbox.hide();
 											Data.isSame=json.data[0].groupId;
 											Data.isParent=json.data[0].indexId;
+											var parentNode = treeNode.getParentNode();
+											Data.isOtherNode[Data.i] = parentNode;
 										} else {
 											XMS.msgbox.show(json.retMessage, 'error', 2000);
 										}
 						  			});
 						  			Data.i++;
                                 }else if(Data.i>=2){
+									var PreNode = treeNode.getPreNode();
                                 	var pcmd = "indexId="+funcIdNum;
 									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
 										if(status) {
 											window.XMS.msgbox.hide();
 											Data.isOtherSame[Data.i+1]=json.data[0].groupId;
 											Data.isOtherParent[Data.i+1]=json.data[0].indexId;
+											var parentNode = treeNode.getParentNode();
+											Data.isOtherNode[Data.i]=parentNode;
 										} else {
 											XMS.msgbox.show(json.retMessage, 'error', 2000);
 										}
@@ -172,41 +180,7 @@ define(function(require, exports, module) {
 						  			Data.i++;
                                 }
                                 if(Data.isOtherSame[Data.i]==Data.isSame || Data.isOtherSame[Data.i]==Data.isOtherSame[Data.i-1]){
-	                                if(a.checked==true){
-	                                	if(1001<=funcIdNum<=2010){
-	                                		Data.indexIds ="";
-	                                		//调用后台接口查询indexIds 返回long[]
-	                                		var lkcmd = "groupId="+ funcIdNum;
-			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
-												if(status) {
-													window.XMS.msgbox.hide();
-													for(var i=0;i<json.data.length;i++){
-														Data.indexIds += json.data[i].indexId+",";
-														console.log(Data.indexIds);
-														Data.indexId = Data.indexIds;
-													}
-												} else {
-													XMS.msgbox.show(json.retMessage, 'error', 2000);
-												}
-								  			});
-	                                	}else if(300001<=funcIdNum<=300010){
-	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
-	                                	}
-	                                	if(1001>funcIdNum || funcIdNum>2010){
-			                                Data.indexId += funcIdNum + ",";
-	                                	}
-	                                }else{
-	                                	var gg = Data.indexId.indexOf(funcIdNum);
-	                                	if(gg>=0){
-		                                	var tou = Data.indexId.substring(0,gg);
-		                                	var one = funcIdNum.toString();
-		                                	var pg = gg+one.length;
-	                                		var wei = Data.indexId.substring(pg+1);
-		                                	Data.indexId = tou + wei ;
-	                                	}
-	                                }
-                                }else if(Data.isOtherSame[Data.i]==Data.isParent || Data.isOtherSame[Data.i]==Data.isOtherParent[Data.i-1]){
-	                                if(a.checked==true){
+	                                if(node.checked==true){
 	                                	if(1001<=funcIdNum<=2010){
 	                                		Data.indexIds ="";
 	                                		//调用后台接口查询indexIds 返回long[]
@@ -229,7 +203,41 @@ define(function(require, exports, module) {
 	                                	if(1001>funcIdNum || funcIdNum>2010){
 			                                Data.indexId += funcIdNum + ",";
 	                                	}
-	                                }else if(a.checked==false){
+	                                }else{
+	                                	var gg = Data.indexId.indexOf(funcIdNum);
+	                                	if(gg>=0){
+		                                	var tou = Data.indexId.substring(0,gg);
+		                                	var one = funcIdNum.toString();
+		                                	var pg = gg+one.length;
+	                                		var wei = Data.indexId.substring(pg+1);
+		                                	Data.indexId = tou + wei ;
+	                                	}
+	                                }
+                                }else if(Data.isOtherSame[Data.i]==Data.isParent || Data.isOtherSame[Data.i]==Data.isOtherParent[Data.i-1]){
+	                                if(node.checked==true){
+	                                	if(1001<=funcIdNum<=2010){
+	                                		Data.indexIds ="";
+	                                		//调用后台接口查询indexIds 返回long[]
+	                                		var lkcmd = "groupId="+ funcIdNum;
+			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
+												if(status) {
+													window.XMS.msgbox.hide();
+													for(var i=0;i<json.data.length;i++){
+														Data.indexIds += json.data[i].indexId+",";
+														console.log(Data.indexIds);
+														Data.indexId = Data.indexIds;
+													}
+												} else {
+													XMS.msgbox.show(json.retMessage, 'error', 2000);
+												}
+								  			});
+	                                	}else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
+	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
+	                                	}
+	                                	if(1001>funcIdNum || funcIdNum>2010){
+			                                Data.indexId += funcIdNum + ",";
+	                                	}
+	                                }else if(node.checked==false){
 	                                	var gg = Data.indexId.indexOf(funcIdNum);
 	                                	if(gg>=0){
 		                                	var tou = Data.indexId.substring(0,gg);
@@ -248,6 +256,9 @@ define(function(require, exports, module) {
 										});
 									});
 									textModal.modal('show');
+									var cancel = Data.isOtherNode[Data.i-2];
+									cancel.checked=false;
+									cancel.check_Child_State=0;
                                 	Data.indexId = '';
                                 	Data.indexId = funcIdNum + ",";
                                 }

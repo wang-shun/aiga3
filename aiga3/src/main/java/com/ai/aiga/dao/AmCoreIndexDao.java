@@ -29,11 +29,11 @@ public interface AmCoreIndexDao extends JpaRepository<AmCoreIndex, Long>, Search
 	  
 	  //汇总指标查询所有  ri
 	  @Modifying
-	  @Query(value = " select a.* from am_core_index a where a.group_id != '3001' and a.group_id not like '2___' and a.index_id not like '2___'", nativeQuery = true)
+	  @Query(value = " select a.* from am_core_index a where a.group_id not like '3___' and a.group_id not like '2___' and a.index_id not like '2___'", nativeQuery = true)
 	  List<AmCoreIndex>findAllIndexs();
 	  
 	  //汇总指标查询所有 yue
 	  @Modifying
-	  @Query(value = " select a.* from am_core_index a where a.group_id != '3001' and a.group_id not like '1___' and a.index_id not like '1___'", nativeQuery = true)
+	  @Query(value = " select a.* from am_core_index a where a.group_id not like '3___' and a.group_id not like '1___' and a.index_id not like '1___'", nativeQuery = true)
 	  List<AmCoreIndex>findAllIndexs2();
 }

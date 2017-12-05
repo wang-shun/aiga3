@@ -17,6 +17,16 @@ public class ArchibuildingStateController {
 	private ArchitectureStaticDataSv architectureStaticDataSv;
 	
 	//根据Type查询静态数据
+	@RequestMapping(path = "/archi/static/workplanState")
+	public @ResponseBody JsonBean workplanState(){
+		JsonBean bean = new JsonBean();
+		String codeType = "WORKPLAN_PRO_CLASSIFICATION";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
+	
+	//根据Type查询静态数据
 	@RequestMapping(path = "/archi/static/archiBuildingState")
 	public @ResponseBody JsonBean type(){
 		JsonBean bean = new JsonBean();

@@ -47,7 +47,11 @@ public class WorkPlanSv extends BaseService {
 
 	//update
 	public void update(Workplan request){
-		workPlanDao.save(request);
+		try {
+			workPlanDao.save(request);
+		} catch (Exception e) {
+			BusinessException.throwBusinessException(e.getMessage());
+		}
 	}
 
 	public Page<Workplan> findAllByPage(Workplan request, int pageNumber, int pageSize) {

@@ -195,7 +195,6 @@ define(function(require, exports, module) {
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				debugger
 				var _form = Page.findId('updateDataWorkPlan');
 				var _cmd = _form.serialize();
 				_cmd=_cmd.replace(/-/g,"/");
@@ -203,14 +202,13 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('执行中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('workplanUpdate'), _cmd, function(json, status) {
 					if (status) {
-						debugger
 						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {
 							self._getGridList();
 							_dom.modal('hide');
 						}, 1000);
 					} else {
-							window.XMS.msgbox.show(json.retMessage, 'error', 2000);
+						window.XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 				});
 			});

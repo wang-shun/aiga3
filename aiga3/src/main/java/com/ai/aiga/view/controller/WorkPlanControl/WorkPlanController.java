@@ -48,8 +48,9 @@ public class WorkPlanController {
 	}
 	@RequestMapping(path = "/archi/workplan/update")
 	public @ResponseBody JsonBean update(Workplan request){
+		JsonBean bean = new JsonBean();
 		workPlanSv.update(request);
-		return JsonBean.success;
+		return bean;
 	}
 	@RequestMapping(path="/archi/workplan/findAllByPage")
 	public @ResponseBody JsonBean findAllByPage(

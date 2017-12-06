@@ -71,7 +71,7 @@ define(function(require, exports, module) {
 			},_domPagination);
 		},
        
-        //申请页面里面的数据校验
+        //申请页面
         _applydomain: function() {
 			var self = this;
 				var _modal = Page.findId('workApplyModal');
@@ -88,52 +88,67 @@ define(function(require, exports, module) {
 					var _cmd = _form.serialize();	
 				
 					//数据校验
-					if(_cmd.indexOf('name=&')>-1) {
+					var name = _form.find("[name='name']").val();					
+					if(name.length == 0) {
 						XMS.msgbox.show('责任人为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('matters=&')>-1) {
+					var matters = _form.find("[name='matters']").val();
+					if(matters.length == 0) {
 						XMS.msgbox.show('事项为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('completion=&')>-1) {
+					var completion = _form.find("[name='completion']").val();
+					if(completion.length == 0) {
 						XMS.msgbox.show('完成情况为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('classification=&')>-1) {
+					var classification = _form.find("[name='classification']").val();
+					if(classification.length == 0) {
 						XMS.msgbox.show('分类为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('jobContent=&')>-1) {
+					var jobcontent = _form.find("[name='jobcontent']").val();
+					if(jobcontent.length == 0) {
 						XMS.msgbox.show('工作内容为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('projectCompletion=&')>-1) {
+					var projectcompletion = _form.find("[name='projectcompletion']").val();
+					if(projectcompletion.length == 0) {
 						XMS.msgbox.show('计划完成率为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('submitTimely=&')>-1) {
+					var submittimely = _form.find("[name='submittimely']").val();
+					if(submittimely.length == 0) {
 						XMS.msgbox.show('提交及时性为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('Quality=&')>-1) {
+					var quality = _form.find("[name='quality']").val();
+					if(quality.length == 0) {
 						XMS.msgbox.show('质量说明为空！', 'error', 2000);
 						return
 					}
-					if(_cmd.indexOf('fillQuality=&')>-1) {
+					var fillquality = _form.find("[name='fillquality']").val();
+					if(fillquality.length == 0) {
 						XMS.msgbox.show('填写质量为空！', 'error', 2000);
 						return
 					}
 					
-					if(_cmd.indexOf('begainTime=&')>-1) {
+					var bgtime = _form.find("[name='begaintime']").val();
+					var endtime = _form.find("[name='endtime']").val();
+					if(bgtime.length == 0) {
 						XMS.msgbox.show('开始时间为空！', 'error', 2000);
 						return
 					}
-					var endTimeValue = _form.find('[name="endTime"]').val();
-					if(endTimeValue == ''){
+					if(endtime.length == 0) {
 						XMS.msgbox.show('结束时间为空！', 'error', 2000);
 						return
 					}
+					if(bgtime>endtime){
+						XMS.msgbox.show('结束时间小于开始时间！', 'error', 2000);
+						return
+					}
+					
 					var _CMD = _cmd.replace(/-/g,"/");
 					
 					//调用服务
@@ -169,12 +184,7 @@ define(function(require, exports, module) {
 				if (cmd.indexOf('name=&')>-1) {
 					XMS.msgbox.show('请选择责任人', 'error', 1000);
 					return
-				}
-				if (cmd.indexOf('classification=&')>-1) {
-					XMS.msgbox.show('请选择分类', 'error', 1000);
-					return
-				}
-								
+				}								
 				self._getGridList(cmd);
 			});		
         },
@@ -195,8 +205,72 @@ define(function(require, exports, module) {
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
+				debugger;
 				var _form = Page.findId('updateDataWorkPlan');
-				var _cmd = _form.serialize();
+				var _cmd = _form.serialize();	
+			
+				//数据校验
+				var name = _form.find("[name='name']").val();					
+				if(name.length == 0) {
+					XMS.msgbox.show('责任人为空！', 'error', 2000);
+					return
+				}
+				var matters = _form.find("[name='matters']").val();
+				if(matters.length == 0) {
+					XMS.msgbox.show('事项为空！', 'error', 2000);
+					return
+				}
+				var completion = _form.find("[name='completion']").val();
+				if(completion.length == 0) {
+					XMS.msgbox.show('完成情况为空！', 'error', 2000);
+					return
+				}
+				var classification = _form.find("[name='classification']").val();
+				if(classification.length == 0) {
+					XMS.msgbox.show('分类为空！', 'error', 2000);
+					return
+				}
+				var jobcontent = _form.find("[name='jobcontent']").val();
+				if(jobcontent.length == 0) {
+					XMS.msgbox.show('工作内容为空！', 'error', 2000);
+					return
+				}
+				var projectcompletion = _form.find("[name='projectcompletion']").val();
+				if(projectcompletion.length == 0) {
+					XMS.msgbox.show('计划完成率为空！', 'error', 2000);
+					return
+				}
+				var submittimely = _form.find("[name='submittimely']").val();
+				if(submittimely.length == 0) {
+					XMS.msgbox.show('提交及时性为空！', 'error', 2000);
+					return
+				}
+				var quality = _form.find("[name='quality']").val();
+				if(quality.length == 0) {
+					XMS.msgbox.show('质量说明为空！', 'error', 2000);
+					return
+				}
+				var fillquality = _form.find("[name='fillquality']").val();
+				if(fillquality.length == 0) {
+					XMS.msgbox.show('填写质量为空！', 'error', 2000);
+					return
+				}
+				
+				var bgtime = _form.find("[name='begaintime']").val();
+				var endtime = _form.find("[name='endtime']").val();
+				if(bgtime.length == 0) {
+					XMS.msgbox.show('开始时间为空！', 'error', 2000);
+					return
+				}
+				if(endtime.length == 0) {
+					XMS.msgbox.show('结束时间为空！', 'error', 2000);
+					return
+				}
+				if(bgtime>endtime){
+					XMS.msgbox.show('结束时间小于开始时间！', 'error', 2000);
+					return
+				}				
+				
 				_cmd=_cmd.replace(/-/g,"/");
 				_cmd = _cmd + "&id=" + Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');

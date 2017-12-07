@@ -1,0 +1,242 @@
+
+  <style type="text/css">
+	#Page_workPlan .width-input-167 {width: 167px;}
+	#Page_workPlan .width-input-400 {width: 400px;}
+	#Page_workPlan .btn-center {text-align: center;}
+	#Page_workPlan .btn-table-update {margin-right: 20px;}
+	#Page_workPlan.btn-table-delete {margin-right: 20px;}
+	#Page_workPlan .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_workPlan .total-width {width: 850px;}
+	#Page_workPlan .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_workPlan .query-data-label {width: 80px;}
+	#Page_workPlan .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_workPlan .col2-sec-label {margin-left: 250px;}
+	#Page_workPlan .col3-after-label {margin-left: 17px;}
+	#Page_workPlan .line-sen-top {margin-top: 15px;}
+	#Page_workPlan .text-area-sty {width: 680px;vertical-align:middle; }
+  </style>
+    <div class="row" id="Page_workPlan">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">工作计划按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>
+                	<div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label for="quesId" class="col-sm-2  control-label">责任人：</label>
+		                    <div class="col-sm-4">
+		                    	<input name="name" type="text" class="form-control" placeholder="请输入责任人">
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    <label for="sysVersion" class="col-sm-2  control-label" >分类：</label>
+		                    <div class="col-sm-4">
+			                    <select name="classification" class="form-control select2 input-sm" data-url="workplanState" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		            </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                        <button type="reset" class="btn btn-default">重置</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_workPlanList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">工作计划列表</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-primary" name="add" data-toggle="modal" data-target="#JS_workApplyModal">新增</button>
+                	<button type="button" class="btn btn-primary" name="del">删除</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+	                    <th class="iCheckbox" width="15"></th>
+	                    <th>责任人</th>
+						<th>事项</th>						
+						<th>工作内容</th>
+						<th>分类</th>
+						<th>完成情况</th>
+						<th>计划完成率</th>
+						<th>提交及时性</th>
+						<th>填写质量</th>
+						<th>质量说明</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+                <div class="box-footer no-border">
+                	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- 申请页面 -->
+<div class="modal fade" id="JS_workApplyModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width" style="width:850px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">工作项新增</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+					<form id="JS_workApplyForm">
+						<div class="col-md-12">
+							<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
+	   						<input name="name" type="text" class="form-control input-sm width-input-167"></input>
+	  						<label class="control-label margin-onl">事项</label>
+							<input name="matters" type="text" class="form-control input-sm width-input-167"></input>
+						</div>
+						<div class="line-sen-top col-md-12">
+					   	    <label class="control-label fist-text-label">完成情况</label>
+					   		<input name="completion" type="text" class="form-control input-sm width-input-400"></input>
+					   		<label class="control-label margin-onl">分类</label>
+                            <select name="classification" class="form-control select2 input-sm width-input-167" data-url="workplanState" data-idkey="codeValue" data-namekey="codeName" display="only">
+                        		<option value="">请选择</option>
+                    		</select>
+						</div>
+						<div class="line-sen-top col-md-12">
+							<label class="control-label fist-text-label">工作内容</label>
+							<textarea type="textarea" name="jobcontent" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
+						</div>
+						<div class="line-sen-top col-md-12">
+					   	    <label class="control-label fist-text-label">计划完成率</label>
+					   		<input name="projectcompletion" type="text" class="form-control input-sm width-input-400"></input>
+					   		<label class="control-label col3-after-label">提交及时性</label>
+     			    		<input name="submittimely" type="text" class="form-control input-sm width-input-167"></input>
+						</div>
+						<div class="line-sen-top col-md-12">
+					   	    <label class="control-label fist-text-label">质量说明</label>
+					   		<input name="quality" type="text" class="form-control input-sm width-input-400"></input>
+					   		<label class="control-label col3-after-label">填写质量</label>
+     			    		<input name="fillquality" type="text" class="form-control input-sm width-input-167"></input>
+						</div>
+
+						<div id="updata-select" class="line-sen-top col-md-12 form-group">
+						   <label class="control-label fist-text-label">开始时间</label>
+                    	   <input type="text" class="form-control input-sm width-input-167" name="begaintime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+                    		
+                    		<label class="control-label col2-sec-label">结束时间</label>
+                    		<input type="text" class="form-control input-sm width-input-167" name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+                    		
+						</div> 						
+					</form>	
+          	    </div>
+          	</div>
+            <div class="modal-footer btn-center">
+         	    <button type="button" class="btn btn-primary" name="save">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改页面 -->
+<div class="modal fade" id="Modal_workUpdateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">工作计划项修改</h4>
+            </div>
+            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
+            <form id="JS_updateDataWorkPlan" class="form">
+                </form>
+          	</div>
+            <div class="modal-footer btn-center">
+         	    <button type="button" class="btn btn-primary" name="save">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 修改页面模版 -->
+<script id="TPL_workUpdateFrom" type="text/x-handlebars-template">
+	<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+					<form id="JS_wApplyForm">
+						<div class="col-md-12">
+							<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
+	   						<input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
+	  						<label class="control-label margin-onl">事项</label>
+							<input name="matters" type="text" class="form-control input-sm width-input-167" value="{{matters}}"></input>
+						</div>
+						<div class="line-sen-top col-md-12">
+					   	    <label class="control-label fist-text-label">完成情况</label>
+					   		<input name="completion" type="text" class="form-control input-sm width-input-400" value="{{completion}}"></input>
+					   		<label class="control-label margin-onl">分类</label>
+                            <input name="classification" class="form-control select2 input-sm width-input-167" value="{{classification}}">                       	
+						</div>
+						<div class="line-sen-top col-md-12">
+							<label class="control-label fist-text-label">工作内容</label>
+							<textarea type="textarea" name="jobcontent" cols="107" rows="4" class="form-control input-sm text-area-sty">{{jobcontent}}</textarea>
+						</div>
+						<div class="line-sen-top col-md-12">
+					   	    <label class="control-label fist-text-label">计划完成率</label>
+					   		<input name="projectcompletion" type="text" class="form-control input-sm width-input-400" value="{{projectcompletion}}"></input>
+					   		<label class="control-label col3-after-label">提交及时性</label>
+     			    		<input name="submittimely" type="text" class="form-control input-sm width-input-167" value="{{submittimely}}"></input>
+						</div>
+						<div class="line-sen-top col-md-12">
+					   	    <label class="control-label fist-text-label">质量说明</label>
+					   		<input name="quality" type="text" class="form-control input-sm width-input-400" value="{{quality}}"></input>
+					   		<label class="control-label col3-after-label">填写质量</label>
+     			    		<input name="fillquality" type="text" class="form-control input-sm width-input-167" value="{{fillquality}}"></input>
+						</div>
+
+						<div id="updata-select" class="line-sen-top col-md-12 form-group">
+						   <label class="control-label fist-text-label">开始时间</label>
+                    	   <input type="text" class="form-control input-sm width-input-167" name="begaintime" value="{{begaintime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+                    		
+                    		<label class="control-label col2-sec-label">结束时间</label>
+                    		<input type="text" class="form-control input-sm width-input-167" name="endtime" value="{{endtime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+                    		
+						</div> 						
+					</form>	
+      </div>
+</script>
+
+
+<!-- 表格数据 -->
+<script id="TPL_workPlanTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+    <td>{{name}}</td>
+    <td>{{matters}}</td>
+    <td>{{completion}}</td>
+    <td>{{classification}}</td>
+    <td>{{jobcontent}}</td>
+    <td>{{projectcompletion}}</td>
+    <td>{{submittimely}}</td>
+    <td>{{quality}}</td>
+    <td>{{fillquality}}</td>
+</tr>
+{{/each}}
+</script>
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/workManage/workplan", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

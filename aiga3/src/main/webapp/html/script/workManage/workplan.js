@@ -155,7 +155,9 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					
 					Rose.ajax.postJson(srvMap.get('workPlanSave'),_CMD,function(json, status){
-						if(status) {							
+						if(status) {
+							var _form = Page.findId("workApplyForm")
+							_form[0].reset();
 							_modal.modal('hide');
 							XMS.msgbox.show('新增成功！', 'success', 2000);
 							setTimeout(function() {

@@ -51,7 +51,8 @@ public class DealFileController {
 			String fileName = file.getOriginalFilename();
 
 			if(fileName.contains("?")){
-				fileName = "未命名";
+				String hzm = fileName.split("\\.")[1];
+				fileName = "文件名乱码"+"."+hzm;
 			}
 
 			Date date = new Date();

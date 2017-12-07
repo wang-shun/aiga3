@@ -183,7 +183,6 @@ define(function(require, exports, module) {
 					return
 				}								
 				self._getGridList(cmd);
-				_form[0].reset();
 			});		
         },
       

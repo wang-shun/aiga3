@@ -41,9 +41,8 @@ define(function(require, exports, module) {
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
-			debugger
 			var self = this;
-			var _cmd = '' ;
+			var _cmd = 'name=&classification=';
 			if(cmd){
 				_cmd = cmd;
 			}
@@ -51,7 +50,6 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
-			debugger
 			Utils.getServerPage(srvMap.get('getWorkPlanList'),_cmd,function(json){
 				window.XMS.msgbox.hide();
 				var template = Handlebars.compile(Page.findTpl('workPlanTemp'));				
@@ -176,8 +174,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var _form = Page.findId('queryDataForm');
 			 
-			Utils.setSelectData(_form);
-			 
+			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
@@ -186,7 +183,6 @@ define(function(require, exports, module) {
 					return
 				}								
 				self._getGridList(cmd);
-				cmd='';
 				_form[0].reset();
 			});		
         },
@@ -207,7 +203,6 @@ define(function(require, exports, module) {
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
-				debugger;
 				var _form = Page.findId('updateDataWorkPlan');
 				var _cmd = _form.serialize();	
 			

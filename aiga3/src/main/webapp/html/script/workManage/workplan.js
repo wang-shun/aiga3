@@ -41,6 +41,7 @@ define(function(require, exports, module) {
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
+			debugger
 			var self = this;
 			var _cmd = '' ;
 			if(cmd){
@@ -50,15 +51,16 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 设置服务器端分页
+			debugger
 			Utils.getServerPage(srvMap.get('getWorkPlanList'),_cmd,function(json){
 				window.XMS.msgbox.hide();
-				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('workPlanTemp'));				
         		var tablebtn = _dom.find("[name='content']");
         		tablebtn.html(template(json.data.content));
 
         		Utils.eventTrClickCallback(_dom);
-        		
+        		//新增
+        		self._applydomain();
         		//删除
 				self.delDataMaintain();
 				//双击修改
@@ -161,24 +163,22 @@ define(function(require, exports, module) {
 							setTimeout(function() {
 								self._getGridList();
 							}, 1000);
-						} else {
-							
+						} else {							
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}					
 					});
 				});
 		},
 		
-		//查询下拉框数据加载，绑定查询按钮事件
+		//绑定查询按钮事件
         _query_event: function() {
         	 
 			var self = this;
-			var _form = Page.findId('queryDataMaintainForm');
+			var _form = Page.findId('queryDataForm');
 			 
 			Utils.setSelectData(_form);
 			 
 			var _queryBtn = _form.find("[name='query']");
-/*			var _applyBtn = _form.find("[name='add']");*/
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
 				if (cmd.indexOf('name=&')>-1) {
@@ -186,6 +186,8 @@ define(function(require, exports, module) {
 					return
 				}								
 				self._getGridList(cmd);
+				cmd='';
+				_form[0].reset();
 			});		
         },
       
@@ -310,6 +312,8 @@ define(function(require, exports, module) {
 							setTimeout(function() {
 								self._getGridList();
 							}, 1000);
+						}else {
+							window.XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}
 					});
 				}

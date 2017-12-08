@@ -158,10 +158,6 @@ public class ArchSrvManageSv extends BaseService {
 	        nativeSql.append("and am.index_name = :indexName ");
 	        params.add(new ParameterCondition("indexName", condition.getIndexName()));
 	    }
-	    if (condition.getIndexId()!=0) {
-	    	nativeSql.append("and am.index_id = :indexId ");
-	    	params.add(new ParameterCondition("indexId", condition.getIndexId()));
-	    }
 	    if (StringUtils.isNotBlank(condition.getKey1())) {
 	        nativeSql.append("and ar.key_1 = :key1 ");
 	        params.add(new ParameterCondition("key1", condition.getKey1()));

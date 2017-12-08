@@ -56,7 +56,8 @@ public class ReportExcelExportController {
 		Date currentTime = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
 		String dateString = formatter.format(currentTime);
-		condition.setSettMonth("20171204");
+//		condition.setSettMonth("20171204");
+		condition.setSettMonth(dateString);
 		Map<String,List>map = archSrvManageSv.findPlatformOperate(condition);
         HSSFWorkbook wb = export(map);  
         response.setContentType("application/vnd.ms-excel");  

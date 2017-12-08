@@ -89,58 +89,58 @@ define(function(require, exports, module) {
 				
 					//数据校验
 					var name = _form.find("[name='name']").val();					
-					if(name.length == 0) {
+					if(name == 0) {
 						XMS.msgbox.show('责任人为空！', 'error', 2000);
 						return
 					}
 					var matters = _form.find("[name='matters']").val();
-					if(matters.length == 0) {
+					if(matters == 0) {
 						XMS.msgbox.show('事项为空！', 'error', 2000);
 						return
 					}
 					var completion = _form.find("[name='completion']").val();
-					if(completion.length == 0) {
+					if(completion == 0) {
 						XMS.msgbox.show('完成情况为空！', 'error', 2000);
 						return
 					}
 					var classification = _form.find("[name='classification']").val();
-					if(classification.length == 0) {
+					if(classification == 0) {
 						XMS.msgbox.show('分类为空！', 'error', 2000);
 						return
 					}
 					var jobcontent = _form.find("[name='jobcontent']").val();
-					if(jobcontent.length == 0) {
+					if(jobcontent == 0) {
 						XMS.msgbox.show('工作内容为空！', 'error', 2000);
 						return
 					}
 					var projectcompletion = _form.find("[name='projectcompletion']").val();
-					if(projectcompletion.length == 0) {
+					if(projectcompletion == 0) {
 						XMS.msgbox.show('计划完成率为空！', 'error', 2000);
 						return
 					}
 					var submittimely = _form.find("[name='submittimely']").val();
-					if(submittimely.length == 0) {
+					if(submittimely == 0) {
 						XMS.msgbox.show('提交及时性为空！', 'error', 2000);
 						return
 					}
 					var quality = _form.find("[name='quality']").val();
-					if(quality.length == 0) {
+					if(quality == 0) {
 						XMS.msgbox.show('质量说明为空！', 'error', 2000);
 						return
 					}
 					var fillquality = _form.find("[name='fillquality']").val();
-					if(fillquality.length == 0) {
+					if(fillquality == 0) {
 						XMS.msgbox.show('填写质量为空！', 'error', 2000);
 						return
 					}
 					
 					var bgtime = _form.find("[name='begaintime']").val();
 					var endtime = _form.find("[name='endtime']").val();
-					if(bgtime.length == 0) {
+					if(bgtime == 0) {
 						XMS.msgbox.show('开始时间为空！', 'error', 2000);
 						return
 					}
-					if(endtime.length == 0) {
+					if(endtime == 0) {
 						XMS.msgbox.show('结束时间为空！', 'error', 2000);
 						return
 					}
@@ -209,58 +209,58 @@ define(function(require, exports, module) {
 			
 				//数据校验
 				var name = _form.find("[name='name']").val();					
-				if(name.length == 0) {
+				if(name == 0) {
 					XMS.msgbox.show('责任人为空！', 'error', 2000);
 					return
 				}
 				var matters = _form.find("[name='matters']").val();
-				if(matters.length == 0) {
+				if(matters == 0) {
 					XMS.msgbox.show('事项为空！', 'error', 2000);
 					return
 				}
 				var completion = _form.find("[name='completion']").val();
-				if(completion.length == 0) {
+				if(completion == 0) {
 					XMS.msgbox.show('完成情况为空！', 'error', 2000);
 					return
 				}
 				var classification = _form.find("[name='classification']").val();
-				if(classification.length == 0) {
+				if(classification == 0) {
 					XMS.msgbox.show('分类为空！', 'error', 2000);
 					return
 				}
 				var jobcontent = _form.find("[name='jobcontent']").val();
-				if(jobcontent.length == 0) {
+				if(jobcontent == 0) {
 					XMS.msgbox.show('工作内容为空！', 'error', 2000);
 					return
 				}
 				var projectcompletion = _form.find("[name='projectcompletion']").val();
-				if(projectcompletion.length == 0) {
+				if(projectcompletion == 0) {
 					XMS.msgbox.show('计划完成率为空！', 'error', 2000);
 					return
 				}
 				var submittimely = _form.find("[name='submittimely']").val();
-				if(submittimely.length == 0) {
+				if(submittimely == 0) {
 					XMS.msgbox.show('提交及时性为空！', 'error', 2000);
 					return
 				}
 				var quality = _form.find("[name='quality']").val();
-				if(quality.length == 0) {
+				if(quality == 0) {
 					XMS.msgbox.show('质量说明为空！', 'error', 2000);
 					return
 				}
 				var fillquality = _form.find("[name='fillquality']").val();
-				if(fillquality.length == 0) {
+				if(fillquality == 0) {
 					XMS.msgbox.show('填写质量为空！', 'error', 2000);
 					return
 				}
 				
 				var bgtime = _form.find("[name='begaintime']").val();
-				var endtime = _form.find("[name='endtime']").val();
-				if(bgtime.length == 0) {
+				if(bgtime == 0) {
 					XMS.msgbox.show('开始时间为空！', 'error', 2000);
 					return
 				}
-				if(endtime.length == 0) {
+				var endtime = _form.find("[name='endtime']").val();
+				if(endtime == 0) {
 					XMS.msgbox.show('结束时间为空！', 'error', 2000);
 					return
 				}

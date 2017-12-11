@@ -444,7 +444,6 @@ public class ArchiViewController {
 			//循环添加数据
 			for(ArchitectureFirst baseFirst : firstList) {
 				ViewSeries baseSeries = new ViewSeries();
-				baseSeries.setType("bar");
 				baseSeries.setName(baseFirst.getName());
 				long num = baseFirst.getIdFirst();
 				String name = baseFirst.getName();
@@ -469,6 +468,30 @@ public class ArchiViewController {
 				baseSeries.setData(data);
 				seriesList.add(baseSeries);
 			}
+			//查询审批不通过
+			ArchiGradingConditionParam noPassInput = new ArchiGradingConditionParam();
+			noPassInput.setBegainTime(beginTime);
+			noPassInput.setEndTime(endTime);
+			noPassInput.setExt1("3");
+			noPassInput.setState("审批未通过");
+			List<Map> noPassList = architectureGradingSv.findChangeMessage(noPassInput);
+			ViewSeries noPassSeries = new ViewSeries();
+			noPassSeries.setName("审批未通过");
+			noPassSeries.setStack("未通过");
+			int[] noPassData = new int[constValue];
+			for(Map noPassBase : noPassList) {
+				String modifyTime = String.valueOf(noPassBase.get("cntDate"));
+				for(int i=0;i<noPassData.length;i++) {
+					if(modifyTime.equals(mounths.get(i))) {
+						noPassData[i]++;						
+						break;		
+					}
+				}
+			}
+			legendList.add("审批未通过");
+			noPassSeries.setData(noPassData);
+			seriesList.add(noPassSeries);
+			//设置输出参数
 			output.setLegend(legendList);
 			output.setSeries(seriesList);
 			bean.setData(output);			

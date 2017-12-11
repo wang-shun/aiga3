@@ -6,10 +6,18 @@ import java.io.Serializable;
 public class ViewSeries implements Serializable {
 	private String name;
 	private String type;
+	private String stack;
 	private int[] data;
 	
 	public ViewSeries(){
 		this.type = "bar";
+		this.stack = "总计";
+	}
+	public String getStack() {
+		return stack;
+	}
+	public void setStack(String stack) {
+		this.stack = stack;
 	}
 	public String getName() {
 		return name;

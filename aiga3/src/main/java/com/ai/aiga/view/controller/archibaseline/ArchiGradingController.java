@@ -453,6 +453,7 @@ public class ArchiGradingController {
 							return bean;
 						}
 						firstInput.setCreateDate(new Date());	
+						firstInput.setModifyDate(new Date());
 						firstInput.setDescription("");
 						architectureFirstSv.save(firstInput);
 						//云管同步数据
@@ -489,6 +490,7 @@ public class ArchiGradingController {
 							return bean;
 						}
 						secInput.setCreateDate(new Date());	
+						secInput.setModifyDate(new Date());	
 						secInput.setDescription("");
 						architectureSecondSv.save(secInput);
 						//云管同步数据
@@ -532,6 +534,7 @@ public class ArchiGradingController {
 							return bean;
 						}	
 						thirdInput.setCreateDate(new Date());	
+						thirdInput.setModifyDate(new Date());
 						thirdInput.setDescription("");
 						ArchitectureThirdRequest param = architectureThirdSv.save(thirdInput);
 						//云管同步数据

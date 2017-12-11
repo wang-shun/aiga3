@@ -27,6 +27,8 @@ import com.ai.aiga.view.json.base.JsonBean;
 @Api(value = "ArchDbConnectController", description = "指标分表")
 public class ArchDbConnectController extends BaseService {
 
+	public static String cascadeCdt = null;
+	
 	@Autowired
 	private ArchDbConnectSv archDbConnectSv;
 	@Autowired
@@ -228,6 +230,7 @@ public class ArchDbConnectController extends BaseService {
         List<ArchDbConnect>listConnects=archDbConnectSv.selectKey123(condition);
         if(listConnects.size()==0){
             List<ArchSrvManage>listConnects2=archSrvManageSv.selectKey321(condition);
+            cascadeCdt = condition.getIndexName();
             List<ArchSrvManage>newConnects=new ArrayList<ArchSrvManage>();
             Iterator<ArchSrvManage>iterator=listConnects2.iterator();
             List<String>key2List = new ArrayList<String>();
@@ -266,7 +269,11 @@ public class ArchDbConnectController extends BaseService {
     	JsonBean bean = new JsonBean();
     	List<ArchDbConnect>listConnects=archDbConnectSv.selectKey123(condition);
     	if(listConnects.size()==0){
+    		if(cascadeCdt!=null){
+    			condition.setIndexName(cascadeCdt);
+    		}
     		List<ArchSrvManage>listConnects2=archSrvManageSv.selectKey321(condition);
+    		cascadeCdt = null;
     		List<ArchSrvManage>newConnects=new ArrayList<ArchSrvManage>();
     		Iterator<ArchSrvManage>iterator=listConnects2.iterator();
     		List<String>key2List = new ArrayList<String>();

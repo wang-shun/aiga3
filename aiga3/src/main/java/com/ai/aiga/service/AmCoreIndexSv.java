@@ -182,6 +182,9 @@ public class AmCoreIndexSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getIndexName())){
     		cons.add(new Condition("indexName", "%".concat(condition.getIndexName()).concat("%"), Condition.Type.LIKE));
     	}
+    	if(condition.getIndexId()!=0){
+    		cons.add(new Condition("indexId", condition.getIndexId(), Condition.Type.EQ));
+    	}
     	List<AmCoreIndex>list = amCoreIndexDao.search(cons);
         Collections.sort(list, new Comparator<AmCoreIndex>() {
             public int compare(AmCoreIndex arg0, AmCoreIndex arg1) {

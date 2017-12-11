@@ -117,13 +117,18 @@ define(function(require, exports, module) {
 								textModal.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
 								if(json.retMessage) {
-									XMS.msgbox.show('认定成功，数据已归档！'+json.retMessage, 'info', 1500);
+									console.log(json.retMessage);
+									XMS.msgbox.show('认定成功，数据已归档！'+json.retMessage, 'info', 2000);
+									setTimeout(function() {
+										Page.findId('querySysDomainForm').find("[name='query']").click();
+									}, 2000);
 								} else {
-									XMS.msgbox.show('认定成功，数据已归档！', 'success', 1500);
+									XMS.msgbox.show('认定成功，数据已归档！', 'success', 1000);
+									setTimeout(function() {
+										Page.findId('querySysDomainForm').find("[name='query']").click();
+									}, 1000);
 								}
-								setTimeout(function() {
-									Page.findId('querySysDomainForm').find("[name='query']").click();
-								}, 1000);
+
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					

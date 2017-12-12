@@ -174,6 +174,15 @@ public class QuestionInfoSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getSolvedName())){
     		cons.add(new Condition("solvedName", "%".concat(condition.getSolvedName()).concat("%"), Condition.Type.LIKE));
     	}
+    	if(condition.getIdFirst()==0){
+    		cons.add(new Condition("idFirst", condition.getIdFirst(), Condition.Type.GT));
+    	}
+    	if(condition.getIdFirst()!=0){
+    		cons.add(new Condition("idFirst", condition.getIdFirst(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getAppointedPerson())){
+    		cons.add(new Condition("appointedPerson", "%".concat(condition.getAppointedPerson()).concat("%"), Condition.Type.LIKE));
+    	}
         if(pageNumber < 0){
             pageNumber = 0;
         }

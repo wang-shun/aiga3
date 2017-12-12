@@ -31,6 +31,10 @@ define(function(require, exports, module) {
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
     //所属问题状态静态数据  
 	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
+    //事件单ID
+    srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
+    //所属处理科室静态数据  
+	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
 
 	// 模板对象
 	var Tpl = {
@@ -176,6 +180,9 @@ define(function(require, exports, module) {
 			if(_cmd!=null){
 				if(_cmd.indexOf('quesId=&')>-1){
 					_cmd=_cmd.replace("quesId=&","quesId=0&");
+				}
+				if(_cmd.indexOf('idFirst=&')>-1){
+					_cmd=_cmd.replace("idFirst=&","idFirst=0&");
 				}
 			}
 			Data.queryListCmd = _cmd;

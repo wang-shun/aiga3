@@ -47,6 +47,10 @@ define(function(require, exports, module) {
     srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch");
     //下载模板
      srvMap.add("downloadTemp", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFile");
+    //事件单ID
+    srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
+    //所属处理科室静态数据  
+	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
 	// 模板对象
 	var Tpl = {
 		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
@@ -203,6 +207,9 @@ define(function(require, exports, module) {
 				if(_cmd.indexOf('quesId=&')>-1){
 					_cmd=_cmd.replace("quesId=&","quesId=0&");
 				}
+				if(_cmd.indexOf('idFirst=&')>-1){
+					_cmd=_cmd.replace("idFirst=&","idFirst=0&");
+				}
 			}
 //			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
@@ -317,7 +324,7 @@ define(function(require, exports, module) {
 				data.modifyDate = data.modifyDate.replace(/-/g,"/");
 				data.createDate = data.modifyDate;
 			}
-			if(data.sysVersion != "已确认"){
+			if(data.sysVersion == "待确认"){
 			
 //			var cmd = 'quesId=' + Id;
 //			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){
@@ -425,7 +432,7 @@ define(function(require, exports, module) {
 					}
 				});*/
 			});
-		}else{
+		}else if(data.sysVersion == "已确认"){
 			var template2 = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo2'));
 			Page.findId('updateDataMaintainInfo2').html(template2(data));
 			var _dom = Page.findModal('updateDataMaintainModal2');

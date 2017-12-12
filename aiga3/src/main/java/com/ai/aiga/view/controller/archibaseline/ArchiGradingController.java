@@ -99,6 +99,7 @@ public class ArchiGradingController {
 			bean.fail("该编号存在在途申请单");
 			return bean;
 		}
+		Date nowDate = new Date();
 		//一级域数据校验
 		if("新增".equals(description) || "修改".equals(description)) {
 			if(StringUtils.isBlank(architectureGrading.getCode())) {
@@ -106,7 +107,7 @@ public class ArchiGradingController {
 				return bean;
 			}
 			if("新增".equals(description)) {
-				architectureGrading.setCreateDate(new Date());
+				architectureGrading.setCreateDate(nowDate);
 				ArchitectureFirst architectureFirst = architectureFirstSv.findOne(architectureGrading.getSysId());
 				if(architectureFirst!=null) {
 					bean.fail("编号已存在");
@@ -115,9 +116,9 @@ public class ArchiGradingController {
 			}	
 			//  TO BE CONTINUE ...    此处由于编号不允许修改，故不做修改状态下的编号校验
 		} 		
-		architectureGrading.setModifyDate(new Date());
+		architectureGrading.setModifyDate(nowDate);
 		architectureGrading.setApplyId(0L);
-		architectureGrading.setApplyTime(new Date());
+		architectureGrading.setApplyTime(nowDate);
 		AigaStaff staffInfo = userInfo.getStaff();	
 		architectureGrading.setApplyUser(staffInfo.getCode());
 		architectureGrading.setState("申请");
@@ -125,7 +126,7 @@ public class ArchiGradingController {
 		//操作完成后发送短信
 		String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（一级域） ,等待认定</p>";
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(nowDate)+"&nbsp;&nbsp;提交了一个基线申请（一级域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
 				if(!addressee.contains(staffBase.getEmail())) {
@@ -170,6 +171,7 @@ public class ArchiGradingController {
 			bean.fail("该编号存在在途申请单");
 			return bean;
 		}
+		Date nowDate = new Date();
 		//二级域数据校验
 		if("新增".equals(description) || "修改".equals(description)) {
 			if(StringUtils.isBlank(architectureGrading.getCode())) {
@@ -185,7 +187,7 @@ public class ArchiGradingController {
 				return bean;
 			}
 			if("新增".equals(description)) {
-				architectureGrading.setCreateDate(new Date());
+				architectureGrading.setCreateDate(nowDate);
 				ArchitectureSecond architectureSecond = architectureSecondSv.findOne(architectureGrading.getSysId());
 				if(architectureSecond!=null){
 					bean.fail("编号已存在");
@@ -194,9 +196,9 @@ public class ArchiGradingController {
 			}
 			//  TO BE CONTINUE ...    此处由于编号不允许修改，故不做修改状态下的编号校验
 		}	
-		architectureGrading.setModifyDate(new Date());
+		architectureGrading.setModifyDate(nowDate);
 		architectureGrading.setApplyId(0L);
-		architectureGrading.setApplyTime(new Date());
+		architectureGrading.setApplyTime(nowDate);
 		AigaStaff staffInfo = userInfo.getStaff();	
 		architectureGrading.setApplyUser(staffInfo.getCode());
 		architectureGrading.setState("申请");
@@ -204,7 +206,7 @@ public class ArchiGradingController {
 		//操作完成后发送短信
 		String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（二级子域） ,等待认定</p>";
+		String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(nowDate)+"&nbsp;&nbsp;提交了一个基线申请（二级子域） ,等待认定</p>";
 		for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 			if(StringUtils.isNotBlank(addressee)) {
 				if(!addressee.contains(staffBase.getEmail())) {
@@ -234,7 +236,7 @@ public class ArchiGradingController {
 		
 		//层级数组
 		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
-		
+		Date nowDate = new Date();
 		try {
 			if("新增".equals(description)) {
 				//三级系统申请
@@ -276,7 +278,7 @@ public class ArchiGradingController {
 					return bean;
 				}	
 				//
-				architectureGrading.setCreateDate(new Date());
+				architectureGrading.setCreateDate(nowDate);
 				int index = 0;
 				if(!belongLevel.contains(",")) {
 					for(int i=0;i<ruleLevels.length;i++) {
@@ -347,9 +349,9 @@ public class ArchiGradingController {
 					return bean;
 				}
 			}
-			architectureGrading.setModifyDate(new Date());
+			architectureGrading.setModifyDate(nowDate);
 			architectureGrading.setApplyId(0L);
-			architectureGrading.setApplyTime(new Date());
+			architectureGrading.setApplyTime(nowDate);
 			AigaStaff staffInfo = userInfo.getStaff();	
 			architectureGrading.setApplyUser(staffInfo.getCode());
 			architectureGrading.setState("申请");
@@ -357,7 +359,7 @@ public class ArchiGradingController {
 			//操作完成后发送短信
 			String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-			String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个基线申请（三级系统域） ,等待认定</p>";
+			String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(nowDate)+"&nbsp;&nbsp;提交了一个基线申请（三级系统域） ,等待认定</p>";
 			for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
 				if(StringUtils.isNotBlank(addressee)) {
 					if(!addressee.contains(staffBase.getEmail())) {
@@ -408,6 +410,9 @@ public class ArchiGradingController {
 					return bean;
 				}
 			}
+			
+			Date nowDate = new Date();
+			input.setModifyDate(nowDate);
 			//数据校验
 			if("审批未通过".equals(input.getState())) {
 				//失败信息同步给云管
@@ -432,7 +437,6 @@ public class ArchiGradingController {
 				mailMessage += StringUtils.isBlank(input.getIdentifiedInfo())?"无":input.getIdentifiedInfo();
 			} else {
 				//认定通过逻辑			
-				input.setModifyDate(new Date());				
 				if("1".equals(input.getExt1())) {			
 					ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
 					firstInput.setIdFirst(input.getSysId());
@@ -452,8 +456,7 @@ public class ArchiGradingController {
 							bean.fail("编号已存在");
 							return bean;
 						}
-						firstInput.setCreateDate(new Date());	
-						firstInput.setModifyDate(new Date());
+						firstInput.setCreateDate(nowDate);	
 						firstInput.setDescription("");
 						architectureFirstSv.save(firstInput);
 						//云管同步数据
@@ -464,7 +467,6 @@ public class ArchiGradingController {
 							return bean;
 						}
 						firstInput.setDescription("");
-						firstInput.setModifyDate(new Date());
 						architectureFirstSv.update(firstInput);
 						//云管同步数据
 						cloudMessageBean(bean,cloudService.firstModify(firstInput));				
@@ -489,8 +491,7 @@ public class ArchiGradingController {
 							bean.fail("编号已存在");
 							return bean;
 						}
-						secInput.setCreateDate(new Date());	
-						secInput.setModifyDate(new Date());	
+						secInput.setCreateDate(nowDate);	
 						secInput.setDescription("");
 						architectureSecondSv.save(secInput);
 						//云管同步数据
@@ -501,7 +502,6 @@ public class ArchiGradingController {
 							return bean;
 						}
 						secInput.setDescription("");
-						secInput.setModifyDate(new Date());
 						architectureSecondSv.update(secInput);
 						//云管同步数据
 						cloudMessageBean(bean,cloudService.secondModify(secInput));	
@@ -533,8 +533,7 @@ public class ArchiGradingController {
 							bean.fail("该系统已存在");
 							return bean;
 						}	
-						thirdInput.setCreateDate(new Date());	
-						thirdInput.setModifyDate(new Date());
+						thirdInput.setCreateDate(nowDate);	
 						thirdInput.setDescription("");
 						ArchitectureThirdRequest param = architectureThirdSv.save(thirdInput);
 						//云管同步数据
@@ -544,7 +543,6 @@ public class ArchiGradingController {
 							bean.fail("数据库不存在此条数据");
 							return bean;
 						}
-						thirdInput.setModifyDate(new Date());
 						thirdInput.setDescription("");
 						architectureThirdSv.update(thirdInput);
 						//云管同步数据

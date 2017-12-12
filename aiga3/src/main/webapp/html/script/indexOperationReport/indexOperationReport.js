@@ -96,6 +96,7 @@ define(function(require, exports, module) {
 		
 		//调用日报表模板，渲染数据
 		_dayModelRequest : function() {
+			var self = this;
 			var dom = Page.findId("logList"),modelCode = Page.find("[name='reportMode']").val();
 			//服务入参
 			var _cmd = {
@@ -104,74 +105,24 @@ define(function(require, exports, module) {
 			//TODO 调用接口
 			switch (modelCode) {
 			    case "1":
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			    	Rose.ajax.postJson(srvMap.get('csfsrvReport'),_cmd,function(json, status){
-						window.XMS.msgbox.hide();
-						if(status) {
-							//各中心CSF服务运行情况日报
-							var template = Handlebars.compile(Tpl.centerCSFModel);
-							dom.html(template(json.data));
-				    		Utils.eventClickChecked(dom);
-						} else {
-							XMS.msgbox.show(json.retMessage, 'error', 2000);
-						}					
-					});
+			    	//各中心CSF服务运行情况日报
+			        self._request_ajax_data('csfsrvReport',_cmd,Tpl.centerCSFModel);
 			        break;
 			    case "2":
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			    	Rose.ajax.postJson(srvMap.get('taskdispatchReport'),_cmd,function(json, status){
-						window.XMS.msgbox.hide();
-						if(status) {
-							//任务调度运行情况日报
-							var template = Handlebars.compile(Tpl.taskSchedulEModel);
-							dom.html(template());
-				    		Utils.eventClickChecked(dom);
-						} else {
-							XMS.msgbox.show(json.retMessage, 'error', 2000);
-						}					
-					});
+			   		//任务调度运行情况日报
+			        self._request_ajax_data('taskdispatchReport',_cmd,Tpl.taskSchedulEModel);
 			        break;
 			    case "3":
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			    	Rose.ajax.postJson(srvMap.get('flowdispatchReport'),_cmd,function(json, status){
-						window.XMS.msgbox.hide();
-						if(status) {
-							//流程调度运行情况日报
-							var template = Handlebars.compile(Tpl.processSchedulEModel);
-							dom.html(template());
-							Utils.eventClickChecked(dom);
-						} else {
-							XMS.msgbox.show(json.retMessage, 'error', 2000);
-						}					
-					});			
+			    	//流程调度运行情况日报
+			    	self._request_ajax_data('flowdispatchReport',_cmd,Tpl.processSchedulEModel);		
 			        break;
 			    case "4":
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			    	Rose.ajax.postJson(srvMap.get('cachecloudReport'),_cmd,function(json, status){
-						window.XMS.msgbox.hide();
-						if(status) {
-							//缓存云平台接入情况日报
-							var template = Handlebars.compile(Tpl.cacheAccessModel);
-							dom.html(template());
-							Utils.eventClickChecked(dom);
-						} else {
-							XMS.msgbox.show(json.retMessage, 'error', 2000);
-						}					
-					});							
+			    	//缓存云平台接入情况日报
+			    	self._request_ajax_data('cachecloudReport',_cmd,Tpl.cacheAccessModel);								
 			        break;
 			    case "5":
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			    	Rose.ajax.postJson(srvMap.get('centermqReport'),_cmd,function(json, status){
-						window.XMS.msgbox.hide();
-						if(status) {
-							//各中心MQ消息队列运行情况日报
-							var template = Handlebars.compile(Tpl.mqMessageModel);
-							dom.html(template());
-							Utils.eventClickChecked(dom);
-						} else {
-							XMS.msgbox.show(json.retMessage, 'error', 2000);
-						}					
-					});					
+			    	//各中心MQ消息队列运行情况日报
+			    	self._request_ajax_data('centermqReport',_cmd,Tpl.mqMessageModel);				
 			        break;
 			    default:
 					dom.html("");
@@ -180,7 +131,7 @@ define(function(require, exports, module) {
 		},
 		//调用周报表模板，渲染数据
 		_weekModelRequest : function() {
-			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
+			var modelCode = Page.find("[name='reportMode']").val();
 			//服务入参
 			var _cmd = {
 				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
@@ -188,13 +139,12 @@ define(function(require, exports, module) {
 			//TODO 调用接口
 			switch (modelCode) {
 			    default:
-					dom.html("");
-			    	Utils.eventClickChecked(dom);
+					Page.findId("logList").html("");
 			}	
 		},
 		//调用月报表模板，渲染数据
 		_monthModelRequest : function(_cmd) {
-			var dom = Page.findId("logList"), modelCode = Page.find("[name='reportMode']").val();
+			var modelCode = Page.find("[name='reportMode']").val();
 			//服务入参
 			var _cmd = {
 				settMonth: Dom.monthTimeDom.val().replace(/-/g,"")
@@ -202,10 +152,24 @@ define(function(require, exports, module) {
 			//TODO 调用接口
 			switch (modelCode) {
 			    default:
-					dom.html("");
-			    	Utils.eventClickChecked(dom);
+					Page.findId("logList").html("");
 			}	
-		}
+		},
+		//调用接口
+		_request_ajax_data: function(url,param,temp) {
+			var dom = Page.findId("logList");
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+	    	Rose.ajax.postJson(srvMap.get(url),param,function(json, status){
+				window.XMS.msgbox.hide();
+				if(status) {
+					var template = Handlebars.compile(temp);
+					dom.html(template());
+					Utils.eventClickChecked(dom);
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+			});
+		}		
 	};
 	module.exports = init;
 });

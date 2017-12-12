@@ -63,7 +63,7 @@ define(function(require, exports, module) {
 			}
 		},
 		
-		//上传按钮
+		//上传附件，提交申请单
 		uploadAnNiu: function(_modal) {	
     		var self = this;
     		var _cmd = "";
@@ -80,8 +80,10 @@ define(function(require, exports, module) {
 		            var task = srvMap.get('uploadFile');
                 	self.uploadAjax(task, cmd, planId, _modal);
 	            } else {
-	            	//没有文件上传直接提交
-	            	self._apply_save_event(_modal);
+	            	//修改必须传文件
+	            	window.XMS.msgbox.show('请上传系统总设文档', 'info', 2000);            	
+//	            	//没有文件上传直接提交
+//	            	self._apply_save_event(_modal);
 	            }
 	            
 	        });

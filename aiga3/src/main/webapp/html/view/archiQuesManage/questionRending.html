@@ -3,7 +3,7 @@
         <div class="box">
             <form id="JS_queryDataMaintainForm">
                 <div class="box-header with-border">
-                    <h1 class="box-title">架构巡检查询</h1>
+                    <h1 class="box-title">&nbsp;问题维护</h1>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
@@ -63,7 +63,7 @@
 			                </div>
 		                </div>
 		             	<div class="form-group col-sm-6">
-		                    <label for="idFirst" class="col-sm-2 control-label" >事件单编号：</label>
+		                    <label for="idFirst" class="col-sm-2 control-label" >事件编号：</label>
 		                    <div class="col-sm-4">
 			                    <select name="idFirst" class="form-control select2 input-sm" data-url="getEventFindALL" data-idkey="id" data-namekey="name" display="only">
 			                        <option value="1000000000">请选择</option>
@@ -92,7 +92,7 @@
         </div>
         <div class="box" id="JS_getDataMaintainList" style="min-height:100px;">
             <div class="box-header ">
-                <h3 class="box-title">架构巡检管控列表</h3>
+                <h3 class="box-title">问题管控列表</h3>
                 <div class="box-tools">
 <!--                <button type="button" class="btn btn-primary" name="add">添加</button>
                     <button type="button" class="btn btn-primary" name="del">删除</button> -->
@@ -475,7 +475,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">巡检认定</h4>
+                <h4 class="modal-title" id="myModalLabel">&nbsp;&nbsp;问题认定</h4>
             </div>
             <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
                 <form id="JS_updateDataMaintainInfo" class="form">
@@ -539,7 +539,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">架构巡检解决</h4>
+                <h4 class="modal-title" id="myModalLabel">&nbsp;&nbsp;问题解决</h4>
             </div>
             <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
                 <form id="JS_updateDataMaintainInfo2" class="form">
@@ -562,7 +562,7 @@
 <script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
  <!-- 
     <div class="box-header with-border">
-     <h3 class="box-title">巡检认定</h3>
+     <h3 class="box-title">问题认定</h3>
      <div class="box-tools pull-right">
          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
          </button>
@@ -589,7 +589,7 @@
         </div>
         <div class="row">
 			<div class="form-group2 col-sm-12">
-				<label for="title" class="col-sm-2 control-label">架构巡检问题标题：</label>
+				<label for="title" class="col-sm-2 control-label">问题标题：</label>
                 <div class="col-sm-8">                   
                     <input type="text" class="form-control input-sm" value="{{occurEnvironment}}" name="occurEnvironment">
                 </div>
@@ -598,7 +598,7 @@
 		<br/>
 		<div class="row">
 			<div class="form-group col-sm-12">
-				<label for="description" class="col-sm-2 control-label">架构巡检问题描述：</label>
+				<label for="description" class="col-sm-2 control-label">问题描述：</label>
                 <div class="col-sm-8">
                     <textarea class="form-control input-sm" rows="5" id="description" name="abstracts">{{abstracts}}</textarea>
                 </div>
@@ -674,7 +674,7 @@
                 </div>
             </div>
 			<div class="form-group col-sm-6">
-				<label for="priority" class="col-sm-4 control-label">巡检附件：</label>
+				<label for="priority" class="col-sm-4 control-label">附件：</label>
                 <div class="col-sm-4">                   
                     <input type="text" class="form-control input-sm" value="{{fileName}}" name="fileName">
                 </div>
@@ -805,7 +805,7 @@ seajs.use("script/archiQuesManage/questionRending", function(Init) {
     <div class="box-body">
 		<div class="row">
 			<div class="form-group">
-				<label for="optimizePath" class="col-sm-1 control-label">巡检描述</label>
+				<label for="optimizePath" class="col-sm-1 control-label">问题描述</label>
 				<div class="col-sm-9">
 					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入架构巡检问题优化思路">{{abstracts}}</textarea>
 				</div>

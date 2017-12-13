@@ -49,12 +49,16 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('workPlanList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			_cmd = _cmd.replace(/-/g,"/")
+			_cmd = _cmd.replace(/-/g,"/");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getWorkPlanList'),_cmd,function(json){
-				window.XMS.msgbox.hide();
+				window.XMS.msgbox.hide();				
 				var template = Handlebars.compile(Page.findTpl('workPlanTemp'));				
         		var tablebtn = _dom.find("[name='content']");
+        		for(var index in json.data.content){
+					json.data.content[index].begaintime = json.data.content[index].begaintime.substring(0,10);
+					json.data.content[index].endtime = json.data.content[index].endtime.substring(0,10);
+				}
         		tablebtn.html(template(json.data.content));
 
         		Utils.eventTrClickCallback(_dom);

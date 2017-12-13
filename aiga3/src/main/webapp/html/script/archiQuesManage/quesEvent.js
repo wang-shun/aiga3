@@ -101,6 +101,10 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getQueryByCondition'), _cmd, function(json, status) {//getQuestionInfoList
+				for(var index in json.data.content){
+					json.data.content[index].startTime = json.data.content[index].startTime.substring(0,10);
+					json.data.content[index].endTime = json.data.content[index].endTime.substring(0,10);
+				}
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));

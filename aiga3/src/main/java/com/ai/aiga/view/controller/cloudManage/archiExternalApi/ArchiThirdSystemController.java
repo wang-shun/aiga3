@@ -20,6 +20,7 @@ import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.ArchitectureGradingSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiThirdConditionParam;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionInput;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdApplyParams;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -61,6 +62,11 @@ public class ArchiThirdSystemController {
 			bean.fail("状态为空！");
 			return bean;
 		}
+		//非空校验
+		if(StringUtils.isBlank(request.getCloudOrderId())){
+			bean.fail("未选择云管平台创建业务系统订单编号！");
+			return bean;
+		}
 		//二级域数据校验
 		if("新增".equals(description) || "修改".equals(description) || "删除".equals(description)) {
 			if("新增".equals(description)) {
@@ -69,18 +75,32 @@ public class ArchiThirdSystemController {
 					bean.fail("所属二级系统不存在");
 					return bean;
 				}
-				String name = request.getName();
-				List<ArchitectureGrading> list = architectureGradingSv.findByName(name);
-				if(list.size()>=1){
-					bean.fail("该三级系统已存在！");
+//				String name = request.getName();//3  zhuantai  idsecond 
+//				List<ArchitectureGrading> list = architectureGradingSv.findByName(name);
+//				if(list.size()>=1){
+//					bean.fail("该三级系统已存在！");
+//					return bean;
+//				}
+				//申请单唯一性校验
+				ArchitectureGrading condition = new ArchitectureGrading();
+				condition.setName(request.getName());
+				condition.setState("申请");
+				List<ArchitectureGrading> applyBill = architectureGradingSv.findTableCondition(condition);
+				if(applyBill.size()>0 && applyBill.get(0).getIdBelong() == request.getIdSecond()) {
+					bean.fail("二级子域下该系统名称存在在途申请单");
 					return bean;
 				}
+				//系统唯一性校验 architectureThirdSv
+				ArchiThirdConditionParam thirdCheckParam = new ArchiThirdConditionParam();
+				thirdCheckParam.setIdSecond(request.getIdSecond());
+				thirdCheckParam.setName(request.getName());
+				if(architectureThirdSv.querybyCodition(thirdCheckParam).size()>0) {
+					bean.fail("该系统已存在");
+					return bean;
+				}	
 			}
 		} 
-		if(StringUtils.isBlank(request.getCloudOrderId())){
-			bean.fail("未选择云管平台创建业务系统订单编号！");
-			return bean;
-		}
+
 		architectureGradingSv.newSave(request);
 		return JsonBean.success;
 	}

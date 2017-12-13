@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
-	var pathAlias = "workManage/"; 
+	var pathAlias = "ArchWorkPlan/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('workPlan');
 
@@ -49,6 +49,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('workPlanList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			_cmd = _cmd.replace(/-/g,"/")
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getWorkPlanList'),_cmd,function(json){
 				window.XMS.msgbox.hide();
@@ -172,24 +173,20 @@ define(function(require, exports, module) {
 		
 		//绑定查询按钮事件
         _query_event: function() {
-        	 
 			var self = this;
 			var _form = Page.findId('queryDataForm');
 			 
 			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				var cmd = _form.serialize();
-				if (cmd.indexOf('name=&')>-1) {
-					XMS.msgbox.show('请选择责任人', 'error', 1000);
-					return
-				}								
+				var cmd = _form.serialize();											
 				self._getGridList(cmd);
 			});		
         },
       
         //更新数据
 		updateDataMain: function(Id, json) {
+			debugger;
 			var self = this;
 			var i=0;			
 			while(json.content[i].id != Id){

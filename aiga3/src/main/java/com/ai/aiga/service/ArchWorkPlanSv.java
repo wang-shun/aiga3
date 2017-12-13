@@ -12,29 +12,29 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ai.aiga.domain.Workplan;
+import com.ai.aiga.domain.ArchWorkPlan;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.dao.WorkPlanDao;
+import com.ai.aiga.dao.ArchWorkPlanDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.service.base.BaseService;
 
 @Service
 @Transactional
-public class WorkPlanSv extends BaseService {
+public class ArchWorkPlanSv extends BaseService {
 
 	@Autowired
-	private WorkPlanDao workPlanDao;
+	private ArchWorkPlanDao archWorkPlanDao;
 	
 	//find
-	public List<Workplan> findAll(){
-		return workPlanDao.findAll();
+	public List<ArchWorkPlan> findAll(){
+		return archWorkPlanDao.findAll();
 	}
 	
 	//add
-	public void save(Workplan request){
-		workPlanDao.save(request);
+	public void save(ArchWorkPlan request){
+		archWorkPlanDao.save(request);
 	}
 	
 	//delete
@@ -42,19 +42,19 @@ public class WorkPlanSv extends BaseService {
 		if(id==null||id<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		workPlanDao.delete(id);
+		archWorkPlanDao.delete(id);
 	}
 
 	//update
-	public void update(Workplan request){
+	public void update(ArchWorkPlan request){
 		try {
-			workPlanDao.save(request);
+			archWorkPlanDao.save(request);
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());
 		}
 	}
 
-	public Page<Workplan> findAllByPage(Workplan request, int pageNumber, int pageSize) {
+	public Page<ArchWorkPlan> findAllByPage(ArchWorkPlan request, int pageNumber, int pageSize) {
         List<Condition> cons = new ArrayList<Condition>();
         if(pageNumber < 0){
             pageNumber = 0;
@@ -63,10 +63,10 @@ public class WorkPlanSv extends BaseService {
             pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
         }
         Pageable pageable = new PageRequest(pageNumber, pageSize);
-        return workPlanDao.search(cons, pageable);
+        return archWorkPlanDao.search(cons, pageable);
 	}
 
-	public Page<Workplan> queryByCondition(Workplan condition, int pageNumber,
+	public Page<ArchWorkPlan> queryByCondition(ArchWorkPlan condition, int pageNumber,
 			int pageSize) throws ParseException {
         List<Condition> cons = new ArrayList<Condition>();
     	if(condition.getId()==0){
@@ -104,6 +104,13 @@ public class WorkPlanSv extends BaseService {
     	if(StringUtils.isNoneBlank(condition.getQuality())){
     		cons.add(new Condition("quality", "%" + condition.getQuality() + "%", Condition.Type.LIKE));
     	}
+    	
+    	if(condition.getBegaintime() != null){
+    		cons.add(new Condition("begaintime", condition.getBegaintime(), Condition.Type.GE));
+    	}
+    	if(condition.getEndtime() != null){
+    		cons.add(new Condition("endtime",  condition.getEndtime() , Condition.Type.LE));
+    	}
     		
         if(pageNumber < 0){
             pageNumber = 0;
@@ -112,6 +119,6 @@ public class WorkPlanSv extends BaseService {
             pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
         }
         Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return workPlanDao.search(cons, pageable);
+		return archWorkPlanDao.search(cons, pageable);
 	}
 }

@@ -29,19 +29,33 @@
                 <div class="box-body"><br/>
                 	<div class="row">
                 		<div class="form-group col-sm-6">
-		                    <label for="quesId" class="col-sm-2  control-label">责任人：</label>
+		                    <label  class="col-sm-2  control-label">责任人：</label>
 		                    <div class="col-sm-4">
 		                    	<input name="name" type="text" class="form-control" placeholder="请输入责任人">
 			                </div>
 		                </div>
 		                <div class="form-group col-sm-6">
-		                    <label for="sysVersion" class="col-sm-2  control-label" >分类：</label>
+		                    <label  class="col-sm-2  control-label" >分类：</label>
 		                    <div class="col-sm-4">
 			                    <select name="classification" class="form-control select2 input-sm" data-url="workplanState" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
+		            </div>
+		            <div class ="row">
+		            	<div class="form-group col-sm-6">
+		            		<label class="col-sm-2  control-label">开始时间:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="begaintime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
+                  		<div class="form-group col-sm-6">
+		            		<label class="col-sm-2  control-label">结束时间:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
 		            </div>
                 </div>
                 <div class="box-footer">
@@ -70,10 +84,8 @@
 						<th>分类</th>					
 						<th>工作内容</th>						
 						<th>完成情况</th>
-						<th>计划完成率</th>
-						<th>提交及时性</th>
-						<th>填写质量</th>
-						<th>质量说明</th>
+						<th>开始时间</th>
+						<th>结束时间</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -224,16 +236,14 @@
     <td>{{classification}}</td>
     <td>{{jobcontent}}</td>
     <td>{{completion}}</td>
-    <td>{{projectcompletion}}</td>
-    <td>{{submittimely}}</td>
-    <td>{{fillquality}}</td>
-	<td>{{quality}}</td>
+	<td>{{begaintime}}</td>
+	<td>{{endtime}}</td>
 </tr>
 {{/each}}
 </script>
 <script type="text/javascript">
 //<![CDATA[
-seajs.use("script/workManage/workplan", function(init) {
+seajs.use("script/archWorkPlan/ArchWorkPlan", function(init) {
     init.init();
 });
 //]]>

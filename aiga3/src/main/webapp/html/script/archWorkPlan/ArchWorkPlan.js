@@ -179,7 +179,22 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				var cmd = _form.serialize();											
+				var cmd = _form.serialize();
+				
+				var bgtime = _form.find("[name='begaintime']").val();
+				var endtime = _form.find("[name='endtime']").val();
+				if(bgtime == 0) {
+					XMS.msgbox.show('开始时间为空！', 'error', 2000);
+					return
+				}
+				if(endtime == 0) {
+					XMS.msgbox.show('结束时间为空！', 'error', 2000);
+					return
+				}
+				if(bgtime>endtime){
+					XMS.msgbox.show('结束时间小于开始时间！', 'error', 2000);
+					return
+				}
 				self._getGridList(cmd);
 			});		
         },

@@ -165,7 +165,7 @@ define(function(require, exports, module) {
 				window.XMS.msgbox.hide();
 				if(status) {
 					var template = Handlebars.compile(temp);
-					dom.html(template());
+					dom.html(template(json.data));
 					Utils.eventClickChecked(dom);
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);

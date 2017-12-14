@@ -139,7 +139,7 @@
 						                <tr>
 						                    <th class="iCheckbox" width="15"></th>
 						                    <th>工号</th>
-						                    <th>名称</th>
+						                    <th>姓名</th>
 						                    <th>组织名称</th>
 						                    <th>组织编号</th>
 						                    <th>手机号码</th>
@@ -154,12 +154,6 @@
 						</div>
                 	</div>
                 </div>
-<!--               	<div class="modal-footer">
-	                <div class="text-center">
-	                    <button type="reset" class="btn btn-default" id="JS_accountSearchReset" data-dismiss="modal">取消</button>
-	                    <button type="button" class="btn btn-primary" id="JS_accountSearchSubmit" name="signin">确认</button>
-	                </div>
-	            </div> -->
             </form>
         </div>
     </div>
@@ -226,14 +220,6 @@
 						    </div>
 				        </div>
 				    </div>
-<!-- 				    <div class="row">
-						<div class="form-group col-sm-6">
-					        <label for="roleId" >角色<i class="text-red" style="color:red">*</i></label>
-					         <select name="roleId" class="form-control select2 input-sm" data-url="getSysRole" data-idkey="roleId" data-namekey="name">
-					             <option value="">请选择</option>
-					         </select>
-					    </div>
-				    </div> -->
 				    <div class="row">
 					    <div class="form-group col-sm-12">	    	
 							<label class="control-label fist-text-label check-inline-label">角色选择<span style="color:red">*</span></label>        
@@ -273,153 +259,12 @@
 <script src="lib/xsm-msgbox/0.2.0/js/xsm-msgbox.min.js"></script>
 <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="lib/rose/1.0.0/Rose.src.js"></script>
-<!--[if lt IE 9]>
-  <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
-  <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <script src="lib/jquery/1.11.3/jquery.js"></script>
-<![endif]-->
-<!-- <script type="text/javascript">
-    $(function() {
-            $('#login #password').focus(function() {
-                $('#owl-login').addClass('password');
-            }).blur(function() {
-                $('#owl-login').removeClass('password');
-            });
-            $("body").keydown(function() {
-                if (event.keyCode == "13") {//keyCode=13是回车键
-                    $("#mysubmit").click();
-                }
-            });
-            $("#mysubmit").click(function() {
-                XMS.msgbox.show('正在登录中，请稍候...', 'loading');
-
-                var data = {
-                    username: $("#myform").find("input[name='username']").val(),
-                    password: $("#myform").find("input[name='password']").val()
-                }
-
-                if($.trim(data.username)==''){
-                    window.XMS.msgbox.show('亲，用户名不能为空！', 'error', 2000);
-                    return false;
-                }
-                if($.trim(data.password)==''){
-                    window.XMS.msgbox.show('亲，密码不能为空！', 'error', 2000);
-                    return false;
-                }
-
-                // 待删除，用于测试前台跳转效果
-                if(window.location.href.indexOf("8888")>=0){
-                   setTimeout(function(){
-                        window.location = "index.html";
-                    },1500)
-                }
-                $.post("../login", data, function(d) {
-                    if (d) {
-                        var status = d["retCode"];
-                        if (status == "200") {
-                            window.location = "index.html";
-                        } else {
-                            window.XMS.msgbox.show(d["retMessage"], 'error', 2000);
-                            //$("#tips-error").html(d["retMessage"]);
-                        }
-                    }
-                });
-                return false;
-            });
-            //改密function
-            $("#JS_changePassword").bind("click",function(){
-            var _modal = $("#JS_changePasswordModal");
-            var _form = $("#JS_changePasswordForm");
-			Utils.setSelectData(_form);
-            $("#JS_changePasswordModal").modal('show');
-			
-            _modal.find("[name='submit']").click(function(){
-                if($.trim(_form.find("input[name='code']").val())=='' || $.trim(_form.find("input[name='password']").val())==''){
-                    XMS.msgbox.show('亲，用户名和原密码不能为空！', 'error', 2000);
-                    return false;
-                }
-                if($.trim(_form.find("input[name='newPassword']").val())=='' || $.trim(_form.find("input[name='recentnewPassword']").val())==''){
-                    XMS.msgbox.show('亲，新密码和重复密码不能为空！', 'error', 2000);
-                    return false;
-                }
-                if(!Rose.validate.Check('passwrd',_form.find("input[name='newPassword']").val())){
-                    XMS.msgbox.show('亲，密码长度在6-10位之间，包含大写字母、小写字母及数字！', 'error', 2000);
-                    return false;
-                }
-                if(_form.find("input[name='newPassword']").val()!=_form.find("input[name='recentnewPassword']").val()){
-                    XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
-                    return false;
-                }
-                XMS.msgbox.show('密码修改中，请稍候...', 'loading');
-                var data = {
-                    code: $.trim(_form.find("input[name='code']").val()),
-                    password: $.trim(_form.find("input[name='password']").val()),
-                    newPassword: $.trim(_form.find("input[name='newPassword']").val())
-                }
-                $.post("/aiga3/aiga/staff/changeMyPass", data, function(d) {
-	                if (d) {
-	                    var status = d["retCode"];
-	                    if (status == "200") {
-	                        XMS.msgbox.show('密码修改成功', 'success', 2000);
-	                        setTimeout(function(){
-	                            _modal.modal('hide');
-	                        },1500)
-	                    } else {
-	                        window.XMS.msgbox.show(d["retMessage"], 'error', 2000);
-	                        //$("#tips-error").html(d["retMessage"]);
-	                    }
-	                }
-            	});
-            })
-        })
-        //注册function
-        // 添加员工
-        $("#JS_signIn").bind("click",function(){
-            var _modal = $("#JS_signInModal");
-            var _form = $("#JS_signInForm");
-            _modal.modal('show');
-			var cmd = _form.serialize();
-
-            _modal.find("[name='signin']").click(function(){
-                if($.trim(_form.find("input[name='code']").val())=='' || $.trim(_form.find("input[name='password']").val())==''){
-                    XMS.msgbox.show('亲，用户名和原密码不能为空！', 'error', 2000);
-                    return false;
-                }
-                if($.trim(_form.find("input[name='password']").val())=='' || $.trim(_form.find("input[name='recentPassword']").val())==''){
-                    XMS.msgbox.show('亲，新密码和重复密码不能为空！', 'error', 2000);
-                    return false;
-                }
-                if(!Rose.validate.Check('passwrd',_form.find("input[name='password']").val())){
-                    XMS.msgbox.show('亲，密码长度在6-10位之间，包含大写字母、小写字母及数字！', 'error', 2000);
-                    return false;
-                }
-                if(_form.find("input[name='password']").val()!=_form.find("input[name='recentPassword']").val()){
-                    XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
-                    return false;
-                }
-				
-			  	XMS.msgbox.show('数据加载中，请稍候...', 'loading')
-                Rose.ajax.postJson("/aiga3/aiga/staff/saveSignIn", cmd, function(json, status) {
-					if(status) {
-						// 添加用户成功后，刷新用户列表页
-						XMS.msgbox.show('保存成功！', 'success', 2000)
-						// 关闭弹出层
-						$(Dom.addUserinfoModal).modal('hide');
-					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}
-	  			});
-                
-            })
-        })
-    });
-    </script> -->
-    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
-    <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="lib/fakeLoader/fakeLoader.js"></script>
-    <script src="lib/seajs/sea.js"></script>
-    <script src="lib/seajs/sea-plugins.js"></script>
-    <script src="conf/config.js"></script>
+<script src="lib/jquery/2.2.3/jquery.min.js"></script>
+<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="lib/fakeLoader/fakeLoader.js"></script>
+<script src="lib/seajs/sea.js"></script>
+<script src="lib/seajs/sea-plugins.js"></script>
+<script src="conf/config.js"></script>
 <script>
 seajs.use("script/login", function(Query) {
     Query.init();

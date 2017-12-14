@@ -571,17 +571,23 @@ public class ArchiGradingController {
 					addressee += base.getCodeValue();
 				}
 			}
-			if(StringUtils.isNotBlank(applyUser.getEmail()) && !addressee.contains(applyUser.getEmail())) {
-				if(StringUtils.isNotBlank(addressee)) {
-					//邮箱不为空 使用逗号隔开
-					addressee += ","+applyUser.getEmail();
-				} else {
-					//邮箱不空
-					addressee += applyUser.getEmail();
-				}
-			}				
+			String applyUserName="";
+			if(applyUser!=null) {
+				if(StringUtils.isNotBlank(applyUser.getEmail()) && !addressee.contains(applyUser.getEmail())) {
+					if(StringUtils.isNotBlank(addressee)) {
+						//邮箱不为空 使用逗号隔开
+						addressee += ","+applyUser.getEmail();
+					} else {
+						//邮箱不空
+						addressee += applyUser.getEmail();
+					}
+				}	
+				applyUserName = applyUser.getName();
+			} else {
+				applyUserName = input.getApplyUser();
+			}	
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-			String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
+			String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUserName+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
 			content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
 			mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
 		} catch (Exception e) {

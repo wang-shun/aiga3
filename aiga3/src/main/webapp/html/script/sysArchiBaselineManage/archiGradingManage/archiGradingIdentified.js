@@ -33,7 +33,7 @@ define(function(require, exports, module) {
 		
 		_render: function() {
 			var self = this;
-			self._querydomain();
+			self._queryEventInit();
 			self._band_btn_event();
 			self._role_check();
 			//初始化数据查询
@@ -118,7 +118,7 @@ define(function(require, exports, module) {
 								Page.findId('sysMessageFrom').modal('hide');
 								if(json.retMessage) {
 									console.log(json.retMessage);
-									XMS.msgbox.show('认定成功，数据已归档！'+json.retMessage, 'info', 2000);
+									XMS.msgbox.show(json.retMessage, 'info', 2000);
 									setTimeout(function() {
 										Page.findId('querySysDomainForm').find("[name='query']").click();
 									}, 2000);
@@ -128,7 +128,6 @@ define(function(require, exports, module) {
 										Page.findId('querySysDomainForm').find("[name='query']").click();
 									}, 1000);
 								}
-
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);
 							}					
@@ -166,11 +165,10 @@ define(function(require, exports, module) {
 			});
 		},
 		
-		//查询下拉框数据加载，绑定查询按钮事件
-		_querydomain: function() {
+		//绑定查询按钮事件
+		_queryEventInit: function() {
 			var self = this;
 			var _form = Page.findId('querySysDomainForm');
-			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();

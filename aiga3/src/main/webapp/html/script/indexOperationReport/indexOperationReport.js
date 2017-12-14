@@ -62,8 +62,10 @@ define(function(require, exports, module) {
 			group.find("[name='reportType']").on('change',function(){
 				var typeValue = this.value;		
 				if(typeValue == "LOGREPORT_MODEL_MONTH") {
-					Dom.monthTimeDom.removeClass("show-nothing");
-					Dom.dayTimeDom.addClass("show-nothing");
+					if(Dom.monthTimeDom.hasClass("show-nothing")) {
+						Dom.monthTimeDom.removeClass("show-nothing");
+						Dom.dayTimeDom.addClass("show-nothing");
+					}	
 				} else {
 					if(Dom.dayTimeDom.hasClass("show-nothing")) {
 						Dom.monthTimeDom.addClass("show-nothing");
@@ -102,27 +104,27 @@ define(function(require, exports, module) {
 			var _cmd = {
 				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
 			};
-			//TODO 调用接口
+			// 调用接口
 			switch (modelCode) {
 			    case "1":
 			    	//各中心CSF服务运行情况日报
-			        self._request_ajax_data('csfsrvReport',_cmd,Tpl.centerCSFModel);
+			        self._tpl_ajax_data('csfsrvReport',_cmd,Tpl.centerCSFModel);
 			        break;
 			    case "2":
 			   		//任务调度运行情况日报
-			        self._request_ajax_data('taskdispatchReport',_cmd,Tpl.taskSchedulEModel);
+			        self._tpl_ajax_data('taskdispatchReport',_cmd,Tpl.taskSchedulEModel);
 			        break;
 			    case "3":
 			    	//流程调度运行情况日报
-			    	self._request_ajax_data('flowdispatchReport',_cmd,Tpl.processSchedulEModel);		
+			    	self._tpl_ajax_data('flowdispatchReport',_cmd,Tpl.processSchedulEModel);		
 			        break;
 			    case "4":
 			    	//缓存云平台接入情况日报
-			    	self._request_ajax_data('cachecloudReport',_cmd,Tpl.cacheAccessModel);								
+			    	self._tpl_ajax_data('cachecloudReport',_cmd,Tpl.cacheAccessModel);								
 			        break;
 			    case "5":
 			    	//各中心MQ消息队列运行情况日报
-			    	self._request_ajax_data('centermqReport',_cmd,Tpl.mqMessageModel);				
+			    	self._tpl_ajax_data('centermqReport',_cmd,Tpl.mqMessageModel);				
 			        break;
 			    default:
 					dom.html("");
@@ -137,7 +139,7 @@ define(function(require, exports, module) {
 				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
 			};
 			//TODO 调用接口
-			switch (modelCode) {
+				switch (modelCode) {
 			    default:
 					Page.findId("logList").html("");
 			}	
@@ -156,7 +158,7 @@ define(function(require, exports, module) {
 			}	
 		},
 		//调用接口
-		_request_ajax_data: function(url,param,temp) {
+		_tpl_ajax_data: function(url,param,temp) {
 			var dom = Page.findId("logList");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 	    	Rose.ajax.postJson(srvMap.get(url),param,function(json, status){

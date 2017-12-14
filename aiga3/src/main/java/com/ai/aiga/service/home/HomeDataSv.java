@@ -191,7 +191,7 @@ public class HomeDataSv {
 			data.setApplyCloseQues(applyQuesResult.get("applyCloseQues").toString());
 		}
 		//驳回系统申请单
-		String noPassSql = "SELECT count(*) as no_pass_system FROM ARCHITECTURE_GRADING  where state = '审批未通过' and ext_1 = '3'";	
+		String noPassSql = "SELECT count(*) as no_pass_system FROM ARCHITECTURE_GRADING  where state = '审批未通过' and ext_1 = '3' and apply_user = '"+code+"'";	
 		List<Map> noPassResults = questionInfoDao.searchByNativeSQL(noPassSql);	
 		Map noPassResult = noPassResults.get(0);	
 		data.setNoPassSystem(noPassResult.get("noPassSystem").toString() == null? "0":noPassResult.get("noPassSystem").toString());

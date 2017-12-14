@@ -435,7 +435,7 @@ public class ArchiGradingController {
 				architectureGradingSv.update(input);
 				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批不通过&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
 				mailMessage += StringUtils.isBlank(input.getIdentifiedInfo())?"无":input.getIdentifiedInfo();
-			} else {
+			} else if("审批通过".equals(input.getState())){
 				//认定通过逻辑			
 				if("1".equals(input.getExt1())) {			
 					ArchitectureFirstRequest firstInput = BeanMapper.map(input,ArchitectureFirstRequest.class);
@@ -536,6 +536,7 @@ public class ArchiGradingController {
 						thirdInput.setCreateDate(nowDate);	
 						thirdInput.setDescription("");
 						ArchitectureThirdRequest param = architectureThirdSv.save(thirdInput);
+						input.setSysId(param.getIdThird());
 						//云管同步数据
 						cloudMessageBean(bean,cloudService.thirdAdd(param,staffInfo));	
 					} else {
@@ -553,25 +554,31 @@ public class ArchiGradingController {
 					bean.fail("异常分类，没有该层");
 					return bean;
 				}
-				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
-			}	
+				mailMessage = "申请中的系统：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;系统名称：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
+			} else {
+				bean.fail("异常状态，没有该状态");
+				return bean;
+			}
 			//认定发送邮件
 			AigaStaff applyUser = aigaStaffSv.findStaffByCode(input.getApplyUser());
-			//静态表配置默认邮件发送人
-			List<ArchitectureStaticData> passEmail = architectureStaticDataSv.findByCodeType("SYS_PASS_USER_EMAIL");
 			String addressee = "";
-			for(ArchitectureStaticData base : passEmail) {
-				if(addressee.contains(base.getCodeValue())) {
-					//已存在，不需要添加邮箱
-				} else if(StringUtils.isNotBlank(addressee)) {
-					//邮箱不为空 使用逗号隔开
-					addressee += ","+base.getCodeValue();
-				} else {
-					//邮箱不空
-					addressee += base.getCodeValue();
+			if("审批通过".equals(input.getState())) {
+				//静态表配置默认邮件发送人
+				List<ArchitectureStaticData> passEmail = architectureStaticDataSv.findByCodeType("SYS_PASS_USER_EMAIL");
+				for(ArchitectureStaticData base : passEmail) {
+					if(addressee.contains(base.getCodeValue())) {
+						//已存在，不需要添加邮箱
+					} else if(StringUtils.isNotBlank(addressee)) {
+						//邮箱不为空 使用逗号隔开
+						addressee += ","+base.getCodeValue();
+					} else {
+						//邮箱不空
+						addressee += base.getCodeValue();
+					}
 				}
 			}
 			String applyUserName="";
+			//判断用户是否存在
 			if(applyUser!=null) {
 				if(StringUtils.isNotBlank(applyUser.getEmail()) && !addressee.contains(applyUser.getEmail())) {
 					if(StringUtils.isNotBlank(addressee)) {

@@ -558,7 +558,10 @@ public class ArchiGradingController {
 			//认定发送邮件
 			AigaStaff applyUser = aigaStaffSv.findStaffByCode(input.getApplyUser());
 			if(applyUser != null) {
-				String addressee = StringUtils.isNotBlank(applyUser.getEmail())? applyUser.getEmail() :"";
+				String addressee = "tanfeng@zj.chinamobile.com,13777473625@139.com";
+				if(StringUtils.isNotBlank(applyUser.getEmail()) && !addressee.contains(applyUser.getEmail())) {
+					addressee += ","+applyUser.getEmail();
+				}				
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 				String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
 				content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";

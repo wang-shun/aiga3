@@ -273,7 +273,7 @@ public class ArchDbConnectController extends BaseService {
     			condition.setIndexName(cascadeCdt);
     		}
     		List<ArchSrvManage>listConnects2=archSrvManageSv.selectKey321(condition);
-    		cascadeCdt = null;
+//    		cascadeCdt = null;
     		List<ArchSrvManage>newConnects=new ArrayList<ArchSrvManage>();
     		Iterator<ArchSrvManage>iterator=listConnects2.iterator();
     		List<String>key2List = new ArrayList<String>();

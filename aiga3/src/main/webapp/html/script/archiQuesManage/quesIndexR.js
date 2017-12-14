@@ -858,11 +858,12 @@ define(function(require, exports, module) {
 					option.legend.data = json.data.legend;
 					option.series = json.data.series;
 					if(json.data.xAxis) {
-						
+						var onlinePonint = new Array(100);
 						for(var indexXAxis in json.data.xAxis){
 							for(var indexOnline in onlinejson.data){
 								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
 									json.data.xAxis[indexXAxis] += "上线";
+									onlinePonint.push(indexXAxis);
 								}
 							}
 						}
@@ -876,14 +877,24 @@ define(function(require, exports, module) {
 			                ]
 			            };
 						var markData = [];
-	                    for(var onlineIndex in onlinejson.data) {
+/*	                    for(var onlineIndex in onlinejson.data) {
 	                    	var onlineDate = onlinejson.data[onlineIndex];
-	                    	var datePosition = json.data.xAxis.indexOf(onlineDate);
-	                    	if(datePosition) {
-	                    		var plan =  {name : '上线', xAxis: datePosition, yAxis: option.series[indexSeries].data[datePosition]};
-	                    		markData.push(plan);
-	                    	}                    
-	                    }
+	                    	for(var indexXAxis in json.data.xAxis){
+	                    		var point = json.data.xAxis[indexXAxis].substring(0,10);
+	                    		if(point==onlineDate){
+			                    	var datePosition = indexXAxis;
+			                    	if(datePosition>-1) {
+			                    		var plan =  {name : '上线',value:option.series[indexSeries].data[datePosition], xAxis: datePosition, yAxis: option.series[indexSeries].data[datePosition]};
+			                    		markData.push(plan);
+			                    	}                    
+	                    		}
+	                    	}
+	                    }*/
+						for(var indexPoint in onlinePonint){
+							var pzs = parseInt(onlinePonint[indexPoint]);
+                			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
+	                		markData.push(plan);
+						}
 			            option.series[indexSeries].markPoint = {
 			                data : markData
 			            };

@@ -8,7 +8,7 @@ define(function(require,exports,module){
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('welcome');
 
-    // 工作台
+    // 指标展示信息
     srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json" , "sys/home/kpiList");
     // 饼图
     srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "archi/third/welcomePie");
@@ -208,6 +208,9 @@ define(function(require,exports,module){
                     };
                     var template = Handlebars.compile(Page.findTpl('getWelcomeKpiList'));
                     Page.findId('getWelcomeKpiList').html(template(chunk(newDataArray, 4)));
+                } else {
+                	//指标获取失败
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });
         },
@@ -241,7 +244,7 @@ define(function(require,exports,module){
                     left: 'center',
                     top:'5%',
                     data: ['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域'],
-                    width:400,
+                    width:400
                 },
                 series : [
                     {
@@ -252,7 +255,7 @@ define(function(require,exports,module){
                         label: {
                             normal: {
                             	formatter:"{b} : {c}",
-                                position: 'outside',
+                                position: 'outside'
                             }
                         },
                         labelLine: {
@@ -269,8 +272,7 @@ define(function(require,exports,module){
                             {value:7, name:'公共域'},
                             {value:5, name:'网络域'},
                             {value:6, name:'地市域'},
-                            {value:3, name:'开放域'},
-
+                            {value:3, name:'开放域'}
                         ],
                         itemStyle: {
                             emphasis: {

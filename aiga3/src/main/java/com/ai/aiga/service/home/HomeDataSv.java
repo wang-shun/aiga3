@@ -190,6 +190,11 @@ public class HomeDataSv {
 			data.setApplyResolveQues(applyQuesResult.get("applyResolveQues").toString());
 			data.setApplyCloseQues(applyQuesResult.get("applyCloseQues").toString());
 		}
+		//驳回系统申请单
+		String noPassSql = "SELECT count(*) as no_pass_system FROM ARCHITECTURE_GRADING  where state = '审批未通过' and ext_1 = '3'";	
+		List<Map> noPassResults = questionInfoDao.searchByNativeSQL(noPassSql);	
+		Map noPassResult = noPassResults.get(0);	
+		data.setNoPassSystem(noPassResult.get("noPassSystem").toString() == null? "0":noPassResult.get("noPassSystem").toString());
 		//待办问题查询
 		String dealQuesSql = "SELECT sum(case when t.sys_version = '待确认' and t.identified_name = '"+code
 				+"' then 1 else 0 end) as deal_indenty_ques ,sum(case when t.sys_version='已确认' and t.state = '未解决' and t.solved_name = '"+code

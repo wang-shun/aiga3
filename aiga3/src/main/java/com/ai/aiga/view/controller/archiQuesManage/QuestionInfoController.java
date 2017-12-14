@@ -198,7 +198,7 @@ public class QuestionInfoController {
 		questionInfoSv.update(questionInfoRequest);
 		String reportorName = questionInfoRequest.getReportor();
 		String appointedPerson = questionInfoRequest.getAppointedPerson();
-		if(questionInfoRequest.getState().equals("未解决")||StringUtils.isNotBlank(questionInfoRequest.getState())){
+		if(questionInfoRequest.getState().equals("未解决")){
 			//操作完成后发送邮件  申请人 认定人 处理科室
 			String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
 			AigaStaff aigaStaff = aigaStaffSv.findStaffByCode(reportorName);
@@ -207,7 +207,14 @@ public class QuestionInfoController {
 			}
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 			String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;认定了一条架构问题，认定状态： </p>"+questionInfoRequest.getSysVersion();
-			for(AigaStaff staffBase : aigaStaffSv.findStaffByOrganizeName(appointedPerson)) {
+//			for(AigaStaff staffBase : aigaStaffSv.findStaffByOrganizeName(appointedPerson)) {
+//				if(StringUtils.isNotBlank(addressee)) {
+//					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+//				} else {
+//					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+//				}
+//			}
+			for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_QUESTION_CONFIRM")) {
 				if(StringUtils.isNotBlank(addressee)) {
 					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
 				} else {
@@ -217,14 +224,21 @@ public class QuestionInfoController {
 			mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题认定", content, null);
 		}else if(questionInfoRequest.getState().equals("需求单跟踪")||questionInfoRequest.getState().equals("任务单跟踪")||questionInfoRequest.getState().equals("变更单跟踪")||questionInfoRequest.getState().equals("待立项规划")||questionInfoRequest.getState().equals("已解决")){
 			//操作完成后发送邮件 处理科室 申请人
-			String addressee = "";
+			String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
 			AigaStaff aigaStaff = aigaStaffSv.findStaffByCode(reportorName);
 			if(aigaStaff != null){
 				addressee += StringUtils.isNotBlank(aigaStaff.getEmail())? ","+aigaStaff.getEmail() :"";
 			}
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 			String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;解决了一条架构问题，问题状态： </p>"+questionInfoRequest.getState();
-			for(AigaStaff staffBase : aigaStaffSv.findStaffByOrganizeName(appointedPerson)) {
+//			for(AigaStaff staffBase : aigaStaffSv.findStaffByOrganizeName(appointedPerson)) {
+//				if(StringUtils.isNotBlank(addressee)) {
+//					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+//				} else {
+//					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+//				}
+//			}
+			for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_QUESTION_SOLVED")) {
 				if(StringUtils.isNotBlank(addressee)) {
 					addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
 				} else {

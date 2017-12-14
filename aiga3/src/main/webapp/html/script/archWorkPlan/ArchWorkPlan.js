@@ -4,7 +4,7 @@ define(function(require, exports, module) {
 	require('global/header.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
-	var pathAlias = "workManage/"; 
+	var pathAlias = "ArchWorkPlan/"; 
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('workPlan');
 
@@ -49,11 +49,16 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('workPlanList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			_cmd = _cmd.replace(/-/g,"/");
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getWorkPlanList'),_cmd,function(json){
-				window.XMS.msgbox.hide();
+				window.XMS.msgbox.hide();				
 				var template = Handlebars.compile(Page.findTpl('workPlanTemp'));				
         		var tablebtn = _dom.find("[name='content']");
+        		for(var index in json.data.content){
+					json.data.content[index].begaintime = json.data.content[index].begaintime.substring(0,10);
+					json.data.content[index].endtime = json.data.content[index].endtime.substring(0,10);
+				}
         		tablebtn.html(template(json.data.content));
 
         		Utils.eventTrClickCallback(_dom);
@@ -172,7 +177,6 @@ define(function(require, exports, module) {
 		
 		//绑定查询按钮事件
         _query_event: function() {
-        	 
 			var self = this;
 			var _form = Page.findId('queryDataForm');
 			 
@@ -180,16 +184,28 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
-				if (cmd.indexOf('name=&')>-1) {
-					XMS.msgbox.show('请选择责任人', 'error', 1000);
+				
+				var bgtime = _form.find("[name='begaintime']").val();
+				var endtime = _form.find("[name='endtime']").val();
+				if(bgtime == 0) {
+					XMS.msgbox.show('开始时间为空！', 'error', 2000);
 					return
-				}								
+				}
+				if(endtime == 0) {
+					XMS.msgbox.show('结束时间为空！', 'error', 2000);
+					return
+				}
+				if(bgtime>endtime){
+					XMS.msgbox.show('结束时间小于开始时间！', 'error', 2000);
+					return
+				}
 				self._getGridList(cmd);
 			});		
         },
       
         //更新数据
 		updateDataMain: function(Id, json) {
+			debugger;
 			var self = this;
 			var i=0;			
 			while(json.content[i].id != Id){

@@ -557,16 +557,33 @@ public class ArchiGradingController {
 			}	
 			//认定发送邮件
 			AigaStaff applyUser = aigaStaffSv.findStaffByCode(input.getApplyUser());
-			if(applyUser != null) {
-				String addressee = "tanfeng@zj.chinamobile.com,13777473625@139.com";
-				if(StringUtils.isNotBlank(applyUser.getEmail()) && !addressee.contains(applyUser.getEmail())) {
-					addressee += ","+applyUser.getEmail();
-				}				
-				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-				String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
-				content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
-				mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
+			//静态表配置默认邮件发送人
+			List<ArchitectureStaticData> passEmail = architectureStaticDataSv.findByCodeType("SYS_PASS_USER_EMAIL");
+			String addressee = "";
+			for(ArchitectureStaticData base : passEmail) {
+				if(addressee.contains(base.getCodeValue())) {
+					//已存在，不需要添加邮箱
+				} else if(StringUtils.isNotBlank(addressee)) {
+					//邮箱不为空 使用逗号隔开
+					addressee += ","+base.getCodeValue();
+				} else {
+					//邮箱不空
+					addressee += base.getCodeValue();
+				}
 			}
+			if(StringUtils.isNotBlank(applyUser.getEmail()) && !addressee.contains(applyUser.getEmail())) {
+				if(StringUtils.isNotBlank(addressee)) {
+					//邮箱不为空 使用逗号隔开
+					addressee += ","+applyUser.getEmail();
+				} else {
+					//邮箱不空
+					addressee += applyUser.getEmail();
+				}
+			}				
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+			String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUser.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
+			content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
+			mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
 		} catch (Exception e) {
 			bean.fail(e.getMessage());
 		}

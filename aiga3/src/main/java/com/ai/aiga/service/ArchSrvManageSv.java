@@ -436,7 +436,7 @@ public class ArchSrvManageSv extends BaseService {
 		Iterator<ArchSrvManage>iterator = list.iterator();
 		while(iterator.hasNext()){
 			ArchSrvManage bean = iterator.next();
-			String xName = bean.getKey1();
+			String xName = bean.getKey2();
 			if(!keyList.contains(xName)){
 				keyList.add(xName);
 			}

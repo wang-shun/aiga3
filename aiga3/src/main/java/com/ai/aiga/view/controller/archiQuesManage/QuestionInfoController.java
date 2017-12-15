@@ -187,7 +187,7 @@ public class QuestionInfoController {
 				addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
 			}
 		}
-		mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题申报", content, null);
+//		mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题申报", content, null);
 		return JsonBean.success;
 	}
 	
@@ -221,7 +221,7 @@ public class QuestionInfoController {
 					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
 				}
 			}
-			mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题认定", content, null);
+//			mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题认定", content, null);
 		}else if(questionInfoRequest.getState().equals("需求单跟踪")||questionInfoRequest.getState().equals("任务单跟踪")||questionInfoRequest.getState().equals("变更单跟踪")||questionInfoRequest.getState().equals("待立项规划")||questionInfoRequest.getState().equals("已解决")){
 			//操作完成后发送邮件 处理科室 申请人
 			String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
@@ -245,7 +245,7 @@ public class QuestionInfoController {
 					addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
 				}
 			}
-			mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题解决", content, null);
+//			mailCmpt.sendMail(addressee, null, "架构资产管控平台 架构问题解决", content, null);
 		}
 		return JsonBean.success;
 	}

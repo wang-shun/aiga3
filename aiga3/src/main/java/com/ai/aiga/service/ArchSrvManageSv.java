@@ -453,18 +453,18 @@ public class ArchSrvManageSv extends BaseService {
 		double[][] data = new double[x][y];
 		List<ArchSrvManage>outlist = list;
 		List<ArchSrvManage>inlist = new ArrayList<ArchSrvManage>(outlist);
-		List<String>key1List = new ArrayList<String>();
+		List<String>key2List = new ArrayList<String>();
 		int i=0;
 		Iterator<ArchSrvManage>outiter = outlist.iterator();
 		while(outiter.hasNext()){
 			ArchSrvManage outbase = outiter.next();
-			if(!key1List.contains(outbase.getKey1())){
-				String key1 = outbase.getKey1();
-				key1List.add(key1);
+			if(!key2List.contains(outbase.getKey2())){
+				String key2 = outbase.getKey2();
+				key2List.add(key2);
 				Iterator<ArchSrvManage>initer=inlist.iterator();
 				while(initer.hasNext()){
 					ArchSrvManage inbase = initer.next();
-					if(inbase.getKey1().equals(key1)){
+					if(inbase.getKey2().equals(key2)){
 						for(int j=0;j<data[i].length;j++){
 							if((inbase.getIndexId().longValue())%10==(j+1)){
 								data[i][j]=Double.valueOf(inbase.getResultValue());

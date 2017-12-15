@@ -58,8 +58,8 @@ public class ArchWorkPlan  implements java.io.Serializable {
     }
    
      @Id 
-     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="WORK_PLAN$SEQ")
-     @SequenceGenerator(name="WORK_PLAN$SEQ",sequenceName="WORK_PLAN$SEQ",allocationSize=1)
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="arch_work_plan$SEQ")
+     @SequenceGenerator(name="arch_work_plan$SEQ",sequenceName="arch_work_plan$SEQ",allocationSize=1)
     @Column(name="ID", unique=true, nullable=false, precision=10, scale=0)
     public long getId() {
         return this.id;

@@ -55,14 +55,10 @@
 		            		<div class="col-sm-4">
                   				<input type="text" class="form-control input-sm " name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
+                  			&nbsp;<button type="reset" class="btn btn-default">重置</button>
+                        	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
                   		</div>
 		            </div>
-                </div>
-                <div class="box-footer">
-                    <div class="text-center">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-                    </div>
                 </div>
             </form>
         </div>
@@ -79,13 +75,12 @@
                     <thead>
 		                <tr>
 	                    <th class="iCheckbox" width="15"></th>
-	                    <th>责任人</th>
-						<th>事项</th>	
-						<th>分类</th>					
+	                    <th style="width:110px">责任人</th>
+						<th style="width:160px">事项</th>	
+						<th style="width:60px">分类</th>					
 						<th>工作内容</th>						
-						<th>完成情况</th>
-						<th>开始时间</th>
-						<th>结束时间</th>
+						<th style="width:80px">开始时间</th>
+						<th style="width:80px">结束时间</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -99,7 +94,7 @@
 
 
 
-<!-- 申请页面 -->
+<!-- 新增页面 -->
 <div class="modal fade" id="JS_workApplyModal" tabindex="-1" role="dialog">
     <div class="modal-dialog total-width" style="width:850px">
         <div class="modal-content">
@@ -113,39 +108,23 @@
 						<div class="col-md-12">
 							<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
 	   						<input name="name" type="text" class="form-control input-sm width-input-167"></input>
-	  						<label class="control-label margin-onl">事项</label>
+	  						<label class="control-label margin-onl">事项<span style="color:red">*</span></label>
 							<input name="matters" type="text" class="form-control input-sm width-input-167"></input>
-						</div>
-						<div class="line-sen-top col-md-12">
-					   	    <label class="control-label fist-text-label">完成情况</label>
-					   		<input name="completion" type="text" class="form-control input-sm width-input-400"></input>
-					   		<label class="control-label margin-onl">分类</label>
+							<label class="control-label margin-onl">分类<span style="color:red">*</span></label>
                             <select name="classification" class="form-control select2 input-sm width-input-167" data-url="workplanState" data-idkey="codeValue" data-namekey="codeName" display="only">
                         		<option value="">请选择</option>
                     		</select>
 						</div>
 						<div class="line-sen-top col-md-12">
-							<label class="control-label fist-text-label">工作内容</label>
+							<label class="control-label fist-text-label">工作内容<span style="color:red">*</span></label>
 							<textarea type="textarea" name="jobcontent" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
-						</div>
-						<div class="line-sen-top col-md-12">
-					   	    <label class="control-label fist-text-label">计划完成率</label>
-					   		<input name="projectcompletion" type="text" class="form-control input-sm width-input-400"></input>
-					   		<label class="control-label col3-after-label">提交及时性</label>
-     			    		<input name="submittimely" type="text" class="form-control input-sm width-input-167"></input>
-						</div>
-						<div class="line-sen-top col-md-12">
-					   	    <label class="control-label fist-text-label">质量说明</label>
-					   		<input name="quality" type="text" class="form-control input-sm width-input-400"></input>
-					   		<label class="control-label col3-after-label">填写质量</label>
-     			    		<input name="fillquality" type="text" class="form-control input-sm width-input-167"></input>
 						</div>
 
 						<div id="updata-select" class="line-sen-top col-md-12 form-group">
-						   <label class="control-label fist-text-label">开始时间</label>
+						   <label class="control-label fist-text-label">开始时间<span style="color:red">*</span></label>
                     	   <input type="text" class="form-control input-sm width-input-167" name="begaintime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                     		
-                    		<label class="control-label col2-sec-label">结束时间</label>
+                    		<label class="control-label col2-sec-label">结束时间<span style="color:red">*</span></label>
                     		<input type="text" class="form-control input-sm width-input-167" name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                     		
 						</div> 						
@@ -187,17 +166,17 @@
 						<div class="col-md-12">
 							<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
 	   						<input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
-	  						<label class="control-label margin-onl">事项</label>
+	  						<label class="control-label margin-onl">事项<span style="color:red">*</span></label>
 							<input name="matters" type="text" class="form-control input-sm width-input-167" value="{{matters}}"></input>
 						</div>
 						<div class="line-sen-top col-md-12">
 					   	    <label class="control-label fist-text-label">完成情况</label>
 					   		<input name="completion" type="text" class="form-control input-sm width-input-400" value="{{completion}}"></input>
-					   		<label class="control-label margin-onl">分类</label>
+					   		<label class="control-label margin-onl">分类<span style="color:red">*</span></label>
                             <input name="classification" class="form-control select2 input-sm width-input-167" value="{{classification}}">                       	
 						</div>
 						<div class="line-sen-top col-md-12">
-							<label class="control-label fist-text-label">工作内容</label>
+							<label class="control-label fist-text-label">工作内容<span style="color:red">*</span></label>
 							<textarea type="textarea" name="jobcontent" cols="107" rows="4" class="form-control input-sm text-area-sty">{{jobcontent}}</textarea>
 						</div>
 						<div class="line-sen-top col-md-12">
@@ -214,10 +193,10 @@
 						</div>
 
 						<div id="updata-select" class="line-sen-top col-md-12 form-group">
-						   <label class="control-label fist-text-label">开始时间</label>
+						   <label class="control-label fist-text-label">开始时间<span style="color:red">*</span></label>
                     	   <input type="text" class="form-control input-sm width-input-167" name="begaintime" value="{{begaintime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                     		
-                    		<label class="control-label col2-sec-label">结束时间</label>
+                    		<label class="control-label col2-sec-label">结束时间<span style="color:red">*</span></label>
                     		<input type="text" class="form-control input-sm width-input-167" name="endtime" value="{{endtime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                     		
 						</div> 						
@@ -231,13 +210,12 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-    <td>{{name}}</td>
-    <td>{{matters}}</td>
-    <td>{{classification}}</td>
+    <td style="width:110px">{{name}}</td>
+    <td style="width:160px">{{matters}}</td>
+    <td style="width:60px">{{classification}}</td>
     <td>{{jobcontent}}</td>
-    <td>{{completion}}</td>
-	<td>{{begaintime}}</td>
-	<td>{{endtime}}</td>
+	<td style="width:80px">{{begaintime}}</td>
+	<td style="width:80px">{{endtime}}</td>
 </tr>
 {{/each}}
 </script>

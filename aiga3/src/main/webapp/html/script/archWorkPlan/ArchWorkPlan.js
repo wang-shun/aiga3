@@ -50,6 +50,18 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			_cmd = _cmd.replace(/-/g,"/");
+			//初始化时间框
+			function showMonthFirstDay() {     
+				var date=new Date();
+			 	date.setDate(1);
+			 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
+			}
+			var _form = Page.findId('queryDataForm'); 
+			_form.find('[name="begaintime"]').val(showMonthFirstDay());
+			_form.find('[name="endtime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
+			var _formQuery = Page.findId("workApplyForm");
+			_formQuery.find('[name="begaintime"]').val(showMonthFirstDay());
+			_formQuery.find('[name="endtime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getWorkPlanList'),_cmd,function(json){
 				window.XMS.msgbox.hide();				
@@ -103,11 +115,6 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('事项为空！', 'error', 2000);
 						return
 					}
-					var completion = _form.find("[name='completion']").val();
-					if(completion == 0) {
-						XMS.msgbox.show('完成情况为空！', 'error', 2000);
-						return
-					}
 					var classification = _form.find("[name='classification']").val();
 					if(classification == 0) {
 						XMS.msgbox.show('分类为空！', 'error', 2000);
@@ -116,26 +123,6 @@ define(function(require, exports, module) {
 					var jobcontent = _form.find("[name='jobcontent']").val();
 					if(jobcontent == 0) {
 						XMS.msgbox.show('工作内容为空！', 'error', 2000);
-						return
-					}
-					var projectcompletion = _form.find("[name='projectcompletion']").val();
-					if(projectcompletion == 0) {
-						XMS.msgbox.show('计划完成率为空！', 'error', 2000);
-						return
-					}
-					var submittimely = _form.find("[name='submittimely']").val();
-					if(submittimely == 0) {
-						XMS.msgbox.show('提交及时性为空！', 'error', 2000);
-						return
-					}
-					var quality = _form.find("[name='quality']").val();
-					if(quality == 0) {
-						XMS.msgbox.show('质量说明为空！', 'error', 2000);
-						return
-					}
-					var fillquality = _form.find("[name='fillquality']").val();
-					if(fillquality == 0) {
-						XMS.msgbox.show('填写质量为空！', 'error', 2000);
 						return
 					}
 					
@@ -178,8 +165,7 @@ define(function(require, exports, module) {
 		//绑定查询按钮事件
         _query_event: function() {
 			var self = this;
-			var _form = Page.findId('queryDataForm');
-			 
+			var _form = Page.findId('queryDataForm');			 
 			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
@@ -234,11 +220,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('事项为空！', 'error', 2000);
 					return
 				}
-				var completion = _form.find("[name='completion']").val();
-				if(completion == 0) {
-					XMS.msgbox.show('完成情况为空！', 'error', 2000);
-					return
-				}
+
 				var classification = _form.find("[name='classification']").val();
 				if(classification == 0) {
 					XMS.msgbox.show('分类为空！', 'error', 2000);
@@ -247,26 +229,6 @@ define(function(require, exports, module) {
 				var jobcontent = _form.find("[name='jobcontent']").val();
 				if(jobcontent == 0) {
 					XMS.msgbox.show('工作内容为空！', 'error', 2000);
-					return
-				}
-				var projectcompletion = _form.find("[name='projectcompletion']").val();
-				if(projectcompletion == 0) {
-					XMS.msgbox.show('计划完成率为空！', 'error', 2000);
-					return
-				}
-				var submittimely = _form.find("[name='submittimely']").val();
-				if(submittimely == 0) {
-					XMS.msgbox.show('提交及时性为空！', 'error', 2000);
-					return
-				}
-				var quality = _form.find("[name='quality']").val();
-				if(quality == 0) {
-					XMS.msgbox.show('质量说明为空！', 'error', 2000);
-					return
-				}
-				var fillquality = _form.find("[name='fillquality']").val();
-				if(fillquality == 0) {
-					XMS.msgbox.show('填写质量为空！', 'error', 2000);
 					return
 				}
 				

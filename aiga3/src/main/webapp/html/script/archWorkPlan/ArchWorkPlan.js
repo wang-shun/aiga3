@@ -180,7 +180,6 @@ define(function(require, exports, module) {
       
         //更新数据
 		updateDataMain: function(Id, json) {
-			debugger;
 			var self = this;
 			var i=0;			
 			while(json.content[i].id != Id){
@@ -294,8 +293,7 @@ define(function(require, exports, module) {
 		}
         
         
-        
-        
+                
 	};
 	 
 	module.exports = init;

@@ -226,20 +226,6 @@ public class ArchitectureThirdSv extends BaseService {
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
 		ArchitectureThird outData = new ArchitectureThird();
 		try {
-			ArchitectureSecond architectureSecond = architectureSecondDao.findOne(architectureThird.getIdSecond());
-			String[] levels = architectureThird.getBelongLevel().split(",");
-			String secLevel = architectureSecond.getBelongLevel();
-			Boolean change = false;
-			for(String level:levels) {
-				if(!secLevel.contains(level)) {
-					secLevel += ","+level;
-					change = true;
-				}
-			}
-			if(change) {
-				architectureSecond.setBelongLevel(secLevel);
-				architectureSecondDao.save(architectureSecond);
-			}
 			 outData = architectureThirdDao.save(architectureThird);
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());

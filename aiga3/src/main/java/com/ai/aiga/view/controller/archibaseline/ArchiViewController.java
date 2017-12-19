@@ -145,28 +145,28 @@ public class ArchiViewController {
 				if(levels.contains("TPaaS")) {
 					TPaaS.setIsCross("1");
 					if(!levels.contains("IPaaS")) {
-						bean.fail("跨层层级错误");
+						bean.fail(base.getName()+"跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(TPaaS.getId());
 				} else if(levels.contains("IPaaS")) {
 					IPaaS.setIsCross("1");
 					if(!levels.contains("UPaaS")) {
-						bean.fail("跨层层级错误");
+						bean.fail(base.getName()+"跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(IPaaS.getId());
 				} else if(levels.contains("UPaaS")) {
 					UPaaS.setIsCross("1");
 					if(!levels.contains("BPaaS")) {
-						bean.fail("跨层层级错误");
+						bean.fail(base.getName()+"跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(UPaaS.getId());
 				} else if(levels.contains("BPaaS")) {
 					BPaaS.setIsCross("1");
 					if(!levels.contains("SaaS")) {
-						bean.fail("跨层层级错误");
+						bean.fail(base.getName()+"跨层层级错误");
 						return bean;
 					}
 					baseCross.setEndCrossId(BPaaS.getId());

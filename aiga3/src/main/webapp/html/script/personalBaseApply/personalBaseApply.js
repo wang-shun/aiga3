@@ -19,6 +19,10 @@ define(function(require, exports, module) {
     srvMap.add("archiGradingReSubmit", pathAlias + "getDeliverablesList.json", "archi/grading/reSubmit");
     //撤销申请单
     srvMap.add("archiGradingApplyCancel", pathAlias + "getDeliverablesList.json", "archi/grading/applyCancel");
+    //获取附件信息
+    srvMap.add("getFileInfo", pathAlias+"getSysMessageList.json", "archi/question/findByPlanIdAndFileType");
+    //下载文档
+    srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch"); 
 	/*后台接口 end*/
     
     //模板
@@ -121,9 +125,30 @@ define(function(require, exports, module) {
 			var selectData = Data.selectData;
 			var templateFrom = Handlebars.compile(Page.findTpl('thirdMessageFrom'));
 			var _selectDataModal = Page.findId('modelSelectData');
-			selectData.isChange = false;
+			selectData.otherParam={};
+			selectData.otherParam.isChange = false;
 			if(selectData.description != '申请') {
-				selectData.isChange = true;
+				selectData.otherParam.isChange = true;
+			}      
+			//文件查询
+			if(selectData.fileId) {
+				var fileCondition = '';
+				//存在 cloudOrderId 为云管附件 type为3
+				if(selectData.cloudOrderId) {
+					fileCondition = 'planId=' + selectData.fileId + '&fileType=3';
+				} else {
+					fileCondition = 'planId=' + selectData.fileId + '&fileType=88888';
+				}
+				Rose.ajax.postJsonSync(srvMap.get('getFileInfo'), fileCondition,function(json2, status){
+					if(status) {      					
+						selectData.otherParam.fileName=json2.data.fileName?json2.data.fileName:"没有可下载文件";
+						selectData.otherParam.fileIndex=json2.data.id;
+					} else {
+						XMS.msgbox.show(json2.retMessage, 'error', 2000);
+					}					
+				});
+			} else {
+				selectData.otherParam.fileName = "没有可下载文件";
 			}
 			_selectDataModal.html(templateFrom(selectData));
 			var _modal = Page.findId('sysMessageFrom');
@@ -131,8 +156,9 @@ define(function(require, exports, module) {
         	//模态框加载后事件
 			_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
 				//获取系统建设状态和所属域的名称
+				
 				var _cmdTrans = 'idBelong='+selectData.idBelong+'&ext1='+selectData.ext1+'&sysState='+selectData.sysState+'&idThird='+selectData.sysId;
-				Rose.ajax.postJsonSync(srvMap.get('MessageTranslate'),_cmdTrans,function(messageTranslateJson, status) {
+				Rose.ajax.postJson(srvMap.get('MessageTranslate'),_cmdTrans,function(messageTranslateJson, status) {
 					//认定页允许所属域修改
 					if(messageTranslateJson.data) {
   						var idBelongDom = _selectDataModal.find('[name="idBelong"]');
@@ -149,13 +175,14 @@ define(function(require, exports, module) {
 					Utils.setSelectData(_selectDataModal,'',function() {
 						_selectDataModal.find('[name="sysState"]').val(selectData.sysState);
 						_selectDataModal.find('[name="rankInfo"]').val(selectData.rankInfo);
+						_selectDataModal.find('[name="ext2"]').val(selectData.ext2);
 					});
 					
 					//附件下载事件绑定	        				
  					var downloadButton = _modal.find('[name="download"]');
 					downloadButton.off('click').on('click',function() {
 						if(selectData.fileId) {
-    						var downloadParam = 'ids=' + selectData.fileIndex;
+    						var downloadParam = 'ids=' + selectData.otherParam.fileIndex;
     	                    var downloadurl = srvMap.get('downloadFile')+"?"+downloadParam;
     	                    downloadButton.attr("href", downloadurl.toString());
 						} else {
@@ -174,7 +201,7 @@ define(function(require, exports, module) {
 				var data = Data.selectData;
 				var sumitparam = $.extend(true,{},data,applyData);
 				//删除冗余属性，避免提交
-				delete sumitparam.isChange;				
+				delete sumitparam.otherParam;				
 				//编号校验 不允许异常数据认定通过
 				var _sysValue = $.trim(sumitparam.sysId);
 				var condition =  /^\d{1,8}$/;

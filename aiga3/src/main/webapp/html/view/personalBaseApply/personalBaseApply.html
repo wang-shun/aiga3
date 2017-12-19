@@ -105,7 +105,7 @@
 			<label class="control-label margin-label-grading">系统名称:</label>
 			<input name="name" type="text" class="form-control input-sm margin-input-grading" value="{{name}}"></input>
 			<label class="control-label margin-label-grading">系统编号:</label>
-			{{#if isChange}}
+			{{#if otherParam.isChange}}
 				<input name="sysId" type="text" class="form-control input-sm margin-input-grading" value="{{sysId}}"></input>
             {{else}}
 				<input type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="认定时分配"></input>
@@ -152,7 +152,7 @@
 			<label class="control-label margin-label-grading">开发厂商:</label>
 			<input name="developer" type="text" class="form-control input-sm margin-input-grading" value="{{developer}}"></input>
 			<label class="control-label margin-label-grading">附件：</label>                 
-            <label class="form-control margin-input-grading" style="width: 370px">{{fileName}}</label>
+            <label class="form-control margin-input-grading" style="width: 370px">{{otherParam.fileName}}</label>
 			<a type="button" class="btn btn-primary" style="margin-bottom: 0px" name="download">下载</a>
 		</div>
  	</div>     			

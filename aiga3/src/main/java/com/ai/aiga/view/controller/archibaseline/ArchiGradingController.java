@@ -460,7 +460,7 @@ public class ArchiGradingController {
 							//无此操作类型
 						}
 						List<Map> nameList = architectureSecondSv.queryNamebyId(input.getIdBelong());
-						thirMess = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName"));
+						thirMess = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+(nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName")));
 					}
 				}
 				architectureGradingSv.update(input);
@@ -603,7 +603,7 @@ public class ArchiGradingController {
 					List<Map> nameList = architectureSecondSv.queryNamebyId(input.getIdBelong());
 					mailMessage = "系统名称：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;系统编号：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()
-							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName"))
+							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+(nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName")))
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型："+operation
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 				} else {

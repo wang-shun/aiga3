@@ -67,6 +67,10 @@ public class ArchitectureGradingSv extends BaseService {
 			cons.add(new Condition("sysId", input.getSysId(), Condition.Type.EQ));
 		}
 		
+		if(input.getIdBelong()>0) {
+			cons.add(new Condition("idBelong", input.getIdBelong(), Condition.Type.EQ));
+		}
+		
 		if(StringUtils.isNoneBlank(input.getName())){
 			cons.add(new Condition("name", "%".concat(input.getName()).concat("%"), Condition.Type.LIKE));
 		}

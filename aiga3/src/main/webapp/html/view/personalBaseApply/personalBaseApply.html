@@ -1,0 +1,179 @@
+<style>
+#Page_personalBaseApply .select-label-word {margin-top: 7px;width: 70px;}
+#Page_personalBaseApply .query-btn-center {text-align: center;margin-top:10px;}  
+#Page_personalBaseApply .show-nothing {display:none;}  
+#Page_personalBaseApply .total-width {width: 860px;}
+#Page_personalBaseApply .margin-bottom-col { margin-bottom: 5px;}
+#Page_personalBaseApply .margin-label-grading {width: 90px;margin-left: 5px;}
+#Page_personalBaseApply .margin-input-grading {width: 160px;margin-left: 5px;}
+#Page_personalBaseApply .margin-input-long {width: 428px;margin-left: 5px;}
+#Page_personalBaseApply .margin-onl {width: 90px;margin-left: 5px;}
+#Page_personalBaseApply .text-area-sty {
+ 	margin-left:5px;
+ 	width: 696px;
+ 	vertical-align:middle; 
+}
+</style>
+<div class="row" id="Page_personalBaseApply">
+	<div class="col-md-12">
+		<div class="box box-solid">
+			<div class="box-header">
+				<h3 class="box-title">条件查询</h3>
+			</div>
+			<div class="box-body" class="form-group form-inline">
+				<form id="JS_selectGroup" class="form-horizontal">			
+					<div class="col-md-3">
+						<label class="select-label-word">系统名称:</label> 
+		     			<input name="name" type="text" class="form-control input-sm"></input>
+					</div>
+					<div class="col-md-3">
+						<label class="select-label-word">系统编号:</label> 
+						<input name="sysId" type="text" class="form-control input-sm" ></input>
+					</div>
+					<div class="col-md-3">
+						<label class="select-label-word">开始时间:</label>
+		                <input type="text" class="form-control input-sm" name="begainTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+					</div>
+					<div class="col-md-3">
+						<label class="select-label-word">结束时间:</label>
+						<input type="text" class="form-control input-sm" name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+					</div>
+					<div class="col-md-12 query-btn-center">		
+						<button type="button" class="btn btn-primary" data-toggle="modal" name="reset">重置</button>				
+						<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>				
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="box" id="JS_applyBillList">
+			<div class="box-header" >
+		        <h3 class="box-title">系统信息列表</h3>
+		    </div>
+		    <div class="box-body" >
+		        <table class="table table-bordered table-hover">
+		            <thead>
+		                <tr>
+		                    <th class="iCheckbox" width="15"></th>
+		                    <th>简称</th>
+		                    <th>名称</th>
+		                    <th>操作</th>
+		                    <th>编号</th>
+		                    <th>申请人</th>
+		                    <th>申请时间</th>
+		                    <th>状态</th>
+		                </tr>
+		            </thead>
+		            <tbody name="content"></tbody>
+		        </table>
+		    </div>
+		    <div class="box-footer no-border">
+		        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+		    </div> 
+		</div>
+	</div>	
+	<div class="modal fade" id="JS_sysMessageFrom" tabindex="-1" role="dialog">
+		<div class="modal-dialog total-width">
+			<div class="modal-content">
+				<div class="modal-header">
+				     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                     <h4 class="modal-title">详细信息</h4>
+				</div>
+				<form id="JS_modelSelectData" class="modal-body" style="padding-bottom: 0"> </form> 
+	  			<div class="box-footer no-border" style="text-align:center;">
+	        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="reSubmit">重提申请单</button>
+	        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="cancel">撤销申请单</button>	        		
+	        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" data-dismiss="modal">取消</button>
+	    		</div> 
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 三级系统 -->
+<script id="TPL_thirdMessageFrom" type="text/x-handlebars-template">
+	<div class="box-body col-md-12 form-inline">
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">申请编号:</label>
+			<input name="applyId" type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{applyId}}"></input>
+   			<label class="control-label margin-label-grading">申请人:</label>
+   			<input name="applyUser" type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{applyUser}}"></input>
+   			<label class="control-label margin-label-grading">申请时间:</label>
+ 			<input name="applyTime" type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="{{applyTime}}"></input>
+		</div>
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">系统名称:</label>
+			<input name="name" type="text" class="form-control input-sm margin-input-grading" value="{{name}}"></input>
+			<label class="control-label margin-label-grading">系统编号:</label>
+			{{#if isChange}}
+				<input name="sysId" type="text" class="form-control input-sm margin-input-grading" value="{{sysId}}"></input>
+            {{else}}
+				<input type="text" class="form-control input-sm margin-input-grading" disabled="disabled" value="认定时分配"></input>
+				<input name="sysId" type="text" class="form-control input-sm margin-input-grading show-nothing" value="{{sysId}}"></input>
+            {{/if}}			
+			<label class="control-label margin-label-grading">系统简称:</label>
+			<input name="code" type="text" class="form-control input-sm margin-input-grading" value="{{code}}"></input>
+		</div>
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">所属分层:</label>
+			<input name="belongLevel" type="text" class="form-control input-sm margin-input-grading" value="{{belongLevel}}"></input>	
+			<label class="control-label margin-label-grading">等级信息:</label>
+			<select name="rankInfo"  class="form-control select2 input-sm margin-input-grading" data-url="rankInfoStatic" data-idkey="codeValue" data-namekey="codeName">
+                <option value="">请选择</option>
+            </select>
+			<label class="control-label margin-label-grading">所属二级子域:</label>
+			<select name="idBelong"  class="form-control select2 input-sm margin-input-grading">
+                <option value="">请选择</option>
+            </select>
+		</div>	
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">项目立项信息:</label>
+			<input name="projectInfo" type="text" class="form-control input-sm margin-input-long" value="{{projectInfo}}"></input>
+		    <label class="control-label margin-label-grading">系统建设状态:</label>
+     	    <select name="sysState" data-toggle="tooltip" title="系统属性值" class="form-control select2 input-sm" data-url="thirdSysState" data-idkey="codeValue" data-namekey="codeName" style="width: 106px;margin-left:5px;">
+     	    </select>
+     	    <input type="text" class="form-control input-sm" data-toggle="tooltip" title="年份" name="ext2" onclick="WdatePicker({dateFmt:'yyyy'})" style="width: 50px"/>
+		</div>
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">规划设计信息:</label>
+			<input name="designInfo" type="text" class="form-control input-sm margin-input-long" value="{{designInfo}}"></input>
+			<label class="control-label margin-label-grading">责任部门:</label>
+			<input name="department" type="text" class="form-control input-sm margin-input-grading" value="{{department}}"></input>
+		</div>
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">系统功能描述:</label>
+			<textarea name="systemFunction" cols="112" rows="4" class="form-control input-sm text-area-sty" >{{systemFunction}}</textarea>
+		</div>
+		<div class="col-md-12 margin-bottom-col" name="identifiedModal">
+			<label class="control-label margin-label-grading">认定信息:</label>
+			<textarea name="identifiedInfo" cols="112" rows="4" class="form-control input-sm text-area-sty" disabled="disabled">{{identifiedInfo}}</textarea>
+		</div>
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">开发厂商:</label>
+			<input name="developer" type="text" class="form-control input-sm margin-input-grading" value="{{developer}}"></input>
+			<label class="control-label margin-label-grading">附件：</label>                 
+            <label class="form-control margin-input-grading" style="width: 370px">{{fileName}}</label>
+			<a type="button" class="btn btn-primary" style="margin-bottom: 0px" name="download">下载</a>
+		</div>
+ 	</div>     			
+</script>
+<!-- 表格数据  -->
+<script id="TPL_getGrandingMessageList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{applyId}}" name="applyId"></td>
+    <td>{{code}}</td>
+    <td>{{name}}</td>
+	<td>{{description}}</td>
+    <td>{{sysId}}</td>
+    <td>{{applyUser}}</td>
+    <td>{{applyTime}}</td>
+	<td>{{state}}</td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/personalBaseApply/personalBaseApply", function(init) {
+	init.init();
+});
+</script>

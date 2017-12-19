@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -263,9 +264,10 @@ public class ArchiGradingController {
 				//申请单唯一性校验
 				ArchitectureGrading condition = new ArchitectureGrading();
 				condition.setName(architectureGrading.getName());
+				condition.setIdBelong(architectureGrading.getIdBelong());
 				condition.setState("申请");
 				List<ArchitectureGrading> applyBill = architectureGradingSv.findTableCondition(condition);
-				if(applyBill.size()>0 && applyBill.get(0).getIdBelong() == architectureGrading.getIdBelong()) {
+				if(applyBill.size()>0) {
 					bean.fail("二级子域下该系统名称存在在途申请单");
 					return bean;
 				}
@@ -277,7 +279,7 @@ public class ArchiGradingController {
 					bean.fail("该系统已存在");
 					return bean;
 				}	
-				//
+				//系统初始编号生成
 				architectureGrading.setCreateDate(nowDate);
 				int index = 0;
 				if(!belongLevel.contains(",")) {
@@ -299,15 +301,6 @@ public class ArchiGradingController {
 					bean.fail("名称为空！");
 					return bean;
 				}
-				//申请单唯一性校验
-				ArchitectureGrading condition = new ArchitectureGrading();
-				condition.setSysId(architectureGrading.getSysId());
-				condition.setState("申请");
-
-				if(architectureGradingSv.findTableCondition(condition).size()>0) {
-					bean.fail("该编号存在在途申请单");
-					return bean;
-				}
 				if(architectureGrading.getIdBelong() == null || architectureGrading.getIdBelong()<=0) {
 					bean.fail("所属二级域为空！");
 					return bean;
@@ -320,15 +313,50 @@ public class ArchiGradingController {
 					bean.fail("建设状态为空！");
 					return bean;
 				}
-				List<ArchitectureThird> thirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
-				if(thirdList.size()>0) {
-					for(ArchitectureThird baseThird : thirdList) {
+				if(StringUtils.isBlank(architectureGrading.getRankInfo())) {
+					bean.fail("等级信息为空！");
+					return bean;
+				}
+				//申请单唯一性校验
+				ArchitectureGrading condition = new ArchitectureGrading();
+				condition.setName(architectureGrading.getName());
+				condition.setIdBelong(architectureGrading.getIdBelong());
+				condition.setState("申请");
+				List<ArchitectureGrading> applyBill = architectureGradingSv.findTableCondition(condition);
+				if(applyBill.size()>0) {
+					bean.fail("二级子域下该系统名称存在在途申请单");
+					return bean;
+				}
+				//申请单唯一性校验
+				condition = new ArchitectureGrading();
+				condition.setSysId(architectureGrading.getSysId());
+				condition.setState("申请");
+				if(architectureGradingSv.findTableCondition(condition).size()>0) {
+					bean.fail("该编号存在在途申请单");
+					return bean;
+				}
+				//系统唯一性校验 
+				List<ArchitectureThird> idThirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
+				if(idThirdList.size()>0) {
+					for(ArchitectureThird baseThird : idThirdList) {
 						if(baseThird.getOnlysysId()!=architectureGrading.getOnlysysId()) {
 							bean.fail("系统编号已存在");
 							return bean;
 						}
 					}
 				}
+				ArchiThirdConditionParam thirdCheckParam = new ArchiThirdConditionParam();
+				thirdCheckParam.setIdSecond(architectureGrading.getIdBelong());
+				thirdCheckParam.setName(architectureGrading.getName());
+				List<ArchitectureThird> nameThirdList = architectureThirdSv.querybyCodition(thirdCheckParam);
+				if(nameThirdList.size()>0) {
+					for(ArchitectureThird baseThird : nameThirdList) {
+						if(baseThird.getOnlysysId()!=architectureGrading.getOnlysysId()) {
+							bean.fail("同二级域下系统名称已存在");
+							return bean;
+						}
+					}
+				}	
 			} else {
 				//非空校验
 				if(architectureGrading.getSysId()==0L) {
@@ -433,7 +461,9 @@ public class ArchiGradingController {
 					}
 				}
 				architectureGradingSv.update(input);
-				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"&nbsp;&nbsp;&nbsp;&nbsp;审批不通过&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
+				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
+						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批不通过" 
+						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
 				mailMessage += StringUtils.isBlank(input.getIdentifiedInfo())?"无":input.getIdentifiedInfo();
 			} else if("审批通过".equals(input.getState())){
 				//认定通过逻辑			
@@ -472,6 +502,7 @@ public class ArchiGradingController {
 						cloudMessageBean(bean,cloudService.firstModify(firstInput));				
 					}		
 					architectureGradingSv.update(input);
+	                mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;一级域编号：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 				} else if ("2".equals(input.getExt1())) {
 					ArchitectureSecondRequest secInput = BeanMapper.map(input,ArchitectureSecondRequest.class);
 					secInput.setIdFirst(input.getIdBelong());
@@ -507,6 +538,7 @@ public class ArchiGradingController {
 						cloudMessageBean(bean,cloudService.secondModify(secInput));	
 					}	
 					architectureGradingSv.update(input);
+	                mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;二级域编号：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 				} else if ("3".equals(input.getExt1())) {		
 					ArchitectureThirdRequest thirdInput =  BeanMapper.map(input,ArchitectureThirdRequest.class);
 					thirdInput.setIdSecond(input.getIdBelong());
@@ -544,17 +576,34 @@ public class ArchiGradingController {
 							bean.fail("数据库不存在此条数据");
 							return bean;
 						}
+						//系统名称校验
+						ArchiThirdConditionParam thirdCheckParam = new ArchiThirdConditionParam();
+						thirdCheckParam.setIdSecond(thirdInput.getIdSecond());
+						thirdCheckParam.setName(thirdInput.getName());
+						List<ArchitectureThird> nameThirdList = architectureThirdSv.querybyCodition(thirdCheckParam);
+						if(nameThirdList.size()>0) {
+							for(ArchitectureThird baseThird : nameThirdList) {
+								if(baseThird.getOnlysysId()!=thirdInput.getOnlysysId()) {
+									bean.fail("同二级域下系统名称已存在");
+									return bean;
+								}
+							}
+						}	
 						thirdInput.setDescription("");
 						architectureThirdSv.update(thirdInput);
 						//云管同步数据
 						cloudMessageBean(bean,cloudService.thirdModify(thirdInput,staffInfo));	
 					}		
 					architectureGradingSv.update(input);
+					List<Map> nameList = architectureSecondSv.queryNamebyId(input.getIdBelong());
+					mailMessage = "系统名称：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
+							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;系统编号：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()
+							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName"))
+							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 				} else {
 					bean.fail("异常分类，没有该层");
 					return bean;
-				}
-				mailMessage = "申请中的系统：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;系统名称：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
+				}						
 			} else {
 				bean.fail("异常状态，没有该状态");
 				return bean;
@@ -602,7 +651,14 @@ public class ArchiGradingController {
 		}
 		return bean;
 	}
-	
+	/**
+	 * 申请单查询（分页）
+	 * @param pageNumber
+	 * @param pageSize
+	 * @param input
+	 * @return
+	 * @throws ParseException
+	 */
 	@RequestMapping(path = "/archi/grading/findByConditionPage")
 	public @ResponseBody JsonBean findByConditionPage(            
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -612,17 +668,7 @@ public class ArchiGradingController {
 		bean.setData(architectureGradingSv.findByConditionPage(input, pageNumber, pageSize));
 		return bean;
 	}
-	
-	@RequestMapping(path = "/archi/grading/gradingUpdate")
-	public @ResponseBody JsonBean Update(ArchitectureGrading architectureGrading) {
-		architectureGradingSv.save(architectureGrading);
-		return JsonBean.success;
-	}
-	@RequestMapping(path = "/archi/grading/gradingDelete")
-	public @ResponseBody JsonBean delete(@RequestParam long applyId) {
-		architectureGradingSv.delete(applyId);
-		return JsonBean.success;
-	}
+	//三级系统信息查询
 	@RequestMapping(path = "/archi/grading/gradingTranslate")
 	public @ResponseBody JsonBean translate(GrandingTranslateInput input) {
 		JsonBean bean = new JsonBean();
@@ -755,5 +801,122 @@ public class ArchiGradingController {
 		} else {
 			bean.setRetMessage("云管数据同步异常：未接受到返回信息");
 		}
+	}
+	/**
+	 * 申请单重新提交
+	 * @param input
+	 * @return
+	 */
+	@RequestMapping(path = "/archi/grading/reSubmit")
+	public @ResponseBody JsonBean reSubmit(@RequestBody ArchitectureGrading input) {
+		JsonBean bean = new JsonBean();
+		try {
+			if(!"3".equals(input.getExt1())) {
+				bean.fail("仅支持3级系统操作");
+				return bean;
+			}
+			//当前申请单校验
+			ArchitectureGrading data = architectureGradingSv.findOne(input.getApplyId());
+			if(data == null) {
+				bean.fail("该申请单不存在");
+				return bean;
+			}
+			if(!"审批未通过".equals(data.getState())) {
+				bean.fail("该申请单不可重提，当前状态  "+data.getState());
+				return bean;
+			}
+			//参数为空校验
+			if(StringUtils.isBlank(input.getName())) {
+				bean.fail("名称为空！");
+				return bean;
+			}
+			if(input.getIdBelong() == null || input.getIdBelong()<=0) {
+				bean.fail("所属二级域为空！");
+				return bean;
+			}
+			if(StringUtils.isBlank(input.getBelongLevel())) {
+				bean.fail("分层层级为空！");
+				return bean;
+			}
+			if(StringUtils.isBlank(input.getSysState())) {
+				bean.fail("建设状态为空！");
+				return bean;
+			}
+			if(StringUtils.isBlank(input.getRankInfo())) {
+				bean.fail("等级信息为空！");
+				return bean;
+			}
+			//申请表唯一性校验
+			ArchitectureGrading condition = new ArchitectureGrading();
+			condition.setName(input.getName());
+			condition.setIdBelong(input.getIdBelong());
+			condition.setState("申请");
+			List<ArchitectureGrading> applyBill = architectureGradingSv.findTableCondition(condition);
+			if(applyBill.size()>0) {
+				bean.fail("同二级子域下该系统名称存在在途申请单");
+				return bean;
+			}
+			//三级系统表唯一性校验
+			if(architectureThirdSv.findByIdThirds(input.getSysId()).size()>0) {
+				bean.fail("系统编号已存在");
+				return bean;
+			}
+			ArchiThirdConditionParam thirdCheckParam = new ArchiThirdConditionParam();
+			thirdCheckParam.setIdSecond(input.getIdBelong());
+			thirdCheckParam.setName(input.getName());
+			if(architectureThirdSv.querybyCodition(thirdCheckParam).size()>0) {
+				bean.fail("同二级域下该系统名称已存在");
+				return bean;
+			}	
+			//新增时 系统编号生成
+			if("新增".equals(input.getDescription())) {
+				//层级数组
+				String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
+				String belongLevel = input.getBelongLevel();
+				int index = 0;
+				if(!belongLevel.contains(",")) {
+					for(int i=0;i<ruleLevels.length;i++) {
+						if(ruleLevels[i].equals(belongLevel)) {
+							index = i;
+							break;
+						}
+					}
+				}
+				input.setSysId(input.getIdBelong()/100000*10+index);
+			}
+			//提交
+			input.setState("申请");
+			architectureGradingSv.update(input);
+		} catch (Exception e) {
+			bean.fail(e.getMessage());
+		}
+		return bean;
+	}
+	/**
+	 * 撤销申请单
+	 * @param applyId
+	 * @return
+	 */
+	@RequestMapping(path = "/archi/grading/applyCancel")
+	public @ResponseBody JsonBean applyCancel(@RequestBody Long applyId) {
+		JsonBean bean = new JsonBean();
+		try {
+			ArchitectureGrading data = architectureGradingSv.findOne(applyId);
+			if(data == null) {
+				bean.fail("该申请单不存在");
+			} else {
+				if("已撤销".equals(data.getState())) {
+					bean.fail("该申请单已撤销");
+				} else if("审批未通过".equals(data.getState())) {
+					data.setState("已撤销");
+					architectureGradingSv.update(data);
+				} else {
+					bean.fail("该申请单状态为  "+data.getState()+"，不可直接撤销");
+				}
+			}
+		} catch (Exception e) {
+			bean.fail(e.getMessage());
+		}
+		return bean;
 	}
 }

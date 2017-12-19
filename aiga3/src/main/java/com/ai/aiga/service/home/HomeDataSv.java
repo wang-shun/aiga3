@@ -155,6 +155,7 @@ public class HomeDataSv {
 		if(org.apache.commons.lang3.StringUtils.isBlank(code)) {
 			return data;
 		} else {
+			//个人申请单查询
 			String applySysSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as apply_first ,sum(case when t.ext_1='2' then 1 else 0 end) as apply_second, sum(case when t.ext_1='3' then 1 else 0 end) as apply_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请' and t.apply_user = '"+code+"'";	
 			List<Map> applySysResults = architectureGradingDao.searchByNativeSQL(applySysSql);	
 			Map applySysResult =  applySysResults.get(0);
@@ -168,6 +169,7 @@ public class HomeDataSv {
 		}
 		data.setHasSysRole(hasSysRole);
 		if("true".equals(hasSysRole)) {
+			//待认定申请单查询
 			String dealSysSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as deal_first ,sum(case when t.ext_1='2' then 1 else 0 end) as deal_second, sum(case when t.ext_1='3' then 1 else 0 end) as deal_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请'";	
 			List<Map> dealSysResults = architectureGradingDao.searchByNativeSQL(dealSysSql);	
 			Map dealSysResult =  dealSysResults.get(0);

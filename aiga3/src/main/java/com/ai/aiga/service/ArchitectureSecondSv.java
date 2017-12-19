@@ -2,7 +2,9 @@ package com.ai.aiga.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -91,5 +93,20 @@ public class ArchitectureSecondSv extends BaseService {
 		} catch (Exception e) {
 			BusinessException.throwBusinessException(e.getMessage());
 		}	
+	}
+	
+	/**
+	 * 根据二级域编号查询二级域名称和一级域名称
+	 */
+	public List<Map> queryNamebyId(Long idSecond) {
+		String sql = "select a.name as fir_name, b.name as sec_name "
+				+" from architecture_first a , architecture_second b "
+				+" where a.id_first= b.id_first ";
+
+		if(idSecond>0){
+			sql += " and b.id_second = "+idSecond;
+		}
+
+		return architectureSecondDao.searchByNativeSQL(sql);
 	}
 }

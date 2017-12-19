@@ -45,6 +45,14 @@ define(function(require, exports, module) {
 	                            href: 'view/sysArchiBaselineManage/archiGradingManage/archiGradingIdentified.html',
 	                            cmd: 'state=申请&ext1='+ext+'&applyUser='+data.userCode
 	                        });
+	                	} else if(name == 'noPassSystem') {
+	                		//驳回三级申请单处理
+	                		Sidebar.creatTab({
+	                            id: '26',
+	                            name: '驳回申请单处理',
+	                            href: 'view/personalBaseApply/personalBaseApply.html',
+	                            cmd: 'state=审批未通过&applyUser='+data.userCode
+	                        });
 	                	} else if ( name == 'dealFirst'|| name == 'dealSecond'|| name == 'dealThird') {
 	                		var ext = name == 'dealFirst'? 1: name== 'dealSecond' ? 2: name == 'dealThird' ? 3:0;
 	                        Sidebar.creatTab({

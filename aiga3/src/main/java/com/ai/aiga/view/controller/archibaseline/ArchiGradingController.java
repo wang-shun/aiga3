@@ -444,6 +444,7 @@ public class ArchiGradingController {
 			//数据校验
 			if("审批未通过".equals(input.getState())) {
 				//失败信息同步给云管
+				String thirMess = "";
 				if(StringUtils.isBlank(input.getCloudOrderId())  || "0".equals(input.getCloudOrderId())) {
 				} else {
 					if("3".equals(input.getExt1())) {
@@ -458,11 +459,15 @@ public class ArchiGradingController {
 						} else {					
 							//无此操作类型
 						}
+						List<Map> nameList = architectureSecondSv.queryNamebyId(input.getIdBelong());
+						thirMess = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName"));
 					}
 				}
 				architectureGradingSv.update(input);
 				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
-						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批不通过" 
+						+thirMess
+						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型："+operation
+						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批不通过"
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
 				mailMessage += StringUtils.isBlank(input.getIdentifiedInfo())?"无":input.getIdentifiedInfo();
 			} else if("审批通过".equals(input.getState())){
@@ -599,6 +604,7 @@ public class ArchiGradingController {
 					mailMessage = "系统名称：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;系统编号：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName"))
+							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型："+operation
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 				} else {
 					bean.fail("异常分类，没有该层");

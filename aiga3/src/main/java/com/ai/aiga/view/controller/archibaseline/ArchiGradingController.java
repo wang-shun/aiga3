@@ -832,6 +832,10 @@ public class ArchiGradingController {
 				return bean;
 			}
 			//参数为空校验
+			if(input.getSysId()==0L) {
+				bean.fail("编号为空！");
+				return bean;
+			}
 			if(StringUtils.isBlank(input.getName())) {
 				bean.fail("名称为空！");
 				return bean;

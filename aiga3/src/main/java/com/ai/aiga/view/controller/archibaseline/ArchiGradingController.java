@@ -466,7 +466,7 @@ public class ArchiGradingController {
 				architectureGradingSv.update(input);
 				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
 						+thirMess
-						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型："+operation
+						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型：&nbsp;&nbsp;&nbsp;&nbsp;"+operation
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批不通过"
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;"+"审批意见：&nbsp;&nbsp;";
 				mailMessage += StringUtils.isBlank(input.getIdentifiedInfo())?"无":input.getIdentifiedInfo();
@@ -603,8 +603,8 @@ public class ArchiGradingController {
 					List<Map> nameList = architectureSecondSv.queryNamebyId(input.getIdBelong());
 					mailMessage = "系统名称：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;系统编号：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getSysId()
-							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+(nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName")))
-							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型："+operation
+							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp;"+(nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName")))
+							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型：&nbsp;&nbsp;&nbsp;&nbsp;"+operation
 							+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批通过";
 				} else {
 					bean.fail("异常分类，没有该层");

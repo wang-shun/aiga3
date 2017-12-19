@@ -201,9 +201,7 @@ define(function(require, exports, module) {
 			});
 			//撤销申请单
 			_dom.find("[name='cancel']").off('click').on('click',function() {
-				var cancelParam = {
-					applyId : Data.selectData.applyId
-				};
+				var cancelParam = "applyId="+Data.selectData.applyId;
 	            //调接口
 				Rose.ajax.postJson(srvMap.get('archiGradingApplyCancel'), cancelParam, function(json, status){
 					if(status) {

@@ -904,7 +904,7 @@ public class ArchiGradingController {
 	 * @return
 	 */
 	@RequestMapping(path = "/archi/grading/applyCancel")
-	public @ResponseBody JsonBean applyCancel(@RequestBody Long applyId) {
+	public @ResponseBody JsonBean applyCancel(Long applyId) {
 		JsonBean bean = new JsonBean();
 		try {
 			ArchitectureGrading data = architectureGradingSv.findOne(applyId);

@@ -51,7 +51,7 @@ define(function(require, exports, module) {
 	                            id: '26',
 	                            name: '驳回申请单处理',
 	                            href: 'view/personalBaseApply/personalBaseApply.html',
-	                            cmd: 'state=审批未通过&applyUser='+data.userCode
+	                            cmd: 'ext1=3&state=审批未通过&applyUser='+data.userCode
 	                        });
 	                	} else if ( name == 'dealFirst'|| name == 'dealSecond'|| name == 'dealThird') {
 	                		var ext = name == 'dealFirst'? 1: name== 'dealSecond' ? 2: name == 'dealThird' ? 3:0;

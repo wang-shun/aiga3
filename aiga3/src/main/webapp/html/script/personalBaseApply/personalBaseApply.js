@@ -165,7 +165,7 @@ define(function(require, exports, module) {
 				});
 			});
 		},
-		//下方认定和取消按钮
+		//申请单操作页面按钮
 		_model_btn_event: function() {
 			var _dom = Page.findId('sysMessageFrom');
 			_dom.find("[name='reSubmit']").off('click').on('click',function() {
@@ -173,9 +173,8 @@ define(function(require, exports, module) {
 				var applyData = _from.serializeJSON();
 				var data = Data.selectData;
 				var sumitparam = $.extend(true,{},data,applyData);
-				//删除冗余属性
-				delete sumitparam.isChange;
-				
+				//删除冗余属性，避免提交
+				delete sumitparam.isChange;				
 				//编号校验 不允许异常数据认定通过
 				var _sysValue = $.trim(sumitparam.sysId);
 				var condition =  /^\d{1,8}$/;
@@ -190,7 +189,11 @@ define(function(require, exports, module) {
 				//调用接口
 				Rose.ajax.postJson(srvMap.get('archiGradingReSubmit'), sumitparam, function(json, status){
 					if(status) {
+						_dom.modal('hide');
 						XMS.msgbox.show('申请单重新提交成功！', 'success', 1000);
+						setTimeout(function() {
+							Dom.group.find("[name='query']").click();
+						}, 1000);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -204,7 +207,11 @@ define(function(require, exports, module) {
 	            //调接口
 				Rose.ajax.postJson(srvMap.get('archiGradingApplyCancel'), cancelParam, function(json, status){
 					if(status) {
+						_dom.modal('hide');
 						XMS.msgbox.show('撤销成功！', 'success', 1000);
+						setTimeout(function() {
+							Dom.group.find("[name='query']").click();
+						}, 1000);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}

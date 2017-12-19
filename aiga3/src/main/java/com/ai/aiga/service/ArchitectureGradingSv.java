@@ -62,12 +62,13 @@ public class ArchitectureGradingSv extends BaseService {
 		List<Condition> cons = new ArrayList<Condition>();
 		if(input.getApplyId()>0) {
 			cons.add(new Condition("applyId", input.getApplyId(), Condition.Type.EQ));
-		}		
+		}	
+		
 		if(input.getSysId()>0){
 			cons.add(new Condition("sysId", input.getSysId(), Condition.Type.EQ));
 		}
 		
-		if(input.getIdBelong()>0) {
+		if(input.getIdBelong()!=null && input.getIdBelong()>0) {
 			cons.add(new Condition("idBelong", input.getIdBelong(), Condition.Type.EQ));
 		}
 		

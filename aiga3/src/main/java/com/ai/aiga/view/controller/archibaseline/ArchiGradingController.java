@@ -812,7 +812,7 @@ public class ArchiGradingController {
 		JsonBean bean = new JsonBean();
 		try {
 			if(!"3".equals(input.getExt1())) {
-				bean.fail("仅支持3级系统操作");
+				bean.fail("仅支持三级系统操作");
 				return bean;
 			}
 			//当前申请单校验

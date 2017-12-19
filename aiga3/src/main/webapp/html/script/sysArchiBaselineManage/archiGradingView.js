@@ -150,7 +150,8 @@ define(function(require, exports, module) {
 		        				self.setCrossContent(json);
 				        	}
 						}
-
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
 			});

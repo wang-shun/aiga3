@@ -69,7 +69,7 @@ define(function(require, exports, module) {
 			Dom.group.find("[name='query']").off('click').on('click',function() {
 				var cmd = Dom.group.serialize();
 				//默认参数
-				var defaultCMD = 'state=审批未通过&applyUser='+Data.code+'&';
+				var defaultCMD = 'ext1=3&state=审批未通过&applyUser='+Data.code+'&';
 				self._getSysMessageList(defaultCMD+cmd);
 			});
 			//重置

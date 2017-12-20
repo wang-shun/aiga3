@@ -17,10 +17,6 @@ public interface AmCoreIndexDao extends JpaRepository<AmCoreIndex, Long>, Search
 	  //indexGroup--->indexName
 	  List<AmCoreIndex> findByIndexGroup(String indexGroup);
 		
-      @Modifying
-      @Query("select * from AmCoreIndex a where a.indexGroup=?1")
-      List<AmCoreIndex> selectByIndexGroup(String indexGroup);
-	    
 	  //月份指标查询所有
 	  @Modifying
 	  @Query(value = " select a.* from am_core_index a where a.group_id like '1___' ", nativeQuery = true)

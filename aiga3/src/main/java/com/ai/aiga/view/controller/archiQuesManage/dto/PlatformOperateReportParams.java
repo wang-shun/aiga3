@@ -8,6 +8,5 @@ import lombok.Data;
 public class PlatformOperateReportParams implements Serializable {
 
     private String settMonth;
-    private String indexGroup;
 
 }

@@ -464,7 +464,7 @@ public class ArchiGradingController {
 					}
 				}
 				architectureGradingSv.update(input);
-				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
+				mailMessage = "申请的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
 						+thirMess
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型：&nbsp;&nbsp;&nbsp;&nbsp;"+operation
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批不通过"

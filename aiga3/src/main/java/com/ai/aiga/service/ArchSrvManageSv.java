@@ -1,18 +1,13 @@
 package com.ai.aiga.service;
 
-import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import lombok.Data;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,9 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AmCoreIndexDao;
 import com.ai.aiga.dao.ArchSrvManageDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.dao.jpa.ParameterCondition;
+import com.ai.aiga.domain.AmCoreIndex;
 import com.ai.aiga.domain.ArchSrvManage;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -49,7 +46,9 @@ public class ArchSrvManageSv extends BaseService {
 	
 	@Autowired
 	private ArchSrvManageDao archSrvManageDao;
-	
+    @Autowired
+    private AmCoreIndexDao amCoreIndexDao;
+
 	public List<ArchSrvManage>findArchSrvManages(){
 		return archSrvManageDao.findAll();
 	}
@@ -236,6 +235,62 @@ public class ArchSrvManageSv extends BaseService {
 		return listcsf;
 	}
 
+    
+    public String getIndexIds(String indexGroup){
+    	List<Condition>cons = new ArrayList<Condition>();
+    	if(StringUtils.isNoneBlank(indexGroup)){
+    		cons.add(new Condition("indexGroup", "%".concat(indexGroup).concat("%"), Condition.Type.LIKE));
+    	}
+    	List<AmCoreIndex>list = amCoreIndexDao.search(cons);
+        String indexIds = "";
+        for(int i=0;i<list.size();i++){
+            AmCoreIndex bean = list.get(i);
+            indexIds += String.valueOf(bean.getIndexId()) + ",";
+        }
+        return indexIds.substring(0, indexIds.length()-1);
+    }
+
+    public List<PlatcormOperateBase> report(PlatformOperateReportParams condition){
+        String indexIds = getIndexIds(condition.getIndexGroup());
+        StringBuilder nativeSql = new StringBuilder(
+                " select ar.* from am_core_index am, arch_srv_manage ar where am.index_id = ar.index_id and am.index_id in "
+                + "(" + indexIds + ")" );
+        List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+        //查询条件非空按settMonth查询
+        if (StringUtils.isNotBlank(condition.getSettMonth())) {
+            nativeSql.append(" and sett_month = :settMonth ");
+            params.add(new ParameterCondition("settMonth", condition.getSettMonth()));
+        }else{//查询条件为空默认查询今天today
+            SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMdd"); 
+            String date = sDateFormat.format(new java.util.Date()); 
+            nativeSql.append(" and sett_month = :settMonth ");
+            params.add(new ParameterCondition("settMonth", date));
+        }
+        List<PlatcormOperateBase>listCsf = new ArrayList<PlatcormOperateBase>();
+        List<ArchSrvManage>outlist = archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, ArchSrvManage.class);
+        List<String>xList = getX(outlist);
+        int x = xList.size();
+        int y = getY(indexIds);
+        System.out.println("xName---------------"+x);
+        System.out.println("yName---------------"+y);
+        double[][] data = getData(x, y, outlist);
+        //封装
+        for(int k=0;k<xList.size();k++){
+            CenterCsfSrvReport bean = new CenterCsfSrvReport();
+            bean.setKey1(xList.get(k));
+            bean.setDayCsfSrvNum(String.valueOf(data[k][0]));
+            bean.setTotalCsfNum(String.valueOf(data[k][1]));
+            bean.setActiveCsfNum(String.valueOf(data[k][2]));
+            bean.setCenterCsfNum(String.valueOf(data[k][3]));
+            bean.setCsfSrvChainRatio(String.valueOf(data[k][4]));
+            bean.setPredayCsfSuccessRate(String.valueOf(data[k][5]));
+            bean.setCsfSuccessRateChainRatio(String.valueOf(data[k][6]));
+            bean.setSettMonth(condition.getSettMonth());
+            listCsf.add(bean);
+        }
+        return listCsf;
+    }
+    
 	public List<CenterCsfSrvReport> newcsfsrv(PlatformOperateReportParams condition){
 		StringBuilder nativeSql = new StringBuilder(
 				" select ar.* from am_core_index am, arch_srv_manage ar where am.index_id = ar.index_id and am.index_id in ( "+
@@ -455,6 +510,12 @@ public class ArchSrvManageSv extends BaseService {
 		List<ArchSrvManage>inlist = new ArrayList<ArchSrvManage>(outlist);
 		List<String>key2List = new ArrayList<String>();
 		int i=0;
+        int[][] a =new int[x][y];
+        for(int j=0;j<x;j++){
+            for(int k=0;k<y;k++){
+            	a[j][k] = 1;
+            }
+        }
 		Iterator<ArchSrvManage>outiter = outlist.iterator();
 		while(outiter.hasNext()){
 			ArchSrvManage outbase = outiter.next();
@@ -467,7 +528,13 @@ public class ArchSrvManageSv extends BaseService {
 					if(inbase.getKey2().equals(key2)){
 						for(int j=0;j<data[i].length;j++){
 							if((inbase.getIndexId().longValue())%10==(j+1)){
-								data[i][j]=Double.valueOf(inbase.getResultValue());
+                                if(data[i][j]==0){
+                                    data[i][j]=Double.valueOf(inbase.getResultValue());
+                                }else{
+                                    data[i][j]=((data[i][j]*a[i][j])+Double.valueOf(inbase.getResultValue()))/(a[i][j]+1);
+                                    a[i][j]++;
+                                }
+
 							}
 						}	
 					}

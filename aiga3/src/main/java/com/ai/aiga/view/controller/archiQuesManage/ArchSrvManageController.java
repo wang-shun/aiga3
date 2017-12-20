@@ -19,6 +19,23 @@ public class ArchSrvManageController extends BaseService {
 	private ArchSrvManageSv archSrvManageSv;
 	
 	//各中心CSF服务运行情况日报
+	@RequestMapping(path = "/arch/platform/report")
+	public @ResponseBody JsonBean report(@RequestBody PlatformOperateReportParams condition) {
+		JsonBean bean = new JsonBean();
+		//时间参数settMonth非空校验
+		if(StringUtils.isBlank(condition.getSettMonth())) {
+			bean.fail("未选择查询时间，请选择查询时间！");
+			return bean;
+		}
+		//指标分组indexGroup非空校验
+		if(StringUtils.isBlank(condition.getIndexGroup())) {
+			bean.fail("未选择日表报表名称，请选择报表名称！");
+			return bean;
+		}
+		bean.setData(archSrvManageSv.report(condition));
+		return bean;
+	}
+	//各中心CSF服务运行情况日报
 	@RequestMapping(path = "/arch/csfsrv/report")
 	public @ResponseBody JsonBean csfsrv(@RequestBody PlatformOperateReportParams condition) {
 		JsonBean bean = new JsonBean();

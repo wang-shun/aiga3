@@ -464,7 +464,7 @@ public class ArchiGradingController {
 					}
 				}
 				architectureGradingSv.update(input);
-				mailMessage = "申请中的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
+				mailMessage = "申请的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
 						+thirMess
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型：&nbsp;&nbsp;&nbsp;&nbsp;"+operation
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批不通过"
@@ -830,7 +830,7 @@ public class ArchiGradingController {
 			if(!"审批未通过".equals(data.getState())) {
 				bean.fail("该申请单不可重提，当前状态  "+data.getState());
 				return bean;
-			}
+			} 	
 			//参数为空校验
 			if(input.getSysId()==0L) {
 				bean.fail("编号为空！");
@@ -896,7 +896,29 @@ public class ArchiGradingController {
 			}
 			//提交
 			input.setState("申请");
-			architectureGradingSv.update(input);
+			input.setApplyId(0L);
+			data.setState("已撤销");
+			//旧申请单进行撤销处理
+			architectureGradingSv.update(data);
+			//提出新的申请单
+			architectureGradingSv.save(input);
+			//操作完成后发送短信
+			AigaStaff staffInfo = SessionMgrUtil.getUserInfo().getStaff();	
+			String addressee = StringUtils.isNotBlank(staffInfo.getEmail())? staffInfo.getEmail() :"";
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+			String content = "<p>架构资产管控平台自动消息：</p><p>"+staffInfo.getName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;重新提交了一个基线申请（三级系统域） ,等待认定</p>";
+			for(AigaStaff staffBase : aigaStaffSv.findStaffByRole("SYS_CONFIRM")) {
+				if(StringUtils.isNotBlank(addressee)) {
+					if(!addressee.contains(staffBase.getEmail())) {
+						addressee += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+					}				
+				} else {
+					if(!addressee.contains(staffBase.getEmail())) {
+						addressee += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+					}
+				}
+			}
+			mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
 		} catch (Exception e) {
 			bean.fail(e.getMessage());
 		}

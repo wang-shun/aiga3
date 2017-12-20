@@ -12,10 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.dao.ArchitectureSecondDao;
 import com.ai.aiga.dao.ArchitectureThirdDao;
 import com.ai.aiga.dao.jpa.Condition;
-import com.ai.aiga.domain.ArchitectureSecond;
 import com.ai.aiga.domain.ArchitectureThird;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -31,8 +29,6 @@ public class ArchitectureThirdSv extends BaseService {
 	@Autowired
 	private ArchitectureThirdDao architectureThirdDao;
 
-	@Autowired
-	private ArchitectureSecondDao architectureSecondDao;
 	public List<Map> findWelcomePie(){
 		String sql = "select count(*) as sum,b.id_first as id,b.name,substr(b.id_first,0,1) as rank "
 					+" from architecture_third a,architecture_first b "
@@ -215,30 +211,18 @@ public class ArchitectureThirdSv extends BaseService {
 		if(onlysysId==null||onlysysId<0){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}		
-		try {
-			architectureThirdDao.delete(onlysysId);
-		} catch (Exception e) {
-			BusinessException.throwBusinessException(e.getMessage());
-		}
+		architectureThirdDao.delete(onlysysId);
 	}
 	
 	public ArchitectureThirdRequest save(ArchitectureThirdRequest request){
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
 		ArchitectureThird outData = new ArchitectureThird();
-		try {
-			 outData = architectureThirdDao.save(architectureThird);
-		} catch (Exception e) {
-			BusinessException.throwBusinessException(e.getMessage());
-		}
+		outData = architectureThirdDao.save(architectureThird);
 		return BeanMapper.map(outData, ArchitectureThirdRequest.class);
 	}
 	
 	public void update(ArchitectureThirdRequest request){
 		ArchitectureThird architectureThird = BeanMapper.map(request, ArchitectureThird.class);
-		try {
-			architectureThirdDao.save(architectureThird);
-		} catch (Exception e) {
-			BusinessException.throwBusinessException(e.getMessage());
-		}		
+		architectureThirdDao.save(architectureThird);
 	}
 }

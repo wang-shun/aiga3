@@ -400,9 +400,8 @@ public class ArchiGradingController {
 				}
 			}
 			mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线申请", content, null);
-
 		} catch (Exception e) {	
-			bean.fail(e.getMessage());	
+			bean.fail(e.getMessage());
 		}
 		return bean;	
 	}
@@ -459,12 +458,14 @@ public class ArchiGradingController {
 						} else {					
 							//无此操作类型
 						}
-						List<Map> nameList = architectureSecondSv.queryNamebyId(input.getIdBelong());
-						thirMess = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+(nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName")));
 					}
 				}
+				if("3".equals(input.getExt1())) {
+					List<Map> nameList = architectureSecondSv.queryNamebyId(input.getIdBelong());
+					thirMess = "<br/>&nbsp;&nbsp;&nbsp;&nbsp;架构归属：&nbsp;&nbsp;&nbsp;&nbsp"+(nameList==null?"null":(nameList.get(0).get("firName")+"-"+nameList.get(0).get("secName")));
+				}
 				architectureGradingSv.update(input);
-				mailMessage = "申请的域：&nbsp;&nbsp;&nbsp;&nbsp; "+input.getName()
+				mailMessage = "申请的域：&nbsp;&nbsp;&nbsp;&nbsp;"+input.getName()
 						+thirMess
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;操作类型：&nbsp;&nbsp;&nbsp;&nbsp;"+operation
 						+"<br/>&nbsp;&nbsp;&nbsp;&nbsp;审批不通过"

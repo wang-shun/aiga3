@@ -127,7 +127,7 @@ define(function(require, exports, module) {
 			var _selectDataModal = Page.findId('modelSelectData');
 			selectData.otherParam={};
 			selectData.otherParam.isChange = false;
-			if(selectData.description != '申请') {
+			if(selectData.description != '新增') {
 				selectData.otherParam.isChange = true;
 			}      
 			//文件查询

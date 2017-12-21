@@ -20,7 +20,8 @@ define(function(require, exports, module) {
     srvMap.add("cachecloudReport", '', "arch/cachecloud/report");	
 	//各中心CSF服务运行情况日报数据获取
     srvMap.add("centermqReport", '', "arch/centermq/report");	
-    
+    //文件导出
+    srvMap.add("platformoperate", '', "excel/export/platformoperate");
 	/*后台接口 end*/
     
     //模板
@@ -35,6 +36,10 @@ define(function(require, exports, module) {
     Dom = {
     	dayTimeDom: '',
     	monthTimeDom : ''
+    };
+    
+    Data = {
+    	queryTime: ''
     };
 	//向外暴露的模块
 	var init = {
@@ -94,6 +99,15 @@ define(function(require, exports, module) {
 						 Page.findId("logList").html("");
 				}
 			});
+			
+			//下载按钮事件绑定
+			group.find("[name='export']").off('click').on('click',function() {
+				if(Data.queryTime) {
+					location.href = srvMap.get('platformoperate')+"?settMonth="+Data.queryTime; 
+				} else {
+					XMS.msgbox.show("请先查询", 'info', 2000);
+				}
+			});		
 		},
 		
 		//调用日报表模板，渲染数据
@@ -101,6 +115,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var dom = Page.findId("logList"),modelCode = Page.find("[name='reportMode']").val();
 			//服务入参
+			Data.queryTime = Dom.dayTimeDom.val().replace(/-/g,"");
 			var _cmd = {
 				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
 			};

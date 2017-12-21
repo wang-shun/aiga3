@@ -152,7 +152,7 @@ define(function(require, exports, module) {
                 radioClass: 'iradio_minimal-blue'
             });
 
-            obj.find("tr").bind('click', function(event) {
+            obj.find("tbody > tr").bind('click', function(event) {
                 var _input = $(this).find('.minimal');
                 _input.iCheck('toggle');
                 var isChecked = _input.parent("div").attr("aria-checked");
@@ -175,7 +175,7 @@ define(function(require, exports, module) {
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'iradio_minimal-blue'
             });
-            obj.find("tr").bind('click', function(event) {
+            obj.find("tbody > tr").bind('click', function(event) {
                 var _input = $(this).find('.minimal');
                 _input.iCheck('toggle');
                 var isChecked = _input.parent("div").attr("aria-checked");
@@ -494,7 +494,7 @@ define(function(require, exports, module) {
                 checkboxClass: 'icheckbox_minimal-blue',
                 radioClass: 'iradio_minimal-blue'
             });
-            obj.find("tbody").find("tr").bind('dblclick ', function(event) {
+            obj.find("tbody > tr").bind('dblclick ', function(event) {
                 var _input = $(this).find('.minimal');
                 _input.iCheck('toggle');
                 var isChecked = _input.parent("div").attr("aria-checked");

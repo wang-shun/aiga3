@@ -317,8 +317,16 @@ public class ArchiGradingController {
 					bean.fail("等级信息为空！");
 					return bean;
 				}
-				//申请单唯一性校验
+				//申请单系统唯一性校验
 				ArchitectureGrading condition = new ArchitectureGrading();
+				condition.setSysId(architectureGrading.getSysId());
+				condition.setState("申请");
+				if(architectureGradingSv.findTableCondition(condition).size()>0) {
+					bean.fail("该编号存在在途申请单");
+					return bean;
+				}
+				//申请单名称唯一性校验
+				condition = new ArchitectureGrading();
 				condition.setName(architectureGrading.getName());
 				condition.setIdBelong(architectureGrading.getIdBelong());
 				condition.setState("申请");
@@ -327,14 +335,7 @@ public class ArchiGradingController {
 					bean.fail("二级子域下该系统名称存在在途申请单");
 					return bean;
 				}
-				//申请单唯一性校验
-				condition = new ArchitectureGrading();
-				condition.setSysId(architectureGrading.getSysId());
-				condition.setState("申请");
-				if(architectureGradingSv.findTableCondition(condition).size()>0) {
-					bean.fail("该编号存在在途申请单");
-					return bean;
-				}
+
 				//系统唯一性校验 
 				List<ArchitectureThird> idThirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
 				if(idThirdList.size()>0) {

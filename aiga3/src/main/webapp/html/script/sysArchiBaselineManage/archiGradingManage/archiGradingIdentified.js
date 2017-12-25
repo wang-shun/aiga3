@@ -117,6 +117,7 @@ define(function(require, exports, module) {
 								textModal.modal('hide');
 								Page.findId('sysMessageFrom').modal('hide');
 								if(json.retMessage) {
+									//云管异常
 									console.log(json.retMessage);
 									XMS.msgbox.show(json.retMessage, 'info', 2000);
 									setTimeout(function() {

@@ -8,7 +8,7 @@
 #Page_thirdSysManage .check-inline-label {display: block;float:left;margin-top: 10px;}
 #Page_thirdSysManage .total-width {width: 850px;}
 #Page_thirdSysManage .margin-onl {margin-left: 20px;margin-right: 20px;}
-#Page_thirdSysManage .query-data-label {width: 80px;}
+#Page_thirdSysManage .query-data-label {width: 80px;margin-right:10px;}
 #Page_thirdSysManage .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
 #Page_thirdSysManage .col2-sec-label {margin-left: 250px;}
 #Page_thirdSysManage .col3-after-label {margin-left: 17px;}
@@ -28,17 +28,23 @@
 			    <form id="JS_querySysDomainTypeForm" class="form-horizontal">		
 			        <div class="box-body">
 			            <div class="col-md-12">
-			                <div class="form-group form-inline">
-			                    <label class="control-label query-data-label">一级域:</label>
-			                    <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond" style="width: 160px">
-			                        <option value="">请选择</option>
-			                    </select>
-			                    <label class="control-label query-data-label">二级子域:</label>
-			                    <select name="idSecond"  class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name" style="width: 160px">
-			                        <option value="">请选择</option>
-			                    </select>
-			                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
-			                    <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
+			                <div class="form-inline">
+			                	<div class="col-md-4" style="display: -webkit-inline-box;">
+			                		<label class="control-label query-data-label">一级域:</label>
+				                    <select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idSecond">
+				                        <option value="">请选择</option>
+				                    </select>
+			                	</div>
+			            		<div class="col-md-4" style="display: -webkit-inline-box;">
+				                    <label class="control-label query-data-label">二级子域:</label>
+				                    <select name="idSecond" class="form-control select2 input-sm" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name">
+				                        <option value="">请选择</option>
+				                    </select>
+			                	</div>
+			            		<div class="col-md-4">
+				                    <button type="button" class="btn btn-primary" style="margin-right:10px" data-toggle="modal" name="query">查询</button>
+				                    <button type="button" class="btn btn-primary" name="apply">申请</button>
+			                	</div>		
 			                </div>             
 			            </div>
 			        </div>
@@ -49,12 +55,18 @@
 			        <div class="box-body">
 			            <div class="col-md-12">
 			                <div class="form-group form-inline">
-			                    <label class="control-label query-data-label">系统名称:</label>
-			                    <input name="name" type="text" class="form-control input-sm"></input>
-			                    <label class="control-label query-data-label">系统编号:</label> 
-			                    <input name="idThird" type="text" class="form-control input-sm"></input>   
-			                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
-			                    <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
+			                	<div class="col-md-4">
+				                    <label class="control-label query-data-label">系统名称:</label>
+				                    <input name="name" type="text" class="form-control input-sm"></input>
+			                	</div>
+			            		<div class="col-md-4">
+				                    <label class="control-label query-data-label">系统编号:</label> 
+				                    <input name="idThird" type="text" class="form-control input-sm"></input>   
+			                	</div>
+			            		<div class="col-md-4">
+				                    <button type="button" class="btn btn-primary" style="margin-right:10px" data-toggle="modal" name="query">查询</button>
+				                    <button type="button" class="btn btn-primary" name="apply">申请</button>
+			                	</div>	
 			                </div>             
 			            </div>
 			        </div>

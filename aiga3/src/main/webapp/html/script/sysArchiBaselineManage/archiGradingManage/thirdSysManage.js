@@ -35,7 +35,7 @@ define(function(require, exports, module) {
 	var init = {
 		init: function() {
 			var self = this;
-			self.jumpPage();
+			self._jumpPage();
 			self._render();
 			
 		},
@@ -44,7 +44,7 @@ define(function(require, exports, module) {
 			self._queryTypeDomain();
 			self._queryConditionDomain();
 		},
-		jumpPage : function(){
+		_jumpPage : function(){
 			var syscmd = Page.getParentCmd();
 			var result = Utils.jsonToUrl(syscmd);
 			if(result!=null){
@@ -183,7 +183,7 @@ define(function(require, exports, module) {
         _queryTypeDomain: function() {
 			var self = this;
 			var _form = Page.findId('querySysDomainTypeForm');
-			Utils.setSelectData(_form);
+			Utils.setSelectDataPost(_form,true);
 			var _queryBtn = _form.find("[name='query']");
 			var _applyBtn = _form.find("[name='apply']");
 			_queryBtn.off('click').on('click',function(){
@@ -225,7 +225,6 @@ define(function(require, exports, module) {
 		_queryConditionDomain: function() {
 			var self = this;
 			var _form = Page.findId('querySysDomainConditionForm');
-			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			var _applyBtn = _form.find("[name='apply']");
 			_queryBtn.off('click').on('click',function(){

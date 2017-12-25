@@ -7,7 +7,7 @@
      	<div class="box">
             <form id="JS_queryTopListForm">
                 <div class="box-header with-border">
-                    <h1 class="box-title">指时间条件查询</h1>
+                    <h1 class="box-title">按时间查询</h1>
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
@@ -18,16 +18,14 @@
 			        	<div class="form-group col-sm-6">
 	                        <label class="col-sm-2 control-label">查询时间:</label>
 			        		<div class="col-sm-6">
-		                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+		                  		<input type="text" style="width:167px;" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+			        		</div>
+			        		<div class="col-sm-4">
+			        			<button type="reset" class="btn btn-default">重置</button>&nbsp;&nbsp;
+                        		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
 			        		</div>
 			        	</div>
 	                </div>
-                </div>
-                <div class="box-footer">
-                    <div class="text-center">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-                    </div>
                 </div>
             </form>
         </div>
@@ -39,7 +37,7 @@
 
                 <div class="box-body">
 			   		<div class="s-index-side"> 
-			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			    		<div class="part weekly game-top10 cls" style="width:248px"> 
 			     			<div class="title">
 			      			<h3>各中心CSF服务调用量TOP10</h3>
 			     			</div> 
@@ -64,7 +62,7 @@
             
                 <div class="box-body">
 			   		<div class="s-index-side"> 
-			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			    		<div class="part weekly game-top10 cls" style="width:248px"> 
 			     			<div class="title">
 			      			<h3>各中心csf服务失败率TOP10</h3>
 			     			</div> 
@@ -89,7 +87,7 @@
 
                 <div class="box-body">
 			   		<div class="s-index-side"> 
-			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			    		<div class="part weekly game-top10 cls" style="width:248px"> 
 			     			<div class="title">
 			      			<h3>各中心csf服务平均耗时TOP10</h3>
 			     			</div> 
@@ -114,7 +112,7 @@
 
                 <div class="box-body">
 			   		<div class="s-index-side"> 
-			    		<div class="part weekly game-top10 cls" style="width:290px"> 
+			    		<div class="part weekly game-top10 cls" style="width:248px"> 
 			     			<div class="title">
 			      			<h3>各中心消息主题处理量TOP3</h3>
 			     			</div> 

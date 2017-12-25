@@ -18,14 +18,12 @@
 			                        <option value="">请选择</option>
 			                    </select>
 		                    </div>
+		                    <div class="col-sm-4">
+		                    	<button type="reset" class="btn btn-default">取消</button>&nbsp;&nbsp;
+                        		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+		                    </div>
 		                </div>
 		            </div>
-                </div>
-                <div class="box-footer">
-                    <div class="text-center">
-                        <button type="reset" class="btn btn-default">取消</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-                    </div>
                 </div>
             </form>
         </div>
@@ -118,10 +116,10 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="text-align: center;">
                 <div class="text-center">
-	                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
-	                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+	                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	                <button type="button" class="btn btn-primary" name="save">保存</button>
                 </div>
             </div>
         </div>
@@ -140,9 +138,9 @@
                 <form id="JS_updateDataMaintainInfo" class="form">
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary pull-right" name="save">保存</button>
+            <div class="modal-footer" style="text-align: center;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" name="save">保存</button>
             </div>
         </div>
     </div>
@@ -150,11 +148,6 @@
 <script id="TPL_modifyQuesIdentifiedInfo" type="text/x-handlebars-template">
     <div class="box-header with-border">
         <h3 class="box-title">架构问题指标分表修改</h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-            </button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-        </div>
     </div>
     <div class="box-body">
         <div class="row">

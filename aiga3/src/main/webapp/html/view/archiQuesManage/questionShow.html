@@ -11,20 +11,18 @@
                 <div class="box-body"><br/>
                     <div class="row">
 						<div class="form-group col-sm-6">
-					        <label for="idFirst" class="col-sm-2 control-label" >事件单编号：</label>
+					        <label for="idFirst" class="col-sm-4 control-label" style="width:100px">事件单编号：</label>
 					        <div class="col-sm-4">
 					         <select name="idFirst" class="form-control select2 input-sm" data-url="getEventFindAll" data-idkey="id" data-namekey="name">
 					             <option value="">请选择</option>
 					         </select>
 					     	</div>
+					     	<div class="col-sm-4">
+					     		<button type="reset" class="btn btn-default">重置</button>&nbsp;&nbsp;
+                        		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+					     	</div>
 					    </div>
                 	</div>
-                </div>
-                <div class="box-footer">
-                    <div class="text-center">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-                    </div>
                 </div>
             </form>
         </div>

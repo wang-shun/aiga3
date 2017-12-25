@@ -51,23 +51,12 @@ define(function(require, exports, module) {
     srvMap.add("findAllAmCores2", "", "index/typein/findAllAmCores2");
 	// 模板对象
 	var Tpl = {
-		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
 		getAmCoreIndexList: require('tpl/archiQuesManage/AmCoreIndex.tpl'),
 		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl')
-		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
 
 	};
 
-	/*// 容器对象
-	var Dom = {
-		queryDataMaintainForm: '#JS_queryDataMaintainForm',
-		getDataMaintainList: '#JS_getDataMaintainList',
-		addDataMaintainModal: "#JS_addDataMaintainModal",
-		addDataMaintainInfo: "#JS_addDataMaintainInfo",
-		updateDataMaintainModal: "#JS_updateDataMaintainModal",
-		updateMaintainInfo: "#JS_updateDataMaintainInfo",
-	};*/
 	var cache = {
 		datas : "",
 		tableName : "",
@@ -110,13 +99,10 @@ define(function(require, exports, module) {
 	var Query = {
 		init: function() {
 			this.getRightTreeR();
-//			this.getStaffRoleList();
-//			this.initTableEcharts();
 			//判断是否查询key1/key2/key3
 			this.judgeIndexName();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
-//			this.legendinit();
 			this.getRightTreeR2();
 			this.queryDataMaintainForm2();
 			//映射
@@ -353,15 +339,6 @@ define(function(require, exports, module) {
 			$("#indexName").unbind('click');
 			$("#indexName").bind('click',function(){
 				var checkValue=$("#indexName").val();  //获取Select选择的Value 
-/*				if(checkValue=="系统模块数据库连接"){
-					$("#categoryKey1").attr({style:"display:display"}); 
-					$("#categoryKey2").attr({style:"display:display"});      
-//					$("#categoryKey3").attr({style:"display:display"});           
-				}else{
-					$("#categoryKey1").attr({style:"display:none"}); 
-					$("#categoryKey2").attr({style:"display:none"});       
-//					$("#categoryKey3").attr({style:"display:none"}); 
-				}*/
 			});
 		},
 		// 按条件查询
@@ -388,19 +365,10 @@ define(function(require, exports, module) {
 					cmd = cmd.substring(0,cmd.length-1);
 					_cmd = cmd.substring(0,_cmd.length-1);
 				}
-//				if(init) {
-//					var date = self.formatDate(new Date()); 		
-//					_cmd = 'startMonth='+date+'&endMonth='+date;
-//					init = false;			
-//				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);
 					return
 				}
-//				if(_cmd.indexOf('indexName=&')>-1) {
-//					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
-//					return
-//				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
 					return
@@ -413,21 +381,6 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
 					var task2 = "";
-/*					switch(cache.tableName){
-						case "ARCH_DB_CONNECT":
-							task2 = "listDbConnects2";
-							break;
-						case "ARCH_SRV_MANAGE":
-							task2 = "listSrvManages2";
-							break;
-					}*/
-/*					if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex==2){
-						task2 = "listDbConnects22";
-					}else if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex!=2){
-						task2 = "listDbConnects2";
-					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
-						task2 = "listSrvManages2";
-					}*/
 					if(cache.tableName=="ARCH_DB_CONNECT"){
 						task2 = "listDbConnects2";
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
@@ -621,21 +574,12 @@ define(function(require, exports, module) {
 				i++;
 			}
 			var data = json[i];
-//			var _dom = Page.findModal('updateDataMaintainModal');
-			
-//			var index = _dom.attr("temp");
-//			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
-//			Page.findId('updateModal').html(template(json.data[index]));
-//			var _modal = Page.findId('updateDataMaintainModal');
-//			_modal.modal('show');
-//			Utils.setSelectData(_modal);
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
 			Utils.setSelectData(_dom);
 			
-//			_dom.modal('show');
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
 			_dom.find("#JS_name").html(html);
 
@@ -702,40 +646,6 @@ define(function(require, exports, module) {
 				"autoWidth": false
 			});
 		},
-		
-/*		getIndexEcharts: function() {
-			var self = this;
-			var init = true;
-			var _form = Page.findId('queryDataMaintainForm');
-			Utils.setSelectDataPost(_form);
-			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.off('click').on('click', function() {
-				var _cmd = Page.findId('queryDataMaintainForm').serialize();
-				if(init) {
-					var date = self.formatDate(new Date()); 		
-					_cmd = 'startMonth='+date+'&endMonth='+date;
-					init = false;			
-				}
-				if(_cmd.indexOf('startMonth=&')>-1) {
-					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
-					return
-				}
-				if(_cmd.indexOf('endMonth=&')>-1) {
-					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
-					return
-				}
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get("listDbConnects2"), _cmd, function(json, status) {
-					if(status) {
-						window.XMS.msgbox.hide();
-						self._graphSec(json);
-					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}
-	  			});
-			});
-//			_queryBtn.click();
-		},*/
 		
 		_graphSec: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
@@ -877,19 +787,6 @@ define(function(require, exports, module) {
 			                ]
 			            };
 						var markData = [];
-/*	                    for(var onlineIndex in onlinejson.data) {
-	                    	var onlineDate = onlinejson.data[onlineIndex];
-	                    	for(var indexXAxis in json.data.xAxis){
-	                    		var point = json.data.xAxis[indexXAxis].substring(0,10);
-	                    		if(point==onlineDate){
-			                    	var datePosition = indexXAxis;
-			                    	if(datePosition>-1) {
-			                    		var plan =  {name : '上线',value:option.series[indexSeries].data[datePosition], xAxis: datePosition, yAxis: option.series[indexSeries].data[datePosition]};
-			                    		markData.push(plan);
-			                    	}                    
-	                    		}
-	                    	}
-	                    }*/
 						for(var indexPoint in onlinePonint){
 							var pzs = parseInt(onlinePonint[indexPoint]);
                 			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
@@ -1116,8 +1013,8 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
 				
-				Page.findId('getDataMaintainListSec2').attr({style:"display:display;height:460px;"});      
-				Page.findId('sysMessageView2').attr({style:"display:display"});      
+				Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
+				Page.findId('sysMessageView').attr({style:"display:display"});      
 
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm2').serialize();
@@ -1128,19 +1025,10 @@ define(function(require, exports, module) {
 					cmd = cmd.substring(0,cmd.length-1);
 					_cmd = cmd.substring(0,_cmd.length-1);
 				}
-//				if(init) {
-//					var date = self.formatDate(new Date()); 		
-//					_cmd = 'startMonth='+date+'&endMonth='+date;
-//					init = false;			
-//				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);
 					return
 				}
-//				if(_cmd.indexOf('indexName=&')>-1) {
-//					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
-//					return
-//				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
 					return
@@ -1153,21 +1041,6 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName2){
 					var task2 = "listMonthIndex2";
-/*					switch(cache.tableName){
-						case "ARCH_DB_CONNECT":
-							task2 = "listDbConnects2";
-							break;
-						case "ARCH_SRV_MANAGE":
-							task2 = "listSrvManages2";
-							break;
-					}*/
-/*					if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex==2){
-						task2 = "listDbConnects22";
-					}else if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex!=2){
-						task2 = "listDbConnects2";
-					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
-						task2 = "listSrvManages2";
-					}*/
 					if(cache.tableName2=="ARCH_DB_CONNECT"){
 						task2 = "listDbConnects2";
 					}else if(cache.tableName2=="ARCH_SRV_MANAGE"){
@@ -1179,7 +1052,7 @@ define(function(require, exports, module) {
 				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
-						self._graphSec2(json);
+						self._graphSec(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -1195,7 +1068,7 @@ define(function(require, exports, module) {
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			//隐藏的主表获取分表表名tableName;
-			var _dom = Page.findId('getDataMaintainList2');
+			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList2'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
@@ -1208,8 +1081,8 @@ define(function(require, exports, module) {
 				Utils.eventTrClickCallback(_dom);
 			}, _domPagination);
 			
-			var _domSec = Page.findId('getDataMaintainListSec2');
-			var _domPaginationSec = _domSec.find("[name='paginationSec2']");
+			var _domSec = Page.findId('getDataMaintainListSec');
+			var _domPaginationSec = _domSec.find("[name='paginationSec']");
 			// 设置服务器端分页listDbConnects
 			var task = 'listMonthIndex';
 			if(cache.tableName2){
@@ -1252,120 +1125,6 @@ define(function(require, exports, module) {
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPaginationSec);
-		},
-		_graphSec2: function(json) {
-			var myChart = echarts.init(Page.findId('archiIndexView2')[0]);
-			option = {
-				title : {
-			        text: '指标情况',
-			        subtext: ''
-			    },
-			    tooltip : {
-			        trigger: 'axis'
-			    },
-			    legend: {
-					y:'bottom',
-			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
-			    },
-			    toolbox: {
-			        show : true,
-			        feature : {
-			            dataView : {show: false, readOnly: false},
-			            magicType : {show: true, type: ['line', 'bar']},
-			            restore : {show: true},
-			            saveAsImage : {show: true}
-			        }
-			    },
-				calculable : true,
-			    xAxis : [
-			        {
-			            type : 'category',
-			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-			        }
-			    ],
-			    yAxis : [
-			        {
-			            type : 'value'
-			        }
-			    ],
-			    series : [
-			        {
-			            name:'营业库A',
-			            type:'bar',
-			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0],
-			            markLine : {
-                			data : [{type : 'average', name: '平均值'}]
-            			}
-			        },
-			        {
-			            name:'营业库B',
-			            type:'bar',
-			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0],
-			            markLine : {
-                			data : [{type : 'average', name: '平均值'}]
-            			}
-			        },
-			        {
-			            name:'营业库C',
-			            type:'bar',
-			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0],
-			            markLine : {
-                			data : [{type : 'average', name: '平均值'}]
-            			}
-			        },
-			        {
-			            name:'营业库D',
-			            type:'bar',
-			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0],
-			            markLine : {
-                			data : [{type : 'average', name: '平均值'}]
-            			}
-			        },
-			        {
-			            name:'渠道资源库',
-			            type:'bar',
-			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
-			            markLine : {
-                			data : [{type : 'average', name: '平均值'}]
-            			}
-			        }
-			    ]
-			};
-			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
-				if(status) {
-					window.XMS.msgbox.hide();
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}
-				if(json && json.data) {
-					option.legend.data = json.data.legend;
-					option.series = json.data.series;
-					if(json.data.xAxis) {
-						option.xAxis[0].data = json.data.xAxis;
-					}
-					for(var indexSeries in option.series) {
-						option.series[indexSeries].markLine = {
-			                data : [
-			                    {type : 'average', name: '平均值'}
-			                ]
-			            };
-						var markData = [];
-	                    for(var onlineIndex in onlinejson.data) {
-	                    	var onlineDate = onlinejson.data[onlineIndex];
-	                    	var datePosition = json.data.xAxis.indexOf(onlineDate);
-	                    	if(datePosition) {
-	                    		var plan =  {name : '上线', xAxis: datePosition, yAxis: option.series[indexSeries].data[datePosition]};
-	                    		markData.push(plan);
-	                    	}                    
-	                    }
-			            option.series[indexSeries].markPoint = {
-			                data : markData
-			            };
-					}
-				}
-				myChart.setOption(option);
-				window.onresize = myChart.resize;
-  			});			
 		}
 	};
 	module.exports = Query;

@@ -71,78 +71,7 @@
      			            </div>
 						</form>
         		    </div>
-					<div class="col-md-8">
-				        <div class="box" id="JS_getDataMaintainList" style="min-height:100px; display:none">
-				            <div class="box-header ">
-				                <h3 class="box-title">指标分类</h3>
-				                <div class="box-tools">
-				               <button type="button" class="btn btn-primary" name="add">添加</button>
-				                    <button type="button" class="btn btn-primary" name="del">删除</button>
-				                </div>
-				            </div>
-				            <div class="box-body">
-				                <table class="table table-bordered table-hover" id="dataMaintainListTable">
-				                    <thead>
-						                <tr>
-					                    <th class="iCheckbox" width="15"></th>
-					                    <th>指标定义</th>
-										<th>指标名称</th>
-										<th>指标分组</th>
-										<th>分表编号</th>
-										<th>数据库名</th>
-										<th>用户名</th>
-										<th>模块名</th>
-										<th>状态</th>
-					 					<th>创建时间</th>
-										<th>操作编号</th>
-						                </tr>
-				                    </thead>
-				                    <tbody name="content"></tbody>
-				                </table>
-				            </div>
-				            <div class="box-footer no-border">
-				        		<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-				    		</div> 
-				        </div> 					       
-				    	<div class="box" id="JS_sysMessageView" name="initEcharts" style="display:none">
-					        <div class="box-header" ></div>
-					        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px;"></div>
-			        		<!-- 视图 -->
-							<div class="ibox">
-						            <!--初始化echarts实例的容器-->
-						        <div id="eBaiduMap" class="ibox-size" style="width: 100%;"></div>
-						            <!--用于存放上下翻页按钮.js-eclegend-tool容器，页面中的修改只需增加下面这一句-->
-						        <div class="js-eclegend-tool" id="initLegengds" style="position: absolute;right: 10px;top: 40%;z-index:100">
-						        </div>
-						    </div>
-			    		</div>				    
-				        <div class="box" id="JS_getDataMaintainListSec" name="initTable" style="display:none">
-				            <div class="box-header ">
-				                <h3 class="box-title">指标采集结果</h3>
-				                <div class="box-tools">
-				                </div>
-				            </div>
-				            <div class="box-body">
-				                <table class="table table-bordered table-hover" id="dataMaintainListTable">
-				                    <thead>
-						                <tr>
-					                    <th class="iCheckbox" width="15"></th>
-										<th>指标分组</th>
-										<th>指标名称</th>
-										<th>指标实例</th>
-										<th>指标值</th>
-										<th>指标日期</th>
-					                    <th>指标编号</th>
-						                </tr>
-				                    </thead>
-				                    <tbody name="content"></tbody>
-				                </table>
-				            </div>
-				            <div class="box-footer no-border">
-				        		<div class="dataTables_paginate" name="paginationSec" style="text-align:center"></div>
-				    		</div> 
-				        </div>
-					</div>
+
 				</div>	   
 		       <!-- tab页签2 -------------------------------------------------------------->
 		       <div class="tab-pane" id="deliverableTab_2">
@@ -209,77 +138,83 @@
 			                </div>
 			            </form>
 					</div>
-					<div class="col-md-8">
-				        <div class="box" id="JS_getDataMaintainList2" style="min-height:100px; display:none">
-				            <div class="box-header ">
-				                <h3 class="box-title">指标分类</h3>
-				                <div class="box-tools">
-				               <button type="button" class="btn btn-primary" name="add">添加</button>
-				                    <button type="button" class="btn btn-primary" name="del">删除</button>
-				                </div>
-				            </div>
-				            <div class="box-body">
-				                <table class="table table-bordered table-hover" id="dataMaintainListTable2">
-				                    <thead>
-						                <tr>
-					                    <th class="iCheckbox" width="15"></th>
-					                    <th>指标定义</th>
-										<th>指标名称</th>
-										<th>指标分组</th>
-										<th>分表编号</th>
-										<th>数据库名</th>
-										<th>用户名</th>
-										<th>模块名</th>
-										<th>状态</th>
-					 					<th>创建时间</th>
-										<th>操作编号</th>
-						                </tr>
-				                    </thead>
-				                    <tbody name="content"></tbody>
-				                </table>
-				            </div>
-				            <div class="box-footer no-border">
-				        		<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-				    		</div> 
-				        </div> 					       
-				    	<div class="box" id="JS_sysMessageView2" name="initEcharts2" style="display:none">
-					        <div class="box-header" >
-					        </div>
-					        <div class="box-body" id="JS_archiIndexView2" style="width: 100%; height:350px; ">
-					            <!-- 视图 -->
-					        </div>
-					    </div>						    
-				        <div class="box" id="JS_getDataMaintainListSec2" name="initTable" style="display:none">
-				            <div class="box-header ">
-				                <h3 class="box-title">指标采集结果</h3>
-				                <div class="box-tools">
-				                </div>
-				            </div>
-				            <div class="box-body">
-				                <table class="table table-bordered table-hover" id="dataMaintainListTable2">
-				                    <thead>
-						                <tr>
-					                    <th class="iCheckbox" width="15"></th>
-										<th>指标分组</th>
-										<th>指标名称</th>
-										<th>指标实例</th>
-										<th>指标值</th>
-										<th>指标日期</th>
-					                    <th>指标编号</th>
-						                </tr>
-				                    </thead>
-				                    <tbody name="content"></tbody>
-				                </table>
-				            </div>
-				            <div class="box-footer no-border">
-				        		<div class="dataTables_paginate" name="paginationSec2" style="text-align:center"></div>
-				    		</div> 
-				        </div>
-					</div>
 				</div>
 			</div>
 		</div>
     </div>
+    
+ 	<div class="col-md-8">
+        <div class="box" id="JS_getDataMaintainList" style="min-height:100px; display:none">
+            <div class="box-header ">
+                <h3 class="box-title">指标分类</h3>
+                <div class="box-tools">
+               <button type="button" class="btn btn-primary" name="add">添加</button>
+                    <button type="button" class="btn btn-primary" name="del">删除</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+	                    <th class="iCheckbox" width="15"></th>
+	                    <th>指标定义</th>
+						<th>指标名称</th>
+						<th>指标分组</th>
+						<th>分表编号</th>
+						<th>数据库名</th>
+						<th>用户名</th>
+						<th>模块名</th>
+						<th>状态</th>
+	 					<th>创建时间</th>
+						<th>操作编号</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                </table>
+            </div>
+            <div class="box-footer no-border">
+        		<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+    		</div> 
+        </div> 					       
+    	<div class="box" id="JS_sysMessageView" name="initEcharts" style="display:none">
+	        <div class="box-header" ></div>
+	        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px;"></div>
+       		<!-- 视图 -->
+			<div class="ibox">
+		            <!--初始化echarts实例的容器-->
+		        <div id="eBaiduMap" class="ibox-size" style="width: 100%;"></div>
+		            <!--用于存放上下翻页按钮.js-eclegend-tool容器，页面中的修改只需增加下面这一句-->
+		        <div class="js-eclegend-tool" id="initLegengds" style="position: absolute;right: 10px;top: 40%;z-index:100">
+		        </div>
+		    </div>
+   		</div>				    
+        <div class="box" id="JS_getDataMaintainListSec" name="initTable" style="display:none">
+            <div class="box-header ">
+                <h3 class="box-title">指标采集结果</h3>
+                <div class="box-tools">
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+	                    <th class="iCheckbox" width="15"></th>
+						<th>指标分组</th>
+						<th>指标名称</th>
+						<th>指标实例</th>
+						<th>指标值</th>
+						<th>指标日期</th>
+	                    <th>指标编号</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>
+                </table>
+            </div>
+            <div class="box-footer no-border">
+        		<div class="dataTables_paginate" name="paginationSec" style="text-align:center"></div>
+    		</div> 
+        </div>
+	</div>
 </div>
 
 <!-- 弹出框  -->

@@ -78,7 +78,7 @@ define(function(require, exports, module) {
         getIndexGroupList: require('tpl/archiQuesManage/getIndexGroupList.tpl'),
         getAmCoreIndexList: require('tpl/archiQuesManage/AmCoreIndex.tpl'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
-		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl'),
+		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl')
     };
     var Mod = {
         getIndexGroupR: '#Page_getIndexGroupR'
@@ -790,7 +790,7 @@ define(function(require, exports, module) {
 	                    },
 				        dataView: { //数据视图
 	                        show: true
-	                    },
+	                    }
 			        }
 			    },
 				calculable : true,
@@ -1365,9 +1365,8 @@ define(function(require, exports, module) {
 				}
 				myChart.setOption(option);
 				window.onresize = myChart.resize;
-  			});
-			
-		},
+  			});			
+		}
 	};
 	module.exports = Query;
 });

@@ -153,7 +153,7 @@ define(function(require, exports, module) {
 			var _cmd = {
 				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
 			};
-			//TODO 调用接口
+			//调用接口
 				switch (modelCode) {
 			    default:
 					Page.findId("logList").html("");
@@ -166,7 +166,7 @@ define(function(require, exports, module) {
 			var _cmd = {
 				settMonth: Dom.monthTimeDom.val().replace(/-/g,"")
 			};
-			//TODO 调用接口
+			//调用接口
 			switch (modelCode) {
 			    default:
 					Page.findId("logList").html("");

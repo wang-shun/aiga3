@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchitectureSecondSv;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchitectureSecondRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -31,9 +30,9 @@ public class ArchitectureSecondController {
 	public @ResponseBody JsonBean listByfirstPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            long idFirst){
+            Long idFirst,String name){
 		JsonBean bean = new JsonBean();
-		bean.setData(architectureSecondSv.findByFirstPage(idFirst, pageNumber, pageSize));
+		bean.setData(architectureSecondSv.findByFirstPage(idFirst, name, pageNumber, pageSize));
 		return bean;
 	} 
 	

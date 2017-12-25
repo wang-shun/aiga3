@@ -40,12 +40,14 @@ public class ArchitectureSecondSv extends BaseService {
 		return architectureSecondDao.findByIdFirst(idFirst);
 	}
 	
-	public Page<ArchitectureSecond>findByFirstPage(Long idFirst,int pageNumber,int pageSize){
+	public Page<ArchitectureSecond>findByFirstPage(Long idFirst, String name,int pageNumber,int pageSize){
 		List<Condition> cons = new ArrayList<Condition>();
 		if(idFirst != null && idFirst > 0) {
 			cons.add(new Condition("idFirst", idFirst, Condition.Type.EQ));
 		}
-		
+		if(StringUtils.isNoneBlank(name)){
+			 cons.add(new Condition("name", "%".concat(name).concat("%"), Condition.Type.LIKE));
+		}
 		if(pageNumber < 0){
 			pageNumber = 0;
 		}

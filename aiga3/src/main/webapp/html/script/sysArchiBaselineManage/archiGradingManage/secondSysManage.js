@@ -21,14 +21,14 @@ define(function(require, exports, module) {
 
 	var init = {
 		init: function() {
-			this.jumpPage();
+			this._jumpPage();
 			this._render();
 		},
 		_render: function() {
 			var self = this;
 			self._querydomain();
 		},
-		jumpPage : function(){
+		_jumpPage : function(){
 			var syscmd = Page.getParentCmd();
 			var result = Utils.jsonToUrl(syscmd);
 			if(result!=null){
@@ -50,15 +50,19 @@ define(function(require, exports, module) {
 		_querydomain: function() {
 			var self = this;
 			var _form = Page.findId('select_data');
-			Utils.setSelectData(_form);
-			var _queryBtn =  _form.find("[name='query']");
-			var _applyBtn =  _form.find("[name='apply']");
+			Utils.setSelectDataPost(_form,true);
+			var _queryBtn = _form.find("[name='query']");
+			var _applyBtn = _form.find("[name='apply']");
 			_queryBtn.off('click').on('click',function(){
-				var cmd = "idFirst="+_form.find("[name='idFirst']").val();
-				//用于解决long型不可空传的问题
-				if(cmd.charAt(cmd.length - 1) == '=') {
-					cmd+='0';
+				var idFirst = _form.find("[name='idFirst']").val();
+				var secName = _form.find("[name='name']").val();
+				var cmd = '';
+				if(idFirst) {
+					cmd= "idFirst="+idFirst;
+				} else {
+					cmd= "idFirst=0";
 				}
+				cmd += '&name='+secName;
 				self._getSecGridList(cmd);
 			});
 			_applyBtn.off('click').on('click',function() {

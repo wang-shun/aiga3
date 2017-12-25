@@ -1,50 +1,19 @@
 <!--Page Start-->
 <style type="text/css"> 
-#Page_secondSysManage .btn-centen {
-	text-align: center;
-}
-#Page_secondSysManage .input-width-sec {
-	width: 170px;
-}
-#Page_secondSysManage .check-inline-label {
-	display: block;
-	float:left;
-	margin-top: 10px;
-}
-#Page_secondSysManage .check-inline {
-	display: block;
-}
-#Page_secondSysManage .total-width {
-	width: 650px;
-}
-#Page_secondSysManage .first-name-label {
-	margin-left: 40px; 
-	margin-right: 20px;
-}
-#Page_secondSysManage .second-label {
-	margin-left: 260px;
-	margin-right: 20px;
-}
-#Page_secondSysManage .margin-no-label {
-	margin-left: 80px;
-	margin-right: 20px;
-}
-#Page_secondSysManage .margin-domain-label {
-	margin-left: 40px;
-	margin-right: 18px;
-}
-#Page_secondSysManage .margin-top-20 {
-	margin-top: 20px;
-}
-#Page_secondSysManage .margin-onl {
-	margin-left: 20px;
-}
-#Page_secondSysManage .btn-table-update {
-	margin-right: 20px;
-}
-#Page_secondSysManage .btn-table-delete {
-	margin-right: 20px;
-}
+#Page_secondSysManage .btn-centen {text-align: center;}
+#Page_secondSysManage .input-width-sec {width: 170px;}
+#Page_secondSysManage .check-inline-label {display: block;float:left;margin-top: 10px;}
+#Page_secondSysManage .check-inline {display: block;}
+#Page_secondSysManage .total-width {width: 650px;}
+#Page_secondSysManage .first-name-label {margin-left: 40px;margin-right: 20px;}
+#Page_secondSysManage .second-label {margin-left: 260px;margin-right: 20px;}
+#Page_secondSysManage .margin-no-label {margin-left: 80px;margin-right: 20px;}
+#Page_secondSysManage .margin-domain-label {margin-left: 40px;margin-right: 18px;}
+#Page_secondSysManage .margin-top-20 {margin-top: 20px;}
+#Page_secondSysManage .margin-onl {margin-left: 20px;}
+#Page_secondSysManage .btn-table-update {margin-right: 20px;}
+#Page_secondSysManage .btn-table-delete {margin-right: 20px;}
+#Page_secondSysManage .query-data-label {width: 80px;margin-right:10px;}
 </style> 
 <div class="row" id="Page_secondSysManage">
 <div class="box box-primary">
@@ -58,15 +27,21 @@
         </div>
         <div class="box-body">
             <div class="col-md-12">
-                <div id="JS_select_data" class="form-group form-inline">
-                	<form>
-                    	<label class="control-label margin-onl">一级域:</label>
-                   		<select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" style="width: 160px">
-                       		<option value="">请选择</option>
-                    	</select>
-                    </form>
-                    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="query">查询</button>
-                    <button type="button" class="btn btn-primary margin-onl" name="apply">申请</button>
+                <div id="JS_select_data" class="form-group form-inline" style="margin-bottom: 0">
+                	<div class="col-md-4" style="display: -webkit-inline-box;">
+	                   	<label class="control-label query-data-label">一级域:</label>
+	                  	<select name="idFirst" class="form-control select2 input-sm" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name">
+	                      		<option value="">请选择</option>
+	                   	</select>               	
+                	</div>
+                	<div class="col-md-4">
+                		<label class="control-label query-data-label">二级域名称:</label>
+                		<input name="name" type="text" class="form-control input-sm"></input>
+                	</div>
+                	<div class="col-md-4">
+                		<button type="button" class="btn btn-primary" style="margin-right:10px;" data-toggle="modal" name="query">查询</button>
+                    	<button type="button" class="btn btn-primary" name="apply">申请</button>
+					</div>
                 </div>             
             </div>
         </div>

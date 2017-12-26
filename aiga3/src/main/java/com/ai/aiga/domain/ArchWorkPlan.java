@@ -168,9 +168,6 @@ public class ArchWorkPlan  implements java.io.Serializable {
         this.endtime = endtime;
     }
 
-
-
-
 }
 
 

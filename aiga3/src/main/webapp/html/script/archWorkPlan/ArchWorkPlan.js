@@ -36,8 +36,7 @@ define(function(require, exports, module) {
 			this._applydomain();
 			this._getGridList();
 			
-		},
-		
+		},		
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
@@ -50,7 +49,19 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			_cmd = _cmd.replace(/-/g,"/");
-		
+					
+			//初始化时间框
+			function showMonthFirstDay() {     
+				var date=new Date();
+			 	date.setDate(1);
+			 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
+			}
+			var _form = Page.findId('queryDataForm'); 
+			_form.find('[name="begaintime"]').val(showMonthFirstDay());
+			_form.find('[name="endtime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
+			var _formQuery = Page.findId("workApplyForm");
+			_formQuery.find('[name="begaintime"]').val(showMonthFirstDay());
+			_formQuery.find('[name="endtime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getWorkPlanList'),_cmd,function(json){
 				window.XMS.msgbox.hide();				
@@ -77,13 +88,10 @@ define(function(require, exports, module) {
 			},_domPagination);
 		},
        
-        //申请页面
+        //添加页面
         _applydomain: function() {
 			var self = this;
 				var _modal = Page.findId('workApplyModal');
-				//打开模态框
-				//_modal.modal('show');
-
 				Utils.setSelectData(_modal);
 
 				var saveBtn = _modal.find("[name='save']");
@@ -137,8 +145,7 @@ define(function(require, exports, module) {
 					
 					Rose.ajax.postJson(srvMap.get('workPlanSave'),_CMD,function(json, status){
 						if(status) {
-							var _form = Page.findId("workApplyForm")
-							_form[0].reset();
+							var _form = Page.findId("workApplyForm");
 							_modal.modal('hide');
 							XMS.msgbox.show('新增成功！', 'success', 2000);
 							setTimeout(function() {
@@ -290,23 +297,9 @@ define(function(require, exports, module) {
 					callback();
 				}
 			});
-		}
-        
-        
-                
+		}                       
 	};
-	 
+				 
 	module.exports = init;
-	//初始化时间框
-	function showMonthFirstDay() {     
-		var date=new Date();
-	 	date.setDate(1);
-	 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
-	}
-	var _form = Page.findId('queryDataForm'); 
-	_form.find('[name="begaintime"]').val(showMonthFirstDay());
-	_form.find('[name="endtime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
-	var _formQuery = Page.findId("workApplyForm");
-	_formQuery.find('[name="begaintime"]').val(showMonthFirstDay());
-	_formQuery.find('[name="endtime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
+	
 });

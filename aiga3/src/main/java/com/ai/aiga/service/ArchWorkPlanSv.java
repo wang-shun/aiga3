@@ -70,7 +70,11 @@ public class ArchWorkPlanSv extends BaseService {
 
 	public Page<ArchWorkPlan> queryByCondition(ArchWorkPlan condition, int pageNumber,
 			int pageSize) throws ParseException {
-		StringBuilder nativeSql = new StringBuilder("select * from arch_work_plan am where 1=1 "); 
+		String name = condition.getName();
+		if(name==null||name==""){
+			name = "_";
+		}
+		StringBuilder nativeSql = new StringBuilder("select * from arch_work_plan am where 1=1 and am.name like '%"+name+"%' "); 
 		
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 
@@ -78,10 +82,10 @@ public class ArchWorkPlanSv extends BaseService {
 			nativeSql.append(" am.id = :id ");
 			params.add(new ParameterCondition("id", condition.getId()));
 		}
-		if (StringUtils.isNotBlank(condition.getName())) {
-			nativeSql.append(" and am.name = :name ");
-			params.add(new ParameterCondition("name", condition.getName()));
-		}   //to_date(substr(ar.sett_month,0,6),'yyyyMM')
+//		if (StringUtils.isNotBlank(condition.getName())) {
+//			nativeSql.append(" and am.name like '%+":name"+'%' ");
+//			params.add(new ParameterCondition("name", condition.getName()));
+//		}   
 		if (StringUtils.isNotBlank(condition.getMatters())) {
 			nativeSql.append(" and am.matters = :matters ");
 			params.add(new ParameterCondition("matters", condition.getMatters()));

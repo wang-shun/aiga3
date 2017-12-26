@@ -100,7 +100,7 @@ define(function(require, exports, module) {
 					var isRun = false;
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
-				         if(isRun){
+				         if(isRun) {
 				             return;
 				         } else {
 				        	 isRun = true;

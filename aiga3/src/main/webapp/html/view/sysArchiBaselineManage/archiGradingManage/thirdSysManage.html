@@ -225,7 +225,9 @@
 		<input type="text" class="form-control input-sm" readonly="readonly" style="width:163px;" value="{{idSecondName}}"></input>
 		<input name="idBelong" type="hidden" value="{{idSecond}}"></input>
         <label class="control-label second-label">等级信息<span style="color:red">*</span></label>
-        <input name="rankInfo" type="text" class="form-control input-sm width-input-167"  readonly="readonly"  value="{{rankInfo}}"></input>
+		<select name="rankInfo"  class="form-control select2 input-sm width-input-167" data-url="rankInfoStatic" data-idkey="codeValue" data-namekey="codeName">
+        	<option value="">请选择</option>
+        </select>
 		<label class="control-label col3-after-label">开发厂商</label>
      	<input name="developer" type="text" class="form-control input-sm width-input-167" value="{{developer}}"></input>
 	</div>

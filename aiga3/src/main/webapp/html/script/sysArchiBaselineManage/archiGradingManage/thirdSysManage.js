@@ -324,10 +324,12 @@ define(function(require, exports, module) {
 						}
 					}		
 					//状态下拉框赋值
-					var stateDom= _modal.find("[name='sysState']");
+					var stateDom = _modal.find("[name='sysState']");
 					stateDom.val(subData.sysState);
-					var timeDom= _modal.find("[name='ext2']");
+					var timeDom = _modal.find("[name='ext2']");
 					timeDom.val(subData.ext2);
+					var rankDom = _modal.find("[name='rankInfo']");
+					rankDom.val(subData.rankInfo);
 					//修改保存按钮事件
 					var saveBtn = _modal.find("[name='save']");
 					saveBtn.off('click').on('click',function(){

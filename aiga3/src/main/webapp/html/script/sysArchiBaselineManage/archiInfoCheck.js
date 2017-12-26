@@ -31,18 +31,16 @@ define(function(require, exports, module) {
 		_getWrongDataList: function(){
 			var self = this;
 			var _dom = Page.findId('wrongMessageQuery');
-			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getlevelist'),'',function(json){
+			// 
+			Rose.ajax.postJson(srvMap.get('getlevelist'),'',function(json){
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Page.findTpl('getWrongMessageList'));
-				
+				var template = Handlebars.compile(Page.findTpl('getWrongMessageList'));				
         		var tablebtn = _dom.find("[name='content']");
         		tablebtn.html(template(json.data));
         		Utils.eventTrClickCallback(_dom);
-			},_domPagination);
+			});
 		}	
 	};
 	module.exports = init;

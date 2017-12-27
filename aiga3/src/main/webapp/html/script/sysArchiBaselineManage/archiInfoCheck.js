@@ -33,13 +33,17 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('wrongMessageQuery');
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			// 
-			Rose.ajax.postJson(srvMap.get('getlevelist'),'',function(json){
-				window.XMS.msgbox.hide();
-				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Page.findTpl('getWrongMessageList'));				
-        		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data));
-        		Utils.eventTrClickCallback(_dom);
+			Rose.ajax.postJson(srvMap.get('getlevelist'),'',function(json,state){
+				if(state) {
+					window.XMS.msgbox.hide();
+					// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+					var template = Handlebars.compile(Page.findTpl('getWrongMessageList'));				
+	        		var tablebtn = _dom.find("[name='content']");
+	        		tablebtn.html(template(json.data));
+	        		Utils.eventTrClickCallback(_dom);
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
 			});
 		}	
 	};

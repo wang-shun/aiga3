@@ -2,7 +2,6 @@
   <style type="text/css">
 	#Page_workPlan .width-input-167 {width: 167px;}
 	#Page_workPlan .width-input-400 {width: 400px;}
-	#Page_workPlan .width-input-664 {width: 664px;}
 	#Page_workPlan .btn-center {text-align: center;}
 	#Page_workPlan .btn-table-update {margin-right: 20px;}
 	#Page_workPlan.btn-table-delete {margin-right: 20px;}
@@ -56,9 +55,22 @@
 		            		<div class="col-sm-4">
                   				<input type="text" class="form-control input-sm " name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
-                  			&nbsp;<button type="reset" class="btn btn-default">重置</button>
-                        	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                  			
                   		</div>
+		            </div>
+		            <div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label  class="col-sm-2  control-label">工作状态：</label>
+		                    <div class="col-sm-4">
+			                    <select name="workstate" class="form-control select2 input-sm" data-url="workState" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    &nbsp;<button type="reset" class="btn btn-default">重置</button>
+                        	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+		                </div>
 		            </div>
                 </div>
             </form>
@@ -109,9 +121,9 @@
 						<div class="col-md-12">
 							<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
 	   						<input name="name" type="text" class="form-control input-sm width-input-167"></input>
-	  						<label class="control-label margin-onl">事项<span style="color:red">*</span></label>
+	  						<label class="control-label margin-onl">事&nbsp;&nbsp;项<span style="color:red">*</span></label>
 							<input name="matters" type="text" class="form-control input-sm width-input-167"></input>
-							<label class="control-label margin-onl">分类<span style="color:red">*</span></label>
+							<label class="control-label margin-onl">分&nbsp;&nbsp;类<span style="color:red">*</span></label>
                             <select name="classification" class="form-control select2 input-sm width-input-167" data-url="workplanState" data-idkey="codeValue" data-namekey="codeName" display="only">
                         		<option value="">请选择</option>
                     		</select>
@@ -125,9 +137,12 @@
 						   <label class="control-label fist-text-label">开始时间<span style="color:red">*</span></label>
                     	   <input type="text" class="form-control input-sm width-input-167" name="begaintime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                     		
-                    		<label class="control-label col2-sec-label">结束时间<span style="color:red">*</span></label>
+                    		<label class="control-label margin-onl">结束时间<span style="color:red">*</span></label>
                     		<input type="text" class="form-control input-sm width-input-167" name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
-                    		
+                    		<label class="control-label margin-onl">状态<span style="color:red">*</span></label>
+                            <select name="workstate" style="width:155px;" class="form-control select2 input-sm" data-url="workState" data-idkey="codeValue" data-namekey="codeName" display="only">
+                        		<option value="">请选择</option>
+                    		</select>
 						</div> 						
 					</form>	
           	    </div>
@@ -167,19 +182,24 @@
 						<div class="col-md-12">
 							<label class="control-label fist-text-label">责任人<span style="color:red">*</span></label>
 	   						<input name="name" type="text" class="form-control input-sm width-input-167" value="{{name}}"></input>
-	  						<label class="control-label margin-onl">事项<span style="color:red">*</span></label>
+	  						<label class="control-label margin-onl">事&nbsp;&nbsp;项<span style="color:red">*</span></label>
 							<input name="matters" type="text" class="form-control input-sm width-input-167" value="{{matters}}"></input>
-							<label class="control-label margin-onl">分类<span style="color:red">*</span></label>
-                            <input name="classification" class="form-control select2 input-sm width-input-167" value="{{classification}}">
-						</div>
-						<div class="line-sen-top col-md-12">
-					   	    <label class="control-label fist-text-label">完成情况</label>
-					   		<input name="completion" type="text" class="form-control input-sm width-input-664" value="{{completion}}"></input>						             	
+							<label class="control-label margin-onl">分&nbsp;&nbsp;类<span style="color:red">*</span></label>
+                            <select name="classification" class="form-control select2 input-sm width-input-167" data-url="workplanState" data-idkey="codeValue" data-namekey="codeName" display="only" >
+                    		</select>
 						</div>
 						<div class="line-sen-top col-md-12">
 							<label class="control-label fist-text-label">工作内容<span style="color:red">*</span></label>
 							<textarea type="textarea" name="jobcontent" cols="107" rows="4" class="form-control input-sm text-area-sty">{{jobcontent}}</textarea>
 						</div>
+						<div class="line-sen-top col-md-12">
+					   	    <label class="control-label fist-text-label">完成情况</label>
+					   		<input name="completion" type="text" class="form-control input-sm width-input-400" value="{{completion}}"></input>
+							<label class="control-label margin-onl">工作状态<span style="color:red">*</span></label>&nbsp;
+							<select name="workstate" class="form-control select2 input-sm width-input-167" data-url="workState" data-idkey="codeValue" data-namekey="codeName" display="only" >
+                    		</select>						             	
+						</div>
+						
 						<div class="line-sen-top col-md-12">
 					   	    <label class="control-label fist-text-label">计划完成率</label>
 					   		<input name="projectcompletion" type="text" class="form-control input-sm width-input-400" value="{{projectcompletion}}"></input>

@@ -24,6 +24,14 @@ public class StaticTnterfaceController {
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
+	//根据Type查询静态数据
+		@RequestMapping(path = "/archi/static/workState")
+		public @ResponseBody JsonBean workState(){
+			JsonBean bean = new JsonBean();
+			String codeType = "WORKPLAN_PRO_STATE";
+			bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+			return bean;
+		} 
 	
 	//查询 系统建设状态
 	@RequestMapping(path = "/archi/static/archiBuildingState")

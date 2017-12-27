@@ -13,8 +13,10 @@ define(function(require, exports, module) {
 	srvMap.add("getWorkPlanList", pathAlias+"getList.json", "archi/workplan/queryByCondition");
 	//申请页面保存
 	srvMap.add("workPlanSave", pathAlias+"workSave.json", "archi/workplan/save");
-	//申请页面下拉框查询
-	srvMap.add("workplanState", pathAlias+"workState.json", "archi/static/workplanState");
+	//分类下拉框
+	srvMap.add("workplanState", pathAlias+"workplanState.json", "archi/static/workplanState");
+	//工作状态下拉框
+	srvMap.add("workState", pathAlias+"workState.json", "archi/static/workState");
 	//更新页面
 	srvMap.add("workplanUpdate", pathAlias+"workUpdate.json", "archi/workplan/update");
 	//删除页面
@@ -122,7 +124,11 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('工作内容为空！', 'error', 2000);
 						return
 					}
-					
+					var workstate = _form.find("[name='workstate']").val();
+					if(workstate == 0) {
+						XMS.msgbox.show('工作状态为空！', 'error', 2000);
+						return
+					}
 					var bgtime = _form.find("[name='begaintime']").val();
 					var endtime = _form.find("[name='endtime']").val();
 					if(bgtime == 0) {
@@ -197,7 +203,17 @@ define(function(require, exports, module) {
 			var template = Handlebars.compile(Page.findTpl('workUpdateFrom'));
 			Page.findId('updateDataWorkPlan').html(template(data));
 			var _dom = Page.findModal('workUpdateModal');
-			_dom.modal('show');			
+			_dom.modal('show');
+			Utils.setSelectData(_dom,'',function (){
+				debugger;
+				var _mod = Page.findId('updateDataWorkPlan');
+				var stateDom = _mod.find("[name='workstate']");
+				var classDom = _mod.find("[name='classification']");
+				stateDom.val(data.workstate);
+				classDom.val(data.classification);
+			});
+
+			
 			var _save = _dom.find("[name='save']");
 			_save.unbind('click');
 			_save.bind('click', function() {
@@ -226,7 +242,11 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('工作内容为空！', 'error', 2000);
 					return
 				}
-				
+				var workstate = _form.find("[name='workstate']").val();
+				if(workstate == 0) {
+					XMS.msgbox.show('工作状态为空！', 'error', 2000);
+					return
+				}
 				var bgtime = _form.find("[name='begaintime']").val();
 				if(bgtime == 0) {
 					XMS.msgbox.show('开始时间为空！', 'error', 2000);
@@ -240,7 +260,7 @@ define(function(require, exports, module) {
 				if(bgtime>endtime){
 					XMS.msgbox.show('结束时间小于开始时间！', 'error', 2000);
 					return
-				}				
+				}	
 				
 				_cmd=_cmd.replace(/-/g,"/");
 				_cmd = _cmd + "&id=" + Id;

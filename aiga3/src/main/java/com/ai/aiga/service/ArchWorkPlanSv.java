@@ -102,6 +102,10 @@ public class ArchWorkPlanSv extends BaseService {
 			nativeSql.append(" and am.completion = :completion ");
 			params.add(new ParameterCondition("completion", condition.getCompletion()));
 		} 
+		if (StringUtils.isNotBlank(condition.getWorkstate())) {
+			nativeSql.append(" and am.workstate = :workstate ");
+			params.add(new ParameterCondition("workstate", condition.getWorkstate()));
+		} 
 		if (StringUtils.isNotBlank(condition.getProjectcompletion())) {
 			nativeSql.append(" and am.projectcompletion = :projectcompletion ");
 			params.add(new ParameterCondition("projectcompletion", condition.getProjectcompletion()));

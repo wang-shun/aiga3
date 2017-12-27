@@ -271,9 +271,7 @@ define(function(require, exports, module) {
 				//获得当前单选框值
 				var data = Utils.getRadioCheckedRow(_dom);
 				if (data) {
-					console.log(data);
 					var cmd = 'id=' + data.id;
-					//alert(cmd);//////////
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('workplanDelete'), cmd, function(json, status) {
 						if (status) {

@@ -364,7 +364,7 @@ define(function(require, exports, module) {
 				subData.idBelong = subData.idSecond;
 				var _cmd = jQuery.param(subData);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){
+				Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status) {
 					if(status) {
 						XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
 					} else {

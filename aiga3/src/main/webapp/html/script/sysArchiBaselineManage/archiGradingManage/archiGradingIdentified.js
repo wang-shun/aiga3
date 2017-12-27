@@ -18,6 +18,8 @@ define(function(require, exports, module) {
 	srvMap.add("MessageGranding", pathAlias+"getSysMessageList.json", "archi/grading/messageGranding");
 	//数据翻译
 	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "archi/grading/gradingTranslate");	
+	//一级域下拉框查询
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
     //根据一级查询二级子域
     srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst"); 
 	//获取附件信息
@@ -271,6 +273,7 @@ define(function(require, exports, module) {
     							if(json3.data) {
         							selectData.idBelongName = json3.data.idBelongName;
         							selectData.sysStateName = json3.data.sysStateName;
+        							selectData.idFirstName = json3.data.idFirstName;
     							}
     						}
 		      				cache.selectData = selectData;
@@ -299,21 +302,18 @@ define(function(require, exports, module) {
 	        				_selectDataModal.html(templateFrom(selectData));
 	        				var _modal = Page.findId('sysMessageFrom');
 	        				_modal.modal('show');
+	        				Utils.setSelectData(_modal);
 	        				//模态框加载后事件
 	        				_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
 	        					//认定页允许所属域修改
 	        					if(selectData.description != '删除' && selectData.state == "申请") {
-	        						if(json3.data && json3.data.secData) {
-	        	  						var selectDom = Page.findId('selectData').find('[name="idBelong"]');
-		        	                    var secData = json3.data.secData;
-		        	                    var _html;
-		        	                    for (var i in secData) {
-		        	                        var _json = secData[i];
-		        	                        _html += '<option value="' + _json.idSecond + '">' + _json.name + '</option>';
-		        	                    }
-		        	                    selectDom.html(_html);
-		        	                    selectDom.val(selectData.idBelong);
-	        						} 
+	        						var firstDom = Page.findId('selectData').find('[name="idFirst"]');
+	        						var selectDom = Page.findId('selectData').find('[name="idBelong"]');
+									firstDom.val(json3.data.idFirst);
+									firstDom.change();
+									setTimeout(function() {
+										selectDom.val(selectData.idBelong);
+									},300);					        	                      						 
 	        					}
 	        					//附件下载事件绑定	        				
              					var downloadButton = _modal.find('[name="download"]');

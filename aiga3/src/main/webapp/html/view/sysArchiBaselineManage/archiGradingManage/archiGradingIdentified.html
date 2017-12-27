@@ -228,20 +228,33 @@
 			<input name="code" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{code}}"></input>
 		</div>
 		<div class="col-md-12 margin-bottom-col">
+			{{#if isSelected}}
+				<label class="control-label margin-label-grading">所属一级域:</label>
+				<select name="idFirst" type="text" class="form-control input-sm margin-input-grading" data-url="getPrimaryDomainList" data-idkey="idFirst" data-namekey="name" data-subname="idBelong">
+                	<option value="">请选择</option>
+            	</select>
+				<label class="control-label margin-label-grading">所属二级子域:</label>
+				<select name="idBelong"  class="form-control select2 input-sm margin-input-grading" data-suburl="getSecondByFirst" data-idkey="idSecond" data-namekey="name">
+                	<option value="">请选择</option>
+            	</select>
+            {{else}}
+				<label class="control-label margin-label-grading">所属一级域:</label>
+				<input type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{idFirstName}}"></input>
+				<label class="control-label margin-label-grading">所属二级子域:</label>
+				<input name="idBelong" type="hidden" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{idBelong}}"></input>
+				<input type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{idBelongName}}"></input>	
+            {{/if}}
+			<label class="control-label margin-label-grading">等级信息:</label>
+			<input name="rankInfo" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{rankInfo}}"></input>	
+		</div>
+		<div class="col-md-12 margin-bottom-col">
 			<label class="control-label margin-label-grading">所属分层:</label>
 			<input name="belongLevel" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{belongLevel}}"></input>	
-			<label class="control-label margin-label-grading">等级信息:</label>
-			<input name="rankInfo" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{rankInfo}}"></input>
-			<label class="control-label margin-label-grading">所属二级子域:</label>
-			{{#if isSelected}}
-					<select name="idBelong"  class="form-control select2 input-sm margin-input-grading">
-                		<option value="">请选择</option>
-            		</select>
-            {{else}}
-					<input name="idBelong" type="hidden" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{idBelong}}"></input>
-					<input name="idBelongName" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{idBelongName}}"></input>
-            {{/if}}
-		</div>	
+			<label class="control-label margin-label-grading">责任部门:</label>
+			<input name="department" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{department}}"></input>			
+			<label class="control-label margin-label-grading">责任人:</label>
+			<input name="principal" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{principal}}"></input>
+		</div>
 		<div class="col-md-12 margin-bottom-col">
 			<label class="control-label margin-label-grading">项目立项信息:</label>
 			<input name="projectInfo" type="text" class="form-control input-sm margin-input-long" readonly="readonly" value="{{projectInfo}}"></input>
@@ -252,8 +265,8 @@
 		<div class="col-md-12 margin-bottom-col">
 			<label class="control-label margin-label-grading">规划设计信息:</label>
 			<input name="designInfo" type="text" class="form-control input-sm margin-input-long" readonly="readonly" value="{{designInfo}}"></input>
-			<label class="control-label margin-label-grading">责任部门:</label>
-			<input name="department" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{department}}"></input>
+			<label class="control-label margin-label-grading">开发厂商:</label>
+			<input name="developer" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{developer}}"></input>
 		</div>
 		<div class="col-md-12 margin-bottom-col">
 			<label class="control-label margin-label-grading">系统功能描述:</label>
@@ -264,9 +277,7 @@
 			<textarea name="identifiedInfo" cols="112" rows="4" class="form-control input-sm text-area-sty" readonly="readonly">{{identifiedInfo}}</textarea>
 		</div>
 		<div class="col-md-12 margin-bottom-col">
-			<label class="control-label margin-label-grading">开发厂商:</label>
-			<input name="developer" type="text" class="form-control input-sm margin-input-grading" readonly="readonly" value="{{developer}}"></input>
-			<label class="control-label margin-label-grading">附件：</label>                 
+			<label class="control-label margin-label-grading">附件:</label>                 
             <label class="form-control margin-input-grading" style="width: 370px">{{fileName}}</label>
 			<a type="button" class="btn btn-primary" style="margin-bottom: 0px" name="download">下载</a>
 		</div>

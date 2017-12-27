@@ -680,95 +680,101 @@ public class ArchiGradingController {
 	@RequestMapping(path = "/archi/grading/gradingTranslate")
 	public @ResponseBody JsonBean translate(GrandingTranslateInput input) {
 		JsonBean bean = new JsonBean();
-		String sysState = input.getSysState();
-		String ext1 = input.getExt1();
-		long idBelong = input.getIdBelong();
-		GrandingTranslateOutput output = new GrandingTranslateOutput();
-		if("2".equals(ext1)) {
-			//查询 所属一级域
-			ArchitectureFirst architectureFirst = architectureFirstSv.findOne(idBelong);
-			if(architectureFirst == null) {
-				bean.fail("所属一级域不存在");
-				return bean;
-			} else {
-				if("".equals(architectureFirst.getName())) {
-					bean.fail("所属一级域没有名称");
+		try {
+			String sysState = input.getSysState();
+			String ext1 = input.getExt1();
+			long idBelong = input.getIdBelong();
+			GrandingTranslateOutput output = new GrandingTranslateOutput();
+			if("2".equals(ext1)) {
+				//查询 所属一级域
+				ArchitectureFirst architectureFirst = architectureFirstSv.findOne(idBelong);
+				if(architectureFirst == null) {
+					bean.fail("所属一级域不存在");
 					return bean;
 				} else {
-					String idBelongName = architectureFirst.getName();
-					output.setIdBelongName(idBelongName);
-				}
-			}
-		} else if("3".equals(ext1)) {
-			//生成三级系统编号
-			Long preId = input.getIdThird();
-			if(preId == null || preId==0) {
-				//若编号字段空或者没有值 TO DO
-				bean.fail("三级编号生成失败");
-				return bean;
-			} else if(preId.toString().length()==4) {
-				//继申请时生成的4位编号 生成之后的几位，变成完整的系统编号
-				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
-				if(result != null) {
-					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
-					if(adviceThirdId == null ||  "null".equals(adviceThirdId) || StringUtils.isBlank(adviceThirdId)) {
-						adviceThirdId = "01";
+					if("".equals(architectureFirst.getName())) {
+						bean.fail("所属一级域没有名称");
+						return bean;
 					} else {
-						int sysIndex  =Integer.valueOf(adviceThirdId);
-						sysIndex++;
-						adviceThirdId = String.valueOf(sysIndex);
-						if(adviceThirdId.length()<2) {
-							adviceThirdId = "0"+adviceThirdId;
-						}
+						String idBelongName = architectureFirst.getName();
+						output.setIdBelongName(idBelongName);
 					}
-					output.setAdviceThirdId(preId+adviceThirdId+"10");
 				}
-			} else if(preId.toString().length()==8) {
-				//若单号已申请过，则更新编号，只有申请时才有此场景
-				preId = preId/10000;
-				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
-				if(result != null) {
-					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
-					if(adviceThirdId == null ||  "null".equals(adviceThirdId) || StringUtils.isBlank(adviceThirdId)) {
-						adviceThirdId = "01";
-					} else {
-						int sysIndex  =Integer.valueOf(adviceThirdId);
-						sysIndex++;
-						adviceThirdId = String.valueOf(sysIndex);
-						if(adviceThirdId.length()<2) {
-							adviceThirdId = "0"+adviceThirdId;
+			} else if("3".equals(ext1)) {
+				//生成三级系统编号
+				Long preId = input.getIdThird();
+				if(preId == null || preId==0) {
+					//若编号字段空或者没有值 TO DO
+					bean.fail("三级编号生成失败");
+					return bean;
+				} else if(preId.toString().length()==4) {
+					//继申请时生成的4位编号 生成之后的几位，变成完整的系统编号
+					List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
+					if(result != null) {
+						String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
+						if(adviceThirdId == null ||  "null".equals(adviceThirdId) || StringUtils.isBlank(adviceThirdId)) {
+							adviceThirdId = "01";
+						} else {
+							int sysIndex  =Integer.valueOf(adviceThirdId);
+							sysIndex++;
+							adviceThirdId = String.valueOf(sysIndex);
+							if(adviceThirdId.length()<2) {
+								adviceThirdId = "0"+adviceThirdId;
+							}
 						}
+						output.setAdviceThirdId(preId+adviceThirdId+"10");
 					}
-					output.setAdviceThirdId(preId+adviceThirdId+"10");
+				} else if(preId.toString().length()==8) {
+					//若单号已申请过，则更新编号，只有申请时才有此场景
+					preId = preId/10000;
+					List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
+					if(result != null) {
+						String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
+						if(adviceThirdId == null ||  "null".equals(adviceThirdId) || StringUtils.isBlank(adviceThirdId)) {
+							adviceThirdId = "01";
+						} else {
+							int sysIndex  =Integer.valueOf(adviceThirdId);
+							sysIndex++;
+							adviceThirdId = String.valueOf(sysIndex);
+							if(adviceThirdId.length()<2) {
+								adviceThirdId = "0"+adviceThirdId;
+							}
+						}
+						output.setAdviceThirdId(preId+adviceThirdId+"10");
+					}
+				} else {
+					//没有此场景
 				}
-			} else {
-				//没有此场景
-			}
-			//查询所属二级域 和 系统建设状态
-			ArchitectureSecond architectureSecond = architectureSecondSv.findOne(idBelong);
-			List<ArchitectureStaticData> dataList = architectureStaticDataSv.findByCodeTypeAndCodeValue("SYS_BUILDING_STATE", sysState);
-			if(architectureSecond == null) {
-				bean.fail("所属二级子域不存在");
-				return bean;
-			} else {
-				if("".equals(architectureSecond.getName())) {
-					bean.fail("所属二级子域没有名称");
+				//查询所属二级域 和 系统建设状态
+				ArchitectureSecond architectureSecond = architectureSecondSv.findOne(idBelong);
+				List<ArchitectureStaticData> dataList = architectureStaticDataSv.findByCodeTypeAndCodeValue("SYS_BUILDING_STATE", sysState);
+				if(architectureSecond == null) {
+					bean.fail("所属二级子域不存在");
 					return bean;
 				} else {
-					String idBelongName = architectureSecond.getName();
-					output.setSecData(architectureSecondSv.findArchiSecondsByFirst(architectureSecond.getIdFirst()));
-					output.setIdBelongName(idBelongName);
+					if("".equals(architectureSecond.getName())) {
+						bean.fail("所属二级子域没有名称");
+						return bean;
+					} else {
+						String idBelongName = architectureSecond.getName();
+						output.setIdFirst(architectureSecond.getIdFirst());
+	                    output.setSecData(architectureSecondSv.findArchiSecondsByFirst(architectureSecond.getIdFirst()));
+						output.setIdFirstName(architectureFirstSv.findOne(architectureSecond.getIdFirst()).getName());
+						output.setIdBelongName(idBelongName);		
+					}
+				}
+				if(dataList.size()>=1) {
+					String sysStateName = dataList.get(0).getCodeName();
+					output.setSysStateName(sysStateName);
+				} else {
+					bean.fail("查询不到该状态");
+					return bean;
 				}
 			}
-			if(dataList.size()>=1) {
-				String sysStateName = dataList.get(0).getCodeName();
-				output.setSysStateName(sysStateName);
-			} else {
-				bean.fail("查询不到该状态");
-				return bean;
-			}
+			bean.setData(output);
+		} catch (Exception e) {
+			bean.fail(e.getMessage());
 		}
-		bean.setData(output);
 		return bean;		
 	}
 	

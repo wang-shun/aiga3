@@ -9,8 +9,10 @@ import lombok.Data;
 @Data
 @SuppressWarnings("serial")
 public class GrandingTranslateOutput implements Serializable {
-	private List<ArchitectureSecond> secData;
+	private Long idFirst;
+	private String idFirstName;
 	private String idBelongName;
 	private String sysStateName;
 	private String adviceThirdId;
+	private List<ArchitectureSecond> secData;
 }

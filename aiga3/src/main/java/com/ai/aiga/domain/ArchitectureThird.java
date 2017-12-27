@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-9-11 10:15:24 by Hibernate Tools 3.2.2.GA
+// Generated 2017-12-27 11:32:43 by Hibernate Tools 3.2.2.GA
 
 
 import java.util.Date;
@@ -47,6 +47,7 @@ public class ArchitectureThird  implements java.io.Serializable {
      private String ext3;
      private String developer;
      private String cloudOrderId;
+     private String principal;
 
     public ArchitectureThird() {
     }
@@ -61,7 +62,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.sysState = sysState;
         this.createDate = createDate;
     }
-    public ArchitectureThird(long onlysysId, long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, String developer, String cloudOrderId) {
+    public ArchitectureThird(long onlysysId, long idThird, String name, String systemCode, String systemFunction, String description, String code, long idSecond, String belongLevel, String department, String projectInfo, String designInfo, String rankInfo, String sysState, String state, Long applyId, String applyUser, Date createDate, Date modifyDate, String identifiedInfo, String fileInfo, String ext1, String ext2, String ext3, String developer, String cloudOrderId, String principal) {
        this.onlysysId = onlysysId;
        this.idThird = idThird;
        this.name = name;
@@ -88,11 +89,12 @@ public class ArchitectureThird  implements java.io.Serializable {
        this.ext3 = ext3;
        this.developer = developer;
        this.cloudOrderId = cloudOrderId;
+       this.principal = principal;
     }
    
      @Id 
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_THIRD$SEQ")
-    @SequenceGenerator(name="ARCHITECTURE_THIRD$SEQ",sequenceName="ARCHITECTURE_THIRD$SEQ",allocationSize=1)    
+     @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_THIRD$SEQ")
+     @SequenceGenerator(name="ARCHITECTURE_THIRD$SEQ",sequenceName="ARCHITECTURE_THIRD$SEQ",allocationSize=1)        
     @Column(name="ONLYSYS_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getOnlysysId() {
         return this.onlysysId;
@@ -237,7 +239,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.applyId = applyId;
     }
     
-    @Column(name="APPLY_USER", length=10)
+    @Column(name="APPLY_USER")
     public String getApplyUser() {
         return this.applyUser;
     }
@@ -317,15 +319,27 @@ public class ArchitectureThird  implements java.io.Serializable {
     public void setDeveloper(String developer) {
         this.developer = developer;
     }
-
+    
     @Column(name="CLOUD_ORDER_ID")
-	public String getCloudOrderId() {
-		return cloudOrderId;
-	}
+    public String getCloudOrderId() {
+        return this.cloudOrderId;
+    }
+    
+    public void setCloudOrderId(String cloudOrderId) {
+        this.cloudOrderId = cloudOrderId;
+    }
+    
+    @Column(name="PRINCIPAL")
+    public String getPrincipal() {
+        return this.principal;
+    }
+    
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
 
-	public void setCloudOrderId(String cloudOrderId) {
-		this.cloudOrderId = cloudOrderId;
-	}
+
+
 
 }
 

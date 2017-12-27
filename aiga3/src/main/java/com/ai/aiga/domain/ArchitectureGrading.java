@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-9-11 10:15:24 by Hibernate Tools 3.2.2.GA
+// Generated 2017-12-27 11:32:43 by Hibernate Tools 3.2.2.GA
 
 
 import java.math.BigDecimal;
@@ -50,6 +50,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
      private String developer;
      private String cloudOrderId;
      private String applyUserInfo;
+     private String principal;
 
     public ArchitectureGrading() {
     }
@@ -62,7 +63,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.state = state;
         this.applyUser = applyUser;
     }
-    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId, String developer, String cloudOrderId, String applyUserInfo) {
+    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId, String developer, String cloudOrderId, String applyUserInfo, String principal) {
        this.applyId = applyId;
        this.identifiedInfo = identifiedInfo;
        this.sysId = sysId;
@@ -91,11 +92,12 @@ public class ArchitectureGrading  implements java.io.Serializable {
        this.developer = developer;
        this.cloudOrderId = cloudOrderId;
        this.applyUserInfo = applyUserInfo;
+       this.principal = principal;
     }
    
      @Id 
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_GRADING$SEQ")
-     @SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1)    
+     @SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1)       
     @Column(name="APPLY_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getApplyId() {
         return this.applyId;
@@ -231,7 +233,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.rankInfo = rankInfo;
     }
     
-    @Column(name="APPLY_USER", nullable=false, length=10)
+    @Column(name="APPLY_USER", nullable=false)
     public String getApplyUser() {
         return this.applyUser;
     }
@@ -329,26 +331,36 @@ public class ArchitectureGrading  implements java.io.Serializable {
     public void setDeveloper(String developer) {
         this.developer = developer;
     }
-
+    
     @Column(name="CLOUD_ORDER_ID")
-	public String getCloudOrderId() {
-		return cloudOrderId;
-	}
+    public String getCloudOrderId() {
+        return this.cloudOrderId;
+    }
+    
+    public void setCloudOrderId(String cloudOrderId) {
+        this.cloudOrderId = cloudOrderId;
+    }
+    
+    @Column(name="APPLY_USER_INFO")
+    public String getApplyUserInfo() {
+        return this.applyUserInfo;
+    }
+    
+    public void setApplyUserInfo(String applyUserInfo) {
+        this.applyUserInfo = applyUserInfo;
+    }
+    
+    @Column(name="PRINCIPAL")
+    public String getPrincipal() {
+        return this.principal;
+    }
+    
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
 
-	public void setCloudOrderId(String cloudOrderId) {
-		this.cloudOrderId = cloudOrderId;
-	}
 
-	@Column(name="APPLY_USER_INFO")
-	public String getApplyUserInfo() {
-		return applyUserInfo;
-	}
 
-	public void setApplyUserInfo(String applyUserInfo) {
-		this.applyUserInfo = applyUserInfo;
-	}
-	
-	
 
 }
 

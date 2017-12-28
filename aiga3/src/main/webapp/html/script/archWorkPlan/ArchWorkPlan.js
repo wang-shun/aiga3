@@ -17,6 +17,8 @@ define(function(require, exports, module) {
 	srvMap.add("workplanState", pathAlias+"workplanState.json", "archi/static/workplanState");
 	//工作状态下拉框
 	srvMap.add("workState", pathAlias+"workState.json", "archi/static/workState");
+	//优先级下拉框
+	srvMap.add("priorityList", pathAlias+"priorityList.json", "archi/static/priorityList");
 	//更新页面
 	srvMap.add("workplanUpdate", pathAlias+"workUpdate.json", "archi/workplan/update");
 	//删除页面
@@ -149,7 +151,11 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('提出人为空！', 'error', 2000);
 						return
 					}
-					
+					var priority = _form.find("[name='priority']").val();
+					if(priority == 0) {
+						XMS.msgbox.show('优先级为空！', 'error', 2000);
+						return
+					}
 					var _CMD = _cmd.replace(/-/g,"/");
 					
 					//调用服务
@@ -214,8 +220,10 @@ define(function(require, exports, module) {
 				var _mod = Page.findId('updateDataWorkPlan');
 				var stateDom = _mod.find("[name='workstate']");
 				var classDom = _mod.find("[name='classification']");
+				var priorityclassDom = _mod.find("[name='priority']");
 				stateDom.val(data.workstate);
 				classDom.val(data.classification);
+				priorityclassDom.val(data.priority);
 			});
 
 			

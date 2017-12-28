@@ -8,9 +8,9 @@ define(function(require, exports, module) {
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('questionApplyView');
 	//问题展示
-	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
+	srvMap.add("getInspectQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/inspect/list");
 	//新增问题
-	srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
+	srvMap.add("saveInspectQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/inspect/save");
 	//修改问题
 	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update");
 	//刪除問題
@@ -24,7 +24,7 @@ define(function(require, exports, module) {
     //三级分类下拉框
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
-    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
+    srvMap.add("getInspectQueryQuesInfo", "", "archi/inspect/queryInfo");
     //所属处理科室静态数据  
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
     //所属工单状态静态数据  
@@ -355,7 +355,7 @@ define(function(require, exports, module) {
 							_cmd=_cmd.replace("idFirst=&","idFirst=0&");
 						}
 					}
-					Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
+					Rose.ajax.postJson(srvMap.get('saveInspectQuestionInfo'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
 							if(upState) {
@@ -393,7 +393,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getQuestionInfoList'), _cmd, function(json, status) {//getQuestionInfoList
+			Utils.getServerPage(srvMap.get('getInspectQuestionInfoList'), _cmd, function(json, status) {//getQuestionInfoList
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getQuestionInfoList);
@@ -436,7 +436,7 @@ define(function(require, exports, module) {
 						var _cmd = _form.serialize();
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						console.log(_cmd);
-						Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('saveInspectQuestionInfo'), _cmd, function(json, status) {
 							if (status) {
 								// 数据备份成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000);

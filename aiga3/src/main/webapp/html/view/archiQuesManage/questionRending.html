@@ -112,10 +112,7 @@
 						<th>三级分类</th>
 						<th>工单状态</th>
 						<th>问题状态</th>
-						<th>优化思路</th>
-						<th>具体措施</th>
-						<th>预期结果</th>
-						<th>实际结果</th>
+						<th>解决结果</th>
 						<th>认定信息</th>
 						<th>处理科室</th>
 						<th>期望完成时间</th>
@@ -805,7 +802,7 @@ seajs.use("script/archiQuesManage/questionRending", function(Init) {
     <div class="box-body">
 		<div class="row">
 			<div class="form-group">
-				<label for="optimizePath" class="col-sm-1 control-label">问题描述</label>
+				<label for="abstracts" class="col-sm-1 control-label">问题描述</label>
 				<div class="col-sm-9">
 					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入架构巡检问题优化思路">{{abstracts}}</textarea>
 				</div>
@@ -814,36 +811,9 @@ seajs.use("script/archiQuesManage/questionRending", function(Init) {
 		<br/>
 		<div class="row">
 			<div class="form-group">
-				<label for="optimizePath" class="col-sm-1 control-label">优化思路</label>
+				<label for="realResult" class="col-sm-1 control-label">解决结果</label>
 				<div class="col-sm-9">
-					<textarea name="ext1" class="form-control" rows="2" id="optimizePath" placeholder="请输入架构巡检问题优化思路">{{ext1}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="specificMeasures" class="col-sm-1 control-label">具体措施</label>
-				<div class="col-sm-9">
-					<textarea name="ext2" class="form-control" rows="2" id="specificMeasures" placeholder="请输入架构巡检问题具体措施">{{ext2}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="expectResult" class="col-sm-1 control-label">预期结果</label>
-				<div class="col-sm-9">
-					<textarea name="ext3" class="form-control" rows="2" id="expectResult" placeholder="请输入架构巡检问题预期结果">{{ext3}}</textarea>
-				</div>
-			</div>
-		</div>
-		<br/>
-		<div class="row">
-			<div class="form-group">
-				<label for="realResult" class="col-sm-1 control-label">实际结果</label>
-				<div class="col-sm-9">
-					<textarea name="solvedInfo" class="form-control" rows="2" id="realResult" placeholder="请输入架构巡检问题实际结果">{{solvedInfo}}</textarea>
+					<textarea name="solvedInfo" class="form-control" rows="4" id="realResult" placeholder="请输入架构巡检问题实际结果">{{solvedInfo}}</textarea>
 				</div>
 			</div>
 		</div>		

@@ -12,9 +12,6 @@
 			<td>{{transformatThird thirdCategory}}</td>
 			<td>{{sysVersion}}</td>
 			<td>{{state}}</td>
-			<td>{{ext1}}</td>
-			<td>{{ext2}}</td>
-			<td>{{ext3}}</td>
 			<td>{{solvedInfo}}</td>
 			<td>{{identifiedInfo}}</td>
 			<td>{{appointedPerson}}</td>

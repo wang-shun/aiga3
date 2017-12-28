@@ -31,12 +31,23 @@ public class QuestionInfoSv extends BaseService {
 	private QuestionInfoDao questionInfoDao;
 	
 	public List<Map> findQuestionStatePie(){
-		String sql = "SELECT t.state ,count(T.state) as cnt FROM question_info t Group by t.state";
+		String sql = "SELECT t.state ,count(T.state) as cnt FROM question_info t where t.ext_1 = 0 Group by t.state";
 		return questionInfoDao.searchByNativeSQL(sql);	
 	}
 	
+	public List<Map> findInspectQuestionStatePie(){
+		String sql = "SELECT t.state ,count(T.state) as cnt FROM question_info t where t.ext_1 = 1 Group by t.state";
+		return questionInfoDao.searchByNativeSQL(sql);	
+	}
+	
+	public List<Map> findInspectQuestionStatePie(String idFirst){
+		String sql = " SELECT t.state ,count(T.state) as cnt FROM question_info t where t.ext_1 = 1 and t.id_First = :idFirst Group by t.state ";
+		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+		params.add(new ParameterCondition("idFirst", idFirst));
+		return questionInfoDao.searchByNativeSQL(sql,params);	
+	}
 	public List<Map> findQuestionStatePie(String idFirst){
-		String sql = " SELECT t.state ,count(T.state) as cnt FROM question_info t where t.id_First = :idFirst Group by t.state ";
+		String sql = " SELECT t.state ,count(T.state) as cnt FROM question_info t where t.ext_1 = 0 and t.id_First = :idFirst Group by t.state ";
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 		params.add(new ParameterCondition("idFirst", idFirst));
 		return questionInfoDao.searchByNativeSQL(sql,params);	
@@ -47,8 +58,12 @@ public class QuestionInfoSv extends BaseService {
 		return questionInfoDao.searchByNativeSQL(sql);	
 	}
 	
-	public List<QuestionInfo>findQuestionInfos(){
-		return questionInfoDao.findAll();
+	public List<QuestionInfo>findAllProblemQuestion(){
+		return questionInfoDao.findAllProblemQuestion();
+	}
+	
+	public List<QuestionInfo>findAllXunjianQuestion(){
+		return questionInfoDao.findAllXunjianQuestion();
 	}
 	
 	public void delete(Long quesId){
@@ -129,6 +144,8 @@ public class QuestionInfoSv extends BaseService {
 
 	public Page<QuestionInfo> listInfo(QuestionInfoRequest condition, int pageNumber, int pageSize) {
         List<Condition> cons = new ArrayList<Condition>();
+		condition.setExt1("0");
+		cons.add(new Condition("ext1", condition.getExt1(), Condition.Type.EQ));
     	if(StringUtils.isNoneBlank(condition.getQuesType())){
     		cons.add(new Condition("quesType", condition.getQuesType(), Condition.Type.EQ));
     	}
@@ -190,6 +207,74 @@ public class QuestionInfoSv extends BaseService {
             pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
         }
         Pageable pageable = new PageRequest(pageNumber, pageSize);
+		return questionInfoDao.search(cons, pageable);
+	}
+	
+	public Page<QuestionInfo> listInfo2(QuestionInfoRequest condition, int pageNumber, int pageSize) {
+		List<Condition> cons = new ArrayList<Condition>();
+		condition.setExt1("1");
+		cons.add(new Condition("ext1", condition.getExt1(), Condition.Type.EQ));
+		if(StringUtils.isNoneBlank(condition.getQuesType())){
+			cons.add(new Condition("quesType", condition.getQuesType(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getFirstCategory())){
+			cons.add(new Condition("firstCategory", condition.getFirstCategory(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getSecondCategory())){
+			cons.add(new Condition("secondCategory", condition.getSecondCategory(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getThirdCategory())){
+			cons.add(new Condition("thirdCategory", condition.getThirdCategory(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getDiffProblem())){
+			cons.add(new Condition("diffProblem", "%".concat(condition.getDiffProblem()).concat("%"), Condition.Type.LIKE));
+		}
+		if(StringUtils.isNoneBlank(condition.getState())){
+			cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getOccurEnvironment())){
+			cons.add(new Condition("occurEnvironment", "%".concat(condition.getOccurEnvironment()).concat("%"), Condition.Type.LIKE));
+		}
+		if(StringUtils.isNoneBlank(condition.getBelongProject())){
+			cons.add(new Condition("belongProject", condition.getBelongProject(), Condition.Type.EQ));
+		}
+		if(condition.getQuesId()==0){
+			cons.add(new Condition("quesId", condition.getQuesId(), Condition.Type.GT));
+		}
+		if(condition.getQuesId()!=0){
+			cons.add(new Condition("quesId", condition.getQuesId(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getSysVersion())){
+			cons.add(new Condition("sysVersion", condition.getSysVersion(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getState())){
+			cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getReportor())){
+			cons.add(new Condition("reportor", condition.getReportor(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getIdentifiedName())){
+			cons.add(new Condition("identifiedName", "%".concat(condition.getIdentifiedName()).concat("%"), Condition.Type.LIKE));
+		}
+		if(StringUtils.isNoneBlank(condition.getSolvedName())){
+			cons.add(new Condition("solvedName", "%".concat(condition.getSolvedName()).concat("%"), Condition.Type.LIKE));
+		}
+		if(condition.getIdFirst()==0){
+			cons.add(new Condition("idFirst", condition.getIdFirst(), Condition.Type.GT));
+		}
+		if(condition.getIdFirst()!=0){
+			cons.add(new Condition("idFirst", condition.getIdFirst(), Condition.Type.EQ));
+		}
+		if(StringUtils.isNoneBlank(condition.getAppointedPerson())){
+			cons.add(new Condition("appointedPerson", "%".concat(condition.getAppointedPerson()).concat("%"), Condition.Type.LIKE));
+		}
+		if(pageNumber < 0){
+			pageNumber = 0;
+		}
+		if(pageSize <= 0){
+			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+		}
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return questionInfoDao.search(cons, pageable);
 	}
 

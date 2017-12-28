@@ -9,9 +9,9 @@ define(function(require, exports, module) {
 	var Page = Utils.initPage('questionShow');
 
     //三级信息变更数据
-    srvMap.add("quesStatePie", pathAlias+"getSecView.json", "archi/question/quesStatePie");
+    srvMap.add("quesInspectStatePie", pathAlias+"getSecView.json", "archi/inspect/quesStatePie");
     //三级信息变更数据 根据event查询
-    srvMap.add("quesStatePie2", pathAlias+"getSecView.json", "archi/question/quesStatePie2");
+    srvMap.add("quesInspectStatePie2", pathAlias+"getSecView.json", "archi/inspect/quesStatePie2");
  	//get id
     srvMap.add("getEventFindAll", pathAlias+"getSysMessageList.json", "archi/event/findAll");
 
@@ -51,7 +51,7 @@ define(function(require, exports, module) {
 			var _cmd = cmd;
 			if(_cmd.length>8) {
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get("quesStatePie2"), _cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get("quesInspectStatePie2"), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
 						self._graphfir(json);
@@ -67,7 +67,7 @@ define(function(require, exports, module) {
 		_getChangeMessage: function(){
 			var self = this;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get("quesStatePie"), '', function(json, status) {
+			Rose.ajax.postJson(srvMap.get("quesInspectStatePie"), '', function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
 					self._graphfir(json);

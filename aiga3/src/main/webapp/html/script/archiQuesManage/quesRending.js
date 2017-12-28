@@ -444,9 +444,9 @@ define(function(require, exports, module) {
 			_openRequest.unbind('click');
 			_openRequest.bind('click', function() {
 				data.state ="需求单跟踪";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
+//				data.ext1 = $('#optimizePath').val();
+//				data.ext2 = $('#specificMeasures').val();
+//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -470,9 +470,9 @@ define(function(require, exports, module) {
 			_openTask.unbind('click');
 			_openTask.bind('click',function(){
 				data.state ="任务单跟踪";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
+//				data.ext1 = $('#optimizePath').val();
+//				data.ext2 = $('#specificMeasures').val();
+//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -495,9 +495,9 @@ define(function(require, exports, module) {
 			_openUpdate.unbind('click');
 			_openUpdate.bind('click',function(){
 				data.state ="变更单跟踪";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
+//				data.ext1 = $('#optimizePath').val();
+//				data.ext2 = $('#specificMeasures').val();
+//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -520,9 +520,9 @@ define(function(require, exports, module) {
 			_afterSolved.unbind('click');
 			_afterSolved.bind('click',function(){
 				data.state ="待立项规划";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
+//				data.ext1 = $('#optimizePath').val();
+//				data.ext2 = $('#specificMeasures').val();
+//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -545,9 +545,9 @@ define(function(require, exports, module) {
 			_closeAll.unbind('click');
 			_closeAll.bind('click',function(){
 				data.state ="已解决";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
+//				data.ext1 = $('#optimizePath').val();
+//				data.ext2 = $('#specificMeasures').val();
+//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);

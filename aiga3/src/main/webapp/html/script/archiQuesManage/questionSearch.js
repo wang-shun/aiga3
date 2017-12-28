@@ -8,9 +8,9 @@ define(function(require, exports, module) {
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('questionSearchView');
 	//问题展示
-	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
+	srvMap.add("getInspectQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/inspect/list");
 	//新增问题
-	srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
+	srvMap.add("saveInspectQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/inspect/save");
 	//修改问题
 	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
 	//刪除問題
@@ -24,7 +24,7 @@ define(function(require, exports, module) {
     //三级分类下拉框
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
-    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
+    srvMap.add("getInspectQueryQuesInfo", "", "archi/inspect/queryInfo");
     //显示系统信息表
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
     //所属工单状态静态数据  
@@ -191,7 +191,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getQueryQuesInfo'), _cmd, function(json, status) {
+			Utils.getServerPage(srvMap.get('getInspectQueryQuesInfo'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getQuestionInfoList);

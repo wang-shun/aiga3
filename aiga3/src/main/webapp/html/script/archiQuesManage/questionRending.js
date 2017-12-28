@@ -8,9 +8,9 @@ define(function(require, exports, module) {
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('questionRendingView');
 	//问题展示
-	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
+	srvMap.add("getInspectQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/inspect/list");
 	//新增问题
-	srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
+	srvMap.add("saveInspectQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/inspect/save");
 	//修改问题
 	srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
 	//刪除問題
@@ -24,7 +24,7 @@ define(function(require, exports, module) {
     //三级分类下拉框
     srvMap.add("getThirdList", "", "sys/cache/listThirdid");
     //级联查询
-    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
+    srvMap.add("getInspectQueryQuesInfo", "", "archi/inspect/queryInfo");
         //问题分类下拉框
     srvMap.add("getQuestypeList", "", "sys/cache/listQuestype");
     //一级分类下拉框
@@ -51,17 +51,18 @@ define(function(require, exports, module) {
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
     //所属处理科室静态数据  
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
+    //角色校验
+    srvMap.add("questionRoleCheck", pathAlias + "getDeliverablesList.json", "archi/question/roleCheck");
 
     // 模板对象
 	var Tpl = {
-		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl')
-		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
-
 	};
 	var cache = {
 		datas : '',
-		selectData : ''	
+		selectData : '',
+		role : ''
+
 	};
 	var idcache = {
 		quesId : '',
@@ -84,6 +85,8 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			this._role_check();
+			
 			this.jumpPage();
 			
 			this.searchBox();
@@ -98,6 +101,17 @@ define(function(require, exports, module) {
 			//映射
 			this.hdbarHelp();
 		},
+		//角色校验 
+		_role_check: function() {
+			Rose.ajax.postJson(srvMap.get('questionRoleCheck'),'',function(json, status){
+				if(status) {							
+					cache.role = json.data.role;
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}	
+			});
+		},
+		
 		jumpPage : function(){
 			var syscmd = Page.getParentCmd();
 			var result = Utils.jsonToUrl(syscmd);
@@ -219,7 +233,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页getQueryQuesInfo
-			Utils.getServerPage(srvMap.get('getQueryQuesInfo'), _cmd, function(json, status) {//getQuestionInfoList
+			Utils.getServerPage(srvMap.get('getInspectQueryQuesInfo'), _cmd, function(json, status) {//getQuestionInfoList
 				cache.datas = json.data.content;
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
@@ -263,7 +277,7 @@ define(function(require, exports, module) {
 						var _cmd = _form.serialize();
 						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 						console.log(_cmd);
-						Rose.ajax.postJson(srvMap.get('saveQuestionInfo'), _cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get('saveInspectQuestionInfo'), _cmd, function(json, status) {
 							if (status) {
 								// 数据备份成功后，刷新用户列表页
 								XMS.msgbox.show('添加成功！', 'success', 2000)
@@ -445,9 +459,6 @@ define(function(require, exports, module) {
 			_openRequest.unbind('click');
 			_openRequest.bind('click', function() {
 				data.state ="需求单跟踪";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -471,9 +482,6 @@ define(function(require, exports, module) {
 			_openTask.unbind('click');
 			_openTask.bind('click',function(){
 				data.state ="任务单跟踪";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -496,9 +504,6 @@ define(function(require, exports, module) {
 			_openUpdate.unbind('click');
 			_openUpdate.bind('click',function(){
 				data.state ="变更单跟踪";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -521,9 +526,6 @@ define(function(require, exports, module) {
 			_afterSolved.unbind('click');
 			_afterSolved.bind('click',function(){
 				data.state ="待立项规划";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -546,9 +548,6 @@ define(function(require, exports, module) {
 			_closeAll.unbind('click');
 			_closeAll.bind('click',function(){
 				data.state ="已解决";
-				data.ext1 = $('#optimizePath').val();
-				data.ext2 = $('#specificMeasures').val();
-				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);

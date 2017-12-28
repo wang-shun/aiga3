@@ -1145,7 +1145,7 @@ public class ArchiGradingController {
 				request.setIdThird(architectureGrading.getSysId());	
 				request.setDescription("");
 				ArchitectureThirdRequest backData = architectureThirdSv.save(request);
-				cloudService.thirdAdd(request, staffInfo);
+				cloudService.thirdAdd(backData, staffInfo);
 			} else if("修改".equals(description)) {
 				request.setIdSecond(architectureGrading.getIdBelong());
 				request.setIdThird(architectureGrading.getSysId());	

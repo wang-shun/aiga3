@@ -132,9 +132,10 @@ public class ArchWorkPlanSv extends BaseService {
 			params.add(new ParameterCondition("begaintime", condition.getBegaintime()));
 		}
 		if (condition.getEndtime() != null) {
-			nativeSql.append(" and am.endtime <= :endtime");
+			nativeSql.append(" and am.endtime <= :endtime ");
 			params.add(new ParameterCondition("endtime", condition.getEndtime()));
 		}
+		nativeSql.append(" order by decode(workstate, '新建','1', '进行中','2','已完成','3','已取消','4'),decode(priority, '高','1', '中','2','低','3'),endtime ");
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}

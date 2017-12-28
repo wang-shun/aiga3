@@ -1144,16 +1144,19 @@ public class ArchiGradingController {
 				request.setIdSecond(architectureGrading.getIdBelong());
 				request.setIdThird(architectureGrading.getSysId());	
 				request.setDescription("");
-				architectureThirdSv.save(request);
+				ArchitectureThirdRequest backData = architectureThirdSv.save(request);
+				cloudService.thirdAdd(request, staffInfo);
 			} else if("修改".equals(description)) {
 				request.setIdSecond(architectureGrading.getIdBelong());
 				request.setIdThird(architectureGrading.getSysId());	
 				request.setDescription("");
 				architectureThirdSv.update(request);
+				cloudService.thirdModify(request, staffInfo);
 			} else if("删除".equals(description)) {
 				request.setIdSecond(architectureGrading.getIdBelong());
 				request.setIdThird(architectureGrading.getSysId());	
 				architectureThirdSv.delete(request.getIdThird());
+				cloudService.thirdDelete(request, staffInfo);
 			}
 		} catch (Exception e) {	
 			bean.fail(e.getMessage());

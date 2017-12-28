@@ -75,9 +75,23 @@
 		            		<div class="col-sm-4">
                   				<input type="text" class="form-control input-sm " name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
-                  			&nbsp;<button type="reset" class="btn btn-default">重置</button>
-                         	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+
                   		</div>
+		            </div>
+		            <div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label  class="col-sm-2  control-label">优先级：</label>
+		                    <div class="col-sm-4">
+			                    <select name="priority" class="form-control select2 input-sm" data-url="priorityList" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    &nbsp;<button type="reset" class="btn btn-default">重置</button>
+                         	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+			                
+		                </div>		                 
 		            </div>
                 </div>
             </form>
@@ -156,6 +170,10 @@
 						<div class="line-sen-top col-md-12">
 							<label class="control-label fist-text-label">提出人<span style="color:red">*</span></label>
 							<input type="text" name="person" class="form-control input-sm width-input-167"></input>
+							<label class="control-label margin-onl">优先级<span style="color:red">*</span></label>
+                            <select name="priority" class="form-control select2 input-sm width-input-167" data-url="priorityList" data-idkey="codeValue" data-namekey="codeName" display="only">
+                        		<option value="">请选择</option>
+                    		</select>
 						</div> 						
 					</form>	
           	    </div>
@@ -234,6 +252,11 @@
                     		<input type="text" class="form-control input-sm width-input-158" name="endtime" value="{{endtime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
 							<label class="control-label margin-onl">提出人<span style="color:red">*</span></label>
 							<input type="text" name="person" class="form-control input-sm width-input-167" value="{{person}}"></input>                    		
+						</div>
+						<div class="line-sen-top col-md-12 ">
+							<label class="control-label margin-onl">优先级<span style="color:red">*</span></label>
+                            <select name="priority" class="form-control select2 input-sm width-input-158" data-url="priorityList" data-idkey="codeValue" data-namekey="codeName" display="only">
+                    		</select>
 						</div>
              			 						
 					</form>	

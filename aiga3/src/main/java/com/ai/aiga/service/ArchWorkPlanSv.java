@@ -86,7 +86,10 @@ public class ArchWorkPlanSv extends BaseService {
 			nativeSql.append(" and am.person = :person ");
 			params.add(new ParameterCondition("person", condition.getPerson()));
 		}
-		
+		if (StringUtils.isNotBlank(condition.getPriority())) {
+			nativeSql.append(" and am.priority = :priority ");
+			params.add(new ParameterCondition("priority", condition.getPriority()));
+		}
 		if (StringUtils.isNotBlank(condition.getMatters())) {
 			nativeSql.append(" and am.matters = :matters ");
 			params.add(new ParameterCondition("matters", condition.getMatters()));

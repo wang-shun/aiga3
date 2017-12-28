@@ -959,4 +959,205 @@ public class ArchiGradingController {
 		}
 		return bean;
 	}
+	/**
+	 * 三级系统数据维护
+	 * @param architectureGrading
+	 * @return
+	 */
+	@RequestMapping(path = "/archi/grading/thirdDataManage")
+	public @ResponseBody JsonBean thirdDataManage(ArchitectureGrading architectureGrading) throws SQLException {
+		JsonBean bean = new JsonBean();
+		UserInfo userInfo = SessionMgrUtil.getUserInfo();
+		//操作类型
+		String description = architectureGrading.getDescription();
+		String belongLevel = architectureGrading.getBelongLevel();
+		
+		//层级数组
+		String[] ruleLevels = new String[]{"跨层","SaaS","BPaaS","UPaaS","DPaaS","IPaaS","TPaaS","IaaS"};
+		Date nowDate = new Date();
+		try {
+			if("新增".equals(description)) {
+				//三级系统申请
+				if(StringUtils.isBlank(architectureGrading.getName())) {
+					bean.fail("名称为空！");
+					return bean;
+				}
+				if(architectureGrading.getIdBelong() == null || architectureGrading.getIdBelong()<=0) {
+					bean.fail("所属二级域为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(belongLevel)) {
+					bean.fail("分层层级为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getSysState())) {
+					bean.fail("建设状态为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getRankInfo())) {
+					bean.fail("等级信息为空！");
+					return bean;
+				}
+				//申请单唯一性校验
+				ArchitectureGrading condition = new ArchitectureGrading();
+				condition.setName(architectureGrading.getName());
+				condition.setIdBelong(architectureGrading.getIdBelong());
+				condition.setState("申请");
+				List<ArchitectureGrading> applyBill = architectureGradingSv.findTableCondition(condition);
+				if(applyBill.size()>0) {
+					bean.fail("二级子域下该系统名称存在在途申请单");
+					return bean;
+				}
+				//系统唯一性校验 
+				ArchiThirdConditionParam thirdCheckParam = new ArchiThirdConditionParam();
+				thirdCheckParam.setIdSecond(architectureGrading.getIdBelong());
+				thirdCheckParam.setName(architectureGrading.getName());
+				if(architectureThirdSv.querybyCodition(thirdCheckParam).size()>0) {
+					bean.fail("该系统已存在");
+					return bean;
+				}	
+				//系统初始编号生成
+				architectureGrading.setCreateDate(nowDate);
+				int index = 0;
+				if(!belongLevel.contains(",")) {
+					for(int i=0;i<ruleLevels.length;i++) {
+						if(ruleLevels[i].equals(belongLevel)) {
+							index = i;
+							break;
+						}
+					}
+				}
+				Long preId =architectureGrading.getIdBelong()/100000*10+index;
+				//继申请时生成的4位编号 生成之后的几位，变成完整的系统编号
+				List<Map> result = architectureThirdSv.getSystemIdNow(preId/10);
+				if(result != null) {
+					String adviceThirdId = String.valueOf(result.get(0).get("sysIndex"));
+					if(adviceThirdId == null ||  "null".equals(adviceThirdId) || StringUtils.isBlank(adviceThirdId)) {
+						adviceThirdId = "01";
+					} else {
+						int sysIndex  =Integer.valueOf(adviceThirdId);
+						sysIndex++;
+						adviceThirdId = String.valueOf(sysIndex);
+						if(adviceThirdId.length()<2) {
+							adviceThirdId = "0"+adviceThirdId;
+						}
+					}
+					architectureGrading.setSysId(Long.parseLong((preId+adviceThirdId+"10")));
+				} else {
+					bean.fail("编号生成失败");
+				}
+			} else if("修改".equals(description)) {
+				//非空校验
+				if(architectureGrading.getSysId()==0L) {
+					bean.fail("编号为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getName())) {
+					bean.fail("名称为空！");
+					return bean;
+				}
+				if(architectureGrading.getIdBelong() == null || architectureGrading.getIdBelong()<=0) {
+					bean.fail("所属二级域为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(belongLevel)) {
+					bean.fail("分层层级为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getSysState())) {
+					bean.fail("建设状态为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getRankInfo())) {
+					bean.fail("等级信息为空！");
+					return bean;
+				}
+				//申请单系统唯一性校验
+				ArchitectureGrading condition = new ArchitectureGrading();
+				condition.setSysId(architectureGrading.getSysId());
+				condition.setState("申请");
+				if(architectureGradingSv.findTableCondition(condition).size()>0) {
+					bean.fail("该编号存在在途申请单");
+					return bean;
+				}
+				//申请单名称唯一性校验
+				condition = new ArchitectureGrading();
+				condition.setName(architectureGrading.getName());
+				condition.setIdBelong(architectureGrading.getIdBelong());
+				condition.setState("申请");
+				List<ArchitectureGrading> applyBill = architectureGradingSv.findTableCondition(condition);
+				if(applyBill.size()>0) {
+					bean.fail("二级子域下该系统名称存在在途申请单");
+					return bean;
+				}
+
+				//系统唯一性校验 
+				List<ArchitectureThird> idThirdList = architectureThirdSv.findByIdThirds(architectureGrading.getSysId());
+				if(idThirdList.size()>0) {
+					for(ArchitectureThird baseThird : idThirdList) {
+						if(baseThird.getOnlysysId()!=architectureGrading.getOnlysysId()) {
+							bean.fail("系统编号已存在");
+							return bean;
+						}
+					}
+				}
+				ArchiThirdConditionParam thirdCheckParam = new ArchiThirdConditionParam();
+				thirdCheckParam.setIdSecond(architectureGrading.getIdBelong());
+				thirdCheckParam.setName(architectureGrading.getName());
+				List<ArchitectureThird> nameThirdList = architectureThirdSv.querybyCodition(thirdCheckParam);
+				if(nameThirdList.size()>0) {
+					for(ArchitectureThird baseThird : nameThirdList) {
+						if(baseThird.getOnlysysId()!=architectureGrading.getOnlysysId()) {
+							bean.fail("同二级域下系统名称已存在");
+							return bean;
+						}
+					}
+				}	
+			} else {
+				//非空校验
+				if(architectureGrading.getSysId()==0L) {
+					bean.fail("编号为空！");
+					return bean;
+				}
+				if(StringUtils.isBlank(architectureGrading.getName())) {
+					bean.fail("名称为空！");
+					return bean;
+				}
+				//申请单唯一性校验
+				ArchitectureGrading condition = new ArchitectureGrading();
+				condition.setSysId(architectureGrading.getSysId());
+				condition.setState("申请");
+
+				if(architectureGradingSv.findTableCondition(condition).size()>0) {
+					bean.fail("该编号存在在途申请单");
+					return bean;
+				}
+			}
+			architectureGrading.setModifyDate(nowDate);
+			architectureGrading.setApplyId(0L);
+			architectureGrading.setApplyTime(nowDate);
+			AigaStaff staffInfo = userInfo.getStaff();	
+			architectureGrading.setApplyUser(staffInfo.getCode());
+			architectureGrading.setState("已通过");
+			ArchitectureThirdRequest request = BeanMapper.map(architectureGrading, ArchitectureThirdRequest.class);
+			if("新增".equals(description)) {
+				request.setIdSecond(architectureGrading.getIdBelong());
+				request.setIdThird(architectureGrading.getSysId());	
+				request.setDescription("");
+				architectureThirdSv.save(request);
+			} else if("修改".equals(description)) {
+				request.setIdSecond(architectureGrading.getIdBelong());
+				request.setIdThird(architectureGrading.getSysId());	
+				request.setDescription("");
+				architectureThirdSv.update(request);
+			} else if("删除".equals(description)) {
+				request.setIdSecond(architectureGrading.getIdBelong());
+				request.setIdThird(architectureGrading.getSysId());	
+				architectureThirdSv.delete(request.getIdThird());
+			}
+		} catch (Exception e) {	
+			bean.fail(e.getMessage());
+		}
+		return bean;	
+	}
 }

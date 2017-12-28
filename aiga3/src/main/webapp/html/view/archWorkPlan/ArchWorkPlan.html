@@ -86,13 +86,14 @@
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
-		                </div>
-		                <div class="form-group col-sm-6">
-		                    &nbsp;<button type="reset" class="btn btn-default">重置</button>
-                         	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-			                
 		                </div>		                 
 		            </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -111,10 +112,11 @@
 	                    <th class="iCheckbox" width="15"></th>
 	                    <th style="width:80px">提出人</th>
 	                    <th style="width:80px">责任人</th>
-						<th style="width:160px">事项</th>	
-						<th style="width:60px">分类</th>					
+	                    <th style="width:60px">优先级</th>
+						<th style="width:100px">事项</th>	
+						<th style="width:80px">分类</th>					
 						<th>工作内容</th>
-						<th>工作状态</th>						
+						<th style="width:70px">工作状态</th>						
 						<th style="width:80px">开始时间</th>
 						<th style="width:80px">结束时间</th>
 		                </tr>
@@ -170,8 +172,8 @@
 						<div class="line-sen-top col-md-12">
 							<label class="control-label fist-text-label">提出人<span style="color:red">*</span></label>
 							<input type="text" name="person" class="form-control input-sm width-input-167"></input>
-							<label class="control-label margin-onl">优先级<span style="color:red">*</span></label>
-                            <select name="priority" class="form-control select2 input-sm width-input-167" data-url="priorityList" data-idkey="codeValue" data-namekey="codeName" display="only">
+							<label class="control-label margin-onl">优先级<span style="color:red">*</span></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <select name="priority" class="form-control input-sm width-input-167" data-url="priorityList" data-idkey="codeValue" data-namekey="codeName" display="only">
                         		<option value="">请选择</option>
                     		</select>
 						</div> 						
@@ -254,7 +256,7 @@
 							<input type="text" name="person" class="form-control input-sm width-input-167" value="{{person}}"></input>                    		
 						</div>
 						<div class="line-sen-top col-md-12 ">
-							<label class="control-label margin-onl">优先级<span style="color:red">*</span></label>
+							<label class="control-label fist-text-label">优先级<span style="color:red">*</span></label>
                             <select name="priority" class="form-control select2 input-sm width-input-158" data-url="priorityList" data-idkey="codeValue" data-namekey="codeName" display="only">
                     		</select>
 						</div>
@@ -271,8 +273,9 @@
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
 	<td style="width:80px">{{person}}</td>
     <td style="width:80px">{{name}}</td>
-    <td style="width:160px">{{matters}}</td>
-    <td style="width:60px">{{classification}}</td>
+	<td style="width:60px">{{priority}}</td>
+    <td style="width:100px">{{matters}}</td>
+    <td style="width:80px">{{classification}}</td>
     <td>{{jobcontent}}</td>
 	<td style="width:70px">{{workstate}}</td>
 	<td style="width:80px">{{begaintime}}</td>

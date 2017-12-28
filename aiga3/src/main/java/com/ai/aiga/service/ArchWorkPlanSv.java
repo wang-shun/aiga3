@@ -82,10 +82,11 @@ public class ArchWorkPlanSv extends BaseService {
 			nativeSql.append(" am.id = :id ");
 			params.add(new ParameterCondition("id", condition.getId()));
 		}
-//		if (StringUtils.isNotBlank(condition.getName())) {
-//			nativeSql.append(" and am.name like '%+":name"+'%' ");
-//			params.add(new ParameterCondition("name", condition.getName()));
-//		}   
+		if (StringUtils.isNotBlank(condition.getPerson())) {
+			nativeSql.append(" and am.person = :person ");
+			params.add(new ParameterCondition("person", condition.getPerson()));
+		}
+		
 		if (StringUtils.isNotBlank(condition.getMatters())) {
 			nativeSql.append(" and am.matters = :matters ");
 			params.add(new ParameterCondition("matters", condition.getMatters()));

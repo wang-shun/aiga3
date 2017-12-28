@@ -144,6 +144,12 @@ define(function(require, exports, module) {
 						return
 					}
 					
+					var person = _form.find("[name='person']").val();
+					if(person == 0) {
+						XMS.msgbox.show('提出人为空！', 'error', 2000);
+						return
+					}
+					
 					var _CMD = _cmd.replace(/-/g,"/");
 					
 					//调用服务
@@ -205,7 +211,6 @@ define(function(require, exports, module) {
 			var _dom = Page.findModal('workUpdateModal');
 			_dom.modal('show');
 			Utils.setSelectData(_dom,'',function (){
-				debugger;
 				var _mod = Page.findId('updateDataWorkPlan');
 				var stateDom = _mod.find("[name='workstate']");
 				var classDom = _mod.find("[name='classification']");
@@ -261,7 +266,11 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('结束时间小于开始时间！', 'error', 2000);
 					return
 				}	
-				
+				var person = _form.find("[name='person']").val();
+				if(person == 0) {
+					XMS.msgbox.show('提出人为空！', 'error', 2000);
+					return
+				}
 				_cmd=_cmd.replace(/-/g,"/");
 				_cmd = _cmd + "&id=" + Id;
 				XMS.msgbox.show('执行中，请稍候...', 'loading');

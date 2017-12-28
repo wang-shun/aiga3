@@ -23,6 +23,7 @@ public class ArchWorkPlan  implements java.io.Serializable {
 
      private long id;
      private String name;
+     private String person;
      private String matters;
      private String classification;
      private String jobcontent;
@@ -43,9 +44,10 @@ public class ArchWorkPlan  implements java.io.Serializable {
         this.id = id;
         this.name = name;
     }
-    public ArchWorkPlan(long id, String name, String matters, String classification, String jobcontent, String completion,String workstate, String projectcompletion, String submittimely, String fillquality, String quality, Date begaintime, Date endtime) {
+    public ArchWorkPlan(long id, String name, String person, String matters, String classification, String jobcontent, String completion,String workstate, String projectcompletion, String submittimely, String fillquality, String quality, Date begaintime, Date endtime) {
        this.id = id;
        this.name = name;
+       this.person = person;
        this.matters = matters;
        this.classification = classification;
        this.jobcontent = jobcontent;
@@ -78,6 +80,15 @@ public class ArchWorkPlan  implements java.io.Serializable {
     
     public void setName(String name) {
         this.name = name;
+    }
+    
+    @Column(name="PERSON",  length=20)
+    public String getPerson() {
+        return this.person;
+    }
+    
+    public void setPerson(String person) {
+        this.person = person;
     }
     
     @Column(name="MATTERS", length=30)

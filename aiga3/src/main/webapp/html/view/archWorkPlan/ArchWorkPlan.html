@@ -2,6 +2,7 @@
   <style type="text/css">
 	#Page_workPlan .width-input-167 {width: 167px;}
 	#Page_workPlan .width-input-400 {width: 400px;}
+	#Page_workPlan .width-input-158 {width: 155px;}
 	#Page_workPlan .btn-center {text-align: center;}
 	#Page_workPlan .btn-table-update {margin-right: 20px;}
 	#Page_workPlan.btn-table-delete {margin-right: 20px;}
@@ -31,17 +32,36 @@
                 		<div class="form-group col-sm-6">
 		                    <label  class="col-sm-2  control-label">责任人：</label>
 		                    <div class="col-sm-4">
-		                    	<input name="name" type="text" class="form-control" placeholder="请输入责任人">
+		                    	<input name="name" type="text" class="form-control">
 			                </div>
 		                </div>
 		                <div class="form-group col-sm-6">
-		                    <label  class="col-sm-2  control-label" >分类：</label>
+		                	<label  class="col-sm-2  control-label">提出人：</label>
+		                    <div class="col-sm-4">
+		                    	<input name="person" type="text" class="form-control">
+			                </div>
+		                    
+		                </div>
+		            </div>
+		            
+		            <div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label  class="col-sm-2  control-label">工作状态：</label>
+		                    <div class="col-sm-4">
+			                    <select name="workstate" class="form-control select2 input-sm" data-url="workState" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                   	<label  class="col-sm-2  control-label" >分类：</label>
 		                    <div class="col-sm-4">
 			                    <select name="classification" class="form-control select2 input-sm" data-url="workplanState" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
-		                </div>
+			                
+		                </div>		                 
 		            </div>
 		            <div class ="row">
 		            	<div class="form-group col-sm-6">
@@ -55,22 +75,9 @@
 		            		<div class="col-sm-4">
                   				<input type="text" class="form-control input-sm " name="endtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
-                  			
+                  			&nbsp;<button type="reset" class="btn btn-default">重置</button>
+                         	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
                   		</div>
-		            </div>
-		            <div class="row">
-                		<div class="form-group col-sm-6">
-		                    <label  class="col-sm-2  control-label">工作状态：</label>
-		                    <div class="col-sm-4">
-			                    <select name="workstate" class="form-control select2 input-sm" data-url="workState" data-idkey="codeValue" data-namekey="codeName">
-			                        <option value="">请选择</option>
-			                    </select>
-			                </div>
-		                </div>
-		                <div class="form-group col-sm-6">
-		                    &nbsp;<button type="reset" class="btn btn-default">重置</button>
-                        	&nbsp;<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-		                </div>
 		            </div>
                 </div>
             </form>
@@ -88,7 +95,8 @@
                     <thead>
 		                <tr>
 	                    <th class="iCheckbox" width="15"></th>
-	                    <th style="width:110px">责任人</th>
+	                    <th style="width:80px">提出人</th>
+	                    <th style="width:80px">责任人</th>
 						<th style="width:160px">事项</th>	
 						<th style="width:60px">分类</th>					
 						<th>工作内容</th>
@@ -134,7 +142,7 @@
 							<textarea type="textarea" name="jobcontent" cols="107" rows="4" class="form-control input-sm text-area-sty"></textarea>
 						</div>
 
-						<div id="updata-select" class="line-sen-top col-md-12 form-group">
+						<div class="line-sen-top col-md-12">
 						   <label class="control-label fist-text-label">开始时间<span style="color:red">*</span></label>
                     	   <input type="text" class="form-control input-sm width-input-167" name="begaintime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                     		
@@ -144,6 +152,10 @@
                             <select name="workstate" style="width:155px;" class="form-control select2 input-sm" data-url="workState" data-idkey="codeValue" data-namekey="codeName" display="only">
                         		<option value="">请选择</option>
                     		</select>
+						</div>
+						<div class="line-sen-top col-md-12">
+							<label class="control-label fist-text-label">提出人<span style="color:red">*</span></label>
+							<input type="text" name="person" class="form-control input-sm width-input-167"></input>
 						</div> 						
 					</form>	
           	    </div>
@@ -214,14 +226,16 @@
      			    		<input name="fillquality" type="text" class="form-control input-sm width-input-167" value="{{fillquality}}"></input>
 						</div>
 
-						<div id="updata-select" class="line-sen-top col-md-12 form-group">
+						<div  class="line-sen-top col-md-12 ">
 						   <label class="control-label fist-text-label">开始时间<span style="color:red">*</span></label>
-                    	   <input type="text" class="form-control input-sm width-input-167" name="begaintime" value="{{begaintime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+                    	   <input type="text" class="form-control input-sm width-input-158" name="begaintime" value="{{begaintime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
                     		
-                    		<label class="control-label col2-sec-label">结束时间<span style="color:red">*</span></label>
-                    		<input type="text" class="form-control input-sm width-input-167" name="endtime" value="{{endtime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
-                    		
-						</div> 						
+                    		<label class="control-label margin-onl">结束时间<span style="color:red">*</span></label>
+                    		<input type="text" class="form-control input-sm width-input-158" name="endtime" value="{{endtime}}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+							<label class="control-label margin-onl">提出人<span style="color:red">*</span></label>
+							<input type="text" name="person" class="form-control input-sm width-input-167" value="{{person}}"></input>                    		
+						</div>
+             			 						
 					</form>	
       </div>
 </script>
@@ -232,7 +246,8 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-    <td style="width:110px">{{name}}</td>
+	<td style="width:80px">{{person}}</td>
+    <td style="width:80px">{{name}}</td>
     <td style="width:160px">{{matters}}</td>
     <td style="width:60px">{{classification}}</td>
     <td>{{jobcontent}}</td>

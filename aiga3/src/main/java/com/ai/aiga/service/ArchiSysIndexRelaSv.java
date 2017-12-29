@@ -1,6 +1,7 @@
 package com.ai.aiga.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,10 @@ public class ArchiSysIndexRelaSv extends BaseService {
 	
 	public List<ArchiSysIndexRela> findSysIndex(Long onlysysId) {	
 		return archiSysIndexRelaDao.findByOnlysysId(onlysysId);	
+	}
+	
+	public List<Map> findSysDataList() {
+		String sql = "SELECT a.* FROM architecture_third a where  a.onlysys_id in (SELECT b.onlysys_id FROM archi_sys_index_rela b)";
+		return archiSysIndexRelaDao.searchByNativeSQL(sql);	
 	}
 }

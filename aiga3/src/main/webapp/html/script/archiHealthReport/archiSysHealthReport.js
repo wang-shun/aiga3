@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiSysHealthReport');
 	//三级系统下拉框
-    srvMap.add("getThirdSysNum", '', "archi/third/list");
+    srvMap.add("getThirdSysNum", '', "archi/report/getSysList");
     //雷达图数据获取
     srvMap.add("getRadarIndexData", '', "archi/index/getSysIndexData");
     //系统信息查询
@@ -127,7 +127,7 @@ define(function(require, exports, module) {
 			    	show:false
 			    },
 			    legend: {
-			    	enabled: false,
+			    	enabled: false
 			    },
 			    radar: {
 			        // shape: 'circle',

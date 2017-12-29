@@ -22,6 +22,21 @@ public class SystemIndexController {
 	@Autowired 
 	private ArchiSysIndexRelaSv archiSysIndexRelaSv;
 	/**
+	 * 查询已配置的系统
+	 * @param architectureGrading
+	 * @return
+	 */
+	@RequestMapping(path = "/archi/report/getSysList")
+	public @ResponseBody JsonBean reportGetSysList() {
+		JsonBean bean = new JsonBean();
+		try {
+			bean.setData(archiSysIndexRelaSv.findSysDataList());
+		} catch (Exception e) {
+			bean.fail(e.getMessage());
+		}
+		return bean;
+	}
+	/**
 	 * 查询系统固定的指标
 	 * @param architectureGrading
 	 * @return

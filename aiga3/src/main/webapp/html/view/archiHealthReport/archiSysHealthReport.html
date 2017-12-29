@@ -20,6 +20,7 @@
 #Page_archiSysHealthReport .score-state-right{float:left;width:5px;height:10px;background-position:right -180px;}
 #Page_archiSysHealthReport .score-word-pre,.score-num{font-size:28px;font-family:\5fae\8f6f\96c5\9ed1,\9ed1\4f53;margin-left:10px;line-height:34px;float:left;color:#f4a830;}
 #Page_archiSysHealthReport .score-word-pre {margin-left:20%;}
+#Page_archiSysHealthReport .message-card-label{width: 75px;}
 #Page_archiSysHealthReport .index-card-from {    
 	border: 1px solid black;
     margin: 2%;
@@ -130,19 +131,19 @@
 </div>
 <div class="col-md-7">
 	<div class="card-word-sty">
-		<label>系统编号：</label> <label>{{idThird}}</label> 
+		<label class="message-card-label">系统编号：</label> <label>{{idThird}}</label> 
 	</div>
 	<div  class="card-word-sty">
-		<label>系统名字：</label> <label>{{name}}</label>
+		<label class="message-card-label">系统名字：</label> <label>{{name}}</label>
 	</div>
 	<div  class="card-word-sty">
-		<label>开发厂商：</label> <label>{{developer}}</label>
+		<label class="message-card-label">开发厂商：</label> <label>{{developer}}</label>
 	</div>
 	<div  class="card-word-sty">
-		<label>所属域：</label> <label>{{firName}}</label> <label>{{secName}}</label>
+		<label class="message-card-label">所属域：</label> <label>{{firName}}-</label> <label>-{{secName}}</label>
 	</div>
 	<div  class="card-word-sty" style="margin-bottom: 0">
-		<label>所属层级：</label> <label>{{belongLevel}}</label>
+		<label class="message-card-label">所属层级：</label> <label>{{belongLevel}}</label>
 	</div>
 </div>
 <div class="col-md-12 card-word-intro">

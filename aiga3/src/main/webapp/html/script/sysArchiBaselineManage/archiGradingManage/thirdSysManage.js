@@ -238,7 +238,7 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);	
 				//保存按钮
 				var saveBtn = _modal.find("[name='save']");
-				saveBtn.off('click').on('click',function(){
+				saveBtn.off('click').on('click',function() {
 					//先文件上传，成功后再提交
 					self.uploadAnNiu(_modal);
 				});

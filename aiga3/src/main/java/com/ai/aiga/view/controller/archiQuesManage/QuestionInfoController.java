@@ -61,9 +61,14 @@ public class QuestionInfoController {
 		}else{
 			data.setStaffId(userInfo.getStaff().getCode());
 			for(SysRole baseRole: userInfo.getRoles()) {
-				if(roles.contains(role)){
+				String aaa = baseRole.getCode();
+				if(roles.contains(aaa)){
 					role += baseRole.getCode()+",";
 				}
+			}		
+			if(role == null){
+				bean.fail("用户没有问题相关权限!");
+				return bean;
 			}
 			role = role.substring(0, role.length());
 			if(role.indexOf("SYS_QUESTION_QRY")>-1){

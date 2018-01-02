@@ -105,7 +105,7 @@ define(function(require, exports, module) {
 		_role_check: function() {
 			Rose.ajax.postJson(srvMap.get('questionRoleCheck'),'',function(json, status){
 				if(status) {							
-					cache.role = json.data.role;
+					cache.role = json.data.roles;
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}	
@@ -339,7 +339,11 @@ define(function(require, exports, module) {
 				data.modifyDate = data.modifyDate.replace(/-/g,"/");
 				data.createDate = data.modifyDate;
 			}
-			if(data.sysVersion == "待确认"){
+			if(cache.role){
+				console.log(cache.role);
+			}
+//			if(data.sysVersion == "待确认"){
+			if((cache.role.charAt('SYS_QUESTION_CONFIRM')>=0 && data.sysVersion == "待确认") || (cache.role.charAt('ROLE')>=0 && data.sysVersion == "待确认")){
 			
 //			var cmd = 'quesId=' + Id;
 //			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){
@@ -447,7 +451,8 @@ define(function(require, exports, module) {
 					}
 				});*/
 			});
-		}else if(data.sysVersion == "已确认"){
+//		}else if(data.sysVersion == "已确认"){
+		}else if((cache.role.charAt('SYS_QUESTION_SOLVED')>=0 && data.sysVersion == "已确认") || (cache.role.charAt('ROLE')>=0 && data.sysVersion == "已确认")){
 			var template2 = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo2'));
 			Page.findId('updateDataMaintainInfo2').html(template2(data));
 			var _dom = Page.findModal('updateDataMaintainModal2');
@@ -476,7 +481,6 @@ define(function(require, exports, module) {
 					}					
 				});
 			});
-
 			//开任务单
 			var _openTask = _dom.find("[name='openTask']");
 			_openTask.unbind('click');
@@ -564,7 +568,30 @@ define(function(require, exports, module) {
 					}					
 				});
 			});
-		}
+		}else{
+			var template3 = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo3'));
+			Page.findId('updateDataMaintainInfo3').html(template3(data));
+			var _dom = Page.findModal('updateDataMaintainModal3');
+			_dom.modal('show');
+			Utils.setSelectData(_dom);
+			//修改
+			var _xiugaiRequest = _dom.find("[name='xiugai']");
+			_xiugaiRequest.unbind('click');
+			_xiugaiRequest.bind('click', function() {
+				var _cmd = jQuery.param(data);
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
+					if(status) {							
+						_dom.modal('hide');
+						XMS.msgbox.show('问题修改成功！！！', 'success', 5000);	
+					setTimeout(function() {
+							Page.findId('queryDataMaintainForm').find("[name='query']").click();
+						}, 1500);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}					
+				});
+			});}
 
 		},
         //上线交付物下载文档

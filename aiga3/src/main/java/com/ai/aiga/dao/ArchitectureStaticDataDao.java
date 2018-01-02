@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.ai.aiga.dao.jpa.SearchAndPageRepository;
 import com.ai.aiga.domain.ArchitectureStaticData;
 
-public interface ArchitectureStaticDataDao  extends JpaRepository<ArchitectureStaticData, Long> {
+public interface ArchitectureStaticDataDao  extends JpaRepository<ArchitectureStaticData, Long>,SearchAndPageRepository<ArchitectureStaticData, Long> {
     //根据Type查询
 	List<ArchitectureStaticData> findByCodeType(String codeType);
 	
@@ -14,5 +15,5 @@ public interface ArchitectureStaticDataDao  extends JpaRepository<ArchitectureSt
 	List<ArchitectureStaticData> findByCodeTypeAndCodeValue(String codeTypes,String codeValue);
 	
 	//根据Type和CodeName查询
-	List<ArchitectureStaticData> findByCodeTypeAndCodeName(String codeTypes,String CodeName);
+	List<ArchitectureStaticData> findByCodeTypeAndCodeName(String codeTypes,String codeName);
 }

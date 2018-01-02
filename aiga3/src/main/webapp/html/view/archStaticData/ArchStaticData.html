@@ -1,0 +1,221 @@
+
+  <style type="text/css">
+	#Page_staticData .width-input-167 {width: 167px;}
+	#Page_staticData .width-input-400 {width: 400px;}
+	#Page_staticData .width-input-158 {width: 155px;}
+	#Page_staticData .btn-center {text-align: center;}
+	#Page_staticData .btn-table-update {margin-right: 20px;}
+	#Page_staticData .btn-table-delete {margin-right: 20px;}
+	#Page_staticData .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_staticData .total-width {width: 850px;}
+	#Page_staticData .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_staticData .query-data-label {width: 80px;}
+	#Page_staticData .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_staticData .col2-sec-label {margin-left: 250px;}
+	#Page_staticData .col3-after-label {margin-left: 17px;}
+	#Page_staticData .line-sen-top {margin-top: 15px;}
+	#Page_staticData .text-area-sty {width: 680px;vertical-align:middle; }
+  </style>
+    <div class="row" id="Page_staticData">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">静态数据按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>
+                	<div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label  class="col-sm-3  control-label">DATA_ID：</label>
+		                    <div class="col-sm-3">
+		                    	<input name="dataId" type="text" class="form-control width-input-167">
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                	<label  class="col-sm-3  control-label">CODE_TYPE：</label>
+		                    <div class="col-sm-3">
+		                    	<input name="codeType" type="text" class="form-control width-input-167">
+			                </div>		                    
+		                </div>
+		            </div>
+		            <div class="row">
+                		<div class="form-group col-sm-6">
+		                    <label  class="col-sm-3  control-label">CODE_VALUE：</label>
+		                    <div class="col-sm-3">
+		                    	<input name="codeValue" type="text" class="form-control width-input-167">
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                	<label  class="col-sm-3  control-label">CODE_NAME：</label>
+		                    <div class="col-sm-3">
+		                    	<input name="codeName" type="text" class="form-control width-input-167">
+			                </div>		                    
+		                </div>
+		            </div>		            
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_staticDataList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">静态数据列表</h3>
+                <div class="box-tools">
+                    <button type="button" class="btn btn-primary" name="add" data-toggle="modal" data-target="#JS_staticDataModal">新增</button>
+                	<button type="button" class="btn btn-primary" name="del">删除</button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+	                    <th class="iCheckbox" width="15"></th>
+	                    <th >CODE_TYPE</th>
+	                    <th style="width:80px">CODE_VALUE</th>
+						<th style="width:200px">CODE_NAME</th>	
+						<th style="width:200px">CODE_DESC</th>					
+						<th style="width:80px">EXT1</th>						
+						<th style="width:80px">EXT2</th>
+						<th style="width:80px">EXT3</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+                <div class="box-footer no-border">
+                	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- 新增页面 -->
+<div class="modal fade" id="JS_staticDataModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width" style="width:850px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">静态数据新增</h4>
+            </div>
+            <div class="modal-body" style="padding-bottom: 0">
+				<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+					<form id="JS_staticDataForm">
+						<div class="col-md-12">
+							<label class="control-label fist-text-label">CODE_TYPE<span style="color:red">*</span></label>
+	   						<input name="codeType" type="text" class="form-control input-sm " style="width:353px;"></input>
+	  						<label class="control-label margin-onl">CODE_VALUE<span style="color:red">*</span></label>
+							<input name="codeValue" type="text" class="form-control input-sm width-input-167" ></input>
+							
+						</div>
+						<div class="col-md-12 line-sen-top">
+							<label class="control-label fist-text-label">CODE_NAME<span style="color:red">*</span></label>
+							<input name="codeName" type="text" class="form-control input-sm " style="width:353px;"></input>
+							<label class="control-label margin-onl">CODE_DESC</label>&nbsp;&nbsp;&nbsp;
+	   						<input name="codeDesc" type="text" class="form-control input-sm width-input-167"></input>
+	  						
+						</div>
+						<div class="col-md-12 line-sen-top">
+							<label class="control-label fist-text-label">EXT1</label>
+							<input name="ext1" type="text" class="form-control input-sm width-input-167"></input>
+							<label class="control-label margin-onl">EXT2</label>
+							<input name="ext2" type="text" class="form-control input-sm width-input-167"></input>
+							<label class="control-label margin-onl">EXT3</label>
+	   						<input name="ext3" type="text" class="form-control input-sm width-input-167"></input>
+	  						
+						</div> 						
+					</form>	
+          	    </div>
+          	</div>
+            <div class="modal-footer btn-center">
+         	    <button type="button" class="btn btn-primary" name="save">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 修改页面 -->
+<div class="modal fade" id="Modal_dataUpdateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">工作计划项修改</h4>
+            </div>
+            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
+            	<form id="JS_updateDataStaticData" class="form">
+                </form>
+          	</div>
+            <div class="modal-footer btn-center">
+         	    <button type="button" class="btn btn-primary" name="save">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>              
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- 修改页面模版 -->
+<script id="TPL_staticDataFrom" type="text/x-handlebars-template">
+	<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+					<form id="JS_wApplyForm">
+						<div class="col-md-12">
+							<label class="control-label fist-text-label">CODE_TYPE<span style="color:red">*</span></label>
+	   						<input name="codeType" type="text" class="form-control input-sm " style="width:353px;" value="{{codeType}}"></input>
+	  						<label class="control-label margin-onl">CODE_VALUE<span style="color:red">*</span></label>
+							<input name="codeValue" type="text" class="form-control input-sm width-input-167" value="{{codeValue}}"></input>
+							
+						</div>
+						<div class="col-md-12 line-sen-top">
+							<label class="control-label fist-text-label">CODE_NAME<span style="color:red">*</span></label>
+							<input name="codeName" type="text" class="form-control input-sm " style="width:353px;" value="{{codeName}}"></input>
+							<label class="control-label margin-onl">CODE_DESC</label>&nbsp;&nbsp;&nbsp;
+	   						<input name="codeDesc" type="text" class="form-control input-sm width-input-167" value="{{codeDesc}}"></input>
+	  						
+						</div>
+						<div class="col-md-12 line-sen-top">
+							<label class="control-label fist-text-label">EXT1</label>
+							<input name="ext1" type="text" class="form-control input-sm width-input-167" value="{{ext1}}"></input>
+							<label class="control-label margin-onl">EXT2</label>
+							<input name="ext2" type="text" class="form-control input-sm width-input-167" value="{{ext2}}"></input>
+							<label class="control-label margin-onl">EXT3</label>
+	   						<input name="ext3" type="text" class="form-control input-sm width-input-167" value="{{ext3}}"></input>
+	  						
+						</div>	
+					</form>	
+      </div>
+</script>
+
+
+<!-- 表格数据 -->
+<script id="TPL_staticDataTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{dataId}}" name="dataId"></td>
+	<td >{{codeType}}</td>
+	<td style="width:80px">{{codeValue}}</td>
+	<td style="width:200px">{{codeName}}</td>	
+	<td style="width:200px">{{codeDesc}}</td>					
+	<td style="width:80px">{{ext1}}</td>						
+	<td style="width:80px">{{ext2}}</td>
+	<td style="width:80px">{{ext3}}</td>
+</tr>
+{{/each}}
+</script>
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/archStaticData/ArchStaticData", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

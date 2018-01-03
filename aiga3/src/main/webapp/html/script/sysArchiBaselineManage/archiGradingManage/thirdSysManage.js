@@ -266,17 +266,28 @@ define(function(require, exports, module) {
         		cache.datas = json.data.content;
         		Utils.eventTrClickCallback(_dom);
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
-        			self._band_table_btn($(this),"update");
+        			self._band_table_btn($(this).attr("data-source"),"update");
         		});
-        		tablebtn.find("[class='btn btn-primary btn-table-delete']").off('click').on('click', function() {
-        			self._band_table_btn($(this),"delete");
-        		});
+        		tablebtn.find("[class='btn btn-primary btn-table-delete']").confirm({
+        			title:'确认删除',
+        			content:'确认删除数据',
+				    confirmButton: '删除',
+				    cancelButton: '取消',
+				    confirm: function(){
+				        self._band_table_btn(this.dataSource,"delete");
+				    },
+				    cancel:function(){
+				    }
+				});
+//        		tablebtn.find("[class='btn btn-primary btn-table-delete']").off('click').on('click', function() {
+//        			self._band_table_btn($(this),"delete");
+//        		});
 			},_domPagination);
 		},
 		
-		_band_table_btn: function(dom, type) {
+		_band_table_btn: function(sysId, type) {
 			//取出选中数据
-			var id = dom.attr("temp");
+			var id = sysId;
 			var index = 0;
 			while(id != cache.datas[index].onlysysId) {
 				index++;

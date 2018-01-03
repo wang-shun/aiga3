@@ -169,16 +169,24 @@ define(function(require, exports, module) {
         		});
         		
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
-        			self._band_table_btn($(this),"update");
+        			self._band_table_btn($(this).attr("data-source"),"update");
         		});
-        		tablebtn.find("[class='btn btn-primary btn-table-delete']").off('click').on('click', function() {
-        			self._band_table_btn($(this),"delete");
-        		});
+        		tablebtn.find("[class='btn btn-primary btn-table-delete']").confirm({
+        			title:'确认删除',
+        			content:'确认删除数据',
+				    confirmButton: '删除',
+				    cancelButton: '取消',
+				    confirm: function(){
+				        self._band_table_btn(this.dataSource,"delete");
+				    },
+				    cancel:function(){
+				    }
+				});
 			},_domPagination);
 		},
 		
-		_band_table_btn: function(dom, type) {
-			var id = dom.attr("temp");
+		_band_table_btn: function(sysId, type) {
+			var id = sysId;
 			var index = 0;
 			while(id != cache.datas[index].idSecond) {
 				index++;

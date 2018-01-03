@@ -71,58 +71,66 @@ define(function(require, exports, module) {
 				_modal.modal('show');
 				Utils.setSelectData(_modal);
 				var saveBtn = _modal.find("[name='save']");
-				saveBtn.off('click').on('click',function(){
-					//获取表单数据
-					var _form = Page.findId("secApplyForm");
-					var _cmd = _form.serialize();	
-					//获取分层层级	
-					var belongLevel = '';
-					Page.find("[name='hierarchy']:checked").each(function() {
-						belongLevel += $(this).val()+',';
-			        });	
-					belongLevel=belongLevel.substring(0,belongLevel.length-1);
-					_cmd += '&belongLevel='+belongLevel;
-					_cmd += '&ext1=2&description=新增';
-					//数据校验
-				
-					if(_cmd.indexOf('name=&')>-1) {
-						XMS.msgbox.show('名称为空！', 'error', 2000);
-						return
-					}
-					if(_cmd.indexOf('sysId=&')>-1) {
-						XMS.msgbox.show('编号为空！', 'error', 2000);
-						return
-					}
-					var _for = Page.findId("secApplyForm");
-					var str = _for.find("[name='sysId']").val();
-					var _str = $.trim(str);
-					var patt1 =  /^\d{1,8}$/;
-					if(_str.length !=8 || !patt1.test(_str) ){
-						XMS.msgbox.show('请输入8位纯数字！', 'error', 2000);
-						return
-					}
-					if(_cmd.indexOf('code=&')>-1) {
-						XMS.msgbox.show('简称为空！', 'error', 2000);
-						return
-					}
-					if(_cmd.indexOf('idBelong=&')>-1) {
-						XMS.msgbox.show('所属一级域为空！', 'error', 2000);
-						return
-					}
-					if(!belongLevel) {
-						XMS.msgbox.show('分层层级为空！', 'error', 2000);
-						return
-					}
-					//调用服务
-					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-					Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){
-						if(status) {
-							_modal.modal('hide');
-							XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
-						} else {
-							XMS.msgbox.show(json.retMessage, 'error', 2000);
-						}					
-					});
+				saveBtn.confirm({
+        			title:'提示',
+        			content:'确认提交申请单',
+        			confirmButtonClass:'btn-primary',
+				    confirmButton: '确认',
+				    cancelButton: '取消',
+				    confirm: function(){
+							//获取表单数据
+						var _form = Page.findId("secApplyForm");
+						var _cmd = _form.serialize();	
+						//获取分层层级	
+						var belongLevel = '';
+						Page.find("[name='hierarchy']:checked").each(function() {
+							belongLevel += $(this).val()+',';
+				        });	
+						belongLevel=belongLevel.substring(0,belongLevel.length-1);
+						_cmd += '&belongLevel='+belongLevel;
+						_cmd += '&ext1=2&description=新增';
+						//数据校验
+					
+						if(_cmd.indexOf('name=&')>-1) {
+							XMS.msgbox.show('名称为空！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('sysId=&')>-1) {
+							XMS.msgbox.show('编号为空！', 'error', 2000);
+							return
+						}
+						var _for = Page.findId("secApplyForm");
+						var str = _for.find("[name='sysId']").val();
+						var _str = $.trim(str);
+						var patt1 =  /^\d{1,8}$/;
+						if(_str.length !=8 || !patt1.test(_str) ){
+							XMS.msgbox.show('请输入8位纯数字！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('code=&')>-1) {
+							XMS.msgbox.show('简称为空！', 'error', 2000);
+							return
+						}
+						if(_cmd.indexOf('idBelong=&')>-1) {
+							XMS.msgbox.show('所属一级域为空！', 'error', 2000);
+							return
+						}
+						if(!belongLevel) {
+							XMS.msgbox.show('分层层级为空！', 'error', 2000);
+							return
+						}
+						//调用服务
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){
+							if(status) {
+								_modal.modal('hide');
+								XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+				    },
+				    cancel:function(){}
 				});
 			});
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -234,49 +242,16 @@ define(function(require, exports, module) {
 					}					
 					//修改保存按钮
 					var saveBtn = _modal.find("[name='save']");
-					saveBtn.off('click').on('click',function(){
-						var updateDom = Page.findId('secUpdateForm');
-						var _cmd = updateDom.serialize();
-						//获取分层层级
-						var belongLevel = '';
-						Page.find("[name='hierarchysec']:checked").each(function() {
-							belongLevel += $(this).val()+',';
-				        });	
-						belongLevel=belongLevel.substring(0,belongLevel.length-1);
-						_cmd += '&'+'belongLevel='+belongLevel;
-						_cmd += '&ext1=2&description=修改';
-						
-						//数据校验
-						if(_cmd.indexOf('name=&')>-1) {
-							XMS.msgbox.show('名称为空！', 'error', 2000);
-							return
-						}
-						if(_cmd.indexOf('sysId=&')>-1) {
-							XMS.msgbox.show('编号为空！', 'error', 2000);
-							return
-						}
-						if(_cmd.indexOf('code=&')>-1) {
-							XMS.msgbox.show('简称为空！', 'error', 2000);
-							return
-						}
-						if(_cmd.indexOf('idBelong=&')>-1) {
-							XMS.msgbox.show('所属一级域为空！', 'error', 2000);
-							return
-						}
-						if(!belongLevel) {
-							XMS.msgbox.show('分层层级为空！', 'error', 2000);
-							return
-						}
-						//调服务
-						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){
-							if(status) {
-								_modal.modal('hide');
-								XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
-							} else {
-								XMS.msgbox.show(json.retMessage, 'error', 2000);
-							}					
-						});
+					saveBtn.confirm({
+	        			title:'提示',
+	        			content:'确认提交申请单',
+	        			confirmButtonClass:'btn-primary',
+					    confirmButton: '确认',
+					    cancelButton: '取消',
+					    confirm: function(){
+							self._update_submit();	
+						},
+					    cancel:function(){}
 					});
 				});
 			}
@@ -296,6 +271,51 @@ define(function(require, exports, module) {
 					}					
 				});
 			}
+		},
+		
+		_update_submit:function() {
+			var updateDom = Page.findId('secUpdateForm');
+			var _cmd = updateDom.serialize();
+			//获取分层层级
+			var belongLevel = '';
+			Page.find("[name='hierarchysec']:checked").each(function() {
+				belongLevel += $(this).val()+',';
+	        });	
+			belongLevel=belongLevel.substring(0,belongLevel.length-1);
+			_cmd += '&'+'belongLevel='+belongLevel;
+			_cmd += '&ext1=2&description=修改';
+			
+			//数据校验
+			if(_cmd.indexOf('name=&')>-1) {
+				XMS.msgbox.show('名称为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('sysId=&')>-1) {
+				XMS.msgbox.show('编号为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('code=&')>-1) {
+				XMS.msgbox.show('简称为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('idBelong=&')>-1) {
+				XMS.msgbox.show('所属一级域为空！', 'error', 2000);
+				return
+			}
+			if(!belongLevel) {
+				XMS.msgbox.show('分层层级为空！', 'error', 2000);
+				return
+			}
+			//调服务
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			Rose.ajax.postJson(srvMap.get('secSysMessageSave'),_cmd,function(json, status){
+				if(status) {
+					_modal.modal('hide');
+					XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+			});
 		},
 		eventDClickCallback: function(obj, callback) {
 			obj.find("tbody tr").bind('dblclick ', function(event) {

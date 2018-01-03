@@ -141,30 +141,38 @@ define(function(require, exports, module) {
 				_modal.on('shown.bs.modal', function () {
 					//修改保存按钮
 					var saveBtn = _modal.find("[name='save']");
-					saveBtn.off('click').on('click',function(){
-						var updateDom = Page.findId('firUpdateForm');
-						var _cmd = updateDom.serialize();
-						_cmd = _cmd.replace('sysId=&', 'sysId=0&');
-						_cmd += '&ext1=1&description=修改';
-						//数据校验
-						if(_cmd.indexOf('name=&')>-1) {
-							XMS.msgbox.show('名称为空！', 'error', 2000);
-							return
-						}
-						if(_cmd.indexOf('code=&')>-1) {
-							XMS.msgbox.show('简称为空！', 'error', 2000);
-							return
-						}
-						//调服务
-						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						Rose.ajax.postJson(srvMap.get('firSysMessageSave'),_cmd,function(json, status){
-							if(status) {
-								_modal.modal('hide');
-								XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
-							} else {
-								XMS.msgbox.show(json.retMessage, 'error', 2000);
-							}					
-						});
+					saveBtn.confirm({
+	        			title:'提示',
+	        			content:'确认提交申请单',
+	        			confirmButtonClass:'btn-primary',
+					    confirmButton: '确认',
+					    cancelButton: '取消',
+					    confirm: function(){
+							var updateDom = Page.findId('firUpdateForm');
+							var _cmd = updateDom.serialize();
+							_cmd = _cmd.replace('sysId=&', 'sysId=0&');
+							_cmd += '&ext1=1&description=修改';
+							//数据校验
+							if(_cmd.indexOf('name=&')>-1) {
+								XMS.msgbox.show('名称为空！', 'error', 2000);
+								return
+							}
+							if(_cmd.indexOf('code=&')>-1) {
+								XMS.msgbox.show('简称为空！', 'error', 2000);
+								return
+							}
+							//调服务
+							XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+							Rose.ajax.postJson(srvMap.get('firSysMessageSave'),_cmd,function(json, status){
+								if(status) {
+									_modal.modal('hide');
+									XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+								} else {
+									XMS.msgbox.show(json.retMessage, 'error', 2000);
+								}					
+							});	
+						},
+					    cancel:function(){}
 					});
 				});
 			}

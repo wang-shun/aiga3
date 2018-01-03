@@ -205,9 +205,16 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);	
 				//保存按钮
 				var saveBtn = _modal.find("[name='save']");
-				saveBtn.off('click').on('click',function(){
-					//先文件上传，成功后再提交
-					self.uploadAnNiu(_modal);
+				saveBtn.confirm({
+        			title:'提示',
+        			content:'确认提交申请单',
+        			confirmButtonClass:'btn-primary',
+				    confirmButton: '确认',
+				    cancelButton: '取消',
+				    confirm: function(){
+						self.uploadAnNiu(_modal);
+				    },
+				    cancel:function(){}
 				});
 			});
 			//查询二级域名称
@@ -238,9 +245,17 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);	
 				//保存按钮
 				var saveBtn = _modal.find("[name='save']");
-				saveBtn.off('click').on('click',function() {
-					//先文件上传，成功后再提交
-					self.uploadAnNiu(_modal);
+				saveBtn.confirm({
+        			title:'提示',
+        			content:'确认提交申请单',
+        			confirmButtonClass:'btn-primary',
+				    confirmButton: '确认',
+				    cancelButton: '取消',
+				    confirm: function(){
+						self.uploadAnNiu(_modal);
+				    },
+				    cancel:function(){
+				    }
 				});
 			});
 		},
@@ -344,27 +359,36 @@ define(function(require, exports, module) {
 					rankDom.val(subData.rankInfo);
 					//修改保存按钮事件
 					var saveBtn = _modal.find("[name='save']");
-					saveBtn.off('click').on('click',function(){
-						var updateDom = Page.findId('thirdUpdateForm');
-						var _cmd = updateDom.serialize();
-						//获取分层层级
-						var belongLevel = '';
-						Page.find("[name='hierarchysec']:checked").each(function() {
-							belongLevel += $(this).val()+',';
-				        });		
-						belongLevel=belongLevel.substring(0,belongLevel.length-1);
-						_cmd += '&'+'belongLevel='+belongLevel;
-						_cmd += '&ext3='+ Page.find("[name='groupUpdate']:checked").val();
-						_cmd += '&ext1=3&description=修改';
-						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-						Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){
-							if(status) {
-								_modal.modal('hide');
-								XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
-							} else {
-								XMS.msgbox.show(json.retMessage, 'error', 2000);
-							}					
-						});
+					saveBtn.confirm({
+	        			title:'提示',
+	        			content:'确认提交申请单',
+	        			confirmButtonClass:'btn-primary',
+					    confirmButton: '确认',
+					    cancelButton: '取消',
+					    confirm: function(){
+							var updateDom = Page.findId('thirdUpdateForm');
+							var _cmd = updateDom.serialize();
+							//获取分层层级
+							var belongLevel = '';
+							Page.find("[name='hierarchysec']:checked").each(function() {
+								belongLevel += $(this).val()+',';
+					        });		
+							belongLevel=belongLevel.substring(0,belongLevel.length-1);
+							_cmd += '&'+'belongLevel='+belongLevel;
+							_cmd += '&ext3='+ Page.find("[name='groupUpdate']:checked").val();
+							_cmd += '&ext1=3&description=修改';
+							XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+							Rose.ajax.postJson(srvMap.get('thirdSysMessageSave'),_cmd,function(json, status){
+								if(status) {
+									_modal.modal('hide');
+									XMS.msgbox.show('申请成功，请等待认定！', 'success', 2000);
+								} else {
+									XMS.msgbox.show(json.retMessage, 'error', 2000);
+								}					
+							});
+					    },
+					    cancel:function(){
+					    }
 					});
 				});		
 			}

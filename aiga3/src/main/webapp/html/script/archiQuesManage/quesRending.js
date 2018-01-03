@@ -609,218 +609,218 @@ define(function(require, exports, module) {
 		hdbarHelp: function() {
 		
 			Handlebars.registerHelper("transformatRoot", function(value) {
-                if (value == '1') {
+                if (value == '1' || value == '技术巡检') {
                     return "技术巡检";
-                } else if (value == '2') {
+                } else if (value == '2' || value == '系统巡检') {
                     return "系统巡检";
-                } else if (value == '3') {
+                } else if (value == '3' || value == '疑难问题') {
                     return "疑难问题";
                 }
             });
 			Handlebars.registerHelper("transformatFirst", function(value) {
-                if (value == '1001') {
+                if (value == '1001' || value == '容量规划') {
                     return "容量规划";
-                } else if (value == '-'){
+                } else if (value == '-' || value == '无'){
                 	return "无";
-                } else if (value == '1002') {
+                } else if (value == '1002' || value == '高可用') {
                     return "高可用";
-                } else if (value == '1003') {
+                } else if (value == '1003' || value == '分层') {
                     return "分层";
-                } else if (value == '1004') {
+                } else if (value == '1004' || value == '柔性可用') {
                 	return "柔性可用";
-                } else if (value == '1005') {
+                } else if (value == '1005' || value == '日志') {
                     return "日志";
-                } else if (value == '1006') {
+                } else if (value == '1006' || value == '配置') {
                     return "配置";
-                } else if (value == '1007') {
+                } else if (value == '1007' || value == '监控') {
                     return "监控";
-                } else if (value == '1008') {
+                } else if (value == '1008' || value == '安全') {
                     return "安全";
                 }
             });
 			Handlebars.registerHelper("transformatSecond", function(value) {
-                if (value == '2001') {
+                if (value == '2001' || value == '系统容量') {
                     return "系统容量";
-                } else if (value == '-'){
+                } else if (value == '-' || value == '无'){
                 	return "无";
-                } else if (value == '2002') {
+                } else if (value == '2002' || value == '业务容量') {
                     return "业务容量";
-                } else if (value == '2003') {
+                } else if (value == '2003' || value == '系统性能') {
                     return "系统性能";
-                } else if (value == '2004') {
+                } else if (value == '2004' || value == '系统级别') {
                     return "系统级别";
-                } else if (value == '2005') {
+                } else if (value == '2005' || value == '容灾等级') {
                     return "容灾等级";
-                } else if (value == '2006') {
+                } else if (value == '2006' || value == '演练结果') {
                     return "演练结果";
-                } else if (value == '2007') {
+                } else if (value == '2007' || value == '核心进程主备') {
                     return "核心进程主备";
-                } else if (value == '2008') {
+                } else if (value == '2008' || value == 'IaaS') {
                     return "IaaS";
-                } else if (value == '2009') {
+                } else if (value == '2009' || value == 'PaaS') {
                     return "PaaS";
-                } else if (value == '2010') {
+                } else if (value == '2010' || value == 'SaaS') {
                     return "SaaS";
-                } else if (value == '2011') {
+                } else if (value == '2011' || value == '交互应用') {
                     return "交互应用";
-                } else if (value == '2012') {
+                } else if (value == '2012' || value == '数据访问') {
                     return "数据访问";
-                } else if (value == '2013') {
+                } else if (value == '2013' || value == '业务设计') {
                     return "业务设计";
-                } else if (value == '2014') {
+                } else if (value == '2014' || value == '服务设计') {
                     return "服务设计";
-                } else if (value == '2015') {
+                } else if (value == '2015' || value == '其他柔性手段') {
                     return "其他柔性手段";
-                } else if (value == '2016') {
+                } else if (value == '2016' || value == '完整性') {
                     return "完整性";
-                } else if (value == '2017') {
+                } else if (value == '2017' || value == '便捷性') {
                     return "便捷性";
-                } else if (value == '2018') {
+                } else if (value == '2018' || value == '合规性') {
                     return "合规性";
-                } else if (value == '2019') {
+                } else if (value == '2019' || value == '集中配置') {
                     return "集中配置";
-                } else if (value == '2020') {
+                } else if (value == '2020' || value == '配置刷新') {
                     return "配置刷新";
-                } else if (value == '2021') {
+                } else if (value == '2021' || value == '稽核手段') {
                     return "稽核手段";
-                } else if (value == '2022') {
+                } else if (value == '2022' || value == '采集方式') {
                     return "采集方式";
-                } else if (value == '2023') {
+                } else if (value == '2023' || value == '端到端监控') {
                     return "端到端监控";
-                } else if (value == '2024') {
+                } else if (value == '2024' || value == '数据一致性稽核') {
                     return "数据一致性稽核";
-                } else if (value == '2025') {
+                } else if (value == '2025' || value == '单笔业务跟踪') {
                     return "单笔业务跟踪";
-                } else if (value == '2026') {
+                } else if (value == '2026' || value == '账号密码') {
                     return "账号密码";
-                } else if (value == '2027') {
+                } else if (value == '2027' || value == '4A系统对接') {
                     return "4A系统对接";
-                } else if (value == '2028') {
+                } else if (value == '2028' || value == '权限管控粒度') {
                     return "权限管控粒度";
                 }
             });
 			Handlebars.registerHelper("transformatThird", function(value) {
-                if (value == '3001') {
+                if (value == '3001' || value == '数据库容量') {
                     return "数据库容量";
-                } else if (value == '-'){
+                } else if (value == '-' || value == '无'){
                 	return "无";
-                } else if (value == '3002') {
+                } else if (value == '3002' || value == '网络带宽') {
                     return "网络带宽";
-                } else if (value == '3003') {
+                } else if (value == '3003' || value == 'TPCC') {
                     return "TPCC";
-                } else if (value == '3004') {
+                } else if (value == '3004' || value == '存储') {
                     return "存储";
-                } else if (value == '3005') {
+                } else if (value == '3005' || value == '工单并发量') {
                     return "工单并发量";
-                } else if (value == '3006') {
+                } else if (value == '3006' || value == '移动号码新入网业务') {
                     return "移动号码新入网业务";
-                } else if (value == '3007') {
+                } else if (value == '3007' || value == '合约业务') {
                     return "合约业务";
-                } else if (value == '3008') {
+                } else if (value == '3008' || value == '移动宽带新入网业务') {
                     return "移动宽带新入网业务";
-                } else if (value == '3009') {
+                } else if (value == '3009' || value == '亲情网和流量包办理') {
                     return "亲情网和流量包办理";
-                } else if (value == '3010') {
+                } else if (value == '3010' || value == '用户量') {
                     return "用户量";
-                } else if (value == '3011') {
+                } else if (value == '3011' || value == '主机运营指标') {
                     return "主机运营指标";
-                } else if (value == '3012') {
+                } else if (value == '3012' || value == '业务并发量') {
                     return "业务并发量";
-                } else if (value == '3013') {
+                } else if (value == '3013' || value == 'CPU') {
                     return "CPU";
-                } else if (value == '3014') {
+                } else if (value == '3014' || value == '内存') {
                     return "内存";
-                } else if (value == '3015') {
+                } else if (value == '3015' || value == '系统级别') {
                     return "系统级别";
-                } else if (value == '3016') {
+                } else if (value == '3016' || value == '容灾等级') {
                     return "容灾等级";
-                } else if (value == '3017') {
+                } else if (value == '3017' || value == '演练结果') {
                     return "演练结果";
-                } else if (value == '3018') {
+                } else if (value == '3018' || value == '核心进程主备') {
                     return "核心进程主备";
-                } else if (value == '3019') {
+                } else if (value == '3019' || value == '硬件标准化') {
                     return "硬件标准化";
-                } else if (value == '3020') {
+                } else if (value == '3020' || value == '软件定义化') {
                     return "软件定义化";
-                } else if (value == '3021') {
+                } else if (value == '3021' || value == '组件标准化') {
                     return "组件标准化";
-                } else if (value == '3022') {
+                } else if (value == '3022' || value == 'DCOS化') {
                     return "DCOS化";
-                } else if (value == '3023') {
+                } else if (value == '3023' || value == '服务统一接入管控') {
                     return "服务统一接入管控";
-                } else if (value == '3024') {
+                } else if (value == '3024' || value == '应用无状态化') {
                     return "应用无状态化";
-                } else if (value == '3025') {
+                } else if (value == '3025' || value == '提供标准接口') {
                     return "提供标准接口";
-                } else if (value == '3026') {
+                } else if (value == '3026' || value == '会话无状态化') {
                     return "会话无状态化";
-                } else if (value == '3027') {
+                } else if (value == '3027' || value == '读写分离') {
                     return "读写分离";
-                } else if (value == '3028') {
+                } else if (value == '3028' || value == '数据缓存') {
                     return "数据缓存";
-                } else if (value == '3029') {
+                } else if (value == '3029' || value == '数据库异常隔离') {
                     return "数据库异常隔离";
-                } else if (value == '3030') {
+                } else if (value == '3030' || value == '业务流程不依赖非关键业务') {
                     return "业务流程不依赖非关键业务";
-                } else if (value == '3031') {
+                } else if (value == '3031' || value == '业务服务不依赖非关键原子') {
                     return "业务服务不依赖非关键原子";
-                } else if (value == '3032') {
+                } else if (value == '3032' || value == '服务隔离') {
                     return "服务隔离";
-                } else if (value == '3033') {
+                } else if (value == '3033' || value == '服务降级') {
                     return "服务降级";
-                } else if (value == '3034') {
+                } else if (value == '3034' || value == '快速失败') {
                     return "快速失败";
-                } else if (value == '3035') {
+                } else if (value == '3035' || value == '熔断') {
                     return "熔断";
-                } else if (value == '3036') {
+                } else if (value == '3036' || value == '分中心隔离') {
                     return "分中心隔离";
-                } else if (value == '3037') {
+                } else if (value == '3037' || value == '弹性扩展') {
                     return "弹性扩展";
-                } else if (value == '3038') {
+                } else if (value == '3038' || value == '服务集成') {
                     return "服务集成";
-                } else if (value == '3039') {
+                } else if (value == '3039' || value == '核心系统/非核心系统交互屏蔽') {
                     return "核心系统/非核心系统交互屏蔽";
-                } else if (value == '3040') {
+                } else if (value == '3040' || value == '日志输出是否完整') {
                     return "日志输出是否完整";
-                } else if (value == '3041') {
+                } else if (value == '3041' || value == '日志查询方式') {
                     return "日志查询方式";
-                } else if (value == '3042') {
+                } else if (value == '3042' || value == '传送大数据平台') {
                     return "传送大数据平台";
-                } else if (value == '3043') {
+                } else if (value == '3043' || value == 'BOMC日志分析') {
                     return "BOMC日志分析";
-                } else if (value == '3044') {
+                } else if (value == '3044' || value == '基础参数') {
                     return "基础参数";
-                } else if (value == '3045') {
+                } else if (value == '3045' || value == '业务规则') {
                     return "业务规则";
-                } else if (value == '3046') {
+                } else if (value == '3046' || value == '刷新时间') {
                     return "刷新时间";
-                } else if (value == '3047') {
+                } else if (value == '3047' || value == '刷新方式') {
                     return "刷新方式";
-                } else if (value == '3048') {
+                } else if (value == '3048' || value == '业务影响') {
                     return "业务影响";
-                } else if (value == '3049') {
+                } else if (value == '3049' || value == '稽核手段') {
                     return "稽核手段";
-                } else if (value == '3050') {
+                } else if (value == '3050' || value == '对接BOMC系统') {
                     return "对接BOMC系统";
-                } else if (value == '3051') {
+                } else if (value == '3051' || value == '统一采集') {
                     return "统一采集";
-                } else if (value == '3052') {
+                } else if (value == '3052' || value == '唯一流水号') {
                     return "唯一流水号";
-                } else if (value == '3053') {
+                } else if (value == '3053' || value == '监控工具') {
                     return "监控工具";
-                } else if (value == '3054') {
+                } else if (value == '3054' || value == '数据一致性稽核') {
                     return "数据一致性稽核";
-                } else if (value == '3055') {
+                } else if (value == '3055' || value == '单笔业务跟踪') {
                     return "单笔业务跟踪";
-                } else if (value == '3056') {
+                } else if (value == '3056' || value == '加密存储') {
                     return "加密存储";
-                } else if (value == '3057') {
+                } else if (value == '3057' || value == '定期修改且在线生效') {
                     return "定期修改且在线生效";
-                } else if (value == '3058') {
+                } else if (value == '3058' || value == '系统工号') {
                     return "系统工号";
-                } else if (value == '3059') {
+                } else if (value == '3059' || value == '操作员工号') {
                     return "操作员工号";
-                } else if (value == '3060') {
+                } else if (value == '3060' || value == '权限管控粒度') {
                     return "权限管控粒度";
                 }
             });

@@ -54,9 +54,6 @@ define(function(require, exports, module) {
 				var _queryBtn = _form.find("[name='query']");
 				_queryBtn.unbind('click').bind('click', function() {
 					var cmd = result;
-//					if(cmd ==''){
-//						cmd = 'idFirst=0';
-//					}
 					self._getGridList(cmd);
 				});
 				_queryBtn.click();
@@ -205,7 +202,7 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);	
 				//保存按钮
 				var saveBtn = _modal.find("[name='save']");
-				saveBtn.confirm({
+				saveBtn.off('click').confirm({
         			title:'提示',
         			content:'确认提交申请单',
         			confirmButtonClass:'btn-primary',
@@ -245,7 +242,7 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_modal);	
 				//保存按钮
 				var saveBtn = _modal.find("[name='save']");
-				saveBtn.confirm({
+				saveBtn.off('click').confirm({
         			title:'提示',
         			content:'确认提交申请单',
         			confirmButtonClass:'btn-primary',
@@ -283,7 +280,7 @@ define(function(require, exports, module) {
         		tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
         			self._band_table_btn($(this).attr("data-source"),"update");
         		});
-        		tablebtn.find("[class='btn btn-primary btn-table-delete']").confirm({
+        		tablebtn.find("[class='btn btn-primary btn-table-delete']").off('click').confirm({
         			title:'提示',
         			content:'确认删除数据',
         			confirmButtonClass:'btn-primary',
@@ -359,7 +356,7 @@ define(function(require, exports, module) {
 					rankDom.val(subData.rankInfo);
 					//修改保存按钮事件
 					var saveBtn = _modal.find("[name='save']");
-					saveBtn.confirm({
+					saveBtn.off('click').confirm({
 	        			title:'提示',
 	        			content:'确认提交申请单',
 	        			confirmButtonClass:'btn-primary',

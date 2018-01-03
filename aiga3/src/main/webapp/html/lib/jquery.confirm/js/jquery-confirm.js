@@ -29,7 +29,8 @@ var jconfirm, Jconfirm;
          */
         $(this).each(function () {
             var $this = $(this);
-            $this.on('click', function (e) {
+            //默认去除click事件
+            $this.off('click').on('click', function (e) {
                 e.preventDefault();
                 var jcOption = $.extend({}, options);
                 if ($this.attr('data-source'))

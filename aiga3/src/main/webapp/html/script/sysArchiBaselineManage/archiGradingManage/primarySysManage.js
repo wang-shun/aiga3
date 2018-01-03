@@ -108,9 +108,10 @@ define(function(require, exports, module) {
         			self._band_table_btn($(this).attr("data-source"),"update");
         		});
         		tablebtn.find("[class='btn btn-primary btn-table-delete']").confirm({
-        			title:'INFO',
+        			title:'提示',
         			content:'确认删除数据',
-				    confirmButton: '删除',
+        			confirmButtonClass:'btn-primary',
+				    confirmButton: '确认',
 				    cancelButton: '取消',
 				    confirm: function(){
 				        self._band_table_btn(this.dataSource,"delete");

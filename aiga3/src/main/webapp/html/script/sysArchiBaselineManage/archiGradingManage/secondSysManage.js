@@ -172,7 +172,7 @@ define(function(require, exports, module) {
         			self._band_table_btn($(this).attr("data-source"),"update");
         		});
         		tablebtn.find("[class='btn btn-primary btn-table-delete']").confirm({
-        			title:'确认删除',
+        			title:'INFO',
         			content:'确认删除数据',
 				    confirmButton: '删除',
 				    cancelButton: '取消',

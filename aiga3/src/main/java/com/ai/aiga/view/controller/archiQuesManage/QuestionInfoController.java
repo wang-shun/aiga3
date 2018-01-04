@@ -53,7 +53,7 @@ public class QuestionInfoController {
 //		SYS_QUESTION_CONFIRM---认定
 //		SYS_QUESTION_SOLVED ---解决
 //		ROLE 				---管理员
-		String role = null;
+		String role = "";
 		String roles = "SYS_QUESTION_QRY,SYS_QUESTION_CONFIRM,SYS_QUESTION_SOLVED,ROLE";
 		if(userInfo == null){
 			bean.fail("用户未登陆!");
@@ -66,7 +66,7 @@ public class QuestionInfoController {
 					role += baseRole.getCode()+",";
 				}
 			}		
-			if(role == null){
+			if(role == ""){
 				bean.fail("用户没有问题相关权限!");
 				return bean;
 			}

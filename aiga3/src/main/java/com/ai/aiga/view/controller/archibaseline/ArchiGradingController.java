@@ -909,6 +909,7 @@ public class ArchiGradingController {
 			//旧申请单进行撤销处理
 			architectureGradingSv.update(data);
 			//提出新的申请单
+			input.setApplyTime(new Date());
 			architectureGradingSv.save(input);
 			//操作完成后发送短信
 			AigaStaff staffInfo = SessionMgrUtil.getUserInfo().getStaff();	

@@ -328,13 +328,6 @@ define(function(require, exports, module) {
 			}
 			var data = json.content[i];
 			idcache.quesId=Id;
-//			var _dom = Page.findModal('updateDataMaintainModal');
-//			var index = _dom.attr("temp");
-//			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
-//			Page.findId('updateModal').html(template(json.data[index]));
-//			var _modal = Page.findId('updateDataMaintainModal');
-//			_modal.modal('show');
-//			Utils.setSelectData(_modal);
 			if(data.modifyDate){
 				data.modifyDate = data.modifyDate.replace(/-/g,"/");
 				data.createDate = data.modifyDate;
@@ -344,9 +337,18 @@ define(function(require, exports, module) {
 				console.log(cache.role.charAt('SYS_QUESTION_CONFIRM'));
 				console.log(cache.role.charAt('ROLE')>-1);
 			}
-//			if(data.sysVersion == "待确认"){
-			if((cache.role == 'SYS_QUESTION_CONFIRM' && data.sysVersion == "待确认") || (cache.role == 'ROLE' && data.sysVersion == "待确认")){
-			
+
+			if(cache.role == 'SYS_QUESTION_QRY'){
+				$("#archiXiugai").attr({style:"display:display"});
+			}else if(cache.role == 'SYS_QUESTION_CONFIRM'){
+				$("#archiIdentify").attr({style:"display:display"});
+			}else if(cache.role == 'SYS_QUESTION_SOLVED'){
+				$("#archiJiejue").attr({style:"display:display"});
+			}else if(cache.role == 'ROLE'){
+				$("#archiXiugai").attr({style:"display:display"});
+				$("#archiIdentify").attr({style:"display:display"});
+				$("#archiJiejue").attr({style:"display:display"});
+			}
 //			var cmd = 'quesId=' + Id;
 //			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){
 			var cmd = 'planId=' + Id + '&fileType=99999' 
@@ -381,9 +383,9 @@ define(function(require, exports, module) {
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
 			_dom.find("#JS_name").html(html);
 
-			var _save = _dom.find("[name='identify']");
-			_save.unbind('click');
-			_save.bind('click', function() {
+			var _identify = _dom.find("[name='identify']");
+			_identify.unbind('click');
+			_identify.bind('click', function() {
 				Page.findId('modalMessage').val("");
 				Page.findId('identifiedName').val("");
 				var textModal = Page.findId('modal');
@@ -453,143 +455,11 @@ define(function(require, exports, module) {
 					}
 				});*/
 			});
-//		}else if(data.sysVersion == "已确认"){
-		}else if((cache.role == 'SYS_QUESTION_SOLVED' && data.sysVersion == "已确认") || (cache.role == 'ROLE' && data.sysVersion == "已确认")){
-			var template2 = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo2'));
-			Page.findId('updateDataMaintainInfo2').html(template2(data));
-			var _dom = Page.findModal('updateDataMaintainModal2');
-			_dom.modal('show');
-			Utils.setSelectData(_dom);
 			
-			//开需求单
-			var _openRequest = _dom.find("[name='openRequest']");
-			_openRequest.unbind('click');
-			_openRequest.bind('click', function() {
-				data.state ="需求单跟踪";
-				data.solvedInfo = $('#realResult').val();
-				data.solvedName = $('#solvedName').val();
-				var _cmd = jQuery.param(data);
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
-					if(status) {							
-						_dom.modal('hide');
-						XMS.msgbox.show('开需求单成功！！！', 'success', 5000);	
-						window.open("http://apc.zj.chinamobile.com/");  
-					setTimeout(function() {
-							Page.findId('queryDataMaintainForm').find("[name='query']").click();
-						}, 1500);
-					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}					
-				});
-			});
-			//开任务单
-			var _openTask = _dom.find("[name='openTask']");
-			_openTask.unbind('click');
-			_openTask.bind('click',function(){
-				data.state ="任务单跟踪";
-				data.solvedInfo = $('#realResult').val();
-				data.solvedName = $('#solvedName').val();
-				var _cmd = jQuery.param(data);
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
-					if(status) {							
-						_dom.modal('hide');
-						XMS.msgbox.show('开任务单成功！！！', 'success', 5000);	
-						window.open("http://apc.zj.chinamobile.com/");  
-						setTimeout(function() {
-							Page.findId('queryDataMaintainForm').find("[name='query']").click();
-						}, 1500);
-					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}					
-				});
-			});
-			//开变更单
-			var _openUpdate = _dom.find("[name='openUpdate']");
-			_openUpdate.unbind('click');
-			_openUpdate.bind('click',function(){
-				data.state ="变更单跟踪";
-				data.solvedInfo = $('#realResult').val();
-				data.solvedName = $('#solvedName').val();
-				var _cmd = jQuery.param(data);
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
-					if(status) {							
-						_dom.modal('hide');
-						XMS.msgbox.show('开变更单成功！！！', 'success', 5000);	
-						window.open("http://apc.zj.chinamobile.com/"); 
-						setTimeout(function() {
-							Page.findId('queryDataMaintainForm').find("[name='query']").click();
-						}, 1500);
-					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}					
-				});
-			});
-			//后续立项解决
-			var _afterSolved = _dom.find("[name='afterSolved']");
-			_afterSolved.unbind('click');
-			_afterSolved.bind('click',function(){
-				data.state ="待立项规划";
-				data.solvedInfo = $('#realResult').val();
-				data.solvedName = $('#solvedName').val();
-				var _cmd = jQuery.param(data);
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
-					if(status) {							
-						_dom.modal('hide');
-						XMS.msgbox.show('后续立项解决成功！！！', 'success', 5000);	
-						window.open("http://apc.zj.chinamobile.com/"); 
-						setTimeout(function() {
-							Page.findId('queryDataMaintainForm').find("[name='query']").click();
-						}, 1500);
-					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}					
-				});
-			});
-			//关单
-			var _closeAll = _dom.find("[name='closeAll']");
-			_closeAll.unbind('click');
-			_closeAll.bind('click',function(){
-				data.state ="已解决";
-				data.solvedInfo = $('#realResult').val();
-				data.solvedName = $('#solvedName').val();
-				var _cmd = jQuery.param(data);
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-				Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
-					if(status) {							
-						_dom.modal('hide');
-						XMS.msgbox.show('问题解决成功！！！', 'success', 5000);	
-						setTimeout(function() {
-							Page.findId('queryDataMaintainForm').find("[name='query']").click();
-						}, 1500);
-					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}					
-				});
-			});
-		}else{
-			var template3 = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo3'));
-			Page.findId('updateDataMaintainInfo3').html(template3(data));
-			var _dom = Page.findModal('updateDataMaintainModal3');
-			_dom.modal('show');
-			Utils.setSelectData(_dom);
-			//修改
-			var _xiugaiRequest = _dom.find("[name='xiugai']");
-			_xiugaiRequest.unbind('click');
-			_xiugaiRequest.bind('click', function() {
-//				data.occurEnvironment = $('#archtitle').val();
-//				data.abstracts = $('#description').val();
-//				data.belongProject = $('#archbelongpro').val();
-//				data.appointedPerson = $('#archapointper').val();
-//				data.reportor = $('#archreportor').val();
-//				data.identifiedName = $('#archidentifyname').val();
-//				data.solvedName = $('#archsolvename').val();
-//				data.solvedInfo = $('#archsolveinfo').val();
-//				var _cmd = jQuery.param(data);
-				var _form = Page.findId('updateDataMaintainInfo3');
+			var _xiugai = _dom.find("[name='xiugai']");
+			_xiugai.unbind('click');
+			_xiugai.bind('click', function() {
+				var _form = Page.findId('updateDataMaintainInfo');
 				Utils.setSelectData(_form);
 				var _cmd = _form.serialize();
 				_cmd=_cmd.replace(/-/g,"/");
@@ -606,7 +476,137 @@ define(function(require, exports, module) {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}					
 				});
-			});}
+			
+			});	
+			
+			var _jiejue = _dom.find("[name='jiejue']");
+			_jiejue.unbind('click');
+			_jiejue.bind('click', function() {				
+				Page.findId('solveModalMessage').val("");
+				Page.findId('solvedName').val("");
+				var solveTextModal = Page.findId('solveModal');
+				solveTextModal.off('shown.bs.modal').on('shown.bs.modal', function () {
+//					var data = cache.selectData;
+//					data.modifyDate = data.modifyDate.replace(/-/g,"/");
+//					data.createDate = data.createDate.replace(/-/g,"/");
+//					data.applyTime = data.applyTime.replace(/-/g,"/");
+					//开需求单
+					var _openRequest = solveTextModal.find("[name='openRequest']");
+					_openRequest.unbind('click');
+					_openRequest.bind('click', function() {
+						data.state ="需求单跟踪";
+						data.solvedInfo = Page.findId('solveModalMessage').val();
+						data.solvedName = Page.findId('solvedName').val();
+						var _cmd = jQuery.param(data);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
+							if(status) {
+								solveTextModal.modal('hide');
+								_dom.modal('hide');
+								XMS.msgbox.show('开需求单成功！！！', 'success', 5000);	
+								window.open("http://apc.zj.chinamobile.com/");  
+							setTimeout(function() {
+									Page.findId('queryDataMaintainForm').find("[name='query']").click();
+								}, 1500);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+					});
+					//开任务单
+					var _openTask = solveTextModal.find("[name='openTask']");
+					_openTask.unbind('click');
+					_openTask.bind('click',function(){
+						data.state ="任务单跟踪";
+						data.solvedInfo = Page.findId('solveModalMessage').val();
+						data.solvedName = Page.findId('solvedName').val();
+						var _cmd = jQuery.param(data);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
+							if(status) {	
+								solveTextModal.modal('hide');
+								_dom.modal('hide');
+								XMS.msgbox.show('开任务单成功！！！', 'success', 5000);	
+								window.open("http://apc.zj.chinamobile.com/");  
+								setTimeout(function() {
+									Page.findId('queryDataMaintainForm').find("[name='query']").click();
+								}, 1500);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+					});
+					//开变更单
+					var _openUpdate = solveTextModal.find("[name='openUpdate']");
+					_openUpdate.unbind('click');
+					_openUpdate.bind('click',function(){
+						data.state ="变更单跟踪";
+						data.solvedInfo = Page.findId('solveModalMessage').val();
+						data.solvedName = Page.findId('solvedName').val();
+						var _cmd = jQuery.param(data);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
+							if(status) {	
+								solveTextModal.modal('hide');
+								_dom.modal('hide');
+								XMS.msgbox.show('开变更单成功！！！', 'success', 5000);	
+								window.open("http://apc.zj.chinamobile.com/"); 
+								setTimeout(function() {
+									Page.findId('queryDataMaintainForm').find("[name='query']").click();
+								}, 1500);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+					});
+					//后续立项解决
+					var _afterSolved = solveTextModal.find("[name='afterSolved']");
+					_afterSolved.unbind('click');
+					_afterSolved.bind('click',function(){
+						data.state ="待立项规划";
+						data.solvedInfo = Page.findId('solveModalMessage').val();
+						data.solvedName = Page.findId('solvedName').val();
+						var _cmd = jQuery.param(data);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
+							if(status) {
+								solveTextModal.modal('hide');
+								_dom.modal('hide');
+								XMS.msgbox.show('后续立项解决成功！！！', 'success', 5000);	
+								window.open("http://apc.zj.chinamobile.com/"); 
+								setTimeout(function() {
+									Page.findId('queryDataMaintainForm').find("[name='query']").click();
+								}, 1500);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+					});
+					//关单
+					var _closeAll = solveTextModal.find("[name='closeAll']");
+					_closeAll.unbind('click');
+					_closeAll.bind('click',function(){
+						data.state ="已解决";
+						data.solvedInfo = Page.findId('solveModalMessage').val();
+						data.solvedName = Page.findId('solvedName').val();
+						var _cmd = jQuery.param(data);
+						XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+						Rose.ajax.postJson(srvMap.get('updateQuestionInfo'),_cmd,function(json, status){
+							if(status) {
+								solveTextModal.modal('hide');
+								_dom.modal('hide');
+								XMS.msgbox.show('问题解决成功！！！', 'success', 5000);	
+								setTimeout(function() {
+									Page.findId('queryDataMaintainForm').find("[name='query']").click();
+								}, 1500);
+							} else {
+								XMS.msgbox.show(json.retMessage, 'error', 2000);
+							}					
+						});
+					});
+				});
+			solveTextModal.modal('show');
+			});	
 
 		},
         //上线交付物下载文档

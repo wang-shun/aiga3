@@ -472,15 +472,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">&nbsp;&nbsp;问题认定</h4>
+                <h4 class="modal-title" id="myModalLabel">&nbsp;&nbsp;问题维护</h4>
             </div>
             <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
                 <form id="JS_updateDataMaintainInfo" class="form">
                 </form>
             </div>
            	<div id="JS_IdentifyButtom" class="box-footer no-border" style="text-align:center;">
-        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="identify">认定</button>
-        		<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" data-dismiss="modal">取消</button>
+           	<!-- ROLE角色 -->
+           	<!-- SYS_QUESTION_QRY角色 -->
+           	    <button type="button" class="btn btn-primary margin-onl" data-toggle="modal" data-dismiss="modal">关闭</button>
+        		<button type="button" id="archiXiugai" class="btn btn-primary margin-onl" data-toggle="modal" name="xiugai" style="display:none">修改</button>
+           	<!-- SYS_QUESTION_CONFIRM角色 -->
+        		<button type="button" id="archiIdentify" class="btn btn-primary margin-onl" data-toggle="modal" name="identify" style="display:none">认定</button>
+           	<!-- SYS_QUESTION_SOLVED角色 -->
+   			    <button type="button" id="archiJiejue" class="btn btn-primary margin-onl" data-toggle="modal" name="jiejue" style="display:none">解决</button>
     		</div> 
 <!--        <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -489,7 +495,7 @@
         </div>
     </div>
 </div>
-<!-- 弹出框  -->
+<!-- 认定弹出框  -->
 <div class="modal fade" id="JS_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -524,6 +530,43 @@
 				<button type="button" class="btn btn-primary" name="noPass">
 					不通过
 				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal -->
+</div>
+
+<!-- 解决弹出框  -->
+<div class="modal fade" id="JS_solveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title">
+					解决信息
+				</h4>
+			</div>
+			<div class="modal-body">
+			    <label>解决信息:</label>
+				<br/>
+				<textarea id="JS_solveModalMessage" cols="107" rows="4" class="form-control input-sm"></textarea>
+				<br/>
+              	<div class="form-group col-sm-6">
+                    <label for="solvedName" class="col-sm-4  control-label" >解决人员:</label>
+                    <div class="col-sm-6">
+                        <input id="JS_solvedName" name="solvedName" class="form-control" placeholder="请输入解决人员" required>
+	                </div>
+                </div>
+                <br/>
+                <br/>
+			</div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"name="openRequest">开需求单</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openTask">开任务单</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" name="openUpdate">开变更单</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" name="afterSolved">后续立项解决</button>
+                <button type="button" class="btn btn-primary" name="closeAll">关单</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal -->
@@ -668,17 +711,13 @@
             <div class="form-group col-sm-6">
 				<label for="sysVersion" class="col-sm-4 control-label">工单状态：</label>
                 <div class="col-sm-5">
-				<select id="sysVersion" name="sysVersion" class="form-control input-sm" data-url="staticProductState" data-idkey="codeValue" data-namekey="codeName">
-			    	<option value="{{sysVersion}}">{{sysVersion}}</option>
-			    </select>
+                    <input type="text" class="form-control input-sm" value="{{sysVersion}}" name="sysVersion">
                 </div>
             </div>
             <div class="form-group col-sm-6">
 				<label for="state" class="col-sm-4 control-label">问题状态：</label>
                 <div class="col-sm-5">
-					<select id="state" name="state" class="form-control input-sm" data-url="staticQuestionState" data-idkey="codeValue" data-namekey="codeName">
-			    		<option value="{{state}}">{{state}}</option>
-			    	</select>
+                    <input type="text" class="form-control input-sm" value="{{state}}" name="state">
                 </div>
             </div>
 		</div>
@@ -698,6 +737,37 @@
 					<a type="button" class="btn btn-primary" name="add">下载</a>
 			    </div>
             </div>
+		</div>
+		<div class="row">
+
+			<div class="form-group col-sm-6">
+				<label for="reportor" class="col-sm-4 control-label">申报人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor" id="archreportor">
+                </div>
+            </div>
+			<div class="form-group col-sm-6">
+				<label for="identifiedName" class="col-sm-4 control-label">认定人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{identifiedName}}" name="identifiedName" id="archidentifyname">
+                </div>
+            </div>
+		</div>
+		<div class="row">
+			<div class="form-group col-sm-6">
+				<label for="solvedName" class="col-sm-4 control-label">解决人员：</label>
+                <div class="col-sm-5">                   
+                    <input type="text" class="form-control input-sm" value="{{solvedName}}" name="solvedName" id="archsolvename">
+                </div>
+            </div>
+		</div>
+		<div class="row" style="display:none">
+			<div class="form-group col-sm-12">
+				<label for="solvedInfo" class="col-sm-2 control-label">解决结果：</label>
+				<div class="col-sm-8">
+					<textarea name="solvedInfo" class="form-control input-sm" rows="2" id="realResult" placeholder="请输入架构巡检问题实际结果">{{solvedInfo}}</textarea>
+				</div>
+			</div>
 		</div>
 		<div class="row" style="display:none">
             <div class="col-md-4">
@@ -748,28 +818,14 @@
             </div>
         </div>
 		<div class="row" style="display:none">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>解决信息</label>
-                    <input type="text" class="form-control input-sm" value="{{solvedInfo}}" name="solvedInfo">
-                </div>
-            </div>
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>创建时间</label>
                     <input type="text" class="form-control input-sm" value="{{createDate}}" name="createDate">
                 </div>
             </div>
-
         </div>
 		<div class="row" style="display:none">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>报告人</label>
-                    <input type="text" class="form-control input-sm" value="{{reportor}}" name="reportor">
-                </div>
-            </div>
-
 			<div class="col-md-4">
                 <div class="form-group">
                     <label>扩展字段1</label>
@@ -957,13 +1013,13 @@ seajs.use("script/archiQuesManage/questionRending", function(Init) {
 		</div>
 		<div class="row">
 			<div class="form-group col-sm-6">
-				<label for="reportor" class="col-sm-4 control-label">认定人员：</label>
+				<label for="identifiedName" class="col-sm-4 control-label">认定人员：</label>
                 <div class="col-sm-5">                   
                     <input type="text" class="form-control input-sm" value="{{identifiedName}}" name="identifiedName" id="archidentifyname">
                 </div>
             </div>
 			<div class="form-group col-sm-6">
-				<label for="reportor" class="col-sm-4 control-label">解决人员：</label>
+				<label for="solvedName" class="col-sm-4 control-label">解决人员：</label>
                 <div class="col-sm-5">                   
                     <input type="text" class="form-control input-sm" value="{{solvedName}}" name="solvedName" id="archsolvename">
                 </div>

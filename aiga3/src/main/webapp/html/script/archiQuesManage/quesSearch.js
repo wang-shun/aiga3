@@ -24,7 +24,7 @@ define(function(require, exports, module) {
     //三级分类下拉框
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
-    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
+    srvMap.add("getQueryQuesInfoZero", "", "archi/question/queryInfoZero");
     //显示系统信息表
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
     //所属工单状态静态数据  
@@ -191,7 +191,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getQueryQuesInfo'), _cmd, function(json, status) {
+			Utils.getServerPage(srvMap.get('getQueryQuesInfoZero'), _cmd, function(json, status) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getQuestionInfoList);

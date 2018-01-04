@@ -144,10 +144,11 @@ public class QuestionInfoSv extends BaseService {
 
 	public Page<QuestionInfo> listInfo(QuestionInfoRequest condition, int pageNumber, int pageSize) {
         List<Condition> cons = new ArrayList<Condition>();
-		condition.setExt1("0");
-		cons.add(new Condition("ext1", condition.getExt1(), Condition.Type.EQ));
     	if(StringUtils.isNoneBlank(condition.getQuesType())){
     		cons.add(new Condition("quesType", condition.getQuesType(), Condition.Type.EQ));
+    	}
+    	if(StringUtils.isNoneBlank(condition.getExt1())){
+    		cons.add(new Condition("ext1", condition.getExt1(), Condition.Type.EQ));
     	}
     	if(StringUtils.isNoneBlank(condition.getFirstCategory())){
     		cons.add(new Condition("firstCategory", condition.getFirstCategory(), Condition.Type.EQ));
@@ -210,72 +211,4 @@ public class QuestionInfoSv extends BaseService {
 		return questionInfoDao.search(cons, pageable);
 	}
 	
-	public Page<QuestionInfo> listInfo2(QuestionInfoRequest condition, int pageNumber, int pageSize) {
-		List<Condition> cons = new ArrayList<Condition>();
-		condition.setExt1("1");
-		cons.add(new Condition("ext1", condition.getExt1(), Condition.Type.EQ));
-		if(StringUtils.isNoneBlank(condition.getQuesType())){
-			cons.add(new Condition("quesType", condition.getQuesType(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getFirstCategory())){
-			cons.add(new Condition("firstCategory", condition.getFirstCategory(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getSecondCategory())){
-			cons.add(new Condition("secondCategory", condition.getSecondCategory(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getThirdCategory())){
-			cons.add(new Condition("thirdCategory", condition.getThirdCategory(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getDiffProblem())){
-			cons.add(new Condition("diffProblem", "%".concat(condition.getDiffProblem()).concat("%"), Condition.Type.LIKE));
-		}
-		if(StringUtils.isNoneBlank(condition.getState())){
-			cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getOccurEnvironment())){
-			cons.add(new Condition("occurEnvironment", "%".concat(condition.getOccurEnvironment()).concat("%"), Condition.Type.LIKE));
-		}
-		if(StringUtils.isNoneBlank(condition.getBelongProject())){
-			cons.add(new Condition("belongProject", condition.getBelongProject(), Condition.Type.EQ));
-		}
-		if(condition.getQuesId()==0){
-			cons.add(new Condition("quesId", condition.getQuesId(), Condition.Type.GT));
-		}
-		if(condition.getQuesId()!=0){
-			cons.add(new Condition("quesId", condition.getQuesId(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getSysVersion())){
-			cons.add(new Condition("sysVersion", condition.getSysVersion(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getState())){
-			cons.add(new Condition("state", condition.getState(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getReportor())){
-			cons.add(new Condition("reportor", condition.getReportor(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getIdentifiedName())){
-			cons.add(new Condition("identifiedName", "%".concat(condition.getIdentifiedName()).concat("%"), Condition.Type.LIKE));
-		}
-		if(StringUtils.isNoneBlank(condition.getSolvedName())){
-			cons.add(new Condition("solvedName", "%".concat(condition.getSolvedName()).concat("%"), Condition.Type.LIKE));
-		}
-		if(condition.getIdFirst()==0){
-			cons.add(new Condition("idFirst", condition.getIdFirst(), Condition.Type.GT));
-		}
-		if(condition.getIdFirst()!=0){
-			cons.add(new Condition("idFirst", condition.getIdFirst(), Condition.Type.EQ));
-		}
-		if(StringUtils.isNoneBlank(condition.getAppointedPerson())){
-			cons.add(new Condition("appointedPerson", "%".concat(condition.getAppointedPerson()).concat("%"), Condition.Type.LIKE));
-		}
-		if(pageNumber < 0){
-			pageNumber = 0;
-		}
-		if(pageSize <= 0){
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
-		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return questionInfoDao.search(cons, pageable);
-	}
-
 }

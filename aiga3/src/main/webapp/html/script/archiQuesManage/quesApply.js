@@ -24,7 +24,7 @@ define(function(require, exports, module) {
     //三级分类下拉框
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //级联查询
-    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
+    srvMap.add("getQueryQuesInfoZero", "", "archi/question/queryInfoZero");
     //所属处理科室静态数据  
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
     //所属工单状态静态数据  

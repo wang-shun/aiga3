@@ -297,13 +297,24 @@ public class QuestionInfoController {
 				bean.setData(questionInfoSv.listInfo(condition, pageNumber, pageSize));
 			return bean;
 	}
+	@RequestMapping(path="/archi/question/queryInfoZero")
+	public @ResponseBody JsonBean queryInfoZero(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			QuestionInfoRequest condition){
+		JsonBean bean = new JsonBean();
+		condition.setExt1("0");
+		bean.setData(questionInfoSv.listInfo(condition, pageNumber, pageSize));
+		return bean;
+	}
 	@RequestMapping(path="/archi/inspect/queryInfo")
 	public @ResponseBody JsonBean queryInfo2(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
 			QuestionInfoRequest condition){
 		JsonBean bean = new JsonBean();
-		bean.setData(questionInfoSv.listInfo2(condition, pageNumber, pageSize));
+		condition.setExt1("1");
+		bean.setData(questionInfoSv.listInfo(condition, pageNumber, pageSize));
 		return bean;
 	}
 	

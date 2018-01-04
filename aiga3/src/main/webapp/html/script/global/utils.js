@@ -1110,7 +1110,17 @@ define(function(require, exports, module) {
 		        });
 		    }
 		    return paramStr.substr(1);
-        }
+        },
+        			//初始化时间框
+		showMonthFirstDay:function () {     
+			var date=new Date();
+			date.setDate(1);
+			return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
+		},
+		showYesterDay:function() {
+			var yesterday = new Date(new Date().getTime() - 86400000);
+			return Rose.date.dateTime2str(yesterday,"yyyy-MM-dd")
+		}
     };
 
 	Rose.ajax.download = function(url) {

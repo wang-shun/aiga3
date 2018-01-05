@@ -99,9 +99,8 @@ define(function(require, exports, module) {
 			this.hdbarHelp();
 		},
 		getRightTreeR: function(cmd) {
-            Rose.ajax.postJson(srvMap.get('findAllAmCores'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('findAllAmCores'), cmd, function(AllAmCoresJson, status) {
                 if (status) {
-                    console.log(json.data)
                     //checkbox代码块
                     var setting = {
                         check: {
@@ -245,84 +244,10 @@ define(function(require, exports, module) {
                             }
                         }
                     };
-                    $.fn.zTree.init($("#Tree_getRightTreeRR"), setting, json.data);
-                    //调用树结构搜索，入参1、树结构容器 2、树搜索容器 3、搜索的key
-                    Utils.zTreeSearchInit($("#Tree_getRightTreeRR"),$("#Tree_getRightTreeRRSearch"),'name');
+                    $.fn.zTree.init($("#Tree_getRightTreeRR"), setting, AllAmCoresJson.data);
                 }
             });
 
-        },
-        getStaffRoleList: function() {
-            var self = this;
-            Rose.ajax.postJson(srvMap.get('fetchdistinct'), '', function(json, status) {
-                if (status) {
-                    var template = Handlebars.compile(Tpl.getIndexGroupList);
-                    console.log(json.data)
-                    $(Mod.getIndexGroupR).html(template(json.data));
-
-                    Utils.eventTrClickIfChanged($(Dom.getRoleFuncTable),function(){
-                        var _data = self.getCheckedRole();
-                        var _indexGroup = _data.indexGroup;
-                        var cmd = "indexGroup=" + _indexGroup;
-                        Data.indexGroup = _indexGroup;
-                        console.log(cmd);
-                        self.getRoleFuncCheckedList(cmd);
-                    })
-                    
-                    // 滚动条
-                    $(Dom.getRoleFuncTable).parent().slimScroll({
-                        "height": '500px'
-                    });
-                }
-            });
-        },
-        getRoleFuncCheckedList: function(cmd) {
-            var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeR");
-            treeObj.checkAllNodes(false);
-            Rose.ajax.postJson(srvMap.get('getAmCoreIndexList'), cmd, function(json, status) {
-                if (status) {
-                    var _json = json.data;
-                    console.log(_json);
-                    var zTree_Menu = $.fn.zTree.getZTreeObj("Tree_getRightTreeR");
-
-                    for (i in _json) {
-                        var node = zTree_Menu.getNodeByParam('indexId', _json[i].indexId);
-                        zTree_Menu.checkNode(node, true); //指定选中ID的节点  
-                        zTree_Menu.expandNode(node, true, false); //指定选中ID节点展开  
-                    }
-
-                }
-            })
-        },
-        getCheckedRole: function() {
-            // funcIdNum = treeNode.funcId;
-            var _obj = $('#Page_getIndexGroupR').find("input[type='radio']:checked").parents("tr");
-            var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeR");
-            console.log(treeObj);
-            var nodes = treeObj.getCheckedNodes(true);
-            console.log(nodes);
-            var indexIds = "";
-            for (var i = 0; i < nodes.length; i++) {
-                if (i == 0) {
-                    indexIds = nodes[i].indexId;
-                } else {
-                    indexIds += ',' + nodes[i].indexId;
-                }
-            }
-            console.log(indexIds);
-            var _indexGroup = _obj.find("input[name='indexGroup']")
-            var data = {
-                indexGroup: "",
-                indexIds: ""
-            }
-            if (_indexGroup.length == 0) {
-                window.XMS.msgbox.show('请先选择一个角色！', 'error', 2000);
-                return;
-            } else {
-                data.indexGroup = _indexGroup.val();
-                data.indexIds = indexIds;
-            }
-            return data;
         },
 		// 按条件查询
 		queryDataMaintainForm: function() {
@@ -379,7 +304,6 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
-//			_queryBtn.click();
 		},
 		// 查询数据维护
 		getDataMaintainList: function(cmd) {
@@ -497,27 +421,27 @@ define(function(require, exports, module) {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			    	    orient: 'vertical', //注意
-					    right:0,
-					    top: 0, //注意
-					    //bottom:0,
-					    //left:0,
-					    //width:200,
-					    pagemode: true, //注意,自定义的字段，开启图例分页模式，只有orient: 'vertical'时才有效
-					    height:"100%",
-					    itemHeight:18,
-					    itemWidth: 18,
-					    textStyle: {
-					        fontWeight: 'bolder',
-					        fontSize: 12,
-					        color:'#666666'
-					    },
-					    inactiveColor:'#aaa',
-					    padding: [20, 30,20,2],
-					    backgroundColor: 'rgba(0, 0, 0, 0)',
-					    shadowColor: 'rgba(0, 0, 0, 0.5)',
-					    shadowBlur: 5,
-					    zlevel: 100,
+		    	    orient: 'vertical', //注意
+				    right:0,
+				    top: 0, //注意
+				    //bottom:0,
+				    //left:0,
+				    //width:200,
+				    pagemode: true, //注意,自定义的字段，开启图例分页模式，只有orient: 'vertical'时才有效
+				    height:"100%",
+				    itemHeight:18,
+				    itemWidth: 18,
+				    textStyle: {
+				        fontWeight: 'bolder',
+				        fontSize: 12,
+				        color:'#666666'
+				    },
+				    inactiveColor:'#aaa',
+				    padding: [20, 30,20,2],
+				    backgroundColor: 'rgba(0, 0, 0, 0)',
+				    shadowColor: 'rgba(0, 0, 0, 0.5)',
+				    shadowBlur: 5,
+				    zlevel: 100,
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
 			    },
 			    toolbox: {
@@ -828,11 +752,8 @@ define(function(require, exports, module) {
                         }
                     };
                     $.fn.zTree.init($("#Tree_getRightTreeRR2"), setting, json.data);
-                    //调用树结构搜索，入参1、树结构容器 2、树搜索容器 3、搜索的key
-                    Utils.zTreeSearchInit($("#Tree_getRightTreeRR2"),$("#Tree_getRightTreeRR2Search"),'name');
                 }
             });
-
         },
 		// 按条件查询
 		queryDataMaintainForm2: function() {

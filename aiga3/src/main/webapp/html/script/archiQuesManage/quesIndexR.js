@@ -348,7 +348,7 @@ define(function(require, exports, module) {
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectDataPost(_form,true);
 			var now = new Date(); 
-			_form.find('input[name="startMonth"]').val(this.formatMonthFirst(now));
+			_form.find('input[name="startMonth"]').val(this.formatDate(now));
 			_form.find('input[name="endMonth"]').val(this.formatDate(now));
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {
@@ -484,22 +484,6 @@ define(function(require, exports, module) {
 				year = d.getFullYear(); 
 			if (month.length < 2) month = '0' + month;
 			if (day.length < 2) day = '0' + day;
-			return [year, month].join('-');	
-		},
-		formatMonthFirst: function(date) {
-			var d = new Date(date),
-				month = '' + (d.getMonth() + 1),
-				year = d.getFullYear(), 
-				day = '01';
-			if (month.length < 2) month = '0' + month;
-			return [year, month, day].join('-');	
-		},
-		formatMonthFirst2: function(date) {
-			var d = new Date(date),
-				month = '' + (d.getMonth() + 1),
-				year = d.getFullYear(), 
-				day = '01';
-			if (month.length < 2) month = '0' + month;
 			return [year, month].join('-');	
 		},
 		//新增数据维护
@@ -1008,7 +992,7 @@ define(function(require, exports, module) {
 			var _form = Page.findId('queryDataMaintainForm2');
 			Utils.setSelectDataPost(_form,true);
 			var now = new Date(); 
-			_form.find('input[name="startMonth"]').val(this.formatMonthFirst2(now));
+			_form.find('input[name="startMonth"]').val(this.formatDate2(now));
 			_form.find('input[name="endMonth"]').val(this.formatDate2(now));
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {

@@ -334,8 +334,6 @@ define(function(require, exports, module) {
 			}
 			if(cache.role){
 				console.log(cache.role);
-				console.log(cache.role.charAt('SYS_QUESTION_CONFIRM'));
-				console.log(cache.role.charAt('ROLE')>-1);
 			}
 
 			if(cache.role == 'SYS_QUESTION_QRY'){
@@ -386,8 +384,10 @@ define(function(require, exports, module) {
 			var _identify = _dom.find("[name='identify']");
 			_identify.unbind('click');
 			_identify.bind('click', function() {
-				Page.findId('modalMessage').val("");
-				Page.findId('identifiedName').val("");
+//				Page.findId('modalMessage').val("");
+//				Page.findId('identifiedName').val("");
+				var identifydom = Page.findModal('modal');
+				Utils.setSelectData(identifydom);
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
 //					var data = cache.selectData;
@@ -397,7 +397,7 @@ define(function(require, exports, module) {
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
 						data.sysVersion = '已确认';
-						data.state ="未解决";
+						data.state ="解决中";
 						data.identifiedInfo = Page.findId('modalMessage').val();
 						data.identifiedName = Page.findId('identifiedName').val();
 						var _cmd = jQuery.param(data);
@@ -482,8 +482,10 @@ define(function(require, exports, module) {
 			var _jiejue = _dom.find("[name='jiejue']");
 			_jiejue.unbind('click');
 			_jiejue.bind('click', function() {				
-				Page.findId('solveModalMessage').val("");
-				Page.findId('solvedName').val("");
+//				Page.findId('solveModalMessage').val("");
+//				Page.findId('solvedName').val("");
+				var solvedom = Page.findModal('solveModal');
+				Utils.setSelectData(solvedom);
 				var solveTextModal = Page.findId('solveModal');
 				solveTextModal.off('shown.bs.modal').on('shown.bs.modal', function () {
 //					var data = cache.selectData;

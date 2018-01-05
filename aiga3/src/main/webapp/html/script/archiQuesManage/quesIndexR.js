@@ -98,12 +98,12 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
+			//按日查询 树
 			this.getRightTreeR();
-			//判断是否查询key1/key2/key3
-			this.judgeIndexName();
+			//按月查询 树
+			this.getRightTreeR2();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
-			this.getRightTreeR2();
 			this.queryDataMaintainForm2();
 			//映射
 			this.hdbarHelp();
@@ -334,17 +334,9 @@ define(function(require, exports, module) {
             }
             return data;
         },
-		//判断下拉框indexName值
-		judgeIndexName: function(){
-			$("#indexName").unbind('click');
-			$("#indexName").bind('click',function(){
-				var checkValue=$("#indexName").val();  //获取Select选择的Value 
-			});
-		},
 		// 按条件查询
 		queryDataMaintainForm: function() {
 			var self = this;
-			var init = true;
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectDataPost(_form,true);
 			var now = new Date(); 
@@ -617,7 +609,7 @@ define(function(require, exports, module) {
 	                }
 	            });
 	         
-			},
+		},
 		// 事件：分页
 		initPaging: function(obj, length) {
 			obj.find("table").DataTable({
@@ -988,7 +980,6 @@ define(function(require, exports, module) {
 		// 按条件查询
 		queryDataMaintainForm2: function() {
 			var self = this;
-			var init = true;
 			var _form = Page.findId('queryDataMaintainForm2');
 			Utils.setSelectDataPost(_form,true);
 			var now = new Date(); 
@@ -1003,7 +994,6 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm2').serialize();
 				if(Data.indexId2){
-//					Data.indexId=Data.indexId.substring(0,Data.indexId.length-1);
 					cmd += "&indexId=" + Data.indexId2;
 					_cmd += "&indexId=" + Data.indexId2;
 					cmd = cmd.substring(0,cmd.length-1);
@@ -1042,12 +1032,11 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
-//			_queryBtn.click();
 		},
 		// 查询数据维护
 		getDataMaintainList2: function(cmd) {
 			var self = this;
-			var _cmd = '' || cmd;
+			var _cmd = cmd || '';
 
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -1105,7 +1094,6 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_domSec, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_domSec);
-//					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPaginationSec);

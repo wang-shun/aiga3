@@ -7,15 +7,7 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesIndexRView');
-	    //分页根据条件查询功能点归属
-    //问题展示
-    srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
-    //新增问题
-    srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
-    //修改问题
-    srvMap.add("updateQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/update")
-    //刪除問題
-    srvMap.add("deleQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/delete");
+	//分页根据条件查询功能点归属
     //指标主表
     srvMap.add("getAmCoreIndexList", "", "archi/index/list");
     srvMap.add("getAmCoreIndexListfk", "", "archi/index/list2");
@@ -42,8 +34,6 @@ define(function(require, exports, module) {
     srvMap.add("fetchdistinct", "", "archi/index/distinct");
     //月指标分组
     srvMap.add("fetchdistinctMonth", "", "archi/index/distinctMonth");
-    //指标名称
-    srvMap.add("fetchselectName", "", "archi/index/selectName");
     // 获取上线时间
     srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
     //

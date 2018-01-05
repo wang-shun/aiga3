@@ -121,7 +121,7 @@ define(function(require, exports, module) {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
                                 var node =treeNode.getCheckStatus();
-
+								debugger
                                 console.log(node);
                                 console.log(funcIdNum);
 
@@ -247,7 +247,6 @@ define(function(require, exports, module) {
                     $.fn.zTree.init($("#Tree_getRightTreeRR"), setting, AllAmCoresJson.data);
                 }
             });
-
         },
 		// 按条件查询
 		queryDataMaintainForm: function() {
@@ -258,17 +257,12 @@ define(function(require, exports, module) {
 			_form.find('input[name="startMonth"]').val(this.formatDate(now));
 			_form.find('input[name="endMonth"]').val(this.formatDate(now));
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.off('click').on('click', function() {
-				
+			_queryBtn.off('click').on('click', function() {				
 				Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});      
-
-				var cmd = _form.serialize();
-				var _cmd = Page.findId('queryDataMaintainForm').serialize();
+				var _cmd = _form.serialize();
 				if(Data.indexId){
-					cmd += "&indexId=" + Data.indexId;
 					_cmd += "&indexId=" + Data.indexId;
-					cmd = cmd.substring(0,cmd.length-1);
 					_cmd = cmd.substring(0,_cmd.length-1);
 				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
@@ -283,7 +277,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
 					return
 				}
-				self.getDataMaintainList(cmd);
+				self.getDataMaintainList(_cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
 					var task2 = "";
@@ -539,8 +533,7 @@ define(function(require, exports, module) {
 									onlinePonint.push(indexXAxis);
 								}
 							}
-						}
-						
+						}					
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {
@@ -570,11 +563,9 @@ define(function(require, exports, module) {
 		                    top: percent
 		                }
 		            });
-		        };
-		
+		        };	
 		        if (option.legend.pagemode) {
-		            $("#initLegengds").on('click', '.js-prePage', function () {
-		
+		            $("#initLegengds").on('click', '.js-prePage', function () {	
 		                if (clickCount > 0) {
 		                    clickCount = clickCount - 1;
 		                    PageEvent(clickCount);
@@ -602,8 +593,7 @@ define(function(require, exports, module) {
 		        }
 		        /*=====legend 的分页控制 事件=e===*/				
 				window.onresize = myChart.resize;
-  			});
-			
+  			});			
 		},
 /* --------------------------------------------------PAGE--2--------------------------------------------------------------- */
 		getRightTreeR2: function(cmd) {
@@ -628,8 +618,12 @@ define(function(require, exports, module) {
                         },
                         callback: {
                             onCheck: function(event, treeId, treeNode) {
-                                funcIdNum = treeNode.indexId;
+                                var funcIdNum = treeNode.indexId;
                                 var node =treeNode.getCheckStatus();
+                                if(!node) {
+                                	//清除存储的参数
+                                	return;
+                                }
                                 console.log(node);
                                 console.log(funcIdNum);
                                 //判断指标名称是否在同一个指标分组里面
@@ -768,13 +762,9 @@ define(function(require, exports, module) {
 				
 				Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});      
-
-				var cmd = _form.serialize();
-				var _cmd = Page.findId('queryDataMaintainForm2').serialize();
+				var _cmd = _form.serialize();
 				if(Data.indexId2){
-					cmd += "&indexId=" + Data.indexId2;
 					_cmd += "&indexId=" + Data.indexId2;
-					cmd = cmd.substring(0,cmd.length-1);
 					_cmd = cmd.substring(0,_cmd.length-1);
 				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
@@ -789,7 +779,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
 					return
 				}
-				self.getDataMaintainList2(cmd);
+				self.getDataMaintainList2(_cmd);
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName2){
 					var task2 = "listMonthIndex2";
@@ -815,7 +805,6 @@ define(function(require, exports, module) {
 		getDataMaintainList2: function(cmd) {
 			var self = this;
 			var _cmd = cmd || '';
-
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			//隐藏的主表获取分表表名tableName;
@@ -862,7 +851,7 @@ define(function(require, exports, module) {
 					}
 				};
 				_domSec.find("[name='content']").html(template(json.data.content));
-				//美化单机
+				//美化单checkbox
 				Utils.eventTrClickCallback(_domSec);
 			}, _domPaginationSec);
 		}

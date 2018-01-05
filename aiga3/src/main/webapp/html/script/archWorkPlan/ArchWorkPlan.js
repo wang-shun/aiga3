@@ -11,7 +11,7 @@ define(function(require, exports, module) {
 
 	//显示查询信息表
 	srvMap.add("getWorkPlanList", pathAlias+"getList.json", "archi/workplan/queryByCondition");
-	//申请页面保存
+	//增加页面
 	srvMap.add("workPlanSave", pathAlias+"workSave.json", "archi/workplan/save");
 	//分类下拉框
 	srvMap.add("workplanState", pathAlias+"workplanState.json", "archi/static/workplanState");
@@ -198,6 +198,9 @@ define(function(require, exports, module) {
 				if(bgtime>endtime){
 					XMS.msgbox.show('结束时间小于开始时间！', 'error', 2000);
 					return
+				}
+				if(cmd.indexOf('+')>-1){
+					cmd = cmd.replace(/\+/g,'');
 				}
 				self._getGridList(cmd);
 			});		

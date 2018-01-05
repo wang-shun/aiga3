@@ -130,6 +130,9 @@ define(function(require, exports, module) {
 				if(cmd.indexOf('dataId=&')>-1){
 					cmd = cmd.replace(/dataId=&/,'dataId=0&');
 				}
+				if(cmd.indexOf('+')>-1){
+					cmd = cmd.replace(/\+/g,'');
+				}
 				self._getGridList(cmd);
 			});		
         },

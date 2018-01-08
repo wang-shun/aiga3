@@ -121,10 +121,8 @@ define(function(require, exports, module) {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
                                 var node =treeNode.getCheckStatus();
-								debugger
                                 console.log(node);
                                 console.log(funcIdNum);
-
                                 //判断指标名称是否在同一个指标分组里面
                                 if(Data.i==1){
                                 	var pcmd = "indexId="+funcIdNum;
@@ -258,12 +256,13 @@ define(function(require, exports, module) {
 			_form.find('input[name="endMonth"]').val(this.formatDate(now));
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {				
-				Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
-				Page.findId('sysMessageView').attr({style:"display:display"});      
+                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
+				Page.findId('sysMessageView').attr({style:"display:display"});  
+				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getSelectedNodes();
 				var _cmd = _form.serialize();
 				if(Data.indexId){
 					_cmd += "&indexId=" + Data.indexId;
-					_cmd = cmd.substring(0,_cmd.length-1);
+					_cmd = _cmd.substring(0,_cmd.length-1);
 				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);
@@ -758,14 +757,13 @@ define(function(require, exports, module) {
 			_form.find('input[name="startMonth"]').val(this.formatDate2(now));
 			_form.find('input[name="endMonth"]').val(this.formatDate2(now));
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.off('click').on('click', function() {
-				
+			_queryBtn.off('click').on('click', function() {			
 				Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});      
 				var _cmd = _form.serialize();
 				if(Data.indexId2){
 					_cmd += "&indexId=" + Data.indexId2;
-					_cmd = cmd.substring(0,_cmd.length-1);
+					_cmd = _cmd.substring(0,_cmd.length-1);
 				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);

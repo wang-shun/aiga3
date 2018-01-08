@@ -650,11 +650,13 @@ public class ArchiGradingController {
 			} else {
 				applyUserName = input.getApplyUser();
 			}	
-			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-			String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUserName+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
-			content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
-			if(StringUtils.isBlank(addressee)) {		
+			//判断地址是否存在
+			if(StringUtils.isBlank(addressee)) {	
+				//不存在则不发邮件
 			} else {
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+				String content = "<p>架构资产管控平台自动消息：</p><p>"+applyUserName+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(input.getApplyTime())+"&nbsp;&nbsp;提交的一个基线申请 ,已认定</p>";
+				content += "<p>&nbsp;&nbsp;&nbsp;&nbsp;" + mailMessage + "</p>";
 				mailCmpt.sendMail(addressee, null, "架构资产管控平台 基线认定", content, null);
 			}
 		} catch (Exception e) {

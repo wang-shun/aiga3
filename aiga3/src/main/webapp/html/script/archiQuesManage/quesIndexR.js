@@ -258,7 +258,8 @@ define(function(require, exports, module) {
 			_queryBtn.off('click').on('click', function() {				
                 Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
-				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getSelectedNodes();
+				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
+				console.log(command);
 				var _cmd = _form.serialize();
 				if(Data.indexId){
 					_cmd += "&indexId=" + Data.indexId;

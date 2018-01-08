@@ -60,7 +60,7 @@ public class indexOperationController {
 			List<String> legendList = new ArrayList<String>();
 			List<EchartViewSeries> seriesList = new ArrayList<EchartViewSeries>();
 			//自定义横轴图例
-			String[] xData = {"A中心连接数","A中心CSF","B中心连接数","B中心CSF","C中心连接数","C中心CSF","D中心连接数","D中心CSF",};
+			String[] xData = {"A中心连接数","A中心CSF","B中心连接数","B中心CSF","C中心连接数","C中心CSF","D中心连接数","D中心CSF","E中心连接数","E中心CSF","F中心连接数","F中心CSF","Z中心连接数","Z中心CSF","G中心连接数","G中心CSF","A中心连接数2","A中心CSF2","B中心连接数2","B中心CSF2","C中心连接数2","C中心CSF2","D中心连接数2","D中心CSF2","E中心连接数2","E中心CSF2","F中心连接数2","F中心CSF2","Z中心连接数2","Z中心CSF2","G中心连接数2","G中心CSF2"};
 			//循环添加数据
 			for(String xbean : xData) {
 				EchartViewSeries baseSeries = new EchartViewSeries();

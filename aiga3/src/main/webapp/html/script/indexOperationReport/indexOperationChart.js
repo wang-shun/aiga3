@@ -75,7 +75,11 @@ define(function(require, exports, module) {
 			        trigger: 'axis'
 			    },
 			    legend: {	
-			    	y:'bottom',
+			    	type: 'scroll',
+			        orient: 'vertical',
+			        right: 10,
+			        top: 40,
+			        bottom: 20,
 			        data:['A中心CSF','A中心连接数','B中心CSF','B中心连接数','C中心CSF','C中心连接数','D中心CSF','D中心连接数']
 			    },
 			    toolbox: {

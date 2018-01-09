@@ -112,7 +112,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (condition.getIndexId()!=null){
 			ids = condition.getIndexId();
 			if(ids.length>20){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+				BusinessException.throwBusinessException(ErrorCode.Parameter_more_than_twentity, "选中的指标项目超过20个");
 			}
 			for(int i=0;i<ids.length;i++){
 				if(i==0){
@@ -274,7 +274,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (condition.getIndexId()!=null){
 			ids = condition.getIndexId();
 			if(ids.length>20){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+				BusinessException.throwBusinessException(ErrorCode.Parameter_more_than_twentity, "选中的指标项目超过20个");
 			}
 			for(int i=0;i<ids.length;i++){
 				if(i==0){
@@ -427,7 +427,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (condition.getIndexId()!=null){
 			ids = condition.getIndexId();
 			if(ids.length>20){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+				BusinessException.throwBusinessException(ErrorCode.Parameter_more_than_twentity, "选中的指标项目超过20个");
 			}
 			for(int i=0;i<ids.length;i++){
 				if(i==0){
@@ -577,7 +577,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (condition.getIndexId()!=null){
 			ids = condition.getIndexId();
 			if(ids.length>20){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+				BusinessException.throwBusinessException(ErrorCode.Parameter_more_than_twentity, "选中的指标项目超过20个");
 			}
 			for(int i=0;i<ids.length;i++){
 				if(i==0){
@@ -718,7 +718,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (condition.getIndexId()!=null){
 			ids = condition.getIndexId();
 			if(ids.length>20){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+				BusinessException.throwBusinessException(ErrorCode.Parameter_more_than_twentity, "选中的指标项目超过20个");
 			}
 			for(int i=0;i<ids.length;i++){
 				if(i==0){
@@ -868,7 +868,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (condition.getIndexId()!=null){
 			ids = condition.getIndexId();
 			if(ids.length>20){
-				BusinessException.throwBusinessException(ErrorCode.Parameter_null, "选中的指标项目超过20个");
+				BusinessException.throwBusinessException(ErrorCode.Parameter_more_than_twentity, "选中的指标项目超过20个");
 			}
 			for(int i=0;i<ids.length;i++){
 				if(i==0){

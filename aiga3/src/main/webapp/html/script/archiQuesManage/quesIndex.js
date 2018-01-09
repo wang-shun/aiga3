@@ -476,6 +476,11 @@ define(function(require, exports, module) {
 			    },
 			    legend: {
 					y:'bottom',
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: -20,
+                    top: 40,
+                    bottom: 20,
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
 			    },
 			    toolbox: {
@@ -749,6 +754,11 @@ define(function(require, exports, module) {
 			    },
 			    legend: {
 					y:'bottom',
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: -20,
+                    top: 40,
+                    bottom: 20,
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
 			    },
 			    toolbox: {

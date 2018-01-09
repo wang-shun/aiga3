@@ -415,7 +415,13 @@ define(function(require, exports, module) {
 			        trigger: 'axis'
 			    },
 			    legend: {
-		    	    orient: 'vertical', //注意
+			    	y:'bottom',
+                    type: 'scroll',
+                    orient: 'vertical',
+                    right: -20,
+                    top: 40,
+                    bottom: 20,
+/*		    	    orient: 'vertical', //注意
 				    right:0,
 				    top: 0, //注意
 				    //bottom:0,
@@ -435,7 +441,7 @@ define(function(require, exports, module) {
 				    backgroundColor: 'rgba(0, 0, 0, 0)',
 				    shadowColor: 'rgba(0, 0, 0, 0.5)',
 				    shadowBlur: 5,
-				    zlevel: 100,
+				    zlevel: 100,*/
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
 			    },
 			    toolbox: {
@@ -554,8 +560,8 @@ define(function(require, exports, module) {
 					}
 				}
 				myChart.setOption(option);			
-	        	var clickCount = 0;
-				/*=====legend 的分页控制 事件=s===*/
+/*	        	var clickCount = 0;
+				=====legend 的分页控制 事件=s===
 		        var PageEvent = function (i) {
 		            var percent = -i * 98 + '%';
 		            myChart.setOption({
@@ -591,7 +597,7 @@ define(function(require, exports, module) {
 		                $('.js-prePage img').css('cursor','pointer');
 		            });
 		        }
-		        /*=====legend 的分页控制 事件=e===*/				
+		        =====legend 的分页控制 事件=e===	*/			
 				window.onresize = myChart.resize;
   			});			
 		},

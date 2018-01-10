@@ -8,17 +8,17 @@ define(function(require, exports, module) {
 	/*后台接口 start*/
 	//获取报表时间类型
 	//显示认定信息表
-	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "archi/grading/findByConditionPage");
+	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "webservice/archiGrading/findByConditionPage");
     //数据翻译
-	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "archi/grading/gradingTranslate");
+	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "webservice/archiGrading/gradingTranslate");
 	//系统状态静态数据  
 	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
 	//等级信息
     srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "archi/static/rankInfo");
     //重提申请单
-    srvMap.add("archiGradingReSubmit", pathAlias + "getDeliverablesList.json", "archi/grading/reSubmit");
+    srvMap.add("archiGradingReSubmit", pathAlias + "getDeliverablesList.json", "webservice/archiGrading/reSubmit");
     //撤销申请单
-    srvMap.add("archiGradingApplyCancel", pathAlias + "getDeliverablesList.json", "archi/grading/applyCancel");
+    srvMap.add("archiGradingApplyCancel", pathAlias + "getDeliverablesList.json", "webservice/archiGrading/applyCancel");
     //获取附件信息
     srvMap.add("getFileInfo", pathAlias+"getSysMessageList.json", "archi/question/findByPlanIdAndFileType");
     //下载文档

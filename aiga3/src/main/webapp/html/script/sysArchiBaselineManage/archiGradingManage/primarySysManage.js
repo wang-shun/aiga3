@@ -8,9 +8,9 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('primarySysManage');
     //一级域查询带分页  
-    srvMap.add("getPrimaryMessageList", pathAlias+"primaryDomainList.json", "archi/first/listPage");
+    srvMap.add("getPrimaryMessageList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/listPage");
 	//一级系统操作信息保存
-	srvMap.add("firSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/firstGradingAdd");
+	srvMap.add("firSysMessageSave", pathAlias+"getSysMessageList.json", "webservice/archiGrading/firstGradingAdd");
 	var cache = {
 		datas : ""	
 	};

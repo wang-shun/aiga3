@@ -1488,6 +1488,11 @@ Rose.ajax = {
 				try {
 					// data = $.parseJSON(data);
 					data = eval("(" + data + ")");
+					if (data.retCode=='9527') {
+						//alert("登陆凭证过期，请重新登陆");
+						window.parent.location.href='login.html';
+						return;
+					}
 					if (data.retCode=='PAGEFRAME-9527') {
 						alert("登陆凭证过期，请重新登陆");
 						window.parent.location.reload();

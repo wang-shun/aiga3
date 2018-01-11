@@ -19,8 +19,7 @@ import com.ai.aiga.view.util.AjaxUtils;
 public class BusiFormAuthenticationFilter extends FormAuthenticationFilter{
 	
     protected void saveRequestAndRedirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
-        saveRequest(request);
-        
+        saveRequest(request);  
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         

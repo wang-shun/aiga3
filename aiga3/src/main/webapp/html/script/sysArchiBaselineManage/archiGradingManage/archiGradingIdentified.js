@@ -27,7 +27,7 @@ define(function(require, exports, module) {
     //下载文档
     srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch"); 
     //角色校验
-    srvMap.add("idenifyRoleCheck", pathAlias + "getDeliverablesList.json", "webService/archiGrading/roleCheck");
+    srvMap.add("idenifyRoleCheck", pathAlias + "getDeliverablesList.json", "webservice/archiGrading/roleCheck");
 	var init = {
 		init: function() {
 			this._render();

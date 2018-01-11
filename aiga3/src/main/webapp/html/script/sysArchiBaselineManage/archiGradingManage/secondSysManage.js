@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     //一级域下拉框查询  
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
 	//显示系统信息表
-	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "archi/second/listByfirstPage");
+	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "webservice/archiSecond/listByfirstPage");
 	//二级系统操作信息保存
 	srvMap.add("secSysMessageSave", pathAlias+"getSysMessageList.json", "webservice/archiGrading/secGradingAdd");
 	var cache = {

@@ -7,8 +7,6 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesRendingView');
-	//问题展示
-	srvMap.add("getQuestionInfoList", "archiQuesManage/questionInfoList.json", "archi/question/list");
 	//新增问题
 	srvMap.add("saveQuestionInfo", "archiQuesManage/questionInfoList.json", "archi/question/save");
 	//修改问题
@@ -38,7 +36,7 @@ define(function(require, exports, module) {
     //所属问题状态静态数据  
 	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
 	//显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
 	//get附件名
     srvMap.add("getFileName", pathAlias+"getSysMessageList.json", "archi/question/getFileName");
 	//get附件名update
@@ -53,10 +51,7 @@ define(function(require, exports, module) {
 	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
 	// 模板对象
 	var Tpl = {
-		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl')
-		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
-
 	};
 	var cache = {
 		datas : '',
@@ -67,15 +62,6 @@ define(function(require, exports, module) {
 		fileName : '',
 		datas : ''
 	};
-	/*// 容器对象
-	var Dom = {
-		queryDataMaintainForm: '#JS_queryDataMaintainForm',
-		getDataMaintainList: '#JS_getDataMaintainList',
-		addDataMaintainModal: "#JS_addDataMaintainModal",
-		addDataMaintainInfo: "#JS_addDataMaintainInfo",
-		updateDataMaintainModal: "#JS_updateDataMaintainModal",
-		updateMaintainInfo: "#JS_updateDataMaintainInfo",
-	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -88,12 +74,8 @@ define(function(require, exports, module) {
 			this.searchBox();
 			
 			this._querydomain();
-			// 默认查询所有
-//			this.getDataMaintainList();
 			// 初始化查询表单
 			this.queryDataMaintainForm();
-			//下载文档
-//			this.downloadFile(idcache.quesId);
 			//映射
 			this.hdbarHelp();
 		},
@@ -109,8 +91,7 @@ define(function(require, exports, module) {
 					var cmd = result;
 					self.getDataMaintainList(cmd);
 				});
-				_queryBtn.click();
-				
+				_queryBtn.click();				
 			}
 		},
 		searchBox: function(){
@@ -120,16 +101,12 @@ define(function(require, exports, module) {
 
 			_checkBt.unbind('click');
 			_checkBt.bind('click', function() {
-//				var template = Handlebars.compile(Page.findTpl('getSearchBoxTemp'));
-//				Page.findId('insertBelongProj').html(template(data));
 				var _modal = Page.findModal('addSearchBoxModal');
 				_modal.modal('show');
-//				Utils.setSelectData(_modal);
 				var sureBt = _modal.find("[name='sure']");
 				sureBt.unbind('click');
 				sureBt.bind('click',function(){
 					_modal.modal('hide');
-//					var node = _modal.find("[name='sysMessageQuery']");
 					var node = Page.findId('sysMessageQuery');
 					var value = Utils.getRadioCheckedRow(node);
 					var idThird = value.idThird;
@@ -139,10 +116,7 @@ define(function(require, exports, module) {
 							_dom.find("[name='belongProject']").val(nameValue);
 							break;
 						}
-					};
-//					var value = $("#sbbelongProject").find("option:selected").text();
-//					var value = node.text();
-					
+					};				
 				});
 			});
 		},
@@ -202,7 +176,6 @@ define(function(require, exports, module) {
 		getDataMaintainList: function(cmd) {
 			var self = this;
 			var _cmd = cmd;
-//			_cmd=_cmd.replace(/-/g,"/");
 			if(_cmd!=null){
 				if(_cmd.indexOf('quesId=&')>-1){
 					_cmd=_cmd.replace("quesId=&","quesId=0&");
@@ -211,10 +184,8 @@ define(function(require, exports, module) {
 					_cmd=_cmd.replace("idFirst=&","idFirst=0&");
 				}
 			}
-//			var _cmd = '' || cmd;
 			Data.queryListCmd = _cmd;
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			// 设置服务器端分页getQueryQuesInfo
@@ -235,7 +206,6 @@ define(function(require, exports, module) {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
 
-//					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPagination);
@@ -248,7 +218,6 @@ define(function(require, exports, module) {
 
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
-				//alert(Page.findModal('addDataMaintainModal').html());
 				Page.findModal('addDataMaintainModal').modal('show');
 				Page.findModal('addDataMaintainModal').on('hide.bs.modal', function() {
 					Utils.resetForm(Page.findId('addDataMaintainInfo'));
@@ -275,9 +244,7 @@ define(function(require, exports, module) {
 						});
 					});
 				});
-
 			});
-
 		},
 		//删除数据备份
 		delDataMaintain: function() {
@@ -313,25 +280,14 @@ define(function(require, exports, module) {
 			}
 			var data = json.content[i];
 			idcache.quesId=Id;
-//			var _dom = Page.findModal('updateDataMaintainModal');
-//			var index = _dom.attr("temp");
-//			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
-//			Page.findId('updateModal').html(template(json.data[index]));
-//			var _modal = Page.findId('updateDataMaintainModal');
-//			_modal.modal('show');
-//			Utils.setSelectData(_modal);
 			if(data.modifyDate){
 				data.modifyDate = data.modifyDate.replace(/-/g,"/");
 				data.createDate = data.modifyDate;
 			}
 			if(data.sysVersion == "待确认"){
-			
-//			var cmd = 'quesId=' + Id;
-//			Rose.ajax.postJsonSync(srvMap.get('getFileName'), cmd,function(json2, status){
 			var cmd = 'planId=' + Id + '&fileType=99999' 
 			Rose.ajax.postJsonSync(srvMap.get('findByPlanIdAndFileType'), cmd,function(json2, status){
 				if(status) {
-//					idcache.quesId=json.data.quesId;
 					if(json2.data!=null){
 						idcache.fileName=json2.data.fileName;
 						idcache.datas=json2.data;
@@ -354,9 +310,6 @@ define(function(require, exports, module) {
         	_dom.off('shown.bs.modal').on('shown.bs.modal', function () {
 				self.downloadFile(idcache.quesId);
 			});
-			
-			
-//			_dom.modal('show');
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
 			_dom.find("#JS_name").html(html);
 
@@ -367,10 +320,6 @@ define(function(require, exports, module) {
 				Page.findId('identifiedName').val("");
 				var textModal = Page.findId('modal');
 				textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
-//					var data = cache.selectData;
-//					data.modifyDate = data.modifyDate.replace(/-/g,"/");
-//					data.createDate = data.createDate.replace(/-/g,"/");
-//					data.applyTime = data.applyTime.replace(/-/g,"/");
 					//通过
 					textModal.find("[name='pass']").off('click').on('click', function(){
 						data.sysVersion = '已确认';
@@ -416,21 +365,6 @@ define(function(require, exports, module) {
 					});
 				});
 				textModal.modal('show');
-				
-/*				var _form = Page.findId('updateDataMaintainInfo');
-				Utils.setSelectData(_form);
-				var _cmd = _form.serialize();
-				_cmd = _cmd + "&quesId=" + Id;
-				XMS.msgbox.show('执行中，请稍候...', 'loading');
-				Rose.ajax.getJson(srvMap.get('updateQuestionInfo'), _cmd, function(json, status) {
-					if (status) {
-						window.XMS.msgbox.show('更新成功！', 'success', 2000)
-						setTimeout(function() {
-							self.queryDataMaintainForm(Data.queryListCmd);
-							_dom.modal('hide');
-						}, 1000)
-					}
-				});*/
 			});
 		}else if(data.sysVersion == "已确认"){
 			var template2 = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo2'));
@@ -438,15 +372,11 @@ define(function(require, exports, module) {
 			var _dom = Page.findModal('updateDataMaintainModal2');
 			_dom.modal('show');
 			Utils.setSelectData(_dom);
-			
 			//开需求单
 			var _openRequest = _dom.find("[name='openRequest']");
 			_openRequest.unbind('click');
 			_openRequest.bind('click', function() {
 				data.state ="需求单跟踪";
-//				data.ext1 = $('#optimizePath').val();
-//				data.ext2 = $('#specificMeasures').val();
-//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -464,15 +394,11 @@ define(function(require, exports, module) {
 					}					
 				});
 			});
-
 			//开任务单
 			var _openTask = _dom.find("[name='openTask']");
 			_openTask.unbind('click');
 			_openTask.bind('click',function(){
 				data.state ="任务单跟踪";
-//				data.ext1 = $('#optimizePath').val();
-//				data.ext2 = $('#specificMeasures').val();
-//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -495,9 +421,6 @@ define(function(require, exports, module) {
 			_openUpdate.unbind('click');
 			_openUpdate.bind('click',function(){
 				data.state ="变更单跟踪";
-//				data.ext1 = $('#optimizePath').val();
-//				data.ext2 = $('#specificMeasures').val();
-//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -520,9 +443,6 @@ define(function(require, exports, module) {
 			_afterSolved.unbind('click');
 			_afterSolved.bind('click',function(){
 				data.state ="待立项规划";
-//				data.ext1 = $('#optimizePath').val();
-//				data.ext2 = $('#specificMeasures').val();
-//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -545,9 +465,6 @@ define(function(require, exports, module) {
 			_closeAll.unbind('click');
 			_closeAll.bind('click',function(){
 				data.state ="已解决";
-//				data.ext1 = $('#optimizePath').val();
-//				data.ext2 = $('#specificMeasures').val();
-//				data.ext3 = $('#expectResult').val();
 				data.solvedInfo = $('#realResult').val();
 				data.solvedName = $('#solvedName').val();
 				var _cmd = jQuery.param(data);
@@ -574,23 +491,15 @@ define(function(require, exports, module) {
             var _deleteDocument = _dom.find("[name='add']");
             _deleteDocument.unbind('click');
             _deleteDocument.bind('click', function() {
-//            	alert("aaaaaaaaaaaaa");
-//            	var _data = Utils.getCheckboxCheckedRow(_dom);
             	var _data = idcache.datas;
                 if (_data) {
                 	XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 	var cmd = "ids=";
-//                    for (var i in _data) {
-//                        cmd += _data.id + ',';
-//                    }
                     cmd += _data.id + ',';
                 	
                     cmd = cmd.substring(0, cmd.length - 1);
                     var downloadurl = srvMap.get('downloadFile')+"?"+cmd;
                 	_deleteDocument.attr("href", downloadurl.toString());
-                    setTimeout(function() {
-//                        self.uploadDeliverables(planId);
-                    }, 1000) 
                 }else{
                     return false;
                 }
@@ -823,9 +732,7 @@ define(function(require, exports, module) {
                 } else if (value == '3060' || value == '权限管控粒度') {
                     return "权限管控粒度";
                 }
-            });
-            
-		
+            });	
 		},
 		// 事件：分页
 		initPaging: function(obj, length) {

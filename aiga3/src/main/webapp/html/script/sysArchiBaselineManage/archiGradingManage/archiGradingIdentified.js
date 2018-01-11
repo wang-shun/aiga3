@@ -21,7 +21,7 @@ define(function(require, exports, module) {
 	//一级域下拉框查询
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
     //根据一级查询二级子域
-    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst"); 
+    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "webservice/archiSecond/listByfirst"); 
 	//获取附件信息
     srvMap.add("getFileInfo", pathAlias+"getSysMessageList.json", "archi/question/findByPlanIdAndFileType");
     //下载文档

@@ -26,7 +26,7 @@ public class ArchiThirdController {
 	@Autowired
 	private ArchitectureThirdSv architectureThirdSv;
 	//nmsn
-	@RequestMapping(path = "/archi/third/welcomePie")
+	@RequestMapping(path = "/webservice/archiThird/welcomePie")
 	public @ResponseBody JsonBean welcomePie(){
 		JsonBean bean = new JsonBean();
 		ArchiWelcomePie output = new ArchiWelcomePie();
@@ -50,14 +50,8 @@ public class ArchiThirdController {
 		bean.setData(output);
 		return bean;
 	}
-	@RequestMapping(path="/archi/third/list")
-	public @ResponseBody JsonBean findAll(){
-		JsonBean bean = new JsonBean();
-		bean.setData(architectureThirdSv.findArchitectureThirds());
-		return bean;
-	}
 	
-	@RequestMapping(path="/archi/third/findTransPage")
+	@RequestMapping(path="/webservice/archiThird/findTransPage")
 	public @ResponseBody JsonBean findTransPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
@@ -67,14 +61,14 @@ public class ArchiThirdController {
 		return bean;
 	}
 	
-	@RequestMapping(path = "/archi/third/findByCondition")
+	@RequestMapping(path = "/webservice/archiThird/findByCondition")
 	public @ResponseBody JsonBean findByCondition(ArchiThirdConditionParam input){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureThirdSv.querybyCodition(input));
 		return bean;
 	}
 	
-	@RequestMapping(path = "/archi/third/findBySec")
+	@RequestMapping(path = "/webservice/archiThird/findBySec")
 	public @ResponseBody JsonBean findBySec(Long idSecond){
 		JsonBean bean = new JsonBean();
 		if(idSecond != null && idSecond>0) {

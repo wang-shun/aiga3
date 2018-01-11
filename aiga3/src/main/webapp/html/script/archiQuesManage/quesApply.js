@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
  	//get id
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
     //get question sequence currval id
@@ -55,21 +55,8 @@ define(function(require, exports, module) {
 	}
     // 模板对象
 	var Tpl = {
-		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesRequest.tpl')
-		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
-
 	};
-
-	/*// 容器对象
-	var Dom = {
-		queryDataMaintainForm: '#JS_queryDataMaintainForm',
-		getDataMaintainList: '#JS_getDataMaintainList',
-		addDataMaintainModal: "#JS_addDataMaintainModal",
-		addDataMaintainInfo: "#JS_addDataMaintainInfo",
-		updateDataMaintainModal: "#JS_updateDataMaintainModal",
-		updateMaintainInfo: "#JS_updateDataMaintainInfo",
-	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -80,8 +67,6 @@ define(function(require, exports, module) {
 			this.batchAdd();
 			
 			this.initialise();
-			
-//			var planId = '99999';
 			
 			this.searchBox();
 			
@@ -105,11 +90,9 @@ define(function(require, exports, module) {
 				var _modal = Page.findModal('addDdeliverablesModal');
 				_modal.modal('show');
 				Utils.setSelectData(_modal);
-
 				self.downloadTempShanxian();
 				var planId = 77777;
 				self.uploadAnNiuBatch(planId);
-				
 			});
 		},
 		initialise: function(){
@@ -121,19 +104,14 @@ define(function(require, exports, module) {
 			var self = this;
 			var _dom = Page.findId('queryDataMaintainForm');
 			var _checkBt = _dom.find("[name='checkbox']");
-
 			_checkBt.unbind('click');
 			_checkBt.bind('click', function() {
-//				var template = Handlebars.compile(Page.findTpl('getSearchBoxTemp'));
-//				Page.findId('insertBelongProj').html(template(data));
 				var _modal = Page.findModal('addSearchBoxModal');
 				_modal.modal('show');
-//				Utils.setSelectData(_modal);
 				var sureBt = _modal.find("[name='sure']");
 				sureBt.unbind('click');
 				sureBt.bind('click',function(){
 					_modal.modal('hide');
-//					var node = _modal.find("[name='sysMessageQuery']");
 					var node = Page.findId('sysMessageQuery');
 					var value = Utils.getRadioCheckedRow(node);
 					var idThird = value.idThird;
@@ -143,19 +121,14 @@ define(function(require, exports, module) {
 							_dom.find("[name='belongProject']").val(nameValue);
 							break;
 						}
-					};
-//					var value = $("#sbbelongProject").find("option:selected").text();
-//					var value = node.text();
-					
+					};					
 				});
 			});
 		},
 		//上传上线交付物按钮
         uploadAnNiu: function() {
-        	
         	var _cmd = "";
 			Rose.ajax.postJson(srvMap.get('getCurrvalId'),_cmd,function(json, status){
-//				alert(json.data.quesId);
 				if(status) {
 					idcache.quesId=json.data.quesId;
 				} else {
@@ -174,10 +147,8 @@ define(function(require, exports, module) {
 	                "planId": planId,
 	                "fileType": a
 	            };
-	            console.log(_form.find("[name='fileName']"));
-	            console.log(a);
-	                var task = srvMap.get('uploadFile');
-	                self.jieko(task, cmd, planId);
+                var task = srvMap.get('uploadFile');
+                self.jieko(task, cmd, planId);
 	        });
         },
         jieko: function(task, cmd, planId) {
@@ -188,7 +159,6 @@ define(function(require, exports, module) {
                 success: function(date, status, xhr) {
                     console.log(date);
                     if (date.retCode==200) {
-                        //window.XMS.msgbox.show('上传成功！', 'success', 2000);
    						return true;
                     }else{
                         window.XMS.msgbox.show(date.retMessage, 'error', 2000);
@@ -274,7 +244,6 @@ define(function(require, exports, module) {
 				var upState = false;
 		        Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
 		    		var a = '99999';
-
 		            var cmd = {
 		                "file": _form.find("[name='fileName']")[0].files[0],
 		                "planId": planId,
@@ -290,11 +259,9 @@ define(function(require, exports, module) {
 		    		}  
 		            
 		        });
-//				self.getDataMaintainList(cmd);
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
 					_cmd=_cmd.replace(/-/g,"/");
-					//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					console.log(_cmd);
 					
 					if(_cmd.indexOf('occurEnvironment=&')>-1) {
@@ -335,12 +302,6 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('期望时间为空！', 'error', 2000);
 						return
 					}
-					/*
-					  if(_cmd.indexOf('appointedPerson=&')>-1) {
-						XMS.msgbox.show('处理科室为空！', 'error', 2000);
-						return
-					}
-					 */
 					if(_cmd.indexOf('appointedPerson=&')>-1) {
 						XMS.msgbox.show('处理科室为空！', 'error', 2000);
 						return
@@ -349,7 +310,6 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('请选择所属巡检事件', 'error', 2000);
 						return
 					}
-
 					if(_cmd!=null){
 						if(_cmd.indexOf('idFirst=&')>-1){
 							_cmd=_cmd.replace("idFirst=&","idFirst=0&");
@@ -363,17 +323,10 @@ define(function(require, exports, module) {
 							} else {
 								XMS.msgbox.show('申报成功！', 'success', 2000);
 							}
-//							XMS.msgbox.show('添加成功！', 'success', 2000);
-
-//							alert("恭喜，申报成功！");
 							setTimeout(function() {
 								self.getDataMaintainList();
 							}, 1000);
-							Page.findId('queryDataMaintainForm')[0].reset();
-//							Page.findId('queryDataMaintainForm').hide();
-//							// 关闭弹出层
-//							Page.findModal('addDataMaintainModal').modal('hide');
-							
+							Page.findId('queryDataMaintainForm')[0].reset();				
 						}
 					});
 				});
@@ -408,8 +361,6 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_dom, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
-
-//					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPagination);
@@ -419,7 +370,6 @@ define(function(require, exports, module) {
 			var self = this;
 			var _dom = Page.findId('getDataMaintainList');
 			var _addBt = _dom.find("[name='add']");
-
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
 				//alert(Page.findModal('addDataMaintainModal').html());
@@ -449,9 +399,7 @@ define(function(require, exports, module) {
 						});
 					});
 				});
-
 			});
-
 		},
 		//删除数据备份
 		delDataMaintain: function() {
@@ -478,29 +426,18 @@ define(function(require, exports, module) {
 				}
 			});
 		},
-		updateDataMaintain: function(Id, json) {
-		
+		updateDataMaintain: function(Id, json) {	
 			var self = this;
 			var i=0;
 			while(json[i].quesId != Id){
 				i++;
 			}
 			var data = json[i];
-//			var _dom = Page.findModal('updateDataMaintainModal');
-			
-//			var index = _dom.attr("temp");
-//			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
-//			Page.findId('updateModal').html(template(json.data[index]));
-//			var _modal = Page.findId('updateDataMaintainModal');
-//			_modal.modal('show');
-//			Utils.setSelectData(_modal);
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
 			Utils.setSelectData(_dom);
-			
-//			_dom.modal('show');
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
 			_dom.find("#JS_name").html(html);
 
@@ -583,7 +520,6 @@ define(function(require, exports, module) {
     	                        var cmd = cmd+"架构疑难问题申报表.xlsx";
     	                        break;
     	                }
-//    	                cmd = cmd + "&id=77"
                         $(this).attr("href", srvMap.get('downloadTemp')+"?"+cmd);
                         return true;
                 }else{

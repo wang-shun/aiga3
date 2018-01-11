@@ -10,10 +10,7 @@ define(function(require, exports, module) {
     //级联查询
     srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
     //静态数据  
-	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "archi/static/eventState");
-	//显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
-    
+	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "archi/static/eventState");   
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
     srvMap.add("getEventFindALLByPage", pathAlias+"getSysMessageList.json", "archi/event/findAllByPage");
     srvMap.add("getEventSave", pathAlias+"getSysMessageList.json", "archi/event/save");
@@ -43,7 +40,6 @@ define(function(require, exports, module) {
 	};
     // 模板对象
 	var Tpl = {
-		getQuestionInfoList: $('#TPL_getSysMessageList'),
 		getAmCoreIndexList: require('tpl/archiQuesManage/AmCoreIndex.tpl'),
 		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl')
 	};

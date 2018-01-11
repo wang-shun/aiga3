@@ -10,11 +10,11 @@ define(function(require, exports, module) {
     //一级域下拉框查询
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
     //根据一级查询二级子域
-    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
+    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "webservice/archiSecond/listByfirst");
     //二级子域查询
-    srvMap.add("getSecondDomainList", pathAlias+"secondDomainList.json", "archi/second/list");
+    srvMap.add("getSecondDomainList", pathAlias+"secondDomainList.json", "webservice/archiSecond/list");
 	//显示系统信息表
-	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
 	//三级系统操作信息保存
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "webservice/archiGrading/thirdGradingAdd");
 	//系统状态静态数据  

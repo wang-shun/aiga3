@@ -19,14 +19,14 @@ public class ArchiSecondController {
 	@Autowired
 	private ArchitectureSecondSv architectureSecondSv;
 	
-	@RequestMapping(path = "/archi/second/list")
+	@RequestMapping(path = "/webservice/archiSecond/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureSecondSv.findArchitectureSeconds());
 		return bean;
 	} 
 	
-	@RequestMapping(path = "/archi/second/listByfirstPage")
+	@RequestMapping(path = "/webservice/archiSecond/listByfirstPage")
 	public @ResponseBody JsonBean listByfirstPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
@@ -36,7 +36,7 @@ public class ArchiSecondController {
 		return bean;
 	} 
 	
-	@RequestMapping(path = "/archi/second/listByfirst")
+	@RequestMapping(path = "/webservice/archiSecond/listByfirst")
 	public @ResponseBody JsonBean listByfirst(Long idFirst){
 		JsonBean bean = new JsonBean();
 		if(idFirst!= null && idFirst>0) {

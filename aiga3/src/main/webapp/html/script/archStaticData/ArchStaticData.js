@@ -125,6 +125,10 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();
+				if(isNaN(_form.find("[name='dataId']").val())) {
+					XMS.msgbox.show('DATA_ID类型必须为数字！', 'error', 1000);
+					return 
+				}
 				if(cmd.indexOf('dataId=&')>-1){
 					cmd = cmd.replace(/dataId=&/,'dataId=0&');
 				}

@@ -10,13 +10,13 @@ define(function(require, exports, module) {
 
 
 	//显示查询信息表
-	srvMap.add("getStaticDataList", pathAlias+"getList.json", "archi/staticData/queryStaticData");
+	srvMap.add("getStaticDataList", pathAlias+"getList.json", "webservice/archiStaticData/queryStaticData");
 	//申请页面保存
-	srvMap.add("staticDataSave", pathAlias+"dataSave.json", "archi/staticData/save");
+	srvMap.add("staticDataSave", pathAlias+"dataSave.json", "webservice/archiStaticData/save");
 	//更新页面
-	srvMap.add("staticDataUpdate", pathAlias+"dataUpdate.json", "archi/staticData/update");
+	srvMap.add("staticDataUpdate", pathAlias+"dataUpdate.json", "webservice/archiStaticData/update");
 	//删除页面
-	srvMap.add("staticDataDelete", pathAlias+"dataDelete.json", "archi/staticData/delete");
+	srvMap.add("staticDataDelete", pathAlias+"dataDelete.json", "webservice/archiStaticData/delete");
 	
 	
 	var cache = {
@@ -45,9 +45,7 @@ define(function(require, exports, module) {
 			}
 			var _dom = Page.findId('staticDataList');
 			var _domPagination = _dom.find("[name='pagination']");
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			_cmd = _cmd.replace(/-/g,"/");
-					
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');					
 
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('getStaticDataList'),_cmd,function(json){

@@ -21,14 +21,14 @@ public class ArchiStaticDataController {
 	@Autowired
 	private ArchitectureStaticDataSv architectureStaticDataSv;
 	
-	@RequestMapping(path = "/archi/static/list")
+	@RequestMapping(path = "/webservice/archiStaticData/list")
 	public @ResponseBody JsonBean list(){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureStaticDataSv.findAll());
 		return bean;
 	} 
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/type")
+	@RequestMapping(path = "/webservice/archiStaticData/type")
 	public @ResponseBody JsonBean type(String codeType){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
@@ -36,46 +36,36 @@ public class ArchiStaticDataController {
 	} 
 	
 	//根据Type和Value查询静态数据
-	@RequestMapping(path = "/archi/static/typeAndValue")
+	@RequestMapping(path = "/webservice/archiStaticData/typeAndValue")
 	public @ResponseBody JsonBean typeAndValue(String codeType,String codeValue){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureStaticDataSv.findByCodeTypeAndCodeValue(codeType, codeValue));
 		return bean;
 	} 
-	
-	@RequestMapping(path="/archi/staticData/queryStaticData")
-	public @ResponseBody JsonBean queryStaticData(
-            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            ArchitectureStaticData condition) throws ParseException{
-				JsonBean bean = new JsonBean();
-				bean.setData(architectureStaticDataSv.queryStaticData(condition, pageNumber, pageSize));
-			return bean;
-	}
-	@RequestMapping(path = "/archi/staticData/save")
+	@RequestMapping(path = "/webservice/archiStaticData/save")
 	public @ResponseBody JsonBean save(ArchitectureStaticData request){
 		architectureStaticDataSv.save(request);
 		return JsonBean.success;
 	}
-	@RequestMapping(path = "/archi/staticData/delete")
+	@RequestMapping(path = "/webservice/archiStaticData/delete")
 	public @ResponseBody JsonBean delete(long dataId){
 		architectureStaticDataSv.delete(dataId);
 		return JsonBean.success;
 	}
-	@RequestMapping(path = "/archi/staticData/update")
+	@RequestMapping(path = "/webservice/archiStaticData/update")
 	public @ResponseBody JsonBean update(ArchitectureStaticData request){
 		JsonBean bean = new JsonBean();
 		architectureStaticDataSv.update(request);
 		return bean;
 	}
-	@RequestMapping(path="/archi/staticData/findAllByPage")
+	@RequestMapping(path="/webservice/archiStaticData/queryStaticData")
 	public @ResponseBody JsonBean findAllByPage(
-            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            ArchitectureStaticData request){
-				JsonBean bean = new JsonBean();
-				bean.setData(architectureStaticDataSv.findAllByPage(request, pageNumber, pageSize));
-			return bean;
+        @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+        @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+        ArchitectureStaticData request){
+			JsonBean bean = new JsonBean();
+			bean.setData(architectureStaticDataSv.findAllByPage(request, pageNumber, pageSize));
+		return bean;
 	}
 
 }

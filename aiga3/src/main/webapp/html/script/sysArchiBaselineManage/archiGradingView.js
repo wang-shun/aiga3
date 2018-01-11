@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiGradingView');
    //一级域查询
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
 
     //二级数据接口 入参：idFirst
     srvMap.add("getSecView", pathAlias+"getSecView.json", "archi/view/secView");

@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('sysDataManage');
     //一级域下拉框查询
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
     //根据一级查询二级子域
     srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst");
     //二级子域查询
@@ -16,7 +16,7 @@ define(function(require, exports, module) {
 	//显示系统信息表
 	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
 	//三级系统操作信息保存
-	srvMap.add("thirdDataManageSave", pathAlias+"getSysMessageList.json", "archi/grading/thirdDataManage");
+	srvMap.add("thirdDataManageSave", pathAlias+"getSysMessageList.json", "webservice/archiGrading/thirdDataManage");
 	//系统状态静态数据  
 	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
 	//上传文件

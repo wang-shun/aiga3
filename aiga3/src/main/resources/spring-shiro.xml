@@ -36,6 +36,9 @@ xmlns:p="http://www.springframework.org/schema/p"
                     <bean  
                         class="com.ai.aiga.security.shiro.BusiSecurityFilter" />  
                 </entry>  
+               	<entry key="authc">
+					<bean class="com.ai.aiga.security.shiro.BusiFormAuthenticationFilter" />
+				</entry>
             </map>  
         </property> 
 		<property name="filterChainDefinitions">
@@ -45,8 +48,8 @@ xmlns:p="http://www.springframework.org/schema/p"
 				/global/** = authc
 				/html/view/** = authc, busi
 				/html/** = anon
-				/webService/** = anon
-				/** = busi
+				/webservice/** = authc
+				/** = anon,busi	
 			</value>
 		</property>
 	</bean>

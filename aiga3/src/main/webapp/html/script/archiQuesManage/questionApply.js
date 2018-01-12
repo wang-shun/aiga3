@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
  	//get id
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
     //get question sequence currval id

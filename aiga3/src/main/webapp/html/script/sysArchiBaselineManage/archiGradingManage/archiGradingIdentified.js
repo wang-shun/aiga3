@@ -13,21 +13,21 @@ define(function(require, exports, module) {
 		roleCheck : false
 	};
 	//显示认定信息表
-	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "archi/grading/findByConditionPage");
+	srvMap.add("getSysGradingMessageList", pathAlias+"getSysMessageList.json", "webservice/archiGrading/findByConditionPage");
 	//信息认定
-	srvMap.add("MessageGranding", pathAlias+"getSysMessageList.json", "archi/grading/messageGranding");
+	srvMap.add("MessageGranding", pathAlias+"getSysMessageList.json", "webservice/archiGrading/messageGranding");
 	//数据翻译
-	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "archi/grading/gradingTranslate");	
+	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "webservice/archiGrading/gradingTranslate");	
 	//一级域下拉框查询
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
     //根据一级查询二级子域
-    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "archi/second/listByfirst"); 
+    srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "webservice/archiSecond/listByfirst"); 
 	//获取附件信息
     srvMap.add("getFileInfo", pathAlias+"getSysMessageList.json", "archi/question/findByPlanIdAndFileType");
     //下载文档
     srvMap.add("downloadFile", pathAlias + "getDeliverablesList.json", "sys/changeplanonile/downloadFileBatch"); 
     //角色校验
-    srvMap.add("idenifyRoleCheck", pathAlias + "getDeliverablesList.json", "archi/grading/roleCheck");
+    srvMap.add("idenifyRoleCheck", pathAlias + "getDeliverablesList.json", "webservice/archiGrading/roleCheck");
 	var init = {
 		init: function() {
 			this._render();

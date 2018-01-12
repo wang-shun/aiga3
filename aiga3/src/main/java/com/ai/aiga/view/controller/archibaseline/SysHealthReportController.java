@@ -132,8 +132,7 @@ public class SysHealthReportController {
 						newGroup.setGroupName(groupValue);
 						newGroup.setSysHealthReportIndexs(new ArrayList<SysHealthReportIndex>());
 						newGroup.getSysHealthReportIndexs().add(indexBase);
-						sysReportGroupBelong.getSysHealthReportGroups().add(newGroup);
-					
+						sysReportGroupBelong.getSysHealthReportGroups().add(newGroup);					
 					}
 				} else {
 					bean.fail(groupValue+"没有所属分组");

@@ -38,7 +38,7 @@ define(function(require, exports, module) {
     //所属问题状态静态数据  
 	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
 	//显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
 	//get附件名
     srvMap.add("getFileName", pathAlias+"getSysMessageList.json", "archi/question/getFileName");
 	//get附件名update

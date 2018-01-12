@@ -59,15 +59,35 @@ public class ArchitectureStaticDataSv extends BaseService {
 
 	//update
 	public void update(ArchitectureStaticData request){
-		try {
-			architectureStaticDataDao.save(request);
-		} catch (Exception e) {
-			BusinessException.throwBusinessException(e.getMessage());
-		}
+		architectureStaticDataDao.save(request);
 	}
 
 	public Page<ArchitectureStaticData> findAllByPage(ArchitectureStaticData request, int pageNumber, int pageSize) {
         List<Condition> cons = new ArrayList<Condition>();
+		if(request.getDataId()>0){
+			cons.add(new Condition("dataId", request.getDataId(), Condition.Type.EQ));
+		}
+		if (StringUtils.isNotBlank(request.getCodeType())) {
+			cons.add(new Condition("codeType", "%".concat(request.getCodeType()).concat("%"), Condition.Type.LIKE));
+		}
+		if (StringUtils.isNotBlank(request.getCodeValue())) {
+			cons.add(new Condition("codeValue", request.getCodeValue(), Condition.Type.EQ));
+		}
+		if (StringUtils.isNotBlank(request.getCodeName())) {
+			cons.add(new Condition("codeName", request.getCodeName(), Condition.Type.EQ));
+		}
+		if (StringUtils.isNotBlank(request.getCodeDesc())) {
+			cons.add(new Condition("codeDesc", request.getCodeDesc(), Condition.Type.EQ));
+		}
+		if (StringUtils.isNotBlank(request.getExt1())) {
+			cons.add(new Condition("ext1", request.getExt1(), Condition.Type.EQ));
+		}
+		if (StringUtils.isNotBlank(request.getExt2())) {
+			cons.add(new Condition("ext2", request.getExt2(), Condition.Type.EQ));
+		}
+		if (StringUtils.isNotBlank(request.getExt3())) {
+			cons.add(new Condition("ext3", request.getExt3(), Condition.Type.EQ));
+		}
         if(pageNumber < 0){
             pageNumber = 0;
         }

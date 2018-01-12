@@ -9,7 +9,7 @@ define(function(require, exports, module) {
 	var Page = Utils.initPage('sysMessageQuery');
 
 	//系统信息查询
-    srvMap.add("getTransList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    srvMap.add("getTransList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
     //三级系统信息导出
     srvMap.add("getThirdExport", pathAlias+"getSysMessageList.json", "excel/export/sysMessage");
 	var cache = {

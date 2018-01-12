@@ -26,7 +26,7 @@ define(function(require, exports, module) {
     //级联查询
     srvMap.add("getQueryQuesInfoZero", "", "archi/question/queryInfoZero");
     //显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
+    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
     //所属工单状态静态数据  
 	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
     //所属问题状态静态数据  

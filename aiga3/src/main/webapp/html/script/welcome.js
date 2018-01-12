@@ -11,7 +11,7 @@ define(function(require,exports,module){
     // 指标展示信息
     srvMap.add("getWelcomeKpiList", "welcome/getWelcomeKpiList.json" , "sys/home/kpiList");
     // 饼图
-    srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "archi/third/welcomePie");
+    srvMap.add("getWelcomePie", "welcome/getWelcomePie.json", "webservice/archiThird/welcomePie");
     // 获取问题
     srvMap.add("getQueryInfo", "welcome/getQueryInfo.json", "archi/question/queryInfo");
     // 获取上线时间

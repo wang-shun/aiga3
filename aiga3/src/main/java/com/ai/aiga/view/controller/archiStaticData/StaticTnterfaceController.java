@@ -25,21 +25,21 @@ public class StaticTnterfaceController {
 		return bean;
 	} 
 	//根据Type查询静态数据工作状态
-		@RequestMapping(path = "/archi/static/workState")
-		public @ResponseBody JsonBean workState(){
-			JsonBean bean = new JsonBean();
-			String codeType = "WORKPLAN_PRO_STATE";
-			bean.setData(architectureStaticDataSv.findByCodeType(codeType));
-			return bean;
-		} 
+	@RequestMapping(path = "/archi/static/workState")
+	public @ResponseBody JsonBean workState(){
+		JsonBean bean = new JsonBean();
+		String codeType = "WORKPLAN_PRO_STATE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
 	//根据Type查询静态数据优先级
-		@RequestMapping(path = "/archi/static/priorityList")
-		public @ResponseBody JsonBean priorityList(){
-			JsonBean bean = new JsonBean();
-			String codeType = "WORKPLAN_PRO_PRIORITY";
-			bean.setData(architectureStaticDataSv.findByCodeType(codeType));
-			return bean;
-		}
+	@RequestMapping(path = "/archi/static/priorityList")
+	public @ResponseBody JsonBean priorityList(){
+		JsonBean bean = new JsonBean();
+		String codeType = "WORKPLAN_PRO_PRIORITY";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	}
 	//查询 系统建设状态
 	@RequestMapping(path = "/archi/static/archiBuildingState")
 	public @ResponseBody JsonBean type(){

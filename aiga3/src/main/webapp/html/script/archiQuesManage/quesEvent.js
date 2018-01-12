@@ -7,20 +7,12 @@ define(function(require, exports, module) {
 	var pathAlias = "autoManage/dataBackups/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesEventView');
-    //级联查询
-    srvMap.add("getQueryQuesInfo", "", "archi/question/queryInfo");
     //静态数据  
 	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "archi/static/eventState");
-	//显示系统信息表
-    srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "archi/third/findTransPage");
-    
-    srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
-    srvMap.add("getEventFindALLByPage", pathAlias+"getSysMessageList.json", "archi/event/findAllByPage");
     srvMap.add("getEventSave", pathAlias+"getSysMessageList.json", "archi/event/save");
     srvMap.add("getEventDelete", pathAlias+"getSysMessageList.json", "archi/event/delete");
     srvMap.add("getEventUpdate", pathAlias+"getSysMessageList.json", "archi/event/update");
     srvMap.add("getQueryByCondition", pathAlias+"getSysMessageList.json", "archi/event/queryByCondition");
-
 	var cache = {
 		datas : ""	
 	};
@@ -28,16 +20,6 @@ define(function(require, exports, module) {
 	var Tpl = {
 		getQuestionInfoList: $('#TPL_getSysMessageList')
 	};
-
-	/*// 容器对象
-	var Dom = {
-		queryDataMaintainForm: '#JS_queryDataMaintainForm',
-		getDataMaintainList: '#JS_getDataMaintainList',
-		addDataMaintainModal: "#JS_addDataMaintainModal",
-		addDataMaintainInfo: "#JS_addDataMaintainInfo",
-		updateDataMaintainModal: "#JS_updateDataMaintainModal",
-		updateMaintainInfo: "#JS_updateDataMaintainInfo",
-	};*/
 
 	var Data = {
 		queryListCmd: null
@@ -66,7 +48,6 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.unbind('click').bind('click', function() {
-//				self.getDataMaintainList(cmd);
 				Utils.checkForm(_form, function() {
 					var _cmd = _form.serialize();
 					if(_cmd!=null){
@@ -80,11 +61,9 @@ define(function(require, exports, module) {
 					Rose.ajax.postJson(srvMap.get('getQueryByCondition'), _cmd, function(json, status) {
 						if (status) {
 							// 数据备份成功后，刷新用户列表页
-//							XMS.msgbox.show('开巡检事件单成功！', 'success', 2000);
 							setTimeout(function() {
 								self.getDataMaintainList(_cmd);
 							}, 1000);
-//							Page.findId('queryDataMaintainForm')[0].reset();							
 						}
 					});
 				});	
@@ -108,7 +87,6 @@ define(function(require, exports, module) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Page.findTpl('getSysMessageList'));
-//				var template = Handlebars.compile(Tpl.getQuestionInfoList);
 				_dom.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_dom);
@@ -120,7 +98,6 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_dom, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_dom);
-
 					self.updateDataMaintain(data.id, json.data);
 				});
 			}, _domPagination);
@@ -130,10 +107,8 @@ define(function(require, exports, module) {
 			var self = this;
 			var _dom = Page.findId('getDataMaintainList');
 			var _addBt = _dom.find("[name='add']");
-
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
-				//alert(Page.findModal('addDataMaintainModal').html());
 				Page.findModal('addDataMaintainModal').modal('show');
 				Page.findModal('addDataMaintainModal').on('hide.bs.modal', function() {
 					Utils.resetForm(Page.findId('addDataMaintainInfo'));
@@ -164,9 +139,7 @@ define(function(require, exports, module) {
 						});
 					});
 				});
-
 			});
-
 		},
 		//删除数据备份
 		delDataMaintain: function() {
@@ -222,7 +195,6 @@ define(function(require, exports, module) {
 						window.XMS.msgbox.show('更新成功！', 'success', 2000);
 						setTimeout(function() {
 							self.getDataMaintainList();
-//							self.queryDataMaintainForm(Data.queryListCmd);
 							_dom.modal('hide');
 						}, 1000);
 					}

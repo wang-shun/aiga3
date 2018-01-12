@@ -267,7 +267,7 @@ public class ArchitectureGradingSv extends BaseService {
 		architectureGrading.setCreateDate(date);
 		architectureGrading.setExt1("3");
 		architectureGrading.setExt2(request.getSysStateTime());
-		architectureGrading.setExt3(request.getMedia());
+		architectureGrading.setExt3(request.getMedia().toLowerCase());
 //		architectureGrading.setFileId(new BigDecimal(date.getTime()));
 		architectureGrading.setDeveloper(request.getDeveloper());
 		architectureGrading.setApplyUserInfo(request.getApplyUser().toString());

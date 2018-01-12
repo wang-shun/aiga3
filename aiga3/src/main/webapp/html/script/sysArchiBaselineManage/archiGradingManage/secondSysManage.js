@@ -9,11 +9,11 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('secondSysManage');
     //一级域下拉框查询  
-    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "archi/first/list");
+    srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
 	//显示系统信息表
-	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "archi/second/listByfirstPage");
+	srvMap.add("getCenMessageList", pathAlias+"getSysMessageList.json", "webservice/archiSecond/listByfirstPage");
 	//二级系统操作信息保存
-	srvMap.add("secSysMessageSave", pathAlias+"getSysMessageList.json", "archi/grading/secGradingAdd");
+	srvMap.add("secSysMessageSave", pathAlias+"getSysMessageList.json", "webservice/archiGrading/secGradingAdd");
 	var cache = {
 		datas : "",
 		firName : ""         //一级域名称

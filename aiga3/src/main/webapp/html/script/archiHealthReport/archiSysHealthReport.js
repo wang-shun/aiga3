@@ -11,7 +11,7 @@ define(function(require, exports, module) {
     //雷达图数据获取
     srvMap.add("getRadarIndexData", '', "archi/index/getSysIndexData");
     //系统信息查询
-    srvMap.add("getSystemInfoCardData", '', "archi/third/findTransPage");
+    srvMap.add("getSystemInfoCardData", '', "webservice/archiThird/findTransPage");
     //系统体检结果查询
     srvMap.add("getSystemHealthReport", '', "archi/report/sysHealth");   
 	var cache = {

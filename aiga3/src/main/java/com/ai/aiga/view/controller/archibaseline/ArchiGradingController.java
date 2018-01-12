@@ -83,7 +83,7 @@ public class ArchiGradingController {
 	 * @param architectureGrading
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/grading/firstGradingAdd")
+	@RequestMapping(path = "/webservice/archiGrading/firstGradingAdd")
 	public @ResponseBody JsonBean firstSave(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
 		UserInfo userInfo = SessionMgrUtil.getUserInfo();
@@ -159,7 +159,7 @@ public class ArchiGradingController {
 	 * @param architectureGrading
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/grading/secGradingAdd")
+	@RequestMapping(path = "/webservice/archiGrading/secGradingAdd")
 	public @ResponseBody JsonBean secSave(ArchitectureGrading architectureGrading) {
 		JsonBean bean = new JsonBean();
 		UserInfo userInfo = SessionMgrUtil.getUserInfo();
@@ -239,7 +239,7 @@ public class ArchiGradingController {
 	 * @param architectureGrading
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/grading/thirdGradingAdd")
+	@RequestMapping(path = "/webservice/archiGrading/thirdGradingAdd")
 	public @ResponseBody JsonBean thirdSave(ArchitectureGrading architectureGrading) throws SQLException {
 		JsonBean bean = new JsonBean();
 		UserInfo userInfo = SessionMgrUtil.getUserInfo();
@@ -424,7 +424,7 @@ public class ArchiGradingController {
 	 * @param input
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/grading/messageGranding")
+	@RequestMapping(path = "/webservice/archiGrading/messageGranding")
 	public @ResponseBody JsonBean messageGrading(ArchitectureGrading input) {
 		JsonBean bean = new JsonBean();
 		try {
@@ -684,7 +684,7 @@ public class ArchiGradingController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@RequestMapping(path = "/archi/grading/findByConditionPage")
+	@RequestMapping(path = "/webservice/archiGrading/findByConditionPage")
 	public @ResponseBody JsonBean findByConditionPage(            
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
@@ -693,8 +693,8 @@ public class ArchiGradingController {
 		bean.setData(architectureGradingSv.findByConditionPage(input, pageNumber, pageSize));
 		return bean;
 	}
-	//三级系统信息查询
-	@RequestMapping(path = "/archi/grading/gradingTranslate")
+	//认定单三级系统信息查询
+	@RequestMapping(path = "/webservice/archiGrading/gradingTranslate")
 	public @ResponseBody JsonBean translate(GrandingTranslateInput input) {
 		JsonBean bean = new JsonBean();
 		try {
@@ -795,7 +795,7 @@ public class ArchiGradingController {
 		return bean;		
 	}
 	
-	@RequestMapping(path = "/archi/grading/roleCheck")
+	@RequestMapping(path = "/webservice/archiGrading/roleCheck")
 	public @ResponseBody JsonBean roleCheck() throws ParseException {
 		JsonBean bean = new JsonBean();
 		UserInfo userInfo = SessionMgrUtil.getUserInfo();
@@ -838,7 +838,7 @@ public class ArchiGradingController {
 	 * @param input
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/grading/reSubmit")
+	@RequestMapping(path = "/webservice/archiGrading/reSubmit")
 	public @ResponseBody JsonBean reSubmit(@RequestBody ArchitectureGrading input) {
 		JsonBean bean = new JsonBean();
 		try {
@@ -955,7 +955,7 @@ public class ArchiGradingController {
 	 * @param applyId
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/grading/applyCancel")
+	@RequestMapping(path = "/webservice/archiGrading/applyCancel")
 	public @ResponseBody JsonBean applyCancel(Long applyId) {
 		JsonBean bean = new JsonBean();
 		try {
@@ -982,7 +982,7 @@ public class ArchiGradingController {
 	 * @param architectureGrading
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/grading/thirdDataManage")
+	@RequestMapping(path = "/webservice/archiGrading/thirdDataManage")
 	public @ResponseBody JsonBean thirdDataManage(ArchitectureGrading architectureGrading) throws SQLException {
 		JsonBean bean = new JsonBean();
 		UserInfo userInfo = SessionMgrUtil.getUserInfo();

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.component.MailCmpt;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.AigaStaff;
-import com.ai.aiga.domain.ArchAigaFunction;
+import com.ai.aiga.domain.ArchAigaFunctionTime;
 import com.ai.aiga.domain.ArchitectureFirst;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.ArchitectureSecond;
@@ -69,13 +69,13 @@ public class ArchiGradingController {
 	private CloudService cloudService;
 	
 	
-	@RequestMapping(path="/archi/aigaFunction/listDbConnects")
-	public @ResponseBody JsonBean listDbConnects(
+	@RequestMapping(path="/webservice/archiGrading/sysMonthReport")
+	public @ResponseBody JsonBean sysMonthReport(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            ArchitectureGrading condition) throws ParseException{
+            ArchAigaFunctionTime condition) throws ParseException{
 				JsonBean bean = new JsonBean();
-				bean.setData(architectureGradingSv.listDbConnects( pageNumber, pageSize,condition));
+				bean.setData(architectureGradingSv.sysMonthReport( condition));
 			return bean;
 	}
 	/**

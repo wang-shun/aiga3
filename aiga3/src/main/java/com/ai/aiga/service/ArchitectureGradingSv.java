@@ -19,9 +19,10 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchitectureGradingDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.dao.jpa.ParameterCondition;
-import com.ai.aiga.domain.ArchAigaFunction;
+import com.ai.aiga.domain.ArchAigaFunctionTime;
 import com.ai.aiga.domain.ArchitectureGrading;
 import com.ai.aiga.domain.IndexConnect;
+import com.ai.aiga.domain.SysMonthApplyReport;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
@@ -30,6 +31,7 @@ import com.ai.aiga.util.FileUtil;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionInput;
 import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
+import com.ai.aiga.view.controller.archibaseline.dto.MonthReportOutput;
 import com.ai.aiga.view.controller.archibaseline.dto.thirdview.ArchiThirdApplyParams;
 
 @Service
@@ -62,10 +64,12 @@ public class ArchitectureGradingSv extends BaseService {
 		return architectureGradingDao.searchByNativeSQL(sql);		
 	}
 	
-	public Page<ArchAigaFunction>listDbConnects(int pageNumber, int pageSize, ArchitectureGrading condition){
+	public MonthReportOutput sysMonthReport(ArchAigaFunctionTime condition){
+		MonthReportOutput output = new MonthReportOutput();
+		//申请      applytime   申请  通过  不通过  撤销
+		//
 		StringBuilder nativeSql = new StringBuilder(
-				"select distinct(select count(apply_id)  from ARCHITECTURE_GRADING t )" + 
-				"as applyCount,(select count(state) from ARCHITECTURE_GRADING t where t.state ='审批通过') as tongGuo ,"+
+				"select distinct (select count(state) from ARCHITECTURE_GRADING t where t.state ='审批通过') as tongGuo ,"+
 				"(select count(description) from ARCHITECTURE_GRADING t where t.state = '审批未通过')  as boHui,"+
 				"(select count(description) from ARCHITECTURE_GRADING t where t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as xinZeng ,"+
 				"(select count(name) from ARCHITECTURE_GRADING t where name ='业务支撑域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as yewu,"+
@@ -82,20 +86,18 @@ public class ArchitectureGradingSv extends BaseService {
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 
 		if (condition.getApplyTime() != null) {
-			nativeSql.append("and to_date(t.apply_time) == :to_date(:apply_time, 'yyyy-MM') ");
+			nativeSql.append("and to_char(t.apply_time,'yyyyMM') = :applyTime ");
 			params.add(new ParameterCondition("applyTime", condition.getApplyTime()));
+			
+			String applyIdSql = "select count(apply_id) as applyCount from ARCHITECTURE_GRADING t";
+			List<Map> a = architectureGradingDao.searchByNativeSQL(applyIdSql);
+			if(a != null){
+				a.get(0).get("applyCount");
+			}
 		}
-
-		if (pageNumber < 0) {
-			pageNumber = 0;
-		}
-
-		if (pageSize <= 0) {
-			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-		}
-
-		Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return architectureGradingDao.searchByNativeSQL(nativeSql.toString(), params, ArchAigaFunction.class, pageable);
+		List<SysMonthApplyReport> monthApplyCount = architectureGradingDao.searchByNativeSQL(nativeSql.toString(), params, SysMonthApplyReport.class);
+		output.setSysMonthApplyReport(monthApplyCount.get(0));
+		return output;
 	}
 	
 	public List<ArchitectureGrading> findTableCondition(ArchitectureGrading input){

@@ -10,7 +10,7 @@ define(function(require, exports, module) {
 
 
 	//显示查询信息表
-	srvMap.add("getArchAigaList", pathAlias+"getList.json", "archi/aigaFunction/listDbConnects");	
+	srvMap.add("getArchAigaList", pathAlias+"getList.json", "webservice/archiGrading/sysMonthReport");	
 	
 	var cache = {
 			datas : ""
@@ -23,38 +23,36 @@ define(function(require, exports, module) {
 		
 		_render: function() {
 			//查询
-			this._query_event();
-			this._getGridList();
-			
+			this._query_event();			
 		},		
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
+			debugger;
 			var self = this;
 			var _cmd = '';
 			if(cmd){
 				_cmd = cmd;
 			}
 			var _dom = Page.findId('archAigaFunctionList');
-			var _baseChange = Page.findId('baseDataChange');
-			var _domPagination = _dom.find("[name='pagination']");
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			
+			//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			_cmd = _cmd.replace(/-/g,"/");
-				
-			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getArchAigaList'),_cmd,function(json){
-				window.XMS.msgbox.hide();				
-				var template = Handlebars.compile(Page.findTpl('archAigaFunctionTemp'));
-				var templateTwo = Handlebars.compile(Page.findTpl('baseDataChangeTemp'));
-        		var tablebtn = _dom.find("[name='content']");
-   
-        		tablebtn.html(template(json.data.content));
-        		_baseChange.html(templateTwo(json.data.content));
-        		Utils.eventTrClickCallback(_dom);
-
-			},_domPagination);
+			//调用服务
+			Rose.ajax.postJson(srvMap.get('getArchAigaList'),_cmd,function(json, status){
+				debugger;
+				if(status) {
+					debugger
+					var _baseChange = Page.findId('baseDataChange');
+					var template = Handlebars.compile(Page.findTpl('baseDataChangeTemp'));
+					_baseChange.html(template(json.data.sysMonthApplyReport));
+					/*json.data.b*/
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+			});	
 		},
-		
+			
 		//绑定查询按钮事件
         _query_event: function() {
 			var self = this;
@@ -62,8 +60,11 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
+
 				var cmd = _form.serialize();
+				cmd = cmd.replace(/-/g,"");
 				self._getGridList(cmd);
+				
 			});		
         },
                           

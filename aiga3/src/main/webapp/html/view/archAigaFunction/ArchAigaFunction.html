@@ -33,11 +33,7 @@
 	            		<div class="col-sm-3">
                  			<input type="text" class="form-control  width-input-167" name="applyTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
                  		</div>
-	            		<label class="col-sm-1  control-label">修改时间:</label>
-	            		<div class="col-sm-3">
-                 			<input type="text" class="form-control  width-input-167" name="modifyTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
-                 		</div>
-						<div class="col-sm-4">
+						<div class="col-sm-8">
 							<button type="reset" class="btn btn-default">重置</button>
                     		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button> 
                         </div>
@@ -90,11 +86,10 @@
 <!-- 更新数据具体数值 -->
 <script id="TPL_baseDataChangeTemp" type="text/x-handlebars-template">
 <p class="text-change">本月收到IT系统架构基线申请{{applycount}}起，审批通过{{tongguo}}起、驳回{{bohui}}起，新增{{xinzeng}}个三级域系统，其中业务支撑域{{yewu}}个、地市域{{dishi}}个、网络域{{wangluo}}个、大数据域{{shuju}}个、
-       开放域{{kaifang}}个、公共域{{gonggong}}个、管信域{{guanxin}}个,BOMC域{{bomc}}个，安全域{{anquan}}</p>
-<p class="text-change">平台8月份上线至今，累计收到基线变更申请{{}}起，审批通过{{}}起、驳回{{}}起，目前累计新增三级系统共{{}}个（含批量导入）</p>
+       开放域{{kaifang}}个、公共域{{gonggong}}个、管信域{{guanxin}}个,BOMC域{{bomc}}个，安全域{{anquan}}个。</p>
 </script>
 
-<!-- 表格数据 -->
+<!-- 表格数据 
 <script id="TPL_archAigaFunctionTemp" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
@@ -110,7 +105,7 @@
     <td >{{guanxin}}</td>
 </tr>
 {{/each}}
-</script>
+</script>-->
 
 <script type="text/javascript">
 //<![CDATA[

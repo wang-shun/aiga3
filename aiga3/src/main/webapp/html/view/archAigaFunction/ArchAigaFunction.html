@@ -1,0 +1,123 @@
+<style type="text/css">
+	#Page_archAigaFunction .width-input-167 {width: 167px;}
+	#Page_archAigaFunction .width-input-400 {width: 400px;}
+	#Page_archAigaFunction .width-input-158 {width: 155px;}
+	#Page_archAigaFunction .btn-center {text-align: center;}
+	#Page_archAigaFunction .btn-table-update {margin-right: 20px;}
+	#Page_archAigaFunction .btn-table-delete {margin-right: 20px;}
+	#Page_archAigaFunction .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_archAigaFunction .total-width {width: 850px;}
+	#Page_archAigaFunction .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_archAigaFunction .query-data-label {width: 80px;}
+	#Page_archAigaFunction .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_archAigaFunction .col2-sec-label {margin-left: 250px;}
+	#Page_archAigaFunction .col3-after-label {margin-left: 17px;}
+	#Page_archAigaFunction .line-sen-top {margin-top: 15px;}
+	#Page_archAigaFunction .text-area-sty {width: 680px;vertical-align:middle; }
+	#Page_archAigaFunction .text-change {text-indent:2em;margin-left:5px;margin-right:5px; }
+</style>
+<div class="row" id="Page_archAigaFunction">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">基线数据按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+               		<div class="form-group col-sm-12">
+	            		<label class="col-sm-1  control-label">申请时间:</label>
+	            		<div class="col-sm-3">
+                 			<input type="text" class="form-control  width-input-167" name="applyTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
+                 		</div>
+	            		<label class="col-sm-1  control-label">修改时间:</label>
+	            		<div class="col-sm-3">
+                 			<input type="text" class="form-control  width-input-167" name="modifyTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
+                 		</div>
+						<div class="col-sm-4">
+							<button type="reset" class="btn btn-default">重置</button>
+                    		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button> 
+                        </div>
+                     </div>                 	
+                </div>
+            </form>
+        </div>
+        <div class="box" style="min-height:100px;">
+        	<form id="JS_baseDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">基线数据变化</h3>
+                </div>
+                <div class="box-body"><br/>
+		            <div class="row" id="JS_baseDataChange">
+                		
+		            </div>
+                </div> 
+            </form>
+        </div> 
+        <div class="box" id="JS_archAigaFunctionList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">本月新增三级域列表</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+	                    <th class="iCheckbox" width="15"></th>
+	                    <th >业务支撑域</th>
+	                    <th >BOMC域</th>
+	                    <th >安全域</th>
+	                    <th >地市域</th>
+						<th >网络域</th>	
+						<th >大数据域</th>					
+						<th >开放域</th>						
+						<th >公共域</th>
+						<th >管信域</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+                <div class="box-footer no-border">
+                	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 更新数据具体数值 -->
+<script id="TPL_baseDataChangeTemp" type="text/x-handlebars-template">
+<p class="text-change">本月收到IT系统架构基线申请{{applycount}}起，审批通过{{tongguo}}起、驳回{{bohui}}起，新增{{xinzeng}}个三级域系统，其中业务支撑域{{yewu}}个、地市域{{dishi}}个、网络域{{wangluo}}个、大数据域{{shuju}}个、
+       开放域{{kaifang}}个、公共域{{gonggong}}个、管信域{{guanxin}}个,BOMC域{{bomc}}个，安全域{{anquan}}</p>
+<p class="text-change">平台8月份上线至今，累计收到基线变更申请{{}}起，审批通过{{}}起、驳回{{}}起，目前累计新增三级系统共{{}}个（含批量导入）</p>
+</script>
+
+<!-- 表格数据 -->
+<script id="TPL_archAigaFunctionTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{}}" name=""></td>
+	<td >{{yewu}}</td>
+	<td >{{bomc}}</td>
+	<td >{{anquan}}</td>	
+	<td >{{dishi}}</td>					
+	<td >{{wangluo}}</td>						
+	<td >{{shuju}}</td>
+	<td >{{kaifang}}</td>
+    <td >{{gonggong}}</td>
+    <td >{{guanxin}}</td>
+</tr>
+{{/each}}
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/archAigaFunction/ArchAigaFunction", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

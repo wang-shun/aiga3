@@ -344,7 +344,7 @@ define(function(require, exports, module) {
 					if(indexIds == ''){
 						Data.flag = false;
 						//倒数第二层
-						if(100001<=lastFatherId<=100077 || (1001<=lastFatherId<=2010 && lastFatherId != 1002)){
+						if((100001<=lastFatherId && lastFatherId<=100077) || (1001<=lastFatherId && lastFatherId<=2010 && lastFatherId != 1002)){
 							var childrencommand = lastNode.children;
 							for(var x in childrencommand){
 								indexIds += childrencommand[x].indexId + ",";
@@ -352,7 +352,7 @@ define(function(require, exports, module) {
 							_cmd += "&indexId=" + indexIds;
 							_cmd = _cmd.substring(0,_cmd.length-1);
 						//倒数第三层
-						}else if(10001<=lastFatherId<=10004){
+						}else if(10001<=lastFatherId && lastFatherId<=10004){
 							var childrencommand = lastNode.children;
 							for(var x in childrencommand){
 								if(childrencommand[x].children){

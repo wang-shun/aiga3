@@ -8,6 +8,7 @@
 			<td>{{key2}}{{key3}}</td>
 			<td>{{resultValue}}</td>
 			<td>{{settMonth}}</td>
+			<td>{{insertTime}}</td>
 			<td>{{indexId}}</td>
         </tr>
         {{/each}}

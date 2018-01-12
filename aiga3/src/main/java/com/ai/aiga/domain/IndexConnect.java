@@ -1,5 +1,7 @@
 package com.ai.aiga.domain;
 
+import java.util.Date;
+
 import lombok.Data;
 @Data
 public class IndexConnect  implements java.io.Serializable {
@@ -10,11 +12,12 @@ public class IndexConnect  implements java.io.Serializable {
     private String indexGroup;
     private String settMonth;
 	private String resultValue;
+    private Date insertTime;
 	
 	
 	
 	public IndexConnect(Long indexId, String indexName, String key2, String key3, String indexGroup,
-			String settMonth, String resultValue) {
+			String settMonth, String resultValue, Date insertTime) {
 		super();
 		this.indexId = indexId;
 		this.indexName = indexName;
@@ -23,6 +26,7 @@ public class IndexConnect  implements java.io.Serializable {
 		this.indexGroup = indexGroup;
 		this.settMonth = settMonth;
 		this.resultValue = resultValue;
+		this.insertTime = insertTime;
 	}
 
 

@@ -37,8 +37,23 @@ define(function(require, exports, module) {
     // 获取上线时间
     srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
     //
-    srvMap.add("findAllAmCores", "", "index/typein/findAllAmCores");
-    srvMap.add("findAllAmCores2", "", "index/typein/findAllAmCores2");
+//    srvMap.add("findAllAmCores", "", "index/typein/findAllAmCores");
+//    srvMap.add("findAllAmCores2", "", "index/typein/findAllAmCores2");
+    //八大军规指标树 按日
+    srvMap.add("findAllAmCoresByDay", "", "index/tree/findAllIndexByDay");
+    //八大军规指标树 按月
+    srvMap.add("findAllAmCoresByMonth", "", "index/tree/findAllIndexByMonth");
+    //八大军规指标树 总数柱状图db_connect
+    srvMap.add("listTotalDbConnects", "", "arch/index/listTotalDbConnects");
+    //八大军规指标树 总数柱状图srv_manage
+    srvMap.add("listTotalSrvManages", "", "arch/index/listTotalSrvManages");
+    //八大军规指标树 总数饼状图 db_connect
+    srvMap.add("listTotalDbConnectsPie", "", "arch/index/listTotalDbConnectsPie");
+    //八大军规指标树 总数饼状图 srv_manage
+    srvMap.add("listTotalSrvManagesPie", "", "arch/index/listTotalSrvManagesPie");
+    //八大军规指标树 总数饼状图 month_index
+    srvMap.add("listTotalMonthIndexPie", "", "arch/index/listTotalMonthIndexPie");
+    
 	// 模板对象
 	var Tpl = {
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
@@ -83,7 +98,9 @@ define(function(require, exports, module) {
 		indexIds:"",
 		indexIds2:"",
 		isOtherNode:new Array(100),
-		isOtherNode2:new Array(100)
+		isOtherNode2:new Array(100),
+		gpindexIds:"",
+		flag : true
 	};
 
 	var Query = {
@@ -99,13 +116,14 @@ define(function(require, exports, module) {
 			this.hdbarHelp();
 		},
 		getRightTreeR: function(cmd) {
-            Rose.ajax.postJson(srvMap.get('findAllAmCores'), cmd, function(AllAmCoresJson, status) {
+            Rose.ajax.postJson(srvMap.get('findAllAmCoresByDay'), cmd, function(AllAmCoresJson, status) {
                 if (status) {
                     //checkbox代码块
                     var setting = {
                         check: {
                             enable: true,
-                            chkStyle:"checkbox"
+                            chkStyle: "checkbox",
+                            chkboxType: { "Y": "p", "N": "ps" }
                         },
                         data: {
                             key: {
@@ -123,6 +141,20 @@ define(function(require, exports, module) {
                                 var node =treeNode.getCheckStatus();
                                 console.log(node);
                                 console.log(funcIdNum);
+                                
+/*                                var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
+                                //文本框节点选中
+								var selectNode = treeObj.getSelectedNodes();
+								//勾选框节点选中
+								var checkNode = treeObj.getCheckedNodes();
+								//1-10
+								//    4位                       5位                              6位
+								//1001-2010  10001-10004  100001-100077
+								if(funcIdNum.length==4 || funcIdNum.length==5 || funcIdNum.length==6){
+									
+								}
+
+								
                                 //判断指标名称是否在同一个指标分组里面
                                 if(Data.i==1){
                                 	var pcmd = "indexId="+funcIdNum;
@@ -171,7 +203,7 @@ define(function(require, exports, module) {
 													XMS.msgbox.show(json.retMessage, 'error', 2000);
 												}
 								  			});
-	                                	}else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
+	                                	}else if(1<=funcIdNum<=10){
 	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
 	                                	}
 	                                	if(1001>funcIdNum || funcIdNum>2010){
@@ -205,7 +237,7 @@ define(function(require, exports, module) {
 													XMS.msgbox.show(json.retMessage, 'error', 2000);
 												}
 								  			});
-	                                	}else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
+	                                	}else if(1<=funcIdNum<=10){
 	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
 	                                	}
 	                                	if(1001>funcIdNum || funcIdNum>2010){
@@ -230,15 +262,15 @@ define(function(require, exports, module) {
 										});
 									});
 									textModal.modal('show');
-									var cancel = Data.isOtherNode[Data.i-2];
-									cancel.checked=false;
-									cancel.check_Child_State=0;
+//									var cancel = Data.isOtherNode[Data.i-2];
+//									cancel.checked=false;
+//									cancel.check_Child_State=0;
 									//取消勾选全部节点
 									var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
 									treeObj.checkAllNodes(false);
                                 	Data.indexId = '';
                                 	Data.indexId = funcIdNum + ",";
-                                }
+                                }*/
                             }
                         }
                     };
@@ -258,13 +290,109 @@ define(function(require, exports, module) {
 			_queryBtn.off('click').on('click', function() {				
                 Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
-				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
-				console.log(command);
+				Page.findId('totalMessageView').attr({style:"display:display"});  
 				var _cmd = _form.serialize();
-				if(Data.indexId){
+				
+				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
+				var indexIds ='';
+				var groupId = new Set();
+				var fatherIndexId = [];
+				var lastFatherId = 0;
+				var lastFatherGroupId = 0;
+				var lastNode ={};
+				console.log(command);
+				if(command){
+					for(var i in command){
+						//过滤所有父节点
+						if(command[i].indexId<=1000000){
+							fatherIndexId.push(command[i].indexId);
+							lastFatherId = command[i].indexId;
+							lastFatherGroupId = command[i].groupId;
+							lastNode = command[i];
+							continue;
+						}else{
+							Data.flag = true;
+							//过滤出最后一层indexId字符串并用","分割；
+							indexIds += command[i].indexId + ",";
+							//根据groupId判断指标是同组，否弹框提示取消勾选所有节点；
+							groupId.add(command[i].groupId);
+							if(groupId.size>=2){
+							    var textModal = Page.findId('modall');
+								textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
+									//是
+									textModal.find("[name='pass']").off('click').on('click', function(){
+										textModal.modal('hide');
+									});
+								});
+								textModal.modal('show');
+								//取消勾选全部节点
+								var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
+								treeObj.checkAllNodes(false);
+							}
+						}
+						
+					}
+					
+					//如果有子节点 查询~
+					if(indexIds != ''){
+						_cmd += "&indexId=" + indexIds;
+						_cmd = _cmd.substring(0,_cmd.length-1);
+					}
+					
+					//如果没有子节点，过滤出倒数第二层
+//					debugger
+					if(indexIds == ''){
+						Data.flag = false;
+						//倒数第二层
+						if(100001<=lastFatherId<=100077 || (1001<=lastFatherId<=2010 && lastFatherId != 1002)){
+							var childrencommand = lastNode.children;
+							for(var x in childrencommand){
+								indexIds += childrencommand[x].indexId + ",";
+							}
+							_cmd += "&indexId=" + indexIds;
+							_cmd = _cmd.substring(0,_cmd.length-1);
+						//倒数第三层
+						}else if(10001<=lastFatherId<=10004){
+							var childrencommand = lastNode.children;
+							for(var x in childrencommand){
+								if(childrencommand[x].children){
+									var secondchildrencmd = childrencommand[x].children;
+									for(var y in secondchildrencmd){
+										indexIds += secondchildrencmd[y].indexId + ",";
+									}
+								}
+							}
+							_cmd += "&indexId=" + indexIds;
+							_cmd = _cmd.substring(0,_cmd.length-1);
+						//倒数第四层//1002
+						}else if(lastFatherId == 1002){
+							var childrencommand = lastNode.children;
+							for(var x in childrencommand){
+								if(childrencommand[x].children){
+									var secondchildrencmd = childrencommand[x].children;
+									for(var y in secondchildrencmd){
+										if(secondchildrencmd[y].children){
+											var thirdchildrencmd = secondchildrencmd[y].children;
+											for(var z in thirdchildrencmd){
+												indexIds += thirdchildrencmd[z].indexId + ",";
+											}
+										}
+									}
+								}
+							}
+							_cmd += "&indexId=" + indexIds;
+							_cmd = _cmd.substring(0,_cmd.length-1);	
+						}else{//一级目录提示 选择二三子目录！
+							XMS.msgbox.show('请选择二级、三级子目录！', 'error', 2000);
+							return
+						}
+					}
+				}
+				//
+/*				if(Data.gpindexIds){
 					_cmd += "&indexId=" + Data.indexId;
 					_cmd = _cmd.substring(0,_cmd.length-1);
-				}
+				}*/
 				if(_cmd.indexOf('indexGroup=&')>-1) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);
 					return
@@ -281,18 +409,38 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
 					var task2 = "";
+					var taskPie = "";
 					if(cache.tableName=="ARCH_DB_CONNECT"){
-						task2 = "listDbConnects2";
+						if(Data.flag==true){
+							task2 = "listDbConnects2";
+						}else{
+							task2 = "listTotalDbConnects"
+						}
+						taskPie = "listTotalDbConnectsPie";
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
-						task2 = "listSrvManages2";
+						if(Data.flag==true){
+							task2 = "listSrvManages2";
+						}else{
+							task2 = "listTotalSrvManages"
+						}
+						taskPie = "listTotalSrvManagesPie";
 					}else if(cache.tableName2=="ARCH_MONTH_INDEX"){
 						task2 = "listMonthIndex2";
+						taskPie = "listTotalMonthIndexPie";
 					}
 				}
 				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
 						self._graphSec(json);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+	  			});
+				Rose.ajax.postJson(srvMap.get(taskPie), _cmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.hide();
+						self._graphTotal(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -311,14 +459,16 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			var tcmd = _cmd.split(",")[0];
 			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList2'), tcmd, function(json, status) {
-				window.XMS.msgbox.hide();
-				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
-				_dom.find("[name='content']").html(template(json.data));
-				cache.tableName = json.data[0].schId;
-				cache.tableIndex= json.data[0].indexId;
-				//美化单机
-				Utils.eventTrClickCallback(_dom);
+				if(status) {
+					window.XMS.msgbox.hide();
+					// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+					var template = Handlebars.compile(Tpl.getAmCoreIndexList);
+					_dom.find("[name='content']").html(template(json.data));
+					cache.tableName = json.data[0].schId;
+					cache.tableIndex= json.data[0].indexId;
+					//美化单机
+					Utils.eventTrClickCallback(_dom);
+				}
 			}, _domPagination);
 			
 			var _domSec = Page.findId('getDataMaintainListSec');
@@ -406,7 +556,7 @@ define(function(require, exports, module) {
 		},		
 		_graphSec: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
-			option = {
+			var option = {
 				title : {
 			        text: '指标情况',
 			        subtext: ''
@@ -539,7 +689,7 @@ define(function(require, exports, module) {
 									onlinePonint.push(indexXAxis);
 								}
 							}
-						}					
+						}
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {
@@ -601,9 +751,86 @@ define(function(require, exports, module) {
 				window.onresize = myChart.resize;
   			});			
 		},
+		//汇总饼状图
+		_graphTotal: function(json) {
+			var myChart = echarts.init(Page.findId('totalArchiIndexView')[0]);
+			var data = genData(50);
+			var option = {
+			    title : {
+			        text: '数据库连接接入情况分布图',
+			        subtext: '所查询时间段内总数及占比',
+			        x:'center'
+			    },
+			    tooltip : {
+			        trigger: 'item',
+			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+			    },
+			    legend: {
+			        type: 'scroll',
+			        orient: 'vertical',
+			        right: 10,
+			        top: 20,
+			        bottom: 20,
+			        data: data.legendData
+			    },
+			    series : [
+			        {
+			            name: '姓名',
+			            type: 'pie',
+			            radius : '55%',
+			            center: ['40%', '50%'],
+			            data: data.seriesData,
+			            itemStyle: {
+			                emphasis: {
+			                    shadowBlur: 10,
+			                    shadowOffsetX: 0,
+			                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+			                }
+			            }
+			        }
+			    ]
+			};
+			function genData(count) {
+			    var nameList = [
+			        '赵', '钱', '孙', '李', '周', '吴', '郑', '王', '冯', '陈', '褚', '卫', '蒋', '沈', '韩', '杨', '朱', '秦', '尤', '许', '何', '吕', '施', '张', '孔', '曹', '严', '华', '金', '魏', '陶', '姜', '戚', '谢', '邹', '喻', '柏', '水', '窦', '章', '云', '苏', '潘', '葛', '奚', '范', '彭', '郎', '鲁', '韦', '昌', '马', '苗', '凤', '花', '方', '俞', '任', '袁', '柳', '酆', '鲍', '史', '唐', '费', '廉', '岑', '薛', '雷', '贺', '倪', '汤', '滕', '殷', '罗', '毕', '郝', '邬', '安', '常', '乐', '于', '时', '傅', '皮', '卞', '齐', '康', '伍', '余', '元', '卜', '顾', '孟', '平', '黄', '和', '穆', '萧', '尹', '姚', '邵', '湛', '汪', '祁', '毛', '禹', '狄', '米', '贝', '明', '臧', '计', '伏', '成', '戴', '谈', '宋', '茅', '庞', '熊', '纪', '舒', '屈', '项', '祝', '董', '梁', '杜', '阮', '蓝', '闵', '席', '季', '麻', '强', '贾', '路', '娄', '危'
+			    ];
+			    var legendData = [];
+			    var seriesData = [];
+			    for (var i = 0; i < 50; i++) {
+			        name = Math.random() > 0.65
+			            ? makeWord(4, 1) + '·' + makeWord(3, 0)
+			            : makeWord(2, 1);
+			        legendData.push(name);
+			        seriesData.push({
+			            name: name,
+			            value: Math.round(Math.random() * 100000)
+			        });
+			    }
+			
+			    return {
+			        legendData: legendData,
+			        seriesData: seriesData
+			    };
+			
+			    function makeWord(max, min) {
+			        var nameLen = Math.ceil(Math.random() * max + min);
+			        var name = [];
+			        for (var i = 0; i < nameLen; i++) {
+			            name.push(nameList[Math.round(Math.random() * nameList.length - 1)]);
+			        }
+			        return name.join('');
+			    }
+			}
+			if(json && json.data) {
+				option.legend.data = json.data.legendData;
+				option.series[0].data = json.data.seriesData;
+			}
+			myChart.setOption(option);			
+			window.onresize = myChart.resize;
+		},
 /* --------------------------------------------------PAGE--2--------------------------------------------------------------- */
 		getRightTreeR2: function(cmd) {
-            Rose.ajax.postJson(srvMap.get('findAllAmCores2'), cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get('findAllAmCoresByMonth'), cmd, function(json, status) {
                 if (status) {
                     console.log(json.data)
                     //checkbox代码块
@@ -767,6 +994,7 @@ define(function(require, exports, module) {
 			_queryBtn.off('click').on('click', function() {			
 				Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});      
+				Page.findId('totalMessageView').attr({style:"display:display"});      
 				var _cmd = _form.serialize();
 				if(Data.indexId2){
 					_cmd += "&indexId=" + Data.indexId2;

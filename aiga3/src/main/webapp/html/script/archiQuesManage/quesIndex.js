@@ -594,6 +594,7 @@ define(function(require, exports, module) {
 			            };
 					}
 				}
+				myChart.clear();
 				myChart.setOption(option);
 				window.onresize = myChart.resize;
   			});
@@ -857,6 +858,7 @@ define(function(require, exports, module) {
 			            };
 					}
 				}
+				myChart.clear();
 				myChart.setOption(option);
 				window.onresize = myChart.resize;
   			});

@@ -28,12 +28,10 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessageL;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeriesL;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
@@ -51,6 +49,7 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(architectureIndexSv.listDbConnects(pageNumber, pageSize, condition));
 		return bean;
 	}
+	//ARCH_DB_CONNECT TABLE
 	@RequestMapping(path = "/arch/index/listDbConnects22")
 	public @ResponseBody JsonBean listDbConnects22(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -111,7 +110,7 @@ public class ArchitectureIndexController extends BaseService {
 			ArchMonthIndex baseConnect = iter.next();
 			if(!newList.contains(baseConnect.getKey2())){
 				ViewSeries2 baseSeries = new ViewSeries2();
-				baseSeries.setType("bar");
+				baseSeries.setType("line");
 				newList.add(baseConnect.getKey2());
 				String name = baseConnect.getKey2();
 				baseSeries.setName(name);		
@@ -183,7 +182,7 @@ public class ArchitectureIndexController extends BaseService {
 			ArchMonthIndex baseConnect = iter.next();
 			if(!newList.contains(baseConnect.getKey2())){
 				ViewSeries2 baseSeries = new ViewSeries2();
-				baseSeries.setType("bar");
+				baseSeries.setType("line");
 				newList.add(baseConnect.getKey2());
 				String name = baseConnect.getKey2();
 				baseSeries.setName(name);		
@@ -273,7 +272,7 @@ public class ArchitectureIndexController extends BaseService {
 				if(!legendList.contains(baseManage.getKey1())){
 					legendList.add(baseManage.getKey1());
 					ViewSeries2 baseSeries = new ViewSeries2();
-					baseSeries.setType("bar");
+					baseSeries.setType("line");
 					String name = baseManage.getKey1();
 					baseSeries.setName(name);
 					double[] data = new double[DATA_LENGTH];
@@ -308,7 +307,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(!legendList.contains(baseManage.getKey2())){
 						legendList.add(baseManage.getKey2());
 						ViewSeries2 baseSeries = new ViewSeries2();
-						baseSeries.setType("bar");
+						baseSeries.setType("line");
 						String name = baseManage.getKey2();
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
@@ -342,7 +341,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(!legendList.contains(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")")){
 						legendList.add(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")");
 						ViewSeries2 baseSeries = new ViewSeries2();
-						baseSeries.setType("bar");
+						baseSeries.setType("line");
 						String name = baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")";
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
@@ -411,7 +410,7 @@ public class ArchitectureIndexController extends BaseService {
 				if(!legendList.contains(baseManage.getKey1())){
 					legendList.add(baseManage.getKey1());
 					ViewSeries2 baseSeries = new ViewSeries2();
-					baseSeries.setType("bar");
+					baseSeries.setType("line");
 					String name = baseManage.getKey1();
 					baseSeries.setName(name);
 					double[] data = new double[DATA_LENGTH];
@@ -446,7 +445,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(!legendList.contains(baseManage.getKey2())){
 						legendList.add(baseManage.getKey2());
 						ViewSeries2 baseSeries = new ViewSeries2();
-						baseSeries.setType("bar");
+						baseSeries.setType("line");
 						String name = baseManage.getKey2();
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
@@ -480,7 +479,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(!legendList.contains(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")")){
 						legendList.add(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")");
 						ViewSeries2 baseSeries = new ViewSeries2();
-						baseSeries.setType("bar");
+						baseSeries.setType("line");
 						String name = baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")";
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
@@ -516,7 +515,7 @@ public class ArchitectureIndexController extends BaseService {
 		
 		List<ViewSeries2>totalSeriesList = new ArrayList<ViewSeries2>();
 		ViewSeries2 totalSeries = new ViewSeries2();
-		totalSeries.setType("bar");
+		totalSeries.setType("line");
 		totalSeries.setName("数据库连接总数");	
 		double[] totalData = new double[DATA_LENGTH];
 		for(int i=0;i<seriesList.size();i++){
@@ -565,7 +564,7 @@ public class ArchitectureIndexController extends BaseService {
 				if(!legendList.contains(baseManage.getKey1())){
 					legendList.add(baseManage.getKey1());
 					ViewSeries2 baseSeries = new ViewSeries2();
-					baseSeries.setType("bar");
+					baseSeries.setType("line");
 					String name = baseManage.getKey1();
 					baseSeries.setName(name);
 					double[] data = new double[DATA_LENGTH];
@@ -600,7 +599,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(!legendList.contains(baseManage.getKey2())){
 						legendList.add(baseManage.getKey2());
 						ViewSeries2 baseSeries = new ViewSeries2();
-						baseSeries.setType("bar");
+						baseSeries.setType("line");
 						String name = baseManage.getKey2();
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
@@ -634,7 +633,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(!legendList.contains(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")")){
 						legendList.add(baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")");
 						ViewSeries2 baseSeries = new ViewSeries2();
-						baseSeries.setType("bar");
+						baseSeries.setType("line");
 						String name = baseManage.getKey2().trim()+"("+baseManage.getKey3().trim()+")";
 						baseSeries.setName(name);
 						double[] data = new double[DATA_LENGTH];
@@ -724,7 +723,7 @@ public class ArchitectureIndexController extends BaseService {
 
 				if(!newList.contains(baseConnect.getKey1())){
 					ViewSeries baseSeries = new ViewSeries();
-					baseSeries.setType("bar");
+					baseSeries.setType("line");
 					newList.add(baseConnect.getKey1());
 					String name = baseConnect.getKey1();
 					baseSeries.setName(name);		
@@ -762,7 +761,7 @@ public class ArchitectureIndexController extends BaseService {
 			}else{
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
-					baseSeries.setType("bar");
+					baseSeries.setType("line");
 					newList.add(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")");
 					String name = baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")";
 					baseSeries.setName(name);		
@@ -836,7 +835,7 @@ public class ArchitectureIndexController extends BaseService {
 			ArchDbConnect baseConnect = iter.next();
 				if(!newList.contains(baseConnect.getKey1())){
 					ViewSeries baseSeries = new ViewSeries();
-					baseSeries.setType("bar");
+					baseSeries.setType("line");
 					newList.add(baseConnect.getKey1());
 					String name = baseConnect.getKey1();
 					baseSeries.setName(name);		
@@ -926,7 +925,7 @@ public class ArchitectureIndexController extends BaseService {
 			ArchDbConnect baseConnect = iter.next();
 				if(!newList.contains(baseConnect.getKey1())){
 					ViewSeries baseSeries = new ViewSeries();
-					baseSeries.setType("bar");
+					baseSeries.setType("line");
 					newList.add(baseConnect.getKey1());
 					String name = baseConnect.getKey1();
 					baseSeries.setName(name);		
@@ -964,7 +963,7 @@ public class ArchitectureIndexController extends BaseService {
 		};
 		List<ViewSeries>totalSeriesList = new ArrayList<ViewSeries>();
 		ViewSeries totalSeries = new ViewSeries();
-		totalSeries.setType("bar");
+		totalSeries.setType("line");
 		totalSeries.setName("数据库连接总数");	
 		int[] totalData = new int[constantValue];
 		for(int i=0;i<seriesList.size();i++){
@@ -976,7 +975,9 @@ public class ArchitectureIndexController extends BaseService {
 		}
 		totalSeries.setData(totalData);
 		totalSeriesList.add(totalSeries);
-		output.setLegend(legendList);
+		List<String>totalLegendList = new ArrayList<String>();
+		totalLegendList.add("数据库连接汇总数量");
+		output.setLegend(totalLegendList);
 		output.setSeries(totalSeriesList);
 		bean.setData(output);	
 		return bean;

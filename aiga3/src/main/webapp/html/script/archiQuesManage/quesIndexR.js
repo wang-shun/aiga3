@@ -631,7 +631,7 @@ define(function(require, exports, module) {
 			    series : [
 			        {
 			            name:'营业库A',
-			            type:'bar',
+			            type:'line',
 			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0],
 			            markLine : {
                 			data : [{type : 'average', name: '平均值'}]
@@ -639,7 +639,7 @@ define(function(require, exports, module) {
 			        },
 			        {
 			            name:'营业库B',
-			            type:'bar',
+			            type:'line',
 			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0],
 			            markLine : {
                 			data : [{type : 'average', name: '平均值'}]
@@ -647,7 +647,7 @@ define(function(require, exports, module) {
 			        },
 			        {
 			            name:'营业库C',
-			            type:'bar',
+			            type:'line',
 			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0],
 			            markLine : {
                 			data : [{type : 'average', name: '平均值'}]
@@ -655,7 +655,7 @@ define(function(require, exports, module) {
 			        },
 			        {
 			            name:'营业库D',
-			            type:'bar',
+			            type:'line',
 			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0],
 			            markLine : {
                 			data : [{type : 'average', name: '平均值'}]
@@ -663,7 +663,7 @@ define(function(require, exports, module) {
 			        },
 			        {
 			            name:'渠道资源库',
-			            type:'bar',
+			            type:'line',
 			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
 			            markLine : {
                 			data : [{type : 'average', name: '平均值'}]
@@ -678,6 +678,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}
 				if(json && json.data) {
+					debugger
 					option.legend.data = json.data.legend;
 					option.series = json.data.series;
 					if(json.data.xAxis) {
@@ -709,6 +710,8 @@ define(function(require, exports, module) {
 			            };
 					}
 				}
+				//加载前数据刷新
+				myChart.clear();
 				myChart.setOption(option);			
 /*	        	var clickCount = 0;
 				=====legend 的分页控制 事件=s===
@@ -825,6 +828,7 @@ define(function(require, exports, module) {
 				option.legend.data = json.data.legendData;
 				option.series[0].data = json.data.seriesData;
 			}
+			myChart.clear();
 			myChart.setOption(option);			
 			window.onresize = myChart.resize;
 		},

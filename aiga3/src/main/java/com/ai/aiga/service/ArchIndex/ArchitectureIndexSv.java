@@ -16,7 +16,6 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AmCoreIndexDao;
 import com.ai.aiga.dao.ArchDbConnectDao;
 import com.ai.aiga.dao.ArchSrvManageDao;
-import com.ai.aiga.dao.jpa.NewParameterCondition;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.domain.ArchMonthIndex;

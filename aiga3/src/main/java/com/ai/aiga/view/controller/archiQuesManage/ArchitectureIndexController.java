@@ -719,7 +719,7 @@ public class ArchitectureIndexController extends BaseService {
 		Iterator<ArchDbConnect>iter=connectList.iterator();
 		while(iter.hasNext()){
 			ArchDbConnect baseConnect = iter.next();
-			if(baseConnect.getKey3()==null){
+			if(condition.getIndexGroup().trim().equals("数据库连接总数")){
 
 				if(!newList.contains(baseConnect.getKey1())){
 					ViewSeries baseSeries = new ViewSeries();

@@ -296,16 +296,31 @@ define(function(require, exports, module) {
 				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
 				var indexIds ='';
 				var groupId = new Set();
-				var fatherIndexId = [];
 				var lastFatherId = 0;
 				var lastFatherGroupId = 0;
 				var lastNode ={};
+				var secondLastClassIdList = [];
+				var secondLastClassNameList = new Array();
+				var secondLastClassNodes = new Array();
+				var lastClassIdList = [];
+				var lastClassNameList = new Array();
+				var lastClassNodes = new Array();
 				console.log(command);
 				if(command){
 					for(var i in command){
 						//过滤所有父节点
 						if(command[i].indexId<=1000000){
-							fatherIndexId.push(command[i].indexId);
+							//选取多个一级二级节点时 过滤 （比较无意义）
+							if(command[i].indexId<=10 || (command[i].indexId>=1000 && command[i].indexId<=2010)){
+							}else if(command[i].indexId>=10001 && command[i].indexId<=10005){
+								secondLastClassIdList.push(command[i].indexId);
+								secondLastClassNameList.push(command[i].indexName);
+								secondLastClassNodes.push(command[i]);
+							}else if(command[i].indexId>=100001 && command[i].indexId<=100077){
+								lastClassIdList.push(command[i].indexId);
+								lastClassNameList.push(command[i].indexName);
+								lastClassNodes.push(command[i]);	
+							}
 							lastFatherId = command[i].indexId;
 							lastFatherGroupId = command[i].groupId;
 							lastNode = command[i];
@@ -345,6 +360,12 @@ define(function(require, exports, module) {
 						Data.flag = false;
 						//倒数第二层
 						if((100001<=lastFatherId && lastFatherId<=100077) || (1001<=lastFatherId && lastFatherId<=2010 && lastFatherId != 1002)){
+							//如果同层节点有多个
+							if(lastClassNodes.length>=2){
+								for(var ii in lastClassNodes){
+									
+								}
+							}
 							var childrencommand = lastNode.children;
 							for(var x in childrencommand){
 								indexIds += childrencommand[x].indexId + ",";
@@ -353,6 +374,12 @@ define(function(require, exports, module) {
 							_cmd = _cmd.substring(0,_cmd.length-1);
 						//倒数第三层
 						}else if(10001<=lastFatherId && lastFatherId<=10004){
+							//如果同层节点有多个
+							if(secondLastClassNodes.length>=2){
+								for(var ii in secondLastClassNodes){
+									
+								}
+							}
 							var childrencommand = lastNode.children;
 							for(var x in childrencommand){
 								if(childrencommand[x].children){

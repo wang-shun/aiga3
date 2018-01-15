@@ -705,7 +705,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}
 				if(json && json.data) {
-					debugger
+//					debugger
 					option.legend.data = json.data.legend;
 					option.series = json.data.series;
 					if(json.data.xAxis) {

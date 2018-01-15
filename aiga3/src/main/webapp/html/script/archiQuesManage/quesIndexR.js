@@ -141,136 +141,6 @@ define(function(require, exports, module) {
                                 var node =treeNode.getCheckStatus();
                                 console.log(node);
                                 console.log(funcIdNum);
-                                
-/*                                var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
-                                //文本框节点选中
-								var selectNode = treeObj.getSelectedNodes();
-								//勾选框节点选中
-								var checkNode = treeObj.getCheckedNodes();
-								//1-10
-								//    4位                       5位                              6位
-								//1001-2010  10001-10004  100001-100077
-								if(funcIdNum.length==4 || funcIdNum.length==5 || funcIdNum.length==6){
-									
-								}
-
-								
-                                //判断指标名称是否在同一个指标分组里面
-                                if(Data.i==1){
-                                	var pcmd = "indexId="+funcIdNum;
-									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
-										if(status) {
-											window.XMS.msgbox.hide();
-											Data.isSame=json.data[0].groupId;
-											Data.isParent=json.data[0].indexId;
-											var parentNode = treeNode.getParentNode();
-											Data.isOtherNode[Data.i] = parentNode;
-										} else {
-											XMS.msgbox.show(json.retMessage, 'error', 2000);
-										}
-						  			});
-						  			Data.i++;
-                                }else if(Data.i>=2){
-                                	var pcmd = "indexId="+funcIdNum;
-									Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfk'), pcmd, function(json, status) {
-										if(status) {
-											window.XMS.msgbox.hide();
-											Data.isOtherSame[Data.i+1]=json.data[0].groupId;
-											Data.isOtherParent[Data.i+1]=json.data[0].indexId;
-											var parentNode = treeNode.getParentNode();
-											Data.isOtherNode[Data.i]=parentNode;
-										} else {
-											XMS.msgbox.show(json.retMessage, 'error', 2000);
-										}
-						  			});
-						  			Data.i++;
-                                }
-                                if(Data.isOtherSame[Data.i]==Data.isSame || Data.isOtherSame[Data.i]==Data.isOtherSame[Data.i-1]){
-	                                if(node.checked==true){
-	                                	if(1001<=funcIdNum<=2010){
-	                                		Data.indexIds ="";
-	                                		//调用后台接口查询indexIds 返回long[]
-	                                		var lkcmd = "groupId="+ funcIdNum;
-			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
-												if(status) {
-													window.XMS.msgbox.hide();
-													for(var i=0;i<json.data.length;i++){
-														Data.indexIds += json.data[i].indexId+",";
-														console.log(Data.indexIds);
-														Data.indexId = Data.indexIds;
-													}
-												} else {
-													XMS.msgbox.show(json.retMessage, 'error', 2000);
-												}
-								  			});
-	                                	}else if(1<=funcIdNum<=10){
-	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
-	                                	}
-	                                	if(1001>funcIdNum || funcIdNum>2010){
-			                                Data.indexId += funcIdNum + ",";
-	                                	}
-	                                }else{
-	                                	var gg = Data.indexId.indexOf(funcIdNum);
-	                                	if(gg>=0){
-		                                	var tou = Data.indexId.substring(0,gg);
-		                                	var one = funcIdNum.toString();
-		                                	var pg = gg+one.length;
-	                                		var wei = Data.indexId.substring(pg+1);
-		                                	Data.indexId = tou + wei ;
-	                                	}
-	                                }
-                                }else if(Data.isOtherSame[Data.i]==Data.isParent || Data.isOtherSame[Data.i]==Data.isOtherParent[Data.i-1]){
-	                                if(node.checked==true){
-	                                	if(1001<=funcIdNum<=2010){
-	                                		Data.indexIds ="";
-	                                		//调用后台接口查询indexIds 返回long[]
-	                                		var lkcmd = "groupId="+ funcIdNum;
-			                                Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexListfksb'), lkcmd, function(json, status) {
-												if(status) {
-													window.XMS.msgbox.hide();
-													for(var i=0;i<json.data.length;i++){
-														Data.indexIds += json.data[i].indexId+",";
-														console.log(Data.indexIds);
-														Data.indexId = Data.indexIds;
-													}
-												} else {
-													XMS.msgbox.show(json.retMessage, 'error', 2000);
-												}
-								  			});
-	                                	}else if(1<=funcIdNum<=10){
-	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
-	                                	}
-	                                	if(1001>funcIdNum || funcIdNum>2010){
-			                                Data.indexId += funcIdNum + ",";
-	                                	}
-	                                }else if(node.checked==false){
-	                                	var gg = Data.indexId.indexOf(funcIdNum);
-	                                	if(gg>=0){
-		                                	var tou = Data.indexId.substring(0,gg);
-		                                	var one = funcIdNum.toString();
-		                                	var pg = gg+one.length;
-	                                		var wei = Data.indexId.substring(pg+1);
-		                                	Data.indexId = tou + wei ;
-	                                	}
-	                                }
-                                }else if(Data.isOtherSame[Data.i]!=Data.isSame || Data.isOtherSame[Data.i]!=Data.isOtherSame[Data.i-1]){
-                                	var textModal = Page.findId('modall');
-									textModal.off('shown.bs.modal').on('shown.bs.modal', function () {
-										//是
-										textModal.find("[name='pass']").off('click').on('click', function(){
-											textModal.modal('hide');
-										});
-									});
-									textModal.modal('show');
-//									var cancel = Data.isOtherNode[Data.i-2];
-//									cancel.checked=false;
-//									cancel.check_Child_State=0;
-									//取消勾选全部节点
-									var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
-									treeObj.checkAllNodes(false);
-                                	Data.indexId = '';
-                                	Data.indexId = funcIdNum + ",";
-                                }*/
                             }
                         }
                     };
@@ -284,15 +154,14 @@ define(function(require, exports, module) {
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectDataPost(_form,true);
 			var now = new Date(); 
-			_form.find('input[name="startMonth"]').val(this.formatDate(now));
+			_form.find('input[name="startMonth"]').val(Utils.showMonthFirstDay());
 			_form.find('input[name="endMonth"]').val(this.formatDate(now));
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {				
                 Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
 				Page.findId('totalMessageView').attr({style:"display:display"});  
-				var _cmd = _form.serialize();
-				
+				var _cmd = _form.serialize();		
 				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
 				var indexIds ='';
 				var groupId = new Set();
@@ -344,8 +213,7 @@ define(function(require, exports, module) {
 								var treeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
 								treeObj.checkAllNodes(false);
 							}
-						}
-						
+						}						
 					}
 					
 					//如果有子节点 查询~
@@ -355,7 +223,6 @@ define(function(require, exports, module) {
 					}
 					
 					//如果没有子节点，过滤出倒数第二层
-//					debugger
 					if(indexIds == ''){
 						Data.flag = false;
 						//倒数第二层
@@ -592,33 +459,11 @@ define(function(require, exports, module) {
 			        trigger: 'axis'
 			    },
 			    legend: {
-//			    	y:'bottom',
                     type: 'scroll',
                     orient: 'vertical',
                     right: 10,
                     top: 40,
                     bottom: 20,
-/*		    	    orient: 'vertical', //注意
-				    right:0,
-				    top: 0, //注意
-				    //bottom:0,
-				    //left:0,
-				    //width:200,
-				    pagemode: true, //注意,自定义的字段，开启图例分页模式，只有orient: 'vertical'时才有效
-				    height:"100%",
-				    itemHeight:18,
-				    itemWidth: 18,
-				    textStyle: {
-				        fontWeight: 'bolder',
-				        fontSize: 12,
-				        color:'#666666'
-				    },
-				    inactiveColor:'#aaa',
-				    padding: [20, 30,20,2],
-				    backgroundColor: 'rgba(0, 0, 0, 0)',
-				    shadowColor: 'rgba(0, 0, 0, 0.5)',
-				    shadowBlur: 5,
-				    zlevel: 100,*/
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
 			    },
 			    toolbox: {
@@ -705,7 +550,6 @@ define(function(require, exports, module) {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}
 				if(json && json.data) {
-//					debugger
 					option.legend.data = json.data.legend;
 					option.series = json.data.series;
 					if(json.data.xAxis) {
@@ -721,11 +565,6 @@ define(function(require, exports, module) {
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {
-/*						option.series[indexSeries].markLine = {
-			                data : [
-			                    {type : 'average', name: '平均值'}
-			                ]
-			            };*/
 						var markData = [];
 						for(var indexPoint in onlinePonint){
 							var pzs = parseInt(onlinePonint[indexPoint]);
@@ -739,45 +578,7 @@ define(function(require, exports, module) {
 				}
 				//加载前数据刷新
 				myChart.clear();
-				myChart.setOption(option);			
-/*	        	var clickCount = 0;
-				=====legend 的分页控制 事件=s===
-		        var PageEvent = function (i) {
-		            var percent = -i * 98 + '%';
-		            myChart.setOption({
-		                legend: {
-		                    top: percent
-		                }
-		            });
-		        };	
-		        if (option.legend.pagemode) {
-		            $("#initLegengds").on('click', '.js-prePage', function () {	
-		                if (clickCount > 0) {
-		                    clickCount = clickCount - 1;
-		                    PageEvent(clickCount);
-		                    //console.log(clickCount+'上一页');
-		                    $('.js-prePage img').attr({'src': 'images/up-icon.png', 'title': '上一页'});
-		                    $('.js-prePage img').css('cursor','pointer');
-		                    //$('.js-nextPage img').attr('src','images/down-icon.png');
-		                    if(clickCount==0){
-		                        $('.js-prePage img').attr({'src': 'images/up-disable.png', 'title': '已经是第一页'});
-		                        $('.js-prePage img').css('cursor','no-drop');
-		                    }
-		                } else {
-		                    //console.log(clickCount+'已经是第一页');
-		                    $('.js-prePage img').attr({'src': 'images/up-disable.png', 'title': '已经是第一页'});
-		                    $('.js-prePage img').css('cursor','no-drop');
-		                }
-		            });
-		            $("#initLegengds").on('click', '.js-nextPage', function () {
-		                clickCount = clickCount + 1;
-		                //console.log(clickCount);
-		                PageEvent(clickCount);
-		                $('.js-prePage img').attr({'src': 'images/up-icon.png', 'title': '上一页'});
-		                $('.js-prePage img').css('cursor','pointer');
-		            });
-		        }
-		        =====legend 的分页控制 事件=e===	*/			
+				myChart.setOption(option);				
 				window.onresize = myChart.resize;
   			});			
 		},
@@ -798,7 +599,7 @@ define(function(require, exports, module) {
 			    legend: {
 			        type: 'scroll',
 			        orient: 'vertical',
-			        right: 10,
+			        right: 30,
 			        top: 20,
 			        bottom: 20,
 			        data: data.legendData
@@ -808,7 +609,7 @@ define(function(require, exports, module) {
 			            name: '姓名',
 			            type: 'pie',
 			            radius : '55%',
-			            center: ['40%', '50%'],
+			            center: ['50%', '50%'],
 			            data: data.seriesData,
 			            itemStyle: {
 			                emphasis: {

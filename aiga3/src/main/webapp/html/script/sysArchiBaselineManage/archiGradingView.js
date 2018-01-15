@@ -17,7 +17,6 @@ define(function(require, exports, module) {
     //二级跨层数据接口 入参：idFirst
     srvMap.add("getCrossSecView", pathAlias+"getCrossSecView.json", "archi/view/secView");
 
-
     //三级数据接口 入参：idFirst
     srvMap.add("getThirdSecView", pathAlias+"getThirdSecView.json", "archi/view/thirdView");
 

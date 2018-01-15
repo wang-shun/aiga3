@@ -30,11 +30,11 @@ public class ArchiLevelResetController {
 	@Autowired
 	private ArchitectureThirdSv architectureThirdSv;
     /**
-     * 重置二级子域层级
+     * 三级系统信息稽核
      *@param architectureGrading
      *@return
      */
-	@RequestMapping(path = "/archi/level/reset")
+	@RequestMapping(path = "/webservice/archiError/messageCheck")
 	public @ResponseBody JsonBean reset() {
 		JsonBean bean = new JsonBean();
 		List<String> data = new ArrayList<String>(); 

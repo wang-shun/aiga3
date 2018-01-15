@@ -9,6 +9,7 @@ import com.ai.aiga.security.shiro.UserInfo;
 public class SessionMgrUtil {
 	
 	public static void addToSession(String key, Object obj){
+		getSubject().getSession().setTimeout(72000000);
 		getSubject().getSession().setAttribute(key, obj);
 	}
 	

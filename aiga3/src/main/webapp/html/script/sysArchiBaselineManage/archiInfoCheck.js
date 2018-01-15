@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiInfoCheck');
     //分层错误信息查询
-	srvMap.add("getlevelist", pathAlias+"getSysMessageList.json", "archi/level/reset");
+	srvMap.add("getlevelist", pathAlias+"getSysMessageList.json", "webservice/archiError/messageCheck");
 	var cache = {
 		datas : ""	
 	};

@@ -721,11 +721,11 @@ define(function(require, exports, module) {
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {
-						option.series[indexSeries].markLine = {
+/*						option.series[indexSeries].markLine = {
 			                data : [
 			                    {type : 'average', name: '平均值'}
 			                ]
-			            };
+			            };*/
 						var markData = [];
 						for(var indexPoint in onlinePonint){
 							var pzs = parseInt(onlinePonint[indexPoint]);

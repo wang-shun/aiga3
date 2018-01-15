@@ -478,7 +478,7 @@ define(function(require, exports, module) {
 					y:'bottom',
                     type: 'scroll',
                     orient: 'vertical',
-                    right: -20,
+                    right: 10,
                     top: 40,
                     bottom: 20,
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
@@ -570,11 +570,11 @@ define(function(require, exports, module) {
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {
-						option.series[indexSeries].markLine = {
+/*						option.series[indexSeries].markLine = {
 			                data : [
 			                    {type : 'average', name: '平均值'}
 			                ]
-			            };
+			            };*/
 						var markData = [];
 /*	                    for(var onlineIndex in onlinejson.data) {
 	                    	var onlineDate = onlinejson.data[onlineIndex];
@@ -757,7 +757,7 @@ define(function(require, exports, module) {
 					y:'bottom',
                     type: 'scroll',
                     orient: 'vertical',
-                    right: -20,
+                    right: 10,
                     top: 40,
                     bottom: 20,
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
@@ -839,11 +839,11 @@ define(function(require, exports, module) {
 						option.xAxis[0].data = json.data.xAxis;
 					}
 					for(var indexSeries in option.series) {
-						option.series[indexSeries].markLine = {
+/*						option.series[indexSeries].markLine = {
 			                data : [
 			                    {type : 'average', name: '平均值'}
 			                ]
-			            };
+			            };*/
 						var markData = [];
 	                    for(var onlineIndex in onlinejson.data) {
 	                    	var onlineDate = onlinejson.data[onlineIndex];

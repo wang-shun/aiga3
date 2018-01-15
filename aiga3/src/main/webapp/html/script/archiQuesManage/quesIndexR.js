@@ -592,10 +592,10 @@ define(function(require, exports, module) {
 			        trigger: 'axis'
 			    },
 			    legend: {
-			    	y:'bottom',
+//			    	y:'bottom',
                     type: 'scroll',
                     orient: 'vertical',
-                    right: -20,
+                    right: 10,
                     top: 40,
                     bottom: 20,
 /*		    	    orient: 'vertical', //注意

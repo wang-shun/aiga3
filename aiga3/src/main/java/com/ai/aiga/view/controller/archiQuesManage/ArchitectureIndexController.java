@@ -8,10 +8,8 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import io.swagger.annotations.Api;
-import oracle.net.aso.s;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -893,6 +891,9 @@ public class ArchitectureIndexController extends BaseService {
 				    }
 				}
 			}else{
+				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){
+					continue;
+				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
 					baseSeries.setType("line");
@@ -909,6 +910,10 @@ public class ArchitectureIndexController extends BaseService {
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
+						if(archDbConnect.getKey2()==null||archDbConnect.getKey3()==null){
+							System.out.println(archDbConnect.getIndexId()+"ppppppppppppppppppppppp");
+							continue;
+						}
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
 							for(int i=0;i<data.length;i++){
@@ -983,11 +988,63 @@ public class ArchitectureIndexController extends BaseService {
 		Iterator<ArchDbConnect>iter=connectList.iterator();
 		while(iter.hasNext()){
 			ArchDbConnect baseConnect = iter.next();
-				if(!newList.contains(baseConnect.getKey1())){
+			
+			if(condition.getIndexId()!=null){
+				long[] idcdt = condition.getIndexId();
+				for(int i=0;i<idcdt.length;i++){
+					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+						condition.setIndexGroup("数据库连接总数");
+					}
+				}
+			}
+			if(condition.getIndexGroup()!=null){
+				
+				if(condition.getIndexGroup().trim().equals("数据库连接总数")){
+			
+					if(!newList.contains(baseConnect.getKey1())){
+						ViewSeries baseSeries = new ViewSeries();
+						baseSeries.setType("line");
+						newList.add(baseConnect.getKey1());
+						String name = baseConnect.getKey1();
+						baseSeries.setName(name);		
+						legendList.add(name);
+						//给对应的列赋值
+						int[] data = new int[constantValue];
+						int[] a =new int[constantValue];
+						for(int i=0;i<a.length;i++){
+							a[i]=1;
+						}					
+						Iterator<ArchDbConnect>iterator = connectList2.iterator();
+						while(iterator.hasNext()){
+							ArchDbConnect archDbConnect = iterator.next();
+							if(archDbConnect.getKey1().equals(name)) {
+								String SetMonths = archDbConnect.getSettMonth().trim();
+								//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
+								for(int i=0;i<data.length;i++){
+									String newMonth = months2.get(i).trim();
+									String newDay = newMonth.replace("-", "");
+									if(SetMonths.equals(newDay)){
+										if(data[i]==0){
+											data[i]=Integer.parseInt(archDbConnect.getResultValue());
+										}else{
+											data[i]=((data[i]*a[i])+Integer.parseInt(archDbConnect.getResultValue()))/(a[i]+1);
+											a[i]++;
+										}
+										iterator.remove();
+									}
+								}
+							}					
+						}
+						baseSeries.setData(data);
+						seriesList.add(baseSeries);
+					}
+				}
+			}else{
+				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
 					baseSeries.setType("line");
-					newList.add(baseConnect.getKey1());
-					String name = baseConnect.getKey1();
+					newList.add(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")");
+					String name = baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")";
 					baseSeries.setName(name);		
 					legendList.add(name);
 					//给对应的列赋值
@@ -995,13 +1052,13 @@ public class ArchitectureIndexController extends BaseService {
 					int[] a =new int[constantValue];
 					for(int i=0;i<a.length;i++){
 						a[i]=1;
-					}					
+					}	
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
-						if(archDbConnect.getKey1().equals(name)) {
+						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
-							//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
+	//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 							for(int i=0;i<data.length;i++){
 								String newMonth = months2.get(i).trim();
 								String newDay = newMonth.replace("-", "");
@@ -1019,7 +1076,8 @@ public class ArchitectureIndexController extends BaseService {
 					}
 					baseSeries.setData(data);
 					seriesList.add(baseSeries);
-				}
+			    }
+			}
 		};
 		List<ViewSeries>totalSeriesList = new ArrayList<ViewSeries>();
 		ViewSeries totalSeries = new ViewSeries();
@@ -1217,6 +1275,9 @@ public class ArchitectureIndexController extends BaseService {
 					seriesList.add(baseSeries);
 				}
 			}else{
+				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){
+					continue;
+				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
 					baseSeries.setType("line");
@@ -1233,6 +1294,10 @@ public class ArchitectureIndexController extends BaseService {
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
+						if(archDbConnect.getKey2()==null||archDbConnect.getKey3()==null){
+							System.out.println(archDbConnect.getIndexId()+"ppppppppppppppppppppppp");
+							continue;
+						}
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
 							for(int i=0;i<data.length;i++){

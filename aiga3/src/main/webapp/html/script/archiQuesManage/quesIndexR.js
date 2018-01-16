@@ -287,7 +287,7 @@ define(function(require, exports, module) {
 											var secondchildrencmd = brotherchildrencmd[x].children;
 											for(var y in secondchildrencmd){
 												//indexIds += secondchildrencmd[y].indexId + ",";
-												_groupcmd.indexId[ii][y] = brotherchildrencommand[y].indexId;
+												_groupcmd.indexId[ii].push(secondchildrencmd[y].indexId);
 											}
 										}
 									}

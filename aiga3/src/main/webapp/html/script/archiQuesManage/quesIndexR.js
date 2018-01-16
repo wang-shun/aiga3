@@ -280,20 +280,16 @@ define(function(require, exports, module) {
 					}
 				}
 				//
-/*				if(Data.gpindexIds){
-					_cmd += "&indexId=" + Data.indexId;
-					_cmd = _cmd.substring(0,_cmd.length-1);
-				}*/
 				if(_cmd.indexOf('indexGroup=&')>-1) {
-					XMS.msgbox.show('请选择指标组！', 'error', 2000);
+					XMS.msgbox.show('请选择指标组！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
-					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					XMS.msgbox.show('请输入开始时间！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('endMonth=&')>-1) {
-					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					XMS.msgbox.show('请输入结束时间！', 'error', 1000);
 					return
 				}
 				self.getDataMaintainList(_cmd);
@@ -830,15 +826,15 @@ define(function(require, exports, module) {
 					_cmd = _cmd.substring(0,_cmd.length-1);
 				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
-					XMS.msgbox.show('请选择指标组！', 'error', 2000);
+					XMS.msgbox.show('请选择指标组！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
-					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					XMS.msgbox.show('请输入开始时间！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('endMonth=&')>-1) {
-					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					XMS.msgbox.show('请输入结束时间！', 'error', 1000);
 					return
 				}
 				self.getDataMaintainList2(_cmd);

@@ -38,11 +38,9 @@ define(function(require, exports, module) {
 
 	// 模板对象
 	var Tpl = {
-		//getDataMaintainTemp: $('#JS_getDataMaintainTemp'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
 		getAmCoreIndexList: require('tpl/archiQuesManage/AmCoreIndex.tpl'),
 		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl')
-		//modifyQuesIdentifiedInfo: $("#TPL_modifyQuesIdentifiedInfo").html()
 
 	};
 
@@ -68,7 +66,6 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
-//			this.initTableEcharts();
 			//判断是否查询key1/key2/key3
 			this.judgeIndexName();
 			// 初始化查询表单
@@ -76,32 +73,12 @@ define(function(require, exports, module) {
 			this.queryDataMaintainForm2();
 			//映射
 			this.hdbarHelp();
-			//
-//			this.getIndexEcharts();
-//			var now = new Date(); 
-//			$('input[name="startMonth"]').val(this.formatMonthFirst(now));
-//			$('input[name="endMonth"]').val(this.formatDate(now));
 		},
-/*		initTableEcharts: function(){
-			var iTable = Page.findId('getDataMaintainListSec').find("[name='initTable']");
-			var iEcharts = Page.findId('sysMessageView').find("[name='initEcharts']");
-			iTable.addClass('show-nothing');
-			iEcharts.addClass('show-nothing');
-		},*/
 		//判断下拉框indexName值
 		judgeIndexName: function(){
 			$("#indexName").unbind('click');
 			$("#indexName").bind('click',function(){
 				var checkValue=$("#indexName").val();  //获取Select选择的Value 
-/*				if(checkValue=="系统模块数据库连接"){
-					$("#categoryKey1").attr({style:"display:display"}); 
-					$("#categoryKey2").attr({style:"display:display"});      
-//					$("#categoryKey3").attr({style:"display:display"});           
-				}else{
-					$("#categoryKey1").attr({style:"display:none"}); 
-					$("#categoryKey2").attr({style:"display:none"});       
-//					$("#categoryKey3").attr({style:"display:none"}); 
-				}*/
 			});
 		},
 		// 按条件查询
@@ -114,26 +91,15 @@ define(function(require, exports, module) {
 			_form.find('input[name="startMonth"]').val(this.formatMonthFirst(now));
 			_form.find('input[name="endMonth"]').val(this.formatDate(now));
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.off('click').on('click', function() {
-				
+			_queryBtn.off('click').on('click', function() {		
 				Page.findId('getDataMaintainListSec').attr({style:"display:display"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});      
-
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm').serialize();
-//				if(init) {
-//					var date = self.formatDate(new Date()); 		
-//					_cmd = 'startMonth='+date+'&endMonth='+date;
-//					init = false;			
-//				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);
 					return
 				}
-//				if(_cmd.indexOf('indexName=&')>-1) {
-//					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
-//					return
-//				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
 					return
@@ -146,21 +112,6 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
 					var task2 = "";
-/*					switch(cache.tableName){
-						case "ARCH_DB_CONNECT":
-							task2 = "listDbConnects2";
-							break;
-						case "ARCH_SRV_MANAGE":
-							task2 = "listSrvManages2";
-							break;
-					}*/
-/*					if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex==2){
-						task2 = "listDbConnects22";
-					}else if(cache.tableName=="ARCH_DB_CONNECT"&&cache.tableIndex!=2){
-						task2 = "listDbConnects2";
-					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
-						task2 = "listSrvManages2";
-					}*/
 					if(cache.tableName=="ARCH_DB_CONNECT"){
 						task2 = "listDbConnects2";
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
@@ -176,7 +127,6 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
-//			_queryBtn.click();
 		},
 		// 查询数据维护
 		getDataMaintainList: function(cmd) {
@@ -236,7 +186,6 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_domSec, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_domSec);
-//					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPaginationSec);
@@ -281,7 +230,6 @@ define(function(require, exports, module) {
 			var self = this;
 			var _dom = Page.findId('getDataMaintainList');
 			var _addBt = _dom.find("[name='add']");
-
 			_addBt.unbind('click');
 			_addBt.bind('click', function() {
 				//alert(Page.findModal('addDataMaintainModal').html());
@@ -311,9 +259,7 @@ define(function(require, exports, module) {
 						});
 					});
 				});
-
 			});
-
 		},
 		//删除数据备份
 		delDataMaintain: function() {
@@ -327,7 +273,6 @@ define(function(require, exports, module) {
 				if (data) {
 					console.log(data);
 					var cmd = 'quesId=' + data.quesId;
-					//alert(cmd);//////////
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.getJson(srvMap.get('deleQuestionInfo'), cmd, function(json, status) {
 						if (status) {
@@ -341,28 +286,17 @@ define(function(require, exports, module) {
 			});
 		},
 		updateDataMaintain: function(Id, json) {
-		
 			var self = this;
 			var i=0;
 			while(json[i].quesId != Id){
 				i++;
 			}
 			var data = json[i];
-//			var _dom = Page.findModal('updateDataMaintainModal');
-			
-//			var index = _dom.attr("temp");
-//			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
-//			Page.findId('updateModal').html(template(json.data[index]));
-//			var _modal = Page.findId('updateDataMaintainModal');
-//			_modal.modal('show');
-//			Utils.setSelectData(_modal);
 			var template = Handlebars.compile(Page.findTpl('modifyQuesIdentifiedInfo'));
 			Page.findId('updateDataMaintainInfo').html(template(data));
 			var _dom = Page.findModal('updateDataMaintainModal');
 			_dom.modal('show');
 			Utils.setSelectData(_dom);
-			
-//			_dom.modal('show');
 			var html = "<input readonly='readonly' type='text' class='form-control' value='" + Id + "' />";
 			_dom.find("#JS_name").html(html);
 
@@ -627,26 +561,16 @@ define(function(require, exports, module) {
 			_form.find('input[name="startMonth"]').val(this.formatMonthFirst2(now));
 			_form.find('input[name="endMonth"]').val(this.formatDate2(now));
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.off('click').on('click', function() {
-				
+			_queryBtn.off('click').on('click', function() {		
 				Page.findId('getDataMaintainListSec2').attr({style:"display:display"});      
 				Page.findId('sysMessageView2').attr({style:"display:display"});      
-
 				var cmd = _form.serialize();
 				var _cmd = Page.findId('queryDataMaintainForm2').serialize();
-//				if(init) {
-//					var date = self.formatDate(new Date()); 		
-//					_cmd = 'startMonth='+date+'&endMonth='+date;
-//					init = false;			
-//				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
 					XMS.msgbox.show('请选择指标组！', 'error', 2000);
 					return
 				}
-//				if(_cmd.indexOf('indexName=&')>-1) {
-//					XMS.msgbox.show('请选择指标名称！', 'error', 2000);
-//					return
-//				}
+
 				if(_cmd.indexOf('startMonth=&')>-1) {
 					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
 					return
@@ -691,7 +615,6 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
-//			_queryBtn.click();
 		},
 		// 查询数据维护
 		getDataMaintainList2: function(cmd) {
@@ -754,7 +677,6 @@ define(function(require, exports, module) {
 				self.eventDClickCallback(_domSec, function() {
 					//获得当前单选框值
 					var data = Utils.getRadioCheckedRow(_domSec);
-//					alert(data.quesId);
 					self.updateDataMaintain(data.quesId, json.data);
 				});
 			}, _domPaginationSec);
@@ -780,7 +702,7 @@ define(function(require, exports, module) {
 			            dataView : {show: false, readOnly: false},
 			            magicType : {show: true, type: ['line', 'bar']},
 			            restore : {show: true},
-			            myButtons:{//自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+			            myButtons:{//自定义按钮,这里增加必须以my开头
 		                   show:true,//是否显示    
 		                   title:'切换图例位置', //鼠标移动上去显示的文字    
 		                   icon:'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891', //图标    

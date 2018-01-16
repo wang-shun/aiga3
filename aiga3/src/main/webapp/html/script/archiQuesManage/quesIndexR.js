@@ -274,7 +274,7 @@ define(function(require, exports, module) {
 							_cmd += "&indexId=" + indexIds;
 							_cmd = _cmd.substring(0,_cmd.length-1);	
 						}else{//一级目录提示 选择二三子目录！
-							XMS.msgbox.show('请选择二级、三级子目录！', 'error', 2000);
+							XMS.msgbox.show('请选择二级、三级子目录！', 'error', 1000);
 							return
 						}
 					}
@@ -733,7 +733,7 @@ define(function(require, exports, module) {
 												}
 								  			});
                                         }else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
-	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
+	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 2000);
 	                                	}
 	                                	if(1001>funcIdNum || funcIdNum>2010){
 			                                Data.indexId2 += funcIdNum + ",";

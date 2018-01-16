@@ -32,7 +32,7 @@ public class SysHealthReportController {
      *@param 
      *@return
      */
-	@RequestMapping(path = "/archi/report/sysHealth")
+	@RequestMapping(path = "/webservice/archiReport/sysHealth")
 	public @ResponseBody JsonBean reportSysHealth(Long onlysysId,Date time) {
 		JsonBean bean = new JsonBean();
 		List<SysReportGroupBelong> groupList = new ArrayList<SysReportGroupBelong>(); 

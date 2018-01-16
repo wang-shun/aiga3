@@ -26,7 +26,7 @@ public class SystemIndexController {
 	 * @param architectureGrading
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/report/getSysList")
+	@RequestMapping(path = "/webservice/archiReport/getSysList")
 	public @ResponseBody JsonBean reportGetSysList() {
 		JsonBean bean = new JsonBean();
 		try {
@@ -41,7 +41,7 @@ public class SystemIndexController {
 	 * @param architectureGrading
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/index/getSysIndexData")
+	@RequestMapping(path = "/webservice/archiIndex/getSysIndexData")
 	public @ResponseBody JsonBean getSysIndexData(Long onlysysId) {
 		JsonBean bean = new JsonBean();
 		RadarIndexOutput outputData = new RadarIndexOutput();

@@ -75,7 +75,7 @@ seajs.config({
         'iCheckJS':'lib/iCheck/icheck.min.js',
         'datepickerCSS':'lib/datepicker/datepicker3.css',
         'datepickerJS':'lib/datepicker/bootstrap-datepicker.js',
-        'echarts':'lib/echarts/3.8.4/echarts.js',
+        'echarts':'lib/echarts/4.0.0/echarts.js',
         'zTreeCSS':'lib/ztree/3.5.28/css/zTreeStyle/zTreeStyle.css',
         'zTreeJS':'lib/ztree/3.5.28/js/jquery.ztree.core.js',
         'jsmindJS':'lib/jsmind/jsmind.all.js',

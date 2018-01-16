@@ -35,10 +35,7 @@ define(function(require, exports, module) {
     //月指标分组
     srvMap.add("fetchdistinctMonth", "", "archi/index/distinctMonth");
     // 获取上线时间
-    srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
-    //
-//    srvMap.add("findAllAmCores", "", "index/typein/findAllAmCores");
-//    srvMap.add("findAllAmCores2", "", "index/typein/findAllAmCores2");
+    srvMap.add("onlineTimeFind", "", "webservice/archiOnline/timeFind");
     //八大军规指标树 按日
     srvMap.add("findAllAmCoresByDay", "", "index/tree/findAllIndexByDay");
     //八大军规指标树 按月
@@ -316,26 +313,22 @@ define(function(require, exports, module) {
 							_cmd += "&indexId=" + indexIds;
 							_cmd = _cmd.substring(0,_cmd.length-1);	
 						}else{//一级目录提示 选择二三子目录！
-							XMS.msgbox.show('请选择二级、三级子目录！', 'error', 2000);
+							XMS.msgbox.show('请选择二级、三级子目录！', 'error', 1000);
 							return
 						}
 					}
 				}
 				//
-/*				if(Data.gpindexIds){
-					_cmd += "&indexId=" + Data.indexId;
-					_cmd = _cmd.substring(0,_cmd.length-1);
-				}*/
 				if(_cmd.indexOf('indexGroup=&')>-1) {
-					XMS.msgbox.show('请选择指标组！', 'error', 2000);
+					XMS.msgbox.show('请选择指标组！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
-					XMS.msgbox.show('请输入开始时间！!!!!!!!', 'error', 2000);
+					XMS.msgbox.show('请输入开始时间！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('endMonth=&')>-1) {
-					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					XMS.msgbox.show('请输入结束时间！', 'error', 1000);
 					return
 				}
 				self.getDataMaintainList(_cmd);
@@ -785,7 +778,7 @@ define(function(require, exports, module) {
 												}
 								  			});
                                         }else if(300001<=funcIdNum<=300010 || funcIdNum<=3000){
-	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 6000);
+	                                		XMS.msgbox.show('您选择的指标范围太大，请选择二级、三级指标查询展示', 'error', 2000);
 	                                	}
 	                                	if(1001>funcIdNum || funcIdNum>2010){
 			                                Data.indexId2 += funcIdNum + ",";
@@ -878,15 +871,15 @@ define(function(require, exports, module) {
 					_cmd = _cmd.substring(0,_cmd.length-1);
 				}
 				if(_cmd.indexOf('indexGroup=&')>-1) {
-					XMS.msgbox.show('请选择指标组！', 'error', 2000);
+					XMS.msgbox.show('请选择指标组！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
-					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					XMS.msgbox.show('请输入开始时间！', 'error', 1000);
 					return
 				}
 				if(_cmd.indexOf('endMonth=&')>-1) {
-					XMS.msgbox.show('请输入结束时间！', 'error', 2000);
+					XMS.msgbox.show('请输入结束时间！', 'error', 1000);
 					return
 				}
 				self.getDataMaintainList2(_cmd);
@@ -907,7 +900,7 @@ define(function(require, exports, module) {
 						self._graphSec(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}
+					}	
 	  			});
 			});
 		},

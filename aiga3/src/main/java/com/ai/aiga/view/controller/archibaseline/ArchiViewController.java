@@ -62,7 +62,7 @@ public class ArchiViewController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@RequestMapping(path = "/archi/view/secView")
+	@RequestMapping(path = "/webservice/archiView/secView")
 	public @ResponseBody JsonBean findSecView(long idFirst) {
 		JsonBean bean = new JsonBean();
 		ArchiSecondViewOutput output = new ArchiSecondViewOutput();
@@ -220,7 +220,7 @@ public class ArchiViewController {
 	 * @return
 	 * @throws ParseException
 	 */
-	@RequestMapping(path = "/archi/view/thirdView")
+	@RequestMapping(path = "/webservice/archiView/thirdView")
 	public @ResponseBody JsonBean findThirdView(long idFirst) {
 		JsonBean bean = new JsonBean();
 		ArchiThirdViewOutput output = new ArchiThirdViewOutput();
@@ -409,7 +409,7 @@ public class ArchiViewController {
 	 * 查询三级系统变更信息
 	 * @return
 	 */
-	@RequestMapping(path = "/archi/view/changeView")
+	@RequestMapping(path = "/webservice/archiView/changeView")
 	public @ResponseBody JsonBean findchangeView(String beginTime, String endTime) {
 		JsonBean bean = new JsonBean();
 		ArchiChangeMessage output = new ArchiChangeMessage();

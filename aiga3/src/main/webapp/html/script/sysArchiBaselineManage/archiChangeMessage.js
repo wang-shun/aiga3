@@ -10,7 +10,7 @@ define(function(require, exports, module) {
 	var Page = Utils.initPage('archiChangeMessage');
 
     //三级信息变更数据
-    srvMap.add("getchangeView", pathAlias+"getSecView.json", "archi/view/changeView");
+    srvMap.add("getchangeView", pathAlias+"getSecView.json", "webservice/archiView/changeView");
 
 	var cache = {
 		datas : ""

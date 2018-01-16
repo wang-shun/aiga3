@@ -45,6 +45,10 @@ define(function(require, exports, module) {
     srvMap.add("findAllAmCoresByMonth", "", "index/tree/findAllIndexByMonth");
     //八大军规指标树 总数柱状图db_connect
     srvMap.add("listTotalDbConnects", "", "arch/index/listTotalDbConnects");
+    //多个
+    srvMap.add("listTotalDbConnectsOrderByGroupId", "", "arch/index/listTotalDbConnectsOrderByGroupId");
+
+    
     //八大军规指标树 总数柱状图srv_manage
     srvMap.add("listTotalSrvManages", "", "arch/index/listTotalSrvManages");
     //八大军规指标树 总数饼状图 db_connect
@@ -100,7 +104,8 @@ define(function(require, exports, module) {
 		isOtherNode:new Array(100),
 		isOtherNode2:new Array(100),
 		gpindexIds:"",
-		flag : true
+		flag : true ,
+		isOne : true ,
 	};
 
 	var Query = {
@@ -161,9 +166,16 @@ define(function(require, exports, module) {
                 Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
 				Page.findId('totalMessageView').attr({style:"display:display"});  
-				var _cmd = _form.serialize();		
+				var _cmd = _form.serialize();	
+				var _groupcmd = {
+					startMonth : _cmd.substring(11,21),
+					endMonth : _cmd.substring(31,41),
+					indexId : new Array()
+				}
 				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
 				var indexIds ='';
+//				var tArray = new Array();   //先声明一维
+
 				var groupId = new Set();
 				var lastFatherId = 0;
 				var lastFatherGroupId = 0;
@@ -180,12 +192,12 @@ define(function(require, exports, module) {
 						//过滤所有父节点
 						if(command[i].indexId<=1000000){
 							//选取多个一级二级节点时 过滤 （比较无意义）
-							if(command[i].indexId<=10 || (command[i].indexId>=1000 && command[i].indexId<=2010)){
+							if(command[i].indexId<=10){
 							}else if(command[i].indexId>=10001 && command[i].indexId<=10005){
 								secondLastClassIdList.push(command[i].indexId);
 								secondLastClassNameList.push(command[i].indexName);
 								secondLastClassNodes.push(command[i]);
-							}else if(command[i].indexId>=100001 && command[i].indexId<=100077){
+							}else if((command[i].indexId>=100001 && command[i].indexId<=100077)||(command[i].indexId>=1000 && command[i].indexId<=2010)){
 								lastClassIdList.push(command[i].indexId);
 								lastClassNameList.push(command[i].indexName);
 								lastClassNodes.push(command[i]);	
@@ -226,38 +238,65 @@ define(function(require, exports, module) {
 					if(indexIds == ''){
 						Data.flag = false;
 						//倒数第二层
+//						debugger
 						if((100001<=lastFatherId && lastFatherId<=100077) || (1001<=lastFatherId && lastFatherId<=2010 && lastFatherId != 1002)){
+							//如果同层节点仅有一个
+							if(lastClassNodes.length==1){
+								Data.isOne = true;
+								var childrencommand = lastNode.children;
+								for(var x in childrencommand){
+									indexIds += childrencommand[x].indexId + ",";
+								}
+								_cmd += "&indexId=" + indexIds;
+								_cmd = _cmd.substring(0,_cmd.length-1);
 							//如果同层节点有多个
-							if(lastClassNodes.length>=2){
+							}else if(lastClassNodes.length>=2){
+								Data.isOne = false;
 								for(var ii in lastClassNodes){
-									
-								}
-							}
-							var childrencommand = lastNode.children;
-							for(var x in childrencommand){
-								indexIds += childrencommand[x].indexId + ",";
-							}
-							_cmd += "&indexId=" + indexIds;
-							_cmd = _cmd.substring(0,_cmd.length-1);
-						//倒数第三层
-						}else if(10001<=lastFatherId && lastFatherId<=10004){
-							//如果同层节点有多个
-							if(secondLastClassNodes.length>=2){
-								for(var ii in secondLastClassNodes){
-									
-								}
-							}
-							var childrencommand = lastNode.children;
-							for(var x in childrencommand){
-								if(childrencommand[x].children){
-									var secondchildrencmd = childrencommand[x].children;
-									for(var y in secondchildrencmd){
-										indexIds += secondchildrencmd[y].indexId + ",";
+									_groupcmd.indexId[ii]=new Array();    //声明二维，每一个一维数组里面的一个元素都是一个数组
+									var brothercommand = lastClassNodes[ii];
+									var brotherchildrencommand = brothercommand.children;
+									for(var x in brotherchildrencommand){
+										//indexIds += brotherchildrencommand[x].indexId + ",";
+										_groupcmd.indexId[ii][x] = brotherchildrencommand[x].indexId;
 									}
 								}
+								_cmd += "&indexId=" + _groupcmd.indexId;
 							}
-							_cmd += "&indexId=" + indexIds;
-							_cmd = _cmd.substring(0,_cmd.length-1);
+						//倒数第三层
+						}else if(10001<=lastFatherId && lastFatherId<=10004){
+							if(secondLastClassNodes.length==1){
+								Data.isOne = true;
+								var childrencommand = lastNode.children;
+								for(var x in childrencommand){
+									if(childrencommand[x].children){
+										var secondchildrencmd = childrencommand[x].children;
+										for(var y in secondchildrencmd){
+											indexIds += secondchildrencmd[y].indexId + ",";
+										}
+									}
+								}
+								_cmd += "&indexId=" + indexIds;
+								_cmd = _cmd.substring(0,_cmd.length-1);
+							//如果同层节点有多个
+							}else if(secondLastClassNodes.length>=2){
+								Data.isOne = false;
+								for(var ii in secondLastClassNodes){
+									_groupcmd.indexId[ii]=new Array();    //声明二维，每一个一维数组里面的一个元素都是一个数组
+									var brothercommand = secondLastClassNodes[ii];
+									var brotherchildrencmd = brothercommand.children;
+									for(var x in brotherchildrencmd){
+										if(brotherchildrencmd[x].children){
+											var secondchildrencmd = brotherchildrencmd[x].children;
+											for(var y in secondchildrencmd){
+												//indexIds += secondchildrencmd[y].indexId + ",";
+												_groupcmd.indexId[ii][y] = brotherchildrencommand[y].indexId;
+											}
+										}
+									}
+								}
+								_cmd += "&indexId=" + _groupcmd.indexId;
+							}
 						//倒数第四层//1002
 						}else if(lastFatherId == 1002){
 							var childrencommand = lastNode.children;
@@ -292,7 +331,7 @@ define(function(require, exports, module) {
 					return
 				}
 				if(_cmd.indexOf('startMonth=&')>-1) {
-					XMS.msgbox.show('请输入开始时间！', 'error', 2000);
+					XMS.msgbox.show('请输入开始时间！!!!!!!!', 'error', 2000);
 					return
 				}
 				if(_cmd.indexOf('endMonth=&')>-1) {
@@ -300,6 +339,8 @@ define(function(require, exports, module) {
 					return
 				}
 				self.getDataMaintainList(_cmd);
+				
+				var _ggcmd = _cmd;	
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
 					var task2 = "";
@@ -307,8 +348,11 @@ define(function(require, exports, module) {
 					if(cache.tableName=="ARCH_DB_CONNECT"){
 						if(Data.flag==true){
 							task2 = "listDbConnects2";
-						}else{
-							task2 = "listTotalDbConnects"
+						}else if(Data.flag==false && Data.isOne==true){
+							task2 = "listTotalDbConnects";
+						}else if(Data.flag==false && Data.isOne==false){
+							task2 = "listTotalDbConnectsOrderByGroupId";
+							_ggcmd = _groupcmd;
 						}
 						taskPie = "listTotalDbConnectsPie";
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
@@ -323,7 +367,7 @@ define(function(require, exports, module) {
 						taskPie = "listTotalMonthIndexPie";
 					}
 				}
-				Rose.ajax.postJson(srvMap.get(task2), _cmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get(task2), _ggcmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
 						self._graphSec(json);
@@ -351,7 +395,8 @@ define(function(require, exports, module) {
 			//隐藏的主表获取分表表名tableName;
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
-			var tcmd = _cmd.split(",")[0];
+//			var tcmd = _cmd.split(",")[0];
+			var tcmd = "indexId=" + _cmd.substring(_cmd.length-7,_cmd.length);
 			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList2'), tcmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();

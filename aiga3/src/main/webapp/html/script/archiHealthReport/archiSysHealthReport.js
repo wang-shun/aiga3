@@ -7,13 +7,13 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('archiSysHealthReport');
 	//三级系统下拉框
-    srvMap.add("getThirdSysNum", '', "archi/report/getSysList");
+    srvMap.add("getThirdSysNum", '', "webservice/archiReport/getSysList");
     //雷达图数据获取
-    srvMap.add("getRadarIndexData", '', "archi/index/getSysIndexData");
+    srvMap.add("getRadarIndexData", '', "webservice/archiIndex/getSysIndexData");
     //系统信息查询
     srvMap.add("getSystemInfoCardData", '', "webservice/archiThird/findTransPage");
     //系统体检结果查询
-    srvMap.add("getSystemHealthReport", '', "archi/report/sysHealth");   
+    srvMap.add("getSystemHealthReport", '', "webservice/archiReport/sysHealth");   
 	var cache = {
 		datas : ""	
 	};
@@ -134,7 +134,6 @@ define(function(require, exports, module) {
 			        name: {
 			            textStyle: {
 			                color: '#0d0d0d',
-			                backgroundColor: '#999',
 			                borderRadius: 3,
 			                padding: [3, 5]
 			           }

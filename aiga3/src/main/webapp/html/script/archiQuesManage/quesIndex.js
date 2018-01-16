@@ -30,7 +30,7 @@ define(function(require, exports, module) {
     //指标名称
     srvMap.add("fetchselectName", "", "archi/index/selectName");
     // 获取上线时间
-    srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
+    srvMap.add("onlineTimeFind", "", "webservice/archiOnline/timeFind");
     srvMap.add("fetchselectKey1", "", "archi/index/selectKey1");
     srvMap.add("fetchselectKey2", "", "archi/index/selectKey2");
     srvMap.add("fetchselectKey3", "", "archi/index/selectKey3");

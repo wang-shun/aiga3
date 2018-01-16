@@ -15,9 +15,9 @@ define(function(require,exports,module){
     // 获取问题
     srvMap.add("getQueryInfo", "welcome/getQueryInfo.json", "archi/question/queryInfo");
     // 获取上线时间
-    srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
+    srvMap.add("onlineTimeFind", "", "webservice/archiOnline/timeFind");
     // 添加上线时间
-    srvMap.add("onlineTimeSet", "", "archi/online/timeSet");
+    srvMap.add("onlineTimeSet", "", "webservice/archiOnline/timeSet");
     // 工作台查询
     srvMap.add("getOwnHomeInfo", "", "sys/home/taskInfo");
 

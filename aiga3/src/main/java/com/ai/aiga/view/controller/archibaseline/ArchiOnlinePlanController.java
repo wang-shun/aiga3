@@ -23,7 +23,7 @@ public class ArchiOnlinePlanController {
      *@param 
      *@return
      */
-	@RequestMapping(path = "/archi/online/timeFind")
+	@RequestMapping(path = "/webservice/archiOnline/timeFind")
 	public @ResponseBody JsonBean onlineTimeFind() {
 		JsonBean bean = new JsonBean();
 		bean.setData(archiOnlinePlanSv.findAllTime());
@@ -34,7 +34,7 @@ public class ArchiOnlinePlanController {
      *@param 
      *@return
      */
-	@RequestMapping(path = "/archi/online/timeSet")
+	@RequestMapping(path = "/webservice/archiOnline/timeSet")
 	public @ResponseBody JsonBean onlineTimeSet(String onlineTime) {
 		JsonBean bean = new JsonBean();
 		bean.setData(archiOnlinePlanSv.setOnlineTime(new Date(onlineTime)));

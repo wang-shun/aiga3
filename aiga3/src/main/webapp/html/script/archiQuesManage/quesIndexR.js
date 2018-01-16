@@ -35,10 +35,7 @@ define(function(require, exports, module) {
     //月指标分组
     srvMap.add("fetchdistinctMonth", "", "archi/index/distinctMonth");
     // 获取上线时间
-    srvMap.add("onlineTimeFind", "", "archi/online/timeFind");
-    //
-//    srvMap.add("findAllAmCores", "", "index/typein/findAllAmCores");
-//    srvMap.add("findAllAmCores2", "", "index/typein/findAllAmCores2");
+    srvMap.add("onlineTimeFind", "", "webservice/archiOnline/timeFind");
     //八大军规指标树 按日
     srvMap.add("findAllAmCoresByDay", "", "index/tree/findAllIndexByDay");
     //八大军规指标树 按月
@@ -862,7 +859,7 @@ define(function(require, exports, module) {
 						self._graphSec(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
-					}
+					}	
 	  			});
 			});
 		},

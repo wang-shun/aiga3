@@ -69,9 +69,7 @@ define(function(require, exports, module) {
 			this.initialise();
 			
 			this.searchBox();
-			
-			this.uploadAnNiu();
-			
+						
 			this.judgeQuesType();
 			// 默认查询所有
 			this.getDataMaintainList();
@@ -99,6 +97,14 @@ define(function(require, exports, module) {
 			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectData(_form);
+			var _cmd = "";
+			Rose.ajax.postJson(srvMap.get('getCurrvalId'),_cmd,function(json, status){
+				if(status) {
+					idcache.quesId=json.data.quesId;
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+			});
 		},
 		searchBox: function(){
 			var self = this;
@@ -125,32 +131,6 @@ define(function(require, exports, module) {
 				});
 			});
 		},
-		//上传上线交付物按钮
-        uploadAnNiu: function() {
-        	var _cmd = "";
-			Rose.ajax.postJson(srvMap.get('getCurrvalId'),_cmd,function(json, status){
-				if(status) {
-					idcache.quesId=json.data.quesId;
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}					
-			});
-			
-        	var planId = idcache.quesId + 1;
-            var self = this;
-            var _form = Page.findModalCId('queryDataMaintainForm');
-            console.log(_form.length);
-	        Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
-	    		var a = '99999';
-	            var cmd = {
-	                "file": _form.find("[name='fileName']")[0].files[0],
-	                "planId": planId,
-	                "fileType": a
-	            };
-                var task = srvMap.get('uploadFile');
-                self.jieko(task, cmd, planId);
-	        });
-        },
         jieko: function(task, cmd, planId) {
             var self = this;
             $.ajaxUpload({
@@ -238,8 +218,8 @@ define(function(require, exports, module) {
 			var self = this;
 			var _form = Page.findId('queryDataMaintainForm');
 			Utils.setSelectData(_form);
-			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.unbind('click').bind('click', function() {
+			var _submitBtn = _form.find("[name='submit']");
+			_submitBtn.unbind('click').bind('click', function() {
 				planId = idcache.quesId + 1;
 				var upState = false;
 		        Utils.checkForm(Page.findId('queryDataMaintainForm'),function(){
@@ -329,10 +309,7 @@ define(function(require, exports, module) {
 							Page.findId('queryDataMaintainForm')[0].reset();				
 						}
 					});
-				});
-				
-				
-				
+				});									
 			});
 
 		},

@@ -34,9 +34,9 @@ define(function(require, exports, module) {
     //三级分类下拉框
     srvMap.add("getThirdcategoryList", "", "sys/cache/listThirdcategory");
     //所属工单状态静态数据  
-	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
+	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "webservice/static/archiProductState");
     //所属问题状态静态数据  
-	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "archi/static/archiQuestionState");
+	srvMap.add("staticQuestionState", pathAlias+"getSysMessageList.json", "webservice/static/archiQuestionState");
 	//显示系统信息表
     srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
 	//get附件名
@@ -50,7 +50,7 @@ define(function(require, exports, module) {
     //事件单ID
     srvMap.add("getEventFindALL", pathAlias+"getSysMessageList.json", "archi/event/findAll");
     //所属处理科室静态数据  
-	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
+	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "webservice/static/archiDealApartment");
     //角色校验
     srvMap.add("questionRoleCheck", pathAlias + "getDeliverablesList.json", "archi/question/roleCheck");
 

@@ -12,9 +12,9 @@ define(function(require, exports, module) {
     //数据翻译
 	srvMap.add("MessageTranslate", pathAlias+"getSysMessageList.json", "webservice/archiGrading/gradingTranslate");
 	//系统状态静态数据  
-	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
+	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "webservice/static/archiBuildingState");
 	//等级信息
-    srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "archi/static/rankInfo");
+    srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "webservice/static/rankInfo");
     //重提申请单
     srvMap.add("archiGradingReSubmit", pathAlias + "getDeliverablesList.json", "webservice/archiGrading/reSubmit");
     //撤销申请单

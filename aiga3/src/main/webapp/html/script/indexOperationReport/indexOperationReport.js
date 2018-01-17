@@ -7,9 +7,9 @@ define(function(require, exports, module) {
 	
 	/*后台接口 start*/
 	//获取报表时间类型
-    srvMap.add("logReportTimeType", '', "archi/static/logReportTimeType");	
+    srvMap.add("logReportTimeType", '', "webservice/static/logReportTimeType");	
 	//获取报表模板名称
-    srvMap.add("getLogReportModel", '', "archi/static/getLogReportModel");	
+    srvMap.add("getLogReportModel", '', "webservice/static/getLogReportModel");	
 	//各中心CSF服务运行情况日报数据获取
     srvMap.add("csfsrvReport", '', "arch/csfsrv/report");	
 	//任务调度运行情况日报数据获取

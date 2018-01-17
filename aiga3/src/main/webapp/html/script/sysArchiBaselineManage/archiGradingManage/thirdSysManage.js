@@ -18,11 +18,11 @@ define(function(require, exports, module) {
 	//三级系统操作信息保存
 	srvMap.add("thirdSysMessageSave", pathAlias+"getSysMessageList.json", "webservice/archiGrading/thirdGradingAdd");
 	//系统状态静态数据  
-	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "archi/static/archiBuildingState");
+	srvMap.add("thirdSysState", pathAlias+"getSysMessageList.json", "webservice/static/archiBuildingState");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//等级信息
-    srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "archi/static/rankInfo");    
+    srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "webservice/static/rankInfo");    
 	var idcache = {
 		onlysysId : ""
 	}

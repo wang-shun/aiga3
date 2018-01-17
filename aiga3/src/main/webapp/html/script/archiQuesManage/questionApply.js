@@ -26,13 +26,13 @@ define(function(require, exports, module) {
     //级联查询
     srvMap.add("getInspectQueryQuesInfo", "", "archi/inspect/queryInfo");
     //所属处理科室静态数据  
-	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "archi/static/archiDealApartment");
+	srvMap.add("staticDealApartment", pathAlias+"getSysMessageList.json", "webservice/static/archiDealApartment");
     //所属工单状态静态数据  
-	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "archi/static/archiProductState");
+	srvMap.add("staticProductState", pathAlias+"getSysMessageList.json", "webservice/static/archiProductState");
     //所属问题分类静态数据  
-	srvMap.add("staticQuesCategory", pathAlias+"getSysMessageList.json", "archi/static/archiQuesCategory");
+	srvMap.add("staticQuesCategory", pathAlias+"getSysMessageList.json", "webservice/static/archiQuesCategory");
     //批量导入文件类型静态数据  
-	srvMap.add("staticFileCategory", pathAlias+"getSysMessageList.json", "archi/static/archiFileCategory");
+	srvMap.add("staticFileCategory", pathAlias+"getSysMessageList.json", "webservice/static/archiFileCategory");
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//显示系统信息表

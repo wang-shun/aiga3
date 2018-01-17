@@ -17,7 +17,7 @@ public class StaticTnterfaceController {
 	private ArchitectureStaticDataSv architectureStaticDataSv;
 	
 	//根据Type查询静态数据分类
-	@RequestMapping(path = "/archi/static/workplanState")
+	@RequestMapping(path = "/webservice/static/workplanState")
 	public @ResponseBody JsonBean workplanState(){
 		JsonBean bean = new JsonBean();
 		String codeType = "WORKPLAN_PRO_CLASSIFICATION";
@@ -25,7 +25,7 @@ public class StaticTnterfaceController {
 		return bean;
 	} 
 	//根据Type查询静态数据工作状态
-	@RequestMapping(path = "/archi/static/workState")
+	@RequestMapping(path = "/webservice/static/workState")
 	public @ResponseBody JsonBean workState(){
 		JsonBean bean = new JsonBean();
 		String codeType = "WORKPLAN_PRO_STATE";
@@ -33,7 +33,7 @@ public class StaticTnterfaceController {
 		return bean;
 	} 
 	//根据Type查询静态数据优先级
-	@RequestMapping(path = "/archi/static/priorityList")
+	@RequestMapping(path = "/webservice/static/priorityList")
 	public @ResponseBody JsonBean priorityList(){
 		JsonBean bean = new JsonBean();
 		String codeType = "WORKPLAN_PRO_PRIORITY";
@@ -41,7 +41,7 @@ public class StaticTnterfaceController {
 		return bean;
 	}
 	//查询 系统建设状态
-	@RequestMapping(path = "/archi/static/archiBuildingState")
+	@RequestMapping(path = "/webservice/static/archiBuildingState")
 	public @ResponseBody JsonBean type(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_BUILDING_STATE";
@@ -50,7 +50,7 @@ public class StaticTnterfaceController {
 	} 
 	
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/archiDealApartment")
+	@RequestMapping(path = "/webservice/static/archiDealApartment")
 	public @ResponseBody JsonBean getDealApartment(){
 		JsonBean bean = new JsonBean();
 		String codeType = "ARCH_DEAL_APARTMENT";
@@ -59,7 +59,7 @@ public class StaticTnterfaceController {
 	} 
 	
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/archiProductState")
+	@RequestMapping(path = "/webservice/static/archiProductState")
 	public @ResponseBody JsonBean getProductState(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_PRODUCT_STATE";
@@ -68,7 +68,7 @@ public class StaticTnterfaceController {
 	} 
 	
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/archiQuestionState")
+	@RequestMapping(path = "/webservice/static/archiQuestionState")
 	public @ResponseBody JsonBean getQuestionState(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_QUESTION_STATE";
@@ -77,7 +77,7 @@ public class StaticTnterfaceController {
 	} 
 	
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/archiQuesCategory")
+	@RequestMapping(path = "/webservice/static/archiQuesCategory")
 	public @ResponseBody JsonBean getQuesCategory(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_QUESTION_CATEGORY";
@@ -85,7 +85,7 @@ public class StaticTnterfaceController {
 		return bean;
 	} 
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/archiFileCategory")
+	@RequestMapping(path = "/webservice/static/archiFileCategory")
 	public @ResponseBody JsonBean getFileCategory(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_FILE_CATEGORY";
@@ -93,15 +93,15 @@ public class StaticTnterfaceController {
 		return bean;
 	} 
 	//根据Type查询静态数据
-	@RequestMapping(path = "/archi/static/eventState")
+	@RequestMapping(path = "/webservice/static/eventState")
 	public @ResponseBody JsonBean getEventState(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYS_EVENT_STATE";
 		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
 		return bean;
 	} 
-	//查询 
-	@RequestMapping(path = "/archi/static/rankInfo")
+	//查询系统等级信息
+	@RequestMapping(path = "/webservice/static/rankInfo")
 	public @ResponseBody JsonBean getRankInfo(){
 		JsonBean bean = new JsonBean();
 		String codeType = "SYSTEM_RANK_INFO";
@@ -110,7 +110,7 @@ public class StaticTnterfaceController {
 	} 
 	
 	//获取报表时间类型
-	@RequestMapping(path = "/archi/static/logReportTimeType")
+	@RequestMapping(path = "/webservice/static/logReportTimeType")
 	public @ResponseBody JsonBean getLogReportTimeType(){
 		JsonBean bean = new JsonBean();
 		String codeType = "LOGREPORT_TIME_TYPE";
@@ -119,7 +119,7 @@ public class StaticTnterfaceController {
 	} 
 	
 	//获取指定时间类型下报表模板
-	@RequestMapping(path = "/archi/static/getLogReportModel")
+	@RequestMapping(path = "/webservice/static/getLogReportModel")
 	public @ResponseBody JsonBean getLogReportModel(String reportType){
 		JsonBean bean = new JsonBean();
 		bean.setData(architectureStaticDataSv.findByCodeType(reportType));

@@ -14,11 +14,11 @@ define(function(require, exports, module) {
 	//增加页面
 	srvMap.add("workPlanSave", pathAlias+"workSave.json", "archi/workplan/save");
 	//分类下拉框
-	srvMap.add("workplanState", pathAlias+"workplanState.json", "archi/static/workplanState");
+	srvMap.add("workplanState", pathAlias+"workplanState.json", "webservice/static/workplanState");
 	//工作状态下拉框
-	srvMap.add("workState", pathAlias+"workState.json", "archi/static/workState");
+	srvMap.add("workState", pathAlias+"workState.json", "webservice/static/workState");
 	//优先级下拉框
-	srvMap.add("priorityList", pathAlias+"priorityList.json", "archi/static/priorityList");
+	srvMap.add("priorityList", pathAlias+"priorityList.json", "webservice/static/priorityList");
 	//更新页面
 	srvMap.add("workplanUpdate", pathAlias+"workUpdate.json", "archi/workplan/update");
 	//删除页面

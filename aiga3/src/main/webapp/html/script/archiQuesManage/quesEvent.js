@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('quesEventView');
     //静态数据  
-	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "archi/static/eventState");
+	srvMap.add("staticEventState", pathAlias+"getSysMessageList.json", "webservice/static/eventState");
     srvMap.add("getEventSave", pathAlias+"getSysMessageList.json", "archi/event/save");
     srvMap.add("getEventDelete", pathAlias+"getSysMessageList.json", "archi/event/delete");
     srvMap.add("getEventUpdate", pathAlias+"getSysMessageList.json", "archi/event/update");

@@ -68,27 +68,33 @@ public class ArchitectureGradingSv extends BaseService {
 		MonthReportOutput output = new MonthReportOutput();
 		//申请      applytime   申请  通过  不通过  撤销
 		//
+		String time="";
+		if (condition.getApplyTime() != null) {
+			time=condition.getApplyTime();
+		}
 		StringBuilder nativeSql = new StringBuilder(
-				"select distinct (select count(state) from ARCHITECTURE_GRADING t where t.state ='审批通过') as tongGuo ,"+
-				"(select count(description) from ARCHITECTURE_GRADING t where t.state = '审批未通过')  as boHui,"+
-				"(select count(description) from ARCHITECTURE_GRADING t where t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as xinZeng ,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='业务支撑域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as yewu,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='管信域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as guanxin,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='BOMC域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as bomc,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='大数据域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as shuju,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='安全域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as anquan,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='公共域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as gonggong,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='网络域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as wangluo,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='地市域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as dishi,"+
-				"(select count(name) from ARCHITECTURE_GRADING t where name ='开放域' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as kaifang "+
-				" from dual,ARCHITECTURE_GRADING t where 1=1 "
+				"select distinct (select count(state) from ARCHITECTURE_GRADING t where t.state = '申请' and to_char(t.apply_time,'yyyyMM') = "+ time +") as applycount,"+
+				"(select count(state) from ARCHITECTURE_GRADING t where t.state ='审批通过' and to_char(t.apply_time,'yyyyMM') = "+ time +") as tongGuo ,"+
+				"(select count(description) from ARCHITECTURE_GRADING t where t.state = '审批未通过' and to_char(t.apply_time,'yyyyMM') = "+ time +")  as boHui,"+
+				"(select count(description) from ARCHITECTURE_GRADING t where t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as xinZeng ,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '1%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as yewu,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '2%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as guanxin,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '3%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as bomc,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '5%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as shuju,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '4%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as anquan,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '6%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as gonggong,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '7%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as wangluo,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '8%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as dishi,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '9%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.apply_time,'yyyyMM') = "+ time +") as kaifang,"+				
+				"(select count(state) from ARCHITECTURE_GRADING t where t.state = '申请' ) as totalcount,"+
+				"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批通过' ) as totalguo,"+
+				"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批未通过' ) as totalnotguo,"+
+				"(select count(name) from ARCHITECTURE_GRADING t where t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as totalzeng"+								
+				" from dual,ARCHITECTURE_GRADING t "
 				);
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 
-		if (condition.getApplyTime() != null) {
-			nativeSql.append("and to_char(t.apply_time,'yyyyMM') = :applyTime ");
-			params.add(new ParameterCondition("applyTime", condition.getApplyTime()));
-			
+		if (condition.getApplyTime() != null) {			
 			String applyIdSql = "select count(apply_id) as applyCount from ARCHITECTURE_GRADING t";
 			List<Map> a = architectureGradingDao.searchByNativeSQL(applyIdSql);
 			if(a != null){
@@ -96,7 +102,9 @@ public class ArchitectureGradingSv extends BaseService {
 			}
 		}
 		List<SysMonthApplyReport> monthApplyCount = architectureGradingDao.searchByNativeSQL(nativeSql.toString(), params, SysMonthApplyReport.class);
-		output.setSysMonthApplyReport(monthApplyCount.get(0));
+		if(monthApplyCount.size()>0){
+			output.setSysMonthApplyReport(monthApplyCount.get(0));		
+		}	
 		return output;
 	}
 	

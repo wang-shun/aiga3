@@ -28,22 +28,35 @@ define(function(require, exports, module) {
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
-			debugger;
 			var self = this;
 			var _cmd = '';
 			if(cmd){
 				_cmd = cmd;
 			}
 			var _dom = Page.findId('archAigaFunctionList');
-			
-			//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+			var _form = Page.findId('queryDataForm');
+			//申请时间校验
+			var _applyTime = _form.find("[name='applyTime']").val();
+			var date = new Date();
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			if(month>0 && month <10){
+				month = '0'+month;
+			}
+			var dateTime = year + '-' + month;
+			console.log(typeof(date));
+			if(_applyTime > dateTime){
+				XMS.msgbox.show('申请时间大于当前时间！', 'error', 2000);
+				return
+			}
 			_cmd = _cmd.replace(/-/g,"/");
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			//调用服务
 			Rose.ajax.postJson(srvMap.get('getArchAigaList'),_cmd,function(json, status){
-				debugger;
 				if(status) {
-					debugger
+					window.XMS.msgbox.hide();
 					var _baseChange = Page.findId('baseDataChange');
+					
 					var template = Handlebars.compile(Page.findTpl('baseDataChangeTemp'));
 					_baseChange.html(template(json.data.sysMonthApplyReport));
 					/*json.data.b*/

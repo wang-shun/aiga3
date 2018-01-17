@@ -1,20 +1,7 @@
 <style type="text/css">
 	#Page_archAigaFunction .width-input-167 {width: 167px;}
-	#Page_archAigaFunction .width-input-400 {width: 400px;}
-	#Page_archAigaFunction .width-input-158 {width: 155px;}
-	#Page_archAigaFunction .btn-center {text-align: center;}
-	#Page_archAigaFunction .btn-table-update {margin-right: 20px;}
-	#Page_archAigaFunction .btn-table-delete {margin-right: 20px;}
-	#Page_archAigaFunction .check-inline-label {display: block;float:left;margin-top: 10px;}
-	#Page_archAigaFunction .total-width {width: 850px;}
-	#Page_archAigaFunction .margin-onl {margin-left: 20px;margin-right: 20px;}
-	#Page_archAigaFunction .query-data-label {width: 80px;}
-	#Page_archAigaFunction .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
-	#Page_archAigaFunction .col2-sec-label {margin-left: 250px;}
-	#Page_archAigaFunction .col3-after-label {margin-left: 17px;}
-	#Page_archAigaFunction .line-sen-top {margin-top: 15px;}
-	#Page_archAigaFunction .text-area-sty {width: 680px;vertical-align:middle; }
-	#Page_archAigaFunction .text-change {text-indent:2em;margin-left:5px;margin-right:5px; }
+	#Page_archAigaFunction .text-change {text-indent:2em;margin-left:5px;margin-right:5px;}
+	#Page_archAigaFunction .text-top{margin-top:-15px }
 </style>
 <div class="row" id="Page_archAigaFunction">
     <div class="col-md-12">
@@ -34,7 +21,7 @@
                  			<input type="text" class="form-control  width-input-167" name="applyTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
                  		</div>
 						<div class="col-sm-8">
-							<button type="reset" class="btn btn-default">重置</button>
+							<button type="reset" class="btn btn-default">重置</button>&nbsp;&nbsp;
                     		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button> 
                         </div>
                      </div>                 	
@@ -85,24 +72,32 @@
 
 <!-- 更新数据具体数值 -->
 <script id="TPL_baseDataChangeTemp" type="text/x-handlebars-template">
-<p class="text-change">本月收到IT系统架构基线申请{{applycount}}起，审批通过{{tongguo}}起、驳回{{bohui}}起，新增{{xinzeng}}个三级域系统，其中业务支撑域{{yewu}}个、地市域{{dishi}}个、网络域{{wangluo}}个、大数据域{{shuju}}个、
-       开放域{{kaifang}}个、公共域{{gonggong}}个、管信域{{guanxin}}个,BOMC域{{bomc}}个，安全域{{anquan}}个。</p>
+<p class="text-change text-top">本月收到IT系统架构基线:
+{{#if applycount}}申请{{applycount}}起，{{/if}}
+{{#if tongguo}}审批通过{{tongguo}}起，{{/if}}
+{{#if bohui}}驳回{{bohui}}起，{{/if}}
+{{#if xinzeng}}新增{{xinzeng}}个三级域系统中包含：{{/if}}
+{{#if yewu}}业务支撑域{{yewu}}个、{{/if}}{{#if dishi}}地市域{{dishi}}个、{{/if}}{{#if wangluo}}网络域{{wangluo}}个、{{/if}}
+{{#if shuju}}大数据域{{shuju}}个、{{/if}}{{#if kaifang}} 开放域{{kaifang}}个、{{/if}}{{#if gonggong}}公共域{{gonggong}}个、{{/if}}
+{{#if guanxin}}管信域{{guanxin}}个、{{/if}}{{#if bomc}}BOMC域{{bomc}}个、{{/if}}{{#if anquan}}安全域{{anquan}}个。{{/if}}
+</p>
+<p class="text-change">平台8月份上线至今，累计收到基线变更申请{{totalcount}}起，审批通过{{totalguo}}起，驳回{{totalnotguo}}起，目前累计新增三级系统共{{totalzeng}}个（含批量导入）</p>
 </script>
 
 <!-- 表格数据 
 <script id="TPL_archAigaFunctionTemp" type="text/x-handlebars-template">
 {{#each this}}
-<tr>
+<ul>
     <td><input type="radio" class="minimal" value="{{}}" name=""></td>
-	<td >{{yewu}}</td>
-	<td >{{bomc}}</td>
-	<td >{{anquan}}</td>	
-	<td >{{dishi}}</td>					
-	<td >{{wangluo}}</td>						
-	<td >{{shuju}}</td>
-	<td >{{kaifang}}</td>
-    <td >{{gonggong}}</td>
-    <td >{{guanxin}}</td>
+	<li >{{yewu}}</li>
+	<li >{{bomc}}</li>
+	<li >{{anquan}}</td>	
+	<li >{{dishi}}</td>					
+	<li >{{wangluo}}</td>						
+	<li >{{shuju}}</li>
+	<li >{{kaifang}}</li>
+    <li >{{gonggong}}</li>
+    <li >{{guanxin}}</li>
 </tr>
 {{/each}}
 </script>-->

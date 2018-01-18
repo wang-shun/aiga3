@@ -960,6 +960,78 @@ public class ArchitectureIndexController extends BaseService {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/arch/index/listTotalDbConnectsPieOrderByGroupId")
+	public @ResponseBody JsonBean listTotalDbConnectsPieOrderByGroupId(@RequestBody AmCoreIndexGroupParams condition) throws ParseException {
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage output = new ArchiChangeMessage();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		System.out.println("qqqqqqqqqqq"+months2);
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		output.setxAxis(months2);
+		long[][] groupIndexIds = null;
+		long[] singleIndexIds = null;
+		boolean flag = false;
+		List<ArchiChangeMessage>totalList=new ArrayList<ArchiChangeMessage>();
+		if(condition.getIndexId()!=null){
+			groupIndexIds= condition.getIndexId();
+			for(int i=0;i<groupIndexIds.length;i++){
+				singleIndexIds = groupIndexIds[i];
+				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
+				singlecdt.setIndexId(singleIndexIds);
+				for(int j=0;j<singleIndexIds.length;j++){
+					if(singleIndexIds[j]>=1001001 && singleIndexIds[j]<=1001006){
+						flag=true;
+					}else{
+						flag=false;
+					}
+				}
+				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,flag);
+				totalList.add(myoutput);
+			}
+		}
+		
+		//汇总数据返回
+		List<String>legendList=new ArrayList<String>();
+		ArchiIndexTotalMessage outmsg = new ArchiIndexTotalMessage();
+		List<SeriesData>seriesDataList = new ArrayList<SeriesData>();
+		for(int o=0;o<totalList.size();o++){
+			ArchiChangeMessage archiChangeMessage = totalList.get(o);
+			List<ViewSeries>seriesList = archiChangeMessage.getSeries();
+			ViewSeries base;
+			String name = "";
+			long value = 0;
+			for(int i=0;i<seriesList.size();i++){
+				base = seriesList.get(i);
+				name = base.getName()+"TOTAL";
+				int[] valueList = base.getData();
+				for(int j=0;j<valueList.length;j++){
+					value += valueList[j];
+				}
+			}
+			SeriesData seriesData = new SeriesData();
+			seriesData.setName(name);
+			seriesData.setValue(value);
+			legendList.add(name);
+			seriesDataList.add(seriesData);
+		}
+		outmsg.setLegendData(legendList);
+		outmsg.setSeriesData(seriesDataList);
+		bean.setData(outmsg);	
+		return bean;
+	}
+	
 	@RequestMapping(path = "/arch/index/listTotalDbConnects")
 	public @ResponseBody JsonBean listTotalDbConnects(AmCoreIndexParams condition) throws ParseException {
 		JsonBean bean = new JsonBean();

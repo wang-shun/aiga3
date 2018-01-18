@@ -44,12 +44,12 @@ define(function(require, exports, module) {
     srvMap.add("listTotalDbConnects", "", "arch/index/listTotalDbConnects");
     //多个
     srvMap.add("listTotalDbConnectsOrderByGroupId", "", "arch/index/listTotalDbConnectsOrderByGroupId");
-
-    
     //八大军规指标树 总数柱状图srv_manage
     srvMap.add("listTotalSrvManages", "", "arch/index/listTotalSrvManages");
     //八大军规指标树 总数饼状图 db_connect
     srvMap.add("listTotalDbConnectsPie", "", "arch/index/listTotalDbConnectsPie");
+    //多个
+    srvMap.add("listTotalDbConnectsPieOrderByGroupId", "", "arch/index/listTotalDbConnectsPieOrderByGroupId");
     //八大军规指标树 总数饼状图 srv_manage
     srvMap.add("listTotalSrvManagesPie", "", "arch/index/listTotalSrvManagesPie");
     //八大军规指标树 总数饼状图 month_index
@@ -73,7 +73,8 @@ define(function(require, exports, module) {
         getIndexGroupList: require('tpl/archiQuesManage/getIndexGroupList.tpl'),
         getAmCoreIndexList: require('tpl/archiQuesManage/AmCoreIndex.tpl'),
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
-		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl')
+		getArchDbConnectList: require('tpl/archiQuesManage/ArchDbConnect.tpl'),
+		getArchDbConnectTop: require('tpl/archiQuesManage/ArchDbConnectTop.tpl')
     };
     var Mod = {
         getIndexGroupR: '#Page_getIndexGroupR'
@@ -103,6 +104,9 @@ define(function(require, exports, module) {
 		gpindexIds:"",
 		flag : true ,
 		isOne : true ,
+		pieLastIsOne : null ,
+		pieSecondLastIsOne : null ,
+		pieIndexNameList : new Array()
 	};
 
 	var Query = {
@@ -161,10 +165,16 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {				
                 Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
+                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
 				Page.findId('totalMessageView').attr({style:"display:display"});  
 				var _cmd = _form.serialize();	
 				var _groupcmd = {
+					startMonth : _cmd.substring(11,21),
+					endMonth : _cmd.substring(31,41),
+					indexId : new Array()
+				}
+				var _piegroupcmd = {
 					startMonth : _cmd.substring(11,21),
 					endMonth : _cmd.substring(31,41),
 					indexId : new Array()
@@ -183,6 +193,7 @@ define(function(require, exports, module) {
 				var lastClassIdList = [];
 				var lastClassNameList = new Array();
 				var lastClassNodes = new Array();
+				Data.pieIndexNameList = [];
 				console.log(command);
 				if(command){
 					for(var i in command){
@@ -194,7 +205,7 @@ define(function(require, exports, module) {
 								secondLastClassIdList.push(command[i].indexId);
 								secondLastClassNameList.push(command[i].indexName);
 								secondLastClassNodes.push(command[i]);
-							}else if((command[i].indexId>=100001 && command[i].indexId<=100077)||(command[i].indexId>=1000 && command[i].indexId<=2010)){
+							}else if((command[i].indexId>=100001 && command[i].indexId<=100077)||(command[i].indexId>=1000 && command[i].indexId<=2010 && command[i].indexId !=1002)){
 								lastClassIdList.push(command[i].indexId);
 								lastClassNameList.push(command[i].indexName);
 								lastClassNodes.push(command[i]);	
@@ -240,15 +251,18 @@ define(function(require, exports, module) {
 							//如果同层节点仅有一个
 							if(lastClassNodes.length==1){
 								Data.isOne = true;
+								Data.pieLastIsOne = true;
 								var childrencommand = lastNode.children;
 								for(var x in childrencommand){
 									indexIds += childrencommand[x].indexId + ",";
+									Data.pieIndexNameList.push(childrencommand[x].indexName);
 								}
 								_cmd += "&indexId=" + indexIds;
 								_cmd = _cmd.substring(0,_cmd.length-1);
 							//如果同层节点有多个
 							}else if(lastClassNodes.length>=2){
 								Data.isOne = false;
+								Data.pieLastIsOne = false;
 								for(var ii in lastClassNodes){
 									_groupcmd.indexId[ii]=new Array();    //声明二维，每一个一维数组里面的一个元素都是一个数组
 									var brothercommand = lastClassNodes[ii];
@@ -257,6 +271,7 @@ define(function(require, exports, module) {
 										//indexIds += brotherchildrencommand[x].indexId + ",";
 										_groupcmd.indexId[ii][x] = brotherchildrencommand[x].indexId;
 									}
+									Data.pieIndexNameList.push(lastClassNodes[ii].indexName);
 								}
 								_cmd += "&indexId=" + _groupcmd.indexId;
 							}
@@ -264,20 +279,25 @@ define(function(require, exports, module) {
 						}else if(10001<=lastFatherId && lastFatherId<=10004){
 							if(secondLastClassNodes.length==1){
 								Data.isOne = true;
+								Data.pieSecondLastIsOne = true;
 								var childrencommand = lastNode.children;
 								for(var x in childrencommand){
+									_piegroupcmd.indexId[x]=new Array();    //声明二维，每一个一维数组里面的一个元素都是一个数组
 									if(childrencommand[x].children){
 										var secondchildrencmd = childrencommand[x].children;
 										for(var y in secondchildrencmd){
 											indexIds += secondchildrencmd[y].indexId + ",";
+											_piegroupcmd.indexId[x][y] = secondchildrencmd[y].indexId;
 										}
 									}
+									Data.pieIndexNameList.push(childrencommand[x].indexName);
 								}
 								_cmd += "&indexId=" + indexIds;
 								_cmd = _cmd.substring(0,_cmd.length-1);
 							//如果同层节点有多个
 							}else if(secondLastClassNodes.length>=2){
 								Data.isOne = false;
+								Data.pieSecondLastIsOne = false;
 								for(var ii in secondLastClassNodes){
 									_groupcmd.indexId[ii]=new Array();    //声明二维，每一个一维数组里面的一个元素都是一个数组
 									var brothercommand = secondLastClassNodes[ii];
@@ -291,6 +311,7 @@ define(function(require, exports, module) {
 											}
 										}
 									}
+									Data.pieIndexNameList.push(secondLastClassNodes[ii].indexName);
 								}
 								_cmd += "&indexId=" + _groupcmd.indexId;
 							}
@@ -332,7 +353,7 @@ define(function(require, exports, module) {
 					return
 				}
 				self.getDataMaintainList(_cmd);
-				
+				debugger
 				var _ggcmd = _cmd;	
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
@@ -347,7 +368,20 @@ define(function(require, exports, module) {
 							task2 = "listTotalDbConnectsOrderByGroupId";
 							_ggcmd = _groupcmd;
 						}
-						taskPie = "listTotalDbConnectsPie";
+						if(Data.flag==true){
+							taskPie = "listTotalDbConnectsPie";
+						}else if(Data.flag==false && Data.pieLastIsOne==true){
+							taskPie = "listTotalDbConnectsPie";
+						}else if(Data.flag==false && Data.pieLastIsOne==false){
+							taskPie = "listTotalDbConnectsPieOrderByGroupId"
+							_cmd=_groupcmd;
+						}else if(Data.flag==false && Data.pieSecondLastIsOne==true){
+							taskPie = "listTotalDbConnectsPieOrderByGroupId"
+							_cmd=_piegroupcmd;
+						}else if(Data.flag==false && Data.pieSecondLastIsOne==false){
+							taskPie = "listTotalDbConnectsPieOrderByGroupId"
+							_cmd=_groupcmd;
+						}
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
 						if(Data.flag==true){
 							task2 = "listSrvManages2";
@@ -368,10 +402,22 @@ define(function(require, exports, module) {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
+	  			var _domTop = Page.findId('getDataMaintainListTop');
 				Rose.ajax.postJson(srvMap.get(taskPie), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
+//						debugger
+						if(Data.pieIndexNameList.length>0){
+							json.data.legendData = Data.pieIndexNameList;
+							for(var index in json.data.seriesData){
+								json.data.seriesData[index].name=Data.pieIndexNameList[index];
+							}
+						}
 						self._graphTotal(json);
+						//top 10
+//						debugger
+//						var template = Handlebars.compile(Tpl.getArchDbConnectTop);
+//						_domTop.find("[name='content']").html(template(json.data));
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -402,7 +448,7 @@ define(function(require, exports, module) {
 					Utils.eventTrClickCallback(_dom);
 				}
 			}, _domPagination);
-			
+			//查分表
 			var _domSec = Page.findId('getDataMaintainListSec');
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");
 			// 设置服务器端分页listDbConnects
@@ -436,6 +482,39 @@ define(function(require, exports, module) {
 				//美化单机
 				Utils.eventTrClickCallback(_domSec);
 			}, _domPaginationSec);
+			
+/*			//查top10
+			var _domTop = Page.findId('getDataMaintainListTop');
+			var _domPaginationTop = _domTop.find("[name='paginationTop']");
+			var task = 'listDbConnects22';
+			if(cache.tableName){
+				switch(cache.tableName){
+            		case "ARCH_DB_CONNECT":
+            			task = 'listDbConnects22';
+            			break;
+            		case "ARCH_SRV_MANAGE":
+            			task = 'listSrvManages';
+            			break;
+            		case "ARCH_MONTH_INDEX":
+						task = 'listMonthIndex';
+						break;
+            	}
+			}
+			Utils.getServerPage(srvMap.get(task), _cmd, function(json, status) {//getArchDbConnectList
+				cache.datas = json.data;
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile(Tpl.getArchDbConnectTop);
+				//按月份排序
+				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
+				for(var i=0;i<json.data.content.length;i++){
+					if(json.data.content[i].key3!=null){
+						json.data.content[i].key3="("+json.data.content[i].key3+")";
+					}
+				};
+				_domTop.find("[name='content']").html(template(json.data.content));
+				//美化单机
+				Utils.eventTrClickCallback(_domTop);
+			}, _domPaginationTop);*/
 		},
 		//时间格式化
 		formatDate: function(date) {

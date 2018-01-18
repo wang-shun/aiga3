@@ -12,13 +12,15 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-            this.getOwnHomeInfo();
+			this.getOwnHomeInfo();
         },
+
         getOwnHomeInfo: function() { // 获取待办任务信息
             var self = this;         
 	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
 	            if (status) {
-	            	var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo'));
+	            	var template = Handlebars.compile(Page.findTpl('newOwnHomeInfo'));
+//	            	var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo')); 旧的工作台模板加载
 	            	var data = json.data;
 	            	if(data.hasSysRole != 'true' && data.hasQuesRole != 'true') {
 	                	data.dealshow = 'show-nothing';          		
@@ -30,8 +32,9 @@ define(function(require, exports, module) {
 		                	data.quesRoleSty = 'show-nothing';
 		                }
 	            	}
+//	            	Page.find(".info-box-icon").off('click').on('click',function() {       旧的工作台事件绑定
 	                Page.findId('getOwnHomeInfo').html(template(data));
-	                Page.find(".info-box-icon").off('click').on('click',function() {
+	                Page.find("a").off('click').on('click',function() {
 	                	var number = $(this).attr("number");
 	                	var name = $(this).attr("name");
 	                	if(number < 1 || typeof(name) == 'undefined') {

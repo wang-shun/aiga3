@@ -28,7 +28,7 @@
                 </div>
             </form>
         </div>
-        <div class="box" style="min-height:100px;">
+        <div class="box" style="min-height:50px;">
         	<form id="JS_baseDataForm">
                 <div class="box-header with-border">
                     <h3 class="box-title">基线数据变化</h3>
@@ -73,10 +73,8 @@
 <!-- 更新数据具体数值 -->
 <script id="TPL_baseDataChangeTemp" type="text/x-handlebars-template">
 <p class="text-change text-top">本月收到IT系统架构基线:
-{{#if applycount}}申请{{applycount}}起，{{/if}}
-{{#if tongguo}}审批通过{{tongguo}}起，{{/if}}
-{{#if bohui}}驳回{{bohui}}起，{{/if}}
-{{#if xinzeng}}新增{{xinzeng}}个三级域系统中包含：{{/if}}
+{{#if applycount}}<span name="span">申请{{applycount}}起，</span>{{/if}}{{#if tongguo}}<span name="span">审批通过{{tongguo}}起，</span>{{/if}}{{#if bohui}}<span name="span">驳回{{bohui}}起，</span>{{/if}}
+{{#if xinzeng}}<span name="span">新增{{xinzeng}}个三级域系统中包含：</span>{{/if}}
 {{#if yewu}}业务支撑域{{yewu}}个、{{/if}}{{#if dishi}}地市域{{dishi}}个、{{/if}}{{#if wangluo}}网络域{{wangluo}}个、{{/if}}
 {{#if shuju}}大数据域{{shuju}}个、{{/if}}{{#if kaifang}} 开放域{{kaifang}}个、{{/if}}{{#if gonggong}}公共域{{gonggong}}个、{{/if}}
 {{#if guanxin}}管信域{{guanxin}}个、{{/if}}{{#if bomc}}BOMC域{{bomc}}个、{{/if}}{{#if anquan}}安全域{{anquan}}个。{{/if}}

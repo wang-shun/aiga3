@@ -35,6 +35,7 @@ define(function(require, exports, module) {
 			}
 			var _dom = Page.findId('archAigaFunctionList');
 			var _form = Page.findId('queryDataForm');
+			var _baseChange = Page.findId('baseDataChange');
 			//申请时间校验
 			var _applyTime = _form.find("[name='applyTime']").val();
 			var date = new Date();
@@ -44,22 +45,30 @@ define(function(require, exports, module) {
 				month = '0'+month;
 			}
 			var dateTime = year + '-' + month;
-			console.log(typeof(date));
 			if(_applyTime > dateTime){
 				XMS.msgbox.show('申请时间大于当前时间！', 'error', 2000);
+				_baseChange.css ('display','none');
 				return
+			}else{
+				_baseChange.css ('display','block');
 			}
+			
 			_cmd = _cmd.replace(/-/g,"/");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			//调用服务
 			Rose.ajax.postJson(srvMap.get('getArchAigaList'),_cmd,function(json, status){
 				if(status) {
 					window.XMS.msgbox.hide();
-					var _baseChange = Page.findId('baseDataChange');
-					
+					var _baseChange = Page.findId('baseDataChange');					
 					var template = Handlebars.compile(Page.findTpl('baseDataChangeTemp'));
 					_baseChange.html(template(json.data.sysMonthApplyReport));
-					/*json.data.b*/
+					//判空校验
+					var _span = _baseChange.find("[name='span']").length;
+					if(_span == 0){
+						_baseChange.css ('display','none');
+					}else{
+						_baseChange.css ('display','block');
+					}
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					

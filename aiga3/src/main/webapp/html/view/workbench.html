@@ -7,7 +7,8 @@
         </div>
     </div>
 </div>
-
+<link rel="shortcut icon" href="style/favicon.ico">
+<link rel="stylesheet" type="text/css" href="css/component.css" />
 <style>
     .page-workbench .info-box-icon{
         height: 50px;
@@ -66,7 +67,77 @@
     .page-workbench .header-point {
     	cursor:pointer;
     }
+    .page-workbench .label-chart-position {
+    	float:right;
+    }
 </style>
+<script id="TPL_newOwnHomeInfo" type="text/x-handlebars-template">
+<div class="col-md-6">
+	<div class="box box-solid">
+		<div class="box-header">
+			<h3 class="box-title">申请中的任务</h3>
+		</div>
+		<div class="box-body">
+			<div class="row">
+				<ul class="cbp-ig-grid">
+					<li><a name="applyFirst" number={{applyFirst}}><span class="label label-success label-chart-position">{{applyFirst}}</span><span class="cbp-ig-icon cbp-ig-icon-shoe"></span>
+					<h3 class="cbp-ig-title">一级域</h3>
+					<span class="cbp-ig-category">SYSTEM</span></a></li>
+					<li><a name="applySecond" number={{applySecond}}><span class="label label-success label-chart-position">{{applySecond}}</span><span class="cbp-ig-icon cbp-ig-icon-ribbon"></span>
+					<h3 class="cbp-ig-title">二级子域</h3>
+					<span class="cbp-ig-category">SYSTEM</span></a></li>
+					<li><a name="applyThird" number={{applyThird}}><span class="label label-success label-chart-position">{{applyThird}}</span><span class="cbp-ig-icon cbp-ig-icon-milk"></span>
+					<h3 class="cbp-ig-title">三级系统</h3>
+					<span class="cbp-ig-category">SYSTEM</span></a></li>
+					<li><a name="noPassSystem" number={{noPassSystem}}><span class="label label-success label-chart-position">{{noPassSystem}}</span><span class="cbp-ig-icon cbp-ig-icon-whippy"></span>
+					<h3 class="cbp-ig-title">驳回系统</h3>
+					<span class="cbp-ig-category">SYSTEM</span></a></li>
+					<li><a name="applyIndentyQues" number={{applyIndentyQues}}><span class="label label-success label-chart-position">{{applyIndentyQues}}</span><span class="cbp-ig-icon cbp-ig-icon-spectacles"></span>
+					<h3 class="cbp-ig-title">待认定的问题</h3>
+					<span class="cbp-ig-category">QUESTION</span></a></li>
+					<li><a name="applyResolveQues" number={{applyResolveQues}}><span class="label label-success label-chart-position">{{applyResolveQues}}</span><span class="cbp-ig-icon cbp-ig-icon-doumbek"></span>
+					<h3 class="cbp-ig-title">待解决的问题</h3>
+					<span class="cbp-ig-category">QUESTION</span></a></li>
+					<li><a name="applyCloseQues" number={{applyCloseQues}}><span class="label label-success label-chart-position">{{applyCloseQues}}</span><span class="cbp-ig-icon cbp-ig-icon-doumbek"></span>
+					<h3 class="cbp-ig-title">解决中的问题</h3>
+					<span class="cbp-ig-category">QUESTION</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="col-md-6 {{dealshow}}">
+	<div class="box box-solid">
+		<div class="box-header">
+			<h3 class="box-title">待处理任务</h3>
+		</div>
+		<div class="box-body">
+			<div class="row">
+				<ul class="cbp-ig-grid">
+					<li class="{{sysRoleSty}}"><a name="dealFirst" number={{dealFirst}}><span class="label label-success label-chart-position">{{dealFirst}}</span><span class="cbp-ig-icon cbp-ig-icon-shoe"></span>
+					<h3 class="cbp-ig-title">一级域</h3>
+					<span class="cbp-ig-category">SYSTEM</span></a></li>
+					<li class="{{sysRoleSty}}"><a name="dealSecond" number={{dealSecond}}><span class="label label-success label-chart-position">{{dealSecond}}</span><span class="cbp-ig-icon cbp-ig-icon-ribbon"></span>
+					<h3 class="cbp-ig-title">二级子域</h3>
+					<span class="cbp-ig-category">SYSTEM</span></a></li>
+					<li class="{{sysRoleSty}}"><a name="dealThird" number={{dealThird}}><span class="label label-success label-chart-position">{{dealThird}}</span><span class="cbp-ig-icon cbp-ig-icon-milk"></span>
+					<h3 class="cbp-ig-title">三级系统</h3>
+					<span class="cbp-ig-category">SYSTEM</span></a></li>
+					<li class="{{quesRoleSty}}"><a name="dealIndentyQues" number={{dealIndentyQues}}><span class="label label-success label-chart-position">{{dealIndentyQues}}</span><span class="cbp-ig-icon cbp-ig-icon-whippy"></span>
+					<h3 class="cbp-ig-title">待认定的问题</h3>
+					<span class="cbp-ig-category">QUESTION</span></a></li>
+					<li class="{{quesRoleSty}}"><a name="dealResolveQues" number={{dealResolveQues}}><span class="label label-success label-chart-position">{{dealResolveQues}}</span><span class="cbp-ig-icon cbp-ig-icon-spectacles"></span>
+					<h3 class="cbp-ig-title">待解决的问题</h3>
+					<span class="cbp-ig-category">QUESTION</span></a></li>
+					<li class="{{quesRoleSty}}"><a name="dealCloseQues" number={{dealCloseQues}}><span class="label label-success label-chart-position">{{dealCloseQues}}</span><span class="cbp-ig-icon cbp-ig-icon-doumbek"></span>
+					<h3 class="cbp-ig-title">解决中的问题</h3>
+					<span class="cbp-ig-category">QUESTION</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</script>
 <!-- handlebars -->
 <script id="TPL_getOwnHomeInfo" type="text/x-handlebars-template">
     <div class="col-md-12">

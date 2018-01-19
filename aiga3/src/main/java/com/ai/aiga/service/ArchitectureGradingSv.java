@@ -74,7 +74,7 @@ public class ArchitectureGradingSv extends BaseService {
 			time=condition.getApplyTime();
 		}
 		StringBuilder nativeSql = new StringBuilder(
-			"select distinct (select count(state) from ARCHITECTURE_GRADING t where t.state = '申请' and to_char(t.apply_time,'yyyyMM') = "+ time +") as applycount,"+
+			"select distinct (select count(state) from ARCHITECTURE_GRADING t where to_char(t.apply_time,'yyyyMM') = "+ time +") as applycount,"+
 			"(select count(state) from ARCHITECTURE_GRADING t where t.state ='审批通过' and to_char(t.modify_date,'yyyyMM') = "+ time +") as tongGuo ,"+
 			"(select count(description) from ARCHITECTURE_GRADING t where t.state = '审批未通过' and to_char(t.modify_date,'yyyyMM') = "+ time +")  as boHui,"+
 			"(select count(description) from ARCHITECTURE_GRADING t where t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.modify_date,'yyyyMM') = "+ time +") as xinZeng ,"+
@@ -87,10 +87,10 @@ public class ArchitectureGradingSv extends BaseService {
 			"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '7%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.modify_date,'yyyyMM') = "+ time +") as wangluo,"+
 			"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '8%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.modify_date,'yyyyMM') = "+ time +") as dishi,"+
 			"(select count(name) from ARCHITECTURE_GRADING t where id_belong like '9%' and t.description = '新增' and t.state = '审批通过' and ext_1 = 3 and to_char(t.modify_date,'yyyyMM') = "+ time +") as kaifang,"+				
-			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '申请' ) as totalcount,"+
-			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批通过' ) as totalguo,"+
-			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批未通过' ) as totalnotguo,"+
-			"(select count(name) from ARCHITECTURE_GRADING t where t.description = '新增' and t.state = '审批通过' and ext_1 = 3) as totalzeng"+
+			"(select count(state) from ARCHITECTURE_GRADING t where  to_char(t.apply_time,'yyyyMM') between '201708' and '"+time+"') as totalcount,"+
+			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"') as totalguo,"+
+			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批未通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"') as totalnotguo,"+
+			"(select count(name) from ARCHITECTURE_THIRD a where to_char(a.create_date,'yyyyMM') between '201708' and '"+time+"') as totalzeng"+
 			" from dual,ARCHITECTURE_GRADING t "
 		);
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
@@ -111,7 +111,7 @@ public class ArchitectureGradingSv extends BaseService {
 	
 	public String[][] thirdAddReport(ArchAigaFunctionTime condition){
 
-		String[][] output = new String[9][20];
+		String[][] output = new String[9][50];
 		for(int i=0;i<output.length;i++){
 			for(int j=0;j<output[i].length;j++){
 				output[i][j]="";

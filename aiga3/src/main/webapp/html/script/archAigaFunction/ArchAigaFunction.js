@@ -55,7 +55,7 @@ define(function(require, exports, module) {
 				trList.remove();
 				return
 			}
-			
+
 			_cmd = _cmd.replace(/-/g,"/");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			//调用服务
@@ -84,7 +84,15 @@ define(function(require, exports, module) {
 					var _table = Page.findId('dataMaintainListTable');	
 					var content = _table.find("[name='content']");
 					var templateTwo = Handlebars.compile(Page.findTpl('archAigaFunctionTemp'));
-					content.html(templateTwo(json.data));					
+					content.html(templateTwo(json.data));
+					//列表判空校验
+					var listLi = _table.find("[name='listLi']");
+					for(var i =0;i<listLi.length;i++){
+						console.log(listLi[i]);
+						if(listLi[i].innerHTML == ""){							
+							listLi[i].remove();
+						}
+					}
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					

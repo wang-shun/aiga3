@@ -127,10 +127,10 @@
 	font-size: 1em;
 	letter-spacing: 1px;
 	color: #fff;
-	-webkit-transform: translateY(10px);
-	-moz-transform: -moz-translateY(10px);
-	-ms-transform: -ms-translateY(10px);
-	transform: translateY(10px);
+	-webkit-transform: translateY(0px);
+	-moz-transform: -moz-translateY(0px);
+	-ms-transform: -ms-translateY(0px);
+	transform: translateY(0px);
 	opacity: 0;
 	-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
 	-moz-transition: -moz-transform 0.3s, opacity 0.2s;

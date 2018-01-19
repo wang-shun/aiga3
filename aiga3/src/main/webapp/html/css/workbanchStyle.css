@@ -71,34 +71,42 @@
 
 .cbp-ig-icon-shoe:before {
 	content: "\f115";
+	color: #44abe5;
 }
 
 .cbp-ig-icon-ribbon:before {
 	content: "\f278";
+	color: #8ac14a;
 }
 
 .cbp-ig-icon-milk:before {
 	content: "\f108";
+	color: #f7245b;
 }
 
 .cbp-ig-icon-comerr:before {
 	content: "\f273";
+	color: #ff9920;
 }
 
 .cbp-ig-icon-whippy:before {
 	content: "\f2d5";
+	color: #ff9920;
 }
 
 .cbp-ig-icon-spectacles:before {
-	content: "\f2da";
+	content: "\f2da";	
+	color: #ff9920;
 }
 
 .cbp-ig-icon-doumbek:before {
 	content: "\f2dd";
+	color: #ff9920;
 }
 
 /* title element */
 .cbp-ig-grid .cbp-ig-title {
+	color:#2a4858;
 	margin: 20px 0 10px 0;
 	padding: 10px 0 0 0;
 	font-size: 1.5em;
@@ -113,7 +121,7 @@
 	position: absolute;
 	background: #47a3da;
 	width: 120px;
-	height: 4px;
+	height: 3px;
 	top: 0px;
 	left: 50%;
 	margin: -10px 0 0 -60px;

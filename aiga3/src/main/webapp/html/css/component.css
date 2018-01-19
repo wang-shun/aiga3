@@ -19,20 +19,21 @@
 
 /* grid item */
 .cbp-ig-grid li {
-	width: 33%;
+	width: 25%;
 	float: left;
-	height: 200px;
+	height: 160px;
 	text-align: center;
 	border-top: 1px solid #ddd;
 }
 
 /* we are using a combination of borders and box shadows to control the grid lines */
-.cbp-ig-grid li:nth-child(-n+3){
+.cbp-ig-grid li:nth-child(-n+4){
 	border-top: none;
 }
 
-.cbp-ig-grid li:nth-child(3n-1),
-.cbp-ig-grid li:nth-child(3n-2) {
+.cbp-ig-grid li:nth-child(4n-1),
+.cbp-ig-grid li:nth-child(4n-2),
+.cbp-ig-grid li:nth-child(4n-3){
 	box-shadow: 1px 0 0 #ddd;
 }
 
@@ -57,7 +58,7 @@
 
 .cbp-ig-icon:before {
 	font-family: 'FontAwesome';
-	font-size: 5em;
+	font-size: 4em;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -98,8 +99,8 @@
 /* title element */
 .cbp-ig-grid .cbp-ig-title {
 	margin: 20px 0 10px 0;
-	padding: 20px 0 0 0;
-	font-size: 2em;
+	padding: 10px 0 0 0;
+	font-size: 1.5em;
 	position: relative;
 	-webkit-transition: -webkit-transform 0.2s;
 	-moz-transition: -moz-transform 0.2s;
@@ -139,10 +140,10 @@
 .cbp-ig-grid li:hover .cbp-ig-category,
 .touch .cbp-ig-grid li .cbp-ig-category {
 	opacity: 1;
-	-webkit-transform: translateY(0px);
-	-moz-transform: translateY(0px);
-	-ms-transform: translateY(0px);
-	transform: translateY(0px);
+	-webkit-transform: translateY(-5px);
+	-moz-transform: translateY(-5px);
+	-ms-transform: translateY(-5px);
+	transform: translateY(-5px);
 }
 
 /* Hover styles */
@@ -164,15 +165,15 @@
 }
 
 .cbp-ig-grid li > a:hover .cbp-ig-title {
-	-webkit-transform: translateY(-20px);
-	-moz-transform: translateY(-20px);
-	-ms-transform: translateY(-20px);
-	transform: translateY(-20px);
+	-webkit-transform: translateY(-15px);
+	-moz-transform: translateY(-15px);
+	-ms-transform: translateY(-15px);
+	transform: translateY(-15px);
 }
 
 .cbp-ig-grid li > a:hover .cbp-ig-title:before {
 	background: #fff;
-	margin-top: 60px;
+	margin-top: 40px;
 }
 
 

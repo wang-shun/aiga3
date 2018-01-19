@@ -78,6 +78,18 @@ public class ArchiGradingController {
 				bean.setData(architectureGradingSv.sysMonthReport( condition));
 			return bean;
 	}
+	
+	@RequestMapping(path="/webservice/archiGrading/thirdAddReport")
+	public @ResponseBody JsonBean thirdAddReport(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			ArchAigaFunctionTime condition) throws ParseException{
+		JsonBean bean = new JsonBean();
+		bean.setData(architectureGradingSv.thirdAddReport( condition));
+		return bean;
+	}
+	
+	
 	/**
 	 * 一级域 添加申请单
 	 * @param architectureGrading

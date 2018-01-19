@@ -2,6 +2,8 @@
 	#Page_archAigaFunction .width-input-167 {width: 167px;}
 	#Page_archAigaFunction .text-change {text-indent:2em;margin-left:5px;margin-right:5px;}
 	#Page_archAigaFunction .text-top{margin-top:-15px }
+	#Page_archAigaFunction .listLi{list-style:none}
+	#Page_archAigaFunction .listUl{margin-left:-30px}
 </style>
 <div class="row" id="Page_archAigaFunction">
     <div class="col-md-12">
@@ -16,7 +18,7 @@
                 </div>
                 <div class="box-body">
                		<div class="form-group col-sm-12">
-	            		<label class="col-sm-1  control-label">申请时间:</label>
+	            		<label class="col-sm-1  control-label">查询月份:</label>
 	            		<div class="col-sm-3">
                  			<input type="text" class="form-control  width-input-167" name="applyTime" onclick="WdatePicker({dateFmt:'yyyy-MM'})"/>
                  		</div>
@@ -45,19 +47,18 @@
                 <h3 class="box-title">本月新增三级域列表</h3>
             </div>
             <div class="box-body">
-                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                <table class="table table-bordered table-hover" id="JS_dataMaintainListTable">
                     <thead>
 		                <tr>
-	                    <th class="iCheckbox" width="15"></th>
 	                    <th >业务支撑域</th>
+	                    <th >管信域</th>
 	                    <th >BOMC域</th>
 	                    <th >安全域</th>
-	                    <th >地市域</th>
-						<th >网络域</th>	
-						<th >大数据域</th>					
-						<th >开放域</th>						
-						<th >公共域</th>
-						<th >管信域</th>
+						<th >大数据域</th>	
+						<th >公共域</th>					
+						<th >网络域</th>						
+						<th >地市域</th>
+						<th >开放域</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -72,33 +73,26 @@
 
 <!-- 更新数据具体数值 -->
 <script id="TPL_baseDataChangeTemp" type="text/x-handlebars-template">
+<div name="divList">
 <p class="text-change text-top">本月收到IT系统架构基线:
 {{#if applycount}}<span name="span">申请{{applycount}}起，</span>{{/if}}{{#if tongguo}}<span name="span">审批通过{{tongguo}}起，</span>{{/if}}{{#if bohui}}<span name="span">驳回{{bohui}}起，</span>{{/if}}
 {{#if xinzeng}}<span name="span">新增{{xinzeng}}个三级域系统中包含：</span>{{/if}}
-{{#if yewu}}业务支撑域{{yewu}}个、{{/if}}{{#if dishi}}地市域{{dishi}}个、{{/if}}{{#if wangluo}}网络域{{wangluo}}个、{{/if}}
-{{#if shuju}}大数据域{{shuju}}个、{{/if}}{{#if kaifang}} 开放域{{kaifang}}个、{{/if}}{{#if gonggong}}公共域{{gonggong}}个、{{/if}}
-{{#if guanxin}}管信域{{guanxin}}个、{{/if}}{{#if bomc}}BOMC域{{bomc}}个、{{/if}}{{#if anquan}}安全域{{anquan}}个。{{/if}}
+{{#if yewu}}业务支撑域{{yewu}}个、{{/if}}  {{#if guanxin}}管信域{{guanxin}}个、{{/if}}  {{#if bomc}}BOMC域{{bomc}}个、{{/if}}  
+{{#if anquan}}安全域{{anquan}}个、{{/if}} {{#if shuju}}大数据域{{shuju}}个、{{/if}} {{#if gonggong}}公共域{{gonggong}}个、{{/if}}
+{{#if wangluo}}网络域{{wangluo}}个、{{/if}}  {{#if dishi}}地市域{{dishi}}个、{{/if}}  {{#if kaifang}} 开放域{{kaifang}}个。{{/if}}   
 </p>
-<p class="text-change">平台8月份上线至今，累计收到基线变更申请{{totalcount}}起，审批通过{{totalguo}}起，驳回{{totalnotguo}}起，目前累计新增三级系统共{{totalzeng}}个（含批量导入）</p>
+<p class="text-change">平台8月份上线至今，累计收到基线变更申请{{totalcount}}起，审批通过{{totalguo}}起，驳回{{totalnotguo}}起，目前累计新增三级系统共{{totalzeng}}个（含批量导入）。</p>
+</div>
 </script>
 
-<!-- 表格数据 
+<!-- 各级域具体信息 --> 
 <script id="TPL_archAigaFunctionTemp" type="text/x-handlebars-template">
-{{#each this}}
-<ul>
-    <td><input type="radio" class="minimal" value="{{}}" name=""></td>
-	<li >{{yewu}}</li>
-	<li >{{bomc}}</li>
-	<li >{{anquan}}</td>	
-	<li >{{dishi}}</td>					
-	<li >{{wangluo}}</td>						
-	<li >{{shuju}}</li>
-	<li >{{kaifang}}</li>
-    <li >{{gonggong}}</li>
-    <li >{{guanxin}}</li>
+<tr name="trList">
+    {{#each this}}
+	<td ><ul class="listUl">{{#each this}}<li class="listLi">{{this}}</li>{{/each}}</ul></td>
+	{{/each}}
 </tr>
-{{/each}}
-</script>-->
+</script>
 
 <script type="text/javascript">
 //<![CDATA[

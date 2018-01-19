@@ -21,6 +21,7 @@ public class SysMonthApplyReport  {
      private long totalguo;
      private long totalnotguo;
      private long totalzeng;
+     private long yewuDetail;
      	
      public SysMonthApplyReport(){}
      public SysMonthApplyReport(long applycount, long tongguo, long bohui, long xinzeng, long yewu, long guanxin, long bomc, 
@@ -44,6 +45,7 @@ public class SysMonthApplyReport  {
        this.totalguo = totalguo;
        this.totalnotguo = totalnotguo;
        this.totalzeng = totalzeng;
+
     }
 
 }

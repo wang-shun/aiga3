@@ -54,6 +54,8 @@ define(function(require, exports, module) {
     srvMap.add("listTotalSrvManagesPie", "", "arch/index/listTotalSrvManagesPie");
     //八大军规指标树 总数饼状图 month_index
     srvMap.add("listTotalMonthIndexPie", "", "arch/index/listTotalMonthIndexPie");
+    //top 10
+    srvMap.add("listDbConnectsTop", "", "arch/index/listDbConnectsTop");
     
 	// 模板对象
 	var Tpl = {
@@ -106,7 +108,8 @@ define(function(require, exports, module) {
 		isOne : true ,
 		pieLastIsOne : null ,
 		pieSecondLastIsOne : null ,
-		pieIndexNameList : new Array()
+		pieIndexNameList : new Array(),
+		top2cmd : {}
 	};
 
 	var Query = {
@@ -165,7 +168,7 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {				
                 Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
-                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
+//                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
 				Page.findId('totalMessageView').attr({style:"display:display"});  
 				var _cmd = _form.serialize();	
@@ -277,6 +280,7 @@ define(function(require, exports, module) {
 							}
 						//倒数第三层
 						}else if(10001<=lastFatherId && lastFatherId<=10004){
+			                Page.findId('getDataMaintainListTop').attr({style:"display:display;"});      
 							if(secondLastClassNodes.length==1){
 								Data.isOne = true;
 								Data.pieSecondLastIsOne = true;
@@ -288,6 +292,7 @@ define(function(require, exports, module) {
 										for(var y in secondchildrencmd){
 											indexIds += secondchildrencmd[y].indexId + ",";
 											_piegroupcmd.indexId[x][y] = secondchildrencmd[y].indexId;
+											Data.top2cmd = _piegroupcmd;
 										}
 									}
 									Data.pieIndexNameList.push(childrencommand[x].indexName);
@@ -353,7 +358,7 @@ define(function(require, exports, module) {
 					return
 				}
 				self.getDataMaintainList(_cmd);
-				debugger
+//				debugger
 				var _ggcmd = _cmd;	
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
@@ -402,11 +407,9 @@ define(function(require, exports, module) {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
-	  			var _domTop = Page.findId('getDataMaintainListTop');
 				Rose.ajax.postJson(srvMap.get(taskPie), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
-//						debugger
 						if(Data.pieIndexNameList.length>0){
 							json.data.legendData = Data.pieIndexNameList;
 							for(var index in json.data.seriesData){
@@ -414,10 +417,6 @@ define(function(require, exports, module) {
 							}
 						}
 						self._graphTotal(json);
-						//top 10
-//						debugger
-//						var template = Handlebars.compile(Tpl.getArchDbConnectTop);
-//						_domTop.find("[name='content']").html(template(json.data));
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -483,24 +482,49 @@ define(function(require, exports, module) {
 				Utils.eventTrClickCallback(_domSec);
 			}, _domPaginationSec);
 			
-/*			//查top10
+			//查top10
 			var _domTop = Page.findId('getDataMaintainListTop');
 			var _domPaginationTop = _domTop.find("[name='paginationTop']");
-			var task = 'listDbConnects22';
+			var toptask = 'listDbConnectsTop';
 			if(cache.tableName){
 				switch(cache.tableName){
             		case "ARCH_DB_CONNECT":
-            			task = 'listDbConnects22';
+            			toptask = 'listDbConnectsTop';
             			break;
             		case "ARCH_SRV_MANAGE":
-            			task = 'listSrvManages';
+            			toptask = 'listSrvManagesTop';
             			break;
             		case "ARCH_MONTH_INDEX":
-						task = 'listMonthIndex';
+						toptask = 'listMonthIndexTop';
 						break;
             	}
 			}
-			Utils.getServerPage(srvMap.get(task), _cmd, function(json, status) {//getArchDbConnectList
+			var today = new Date(); 
+			var _topcmd = {
+				startMonth : Utils.showMonthFirstDay(),
+				endMonth : this.formatDate(today),
+				indexId : new Array(),
+				indexName : new Array()
+			}
+			_topcmd.indexId = Data.top2cmd.indexId;
+			_topcmd.indexName = Data.pieIndexNameList;
+			Rose.ajax.postJson(srvMap.get(toptask), _topcmd, function(json, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+					var template = Handlebars.compile(Tpl.getArchDbConnectTop);
+					for(var i=0;i<json.data.length;i++){
+						if(json.data[i].key3!=null){
+							json.data[i].key3="("+json.data.content[i].key3+")";
+						}
+					};
+					_domTop.find("[name='content']").html(template(json.data));
+					//美化单机
+					Utils.eventTrClickCallback(_domTop);
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+  			});
+/*			Utils.getServerPage(srvMap.get(toptask), _topcmd, function(json, status) {//getArchDbConnectList
 				cache.datas = json.data;
 				window.XMS.msgbox.hide();
 				var template = Handlebars.compile(Tpl.getArchDbConnectTop);

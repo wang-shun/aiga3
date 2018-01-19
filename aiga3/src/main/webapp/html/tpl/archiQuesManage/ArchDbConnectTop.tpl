@@ -6,7 +6,7 @@
 			<td>{{id}}</td>
 			<td>{{system}}</td>
 			<td>{{increase}}{{key3}}</td>
-			<td>{{percentage}}</td>
+			<td>{{percentage}}%</td>
         </tr>
         {{/each}}
     </tbody>

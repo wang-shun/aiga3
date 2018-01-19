@@ -1,13 +1,21 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
 
+import io.swagger.annotations.Api;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import io.swagger.annotations.Api;
+
+import lombok.Data;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.domain.ArchMonthIndex;
@@ -23,9 +32,11 @@ import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexGroupParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
+import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexTopParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;
+import com.ai.aiga.view.controller.archiQuesManage.dto.CenterDbConnectTopList;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
@@ -1171,6 +1182,150 @@ public class ArchitectureIndexController extends BaseService {
 		output.setSeries(totalSeriesList);
 		bean.setData(output);	
 		return bean;
+	}
+	
+	@RequestMapping(path = "/arch/index/listDbConnectsTop")
+	public @ResponseBody JsonBean listDbConnectsTop(@RequestBody AmCoreIndexTopParams condition) throws ParseException{
+		JsonBean bean = new JsonBean();
+		List<CenterDbConnectTopList>list = new ArrayList<CenterDbConnectTopList>();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间aaaaaaaaaaaaa！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		long[][] groupIndexIds = null;
+		long[] singleIndexIds = null;
+		List<ArchiChangeMessage>totalList=new ArrayList<ArchiChangeMessage>();
+		if(condition.getIndexId()!=null){
+			groupIndexIds= condition.getIndexId();
+			for(int i=0;i<groupIndexIds.length;i++){
+				singleIndexIds = groupIndexIds[i];
+				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
+				singlecdt.setIndexId(singleIndexIds);
+				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,false);
+				totalList.add(myoutput);
+			}
+		}
+		//汇总数据返回
+		for(int i=0;i<totalList.size();i++){
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+			String id = "TOP" + (i+1);
+			center.setId(id);
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			ArchiChangeMessage archiChangeMessage = totalList.get(i);
+			List<ViewSeries>totalSeries = archiChangeMessage.getSeries();
+			long increase = 0;
+			if(totalSeries.size()>0){
+				for(int j=0;j<totalSeries.size();j++){
+					ViewSeries baseSeries = totalSeries.get(j);
+					int[] data = baseSeries.getData();
+					for(int k=0;k<data.length;k++){
+						increase += data[k];
+					}
+				}
+			}
+			center.setIncrease(increase/totalSeries.size());
+			list.add(center);
+		}
+		
+		String firstDay = condition.getStartMonth();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date firstDayOfMonth = format.parse(firstDay);
+		
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(firstDayOfMonth);
+        calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        String preMonthFirstDayString = simpleDateFormat.format(calendar.getTime());
+        
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar2=Calendar.getInstance();
+        calendar2.setTime(firstDayOfMonth);
+        calendar2.set(Calendar.DAY_OF_MONTH, 1);
+        calendar2.add(Calendar.DATE, -1);
+        String preMonthLastDayString = sf.format(calendar2.getTime());
+        
+        List<CenterDbConnectTopList>listpre = new ArrayList<CenterDbConnectTopList>();
+        AmCoreIndexTopParams conditionpre = new AmCoreIndexTopParams();
+        conditionpre.setStartMonth(preMonthFirstDayString);
+        conditionpre.setEndMonth(preMonthLastDayString);
+        conditionpre.setIndexId(condition.getIndexId());
+        conditionpre.setIndexName(condition.getIndexName());
+		List<String>monthspre = getDayBetween(conditionpre.getStartMonth(),conditionpre.getEndMonth());
+		if(monthspre.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		long[][] groupIndexIdspre = null;
+		long[] singleIndexIdspre = null;
+		List<ArchiChangeMessage>totalListpre=new ArrayList<ArchiChangeMessage>();
+		if(conditionpre.getIndexId()!=null){
+			groupIndexIdspre= conditionpre.getIndexId();
+			for(int i=0;i<groupIndexIdspre.length;i++){
+				singleIndexIdspre = groupIndexIdspre[i];
+				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
+				singlecdt.setIndexId(singleIndexIdspre);
+				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+				ArchiChangeMessage myoutput = commonListDbConnects(monthspre,connectList,false);
+				totalListpre.add(myoutput);
+			}
+		}
+		//汇总数据返回
+		for(int i=0;i<totalListpre.size();i++){
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+			String id = "TOP" + (i+1);
+			center.setId(id);
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			ArchiChangeMessage archiChangeMessage = totalListpre.get(i);
+			List<ViewSeries>totalSeries = archiChangeMessage.getSeries();
+			long increase = 0;
+			if(totalSeries.size()>0){
+				for(int j=0;j<totalSeries.size();j++){
+					ViewSeries baseSeries = totalSeries.get(j);
+					int[] data = baseSeries.getData();
+					for(int k=0;k<data.length;k++){
+						increase += data[k];
+					}
+				}
+			}
+			center.setIncrease(increase/totalSeries.size());
+			listpre.add(center);
+		}
+		
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			CenterDbConnectTopList basepre = listpre.get(i);
+			base.setIncrease(base.getIncrease()-basepre.getIncrease());
+			base.setPercentage((base.getIncrease()-basepre.getIncrease())/base.getIncrease());
+		}
+		Collections.sort(list, new IncreaseComparator());
+		
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			base.setId("TOP" + (i+1));
+		}
+		bean.setData(list);	
+		return bean;
+	}
+	// 自定义比较器：按increase排序  
+	static class IncreaseComparator implements Comparator {  
+		public int compare(Object object1, Object object2) {// 实现接口中的方法  
+			CenterDbConnectTopList p1 = (CenterDbConnectTopList) object1; // 强制转换  
+			CenterDbConnectTopList p2 = (CenterDbConnectTopList) object2;  
+			return new Long(p2.getIncrease()).compareTo(new Long(p1.getIncrease()));  
+		}  
 	}
 	
 	@RequestMapping(path = "/arch/index/listTotalDbConnectsOrderByGroupId")

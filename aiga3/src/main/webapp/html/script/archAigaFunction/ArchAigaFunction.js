@@ -88,7 +88,6 @@ define(function(require, exports, module) {
 					//列表判空校验
 					var listLi = _table.find("[name='listLi']");
 					for(var i =0;i<listLi.length;i++){
-						console.log(listLi[i]);
 						if(listLi[i].innerHTML == ""){							
 							listLi[i].remove();
 						}
@@ -106,7 +105,6 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-
 				var cmd = _form.serialize();
 				cmd = cmd.replace(/-/g,"");
 				self._getGridList(cmd);

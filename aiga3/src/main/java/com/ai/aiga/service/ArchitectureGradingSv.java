@@ -90,7 +90,7 @@ public class ArchitectureGradingSv extends BaseService {
 			"(select count(state) from ARCHITECTURE_GRADING t where  to_char(t.apply_time,'yyyyMM') between '201708' and '"+time+"') as totalcount,"+
 			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"') as totalguo,"+
 			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批未通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"') as totalnotguo,"+
-			"(select count(name) from ARCHITECTURE_THIRD a where to_char(a.create_date,'yyyyMM') between '201708' and '"+time+"') as totalzeng"+
+			"(select count(name) from ARCHITECTURE_THIRD a where to_char(a.create_date,'yyyyMM') <= '"+time+"') as totalzeng"+
 			" from dual,ARCHITECTURE_GRADING t "
 		);
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();

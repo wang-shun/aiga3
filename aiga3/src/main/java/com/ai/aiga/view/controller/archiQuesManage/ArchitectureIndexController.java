@@ -735,9 +735,9 @@ public class ArchitectureIndexController extends BaseService {
 					}
 				}
 			}
-			if(condition.getIndexGroup()!=null){
+			if(condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("数据库连接总数")){
 				
-				if(condition.getIndexGroup().trim().equals("数据库连接总数")){
+//				if(condition.getIndexGroup().trim().equals("数据库连接总数")){
 
 					if(!newList.contains(baseConnect.getKey1())){
 						ViewSeries baseSeries = new ViewSeries();
@@ -775,7 +775,7 @@ public class ArchitectureIndexController extends BaseService {
 						}
 						baseSeries.setData(data);
 						seriesList.add(baseSeries);
-				    }
+//				    }
 				}
 			}else{
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){

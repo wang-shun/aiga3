@@ -252,7 +252,7 @@ define(function(require, exports, module) {
 					if(indexIds == ''){
 						Data.flag = false;
 						//倒数第二层
-						debugger
+//						debugger
 						if((100001<=lastFatherId && lastFatherId<=100077) || (1001<=lastFatherId && lastFatherId<=2010 && lastFatherId != 1002)){
 							//如果同层节点仅有一个
 							if(lastClassNodes.length==1){
@@ -362,7 +362,7 @@ define(function(require, exports, module) {
 					return
 				}
 				self.getDataMaintainList(_cmd);
-				debugger
+//				debugger
 				if(Data.whetherShowTopList){
 					self.getDatabaseConnectTopList();
 				}

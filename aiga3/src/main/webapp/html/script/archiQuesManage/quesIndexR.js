@@ -109,7 +109,8 @@ define(function(require, exports, module) {
 		pieLastIsOne : null ,
 		pieSecondLastIsOne : null ,
 		pieIndexNameList : new Array(),
-		top2cmd : {}
+		top2cmd : {},
+		whetherShowTopList : false
 	};
 
 	var Query = {
@@ -197,6 +198,8 @@ define(function(require, exports, module) {
 				var lastClassNameList = new Array();
 				var lastClassNodes = new Array();
 				Data.pieIndexNameList = [];
+				Data.pieLastIsOne = null;
+				Data.pieSecondLastIsOne = null;
 				console.log(command);
 				if(command){
 					for(var i in command){
@@ -249,7 +252,7 @@ define(function(require, exports, module) {
 					if(indexIds == ''){
 						Data.flag = false;
 						//倒数第二层
-//						debugger
+						debugger
 						if((100001<=lastFatherId && lastFatherId<=100077) || (1001<=lastFatherId && lastFatherId<=2010 && lastFatherId != 1002)){
 							//如果同层节点仅有一个
 							if(lastClassNodes.length==1){
@@ -284,6 +287,7 @@ define(function(require, exports, module) {
 							if(secondLastClassNodes.length==1){
 								Data.isOne = true;
 								Data.pieSecondLastIsOne = true;
+								Data.whetherShowTopList = true;
 								var childrencommand = lastNode.children;
 								for(var x in childrencommand){
 									_piegroupcmd.indexId[x]=new Array();    //声明二维，每一个一维数组里面的一个元素都是一个数组
@@ -358,6 +362,10 @@ define(function(require, exports, module) {
 					return
 				}
 				self.getDataMaintainList(_cmd);
+				debugger
+				if(Data.whetherShowTopList){
+					self.getDatabaseConnectTopList();
+				}
 //				debugger
 				var _ggcmd = _cmd;	
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -482,6 +490,23 @@ define(function(require, exports, module) {
 				Utils.eventTrClickCallback(_domSec);
 			}, _domPaginationSec);
 			
+/*			Utils.getServerPage(srvMap.get(toptask), _topcmd, function(json, status) {//getArchDbConnectList
+				cache.datas = json.data;
+				window.XMS.msgbox.hide();
+				var template = Handlebars.compile(Tpl.getArchDbConnectTop);
+				//按月份排序
+				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
+				for(var i=0;i<json.data.content.length;i++){
+					if(json.data.content[i].key3!=null){
+						json.data.content[i].key3="("+json.data.content[i].key3+")";
+					}
+				};
+				_domTop.find("[name='content']").html(template(json.data.content));
+				//美化单机
+				Utils.eventTrClickCallback(_domTop);
+			}, _domPaginationTop);*/
+		},
+		getDatabaseConnectTopList : function(){
 			//查top10
 			var _domTop = Page.findId('getDataMaintainListTop');
 			var _domPaginationTop = _domTop.find("[name='paginationTop']");
@@ -520,25 +545,11 @@ define(function(require, exports, module) {
 					_domTop.find("[name='content']").html(template(json.data));
 					//美化单机
 					Utils.eventTrClickCallback(_domTop);
+					Data.whetherShowTopList=false;
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}
   			});
-/*			Utils.getServerPage(srvMap.get(toptask), _topcmd, function(json, status) {//getArchDbConnectList
-				cache.datas = json.data;
-				window.XMS.msgbox.hide();
-				var template = Handlebars.compile(Tpl.getArchDbConnectTop);
-				//按月份排序
-				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
-				for(var i=0;i<json.data.content.length;i++){
-					if(json.data.content[i].key3!=null){
-						json.data.content[i].key3="("+json.data.content[i].key3+")";
-					}
-				};
-				_domTop.find("[name='content']").html(template(json.data.content));
-				//美化单机
-				Utils.eventTrClickCallback(_domTop);
-			}, _domPaginationTop);*/
 		},
 		//时间格式化
 		formatDate: function(date) {
@@ -591,6 +602,10 @@ define(function(require, exports, module) {
 		},		
 		_graphSec: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
+            myChart.showLoading({
+                text: '读取数据中...' //loading，是在读取数据的时候显示
+            });
+                
 			var option = {
 				title : {
 			        text: '指标情况',
@@ -719,13 +734,18 @@ define(function(require, exports, module) {
 				}
 				//加载前数据刷新
 				myChart.clear();
-				myChart.setOption(option);				
+				myChart.setOption(option);	
+				myChart.hideLoading();//隐藏loading
+
 				window.onresize = myChart.resize;
   			});			
 		},
 		//汇总饼状图
 		_graphTotal: function(json) {
 			var myChart = echarts.init(Page.findId('totalArchiIndexView')[0]);
+			myChart.showLoading({
+                text: '读取数据中...' //loading，是在读取数据的时候显示
+            });
 			var data = genData(50);
 			var option = {
 			    title : {
@@ -798,7 +818,8 @@ define(function(require, exports, module) {
 				option.series[0].data = json.data.seriesData;
 			}
 			myChart.clear();
-			myChart.setOption(option);			
+			myChart.setOption(option);		
+			myChart.hideLoading();//隐藏loading
 			window.onresize = myChart.resize;
 		},
 /* --------------------------------------------------PAGE--2--------------------------------------------------------------- */

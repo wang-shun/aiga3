@@ -1086,9 +1086,9 @@ public class ArchitectureIndexController extends BaseService {
 					}
 				}
 			}
-			if(condition.getIndexGroup()!=null){
+			if(condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("数据库连接总数")){
 				
-				if(condition.getIndexGroup().trim().equals("数据库连接总数")){
+//				if(condition.getIndexGroup().trim().equals("数据库连接总数")){
 			
 					if(!newList.contains(baseConnect.getKey1())){
 						ViewSeries baseSeries = new ViewSeries();
@@ -1127,8 +1127,11 @@ public class ArchitectureIndexController extends BaseService {
 						baseSeries.setData(data);
 						seriesList.add(baseSeries);
 					}
-				}
+//				}
 			}else{
+				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){
+					continue;
+				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
 					baseSeries.setType("line");
@@ -1145,9 +1148,11 @@ public class ArchitectureIndexController extends BaseService {
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
+						if(archDbConnect.getKey2()==null || archDbConnect.getKey3()==null){
+							continue;
+						}
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
-	//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));
 							for(int i=0;i<data.length;i++){
 								String newMonth = months2.get(i).trim();
 								String newDay = newMonth.replace("-", "");
@@ -1216,6 +1221,8 @@ public class ArchitectureIndexController extends BaseService {
 				singleIndexIds = groupIndexIds[i];
 				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
 				singlecdt.setIndexId(singleIndexIds);
+				singlecdt.setStartMonth(condition.getStartMonth());
+				singlecdt.setEndMonth(condition.getEndMonth());
 				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
 				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,false);
 				totalList.add(myoutput);
@@ -1230,17 +1237,19 @@ public class ArchitectureIndexController extends BaseService {
 			center.setSystem(system);
 			ArchiChangeMessage archiChangeMessage = totalList.get(i);
 			List<ViewSeries>totalSeries = archiChangeMessage.getSeries();
-			long increase = 0;
+			long etotal = 0;
 			if(totalSeries.size()>0){
 				for(int j=0;j<totalSeries.size();j++){
 					ViewSeries baseSeries = totalSeries.get(j);
 					int[] data = baseSeries.getData();
 					for(int k=0;k<data.length;k++){
-						increase += data[k];
+						etotal += data[k];
 					}
+					etotal /= data.length;
 				}
 			}
-			center.setIncrease(increase/totalSeries.size());
+			center.setThismonth(etotal/totalSeries.size());
+			center.setIncrease(etotal/totalSeries.size());
 			list.add(center);
 		}
 		
@@ -1269,10 +1278,6 @@ public class ArchitectureIndexController extends BaseService {
         conditionpre.setIndexId(condition.getIndexId());
         conditionpre.setIndexName(condition.getIndexName());
 		List<String>monthspre = getDayBetween(conditionpre.getStartMonth(),conditionpre.getEndMonth());
-		if(monthspre.size()<=0){
-			bean.fail("结束时间小于开始时间！");
-			return bean;
-		}
 		long[][] groupIndexIdspre = null;
 		long[] singleIndexIdspre = null;
 		List<ArchiChangeMessage>totalListpre=new ArrayList<ArchiChangeMessage>();
@@ -1282,6 +1287,8 @@ public class ArchitectureIndexController extends BaseService {
 				singleIndexIdspre = groupIndexIdspre[i];
 				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
 				singlecdt.setIndexId(singleIndexIdspre);
+				singlecdt.setStartMonth(preMonthFirstDayString);
+				singlecdt.setEndMonth(preMonthLastDayString);
 				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
 				ArchiChangeMessage myoutput = commonListDbConnects(monthspre,connectList,false);
 				totalListpre.add(myoutput);
@@ -1296,25 +1303,39 @@ public class ArchitectureIndexController extends BaseService {
 			center.setSystem(system);
 			ArchiChangeMessage archiChangeMessage = totalListpre.get(i);
 			List<ViewSeries>totalSeries = archiChangeMessage.getSeries();
-			long increase = 0;
+			long ltotal = 0;
 			if(totalSeries.size()>0){
 				for(int j=0;j<totalSeries.size();j++){
 					ViewSeries baseSeries = totalSeries.get(j);
 					int[] data = baseSeries.getData();
 					for(int k=0;k<data.length;k++){
-						increase += data[k];
+						ltotal += data[k];
 					}
+					ltotal /= data.length;
 				}
 			}
-			center.setIncrease(increase/totalSeries.size());
+			center.setLastmonth(ltotal/totalSeries.size());
+			center.setIncrease(ltotal/totalSeries.size());
 			listpre.add(center);
 		}
 		
+		long increaseTotal = 0L;
 		for(int i=0;i<list.size();i++){
 			CenterDbConnectTopList base = list.get(i);
 			CenterDbConnectTopList basepre = listpre.get(i);
+			base.setLastmonth(basepre.getLastmonth());
 			base.setIncrease(base.getIncrease()-basepre.getIncrease());
-			base.setPercentage((base.getIncrease()-basepre.getIncrease())/base.getIncrease());
+			if(base.getIncrease()>0){
+				increaseTotal += base.getIncrease();
+			}
+		}
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			if(base.getIncrease()>0){
+				base.setPercentage((base.getIncrease()*100)/increaseTotal);
+			}else{
+				base.setPercentage(0);
+			}
 		}
 		Collections.sort(list, new IncreaseComparator());
 		

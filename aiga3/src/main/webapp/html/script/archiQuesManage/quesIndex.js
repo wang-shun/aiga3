@@ -400,6 +400,9 @@ define(function(require, exports, module) {
 		
 		_graphSec: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
+			myChart.showLoading({
+                text: '读取数据中...' //loading，是在读取数据的时候显示
+            });
 			option = {
 				title : {
 			        text: '指标情况',
@@ -546,6 +549,7 @@ define(function(require, exports, module) {
 				}
 				myChart.clear();
 				myChart.setOption(option);
+				myChart.hideLoading();//隐藏loading
 				window.onresize = myChart.resize;
   			});
 			
@@ -683,6 +687,9 @@ define(function(require, exports, module) {
 		},
 		_graphSec2: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexView2')[0]);
+			myChart.showLoading({
+                text: '读取数据中...' //loading，是在读取数据的时候显示
+            });
 			option = {
 				title : {
 			        text: '指标情况',
@@ -815,6 +822,7 @@ define(function(require, exports, module) {
 				}
 				myChart.clear();
 				myChart.setOption(option);
+				myChart.hideLoading();//隐藏loading
 				window.onresize = myChart.resize;
   			});		
 		}

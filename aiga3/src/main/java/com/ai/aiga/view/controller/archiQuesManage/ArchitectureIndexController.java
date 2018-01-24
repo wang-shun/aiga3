@@ -778,6 +778,9 @@ public class ArchitectureIndexController extends BaseService {
 //				    }
 				}
 			}else{
+				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){
+					continue;
+				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
 					baseSeries.setType("line");
@@ -794,6 +797,9 @@ public class ArchitectureIndexController extends BaseService {
 					Iterator<ArchDbConnect>iterator = connectList2.iterator();
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
+                        if(archDbConnect.getKey2()==null||archDbConnect.getKey3()==null){
+                            continue;
+                        }
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
 	//						String newSetMonth = sdf2.format(sdf.parse(SetMonths));

@@ -32,8 +32,7 @@ define(function(require, exports, module) {
 		},		
 		
 		//初始化时间框
-		_time:function(){
-			
+		_time:function(){			
 			//初始化时间框
 			function showMonthFirstDay() {     
 				var date=new Date();

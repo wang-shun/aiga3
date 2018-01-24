@@ -1212,7 +1212,154 @@ public class ArchitectureIndexController extends BaseService {
 			bean.fail("结束时间小于开始时间！");
 			return bean;
 		}
-		long[][] groupIndexIds = null;
+		//transfer "[][]" to "[]" 
+		long[][] indexid2d = condition.getIndexId();
+		int len = 0;
+		for(long[] element : indexid2d){
+			len += element.length;
+		}
+		long[] indexid1d = new long[len];
+		int index = 0;
+		for(long[] array : indexid2d){
+			for(long element : array){
+				indexid1d[index++]=element;
+			}
+		}
+		AmCoreIndexParams thisMonthcdt=new AmCoreIndexParams();
+		thisMonthcdt.setIndexId(indexid1d);
+		thisMonthcdt.setStartMonth(condition.getStartMonth());
+		thisMonthcdt.setEndMonth(condition.getEndMonth());
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(thisMonthcdt);
+		int SYSTEM_SIZE = indexid2d.length;
+		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listConnectList.add(x, element);
+		}
+		for(int i=0;i<connectList.size();i++){
+			ArchDbConnect element = connectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		for(int i=0;i<listConnectList.size();i++){
+			List<ArchDbConnect> baseConnectList = listConnectList.get(i);
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+//			String id = "TOP" + (i+1);
+//			center.setId(id);
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			long thismonth = 0L;
+			for(int j=0;j<baseConnectList.size();j++){
+				ArchDbConnect baseConnect = baseConnectList.get(j);
+				if(baseConnect.getResultValue()==null){
+					continue;
+				}
+				thismonth += Long.parseLong(baseConnect.getResultValue());
+			}
+			thismonth /= baseConnectList.size();
+			center.setThismonth(thismonth);
+			list.add(center);
+		}
+		String firstDay = condition.getStartMonth();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date firstDayOfMonth = format.parse(firstDay);
+		//get last month first day
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(firstDayOfMonth);
+        calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        String preMonthFirstDayString = simpleDateFormat.format(calendar.getTime());
+        //get last month last day
+        SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar2=Calendar.getInstance();
+        calendar2.setTime(firstDayOfMonth);
+        calendar2.set(Calendar.DAY_OF_MONTH, 1);
+        calendar2.add(Calendar.DATE, -1);
+        String preMonthLastDayString = sf.format(calendar2.getTime());
+        //last month query condition
+		AmCoreIndexParams preMonthcdt=new AmCoreIndexParams();
+		preMonthcdt.setIndexId(indexid1d);
+		preMonthcdt.setStartMonth(preMonthFirstDayString);
+		preMonthcdt.setEndMonth(preMonthLastDayString);
+        List<CenterDbConnectTopList>prelist = new ArrayList<CenterDbConnectTopList>();
+		List<ArchDbConnect>preConnectList = architectureIndexSv.listDbConnects2(preMonthcdt);
+		List<List<ArchDbConnect>>listPreConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listPreConnectList.add(x, element);
+		}
+		for(int i=0;i<preConnectList.size();i++){
+			ArchDbConnect element = preConnectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listPreConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		for(int i=0;i<listPreConnectList.size();i++){
+			List<ArchDbConnect> baseConnectList = listPreConnectList.get(i);
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+//			String id = "TOP" + (i+1);
+//			center.setId(id);
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			long lastmonth = 0L;
+			for(int j=0;j<baseConnectList.size();j++){
+				ArchDbConnect baseConnect = baseConnectList.get(j);
+				if(baseConnect.getResultValue()==null){
+					continue;
+				}
+				lastmonth += Long.parseLong(baseConnect.getResultValue());
+			}
+			lastmonth /= baseConnectList.size();
+			center.setLastmonth(lastmonth);
+			prelist.add(center);
+		}
+		//汇总拼装
+		long increaseTotal = 0L;
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			CenterDbConnectTopList prebase = prelist.get(i);
+			base.setLastmonth(prebase.getLastmonth());
+			base.setIncrease(base.getThismonth()-prebase.getLastmonth());
+			if(base.getIncrease()>0){
+				increaseTotal += base.getIncrease();
+			}
+		}
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			if(base.getIncrease()>0){
+				base.setPercentage((base.getIncrease()*100)/increaseTotal);
+			}else{
+				base.setPercentage(0);
+			}
+		}
+		Collections.sort(list, new IncreaseComparator());
+		
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			base.setId("TOP" + (i+1));
+		}
+		bean.setData(list);	
+		return bean;
+		
+/*		long[][] groupIndexIds = null;
 		long[] singleIndexIds = null;
 		List<ArchiChangeMessage>totalList=new ArrayList<ArchiChangeMessage>();
 		if(condition.getIndexId()!=null){
@@ -1344,7 +1491,7 @@ public class ArchitectureIndexController extends BaseService {
 			base.setId("TOP" + (i+1));
 		}
 		bean.setData(list);	
-		return bean;
+		return bean;*/
 	}
 	// 自定义比较器：按increase排序  
 	static class IncreaseComparator implements Comparator {  

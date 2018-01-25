@@ -50,6 +50,8 @@ define(function(require, exports, module) {
     srvMap.add("listTotalDbConnectsPie", "", "arch/index/listTotalDbConnectsPie");
     //多个
     srvMap.add("listTotalDbConnectsPieOrderByGroupId", "", "arch/index/listTotalDbConnectsPieOrderByGroupId");
+    //多个     优化速度
+    srvMap.add("listTotalDbConnectsPieOrderByGroupIdQuick", "", "arch/index/listTotalDbConnectsPieOrderByGroupIdQuick");
     //八大军规指标树 总数饼状图 srv_manage
     srvMap.add("listTotalSrvManagesPie", "", "arch/index/listTotalSrvManagesPie");
     //八大军规指标树 总数饼状图 month_index
@@ -389,7 +391,7 @@ define(function(require, exports, module) {
 							taskPie = "listTotalDbConnectsPieOrderByGroupId"
 							_cmd=_groupcmd;
 						}else if(Data.flag==false && Data.pieSecondLastIsOne==true){
-							taskPie = "listTotalDbConnectsPieOrderByGroupId"
+							taskPie = "listTotalDbConnectsPieOrderByGroupIdQuick"
 							_cmd=_piegroupcmd;
 						}else if(Data.flag==false && Data.pieSecondLastIsOne==false){
 							taskPie = "listTotalDbConnectsPieOrderByGroupId"

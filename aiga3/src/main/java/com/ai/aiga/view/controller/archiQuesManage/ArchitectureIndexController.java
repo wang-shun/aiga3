@@ -1006,6 +1006,8 @@ public class ArchitectureIndexController extends BaseService {
 				singleIndexIds = groupIndexIds[i];
 				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
 				singlecdt.setIndexId(singleIndexIds);
+				singlecdt.setStartMonth(condition.getStartMonth());
+				singlecdt.setEndMonth(condition.getEndMonth());
 				for(int j=0;j<singleIndexIds.length;j++){
 					if(singleIndexIds[j]>=1001001 && singleIndexIds[j]<=1001006){
 						flag=true;
@@ -1047,6 +1049,143 @@ public class ArchitectureIndexController extends BaseService {
 		outmsg.setSeriesData(seriesDataList);
 		bean.setData(outmsg);	
 		return bean;
+	}
+	
+	@RequestMapping(path = "/arch/index/listTotalDbConnectsPieOrderByGroupIdQuick")
+	public @ResponseBody JsonBean listTotalDbConnectsPieOrderByGroupIdQuick(@RequestBody AmCoreIndexGroupParams condition) throws ParseException {
+		JsonBean bean = new JsonBean();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		System.out.println("qqqqqqqqqqq"+months2);
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		//transfer "[][]" to "[]" 
+		long[][] indexid2d = condition.getIndexId();
+		int len = 0;
+		for(long[] element : indexid2d){
+			len += element.length;
+		}
+		long[] indexid1d = new long[len];
+		int index = 0;
+		for(long[] array : indexid2d){
+			for(long element : array){
+				indexid1d[index++]=element;
+			}
+		}
+		AmCoreIndexParams singlecdt=new AmCoreIndexParams();
+		singlecdt.setIndexId(indexid1d);
+		singlecdt.setStartMonth(condition.getStartMonth());
+		singlecdt.setEndMonth(condition.getEndMonth());
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+		int SYSTEM_SIZE = indexid2d.length;
+		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listConnectList.add(x, element);
+		}
+		for(int i=0;i<connectList.size();i++){
+			ArchDbConnect element = connectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		//汇总数据返回
+		ArchiIndexTotalMessage output = new ArchiIndexTotalMessage();
+		List<String>legendList=new ArrayList<String>();
+		List<SeriesData>seriesDataList = new ArrayList<SeriesData>();
+		for(int o=0;o<SYSTEM_SIZE;o++){
+			List<ArchDbConnect> listConnects = listConnectList.get(o);
+			String name = "SYSTEM-" + (o+1);
+			long value = 0;
+			for(int i=0;i<listConnects.size();i++){
+				ArchDbConnect base = listConnects.get(i);
+				if(base.getResultValue()==null){
+					continue;
+				}
+				value += Long.parseLong(base.getResultValue());
+			}
+			SeriesData seriesData = new SeriesData();
+			seriesData.setName(name);
+			seriesData.setValue(value);
+			legendList.add(name);
+			seriesDataList.add(seriesData);
+		}
+		output.setLegendData(legendList);
+		output.setSeriesData(seriesDataList);
+		bean.setData(output);	
+		return bean;
+		
+/*		output.setxAxis(months2);
+		long[][] groupIndexIds = null;
+		long[] singleIndexIds = null;
+		boolean flag = false;
+		List<ArchiChangeMessage>totalList=new ArrayList<ArchiChangeMessage>();
+		if(condition.getIndexId()!=null){
+			groupIndexIds= condition.getIndexId();
+			for(int i=0;i<groupIndexIds.length;i++){
+				singleIndexIds = groupIndexIds[i];
+				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
+				singlecdt.setIndexId(singleIndexIds);
+				singlecdt.setStartMonth(condition.getStartMonth());
+				singlecdt.setEndMonth(condition.getEndMonth());
+				for(int j=0;j<singleIndexIds.length;j++){
+					if(singleIndexIds[j]>=1001001 && singleIndexIds[j]<=1001006){
+						flag=true;
+					}else{
+						flag=false;
+					}
+				}
+				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,flag);
+				totalList.add(myoutput);
+			}
+		}
+		
+		//汇总数据返回
+		List<String>legendList=new ArrayList<String>();
+		ArchiIndexTotalMessage outmsg = new ArchiIndexTotalMessage();
+		List<SeriesData>seriesDataList = new ArrayList<SeriesData>();
+		for(int o=0;o<totalList.size();o++){
+			ArchiChangeMessage archiChangeMessage = totalList.get(o);
+			List<ViewSeries>seriesList = archiChangeMessage.getSeries();
+			ViewSeries base;
+			String name = "";
+			long value = 0;
+			for(int i=0;i<seriesList.size();i++){
+				base = seriesList.get(i);
+				name = base.getName()+"TOTAL";
+				int[] valueList = base.getData();
+				for(int j=0;j<valueList.length;j++){
+					value += valueList[j];
+				}
+			}
+			SeriesData seriesData = new SeriesData();
+			seriesData.setName(name);
+			seriesData.setValue(value);
+			legendList.add(name);
+			seriesDataList.add(seriesData);
+		}
+		outmsg.setLegendData(legendList);
+		outmsg.setSeriesData(seriesDataList);
+		bean.setData(outmsg);	
+		return bean;*/
 	}
 	
 	@RequestMapping(path = "/arch/index/listTotalDbConnects")

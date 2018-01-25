@@ -67,6 +67,7 @@ seajs.config({
     ],
     base: basePref[conf],
     alias: {
+    	'bootstrapNotify':'lib/bootstrap-notify-master/bootstrap-notify.js',
     	'comboSelectCSS' : 'lib/comboSelect/css/combo.select.css',
     	'comboSelectJS' : 'lib/comboSelect/js/jquery.combo.select.js',
     	'macarons' : 'lib/echarts/macarons.js',
@@ -144,7 +145,8 @@ seajs.config({
         'comboSelectJS',
         'comboSelectCSS',
         'jqueryConfirmJS',
-        'jqueryConfirmCSS'
+        'jqueryConfirmCSS',
+        'bootstrapNotify'
     ],
     // 设置路径，方便跨目录调用
     // var navbar = require('global/navbar'); => 加载的是 http://path/scr/script/global/js/navbar.js

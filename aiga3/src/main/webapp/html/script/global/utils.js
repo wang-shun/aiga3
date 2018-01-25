@@ -2,7 +2,7 @@
  * 通用工具集
  */
 define(function(require, exports, module) {
-    var Utils = {
+    var Utils = {  
         /**
          * 初始化页面唯一标识
          *
@@ -1120,6 +1120,22 @@ define(function(require, exports, module) {
 		showYesterDay:function() {
 			var yesterday = new Date(new Date().getTime() - 86400000);
 			return Rose.date.dateTime2str(yesterday,"yyyy-MM-dd")
+		},
+		//报错提示
+		showNotification: function(from, align ,message){
+			var type = ['','info','success','warning','danger'];
+	    	color = Math.floor((Math.random() * 4) + 1);    	
+	    	$.notify({
+	        	icon: "pe-7s-gift",
+	        	message: message?message:"Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."        	
+	        },{
+	            type: type[color],
+	            timer: 4000,
+	            placement: {
+	                from: from,
+	                align: align
+	            }
+	        });
 		}
     };
 

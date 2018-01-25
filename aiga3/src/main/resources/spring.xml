@@ -147,7 +147,5 @@
     <beans profile="qa">
         <import resource="qa/spring-mail.xml"/>
     </beans>
-	
-	
  
 </beans>

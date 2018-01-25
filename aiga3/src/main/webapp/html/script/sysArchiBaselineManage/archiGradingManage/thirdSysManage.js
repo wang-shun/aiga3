@@ -292,9 +292,6 @@ define(function(require, exports, module) {
 				    cancel:function(){
 				    }
 				});
-//        		tablebtn.find("[class='btn btn-primary btn-table-delete']").off('click').on('click', function() {
-//        			self._band_table_btn($(this),"delete");
-//        		});
 			},_domPagination);
 		},
 		

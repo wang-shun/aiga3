@@ -111,6 +111,7 @@ define(function(require, exports, module) {
 		pieLastIsOne : null ,
 		pieSecondLastIsOne : null ,
 		pieIndexNameList : new Array(),
+		totalIndexNameList : new Array(),
 		top2cmd : {},
 		whetherShowTopList : false
 	};
@@ -200,6 +201,7 @@ define(function(require, exports, module) {
 				var lastClassNameList = new Array();
 				var lastClassNodes = new Array();
 				Data.pieIndexNameList = [];
+				Data.totalIndexNameList = [];
 				Data.pieLastIsOne = null;
 				Data.pieSecondLastIsOne = null;
 				console.log(command);
@@ -265,6 +267,7 @@ define(function(require, exports, module) {
 									indexIds += childrencommand[x].indexId + ",";
 									Data.pieIndexNameList.push(childrencommand[x].indexName);
 								}
+								Data.totalIndexNameList.push(lastClassNodes[0].indexName + "总数");
 								_cmd += "&indexId=" + indexIds;
 								_cmd = _cmd.substring(0,_cmd.length-1);
 							//如果同层节点有多个
@@ -280,6 +283,7 @@ define(function(require, exports, module) {
 										_groupcmd.indexId[ii][x] = brotherchildrencommand[x].indexId;
 									}
 									Data.pieIndexNameList.push(lastClassNodes[ii].indexName);
+									Data.totalIndexNameList.push(lastClassNodes[ii].indexName + "总数");
 								}
 								_cmd += "&indexId=" + _groupcmd.indexId;
 							}
@@ -303,6 +307,7 @@ define(function(require, exports, module) {
 									}
 									Data.pieIndexNameList.push(childrencommand[x].indexName);
 								}
+								Data.totalIndexNameList.push(secondLastClassNodes[0].indexName + "总数");
 								_cmd += "&indexId=" + indexIds;
 								_cmd = _cmd.substring(0,_cmd.length-1);
 							//如果同层节点有多个
@@ -323,6 +328,7 @@ define(function(require, exports, module) {
 										}
 									}
 									Data.pieIndexNameList.push(secondLastClassNodes[ii].indexName);
+									Data.totalIndexNameList.push(secondLastClassNodes[ii].indexName + "总数");
 								}
 								_cmd += "&indexId=" + _groupcmd.indexId;
 							}
@@ -412,6 +418,12 @@ define(function(require, exports, module) {
 				Rose.ajax.postJson(srvMap.get(task2), _ggcmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
+						if(Data.totalIndexNameList.length>0){
+							json.data.legend = Data.totalIndexNameList;
+							for(var index in json.data.series){
+								json.data.series[index].name=Data.totalIndexNameList[index];
+							}
+						}
 						self._graphSec(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);

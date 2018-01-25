@@ -1131,61 +1131,6 @@ public class ArchitectureIndexController extends BaseService {
 		output.setSeriesData(seriesDataList);
 		bean.setData(output);	
 		return bean;
-		
-/*		output.setxAxis(months2);
-		long[][] groupIndexIds = null;
-		long[] singleIndexIds = null;
-		boolean flag = false;
-		List<ArchiChangeMessage>totalList=new ArrayList<ArchiChangeMessage>();
-		if(condition.getIndexId()!=null){
-			groupIndexIds= condition.getIndexId();
-			for(int i=0;i<groupIndexIds.length;i++){
-				singleIndexIds = groupIndexIds[i];
-				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
-				singlecdt.setIndexId(singleIndexIds);
-				singlecdt.setStartMonth(condition.getStartMonth());
-				singlecdt.setEndMonth(condition.getEndMonth());
-				for(int j=0;j<singleIndexIds.length;j++){
-					if(singleIndexIds[j]>=1001001 && singleIndexIds[j]<=1001006){
-						flag=true;
-					}else{
-						flag=false;
-					}
-				}
-				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
-				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,flag);
-				totalList.add(myoutput);
-			}
-		}
-		
-		//汇总数据返回
-		List<String>legendList=new ArrayList<String>();
-		ArchiIndexTotalMessage outmsg = new ArchiIndexTotalMessage();
-		List<SeriesData>seriesDataList = new ArrayList<SeriesData>();
-		for(int o=0;o<totalList.size();o++){
-			ArchiChangeMessage archiChangeMessage = totalList.get(o);
-			List<ViewSeries>seriesList = archiChangeMessage.getSeries();
-			ViewSeries base;
-			String name = "";
-			long value = 0;
-			for(int i=0;i<seriesList.size();i++){
-				base = seriesList.get(i);
-				name = base.getName()+"TOTAL";
-				int[] valueList = base.getData();
-				for(int j=0;j<valueList.length;j++){
-					value += valueList[j];
-				}
-			}
-			SeriesData seriesData = new SeriesData();
-			seriesData.setName(name);
-			seriesData.setValue(value);
-			legendList.add(name);
-			seriesDataList.add(seriesData);
-		}
-		outmsg.setLegendData(legendList);
-		outmsg.setSeriesData(seriesDataList);
-		bean.setData(outmsg);	
-		return bean;*/
 	}
 	
 	@RequestMapping(path = "/arch/index/listTotalDbConnects")
@@ -1683,8 +1628,7 @@ public class ArchitectureIndexController extends BaseService {
 			List<ViewSeries>totalSeries = archiChangeMessage.getSeries();
 			if(totalSeries.size()>0){
 				ViewSeries viewSeries = new ViewSeries();
-				String name = totalSeries.get(i).getName() + "总数";
-				viewSeries.setName(name);
+				String name = "";
 				viewSeries.setType("line");
 				int[] totalData = new int[constantValue];
 				for(int j=0;j<totalSeries.size();j++){
@@ -1693,10 +1637,12 @@ public class ArchitectureIndexController extends BaseService {
 					for(int k=0;k<data.length;k++){
 						totalData[k] += data[k];
 					}
+					name = totalSeries.get(j).getName() + "总数";
 				}
+				viewSeries.setName(name);
 				viewSeries.setData(totalData);
 				finalSeries.add(viewSeries);
-				finalLegend=archiChangeMessage.getLegend();
+				finalLegend.add(name);
 			}
 		}
 		output.setLegend(finalLegend);

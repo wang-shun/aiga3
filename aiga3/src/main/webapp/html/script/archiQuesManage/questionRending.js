@@ -114,6 +114,7 @@ define(function(require, exports, module) {
 		
 		jumpPage : function(){
 			var syscmd = Page.getParentCmd();
+			debugger
 			var result = Utils.jsonToUrl(syscmd);
 			if(result!=null){
 				var self = this;
@@ -121,6 +122,12 @@ define(function(require, exports, module) {
 				Utils.setSelectData(_form);
 				var _queryBtn = _form.find("[name='query']");
 				_queryBtn.unbind('click').bind('click', function() {
+					if(result.indexOf('daijiejue')>-1){
+						result=result.replace("daijiejue","解决中");
+					}
+					if(result.indexOf('jiejuezhong')>-1){
+						result=result.replace("jiejuezhong","解决中");
+					}
 					var cmd = result;
 					self.getDataMaintainList(cmd);
 				});

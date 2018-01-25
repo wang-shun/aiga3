@@ -138,8 +138,8 @@ define(function(require,exports,module){
                     	//问题解决页面
         				var objData = {
         						id : '136',
-        						name : '架构问题检索',
-        						href : "view/archiQuesManage/quesSearch.html",
+        						name : '架构问题维护',
+        						href : "view/archiQuesManage/questionRending.html",
         	                    cmd : "quesId="+quesId
         				};
                     	Tab.creatTab(objData);

@@ -1619,7 +1619,6 @@ public class ArchitectureIndexController extends BaseService {
 				totalList.add(myoutput);
 			}
 		}
-		
 		//汇总数据返回
 		List<ViewSeries>finalSeries = new ArrayList<ViewSeries>();
 		List<String>finalLegend = new ArrayList<String>();

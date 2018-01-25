@@ -66,12 +66,12 @@ define(function(require, exports, module) {
 	                        });
 	                	} else if (name == 'applyIndentyQues' || name == 'applyResolveQues' || name == 'applyCloseQues') {
 	                		var indentyQues = 'sysVersion=待确认&reportor='+data.userCode;
-	                		var resolveQues = 'sysVersion=已确认&state=未解决&reportor='+data.userCode;
-	                		var closeQues = 'sysVersion=已确认&state=解决中&reportor='+data.userCode;
+	                		var resolveQues = 'sysVersion=已确认&state=daijiejue&reportor='+data.userCode;
+	                		var closeQues = 'sysVersion=已确认&state=jiejuezhong&reportor='+data.userCode;
 	                        Sidebar.creatTab({
 	                            id: '136',
-	                            name: '架构问题检索',
-	                            href: 'view/archiQuesManage/quesSearch.html',
+	                            name: '架构问题维护',
+	                            href: 'view/archiQuesManage/questionRending.html',
 	                            cmd: name == 'applyIndentyQues'? indentyQues: name== 'applyResolveQues' ? resolveQues: name == 'applyCloseQues' ? closeQues:''
 	                        });
 	                	} else if (name == 'dealIndentyQues' || name == 'dealResolveQues' || name == 'dealCloseQues') {

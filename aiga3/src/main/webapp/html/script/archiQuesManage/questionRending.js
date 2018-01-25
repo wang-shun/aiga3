@@ -114,7 +114,7 @@ define(function(require, exports, module) {
 		
 		jumpPage : function(){
 			var syscmd = Page.getParentCmd();
-			debugger
+//			debugger
 			var result = Utils.jsonToUrl(syscmd);
 			if(result!=null){
 				var self = this;

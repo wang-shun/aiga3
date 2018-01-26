@@ -4,7 +4,8 @@ define(function(require, exports, module) {
 
     // 侧边栏菜单列表接口
     srvMap.add("getSidebarMenuList", "global/getSidebarMenuList.json", "global/menu");
-
+    // 侧边栏菜单列表接口
+    srvMap.add("recordMenu", "global/getSidebarMenuList.json", "webservice/menuRecord/add");
     // 模板对象
     var Tpl = {
         sidebar: require('tpl/global/sidebar.tpl')
@@ -49,6 +50,20 @@ define(function(require, exports, module) {
         getSidebarInfo:function(id){
         	// something todo
         },
+        write_tab_record:function(objData) {
+        	var cmd = {
+        		recordId : 0,
+        		menuUrl : objData.href,
+        		menuCode : objData.id,
+        		menuName : objData.name     		
+        	}
+        	Rose.ajax.postJson(srvMap.get('recordMenu'), cmd, function(json, status) {
+        		if(status){
+        		} else {
+        			//失败
+        		}
+        	});
+        },
         creatTab: function(objData) {
         	var self = this;
     		var objId = '#JS_childTab_'+objData.id;
@@ -76,7 +91,7 @@ define(function(require, exports, module) {
 				// 绑定删除事件
 				self.bindTabDelEvent();
         	}
-
+			self.write_tab_record(objData);
         },
         delTab: function(id){
         	var objContent = '#JS_childTab_'+id;

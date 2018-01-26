@@ -746,6 +746,10 @@ public class ArchiGradingController {
 						} else {
 							int sysIndex  =Integer.valueOf(adviceThirdId);
 							sysIndex++;
+							if(sysIndex>99) {
+								bean.fail("三级编号生成失败，值域已达最大");
+								return bean;
+							}
 							adviceThirdId = String.valueOf(sysIndex);
 							if(adviceThirdId.length()<2) {
 								adviceThirdId = "0"+adviceThirdId;
@@ -764,6 +768,10 @@ public class ArchiGradingController {
 						} else {
 							int sysIndex  =Integer.valueOf(adviceThirdId);
 							sysIndex++;
+							if(sysIndex>99) {
+								bean.fail("三级编号生成失败，值域已达最大");
+								return bean;
+							}
 							adviceThirdId = String.valueOf(sysIndex);
 							if(adviceThirdId.length()<2) {
 								adviceThirdId = "0"+adviceThirdId;

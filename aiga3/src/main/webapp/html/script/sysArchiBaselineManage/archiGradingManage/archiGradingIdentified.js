@@ -194,8 +194,7 @@ define(function(require, exports, module) {
 				window.XMS.msgbox.hide();
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				cache.datas = json.data.content;
-				var template = Handlebars.compile(Page.findTpl('getGrandingMessageList'));
-				
+				var template = Handlebars.compile(Page.findTpl('getGrandingMessageList'));			
         		_dom.find("[name='content']").html(template(json.data.content));
         		//绑定表格的click事件
         		Utils.eventDClickCallback(_dom,function(isChecked,_input) {

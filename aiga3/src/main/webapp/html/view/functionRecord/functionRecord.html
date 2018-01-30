@@ -1,0 +1,118 @@
+<style>
+#Page_functionRecord .select-label-word {margin-top: 7px;width: 70px;}
+#Page_functionRecord .table-word-center {text-align: center;vertical-align: middle;}  
+#Page_functionRecord .show-nothing {display:none;}  
+#Page_functionRecord .time-split-simp{ height: 100%;margin-top: 5px; padding:0 5px 0 5px}
+#Page_functionRecord .top-list-comsty{height: 420px;}
+.top-list-comsty .menu-data-num{color: #8C929A; position: absolute;right: 0;top: 0;}
+.top-list-comsty ul {padding:10px;}
+.top-list-comsty .toplist-primicon0{background-position: 0 0;text-shadow: 0px 0px 0 #999999;}
+.top-list-comsty .toplist-primicon1{background-position: -25px 0;text-shadow: 0px 0px 0 #999999;}
+.top-list-comsty .toplist-primicon2{background-position: -50px 0;text-shadow: 0px 0px 0 #999999;}
+.top-list-comsty li {
+    border-top: 1px dotted #D3D3D3;
+    height: 40px;
+    line-height: 36px;
+    overflow: hidden;
+    padding: 0 70px 0 25px;
+    position: relative;
+}
+.top-list-comsty li i{
+    background: url(style/images/ranksbg.png) no-repeat scroll -75px 0 transparent;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-family: Arial;
+    font-size: 13px;
+    font-style: normal;
+    height: 28px;
+    left: 0;
+    line-height: 20px;
+    margin-top: 7px;
+    position: absolute;
+    text-align: center;
+    text-indent: -4px;
+    top: 0;
+    width: 18px;
+}
+
+</style>
+<div class="row" id="Page_functionRecord">
+	<div class="col-md-6">
+		<div name="useLogTable" class="box box-solid">
+			<div class="box-header">
+				<h3 class="box-title">菜单使用记录</h3>
+				<div id="JS_selectGroup" class="col-md-6" style="float: right;width: 360px;display: flex;">
+					<input type="text" class="form-control input-sm" name="userName" data-toggle="tooltip" title="用户姓名" style="margin-right:10px"/>
+		            <input type="text" class="form-control input-sm" name="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+					<div class="time-split-simp">~</div>
+		            <input type="text" class="form-control input-sm" name="endTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" style="margin-right:10px"/> 
+					<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+				</div>				
+			</div>
+			<div class="box-body">
+				<table class="table table-bordered table-hover">
+					<thead>
+						<tr>
+						    <th class="iCheckbox" width="15"></th>
+						    <th>使用人工号</th>
+							<th>使用人姓名</th>
+							<th>菜单名称</th>
+							<th>使用时间</th>					
+						</tr>					
+					</thead>
+					<tbody name="content"></tbody>					
+				</table>			
+			</div>
+			<div class="box-footer no-border">
+	        	<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+	    	</div> 
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="box box-solid">
+			<div class="box-header"><h3 class="box-title">热门菜单TOP10</h3></div>
+			<div id="JS_functionRecordMenu" class="box-body top-list-comsty">
+			</div>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="box box-solid">
+			<div class="box-header"><h3 class="box-title">活跃用户TOP10</h3></div>
+			<div id="JS_functionRecordUser" class="box-body top-list-comsty">
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="box">
+			<div id="JS_menuLogEchart" style="height: 500px"></div>
+		</div>
+	</div>
+</div>
+
+<!-- 表格数据  -->
+<script id="TPL_getRecordLogList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{recordId}}" name="recordId"></td>
+    <td>{{userCode}}</td>
+    <td>{{userName}}</td>
+	<td>{{menuName}}</td>
+	<td>{{recordTime}}</td>
+</tr>
+{{/each}}
+</script>
+<!-- TOP数据  -->
+<script id="TPL_getRecordTopList" type="text/x-handlebars-template">
+<ul>
+{{#each this}}
+	<li><i class={{ iconContrll @index}}>{{nextGroupTitle @index}}</i><a>{{dataName}}</a><span class="menu-data-num">{{dataNum}}</span></li>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/functionRecord/functionRecord", function(init) {
+	init.init();
+});
+</script>

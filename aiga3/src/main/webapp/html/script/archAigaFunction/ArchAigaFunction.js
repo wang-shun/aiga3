@@ -58,20 +58,40 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('getArchAigaList'),_cmd,function(json, status){
 				if(status) {
 					window.XMS.msgbox.hide();
-					var _baseChange = Page.findId('baseDataChange');					
-					var template = Handlebars.compile(Page.findTpl('baseDataChangeTemp'));
-					_baseChange.html(template(json.data.sysMonthApplyReport));					
+					var _monthReportNowData = Page.findId('monthReportNowData');
+					var templateA = Handlebars.compile(Page.findTpl('baseDataChangeTempA'));
+					_monthReportNowData.html(templateA(json.data.sysMonthApplyReport));
+					var _form = Page.findId('queryDataForm');
+					var _applyTime = _form.find("[name='applyTime']").val();
+					_monthReportNowData.find("[name='timeShow']").text(_applyTime);
 					//判空校验
-					var _span = _baseChange.find("[name='span']").length;
-					if(_span == 0){
-						_baseChange.css ('display','none');
+					var _spanA = _monthReportNowData.find("[name='span']").length;
+					if(_spanA == 0){
+						_monthReportNowData.css ('display','none');
 					}else{
-						_baseChange.css ('display','block');
-					}					
+						_monthReportNowData.css ('display','block');
+					}
+					
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					
 			});	
+			
+			//调用服务
+			Rose.ajax.postJson(srvMap.get('getArchAigaList'),_cmd,function(json, status){
+				if(status) {
+					window.XMS.msgbox.hide();
+					var _monthReportAllData = Page.findId('monthReportAllData');
+					var templateB = Handlebars.compile(Page.findTpl('baseDataChangeTempB'));
+					_monthReportAllData.html(templateB(json.data.sysMonthApplyReport));
+					var _form = Page.findId('queryDataForm');
+					var _applyTime = _form.find("[name='applyTime']").val();
+					_monthReportAllData.find("[name='timeShow']").text(_applyTime);
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}					
+			});	
+			
 			//调用服务
 			Rose.ajax.postJson(srvMap.get('getThirdList'),_cmd,function(json, status){
 				if(status) {
@@ -105,13 +125,18 @@ define(function(require, exports, module) {
 				cmd = cmd.replace(/-/g,"");
 				//查询时间校验
 				var _applyTime = _form.find("[name='applyTime']").val();
-				var _baseChange = Page.findId('baseDataChange');
-				var divList = _baseChange.find("[name='divList']");
+				var _monthReportNowData = Page.findId('monthReportNowData');
+				var _monthReportAllData = Page.findId('monthReportAllData');
+				
+				var divListA = _monthReportNowData.find("[name='divListA']");
+				var divListB = _monthReportAllData.find("[name='divListB']");
+
 				var _table = Page.findId('dataMaintainListTable');	
 				var trList = _table.find("[name='trList']");
 				if(_applyTime == 0){
 					XMS.msgbox.show('请选择查询月份！', 'error', 2000);
-					divList.remove();
+					divListA.remove();
+					divListB.remove();
 					trList.remove();
 					return
 				}
@@ -124,7 +149,8 @@ define(function(require, exports, module) {
 				var dateTime = year + '-' + month;
 				if(_applyTime > dateTime){
 					XMS.msgbox.show('查询月份大于当前时间！', 'error', 2000);
-					divList.remove();
+					divListA.remove();
+					divListB.remove();
 					trList.remove();
 					return
 				}

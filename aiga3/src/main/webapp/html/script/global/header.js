@@ -105,7 +105,6 @@ define(function(require, exports, module) {
             });
         }
     };
-    Query.init();
     // 暴露渲染对象
     module.exports = Query;
 });

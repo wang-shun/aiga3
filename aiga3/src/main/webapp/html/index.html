@@ -124,7 +124,9 @@
         });
     });
 
-    seajs.use("script/index");
+    seajs.use("script/index",function(init) {
+    	init.init();
+    });
     </script>
 </body>
 

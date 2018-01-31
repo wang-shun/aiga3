@@ -173,6 +173,9 @@ public class ArchitectureGradingSv extends BaseService {
 		if(StringUtils.isNoneBlank(input.getApplyUser())){
 		    cons.add(new Condition("applyUser", input.getApplyUser(), Condition.Type.EQ));
 		}
+		if(StringUtils.isNoneBlank(input.getCloudOrderId())){
+			cons.add(new Condition("cloudOrderId", input.getCloudOrderId(), Condition.Type.EQ));
+		}
 		return architectureGradingDao.search(cons);		
 	}
 	

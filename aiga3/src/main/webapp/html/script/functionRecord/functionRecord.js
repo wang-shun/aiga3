@@ -54,6 +54,10 @@ define(function(require,exports, moudle) {
 			Rose.ajax.postJson(srvMap.get("getMenuTopData"),"type=menuName",function(json, state){
 				Page.findId("functionRecordMenu").html(template(json.data));
 			});
+			//周热门菜单查询
+			Rose.ajax.postJson(srvMap.get("getMenuTopData"),"type=menuNameWeek",function(json, state){
+				Page.findId("functionRecordMenuWeek").html(template(json.data));
+			});
 		},
 		//展示Echart图
 		_load_index_echart: function() {

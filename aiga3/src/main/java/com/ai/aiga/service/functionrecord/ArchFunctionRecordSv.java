@@ -75,7 +75,9 @@ public class ArchFunctionRecordSv extends BaseService {
 			sql = "select * from (SELECT t.menu_name as data_name,count(*) as data_num FROM ARCH_FUNCTION_RECORD t group by t.menu_name order by count(*) DESC) where rownum <= 10";
 		} else if ("userName".equals(type)) {
 			sql = "select * from (SELECT t.user_name as data_name,count(*) as data_num FROM ARCH_FUNCTION_RECORD t group by t.user_name order by count(*) DESC) where rownum <= 10";
-		} else {
+		} else if ("menuNameWeek".equals(type)){
+			sql = "select * from (SELECT t.user_name as data_name,count(*) as data_num FROM ARCH_FUNCTION_RECORD t where sysdate-7 <= t.record_time group by t.user_name order by count(*) DESC) where rownum <= 10";
+		}else{
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "type");
 		}
 		return archFunctionRecordDao.searchByNativeSQL(sql,TopDataOutPut.class);

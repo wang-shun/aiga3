@@ -9,7 +9,6 @@
 	#Page_archAigaFunction .events-semi-grid h4 {font-size: 1.35em;font-weight: 600;color: #F17074;margin: 0em 0em 0.4em 0em;}
 	#Page_archAigaFunction .events-semi-grid p {font-size: 1em;color: #717171;line-height:1.6em;}
 	#Page_archAigaFunction .events-semi-grid h5 {font-size: 1.1em;font-weight: 400;color: #fff;padding: 0.5em 1em 0.5em 1em;background: #90D966;width: 26%;text-align: center;border-radius: 15px 0px 15px 0px;}
-	#Page_archAigaFunction .with-border{text-align:center;}
 </style>
 <div class="row" id="Page_archAigaFunction">
     <div class="col-md-12">
@@ -38,7 +37,7 @@
         </div>
     </div>
 	<div class="col-md-12">
-        <div class="col-md-6">
+        <div class="col-md-6" style="padding-left:0px;">
 	        <div class="box">
 	            <div class="box-header with-border">
 	                <h3 class="box-title">当月数据</h3>
@@ -48,7 +47,7 @@
 	            </div> 
 	        </div> 
 	    </div> 
-		<div class="col-md-6">
+		<div class="col-md-6" style="padding-right:0px;">
 			<div class="box">
 				<div class="box-header with-border">
 					<h3 class="box-title">累计数据</h3>
@@ -62,7 +61,7 @@
 	<div class="col-md-12"> 
         <div class="box" id="JS_archAigaFunctionList" style="min-height:100px;">
             <div class="box-header ">
-                <h3 class="box-title">本月新增三级域列表</h3>
+                <h3 class="box-title">本月新增三级系统列表</h3>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-hover table-pb" id="JS_dataMaintainListTable">
@@ -92,9 +91,11 @@
 		<div class=" events-semi-grid">
 			<h5 name="timeShow"></h5>
 			<h4>本月收到IT系统架构基线:</h4>
-			<p>{{#if applycount}}<span name="span">申请{{applycount}}起，</span>{{/if}}{{#if tongguo}}<span name="span">审批通过{{tongguo}}起，</span>{{/if}}{{#if bohui}}<span name="span">驳回{{bohui}}起，</span>{{/if}}
-			   {{#if xinzeng}}<span name="span">新增{{xinzeng}}个三级域系统中包含：</span>{{/if}}{{#if yewu}}业务支撑域{{yewu}}个、{{/if}}  {{#if guanxin}}管信域{{guanxin}}个、{{/if}}  {{#if bomc}}BOMC域{{bomc}}个、{{/if}}  
-	           {{#if anquan}}安全域{{anquan}}个、{{/if}} {{#if shuju}}大数据域{{shuju}}个、{{/if}} {{#if gonggong}}公共域{{gonggong}}个、{{/if}}{{#if wangluo}}网络域{{wangluo}}个、{{/if}}  {{#if dishi}}地市域{{dishi}}个、{{/if}}  {{#if kaifang}} 开放域{{kaifang}}个。{{/if}}
+			<p>
+			   {{#if applycount}}<span name="span">申请{{applycount}}起，</span>{{/if}}{{#if tongguo}}<span name="span">审批通过{{tongguo}}起，</span>{{/if}}{{#if bohui}}<span name="span">驳回{{bohui}}起，</span>{{/if}}
+			   {{#if xinzeng}}<span name="span">新增{{xinzeng}}个三级域系统中包含：</span>{{/if}}  {{#if yewu}}业务支撑域{{yewu}}个<span name="punctuation">、</span>{{/if}}  {{#if guanxin}}管信域{{guanxin}}个<span name="punctuation">、</span>{{/if}} 
+			   {{#if bomc}}BOMC域{{bomc}}个<span name="punctuation">、</span>{{/if}} {{#if anquan}}安全域{{anquan}}个<span name="punctuation">、</span>{{/if}} {{#if shuju}}大数据域{{shuju}}个<span name="punctuation">、</span>{{/if}} 
+			   {{#if gonggong}}公共域{{gonggong}}个<span name="punctuation">、</span>{{/if}}{{#if wangluo}}网络域{{wangluo}}个<span name="punctuation">、</span>{{/if}}  {{#if dishi}}地市域{{dishi}}个<span name="punctuation">、</span>{{/if}}  {{#if kaifang}} 开放域{{kaifang}}个<span name="punctuation">、</span>{{/if}}
 			</p>
 		</div>
 </div>

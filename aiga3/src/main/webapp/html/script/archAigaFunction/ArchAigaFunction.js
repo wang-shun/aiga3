@@ -61,9 +61,15 @@ define(function(require, exports, module) {
 					var _monthReportNowData = Page.findId('monthReportNowData');
 					var templateA = Handlebars.compile(Page.findTpl('baseDataChangeTempA'));
 					_monthReportNowData.html(templateA(json.data.sysMonthApplyReport));
+					//打印查询月份
 					var _form = Page.findId('queryDataForm');
 					var _applyTime = _form.find("[name='applyTime']").val();
 					_monthReportNowData.find("[name='timeShow']").text(_applyTime);
+					//末尾加句号
+					var _punctuation = _monthReportNowData.find("[name='punctuation']").last();
+					if(_punctuation.text() == '、'){
+						_punctuation.text('。');
+					}
 					//判空校验
 					var _spanA = _monthReportNowData.find("[name='span']").length;
 					if(_spanA == 0){

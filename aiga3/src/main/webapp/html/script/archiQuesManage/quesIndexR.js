@@ -113,7 +113,8 @@ define(function(require, exports, module) {
 		pieIndexNameList : new Array(),
 		totalIndexNameList : new Array(),
 		top2cmd : {},
-		whetherShowTopList : false
+		whetherShowTopList : false ,
+		pie1002 : null 
 	};
 
 	var Query = {
@@ -186,6 +187,11 @@ define(function(require, exports, module) {
 					endMonth : _cmd.substring(31,41),
 					indexId : new Array()
 				}
+				var _pie1002cmd = {
+					startMonth : _cmd.substring(11,21),
+					endMonth : _cmd.substring(31,41),
+					indexId : new Array()
+				}
 				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
 				var indexIds ='';
 //				var tArray = new Array();   //先声明一维
@@ -204,6 +210,7 @@ define(function(require, exports, module) {
 				Data.totalIndexNameList = [];
 				Data.pieLastIsOne = null;
 				Data.pieSecondLastIsOne = null;
+				Data.pie1002 = null;
 				console.log(command);
 				if(command){
 					for(var i in command){
@@ -334,8 +341,10 @@ define(function(require, exports, module) {
 							}
 						//倒数第四层//1002
 						}else if(lastFatherId == 1002){
+							Data.pie1002 = true;
 							var childrencommand = lastNode.children;
 							for(var x in childrencommand){
+								_pie1002cmd.indexId[x]=new Array();    //声明二维，每一个一维数组里面的一个元素都是一个数组
 								if(childrencommand[x].children){
 									var secondchildrencmd = childrencommand[x].children;
 									for(var y in secondchildrencmd){
@@ -343,11 +352,14 @@ define(function(require, exports, module) {
 											var thirdchildrencmd = secondchildrencmd[y].children;
 											for(var z in thirdchildrencmd){
 												indexIds += thirdchildrencmd[z].indexId + ",";
+												_pie1002cmd.indexId[x][z] = thirdchildrencmd[z].indexId;
 											}
 										}
 									}
 								}
+								Data.pieIndexNameList.push(childrencommand[x].indexName);
 							}
+							Data.totalIndexNameList.push(lastNode.indexName);
 							_cmd += "&indexId=" + indexIds;
 							_cmd = _cmd.substring(0,_cmd.length-1);	
 						}else{//一级目录提示 选择二三子目录！
@@ -374,7 +386,6 @@ define(function(require, exports, module) {
 				if(Data.whetherShowTopList){
 					self.getDatabaseConnectTopList();
 				}
-//				debugger
 				var _ggcmd = _cmd;	
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
@@ -402,6 +413,9 @@ define(function(require, exports, module) {
 						}else if(Data.flag==false && Data.pieSecondLastIsOne==false){
 							taskPie = "listTotalDbConnectsPieOrderByGroupId"
 							_cmd=_groupcmd;
+						}else if(Data.pie1002=true){
+							taskPie = "listTotalDbConnectsPieOrderByGroupIdQuick"
+							_cmd=_pie1002cmd;
 						}
 					}else if(cache.tableName=="ARCH_SRV_MANAGE"){
 						if(Data.flag==true){
@@ -765,7 +779,7 @@ define(function(require, exports, module) {
 			var option = {
 			    title : {
 			        text: '数据库连接接入情况分布图',
-			        subtext: '所查询时间段内总数及占比',
+//			        subtext: '所查询时间段内总数及占比',
 			        x:'center'
 			    },
 			    tooltip : {

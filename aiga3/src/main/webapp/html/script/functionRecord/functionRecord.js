@@ -7,8 +7,7 @@ define(function(require,exports, moudle) {
 	//接口---start
 	srvMap.add("getMenuLogData", '', "webservice/menuRecord/findByCondition");
 	srvMap.add("getMenuTopData", '', "webservice/menuRecord/topData");
-	//获取报表时间类型
-    srvMap.add("operationIndexChart", '', "archi/operation/indexChart");
+	srvMap.add("getMenuWeekLog", '', "webservice/menuRecord/weekLog");
 	//接口---end
 	var outexport = {
 		init: function() {
@@ -65,7 +64,7 @@ define(function(require,exports, moudle) {
 			var myChart = echarts.init(Page.findId('menuLogEchart')[0]);
 			option = {
 			    title : {
-			        text: '近一周菜单使用情况',
+			        text: '',
 			        subtext: ''
 			    },
 			    tooltip : {
@@ -91,7 +90,6 @@ define(function(require,exports, moudle) {
 			    calculable : true,
 			    xAxis : [
 			        {
-			            type : 'category',
 			            data : ['2018-01-01','2018-01-02','2018-01-03','2018-01-04']
 			        }
 			    ],
@@ -143,7 +141,7 @@ define(function(require,exports, moudle) {
 			        }
 			    ]
 			};
-			Rose.ajax.postJson(srvMap.get('operationIndexChart'),param,function(json, status){
+			Rose.ajax.postJson(srvMap.get('getMenuWeekLog'),param,function(json, status){
 				if(status) {
 					if(json && json.data) {
 						option.legend.data = json.data.legend;

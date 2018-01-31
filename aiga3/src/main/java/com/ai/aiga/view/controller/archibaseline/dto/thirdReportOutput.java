@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class thirdReportOutput {
 	private String name;
-	private long idBelong;
+	private long idThird;
 }

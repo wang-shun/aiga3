@@ -4,10 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import io.swagger.annotations.Api;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,14 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.domain.ArchitectureFirst;
-import com.ai.aiga.domain.ArchitectureGrading;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiChangeMessage;
-import com.ai.aiga.view.controller.archibaseline.dto.ArchiGradingConditionParam;
-import com.ai.aiga.view.controller.archibaseline.dto.ViewSeries;
+import com.ai.aiga.view.controller.common.dto.operationTimeInput;
 import com.ai.aiga.view.controller.indexOperation.dto.EchartInfoOutput;
 import com.ai.aiga.view.controller.indexOperation.dto.EchartViewSeries;
-import com.ai.aiga.view.controller.indexOperation.dto.operationTimeInput;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller

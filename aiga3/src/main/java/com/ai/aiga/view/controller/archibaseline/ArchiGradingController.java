@@ -1152,24 +1152,26 @@ public class ArchiGradingController {
 					}
 				}	
 			} else {
-				//非空校验
-				if(architectureGrading.getSysId()==0L) {
-					bean.fail("编号为空！");
-					return bean;
-				}
-				if(StringUtils.isBlank(architectureGrading.getName())) {
-					bean.fail("名称为空！");
-					return bean;
-				}
-				//申请单唯一性校验
-				ArchitectureGrading condition = new ArchitectureGrading();
-				condition.setSysId(architectureGrading.getSysId());
-				condition.setState("申请");
-
-				if(architectureGradingSv.findTableCondition(condition).size()>0) {
-					bean.fail("该编号存在在途申请单");
-					return bean;
-				}
+				bean.fail("暂时不支持删除");
+				return bean;
+//				//非空校验
+//				if(architectureGrading.getSysId()==0L) {
+//					bean.fail("编号为空！");
+//					return bean;
+//				}
+//				if(StringUtils.isBlank(architectureGrading.getName())) {
+//					bean.fail("名称为空！");
+//					return bean;
+//				}
+//				//申请单唯一性校验
+//				ArchitectureGrading condition = new ArchitectureGrading();
+//				condition.setSysId(architectureGrading.getSysId());
+//				condition.setState("申请");
+//
+//				if(architectureGradingSv.findTableCondition(condition).size()>0) {
+//					bean.fail("该编号存在在途申请单");
+//					return bean;
+//				}
 			}
 			architectureGrading.setModifyDate(nowDate);
 			architectureGrading.setApplyId(0L);

@@ -1,4 +1,4 @@
-package com.ai.aiga.view.controller.indexOperation.dto;
+package com.ai.aiga.view.controller.common.dto;
 
 import lombok.Data;
 

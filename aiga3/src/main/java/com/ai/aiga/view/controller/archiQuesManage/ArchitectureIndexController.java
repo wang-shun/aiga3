@@ -964,9 +964,14 @@ public class ArchitectureIndexController extends BaseService {
 			String name = base.getName();
 			int[] valueList = base.getData();
 			long value = 0;
+			long count = 0;
 			for(int j=0;j<valueList.length;j++){
+				if(valueList[j] != 0){
+					count++;
+				}
 				value += valueList[j];
 			}
+			value = value/count;
 			SeriesData seriesData = new SeriesData();
 			seriesData.setName(name);
 			seriesData.setValue(value);
@@ -1031,14 +1036,19 @@ public class ArchitectureIndexController extends BaseService {
 			ViewSeries base;
 			String name = "";
 			long value = 0;
+			long count = 0;
 			for(int i=0;i<seriesList.size();i++){
 				base = seriesList.get(i);
 				name = base.getName()+"TOTAL";
 				int[] valueList = base.getData();
 				for(int j=0;j<valueList.length;j++){
+					if(valueList[j] != 0){
+						count++;
+					}
 					value += valueList[j];
 				}
 			}
+			value = value/count;
 			SeriesData seriesData = new SeriesData();
 			seriesData.setName(name);
 			seriesData.setValue(value);
@@ -1114,13 +1124,18 @@ public class ArchitectureIndexController extends BaseService {
 			List<ArchDbConnect> listConnects = listConnectList.get(o);
 			String name = "SYSTEM-" + (o+1);
 			long value = 0;
+			long count = 0;
 			for(int i=0;i<listConnects.size();i++){
 				ArchDbConnect base = listConnects.get(i);
 				if(base.getResultValue()==null){
 					continue;
 				}
+				if(Long.parseLong(base.getResultValue()) != 0){
+					count++;
+				}
 				value += Long.parseLong(base.getResultValue());
 			}
+			value = value/count;
 			SeriesData seriesData = new SeriesData();
 			seriesData.setName(name);
 			seriesData.setValue(value);

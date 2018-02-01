@@ -16,6 +16,24 @@ public class StaticTnterfaceController {
 	@Autowired
 	private ArchitectureStaticDataSv architectureStaticDataSv;
 	
+	//根据Type查询连接池配置业务系统
+	@RequestMapping(path = "/webservice/static/businessSystem")
+	public @ResponseBody JsonBean businessSystem(){
+		JsonBean bean = new JsonBean();
+		String codeType = "POOLCONFIGURATION_PRO_BUSINESS";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
+	//根据Type查询连接池配置查询状态
+	@RequestMapping(path = "/webservice/static/queryState")
+	public @ResponseBody JsonBean queryState(){
+		JsonBean bean = new JsonBean();
+		String codeType = "POOLCONFIGURATION_PRO_QUERYSTATE";
+		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		return bean;
+	} 
+	
 	//根据Type查询静态数据分类
 	@RequestMapping(path = "/webservice/static/workplanState")
 	public @ResponseBody JsonBean workplanState(){

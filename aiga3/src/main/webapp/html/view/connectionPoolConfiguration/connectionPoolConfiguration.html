@@ -1,0 +1,129 @@
+  <style type="text/css">
+	#Page_connectionPool .width-input-167 {width: 167px;}
+	#Page_connectionPool .width-input-400 {width: 400px;}
+	#Page_connectionPool .width-input-158 {width: 155px;}
+	#Page_connectionPool .btn-center {text-align: center;}
+	#Page_connectionPool .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_connectionPool .total-width {width: 850px;}
+	#Page_connectionPool .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_connectionPool .query-data-label {width: 80px;}
+	#Page_connectionPool .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_connectionPool .col2-sec-label {margin-left: 250px;}
+	#Page_connectionPool .col3-after-label {margin-left: 17px;}
+	#Page_connectionPool .line-sen-top {margin-top: 15px;}
+	#Page_connectionPool .text-area-sty {width: 680px;vertical-align:middle; }
+  </style>
+<div class="row" id="Page_connectionPool">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">连接池配置按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>
+		            
+		            <div class="row">
+		            	<div class="form-group col-sm-6">
+		            		<label class="col-sm-2  control-label">采集日期:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="collecttime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
+                		<div class="form-group col-sm-6">
+		                    <label  class="col-sm-2  control-label">业务系统：</label>
+		                    <div class="col-sm-4">
+			                    <select name="business" class="form-control select2 input-sm" data-url="businessSystem" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		                 
+		            </div>
+		            <div class ="row">
+		            	<div class="form-group col-sm-6">
+		                    <label  class="col-sm-2  control-label">数据库节点名：</label>
+		                    <div class="col-sm-4">
+		                    	<input name="nodename" type="text" class="form-control">
+			                </div>
+		                </div>
+		                <div class="form-group col-sm-6">
+		                    <label  class="col-sm-2  control-label">查询状态：</label>
+		                    <div class="col-sm-4">
+			                    <select name="state" class="form-control select2 input-sm" data-url="queryState" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		            </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary"  name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_connectionPoolList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">连接池配置列表</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+		                <th class="iCheckbox" width="15"></th>
+	                    <th >业务系统</th>
+	                    <th >系统模块</th>
+	                    <th >目标数据库节点</th>
+						<th >initial_size</th>	
+						<th >max_active</th>					
+						<th >max_idle</th>
+						<th >min_idle</th>						
+						<th >max_wait</th>
+						<th >采集时间</th>
+						<th >是否变化</th>
+						<th >是否已报备</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+            <div class="box-footer no-border">
+            	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 表格数据 -->
+<script id="TPL_connectionPoolTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+	<td >{{center}}</td>
+    <td >{{module}}</td>
+	<td >{{db}}</td>
+    <td >{{initialSize}}</td>
+    <td >{{maxActive}}</td>
+    <td >{{maxIdle}}</td>
+	<td >{{minIdle}}</td>
+	<td >{{maxWait}}</td>
+	<td >{{insertTime}}</td>
+	<td >{{change}}</td>
+	<td >{{report}}</td>
+</tr>
+{{/each}}
+</script>
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/connectionPoolConfiguration/connectionPoolConfiguration", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

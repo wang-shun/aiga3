@@ -352,7 +352,7 @@ define(function(require, exports, module) {
 											var thirdchildrencmd = secondchildrencmd[y].children;
 											for(var z in thirdchildrencmd){
 												indexIds += thirdchildrencmd[z].indexId + ",";
-												_pie1002cmd.indexId[x][z] = thirdchildrencmd[z].indexId;
+												_pie1002cmd.indexId[x].push(thirdchildrencmd[z].indexId);
 											}
 										}
 									}

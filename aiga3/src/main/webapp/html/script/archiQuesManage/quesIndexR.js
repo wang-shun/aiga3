@@ -561,6 +561,8 @@ define(function(require, exports, module) {
 			}
 			_topcmd.indexId = Data.top2cmd.indexId;
 			_topcmd.indexName = Data.pieIndexNameList;
+			_topcmd.startMonth = Data.top2cmd.startMonth;
+			_topcmd.endMonth = Data.top2cmd.endMonth;
 			Rose.ajax.postJson(srvMap.get(toptask), _topcmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();

@@ -33,6 +33,7 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexGroupParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexTopParams;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectTop;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;
@@ -1095,7 +1096,7 @@ public class ArchitectureIndexController extends BaseService {
 		singlecdt.setIndexId(indexid1d);
 		singlecdt.setStartMonth(condition.getStartMonth());
 		singlecdt.setEndMonth(condition.getEndMonth());
-		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(singlecdt);
 		int SYSTEM_SIZE = indexid2d.length;
 		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
 		for(int x=0;x<SYSTEM_SIZE;x++){
@@ -1130,10 +1131,10 @@ public class ArchitectureIndexController extends BaseService {
 				if(base.getResultValue()==null){
 					continue;
 				}
-				if(Long.parseLong(base.getResultValue()) != 0){
+				if(Double.valueOf(base.getResultValue()).longValue() != 0){
 					count++;
 				}
-				value += Long.parseLong(base.getResultValue());
+				value += Double.valueOf(base.getResultValue()).longValue();
 			}
 			value = value/count;
 			SeriesData seriesData = new SeriesData();
@@ -1169,7 +1170,7 @@ public class ArchitectureIndexController extends BaseService {
 		output.setxAxis(months2);
 		final int constantValue = months2.size();
 		List<String>legendList = new ArrayList<String>();
-		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(condition);
 		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
 		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
 		List<String>newList=new ArrayList<String>();
@@ -1257,9 +1258,9 @@ public class ArchitectureIndexController extends BaseService {
 								String newDay = newMonth.replace("-", "");
 								if(SetMonths.equals(newDay)){
 									if(data[i]==0){
-										data[i]=Integer.parseInt(archDbConnect.getResultValue());
+										data[i]=Double.valueOf(archDbConnect.getResultValue()).intValue();
 									}else{
-										data[i]=((data[i]*a[i])+Integer.parseInt(archDbConnect.getResultValue()))/(a[i]+1);
+										data[i]=((data[i]*a[i])+Double.valueOf(archDbConnect.getResultValue()).intValue())/(a[i]+1);
 										a[i]++;
 									}
 									iterator.remove();
@@ -1328,7 +1329,7 @@ public class ArchitectureIndexController extends BaseService {
 		thisMonthcdt.setIndexId(indexid1d);
 		thisMonthcdt.setStartMonth(condition.getStartMonth());
 		thisMonthcdt.setEndMonth(condition.getEndMonth());
-		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(thisMonthcdt);
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(thisMonthcdt);
 		int SYSTEM_SIZE = indexid2d.length;
 		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
 		for(int x=0;x<SYSTEM_SIZE;x++){
@@ -1359,10 +1360,12 @@ public class ArchitectureIndexController extends BaseService {
 			long thismonth = 0L;
 			for(int j=0;j<baseConnectList.size();j++){
 				ArchDbConnect baseConnect = baseConnectList.get(j);
-				if(baseConnect.getResultValue()==null){
+				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
 					continue;
 				}
-				thismonth += Long.parseLong(baseConnect.getResultValue());
+				long temp = Double.valueOf(baseConnect.getResultValue()).longValue();
+//				thismonth += Long.parseLong(baseConnect.getResultValue().contains(".")?baseConnect.getResultValue().split("\\.")[0]:baseConnect.getResultValue());
+				thismonth += temp;
 			}
 			thismonth /= baseConnectList.size();
 			center.setThismonth(thismonth);
@@ -1391,7 +1394,7 @@ public class ArchitectureIndexController extends BaseService {
 		preMonthcdt.setStartMonth(preMonthFirstDayString);
 		preMonthcdt.setEndMonth(preMonthLastDayString);
         List<CenterDbConnectTopList>prelist = new ArrayList<CenterDbConnectTopList>();
-		List<ArchDbConnect>preConnectList = architectureIndexSv.listDbConnects2(preMonthcdt);
+		List<ArchDbConnect>preConnectList = architectureIndexSv.listDbConnects2Youhua(preMonthcdt);
 		List<List<ArchDbConnect>>listPreConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
 		for(int x=0;x<SYSTEM_SIZE;x++){
 			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
@@ -1424,7 +1427,7 @@ public class ArchitectureIndexController extends BaseService {
 				if(baseConnect.getResultValue()==null){
 					continue;
 				}
-				lastmonth += Long.parseLong(baseConnect.getResultValue());
+				lastmonth += Double.valueOf(baseConnect.getResultValue()).longValue();
 			}
 			lastmonth /= baseConnectList.size();
 			center.setLastmonth(lastmonth);

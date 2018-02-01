@@ -2,7 +2,6 @@ package com.ai.aiga.view.controller.archiQuesManage;
 
 
 import io.swagger.annotations.Api;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,9 +12,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import lombok.Data;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.domain.ArchMonthIndex;
@@ -33,7 +28,6 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexGroupParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexTopParams;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectTop;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;

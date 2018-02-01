@@ -1171,7 +1171,22 @@ public class ArchitectureIndexController extends BaseService {
 		output.setxAxis(months2);
 		final int constantValue = months2.size();
 		List<String>legendList = new ArrayList<String>();
-		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(condition);
+		boolean flag = true;
+		if(condition.getIndexId()!=null){
+			long[] idcdt = condition.getIndexId();
+			for(int i=0;i<idcdt.length;i++){
+				if(idcdt[i]>=1030001 && idcdt[i]<=1033038){
+					flag = false;
+					break;
+				}
+			}
+		}
+		List<ArchDbConnect>connectList = new ArrayList<ArchDbConnect>();
+		if(flag==false){
+			connectList = architectureIndexSv.listDbConnects2Youhua(condition);
+		}else{
+			connectList = architectureIndexSv.listDbConnects2(condition);
+		}
 		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
 		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
 		List<String>newList=new ArrayList<String>();

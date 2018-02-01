@@ -31,9 +31,23 @@ define(function(require, exports, module) {
 			//查询
 			this._query_event();
 			this._applydomain();
-			//this._getGridList();
+			var _form = Page.findId('queryDataForm');
+			var cmd = _form.serialize();
+			this._getGridList(cmd);
 			
-		},		
+		},
+		
+		//初始化时间框
+		_time:function(){			
+			//初始化时间框
+			function showMonthFirstDay() {     
+				var date=new Date();
+			 	date.setDate(1);
+			 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
+			}
+			var _form = Page.findId('queryDataForm'); 
+			_form.find("[name='insertTime']").val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
+		},
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
@@ -46,15 +60,6 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			_cmd = _cmd.replace(/-/g,"/");
-					
-			//初始化时间框
-			function showMonthFirstDay() {     
-				var date=new Date();
-			 	date.setDate(1);
-			 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
-			}
-			var _form = Page.findId('queryDataForm'); 
-			_form.find('[name="collecttime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
 
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('poolConfigurationList'),_cmd,function(json){
@@ -75,13 +80,13 @@ define(function(require, exports, module) {
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();				
-				/*var collecttime = _form.find("[name='collecttime']").val();
+				var insertTime = _form.find("[name='insertTime']").val();
 
-				if(collecttime == 0) {
+				if(insertTime == 0) {
 					XMS.msgbox.show('采集时间为空！', 'error', 2000);
 					return
 				}
-				if(cmd.indexOf('+')>-1){
+				/*if(cmd.indexOf('+')>-1){
 					cmd = cmd.replace(/\+/g,'');
 				}*/
 				self._getGridList(cmd);

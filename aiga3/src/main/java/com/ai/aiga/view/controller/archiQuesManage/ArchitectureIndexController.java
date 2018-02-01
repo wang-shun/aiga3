@@ -966,7 +966,9 @@ public class ArchitectureIndexController extends BaseService {
 				}
 				value += valueList[j];
 			}
-			value = value/count;
+			if(count != 0){
+				value = value/count;
+			}
 			SeriesData seriesData = new SeriesData();
 			seriesData.setName(name);
 			seriesData.setValue(value);
@@ -1043,7 +1045,9 @@ public class ArchitectureIndexController extends BaseService {
 					value += valueList[j];
 				}
 			}
-			value = value/count;
+			if(count != 0){
+				value = value/count;
+			}
 			SeriesData seriesData = new SeriesData();
 			seriesData.setName(name);
 			seriesData.setValue(value);
@@ -1130,7 +1134,10 @@ public class ArchitectureIndexController extends BaseService {
 				}
 				value += Double.valueOf(base.getResultValue()).longValue();
 			}
-			value = value/count;
+			if(count != 0){
+				value = value/count;
+				value *= indexid2d[o].length;
+			}
 			SeriesData seriesData = new SeriesData();
 			seriesData.setName(name);
 			seriesData.setValue(value);

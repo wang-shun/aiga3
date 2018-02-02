@@ -1017,7 +1017,7 @@ public class ArchitectureIndexController extends BaseService {
 						flag=false;
 					}
 				}
-				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(singlecdt);
 				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,flag);
 				totalList.add(myoutput);
 			}
@@ -1048,6 +1048,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(count != 0){
 				value = value/count;
 			}
+			value *= seriesList.size();
 			SeriesData seriesData = new SeriesData();
 			seriesData.setName(name);
 			seriesData.setValue(value);
@@ -1648,7 +1649,7 @@ public class ArchitectureIndexController extends BaseService {
 				singleIndexIds = groupIndexIds[i];
 				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
 				singlecdt.setIndexId(singleIndexIds);
-				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(singlecdt);
+				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(singlecdt);
 				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,false);
 				totalList.add(myoutput);
 			}
@@ -1824,9 +1825,9 @@ public class ArchitectureIndexController extends BaseService {
 								String newDay = newMonth.replace("-", "");
 								if(SetMonths.equals(newDay)){
 									if(data[i]==0){
-										data[i]=Integer.parseInt(archDbConnect.getResultValue());
+										data[i]=Double.valueOf(archDbConnect.getResultValue()).intValue();
 									}else{
-										data[i]=((data[i]*a[i])+Integer.parseInt(archDbConnect.getResultValue()))/(a[i]+1);
+										data[i]=((data[i]*a[i])+Double.valueOf(archDbConnect.getResultValue()).intValue())/(a[i]+1);
 										a[i]++;
 									}
 									iterator.remove();

@@ -114,7 +114,7 @@ public class ArchitectureGradingSv extends BaseService {
 	
 	public String[][] thirdAddReport(ArchAigaFunctionTime condition){
 
-		String[][] output = new String[9][100];
+		String[][] output = new String[9][200];
 		for(int i=0;i<output.length;i++){
 			for(int j=0;j<output[i].length;j++){
 				output[i][j]="";

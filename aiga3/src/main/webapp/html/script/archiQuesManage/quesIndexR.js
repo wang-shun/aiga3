@@ -645,12 +645,15 @@ define(function(require, exports, module) {
 			        trigger: 'axis'
 			    },
 			    legend: {
+			    	y:'bottom',
                     type: 'scroll',
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
+/*                    type: 'scroll',
                     orient: 'vertical',
                     right: 10,
                     top: 40,
                     bottom: 20,
-			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']*/
 			    },
 			    toolbox: {
 			        show : true,
@@ -671,7 +674,27 @@ define(function(require, exports, module) {
 	                    },
 				        dataView: { //数据视图
 	                        show: true
-	                    }
+	                    },
+	                    myButtons:{//自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+		                   show:true,//是否显示    
+		                   title:'切换图例位置', //鼠标移动上去显示的文字    
+		                   icon:'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891', //图标    
+		                   option:{},
+		                   onclick:function(param) {//点击事件,这里的param是chart的信息 底下有option   	
+	                   			if(option.legend.orient) {
+		                   			delete option.legend.orient;
+		                   			delete option.legend.right;
+		                   			delete option.legend.top;
+		                   			option.legend.y='bottom';
+		                   		} else {
+		                   			option.legend.orient = 'vertical';
+		                   			option.legend.right = 20;
+		                   			option.legend.top = 40;
+		                   		}
+		                   		myChart.clear();
+		                   		myChart.setOption(option);
+		                   }    
+		                }
 			        }
 			    },
 				calculable : true,

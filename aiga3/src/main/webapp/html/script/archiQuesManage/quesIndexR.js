@@ -211,6 +211,7 @@ define(function(require, exports, module) {
 				Data.pieLastIsOne = null;
 				Data.pieSecondLastIsOne = null;
 				Data.pie1002 = null;
+				Data.isOne = null;
 				console.log(command);
 				if(command){
 					for(var i in command){
@@ -341,6 +342,7 @@ define(function(require, exports, module) {
 							}
 						//倒数第四层//1002
 						}else if(lastFatherId == 1002){
+							Data.isOne = true;
 							Data.pie1002 = true;
 							var childrencommand = lastNode.children;
 							for(var x in childrencommand){
@@ -824,7 +826,7 @@ define(function(require, exports, module) {
 			            name: '姓名',
 			            type: 'pie',
 			            radius : '55%',
-			            center: ['50%', '50%'],
+			            center: ['45%', '55%'],
 			            data: data.seriesData,
 			            itemStyle: {
 			                emphasis: {

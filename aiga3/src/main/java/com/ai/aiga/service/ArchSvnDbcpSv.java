@@ -12,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchSvnDbcpDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.ArchSvnDbcp;
+import com.ai.aiga.domain.IndexConnect;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 @Service
 @Transactional
@@ -35,27 +38,38 @@ public class ArchSvnDbcpSv extends BaseService {
 	//query
     public Page<ArchSvnDbcp>queryByPage(ArchSvnDbcpSelects condition, int pageNumber,
 			int pageSize){
-    	List<Condition>cons = new ArrayList<Condition>();
-    	if(StringUtils.isNoneBlank(condition.getCenter())){
-    		cons.add(new Condition("center", "%".concat(condition.getCenter()).concat("%"), Condition.Type.LIKE));
-    	}
-    	if(StringUtils.isNoneBlank(condition.getModule())){
-    		cons.add(new Condition("module", "%".concat(condition.getModule()).concat("%"), Condition.Type.LIKE));
-    	}
-    	if(StringUtils.isNoneBlank(condition.getDb())){
-    		cons.add(new Condition("db", "%".concat(condition.getDb()).concat("%"), Condition.Type.LIKE));
-    	}
-    	if(condition.getInsertTime()!=null){
-    		cons.add(new Condition("insertTime", condition.getInsertTime(), Condition.Type.EQ));
-    	}
-        if(pageNumber < 0){
-            pageNumber = 0;
-        }
-        if(pageSize <= 0){
-            pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-        }
-        Pageable pageable = new PageRequest(pageNumber, pageSize);
-		return archSrvDbcpDao.search(cons, pageable);
+		StringBuilder nativeSql = new StringBuilder(
+				" select * from arch_svn_dbcp ar where 1=1 "
+				);
+//					"and ar.center = :center" +
+//					"and ar.module = :module" +
+//					"and ar.db = :db " +
+//					"and to_date(ar.insert_time,'yyyymm') == to_date(:insert_time, 'yyyymm')" 
+			List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+			if (StringUtils.isNotBlank(condition.getCenter())) {
+				nativeSql.append("and ar.center = :center ");
+				params.add(new ParameterCondition("center", condition.getCenter()));
+			}
+			if (StringUtils.isNotBlank(condition.getModule())) {
+				nativeSql.append("and ar.module = :module ");
+				params.add(new ParameterCondition("module", condition.getModule()));
+			}   
+			if (StringUtils.isNotBlank(condition.getDb())) {
+				nativeSql.append("and ar.db = :db ");
+				params.add(new ParameterCondition("db", condition.getDb()));
+			}
+			if (StringUtils.isNotBlank(condition.getInsertTime())) {
+				nativeSql.append("and to_date(ar.insert_time,'yyyyMMdd') >= to_date(:insertTime, 'yyyy-MM-dd') ");
+				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
+			}
+			if (pageNumber < 0) {
+				pageNumber = 0;
+			}
+			if (pageSize <= 0) {
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+			Pageable pageable = new PageRequest(pageNumber, pageSize);
+			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class, pageable);
     }
     
 	//update

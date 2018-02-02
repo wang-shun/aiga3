@@ -172,7 +172,7 @@ define(function(require, exports, module) {
 			_form.find('input[name="endMonth"]').val(this.formatDate(now));
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {				
-                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
+//                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 //                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
 				Page.findId('totalMessageView').attr({style:"display:display"});  

@@ -10,7 +10,7 @@ define(function(require, exports, module) {
 
 
 	//显示查询信息表
-	srvMap.add("poolConfigurationList", pathAlias+"getList.json", "dbconnect/configure/query");
+	srvMap.add("poolConfigurationList", "", "webservice/configure/query");
 
 	//业务系统下拉框
 	srvMap.add("businessSystem", pathAlias+"workplanState.json", "webservice/static/businessSystem");
@@ -30,7 +30,6 @@ define(function(require, exports, module) {
 		_render: function() {
 			//查询
 			this._query_event();
-			this._applydomain();
 			var _form = Page.findId('queryDataForm');
 			var cmd = _form.serialize();
 			this._getGridList(cmd);

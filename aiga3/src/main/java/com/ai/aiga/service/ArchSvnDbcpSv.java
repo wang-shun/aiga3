@@ -3,6 +3,7 @@ package com.ai.aiga.service;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,8 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 @Service
 @Transactional
 public class ArchSvnDbcpSv extends BaseService {
-			
+	
+	@Autowired		
 	private ArchSvnDbcpDao archSrvDbcpDao;
 	//find all
 	public List<ArchSvnDbcp> findAll(){
@@ -39,7 +41,7 @@ public class ArchSvnDbcpSv extends BaseService {
     public Page<ArchSvnDbcp>queryByPage(ArchSvnDbcpSelects condition, int pageNumber,
 			int pageSize){
 		StringBuilder nativeSql = new StringBuilder(
-				" select * from arch_svn_dbcp ar where 1=1 "
+				" select ar.center, ar.module, ar.db, ar.initial_size, ar.max_active, ar.max_idle, ar.min_idle, ar.max_wait, ar.insert_time from arch_svn_dbcp ar where 1=1 "
 				);
 //					"and ar.center = :center" +
 //					"and ar.module = :module" +
@@ -57,9 +59,9 @@ public class ArchSvnDbcpSv extends BaseService {
 			if (StringUtils.isNotBlank(condition.getDb())) {
 				nativeSql.append("and ar.db = :db ");
 				params.add(new ParameterCondition("db", condition.getDb()));
-			}
+			}//  substr(to_char(ar.insert_time,'yyyy/mm/dd'),0,10) = '2018/01/11'
 			if (StringUtils.isNotBlank(condition.getInsertTime())) {
-				nativeSql.append("and to_date(ar.insert_time,'yyyyMMdd') >= to_date(:insertTime, 'yyyy-MM-dd') ");
+				nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy/mm/dd'),0,10) = :insertTime ");
 				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
 			}
 			if (pageNumber < 0) {

@@ -23,14 +23,14 @@ public class ArchSvnDbcpController {
 	@Autowired
 	private ArchSvnDbcpSv archSvnDbcpSv;
 	
-	@RequestMapping(path = "/dbconnect/configure/findAll")
+	@RequestMapping(path = "/webservice/configure/findAll")
 	public @ResponseBody JsonBean findAll(){
 		JsonBean bean = new JsonBean();
 		bean.setData(archSvnDbcpSv.findAll());
 		return bean;
 	}
 	
-	@RequestMapping(path="/dbconnect/configure/query")
+	@RequestMapping(path="/webservice/configure/query")
 	public @ResponseBody JsonBean queryByPage(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,

@@ -39,5 +39,17 @@ public class ArchSvnDbcpController {
 				bean.setData(archSvnDbcpSv.queryByPage(condition, pageNumber, pageSize));
 			return bean;
 	}	
+	@RequestMapping(path = "/webservice/configure/distinctCenter")
+	public @ResponseBody JsonBean distinct(){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSvnDbcpSv.distinctCenter());
+		return bean;
+	}
 	
+	@RequestMapping(path = "/webservice/configure/distinctDb")
+	public @ResponseBody JsonBean selectName(ArchSvnDbcpSelects condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSvnDbcpSv.selectDb(condition));
+		return bean;
+	}
 }

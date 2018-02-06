@@ -12,6 +12,9 @@
 	#Page_connectionPool .col3-after-label {margin-left: 17px;}
 	#Page_connectionPool .line-sen-top {margin-top: 15px;}
 	#Page_connectionPool .text-area-sty {width: 680px;vertical-align:middle; }
+	#Page_connectionPool .btn-table-change {margin-right: 20px;}
+	#Page_connectionPool .btn-table-report {margin-right: 20px;}
+	
   </style>
 <div class="row" id="Page_connectionPool">
     <div class="col-md-12">
@@ -35,7 +38,7 @@
                 		<div class="form-group col-sm-6">
 		                    <label  class="col-sm-2  control-label">业务系统：</label>
 		                    <div class="col-sm-4">
-			                    <select name="center" class="form-control select2 input-sm" data-url="businessSystem" data-idkey="codeValue" data-namekey="codeName">
+		                    	<select name="center" class="form-control select2 input-sm" data-url="distinctCenter" data-subname="db" data-idkey="center" data-namekey="center">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
@@ -46,14 +49,18 @@
 		            	<div class="form-group col-sm-6">
 		                    <label  class="col-sm-2  control-label">数据库节点名：</label>
 		                    <div class="col-sm-4">
-		                    	<input name="db" type="text" class="form-control">
+                   				<select name="db" class="form-control select2 input-sm" data-suburl="distinctDb" data-idkey="db" data-namekey="db">
+			                        <option value="">请选择</option>
+			                    </select>
 			                </div>
 		                </div>
 		                <div class="form-group col-sm-6">
 		                    <label  class="col-sm-2  control-label">查询状态：</label>
 		                    <div class="col-sm-4">
-			                    <select name="module" class="form-control select2 input-sm" data-url="queryState" data-idkey="codeValue" data-namekey="codeName">
+			                    <select name="change" class="form-control select2 input-sm" data-url="queryState" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
+			                        <option value="是">是</option>
+			                        <option value="否">否</option>
 			                    </select>
 			                </div>
 		                </div>
@@ -97,6 +104,68 @@
             </div>
         </div>
     </div>
+    <!-- 弹出页面（是否变化） -->
+	<div class="modal fade" id="JS_showDetailModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">最近七天数据库连接池配置采集情况展示</h4>
+	            </div>
+	            <div id="JS_changeModal" class="modal-body" style="padding-bottom: 0">
+					<div class="box" id="JS_recentSevenDay">
+						<div class="box-header" >
+							<h3 class="box-title">数据库连接池配置采集表</h3>
+						</div>
+						<div class="box-body" >
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="iCheckbox" width="15"></th>
+					                    <th >业务系统</th>
+					                    <th >系统模块</th>
+					                    <th >目标数据库节点</th>
+										<th >initial_size</th>	
+										<th >max_active</th>					
+										<th >max_idle</th>
+										<th >min_idle</th>						
+										<th >max_wait</th>
+										<th >采集时间</th>
+										<th >是否已报备</th>
+									</tr>
+								</thead>
+								<tbody name="content"></tbody>
+							</table>
+						</div>
+						<div class="box-footer no-border">
+							<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+						</div> 
+					</div>
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
+    <!-- 弹出页面 （是否报备）-->
+	<div class="modal fade" id="JS_showReportModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">数据库连接池配置采集报备信息展示</h4>
+	            </div>
+	            <div id="JS_reportModal" class="modal-body" style="padding-bottom: 0">
+		            <form id="reportModalForm" class="form">
+	                </form>
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </div>
 
 <!-- 表格数据 -->
@@ -113,13 +182,47 @@
 	<td >{{minIdle}}</td>
 	<td >{{maxWait}}</td>
 	<td >{{insertTime}}</td>
-	<td >否</td>
-	<td >否</td>
+	<td ><button type="button" class="btn btn-primary btn-table-change" name="change">否</button></td>
+	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
 </tr>
 {{/each}}
 </script>
 <!-- 	<td >{{change}}</td>
 	<td >{{report}}</td> -->
+<!-- 内层表格数据 -->
+<script id="TPL_connectionPoolTempIn" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+	<td >{{center}}</td>
+    <td >{{module}}</td>
+	<td >{{db}}</td>
+    <td >{{initialSize}}</td>
+    <td >{{maxActive}}</td>
+    <td >{{maxIdle}}</td>
+	<td >{{minIdle}}</td>
+	<td >{{maxWait}}</td>
+	<td >{{insertTime}}</td>
+	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
+</tr>
+{{/each}}
+</script>
+<!-- 报备信息模板 -->
+<script id="TPL_reportTemp" type="text/x-handlebars-template">
+    <div class="box-body">
+		<div class="row">
+			<div class="form-group">
+				<label for="abstracts" class="col-sm-1 control-label">报备信息:</label>
+				<div class="col-sm-9">
+					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入报备信息">{{abstracts}}</textarea>
+				</div>
+			</div>
+		</div>
+    </div>
+</script>
+
+
+
 <script type="text/javascript">
 //<![CDATA[
 seajs.use("script/connectionPoolConfiguration/connectionPoolConfiguration", function(init) {

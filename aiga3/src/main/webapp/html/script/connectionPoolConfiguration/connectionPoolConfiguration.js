@@ -16,6 +16,10 @@ define(function(require, exports, module) {
 	srvMap.add("businessSystem", pathAlias+"workplanState.json", "webservice/static/businessSystem");
 	//查询状态下拉框
 	srvMap.add("queryState", pathAlias+"workState.json", "webservice/static/queryState");
+	//查询状态下拉框 center
+	srvMap.add("distinctCenter", pathAlias+"workState.json", "webservice/configure/distinctCenter");
+	//查询状态下拉框 db
+	srvMap.add("distinctDb", pathAlias+"workState.json", "webservice/configure/distinctDb");
 
 	
 	var cache = {
@@ -58,7 +62,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('connectionPoolList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			_cmd = _cmd.replace(/-/g,"/");
+//			_cmd = _cmd.replace(/-/g,"/");
 
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('poolConfigurationList'),_cmd,function(json){
@@ -66,8 +70,27 @@ define(function(require, exports, module) {
 				var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));				
         		var tablebtn = _dom.find("[name='content']");
         		tablebtn.html(template(json.data.content));
-
         		Utils.eventTrClickCallback(_dom);
+        		//是否改变------按钮
+        		tablebtn.find("[class='btn btn-primary btn-table-change']").off('click').on('click', function() {
+			        var template2 = Handlebars.compile(Page.findTpl('connectionPoolTempIn'));
+					Page.findId('changeModal').find("[name='content']").html(template2(json.data.content));
+	        		var _modal = Page.findId('showDetailModal');
+					_modal.modal('show');
+					Utils.setSelectData(_modal);
+					_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+					});		
+        		});
+        		//是否报备------按钮
+        		tablebtn.find("[class='btn btn-primary btn-table-report']").off('click').on('click', function() {
+		        	var template3 = Handlebars.compile(Page.findTpl('reportTemp'));
+					Page.findId('reportModalForm').html(template3(json.data.content));
+        			var _modal = Page.findId('showReportModal');
+					_modal.modal('show');
+					Utils.setSelectData(_modal);
+					_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+					});	
+        		});
 			},_domPagination);
 		},
 		
@@ -75,7 +98,8 @@ define(function(require, exports, module) {
         _query_event: function() {
 			var self = this;
 			var _form = Page.findId('queryDataForm');			 
-			Utils.setSelectData(_form);		 
+//			Utils.setSelectData(_form);		 
+			Utils.setSelectDataPost(_form,true);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();				

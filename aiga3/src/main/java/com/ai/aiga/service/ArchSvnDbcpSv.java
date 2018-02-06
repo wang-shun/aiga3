@@ -1,6 +1,9 @@
 package com.ai.aiga.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +17,12 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.ArchSvnDbcpDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.dao.jpa.ParameterCondition;
+import com.ai.aiga.domain.AmCoreIndex;
 import com.ai.aiga.domain.ArchSvnDbcp;
 import com.ai.aiga.domain.IndexConnect;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
+import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 @Service
 @Transactional
@@ -61,7 +66,7 @@ public class ArchSvnDbcpSv extends BaseService {
 				params.add(new ParameterCondition("db", condition.getDb()));
 			}//  substr(to_char(ar.insert_time,'yyyy/mm/dd'),0,10) = '2018/01/11'
 			if (StringUtils.isNotBlank(condition.getInsertTime())) {
-				nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy/mm/dd'),0,10) = :insertTime ");
+				nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy-mm-dd'),0,10) = :insertTime ");
 				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
 			}
 			if (pageNumber < 0) {
@@ -76,4 +81,39 @@ public class ArchSvnDbcpSv extends BaseService {
     
 	//update
     
+    //distinct center
+    public List<ArchSvnDbcp> distinctCenter(){
+    	List<ArchSvnDbcp>list = archSrvDbcpDao.findAll();
+    	List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>(); 
+        List<String>indexGrouplist = new ArrayList<String>(); 
+        Iterator iter= list.iterator();//List接口实现了Iterable接口  
+        while(iter.hasNext()){  
+        	ArchSvnDbcp am=(ArchSvnDbcp)iter.next();  
+         	if(!indexGrouplist.contains(am.getCenter().trim())){
+         		indexGrouplist.add(am.getCenter().trim());
+         		newList.add(am);
+         	}
+        }  
+        return newList;
+    }
+    //distinct db
+    public List<ArchSvnDbcp>selectDb(ArchSvnDbcpSelects condition){
+    	String center = condition.getCenter();
+    	List<ArchSvnDbcp>list = archSrvDbcpDao.findByCenter(center);
+    	List<ArchSvnDbcp> disinctDbList = new ArrayList<ArchSvnDbcp>();
+    	List<String>dbStrings = new ArrayList<String>();
+    	Iterator iterator = list.iterator();
+    	while(iterator.hasNext()){
+    		int i=1;
+    		ArchSvnDbcp base = (ArchSvnDbcp)iterator.next();
+    		String temp = base.getDb();
+    		System.out.println(i+"----------"+temp);
+    		if(!dbStrings.contains(temp)){
+    			dbStrings.add(temp);
+    			disinctDbList.add(base);
+    		}
+    		i++;
+    	}
+    	return disinctDbList;
+    }
 }

@@ -1,5 +1,6 @@
 package com.ai.aiga.service.home;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,12 @@ public class HomeDataSv {
 					NaIndexAllocation kpi = kpiList.get(i);
 					//找到当前用户的指标id
 					if (kpi.getKpiId() == rela.getKpiId()) {
+						//将执行当前用户的指标的sql语句，语句返回的key=kpiName的map
+						List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
+						//将指标的value设置成sql返回的map的value值
+						Map<String, Object> map = list.get(0);
+						Object object = map.get(kpi.getKpiName());
+						kpi.setValue(((BigDecimal) object));
 						//设置当前用户的指标显示
 						kpi.setIsShow(1L);
 						hasShow = true;
@@ -85,6 +92,10 @@ public class HomeDataSv {
 					kpiList=naIndexAllocationDao.search(cons );
 					for (int i = 0; i < kpiList.size(); i++) {
 						NaIndexAllocation kpi = kpiList.get(i);
+						List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
+						Map<String, Object> map = list.get(0);
+						Object object = map.get(kpi.getKpiName());
+						kpi.setValue(((BigDecimal) object));
 						kpi.setIsShow(1L);
 					}
 				}
@@ -95,6 +106,10 @@ public class HomeDataSv {
 			kpiList=naIndexAllocationDao.search(cons );
 			for (int i = 0; i < kpiList.size(); i++) {
 				NaIndexAllocation kpi = kpiList.get(i);
+				List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
+				Map<String, Object> map = list.get(0);
+				Object object = map.get(kpi.getKpiName());
+				kpi.setValue(((BigDecimal) object));
 				kpi.setIsShow(1L);
 			}
 		}

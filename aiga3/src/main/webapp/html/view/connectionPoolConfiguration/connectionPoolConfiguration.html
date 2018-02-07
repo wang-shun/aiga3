@@ -74,6 +74,18 @@
                 </div>
             </form>
         </div>
+    </div>    
+    <div class="col-md-12">
+        <div class="box" style="min-height:155px;">
+            <div class="box-header with-border">
+                <h3 class="box-title">当月数据</h3>
+            </div>
+            <div class="box-body">
+          		<div class="row" id="JS_monthReportNowData"> </div>
+            </div> 
+        </div> 
+	</div>
+    <div class="col-md-12">    
         <div class="box" id="JS_connectionPoolList" style="min-height:100px;">
             <div class="box-header ">
                 <h3 class="box-title">连接池配置列表</h3>
@@ -221,6 +233,13 @@
     </div>
 </script>
 
+<script id="TPL_connectionPoolTemp" type="text/x-handlebars-template">
+<div class="events-grid" >
+	<div class=" events-semi-grid">
+		<p>$YYYYMM日共成功采集XX个系统连接池配置XX条，经巡检发现XX条配置存在变更，具体变更清单请选择“查询状态”条件为“是”后再次查询。</p>
+	</div>
+</div>
+</script>
 
 
 <script type="text/javascript">

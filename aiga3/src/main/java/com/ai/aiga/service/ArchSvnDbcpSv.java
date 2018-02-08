@@ -46,7 +46,7 @@ public class ArchSvnDbcpSv extends BaseService {
     public Page<ArchSvnDbcp>queryByPage(ArchSvnDbcpSelects condition, int pageNumber,
 			int pageSize){
 		StringBuilder nativeSql = new StringBuilder(
-				" select ar.center, ar.module, ar.db, ar.initial_size, ar.max_active, ar.max_idle, ar.min_idle, ar.max_wait, ar.insert_time from arch_svn_dbcp ar where 1=1 "
+				" select ar.center, ar.module, ar.db, ar.initial_size, ar.max_active, ar.max_idle, ar.min_idle, ar.max_wait, ar.insert_time, ar.is_change from arch_svn_dbcp ar where 1=1 "
 				);
 //					"and ar.center = :center" +
 //					"and ar.module = :module" +

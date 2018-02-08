@@ -52,4 +52,11 @@ public class ArchSvnDbcpController {
 		bean.setData(archSvnDbcpSv.selectDb(condition));
 		return bean;
 	}
+	
+	@RequestMapping(path = "/webservice/configure/getText")
+	public @ResponseBody JsonBean queryByPageTwo(ArchSvnDbcpSelects condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSvnDbcpSv.queryByPageTwo(condition));
+		return bean;
+	}
 }

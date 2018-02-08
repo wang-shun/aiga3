@@ -20,7 +20,8 @@ define(function(require, exports, module) {
 	srvMap.add("distinctCenter", pathAlias+"workState.json", "webservice/configure/distinctCenter");
 	//查询状态下拉框 db
 	srvMap.add("distinctDb", pathAlias+"workState.json", "webservice/configure/distinctDb");
-
+	//查询文字
+	srvMap.add("getText", pathAlias+"workState.json", "webservice/configure/getText");
 	
 	var cache = {
 			datas : ""
@@ -64,7 +65,21 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 //			_cmd = _cmd.replace(/-/g,"/");
-
+			
+			Rose.ajax.postJson(srvMap.get('getText'),_cmd,function(jsontxt, status){
+				debugger
+				if(status) {
+					window.XMS.msgbox.hide();
+					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));				
+        			_text.html(templateText(jsontxt.data[0]));
+					/*var _form = Page.findId('queryDataForm');
+					var _applyTime = _form.find("[name='applyTime']").val();
+					_monthReportAllData.find("[name='timeShow']").text(_applyTime);*/
+				} else {
+					XMS.msgbox.show(jsontxt.retMessage, 'error', 2000);
+				}					
+			});	
+			
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('poolConfigurationList'),_cmd,function(json){
 				window.XMS.msgbox.hide();		
@@ -76,10 +91,9 @@ define(function(require, exports, module) {
 						json.data.content[index].isChange = "否";
 					}
 				}
-				var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));				
-        		var tablebtn = _dom.find("[name='content']");
-        		var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));				
-        		_text.html(templateText(json.data.content));
+				var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));                
+                var tablebtn = _dom.find("[name='content']");
+                tablebtn.html(template(json.data.content));
         		Utils.eventTrClickCallback(_dom);
         		//是否改变------按钮
         		tablebtn.find("[class='btn btn-primary btn-table-change']").off('click').on('click', function() {

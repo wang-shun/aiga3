@@ -80,9 +80,9 @@ public class ArchSvnDbcpSv extends BaseService {
 			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class, pageable);
     }
     
-    public Page<ArchSvnDbcpTwo>queryByPageTwo(ArchSvnDbcpSelects condition, int pageNumber,int pageSize){
+    public List<ArchSvnDbcpTwo>queryByPageTwo(ArchSvnDbcpSelects condition){
 		StringBuilder nativeSql = new StringBuilder(
-				" select count(distinct center) as successCollect,count(center) as total,count(is_change) as change from aiam.arch_svn_dbcp am where 1=1 "
+				" select count(distinct center) as successCollect,count(center) as total,count(is_change) as change from aiam.arch_svn_dbcp ar where 1=1 "
 				);
 
 			List<ParameterCondition>params = new ArrayList<ParameterCondition>();
@@ -102,14 +102,8 @@ public class ArchSvnDbcpSv extends BaseService {
 				nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy-mm-dd'),0,10) = :insertTime ");
 				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
 			}
-			if (pageNumber < 0) {
-				pageNumber = 0;
-			}
-			if (pageSize <= 0) {
-				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
-			}
-			Pageable pageable = new PageRequest(pageNumber, pageSize);
-			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcpTwo.class, pageable);
+
+			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcpTwo.class);
     }
     
     

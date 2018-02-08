@@ -19,6 +19,7 @@ import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.AmCoreIndex;
 import com.ai.aiga.domain.ArchSvnDbcp;
+import com.ai.aiga.domain.ArchSvnDbcpTwo;
 import com.ai.aiga.domain.IndexConnect;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
@@ -78,6 +79,39 @@ public class ArchSvnDbcpSv extends BaseService {
 			Pageable pageable = new PageRequest(pageNumber, pageSize);
 			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class, pageable);
     }
+    
+    public Page<ArchSvnDbcpTwo>queryByPageTwo(ArchSvnDbcpSelects condition, int pageNumber,int pageSize){
+		StringBuilder nativeSql = new StringBuilder(
+				" select count(distinct center) as successCollect,count(center) as total,count(is_change) as change from aiam.arch_svn_dbcp am where 1=1 "
+				);
+
+			List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+			if (StringUtils.isNotBlank(condition.getCenter())) {
+				nativeSql.append("and ar.center = :center ");
+				params.add(new ParameterCondition("center", condition.getCenter()));
+			}
+			if (StringUtils.isNotBlank(condition.getModule())) {
+				nativeSql.append("and ar.module = :module ");
+				params.add(new ParameterCondition("module", condition.getModule()));
+			}   
+			if (StringUtils.isNotBlank(condition.getDb())) {
+				nativeSql.append("and ar.db = :db ");
+				params.add(new ParameterCondition("db", condition.getDb()));
+			}
+			if (StringUtils.isNotBlank(condition.getInsertTime())) {
+				nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy-mm-dd'),0,10) = :insertTime ");
+				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
+			}
+			if (pageNumber < 0) {
+				pageNumber = 0;
+			}
+			if (pageSize <= 0) {
+				pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+			}
+			Pageable pageable = new PageRequest(pageNumber, pageSize);
+			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcpTwo.class, pageable);
+    }
+    
     
 	//update
     

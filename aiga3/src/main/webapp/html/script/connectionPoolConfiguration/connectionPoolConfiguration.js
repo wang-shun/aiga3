@@ -60,6 +60,7 @@ define(function(require, exports, module) {
 				_cmd = cmd;
 			}
 			var _dom = Page.findId('connectionPoolList');
+			var _text = Page.findId('connectionPoolText');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 //			_cmd = _cmd.replace(/-/g,"/");
@@ -69,7 +70,8 @@ define(function(require, exports, module) {
 				window.XMS.msgbox.hide();				
 				var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));				
         		var tablebtn = _dom.find("[name='content']");
-        		tablebtn.html(template(json.data.content));
+        		var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));				
+        		_text.html(templateText(json.data.content));
         		Utils.eventTrClickCallback(_dom);
         		//是否改变------按钮
         		tablebtn.find("[class='btn btn-primary btn-table-change']").off('click').on('click', function() {
@@ -91,6 +93,8 @@ define(function(require, exports, module) {
 					_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
 					});	
         		});
+        		
+        		
 			},_domPagination);
 		},
 		

@@ -26,11 +26,12 @@ public class ArchSvnDbcp  implements java.io.Serializable {
     private Long minIdle;
     private Long maxWait;
     private Date insertTime;
-
+    private String isChange;
+    
     public ArchSvnDbcp() {
     }
 
-   public ArchSvnDbcp(String center, String module, String db, Long initialSize, Long maxActive, Long maxIdle, Long minIdle, Long maxWait, Date insertTime) {
+   public ArchSvnDbcp(String center, String module, String db, Long initialSize, Long maxActive, Long maxIdle, Long minIdle, Long maxWait, Date insertTime, String isChange) {
 	  super();
 	  this.center = center;
       this.module = module;
@@ -41,6 +42,7 @@ public class ArchSvnDbcp  implements java.io.Serializable {
       this.minIdle = minIdle;
       this.maxWait = maxWait;
       this.insertTime = insertTime;
+      this.isChange = isChange;
    }
   
     @Id
@@ -125,6 +127,18 @@ public class ArchSvnDbcp  implements java.io.Serializable {
 	public void setInsertTime(Date insertTime) {
 		this.insertTime = insertTime;
 	}
+	
+	@Column(name="IS_CHANGE", length=4)
+	public String getIsChange() {
+		return isChange;
+	}
+
+	public void setIsChange(String isChange) {
+		this.isChange = isChange;
+	}
+	
+	
+	
 }
 
 

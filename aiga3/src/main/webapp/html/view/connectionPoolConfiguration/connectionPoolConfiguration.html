@@ -57,7 +57,7 @@
 		                <div class="form-group col-sm-6">
 		                    <label  class="col-sm-2  control-label">查询状态：</label>
 		                    <div class="col-sm-4">
-			                    <select name="change" class="form-control select2 input-sm" data-url="queryState" data-idkey="codeValue" data-namekey="codeName">
+			                    <select name="isChange" class="form-control select2 input-sm" data-url="queryState" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
 			                        <option value="是">是</option>
 			                        <option value="否">否</option>
@@ -194,7 +194,7 @@
 	<td >{{minIdle}}</td>
 	<td >{{maxWait}}</td>
 	<td >{{insertTime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-change" name="change">否</button></td>
+	<td ><button type="button" class="btn btn-primary btn-table-change" name="isChange">{{isChange}}</button></td>
 	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
 </tr>
 {{/each}}

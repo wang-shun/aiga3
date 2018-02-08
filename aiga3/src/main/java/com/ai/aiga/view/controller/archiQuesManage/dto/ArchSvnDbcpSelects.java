@@ -10,5 +10,6 @@ public class ArchSvnDbcpSelects implements Serializable {
     private String module;
     private String db;
     private String insertTime;
+    private String isChange;
     
 }

@@ -67,7 +67,15 @@ define(function(require, exports, module) {
 
 			// 设置服务器端分页
 			Utils.getServerPage(srvMap.get('poolConfigurationList'),_cmd,function(json){
-				window.XMS.msgbox.hide();				
+				window.XMS.msgbox.hide();		
+				for(index in json.data.content){
+					var temp = json.data.content[index].isChange;
+					if(temp=='Y'){
+						json.data.content[index].isChange = "是";
+					}else if(temp=='N'){
+						json.data.content[index].isChange = "否";
+					}
+				}
 				var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));				
         		var tablebtn = _dom.find("[name='content']");
         		var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));				
@@ -118,7 +126,7 @@ define(function(require, exports, module) {
 				}*/
 				self._getGridList(cmd);
 			});		
-        },                      
+        },   
 	};
 				 
 	module.exports = init;

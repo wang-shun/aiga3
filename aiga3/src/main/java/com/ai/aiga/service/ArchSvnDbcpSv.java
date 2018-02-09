@@ -81,34 +81,27 @@ public class ArchSvnDbcpSv extends BaseService {
     }
     
     public List<ArchSvnDbcpTwo>queryByPageTwo(ArchSvnDbcpSelects condition){
-		String time="";
-		if (condition.getInsertTime() != null) {
-			time=condition.getInsertTime();
-		}
 		StringBuilder nativeSql = new StringBuilder(
-				" select distinct(select count(distinct center) from aiam.arch_svn_dbcp t where to_char(t.insert_time,'yyyyMMdd') = "+ time +") as collect," +
-				"(select count(center) from aiam.arch_svn_dbcp t where to_char(t.insert_time,'yyyyMMdd') = "+ time +") as total," +
-				"(select count(is_change) from aiam.arch_svn_dbcp t where is_change = 'Y' and to_char(t.insert_time,'yyyyMMdd') = "+ time +") as change " +
-				"from aiam.arch_svn_dbcp t where 1=1"
+				" select count(distinct center) as collect,count(center) as total,count(is_change) as change from aiam.arch_svn_dbcp ar where 1=1 "
 				);
 
 			List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 			if (StringUtils.isNotBlank(condition.getCenter())) {
-				nativeSql.append("and t.center = :center ");
+				nativeSql.append("and ar.center = :center ");
 				params.add(new ParameterCondition("center", condition.getCenter()));
 			}
 			if (StringUtils.isNotBlank(condition.getModule())) {
-				nativeSql.append("and t.module = :module ");
+				nativeSql.append("and ar.module = :module ");
 				params.add(new ParameterCondition("module", condition.getModule()));
 			}   
 			if (StringUtils.isNotBlank(condition.getDb())) {
-				nativeSql.append("and t.db = :db ");
+				nativeSql.append("and ar.db = :db ");
 				params.add(new ParameterCondition("db", condition.getDb()));
 			}
-/*			if (StringUtils.isNotBlank(condition.getInsertTime())) {
+			if (StringUtils.isNotBlank(condition.getInsertTime())) {
 				nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy-mm-dd'),0,10) = :insertTime ");
 				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
-			}*/
+			}
 
 			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcpTwo.class);
     }

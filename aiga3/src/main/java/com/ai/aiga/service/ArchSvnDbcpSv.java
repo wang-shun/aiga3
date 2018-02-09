@@ -82,7 +82,7 @@ public class ArchSvnDbcpSv extends BaseService {
     
     public List<ArchSvnDbcpTwo>queryByPageTwo(ArchSvnDbcpSelects condition){
 		StringBuilder nativeSql = new StringBuilder(
-				" select count(distinct center) as successCollect,count(center) as total,count(is_change) as change from aiam.arch_svn_dbcp ar where 1=1 "
+				" select count(distinct center) as collect,count(center) as total,count(is_change) as change from aiam.arch_svn_dbcp ar where 1=1 "
 				);
 
 			List<ParameterCondition>params = new ArrayList<ParameterCondition>();

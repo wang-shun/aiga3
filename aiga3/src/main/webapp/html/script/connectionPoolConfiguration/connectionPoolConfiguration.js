@@ -34,6 +34,7 @@ define(function(require, exports, module) {
 		
 		_render: function() {
 			//查询
+			this._time();
 			this._query_event();
 			var _form = Page.findId('queryDataForm');
 			var cmd = _form.serialize();
@@ -67,11 +68,25 @@ define(function(require, exports, module) {
 //			_cmd = _cmd.replace(/-/g,"/");
 			
 			Rose.ajax.postJson(srvMap.get('getText'),_cmd,function(jsontxt, status){
-				debugger
 				if(status) {
 					window.XMS.msgbox.hide();
 					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));				
         			_text.html(templateText(jsontxt.data[0]));
+        			debugger
+        			//判空校验
+					var _textA = _text.find("[name='textShow']").length;
+					var _textB = _text.find("[name='textShowTwo']");
+					if(_textA != 0){
+						_textB.css ('display','none');
+					}else{
+						_textB.css ('display','block');
+					}
+        			//打印查询月份
+					var _form = Page.findId('queryDataForm');
+					var _insertTime = _form.find("[name='insertTime']").val();
+					var timeShow = Page.findId('text');
+					timeShow.find("[name='timeShow']").text(_insertTime);
+					_text.find("[name='timeShowTwo']").text(_insertTime);
 					/*var _form = Page.findId('queryDataForm');
 					var _applyTime = _form.find("[name='applyTime']").val();
 					_monthReportAllData.find("[name='timeShow']").text(_applyTime);*/

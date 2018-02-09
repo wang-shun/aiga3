@@ -8,7 +8,7 @@ package com.ai.aiga.domain;
  */
 public class ArchSvnDbcpTwo  implements java.io.Serializable {
 
-    private Long successCollect;
+    private Long collect;
     private Long total;
     private Long change;
 
@@ -18,17 +18,17 @@ public class ArchSvnDbcpTwo  implements java.io.Serializable {
 
    public ArchSvnDbcpTwo(Long successCollect, Long total, Long change) {
 	  super();
-      this.successCollect = successCollect;
+      this.collect = collect;
       this.total = total;
       this.change = change;
    }
 
-	public Long getSuccessCollect() {
-		return successCollect;
+	public Long getCollect() {
+		return collect;
 	}
 	
-	public void setSuccessCollect(Long successCollect) {
-		this.successCollect = successCollect;
+	public void setCollect(Long collect) {
+		this.collect = collect;
 	}
 	
 	public Long getTotal() {

@@ -64,15 +64,12 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('connectionPoolList');
 			var _text = Page.findId('connectionPoolText');
 			var _domPagination = _dom.find("[name='pagination']");
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-//			_cmd = _cmd.replace(/-/g,"/");
-			
+			XMS.msgbox.show('数据加载中，请稍候...', 'loading');			
 			Rose.ajax.postJson(srvMap.get('getText'),_cmd,function(jsontxt, status){
 				if(status) {
 					window.XMS.msgbox.hide();
 					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));				
         			_text.html(templateText(jsontxt.data[0]));
-        			debugger
         			//判空校验
 					var _textA = _text.find("[name='textShow']").length;
 					var _textB = _text.find("[name='textShowTwo']");
@@ -87,9 +84,6 @@ define(function(require, exports, module) {
 					var timeShow = Page.findId('text');
 					timeShow.find("[name='timeShow']").text(_insertTime);
 					_text.find("[name='timeShowTwo']").text(_insertTime);
-					/*var _form = Page.findId('queryDataForm');
-					var _applyTime = _form.find("[name='applyTime']").val();
-					_monthReportAllData.find("[name='timeShow']").text(_applyTime);*/
 				} else {
 					XMS.msgbox.show(jsontxt.retMessage, 'error', 2000);
 				}					
@@ -139,7 +133,6 @@ define(function(require, exports, module) {
         _query_event: function() {
 			var self = this;
 			var _form = Page.findId('queryDataForm');			 
-//			Utils.setSelectData(_form);		 
 			Utils.setSelectDataPost(_form,true);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
@@ -150,12 +143,9 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('采集时间为空！', 'error', 2000);
 					return
 				}
-				/*if(cmd.indexOf('+')>-1){
-					cmd = cmd.replace(/\+/g,'');
-				}*/
 				self._getGridList(cmd);
 			});		
-        },   
+        }   
 	};
 				 
 	module.exports = init;

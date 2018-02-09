@@ -1,4 +1,6 @@
 package com.ai.aiga.domain;
+
+import java.util.Date;
 // Generated 2018-1-29 15:02:07 by Hibernate Tools 3.2.2.GA
 
 
@@ -11,8 +13,7 @@ public class ArchSvnDbcpTwo  implements java.io.Serializable {
     private Long collect;
     private Long total;
     private Long change;
-
-
+    
     public ArchSvnDbcpTwo() {
     }
 

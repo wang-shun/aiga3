@@ -51,7 +51,6 @@ define(function(require, exports, module) {
 				_cmd = cmd;
 			}
 			var _dom = Page.findId('archAigaFunctionList');
-
 			_cmd = _cmd.replace(/-/g,"");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			//调用服务

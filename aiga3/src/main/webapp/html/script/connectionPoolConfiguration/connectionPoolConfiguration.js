@@ -10,18 +10,18 @@ define(function(require, exports, module) {
 
 
 	//显示查询信息表
-	srvMap.add("poolConfigurationList", "", "webservice/configure/query");
+	srvMap.add("poolConfigurationList", pathAlias+"poolConfigurationList.json", "webservice/configure/query");
 
 	//业务系统下拉框
-	srvMap.add("businessSystem", pathAlias+"workplanState.json", "webservice/static/businessSystem");
+	srvMap.add("businessSystem", pathAlias+"businessSystem.json", "webservice/static/businessSystem");
 	//查询状态下拉框
-	srvMap.add("queryState", pathAlias+"workState.json", "webservice/static/queryState");
+	srvMap.add("queryState", pathAlias+"queryState.json", "webservice/static/queryState");
 	//查询状态下拉框 center
-	srvMap.add("distinctCenter", pathAlias+"workState.json", "webservice/configure/distinctCenter");
+	srvMap.add("distinctCenter", pathAlias+"distinctCenter.json", "webservice/configure/distinctCenter");
 	//查询状态下拉框 db
-	srvMap.add("distinctDb", pathAlias+"workState.json", "webservice/configure/distinctDb");
+	srvMap.add("distinctDb", pathAlias+"distinctDb.json", "webservice/configure/distinctDb");
 	//查询文字
-	srvMap.add("getText", pathAlias+"workState.json", "webservice/configure/getText");
+	srvMap.add("getText", pathAlias+"getText.json", "webservice/configure/getText");
 	
 	var cache = {
 			datas : ""
@@ -35,11 +35,10 @@ define(function(require, exports, module) {
 		_render: function() {
 			//查询
 			this._time();
-			this._query_event();
 			var _form = Page.findId('queryDataForm');
 			var cmd = _form.serialize();
-			this._getGridList(cmd);
-			
+			this._getGridList(cmd);	
+			this._query_event();
 		},
 		
 		//初始化时间框
@@ -56,20 +55,19 @@ define(function(require, exports, module) {
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
-			debugger;
 			var self = this;
 			var _cmd = '';
 			if(cmd){
 				_cmd = cmd;
 			}
 			var _dom = Page.findId('connectionPoolList');
-			var _text = Page.findId('connectionPoolText');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');			
 			Rose.ajax.postJson(srvMap.get('getText'),_cmd,function(jsontxt, status){
 				if(status) {
 					window.XMS.msgbox.hide();
-					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));				
+					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));
+					var _text = Page.findId('connectionPoolText');
         			_text.html(templateText(jsontxt.data[0]));
         			//判空校验
 					var _textA = _text.find("[name='textShow']").length;
@@ -133,13 +131,12 @@ define(function(require, exports, module) {
 		//绑定查询按钮事件
         _query_event: function() {
 			var self = this;
-			var _form = Page.findId('queryDataForm');			 
+			var _form = Page.findId('queryDataForm');
 			Utils.setSelectDataPost(_form,true);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();				
 				var insertTime = _form.find("[name='insertTime']").val();
-
 				if(insertTime == 0) {
 					XMS.msgbox.show('采集时间为空！', 'error', 2000);
 					return

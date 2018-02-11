@@ -1,20 +1,9 @@
   <style type="text/css">
-	#Page_connectionPool .width-input-167 {width: 167px;}
-	#Page_connectionPool .width-input-400 {width: 400px;}
-	#Page_connectionPool .width-input-158 {width: 155px;}
 	#Page_connectionPool .btn-center {text-align: center;}
-	#Page_connectionPool .check-inline-label {display: block;float:left;margin-top: 10px;}
 	#Page_connectionPool .total-width {width: 850px;}
-	#Page_connectionPool .margin-onl {margin-left: 20px;margin-right: 20px;}
-	#Page_connectionPool .query-data-label {width: 80px;}
-	#Page_connectionPool .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
-	#Page_connectionPool .col2-sec-label {margin-left: 250px;}
-	#Page_connectionPool .col3-after-label {margin-left: 17px;}
-	#Page_connectionPool .line-sen-top {margin-top: 15px;}
-	#Page_connectionPool .text-area-sty {width: 680px;vertical-align:middle; }
 	#Page_connectionPool .btn-table-change {margin-right: 20px;}
 	#Page_connectionPool .btn-table-report {margin-right: 20px;}
-	
+	#Page_connectionPool .text-style {color:red;font-size:16px;}
   </style>
 <div class="row" id="Page_connectionPool">
     <div class="col-md-12">
@@ -57,10 +46,10 @@
 		                <div class="form-group col-sm-6">
 		                    <label  class="col-sm-2  control-label">查询状态：</label>
 		                    <div class="col-sm-4">
-			                    <select name="isChange" class="form-control select2 input-sm" data-url="queryState" data-idkey="codeValue" data-namekey="codeName">
+			                    <select name="isChange" class="form-control select2 input-sm" >
 			                        <option value="">请选择</option>
-			                        <option value="是">是</option>
-			                        <option value="否">否</option>
+			                        <option value="Y">是</option>
+			                        <option value="N">否</option>
 			                    </select>
 			                </div>
 		                </div>
@@ -76,7 +65,7 @@
         </div>
     </div>    
     <div class="col-md-12" >
-        <div class="box" id="JS_text" style="min-height:100px;">
+        <div class="box" id="JS_text" style="min-height:100px;border:1px solid green;">
             <div class="box-header with-border">
                 <h3 class="box-title"><span name="timeShow"></span>日连接池巡检报告:</h3>
             </div>
@@ -236,8 +225,8 @@
 <script id="TPL_connectionPoolTempText" type="text/x-handlebars-template">
 <div class="events-grid" >
 	<div class=" events-semi-grid">
-		{{#if change}}<p style="text-indent:2em;margin-top:15px;" name="textShow"><span name="timeShowTwo"></span>日共成功采集{{collect}}个系统连接池配置{{total}}条，经巡检发现{{change}}条配置存在变更，具体变更清单请选择“查询状态”条件为“是”后再次查询。</p>{{/if}}
-		<p style="text-indent:2em;margin-top:15px;" name="textShowTwo"><span name="timeShowTwo"></span>日共成功采集{{collect}}个系统连接池配置{{total}}条，经巡检未发现配置变更。</p>
+		{{#if change}}<p style="text-indent:2em;margin-top:13px;" name="textShow"><span name="timeShowTwo"></span>日共成功采集<span class="text-style">{{collect}}</span>个系统连接池配置<span class="text-style">{{total}}</span>条，经巡检发现<span class="text-style">{{change}}</span>条配置存在变更，具体变更清单请选择“查询状态”条件为“是”后再次查询。</p>{{/if}}
+		<p style="text-indent:2em;margin-top:13px;" name="textShowTwo"><span name="timeShowTwo"></span>日共成功采集<span class="text-style">{{collect}}</span>个系统连接池配置<span class="text-style">{{total}}</span>条，经巡检未发现配置变更。</p>
 	</div>
 </div>
 </script>

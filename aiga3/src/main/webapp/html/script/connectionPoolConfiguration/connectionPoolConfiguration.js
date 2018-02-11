@@ -56,6 +56,7 @@ define(function(require, exports, module) {
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
+			debugger;
 			var self = this;
 			var _cmd = '';
 			if(cmd){

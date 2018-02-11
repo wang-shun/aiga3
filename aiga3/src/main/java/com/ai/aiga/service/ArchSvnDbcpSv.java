@@ -49,10 +49,7 @@ public class ArchSvnDbcpSv extends BaseService {
 		StringBuilder nativeSql = new StringBuilder(
 				" select ar.center, ar.module, ar.db, ar.initial_size, ar.max_active, ar.max_idle, ar.min_idle, ar.max_wait, ar.insert_time, ar.is_change from arch_svn_dbcp ar where 1=1 "
 				);
-//					"and ar.center = :center" +
-//					"and ar.module = :module" +
-//					"and ar.db = :db " +
-//					"and to_date(ar.insert_time,'yyyymm') == to_date(:insert_time, 'yyyymm')" 
+
 			List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 			if (StringUtils.isNotBlank(condition.getCenter())) {
 				nativeSql.append("and ar.center = :center ");
@@ -65,7 +62,11 @@ public class ArchSvnDbcpSv extends BaseService {
 			if (StringUtils.isNotBlank(condition.getDb())) {
 				nativeSql.append("and ar.db = :db ");
 				params.add(new ParameterCondition("db", condition.getDb()));
-			}//  substr(to_char(ar.insert_time,'yyyy/mm/dd'),0,10) = '2018/01/11'
+			}
+			if (StringUtils.isNotBlank(condition.getIsChange())) {
+				nativeSql.append("and ar.is_change = :isChange ");
+				params.add(new ParameterCondition("isChange", condition.getIsChange()));
+			}
 			if (StringUtils.isNotBlank(condition.getInsertTime())) {
 				nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy-mm-dd'),0,10) = :insertTime ");
 				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
@@ -93,22 +94,7 @@ public class ArchSvnDbcpSv extends BaseService {
 				);
 
 			List<ParameterCondition>params = new ArrayList<ParameterCondition>();
-			if (StringUtils.isNotBlank(condition.getCenter())) {
-				nativeSql.append("and t.center = :center ");
-				params.add(new ParameterCondition("center", condition.getCenter()));
-			}
-			if (StringUtils.isNotBlank(condition.getModule())) {
-				nativeSql.append("and t.module = :module ");
-				params.add(new ParameterCondition("module", condition.getModule()));
-			}   
-			if (StringUtils.isNotBlank(condition.getDb())) {
-				nativeSql.append("and t.db = :db ");
-				params.add(new ParameterCondition("db", condition.getDb()));
-			}
-			if (StringUtils.isNotBlank(condition.getDb())) {
-				nativeSql.append("and t.isChange = :isChange ");
-				params.add(new ParameterCondition("isChange", condition.getIsChange()));
-			}
+
 			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcpTwo.class);
     }
     

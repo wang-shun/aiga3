@@ -89,8 +89,7 @@ public class ArchSvnDbcpSv extends BaseService {
 		StringBuilder nativeSql = new StringBuilder(
 				" select distinct(select count(distinct center) from aiam.arch_svn_dbcp t where  to_char(t.insert_time,'yyyy-MM-dd') = '"+ time +"') as collect,"+
 				"(select count(center) from aiam.arch_svn_dbcp t where to_char(t.insert_time,'yyyy-MM-dd') = '"+ time +"')  as total," +
-				"(select count(is_change) from aiam.arch_svn_dbcp t where is_change = 'Y' and to_char(t.insert_time,'yyyy-MM-dd') = '"+ time +"') as change " +
-				"from dual,aiam.arch_svn_dbcp t where 1=1"
+				"(select count(is_change) from aiam.arch_svn_dbcp t where is_change = 'Y' and to_char(t.insert_time,'yyyy-MM-dd') = '"+ time +"') as change from dual"
 				);
 
 			List<ParameterCondition>params = new ArrayList<ParameterCondition>();

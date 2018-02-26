@@ -25,7 +25,7 @@ define(function(require, exports, module) {
 	
 	var cache = {
 			datas : ""
-		};
+	};
 	var init = {
 				
 		init: function() {			 
@@ -37,7 +37,8 @@ define(function(require, exports, module) {
 			this._time();
 			var _form = Page.findId('queryDataForm');
 			var cmd = _form.serialize();
-			this._getGridList(cmd);	
+			this._getGridList(cmd);
+			debugger
 			this._query_event();
 		},
 		
@@ -130,6 +131,7 @@ define(function(require, exports, module) {
 		
 		//绑定查询按钮事件
         _query_event: function() {
+        	debugger
 			var self = this;
 			var _form = Page.findId('queryDataForm');
 			Utils.setSelectDataPost(_form,true);

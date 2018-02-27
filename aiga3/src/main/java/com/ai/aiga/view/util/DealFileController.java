@@ -66,7 +66,7 @@ public class DealFileController {
 			if(fileType==3){
 				Long planId2 = date.getTime();
 				if(planId.length()>=20){
-					ArchitectureGrading architectureGrading= architectureGradingSv.findByCloudOrderId(planId);
+					ArchitectureGrading architectureGrading= architectureGradingSv.findByCloudOrderIdAndState(planId);
 					if(architectureGrading != null){
 						architectureGrading.setFileId(new BigDecimal(planId2));
 						architectureGradingSv.update(architectureGrading);

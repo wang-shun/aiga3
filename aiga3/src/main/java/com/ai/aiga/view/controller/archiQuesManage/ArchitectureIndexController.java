@@ -1385,6 +1385,7 @@ public class ArchitectureIndexController extends BaseService {
 				thismonth += temp;
 			}
 			thismonth /= baseConnectList.size();
+			thismonth *= indexid2d[i].length;
 			center.setThismonth(thismonth);
 			list.add(center);
 		}
@@ -1447,6 +1448,7 @@ public class ArchitectureIndexController extends BaseService {
 				lastmonth += Double.valueOf(baseConnect.getResultValue()).longValue();
 			}
 			lastmonth /= baseConnectList.size();
+			lastmonth *= indexid2d[i].length;
 			center.setLastmonth(lastmonth);
 			prelist.add(center);
 		}

@@ -156,6 +156,9 @@ define(function(require,exports, moudle) {
 					}
 					myChart.setOption(option);
 					window.onresize = myChart.resize;
+					Page.findId('menuLogEchart').resize(function(){
+						myChart.resize(); 			
+					});
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}

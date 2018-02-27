@@ -263,6 +263,15 @@ public class ArchitectureGradingSv extends BaseService {
 		}
 		return architectureGradingDao.findByCloudOrderId(cloudOrderId);
 	}
+	
+	public ArchitectureGrading findByCloudOrderIdAndState(String cloudOrderId){
+		if(cloudOrderId==null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+		}
+		String state = "申请";
+		return architectureGradingDao.findByCloudOrderIdAndState(cloudOrderId,state);
+	}
+	
 	public List<ArchitectureGrading> findByName(String name){
 		if(name==null){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);

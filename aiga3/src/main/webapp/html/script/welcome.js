@@ -300,6 +300,9 @@ define(function(require,exports,module){
             	Tab.creatTab(objData);
             });
 			window.onresize = myChart.resize;
+			Page.findId('echartsPie').resize(function(){
+				myChart.resize(); 			
+			});
 		}
 	};
 	

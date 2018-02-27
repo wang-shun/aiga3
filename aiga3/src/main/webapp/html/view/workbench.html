@@ -9,258 +9,264 @@
 </div>
 <link rel="stylesheet" type="text/css" href="css/workbanchStyle.css" />
 <style>
-    .page-workbench .info-box-icon{
-        height: 50px;
-        width: 50px;
-        font-size: 26px;
-        line-height: 50px;
-        border-radius:0;
+    /*new icon style  start*/
+    .user-main-cnt .total-item-word {
+   	 	color: #8d8d8d;
+		float: right;
+	    width: 115px;
+	    text-align: center;
+	    border-right: 1px solid #b4b2b2;
     }
-    .page-workbench .info-box-content{
-        margin-left: 50px;
-        padding: 2px 15px;
+    .user-main-cnt .total-item-num {
+	    font-weight: bolder;
+	    font-size: 25px;
+	    text-align: center;
+	    width: 115px;
+	    float: right;
+	    border-right: 1px solid #b4b2b2;
     }
-
-    .page-workbench .info-count{
-        padding:10px 15px;
+    .page-workbench .user-main-cnt {
+    	float:right;
+    	width: 115px;
+    	height: 90px;   	
+	    padding-top: 25px;
+    }    
+    
+    .page-workbench .user-main-name {
+	    display: block;
+	    margin-top: 25px;
+	    font-size: 18px;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    font-weight: bold;
     }
-    .page-workbench .info-count h5{
-        padding-left: 5px;
-        font-weight: 700;
-        border-bottom: 1px solid #f4f4f4;
-        padding-bottom: 10px;
-        color: #44abe5;
+    .page-workbench .nomal-icon-wbch {
+	    background: url(style/images/workbench.jpg) no-repeat scroll -272px -110px transparent;
+	    color: #FFFFFF;
+	    display: block;
+	    float: left;
+	    font-family: Arial;
+	    font-size: 13px;
+	    font-style: normal;
+	    height: 70px;
+	    width: 70px;
+	    line-height: 20px;
+	    margin-top: 7px;
+	    position: absolute;
+	    text-align: center;
+	    text-indent: -4px;
+	    top: 0;  
+		left: 0;    
+ 	}
+    
+    .page-workbench .boxhd-nsty-gred {
+	    background-color: #f9f9f9;
+	    border-bottom: 1px solid #b4b2b2;
     }
-    .page-workbench .info-count .fa {
-        font-size: 24px;
-    }
-    .page-workbench .description-block{
-        padding-bottom: 20px;
-    }
-    .page-workbench .description-header{
-        font-size: 26px;
-        padding-bottom: 5px;
-    }
-    .page-workbench .info-box-content .info-box-number{
-        font-weight:normal;
-        font-size: 22px;
-    }
-    .page-workbench .info-box-content .info-box-text{
-        color: #666;
-    }
-    .page-workbench .info-count .text-aqua{
-        color: #44abe5 !important;
-    }
-    .page-workbench .info-count .text-red{
-        color: #f7245b !important;
-    }
-    .page-workbench .info-count .text-green{
-        color: #8ac14a !important;
-    }
-    .page-workbench .info-count .text-yellow{
-        color: #ff9922 !important;
-    }
-    .page-workbench .show-nothing {
-    	display: none;
-    }
-    .page-workbench .header-point {
+    
+    .page-workbench .boxbody-nomal-ulli {
+    	height: 110px;
+    	border-right: 1px solid #b4b2b2;
     	cursor:pointer;
     }
-    .page-workbench .label-chart-position {
-    	float:right;
+    
+    .boxbody-nomal-ulli .bill-apply-icon1, .bill-apply-icon2, .bill-apply-icon3, .bill-apply-icon4, .bill-apply-icon5, .bill-apply-icon6, .bill-apply-icon7, .bill-apply-icon8{
+	    background: url(style/images/workbench.jpg) no-repeat scroll -262px -275px transparent;	    
+	    color: #FFFFFF;
+	    display: block;
+	    font-family: Arial;
+	    font-size: 13px;
+	    font-style: normal;
+	    height: 40px;
+	    width: 40px;
+	    left: 10%;	    
+	    line-height: 20px;
+	    margin-top: 7px;
+	    position: absolute;
+	    text-align: center;
+	    text-indent: -4px;
+	    top: 0;   
     }
+    .boxbody-nomal-ulli .bill-apply-icon2{
+    	background-position: -398px -275px;
+    	text-shadow: 0px 0px 0 #999999;
+    }
+    .boxbody-nomal-ulli .bill-apply-icon3{
+    	background-position: -533px -275px;
+    	text-shadow: 0px 0px 0 #999999;
+    }
+    .boxbody-nomal-ulli .bill-apply-icon4{
+    	background-position: -670px -275px;
+    	text-shadow: 0px 0px 0 #999999;
+    }
+    .boxbody-nomal-ulli .bill-apply-icon5{
+    	background-position: -822px -275px;
+    	text-shadow: 0px 0px 0 #999999;
+    }
+    .boxbody-nomal-ulli .bill-apply-icon6{
+    	background-position: -956px -275px;
+    	text-shadow: 0px 0px 0 #999999;
+    }
+    .boxbody-nomal-ulli .bill-apply-icon7{
+    	background-position: -1094px -275px;
+    	text-shadow: 0px 0px 0 #999999;
+    }
+    .boxbody-nomal-ulli .bill-apply-icon8{
+    	background-position: -1229px -275px;
+    	text-shadow: 0px 0px 0 #999999;
+    }
+    .boxbody-nomal-ulli .bill-apply-name {
+		margin: 20px 0 0 25%;
+	    width: 115px;
+	    text-align: center;
+    }    
+    .boxbody-nomal-ulli .bill-apply-num {
+   	 	text-align: center;
+    	display: block;
+	    margin-top: 20px;
+	    font-size: 30px;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    font-weight: bold;
+    }
+    /*new icon style  fin*/   
 </style>
 <script id="TPL_newOwnHomeInfo" type="text/x-handlebars-template">
-<div class="col-md-6">
+<div class="col-md-12">
 	<div class="box box-solid">
-		<div class="box-header">
-			<h3 class="box-title">我的基线申请单</h3>
-		</div>
-		<div class="box-body">
-			<div class="row">
-				<ul class="cbp-ig-grid">
-					<li><a name="applyFirst" number={{applyFirst}}><span class="label label-success label-chart-position">{{applyFirst}}</span><span class="cbp-ig-icon cbp-ig-icon-shoe"></span>
-					<h3 class="cbp-ig-title">一级域</h3>
-					<span class="cbp-ig-category">SYSTEM</span></a></li>
-					<li><a name="applySecond" number={{applySecond}}><span class="label label-success label-chart-position">{{applySecond}}</span><span class="cbp-ig-icon cbp-ig-icon-ribbon"></span>
-					<h3 class="cbp-ig-title">二级子域</h3>
-					<span class="cbp-ig-category">SYSTEM</span></a></li>
-					<li><a name="applyThird" number={{applyThird}}><span class="label label-success label-chart-position">{{applyThird}}</span><span class="cbp-ig-icon cbp-ig-icon-milk"></span>
-					<h3 class="cbp-ig-title">三级系统</h3>
-					<span class="cbp-ig-category">SYSTEM</span></a></li>
-					<li><a name="noPassSystem" number={{noPassSystem}}><span class="label label-success label-chart-position">{{noPassSystem}}</span><span class="cbp-ig-icon cbp-ig-icon-comerr"></span>
-					<h3 class="cbp-ig-title">驳回系统</h3>
-					<span class="cbp-ig-category">SYSTEM</span></a></li>
-				</ul>
-			</div>
+		<div class="box-body" style="height:100px;">
+			<div class="col-md-5">
+				<span class="nomal-icon-wbch" style="margin-left:30px"></span>
+				<div style="margin-left:100px">
+					<span class="user-main-name">{{userCode}},{{helloword}}</span>
+					<span style="color: #8d8d8d;">{{presentDate}}</span>
+				</div>
+			</div>	
+			<ul class="col-md-7" style="list-style:none;">
+				<li class="user-main-cnt">
+					<span class="total-item-word" style="border: none;">待处理任务</span>
+					<span class="total-item-num" style="border: none;">{{computeAdd dealFirst dealSecond dealThird dealIndentyQues dealResolveQues dealCloseQues}}</span>
+				</li>
+				<li class="user-main-cnt">
+					<span class="total-item-word">问题申请单</span>
+					<span class="total-item-num">{{computeAdd applyIndentyQues applyResolveQues applyCloseQues}}</span>
+				</li>
+				<li class="user-main-cnt">
+					<span class="total-item-word">基线申请单</span>
+					<span class="total-item-num">{{computeAdd applyFirst applySecond applyThird noPassSystem}}</span>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
-<div class="col-md-6 {{dealshow}}">
+
+<div class="col-md-6">
 	<div class="box box-solid">
-		<div class="box-header">
+		<div class="box-header boxhd-nsty-gred">
+			<h3 class="box-title">基线申请单</h3>
+		</div>
+		<div class="box-body">
+			<ul class="col-md-12" style="list-style:none;">
+				<li class="col-md-3 boxbody-nomal-ulli">
+					<div class="bill-apply-icon1"></div>
+					<div class="bill-apply-name" name="applyFirst">一级域</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyFirst}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-3 boxbody-nomal-ulli">
+					<div class="bill-apply-icon2"></div>
+					<div class="bill-apply-name" name="applySecond">二级子域</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{applySecond}}<span style="font-size: 15px">个</span></div>
+				</li>			
+				<li class="col-md-3 boxbody-nomal-ulli">
+					<div class="bill-apply-icon3"></div>
+					<div class="bill-apply-name" name="applyThird">三级系统</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyThird}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-3 boxbody-nomal-ulli" style="border: none;">
+					<div class="bill-apply-icon4"></div>
+					<div class="bill-apply-name" name="noPassSystem">驳回系统单</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{noPassSystem}}<span style="font-size: 15px">个</span></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="col-md-6">
+	<div class="box box-solid">
+		<div class="box-header boxhd-nsty-gred">
+			<h3 class="box-title">问题申请单</h3>
+		</div>
+		<div class="box-body">
+			<ul class="col-md-12" style="list-style:none;">
+				<li class="col-md-3 boxbody-nomal-ulli">
+					<div class="bill-apply-icon5"></div>
+					<div class="bill-apply-name" name="applyIndentyQues">待认定问题</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyIndentyQues}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-3 boxbody-nomal-ulli">
+					<div class="bill-apply-icon6"></div>
+					<div class="bill-apply-name" name="applyResolveQues">待解决问题</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyResolveQues}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-3 boxbody-nomal-ulli">
+					<div class="bill-apply-icon7"></div>
+					<div class="bill-apply-name" name="applyCloseQues">解决中问题</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyCloseQues}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-3 boxbody-nomal-ulli" style="border: none;">
+					<div class="bill-apply-icon8" name="applyThird"></div>
+					<div class="bill-apply-name" name="noPassQues">驳回问题单</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">0<span style="font-size: 15px">个</span></div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="col-md-12">
+	<div class="box box-solid">
+		<div class="box-header boxhd-nsty-gred">
 			<h3 class="box-title">待处理任务</h3>
 		</div>
 		<div class="box-body">
-			<div class="row">
-				<ul class="cbp-ig-grid">
-					<li class="{{sysRoleSty}}"><a name="dealFirst" number={{dealFirst}}><span class="label label-success label-chart-position">{{dealFirst}}</span><span class="cbp-ig-icon cbp-ig-icon-shoe"></span>
-					<h3 class="cbp-ig-title">一级域</h3>
-					<span class="cbp-ig-category">SYSTEM</span></a></li>
-					<li class="{{sysRoleSty}}"><a name="dealSecond" number={{dealSecond}}><span class="label label-success label-chart-position">{{dealSecond}}</span><span class="cbp-ig-icon cbp-ig-icon-ribbon"></span>
-					<h3 class="cbp-ig-title">二级子域</h3>
-					<span class="cbp-ig-category">SYSTEM</span></a></li>
-					<li class="{{sysRoleSty}}"><a name="dealThird" number={{dealThird}}><span class="label label-success label-chart-position">{{dealThird}}</span><span class="cbp-ig-icon cbp-ig-icon-milk"></span>
-					<h3 class="cbp-ig-title">三级系统</h3>
-					<span class="cbp-ig-category">SYSTEM</span></a></li>
-					<li class="{{quesRoleSty}}"><a name="dealIndentyQues" number={{dealIndentyQues}}><span class="label label-success label-chart-position">{{dealIndentyQues}}</span><span class="cbp-ig-icon cbp-ig-icon-whippy"></span>
-					<h3 class="cbp-ig-title">待认定的问题</h3>
-					<span class="cbp-ig-category">QUESTION</span></a></li>
-					<li class="{{quesRoleSty}}"><a name="dealResolveQues" number={{dealResolveQues}}><span class="label label-success label-chart-position">{{dealResolveQues}}</span><span class="cbp-ig-icon cbp-ig-icon-spectacles"></span>
-					<h3 class="cbp-ig-title">待解决的问题</h3>
-					<span class="cbp-ig-category">QUESTION</span></a></li>
-					<li class="{{quesRoleSty}}"><a name="dealCloseQues" number={{dealCloseQues}}><span class="label label-success label-chart-position">{{dealCloseQues}}</span><span class="cbp-ig-icon cbp-ig-icon-doumbek"></span>
-					<h3 class="cbp-ig-title">解决中的问题</h3>
-					<span class="cbp-ig-category">QUESTION</span></a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="col-md-6">
-	<div class="box box-solid">
-		<div class="box-header">
-			<h3 class="box-title">我的问题申请单</h3>
-		</div>
-		<div class="box-body">
-			<div class="row">
-				<ul class="cbp-ig-grid">
-					<li><a name="applyIndentyQues" number={{applyIndentyQues}}><span class="label label-success label-chart-position">{{applyIndentyQues}}</span><span class="cbp-ig-icon cbp-ig-icon-whippy"></span>
-					<h3 class="cbp-ig-title">待认定的问题</h3>
-					<span class="cbp-ig-category">QUESTION</span></a></li>
-					<li><a name="applyResolveQues" number={{applyResolveQues}}><span class="label label-success label-chart-position">{{applyResolveQues}}</span><span class="cbp-ig-icon cbp-ig-icon-spectacles"></span>
-					<h3 class="cbp-ig-title">待解决的问题</h3>
-					<span class="cbp-ig-category">QUESTION</span></a></li>
-					<li><a name="applyCloseQues" number={{applyCloseQues}}><span class="label label-success label-chart-position">{{applyCloseQues}}</span><span class="cbp-ig-icon cbp-ig-icon-doumbek"></span>
-					<h3 class="cbp-ig-title">解决中的问题</h3>
-					<span class="cbp-ig-category">QUESTION</span></a></li>
-				</ul>
-			</div>
+			<ul class="col-md-12" style="list-style:none;">
+				<li class="col-md-2 boxbody-nomal-ulli">
+					<div class="bill-apply-icon1"></div>
+					<div class="bill-apply-name" name="dealFirst">一级域</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealFirst}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-2 boxbody-nomal-ulli">
+					<div class="bill-apply-icon2"></div>
+					<div class="bill-apply-name" name="dealSecond">二级子域</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealSecond}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-2 boxbody-nomal-ulli">
+					<div class="bill-apply-icon3"></div>
+					<div class="bill-apply-name" name="dealThird">三级系统</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealThird}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-2 boxbody-nomal-ulli">
+					<div class="bill-apply-icon5"></div>
+					<div class="bill-apply-name" name="dealIndentyQues">待认定问题</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealIndentyQues}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-2 boxbody-nomal-ulli">
+					<div class="bill-apply-icon6"></div>
+					<div class="bill-apply-name" name="dealResolveQues">待解决问题</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealResolveQues}}<span style="font-size: 15px">个</span></div>
+				</li>
+				<li class="col-md-2 boxbody-nomal-ulli" style="border: none;">
+					<div class="bill-apply-icon7"></div>
+					<div class="bill-apply-name" name="dealCloseQues">解决中问题</div>
+					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealCloseQues}}<span style="font-size: 15px">个</span></div>
+				</li>
+			</ul>
 		</div>
 	</div>
 </div>
 </script>
-<!-- handlebars -->
-<script id="TPL_getOwnHomeInfo" type="text/x-handlebars-template">
-    <div class="col-md-12">
-            <div class="box box-solid">
-               <div class="box-header">
-                    <h3 class="box-title">个人待办任务详情</h3>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="row info-count">
-                            <h5>申请中的任务</h5>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <span name="applyFirst" number={{applyFirst}} class="info-box-icon bg-green header-point"><i class="fa fa-area-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">一级域</span>
-                                    <span class="info-box-number text-green">{{applyFirst}}</span>
-                                </div> 
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <span name="applySecond" number={{applySecond}} class="info-box-icon bg-aqua header-point"><i class="fa fa-bar-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">二级子域</span>
-                                    <span class="info-box-number text-aqua">{{applySecond}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <span name="applyThird" number={{applyThird}} class="info-box-icon bg-red header-point"><i class="fa fa-server"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">三级系统</span>
-                                    <span class="info-box-number text-red">{{applyThird}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <span name="noPassSystem" number={{noPassSystem}} class="info-box-icon bg-red header-point"><i class="fa fa-th"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">驳回的系统申请</span>
-                                    <span class="info-box-number text-red">{{noPassSystem}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <span name="applyIndentyQues" number={{applyIndentyQues}} class="info-box-icon bg-yellow header-point"><i class="fa fa-line-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">待认定的问题单</span>
-                                    <span class="info-box-number text-yellow">{{applyIndentyQues}}</span>
-                                </div> 
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <span name="applyResolveQues" number={{applyResolveQues}} class="info-box-icon bg-navy header-point"><i class="fa fa-pie-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">待解决的问题单</span>
-                                    <span class="info-box-number text-navy">{{applyResolveQues}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <span name="applyCloseQues" number={{applyCloseQues}} class="info-box-icon bg-purple header-point"><i class="fa fa-stack-overflow"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">解决中的问题单</span>
-                                    <span class="info-box-number text-navy">{{applyCloseQues}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row info-count {{dealshow}}">
-                            <h5>待处理任务</h5>
-                            <div class="col-md-3 col-sm-6 col-xs-12 {{sysRoleSty}}">
-                                <span name="dealFirst" number={{dealFirst}} class="info-box-icon bg-green header-point"><i class="fa fa-area-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">一级域</span>
-                                    <span class="info-box-number text-green">{{dealFirst}}</span>
-                                </div> 
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12 {{sysRoleSty}}">
-                                <span name="dealSecond" number={{dealSecond}} class="info-box-icon bg-aqua header-point"><i class="fa fa-bar-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">二级子域</span>
-                                    <span class="info-box-number text-aqua">{{dealSecond}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12 {{sysRoleSty}}">
-                                <span name="dealThird" number={{dealThird}} class="info-box-icon bg-red header-point"><i class="fa fa-server"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">三级系统</span>
-                                    <span class="info-box-number text-red">{{dealThird}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12 {{quesRoleSty}}">
-                                <span name="dealIndentyQues" number={{dealIndentyQues}} class="info-box-icon bg-yellow header-point"><i class="fa fa-line-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">待认定的问题单</span>
-                                    <span class="info-box-number text-yellow">{{dealIndentyQues}}</span>
-                                </div> 
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12 {{quesRoleSty}}">
-                                <span name="dealResolveQues" number={{dealResolveQues}} class="info-box-icon bg-navy header-point"><i class="fa fa-pie-chart"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">待解决的问题单</span>
-                                    <span class="info-box-number text-navy">{{dealResolveQues}}</span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6 col-xs-12 {{quesRoleSty}}">
-                                <span name="dealCloseQues" number={{dealCloseQues}} class="info-box-icon bg-purple header-point"><i class="fa fa-stack-overflow"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">解决中的问题单</span>
-                                    <span class="info-box-number text-navy">{{dealCloseQues}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</script>
+
 <script>
 seajs.use("script/workbench", function(Query) {
     Query.init();

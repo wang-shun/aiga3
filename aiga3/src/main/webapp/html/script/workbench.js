@@ -13,6 +13,7 @@ define(function(require, exports, module) {
         },
         _render: function() {
 			this.getOwnHomeInfo();
+			this._helper_reg();
         },
 
         getOwnHomeInfo: function() { // 获取待办任务信息
@@ -20,23 +21,11 @@ define(function(require, exports, module) {
 	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
 	            if (status) {
 	            	var template = Handlebars.compile(Page.findTpl('newOwnHomeInfo'));
-//	            	var template = Handlebars.compile(Page.findTpl('getOwnHomeInfo')); 旧的工作台模板加载
 	            	var data = json.data;
-	            	if(data.hasSysRole != 'true' && data.hasQuesRole != 'true') {
-	                	data.dealshow = 'show-nothing';          		
-	            	} else {
-		                if(data.hasSysRole != 'true') {
-		                	data.sysRoleSty = 'show-nothing';
-		                }
-		                if(data.hasQuesRole != 'true') {
-		                	data.quesRoleSty = 'show-nothing';
-		                }
-	            	}
-//	            	Page.find(".info-box-icon").off('click').on('click',function() {       旧的工作台事件绑定
 	                Page.findId('getOwnHomeInfo').html(template(data));
-	                Page.find("a").off('click').on('click',function() {
-	                	var number = $(this).attr("number");
-	                	var name = $(this).attr("name");
+	                Page.find("li").off('click').on('click',function() {
+	                	var number = $(this).find('[class="bill-apply-num"]')[0].firstChild.nodeValue;
+	                	var name = $(this).find('[class="bill-apply-name"]').attr("name");
 	                	if(number < 1 || typeof(name) == 'undefined') {
 	                		return
 	                	}
@@ -90,6 +79,44 @@ define(function(require, exports, module) {
 	                });
 	            }
 	        });
+        },
+        _helper_reg:function() {
+			Handlebars.registerHelper({
+				'helloword': function() {
+					var hour = new Date().getHours();
+					var helloword = '';
+					if(hour < 6){helloword="凌晨好！"} 
+					else if (hour < 9){helloword="凌晨好！";} 
+					else if (hour < 12){helloword="上午好！";} 
+					else if (hour < 14){helloword="中午好！";} 
+					else if (hour < 17){helloword="下午好！";} 
+					else if (hour < 19){helloword="傍晚好！";} 
+					else if (hour < 22){helloword="晚上好！";} 
+					else {helloword="夜里好！";} 
+					return helloword;
+				},
+				'presentDate' : function() {//格式化时间  
+			        var format = 'yyyy年MM月dd日';  
+			        if(arguments.length > 1){  
+			            format = arguments[0];  
+			        }   
+			        return Rose.date.getDatetime(format);  
+			    },
+        		'computeAdd': function() {  
+			        var big = 0;  
+			        try{  
+			            var len = arguments.length - 1;  
+			            for(var i = 0; i < len; i++){  
+			                if(arguments[i]){  
+			                    big = eval(big +"+"+ arguments[i]);  
+			                }  
+			            }  
+			        }catch(e){  
+			            throw new Error('Handlerbars Helper "computeAdd" can not deal with wrong expression:'+arguments);  
+			        }  
+			        return big;  
+			    }  
+        	});
         }
     }
     module.exports = Query;

@@ -794,6 +794,10 @@ define(function(require, exports, module) {
 				myChart.hideLoading();//隐藏loading
 
 				window.onresize = myChart.resize;
+				Page.findId('archiIndexView').resize(function(){
+	                myChart.resize();             
+	            });
+
   			});			
 		},
 		//汇总饼状图
@@ -877,6 +881,9 @@ define(function(require, exports, module) {
 			myChart.setOption(option);		
 			myChart.hideLoading();//隐藏loading
 			window.onresize = myChart.resize;
+			Page.findId('totalArchiIndexView').resize(function(){
+                myChart.resize();             
+            });
 		},
 /* --------------------------------------------------PAGE--2--------------------------------------------------------------- */
 		getRightTreeR2: function(cmd) {

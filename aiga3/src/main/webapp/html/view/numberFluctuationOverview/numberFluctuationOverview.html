@@ -1,0 +1,128 @@
+  <style type="text/css">
+	#Page_numberFluctuation .width-input-167 {width: 167px;}
+	#Page_numberFluctuation .width-input-400 {width: 400px;}
+	#Page_numberFluctuation .width-input-158 {width: 155px;}
+	#Page_numberFluctuation .btn-center {text-align: center;}
+	#Page_numberFluctuation .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_numberFluctuation .total-width {width: 850px;}
+	#Page_numberFluctuation .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_numberFluctuation .query-data-label {width: 80px;}
+	#Page_numberFluctuation .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_numberFluctuation .col2-sec-label {margin-left: 250px;}
+	#Page_numberFluctuation .col3-after-label {margin-left: 17px;}
+	#Page_numberFluctuation .line-sen-top {margin-top: 15px;}
+	#Page_numberFluctuation .text-area-sty {width: 680px;vertical-align:middle; }
+	#Page_numberFluctuation .btn-table-change {margin-right: 20px;}
+	#Page_numberFluctuation .btn-table-report {margin-right: 20px;}
+	
+  </style>
+<div class="row" id="Page_numberFluctuation">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">核心数据库连接数波动查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>		            
+		            <div class="row">
+		            	<div class="form-group col-sm-6">
+		                    <label  class="col-sm-3  control-label">一级数据库名称：</label>
+		                    <div class="col-sm-4">
+		                    	<select name="primaryDatabase" class="form-control select2 input-sm" data-url="primaryDatabase" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+                		<div class="form-group col-sm-6">
+		                    <label  class="col-sm-3  control-label">二级数据库名称：</label>
+		                    <div class="col-sm-4">
+		                    	<select name="secondDatabase" class="form-control select2 input-sm" data-url="secondDatabase" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		                 
+		            </div>
+		            
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary"  name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>    
+
+    <div class="col-md-12">    
+        <div class="box" id="JS_numberFluctuationList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">核心数据库连接数列表</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+		                <th class="iCheckbox" width="15"></th>
+	                    <th >数据库名称</th>
+	                    <th >安全连接数上限</th>
+	                    <th >最高连接数上限</th>
+						<th >本日实际连接数值</th>	
+						<th >健康度等级</th>					
+						<th >日环比变化</th>
+						<th >月同比变化</th>						
+						<th >历史波动曲线查看</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+            </div>
+            <div class="box-footer no-border">
+            	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+  
+		<textarea cols="70" rows="5" disabled>
+健康度等级说明：
+（1）实际连接数&lt安全连接数上限*80 优秀（绿字）
+（2）安全连接数上限*80%&lt实际连接数&lt安全连接数上限 良好（黄字）
+（3）安全连接数上限&lt实际连接数&lt最高连接数上限 较差（橙字）
+（4）最高连接数上限&lt实际连接数 危险（红字）
+		</textarea>
+
+    </div>
+</div>
+
+<!-- 表格数据 -->
+<script id="TPL_numberFluctuationTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+	<td >{{}}</td>
+    <td >{{}}</td>
+	<td >{{}}</td>
+    <td >{{}}</td>
+    <td >{{}}</td>
+    <td >{{}}</td>
+	<td >{{}}</td>
+	<td >{{}}</td>
+</tr>
+{{/each}}
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/numberFluctuationOverview/numberFluctuationOverview", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

@@ -222,7 +222,7 @@ define(function(require, exports, module) {
         			domNow.remove();  
         		}
         	});
-        },
+        }
 	}
     module.exports = Query;
 });

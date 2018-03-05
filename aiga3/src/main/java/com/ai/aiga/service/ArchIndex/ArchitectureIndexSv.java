@@ -85,7 +85,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (pageSize <= 0) {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
-
+		nativeSql.append(" order by ar.insert_time ");
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, IndexConnect.class, pageable);
 	}
@@ -171,7 +171,6 @@ public class ArchitectureIndexSv extends BaseService {
 		if (pageSize <= 0) {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
-		
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, IndexConnect.class, pageable);
 	}
@@ -394,11 +393,10 @@ public class ArchitectureIndexSv extends BaseService {
 		if (pageNumber < 0) {
 			pageNumber = 0;
 		}
-		
 		if (pageSize <= 0) {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
-		
+		nativeSql.append(" order by ar.insert_time ");
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return archSrvManageDao.searchByNativeSQL(nativeSql.toString(), params, IndexConnect.class, pageable);
 	}

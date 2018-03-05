@@ -730,7 +730,7 @@ public class ArchitectureIndexController extends BaseService {
 					}
 				}
 			}
-			if(condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("数据库连接总数")){
+			if((condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("数据库连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库A中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库A中心连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库B中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库B中心连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库C中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库C中心连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库D中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库D中心连接总数"))){
 				
 //				if(condition.getIndexGroup().trim().equals("数据库连接总数")){
 

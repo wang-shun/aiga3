@@ -1,8 +1,13 @@
 package com.ai.aiga.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -79,6 +84,57 @@ public class ArchSvnDbcpSv extends BaseService {
 			}
 			Pageable pageable = new PageRequest(pageNumber, pageSize);
 			return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class, pageable);
+    }
+    //QUERY BEFORE 7 DAY DATA 
+    public Page<ArchSvnDbcp>queryBefore7DayByPage(ArchSvnDbcpSelects condition, int pageNumber,
+    		int pageSize) throws Exception{
+    	String nowday = condition.getInsertTime();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date today = format.parse(nowday);
+		//get last month first day
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
+        Date before7Day = calendar.getTime();
+        String before7DayString = simpleDateFormat.format(before7Day);
+        
+    	StringBuilder nativeSql = new StringBuilder(
+    			" select ar.center, ar.module, ar.db, ar.initial_size, ar.max_active, ar.max_idle, ar.min_idle, ar.max_wait, ar.insert_time, ar.is_change from arch_svn_dbcp ar where 1=1 "
+    			);
+    	
+    	List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+    	if (StringUtils.isNotBlank(condition.getCenter())) {
+    		nativeSql.append("and ar.center = :center ");
+    		params.add(new ParameterCondition("center", condition.getCenter()));
+    	}
+    	if (StringUtils.isNotBlank(condition.getModule())) {
+    		nativeSql.append("and ar.module = :module ");
+    		params.add(new ParameterCondition("module", condition.getModule()));
+    	}   
+    	if (StringUtils.isNotBlank(condition.getDb())) {
+    		nativeSql.append("and ar.db = :db ");
+    		params.add(new ParameterCondition("db", condition.getDb()));
+    	}
+    	if (StringUtils.isNotBlank(condition.getIsChange())) {
+    		nativeSql.append("and ar.is_change = :isChange ");
+    		params.add(new ParameterCondition("isChange", condition.getIsChange()));
+    	}
+    	if (StringUtils.isNotBlank(condition.getInsertTime())) {
+    		nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy-mm-dd'),0,10) >= :before7DayString ");
+    		params.add(new ParameterCondition("before7DayString", before7DayString));
+    		nativeSql.append(" and substr(to_char(ar.insert_time,'yyyy-mm-dd'),0,10) <= :nowday ");
+    		params.add(new ParameterCondition("nowday", nowday));
+    	}
+    	if (pageNumber < 0) {
+    		pageNumber = 0;
+    	}
+    	if (pageSize <= 0) {
+    		pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
+    	}
+    	nativeSql.append(" order by ar.insert_time ");
+    	Pageable pageable = new PageRequest(pageNumber, pageSize);
+    	return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class, pageable);
     }
     
     public List<ArchSvnDbcpTwo>queryByPageTwo(ArchSvnDbcpSelects condition){

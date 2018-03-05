@@ -39,6 +39,15 @@ public class ArchSvnDbcpController {
 				bean.setData(archSvnDbcpSv.queryByPage(condition, pageNumber, pageSize));
 			return bean;
 	}	
+	@RequestMapping(path="/webservice/configure/queryPre7DayData")
+	public @ResponseBody JsonBean queryPre7DayData(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			ArchSvnDbcpSelects condition) throws Exception{
+		JsonBean bean = new JsonBean();
+		bean.setData(archSvnDbcpSv.queryBefore7DayByPage(condition, pageNumber, pageSize));
+		return bean;
+	}	
 	@RequestMapping(path = "/webservice/configure/distinctCenter")
 	public @ResponseBody JsonBean distinct(){
 		JsonBean bean = new JsonBean();

@@ -11,6 +11,8 @@ define(function(require, exports, module) {
 
 	//显示查询信息表
 	srvMap.add("poolConfigurationList", pathAlias+"poolConfigurationList.json", "webservice/configure/query");
+	//显示查询信息表    前七天
+	srvMap.add("queryPre7DayData", pathAlias+"poolConfigurationList.json", "webservice/configure/queryPre7DayData");
 
 	//业务系统下拉框
 	srvMap.add("businessSystem", pathAlias+"businessSystem.json", "webservice/static/businessSystem");
@@ -97,6 +99,8 @@ define(function(require, exports, module) {
 						json.data.content[index].isChange = "是";
 					}else if(temp=='N'){
 						json.data.content[index].isChange = "否";
+					}else{
+						json.data.content[index].isChange = "NULL";
 					}
 				}
 				var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));                
@@ -105,13 +109,20 @@ define(function(require, exports, module) {
         		Utils.eventTrClickCallback(_dom);
         		//是否改变------按钮
         		tablebtn.find("[class='btn btn-primary btn-table-change']").off('click').on('click', function() {
-			        var template2 = Handlebars.compile(Page.findTpl('connectionPoolTempIn'));
-					Page.findId('changeModal').find("[name='content']").html(template2(json.data.content));
-	        		var _modal = Page.findId('showDetailModal');
-					_modal.modal('show');
-					Utils.setSelectData(_modal);
-					_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
-					});		
+        			var selectCenter = $(this).attr("data-center");
+        			var selectMosule = $(this).attr("data-module");
+        			var selectDb = $(this).attr("data-db");
+        			var selectDate = $(this).attr("data-date");
+        			var incmd = "center="+selectCenter+"&module="+selectMosule+"&db="+selectDb+"&insertTime="+selectDate.substring(0,10);
+        			Utils.getServerPage(srvMap.get('queryPre7DayData'),incmd,function(injson){
+				        var template2 = Handlebars.compile(Page.findTpl('connectionPoolTempIn'));
+						Page.findId('changeModal').find("[name='content']").html(template2(injson.data.content));
+		        		var _modal = Page.findId('showDetailModal');
+						_modal.modal('show');
+						Utils.setSelectData(_modal);
+						_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+						});		
+					},_domPagination);
         		});
         		//是否报备------按钮
         		tablebtn.find("[class='btn btn-primary btn-table-report']").off('click').on('click', function() {

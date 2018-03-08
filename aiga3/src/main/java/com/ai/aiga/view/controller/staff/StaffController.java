@@ -1,13 +1,21 @@
 package com.ai.aiga.view.controller.staff;
 
 
+import io.swagger.annotations.ApiOperation;
+
+import net.sf.ehcache.search.Results;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.component.MailCmpt;
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
 import com.ai.aiga.view.controller.staff.dto.StaffOrgRelatRequest;
@@ -16,10 +24,51 @@ import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
 public class StaffController {
-	
+	@Autowired
+	private MailCmpt mailCmpt;
 	@Autowired
 	private StaffSv aigaStaffSv;
 	
+	/**
+	 * 找回密码
+	 * @param type
+	 * @param value
+	 * @return
+	 */
+	@RequestMapping(path = "/pwdreset", method=RequestMethod.POST)
+	@ApiOperation(value = "密码找回", notes = "暂无")
+	public @ResponseBody JsonBean pwdReset(String type, String value){
+		JsonBean bean = new JsonBean();
+		if(StringUtils.isBlank(value)) {
+			bean.fail("请填入信息");
+			return bean;
+		}
+		AigaStaff satff = new AigaStaff();
+		if("account".equals(type)) {
+			satff = aigaStaffSv.findStaffByCode(value);
+		} else if("pwdEml".equals(type)) {
+			satff = aigaStaffSv.findStaffByEmail(value);
+		}
+		if(satff==null) {
+			bean.fail("没有查找到相关用户");
+			return bean;
+		}
+		if(StringUtils.isBlank(satff.getEmail())) {
+			bean.fail("账号邮箱为空！");
+			return bean;
+		}
+		String content = "<h3>架构资产管控平台账号密码找回</h3>"+
+				"<table style='width:100%;background-color:#eee;'>"+
+				"<tr><td>用户账户为："+satff.getCode()+"</td></tr>"+
+				"<tr><td>用户密码为："+satff.getPassword()+"</td></tr>"+
+				"<tr><td>平台地址：</td></tr>"+
+				"<tr><td>http://arch.zj.chinamobile.com/aiga3/html/index.html</td></tr>"+
+				"</table>";
+		//发送邮件
+		mailCmpt.sendMail("dupeng5@asiainfo.com" , null, "架构资产管控平台账号密码找回", content, null);
+		return bean;
+	}	
+	/**
 	/*
 	 * 按条件查询员工信息
 	 * */

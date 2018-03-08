@@ -84,8 +84,5 @@ public class LoginController {
         } catch (SessionException ise) {
         }
 		return "login";
-	}
-	
-	
-	
+	}		
 }

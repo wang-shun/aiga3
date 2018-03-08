@@ -28,7 +28,7 @@ xmlns:p="http://www.springframework.org/schema/p"
 	<!-- Shiro Filter -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
-		<property name="loginUrl" value="/html/login.html" />
+		<property name="loginUrl" value="/html/newlogin/homeLogin.html" />
 		<property name="successUrl" value="/html/index.html" />
 		<property name="filters">  
             <map>  

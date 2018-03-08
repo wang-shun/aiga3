@@ -1491,12 +1491,12 @@ Rose.ajax = {
 					if (data.retCode=='9527') {
 						//alert("登陆凭证过期，请重新登陆");
 						alert("登陆凭证过期，请重新登陆");
-						window.parent.location.href='login.html';
+						window.parent.location.href='newlogin/homeLogin.html';
 						return;
 					}
 					if (data.retCode=='PAGEFRAME-9527') {
 						alert("登陆凭证过期，请重新登陆");
-						window.parent.location.href='login.html';
+						window.parent.location.href='newlogin/homeLogin.html';
 //						window.parent.location.reload();
 						return;
 					}

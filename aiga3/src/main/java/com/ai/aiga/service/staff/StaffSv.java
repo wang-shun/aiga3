@@ -40,6 +40,17 @@ public class StaffSv extends BaseService {
 	@Autowired
 	private AigaAuthorDao aigaAuthorDao;
 
+	public AigaStaff findStaffByEmail(String email) {
+		if (email == null || StringUtils.isBlank(email)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "email");
+		}
+		List<AigaStaff> result = aigaStaffDao.findByEmail(email);
+		if(result==null||result.size()<1) {
+			return null;
+		}
+		return result.get(0);
+	}	
+	
 	public AigaStaff findStaffByCode(String code) {
 		if (code == null || StringUtils.isBlank(code)) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");

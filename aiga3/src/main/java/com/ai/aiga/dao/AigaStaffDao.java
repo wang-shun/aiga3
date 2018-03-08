@@ -33,4 +33,6 @@ public interface AigaStaffDao extends SearchAndPageRepository<AigaStaff,Long>{
 	
 	AigaStaff findByBillId(String billId);
 	
+	List<AigaStaff> findByEmail(String email);
+	
 }

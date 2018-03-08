@@ -1,0 +1,236 @@
+  <style type="text/css">
+	#Page_connectionPool .btn-center {text-align: center;}
+	#Page_connectionPool .total-width {width: 850px;}
+	#Page_connectionPool .btn-table-change {margin-right: 20px;}
+	#Page_connectionPool .btn-table-report {margin-right: 20px;}
+	#Page_connectionPool .text-style {color:red;font-size:16px;}
+	#Page_connectionPool .min-height{min-height:50px;}
+  </style>
+<div class="row" id="Page_connectionHeatBase">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">核心数据库连接热度基线按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>		            
+		            <div class="row">
+		            	<div class="col-sm-6">
+		            		<label class="col-sm-2  control-label">采集日期:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
+                		<div class="col-sm-6">
+		                    <label  class="col-sm-2  control-label">系统中心：</label>
+		                    <div class="col-sm-4 min-height">
+		                    	<select name="indexName" class="form-control select2 input-sm" data-url="heatbaseselect1" data-subname="key3" data-idkey="indexName" data-namekey="indexName">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>		                 
+		            </div>
+		            <div class ="row">
+		            	<div class="col-sm-6">
+		                    <label  class="col-sm-2  control-label">业务系统：</label>
+		                    <div class="col-sm-4 min-height">
+                   				<select name="key3" class="form-control select2 input-sm" data-suburl="heatbaseselect2" data-idkey="key3" data-namekey="key3">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		                <div class="col-sm-6">
+		                    <label  class="col-sm-2  control-label">热度等级：</label>
+		                    <div class="col-sm-4 min-height">
+		                        <select name="isChange" class="form-control select2 input-sm" data-url="heatbasequeryState" data-idkey="codeValue" data-namekey="codeName">		                    
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>
+		            </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary"  name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_text" style="display:none ;min-height:100px;border:1px solid green;">
+            <div class="box-header with-border">
+                <h3 class="box-title"><span name="timeShow"></span>数据库日连接热度报告:</h3>
+            </div>
+            <div class="box-body">
+          		<div class="row" id="JS_connectionPoolText"> </div>
+            </div> 
+        </div> 
+        <div class="box" id="JS_connectionPoolList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">数据库连接热度基线</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+		                <th class="iCheckbox" width="15"></th>
+	                    <th >系统中心</th>
+	                    <th >CENTER</th>
+	                    <th >MODULE</th>
+	                    <th >容器数量</th>
+						<th >MIN_IDLE</th>	
+						<th >MAX_IDLE</th>					
+						<th >GTMIN_IDLE</th>
+						<th >总数</th>						
+						<th >热度值%</th>
+						<th >采集时间</th>
+						<th >热度详细信息</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+            </div>
+            <div class="box-footer no-border">
+            	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹出页面（是否变化） -->
+	<div class="modal fade" id="JS_showDetailModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">数据库热度基线详细情况展示</h4>
+	            </div>
+	            <div id="JS_changeModal" class="modal-body" style="padding-bottom: 0">
+					<div class="box" id="JS_recentSevenDay">
+						<div class="box-header" >
+							<h3 class="box-title">数据库连接热度基线</h3>
+						</div>
+						<div class="box-body" >
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="iCheckbox" width="15"></th>
+					                    <th >系统中心</th>
+					                    <th >APPID</th>
+					                    <th >容器数量</th>
+										<th >MIN_IDLE</th>	
+										<th >MAX_IDLE</th>					
+										<th >GTMIN_IDLE</th>
+										<th >总数</th>						
+										<th >占比%</th>
+										<th >采集时间</th>
+									</tr>
+								</thead>
+								<tbody name="content"></tbody>
+							</table>
+						</div>
+						<div class="box-footer no-border">
+							<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+						</div> 
+					</div>
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
+    <!-- 弹出页面 （是否报备）-->
+	<div class="modal fade" id="JS_showReportModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">数据库连接池配置采集报备信息展示</h4>
+	            </div>
+	            <div id="JS_reportModal" class="modal-body" style="padding-bottom: 0">
+		            <form id="reportModalForm" class="form">
+	                </form>
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<!-- 表格数据 -->
+<script id="TPL_connectionPoolTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+	<td >{{indexName}}</td>
+    <td >{{center}}</td>
+    <td >{{module}}</td>
+	<td >{{vesselNum}}</td>
+    <td >{{minIdle}}</td>
+    <td >{{maxIdle}}</td>
+    <td >{{gtminIdle}}</td>
+	<td >{{totalSession}}</td>
+	<td >{{persentage}}%</td>
+	<td >{{insertTime}}</td>
+	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">Detail</button></td>
+</tr>
+{{/each}}
+</script>
+<!-- 	<td >{{change}}</td>
+	<td >{{report}}</td> -->
+<!-- 内层表格数据 -->
+<script id="TPL_connectionPoolTempIn" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+	<td >{{center}}</td>
+    <td >{{module}}</td>
+	<td >{{db}}</td>
+    <td >{{initialSize}}</td>
+    <td >{{maxActive}}</td>
+    <td >{{maxIdle}}</td>
+	<td >{{minIdle}}</td>
+	<td >{{maxWait}}</td>
+	<td >{{insertTime}}</td>
+	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
+</tr>
+{{/each}}
+</script>
+<!-- 报备信息模板 -->
+<script id="TPL_reportTemp" type="text/x-handlebars-template">
+    <div class="box-body">
+		<div class="row">
+			<div class="form-group">
+				<label for="abstracts" class="col-sm-1 control-label">报备信息:</label>
+				<div class="col-sm-9">
+					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入报备信息">{{abstracts}}</textarea>
+				</div>
+			</div>
+		</div>
+    </div>
+</script>
+
+<script id="TPL_connectionPoolTempText" type="text/x-handlebars-template">
+<div class="events-grid" >
+	<div class=" events-semi-grid">
+		{{#if change}}<p style="text-indent:2em;margin-top:13px;" name="textShow"><span name="timeShowTwo"></span>日共成功采集<span class="text-style">{{collect}}</span>个系统连接池配置<span class="text-style">{{total}}</span>条，经巡检发现<span class="text-style">{{change}}</span>条配置存在变更，具体变更清单请选择“查询状态”条件为“是”后再次查询。</p>{{/if}}
+		<p style="text-indent:2em;margin-top:13px;" name="textShowTwo"><span name="timeShowTwo"></span>日共成功采集<span class="text-style">{{collect}}</span>个系统连接池配置<span class="text-style">{{total}}</span>条，经巡检未发现配置变更。</p>
+	</div>
+</div>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/connectionPoolConfiguration/dbConnectHeatBase", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

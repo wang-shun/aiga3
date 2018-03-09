@@ -51,12 +51,12 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
 				params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
 			}
 			if (StringUtils.isNotBlank(condition.getInsertTime())) {
-				nativeSql.append(" and b.sett_month = :insertTime ");
-				params.add(new ParameterCondition("insertTime", _date));
+				nativeSql.append(" and b.sett_month = :binsertTime ");
+				params.add(new ParameterCondition("binsertTime", _date));
 			}
 			if (StringUtils.isNotBlank(condition.getIndexName())) {
-				nativeSql.append("and a.index_name = :indexName ");
-				params.add(new ParameterCondition("indexName", condition.getIndexName()));
+				nativeSql.append("and a.index_name = :aindexName ");
+				params.add(new ParameterCondition("aindexName", condition.getIndexName()));
 			}   
 			if (StringUtils.isNotBlank(condition.getModule())) {
 				nativeSql.append("and a.key_3 = :module ");

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.service.ArchitectureFirstSv;
 import com.ai.aiga.service.ArchitectureSecondSv;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -18,6 +19,8 @@ public class ArchiSecondController {
 
 	@Autowired
 	private ArchitectureSecondSv architectureSecondSv;
+	@Autowired
+	private ArchitectureFirstSv architectureFirstSv;
 	
 	@RequestMapping(path = "/webservice/archiSecond/list")
 	public @ResponseBody JsonBean list(){
@@ -43,6 +46,17 @@ public class ArchiSecondController {
 			bean.setData(architectureSecondSv.findArchiSecondsByFirst(idFirst));
 		} else {
 			bean.setData(architectureSecondSv.findArchitectureSeconds());
+		}	
+		return bean;
+	} 
+	
+	@RequestMapping(path = "/webservice/archiSecond/getFirst")
+	public @ResponseBody JsonBean getFirst(Long idSecond){
+		JsonBean bean = new JsonBean();
+		if(idSecond!= null && idSecond>0) {
+			bean.setData(architectureFirstSv.findOne(architectureSecondSv.findOne(idSecond).getIdFirst()));
+		} else {
+			bean.fail("查询所属一级域信息失败：二级域编号为空");
 		}	
 		return bean;
 	} 

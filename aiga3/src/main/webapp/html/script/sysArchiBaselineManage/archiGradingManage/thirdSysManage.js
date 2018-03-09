@@ -11,8 +11,6 @@ define(function(require, exports, module) {
     srvMap.add("getPrimaryDomainList", pathAlias+"primaryDomainList.json", "webservice/archiFirst/list");
     //根据一级查询二级子域
     srvMap.add("getSecondByFirst", pathAlias+"secondDomainList.json", "webservice/archiSecond/listByfirst");
-    //二级子域查询
-    srvMap.add("getSecondDomainList", pathAlias+"secondDomainList.json", "webservice/archiSecond/list");
 	//显示系统信息表
 	srvMap.add("getSysMessageList", pathAlias+"getSysMessageList.json", "webservice/archiThird/findTransPage");
 	//三级系统操作信息保存
@@ -22,14 +20,16 @@ define(function(require, exports, module) {
 	//上传文件
     srvMap.add("uploadFile", pathAlias + "getDeliverablesList.json", "group/require/uploadFile");
 	//等级信息
-    srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "webservice/static/rankInfo");    
+    srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "webservice/static/rankInfo");  
+    //获取所属一级域信息
+    srvMap.add("getFirstBySecond", pathAlias + "getDeliverablesList.json", "webservice/archiSecond/getFirst");  
+
 	var idcache = {
 		onlysysId : ""
 	}
 	
 	var cache = {	
 		datas : "",     	//查询出的系统信息
-		secName: ""			//二级子域名称
 	};
 
 	var init = {
@@ -214,16 +214,6 @@ define(function(require, exports, module) {
 				    cancel:function(){}
 				});
 			});
-			//查询二级域名称
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-			Rose.ajax.postJson(srvMap.get('getSecondDomainList'),'',function(json, status){
-				if(status) {
-					window.XMS.msgbox.hide();
-					cache.secName = json.data;
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}					
-			});
 		},	
 		//condition绑定查询按钮事件
 		_queryConditionDomain: function() {
@@ -307,17 +297,27 @@ define(function(require, exports, module) {
 			subData.createDate = subData.createDate.replace(/-/g,"/");
 			//修改操作
 			if(type == 'update') {
-				var m=0;	
-				while(cache.secName[m].idSecond!=subData.idSecond) {
-					m++;
-				}
-				subData.idSecondName = cache.secName[m].name;
+				Rose.ajax.postJsonSync(srvMap.get('getFirstBySecond'),"idSecond="+subData.idSecond,function(json, status){
+					if(status) {
+						subData.idFirstName = json.data.name;
+						subData.idFirst = json.data.idFirst;
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+				});
+				//打开模态框
 				var template = Handlebars.compile(Page.findTpl('thirdUpdateFrom'));
-				Page.findId('updateModal').html(template(subData));
+				var updateModalNode = Page.findId('updateModal');
+				updateModalNode.html(template(subData));
+				//设置下拉框查询参数
+				updateModalNode.find('[name="idBelong"]').attr("data-cmd","idFirst="+subData.idFirst);	
 				var _modal = Page.findId('thirdUpdateModal');
 				_modal.modal('show');
-				Utils.setSelectData(_modal);
+				Utils.setSelectData(_modal,'',function() {
+					updateModalNode.find('[name="idBelong"]').val(subData.idSecond);
+				});
 				_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+					//分层数据设置
 					var hierarchy = Page.find("[name='hierarchysec']");
 					Page.find("[name='groupUpdate'][value='"+subData.ext3+"']").attr("checked",true);
 					var belongLevel = subData.belongLevel.split(',');

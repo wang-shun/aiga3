@@ -222,10 +222,13 @@
 		<textarea name="systemFunction" cols="107" rows="4" class="form-control input-sm text-area-sty">{{systemFunction}}</textarea>
 	</div>
 	<div class="line-sen-top col-md-12 form-group">
-	    <label class="control-label fist-text-label">所属二级子域</label>
-		<input type="text" class="form-control input-sm width-input-nomal" readonly="readonly" value="{{idSecondName}}"></input>
-		<input name="idBelong" type="hidden" value="{{idSecond}}"></input>
-        <label class="control-label col2-sec-label">等级信息<span style="color:red">*</span></label>
+	    <label class="control-label fist-text-label">所属一级域</label>
+		<input type="text" class="form-control input-sm width-input-nomal" readonly="readonly" value="{{idFirstName}}"></input>
+		<label class="control-label fist-text-label">所属二级子域<span style="color:red">*</span></label>
+		<select name="idBelong"  class="form-control select2 input-sm width-input-nomal" data-url="getSecondByFirst" data-idkey="idSecond" data-namekey="name">
+            <option value="">请选择</option>
+        </select>
+        <label class="control-label fist-text-label">等级信息<span style="color:red">*</span></label>
 		<select name="rankInfo"  class="form-control select2 input-sm width-input-nomal" data-url="rankInfoStatic" data-idkey="codeValue" data-namekey="codeName">
         	<option value="">请选择</option>
         </select>

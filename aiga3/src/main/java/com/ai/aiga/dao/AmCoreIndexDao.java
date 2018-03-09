@@ -36,4 +36,12 @@ public interface AmCoreIndexDao extends JpaRepository<AmCoreIndex, Long>, Search
 	  @Modifying
 	  @Query(value = " select a.* from am_core_index a where a.group_id not like '3___' and a.group_id not like '4___' and a.group_id not like '1___' and a.index_id not like '1___'", nativeQuery = true)
 	  List<AmCoreIndex>findAllIndexs2();
+	  
+	  //热度基线
+	  @Modifying
+	  @Query(value = " select a.* from am_core_index a where a.group_id ='3004' ", nativeQuery = true)
+	  List<AmCoreIndex>findAllHeatBase();
+	  
+	  //indexName--->module
+	  List<AmCoreIndex> findByIndexName(String indexName);
 }

@@ -12,4 +12,6 @@ public interface ArchSvnDbcpDao extends JpaRepository<ArchSvnDbcp, Long>,
 
 	  //Center--->db
 	  List<ArchSvnDbcp> findByCenter(String center);
+	  
+	  List<ArchSvnDbcp> findByCenterAndModule(String center, String module);
 }

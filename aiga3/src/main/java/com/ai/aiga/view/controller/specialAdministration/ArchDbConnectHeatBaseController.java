@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchDbConnectHeatBaseSv;
 import com.ai.aiga.service.ArchitectureStaticDataSv;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -24,13 +23,23 @@ public class ArchDbConnectHeatBaseController {
 	private ArchitectureStaticDataSv architectureStaticDataSv;
 	
 	@RequestMapping(path="/webservice/dbconnect/heatbasequery")
-	public @ResponseBody JsonBean queryByPage(
+	public @ResponseBody JsonBean heatbasequery(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
             ArchDbConnectHeatBaseSelects condition) throws ParseException{
 				JsonBean bean = new JsonBean();
-				bean.setData(archDbConnectHeatBaseSv.queryByPage(condition, pageNumber, pageSize));
+				bean.setData(archDbConnectHeatBaseSv.queryHeatBase(condition, pageNumber, pageSize));
 			return bean;
+	}
+	
+	@RequestMapping(path="/webservice/dbconnect/heatbasequeryDetail")
+	public @ResponseBody JsonBean heatbasequeryDetail(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			ArchDbConnectHeatBaseSelects condition) throws ParseException{
+		JsonBean bean = new JsonBean();
+		bean.setData(archDbConnectHeatBaseSv.queryDetail(condition, pageNumber, pageSize));
+		return bean;
 	}	
 	
 	@RequestMapping(path = "/webservice/dbconnect/heatbaseselect1")

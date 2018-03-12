@@ -19,6 +19,9 @@ define(function(require, exports, module) {
 	srvMap.add("heatbaseselect2", pathAlias+"distinctCenter.json", "webservice/dbconnect/heatbaseselect2");
 	//查询状态下拉框
 	srvMap.add("heatbasequeryState", pathAlias+"queryState.json", "webservice/dbconnect/heatbasequeryState");
+	//查询状态下拉框
+	srvMap.add("heatbasequeryDetail", pathAlias+"queryState.json", "webservice/dbconnect/heatbasequeryDetail");
+	
 	//业务系统下拉框
 	srvMap.add("businessSystem", pathAlias+"businessSystem.json", "webservice/static/businessSystem");
 	//查询状态下拉框
@@ -99,9 +102,27 @@ define(function(require, exports, module) {
 			Rose.ajax.postJson(srvMap.get('heatbasequery'), _cmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
-					var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));
-					_dom.find("[name='content']").html(template(json.data));
-					//美化单机
+					var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));                
+	                var tablebtn = _dom.find("[name='content']");
+	                tablebtn.html(template(json.data));
+	        		Utils.eventTrClickCallback(_dom);
+	        		//详细------按钮
+	        		tablebtn.find("[class='btn btn-primary btn-table-detail']").off('click').on('click', function() {
+	        			var selectIndexName = $(this).attr("data-indexName");
+	        			var selectMosule = $(this).attr("data-module");
+	        			var selectDate = $(this).attr("data-date");
+	        			var incmd = "indexName="+selectIndexName+"&module="+selectMosule+"&insertTime="+selectDate.substring(0,10);
+	        			Utils.getServerPage(srvMap.get('heatbasequeryDetail'),incmd,function(injson){
+					        var template2 = Handlebars.compile(Page.findTpl('connectionPoolTempIn'));
+							Page.findId('changeModal').find("[name='content']").html(template2(injson.data.content));
+			        		var _modal = Page.findId('showDetailModal');
+							_modal.modal('show');
+							Utils.setSelectData(_modal);
+							_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
+							});		
+						},_domPagination);
+	        		});
+	        		//美化单机
 					Utils.eventTrClickCallback(_dom);
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);

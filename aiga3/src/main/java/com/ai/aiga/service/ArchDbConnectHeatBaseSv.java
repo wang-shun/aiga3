@@ -18,6 +18,7 @@ import com.ai.aiga.domain.ArchSvnDbcp;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseCoreTable;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseDetail;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseMain;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
 @Service
@@ -34,13 +35,14 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
 	@Autowired
 	private ArchSvnDbcpDao archSvnDbcpDao;
 	
-    public List<ArchDbConnectHeatBaseCoreTable>queryByPage(ArchDbConnectHeatBaseSelects condition, int pageNumber,
+    public List<ArchDbConnectHeatBaseCoreTable>queryHeatBase(ArchDbConnectHeatBaseSelects condition, int pageNumber,
 			int pageSize){
     	//优化 
     	List<ArchDbConnectHeatBaseCoreTable>result = new ArrayList<ArchDbConnectHeatBaseCoreTable>();
     	String _date = condition.getInsertTime().replace("-", "");
 		StringBuilder nativeSql = new StringBuilder(
-				" select a.index_name, a.key_2 as CENTER, a.key_3 as MODULE, c.key3 as VESSEL, count(c.key3) as VALUE " +
+				" select index_name,CENTER,MODULE,VALUE,count(1) as VESSELVALUE from ( " +
+				" select a.index_name, a.key_2 as CENTER, a.key_3 as MODULE, c.key3 as VESSEL, count(c.key3) as VALUE, c.create_date as INSERTTIME " +
 				" from aiam.am_core_index a, aiam.arch_dcos_data b, aiam.arch_db_session_" + _date +
 				" c " +
 				" where a.key_1=b.key_1 and b.result_value=c.key3 "
@@ -61,8 +63,9 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
 			if (StringUtils.isNotBlank(condition.getModule())) {
 				nativeSql.append("and a.key_3 = :module ");
 				params.add(new ParameterCondition("module", condition.getModule()));
-			}   
-			nativeSql.append(" group by a.index_name,a.key_2,a.key_3, c.key3 ");
+			}                
+			nativeSql.append(" group by a.index_name,a.key_2,a.key_3,c.key3,c.create_date ");
+			nativeSql.append(" ) o group by index_name,CENTER,MODULE,VALUE ");
 			List<ArchDbConnectHeatBaseMain>listMains = archDbSessionDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnectHeatBaseMain.class);
 			List<ArchDbConnectHeatBaseMain>listMainsIn = new ArrayList<ArchDbConnectHeatBaseMain>(listMains);
 			List<ArchDbConnectHeatBaseMain>listMainsInIn = new ArrayList<ArchDbConnectHeatBaseMain>(listMains);
@@ -91,18 +94,18 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
 								coreTable.setMinIdle(minIdle);
 								coreTable.setMaxIdle(listMm.size()==0?0:listMm.get(0).getMaxIdle());
 								long cnt = 0L;
-								long gtcnt = 0L;
 								long value = 0L;
+								long gtcnt = 0L;
 								long gtvalue = 0L;
 								for(int i=0;i<listMainsInIn.size();i++){
 									ArchDbConnectHeatBaseMain ba = (ArchDbConnectHeatBaseMain)listMainsInIn.get(i);
 									if(ba.getIndexName().equals(baseMain.getIndexName()) && ba.getModule().equals(base.getModule())){
 										if(minIdle<ba.getValue()){
-											gtcnt++;
+											gtcnt += (ba.getVesselvalue() * ba.getVesselvalue());
 											gtvalue += ba.getValue();
 										}
-										value += ba.getValue();
-										cnt++;
+										value += (ba.getValue() * ba.getVesselvalue());
+										cnt += ba.getVesselvalue();
 									}
 								}
 								coreTable.setVesselNum(cnt);
@@ -119,6 +122,40 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
 			}
 			return result;
 	}
+    
+    public List<ArchDbConnectHeatBaseDetail>queryDetail(ArchDbConnectHeatBaseSelects condition, int pageNumber,
+    		int pageSize){
+    	String _date = condition.getInsertTime().replace("-", "");
+    	StringBuilder nativeSql = new StringBuilder(
+    			" select index_name,CENTER,MODULE,VALUE,count(1) as VESSELVALUE from ( " +
+    					" select a.index_name, a.key_2 as CENTER, a.key_3 as MODULE, c.key3 as VESSEL, count(c.key3) as VALUE, c.create_date as INSERTTIME " +
+    					" from aiam.am_core_index a, aiam.arch_dcos_data b, aiam.arch_db_session_" + _date +
+    					" c " +
+    					" where a.key_1=b.key_1 and b.result_value=c.key3 "
+    			);
+    	List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+    	if (StringUtils.isNotBlank(condition.getInsertTime())) {
+    		nativeSql.append(" and substr(to_char(c.create_date,'yyyy-mm-dd'),0,10) = :insertTime ");
+    		params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
+    	}
+    	if (StringUtils.isNotBlank(condition.getInsertTime())) {
+    		nativeSql.append(" and b.sett_month = :binsertTime ");
+    		params.add(new ParameterCondition("binsertTime", _date));
+    	}
+    	if (StringUtils.isNotBlank(condition.getIndexName())) {
+    		nativeSql.append("and a.index_name = :aindexName ");
+    		params.add(new ParameterCondition("aindexName", condition.getIndexName()));
+    	}   
+    	if (StringUtils.isNotBlank(condition.getModule())) {
+    		nativeSql.append("and a.key_3 = :module ");
+    		params.add(new ParameterCondition("module", condition.getModule()));
+    	}                
+    	nativeSql.append(" group by a.index_name,a.key_2,a.key_3,c.key3,c.create_date ");
+    	nativeSql.append(" ) o group by index_name,CENTER,MODULE,VALUE ");
+    	nativeSql.append(" order by VALUE ");
+    	List<ArchDbConnectHeatBaseDetail>listMains = archDbSessionDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnectHeatBaseDetail.class);
+    	return listMains;
+    }
     
     //select 1
     public List<AmCoreIndex> select1(){

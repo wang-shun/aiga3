@@ -46,7 +46,7 @@
 		                <div class="col-sm-6">
 		                    <label  class="col-sm-2  control-label">热度等级：</label>
 		                    <div class="col-sm-4 min-height">
-		                        <select name="isChange" class="form-control select2 input-sm" data-url="heatbasequeryState" data-idkey="codeValue" data-namekey="codeName">		                    
+		                        <select name="persentage" class="form-control select2 input-sm" data-url="heatbasequeryState" data-idkey="codeValue" data-namekey="codeName">		                    
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
@@ -117,14 +117,15 @@
 								<thead>
 									<tr>
 										<th class="iCheckbox" width="15"></th>
-					                    <th >系统中心</th>
-					                    <th >APPID</th>
+										<th >系统中心</th>
+					                    <th >CENTER</th>
+					                    <th >MODULE</th>
 					                    <th >容器数量</th>
 										<th >MIN_IDLE</th>	
 										<th >MAX_IDLE</th>					
 										<th >GTMIN_IDLE</th>
 										<th >总数</th>						
-										<th >占比%</th>
+										<th >热度值%</th>
 										<th >采集时间</th>
 									</tr>
 								</thead>
@@ -135,24 +136,6 @@
 							<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
 						</div> 
 					</div>
-	          	</div>
-	            <div class="modal-footer btn-center">
-	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
-	            </div>
-	        </div>
-	    </div>
-	</div>
-    <!-- 弹出页面 （是否报备）-->
-	<div class="modal fade" id="JS_showReportModal" tabindex="-1" role="dialog">
-	    <div class="modal-dialog total-width">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                <h4 class="modal-title">数据库连接池配置采集报备信息展示</h4>
-	            </div>
-	            <div id="JS_reportModal" class="modal-body" style="padding-bottom: 0">
-		            <form id="reportModalForm" class="form">
-	                </form>
 	          	</div>
 	            <div class="modal-footer btn-center">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
@@ -177,27 +160,25 @@
 	<td >{{totalSession}}</td>
 	<td >{{persentage}}%</td>
 	<td >{{insertTime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">Detail</button></td>
+	<td ><button type="button" class="btn btn-primary btn-table-detail" data-indexName="{{indexName}}" data-module="{{module}}" data-date="{{insertTime}}" name="detail">详细</button></td>
 </tr>
 {{/each}}
 </script>
-<!-- 	<td >{{change}}</td>
-	<td >{{report}}</td> -->
 <!-- 内层表格数据 -->
 <script id="TPL_connectionPoolTempIn" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td >{{center}}</td>
+	<td >{{indexName}}</td>
+    <td >{{center}}</td>
     <td >{{module}}</td>
-	<td >{{db}}</td>
-    <td >{{initialSize}}</td>
-    <td >{{maxActive}}</td>
+	<td >{{vesselNum}}</td>
+    <td >{{minIdle}}</td>
     <td >{{maxIdle}}</td>
-	<td >{{minIdle}}</td>
-	<td >{{maxWait}}</td>
+    <td >{{gtminIdle}}</td>
+	<td >{{totalSession}}</td>
+	<td >{{persentage}}%</td>
 	<td >{{insertTime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
 </tr>
 {{/each}}
 </script>

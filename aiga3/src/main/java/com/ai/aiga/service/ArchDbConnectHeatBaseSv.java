@@ -154,6 +154,16 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
     	nativeSql.append(" ) o group by index_name,CENTER,MODULE,VALUE ");
     	nativeSql.append(" order by VALUE ");
     	List<ArchDbConnectHeatBaseDetail>listMains = archDbSessionDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnectHeatBaseDetail.class);
+    	long totalNum = 0L;
+    	for(int i=0;i<listMains.size();i++){
+    		ArchDbConnectHeatBaseDetail baseDetail = (ArchDbConnectHeatBaseDetail)listMains.get(i);
+    		totalNum += (baseDetail.getValue()*baseDetail.getVesselvalue());
+    	}
+    	for(int j=0;j<listMains.size();j++){
+    		ArchDbConnectHeatBaseDetail baseDetail = (ArchDbConnectHeatBaseDetail)listMains.get(j);
+    		double persentage = (baseDetail.getValue()*baseDetail.getVesselvalue())*100/totalNum;
+    		baseDetail.setPersentage(persentage);
+    	}
     	return listMains;
     }
     

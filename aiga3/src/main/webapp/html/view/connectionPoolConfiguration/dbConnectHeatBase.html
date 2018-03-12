@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <!-- 弹出页面（是否变化） -->
+    <!-- 弹出页面（detail） -->
 	<div class="modal fade" id="JS_showDetailModal" tabindex="-1" role="dialog">
 	    <div class="modal-dialog total-width">
 	        <div class="modal-content">
@@ -121,12 +121,8 @@
 					                    <th >CENTER</th>
 					                    <th >MODULE</th>
 					                    <th >容器数量</th>
-										<th >MIN_IDLE</th>	
-										<th >MAX_IDLE</th>					
-										<th >GTMIN_IDLE</th>
-										<th >总数</th>						
-										<th >热度值%</th>
-										<th >采集时间</th>
+										<th >数量</th>	
+										<th >占比%</th>	
 									</tr>
 								</thead>
 								<tbody name="content"></tbody>
@@ -172,13 +168,9 @@
 	<td >{{indexName}}</td>
     <td >{{center}}</td>
     <td >{{module}}</td>
-	<td >{{vesselNum}}</td>
-    <td >{{minIdle}}</td>
-    <td >{{maxIdle}}</td>
-    <td >{{gtminIdle}}</td>
-	<td >{{totalSession}}</td>
-	<td >{{persentage}}%</td>
-	<td >{{insertTime}}</td>
+	<td >{{value}}</td>
+    <td >{{vesselvalue}}</td>
+    <td >{{persentage}}%</td>
 </tr>
 {{/each}}
 </script>

@@ -114,7 +114,7 @@ define(function(require, exports, module) {
 	        			var incmd = "indexName="+selectIndexName+"&module="+selectMosule+"&insertTime="+selectDate.substring(0,10);
 	        			Utils.getServerPage(srvMap.get('heatbasequeryDetail'),incmd,function(injson){
 					        var template2 = Handlebars.compile(Page.findTpl('connectionPoolTempIn'));
-							Page.findId('changeModal').find("[name='content']").html(template2(injson.data.content));
+							Page.findId('changeModal').find("[name='content']").html(template2(injson.data));
 			        		var _modal = Page.findId('showDetailModal');
 							_modal.modal('show');
 							Utils.setSelectData(_modal);

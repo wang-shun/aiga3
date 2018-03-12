@@ -10,5 +10,6 @@ public class ArchDbConnectHeatBaseDetail implements Serializable {
     private String module;
     private Long value;
     private Long vesselvalue;
+    private double persentage;
     
 }

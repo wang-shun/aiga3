@@ -195,6 +195,7 @@ define(function(require, exports, module) {
 		},
 		
 		_band_table_btn: function(sysId, type) {
+			var self= this;
 			var id = sysId;
 			var index = 0;
 			while(id != cache.datas[index].idSecond) {
@@ -274,6 +275,7 @@ define(function(require, exports, module) {
 		},
 		
 		_update_submit:function() {
+			var _modal = Page.findId('secondUpdateModal');
 			var updateDom = Page.findId('secUpdateForm');
 			var _cmd = updateDom.serialize();
 			//获取分层层级

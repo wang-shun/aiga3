@@ -61,6 +61,9 @@
 	</div>
 </div>
 <style>
+	.page-welcome .top-icon-declick {
+	        cursor: pointer;	
+	}
 	.page-welcome .ques-word {
 		width:50%;
 		display: inline-block;
@@ -219,7 +222,7 @@
         {{#each this}}
         <ul class="row item {{isActive @index}}" style="list-style:none">
             {{#each this}}
-            <li class="col-md-3">
+            <li class="col-md-3 top-icon-declick" data-nodeid="{{ext3}}">
                 <span class="info-box-icon bg-{{bgColor}}"><i class="{{icon}}"></i></span>
                 <div class="info-box-content">
                     <span title="{{ext1}}" class="info-box-text">{{shrinkHtmlFilter ext1 10}}</span>

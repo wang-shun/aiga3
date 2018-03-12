@@ -208,8 +208,23 @@ define(function(require,exports,module){
                     };
                     var template = Handlebars.compile(Page.findTpl('getWelcomeKpiList'));
                     Page.findId('getWelcomeKpiList').html(template(chunk(newDataArray, 4)));
+                    
+                    //设置点击事件
+                    Page.findId('getWelcomeKpiList').find('.top-icon-declick').off('click').on('click',function(){
+                    	var nodeId = $(this).attr("data-nodeid");
+                    	if(nodeId) {
+                        	//查找页面
+    	    				var objData = {
+    	    						id : '191',
+    	    						name : '八大军规指标树形展示',
+    	    						href : "view/archiQuesManage/quesIndexR.html",
+    	    	                    cmd : "indexId="+nodeId
+    	    				};
+    	                	Tab.creatTab(objData);            		
+                    	}
+                    });
                 } else {
-                	//指标获取失败
+                   	//指标获取失败
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });

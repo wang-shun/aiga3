@@ -50,13 +50,13 @@
   border-right-width: 0;
 }
 .skin-black .main-header > .logo {
-  background-color: #ffffff;
-  color: #333333;
+  background-color: #02182e;
+  color: #ffffff;
   border-bottom: 0 solid transparent;
-  border-right: 1px solid #eee;
+  border-right: 1px solid #02182e;
 }
 .skin-black .main-header > .logo:hover {
-  background-color: #fcfcfc;
+  background-color: #02182e;
 }
 @media (max-width: 767px) {
   .skin-black .main-header > .logo {
@@ -79,7 +79,7 @@
 .skin-black .wrapper,
 .skin-black .main-sidebar,
 .skin-black .left-side {
-  background-color: #222d32;
+  background-color: #002140;
 }
 .skin-black .user-panel > .info,
 .skin-black .user-panel > .info > a {

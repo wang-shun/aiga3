@@ -65,6 +65,7 @@ h1, h2, h3, h4, h5, h6 {
 # Header
 --------------------------------------------------------------*/
 #header {
+  background: rgb(2, 24, 46);
   padding: 30px 0;
   height: 92px;
   position: fixed;
@@ -151,7 +152,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #intro .carousel-item::before {
   content: '';
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0);
   position: absolute;
   height: 100%;
   width: 100%;

@@ -48,7 +48,8 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
 				" select a.index_name, a.key_2 as CENTER, a.key_3 as MODULE, c.key3 as VESSEL, count(c.key3) as VALUE, c.create_date as INSERTTIME " +
 				" from aiam.am_core_index a, aiam.arch_dcos_data b, aiam.arch_db_session_" + _date +
 				" c " +
-				" where a.key_1=b.key_1 and b.result_value=c.key3 "
+				" where a.key_1=b.key_1 and b.result_value=c.key3 " +
+				" and c.key2 = 'dcos' "
 				);
 			List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 			if (StringUtils.isNotBlank(condition.getInsertTime())) {
@@ -134,7 +135,8 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
     					" select a.index_name, a.key_2 as CENTER, a.key_3 as MODULE, c.key3 as VESSEL, count(c.key3) as VALUE, c.create_date as INSERTTIME " +
     					" from aiam.am_core_index a, aiam.arch_dcos_data b, aiam.arch_db_session_" + _date +
     					" c " +
-    					" where a.key_1=b.key_1 and b.result_value=c.key3 "
+    					" where a.key_1=b.key_1 and b.result_value=c.key3 " +
+    					" and c.key2 = 'dcos' "
     			);
     	List<ParameterCondition>params = new ArrayList<ParameterCondition>();
     	if (StringUtils.isNotBlank(condition.getInsertTime())) {

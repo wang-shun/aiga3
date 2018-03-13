@@ -8,6 +8,7 @@ public class ArchDbConnectHeatBaseMain implements Serializable {
 	private String indexName;
 	private String center;
     private String module;
+    private String db;
     private String vessel;
     private String time;
     private Long value;

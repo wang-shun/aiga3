@@ -7,7 +7,8 @@ public class ArchDbConnectHeatBaseSelects implements Serializable {
 
 	private String insertTime;
     private String indexName;
-    private String module;
+    private String key3;//module
+    private String db;
     private String percentage;
     
 }

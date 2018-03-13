@@ -81,6 +81,7 @@
 	                    <th >系统中心</th>
 	                    <th >CENTER</th>
 	                    <th >MODULE</th>
+	                    <th >数据库节点</th>
 	                    <th >容器数量</th>
 						<th >MIN_IDLE</th>	
 						<th >MAX_IDLE</th>					
@@ -120,8 +121,9 @@
 										<th >系统中心</th>
 					                    <th >CENTER</th>
 					                    <th >MODULE</th>
-					                    <th >容器数量</th>
-										<th >数量</th>	
+					                    <th >DB</th>
+					                    <th >容器ID个数</th>
+										<th >相对数量</th>	
 										<th >占比%</th>	
 									</tr>
 								</thead>
@@ -129,7 +131,7 @@
 							</table>
 						</div>
 						<div class="box-footer no-border">
-							<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+							<div class="dataTables_paginate" style="text-align: center;" name="paginationIn"></div>
 						</div> 
 					</div>
 	          	</div>
@@ -149,6 +151,7 @@
 	<td >{{indexName}}</td>
     <td >{{center}}</td>
     <td >{{module}}</td>
+    <td >{{db}}</td>
 	<td >{{vesselNum}}</td>
     <td >{{minIdle}}</td>
     <td >{{maxIdle}}</td>
@@ -156,7 +159,7 @@
 	<td >{{totalSession}}</td>
 	<td >{{persentage}}%</td>
 	<td >{{insertTime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-detail" data-indexName="{{indexName}}" data-module="{{module}}" data-date="{{insertTime}}" name="detail">详细</button></td>
+	<td ><button type="button" class="btn btn-primary btn-table-detail" data-indexName="{{indexName}}" data-module="{{module}}" data-db="{{db}}" data-date="{{insertTime}}" name="detail">详细</button></td>
 </tr>
 {{/each}}
 </script>
@@ -168,6 +171,7 @@
 	<td >{{indexName}}</td>
     <td >{{center}}</td>
     <td >{{module}}</td>
+	<td >{{db}}</td>
 	<td >{{value}}</td>
     <td >{{vesselvalue}}</td>
     <td >{{persentage}}%</td>

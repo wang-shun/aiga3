@@ -12,11 +12,12 @@ import com.ai.aiga.dao.ArchAppidSystemRelationDao;
 import com.ai.aiga.dao.ArchDbSessionDao;
 import com.ai.aiga.dao.ArchDcosDataDao;
 import com.ai.aiga.dao.ArchSvnDbcpDao;
+import com.ai.aiga.dao.ArchitectureStaticDataDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.AmCoreIndex;
 import com.ai.aiga.domain.ArchSvnDbcp;
+import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseCoreTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseDetail;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseMain;
@@ -34,6 +35,8 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
 	private ArchAppidSystemRelationDao appidSystemRelationDao;
 	@Autowired
 	private ArchSvnDbcpDao archSvnDbcpDao;
+	@Autowired
+	private ArchitectureStaticDataDao architectureStaticDataDao;
 	
     public List<ArchDbConnectHeatBaseCoreTable>queryHeatBase(ArchDbConnectHeatBaseSelects condition, int pageNumber,
 			int pageSize){
@@ -200,4 +203,8 @@ public class ArchDbConnectHeatBaseSv extends BaseService {
     	}
     	return newlist;
     }
+    
+	public List<ArchitectureStaticData>findByCodeType(String codeType){
+		return architectureStaticDataDao.findByCodeType2(codeType);
+	}
 }

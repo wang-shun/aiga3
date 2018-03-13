@@ -61,7 +61,7 @@ public class ArchDbConnectHeatBaseController {
 	public @ResponseBody JsonBean queryState(){
 		JsonBean bean = new JsonBean();
 		String codeType = "ARCH_HEAT_BASE_VALUE";
-		bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+		bean.setData(archDbConnectHeatBaseSv.findByCodeType(codeType));
 		return bean;
 	} 
 }

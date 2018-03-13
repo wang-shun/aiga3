@@ -42,6 +42,7 @@ public interface AmCoreIndexDao extends JpaRepository<AmCoreIndex, Long>, Search
 	  @Query(value = " select a.* from aiam.am_core_index a where a.group_id ='3004' ", nativeQuery = true)
 	  List<AmCoreIndex>findAllHeatBase();
 	  
-	  //indexName--->module
-	  List<AmCoreIndex> findByIndexName(String indexName);
+		@Query(value = " select a.* from aiam.am_core_index a where a.group_id ='3004' and a.index_name = ?1 ", nativeQuery= true)
+		List<AmCoreIndex> findByIndexName(String indexName);
+	  
 }

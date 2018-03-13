@@ -119,21 +119,53 @@ define(function(require, exports, module) {
 
 	var Query = {
 		init: function() {
-			//按日查询 树
+	   		var syscmd = Page.getParentCmd();
+			if(syscmd){
+				this.jumpPage();
+				//按月查询 树
+				this.getRightTreeR2();
+				this.queryDataMaintainForm2();
+				this.hdbarHelp();
+			} else {
+				//按日查询 树
+				this.getRightTreeR();
+				//按月查询 树
+				this.getRightTreeR2();
+				// 初始化查询表单
+				this.queryDataMaintainForm();
+				this.queryDataMaintainForm2();
+				//映射
+				this.hdbarHelp();
+			}
+		},
+		jumpPage : function(){
+			var syscmd = Page.getParentCmd();
+			var self = this;
 			this.getRightTreeR();
-			//按月查询 树
-			this.getRightTreeR2();
-			// 初始化查询表单
-			this.queryDataMaintainForm();
-			this.queryDataMaintainForm2();
-			//映射
-			this.hdbarHelp();
+			var _form = Page.findId('queryDataMaintainForm');
+			Utils.setSelectData(_form);
+			var _queryBtn = _form.find("[name='query']");
+				//首页跳转代码
+				self.queryDataMaintainForm();
+				var jumpTreeObj = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR");
+				var node = jumpTreeObj.getNodeByParam("indexId", syscmd.indexId);
+				if (node) {
+					jumpTreeObj.checkNode(node,true,true);
+				}
+				self.queryDataMaintainForm();
+			_queryBtn.click();				
 		},
 		getRightTreeR: function(cmd) {
-            Rose.ajax.postJson(srvMap.get('findAllAmCoresByDay'), cmd, function(AllAmCoresJson, status) {
+			var self = this;
+            Rose.ajax.postJsonSync(srvMap.get('findAllAmCoresByDay'), cmd, function(AllAmCoresJson, status) {
                 if (status) {
                     //checkbox代码块
                     var setting = {
+				        view: {
+				            dblClickExpand: false,
+				            showLine: true,
+				            selectedMulti: true
+				        },
                         check: {
                             enable: true,
                             chkStyle: "checkbox",
@@ -153,8 +185,6 @@ define(function(require, exports, module) {
                             onCheck: function(event, treeId, treeNode) {
                                 funcIdNum = treeNode.indexId;
                                 var node =treeNode.getCheckStatus();
-                                console.log(node);
-                                console.log(funcIdNum);
                             }
                         }
                     };
@@ -195,7 +225,7 @@ define(function(require, exports, module) {
 				var command = $.fn.zTree.getZTreeObj("Tree_getRightTreeRR").getCheckedNodes();
 				var indexIds ='';
 //				var tArray = new Array();   //先声明一维
-
+				
 				var groupId = new Set();
 				var lastFatherId = 0;
 				var lastFatherGroupId = 0;
@@ -1101,14 +1131,23 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('getDataMaintainList');
 			var _domPagination = _dom.find("[name='pagination']");
 			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList2'), _cmd, function(json, status) {
-				window.XMS.msgbox.hide();
-				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-				var template = Handlebars.compile(Tpl.getAmCoreIndexList);
-				_dom.find("[name='content']").html(template(json.data));
-				cache.tableName2 = json.data[0].schId;
-				cache.tableIndex= json.data[0].indexId;
-				//美化单机
-				Utils.eventTrClickCallback(_dom);
+				if(status){
+					if(json){
+						window.XMS.msgbox.hide();
+						// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
+						var template = Handlebars.compile(Tpl.getAmCoreIndexList);
+						_dom.find("[name='content']").html(template(json.data));
+						cache.tableName2 = json.data[0].schId;
+						cache.tableIndex= json.data[0].indexId;
+						//美化单机
+						Utils.eventTrClickCallback(_dom);
+					}else{
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+				}else{
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+				
 			}, _domPagination);
 			
 			var _domSec = Page.findId('getDataMaintainListSec');

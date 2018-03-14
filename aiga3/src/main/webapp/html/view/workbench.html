@@ -66,7 +66,7 @@
     }
     
     .page-workbench .boxbody-nomal-ulli {
-    	height: 110px;
+    	height: 120px;
     	border-right: 1px solid #b4b2b2;
     	cursor:pointer;
     }
@@ -80,7 +80,7 @@
 	    font-style: normal;
 	    height: 40px;
 	    width: 40px;
-	    left: 10%;	    
+	    left: 5%;	    
 	    line-height: 20px;
 	    margin-top: 7px;
 	    position: absolute;
@@ -117,11 +117,12 @@
     	text-shadow: 0px 0px 0 #999999;
     }
     .boxbody-nomal-ulli .bill-apply-name {
-		margin: 20px 0 0 25%;
+		margin: 20px 0 0 20%;
 	    width: 115px;
 	    text-align: center;
     }    
     .boxbody-nomal-ulli .bill-apply-num {
+        color:#333;
    	 	text-align: center;
     	display: block;
 	    margin-top: 20px;
@@ -130,6 +131,15 @@
 	    overflow: hidden;
 	    text-overflow: ellipsis;
 	    font-weight: bold;
+    }
+    .boxbody-nomal-ulli .small-font-foll {
+		font-size: 15px
+    }
+    .boxbody-nomal-ulli .task-deal-pic {
+		left: 10%;
+    }
+    .boxbody-nomal-ulli .task-deal-word{
+    	margin-left:25%;
     }
     /*new icon style  fin*/   
 </style>
@@ -167,27 +177,27 @@
 		<div class="box-header boxhd-nsty-gred">
 			<h3 class="box-title">基线申请单</h3>
 		</div>
-		<div class="box-body">
-			<ul class="col-md-12" style="list-style:none;">
+		<div class="box-body" style="padding:0;">
+			<ul class="col-md-12" style="list-style:none;margin-bottom:0;">
 				<li class="col-md-3 boxbody-nomal-ulli">
 					<div class="bill-apply-icon1"></div>
 					<div class="bill-apply-name" name="applyFirst">一级域</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyFirst}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">{{applyFirst}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-3 boxbody-nomal-ulli">
 					<div class="bill-apply-icon2"></div>
 					<div class="bill-apply-name" name="applySecond">二级子域</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{applySecond}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">{{applySecond}}<span class="small-font-foll">个</span></div>
 				</li>			
 				<li class="col-md-3 boxbody-nomal-ulli">
 					<div class="bill-apply-icon3"></div>
 					<div class="bill-apply-name" name="applyThird">三级系统</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyThird}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">{{applyThird}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-3 boxbody-nomal-ulli" style="border: none;">
 					<div class="bill-apply-icon4"></div>
 					<div class="bill-apply-name" name="noPassSystem">驳回系统单</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{noPassSystem}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">{{noPassSystem}}<span class="small-font-foll">个</span></div>
 				</li>
 			</ul>
 		</div>
@@ -198,27 +208,27 @@
 		<div class="box-header boxhd-nsty-gred">
 			<h3 class="box-title">问题申请单</h3>
 		</div>
-		<div class="box-body">
-			<ul class="col-md-12" style="list-style:none;">
+		<div class="box-body" style="padding:0;">
+			<ul class="col-md-12" style="list-style:none;margin-bottom:0;"">
 				<li class="col-md-3 boxbody-nomal-ulli">
 					<div class="bill-apply-icon5"></div>
 					<div class="bill-apply-name" name="applyIndentyQues">待认定问题</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyIndentyQues}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">{{applyIndentyQues}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-3 boxbody-nomal-ulli">
 					<div class="bill-apply-icon6"></div>
 					<div class="bill-apply-name" name="applyResolveQues">待解决问题</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyResolveQues}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">{{applyResolveQues}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-3 boxbody-nomal-ulli">
 					<div class="bill-apply-icon7"></div>
 					<div class="bill-apply-name" name="applyCloseQues">解决中问题</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{applyCloseQues}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">{{applyCloseQues}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-3 boxbody-nomal-ulli" style="border: none;">
 					<div class="bill-apply-icon8" name="applyThird"></div>
 					<div class="bill-apply-name" name="noPassQues">驳回问题单</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">0<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-num">0<span class="small-font-foll">个</span></div>
 				</li>
 			</ul>
 		</div>
@@ -229,37 +239,37 @@
 		<div class="box-header boxhd-nsty-gred">
 			<h3 class="box-title">待处理任务</h3>
 		</div>
-		<div class="box-body">
+		<div class="box-body" style="padding: 0;">
 			<ul class="col-md-12" style="list-style:none;">
 				<li class="col-md-2 boxbody-nomal-ulli">
-					<div class="bill-apply-icon1"></div>
-					<div class="bill-apply-name" name="dealFirst">一级域</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealFirst}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-icon1 task-deal-pic"></div>
+					<div class="bill-apply-name task-deal-word" name="dealFirst">一级域</div>
+					<div class="bill-apply-num">{{dealFirst}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-2 boxbody-nomal-ulli">
-					<div class="bill-apply-icon2"></div>
-					<div class="bill-apply-name" name="dealSecond">二级子域</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealSecond}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-icon2 task-deal-pic"></div>
+					<div class="bill-apply-name task-deal-word" name="dealSecond">二级子域</div>
+					<div class="bill-apply-num">{{dealSecond}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-2 boxbody-nomal-ulli">
-					<div class="bill-apply-icon3"></div>
-					<div class="bill-apply-name" name="dealThird">三级系统</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealThird}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-icon3 task-deal-pic"></div>
+					<div class="bill-apply-name task-deal-word" name="dealThird">三级系统</div>
+					<div class="bill-apply-num">{{dealThird}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-2 boxbody-nomal-ulli">
-					<div class="bill-apply-icon5"></div>
-					<div class="bill-apply-name" name="dealIndentyQues">待认定问题</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealIndentyQues}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-icon5 task-deal-pic"></div>
+					<div class="bill-apply-name task-deal-word" name="dealIndentyQues">待认定问题</div>
+					<div class="bill-apply-num">{{dealIndentyQues}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-2 boxbody-nomal-ulli">
-					<div class="bill-apply-icon6"></div>
-					<div class="bill-apply-name" name="dealResolveQues">待解决问题</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealResolveQues}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-icon6 task-deal-pic"></div>
+					<div class="bill-apply-name task-deal-word" name="dealResolveQues">待解决问题</div>
+					<div class="bill-apply-num">{{dealResolveQues}}<span class="small-font-foll">个</span></div>
 				</li>
 				<li class="col-md-2 boxbody-nomal-ulli" style="border: none;">
-					<div class="bill-apply-icon7"></div>
-					<div class="bill-apply-name" name="dealCloseQues">解决中问题</div>
-					<div class="bill-apply-num" style="color: #8d8d8d;">{{dealCloseQues}}<span style="font-size: 15px">个</span></div>
+					<div class="bill-apply-icon7 task-deal-pic"></div>
+					<div class="bill-apply-name task-deal-word" name="dealCloseQues">解决中问题</div>
+					<div class="bill-apply-num">{{dealCloseQues}}<span class="small-font-foll">个</span></div>
 				</li>
 			</ul>
 		</div>

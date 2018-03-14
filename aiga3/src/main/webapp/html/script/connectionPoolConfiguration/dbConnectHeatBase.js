@@ -110,8 +110,11 @@ define(function(require, exports, module) {
 	        		tablebtn.find("[class='btn btn-primary btn-table-detail']").off('click').on('click', function() {
 	        			var selectIndexName = $(this).attr("data-indexName");
 	        			var selectMosule = $(this).attr("data-module");
+	        			var selectDb = $(this).attr("data-db");
 	        			var selectDate = $(this).attr("data-date");
-	        			var incmd = "indexName="+selectIndexName+"&module="+selectMosule+"&insertTime="+selectDate.substring(0,10);
+	        			var incmd = "indexName="+selectIndexName+"&key3="+selectMosule+"&db="+selectDb+"&insertTime="+selectDate.substring(0,10);
+	        			var _domIn = Page.findId('connectionPoolList');
+						var _domPaginationIn = _domIn.find("[name='paginationIn']");
 	        			Utils.getServerPage(srvMap.get('heatbasequeryDetail'),incmd,function(injson){
 					        var template2 = Handlebars.compile(Page.findTpl('connectionPoolTempIn'));
 							Page.findId('changeModal').find("[name='content']").html(template2(injson.data));
@@ -120,7 +123,7 @@ define(function(require, exports, module) {
 							Utils.setSelectData(_modal);
 							_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
 							});		
-						},_domPagination);
+						},_domPaginationIn);
 	        		});
 	        		//美化单机
 					Utils.eventTrClickCallback(_dom);

@@ -8,6 +8,7 @@ public class ArchDbConnectHeatBaseCoreTable implements Serializable {
 	private String indexName;
     private String center;
     private String module;
+    private String db;
     private Long vesselNum;
     private Long minIdle;
     private Long maxIdle;

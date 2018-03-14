@@ -75,7 +75,7 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('connectionPoolList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');			
-			Rose.ajax.postJson(srvMap.get('getText'),_cmd,function(jsontxt, status){
+/*			Rose.ajax.postJson(srvMap.get('getText'),_cmd,function(jsontxt, status){
 				if(status) {
 					window.XMS.msgbox.hide();
 					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));
@@ -98,7 +98,7 @@ define(function(require, exports, module) {
 				} else {
 					XMS.msgbox.show(jsontxt.retMessage, 'error', 2000);
 				}					
-			});	
+			});	*/
 			Rose.ajax.postJson(srvMap.get('heatbasequery'), _cmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();

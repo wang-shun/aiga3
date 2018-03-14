@@ -25,7 +25,7 @@ define(function(require, exports, module) {
 	                Page.findId('getOwnHomeInfo').html(template(data));
 	                Page.find("li").off('click').on('click',function() {
 	                	var number = $(this).find('[class="bill-apply-num"]')[0].firstChild.nodeValue;
-	                	var name = $(this).find('[class="bill-apply-name"]').attr("name");
+	                	var name = $(this).find('[class~="bill-apply-name"]').attr("name");
 	                	if(number < 1 || typeof(name) == 'undefined') {
 	                		return
 	                	}

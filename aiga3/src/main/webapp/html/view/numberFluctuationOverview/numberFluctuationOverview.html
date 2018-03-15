@@ -32,7 +32,7 @@
 		            	<div class="form-group col-sm-6">
 		                    <label  class="col-sm-3  control-label">一级数据库名称：</label>
 		                    <div class="col-sm-4">
-		                    	<select name="primaryDatabase" class="form-control select2 input-sm" data-url="primaryDatabase" data-idkey="codeValue" data-namekey="codeName">
+		                    	<select name="primaryDatabase" class="form-control select2 input-sm" data-url="primary" data-subname="secondDatabase" data-idkey="primaryDatabase" data-namekey="primaryDatabase">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
@@ -40,7 +40,7 @@
                 		<div class="form-group col-sm-6">
 		                    <label  class="col-sm-3  control-label">二级数据库名称：</label>
 		                    <div class="col-sm-4">
-		                    	<select name="secondDatabase" class="form-control select2 input-sm" data-url="secondDatabase" data-idkey="codeValue" data-namekey="codeName">
+		                    	<select name="secondDatabase" class="form-control select2 input-sm" data-suburl="second" data-idkey="codeValue" data-namekey="codeName">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
@@ -104,15 +104,15 @@
 <script id="TPL_numberFluctuationTemp" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
-    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td >{{}}</td>
+    <td><input type="radio" class="minimal" value="{{indexId}}" name="indexId"></td>
+	<td >{{key1}}</td>
+    <td >20000</td>
+	<td >25000</td>
+    <td >{{}}</td>
+    <td name="gradeHealth"></td>
     <td >{{}}</td>
 	<td >{{}}</td>
-    <td >{{}}</td>
-    <td >{{}}</td>
-    <td >{{}}</td>
-	<td >{{}}</td>
-	<td >{{}}</td>
+	<td ><button>7天曲线</button> <button>30天曲线</button></td>
 </tr>
 {{/each}}
 </script>

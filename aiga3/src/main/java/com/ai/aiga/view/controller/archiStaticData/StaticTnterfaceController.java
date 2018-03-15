@@ -34,6 +34,15 @@ public class StaticTnterfaceController {
 		return bean;
 	} 
 	
+	//根据Type查询一级数据库
+		@RequestMapping(path = "/webservice/static/primaryDatabase")
+		public @ResponseBody JsonBean primaryDatabase(){
+			JsonBean bean = new JsonBean();
+			String codeType = "FLUCTUATION_PRO_PRIMARY";
+			bean.setData(architectureStaticDataSv.findByCodeType(codeType));
+			return bean;
+		}
+	
 	//根据Type查询静态数据分类
 	@RequestMapping(path = "/webservice/static/workplanState")
 	public @ResponseBody JsonBean workplanState(){

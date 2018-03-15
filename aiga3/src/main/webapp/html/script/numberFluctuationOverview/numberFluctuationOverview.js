@@ -9,7 +9,11 @@ define(function(require, exports, module) {
 	var Page = Utils.initPage('numberFluctuation');
 
 	//一级数据库下拉框
-	srvMap.add("primaryDatabase", pathAlias+"primaryDatabase.json", "webservice/configure/primaryDatabase");	
+	srvMap.add("primary", pathAlias+"primaryDatabase.json", "webservice/static/primaryDatabase");	
+	//二级数据库下拉框
+	srvMap.add("second", pathAlias+"secondDatabase.json", "webservice/static/secondDatabase");
+	//查询接口
+	srvMap.add("getNumberFluctuation", pathAlias+"getNumberFluctuation.json", "");
 	
 	var cache = {
 			datas : ""
@@ -60,8 +64,13 @@ define(function(require, exports, module) {
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();				
 				var primaryDatabase = _form.find("[name='primaryDatabase']").val();
+				var secondDatabase = _form.find("[name='secondDatabase']").val();
 				if(primaryDatabase == 0) {
 					XMS.msgbox.show('一级数据库为空！', 'error', 2000);
+					return
+				}
+				if(secondDatabase == 0) {
+					XMS.msgbox.show('二级数据库为空！', 'error', 2000);
 					return
 				}
 				self._getGridList(cmd);

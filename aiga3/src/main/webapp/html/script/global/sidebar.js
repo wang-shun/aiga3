@@ -51,6 +51,9 @@ define(function(require, exports, module) {
         	// something todo
         },
         write_tab_record:function(objData) {
+        	if(objData.name == '首页' ) {
+        		return
+        	}     	
         	var cmd = {
         		recordId : 0,
         		menuUrl : objData.href,

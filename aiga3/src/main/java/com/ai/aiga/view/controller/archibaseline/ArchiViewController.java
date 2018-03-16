@@ -472,7 +472,7 @@ public class ArchiViewController {
 			ArchiGradingConditionParam noPassInput = new ArchiGradingConditionParam();
 			noPassInput.setBegainTime(beginTime);
 			noPassInput.setEndTime(endTime);
-			noPassInput.setExt1("3");
+			noPassInput.setExt1("3");  
 			noPassInput.setState("审批未通过");
 			List<Map> noPassList = architectureGradingSv.findChangeMessage(noPassInput);
 			ViewSeries noPassSeries = new ViewSeries();
@@ -491,6 +491,29 @@ public class ArchiViewController {
 			legendList.add("审批未通过");
 			noPassSeries.setData(noPassData);
 			seriesList.add(noPassSeries);
+			//已撤销
+			ArchiGradingConditionParam calInput = new ArchiGradingConditionParam();
+			calInput.setBegainTime(beginTime);
+			calInput.setEndTime(endTime);
+			calInput.setExt1("3");  
+			calInput.setState("已撤销");
+			List<Map> calList = architectureGradingSv.findChangeMessage(calInput);
+			ViewSeries calSeries = new ViewSeries();
+			calSeries.setName("已撤销");
+			calSeries.setStack("已撤销");
+			int[] calData = new int[constValue];
+			for(Map calBase : calList) {
+				String modifyTime = String.valueOf(calBase.get("cntDate"));
+				for(int i=0;i<noPassData.length;i++) {
+					if(modifyTime.equals(mounths.get(i))) {
+						calData[i]++;						
+						break;		
+					}
+				}
+			}
+			legendList.add("已撤销");
+			calSeries.setData(calData);
+			seriesList.add(calSeries);
 			//设置输出参数
 			output.setLegend(legendList);
 			output.setSeries(seriesList);

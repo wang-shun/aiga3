@@ -79,7 +79,7 @@ public class ArchitectureGradingSv extends BaseService {
 		StringBuilder nativeSql = new StringBuilder(
 			"select distinct (select count(state) from ARCHITECTURE_GRADING t where to_char(t.apply_time,'yyyyMM') = "+ time +") as applycount,"+
 			"(select count(state) from ARCHITECTURE_GRADING t where t.state ='审批通过' and to_char(t.modify_date,'yyyyMM') = "+ time +") as tongGuo ,"+
-			"(select count(name) from ARCHITECTURE_GRADING t where (t.state = '审批未通过') and to_char(t.modify_date,'yyyyMM') = "+ time +")  as boHui,"+
+			"(select count(name) from ARCHITECTURE_GRADING t where (t.state = '审批未通过' or t.state = '已撤销') and to_char(t.modify_date,'yyyyMM') = "+ time +")  as boHui,"+
 			"(select count(name) from ARCHITECTURE_THIRD t where  to_char(t.create_date,'yyyyMM') = "+ time +") as xinZeng ,"+
 			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '1%'  and to_char(t.create_date,'yyyyMM') = "+ time +") as yewu,"+
 			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '2%'  and to_char(t.create_date,'yyyyMM') = "+ time +") as guanxin,"+

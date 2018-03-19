@@ -65,7 +65,7 @@ public class StaffController {
 				"<tr><td>http://arch.zj.chinamobile.com/aiga3/html/index.html</td></tr>"+
 				"</table>";
 		//发送邮件
-		mailCmpt.sendMail("dupeng5@asiainfo.com" , null, "架构资产管控平台账号密码找回", content, null);
+		mailCmpt.sendMail(satff.getEmail(), null, "架构资产管控平台账号密码找回", content, null);
 		return bean;
 	}	
 	/**

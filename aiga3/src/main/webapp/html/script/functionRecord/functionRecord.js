@@ -55,7 +55,7 @@ define(function(require,exports, moudle) {
 				Page.findId("functionRecordMenu").html(template(json.data));
 			});
 			//周热门菜单查询
-			Rose.ajax.postJson(srvMap.get("getMenuTopData"),"type=menuNameWeek",function(json, state){
+			Rose.ajax.postJson(srvMap.get("getMenuTopData"),"type=userNameWeek",function(json, state){
 				Page.findId("functionRecordMenuWeek").html(template(json.data));
 			});
 		},

@@ -183,14 +183,13 @@ public class HomeDataSv {
 			}
 		}
 		data.setHasSysRole(hasSysRole);
+		data.setDealSysData("0", "0", "0");
 		if("true".equals(hasSysRole)) {
 			//待认定申请单查询
 			String dealSysSql = "SELECT sum(case when t.ext_1='1' then 1 else 0 end) as deal_first ,sum(case when t.ext_1='2' then 1 else 0 end) as deal_second, sum(case when t.ext_1='3' then 1 else 0 end) as deal_third FROM ARCHITECTURE_GRADING t WHERE t.state = '申请'";	
 			List<Map> dealSysResults = architectureGradingDao.searchByNativeSQL(dealSysSql);	
 			Map dealSysResult =  dealSysResults.get(0);
-			if(dealSysResult.get("dealFirst") == null) {
-				data.setDealSysData("0", "0", "0");
-			} else {
+			if(dealSysResult.get("dealFirst") != null) {
 				data.setDealFirst(dealSysResult.get("dealFirst").toString());
 				data.setDealSecond(dealSysResult.get("dealSecond").toString());
 				data.setDealThird(dealSysResult.get("dealThird").toString());

@@ -154,6 +154,7 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
+			_queryBtn.click();
 		},
 		setSidebarHeight:function(){
 			// 循环计算出所有节点的高度值，用于垂直居中对齐

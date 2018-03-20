@@ -10,7 +10,6 @@ public class ArchBusiErrcodeMapResult implements Serializable {
     private String person;
 	private String center;
 	private String resources;
-	private String stime;
     private Long total;
     private Long signin;
     

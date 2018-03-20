@@ -60,14 +60,15 @@
                     <thead>
 		                <tr>
 		                <th class="iCheckbox" width="15"></th>
+							<th width="180px">系统名称</th>	
+							<th width="130px">已配置有效数据量(存在CSF注册)</th>
+							<th width="130px">配置涉及CSF服务数</th>						
+							<th width="130px">存在调用的CSF服务数</th>
+							<th width="130px">CSF服务错误码配置覆盖率</th>
+							<th width="130px">规范率</th>
+							<th >数据来源</th>					
 		                    <th >移动负责人</th>
 		                    <th >亚信负责人</th>
-							<th >系统名称</th>	
-							<th >数据来源</th>					
-							<th >已配置有效数</th>
-							<th >配置涉及数</th>						
-							<th >存在调用量</th>
-							<th >错误码覆盖率</th>
 							<th >采集时间</th>
 		                </tr>
                     </thead>
@@ -97,14 +98,15 @@
 								<thead>
 									<tr>
 										<th class="iCheckbox" width="15"></th>
+										<th width="180px">系统名称</th>	
+										<th width="130px">已配置有效数据量(存在CSF注册)</th>
+										<th width="130px">配置涉及CSF服务数</th>						
+										<th width="130px">存在调用的CSF服务数</th>
+										<th width="130px">CSF服务错误码配置覆盖率</th>
+										<th width="130px">规范率</th>
+										<th >数据来源</th>					
 					                    <th >移动负责人</th>
 					                    <th >亚信负责人</th>
-										<th >系统名称</th>	
-										<th >数据来源</th>					
-										<th >已配置有效数</th>
-										<th >配置涉及数</th>						
-										<th >存在调用量</th>
-										<th >错误码覆盖率</th>
 										<th >采集时间</th>
 									</tr>
 								</thead>
@@ -147,15 +149,16 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td >{{persona}}</td>
-    <td >{{personb}}</td>
-	<td >{{center}}</td>
-    <td >{{resource}}</td>
-    <td >{{total}}</td>
-    <td >{{signin}}</td>
-	<td >{{signon}}</td>
-	<td >{{percentage}}%</td>
-	<td >{{stime}}</td>
+	<td width="180px">{{center}}</td>
+    <td width="130px">{{total}}</td>
+    <td width="130px">{{signin}}</td>
+	<td width="130px">{{signon}}</td>
+	<td width="130px">{{percentage}}%</td>
+	<td width="130px">{{standard}}%</td>
+    <td>{{resource}}</td>
+	<td>{{persona}}</td>
+    <td>{{personb}}</td>
+	<td>{{stime}}</td>
 </tr>
 {{/each}}
 </script>
@@ -166,15 +169,16 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td >{{persona}}</td>
-    <td >{{personb}}</td>
 	<td >{{center}}</td>
-    <td >{{resource}}</td>
     <td >{{total}}</td>
     <td >{{signin}}</td>
 	<td >{{signon}}</td>
 	<td >{{percentage}}%</td>
-	<td >{{time}}</td>
+	<td >{{standard}}%</td>
+	<td >{{persona}}</td>
+    <td >{{personb}}</td>
+    <td >{{resource}}</td>
+	<td >{{stime}}</td>
 	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
 </tr>
 {{/each}}

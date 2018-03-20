@@ -15,6 +15,7 @@ public class ArchBusiErrcodeMapTable implements Serializable {
     private Long signin;
     private Long signon;
     private double percentage;
+    private double standard;
     private String stime;
     
 }

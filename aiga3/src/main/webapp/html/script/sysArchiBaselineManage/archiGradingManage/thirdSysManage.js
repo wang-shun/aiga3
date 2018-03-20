@@ -35,9 +35,8 @@ define(function(require, exports, module) {
 	var init = {
 		init: function() {
 			var self = this;
-			self._jumpPage();
 			self._render();
-			
+			self._jumpPage();
 		},
 		_render: function() {
 			var self = this;
@@ -45,18 +44,24 @@ define(function(require, exports, module) {
 			self._queryConditionDomain();
 		},
 		_jumpPage : function(){
+			var self = this;
 			var syscmd = Page.getParentCmd();
-			var result = Utils.jsonToUrl(syscmd);
-			if(result!=null){
-				var self = this;
+			if(syscmd) {
 				var _form = Page.findId('querySysDomainTypeForm');
-				Utils.setSelectData(_form);
-				var _queryBtn = _form.find("[name='query']");
-				_queryBtn.unbind('click').bind('click', function() {
-					var cmd = result;
-					self._getGridList(cmd);
-				});
-				_queryBtn.click();
+				if(syscmd.type && syscmd.type=='apply'){
+					//快捷申请入口
+					var _applyBtn = _form.find("[name='apply']");
+					_applyBtn.click();
+				} else {
+					var result = Utils.jsonToUrl(syscmd);
+					Utils.setSelectData(_form);
+					var _queryBtn = _form.find("[name='query']");
+					_queryBtn.unbind('click').bind('click', function() {
+						var cmd = result;
+						self._getGridList(cmd);
+					});
+					_queryBtn.click();
+				}
 			}
 		},
 		

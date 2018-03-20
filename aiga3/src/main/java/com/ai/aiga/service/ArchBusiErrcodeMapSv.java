@@ -122,9 +122,10 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			base.setStandardout(baseout.getStandard());
 			long standardin =0L;
 			for(int b=0;b<listCheck.size();b++){
-				ArchBusiErrcodeMapStandard basein = listCheck.get(a);
+				ArchBusiErrcodeMapStandard basein = listCheck.get(b);
 				if(center.equals(basein.getCenter())){
 					standardin = basein.getStandard();
+					break;
 				}
 			}
 			base.setStandardin(standardin);
@@ -157,8 +158,8 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			base.setPercentage(percentage);
 			double standard = 0;
 			for(int k=0;k<listRate.size();k++){
-				ArchBusiErrcodeMapStandardRate rate = listRate.get(i);
-				if(centerString.endsWith(rate.getCenter())){
+				ArchBusiErrcodeMapStandardRate rate = listRate.get(k);
+				if(centerString.equals(rate.getCenter())){
 					standard = rate.getPercentage();
 				}
 			}

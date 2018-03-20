@@ -1,0 +1,213 @@
+  <style type="text/css">
+	#Page_connectionPool .btn-center {text-align: center;}
+	#Page_connectionPool .total-width {width: 850px;}
+	#Page_connectionPool .btn-table-change {margin-right: 20px;}
+	#Page_connectionPool .btn-table-report {margin-right: 20px;}
+	#Page_connectionPool .text-style {color:red;font-size:16px;}
+	#Page_connectionPool .min-height{min-height:50px;}
+  </style>
+<div class="row" id="Page_errorCodePool">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">CSF错误码规范按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>		            
+		            <div class="row">
+		            	<div class="col-sm-6">
+		            		<label class="col-sm-2  control-label">采集日期:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
+                		<div class="col-sm-6">
+		                    <label  class="col-sm-2  control-label">所属中心：</label>
+		                    <div class="col-sm-4 min-height">
+		                    	<select name="center" class="form-control select2 input-sm" data-url="select1"  data-idkey="center" data-namekey="center">
+			                        <option value="">请选择</option>
+			                    </select>
+			                </div>
+		                </div>		                 
+		            </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary"  name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_text" style="min-height:100px;border:1px solid green;">
+            <div class="box-header with-border">
+                <h3 class="box-title"><span name="timeShow"></span>CSF错误码报告:</h3>
+            </div>
+            <div class="box-body">
+          		<div class="row" id="JS_connectionPoolText"> </div>
+            </div> 
+        </div> 
+        <div class="box" id="JS_connectionPoolList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">CSF错误码规范列表</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+		                <th class="iCheckbox" width="15"></th>
+		                    <th >移动负责人</th>
+		                    <th >亚信负责人</th>
+							<th >系统名称</th>	
+							<th >数据来源</th>					
+							<th >已配置有效数</th>
+							<th >配置涉及数</th>						
+							<th >存在调用量</th>
+							<th >错误码覆盖率</th>
+							<th >采集时间</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+            </div>
+            <div class="box-footer no-border">
+            	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 弹出页面（是否变化） -->
+	<div class="modal fade" id="JS_showDetailModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">最近七天数据库连接池配置采集情况展示</h4>
+	            </div>
+	            <div id="JS_changeModal" class="modal-body" style="padding-bottom: 0">
+					<div class="box" id="JS_recentSevenDay">
+						<div class="box-header" >
+							<h3 class="box-title">数据库连接池配置采集表</h3>
+						</div>
+						<div class="box-body" >
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="iCheckbox" width="15"></th>
+					                    <th >移动负责人</th>
+					                    <th >亚信负责人</th>
+										<th >系统名称</th>	
+										<th >数据来源</th>					
+										<th >已配置有效数</th>
+										<th >配置涉及数</th>						
+										<th >存在调用量</th>
+										<th >错误码覆盖率</th>
+										<th >采集时间</th>
+									</tr>
+								</thead>
+								<tbody name="content"></tbody>
+							</table>
+						</div>
+						<div class="box-footer no-border">
+							<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+						</div> 
+					</div>
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
+    <!-- 弹出页面 （是否报备）-->
+	<div class="modal fade" id="JS_showReportModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">数据库连接池配置采集报备信息展示</h4>
+	            </div>
+	            <div id="JS_reportModal" class="modal-body" style="padding-bottom: 0">
+		            <form id="reportModalForm" class="form">
+	                </form>
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<!-- 表格数据 -->
+<script id="TPL_connectionPoolTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+	<td >{{persona}}</td>
+    <td >{{personb}}</td>
+	<td >{{center}}</td>
+    <td >{{resource}}</td>
+    <td >{{total}}</td>
+    <td >{{signin}}</td>
+	<td >{{signon}}</td>
+	<td >{{percentage}}%</td>
+	<td >{{stime}}</td>
+</tr>
+{{/each}}
+</script>
+<!-- 	<td >{{change}}</td>
+	<td >{{report}}</td> -->
+<!-- 内层表格数据 -->
+<script id="TPL_connectionPoolTempIn" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
+	<td >{{persona}}</td>
+    <td >{{personb}}</td>
+	<td >{{center}}</td>
+    <td >{{resource}}</td>
+    <td >{{total}}</td>
+    <td >{{signin}}</td>
+	<td >{{signon}}</td>
+	<td >{{percentage}}%</td>
+	<td >{{time}}</td>
+	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
+</tr>
+{{/each}}
+</script>
+<!-- 报备信息模板 -->
+<script id="TPL_reportTemp" type="text/x-handlebars-template">
+    <div class="box-body">
+		<div class="row">
+			<div class="form-group">
+				<label for="abstracts" class="col-sm-1 control-label">报备信息:</label>
+				<div class="col-sm-9">
+					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入报备信息">{{abstracts}}</textarea>
+				</div>
+			</div>
+		</div>
+    </div>
+</script>
+
+<script id="TPL_connectionPoolTempText" type="text/x-handlebars-template">
+<div class="events-grid" >
+	<div class=" events-semi-grid">
+		{{#if change}}<p style="text-indent:2em;margin-top:13px;" name="textShow"><span name="timeShowTwo"></span>日共成功采集<span class="text-style">{{collect}}</span>个系统连接池配置<span class="text-style">{{total}}</span>条，经巡检发现<span class="text-style">{{change}}</span>条配置存在变更，具体变更清单请选择“查询状态”条件为“是”后再次查询。</p>{{/if}}
+		<p style="text-indent:2em;margin-top:13px;" name="textShowTwo"><span name="timeShowTwo"></span>日共成功采集<span class="text-style">{{collect}}</span>个系统连接池配置<span class="text-style">{{total}}</span>条，经巡检未发现配置变更。</p>
+	</div>
+</div>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/errorCode/centerCsfErrorCode", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

@@ -90,7 +90,7 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 		StringBuilder standardSql = new StringBuilder(
 				" select a.center as CENTER,count( a.csf_service_code) as STANDARD "+
 				" from aiam.arch_busi_errcode_map a " +
-				" where 1=1 "
+				" where a.center is not null "
 				);
 		List<ParameterCondition>standardParam = new ArrayList<ParameterCondition>();
 		if (StringUtils.isNotBlank(condition.getInsertTime())) {

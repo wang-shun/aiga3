@@ -123,9 +123,11 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			long standardin =0L;
 			for(int b=0;b<listCheck.size();b++){
 				ArchBusiErrcodeMapStandard basein = listCheck.get(b);
-				if(center.equals(basein.getCenter())){
-					standardin = basein.getStandard();
-					break;
+				if(basein.getCenter()!=null){
+					if(center.equals(basein.getCenter())){
+						standardin = basein.getStandard();
+						break;
+					}
 				}
 			}
 			base.setStandardin(standardin);
@@ -148,9 +150,11 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			long signon = 0L;
 			for(int j=0;j<listSignon.size();j++){
 				ArchBusiErrcodeMapTotal in = listSignon.get(j);
-				if(centerString.equals(in.getCenter())){
-					signon = in.getTotal();
-					break;
+				if(in.getCenter()!=null){
+					if(centerString.equals(in.getCenter())){
+						signon = in.getTotal();
+						break;
+					}
 				}
 			}
 			base.setSignon(signon);
@@ -159,8 +163,10 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			double standard = 0;
 			for(int k=0;k<listRate.size();k++){
 				ArchBusiErrcodeMapStandardRate rate = listRate.get(k);
-				if(centerString.equals(rate.getCenter())){
-					standard = rate.getPercentage();
+				if(rate.getCenter()!=null){
+					if(centerString.equals(rate.getCenter())){
+						standard = rate.getPercentage();
+					}
 				}
 			}
 			base.setStandard(standard);
@@ -188,10 +194,12 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         Iterator iter= list.iterator();
         while(iter.hasNext()){  
         	ArchBusiErrcodeMap ar=(ArchBusiErrcodeMap)iter.next();  
-         	if(!centerList.contains(ar.getCenter().trim())){
-         		centerList.add(ar.getCenter().trim());
-         		newList.add(ar);
-         	}
+        	if(ar.getCenter()!=null){
+        		if(!centerList.contains(ar.getCenter().trim())){
+        			centerList.add(ar.getCenter().trim());
+        			newList.add(ar);
+        		}
+        	}
         }  
         return newList;
     }

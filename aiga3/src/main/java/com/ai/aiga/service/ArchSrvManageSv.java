@@ -18,10 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AmCoreIndexDao;
 import com.ai.aiga.dao.ArchSrvManageDao;
+import com.ai.aiga.dao.PCsfReportBymonthDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.AmCoreIndex;
 import com.ai.aiga.domain.ArchSrvManage;
+import com.ai.aiga.domain.PCsfReportBymonth;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
@@ -47,12 +49,20 @@ public class ArchSrvManageSv extends BaseService {
 	@Autowired
 	private ArchSrvManageDao archSrvManageDao;
     @Autowired
-    private AmCoreIndexDao amCoreIndexDao;
-
+    private AmCoreIndexDao amCoreIndexDao;  
+    @Autowired
+    private PCsfReportBymonthDao pCsfReportBymonthDao;
+    
 	public List<ArchSrvManage>findArchSrvManages(){
 		return archSrvManageDao.findAll();
 	}
 	
+	
+	//MSP CSF服务运营指标分析月报--中心系统    数据获取
+	public List<PCsfReportBymonth> MSPCSFReport(PlatformOperateReportParams condition){
+		return pCsfReportBymonthDao.findByMonthDate(condition.getSettMonth());
+	}
+
 	//find
 	public List<ArchSrvManage> findAll(){
 		return archSrvManageDao.findAll();
@@ -643,11 +653,6 @@ public class ArchSrvManageSv extends BaseService {
 				list4.add(archSrvManage);
 			}
 		}
-//		Collections.sort(list0, new ComparatorPlatformOperate());
-//		Collections.sort(list1, new ComparatorPlatformOperate());
-//		Collections.sort(list2, new ComparatorPlatformOperate());
-//		Collections.sort(list3, new ComparatorPlatformOperate());
-//		Collections.sort(list4, new ComparatorPlatformOperate());
 		List<String>keyList0 = getX(list0);
 		int x0 = keyList0.size();
 		int y0 = getY(CSFSRV_INDEXIDS);
@@ -668,37 +673,6 @@ public class ArchSrvManageSv extends BaseService {
 		int x4 = keyList4.size();
 		int y4 = getY(CENTERMQ_INDEXIDS);
 		double[][] data4 = getData(x4, y4, list4);
-		
-//		List<String>settMonthList0=getZ(list0);
-//		int x0 = settMonthList0.size();
-//		List<String>keyList0=getX(list0);
-//		int y0 = keyList0.size();
-//		int z0 = getY(CSFSRV_INDEXIDS);
-//		double[][][] data0 = getData(x0, y0, z0, list0);
-//		List<String>settMonthList1=getZ(list1);
-//		int x1 = settMonthList1.size();		
-//		List<String>keyList1=getX(list1);
-//		int y1 = keyList1.size();
-//		int z1 = getY(TASKDISPATCH_INDEXIDS);
-//		double[][][] data1 = getData(x1, y1, z1, list1);
-//		List<String>settMonthList2=getZ(list2);
-//		int x2 = settMonthList2.size();		
-//		List<String>keyList2=getX(list2);
-//		int y2 = keyList2.size();
-//		int z2 = getY(FLOWDISPATCH_INDEXIDS);
-//		double[][][] data2 = getData(x2, y2, z2, list2);
-//		List<String>settMonthList3=getZ(list3);
-//		int x3 = settMonthList3.size();		
-//		List<String>keyList3=getX(list3);
-//		int y3 = keyList3.size();
-//		int z3 = getY(CACHECLOUD_INDEXIDS);
-//		double[][][] data3 = getData(x3, y3, z3, list3);
-//		List<String>settMonthList4=getZ(list4);
-//		int x4 = settMonthList4.size();		
-//		List<String>keyList4=getX(list4);
-//		int y4 = keyList4.size();
-//		int z4 = getY(CENTERMQ_INDEXIDS);
-//		double[][][] data4 = getData(x4, y4, z4, list4);
 		//封装
 		List<CenterCsfSrvReport>listCsf = new ArrayList<CenterCsfSrvReport>();
 		List<TaskDispatchReport>listTask = new ArrayList<TaskDispatchReport>();
@@ -765,75 +739,7 @@ public class ArchSrvManageSv extends BaseService {
 			bean.setSettMonth(condition.getSettMonth());
 			listMq.add(bean);
 		}
-//		for(int a=0;a<x0;a++){
-//			for(int b=0;b<y0;b++){
-//				CenterCsfSrvReport bean = new CenterCsfSrvReport();
-//				bean.setKey1(keyList0.get(b));
-//				bean.setDayCsfSrvNum(String.valueOf(data0[a][b][0]));
-//				bean.setTotalCsfNum(String.valueOf(data0[a][b][1]));
-//				bean.setActiveCsfNum(String.valueOf(data0[a][b][2]));
-//				bean.setCenterCsfNum(String.valueOf(data0[a][b][3]));
-//				bean.setCsfSrvChainRatio(String.valueOf(data0[a][b][4]));
-//				bean.setPredayCsfSuccessRate(String.valueOf(data0[a][b][5]));
-//				bean.setCsfSuccessRateChainRatio(String.valueOf(data0[a][b][6]));
-//				bean.setSettMonth(settMonthList0.get(a));
-//				listCsf.add(bean);
-//			}
-//		}
-//		for(int a=0;a<x1;a++){
-//			for(int b=0;b<y1;b++){
-//				TaskDispatchReport bean = new TaskDispatchReport();
-//				bean.setKey1(keyList1.get(b));
-//				bean.setPredayAddTaskNum(String.valueOf(data1[a][b][0]));
-//				bean.setResidentTaskNum(String.valueOf(data1[a][b][1]));
-//				bean.setNonresidentTaskNum(String.valueOf(data1[a][b][2]));
-//				bean.setBatchTaskNum(String.valueOf(data1[a][b][3]));
-//				bean.setPredayTaskTriggerNum(String.valueOf(data1[a][b][4]));
-//				bean.setChangeChainRatio(String.valueOf(data1[a][b][5]));
-//				bean.setSettMonth(settMonthList1.get(a));
-//				listTask.add(bean);
-//			}
-//		}
-//		for(int a=0;a<x2;a++){
-//			for(int b=0;b<y2;b++){
-//				FlowDispatchReport bean = new FlowDispatchReport();
-//				bean.setKey1(keyList2.get(b));
-//			    bean.setAddFlowConnectNum(String.valueOf(data2[a][b][0]));
-//			    bean.setTotalFlowConnectNum(String.valueOf(data2[a][b][1]));
-//			    bean.setPredayDispatchNum(String.valueOf(data2[a][b][2]));
-//			    bean.setDispatchChainRatio(String.valueOf(data2[a][b][3]));
-//			    bean.setDealAverageTime(String.valueOf(data2[a][b][4]));
-//			    bean.setDealTimeChainRatio(String.valueOf(data2[a][b][5]));
-//				bean.setSettMonth(settMonthList2.get(a));
-//				listFlow.add(bean);
-//			}
-//		}
-//		for(int a=0;a<x3;a++){
-//			for(int b=0;b<y3;b++){
-//				CacheCloudPlatformReport bean = new CacheCloudPlatformReport();
-//				bean.setKey1(keyList3.get(b));
-//			    bean.setCacheBlockIsZero(String.valueOf(data3[a][b][0]));
-//			    bean.setCacheBlockGtTenM(String.valueOf(data3[a][b][1]));
-//			    bean.setIncreaseCacheBlockNum(String.valueOf(data3[a][b][2]));
-//			    bean.setTotalCacheBlockNum(String.valueOf(data3[a][b][3]));
-//			    bean.setChangeChainRatio(String.valueOf(data3[a][b][4]));
-//				bean.setSettMonth(settMonthList3.get(a));
-//				listCache.add(bean);
-//			}
-//		}
-//		for(int a=0;a<x4;a++){
-//			for(int b=0;b<y4;b++){
-//				CenterMessageQueueReport bean = new CenterMessageQueueReport();
-//				bean.setKey1(keyList4.get(b));
-//				bean.setPredayMqConsumeNum(String.valueOf(data4[a][b][0]));
-//				bean.setChangeNumChainRatio(String.valueOf(data4[a][b][1]));
-//				bean.setMessageConsumeSuccessRate(String.valueOf(data4[a][b][2]));
-//				bean.setSuccessRateChainRatio(String.valueOf(data4[a][b][3]));
-//				bean.setMessageCheckSameRate(String.valueOf(data4[a][b][4]));
-//				bean.setSettMonth(settMonthList0.get(a));
-//				listMq.add(bean);
-//			}
-//		}
+
 		Map<String,List>map = new HashMap<String,List>();
 		map.put(key0, listCsf);
 		map.put(key1, listTask);

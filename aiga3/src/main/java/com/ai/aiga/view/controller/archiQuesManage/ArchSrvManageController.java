@@ -17,7 +17,6 @@ public class ArchSrvManageController extends BaseService {
 
 	@Autowired
 	private ArchSrvManageSv archSrvManageSv;
-	
     //平台运营报表公共方法接口
     @RequestMapping(path = "/arch/platform/report")
     public @ResponseBody JsonBean report(@RequestBody PlatformOperateReportParams condition) {
@@ -96,6 +95,16 @@ public class ArchSrvManageController extends BaseService {
 		bean.setData(archSrvManageSv.centermq(condition));
 		return bean;
 	}
-	
-	
+	//
+	@RequestMapping(path = "/webservice/monthReport/mspcsfSrv")
+	public @ResponseBody JsonBean mspcsfSrv(@RequestBody PlatformOperateReportParams condition) {
+		JsonBean bean = new JsonBean();
+		//时间参数settMonth非空校验
+		if(StringUtils.isBlank(condition.getSettMonth())) {
+			bean.fail("未选择查询时间，请选择查询时间！");
+			return bean;
+		}
+		bean.setData(archSrvManageSv.MSPCSFReport(condition));
+		return bean;
+	}
 }

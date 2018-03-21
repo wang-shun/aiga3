@@ -9,9 +9,10 @@ define(function(require, exports, module) {
 	//获取报表时间类型
     srvMap.add("logReportTimeType", '', "webservice/static/logReportTimeType");	
 	//获取报表模板名称
-    srvMap.add("getLogReportModel", '', "webservice/static/getLogReportModel");	
+    srvMap.add("getLogReportModel", '', "webservice/static/getLogReportModel");
+    
 	//各中心CSF服务运行情况日报数据获取
-    srvMap.add("csfsrvReport", '', "arch/csfsrv/report");	
+    srvMap.add("csfsrvReport", '', "arch/csfsrv/report");	    
 	//任务调度运行情况日报数据获取
     srvMap.add("taskdispatchReport", '', "arch/taskdispatch/report");	
 	//流程调度运行情况日报数据获取
@@ -20,7 +21,13 @@ define(function(require, exports, module) {
     srvMap.add("cachecloudReport", '', "arch/cachecloud/report");	
 	//各中心CSF服务运行情况日报数据获取
     srvMap.add("centermqReport", '', "arch/centermq/report");	
-    //文件导出
+    
+	//MSP CSF服务运营指标分析月报--中心系统  查询
+    srvMap.add("mspcsfSrvIdxReport", '', "webservice/monthReport/mspcsfSrv");	
+    
+    //MSP CSF服务运营指标分析月报--中心系统  导出
+    srvMap.add("mspcsfReportExport", '', "webservice/excelExport/mspcsfExcelReport");
+    //日报文件导出
     srvMap.add("platformoperate", '', "excel/export/platformoperate");
 	/*后台接口 end*/
     
@@ -30,7 +37,9 @@ define(function(require, exports, module) {
 		taskSchedulEModel: require('tpl/indexOperationReport/day/taskSchedulEModel.tpl'),		//任务调度运行情况日报
 		processSchedulEModel: require('tpl/indexOperationReport/day/processSchedulEModel.tpl'),	//流程调度运行情况日报
 		cacheAccessModel: require('tpl/indexOperationReport/day/cacheAccessModel.tpl'),			//缓存云平台接入情况日报
-		mqMessageModel: require('tpl/indexOperationReport/day/mqMessageModel.tpl')				//各中心MQ消息队列运行情况日报
+		mqMessageModel: require('tpl/indexOperationReport/day/mqMessageModel.tpl'),			    //各中心MQ消息队列运行情况日报
+		
+		mspcsfServiceIndexModel: require('tpl/indexOperationReport/month/mspcsfServiceIndexModel.tpl')	    //MSP CSF服务运营指标分析月报--中心系统   
     };
     //节点
     Dom = {
@@ -39,6 +48,8 @@ define(function(require, exports, module) {
     };
     
     Data = {
+    	modelType: '',
+    	modelCode: '',
     	queryTime: ''
     };
 	//向外暴露的模块
@@ -47,6 +58,8 @@ define(function(require, exports, module) {
 			this._dom_init();
 			//渲染下拉框  绑定按钮事件
 			this._load_combo_select();
+			//helper 注册
+			this._handlebar_help_register();
 		},	
 		
 		_dom_init: function() {
@@ -86,24 +99,37 @@ define(function(require, exports, module) {
 					case "LOGREPORT_MODEL_DAY":
 						//日
 						self._dayModelRequest();
+						Data.modelType = 'LOGREPORT_MODEL_DAY';
 						break;
 					case "LOGREPORT_MODEL_WEEK":
 						//周
 						self._weekModelRequest();
+						Data.modelType = 'LOGREPORT_MODEL_WEEK';
 						break;
 					case "LOGREPORT_MODEL_MONTH":
 						//月
 						self._monthModelRequest();
+						Data.modelType = 'LOGREPORT_MODEL_MONTH';
 						break;
 					default:
-						 Page.findId("logList").html("");
+						Page.findId("logList").html("");
 				}
 			});
 			
 			//下载按钮事件绑定
 			group.find("[name='export']").off('click').on('click',function() {
-				if(Data.queryTime) {
-					location.href = srvMap.get('platformoperate')+"?settMonth="+Data.queryTime; 
+				if(Data.queryTime && Data.modelType && Data.modelCode) {
+					if(Data.modelType == 'LOGREPORT_MODEL_DAY') {
+						location.href = srvMap.get('platformoperate')+"?settMonth="+Data.queryTime; 
+					} else if (Data.modelType == 'LOGREPORT_MODEL_WEEK') {
+						
+					} else if (Data.modelType == 'LOGREPORT_MODEL_MONTH') {
+						if(Data.modelCode == 1) {
+							location.href = srvMap.get('mspcsfReportExport')+"?settMonth="+Data.queryTime; 
+						}
+					} else {
+						
+					}
 				} else {
 					XMS.msgbox.show("请先查询", 'info', 2000);
 				}
@@ -115,6 +141,7 @@ define(function(require, exports, module) {
 			var self = this;
 			var dom = Page.findId("logList"),modelCode = Page.find("[name='reportMode']").val();
 			//服务入参
+			Data.modelCode = modelCode;
 			Data.queryTime = Dom.dayTimeDom.val().replace(/-/g,"");
 			var _cmd = {
 				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
@@ -148,7 +175,9 @@ define(function(require, exports, module) {
 		},
 		//调用周报表模板，渲染数据
 		_weekModelRequest : function() {
+			var self = this;
 			var modelCode = Page.find("[name='reportMode']").val();
+			Data.modelCode = modelCode;
 			//服务入参
 			var _cmd = {
 				settMonth: Dom.dayTimeDom.val().replace(/-/g,"")
@@ -161,13 +190,20 @@ define(function(require, exports, module) {
 		},
 		//调用月报表模板，渲染数据
 		_monthModelRequest : function(_cmd) {
+			var self = this;
 			var modelCode = Page.find("[name='reportMode']").val();
+			Data.modelCode = modelCode;
+			Data.queryTime = Dom.monthTimeDom.val().replace(/-/g,"");
 			//服务入参
 			var _cmd = {
 				settMonth: Dom.monthTimeDom.val().replace(/-/g,"")
 			};
 			//调用接口
 			switch (modelCode) {
+			    case "1":
+			    	//MSP CSF服务运营指标分析月报--中心系统
+			        self._tpl_ajax_data('mspcsfSrvIdxReport',_cmd,Tpl.mspcsfServiceIndexModel);
+			        break;
 			    default:
 					Page.findId("logList").html("");
 			}	
@@ -186,7 +222,33 @@ define(function(require, exports, module) {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}					
 			});
-		}		
+		},
+		_handlebar_help_register: function() {
+			Handlebars.registerHelper("changePowerSty",function(value) {
+				if(value>20) {
+					return 'change-font-red';
+				} else {
+					return '';
+				}
+			});
+			Handlebars.registerHelper("succPowerSty",function(value) {
+				if(value<99.9) {
+					return 'change-font-red';
+				} else {
+					return '';
+				}
+			});
+			Handlebars.registerHelper("pesentAdd",function(value) {
+				return value+"%";
+			});
+			Handlebars.registerHelper("seviceAdd",function(value) {
+				if(value>0) {
+					return 'change-font-red';
+				} else {
+					return '';
+				}
+			});
+		}
 	};
 	module.exports = init;
 });

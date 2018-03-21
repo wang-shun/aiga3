@@ -17,22 +17,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 
+import net.sf.ehcache.store.disk.ods.Region;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.domain.PCsfReportBymonth;
+import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
+import com.ai.aiga.view.controller.archiQuesManage.dto.PlatformOperateReportParams;
 
 @Controller
 @Api(value = "ArchitectureThirdController", description = "架构分层相关api")
 public class ExcelExportController {
-
+	@Autowired
+	private ArchSrvManageSv archSrvManageSv;
 	@Autowired
 	private ArchitectureThirdSv architectureThirdSv;
 	
@@ -54,7 +61,80 @@ public class ExcelExportController {
         ouputStream.close(); 
 	}
 	
-	 public HSSFWorkbook export(List<Map> list) {  
+	@RequestMapping(path="/webservice/excelExport/mspcsfExcelReport")
+	public @ResponseBody void mspcsfReportExport(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PlatformOperateReportParams condition = new PlatformOperateReportParams();
+		condition.setSettMonth(request.getParameter("settMonth"));
+		List<PCsfReportBymonth> findData = archSrvManageSv.MSPCSFReport(condition);
+        HSSFWorkbook wb = mspcsfMonRepot(findData);  
+        response.setContentType("application/vnd.ms-excel");  
+        Date nowtime = new Date();
+        DateFormat format=new SimpleDateFormat("yyyyMM");
+        String time=format.format(nowtime);
+        response.setHeader("Content-disposition", "attachment;filename="+new String("MSP_CSF服务运营指标分析月报--中心系统_".getBytes(),"iso-8859-1")+time+".xls");  
+        OutputStream ouputStream = response.getOutputStream();  
+        wb.write(ouputStream);  
+        ouputStream.flush();  
+        ouputStream.close(); 
+	}
+	
+	public HSSFWorkbook mspcsfMonRepot(List<PCsfReportBymonth> list) {
+		String[] head = {"接入系统名称","注册服务","","","调用量（单位：万）","","","调用时长（单位：毫秒）","","","成功率","","",};
+		String[] head2 = {"接入系统名称","当月新增服务接入量","累计服务已接入数量","活跃数","上月份调用量","本月份调用量","环比变化"
+				,"上月份平均接口调用时长","本月份平均接口调用时长","环比变化","上月份调用系统成功率","本月份调用系统成功率","环比变化"};
+        HSSFWorkbook wb = new HSSFWorkbook();  
+    	HSSFSheet sheet = wb.createSheet("MSP_CSF服务运营指标分析月报--中心系统");
+    	HSSFRow row1 = sheet.createRow((int) 0);
+    	HSSFRow row2 = sheet.createRow((int) 1);
+        HSSFCellStyle style = wb.createCellStyle();  
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
+        for (int i = 0; i < head.length; i++) {
+    		HSSFCell cell = row1.createCell(i);
+            cell.setCellValue(head[i]);  
+            cell.setCellStyle(style); 
+            if("1".equals(String.valueOf(i))) {
+            	sheet.setColumnWidth(i, 20 * 256);
+            } else {
+            	sheet.setColumnWidth(i, 12 * 256);
+            }	         
+        }
+        for (int i = 0; i < head2.length; i++) {
+    		HSSFCell cell = row2.createCell(i);
+            cell.setCellValue(head2[i]);  
+            cell.setCellStyle(style); 
+            if("1".equals(String.valueOf(i))) {
+            	sheet.setColumnWidth(i, 20 * 256);
+            } else {
+            	sheet.setColumnWidth(i, 12 * 256);
+            }	         
+        }
+        
+        sheet.addMergedRegion(new CellRangeAddress(0,1,0,0)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,0,1,3)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,0,4,6)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,0,7,9)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,0,10,12)); 
+        int index = 1;
+        for (PCsfReportBymonth data : list) {  
+        	HSSFRow rowLine = sheet.createRow(++index);  
+        	rowLine.createCell(0).setCellValue(String.valueOf(data.getCenterName()).replace("null", ""));
+        	rowLine.createCell(1).setCellValue(String.valueOf(data.getCsfRegisterAdd()).replace("null", ""));
+        	rowLine.createCell(2).setCellValue(String.valueOf(data.getCsfRegisterNum()).replace("null", ""));
+        	rowLine.createCell(3).setCellValue(String.valueOf(data.getCsfActivityNum()).replace("null", ""));
+        	rowLine.createCell(4).setCellValue(String.valueOf(data.getLastCsfMonthlyAdjustment()).replace("null", ""));
+        	rowLine.createCell(5).setCellValue(String.valueOf(data.getCsfMonthlyAdjustment()).replace("null", ""));
+        	rowLine.createCell(6).setCellValue(String.valueOf(data.getAdjustmentRateChange()).replace("null", ""));
+        	rowLine.createCell(7).setCellValue(String.valueOf(data.getLastCsfAvgTime()).replace("null", "")); 
+        	rowLine.createCell(8).setCellValue(String.valueOf(data.getCsfAvgTime()).replace("null", ""));
+        	rowLine.createCell(9).setCellValue(String.valueOf(data.getAvgtimeRateChange()).replace("null", ""));
+        	rowLine.createCell(10).setCellValue(String.valueOf(data.getLastCsfSuccRate()).replace("null", "")); 
+        	rowLine.createCell(11).setCellValue(String.valueOf(data.getCsfSuccRate()).replace("null", ""));
+        	rowLine.createCell(12).setCellValue(String.valueOf(data.getSuccRateChage()).replace("null", ""));
+        }  
+		return wb;	
+	}  
+	
+	public HSSFWorkbook export(List<Map> list) {  
         HSSFWorkbook wb = new HSSFWorkbook();  
         List<HSSFSheet> sheetList = new ArrayList<HSSFSheet>();
         List<HSSFRow> rowList = new ArrayList<HSSFRow>();

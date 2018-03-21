@@ -15,18 +15,25 @@ define(function(require,exports,module){
     // 获取问题
     srvMap.add("getQueryInfo", "welcome/getQueryInfo.json", "archi/question/queryInfo");
     // 获取上线时间
-    srvMap.add("onlineTimeFind", "", "webservice/archiOnline/timeFind");
+    srvMap.add("onlineTimeFind", '', "webservice/archiOnline/timeFind");
     // 添加上线时间
-    srvMap.add("onlineTimeSet", "", "webservice/archiOnline/timeSet");
+    srvMap.add("onlineTimeSet", '', "webservice/archiOnline/timeSet");
     // 工作台查询
-    srvMap.add("getOwnHomeInfo", "", "sys/home/taskInfo");
+    srvMap.add("getOwnHomeInfo", '', "sys/home/taskInfo");
+    // 菜单记录查询
+	srvMap.add("getMenuTopData", '', "webservice/menuRecord/topData");
+	// 查询连接池配置
+	srvMap.add("getPoolText", '', "webservice/configure/getText");
+	// 系统变更信息查询
+	srvMap.add("getArchAigaList", '', "webservice/archiGrading/sysMonthReport");	
 
     var Data = {
         planDate:null // 获取日期日期
     };
     var cache = {
     	anifun : '',
-    	clickTime : 0
+    	clickTime : 0,
+    	hotMenu : []
     };
 	var Query = {
 		init: function(){
@@ -35,12 +42,188 @@ define(function(require,exports,module){
 			this._render();			
 		},
 		_render: function() {
-			this._getWelcomeKpiList();
-			this._getWelcomePie();//首页饼图初始化
-			this._questionShow();
-			this._getWelcomePlanDate();
-			this._load_workbench_size();
+			//渲染工作台数量
+			this._load_workbench_size(); 
+			//helper
+			this._handlebar_help_register(); 
+			//模块一数据渲染
+			this._load_first_module();
+			//模块二加载
+			this._load_sec_module();
+			//模块三加载
+			this._load_trd_module();
 		},
+		
+		_load_first_module: function() {
+			//首页指标
+			this._getWelcomeKpiList();
+			//连接池配置加载
+			this._connection_pool();
+			//错误码
+			this._error_code();
+			//基线数据查询
+			this._base_system();
+		},
+		
+		_load_sec_module: function() {
+			//热门菜单
+			this._hot_function();
+			//首页饼图初始化
+			this._getWelcomePie();    
+			//日历
+			this._getWelcomePlanDate();
+		},
+		
+		_load_trd_module:function() {
+			//架构视图设置
+			this._archi_view();
+			//巡检问题
+			this._question_show();   
+		},
+		
+		//巡检问题
+		_question_show: function() {
+			var self = this;
+			var pagenation = Page.find('[name="pagination"]');
+			Utils.getServerPage(srvMap.get("getQueryInfo"), 'sysVersion=已确认', function(json, status) {
+				var quesShowDom = Page.findId('quesShow');
+				var template = Handlebars.compile(Page.findTpl('questionShow'));
+				quesShowDom.html(template(json.data.content));
+        		Utils.eventTrClickCallback(Page.findId('quesTable'),function(isChecked, _input) {
+                	var quesId = _input.val();
+                	//问题解决页面
+    				var objData = {
+						id : '136',
+						name : '架构问题维护',
+						href : "view/archiQuesManage/questionRending.html",
+	                    cmd : "quesId="+quesId
+    				};
+    				self._newpage_open(objData);    
+        		});
+			},pagenation);
+		},
+		
+		//架构视图
+		_archi_view:function() {
+			var self = this;
+			Page.findId('archView').off('click').on('click',function(){
+				var obj = {
+					id:	'112',
+					name: '系统架构分级视图展示',
+					href: "view/sysArchiBaselineManage/archiGradingView.html",
+					cmd: ''
+				};
+				self._newpage_open(obj);
+			});
+		},
+		
+		//三级系统管理模块加载
+		_base_system: function() {
+			var self = this;
+			//事件绑定
+			Page.find("[name='sysButton']").off('click').on('click',function() {
+				var obj= {
+					id : '114',
+					name : '三级系统管理',
+					href : "view/sysArchiBaselineManage/archiGradingManage/thirdSysManage.html",
+                    cmd : 'type=apply'
+				};
+				self._newpage_open(obj);
+			});
+			//调用服务
+			var _cmd = "applyTime="+Rose.date.dateTime2str(new Date(),"yyyyMM");
+			Rose.ajax.postJson(srvMap.get('getArchAigaList'),_cmd,function(json, status){
+				var _monthReportNowData = Page.findId('monthReportNowData');
+				if(status) {
+					var templateA = Handlebars.compile(Page.findTpl('baseDataChangeTempA'));
+					_monthReportNowData.html(templateA(json.data.sysMonthApplyReport));
+					//末尾加句号
+					var _punctuation = _monthReportNowData.find("[name='punctuation']").last();
+					if(_punctuation.text() == '、'){
+						_punctuation.text('。');
+					}
+				} else {
+					_monthReportNowData.html(json.retMessage);
+				}
+			});
+		},
+		//连接池配置模块加载
+		_connection_pool: function() {
+			var self = this;
+			//设置默认参数
+			var today = Rose.date.dateTime2str(new Date(),"yyyy-MM-dd");
+			//事件绑定
+			Page.find("[name='poolButton']").off('click').on('click',function() {
+				var obj= {
+					id : '425',
+					name : '业务系统连接池配置总览',
+					href : "view/connectionPoolConfiguration/connectionPoolConfiguration.html",
+                    cmd : ''
+				};
+				self._newpage_open(obj);
+			});
+			Rose.ajax.postJson(srvMap.get('getPoolText'),"insertTime="+today,function(jsontxt, status){
+				var poolDom = Page.findId('connectionPoolText');
+				if(status) {				
+					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));
+					poolDom.html(templateText(jsontxt.data[0]));
+        			//判空校验
+					var _textA = poolDom.find("[name='textShow']").length;
+					var _textB = poolDom.find("[name='textShowTwo']");
+					if(_textA != 0){
+						_textB.css ('display','none');
+					}else{
+						_textB.css ('display','block');
+					}
+        			//打印查询月份
+					poolDom.find("[name='timeShow']").text(today);
+					poolDom.find("[name='timeShowTwo']").text(today);
+				} else {
+					poolDom.html(jsontxt.retMessage);					
+				}
+			});
+		},
+		
+		//错误码
+		_error_code:function() {
+			var self = this;
+			Page.find("[name='errCodeButton']").off('click').on('click',function() {
+				alert("暂无数据");
+//				var obj= {
+//					id : '425',
+//					name : '业务系统连接池配置总览',
+//					href : "view/connectionPoolConfiguration/connectionPoolConfiguration.html",
+//                    cmd : ''
+//				};
+//				self._newpage_open(obj);
+			});
+		},
+		
+		//热门菜单
+		_hot_function: function() {
+			var self = this;
+			//获取模板
+			var template = Handlebars.compile(Page.findTpl('getWelcomeHotfunction'));	
+			//热门菜单查询
+			Rose.ajax.postJson(srvMap.get("getMenuTopData"),"type=menuNameMonth",function(json, state){
+				cache.hotMenu = json.data;
+				var hotmenu = Page.findId("functionRecordMenu");
+				hotmenu.html(template(json.data));
+				//热门事件绑定
+				hotmenu.find("li").off('click').on('click',function() {
+					var index = $(this).find('i').text();
+					var selectValue = cache.hotMenu[--index];
+					var obj= {
+						id : selectValue.menuCode,
+						name : selectValue.menuName,
+						href : selectValue.menuUrl,
+	                    cmd : ''
+					};
+					self._newpage_open(obj);
+				});
+			});
+		},
+		//更新工作台提示数
 		_load_workbench_size: function() {
 	        Rose.ajax.postJson(srvMap.get('getOwnHomeInfo'), '', function(json, status) {
 	        	if (status) {
@@ -89,10 +272,7 @@ define(function(require,exports,module){
 	                        //alert('你选择的日期是:' + dp.cal.getDateStr())
 	                        Data.planDate = dp.cal.getDateStr();
 	                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));
-						}
-//                        //alert('你选择的日期是:' + dp.cal.getDateStr())
-//                        Data.planDate = dp.cal.getDateStr();
-//                        Page.findName("showTime").html(Rose.date.dateTime2str(new Date(dp.cal.getDateStr()), 'yyyy年MM月dd日'));			
+						}	
                     }
                 });
             };
@@ -107,80 +287,6 @@ define(function(require,exports,module){
                 }
             });
         },
-		_questionShow: function() {
-			var self = this;
-			Rose.ajax.postJson(srvMap.get("getQueryInfo"), 'pageSize=100&sysVersion=已确认', function(json, status) {
-				if(status) {
-					window.XMS.msgbox.hide();
-					var docthis = Page.find('ul[name="wordGull"]');
-                    var quesList = json.data.content;
-                    var _html = '';
-                    var dataLength = 0;
-                    for (var i in quesList) {
-                        var _json = quesList[i];
-                        if(_json.state == '已解决') {
-                        	continue;
-                        }
-                        dataLength++;
-                        _html += '<li data-quesid="'+_json.quesId+'" style="margin-top: 0px;"><a title="' + _json.occurEnvironment +'" class="ques-word" href="javascript:void(0)">'
-                        + _json.occurEnvironment +'</a><span class="ques-state">' + _json.state + '</span><span class="ques-time">' + _json.createDate + '</span></li>';
-                    }
-                    if(dataLength != 0) {
-                        while(dataLength <9) {
-                        	dataLength += dataLength;
-                        	_html+=_html;
-                        }
-                    }
-                    docthis.html(_html);
-                    //click事件绑定
-                    Page.find("ul[name='wordGull']").delegate('li', "click",function(){
-                    	var quesId = $(this).attr("data-quesid");
-                    	//问题解决页面
-        				var objData = {
-        						id : '136',
-        						name : '架构问题维护',
-        						href : "view/archiQuesManage/questionRending.html",
-        	                    cmd : "quesId="+quesId
-        				};
-                    	Tab.creatTab(objData);
-                    	
-                    });
-					self._wordRoll();
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}
-  			});
-	
-		},
-		_wordRoll: function(value) {			
-			var docthis = Page.find('ul[name="wordGull"]');
-			//默认参数
-			value=$.extend({
-				 "li_h":"30",
-				 "time":2000,
-				 "movetime":1000
-			},value);
-			
-			//向上滑动动画
-			function autoani(){
-				var newDom = docthis.find("li:first");
-				newDom.animate({"margin-top":-value.li_h},value.movetime,function(){
-					newDom.css("margin-top",0).appendTo(".indexline");
-				});
-			}
-			if(cache.anifun) {
-				clearInterval(cache.anifun);
-			}
-			//自动间隔时间向上滑动
-			cache.anifun = setInterval(autoani,value.time);
-			
-			//悬停时停止滑动，离开时继续执行
-			$(docthis).children("li").hover(function(){
-				clearInterval(cache.anifun);			//清除自动滑动动画
-			},function(){
-				cache.anifun = setInterval(autoani,value.time);	//继续执行动画
-			});
-		},
 		
 		_getWelcomeKpiList: function() { // 获取指标信息
             var self = this;
@@ -229,6 +335,32 @@ define(function(require,exports,module){
                 }
             });
         },
+        //菜单open方法，便于权限校验
+        _newpage_open: function(obj){    
+        	
+            // 请求：侧边栏菜单列表接口
+		    Rose.ajax.getJson(srvMap.get('getSidebarMenuList'), '', function(json, status) {
+		        if (status) {
+		        	if(obj.name == '工作台'|| json.data.indexOf(obj.href)>0){
+						var objData = {
+								id : obj.id,
+								name : obj.name,
+								href : obj.href,
+			                    cmd : obj.cmd
+						};
+			        	Tab.creatTab(objData);
+		        	} else {
+		        		XMS.msgbox.show('权限不足', 'error', 2000);
+		        	}	            
+
+		        } else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+		        }
+		    });
+        	//提炼成公共方法,方便以后拓展
+
+        },
+        
 		_getWelcomePie: function(){
 			var self = this;
 			//XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -245,21 +377,18 @@ define(function(require,exports,module){
 		getMyEchartsPie: function(json){//饼图模块
 			var myChart = echarts.init(Page.findId('echartsPie')[0],'macarons');
         	option = {
-               /* title : {
-                    text: '架构分层管理',
-                    subtext: '一级域管理',
-                    left:'center'
-                },*/
+                title : {
+                    text: '各一级域系统分布情况',
+                    left:'left'
+                },
+
                 tooltip : {
                     trigger: 'item',
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
                 },
                 legend: {
-                    orient: 'horizontal',
-                    left: 'center',
-                    top:'5%',
                     data: ['业务支撑域','管信域','BOMC域','大数据域','安全域','公共域','网络域','地市域','开放域'],
-                    width:400
+                    show:false
                 },
                 series : [
                     {
@@ -318,56 +447,68 @@ define(function(require,exports,module){
 			Page.findId('echartsPie').resize(function(){
 				myChart.resize(); 			
 			});
+		},
+		//helper注册
+		_handlebar_help_register: function() {
+			Handlebars.registerHelper("nextGroupTitle",function(index) {
+				var num = index+1;
+				return num;
+			});
+			Handlebars.registerHelper("iconContrll",function(index) {
+				if(index==0) {
+					return "toplist-primicon0";
+				} else if(index==1) {
+					return "toplist-primicon1";
+				}else if(index==2) {
+					return "toplist-primicon2";
+				}else {
+					return '';
+				}
+			});
+			Handlebars.registerHelper("setSmallTag", function(str) {
+		        return str.replace("%","<small>%</small>");
+		    });
+		    Handlebars.registerHelper("checkIsNotHide", function(index,activeNum) {
+		        var _index = parseInt(index+1);
+		        var _activeNum = parseInt(activeNum);
+		        if (_index == _activeNum) {
+		            return "";
+		        }else{
+		        	return "hide";
+		        }
+		    });
+		    Handlebars.registerHelper("setPercent", function(type) {
+		        if (type == 2) {
+		            return "%";
+		        }
+		    });
+		    Handlebars.registerHelper("isActive", function(index) {
+		        if (index == 0) {
+		            return "active";
+		        }
+		    });
+		    Handlebars.registerHelper("isChecked", function(type) {
+		        if (type == 1) {
+		            return "checked='checked'";
+		        }
+		    });
+		    Handlebars.registerHelper("quesStateColor", function(state) {
+		        if (state == '解决中') {
+		            return "bg-yellow"; 
+		        } else if (state == '待立项规划') {
+		            return "bg-teal"; 
+		        } else if (state == '任务单跟踪') {
+		            return "bg-green"; 
+		        } else if (state == '需求单跟踪') {
+		            return "bg-light-blue"; 
+		        } else if (state == "变更单跟踪") {
+		        	return "bg-lime"; 
+		        }
+		    });
 		}
 	};
-	
-	Handlebars.registerHelper("setSmallTag", function(str) {
-        return str.replace("%","<small>%</small>");
-    });
-    Handlebars.registerHelper("checkIsNotHide", function(index,activeNum) {
-        var _index = parseInt(index+1);
-        var _activeNum = parseInt(activeNum);
-        if (_index == _activeNum) {
-            return "";
-        }else{
-        	return "hide";
-        }
-    });
-    Handlebars.registerHelper("setPercent", function(type) {
-        if (type == 2) {
-            return "%";
-        }
-    });
-    Handlebars.registerHelper("isActive", function(index) {
-        if (index == 0) {
-            return "active";
-        }
-    });
-    Handlebars.registerHelper("isChecked", function(type) {
-        if (type == 1) {
-            return "checked='checked'";
-        }
-    });
-    Handlebars.registerHelper("getTypeClassName", function(type) {
-        if (type == 1) {
-            return "fa-check bg-blue"; //正处理
-        } else if (type == 2) {
-            return "fa-check bg-green"; //已处理
-        } else if (type == 3) {
-            return "fa-check bg-gray"; //未处理
-        }
-    });
-    Handlebars.registerHelper("getTypeTitle", function(type) {
-        if (type == 1) {
-            return "正处理"; //正处理
-        } else if (type == 2) {
-            return "已处理"; //已处理
-        } else if (type == 3) {
-            return "未处理"; //未处理
-        } else if (type == 4) {
-            return "不需处理"; //未处理
-        }
-    });
+
+
     module.exports = Query;
 });
 

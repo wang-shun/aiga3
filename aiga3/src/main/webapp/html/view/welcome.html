@@ -13,56 +13,144 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-6">
-			<div class="box box-solid">
-				<div class="box-body no-padding" style="overflow: hidden;">
-					<div class="row welcome-calendar">
-						<div class="col-md-4 calendar-title">
-							<h3>上线日历</h3>
-							<p name="showTime"></p>
-						</div>
-						<div class="col-md-8">
-							<!--The calendar -->
-							<div id="JS_getWelcomePlanDate" class="calendar-content">
-								<div class="text-loader min-height">
-									<div class="text-loader-content">
-										<i class="fa fa-refresh fa-spin"></i> 请稍候，数据加载中...
-									</div>
-								</div>
-							</div>
-						</div>
+	    <!-- 模块一    -->
+		<div class="col-md-12">
+			<!-- 连接池  -->
+			<div class="col-md-4">
+				<div class="box" style="border-top: 3px solid #3c8dbc;">
+					<div class="box-header with-border">
+						<h3 class="box-title"><i class="fa fa-microchip" style="margin-right: 10px"></i>连接池</h3>					
 					</div>
+					<div class="box-body" style="height: 100px">
+					    <div class="row" id="JS_connectionPoolText"></div>	
+					</div>
+					<div class="box-footer">
+					    <button type="button" class="btn btn-primary"  data-toggle="modal" name="poolButton">更多信息</button>				
+					</div>						
 				</div>
 			</div>
-			<div class="box box-solid">
-				<div class="box-header">
-					<h3 class="box-title">问题展示</h3>
+			<!-- 错误码 -->
+			<div class="col-md-4">
+				<div class="box" style="border-top: 3px solid #00a65a;">
+					<div class="box-header with-border">
+						<h3 class="box-title"><i class="fa fa-ravelry" style="margin-right: 10px"></i>错误码</h3>					
+					</div>
+					<div class="box-body" style="height: 100px">
+						<h3>暂无数据</h3>
+					</div>
+					<div class="box-footer">
+	          			<button type="button" class="btn btn-primary"  data-toggle="modal" name="errCodeButton">更多信息</button>		          			
+					</div>						 
 				</div>
-				<ul class="indexline" name="wordGull" style="padding: 0px">
-				</ul>
+			</div>
+			<!-- 基线系统  -->
+			<div class="col-md-4">
+				<div class="box" style="border-top: 3px solid #f39c12;">
+					<div class="box-header with-border">
+						<h3 class="box-title"><i class="fa fa-window-maximize" style="margin-right: 10px"></i>三级系统管理</h3>					
+					</div>
+					<div class="box-body" style="height: 100px">
+	          			<div class="row" id="JS_monthReportNowData"></div>
+					</div>	
+					<div class="box-footer">
+	          			<button type="button" class="btn btn-primary"  data-toggle="modal" name="sysButton">三级系统申请</button>		          			
+					</div>					
+				</div>
 			</div>
 		</div>
-		<div class="col-md-6">
-			<div class="box box-solid" style="height:560px">
-				<div class="box-header">
-					<h3 class="box-title">系统数量统计</h3>
-					<div class="box-tools">
-						<div class="page-list pull-right">
-							<ul name="complimeNum"></ul>
-						</div>
-						<!-- <span class="flow-online-tips pull-right">本次上线已发布<span name="maxNum"></span>次</span> -->
+		
+		<!-- 模块2 -->
+		<div class="col-md-4">
+		    <!-- 热门菜单 -->		    
+			<div class="col-md-12">			
+				<div class="box" style="border-top: 3px solid #8ac14a;">
+					<div class="box-header">
+						<h3 class="box-title">热门菜单TOP10</h3>
+					</div>
+					<div id="JS_functionRecordMenu" class="box-body top-list-comsty">
 					</div>
 				</div>
-				<div class="box-body">
-					<div id="JS_echartsPie" style="width:100%;height:560px"></div>
+			</div>
+			
+			<!-- 日历  -->
+			<div class="col-md-12">
+	            <div class="box" style="border-top: 3px solid #00a65a;">
+	               <div class="box-body no-padding" style="overflow: hidden;">
+	                   <div class="row welcome-calendar">
+	                       <div class="col-md-12">
+	                           <!--The calendar -->
+	                           <div id="JS_getWelcomePlanDate" class="calendar-content" >
+	                               <div class="text-loader min-height">
+	                                   <div class="text-loader-content">
+	                                       <i class="fa fa-refresh fa-spin"></i> 请稍候，数据加载中...
+	                                   </div>
+	                               </div>
+	                           </div>
+	                       </div>
+	                   </div>
+	               </div>
+	            </div>
+			</div>
+			
+			<!--  一级域 echarts  -->
+			<div class="col-md-12">
+				<div class="box box-solid" style="height:279px">
+					<div class="box-body">
+						<div id="JS_echartsPie" style="width:100%;height:280px"></div>
+					</div>
 				</div>
 			</div>
+		</div>
+		
+		<!-- 模块3 -->
+		<div class="col-md-8">
+		    <!-- 一级架构图  -->		    
+			<div class="col-md-12">
+				<div class="box" style="border-top: 3px solid #00c0ef;">
+					<div class="box-header">
+						<h3 class="box-title">系统架构分级视图 </h3>
+					</div>
+					<img id="JS_archView" src="style/welcome/firstDomain.png" style="width:100%;cursor: pointer;"></img>		
+				</div>
+			</div>
+			
+			<!-- 巡检问题  -->		
+			<div class="col-md-12">
+				<div class="box" style="border-top: 3px solid #dd4b39;">
+					<div class="box-header with-border">
+						<h3 class="box-title">疑难类问题管控</h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<table class="table table-bordered" id="JS_quesTable">
+							<thead>					
+								<tr>
+                    				<th class="iCheckbox" width="15"></th>
+									<th>问题</th>
+									<th>所属中心系统</th>
+									<th>创建时间</th>
+									<th style="width: 40px">状态</th>
+								</tr>
+				            </thead>
+							<tbody  id="JS_quesShow"></tbody>
+						</table>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer clearfix">
+						<div class="dataTables_paginate" name="pagination"></div>						
+					</div>
+				</div>
+				<!-- /.box -->
+			</div>	
 		</div>
 	</div>
 </div>
 <style>
 	.page-welcome .top-icon-declick {
-	        cursor: pointer;	
+	    cursor: pointer;	
+	}
+	.page-welcome #JS_functionRecordMenu  li {
+	    cursor: pointer;	
 	}
 	.page-welcome .ques-word {
 		width:50%;
@@ -97,8 +185,8 @@
 	} 
 	.page-welcome ul.indexline li{height:30px;text-indent:15px; font-size:12px; line-height:30px;list-style:none} 
      .page-welcome h3.box-title{
-       color: #44abe5;
-    }
+		/*   color: #44abe5;*/    
+ 		color: #333;}
     .page-welcome .info-count{
         padding: 10px;
     }
@@ -212,7 +300,56 @@
     .page-welcome .timeline > li > .fa{
         cursor: pointer;
     }
+    /* 热门菜单样式 start */
+    .Page_functionRecord .top-list-comsty{height: 420px;}
+	.top-list-comsty .menu-data-num{color: #8C929A; position: absolute;right: 0;top: 0;}
+	.top-list-comsty ul {padding:10px;}
+	.top-list-comsty .toplist-primicon0{background-position: 0 0;text-shadow: 0px 0px 0 #999999;}
+	.top-list-comsty .toplist-primicon1{background-position: -25px 0;text-shadow: 0px 0px 0 #999999;}
+	.top-list-comsty .toplist-primicon2{background-position: -50px 0;text-shadow: 0px 0px 0 #999999;}
+	.top-list-comsty li {
+	    border-top: 1px dotted #D3D3D3;
+	    height: 40px;
+	    line-height: 36px;
+	    overflow: hidden;
+	    padding: 0 70px 0 25px;
+	    position: relative;
+	}
+	.top-list-comsty li i{
+	    background: url(style/images/ranksbg.png) no-repeat scroll -75px 0 transparent;
+	    color: #FFFFFF;
+	    display: block;
+	    float: left;
+	    font-family: Arial;
+	    font-size: 13px;
+	    font-style: normal;
+	    height: 28px;
+	    left: 0;
+	    line-height: 20px;
+	    margin-top: 7px;
+	    position: absolute;
+	    text-align: center;
+	    text-indent: -4px;
+	    top: 0;
+	    width: 18px;
+	}
+	/* 热门菜单样式 end */
+	.pool-cfg-text {
+		color: red;
+	    margin: 0 10px;
+	    font-size: 25px;
+	}
 </style>
+
+<!-- 热门菜单数据  -->
+<script id="TPL_getWelcomeHotfunction" type="text/x-handlebars-template">
+<ul>
+{{#each this}}
+	<li><i class={{iconContrll @index}}>{{nextGroupTitle @index}}</i><a>{{dataName}}</a><span class="menu-data-num">{{dataNum}}</span></li>
+</tr>
+{{/each}}
+</ul>
+</script>
 
 <!-- handlebars/获取总计结果 -->
 <script id="TPL_getWelcomeKpiList" type="text/x-handlebars-template">
@@ -237,6 +374,45 @@
     <a class="carousel-control right" href="#welcome_carousel" data-slide="next">Next</a>
   </div>
 </div>
+</script>
+
+<script id="TPL_connectionPoolTempText" type="text/x-handlebars-template">
+<div class="events-grid" >
+	<div class="events-semi-grid">
+		{{#if change}}<p style="text-indent:2em;margin-top:13px;" name="textShow"><span name="timeShowTwo"></span>日共成功采集<span class="pool-cfg-text">{{collect}}</span>个系统连接池配置<span class="pool-cfg-text">{{total}}</span>条，经巡检发现<span class="pool-cfg-text">{{change}}</span>条配置存在变更，具体变更清单请选择“查询状态”条件为“是”后再次查询。</p>
+		{{/if}}
+		<p style="text-indent:2em;margin-top:13px;" name="textShowTwo"><span name="timeShowTwo"></span>日共成功采集<span class="pool-cfg-text">{{collect}}</span>个系统连接池配置<span class="pool-cfg-text">{{total}}</span>条，经巡检未发现配置变更。</p>
+	</div>
+</div>
+</script>
+
+<!-- 更新数据具体数值 -->
+<script id="TPL_baseDataChangeTempA" type="text/x-handlebars-template">
+	<h4>本月收到IT系统架构基线:</h4>
+	<p>
+		{{#if applycount}}<span name="span">申请{{applycount}}起，</span>{{/if}}{{#if tongguo}}<span name="span">审批通过{{tongguo}}起，</span>{{/if}}{{#if bohui}}<span name="span">驳回{{bohui}}起，</span>{{/if}}
+		{{#if xinzeng}}<span name="span">新增{{xinzeng}}个三级域系统中包含：</span>{{/if}}  {{#if yewu}}业务支撑域{{yewu}}个<span name="punctuation">、</span>{{/if}}  {{#if guanxin}}管信域{{guanxin}}个<span name="punctuation">、</span>{{/if}} 
+	    {{#if bomc}}BOMC域{{bomc}}个<span name="punctuation">、</span>{{/if}} {{#if anquan}}安全域{{anquan}}个<span name="punctuation">、</span>{{/if}} {{#if shuju}}大数据域{{shuju}}个<span name="punctuation">、</span>{{/if}} 
+	    {{#if gonggong}}公共域{{gonggong}}个<span name="punctuation">、</span>{{/if}}{{#if wangluo}}网络域{{wangluo}}个<span name="punctuation">、</span>{{/if}}  {{#if dishi}}地市域{{dishi}}个<span name="punctuation">、</span>{{/if}}  {{#if kaifang}} 开放域{{kaifang}}个<span name="punctuation">、</span>{{/if}}
+	</p>
+</div>
+</script>
+<!--		<div class="progress progress-xs">
+			<div class="progress-bar progress-bar-danger"
+				style="width: 55%"></div>
+		</div>  -->
+<!-- 巡检问题展示  -->
+<script id="TPL_questionShow" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+	<td><input type="radio" class="minimal" value="{{quesId}}" name="quesId"></td>
+	<td>{{occurEnvironment}}</td>
+	<td>{{belongProject}}</td>
+	<td>{{createDate}}</td>
+	<td><span class="badge {{quesStateColor state}}">{{state}}</span>
+	</td>
+</tr>
+{{/each}}
 </script>
 <script>
 seajs.use("script/welcome", function(Query) {

@@ -92,7 +92,7 @@ public class ExcelExportController {
     		HSSFCell cell = row1.createCell(i);
             cell.setCellValue(head[i]);  
             cell.setCellStyle(style); 
-            if("1".equals(String.valueOf(i))) {
+            if("0".equals(String.valueOf(i))) {
             	sheet.setColumnWidth(i, 20 * 256);
             } else {
             	sheet.setColumnWidth(i, 12 * 256);
@@ -102,7 +102,7 @@ public class ExcelExportController {
     		HSSFCell cell = row2.createCell(i);
             cell.setCellValue(head2[i]);  
             cell.setCellStyle(style); 
-            if("1".equals(String.valueOf(i))) {
+            if("0".equals(String.valueOf(i))) {
             	sheet.setColumnWidth(i, 20 * 256);
             } else {
             	sheet.setColumnWidth(i, 12 * 256);

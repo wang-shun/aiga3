@@ -36,7 +36,7 @@
 						<h3 class="box-title"><i class="fa fa-ravelry" style="margin-right: 10px"></i>错误码</h3>					
 					</div>
 					<div class="box-body" style="height: 100px">
-						<h3>暂无数据</h3>
+						<div class="row" id="JS_errorCodeText"> </div>
 					</div>
 					<div class="box-footer">
 	          			<button type="button" class="btn btn-primary"  data-toggle="modal" name="errCodeButton">更多信息</button>		          			
@@ -225,7 +225,9 @@
     .page-welcome .info-count .text-yellow{
         color: #ff9922 !important;
     }
-
+    .page-welcome .text-style {
+    	color:red;font-size:16px;
+    }
     .welcome-calendar .calendar-title{
         background: #f9f9f9;
         height: 270px;
@@ -413,6 +415,20 @@
 	</td>
 </tr>
 {{/each}}
+</script>
+<!-- 错误码 -->
+<script id="TPL_errorCodeTempText" type="text/x-handlebars-template">
+<div class="events-grid">
+	<div class=" events-semi-grid" style="height: 100px">
+		{{#each this}}
+			<p style="text-indent:2em;margin-top:13px;" name="textShowTwo">
+				成功采集
+				<span class="text-style">{{center}}</span>系统，CSF服务错误码配置覆盖率为
+				<span class="text-style">{{percentage}}%</span>
+			</p>
+		{{/each}}
+	</div>
+</div>
 </script>
 <script>
 seajs.use("script/welcome", function(Query) {

@@ -26,6 +26,8 @@ define(function(require,exports,module){
 	srvMap.add("getPoolText", '', "webservice/configure/getText");
 	// 系统变更信息查询
 	srvMap.add("getArchAigaList", '', "webservice/archiGrading/sysMonthReport");	
+	//显示查询信息表
+	srvMap.add("querybylist", '', "webservice/csferrcode/querybylist");
 
     var Data = {
         planDate:null // 获取日期日期
@@ -187,15 +189,27 @@ define(function(require,exports,module){
 		//错误码
 		_error_code:function() {
 			var self = this;
+			//设置默认参数
+			var yesterday = Rose.date.yesterdayTime2str(new Date(),"yyyyMMdd");
 			Page.find("[name='errCodeButton']").off('click').on('click',function() {
-				alert("暂无数据");
-//				var obj= {
-//					id : '425',
-//					name : '业务系统连接池配置总览',
-//					href : "view/connectionPoolConfiguration/connectionPoolConfiguration.html",
-//                    cmd : ''
-//				};
-//				self._newpage_open(obj);
+				var obj= {
+					id : '344',
+					name : '各中心CSF错误码规范',
+					href : "view/errorCode/centerCsfErrorCode.html",
+                    cmd : ''
+				};
+				self._newpage_open(obj);
+			});
+			// 设置服务器端分页
+			var _topcmd={
+				insertTime:yesterday
+			};
+			Rose.ajax.postJson(srvMap.get('querybylist'),_topcmd,function(json){
+				window.XMS.msgbox.hide();		
+        		//展示报告内容
+				var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
+				var _text = Page.findId('errorCodeText');
+    			_text.html(templateText(json.data));
 			});
 		},
 		

@@ -123,7 +123,6 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			long standardin =0L;
 			for(int b=0;b<listCheck.size();b++){
 				ArchBusiErrcodeMapStandard basein = listCheck.get(b);
-				System.out.println("basein.getCenter()---------------------"+basein.getCenter());
 				if((basein.getCenter()!=null) && (!basein.getCenter().equals(""))){
 					if(center.equals(basein.getCenter())){
 						standardin = basein.getStandard();

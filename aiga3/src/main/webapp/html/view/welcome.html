@@ -33,10 +33,12 @@
 			<div class="col-md-4">
 				<div class="box" style="border-top: 3px solid #00a65a;">
 					<div class="box-header with-border">
-						<h3 class="box-title"><i class="fa fa-ravelry" style="margin-right: 10px"></i>错误码</h3>					
+						<h3 class="box-title" name="errcode-title"><i class="fa fa-ravelry" style="margin-right: 10px"></i>错误码</h3>					
 					</div>
 					<div class="box-body" style="height: 100px; overflow:hidden" >
-						<div class="row" id="JS_errorCodeText"> </div>
+						<!-- <div class="row" id="JS_errorCodeText"> </div> -->
+						<ul class="indexline" name="wordGull" style="padding: 0px">
+                		</ul>
 					</div>
 					<div class="box-footer">
 	          			<button type="button" class="btn btn-primary"  data-toggle="modal" name="errCodeButton">更多信息</button>		          			
@@ -152,29 +154,17 @@
 	.page-welcome #JS_functionRecordMenu  li {
 	    cursor: pointer;	
 	}
-	.page-welcome .ques-word {
-		width:50%;
-		display: inline-block;
-		white-space:nowrap;
-		text-overflow:ellipsis; 
-		-o-text-overflow:ellipsis; 
-		overflow: hidden;
+	.page-welcome .errcode-center{
+	    blue;
+	    font-size:12px;
 	}
-	.page-welcome .ques-state {
-		width:16%;
-		display: inline-block;
-		white-space:nowrap;
-		text-overflow:ellipsis; 
-		-o-text-overflow:ellipsis; 
-		overflow: hidden;
+	.page-welcome .errcode-percentage{
+	    color:red;
+	    font-size:16px;
 	}
-	.page-welcome .ques-time {
-		width:30%;
-		display: inline-block;
-		white-space:nowrap;
- 		text-overflow:ellipsis; 
-		-o-text-overflow:ellipsis; 
-		overflow: hidden; 
+	.page-welcome .errcode-standard{
+	    color:red;
+	    font-size:16px;
 	}
 	.page-welcome ul.indexline{
 		font-weight: bold;
@@ -422,9 +412,9 @@
 	<div class=" events-semi-grid">
 		{{#each this}}
 			<p style="text-indent:2em;margin-top:13px;" name="textShowTwo">
-				成功采集
-				<span class="text-style">{{center}}</span>系统，CSF服务错误码配置覆盖率为
-				<span class="text-style">{{percentage}}%</span>
+				<span class="text-style">{{center}}</span>CSF服务错误码覆盖率为
+				<span class="text-style">{{percentage}}%</span>;规范率为
+				<span class="text-style">{{standard}}%</span>;
 			</p>
 		{{/each}}
 	</div>

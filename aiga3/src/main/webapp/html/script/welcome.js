@@ -204,15 +204,62 @@ define(function(require,exports,module){
 			var _topcmd={
 				insertTime:yesterday
 			};
-			Rose.ajax.postJson(srvMap.get('querybylist'),_topcmd,function(json){
-				window.XMS.msgbox.hide();		
-        		//展示报告内容
-				var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
-				var _text = Page.findId('errorCodeText');
-    			_text.html(templateText(json.data));
+			Rose.ajax.postJson(srvMap.get('querybylist'),_topcmd,function(json,status){
+			if(status){
+				var docthis = Page.find('ul[name="wordGull"]');
+                var errCodeList = json.data;
+                var _html = '';
+                var dataLength = 0;
+                for (var i in errCodeList) {
+                    var _json = errCodeList[i];
+                    dataLength++;
+                    _html += '<li style="margin-top: 0px;"><a title="' + _json.center +'" class="errcode-center">'
+                    + _json.center +'</a>CSF服务错误码配置覆盖率为<span class="errcode-percentage">' + _json.percentage + '</span>%;规范率为<span class="errcode-standard">' + _json.standard + '</span>%;</li>';
+                }
+                docthis.html(_html);
+                self._wordRoll();
+                Page.find("[name='errcode-title']").html("错误码("+yesterday+"采集)");
+/*				var poolDom = Page.findTpl('errorCodeText');
+				if(status){
+	        		//展示报告内容
+					var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
+					var _text = Page.findId('errorCodeText');
+	    			_text.html(templateText(json.data));*/
+				}else{
+					poolDom.html(jsontxt.retMessage);
+				}
 			});
 		},
-		
+		//错误码滚动
+		_wordRoll: function(value) {            
+            var docthis = Page.find('ul[name="wordGull"]');
+            //默认参数
+            value=$.extend({
+                 "li_h":"30",
+                 "time":2000,
+                 "movetime":1000
+            },value);
+            
+            //向上滑动动画
+            function autoani(){
+                var newDom = docthis.find("li:first");
+                newDom.animate({"margin-top":-value.li_h},value.movetime,function(){
+                    newDom.css("margin-top",0).appendTo(".indexline");
+                });
+            }
+            if(cache.anifun) {
+                clearInterval(cache.anifun);
+            }
+            //自动间隔时间向上滑动
+            cache.anifun = setInterval(autoani,value.time);
+            
+            //悬停时停止滑动，离开时继续执行
+            $(docthis).children("li").hover(function(){
+                clearInterval(cache.anifun);            //清除自动滑动动画
+            },function(){
+                cache.anifun = setInterval(autoani,value.time);    //继续执行动画
+            });
+        },
 		//热门菜单
 		_hot_function: function() {
 			var self = this;

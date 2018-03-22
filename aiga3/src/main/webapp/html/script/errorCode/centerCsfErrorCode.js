@@ -109,6 +109,17 @@ define(function(require, exports, module) {
                 var tablebtn = _dom.find("[name='content']");
                 tablebtn.html(template(json.data));
         		Utils.eventTrClickCallback(_dom);
+        		//展示报告内容
+				var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));
+				var _text = Page.findId('connectionPoolText');
+    			_text.html(templateText(json.data));
+    			//打印查询月份
+				var _form = Page.findId('queryDataForm');
+				var _insertTime = _form.find("[name='insertTime']").val();
+				var timeShow = Page.findId('text');
+				timeShow.find("[name='timeShow']").text(_insertTime);
+				_text.find("[name='timeShowTwo']").text(_insertTime);
+        		
         		//是否改变------按钮
 //        		tablebtn.find("[class='btn btn-primary btn-table-change']").off('click').on('click', function() {
 //        			var selectCenter = $(this).attr("data-center");

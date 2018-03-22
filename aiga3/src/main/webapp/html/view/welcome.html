@@ -22,7 +22,9 @@
 						<h3 class="box-title"><i class="fa fa-microchip" style="margin-right: 10px"></i>连接池</h3>					
 					</div>
 					<div class="box-body" style="height: 100px">
-					    <div class="row" id="JS_connectionPoolText"></div>	
+					    <div class="row" id="JS_connectionPoolText"> 
+					    	<h3>暂无数据</h3>
+					    </div>	
 					</div>
 					<div class="box-footer">
 					    <button type="button" class="btn btn-primary"  data-toggle="modal" name="poolButton">更多信息</button>				
@@ -52,7 +54,9 @@
 						<h3 class="box-title"><i class="fa fa-window-maximize" style="margin-right: 10px"></i>三级系统管理</h3>					
 					</div>
 					<div class="box-body" style="height: 100px">
-	          			<div class="row" id="JS_monthReportNowData"></div>
+	          			<div class="row" id="JS_monthReportNowData">
+	          				<h3>暂无数据</h3>
+	          			</div>
 					</div>	
 					<div class="box-footer">
 	          			<button type="button" class="btn btn-primary"  data-toggle="modal" name="sysButton">三级系统申请</button>		          			
@@ -130,8 +134,9 @@
                     				<th class="iCheckbox" width="15"></th>
 									<th>问题</th>
 									<th>所属中心系统</th>
-									<th>创建时间</th>
-									<th style="width: 40px">状态</th>
+									<th>问题优先级</th>
+									<th>状态</th>
+									<th>创建时间</th>								
 								</tr>
 				            </thead>
 							<tbody  id="JS_quesShow"></tbody>
@@ -400,8 +405,9 @@
 	<td><input type="radio" class="minimal" value="{{quesId}}" name="quesId"></td>
 	<td>{{occurEnvironment}}</td>
 	<td>{{belongProject}}</td>
-	<td>{{createDate}}</td>
+	<td>{{priority}}</td>
 	<td><span class="badge {{quesStateColor state}}">{{state}}</span>
+	<td>{{createDate}}</td>
 	</td>
 </tr>
 {{/each}}

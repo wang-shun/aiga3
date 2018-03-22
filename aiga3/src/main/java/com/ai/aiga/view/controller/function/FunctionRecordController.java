@@ -101,7 +101,22 @@ public class FunctionRecordController {
 		bean.setData(archFunctionRecordSv.queryTopData(type));
 		return bean;
 	}
-	
+	@RequestMapping(path = "/webservice/menuCheck/grant")
+	@ApiOperation(value = "菜单权限校验", notes = "菜单权限校验", httpMethod="GET")
+	public @ResponseBody JsonBean grant(String menuCode){
+		JsonBean bean = new JsonBean();
+		try {
+			AigaStaff staffInfo = SessionMgrUtil.getStaff();
+			if(staffInfo == null) {
+				bean.fail("获取用户信息失败");
+				return bean;
+			}
+			bean.setData(archFunctionRecordSv.menuGrant(staffInfo,menuCode));
+		} catch (Exception e) {
+			bean.fail(e.getMessage());
+		}
+		return bean;
+	}
 	@RequestMapping(path = "/webservice/menuRecord/add")
 	@ApiOperation(value = "添加菜单使用记录", notes = "添加菜单使用记录", httpMethod="POST")
 	public @ResponseBody JsonBean add(@RequestBody ArchFunctionRecord request){

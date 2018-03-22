@@ -26,9 +26,11 @@ define(function(require,exports,module){
 	srvMap.add("getPoolText", '', "webservice/configure/getText");
 	// 系统变更信息查询
 	srvMap.add("getArchAigaList", '', "webservice/archiGrading/sysMonthReport");	
-	//显示查询信息表
+	// 菜单权限校验
+	srvMap.add("menuFuncCheck", '', "webservice/menuCheck/grant");
+	// 显示查询信息表
 	srvMap.add("querybylist", '', "webservice/csferrcode/querybylist");
-
+	
     var Data = {
         planDate:null // 获取日期日期
     };
@@ -397,12 +399,11 @@ define(function(require,exports,module){
             });
         },
         //菜单open方法，便于权限校验
-        _newpage_open: function(obj){    
-        	
-            // 请求：侧边栏菜单列表接口
-		    Rose.ajax.getJson(srvMap.get('getSidebarMenuList'), '', function(json, status) {
+        _newpage_open: function(obj){           	
+            //权限校验
+		    Rose.ajax.getJson(srvMap.get('menuFuncCheck'), 'menuCode='+obj.id, function(json, status) {
 		        if (status) {
-		        	if(obj.name == '工作台'|| json.data.indexOf(obj.href)>0){
+		        	if(obj.name == '工作台' || json.data) {
 						var objData = {
 								id : obj.id,
 								name : obj.name,
@@ -411,9 +412,8 @@ define(function(require,exports,module){
 						};
 			        	Tab.creatTab(objData);
 		        	} else {
-		        		XMS.msgbox.show('权限不足', 'error', 2000);
-		        	}	            
-
+		        		XMS.msgbox.show('权限不足,如需使用请联系管理员赋权', 'error', 2000);
+		        	}          
 		        } else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 		        }

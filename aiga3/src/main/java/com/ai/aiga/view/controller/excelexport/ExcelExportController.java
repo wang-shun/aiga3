@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.domain.PCsfReportBymonth;
+import com.ai.aiga.domain.PTopCsfReportBymonth;
 import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.PlatformOperateReportParams;
@@ -77,6 +78,89 @@ public class ExcelExportController {
         ouputStream.flush();  
         ouputStream.close(); 
 	}
+	
+	@RequestMapping(path="/webservice/excelExport/mspcsfTopReport")
+	public @ResponseBody void mspcsfTopReport(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		PlatformOperateReportParams condition = new PlatformOperateReportParams();
+		condition.setSettMonth(request.getParameter("settMonth"));
+		List<PTopCsfReportBymonth> findData = archSrvManageSv.MSPCSFTopReport(condition);
+        HSSFWorkbook wb = mspcsfTopMonRepot(findData);  
+        response.setContentType("application/vnd.ms-excel");  
+        Date nowtime = new Date();
+        DateFormat format=new SimpleDateFormat("yyyyMM");
+        String time=format.format(nowtime);
+        response.setHeader("Content-disposition", "attachment;filename="+new String("MSP CSF服务运营指标分析月报--TOP10+N服务_".getBytes(),"iso-8859-1")+time+".xls");  
+        OutputStream ouputStream = response.getOutputStream();  
+        wb.write(ouputStream);  
+        ouputStream.flush();  
+        ouputStream.close(); 
+	}
+	
+	public HSSFWorkbook mspcsfTopMonRepot(List<PTopCsfReportBymonth> list) {
+		String[] head = {"统计月份","本月排名","上月排名","服务编码","服务名称","归属系统","调用量（单位：万）","","","调用时长（单位：毫秒）","","","成功率","","","统计时间"};
+		String[] head2 = {"统计月份","本月排名","上月排名","服务编码","服务名称","归属系统","上月份调用量","本月份调用量","环比变化"
+				,"上月份平均接口调用时长","本月份平均接口调用时长","环比变化","上月份调用系统成功率","本月份调用系统成功率","环比变化","统计时间"};
+        HSSFWorkbook wb = new HSSFWorkbook();  
+    	HSSFSheet sheet = wb.createSheet("MSP CSF服务运营指标分析月报--TOP10+N服务");
+    	HSSFRow row1 = sheet.createRow((int) 0);
+    	HSSFRow row2 = sheet.createRow((int) 1);
+        HSSFCellStyle style = wb.createCellStyle();  
+        style.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
+        for (int i = 0; i < head.length; i++) {
+    		HSSFCell cell = row1.createCell(i);
+            cell.setCellValue(head[i]);  
+            cell.setCellStyle(style); 
+            if("0".equals(String.valueOf(i))) {
+            	sheet.setColumnWidth(i, 20 * 256);
+            } else {
+            	sheet.setColumnWidth(i, 12 * 256);
+            }	         
+        }
+        for (int i = 0; i < head2.length; i++) {
+    		HSSFCell cell = row2.createCell(i);
+            cell.setCellValue(head2[i]);  
+            cell.setCellStyle(style); 
+            if("0".equals(String.valueOf(i))) {
+            	sheet.setColumnWidth(i, 20 * 256);
+            } else {
+            	sheet.setColumnWidth(i, 12 * 256);
+            }	         
+        }
+        
+        sheet.addMergedRegion(new CellRangeAddress(0,1,0,0)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,1,1,1)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,1,2,2)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,1,3,3)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,1,4,4)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,1,5,5)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,1,15,15)); 
+
+        sheet.addMergedRegion(new CellRangeAddress(0,0,6,8)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,0,9,11)); 
+        sheet.addMergedRegion(new CellRangeAddress(0,0,12,14)); 
+        int index = 1;
+        for (PTopCsfReportBymonth data : list) {  
+        	HSSFRow rowLine = sheet.createRow(++index);  
+        	rowLine.createCell(0).setCellValue(String.valueOf(data.getMonthDate()).replace("null", ""));
+        	rowLine.createCell(1).setCellValue(String.valueOf(data.getTopNo()).replace("null", ""));
+        	rowLine.createCell(2).setCellValue(String.valueOf(data.getLastMonthTopNo()).replace("null", ""));
+        	rowLine.createCell(3).setCellValue(String.valueOf(data.getServiceCode()).replace("null", ""));
+        	rowLine.createCell(4).setCellValue(String.valueOf(data.getServiceName()).replace("null", ""));
+        	rowLine.createCell(5).setCellValue(String.valueOf(data.getCenterName()).replace("null", ""));
+
+        	rowLine.createCell(6).setCellValue(String.valueOf(data.getLastCsfMonthlyAdjustment()).replace("null", ""));
+        	rowLine.createCell(7).setCellValue(String.valueOf(data.getCsfMonthlyAdjustment()).replace("null", ""));
+        	rowLine.createCell(8).setCellValue(String.valueOf(data.getAdjustmentRateChange()).replace("null", ""));
+        	rowLine.createCell(9).setCellValue(String.valueOf(data.getLastCsfAvgTime()).replace("null", "")); 
+        	rowLine.createCell(10).setCellValue(String.valueOf(data.getCsfAvgTime()).replace("null", ""));
+        	rowLine.createCell(11).setCellValue(String.valueOf(data.getAvgtimeRateChange()).replace("null", ""));
+        	rowLine.createCell(12).setCellValue(String.valueOf(data.getLastCsfSuccRate()).replace("null", "")); 
+        	rowLine.createCell(13).setCellValue(String.valueOf(data.getCsfSuccRate()).replace("null", ""));
+        	rowLine.createCell(14).setCellValue(String.valueOf(data.getSuccRateChage()).replace("null", ""));
+        	rowLine.createCell(15).setCellValue(String.valueOf(data.getInsertDate()).replace("null", ""));
+        }  
+		return wb;	
+	}  	
 	
 	public HSSFWorkbook mspcsfMonRepot(List<PCsfReportBymonth> list) {
 		String[] head = {"接入系统名称","注册服务","","","调用量（单位：万）","","","调用时长（单位：毫秒）","","","成功率","","",};

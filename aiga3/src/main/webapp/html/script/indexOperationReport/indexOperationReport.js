@@ -24,9 +24,13 @@ define(function(require, exports, module) {
     
 	//MSP CSF服务运营指标分析月报--中心系统  查询
     srvMap.add("mspcsfSrvIdxReport", '', "webservice/monthReport/mspcsfSrv");	
+	//MSP CSF服务运营指标分析月报--TOP10+N服务  查询
+    srvMap.add("mspcsfTopReport", '', "webservice/monthReport/mspcsfTop");	
     
     //MSP CSF服务运营指标分析月报--中心系统  导出
     srvMap.add("mspcsfReportExport", '', "webservice/excelExport/mspcsfExcelReport");
+    //MSP CSF服务运营指标分析月报--TOP10+N服务  导出
+    srvMap.add("mspcsfTopReportExport", '', "webservice/excelExport/mspcsfTopReport");
     //日报文件导出
     srvMap.add("platformoperate", '', "excel/export/platformoperate");
 	/*后台接口 end*/
@@ -39,7 +43,8 @@ define(function(require, exports, module) {
 		cacheAccessModel: require('tpl/indexOperationReport/day/cacheAccessModel.tpl'),			//缓存云平台接入情况日报
 		mqMessageModel: require('tpl/indexOperationReport/day/mqMessageModel.tpl'),			    //各中心MQ消息队列运行情况日报
 		
-		mspcsfServiceIndexModel: require('tpl/indexOperationReport/month/mspcsfServiceIndexModel.tpl')	    //MSP CSF服务运营指标分析月报--中心系统   
+		mspcsfServiceIndexModel: require('tpl/indexOperationReport/month/mspcsfServiceIndexModel.tpl'),	    //MSP CSF服务运营指标分析月报--中心系统
+		mspcsfTopModel: require('tpl/indexOperationReport/month/mspcsfTopModel.tpl')	    //MSP CSF服务运营指标分析月报--TOP10+N服务
     };
     //节点
     Dom = {
@@ -126,9 +131,13 @@ define(function(require, exports, module) {
 					} else if (Data.modelType == 'LOGREPORT_MODEL_MONTH') {
 						if(Data.modelCode == 1) {
 							location.href = srvMap.get('mspcsfReportExport')+"?settMonth="+Data.queryTime; 
+						} else if(Data.modelCode == 2){
+							location.href = srvMap.get('mspcsfTopReportExport')+"?settMonth="+Data.queryTime; 
+						} else {
+							XMS.msgbox.show("modelType："+Data.modelType+"modelCode："+Data.modelCode+"没有配置文件下载", 'info', 2000);
 						}
 					} else {
-						
+						XMS.msgbox.show("modelType："+Data.modelType+"没有配置文件下载", 'info', 2000);
 					}
 				} else {
 					XMS.msgbox.show("请先查询", 'info', 2000);
@@ -203,6 +212,10 @@ define(function(require, exports, module) {
 			    case "1":
 			    	//MSP CSF服务运营指标分析月报--中心系统
 			        self._tpl_ajax_data('mspcsfSrvIdxReport',_cmd,Tpl.mspcsfServiceIndexModel);
+			        break;
+			    case "2":
+			    	//MSP CSF服务运营指标分析月报--TOP10+N服务
+			        self._tpl_ajax_data('mspcsfTopReport',_cmd,Tpl.mspcsfTopModel);
 			        break;
 			    default:
 					Page.findId("logList").html("");

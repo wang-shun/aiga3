@@ -107,4 +107,15 @@ public class ArchSrvManageController extends BaseService {
 		bean.setData(archSrvManageSv.MSPCSFReport(condition));
 		return bean;
 	}
+	@RequestMapping(path = "/webservice/monthReport/mspcsfTop")
+	public @ResponseBody JsonBean mspcsfTop(@RequestBody PlatformOperateReportParams condition) {
+		JsonBean bean = new JsonBean();
+		//时间参数settMonth非空校验
+		if(StringUtils.isBlank(condition.getSettMonth())) {
+			bean.fail("未选择查询时间，请选择查询时间！");
+			return bean;
+		}
+		bean.setData(archSrvManageSv.MSPCSFTopReport(condition));
+		return bean;
+	}
 }

@@ -19,11 +19,13 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.dao.AmCoreIndexDao;
 import com.ai.aiga.dao.ArchSrvManageDao;
 import com.ai.aiga.dao.PCsfReportBymonthDao;
+import com.ai.aiga.dao.PTopCsfReportBymonthDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.AmCoreIndex;
 import com.ai.aiga.domain.ArchSrvManage;
 import com.ai.aiga.domain.PCsfReportBymonth;
+import com.ai.aiga.domain.PTopCsfReportBymonth;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
@@ -52,7 +54,9 @@ public class ArchSrvManageSv extends BaseService {
     private AmCoreIndexDao amCoreIndexDao;  
     @Autowired
     private PCsfReportBymonthDao pCsfReportBymonthDao;
-    
+    @Autowired
+    private PTopCsfReportBymonthDao pTopCsfReportBymonthDao;
+
 	public List<ArchSrvManage>findArchSrvManages(){
 		return archSrvManageDao.findAll();
 	}
@@ -62,7 +66,10 @@ public class ArchSrvManageSv extends BaseService {
 	public List<PCsfReportBymonth> MSPCSFReport(PlatformOperateReportParams condition){
 		return pCsfReportBymonthDao.findByMonthDate(condition.getSettMonth());
 	}
-
+	//MSP CSF服务运营指标分析月报--TOP10+N服务    数据获取
+	public List<PTopCsfReportBymonth> MSPCSFTopReport(PlatformOperateReportParams condition){
+		return pTopCsfReportBymonthDao.findByMonthDate(condition.getSettMonth());
+	}
 	//find
 	public List<ArchSrvManage> findAll(){
 		return archSrvManageDao.findAll();

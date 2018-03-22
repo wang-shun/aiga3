@@ -134,8 +134,9 @@
                     				<th class="iCheckbox" width="15"></th>
 									<th>问题</th>
 									<th>所属中心系统</th>
-									<th>创建时间</th>
-									<th style="width: 40px">状态</th>
+									<th>问题优先级</th>
+									<th>状态</th>
+									<th>创建时间</th>								
 								</tr>
 				            </thead>
 							<tbody  id="JS_quesShow"></tbody>
@@ -416,8 +417,9 @@
 	<td><input type="radio" class="minimal" value="{{quesId}}" name="quesId"></td>
 	<td>{{occurEnvironment}}</td>
 	<td>{{belongProject}}</td>
-	<td>{{createDate}}</td>
+	<td>{{priority}}</td>
 	<td><span class="badge {{quesStateColor state}}">{{state}}</span>
+	<td>{{createDate}}</td>
 	</td>
 </tr>
 {{/each}}

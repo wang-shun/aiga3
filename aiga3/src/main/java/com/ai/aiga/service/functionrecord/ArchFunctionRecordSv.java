@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.AigaFunctionDao;
+import com.ai.aiga.dao.AigaRoleFuncDao;
 import com.ai.aiga.dao.ArchFunctionRecordDao;
 import com.ai.aiga.dao.jpa.Condition;
+import com.ai.aiga.domain.AigaRoleFunc;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchFunctionRecord;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
@@ -28,6 +32,20 @@ import com.ai.aiga.view.controller.function.dto.WeekDataOutPut;
 public class ArchFunctionRecordSv extends BaseService {
 	@Autowired
     private ArchFunctionRecordDao archFunctionRecordDao;
+	
+	@Autowired
+	private AigaRoleFuncDao aigaRoleFuncDao;
+
+	//查询用户是否有菜单权限
+	public boolean menuGrant(AigaStaff user,String menuCode) {
+		String sql = "SELECT b.* FROM AIGA_AUTHOR a ,aiga_role_func b where a.staff_id = "+user.getStaffId()+" and a.role_id = b.role_id and b.func_id = "+menuCode;
+		List<AigaRoleFunc> aresult = aigaRoleFuncDao.searchByNativeSQL(sql,AigaRoleFunc.class);
+		if(aresult.size()>0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	public List<WeekDataOutPut> weekData(FunctionRecord request) {
 		if(StringUtils.isBlank(request.getStartTime())||StringUtils.isBlank(request.getEndTime())) {

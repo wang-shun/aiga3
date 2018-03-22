@@ -3,6 +3,7 @@
 	#Page_errorCodePool .total-width {width: 850px;}
 	#Page_errorCodePool .btn-table-change {margin-right: 20px;}
 	#Page_errorCodePool .btn-table-report {margin-right: 20px;}
+	#Page_errorCodePool .errcode-center {color:blue;font-size:16px;}
 	#Page_errorCodePool .text-style {color:red;font-size:16px;}
 	#Page_errorCodePool .min-height{min-height:50px;}
   </style>
@@ -203,7 +204,7 @@
 		{{#each this}}
 			<p style="text-indent:2em;margin-top:13px;" name="textShowTwo">
 				成功采集
-				<span class="text-style">{{center}}</span>系统，CSF服务错误码配置覆盖率为
+				<span class="errcode-center">{{center}}</span>系统，CSF服务错误码配置覆盖率为
 				<span class="text-style">{{percentage}}%</span>，满足规范要求率为
 				<span class="text-style">{{standard}}%</span>。
 			</p>

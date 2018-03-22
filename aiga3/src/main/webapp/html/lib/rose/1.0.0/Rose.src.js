@@ -299,6 +299,30 @@ Rose.date = {
 		});
 	},
 	/**
+	 * 格式化前一天日期时间字符串
+	 * 
+	 * @method yesterdayTime2str
+	 * @param {Date} dt 日期对象
+	 * @param {String} fmt 格式化字符串，如：'yyyy-MM-dd hh:mm:ss'
+	 * @return {String} 格式化后的日期时间字符串
+	 */
+	yesterdayTime2str : function(dt, fmt) {
+		var z = {
+			M : dt.getMonth() + 1,
+			d : dt.getDate() - 1,
+			h : dt.getHours(),
+			m : dt.getMinutes(),
+			s : dt.getSeconds()
+		};
+		fmt = fmt.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
+			return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1)))
+					.slice(-2);
+		});
+		return fmt.replace(/(y+)/g, function(v) {
+			return dt.getFullYear().toString().slice(-v.length);
+		});
+	},
+	/**
 	 * 根据日期时间格式获取获取当前日期时间
 	 * 
 	 * @method dateTimeWrapper

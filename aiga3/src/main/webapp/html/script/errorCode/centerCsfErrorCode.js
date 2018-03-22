@@ -110,8 +110,8 @@ define(function(require, exports, module) {
                 tablebtn.html(template(json.data));
         		Utils.eventTrClickCallback(_dom);
         		//展示报告内容
-				var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));
-				var _text = Page.findId('connectionPoolText');
+				var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
+				var _text = Page.findId('errorCodeText');
     			_text.html(templateText(json.data));
     			//打印查询月份
 				var _form = Page.findId('queryDataForm');

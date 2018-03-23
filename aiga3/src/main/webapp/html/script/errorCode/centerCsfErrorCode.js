@@ -54,10 +54,10 @@ define(function(require, exports, module) {
 			function showMonthFirstDay() {     
 				var date=new Date();
 			 	date.setDate(1);
-			 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
+			 	return Rose.date.yesterdayTime2str(date,"yyyy-MM-dd");   
 			}
 			var _form = Page.findId('queryDataForm'); 
-			_form.find("[name='insertTime']").val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
+			_form.find("[name='insertTime']").val(Rose.date.yesterdayTime2str(new Date(),"yyyy-MM-dd"));
 		},
 		
 		// 查询表格数据
@@ -112,6 +112,7 @@ define(function(require, exports, module) {
         		//展示报告内容
 				var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
 				var _text = Page.findId('errorCodeText');
+				
     			_text.html(templateText(json.data));
     			//打印查询月份
 				var _form = Page.findId('queryDataForm');

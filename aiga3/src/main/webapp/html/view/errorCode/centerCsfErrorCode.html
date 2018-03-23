@@ -3,8 +3,8 @@
 	#Page_errorCodePool .total-width {width: 850px;}
 	#Page_errorCodePool .btn-table-change {margin-right: 20px;}
 	#Page_errorCodePool .btn-table-report {margin-right: 20px;}
-	#Page_errorCodePool .errcode-center {color:blue;font-size:16px;}
-	#Page_errorCodePool .text-style {color:red;font-size:16px;}
+	#Page_errorCodePool .errcode-center {color:blue;font-size:18px;font-weight: bold;}
+	#Page_errorCodePool .text-style {color:red;font-size:16px;font-weight: bold;}
 	#Page_errorCodePool .min-height{min-height:50px;}
   </style>
 <div class="row" id="Page_errorCodePool">
@@ -71,6 +71,8 @@
 		                    <th >移动负责人</th>
 		                    <th >亚信负责人</th>
 							<th >采集时间</th>
+							<th >未覆盖服务</th>
+							<th >不规范服务</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -109,6 +111,8 @@
 					                    <th >移动负责人</th>
 					                    <th >亚信负责人</th>
 										<th >采集时间</th>
+										<th >未覆盖服务</th>
+										<th >不规范服务</th>
 									</tr>
 								</thead>
 								<tbody name="content"></tbody>
@@ -154,12 +158,14 @@
     <td width="130px">{{total}}</td>
     <td width="130px">{{signin}}</td>
 	<td width="130px">{{signon}}</td>
-	<td width="130px">{{percentage}}%</td>
-	<td width="130px">{{standard}}%</td>
+	<td width="130px" class="text-style">{{percentage}}%</td>
+	<td width="130px" class="text-style">{{standard}}%</td>
     <td>{{resource}}</td>
 	<td>{{persona}}</td>
     <td>{{personb}}</td>
 	<td>{{stime}}</td>
+	<td ><button type="button" class="btn btn-primary btn-table-uncover" name="uncover">下载</button></td>
+	<td ><button type="button" class="btn btn-primary btn-table-unstandard" name="unstandard">下载</button></td>
 </tr>
 {{/each}}
 </script>
@@ -197,18 +203,15 @@
 		</div>
     </div>
 </script>
-
 <script id="TPL_errorCodeTempText" type="text/x-handlebars-template">
 <div class="events-grid" >
 	<div class=" events-semi-grid">
-		{{#each this}}
 			<p style="text-indent:2em;margin-top:13px;" name="textShowTwo">
-				成功采集
-				<span class="errcode-center">{{center}}</span>系统，CSF服务错误码配置覆盖率为
-				<span class="text-style">{{percentage}}%</span>，满足规范要求率为
-				<span class="text-style">{{standard}}%</span>。
+				成功采集各系统中心配置数据共
+				<span class="errcode-center">{{total}}</span>条，经平台巡检全中心CSF错误码服务覆盖率为
+				<span class="text-style">{{percentage}}%</span>，配置规范率为
+				<span class="text-style">{{standard}}%</span>%。
 			</p>
-		{{/each}}
 	</div>
 </div>
 </script>

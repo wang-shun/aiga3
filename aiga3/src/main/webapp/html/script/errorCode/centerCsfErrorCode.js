@@ -112,8 +112,23 @@ define(function(require, exports, module) {
         		//展示报告内容
 				var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
 				var _text = Page.findId('errorCodeText');
-				
-    			_text.html(templateText(json.data));
+				var result ={
+					total:"0",
+					percentage:"0",
+					standard:"0"
+				}
+				var tmp = 0;
+				tmp = json.data.length;
+				var totalPercentage = 0;
+				var totalStandard = 0;
+				for(index in json.data){
+					totalPercentage += json.data[index].percentage;
+					totalStandard += json.data[index].standard;
+				}
+				result.total=tmp;
+				result.percentage=totalPercentage/tmp;
+				result.standard=totalStandard/tmp;
+    			_text.html(templateText(result));
     			//打印查询月份
 				var _form = Page.findId('queryDataForm');
 				var _insertTime = _form.find("[name='insertTime']").val();

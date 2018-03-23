@@ -195,7 +195,7 @@ define(function(require,exports,module){
 			var yesterday = Rose.date.yesterdayTime2str(new Date(),"yyyyMMdd");
 			Page.find("[name='errCodeButton']").off('click').on('click',function() {
 				var obj= {
-					id : '344',
+					id : '463',
 					name : '各中心CSF错误码规范',
 					href : "view/errorCode/centerCsfErrorCode.html",
                     cmd : ''

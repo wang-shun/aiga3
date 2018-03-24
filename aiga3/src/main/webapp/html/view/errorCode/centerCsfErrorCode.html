@@ -6,6 +6,15 @@
 	#Page_errorCodePool .errcode-center {color:blue;font-size:18px;font-weight: bold;}
 	#Page_errorCodePool .text-style {color:red;font-size:16px;font-weight: bold;}
 	#Page_errorCodePool .min-height{min-height:50px;}
+	#Page_errorCodePool .select-label-word {margin-top: 7px;width: 70px;}
+	#Page_errorCodePool .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_errorCodePool .show-nothing {display:none;}  
+	#Page_errorCodePool .spl-thead-color1 {background-color: #00a65a;color: white;}  
+	#Page_errorCodePool .spl-thead-color2 {background-color: #3c8dbc;color: white;}  
+	#Page_errorCodePool .spl-thead-color3 {background-color: #f39c12;color: white;}  
+	#Page_errorCodePool .spl-thead-color4 {background-color: #8ac14a;color: white;}  
+	#Page_errorCodePool .spl-thead-wid {} 
+	#Page_errorCodePool .change-font-red {color: red;font-weight: 700;} 
   </style>
 <div class="row" id="Page_errorCodePool">
     <div class="col-md-12">
@@ -60,19 +69,21 @@
                 <table class="table table-bordered table-hover" id="dataMaintainListTable">
                     <thead>
 		                <tr>
-		                <th class="iCheckbox" width="15"></th>
-							<th width="180px">系统名称</th>	
-							<th width="130px">已配置有效数据量(存在CSF注册)</th>
-							<th width="130px">配置涉及CSF服务数</th>						
-							<th width="130px">存在调用的CSF服务数</th>
-							<th width="130px">CSF服务错误码配置覆盖率</th>
-							<th width="130px">规范率</th>
-							<th >数据来源</th>					
-		                    <th >移动负责人</th>
-		                    <th >亚信负责人</th>
-							<th >采集时间</th>
-							<th >未覆盖服务</th>
-							<th >不规范服务</th>
+		                <th class="iCheckbox table-word-center spl-thead-color4" width="15" ></th>
+							<th width="150px" class="table-word-center spl-thead-color1">系统名称</th>	
+							<th width="100px" class="table-word-center spl-thead-color1">已配置有效数据量(存在CSF注册)</th>
+							<th width="100px" class="table-word-center spl-thead-color1">配置涉及CSF服务数</th>						
+							<th width="100px" class="table-word-center spl-thead-color1">存在调用的CSF服务数</th>
+							<th width="100px" class="table-word-center spl-thead-color2">CSF服务错误码配置覆盖率</th>
+							<th width="100px" class="table-word-center spl-thead-color2">环比变化</th>
+							<th width="100px" class="table-word-center spl-thead-color3">规范率</th>
+							<th width="100px" class="table-word-center spl-thead-color3">环比变化</th>
+							<th class="table-word-center spl-thead-color1">数据来源</th>					
+		                    <th class="table-word-center spl-thead-color1">移动负责人</th>
+		                    <th class="table-word-center spl-thead-color1">亚信负责人</th>
+							<th class="table-word-center spl-thead-color1">采集时间</th>
+							<th class="table-word-center spl-thead-color1">未覆盖服务</th>
+							<th class="table-word-center spl-thead-color1">不规范服务</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -154,12 +165,14 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td width="180px">{{center}}</td>
-    <td width="130px">{{total}}</td>
-    <td width="130px">{{signin}}</td>
-	<td width="130px">{{signon}}</td>
-	<td width="130px" class="text-style">{{percentage}}%</td>
-	<td width="130px" class="text-style">{{standard}}%</td>
+	<td width="150px">{{center}}</td>
+    <td width="100px">{{total}}</td>
+    <td width="100px">{{signin}}</td>
+	<td width="100px">{{signon}}</td>
+	<td width="100px" class="text-style">{{percentage}}%</td>
+	<td width="100px" class="text-style">{{percentagerate}}%</td>
+	<td width="100px" class="text-style">{{standard}}%</td>
+	<td width="100px" class="text-style">{{standardrate}}%</td>
     <td>{{resource}}</td>
 	<td>{{persona}}</td>
     <td>{{personb}}</td>

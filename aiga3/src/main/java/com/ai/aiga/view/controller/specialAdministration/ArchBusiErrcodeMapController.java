@@ -50,7 +50,7 @@ public class ArchBusiErrcodeMapController {
 	public @ResponseBody JsonBean heatbasequery(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
-            ArchBusiErrcodeMapSelects condition) throws ParseException{
+            ArchBusiErrcodeMapSelects condition) throws Exception{
 				JsonBean bean = new JsonBean();
 				bean.setData(archBusiErrcodeMapSv.queryByPage(condition));
 			return bean;
@@ -58,7 +58,7 @@ public class ArchBusiErrcodeMapController {
 	
 	
 	@RequestMapping(path = "/webservice/csferrcode/querybylist")
-	public @ResponseBody JsonBean listDbConnectsTop(@RequestBody ArchBusiErrcodeMapSelects condition) throws ParseException{
+	public @ResponseBody JsonBean listDbConnectsTop(@RequestBody ArchBusiErrcodeMapSelects condition) throws Exception{
 		JsonBean bean = new JsonBean();
 		bean.setData(archBusiErrcodeMapSv.queryByPage(condition));
 		return bean;

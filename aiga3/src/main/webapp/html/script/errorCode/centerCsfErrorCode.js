@@ -27,8 +27,10 @@ define(function(require, exports, module) {
 	srvMap.add("distinctCenter", pathAlias+"distinctCenter.json", "webservice/configure/distinctCenter");
 	//查询状态下拉框 db
 	srvMap.add("distinctDb", pathAlias+"distinctDb.json", "webservice/configure/distinctDb");
-	//查询文字
-	srvMap.add("getText", pathAlias+"getText.json", "webservice/configure/getText");
+	//excle export uncover
+	srvMap.add("uncover", pathAlias+"getText.json", "webservice/csferrcode/uncover");
+	//excle export unstandard
+	srvMap.add("unstandard", pathAlias+"getText.json", "webservice/csferrcode/unstandard");
 	
 	var cache = {
 			datas : ""
@@ -77,30 +79,6 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('connectionPoolList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');			
-//			Rose.ajax.postJson(srvMap.get('getText'),_cmd,function(jsontxt, status){
-//				if(status) {
-//					window.XMS.msgbox.hide();
-//					var templateText = Handlebars.compile(Page.findTpl('connectionPoolTempText'));
-//					var _text = Page.findId('connectionPoolText');
-//        			_text.html(templateText(jsontxt.data[0]));
-//        			//判空校验
-//					var _textA = _text.find("[name='textShow']").length;
-//					var _textB = _text.find("[name='textShowTwo']");
-//					if(_textA != 0){
-//						_textB.css ('display','none');
-//					}else{
-//						_textB.css ('display','block');
-//					}
-//        			//打印查询月份
-//					var _form = Page.findId('queryDataForm');
-//					var _insertTime = _form.find("[name='insertTime']").val();
-//					var timeShow = Page.findId('text');
-//					timeShow.find("[name='timeShow']").text(_insertTime);
-//					_text.find("[name='timeShowTwo']").text(_insertTime);
-//				} else {
-//					XMS.msgbox.show(jsontxt.retMessage, 'error', 2000);
-//				}					
-//			});	
 			
 			// 设置服务器端分页
 			Rose.ajax.postJson(srvMap.get('querybylist'),_topcmd,function(json){
@@ -136,35 +114,20 @@ define(function(require, exports, module) {
 				timeShow.find("[name='timeShow']").text(_insertTime);
 				_text.find("[name='timeShowTwo']").text(_insertTime);
         		
-        		//是否改变------按钮
-//        		tablebtn.find("[class='btn btn-primary btn-table-change']").off('click').on('click', function() {
-//        			var selectCenter = $(this).attr("data-center");
-//        			var selectMosule = $(this).attr("data-module");
-//        			var selectDb = $(this).attr("data-db");
-//        			var selectDate = $(this).attr("data-date");
-//        			var incmd = "center="+selectCenter+"&module="+selectMosule+"&db="+selectDb+"&insertTime="+selectDate.substring(0,10);
-//        			Utils.getServerPage(srvMap.get('queryPre7DayData'),incmd,function(injson){
-//				        var template2 = Handlebars.compile(Page.findTpl('connectionPoolTempIn'));
-//						Page.findId('changeModal').find("[name='content']").html(template2(injson.data.content));
-//		        		var _modal = Page.findId('showDetailModal');
-//						_modal.modal('show');
-//						Utils.setSelectData(_modal);
-//						_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
-//						});		
-//					},_domPagination);
-//        		});
-//        		//是否报备------按钮
-//        		tablebtn.find("[class='btn btn-primary btn-table-report']").off('click').on('click', function() {
-//		        	var template3 = Handlebars.compile(Page.findTpl('reportTemp'));
-//					Page.findId('reportModalForm').html(template3(json.data.content));
-//        			var _modal = Page.findId('showReportModal');
-//					_modal.modal('show');
-//					Utils.setSelectData(_modal);
-//					_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
-//					});	
-//        		});
-        		
-        		
+        		//下载未覆盖------按钮
+        		tablebtn.find("[class='btn btn-primary btn-table-uncover']").off('click').on('click', function() {
+					var selectCenter = $(this).attr("data-center");
+        			var selectDate = $(this).attr("data-date");
+        			var url = srvMap.get('uncover')+"?center="+selectCenter+"&insertTime="+selectDate;
+					location.href = encodeURI(encodeURI(url));
+        		});
+        		//下载不规范------按钮
+        		tablebtn.find("[class='btn btn-primary btn-table-unstandard']").off('click').on('click', function() {
+					var selectCenter = $(this).attr("data-center");
+        			var selectDate = $(this).attr("data-date");
+        			var url = srvMap.get('unstandard')+"?center="+selectCenter+"&insertTime="+selectDate;
+					location.href = encodeURI(encodeURI(url));
+        		});
 			});
 		},
 		

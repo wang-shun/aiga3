@@ -17,6 +17,7 @@ import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapS
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapStandardRate;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTotal;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTransfer;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
 @Service
 @Transactional
@@ -203,5 +204,73 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         }  
         return newList;
     }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    //EXPORT XLS UNCOVER
+    public List<ArchBusiErrcodeMapTransfer> uncover(ArchBusiErrcodeMapSelects condition){
+		//查询srvcall_day配置涉及CSF服务数signin
+		StringBuilder siinSql = new StringBuilder(
+				" select to_char(ar.INSERT_TIME,'yyyymmdd') as INSERT_TIME,ar.PERSON,ar.CENTER,ar.DATA_RESOURCE,ar.ERRCODE_MAP_ID,ar.CSF_SERVICE_CODE,ar.I18N_ERRCODE,ar.I18N_ERRCODE_DESC,ar.ESB_ERRCODE,ar.ESB_ERRCODE_DESC,ar.CSF_ERRCODE,ar.CSF_ERRCODE_DESC,to_char(ar.CREATE_DATE,'yyyymmdd') as CREATE_DATE,to_char(ar.STATE_DATE,'yyyymmdd') as STATE_DATE,to_char(ar.STATE)||'正常' as STATE,ar.REMARKS,ar.CHECK_RESULT "+
+				" from aiam.arch_busi_errcode_map ar " +
+				" where ar.csf_service_code in ( " +
+					" select sc.serviceid " +
+					" from aiam.srvcall_day sc, aiam.csf_center_info cc " +
+					" where sc.statscode = cc.center_code" +
+					" and sc.accesstimes > 0 " +
+					" and sc.statskind = 'center' " +
+					" and sc.statscode <> 'center' "
+				);
+		List<ParameterCondition>siinParams = new ArrayList<ParameterCondition>();
+		if (StringUtils.isNotBlank(condition.getCenter())) {
+			siinSql.append(" and cc.center_name = :center ");
+			siinParams.add(new ParameterCondition("center", condition.getCenter()));
+		}
+		if (StringUtils.isNotBlank(condition.getInsertTime())) {
+			siinSql.append(" and sc.timeperoid = :insertTime ");
+			siinParams.add(new ParameterCondition("insertTime", condition.getInsertTime()));
+		}
+		siinSql.append(" ) ");
+		if (StringUtils.isNotBlank(condition.getCenter())) {
+			siinSql.append(" and ar.center = :center2 ");
+			siinParams.add(new ParameterCondition("center2", condition.getCenter()));
+		}
+		if (StringUtils.isNotBlank(condition.getInsertTime())) {
+			siinSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) = :insertTime2 ");
+			siinParams.add(new ParameterCondition("insertTime2", condition.getInsertTime()));
+		}
+		return archBusiErrcodeMapDao.searchByNativeSQL(siinSql.toString(), siinParams, ArchBusiErrcodeMapTransfer.class);
+    }
+    
+    //EXPORT XLS UNSTANDARD
+    public List<ArchBusiErrcodeMapTransfer> unstandard(ArchBusiErrcodeMapSelects condition){
+		//查询未覆盖--a.check_result!='满足规范要求' 
+		StringBuilder ckSql = new StringBuilder(
+				" select to_char(ar.INSERT_TIME,'yyyymmdd') as INSERT_TIME,ar.PERSON,ar.CENTER,ar.DATA_RESOURCE,ar.ERRCODE_MAP_ID,ar.CSF_SERVICE_CODE,ar.I18N_ERRCODE,ar.I18N_ERRCODE_DESC,ar.ESB_ERRCODE,ar.ESB_ERRCODE_DESC,ar.CSF_ERRCODE,ar.CSF_ERRCODE_DESC,to_char(ar.CREATE_DATE,'yyyymmdd') as CREATE_DATE,to_char(ar.STATE_DATE,'yyyymmdd') as STATE_DATE,to_char(ar.STATE)||'正常' as STATE,ar.REMARKS,ar.CHECK_RESULT  "+
+						" from aiam.arch_busi_errcode_map ar " +
+						" where ar.check_result<>'满足规范要求' "
+				);
+		List<ParameterCondition>ckParam = new ArrayList<ParameterCondition>();
+		if (StringUtils.isNotBlank(condition.getCenter())) {
+			ckSql.append(" and ar.center = :center ");
+			ckParam.add(new ParameterCondition("center", condition.getCenter()));
+		}
+		if (StringUtils.isNotBlank(condition.getInsertTime())) {
+			ckSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) = :insertTime ");
+			ckParam.add(new ParameterCondition("insertTime", condition.getInsertTime()));
+		}
+		return archBusiErrcodeMapDao.searchByNativeSQL(ckSql.toString(), ckParam, ArchBusiErrcodeMapTransfer.class);
+    }
+    
     
 }

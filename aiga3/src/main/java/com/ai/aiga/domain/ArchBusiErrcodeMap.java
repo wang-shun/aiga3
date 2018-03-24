@@ -33,11 +33,12 @@ public class ArchBusiErrcodeMap  implements java.io.Serializable {
     private Date stateDate;
     private char state;
     private String remarks;
+    private String checkResult;
     
     public ArchBusiErrcodeMap() {
     }
 
-   public ArchBusiErrcodeMap(Date insertTime, String person, String center, String dataResource, Long errcodeMapId, String csfServiceCode, String i18nErrcode, String i18nErrcodeDesc, String esbErrcode, String esbErrcodeDesc, String csfErrcode, String csfErrcodeDesc, Date createDate, Date stateDate, char state, String remarks) {
+   public ArchBusiErrcodeMap(Date insertTime, String person, String center, String dataResource, Long errcodeMapId, String csfServiceCode, String i18nErrcode, String i18nErrcodeDesc, String esbErrcode, String esbErrcodeDesc, String csfErrcode, String csfErrcodeDesc, Date createDate, Date stateDate, char state, String remarks, String checkResult) {
 	  super();
 	  this.insertTime = insertTime;
       this.person = person;
@@ -55,6 +56,7 @@ public class ArchBusiErrcodeMap  implements java.io.Serializable {
       this.stateDate = stateDate;
       this.state = state;
       this.remarks = remarks;
+      this.checkResult = checkResult;
    }
    
     @Id
@@ -204,7 +206,16 @@ public class ArchBusiErrcodeMap  implements java.io.Serializable {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-  
+	
+	@Column(name="CHECK_RESULT", length=128)
+	public String getCheckResult() {
+		return checkResult;
+	}
+
+	public void setCheckResult(String checkResult) {
+		this.checkResult = checkResult;
+	}
+	
 }
 
 

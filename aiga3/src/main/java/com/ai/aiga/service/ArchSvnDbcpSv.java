@@ -174,12 +174,22 @@ public class ArchSvnDbcpSv extends BaseService {
     //distinct db
     public List<ArchSvnDbcp>selectDb(ArchSvnDbcpSelects condition){
     	String center = condition.getCenter();
-    	List<ArchSvnDbcp>list = archSrvDbcpDao.findByCenter(center);
+//    	List<ArchSvnDbcp>list = archSrvDbcpDao.findByCenter(center);
     	List<ArchSvnDbcp> disinctDbList = new ArrayList<ArchSvnDbcp>();
     	List<String>dbStrings = new ArrayList<String>();
+    	StringBuilder nativeSql = new StringBuilder(
+    			" select ar.* from aiam.arch_svn_dbcp ar where 1=1 "
+    			);
+    	
+    	List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+    	if (StringUtils.isNotBlank(condition.getCenter())) {
+    		nativeSql.append(" and ar.center = :center ");
+    		params.add(new ParameterCondition("center", condition.getCenter()));
+    	}
+    	List<ArchSvnDbcp>list = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class);
+    	int i=1;
     	Iterator iterator = list.iterator();
     	while(iterator.hasNext()){
-    		int i=1;
     		ArchSvnDbcp base = (ArchSvnDbcp)iterator.next();
     		String temp = base.getDb();
     		System.out.println(i+"----------"+temp);

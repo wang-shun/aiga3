@@ -1,0 +1,78 @@
+#div1 {
+	bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+
+#div1 img {
+    border: 0 none;
+    height: 100%;
+    width: 100%;
+}
+
+*{
+	margin:0;
+	padding:0;
+}
+#gg {
+    background: #222 none repeat scroll 0 0;
+    top:0px;
+    box-shadow: 10px 0 5px #fff;
+    height: 50px;
+    line-height: 49px;
+    opacity: 0.6;
+    position: absolute;
+    width: 900px;
+    left:43px;
+    z-index: 9999;
+}
+
+#gg a {
+    color: #fff;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 0 #000;
+    font-size:20px;
+}
+.close{
+	margin-top:13px;
+	font-weight:0px;
+}
+.close a {
+    float: right;
+    margin: 0 10px 0 0;
+}
+
+.bulletin {
+    background: rgba(0, 0, 0, 0) url("../../images/bulletin.gif") no-repeat scroll 0 0;
+    color: #fff;
+    float: left;
+    height: 23px;
+    margin: 0 0 0 20px;
+    min-height: 23px;
+    overflow: hidden;
+}
+
+.bulletin a {
+    float: left;
+}
+
+.bulletin li {
+    height: 23px;
+    padding-left: 25px;
+}
+
+a{
+	text-decoration:none;
+}
+
+#gg li a:hover{
+	color:red;
+}
+
+ul li{
+	list-style-type:none;
+}
+

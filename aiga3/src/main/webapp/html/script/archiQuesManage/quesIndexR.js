@@ -58,7 +58,6 @@ define(function(require, exports, module) {
     srvMap.add("listTotalMonthIndexPie", "", "arch/index/listTotalMonthIndexPie");
     //top 10
     srvMap.add("listDbConnectsTop", "", "arch/index/listDbConnectsTop");
-    
 	// 模板对象
 	var Tpl = {
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
@@ -71,7 +70,8 @@ define(function(require, exports, module) {
 		datas : "",
 		tableName : "",
 		tableName2 : "",
-		tableIndex:""
+		tableIndex:"",
+		deadline:""
 	};
 	var Tpl = {
         getIndexGroupList: require('tpl/archiQuesManage/getIndexGroupList.tpl'),
@@ -511,6 +511,7 @@ define(function(require, exports, module) {
 					_dom.find("[name='content']").html(template(json.data));
 					cache.tableName = json.data[0].schId;
 					cache.tableIndex= json.data[0].indexId;
+
 					//美化单机
 					Utils.eventTrClickCallback(_dom);
 				}
@@ -520,6 +521,7 @@ define(function(require, exports, module) {
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");
 			// 设置服务器端分页listDbConnects
 			var task = 'listDbConnects22';
+			var taskdate = 'listDbConnects22List';
 			if(cache.tableName){
 				switch(cache.tableName){
             		case "ARCH_DB_CONNECT":
@@ -545,6 +547,10 @@ define(function(require, exports, module) {
 						json.data.content[i].key3="("+json.data.content[i].key3+")";
 					}
 				};
+                if(json.data.content.length>0){
+                    var deadont = json.data.content[0];
+                    cache.deadline="数据采集截止时间："+deadont.insertTime;
+                }
 				_domSec.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_domSec);
@@ -671,7 +677,7 @@ define(function(require, exports, module) {
 			var option = {
 				title : {
 			        text: '指标情况',
-			        subtext: ''
+			        subtext: '数据采集截止时间：XX月XX日XX:XX'
 			    },
 			    tooltip : {
 			        trigger: 'axis'
@@ -817,6 +823,7 @@ define(function(require, exports, module) {
 			                data : markData
 			            };
 					}
+					option.title.subtext=cache.deadline;
 				}
 				//加载前数据刷新
 				myChart.clear();

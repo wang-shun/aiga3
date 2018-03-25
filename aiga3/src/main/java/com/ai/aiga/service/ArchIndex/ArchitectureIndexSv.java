@@ -171,6 +171,7 @@ public class ArchitectureIndexSv extends BaseService {
 		if (pageSize <= 0) {
 			pageSize = BusiConstant.PAGE_SIZE_DEFAULT;
 		}
+		nativeSql.append(" order by ar.insert_time desc ");
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, IndexConnect.class, pageable);
 	}

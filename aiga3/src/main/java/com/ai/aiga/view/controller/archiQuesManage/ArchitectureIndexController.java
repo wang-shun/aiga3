@@ -32,6 +32,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.CenterDbConnectTopList;
+import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectFlow;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
@@ -1845,6 +1846,213 @@ public class ArchitectureIndexController extends BaseService {
 		output.setLegend(legendList);
 		output.setSeries(seriesList);
 		return output;
+	}
+    
+    
+	@RequestMapping(path = "/arch/numberflow/query2day")
+	public @ResponseBody JsonBean query2day(@RequestBody AmCoreIndexGroupParams condition) throws ParseException {
+		String end = condition.getEndMonth();
+        //获取前一天时间字符串
+        String nowday = end;
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date today = format.parse(nowday);
+        //get last month first day
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 31);  
+        Date before1Day = calendar.getTime();
+        String start = simpleDateFormat.format(before1Day);
+        //获取昨日查询数据
+        condition.setStartMonth(start);
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage output = new ArchiChangeMessage();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间aaaaaaaaaaaaa！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		output.setxAxis(months2);
+		final int constantValue = months2.size();
+		long[][] groupIndexIds = null;
+		long[] singleIndexIds = null;
+		List<ArchiChangeMessage>totalList=new ArrayList<ArchiChangeMessage>();
+		if(condition.getIndexId()!=null){
+			groupIndexIds= condition.getIndexId();
+			for(int i=0;i<groupIndexIds.length;i++){
+				singleIndexIds = groupIndexIds[i];
+				AmCoreIndexParams singlecdt=new AmCoreIndexParams();
+				singlecdt.setIndexId(singleIndexIds);
+				List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(singlecdt);
+				ArchiChangeMessage myoutput = commonListDbConnects(months2,connectList,false);
+				totalList.add(myoutput);
+			}
+		}
+		//汇总数据返回
+		List<ViewSeries>finalSeries = new ArrayList<ViewSeries>();
+		List<String>finalLegend = new ArrayList<String>();
+		for(int i=0;i<totalList.size();i++){
+			ArchiChangeMessage archiChangeMessage = totalList.get(i);
+			List<ViewSeries>totalSeries = archiChangeMessage.getSeries();
+			if(totalSeries.size()>0){
+				ViewSeries viewSeries = new ViewSeries();
+				String name = "";
+				viewSeries.setType("line");
+				int[] totalData = new int[constantValue];
+				for(int j=0;j<totalSeries.size();j++){
+					ViewSeries baseSeries = totalSeries.get(j);
+					int[] data = baseSeries.getData();
+					for(int k=0;k<data.length;k++){
+						totalData[k] += data[k];
+					}
+					name = totalSeries.get(j).getName() + "总数";
+				}
+				viewSeries.setName(name);
+				viewSeries.setData(totalData);
+				finalSeries.add(viewSeries);
+				finalLegend.add(name);
+			}
+		}
+		output.setLegend(finalLegend);
+		output.setSeries(finalSeries);
+//		bean.setData(output);	
+		List<DbConnectFlow> flows = new ArrayList<DbConnectFlow>();
+		if(output.getSeries()!=null){
+			DbConnectFlow base1 = new DbConnectFlow();
+			base1.setDb("ZJCRMA");
+			base1.setMin(20000L);
+			base1.setMax(25000L);
+			int[] monthfact = output.getSeries().get(0).getData();
+			long fact = monthfact[monthfact.length-1];
+			long prefact = monthfact[monthfact.length-2];
+			base1.setFact(fact);
+			if(fact!=0){
+				base1.setDayrate((fact-prefact)*100/fact);
+			}else if(fact==0){
+				base1.setDayrate(100);
+			}
+			String health = "优秀";
+			if(fact<20000*0.8){
+				health = "优秀";
+			}else if((20000*0.8)<=fact && fact<=20000){
+				health = "良好";
+			}else if(20000<=fact && fact<=25000){
+				health = "较差";
+			}else if(fact>25000){
+				health = "危险";
+			}
+			base1.setHealth(health);
+			if(fact!=0){
+				base1.setMonthrate((fact-monthfact[0])*100/fact);
+			}else if(fact==0){
+				base1.setMonthrate(100);
+			}
+			base1.setTime(end);
+			flows.add(base1);
+			DbConnectFlow base2 = new DbConnectFlow();
+			base2.setDb("ZJCRMB");
+			base2.setMin(20000L);
+			base2.setMax(25000L);
+			int[] monthfact2 = output.getSeries().get(1).getData();
+			long fact2 = monthfact2[monthfact2.length-1];
+			long prefact2 = monthfact2[monthfact2.length-2];
+			base2.setFact(fact2);
+			if(fact2!=0){
+				base2.setDayrate((fact2-prefact2)*100/fact2);
+			}else if(fact2==0){
+				base2.setDayrate(100);
+			}
+			String health2 = "优秀";
+			if(fact2<20000*0.8){
+				health2 = "优秀";
+			}else if((20000*0.8)<=fact2 && fact2<=20000){
+				health2 = "良好";
+			}else if(20000<=fact2 && fact2<=25000){
+				health2 = "较差";
+			}else if(fact2>25000){
+				health2 = "危险";
+			}
+			base2.setHealth(health2);
+			if(fact2!=0){
+				base2.setMonthrate((fact2-monthfact2[0])*100/fact2);
+			}else if(fact2==0){
+				base2.setMonthrate(100);
+			}
+			base2.setTime(end);
+			flows.add(base2);
+			DbConnectFlow base3 = new DbConnectFlow();
+			base3.setDb("ZJCRMC");
+			base3.setMin(20000L);
+			base3.setMax(25000L);
+			int[] monthfact3 = output.getSeries().get(2).getData();
+			long fact3 = monthfact3[monthfact3.length-1];
+			long prefact3 = monthfact3[monthfact3.length-2];
+			if(fact3!=0){
+				base3.setDayrate((fact3-prefact3)*100/fact3);
+			}else if(fact3==0){
+				base3.setDayrate(100);
+			}
+			base3.setFact(fact3);
+			String health3 = "优秀";
+			if(fact3<20000*0.8){
+				health3 = "优秀";
+			}else if((20000*0.8)<=fact3 && fact3<=20000){
+				health3 = "良好";
+			}else if(20000<=fact3 && fact3<=25000){
+				health3 = "较差";
+			}else if(fact3>25000){
+				health3 = "危险";
+			}
+			base3.setHealth(health3);
+			if(fact3!=0){
+				base3.setMonthrate((fact3-monthfact3[0])*100/fact3);
+			}else if(fact3==0){
+				base3.setMonthrate(100);
+			}
+			base3.setTime(end);
+			flows.add(base3);
+			DbConnectFlow base4 = new DbConnectFlow();
+			base4.setDb("ZJCRMD");
+			base4.setMin(20000L);
+			base4.setMax(25000L);
+			int[] monthfact4 = output.getSeries().get(3).getData();
+			long fact4 = monthfact4[monthfact4.length-1];
+			long prefact4 = monthfact4[monthfact4.length-2];
+			if(fact4!=0){
+				base4.setDayrate((fact4-prefact4)*100/fact4);
+			}else if(fact4==0){
+				base4.setDayrate(100);
+			}
+			base4.setFact(fact4);
+			String health4 = "优秀";
+			if(fact4<20000*0.8){
+				health4 = "优秀";
+			}else if((20000*0.8)<=fact4 && fact4<=20000){
+				health4 = "良好";
+			}else if(20000<=fact4 && fact4<=25000){
+				health4 = "较差";
+			}else if(fact4>25000){
+				health4 = "危险";
+			}
+			base4.setHealth(health4);
+			if(fact4!=0){
+				base4.setMonthrate((fact4-monthfact4[0])*100/fact4);
+			}else if(fact4==0){
+				base4.setMonthrate(100);
+			}
+			base4.setTime(end);
+			flows.add(base4);
+		}
+		bean.setData(flows);
+		return bean;
 	}
 
 }

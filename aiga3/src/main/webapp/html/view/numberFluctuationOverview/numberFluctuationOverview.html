@@ -14,6 +14,26 @@
 	#Page_numberFluctuation .text-area-sty {width: 680px;vertical-align:middle; }
 	#Page_numberFluctuation .btn-table-change {margin-right: 20px;}
 	#Page_numberFluctuation .btn-table-report {margin-right: 20px;}
+	#Page_numberFluctuation .btn-center {text-align: center;}
+	#Page_numberFluctuation .total-width {width: 850px;}
+	#Page_numberFluctuation .btn-table-change {margin-right: 20px;}
+	#Page_numberFluctuation .btn-table-report {margin-right: 20px;}
+	#Page_numberFluctuation .errcode-center {color:blue;font-size:18px;font-weight: bold;}
+	#Page_numberFluctuation .text-style {color:red;font-size:16px;font-weight: bold;}
+	#Page_numberFluctuation .min-height{min-height:50px;}
+	#Page_numberFluctuation .select-label-word {margin-top: 7px;width: 70px;}
+	#Page_numberFluctuation .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_numberFluctuation .show-nothing {display:none;}  
+	#Page_numberFluctuation .spl-thead-color1 {background-color: #00a65a;color: white;}  
+	#Page_numberFluctuation .spl-thead-color2 {background-color: #3c8dbc;color: white;}  
+	#Page_numberFluctuation .spl-thead-color3 {background-color: #f39c12;color: white;}  
+	#Page_numberFluctuation .spl-thead-color4 {background-color: #8ac14a;color: white;}  
+	#Page_numberFluctuation .spl-thead-wid {} 
+	#Page_numberFluctuation .change-font-red {color: red;font-weight: 700;} 
+	#Page_numberFluctuation .change-font-green {color: green;font-weight: 700;} 
+	#Page_numberFluctuation .change-font-orange {color: yellow;font-weight: 700;} 
+	#Page_numberFluctuation .change-font-yellow {color: orange;font-weight: 700;} 
+	#Page_numberFluctuation .table-word-center {text-align: center;font-size:16px;vertical-align: middle;}  
 	
   </style>
 <div class="row" id="Page_numberFluctuation">
@@ -29,25 +49,13 @@
                 </div>
                 <div class="box-body"><br/>		            
 		            <div class="row">
-		            	<div class="form-group col-sm-6">
-		                    <label  class="col-sm-3  control-label">一级数据库名称：</label>
-		                    <div class="col-sm-4">
-		                    	<select name="primaryDatabase" class="form-control select2 input-sm" data-url="primary" data-subname="secondDatabase" data-idkey="primaryDatabase" data-namekey="primaryDatabase">
-			                        <option value="">请选择</option>
-			                    </select>
-			                </div>
-		                </div>
-                		<div class="form-group col-sm-6">
-		                    <label  class="col-sm-3  control-label">二级数据库名称：</label>
-		                    <div class="col-sm-4">
-		                    	<select name="secondDatabase" class="form-control select2 input-sm" data-suburl="second" data-idkey="codeValue" data-namekey="codeName">
-			                        <option value="">请选择</option>
-			                    </select>
-			                </div>
-		                </div>
-		                 
+		            	<div class="col-sm-6">
+		            		<label class="col-sm-2  control-label">采集日期:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
 		            </div>
-		            
                 </div>
                 <div class="box-footer">
                     <div class="text-center">
@@ -68,15 +76,16 @@
                 <table class="table table-bordered table-hover" id="dataMaintainListTable">
                     <thead>
 		                <tr>
-		                <th class="iCheckbox" width="15"></th>
-	                    <th >数据库名称</th>
-	                    <th >安全连接数上限</th>
-	                    <th >最高连接数上限</th>
-						<th >本日实际连接数值</th>	
-						<th >健康度等级</th>					
-						<th >日环比变化</th>
-						<th >月同比变化</th>						
-						<th >历史波动曲线查看</th>
+		                <th class="iCheckbox table-word-center spl-thead-color4" width="15"></th>
+	                    <th class="table-word-center spl-thead-color1">数据库名称</th>
+	                    <th class="table-word-center spl-thead-color1">安全连接数上限</th>
+	                    <th class="table-word-center spl-thead-color1">最高连接数上限</th>
+						<th class="table-word-center spl-thead-color1">本日实际连接数值</th>	
+						<th class="table-word-center spl-thead-color3">健康度等级</th>					
+						<th class="table-word-center spl-thead-color3">日环比变化</th>
+						<th class="table-word-center spl-thead-color3">月同比变化</th>						
+						<th class="table-word-center spl-thead-color1">时间</th>						
+						<th class="table-word-center spl-thead-color1">历史波动曲线查看</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -97,7 +106,49 @@
 （4）最高连接数上限&lt实际连接数 危险（红字）
 		</textarea>
 
-    </div>
+    </div>	
+    
+    <!-- 弹出页面（7天波动） -->
+	<div class="modal fade" id="JS_show7dayModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">最近七天核心数据库连接数波动展示</h4>
+	            </div>
+	            <div id="JS_recent7Modal" class="modal-body" style="padding-bottom: 0">
+				     <div class="box" id="JS_recent7dayView" name="initEcharts">
+				        <div class="box-header" ></div>
+				        <div class="box-body" id="JS_archiIndex7View" style="width: 100%; height:350px;"></div>
+			   		</div>	
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+
+	</div>
+    <!-- 弹出页面 （30天波动）-->
+	<div class="modal fade" id="JS_show30dayModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">最近三十天核心数据库连接数波动展示</h4>
+	            </div>
+	            <div id="JS_recent30Modal" class="modal-body" style="padding-bottom: 0">
+				     <div class="box" id="JS_recent30dayView" name="initEcharts">
+				        <div class="box-header" ></div>
+				        <div class="box-body" id="JS_archiIndex30View" style="width: 100%; height:350px;"></div>
+			   		</div>	
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </div>
 
 <!-- 表格数据 -->
@@ -105,14 +156,17 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{indexId}}" name="indexId"></td>
-	<td >{{key1}}</td>
-    <td >20000</td>
-	<td >25000</td>
-    <td >{{}}</td>
-    <td name="gradeHealth"></td>
-    <td >{{}}</td>
-	<td >{{}}</td>
-	<td ><button>7天曲线</button> <button>30天曲线</button></td>
+	<td class="table-word-center">{{db}}</td>
+    <td class="table-word-center">{{min}}</td>
+	<td class="table-word-center">{{max}}</td>
+    <td class="table-word-center">{{fact}}</td>
+    <td class="table-word-center {{addColor health}}">{{health}}</td>
+    <td class="table-word-center {{changePowerSty dayrate}}">{{pesentAdd dayrate}}</td>
+	<td class="table-word-center {{changePowerSty monthrate}}">{{pesentAdd monthrate}}</td>
+	<td class="table-word-center">{{time}}</td>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-db="{{db}}" data-time="{{time}}" name="detail7">7天曲线</button>
+		 <button type="button" class="btn btn-primary btn-table-detail30" data-db="{{db}}" data-time="{{time}}" name="detail30">30天曲线</button>
+	</td>
 </tr>
 {{/each}}
 </script>

@@ -23,12 +23,10 @@ define(function(require, exports, module) {
 		_render: function() {
 			//查询
 			this._getGridList();
-			
 		},		
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
-			debugger
 			var self = this;
 			var _cmd = '';
 			if(cmd){
@@ -36,16 +34,38 @@ define(function(require, exports, module) {
 			}
 			var _dom = $('#gg');
 			_cmd = _cmd.replace(/-/g,"/");
-			// 设置服务器端分页
-			Utils.getServerPage(srvMap.get('getNoticeTitleList'),_cmd,function(json){
-				debugger
+			// 设置服务器端
+			Rose.ajax.postJson(srvMap.get('getNoticeTitleList'),_cmd,function(json, status){
 				var source = $('#TPL_noticeDescriptionTemp').html();
 				var template = Handlebars.compile(source);				
         		var tablebtn = _dom.find("[name='noticeText']");
         		tablebtn.html(template(json.data));
+        		_dom.find("[name='titleNotice']").click(function(){
+        			var value = $(this).val();
+        			self.updateDataMain(value, json.data);
+        		});
+       		
 			});
+			
+						
 		},
-                   
+        
+      //更新数据
+		updateDataMain: function(Id, json) {
+			var self = this;
+			var i=0;			
+			while(json[i].id != Id){
+				i++;
+			}
+			var data = json[i];
+			
+			
+			var template = Handlebars.compile($('#TPL_noticeTitleFromTemp').html());
+			$('#JS_noticeTitleModal').html(template(data));
+
+		},
+
+		
 	};
 				 
 	module.exports = init;

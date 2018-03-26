@@ -126,25 +126,64 @@
             </div>
         </div>
     </div>
-    <script src="lib/jquery/2.2.3/jquery.min.js"></script>
-    <script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="lib/fakeLoader/fakeLoader.js"></script>
-    <script src="lib/seajs/sea.js"></script>
-    <script src="lib/seajs/sea-plugins.js"></script>
-    <script src="conf/config.js"></script>
-    <script src="lib/loading/loading.js"></script>
-    <script src="lib/loading/loadingText.js"></script>
-    <script src="https://cdn.bootcss.com/jquery-resize/1.1/jquery.ba-resize.js"></script> 
     
-    <!-- 表格数据 -->
+    
+    
+<!-- 公告详情页面 -->
+<div class="modal fade" id="Modal_noticeTitleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">公告详情</h4>
+            </div>
+            <div id="JS_noticeTitleModal" class="modal-body" style="padding-bottom: 0">
+
+          	</div>
+        </div>
+    </div>
+</div>
+<!-- 公告详情页面模版 -->
+<script id="TPL_noticeTitleFromTemp" type="text/x-handlebars-template">
+	<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+		<form>
+			<div class="col-md-12">
+				<label class="control-label fist-text-label">公告标题:</label>
+	   			<label class="">{{noticeTitle}}</label>	  						
+			</div>
+			<div class="col-md-12">
+				<label class="control-label fist-text-label">公告简述:</label>
+				<label class="">{{noticeDescription}}</label>  						
+			</div>
+			<div class="col-md-12">
+				<label class="control-label fist-text-label">公告详述:</label>
+	   			<textarea name="noticeDetails" style="width:540px;height:200px" >{{noticeDetails}}</textarea>	  						
+			</div>
+		</form>    
+	</div>
+</script>    
+ 
+    
+<!-- 标题公告数据 -->
 <script id="TPL_noticeDescriptionTemp" type="text/x-handlebars-template">
 {{#each this}}
-<li>
-	<a href="#" title="{{noticeTitle}}">{{noticeTitle}}：{{noticeDescription}}</a>
+<li value="{{id}}" name="titleNotice">
+	<a href="#" title="{{noticeTitle}}" data-id="{{id}}" data-toggle="modal" data-target="#Modal_noticeTitleModal">{{noticeTitle}}：{{noticeDescription}}</a>
 </li>
 {{/each}}
 </script>
-    
+
+
+<script src="lib/jquery/2.2.3/jquery.min.js"></script>
+<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="lib/fakeLoader/fakeLoader.js"></script>
+<script src="lib/seajs/sea.js"></script>
+<script src="lib/seajs/sea-plugins.js"></script>
+<script src="conf/config.js"></script>
+<script src="lib/loading/loading.js"></script>
+<script src="lib/loading/loadingText.js"></script>
+<script src="https://cdn.bootcss.com/jquery-resize/1.1/jquery.ba-resize.js"></script>
+     
 <script type="text/javascript">
 //<![CDATA[
 seajs.use("lib/loading/loadingText", function(init) {
@@ -152,7 +191,7 @@ seajs.use("lib/loading/loadingText", function(init) {
 });
 //]]>
 </script>  
-    <script>
+<script>
     $(document).ready(function(){
         $(".fakeloader").fakeLoader({
             timeToHide:2700,
@@ -165,19 +204,15 @@ seajs.use("lib/loading/loadingText", function(init) {
     seajs.use("script/index",function(init) {
     	init.init();
     });
-    </script>
+</script>
     
     
     
-    <script type="text/javascript">
-	    /*用法*/
-	
-	    $(document).ready(function(){
-	
-	    	$(".bulletin").Scroll({line:1,speed:1000,timer:2000});//修改此数字调整滚动状态
-	
-	    });
-	</script>
+<script type="text/javascript">	
+$(document).ready(function(){
+	$(".bulletin").Scroll({line:1,speed:1000,timer:2000});//修改此数字调整滚动状态
+});
+</script>
 	
 	
     

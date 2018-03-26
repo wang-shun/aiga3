@@ -75,4 +75,7 @@ a{
 ul li{
 	list-style-type:none;
 }
+#JS_noticeTitleModal form{
+	margin-top:-15px;
+}
 

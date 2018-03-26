@@ -180,17 +180,8 @@
 <script src="lib/seajs/sea.js"></script>
 <script src="lib/seajs/sea-plugins.js"></script>
 <script src="conf/config.js"></script>
-<script src="lib/loading/loading.js"></script>
-<script src="lib/loading/loadingText.js"></script>
 <script src="https://cdn.bootcss.com/jquery-resize/1.1/jquery.ba-resize.js"></script>
-     
-<script type="text/javascript">
-//<![CDATA[
-seajs.use("lib/loading/loadingText", function(init) {
-    init.init();
-});
-//]]>
-</script>  
+
 <script>
     $(document).ready(function(){
         $(".fakeloader").fakeLoader({
@@ -206,15 +197,6 @@ seajs.use("lib/loading/loadingText", function(init) {
     });
 </script>
     
-    
-    
-<script type="text/javascript">	
-$(document).ready(function(){
-	$(".bulletin").Scroll({line:1,speed:1000,timer:2000});//修改此数字调整滚动状态
-});
-</script>
-	
-	
     
 </body>
 

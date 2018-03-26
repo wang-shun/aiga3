@@ -1,12 +1,7 @@
 define(function(require, exports, module) {
-
-	//引入公用模块
-	require('global/header.js');
 	// 通用工具模块
 	var Utils = require("global/utils.js");
 	var pathAlias = "ArchNoticeTitle/"; 
-	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
-	//var Page = Utils.initPage('index');
 
 
 	//显示查询信息表

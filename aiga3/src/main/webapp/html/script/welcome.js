@@ -28,9 +28,9 @@ define(function(require,exports,module){
 	srvMap.add("getArchAigaList", '', "webservice/archiGrading/sysMonthReport");	
 	// 菜单权限校验
 	srvMap.add("menuFuncCheck", '', "webservice/menuCheck/grant");
-	// 显示查询信息表
-	srvMap.add("querybylist", '', "webservice/csferrcode/querybylist");
-	
+	//显示查询信息表
+	srvMap.add("querybylistreport", pathAlias+"poolConfigurationList.json", "webservice/csferrcode/querybylistreport");
+
     var Data = {
         planDate:null // 获取日期日期
     };
@@ -206,7 +206,7 @@ define(function(require,exports,module){
 			var _topcmd={
 				insertTime:yesterday
 			};
-			Rose.ajax.postJson(srvMap.get('querybylist'),_topcmd,function(json,status){
+			Rose.ajax.postJson(srvMap.get('querybylistreport'),_topcmd,function(json,status){
 			if(status){
 				var docthis = Page.find('ul[name="wordGull"]');
                 var errCodeList = json.data;

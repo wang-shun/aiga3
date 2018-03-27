@@ -10,8 +10,6 @@ define(function(require, exports, module) {
 
 
 	//显示查询信息表
-	srvMap.add("querybylist", pathAlias+"poolConfigurationList.json", "webservice/csferrcode/querybylist");
-	//显示查询信息表
 	srvMap.add("querybylistreport", pathAlias+"poolConfigurationList.json", "webservice/csferrcode/querybylistreport");
 	//查询状态下拉框 center
 	srvMap.add("select1", pathAlias+"distinctCenter.json", "webservice/csferrcode/select1");

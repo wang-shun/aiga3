@@ -215,8 +215,8 @@ define(function(require,exports,module){
                 for (var i in errCodeList) {
                     var _json = errCodeList[i];
                     dataLength++;
-                    _html += '<li style="margin-top: 0px;"><a title="' + _json.center +'" class="errcode-center">'
-                    + _json.center +'</a>CSF服务错误码配置覆盖率为<span class="errcode-percentage">' + _json.percentage + '</span>%;规范率为<span class="errcode-standard">' + _json.standard + '</span>%;</li>';
+                    _html += '<li style="margin-top: 0px;"><a title="' + _json.centerName +'" class="errcode-center">'
+                    + _json.centerName +'</a>CSF服务错误码配置覆盖率为<span class="errcode-percentage">' + _json.errcodeCoverRate + '</span>%;规范率为<span class="errcode-standard">' + _json.errcodeSpecRate + '</span>%;</li>';
                 }
                 docthis.html(_html);
                 self._wordRoll();

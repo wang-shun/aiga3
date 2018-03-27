@@ -1191,6 +1191,7 @@ public class ArchitectureIndexController extends BaseService {
 		}
 		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
 		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
+		List<ViewSeries2>seriesList2 = new ArrayList<ViewSeries2>();
 		List<String>newList=new ArrayList<String>();
 		Iterator<ArchDbConnect>iter=connectList.iterator();
 		while(iter.hasNext()){
@@ -1251,14 +1252,14 @@ public class ArchitectureIndexController extends BaseService {
 					continue;
 				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
-					ViewSeries baseSeries = new ViewSeries();
+					ViewSeries2 baseSeries = new ViewSeries2();
 					baseSeries.setType("line");
 					newList.add(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")");
 					String name = baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")";
 					baseSeries.setName(name);		
 					legendList.add(name);
 					//给对应的列赋值
-					int[] data = new int[constantValue];
+					double[] data = new double[constantValue];
 					int[] a =new int[constantValue];
 					for(int i=0;i<a.length;i++){
 						a[i]=1;
@@ -1287,29 +1288,56 @@ public class ArchitectureIndexController extends BaseService {
 						}					
 					}
 					baseSeries.setData(data);
-					seriesList.add(baseSeries);
+					seriesList2.add(baseSeries);
 			    }
 			}
 		};
-		List<ViewSeries>totalSeriesList = new ArrayList<ViewSeries>();
-		ViewSeries totalSeries = new ViewSeries();
-		totalSeries.setType("line");
-		totalSeries.setName("数据库连接总数");	
-		int[] totalData = new int[constantValue];
-		for(int i=0;i<seriesList.size();i++){
-			ViewSeries baseSeries = seriesList.get(i);
-			for(int j=0;j<totalData.length;j++){
-				int[] data = baseSeries.getData();
-				totalData[j] += data[j];
+		if(seriesList.size()>0){
+			List<ViewSeries>totalSeriesList = new ArrayList<ViewSeries>();
+			ViewSeries totalSeries = new ViewSeries();
+			totalSeries.setType("line");
+			totalSeries.setName("数据库连接总数");	
+			int[] totalData = new int[constantValue];
+			for(int i=0;i<seriesList.size();i++){
+				ViewSeries baseSeries = seriesList.get(i);
+				for(int j=0;j<totalData.length;j++){
+					int[] data = baseSeries.getData();
+					totalData[j] += data[j];
+				}
 			}
+			totalSeries.setData(totalData);
+			totalSeriesList.add(totalSeries);
+			List<String>totalLegendList = new ArrayList<String>();
+			totalLegendList.add("数据库连接汇总数量");
+			output.setLegend(totalLegendList);
+			output.setSeries(totalSeriesList);
+			bean.setData(output);	
 		}
-		totalSeries.setData(totalData);
-		totalSeriesList.add(totalSeries);
-		List<String>totalLegendList = new ArrayList<String>();
-		totalLegendList.add("数据库连接汇总数量");
-		output.setLegend(totalLegendList);
-		output.setSeries(totalSeriesList);
-		bean.setData(output);	
+		if(seriesList2.size()>0){
+			List<ViewSeries>totalSeriesList = new ArrayList<ViewSeries>();
+			ViewSeries totalSeries = new ViewSeries();
+			totalSeries.setType("line");
+			totalSeries.setName("数据库连接总数");	
+			double[] totalData = new double[constantValue];
+			for(int i=0;i<seriesList2.size();i++){
+				ViewSeries2 baseSeries = seriesList2.get(i);
+				for(int j=0;j<totalData.length;j++){
+					double[] data = baseSeries.getData();
+					totalData[j] += data[j];
+				}
+			}
+			int[] totaldoubledata = new int[constantValue];
+			for(int g = 0;g<totaldoubledata.length;g++){
+				totaldoubledata[g] = (int)totalData[g];
+			}
+			totalSeries.setData(totaldoubledata);
+			totalSeriesList.add(totalSeries);
+			List<String>totalLegendList = new ArrayList<String>();
+			totalLegendList.add("数据库连接汇总数量");
+			output.setLegend(totalLegendList);
+			output.setSeries(totalSeriesList);
+			bean.setData(output);	
+		}
 		return bean;
 	}
 	

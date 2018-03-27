@@ -1,7 +1,6 @@
 package com.ai.aiga.service;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.dao.ArchBusiErrcodeMapDao;
+import com.ai.aiga.dao.ArchCsfErrcodeReportDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.ArchBusiErrcodeMap;
 import com.ai.aiga.service.base.BaseService;
@@ -23,6 +23,8 @@ import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapS
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTotal;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTransfer;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportSelects;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
 @Service
 @Transactional
@@ -30,6 +32,8 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 	
 	@Autowired		
 	private ArchBusiErrcodeMapDao archBusiErrcodeMapDao;
+	@Autowired	
+	private ArchCsfErrcodeReportDao archCsfErrcodeReportDao;
 	//find all
 	public List<ArchBusiErrcodeMap> findAll(){
 		return archBusiErrcodeMapDao.findAll();
@@ -39,6 +43,88 @@ public class ArchBusiErrcodeMapSv extends BaseService {
     public void add(ArchBusiErrcodeMap archBusiErrcodeMap){
     	archBusiErrcodeMapDao.save(archBusiErrcodeMap);
     }
+    //show echarts
+    public List<ArchCsfErrcodeReportTable>showEcharts(ArchCsfErrcodeReportSelects condition){
+    	StringBuilder nativeSql = new StringBuilder(
+    			" select ar.center_name,ar.errcode_cfg_num,ar.cfg_csf_num,ar.totla_csf_num,ar.errcode_cover_rate,ar.errcode_spec_rate,ar.pm_of_chinamobile,ar.pm_of_asiainfo,ar.month_date " +
+    			" from AIAM.ARCH_CSF_ERRCODE_REPORT ar where 1=1 ");
+    	List<ParameterCondition>params=new ArrayList<ParameterCondition>();
+        if (StringUtils.isNotBlank(condition.getCenterName())) {
+        	nativeSql.append(" and ar.center_name = :center ");
+        	params.add(new ParameterCondition("center", condition.getCenterName()));
+        }
+        if (StringUtils.isNotBlank(condition.getStartMonth())) {
+        	nativeSql.append(" and ar.month_date >= :startMonth ");
+        	params.add(new ParameterCondition("startMonth", condition.getStartMonth()));
+        }
+        if (StringUtils.isNotBlank(condition.getEndMonth())) {
+        	nativeSql.append(" and ar.month_date <= :endMonth ");
+        	params.add(new ParameterCondition("endMonth", condition.getEndMonth()));
+        }
+        List<ArchCsfErrcodeReportTable>list = archCsfErrcodeReportDao.searchByNativeSQL(nativeSql.toString(), params, ArchCsfErrcodeReportTable.class);
+    	return list;
+    }
+    //query list 
+    public List<ArchCsfErrcodeReportTable>queryByList(ArchBusiErrcodeMapSelects condition) throws Exception{
+    	List<ArchCsfErrcodeReportTable>listDay = getData(condition);
+		String nowday = condition.getInsertTime();
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		Date today = format.parse(nowday);
+		//get yesterday str
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyyMMdd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 1);  
+        Date before1Day = calendar.getTime();
+        String before1DayString = simpleDateFormat.format(before1Day);
+        ArchBusiErrcodeMapSelects predaycdt = new ArchBusiErrcodeMapSelects();
+        predaycdt.setCenter(condition.getCenter());
+        predaycdt.setInsertTime(before1DayString);
+        List<ArchCsfErrcodeReportTable>listPreDay = getData(predaycdt);
+        //封装数据
+        List<ArchCsfErrcodeReportTable>output = new ArrayList<ArchCsfErrcodeReportTable>();
+        for(int i=0;i<listDay.size();i++){
+        	ArchCsfErrcodeReportTable out = listDay.get(i);
+        	String errcodeCoverRatePctg ="";
+        	String errcodeSpecRatePctg ="";
+        	String center = out.getCenterName();
+        	for(int j=0;j<listPreDay.size();j++){
+        		ArchCsfErrcodeReportTable in = listPreDay.get(j);
+        		if(in.getCenterName().equals(center)){
+        			double errcodeCoverRate = Double.parseDouble(out.getErrcodeCoverRate());
+        			double preErrcodeCoverRate = Double.parseDouble(in.getErrcodeCoverRate());
+        			errcodeCoverRatePctg = String.valueOf(errcodeCoverRate - preErrcodeCoverRate);
+        			out.setErrcodeCoverRatePctg(errcodeCoverRatePctg);
+        			double errcodeSpecRate = Double.parseDouble(out.getErrcodeSpecRate());
+        			double preErrcodeSpecRate = Double.parseDouble(in.getErrcodeSpecRate());
+        			errcodeSpecRatePctg = String.valueOf(errcodeSpecRate - preErrcodeSpecRate);
+        			out.setErrcodeSpecRatePctg(errcodeSpecRatePctg);
+        		}
+        	}
+        	output.add(out);
+        }
+    	return output;
+    }
+    public List<ArchCsfErrcodeReportTable>getData(ArchBusiErrcodeMapSelects condition){
+        //查询ARCH_CSF_ERRCODE_REPORT表 
+        StringBuilder nativeSql = new StringBuilder(
+        		" select ar.center_name,ar.errcode_cfg_num,ar.cfg_csf_num,ar.totla_csf_num,ar.errcode_cover_rate,ar.errcode_spec_rate,ar.pm_of_chinamobile,ar.pm_of_asiainfo,ar.month_date " +
+        				" from aiam.arch_csf_errcode_report ar where 1=1 "
+        		);
+        List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+        if (StringUtils.isNotBlank(condition.getCenter())) {
+        	nativeSql.append(" and ar.center_name = :center ");
+        	params.add(new ParameterCondition("center", condition.getCenter()));
+        }
+        if (StringUtils.isNotBlank(condition.getInsertTime())) {
+        	nativeSql.append(" and ar.month_date = :insertTime ");
+        	params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
+        }
+        List<ArchCsfErrcodeReportTable>listDay = archCsfErrcodeReportDao.searchByNativeSQL(nativeSql.toString(), params, ArchCsfErrcodeReportTable.class);
+        return listDay;
+    }
+    
+    
     
 	//query
     public List<ArchBusiErrcodeMapTable>queryByPage(ArchBusiErrcodeMapSelects condition) throws Exception{
@@ -395,18 +481,6 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         }  
         return newList;
     }
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     //EXPORT XLS UNCOVER
     public List<ArchBusiErrcodeMapTransfer> uncover(ArchBusiErrcodeMapSelects condition){

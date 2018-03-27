@@ -5,20 +5,20 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import io.swagger.annotations.Api;
-
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,16 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.domain.ArchBusiErrcodeMap;
-import com.ai.aiga.domain.PCsfReportBymonth;
-import com.ai.aiga.domain.PTopCsfReportBymonth;
 import com.ai.aiga.service.ArchBusiErrcodeMapSv;
-import com.ai.aiga.service.ArchDbConnectHeatBaseSv;
-import com.ai.aiga.service.ArchitectureStaticDataSv;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexTopParams;
-import com.ai.aiga.view.controller.archiQuesManage.dto.PlatformOperateReportParams;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTransfer;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportSelects;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -61,6 +58,85 @@ public class ArchBusiErrcodeMapController {
 	public @ResponseBody JsonBean listDbConnectsTop(@RequestBody ArchBusiErrcodeMapSelects condition) throws Exception{
 		JsonBean bean = new JsonBean();
 		bean.setData(archBusiErrcodeMapSv.queryByPage(condition));
+		return bean;
+	}
+	
+	@RequestMapping(path = "/webservice/csferrcode/echartshow")
+	public @ResponseBody JsonBean echartshow(ArchCsfErrcodeReportSelects condition) throws ParseException {
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage2 output = new ArchiChangeMessage2();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(months.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		output.setxAxis(months);
+		final int constantValue = months.size();
+		List<String>legendList = new ArrayList<String>();
+		List<ArchCsfErrcodeReportTable>reportList = new ArrayList<ArchCsfErrcodeReportTable>();
+		condition.setStartMonth(condition.getStartMonth().replace("-", ""));
+		condition.setEndMonth(condition.getEndMonth().replace("-", ""));
+		reportList = archBusiErrcodeMapSv.showEcharts(condition);
+		List<ArchCsfErrcodeReportTable>reportList2 = new ArrayList<ArchCsfErrcodeReportTable>(reportList);       
+		List<ViewSeries2>seriesList = new ArrayList<ViewSeries2>();
+		List<String>newList=new ArrayList<String>();
+		Iterator<ArchCsfErrcodeReportTable>iter=reportList.iterator();
+		while(iter.hasNext()){
+			ArchCsfErrcodeReportTable baseReport = iter.next();
+			String centerName = baseReport.getCenterName();
+			if(!newList.contains(centerName)){
+				newList.add(centerName);
+				ViewSeries2 baseSeriesCover = new ViewSeries2();
+				ViewSeries2 baseSeriesSpec = new ViewSeries2();
+				baseSeriesCover.setType("line");
+				baseSeriesSpec.setType("line");
+				baseSeriesCover.setName(centerName+"覆盖率");		
+				baseSeriesSpec.setName(centerName+"规范率");		
+				legendList.add(centerName+"覆盖率");
+				legendList.add(centerName+"规范率");
+				//给对应的列赋值
+				double[] dataCover = new double[constantValue];
+				double[] dataSpec = new double[constantValue];
+				Iterator<ArchCsfErrcodeReportTable>iterator = reportList2.iterator();
+				while(iterator.hasNext()){
+					ArchCsfErrcodeReportTable baseIn = iterator.next();
+					if(baseIn.getCenterName().equals(centerName)) {
+						String setMonths = baseIn.getMonthDate().trim();
+						for(int i=0;i<dataCover.length;i++){
+							String newMonth = months.get(i).trim();
+							String newDay = newMonth.replace("-", "");
+							if(setMonths.equals(newDay)){
+								dataCover[i]=Double.parseDouble(baseIn.getErrcodeCoverRate());
+								dataSpec[i]=Double.parseDouble(baseIn.getErrcodeSpecRate());
+								iterator.remove();
+							}
+						}
+					}					
+				}
+				baseSeriesCover.setData(dataCover);
+				baseSeriesSpec.setData(dataSpec);
+				seriesList.add(baseSeriesCover);
+				seriesList.add(baseSeriesSpec);
+			}
+		};
+		output.setLegend(legendList);
+		output.setSeries(seriesList);
+		bean.setData(output);	
+		return bean;
+	}
+	
+	@RequestMapping(path = "/webservice/csferrcode/querybylistreport")
+	public @ResponseBody JsonBean querybylistreport(@RequestBody ArchBusiErrcodeMapSelects condition) throws Exception{
+		JsonBean bean = new JsonBean();
+		bean.setData(archBusiErrcodeMapSv.queryByList(condition));
 		return bean;
 	}
 	
@@ -174,4 +250,31 @@ public class ArchBusiErrcodeMapController {
         }  
 		return wb;	
 	}  
+    /**
+     * 校验DAY
+     * @param minDate
+     * @param maxDate
+     * @return
+     * @throws ParseException
+     */
+    private List<String> getDayBetween(String minDate, String maxDate) throws ParseException {
+    	ArrayList<String> result = new ArrayList<String>();
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//格式化为年月  
+    	Calendar min = Calendar.getInstance();
+    	Calendar max = Calendar.getInstance();
+    	min.setTime(sdf.parse(minDate));
+    	min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), min.get(Calendar.DAY_OF_MONTH));
+    	
+    	max.setTime(sdf.parse(maxDate));
+    	max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), max.get(Calendar.DAY_OF_MONTH)+1);
+    	if(max.before(min)) {
+    		return result;
+    	}
+    	Calendar curr = min;
+    	while (curr.before(max)) {
+    		result.add(sdf.format(curr.getTime()));
+    		curr.add(Calendar.DAY_OF_MONTH, 1);
+    	}
+    	return result;
+    }
 }

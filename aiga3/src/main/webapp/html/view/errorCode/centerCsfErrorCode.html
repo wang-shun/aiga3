@@ -15,6 +15,8 @@
 	#Page_errorCodePool .spl-thead-color4 {background-color: #8ac14a;color: white;}  
 	#Page_errorCodePool .spl-thead-wid {} 
 	#Page_errorCodePool .change-font-red {color: red;font-weight: 700;} 
+	#Page_errorCodePool .table-word-center {text-align: center;vertical-align: middle;}  
+	
   </style>
 <div class="row" id="Page_errorCodePool">
     <div class="col-md-12">
@@ -35,14 +37,14 @@
                   				<input type="text" class="form-control input-sm " name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
                   		</div>
-                		<div class="col-sm-6">
+<!--                 		<div class="col-sm-6">
 		                    <label  class="col-sm-2  control-label">所属中心：</label>
 		                    <div class="col-sm-4 min-height">
 		                    	<select name="center" class="form-control select2 input-sm" data-url="select1"  data-idkey="center" data-namekey="center">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
-		                </div>		                 
+		                </div> -->		                 
 		            </div>
                 </div>
                 <div class="box-footer">
@@ -73,17 +75,18 @@
 							<th width="150px" class="table-word-center spl-thead-color1">系统名称</th>	
 							<th width="100px" class="table-word-center spl-thead-color1">已配置有效数据量(存在CSF注册)</th>
 							<th width="100px" class="table-word-center spl-thead-color1">配置涉及CSF服务数</th>						
-							<th width="100px" class="table-word-center spl-thead-color1">存在调用的CSF服务数</th>
+							<th width="100px" class="table-word-center spl-thead-color1">中心注册CSF服务数量</th>
 							<th width="100px" class="table-word-center spl-thead-color2">CSF服务错误码配置覆盖率</th>
 							<th width="100px" class="table-word-center spl-thead-color2">环比变化</th>
-							<th width="100px" class="table-word-center spl-thead-color3">规范率</th>
+							<th width="100px" class="table-word-center spl-thead-color3">配置巡检规范率</th>
 							<th width="100px" class="table-word-center spl-thead-color3">环比变化</th>
-							<th class="table-word-center spl-thead-color1">数据来源</th>					
 		                    <th class="table-word-center spl-thead-color1">移动负责人</th>
 		                    <th class="table-word-center spl-thead-color1">亚信负责人</th>
 							<th class="table-word-center spl-thead-color1">采集时间</th>
 							<th class="table-word-center spl-thead-color1">未覆盖服务</th>
 							<th class="table-word-center spl-thead-color1">不规范服务</th>
+							<th class="table-word-center spl-thead-color1">历史波动曲线查看</th>
+							
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -94,45 +97,30 @@
             </div>
         </div>
     </div>
-    <!-- 弹出页面（是否变化） -->
-	<div class="modal fade" id="JS_showDetailModal" tabindex="-1" role="dialog">
+    <div class="col-md-12">
+		<textarea cols="108" rows="6" disabled>
+	指标说明:
+1、巡检数据取自各业务系统配置库bs_busi_errcode_map表数据;
+2、已配置有效数据量：取全量配置数据且配置对应的CSF服务在能力平台存在CSF注册的有效数据量;
+3、配置涉及CSF服务数:已配置有效数据量涉及的注册CSF服务数;
+4、存在调用的CSF服务数:该中心在能力平台注册的CSF服务总数;
+5、CSF服务错误码配置覆盖率：配置涉及CSF服务数/(中心注册CSF服务数量-经中心确认无错误码的特殊服务清单);
+6、规范率: 经平台巡检配置规范的数据量/已配置有效数据量;
+		</textarea>
+    </div>	
+    <!-- 弹出页面（7天波动） -->
+	<div class="modal fade" id="JS_show7dayModal" tabindex="-1" role="dialog">
 	    <div class="modal-dialog total-width">
 	        <div class="modal-content">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                <h4 class="modal-title">最近七天数据库连接池配置采集情况展示</h4>
+	                <h4 class="modal-title">最近七天核心数据库连接数波动展示</h4>
 	            </div>
-	            <div id="JS_changeModal" class="modal-body" style="padding-bottom: 0">
-					<div class="box" id="JS_recentSevenDay">
-						<div class="box-header" >
-							<h3 class="box-title">数据库连接池配置采集表</h3>
-						</div>
-						<div class="box-body" >
-							<table class="table table-bordered table-hover">
-								<thead>
-									<tr>
-										<th class="iCheckbox" width="15"></th>
-										<th width="180px">系统名称</th>	
-										<th width="130px">已配置有效数据量(存在CSF注册)</th>
-										<th width="130px">配置涉及CSF服务数</th>						
-										<th width="130px">存在调用的CSF服务数</th>
-										<th width="130px">CSF服务错误码配置覆盖率</th>
-										<th width="130px">规范率</th>
-										<th >数据来源</th>					
-					                    <th >移动负责人</th>
-					                    <th >亚信负责人</th>
-										<th >采集时间</th>
-										<th >未覆盖服务</th>
-										<th >不规范服务</th>
-									</tr>
-								</thead>
-								<tbody name="content"></tbody>
-							</table>
-						</div>
-						<div class="box-footer no-border">
-							<div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
-						</div> 
-					</div>
+	            <div id="JS_recent7Modal" class="modal-body" style="padding-bottom: 0">
+				     <div class="box" id="JS_recent7dayView" name="initEcharts">
+				        <div class="box-header" ></div>
+				        <div class="box-body" id="JS_archiIndex7View" style="width: 100%; height:350px;"></div>
+			   		</div>	
 	          	</div>
 	            <div class="modal-footer btn-center">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
@@ -140,17 +128,19 @@
 	        </div>
 	    </div>
 	</div>
-    <!-- 弹出页面 （是否报备）-->
-	<div class="modal fade" id="JS_showReportModal" tabindex="-1" role="dialog">
+    <!-- 弹出页面 （30天波动）-->
+	<div class="modal fade" id="JS_show30dayModal" tabindex="-1" role="dialog">
 	    <div class="modal-dialog total-width">
 	        <div class="modal-content">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	                <h4 class="modal-title">数据库连接池配置采集报备信息展示</h4>
+	                <h4 class="modal-title">最近三十天核心数据库连接数波动展示</h4>
 	            </div>
-	            <div id="JS_reportModal" class="modal-body" style="padding-bottom: 0">
-		            <form id="reportModalForm" class="form">
-	                </form>
+	            <div id="JS_recent30Modal" class="modal-body" style="padding-bottom: 0">
+				     <div class="box" id="JS_recent30dayView" name="initEcharts">
+				        <div class="box-header" ></div>
+				        <div class="box-body" id="JS_archiIndex30View" style="width: 100%; height:350px;"></div>
+			   		</div>	
 	          	</div>
 	            <div class="modal-footer btn-center">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
@@ -159,62 +149,29 @@
 	    </div>
 	</div>
 </div>
-
 <!-- 表格数据 -->
 <script id="TPL_connectionPoolTemp" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td width="150px">{{center}}</td>
-    <td width="100px">{{total}}</td>
-    <td width="100px">{{signin}}</td>
-	<td width="100px">{{signon}}</td>
-	<td width="100px" class="text-style">{{percentage}}%</td>
-	<td width="100px" class="text-style">{{percentagerate}}%</td>
-	<td width="100px" class="text-style">{{standard}}%</td>
-	<td width="100px" class="text-style">{{standardrate}}%</td>
-    <td>{{resource}}</td>
-	<td>{{persona}}</td>
-    <td>{{personb}}</td>
-	<td>{{stime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-uncover" data-center="{{center}}" data-date="{{stime}}" name="uncover">下载</button></td>
-	<td ><button type="button" class="btn btn-primary btn-table-unstandard" data-center="{{center}}" data-date="{{stime}}" name="unstandard">下载</button></td>
+	<td width="120px">{{centerName}}</td>
+    <td width="90px">{{errcodeCfgNum}}</td>
+    <td width="90px">{{cfgCsfNum}}</td>
+	<td width="90px">{{totlaCsfNum}}</td>
+	<td width="90px" class="text-style">{{errcodeCoverRate}}%</td>
+	<td width="90px" class="text-style">{{errcodeCoverRatePctg}}%</td>
+	<td width="90px" class="text-style">{{errcodeSpecRate}}%</td>
+	<td width="90px" class="text-style">{{errcodeSpecRatePctg}}%</td>
+	<td>{{pmOfChinamobile}}</td>
+    <td>{{pmOfAsiainfo}}</td>
+	<td>{{monthDate}}</td>
+	<td ><button type="button" class="btn btn-primary btn-table-uncover" data-center="{{centerName}}" data-date="{{monthDate}}" name="uncover">下载</button></td>
+	<td ><button type="button" class="btn btn-primary btn-table-unstandard" data-center="{{centerName}}" data-date="{{monthDate}}" name="unstandard">下载</button></td>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-center="{{centerName}}" data-date="{{monthDate}}" name="detail7">7天曲线</button>
+		 <button type="button" class="btn btn-primary btn-table-detail30" data-center="{{centerName}}" data-date="{{monthDate}}" name="detail30">30天曲线</button>
+	</td>
 </tr>
 {{/each}}
-</script>
-<!-- 	<td >{{change}}</td>
-	<td >{{report}}</td> -->
-<!-- 内层表格数据 -->
-<script id="TPL_connectionPoolTempIn" type="text/x-handlebars-template">
-{{#each this}}
-<tr>
-    <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td >{{center}}</td>
-    <td >{{total}}</td>
-    <td >{{signin}}</td>
-	<td >{{signon}}</td>
-	<td >{{percentage}}%</td>
-	<td >{{standard}}%</td>
-	<td >{{persona}}</td>
-    <td >{{personb}}</td>
-    <td >{{resource}}</td>
-	<td >{{stime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
-</tr>
-{{/each}}
-</script>
-<!-- 报备信息模板 -->
-<script id="TPL_reportTemp" type="text/x-handlebars-template">
-    <div class="box-body">
-		<div class="row">
-			<div class="form-group">
-				<label for="abstracts" class="col-sm-1 control-label">报备信息:</label>
-				<div class="col-sm-9">
-					<textarea name="abstracts" class="form-control" rows="3" id="abstracts" placeholder="请输入报备信息">{{abstracts}}</textarea>
-				</div>
-			</div>
-		</div>
-    </div>
 </script>
 <script id="TPL_errorCodeTempText" type="text/x-handlebars-template">
 <div class="events-grid" >

@@ -88,5 +88,19 @@ ul li{
 }
 #JS_noticeTitleModal form{
 	margin-top:-15px;
+	margin-bottom:5px;
+}
+#JS_noticeTitleModal .noticeDescription{
+	font-size:16px;
+	text-align:right;
+	margin-top:5px;
+	margin-bottom:10px;
+}
+#JS_noticeTitleModal .noticeDetails{
+	text-indent:2em;
+	width:550px;
+	height:200px;
+	background-color:#e9e9de;
+	padding:10px;
 }
 

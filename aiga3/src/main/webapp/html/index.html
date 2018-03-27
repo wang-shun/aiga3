@@ -44,15 +44,9 @@
                     <span class="sr-only">切换导航</span>
                 </a>
                 <div id="gg">
-					<div class="close" style="font-weight:0px;opacity:1;">
+					<div class="closeA" >
 						<div class="bulletin">
-							<ul style="margin-top: 0px;" name="noticeText">
-								<!-- <li>
-									<a href="#" title="文艺范早安晚安心语：黑夜里代替阳光的东西是信念">文艺范早安晚安心语：黑夜里代替阳光的东西是信念——写的真好，详情点击这里</a>
-								</li>
-								<li>
-									<a href="#" title="关于青春、海边唯美的图片">关于青春、海边唯美的图片——我想给你全部的希望及光芒，免你忧伤赐你孤勇闯向远方</a>
-								</li> -->					
+							<ul name="noticeText">													
 							</ul>
 						</div>
 					</div>
@@ -168,7 +162,7 @@
 <script id="TPL_noticeDescriptionTemp" type="text/x-handlebars-template">
 {{#each this}}
 <li value="{{id}}" name="titleNotice">
-	<a href="#" title="{{noticeTitle}}" data-id="{{id}}" data-toggle="modal" data-target="#Modal_noticeTitleModal">{{noticeTitle}}：{{noticeDescription}}</a>
+	<a href="#" title="{{noticeTitle}}" data-id="{{id}}" data-toggle="modal" data-target="#Modal_noticeTitleModal" style="font-weight:100px;">{{noticeTitle}}：{{noticeDescription}}</a>
 </li>
 {{/each}}
 </script>

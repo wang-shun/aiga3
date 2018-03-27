@@ -6,13 +6,13 @@
 	    	var _this=this.eq(0).find("ul:first");
 	    	var lineH=_this.find("li:first").height(),//23
 	    	line = opt.line?parseInt(opt.line,10):parseInt(this.height()/lineH,10),
-	    	speed=opt.speed?parseInt(opt.speed,10):8000, //¾í¶¯ËÙ¶È£¬ÊıÖµÔ½´ó£¬ËÙ¶ÈÔ½Âı£¨ºÁÃë£©
-	    	timer=opt.timer?parseInt(opt.timer,10):8000; //¹ö¶¯µÄÊ±¼ä¼ä¸ô£¨ºÁÃë£©
+	    	speed=opt.speed?parseInt(opt.speed,10):8000, //å·åŠ¨é€Ÿåº¦ï¼Œæ•°å€¼è¶Šå¤§ï¼Œé€Ÿåº¦è¶Šæ…¢ï¼ˆæ¯«ç§’ï¼‰
+	    	timer=opt.timer?parseInt(opt.timer,10):8000; //æ»šåŠ¨çš„æ—¶é—´é—´éš”ï¼ˆæ¯«ç§’ï¼‰
 	    	if(line==0) line=1;
-	    	var upHeight = 0-line*lineH;//-×Ü¸ß¶È
+	    	var upHeight = 0-line*lineH;//-æ€»é«˜åº¦
 		    scrollUp=function(){
 			    _this.animate({
-			    marginTop:upHeight // <li>µÄmargin-top
+			    marginTop:upHeight // <li>çš„margin-top
 			    },speed,function(){
 				    for(i=1;i<=line;i++){
 				    _this.find("li:first").appendTo(_this);

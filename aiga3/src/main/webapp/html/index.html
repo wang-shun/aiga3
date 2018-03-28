@@ -44,15 +44,9 @@
                     <span class="sr-only">切换导航</span>
                 </a>
                 <div id="gg">
-					<div class="close" style="font-weight:0px;opacity:1;">
+					<div class="closeA" >
 						<div class="bulletin">
-							<ul style="margin-top: 0px;" name="noticeText">
-								<!-- <li>
-									<a href="#" title="文艺范早安晚安心语：黑夜里代替阳光的东西是信念">文艺范早安晚安心语：黑夜里代替阳光的东西是信念——写的真好，详情点击这里</a>
-								</li>
-								<li>
-									<a href="#" title="关于青春、海边唯美的图片">关于青春、海边唯美的图片——我想给你全部的希望及光芒，免你忧伤赐你孤勇闯向远方</a>
-								</li> -->					
+							<ul name="noticeText">													
 							</ul>
 						</div>
 					</div>
@@ -145,20 +139,15 @@
 </div>
 <!-- 公告详情页面模版 -->
 <script id="TPL_noticeTitleFromTemp" type="text/x-handlebars-template">
-	<div class="box-body form-group form-inline" style="margin-bottom: 0px">
+	<div class="box-body form-group form-inline">
 		<form>
-			<div class="col-md-12">
-				<label class="control-label fist-text-label">公告标题:</label>
-	   			<label class="">{{noticeTitle}}</label>	  						
+			<div style="text-align:center">
+	   			<label><b style="font-size:20px;">{{noticeTitle}}</b></label>	  						
 			</div>
-			<div class="col-md-12">
-				<label class="control-label fist-text-label">公告简述:</label>
-				<label class="">{{noticeDescription}}</label>  						
+			<div class="noticeDescription" >
+				<label>——{{noticeDescription}}</label>  						
 			</div>
-			<div class="col-md-12">
-				<label class="control-label fist-text-label">公告详述:</label>
-	   			<textarea name="noticeDetails" style="width:540px;height:200px" >{{noticeDetails}}</textarea>	  						
-			</div>
+	   		<div name="noticeDetails" class="noticeDetails" style="border:1x solid #ccc7c7;">{{noticeDetails}}</div>	  						
 		</form>    
 	</div>
 </script>    
@@ -168,7 +157,7 @@
 <script id="TPL_noticeDescriptionTemp" type="text/x-handlebars-template">
 {{#each this}}
 <li value="{{id}}" name="titleNotice">
-	<a href="#" title="{{noticeTitle}}" data-id="{{id}}" data-toggle="modal" data-target="#Modal_noticeTitleModal">{{noticeTitle}}：{{noticeDescription}}</a>
+	<a href="#" title="{{noticeTitle}}" data-id="{{id}}" data-toggle="modal" data-target="#Modal_noticeTitleModal" style="font-weight:100px;">{{noticeTitle}}：{{noticeDescription}}</a>
 </li>
 {{/each}}
 </script>

@@ -34,7 +34,6 @@
     color: #fff;
     letter-spacing: 1px;
     text-shadow: 0 1px 0 #000;
-    font-size:20px;
 }
 .close{
 	margin-top:13px;
@@ -45,6 +44,18 @@
     margin: 0 10px 0 0;
 }
 
+.closeA{
+	margin-top:13px;
+	font-weight:100px;
+	line-height:1.5;
+	text-shadow:0 1px 0 #fff;
+	font-size:17px;
+	font-weight:100px;
+	opacity:1;
+}
+.closeA a {
+    margin: 0 10px 0 0;
+}
 .bulletin {
     background: rgba(0, 0, 0, 0) url("../../images/bulletin.gif") no-repeat scroll 0 0;
     color: #fff;
@@ -61,7 +72,7 @@
 
 .bulletin li {
     height: 23px;
-    padding-left: 25px;
+    padding-left: 34px;
 }
 
 a{
@@ -77,5 +88,19 @@ ul li{
 }
 #JS_noticeTitleModal form{
 	margin-top:-15px;
+	margin-bottom:5px;
+}
+#JS_noticeTitleModal .noticeDescription{
+	font-size:16px;
+	text-align:right;
+	margin-top:5px;
+	margin-bottom:10px;
+}
+#JS_noticeTitleModal .noticeDetails{
+	text-indent:2em;
+	width:550px;
+	height:200px;
+	background-color:#e9e9de;
+	padding:10px;
 }
 

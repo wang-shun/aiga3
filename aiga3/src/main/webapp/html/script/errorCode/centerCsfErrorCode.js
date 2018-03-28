@@ -48,6 +48,7 @@ define(function(require, exports, module) {
 			var cmd = _form.serialize();
 			this._getGridList(cmd);
 			this._query_event();
+			this._handlebar_help_register();
 		},
 		
 		//初始化时间框
@@ -97,13 +98,15 @@ define(function(require, exports, module) {
 				}
 				var tmp = 0;
 				tmp = json.data.length;
+				var all = 0;
 				var totalPercentage = 0;
 				var totalStandard = 0;
 				for(index in json.data){
+					all += json.data[index].errcodeCfgNum;
 					totalPercentage += parseInt(json.data[index].errcodeCoverRate);
 					totalStandard += parseInt(json.data[index].errcodeSpecRate);
 				}
-				result.total=tmp;
+				result.total=all;
 				result.percentage=totalPercentage/tmp;
 				result.standard=totalStandard/tmp;
     			_text.html(templateText(result));
@@ -232,6 +235,28 @@ define(function(require, exports, module) {
 				self._getGridList(cmd);
 			});		
         },
+        //
+        _handlebar_help_register: function() {
+			Handlebars.registerHelper("changePowerSty",function(value) {
+				if(value>0) {
+					return 'change-font-red';
+				} else if(value<=0){
+					return 'change-font-green';
+				}else{
+					return '';
+				}
+			});
+			Handlebars.registerHelper("pesentAdd",function(value) {
+				return value+"%";
+			});
+			Handlebars.registerHelper("changeRed",function(value) {
+				if(value<60) {
+					return 'change-font-red';
+				} else {
+					return '';
+				}
+			});
+		},
         //
         _graphSec: function(day,json) {
 			var echartsinitdom = null;

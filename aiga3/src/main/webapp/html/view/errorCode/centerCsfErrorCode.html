@@ -16,6 +16,9 @@
 	#Page_errorCodePool .spl-thead-wid {} 
 	#Page_errorCodePool .change-font-red {color: red;font-weight: 700;} 
 	#Page_errorCodePool .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_errorCodePool .table-kuan1{width:6%;}
+	#Page_errorCodePool .table-kuan2{width:10%;}
+	#Page_errorCodePool .table-kuan3{width:15%;}
 	
   </style>
 <div class="row" id="Page_errorCodePool">
@@ -72,20 +75,20 @@
                     <thead>
 		                <tr>
 		                <th class="iCheckbox table-word-center spl-thead-color4" width="15" ></th>
-							<th width="150px" class="table-word-center spl-thead-color1">系统名称</th>	
-							<th width="100px" class="table-word-center spl-thead-color1">已配置有效数据量(存在CSF注册)</th>
-							<th width="100px" class="table-word-center spl-thead-color1">配置涉及CSF服务数</th>						
-							<th width="100px" class="table-word-center spl-thead-color1">中心注册CSF服务数量</th>
-							<th width="100px" class="table-word-center spl-thead-color2">CSF服务错误码配置覆盖率</th>
-							<th width="100px" class="table-word-center spl-thead-color2">环比变化</th>
-							<th width="100px" class="table-word-center spl-thead-color3">配置巡检规范率</th>
-							<th width="100px" class="table-word-center spl-thead-color3">环比变化</th>
-		                    <th class="table-word-center spl-thead-color1">移动负责人</th>
-		                    <th class="table-word-center spl-thead-color1">亚信负责人</th>
-							<th class="table-word-center spl-thead-color1">采集时间</th>
-							<th class="table-word-center spl-thead-color1">未覆盖服务</th>
-							<th class="table-word-center spl-thead-color1">不规范服务</th>
-							<th class="table-word-center spl-thead-color1">历史波动曲线查看</th>
+							<th class="table-kuan2 table-word-center spl-thead-color1">系统名称</th>	
+							<th class="table-kuan1 table-word-center spl-thead-color1">已配置有效数据量(存在CSF注册)</th>
+							<th class="table-kuan1 table-word-center spl-thead-color1">配置涉及CSF服务数</th>						
+							<th class="table-kuan1 table-word-center spl-thead-color1">中心注册CSF服务数量</th>
+							<th class="table-kuan1 table-word-center spl-thead-color2">CSF服务错误码配置覆盖率</th>
+							<th class="table-kuan1 table-word-center spl-thead-color2">环比变化</th>
+							<th class="table-kuan1 table-word-center spl-thead-color3">配置巡检规范率</th>
+							<th class="table-kuan1 table-word-center spl-thead-color3">环比变化</th>
+		                    <th class="table-kuan1 table-word-center spl-thead-color1">移动负责人</th>
+		                    <th class="table-kuan1 table-word-center spl-thead-color1">亚信负责人</th>
+							<th class="table-kuan1 table-word-center spl-thead-color1">采集时间</th>
+							<th class="table-kuan1 table-word-center spl-thead-color1">未覆盖服务清单</th>
+							<th class="table-kuan1 table-word-center spl-thead-color1">不规范服务清单</th>
+							<th class="table-kuan3 table-word-center spl-thead-color1">历史波动曲线查看</th>
 							
 		                </tr>
                     </thead>
@@ -154,20 +157,20 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td width="120px">{{centerName}}</td>
-    <td width="90px">{{errcodeCfgNum}}</td>
-    <td width="90px">{{cfgCsfNum}}</td>
-	<td width="90px">{{totlaCsfNum}}</td>
-	<td width="90px" class="text-style">{{errcodeCoverRate}}%</td>
-	<td width="90px" class="text-style">{{errcodeCoverRatePctg}}%</td>
-	<td width="90px" class="text-style">{{errcodeSpecRate}}%</td>
-	<td width="90px" class="text-style">{{errcodeSpecRatePctg}}%</td>
-	<td>{{pmOfChinamobile}}</td>
-    <td>{{pmOfAsiainfo}}</td>
-	<td>{{monthDate}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-uncover" data-center="{{centerName}}" data-date="{{monthDate}}" name="uncover">下载</button></td>
-	<td ><button type="button" class="btn btn-primary btn-table-unstandard" data-center="{{centerName}}" data-date="{{monthDate}}" name="unstandard">下载</button></td>
-	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-center="{{centerName}}" data-date="{{monthDate}}" name="detail7">7天曲线</button>
+	<td class="table-kuan2 table-word-center">{{centerName}}</td>
+    <td class="table-kuan1 table-word-center">{{errcodeCfgNum}}</td>
+    <td class="table-kuan1 table-word-center">{{cfgCsfNum}}</td>
+	<td class="table-kuan1 table-word-center">{{totlaCsfNum}}</td>
+	<td class="table-kuan1 table-word-center {{changeRed errcodeCoverRate}}">{{errcodeCoverRate}}%</td>
+	<td class="table-kuan1 table-word-center {{changePowerSty errcodeCoverRatePctg}}">{{errcodeCoverRatePctg}}%</td>
+	<td class="table-kuan1 table-word-center {{changeRed errcodeSpecRate}}">{{errcodeSpecRate}}%</td>
+	<td class="table-kuan1 table-word-center {{changePowerSty errcodeCoverRatePctg}}">{{errcodeSpecRatePctg}}%</td>
+	<td class="table-kuan1 table-word-center">{{pmOfChinamobile}}</td>
+    <td class="table-kuan1 table-word-center">{{pmOfAsiainfo}}</td>
+	<td class="table-kuan1 table-word-center">{{monthDate}}</td>
+	<td class="table-kuan1 table-word-center"><button type="button" class="btn btn-primary btn-table-uncover" data-center="{{centerName}}" data-date="{{monthDate}}" name="uncover">下载</button></td>
+	<td class="table-kuan1 table-word-center"><button type="button" class="btn btn-primary btn-table-unstandard" data-center="{{centerName}}" data-date="{{monthDate}}" name="unstandard">下载</button></td>
+	<td class="table-kuan3 table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-center="{{centerName}}" data-date="{{monthDate}}" name="detail7">7天曲线</button>
 		 <button type="button" class="btn btn-primary btn-table-detail30" data-center="{{centerName}}" data-date="{{monthDate}}" name="detail30">30天曲线</button>
 	</td>
 </tr>
@@ -180,7 +183,7 @@
 				成功采集各系统中心配置数据共
 				<span class="errcode-center">{{total}}</span>条，经平台巡检全中心CSF错误码服务平均覆盖率为
 				<span class="text-style">{{percentage}}%</span>，配置平均规范率为
-				<span class="text-style">{{standard}}%</span>%。
+				<span class="text-style">{{standard}}%</span>。
 			</p>
 	</div>
 </div>

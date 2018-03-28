@@ -207,8 +207,7 @@ define(function(require,exports,module){
 				insertTime:yesterday
 			};
 			Rose.ajax.postJson(srvMap.get('querybylistreport'),_topcmd,function(json,status){
-				var poolDom = Page.findId('connectionPoolText');
-
+				var poolDom = Page.findTpl('errorCodeText');
 			if(status){
 				var docthis = Page.find('ul[name="wordGull"]');
                 var errCodeList = json.data;
@@ -223,12 +222,6 @@ define(function(require,exports,module){
                 docthis.html(_html);
                 self._wordRoll();
                 Page.find("[name='errcode-title']").html("错误码("+yesterday+"采集)");
-/*				var poolDom = Page.findTpl('errorCodeText');
-				if(status){
-	        		//展示报告内容
-					var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
-					var _text = Page.findId('errorCodeText');
-	    			_text.html(templateText(json.data));*/
 				}else{
 					poolDom.html(json.retMessage);
 				}

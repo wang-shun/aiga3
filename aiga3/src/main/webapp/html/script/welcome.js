@@ -29,7 +29,7 @@ define(function(require,exports,module){
 	// 菜单权限校验
 	srvMap.add("menuFuncCheck", '', "webservice/menuCheck/grant");
 	//显示查询信息表
-	srvMap.add("querybylistreport", pathAlias+"poolConfigurationList.json", "webservice/csferrcode/querybylistreport");
+	srvMap.add("querybylistreport", '', "webservice/csferrcode/querybylistreport");
 
     var Data = {
         planDate:null // 获取日期日期

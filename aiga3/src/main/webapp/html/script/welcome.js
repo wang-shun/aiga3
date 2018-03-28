@@ -4,7 +4,7 @@ define(function(require,exports,module){
 	var Utils = require("global/utils.js");
 	//		
 	var Tab = require('global/sidebar.js');
-
+	var pathAlias = "script/";
 	// 初始化页面ID，易于拷贝，不需要带'#'
 	var Page = Utils.initPage('welcome');
 
@@ -207,6 +207,8 @@ define(function(require,exports,module){
 				insertTime:yesterday
 			};
 			Rose.ajax.postJson(srvMap.get('querybylistreport'),_topcmd,function(json,status){
+				var poolDom = Page.findId('connectionPoolText');
+
 			if(status){
 				var docthis = Page.find('ul[name="wordGull"]');
                 var errCodeList = json.data;
@@ -228,7 +230,7 @@ define(function(require,exports,module){
 					var _text = Page.findId('errorCodeText');
 	    			_text.html(templateText(json.data));*/
 				}else{
-					poolDom.html(jsontxt.retMessage);
+					poolDom.html(json.retMessage);
 				}
 			});
 		},

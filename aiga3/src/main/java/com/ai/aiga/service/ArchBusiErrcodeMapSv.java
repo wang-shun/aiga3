@@ -83,6 +83,7 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         List<ArchCsfErrcodeReportTable>listPreDay = getData(predaycdt);
         //封装数据
         List<ArchCsfErrcodeReportTable>output = new ArrayList<ArchCsfErrcodeReportTable>();
+        java.text.DecimalFormat df =new java.text.DecimalFormat("#.00"); 
         for(int i=0;i<listDay.size();i++){
         	ArchCsfErrcodeReportTable out = listDay.get(i);
         	String errcodeCoverRatePctg ="";
@@ -93,11 +94,11 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         		if(in.getCenterName().equals(center)){
         			double errcodeCoverRate = Double.parseDouble(out.getErrcodeCoverRate());
         			double preErrcodeCoverRate = Double.parseDouble(in.getErrcodeCoverRate());
-        			errcodeCoverRatePctg = String.valueOf(errcodeCoverRate - preErrcodeCoverRate);
+        			errcodeCoverRatePctg = String.valueOf(df.format(errcodeCoverRate - preErrcodeCoverRate));
         			out.setErrcodeCoverRatePctg(errcodeCoverRatePctg);
         			double errcodeSpecRate = Double.parseDouble(out.getErrcodeSpecRate());
         			double preErrcodeSpecRate = Double.parseDouble(in.getErrcodeSpecRate());
-        			errcodeSpecRatePctg = String.valueOf(errcodeSpecRate - preErrcodeSpecRate);
+        			errcodeSpecRatePctg = String.valueOf(df.format(errcodeSpecRate - preErrcodeSpecRate));
         			out.setErrcodeSpecRatePctg(errcodeSpecRatePctg);
         		}
         	}

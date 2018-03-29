@@ -250,7 +250,7 @@ define(function(require, exports, module) {
 				return value+"%";
 			});
 			Handlebars.registerHelper("changeRed",function(value) {
-				if(value<60) {
+				if((parseInt(value))<60) {
 					return 'change-font-red';
 				} else {
 					return '';

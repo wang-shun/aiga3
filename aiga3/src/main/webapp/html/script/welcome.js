@@ -217,11 +217,11 @@ define(function(require,exports,module){
                     var _json = errCodeList[i];
                     dataLength++;
                     _html += '<li style="margin-top: 0px;"><a title="' + _json.centerName +'" class="errcode-center">'
-                    + _json.centerName +'</a>CSF服务错误码配置覆盖率为<span class="errcode-percentage">' + _json.errcodeCoverRate + '</span>%;规范率为<span class="errcode-standard">' + _json.errcodeSpecRate + '</span>%;</li>';
+                    + _json.centerName +'</a>错误码配置覆盖率为<span class="errcode-percentage">' + _json.errcodeCoverRate + '</span>%;规范率为<span class="errcode-standard">' + _json.errcodeSpecRate + '</span>%;</li>';
                 }
                 docthis.html(_html);
                 self._wordRoll();
-                Page.find("[name='errcode-title']").html("错误码("+yesterday+"采集)");
+                Page.find("[name='errcode-title']").html("CSF错误码配置规范("+yesterday+"采集)");
 				}else{
 					poolDom.html(json.retMessage);
 				}

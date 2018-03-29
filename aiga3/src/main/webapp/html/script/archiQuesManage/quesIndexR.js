@@ -541,7 +541,6 @@ define(function(require, exports, module) {
 				// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 				var template = Handlebars.compile(Tpl.getArchDbConnectList);
 				//按月份排序
-				json.data.content = json.data.content.sort(function(a,b){return a.settMonth - b.settMonth;});
 				for(var i=0;i<json.data.content.length;i++){
 					if(json.data.content[i].key3!=null){
 						json.data.content[i].key3="("+json.data.content[i].key3+")";
@@ -824,6 +823,7 @@ define(function(require, exports, module) {
 			            };
 					}
 					option.title.subtext=cache.deadline;
+					cache.deadline='';
 				}
 				//加载前数据刷新
 				myChart.clear();

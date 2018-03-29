@@ -238,12 +238,12 @@ define(function(require, exports, module) {
         //
         _handlebar_help_register: function() {
 			Handlebars.registerHelper("changePowerSty",function(value) {
-				if(value>0) {
-					return 'change-font-red';
-				} else if(value<=0){
+				if((parseInt(value))>0) {
 					return 'change-font-green';
+				} else if((parseInt(value))<0){
+					return 'change-font-red';
 				}else{
-					return '';
+					return 'change-font-green';
 				}
 			});
 			Handlebars.registerHelper("pesentAdd",function(value) {

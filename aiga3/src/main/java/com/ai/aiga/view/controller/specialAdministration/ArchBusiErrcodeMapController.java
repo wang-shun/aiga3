@@ -34,6 +34,7 @@ import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapT
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
+import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
@@ -171,8 +172,8 @@ public class ArchBusiErrcodeMapController {
 		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
 		condition.setInsertTime(insertTime);
 		condition.setCenter(decodeCenter);
-		List<ArchBusiErrcodeMapTransfer> findData = archBusiErrcodeMapSv.uncover(condition);
-        HSSFWorkbook wb = uncoverAndUnstandardRepot(1L,findData,decodeCenter,insertTime);  
+		List<SrvcallDayTransfer> findData = archBusiErrcodeMapSv.uncover(condition);
+        HSSFWorkbook wb = uncoveRepot(findData,decodeCenter,insertTime);  
         response.setContentType("application/vnd.ms-excel");  
         Date nowtime = new Date();
         DateFormat format=new SimpleDateFormat("yyyyMM");
@@ -193,7 +194,7 @@ public class ArchBusiErrcodeMapController {
 		condition.setInsertTime(insertTime);
 		condition.setCenter(decodeCenter);
 		List<ArchBusiErrcodeMapTransfer> findData = archBusiErrcodeMapSv.unstandard(condition);
-        HSSFWorkbook wb = uncoverAndUnstandardRepot(2L,findData,decodeCenter,insertTime);  
+        HSSFWorkbook wb = unstandardRepot(findData,decodeCenter,insertTime);  
         response.setContentType("application/vnd.ms-excel");  
         Date nowtime = new Date();
         DateFormat format=new SimpleDateFormat("yyyyMM");
@@ -205,15 +206,11 @@ public class ArchBusiErrcodeMapController {
         ouputStream.close(); 
 	}
 	
-	public HSSFWorkbook uncoverAndUnstandardRepot(long type,List<ArchBusiErrcodeMapTransfer> list,String center,String insertTime) {
+	public HSSFWorkbook unstandardRepot(List<ArchBusiErrcodeMapTransfer> list,String center,String insertTime) {
 		String[] head = {"插入时间","负责人","系统中心","数据源","错误码编号","CSF服务编码","I18错误码","I18错误码描述","ESB错误码编号","ESB错误码描述","CSF错误码编号","CSF错误码描述","创建时间","状态时间","状态","评论人","检查结果"};
         HSSFWorkbook wb = new HSSFWorkbook();  
         HSSFSheet sheet = null;
-        if(type==1){
-        	sheet = wb.createSheet(center+"CSF错误码未覆盖清单_"+insertTime);
-        }else if(type==2){
-        	sheet = wb.createSheet(center+"CSF错误码不满足规范要求清单_"+insertTime);
-        }
+        sheet = wb.createSheet(center+"CSF错误码不满足规范要求清单_"+insertTime);
     	HSSFRow row1 = sheet.createRow((int) 0);
         HSSFCellStyle style = wb.createCellStyle();  
         style.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
@@ -248,6 +245,42 @@ public class ArchBusiErrcodeMapController {
         	rowLine.createCell(15).setCellValue(String.valueOf(data.getRemarks()).replace("null", ""));
         	rowLine.createCell(16).setCellValue(String.valueOf(data.getCheckResult()).replace("null", ""));
         }  
+		return wb;	
+	}  
+	public HSSFWorkbook uncoveRepot(List<SrvcallDayTransfer> list,String center,String insertTime) {
+		String[] head = {"CSF服务编号","平均调用市时常","访问次数","错误次数","调用时间","CSF服务状态码","错误信息","最大调用时长","最小调用时长","总调用时长","渠道","状态码"};
+		HSSFWorkbook wb = new HSSFWorkbook();  
+		HSSFSheet sheet = null;
+		sheet = wb.createSheet(center+"CSF错误码未覆盖清单_"+insertTime);
+		HSSFRow row1 = sheet.createRow((int) 0);
+		HSSFCellStyle style = wb.createCellStyle();  
+		style.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
+		for (int i = 0; i < head.length; i++) {
+			HSSFCell cell = row1.createCell(i);
+			cell.setCellValue(head[i]);  
+			cell.setCellStyle(style); 
+			if("0".equals(String.valueOf(i))) {
+				sheet.setColumnWidth(i, 20 * 256);
+			} else {
+				sheet.setColumnWidth(i, 12 * 256);
+			}	         
+		}
+		int index = 0;
+		for (SrvcallDayTransfer data : list) {  
+			HSSFRow rowLine = sheet.createRow(++index);  
+			rowLine.createCell(0).setCellValue(String.valueOf(data.getServiceid()).replace("null", ""));
+			rowLine.createCell(1).setCellValue(String.valueOf(data.getAvgduration()).replace("null", ""));
+			rowLine.createCell(2).setCellValue(String.valueOf(data.getAccesstimes()).replace("null", ""));
+			rowLine.createCell(3).setCellValue(String.valueOf(data.getErrortimes()).replace("null", ""));
+			rowLine.createCell(4).setCellValue(String.valueOf(data.getTimeperoid()).replace("null", ""));
+			rowLine.createCell(5).setCellValue(String.valueOf(data.getServicestatus()).replace("null", ""));
+			rowLine.createCell(6).setCellValue(String.valueOf(data.getErrmsg()).replace("null", ""));
+			rowLine.createCell(7).setCellValue(String.valueOf(data.getMaxduration()).replace("null", "")); 
+			rowLine.createCell(8).setCellValue(String.valueOf(data.getMinduration()).replace("null", ""));
+			rowLine.createCell(9).setCellValue(String.valueOf(data.getSumduration()).replace("null", ""));
+			rowLine.createCell(10).setCellValue(String.valueOf(data.getStatskind()).replace("null", "")); 
+			rowLine.createCell(11).setCellValue(String.valueOf(data.getStatscode()).replace("null", ""));
+		}  
 		return wb;	
 	}  
     /**

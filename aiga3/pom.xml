@@ -35,7 +35,7 @@
 		<dom4j.version>1.6.1</dom4j.version>
 		<!-- Plugin的属性 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.6</java.version>
+		<java.version>1.7</java.version>
 	</properties>
 
 	<!-- 私库配置, 私库的优先级比中央仓库的优先级高 -->

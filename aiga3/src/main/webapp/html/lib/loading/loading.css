@@ -18,12 +18,12 @@
 	padding:0;
 }
 #gg {
-    background: #02182e none repeat scroll 0 0;
+    /* background: #fff none repeat scroll 0 0; */
     top:0px;
     box-shadow: 10px 0 5px #fff;
     height: 50px;
     line-height: 49px;
-    opacity: 0.6;
+    opacity: 1;
     position: absolute;
     width: 700px;
     left:43px;
@@ -31,9 +31,9 @@
 }
 
 #gg a {
-    color: #fff;
+    color: #333;
     letter-spacing: 1px;
-    text-shadow: 0 1px 0 #000;
+    /* text-shadow: 0 1px 0 #000; */
 }
 .close{
 	margin-top:13px;
@@ -49,7 +49,7 @@
 	font-weight:100px;
 	line-height:1.9;
 	text-shadow:0 1px 0 #fff;
-	font-size:14px;
+	font-size:13px;
 	font-weight:0px;
 	opacity:1;
 }
@@ -57,7 +57,8 @@
     margin: 0 10px 0 0;
 }
 .bulletin {
-    background: rgba(0, 0, 0, 0) url("../../images/bulletin.gif") no-repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) url("../../images/timg.gif") no-repeat scroll 0 0;
+    background-size:23px;
     color: #fff;
     float: left;
     height: 23px;

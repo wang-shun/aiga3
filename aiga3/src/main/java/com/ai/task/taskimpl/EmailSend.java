@@ -89,7 +89,7 @@ public class EmailSend implements TaskInterFace {
 			topOut.close();
 			
 			//添加邮件附件
-			List<File> files = new ArrayList<>();
+			List<File> files = new ArrayList<File>();
 			files.add(cenFile); 
 			files.add(topFile); 
 			String headNull = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";

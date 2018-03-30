@@ -20,7 +20,7 @@ public class QuartzJob implements Job {
         System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+ "------定时任务开始------"+jobName);    
 
         try {  
-        	Class jobClass = Class.forName(mergedJobDataMap.get("jobClass").toString()); 
+        	Class jobClass = Class.forName(mergedJobDataMap.get("jobClass").toString().trim()); 
             //从mergedJobDataMap中获取绑定的任务类  
         	TaskInterFace springBean = (TaskInterFace)ApplicationContextUtil .getBean(jobClass);
             //调用执行方法  

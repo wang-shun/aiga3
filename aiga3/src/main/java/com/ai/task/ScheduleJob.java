@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
@@ -83,6 +84,19 @@ public class ScheduleJob {
         }  
   
     } 
+    
+    @PreDestroy
+	public void endJob() {	
+    	Scheduler sched;
+		try {
+			sched = gSchedulerFactory.getScheduler();
+	        sched.shutdown();
+		} catch (SchedulerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	}  
+
 	/**
 	 * 从表中读取数据，刷新定时任务
 	 */

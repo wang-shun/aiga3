@@ -22,7 +22,7 @@ public class QuartzJob implements Job {
         try {  
         	Class jobClass = Class.forName(mergedJobDataMap.get("jobClass").toString()); 
             //从mergedJobDataMap中获取绑定的任务类  
-        	TaskInterFace springBean = ApplicationContextUtil .getBean(jobClass);
+        	TaskInterFace springBean = (TaskInterFace)ApplicationContextUtil .getBean(jobClass);
             //调用执行方法  
         	springBean.taskDo((ArchTaskPlan)mergedJobDataMap.get("taskInfo"));  
         } catch (Exception e) {  

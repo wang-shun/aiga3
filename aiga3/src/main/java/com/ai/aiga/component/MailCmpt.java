@@ -1,7 +1,12 @@
 package com.ai.aiga.component;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -68,7 +73,6 @@ public class MailCmpt {
 				for(MultipartFile file : files){
 					helper.addAttachment(file.getOriginalFilename(), file);
 				}
-				
 			}
 			
 			this.javaMailSender.send(message);
@@ -78,5 +82,46 @@ public class MailCmpt {
 			log.error("发邮件失败!", e);
 		}
 	}
-
+	public void sendMailFile(String toAddress, String ccList, String subject, String content, List<File> files) {
+		
+		if(StringUtils.isBlank(toAddress)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "toAddress");
+		}
+		
+		if(StringUtils.isBlank(subject)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "subject");
+		}
+		
+		try {
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = null;
+			if(files != null && files.size() > 0){
+				helper = new MimeMessageHelper(message, true, "utf-8");
+			}else{
+				helper = new MimeMessageHelper(message, "utf-8");
+			}
+			
+			helper.setFrom(fromEmail);
+			helper.setTo(toAddress.split(","));
+			if(StringUtils.isNotBlank(ccList)){
+				helper.setCc(ccList.split(","));
+			}
+			helper.setSubject(subject);
+			helper.setText(content, true);
+			
+			if(files != null){
+				for(File file : files){
+					helper.addAttachment(MimeUtility.encodeWord(file.getName()),file);    //用新的字符编码生成字符串file.getName(), file);
+				}		
+			}
+			
+			this.javaMailSender.send(message);
+		} catch (MailException ex) {
+			log.error("发邮件失败!", ex);
+		} catch (MessagingException e) {
+			log.error("发邮件失败!", e);
+		} catch (UnsupportedEncodingException e) {
+			log.error("发邮件失败!", e);
+		}
+	}
 }

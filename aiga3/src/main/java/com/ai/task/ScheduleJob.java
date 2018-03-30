@@ -28,7 +28,6 @@ public class ScheduleJob {
 	@Autowired
 	private ArchTaskPlanSv archTaskPlanSv;
     
-	@PostConstruct
 	public void initJob() {	  
         Scheduler sched;  
         // ===========================添加定时任务start========================  

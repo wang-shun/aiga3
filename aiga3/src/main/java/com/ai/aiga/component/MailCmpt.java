@@ -111,7 +111,7 @@ public class MailCmpt {
 			
 			if(files != null){
 				for(File file : files){
-					helper.addAttachment(MimeUtility.encodeWord(file.getName()),file);    //用新的字符编码生成字符串file.getName(), file);
+					helper.addAttachment(file.getName(),file);    //用新的字符编码生成字符串file.getName(), file);
 				}		
 			}
 			
@@ -119,8 +119,6 @@ public class MailCmpt {
 		} catch (MailException ex) {
 			log.error("发邮件失败!", ex);
 		} catch (MessagingException e) {
-			log.error("发邮件失败!", e);
-		} catch (UnsupportedEncodingException e) {
 			log.error("发邮件失败!", e);
 		}
 	}

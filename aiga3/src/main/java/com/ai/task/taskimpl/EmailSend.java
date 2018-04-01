@@ -85,7 +85,7 @@ public class EmailSend implements TaskInterFace {
 			
 			File topFile = new File(path+topName);
 			OutputStream topOut = new FileOutputStream(topFile);
-			excelCen.write(topOut);
+			excelTop.write(topOut);
 			topOut.close();
 			
 			//添加邮件附件

@@ -78,12 +78,12 @@ public class EmailSend implements TaskInterFace {
 			String topName  = "MSP_CSF_TOP10+N_"+time+".xls";
 
 			//写入文件
-			File cenFile = new File(path+cenName);
+			File cenFile = new File(path,cenName);
 			OutputStream cenOut = new FileOutputStream(cenFile);
 			excelCen.write(cenOut);
 			cenOut.close();
 			
-			File topFile = new File(path+topName);
+			File topFile = new File(path,topName);
 			OutputStream topOut = new FileOutputStream(topFile);
 			excelTop.write(topOut);
 			topOut.close();
@@ -101,8 +101,8 @@ public class EmailSend implements TaskInterFace {
 			//发送邮件
 			cmpt.sendMailFile(param.getParam1().trim(),  param.getParam2()==null?"":param.getParam2().trim(), mailHead, mailContent, files);
 			//清除本地文件
-			File cenDef = new File(path+cenName);
-			File topDef = new File(path+topName);
+			File cenDef = new File(path,cenName);
+			File topDef = new File(path,topName);
 			cenDef.delete();
 			topDef.delete();
 		} catch (IOException e) {

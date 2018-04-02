@@ -56,10 +56,12 @@ public class EmailSend implements TaskInterFace {
 		String mailTime = mailFormat.format(c.getTime());
 		String time = format.format(c.getTime());
 		//处理文件路径
-        if(!"/".equals(ftpPath.charAt(ftpPath.length()-1))) {
+        if('/'==(ftpPath.charAt(ftpPath.length()-1))) {
+        } else {
         	ftpPath+="/";
         }
-        String path = ftpPath.replace("/", "\\");
+//        String path = ftpPath.replace("/", "\\\\");
+        String path = ftpPath;
 		//获取数据
 		PlatformOperateReportParams condition = new PlatformOperateReportParams();
 		condition.setSettMonth(time);

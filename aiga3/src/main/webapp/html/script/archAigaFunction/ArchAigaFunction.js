@@ -72,7 +72,9 @@ define(function(require, exports, module) {
 					//判空校验
 					var _spanA = _monthReportNowData.find("[name='span']").length;
 					if(_spanA == 0){
-						_monthReportNowData.css ('display','none');
+						var templateC = Handlebars.compile(Page.findTpl('baseDataChangeTempC'));
+						_monthReportNowData.html(templateC(json.data.sysMonthApplyReport));
+						_monthReportNowData.find("[name='timeShow']").text(_applyTime);
 					}else{
 						_monthReportNowData.css ('display','block');
 					}

@@ -69,10 +69,7 @@ public class ExcelExportController {
 		List<PCsfReportBymonth> findData = archSrvManageSv.MSPCSFReport(condition);
         HSSFWorkbook wb = mspcsfMonRepot(findData);  
         response.setContentType("application/vnd.ms-excel");  
-        Date nowtime = new Date();
-        DateFormat format=new SimpleDateFormat("yyyyMM");
-        String time=format.format(nowtime);
-        response.setHeader("Content-disposition", "attachment;filename="+new String("MSP_CSF服务运营指标分析月报--中心系统_".getBytes(),"iso-8859-1")+time+".xls");  
+        response.setHeader("Content-disposition", "attachment;filename="+new String("MSP_CSF服务运营指标分析月报--中心系统_".getBytes(),"iso-8859-1")+request.getParameter("settMonth")+".xls");  
         OutputStream ouputStream = response.getOutputStream();  
         wb.write(ouputStream);  
         ouputStream.flush();  
@@ -86,10 +83,7 @@ public class ExcelExportController {
 		List<PTopCsfReportBymonth> findData = archSrvManageSv.MSPCSFTopReport(condition);
         HSSFWorkbook wb = mspcsfTopMonRepot(findData);  
         response.setContentType("application/vnd.ms-excel");  
-        Date nowtime = new Date();
-        DateFormat format=new SimpleDateFormat("yyyyMM");
-        String time=format.format(nowtime);
-        response.setHeader("Content-disposition", "attachment;filename="+new String("MSP CSF服务运营指标分析月报--TOP10+N服务_".getBytes(),"iso-8859-1")+time+".xls");  
+        response.setHeader("Content-disposition", "attachment;filename="+new String("MSP CSF服务运营指标分析月报--TOP10+N服务_".getBytes(),"iso-8859-1")+request.getParameter("settMonth")+".xls");  
         OutputStream ouputStream = response.getOutputStream();  
         wb.write(ouputStream);  
         ouputStream.flush();  

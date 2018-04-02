@@ -98,11 +98,15 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         			ArchCsfErrcodeReportTable in = listPreDay.get(j);
         			if(in.getCenterName()!=null && in.getCenterName()!=""){
         				if(in.getCenterName().equals(center)){
+        					out.setErrcodeCoverRate(out.getErrcodeCoverRate()==null?"0":out.getErrcodeCoverRate());
         					double errcodeCoverRate = Double.parseDouble(out.getErrcodeCoverRate());
+        					in.setErrcodeCoverRate(in.getErrcodeCoverRate()==null?"0":in.getErrcodeCoverRate());
         					double preErrcodeCoverRate = Double.parseDouble(in.getErrcodeCoverRate());
         					errcodeCoverRatePctg = String.valueOf(df.format(errcodeCoverRate - preErrcodeCoverRate));
         					out.setErrcodeCoverRatePctg(errcodeCoverRatePctg);
+        					out.setErrcodeSpecRate(out.getErrcodeSpecRate()==null?"0":out.getErrcodeSpecRate());
         					double errcodeSpecRate = Double.parseDouble(out.getErrcodeSpecRate());
+        					in.setErrcodeSpecRate(in.getErrcodeSpecRate()==null?"0":in.getErrcodeSpecRate());
         					double preErrcodeSpecRate = Double.parseDouble(in.getErrcodeSpecRate());
         					errcodeSpecRatePctg = String.valueOf(df.format(errcodeSpecRate - preErrcodeSpecRate));
         					out.setErrcodeSpecRatePctg(errcodeSpecRatePctg);

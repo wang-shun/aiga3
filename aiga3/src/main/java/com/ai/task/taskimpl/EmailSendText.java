@@ -93,8 +93,6 @@ public class EmailSendText implements TaskInterFace {
 			//添加邮件附件
 			List<File> files = new ArrayList<File>();
 			files.add(cenFile); 
-			files.add(topFile); 
-			files.add(topFile);
 			String headNull = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 			String mailHead = mailTime+"中心化系统CSF运行数据统计报表（来自架构治理平台定时任务自动推送）";
 			String mailContent = "<p>各位好：</p>"

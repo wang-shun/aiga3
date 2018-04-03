@@ -87,7 +87,6 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         List<ArchCsfErrcodeReportTable>listPreDay = getData(predaycdt);
         //封装数据
         List<ArchCsfErrcodeReportTable>output = new ArrayList<ArchCsfErrcodeReportTable>();
-        java.text.DecimalFormat df =new java.text.DecimalFormat("#.00"); 
         for(int i=0;i<listDay.size();i++){
         	ArchCsfErrcodeReportTable out = listDay.get(i);
         	String errcodeCoverRatePctg ="";
@@ -98,17 +97,19 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         			ArchCsfErrcodeReportTable in = listPreDay.get(j);
         			if(in.getCenterName()!=null && in.getCenterName()!=""){
         				if(in.getCenterName().equals(center)){
-        					out.setErrcodeCoverRate(out.getErrcodeCoverRate()==null?"0":out.getErrcodeCoverRate());
+        					out.setErrcodeCoverRate(out.getErrcodeCoverRate()==null?"0.00":out.getErrcodeCoverRate());
         					double errcodeCoverRate = Double.parseDouble(out.getErrcodeCoverRate());
-        					in.setErrcodeCoverRate(in.getErrcodeCoverRate()==null?"0":in.getErrcodeCoverRate());
+        					in.setErrcodeCoverRate(in.getErrcodeCoverRate()==null?"0.00":in.getErrcodeCoverRate());
         					double preErrcodeCoverRate = Double.parseDouble(in.getErrcodeCoverRate());
-        					errcodeCoverRatePctg = String.valueOf(df.format(errcodeCoverRate - preErrcodeCoverRate));
+        					double errcodeCoverRatePctgtemp = Math.round((errcodeCoverRate - preErrcodeCoverRate)*100)/100;
+        					errcodeCoverRatePctg = String.valueOf(errcodeCoverRatePctgtemp==0?"0.00":errcodeCoverRatePctgtemp);
         					out.setErrcodeCoverRatePctg(errcodeCoverRatePctg);
-        					out.setErrcodeSpecRate(out.getErrcodeSpecRate()==null?"0":out.getErrcodeSpecRate());
+        					out.setErrcodeSpecRate(out.getErrcodeSpecRate()==null?"0.00":out.getErrcodeSpecRate());
         					double errcodeSpecRate = Double.parseDouble(out.getErrcodeSpecRate());
-        					in.setErrcodeSpecRate(in.getErrcodeSpecRate()==null?"0":in.getErrcodeSpecRate());
+        					in.setErrcodeSpecRate(in.getErrcodeSpecRate()==null?"0.00":in.getErrcodeSpecRate());
         					double preErrcodeSpecRate = Double.parseDouble(in.getErrcodeSpecRate());
-        					errcodeSpecRatePctg = String.valueOf(df.format(errcodeSpecRate - preErrcodeSpecRate));
+        					double errcodeSpecRatePctgtemp = Math.round((errcodeSpecRate - preErrcodeSpecRate)*100)/100;
+        					errcodeSpecRatePctg = String.valueOf(errcodeSpecRatePctgtemp==0?"0.00":errcodeSpecRatePctgtemp);
         					out.setErrcodeSpecRatePctg(errcodeSpecRatePctg);
         				}
         			}

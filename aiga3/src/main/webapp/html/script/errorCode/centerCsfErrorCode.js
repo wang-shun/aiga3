@@ -107,8 +107,8 @@ define(function(require, exports, module) {
 					totalStandard += parseInt(json.data[index].errcodeSpecRate);
 				}
 				result.total=all;
-				result.percentage=totalPercentage/tmp;
-				result.standard=totalStandard/tmp;
+				result.percentage=Math.round((totalPercentage/tmp)*100)/100;
+				result.standard=Math.round((totalStandard/tmp)*100)/100;
     			_text.html(templateText(result));
     			//打印查询月份
 				var _form = Page.findId('queryDataForm');
@@ -248,6 +248,13 @@ define(function(require, exports, module) {
 			});
 			Handlebars.registerHelper("pesentAdd",function(value) {
 				return value+"%";
+			});
+			Handlebars.registerHelper("isZero",function(value) {
+				if(value==null || value==0.00) {
+					return '0.00';
+				} else {
+					return value;
+				}
 			});
 			Handlebars.registerHelper("changeRed",function(value) {
 				if((parseInt(value))<60) {

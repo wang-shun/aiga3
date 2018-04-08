@@ -31,13 +31,17 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.PlatformOperateReportPara
 import com.ai.task.TaskInterFace;
 
 @Component
-public class EmailSendText implements TaskInterFace {
+public class EmailSendTest implements TaskInterFace {
 	@Autowired
 	private MailCmpt cmpt;
 	@Autowired
 	private ArchSrvManageSv archSrvManageSv;
 	@Value("${app.ftp.path}")
 	private String ftpPath;
+	
+	public void mailgot(ArchTaskPlan param) {
+		System.out.println("定时任务执行");
+	}
 	@Override
 	public void taskDo(ArchTaskPlan param) {
 		System.out.println("定时发送邮件-start");

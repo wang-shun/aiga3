@@ -30,7 +30,6 @@ public class TaskReset implements TaskInterFace {
 	
 	@Override
 	public void taskDo(ArchTaskPlan param) {
-		// TODO Auto-generated method stub
 		//定时扫任务表，刷新任务
 		taskUpdata();
 	}

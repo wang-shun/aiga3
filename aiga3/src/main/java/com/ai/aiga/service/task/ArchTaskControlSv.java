@@ -19,7 +19,7 @@ public class ArchTaskControlSv {
 	//任务校验
 	public Boolean check(String taskIns,String nextFireTime) {
 		List<ArchTaskControl> insTaskList = archTaskControlDao.findByTaskInsAndNextFireTime(taskIns, nextFireTime);
-		if(insTaskList!=null || insTaskList.size()>0) {
+		if(insTaskList!=null && insTaskList.size()>0) {
 			return false;
 		} else {
 			return true;

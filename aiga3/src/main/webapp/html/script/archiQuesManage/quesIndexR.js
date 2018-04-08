@@ -242,6 +242,7 @@ define(function(require, exports, module) {
 				Data.pieSecondLastIsOne = null;
 				Data.pie1002 = null;
 				Data.isOne = null;
+				Data.isTotal = null;
 				console.log(command);
 				if(command){
 					for(var i in command){
@@ -330,6 +331,7 @@ define(function(require, exports, module) {
 			                Page.findId('getDataMaintainListTop').attr({style:"display:display;"});      
 							if(secondLastClassNodes.length==1){
 								Data.isOne = true;
+								Data.isTotal = true;
 								Data.pieSecondLastIsOne = true;
 								Data.whetherShowTopList = true;
 								var childrencommand = lastNode.children;
@@ -414,7 +416,6 @@ define(function(require, exports, module) {
 					return
 				}
 				self.getDataMaintainList(_cmd);
-//				debugger
 				if(Data.whetherShowTopList){
 					self.getDatabaseConnectTopList();
 				}
@@ -428,6 +429,22 @@ define(function(require, exports, module) {
 							task2 = "listDbConnects2";
 						}else if(Data.flag==false && Data.isOne==true){
 							task2 = "listTotalDbConnects";
+							if(Data.isTotal==true){
+								task2 = "listDbConnects2";
+								var tmp = parseInt(_ggcmd.substring(50,54));
+								var newtmp = null;
+								if(tmp==1030){
+									newtmp = 1001001;
+								}else if(tmp==1031){
+									newtmp = 1001002;
+								}else if(tmp==1032){
+									newtmp = 1001003;
+								}else if(tmp==1033){
+									newtmp = 1001004;
+								}
+								_ggcmd = _ggcmd.substring(0,50);
+								_ggcmd += newtmp;
+							}
 						}else if(Data.flag==false && Data.isOne==false){
 							task2 = "listTotalDbConnectsOrderByGroupId";
 							_ggcmd = _groupcmd;

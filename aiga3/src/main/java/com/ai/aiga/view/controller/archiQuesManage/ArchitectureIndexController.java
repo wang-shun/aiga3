@@ -775,7 +775,8 @@ public class ArchitectureIndexController extends BaseService {
 				}
 			}else{
 				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){
-					continue;
+					baseConnect.setKey2("OTHER");
+					baseConnect.setKey3("TATAL");
 				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
@@ -794,7 +795,8 @@ public class ArchitectureIndexController extends BaseService {
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
                         if(archDbConnect.getKey2()==null||archDbConnect.getKey3()==null){
-                            continue;
+                        	archDbConnect.setKey2("OTHER");
+                        	archDbConnect.setKey3("TATAL");
                         }
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
@@ -905,7 +907,8 @@ public class ArchitectureIndexController extends BaseService {
 				}
 			}else{
 				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){
-					continue;
+					baseConnect.setKey2("OTHER");
+					baseConnect.setKey3("TATAL");
 				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries baseSeries = new ViewSeries();
@@ -924,8 +927,8 @@ public class ArchitectureIndexController extends BaseService {
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
 						if(archDbConnect.getKey2()==null||archDbConnect.getKey3()==null){
-							System.out.println(archDbConnect.getIndexId()+"ppppppppppppppppppppppp");
-							continue;
+							archDbConnect.setKey2("OTHER");
+							archDbConnect.setKey3("TATAL");
 						}
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
@@ -1249,7 +1252,8 @@ public class ArchitectureIndexController extends BaseService {
 //				}
 			}else{
 				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){
-					continue;
+					baseConnect.setKey2("OTHER");
+					baseConnect.setKey3("TOTAL");
 				}
 				if(!newList.contains(baseConnect.getKey2().trim()+"("+baseConnect.getKey3().trim()+")")){
 					ViewSeries2 baseSeries = new ViewSeries2();
@@ -1268,7 +1272,8 @@ public class ArchitectureIndexController extends BaseService {
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
 						if(archDbConnect.getKey2()==null || archDbConnect.getKey3()==null){
-							continue;
+							archDbConnect.setKey2("OTHER");
+							archDbConnect.setKey3("TOTAL");
 						}
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {
 							String SetMonths = archDbConnect.getSettMonth().trim();
@@ -1846,7 +1851,7 @@ public class ArchitectureIndexController extends BaseService {
 					while(iterator.hasNext()){
 						ArchDbConnect archDbConnect = iterator.next();
 						if(archDbConnect.getKey2()==null||archDbConnect.getKey3()==null){
-							System.out.println(archDbConnect.getIndexId()+"ppppppppppppppppppppppp");
+//							System.out.println(archDbConnect.getIndexId()+"ppppppppppppppppppppppp");
 							continue;
 						}
 						if((archDbConnect.getKey2().trim()+"("+archDbConnect.getKey3().trim()+")").equals(name)) {

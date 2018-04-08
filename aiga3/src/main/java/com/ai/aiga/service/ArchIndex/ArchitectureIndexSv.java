@@ -324,7 +324,7 @@ public class ArchitectureIndexSv extends BaseService {
 			nativeSql.append("and ar.key_3 = :key3 ");
 			params.add(new ParameterCondition("key3", condition.getKey3()));
 		}
-		nativeSql.append(" and ar.key_2 is not null and ar.key_3 is not null ");
+//		nativeSql.append(" and ar.key_2 is not null and ar.key_3 is not null ");
 		nativeSql.append(" group by ar.index_id,ar.sett_month,ar.key_1,ar.key_2,ar.key_3 ");
 		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnect.class);
 	}

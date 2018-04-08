@@ -38,10 +38,7 @@ public class EmailSendTest implements TaskInterFace {
 	private ArchSrvManageSv archSrvManageSv;
 	@Value("${app.ftp.path}")
 	private String ftpPath;
-	
-	public void mailgot(ArchTaskPlan param) {
-		System.out.println("定时任务执行");
-	}
+
 	@Override
 	public void taskDo(ArchTaskPlan param) {
 		System.out.println("定时发送邮件-start");

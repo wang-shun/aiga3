@@ -41,6 +41,9 @@ public class EmailSendTest implements TaskInterFace {
 
 	@Override
 	public void taskDo(ArchTaskPlan param) {
+		System.out.println("ceshi1");
+	}
+	public void asdasdas(ArchTaskPlan param) {
 		System.out.println("定时发送邮件-start");
 		
 		if(param.getParam1()==null || "".equals(param.getParam1().trim())) {

@@ -48,11 +48,14 @@ public class QuartzJob implements Job {
     	try {
         	ArchTaskControlSv archTaskControlSv = ApplicationContextUtil.getBean(ArchTaskControlSv.class);
         	String className = arg0.getMergedJobDataMap().get("jobClass").toString().trim();
-        	if("com.ai.task.taskimpl.common.TaskReset".equals(className) || archTaskControlSv.check(arg0.getFireInstanceId(),String.valueOf(arg0.getNextFireTime()))) {
+        	String taskName = arg0.getJobDetail().getKey().getName();
+        	if("com.ai.task.taskimpl.common.TaskReset".equals(className)) {
+        		return true;
+        	} else if(archTaskControlSv.check(taskName,String.valueOf(arg0.getNextFireTime()))) {
         		//任务未执行
         		ArchTaskControl insTask = new ArchTaskControl();
         		insTask.setFireTime(String.valueOf(arg0.getFireTime()));
-        		insTask.setTaskIns(arg0.getJobDetail().getKey().getName());
+        		insTask.setTaskIns(taskName);
         		insTask.setNextFireTime(String.valueOf(arg0.getNextFireTime()));
         		insTask.setClassPath(className);
         		insTask.setState('U');

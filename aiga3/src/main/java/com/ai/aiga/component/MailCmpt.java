@@ -2,6 +2,7 @@ package com.ai.aiga.component;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -62,9 +63,9 @@ public class MailCmpt {
 			}
 			
 			helper.setFrom(fromEmail);
-			helper.setTo(toAddress.split(","));
+			helper.setTo(deleteTest(toAddress).split(","));
 			if(StringUtils.isNotBlank(ccList)){
-				helper.setCc(ccList.split(","));
+				helper.setCc(deleteTest(ccList).split(","));
 			}
 			helper.setSubject(subject);
 			helper.setText(content, true);
@@ -102,9 +103,9 @@ public class MailCmpt {
 			}
 			
 			helper.setFrom(fromEmail);
-			helper.setTo(toAddress.split(","));
+			helper.setTo(deleteTest(toAddress).split(","));
 			if(StringUtils.isNotBlank(ccList)){
-				helper.setCc(ccList.split(","));
+				helper.setCc(deleteTest(ccList).split(","));
 			}
 			helper.setSubject(subject);
 			helper.setText(content, true);
@@ -122,4 +123,15 @@ public class MailCmpt {
 			log.error("发邮件失败!", e);
 		}
 	}
+	
+	public String deleteTest (String a) {
+		String[] b = a.split(",");
+		List<String> c = new ArrayList<String>();
+		for(String d :b) {
+			if(!"123@xxx.com".equals(d)) {
+				c.add(d);
+			}
+		}
+		return StringUtils.join(c.toArray(), ",");
+	} 
 }

@@ -217,7 +217,7 @@ define(function(require,exports,module){
                     var _json = errCodeList[i];
                     dataLength++;
                     _html += '<li style="margin-top: 0px;"><a title="' + _json.centerName +'" class="errcode-center">'
-                    + _json.centerName +'</a>错误码配置覆盖率为<span class="errcode-percentage">' + _json.errcodeCoverRate + '</span>%;规范率为<span class="errcode-standard">' + _json.errcodeSpecRate + '</span>%;</li>';
+                    + _json.centerName +'</a>配置覆盖率为<span class="errcode-percentage">' + _json.errcodeCoverRate + '</span>%;规范率为<span class="errcode-standard">' + _json.errcodeSpecRate + '</span>%;</li>';
                 }
                 docthis.html(_html);
                 self._wordRoll();

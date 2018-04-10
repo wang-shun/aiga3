@@ -103,7 +103,7 @@ public class FunctionRecordController {
 	}
 	@RequestMapping(path = "/webservice/menuCheck/grant")
 	@ApiOperation(value = "菜单权限校验", notes = "菜单权限校验", httpMethod="GET")
-	public @ResponseBody JsonBean grant(String menuCode){
+	public @ResponseBody JsonBean grant(String menuName){
 		JsonBean bean = new JsonBean();
 		try {
 			AigaStaff staffInfo = SessionMgrUtil.getStaff();
@@ -111,7 +111,7 @@ public class FunctionRecordController {
 				bean.fail("获取用户信息失败");
 				return bean;
 			}
-			bean.setData(archFunctionRecordSv.menuGrant(staffInfo,menuCode));
+			bean.setData(archFunctionRecordSv.menuGrant(staffInfo,menuName));
 		} catch (Exception e) {
 			bean.fail(e.getMessage());
 		}

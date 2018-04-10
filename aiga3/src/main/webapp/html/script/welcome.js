@@ -396,7 +396,7 @@ define(function(require,exports,module){
         //菜单open方法，便于权限校验
         _newpage_open: function(obj){           	
             //权限校验
-		    Rose.ajax.getJson(srvMap.get('menuFuncCheck'), 'menuCode='+obj.id, function(json, status) {
+		    Rose.ajax.getJson(srvMap.get('menuFuncCheck'), 'menuName='+obj.href, function(json, status) {
 		        if (status) {
 		        	if(obj.name == '工作台' || json.data) {
 						var objData = {

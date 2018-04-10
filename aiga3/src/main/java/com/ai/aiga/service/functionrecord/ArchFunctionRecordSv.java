@@ -37,8 +37,8 @@ public class ArchFunctionRecordSv extends BaseService {
 	private AigaRoleFuncDao aigaRoleFuncDao;
 
 	//查询用户是否有菜单权限
-	public boolean menuGrant(AigaStaff user,String menuCode) {
-		String sql = "SELECT b.* FROM AIGA_AUTHOR a ,aiga_role_func b where a.staff_id = "+user.getStaffId()+" and a.role_id = b.role_id and b.func_id = "+menuCode;
+	public boolean menuGrant(AigaStaff user,String menuName) {
+		String sql = "SELECT b.* FROM AIGA_AUTHOR a ,aiga_role_func b , aiga_function c where a.staff_id = "+user.getStaffId()+" and a.role_id = b.role_id and b.func_id = c.func_id and c.viewname = '"+menuName+"'";
 		List<AigaRoleFunc> aresult = aigaRoleFuncDao.searchByNativeSQL(sql,AigaRoleFunc.class);
 		if(aresult.size()>0) {
 			return true;

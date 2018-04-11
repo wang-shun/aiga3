@@ -35,7 +35,7 @@
 				                </div>
 								<!-- 主内容 -->
 								<div class="row" id="Page_RoleFunc">
-									<div style="max-height:570px; overflow-y:scroll; border:0px solid;">
+									<div style="max-height:650px; overflow-y:scroll; border:0px solid;">
 									    <div class="col-md-6">
 									        <div class="box">
 									            <div class="box-header with-border">
@@ -94,7 +94,7 @@
 				                </div>
 								<!-- 主内容 -->
 								<div class="row" id="Page_RoleFunc2">
-									<div style="min-height: 260px;max-height:570px; overflow-y:scroll; border:0px solid;">
+									<div style="min-height: 260px;max-height:650px; overflow-y:scroll; border:0px solid;">
 									    <div class="col-md-6">
 									        <div class="box">
 									            <div class="box-header with-border">
@@ -159,19 +159,54 @@
             <div class="box-footer no-border">
         		<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
     		</div> 
-        </div> 					       
-    	<div class="box" id="JS_sysMessageView" name="initEcharts" style="display:none">
-	        <div class="box-header" ></div>
-	        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px;"></div>
-       		<!-- 视图 -->
-			<div class="ibox">
-		            <!--初始化echarts实例的容器-->
-		        <div id="eBaiduMap" class="ibox-size" style="width: 100%;"></div>
-		            <!--用于存放上下翻页按钮.js-eclegend-tool容器，页面中的修改只需增加下面这一句-->
-		        <div class="js-eclegend-tool" id="initLegengds" style="position: absolute;right: 10px;top: 40%;z-index:100">
-		        </div>
-		    </div>
-   		</div>	
+        </div> 
+        
+        <div class="nav-tabs-custom" id="JS_sysMessageViewLabel" style="display:none">	
+        	<ul class="nav nav-tabs">
+       			<li class="active"><a href="#averageIndex" data-toggle="tab" aria-expanded="false">指标平均值</a></li>
+        		<li class=""><a href="#maxIndex" data-toggle="tab" aria-expanded="false">波峰值</a></li>
+        		<li class=""><a href="#minIndex" data-toggle="tab" aria-expanded="false">波谷值</a></li>
+        		<li class=""><a href="#detailIndex" data-toggle="tab" aria-expanded="false">当日具体值</a></li>
+   	 		</ul>		
+   	 		<div class="tab-content">
+    			<!-- tab页签1 -->
+			    <div class="tab-pane active" id="averageIndex">		       
+		    	<div class="box" id="JS_sysMessageView" name="initEcharts" style="display:none">
+			        <div class="box-header" ></div>
+			        <div class="box-body" id="JS_archiIndexView" style="width: 100%; height:350px;"></div>
+		       		<!-- 视图 -->
+					<div class="ibox">
+				            <!--初始化echarts实例的容器-->
+				        <div id="eBaiduMap" class="ibox-size" style="width: 100%;"></div>
+				            <!--用于存放上下翻页按钮.js-eclegend-tool容器，页面中的修改只需增加下面这一句-->
+				        <div class="js-eclegend-tool" id="initLegengds" style="position: absolute;right: 10px;top: 40%;z-index:100">
+				        </div>
+				    </div>
+		   		</div>
+		   		</div>
+		       <!-- tab页签2 -------------------------------------------------------------->
+		       <div class="tab-pane" id="maxIndex">
+		       <div class="box" id="JS_sysMessageViewMax" name="initEcharts" style="display:none">
+			        <div class="box-header" ></div>
+			        <div class="box-body" id="JS_archiIndexViewMax" style="width: 100%; height:350px;"></div>
+		   		</div>
+		       </div>
+		       <!-- tab页签3 -------------------------------------------------------------->
+		       <div class="tab-pane" id="minIndex">
+		       <div class="box" id="JS_sysMessageViewMin" name="initEcharts" style="display:none">
+			        <div class="box-header" ></div>
+			        <div class="box-body" id="JS_archiIndexViewMin" style="width: 100%; height:350px;"></div>
+		   		</div>
+		       </div>
+		       <!-- tab页签4 -------------------------------------------------------------->
+		       <div class="tab-pane" id="detailIndex">
+		       <div class="box" id="JS_sysMessageViewDetail" name="initEcharts" style="display:none">
+			        <div class="box-header" ></div>
+			        <div class="box-body" id="JS_archiIndexViewDetail" style="width: 100%; height:350px;"></div>
+		   		</div>
+		       </div>
+		   	</div>
+	   	</div>	
    			
    		<div class="box" id="JS_totalMessageView" name="initEcharts" style="display:none">
 	        <div class="box-header" ></div>

@@ -22,6 +22,12 @@ define(function(require, exports, module) {
     srvMap.add("listDbConnects22", "", "arch/index/listDbConnects22");
     //指标分表---echarts
     srvMap.add("listDbConnects2", "", "arch/index/listDbConnects2");
+    //指标分表---echarts
+    srvMap.add("listDbConnects2Max", "", "arch/index/listDbConnects2Max");
+    //指标分表---echarts
+    srvMap.add("listDbConnects2Min", "", "arch/index/listDbConnects2Min");
+    //指标分表---echarts
+    srvMap.add("listDbConnects2Detail", "", "arch/index/listDbConnects2Detail");
     //指标分表---table
     srvMap.add("listSrvManages", "", "arch/index/listSrvManages");
     //指标分表---echarts
@@ -42,8 +48,20 @@ define(function(require, exports, module) {
     srvMap.add("findAllAmCoresByMonth", "", "index/tree/findAllIndexByMonth");
     //八大军规指标树 总数柱状图db_connect
     srvMap.add("listTotalDbConnects", "", "arch/index/listTotalDbConnects");
+    //八大军规指标树 总数柱状图db_connect
+    srvMap.add("listTotalDbConnectsMax", "", "arch/index/listTotalDbConnectsMax");
+    //八大军规指标树 总数柱状图db_connect
+    srvMap.add("listTotalDbConnectsMin", "", "arch/index/listTotalDbConnectsMin");
+    //八大军规指标树 总数柱状图db_connect
+    srvMap.add("listTotalDbConnectsDetail", "", "arch/index/listTotalDbConnectsDetail");
     //多个
     srvMap.add("listTotalDbConnectsOrderByGroupId", "", "arch/index/listTotalDbConnectsOrderByGroupId");
+    //多个
+    srvMap.add("listTotalDbConnectsOrderByGroupIdMax", "", "arch/index/listTotalDbConnectsOrderByGroupIdMax");
+    //多个
+    srvMap.add("listTotalDbConnectsOrderByGroupIdMin", "", "arch/index/listTotalDbConnectsOrderByGroupIdMin");
+    //多个
+    srvMap.add("listTotalDbConnectsOrderByGroupIdDetail", "", "arch/index/listTotalDbConnectsOrderByGroupIdDetail");
     //八大军规指标树 总数柱状图srv_manage
     srvMap.add("listTotalSrvManages", "", "arch/index/listTotalSrvManages");
     //八大军规指标树 总数饼状图 db_connect
@@ -205,6 +223,10 @@ define(function(require, exports, module) {
 //                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 //                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
+				Page.findId('sysMessageViewMax').attr({style:"display:display"});  
+				Page.findId('sysMessageViewMin').attr({style:"display:display"});  
+				Page.findId('sysMessageViewDetail').attr({style:"display:display"});  
+				Page.findId('sysMessageViewLabel').attr({style:"display:display"});  
 				Page.findId('totalMessageView').attr({style:"display:display"});  
 				var _cmd = _form.serialize();	
 				var _groupcmd = {
@@ -424,13 +446,24 @@ define(function(require, exports, module) {
 				if(cache.tableName){
 					var task2 = "";
 					var taskPie = "";
+					var mmd = false;
 					if(cache.tableName=="ARCH_DB_CONNECT"){
+						mmd = true;
 						if(Data.flag==true){
 							task2 = "listDbConnects2";
+							task2Max = "listDbConnects2Max";
+							task2Min = "listDbConnects2Min";
+							task2Detail = "listDbConnects2Detail";
 						}else if(Data.flag==false && Data.isOne==true){
 							task2 = "listTotalDbConnects";
+							task2Max = "listTotalDbConnectsMax";
+							task2Min = "listTotalDbConnectsMin";
+							task2Detail = "listTotalDbConnectsDetail";
 							if(Data.isTotal==true){
 								task2 = "listDbConnects2";
+								task2Max = "listDbConnects2Max";
+								task2Min = "listDbConnects2Min";
+								task2Detail = "listDbConnects2Detail";
 								var tmp = parseInt(_ggcmd.substring(50,54));
 								var newtmp = null;
 								if(tmp==1030){
@@ -447,6 +480,9 @@ define(function(require, exports, module) {
 							}
 						}else if(Data.flag==false && Data.isOne==false){
 							task2 = "listTotalDbConnectsOrderByGroupId";
+							task2Max = "listTotalDbConnectsOrderByGroupIdMax";
+							task2Min = "listTotalDbConnectsOrderByGroupIdMin";
+							task2Detail = "listTotalDbConnectsOrderByGroupIdDetail";
 							_ggcmd = _groupcmd;
 						}
 						if(Data.flag==true){
@@ -492,6 +528,50 @@ define(function(require, exports, module) {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
+	  			if(mmd){
+					Rose.ajax.postJson(srvMap.get(task2Max), _ggcmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.hide();
+							if(Data.totalIndexNameList.length>0){
+								json.data.legend = Data.totalIndexNameList;
+								for(var index in json.data.series){
+									json.data.series[index].name=Data.totalIndexNameList[index];
+								}
+							}
+							self._graphSecMax(json);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}
+		  			});
+					Rose.ajax.postJson(srvMap.get(task2Min), _ggcmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.hide();
+							if(Data.totalIndexNameList.length>0){
+								json.data.legend = Data.totalIndexNameList;
+								for(var index in json.data.series){
+									json.data.series[index].name=Data.totalIndexNameList[index];
+								}
+							}
+							self._graphSecMin(json);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}
+		  			});
+					Rose.ajax.postJson(srvMap.get(task2Detail), _ggcmd, function(json, status) {
+						if(status) {
+							window.XMS.msgbox.hide();
+							if(Data.totalIndexNameList.length>0){
+								json.data.legend = Data.totalIndexNameList;
+								for(var index in json.data.series){
+									json.data.series[index].name=Data.totalIndexNameList[index];
+								}
+							}
+							self._graphSecDetail(json);
+						} else {
+							XMS.msgbox.show(json.retMessage, 'error', 2000);
+						}
+		  			});
+	  			};
 				Rose.ajax.postJson(srvMap.get(taskPie), _cmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
@@ -849,6 +929,504 @@ define(function(require, exports, module) {
 
 				window.onresize = myChart.resize;
 				Page.findId('archiIndexView').resize(function(){
+	                myChart.resize();             
+	            });
+
+  			});			
+		},
+		_graphSecMax: function(json) {
+			var myChart = echarts.init(Page.findId('archiIndexViewMax')[0]);
+            myChart.showLoading({
+                text: '读取数据中...' //loading，是在读取数据的时候显示
+            });
+                
+			var option = {
+				title : {
+			        text: '指标情况',
+			        subtext: '数据采集截止时间：XX月XX日XX:XX'
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			    	y:'bottom',
+                    type: 'scroll',
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
+			    },
+			    toolbox: {
+			        show : true,
+			        x:120,
+        			y:0,
+			        feature : {
+	                    restore: { //重置
+	                        show: true
+	                    },
+	                    dataZoom: { //数据缩放视图
+	                        show: true
+	                    },
+	                    saveAsImage: {//保存图片
+	                        show: true
+	                    },
+	                    magicType: {//动态类型切换
+	                        type: ['bar', 'line']
+	                    },
+				        dataView: { //数据视图
+	                        show: true
+	                    },
+	                    myButtons:{//自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+		                   show:true,//是否显示    
+		                   title:'切换图例位置', //鼠标移动上去显示的文字    
+		                   icon:'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891', //图标    
+		                   option:{},
+		                   onclick:function(param) {//点击事件,这里的param是chart的信息 底下有option   	
+	                   			if(option.legend.orient) {
+		                   			delete option.legend.orient;
+		                   			delete option.legend.right;
+		                   			delete option.legend.top;
+		                   			option.legend.y='bottom';
+		                   		} else {
+		                   			option.legend.orient = 'vertical';
+		                   			option.legend.right = 20;
+		                   			option.legend.top = 40;
+		                   		}
+		                   		myChart.clear();
+		                   		myChart.setOption(option);
+		                   }    
+		                }
+			        }
+			    },
+				calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            boundaryGap: false,
+			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'营业库A',
+			            type:'line',
+			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库B',
+			            type:'line',
+			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库C',
+			            type:'line',
+			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库D',
+			            type:'line',
+			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'渠道资源库',
+			            type:'line',
+			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        }
+			    ]
+			};
+			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+				if(json && json.data) {
+					option.legend.data = json.data.legend;
+					option.series = json.data.series;
+					if(json.data.xAxis) {
+						var onlinePonint = new Array(100);
+						for(var indexXAxis in json.data.xAxis){
+							for(var indexOnline in onlinejson.data){
+								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
+									json.data.xAxis[indexXAxis] += "上线";
+									onlinePonint.push(indexXAxis);
+								}
+							}
+						}
+						option.xAxis[0].data = json.data.xAxis;
+					}
+					for(var indexSeries in option.series) {
+						var markData = [];
+						for(var indexPoint in onlinePonint){
+							var pzs = parseInt(onlinePonint[indexPoint]);
+                			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
+	                		markData.push(plan);
+						}
+			            option.series[indexSeries].markPoint = {
+			                data : markData
+			            };
+					}
+					option.title.subtext=cache.deadline;
+					cache.deadline='';
+				}
+				//加载前数据刷新
+				myChart.clear();
+				myChart.setOption(option);	
+				myChart.hideLoading();//隐藏loading
+
+				window.onresize = myChart.resize;
+				Page.findId('archiIndexViewMax').resize(function(){
+	                myChart.resize();             
+	            });
+
+  			});			
+		},
+		_graphSecMin: function(json) {
+			var myChart = echarts.init(Page.findId('archiIndexViewMin')[0]);
+            myChart.showLoading({
+                text: '读取数据中...' //loading，是在读取数据的时候显示
+            });
+                
+			var option = {
+				title : {
+			        text: '指标情况',
+			        subtext: '数据采集截止时间：XX月XX日XX:XX'
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			    	y:'bottom',
+                    type: 'scroll',
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
+/*                    type: 'scroll',
+                    orient: 'vertical',
+                    right: 10,
+                    top: 40,
+                    bottom: 20,
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']*/
+			    },
+			    toolbox: {
+			        show : true,
+			        x:120,
+        			y:0,
+			        feature : {
+	                    restore: { //重置
+	                        show: true
+	                    },
+	                    dataZoom: { //数据缩放视图
+	                        show: true
+	                    },
+	                    saveAsImage: {//保存图片
+	                        show: true
+	                    },
+	                    magicType: {//动态类型切换
+	                        type: ['bar', 'line']
+	                    },
+				        dataView: { //数据视图
+	                        show: true
+	                    },
+	                    myButtons:{//自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+		                   show:true,//是否显示    
+		                   title:'切换图例位置', //鼠标移动上去显示的文字    
+		                   icon:'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891', //图标    
+		                   option:{},
+		                   onclick:function(param) {//点击事件,这里的param是chart的信息 底下有option   	
+	                   			if(option.legend.orient) {
+		                   			delete option.legend.orient;
+		                   			delete option.legend.right;
+		                   			delete option.legend.top;
+		                   			option.legend.y='bottom';
+		                   		} else {
+		                   			option.legend.orient = 'vertical';
+		                   			option.legend.right = 20;
+		                   			option.legend.top = 40;
+		                   		}
+		                   		myChart.clear();
+		                   		myChart.setOption(option);
+		                   }    
+		                }
+			        }
+			    },
+				calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            boundaryGap: false,
+			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'营业库A',
+			            type:'line',
+			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库B',
+			            type:'line',
+			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库C',
+			            type:'line',
+			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库D',
+			            type:'line',
+			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'渠道资源库',
+			            type:'line',
+			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        }
+			    ]
+			};
+			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+				if(json && json.data) {
+					option.legend.data = json.data.legend;
+					option.series = json.data.series;
+					if(json.data.xAxis) {
+						var onlinePonint = new Array(100);
+						for(var indexXAxis in json.data.xAxis){
+							for(var indexOnline in onlinejson.data){
+								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
+									json.data.xAxis[indexXAxis] += "上线";
+									onlinePonint.push(indexXAxis);
+								}
+							}
+						}
+						option.xAxis[0].data = json.data.xAxis;
+					}
+					for(var indexSeries in option.series) {
+						var markData = [];
+						for(var indexPoint in onlinePonint){
+							var pzs = parseInt(onlinePonint[indexPoint]);
+                			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
+	                		markData.push(plan);
+						}
+			            option.series[indexSeries].markPoint = {
+			                data : markData
+			            };
+					}
+					option.title.subtext=cache.deadline;
+					cache.deadline='';
+				}
+				//加载前数据刷新
+				myChart.clear();
+				myChart.setOption(option);	
+				myChart.hideLoading();//隐藏loading
+
+				window.onresize = myChart.resize;
+				Page.findId('archiIndexViewMin').resize(function(){
+	                myChart.resize();             
+	            });
+
+  			});			
+		},
+		_graphSecDetail: function(json) {
+			var myChart = echarts.init(Page.findId('archiIndexViewDetail')[0]);
+            myChart.showLoading({
+                text: '读取数据中...' //loading，是在读取数据的时候显示
+            });
+                
+			var option = {
+				title : {
+			        text: '指标情况',
+			        subtext: '数据采集截止时间：XX月XX日XX:XX'
+			    },
+			    tooltip : {
+			        trigger: 'axis'
+			    },
+			    legend: {
+			    	y:'bottom',
+                    type: 'scroll',
+			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
+			    },
+			    toolbox: {
+			        show : true,
+			        x:120,
+        			y:0,
+			        feature : {
+	                    restore: { //重置
+	                        show: true
+	                    },
+	                    dataZoom: { //数据缩放视图
+	                        show: true
+	                    },
+	                    saveAsImage: {//保存图片
+	                        show: true
+	                    },
+	                    magicType: {//动态类型切换
+	                        type: ['bar', 'line']
+	                    },
+				        dataView: { //数据视图
+	                        show: true
+	                    },
+	                    myButtons:{//自定义按钮 danielinbiti,这里增加，selfbuttons可以随便取名字    
+		                   show:true,//是否显示    
+		                   title:'切换图例位置', //鼠标移动上去显示的文字    
+		                   icon:'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891', //图标    
+		                   option:{},
+		                   onclick:function(param) {//点击事件,这里的param是chart的信息 底下有option   	
+	                   			if(option.legend.orient) {
+		                   			delete option.legend.orient;
+		                   			delete option.legend.right;
+		                   			delete option.legend.top;
+		                   			option.legend.y='bottom';
+		                   		} else {
+		                   			option.legend.orient = 'vertical';
+		                   			option.legend.right = 20;
+		                   			option.legend.top = 40;
+		                   		}
+		                   		myChart.clear();
+		                   		myChart.setOption(option);
+		                   }    
+		                }
+			        }
+			    },
+				calculable : true,
+			    xAxis : [
+			        {
+			            type : 'category',
+			            boundaryGap: false,
+			            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name:'营业库A',
+			            type:'line',
+			            data:[0, 0, 0, 0, 16970, 14747, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库B',
+			            type:'line',
+			            data:[0, 0, 0, 0, 18045, 15594, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库C',
+			            type:'line',
+			            data:[0, 0, 0, 0, 17468, 15024, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'营业库D',
+			            type:'line',
+			            data:[0, 0, 0, 0, 17909, 15358, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        },
+			        {
+			            name:'渠道资源库',
+			            type:'line',
+			            data:[0, 0, 0, 0, 19932, 19793, 4012, 0, 0, 0, 0, 0],
+			            markLine : {
+                			data : [{type : 'average', name: '平均值'}]
+            			}
+			        }
+			    ]
+			};
+			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
+				if(status) {
+					window.XMS.msgbox.hide();
+				} else {
+					XMS.msgbox.show(json.retMessage, 'error', 2000);
+				}
+				if(json && json.data) {
+					option.legend.data = json.data.legend;
+					option.series = json.data.series;
+					if(json.data.xAxis) {
+						var onlinePonint = new Array(100);
+						for(var indexXAxis in json.data.xAxis){
+							for(var indexOnline in onlinejson.data){
+								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
+									json.data.xAxis[indexXAxis] += "上线";
+									onlinePonint.push(indexXAxis);
+								}
+							}
+						}
+						option.xAxis[0].data = json.data.xAxis;
+					}
+					for(var indexSeries in option.series) {
+						var markData = [];
+						for(var indexPoint in onlinePonint){
+							var pzs = parseInt(onlinePonint[indexPoint]);
+                			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
+	                		markData.push(plan);
+						}
+			            option.series[indexSeries].markPoint = {
+			                data : markData
+			            };
+					}
+					option.title.subtext=cache.deadline;
+					cache.deadline='';
+				}
+				//加载前数据刷新
+				myChart.clear();
+				myChart.setOption(option);	
+				myChart.hideLoading();//隐藏loading
+
+				window.onresize = myChart.resize;
+				Page.findId('archiIndexViewDetail').resize(function(){
 	                myChart.resize();             
 	            });
 

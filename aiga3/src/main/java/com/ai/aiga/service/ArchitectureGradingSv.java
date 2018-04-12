@@ -63,7 +63,7 @@ public class ArchitectureGradingSv extends BaseService {
 		if(StringUtils.isNotBlank(input.getEndTime())) {
 			sql += " and to_char(t.modify_date,'yyyy-mm') <= '"+input.getEndTime()+"'";
 		}
-		sql += " Group by t.id_belong, t.name ,t.sys_id, to_char(t.modify_date,'yyyy-mm')";
+		sql += " Group by t.id_belong, t.name ,t.sys_id, to_char(t.modify_date,'yyyy-mm'),t.description";
 		
 		return architectureGradingDao.searchByNativeSQL(sql);		
 	}

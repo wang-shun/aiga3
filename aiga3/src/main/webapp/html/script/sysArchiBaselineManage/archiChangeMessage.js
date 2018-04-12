@@ -174,6 +174,9 @@ define(function(require, exports, module) {
 			}
 			myChart.setOption(option);
 			window.onresize = myChart.resize;
+			Page.findId('archiView').resize(function(){
+				myChart.resize(); 			
+			});
 		}
 		
 	};

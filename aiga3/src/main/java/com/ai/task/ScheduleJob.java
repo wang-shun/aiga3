@@ -32,7 +32,6 @@ public class ScheduleJob {
     private static List<ArchTaskPlan> hisTaskList;
 	@Autowired
 	private ArchTaskPlanSv archTaskPlanSv;
-    @PostConstruct
 	public void initJob() {	  
         Scheduler sched;  
         // ===========================添加定时任务start========================  
@@ -74,7 +73,6 @@ public class ScheduleJob {
   
     } 
     
-    @PreDestroy
 	public void endJob() {	
     	Scheduler sched;
 		try {

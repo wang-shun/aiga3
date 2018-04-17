@@ -272,7 +272,7 @@ public class ArchitectureIndexSv extends BaseService {
 	}
 	public List<ArchDbConnectTransf>listDbConnects2Detail(AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-				" select ar.index_id,ar.sett_month,ar.key_1,ar.key_2,ar.key_3,ar.result_value,ar.group_id,substr(to_char(ar.insert_time,'yyyymmddhh'),0,10) as insert_time " +
+				" select ar.index_id,ar.sett_month,ar.key_1,ar.key_2,ar.key_3,ar.result_value,ar.group_id,substr(to_char(ar.insert_time,'yyyymmddhh24'),0,10) as insert_time " +
 						" from am_core_index am, arch_db_connect ar " +
 				" where am.index_id = ar.index_id " );
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();

@@ -23,7 +23,7 @@ public class MailController {
 	@Autowired
 	private MailCmpt mailCmpt;
 	
-	@Autowired
+//	@Autowired
 //	private ReportEmailSend reportEmailSend;
 	
 	@RequestMapping(path = "/sys/email/send")

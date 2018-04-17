@@ -467,13 +467,13 @@ define(function(require, exports, module) {
 								var tmp = parseInt(_ggcmd.substring(50,54));
 								var newtmp = null;
 								if(tmp==1030){
-									newtmp = 1001001;
+									newtmp = 1030000;
 								}else if(tmp==1031){
-									newtmp = 1001002;
+									newtmp = 1031000;
 								}else if(tmp==1032){
-									newtmp = 1001003;
+									newtmp = 1032000;
 								}else if(tmp==1033){
-									newtmp = 1001004;
+									newtmp = 1033000;
 								}
 								_ggcmd = _ggcmd.substring(0,50);
 								_ggcmd += newtmp;

@@ -23,6 +23,9 @@ public class MailController {
 	@Autowired
 	private MailCmpt mailCmpt;
 	
+	@Autowired
+	private ReportEmailSend reportEmailSend;
+	
 	@RequestMapping(path = "/sys/email/send")
 	public @ResponseBody JsonBean send(
 			@RequestParam String addressee,
@@ -37,6 +40,17 @@ public class MailController {
 		}
 		
 		mailCmpt.sendMail(addressee, ccList, subject, content, files);
+		return bean;
+	}
+	
+	
+	@RequestMapping(path = "/sys/email/monthReport")
+	public @ResponseBody JsonBean send(
+			@RequestParam String addressee,
+			@RequestParam(required=false) String ccList) throws UnsupportedEncodingException{
+		JsonBean bean = new JsonBean();	
+		
+		reportEmailSend.taskDo(addressee, ccList);
 		return bean;
 	}
 	

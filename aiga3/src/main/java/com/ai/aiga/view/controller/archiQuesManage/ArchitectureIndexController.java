@@ -28,12 +28,14 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexGroupParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexTopParams;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectFlow;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectTransf;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.CenterDbConnectTopList;
 import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectFlow;
+import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectTransfer;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
@@ -3237,7 +3239,7 @@ public class ArchitectureIndexController extends BaseService {
 		String end = condition.getEndMonth();
         //获取前一天时间字符串
         String nowday = end;
-        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         Date today = format.parse(nowday);
         //get last month first day
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
@@ -3435,6 +3437,85 @@ public class ArchitectureIndexController extends BaseService {
 			flows.add(base4);
 		}
 		bean.setData(flows);
+		return bean;
+	}
+	
+	@RequestMapping(path = "/arch/numberflow/query2daynew")
+	public @ResponseBody JsonBean query2daynew(@RequestBody AmCoreIndexParams condition) throws ParseException {
+		String end = condition.getEndMonth();
+        //获取上个月同一天时间字符串
+        String nowday = end;
+        String _nowday = nowday.replace("-", "");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = format.parse(nowday);
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 31);  
+        Date before31Day = calendar.getTime();
+        String start = simpleDateFormat.format(before31Day);
+        String _start = start.replace("-", "");
+        condition.setStartMonth(start);
+        
+        //获取昨日时间字符串
+        Calendar calendar2=Calendar.getInstance();
+        calendar2.setTime(today);
+        calendar2.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 1); 
+        Date before1Day = calendar2.getTime();
+        String yesterday = simpleDateFormat.format(before1Day);
+        String _yesterday = yesterday.replace("-", "");
+        
+		JsonBean bean = new JsonBean();
+		List<ArchDbConnectFlow>connectList = architectureIndexSv.listDbConnects2Flow(condition);
+		List<ArchDbConnectFlow>connectList2 = new ArrayList<ArchDbConnectFlow>(connectList);
+		List<String>key1List = new ArrayList<String>();
+		List<DbConnectTransfer> transfers = new ArrayList<DbConnectTransfer>();
+		Iterator<ArchDbConnectFlow>iterator = connectList.iterator();
+		List<DbConnectFlow> flows = new ArrayList<DbConnectFlow>();
+		while(iterator.hasNext()){
+			DbConnectTransfer transfer = new DbConnectTransfer();
+			ArchDbConnectFlow base = iterator.next();
+			String key1 = base.getKey1();
+			if(!key1List.contains(key1)){
+				key1List.add(key1);
+				transfer.setDb(key1);
+				transfer.setMin(20000);
+				transfer.setMax(25000);
+				long fact = 0L;
+				Iterator<ArchDbConnectFlow>iter = connectList2.iterator();
+				while(iter.hasNext()){
+					ArchDbConnectFlow inne = iter.next();
+					if(inne.getKey1().equals(key1)){
+						if(inne.getSettMonth().equals(_nowday)){
+							fact = Long.valueOf(inne.getResultValue());
+							transfer.setFact(fact);
+						}else if(inne.getSettMonth().equals(_yesterday)){
+							transfer.setFact(Long.valueOf(inne.getResultValue()));
+						}else if(inne.getSettMonth().equals(_start)){
+							transfer.setFact(Long.valueOf(inne.getResultValue()));
+						}
+					}
+				}
+				String health = "优秀";
+				if(fact<20000*0.8){
+					health = "优秀";
+				}else if((20000*0.8)<=fact && fact<=20000){
+					health = "良好";
+				}else if(20000<=fact && fact<=25000){
+					health = "较差";
+				}else if(fact>25000){
+					health = "危险";
+				}
+				transfer.setHealth(health);
+				double dayrate = (transfer.getFact()-transfer.getFact1())*100/transfer.getFact();
+				transfer.setDayrate(dayrate);
+				double monthrate = (transfer.getFact()-transfer.getFact31())*100/transfer.getFact();
+				transfer.setMonthrate(monthrate);
+				transfer.setTime(nowday);
+			}
+			transfers.add(transfer);
+		}
+		bean.setData(transfers);
 		return bean;
 	}
 

@@ -796,7 +796,7 @@ public class ArchitectureIndexSv extends BaseService {
 	}
 	public List<ArchDbConnectFlow>listDbConnects2Flow(AmCoreIndexParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-				" select ar.index_id,ar.sett_month,ar.key_1,ar.group_id,round(avg(ar.result_value)) as result_value " +
+				" select ar.index_id,ar.sett_month,ar.key_1,ar.group_id,to_char(round(avg(ar.result_value))) as result_value " +
 						" from am_core_index am, arch_db_connect ar " +
 				" where am.index_id = ar.index_id " );
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();

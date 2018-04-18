@@ -920,7 +920,7 @@ define(function(require, exports, module) {
 			            };
 					}
 					option.title.subtext=cache.deadline;
-					cache.deadline='';
+//					cache.deadline='';
 				}
 				//加载前数据刷新
 				myChart.clear();
@@ -1084,7 +1084,7 @@ define(function(require, exports, module) {
 			            };
 					}
 					option.title.subtext=cache.deadline;
-					cache.deadline='';
+//					cache.deadline='';
 				}
 				//加载前数据刷新
 				myChart.clear();
@@ -1254,7 +1254,7 @@ define(function(require, exports, module) {
 			            };
 					}
 					option.title.subtext=cache.deadline;
-					cache.deadline='';
+//					cache.deadline='';
 				}
 				//加载前数据刷新
 				myChart.clear();
@@ -1418,7 +1418,7 @@ define(function(require, exports, module) {
 			            };
 					}
 					option.title.subtext=cache.deadline;
-					cache.deadline='';
+//					cache.deadline='';
 				}
 				//加载前数据刷新
 				myChart.clear();

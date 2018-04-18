@@ -28,7 +28,7 @@ define(function(require,exports,module){
 	srvMap.add("getArchAigaList", '', "webservice/archiGrading/sysMonthReport");	
 	// 菜单权限校验
 	srvMap.add("menuFuncCheck", '', "webservice/menuCheck/grant");
-	//显示查询信息表
+	// 显示查询信息表
 	srvMap.add("querybylistreport", '', "webservice/csferrcode/querybylistreport");
 
     var Data = {

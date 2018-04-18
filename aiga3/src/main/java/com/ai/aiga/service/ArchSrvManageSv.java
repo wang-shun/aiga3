@@ -62,6 +62,15 @@ public class ArchSrvManageSv extends BaseService {
 	}
 	
 	
+	//邮件预警 附件sql查询
+	public List<Map> fileSqlQuery(String fileSql) {
+		if(StringUtils.isBlank(fileSql)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			return null;
+		}
+		return archSrvManageDao.searchByNativeSQL(fileSql);
+	}
+	
 	//MSP CSF服务运营指标分析月报--中心系统    数据获取
 	public List<PCsfReportBymonth> MSPCSFReport(PlatformOperateReportParams condition){
 		return pCsfReportBymonthDao.findByMonthDate(condition.getSettMonth());

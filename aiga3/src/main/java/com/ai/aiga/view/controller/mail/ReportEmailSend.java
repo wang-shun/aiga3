@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -100,7 +101,7 @@ public class ReportEmailSend{
 						+"<p>"+headNull+"数据来自架构治理平台每日采集日志中心数据统计汇总而成，次月1日自动将上月月报数据推送平台责任人。</p>"
 						+"<p>"+headNull+"如对月报统计数据有疑问，请及时与骆益葵联系。谢谢！</p>";
 			//发送邮件
-			cmpt.sendMailFile(addressee.trim(),  ccList==null?"":ccList.trim(), mailHead, mailContent, files);
+			cmpt.sendMailFile(addressee.trim(), StringUtils.isBlank(ccList)?"":ccList.trim(), mailHead, mailContent, files);
 			//清除本地文件
 			File cenDef = new File(path,cenName);
 			File topDef = new File(path,topName);

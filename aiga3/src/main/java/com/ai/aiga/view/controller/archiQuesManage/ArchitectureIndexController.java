@@ -3460,7 +3460,7 @@ public class ArchitectureIndexController extends BaseService {
         //获取昨日时间字符串
         Calendar calendar2=Calendar.getInstance();
         calendar2.setTime(today);
-        calendar2.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 1); 
+        calendar2.set(Calendar.DAY_OF_YEAR, calendar2.get(Calendar.DAY_OF_YEAR) - 1); 
         Date before1Day = calendar2.getTime();
         String yesterday = simpleDateFormat.format(before1Day);
         String _yesterday = yesterday.replace("-", "");
@@ -3490,9 +3490,9 @@ public class ArchitectureIndexController extends BaseService {
 							fact = Long.valueOf(inne.getResultValue());
 							transfer.setFact(fact);
 						}else if(inne.getSettMonth().equals(_yesterday)){
-							transfer.setFact(Long.valueOf(inne.getResultValue()));
+							transfer.setFact1(Long.valueOf(inne.getResultValue()));
 						}else if(inne.getSettMonth().equals(_start)){
-							transfer.setFact(Long.valueOf(inne.getResultValue()));
+							transfer.setFact31(Long.valueOf(inne.getResultValue()));
 						}
 					}
 				}
@@ -3507,13 +3507,17 @@ public class ArchitectureIndexController extends BaseService {
 					health = "危险";
 				}
 				transfer.setHealth(health);
-				double dayrate = (transfer.getFact()-transfer.getFact1())*100/transfer.getFact();
+				double dayrate = 0L;
+				double monthrate = 0L;
+				if(transfer.getFact()!=0){
+					dayrate = (transfer.getFact()-transfer.getFact1())/transfer.getFact();
+					monthrate = (transfer.getFact()-transfer.getFact31())/transfer.getFact();
+				}
 				transfer.setDayrate(dayrate);
-				double monthrate = (transfer.getFact()-transfer.getFact31())*100/transfer.getFact();
 				transfer.setMonthrate(monthrate);
 				transfer.setTime(nowday);
+				transfers.add(transfer);
 			}
-			transfers.add(transfer);
 		}
 		bean.setData(transfers);
 		return bean;

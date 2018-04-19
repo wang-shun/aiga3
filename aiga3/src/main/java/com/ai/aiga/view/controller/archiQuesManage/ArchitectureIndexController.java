@@ -3511,8 +3511,8 @@ public class ArchitectureIndexController extends BaseService {
 				double dayrate = 0L;
 				double monthrate = 0L;
 				if(transfer.getFact()!=0){
-					dayrate = (transfer.getFact()-transfer.getFact1())/transfer.getFact();
-					monthrate = (transfer.getFact()-transfer.getFact31())/transfer.getFact();
+					dayrate = (transfer.getFact()-transfer.getFact1())*100/transfer.getFact();
+					monthrate = (transfer.getFact()-transfer.getFact31())*100/transfer.getFact();
 				}
 				transfer.setDayrate(dayrate);
 				transfer.setMonthrate(monthrate);

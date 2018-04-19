@@ -11,6 +11,8 @@ define(function(require, exports, module) {
 	//查询接口
 	srvMap.add("listTotalDbConnects", "", "arch/index/listTotalDbConnects");
 	//查询接口
+	srvMap.add("listTotalDbConnectsnew", "", "arch/index/listTotalDbConnectsnew");
+	//查询接口
 	srvMap.add("listDbConnectsTopnew", "", "arch/index/listDbConnectsTopnew");
 
 	
@@ -138,7 +140,7 @@ define(function(require, exports, module) {
 	        				_ggcmd.indexId=[1030033, 1030034, 1030035, 1030036, 1030037, 1030042,1031033, 1031034, 1031035, 1031036, 1031037, 1031042,1032033, 1032034, 1032035, 1032036, 1032037, 1032042,1033033, 1033034, 1033035, 1033036, 1033037, 1033042];
 	        			}
 	        			var _7cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
-						Rose.ajax.postJson(srvMap.get("listTotalDbConnects"), _7cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get("listTotalDbConnectsnew"), _7cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.hide();
 								self._graphSec(7,json);
@@ -207,7 +209,7 @@ define(function(require, exports, module) {
 	        				_ggcmd.indexId=[1030033, 1030034, 1030035, 1030036, 1030037, 1030042,1031033, 1031034, 1031035, 1031036, 1031037, 1031042,1032033, 1032034, 1032035, 1032036, 1032037, 1032042,1033033, 1033034, 1033035, 1033036, 1033037, 1033042];
 	        			}
 	        			var _30cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
-						Rose.ajax.postJson(srvMap.get("listTotalDbConnects"), _30cmd, function(json, status) {
+						Rose.ajax.postJson(srvMap.get("listTotalDbConnectsnew"), _30cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.hide();
 								self._graphSec(30,json);
@@ -242,9 +244,9 @@ define(function(require, exports, module) {
         //
         _handlebar_help_register: function() {
 			Handlebars.registerHelper("changePowerSty",function(value) {
-				if(value>0) {
+				if(value>=0) {
 					return 'change-font-green';
-				} else if(value<=0){
+				} else if(value<0){
 					return 'change-font-red';
 				}else{
 					return '';

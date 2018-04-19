@@ -3678,4 +3678,78 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(list);	
 		return bean;
 	}
+	
+	@RequestMapping(path = "/arch/index/listTotalDbConnectsnew")
+	public @ResponseBody JsonBean listTotalDbConnectsnew(AmCoreIndexParams condition) throws ParseException {
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage output = new ArchiChangeMessage();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		System.out.println("qqqqqqqqqqq"+months2);
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		output.setxAxis(months2);
+		final int constantValue = months2.size();
+		List<String>legendList = new ArrayList<String>();
+		List<ArchDbConnect>connectList = new ArrayList<ArchDbConnect>();
+		connectList = architectureIndexSv.listDbConnects2YouhuaRound(condition);
+		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
+		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
+		List<String>key1List=new ArrayList<String>();
+		Iterator<ArchDbConnect>iter=connectList.iterator();
+		while(iter.hasNext()){
+			ArchDbConnect outt = iter.next();
+			String key1 = outt.getKey1();
+			if(!key1List.contains(key1)){
+				key1List.add(key1);
+				ViewSeries baseSeries = new ViewSeries();
+				baseSeries.setType("line");
+				String name = key1;
+				baseSeries.setName(name);		
+				legendList.add(name);
+				//给对应的列赋值
+				int[] data = new int[constantValue];
+				int[] a =new int[constantValue];
+				for(int i=0;i<a.length;i++){
+					a[i]=1;
+				}					
+				Iterator<ArchDbConnect>iterator = connectList2.iterator();
+				while(iterator.hasNext()){
+					ArchDbConnect archDbConnect = iterator.next();
+					if(archDbConnect.getKey1().equals(name)) {
+						String SetMonths = archDbConnect.getSettMonth().trim();
+						for(int i=0;i<data.length;i++){
+							String newMonth = months2.get(i).trim();
+							String newDay = newMonth.replace("-", "");
+							if(SetMonths.equals(newDay)){
+								if(data[i]==0){
+									data[i]=Integer.parseInt(archDbConnect.getResultValue());
+								}else{
+//									data[i]=((data[i]*a[i])+Integer.parseInt(archDbConnect.getResultValue()))/(a[i]+1);
+									data[i]+=Integer.parseInt(archDbConnect.getResultValue());
+									a[i]++;
+								}
+								iterator.remove();
+							}
+						}
+					}					
+				}
+				baseSeries.setData(data);
+				seriesList.add(baseSeries);
+			}
+		};
+		output.setLegend(legendList);
+		output.setSeries(seriesList);
+		bean.setData(output);
+		return bean;
+	}
 }

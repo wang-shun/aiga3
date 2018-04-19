@@ -34,6 +34,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;
 import com.ai.aiga.view.controller.archiQuesManage.dto.CenterDbConnectTopList;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ConnectResourceTopList;
 import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectFlow;
 import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectTransfer;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
@@ -3522,5 +3523,159 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(transfers);
 		return bean;
 	}
-
+	@RequestMapping(path = "/arch/index/listDbConnectsTopnew")
+	public @ResponseBody JsonBean listDbConnectsTopnew(@RequestBody AmCoreIndexTopParams condition) throws ParseException{
+		String end = condition.getEndMonth();
+        //获取上个月同一天时间字符串
+        String nowday = end;
+        String _nowday = nowday.replace("-", "");
+        DateFormat format0 = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = format0.parse(nowday);
+        SimpleDateFormat simpleDateFormat0=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar0=Calendar.getInstance();
+        calendar0.setTime(today);
+        calendar0.set(Calendar.DAY_OF_YEAR, calendar0.get(Calendar.DAY_OF_YEAR) - 31);  
+        Date before31Day = calendar0.getTime();
+        String start = simpleDateFormat0.format(before31Day);
+        String _start = start.replace("-", "");
+        condition.setStartMonth(start);
+        //获取昨日时间字符串
+        Calendar calendar2=Calendar.getInstance();
+        calendar2.setTime(today);
+        calendar2.set(Calendar.DAY_OF_YEAR, calendar2.get(Calendar.DAY_OF_YEAR) - 1); 
+        Date before1Day = calendar2.getTime();
+        String yesterday = simpleDateFormat0.format(before1Day);
+        String _yesterday = yesterday.replace("-", "");
+        
+		JsonBean bean = new JsonBean();
+		List<ConnectResourceTopList>list = new ArrayList<ConnectResourceTopList>();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间aaaaaaaaaaaaa！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		//transfer "[][]" to "[]" 
+		long[][] indexid2d = condition.getIndexId();
+		int len = 0;
+		for(long[] element : indexid2d){
+			len += element.length;
+		}
+		long[] indexid1d = new long[len];
+		int index = 0;
+		for(long[] array : indexid2d){
+			for(long element : array){
+				indexid1d[index++]=element;
+			}
+		}
+		AmCoreIndexParams thisMonthcdt=new AmCoreIndexParams();
+		thisMonthcdt.setIndexId(indexid1d);
+		thisMonthcdt.setStartMonth(condition.getStartMonth());
+		thisMonthcdt.setEndMonth(condition.getEndMonth());
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2YouhuaRound(thisMonthcdt);
+		int SYSTEM_SIZE = indexid2d.length;
+		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listConnectList.add(x, element);
+		}
+		for(int i=0;i<connectList.size();i++){
+			ArchDbConnect element = connectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		for(int i=0;i<listConnectList.size();i++){
+			List<ArchDbConnect> baseConnectList = listConnectList.get(i);
+			ConnectResourceTopList center = new ConnectResourceTopList();
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			long pnuma = 0L;
+			long numa = 0L;
+			long pnumb = 0L;
+			long numb = 0L;
+			long pnumc = 0L;
+			long numc = 0L;
+			long pnumd = 0L;
+			long numd = 0L;
+			for(int j=0;j<baseConnectList.size();j++){
+				ArchDbConnect baseConnect = baseConnectList.get(j);
+				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
+					continue;
+				}
+				String db = String.valueOf(baseConnect.getKey1().charAt(5));
+				
+				if(db.equalsIgnoreCase("A")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnuma = Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numa = Long.parseLong(baseConnect.getResultValue());
+					}
+				}else if(db.equalsIgnoreCase("B")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnumb = Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numb = Long.parseLong(baseConnect.getResultValue());
+					}
+				}else if(db.equalsIgnoreCase("C")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnumc = Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numc = Long.parseLong(baseConnect.getResultValue());
+					}
+				}else if(db.equalsIgnoreCase("D")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnumd = Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numd = Long.parseLong(baseConnect.getResultValue());
+					}
+				}
+			}
+			center.setPnuma(pnuma);
+			center.setPnumb(pnumb);
+			center.setPnumc(pnumc);
+			center.setPnumd(pnumd);
+			center.setNuma(numa);
+			center.setNumb(numb);
+			center.setNumc(numc);
+			center.setNumd(numd);
+			double pera = 0;
+			double perb = 0;
+			double perc = 0;
+			double perd = 0;
+			if(numa!=0 || numb!=0 || numc!=0 || numd!=0){
+				pera = (numa-pnuma)*100/numa;
+				perb = (numb-pnumb)*100/numb;
+				perc = (numc-pnumc)*100/numc;
+				perd = (numd-pnumd)*100/numd;
+			}
+			center.setPera(pera);
+			center.setPerb(perb);
+			center.setPerc(perc);
+			center.setPerd(perd);
+			center.setTime(nowday);
+			list.add(center);
+		}
+		for(int i=0;i<list.size();i++){
+			ConnectResourceTopList base = list.get(i);
+			base.setId("TOP" + (i+1));
+		}
+		bean.setData(list);	
+		return bean;
+	}
 }

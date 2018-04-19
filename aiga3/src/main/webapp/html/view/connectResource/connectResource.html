@@ -28,6 +28,7 @@
 	#Page_connectResource .spl-thead-color2 {background-color: #3c8dbc;color: white;}  
 	#Page_connectResource .spl-thead-color3 {background-color: #f39c12;color: white;}  
 	#Page_connectResource .spl-thead-color4 {background-color: #8ac14a;color: white;}  
+	#Page_connectResource .spl-thead-color5 {background-color: #e1b34a;color: white;}  
 	#Page_connectResource .spl-thead-wid {} 
 	#Page_connectResource .change-font-red {color: red;font-weight: 700;} 
 	#Page_connectResource .change-font-green {color: green;font-weight: 700;} 
@@ -79,13 +80,15 @@
                     <thead>
 		                <tr>
 		                <th class="iCheckbox table-word-center spl-thead-color4" width="15"></th>
-	                    <th class="table-word-center spl-thead-color1">数据库名称</th>
-	                    <th class="table-word-center spl-thead-color1">安全连接数上限</th>
-	                    <th class="table-word-center spl-thead-color1">最高连接数上限</th>
-						<th class="table-word-center spl-thead-color1">本日实际连接数值</th>	
-						<th class="table-word-center spl-thead-color3">健康度等级</th>					
-						<th class="table-word-center spl-thead-color3">日环比变化</th>
-						<th class="table-word-center spl-thead-color3">月同比变化</th>						
+	                    <th class="table-word-center spl-thead-color1">系统来源</th>
+						<th class="table-word-center spl-thead-color2">营业A库连接数</th>					
+						<th class="table-word-center spl-thead-color2">日环比变化</th>					
+						<th class="table-word-center spl-thead-color3">营业B库连接数</th>					
+						<th class="table-word-center spl-thead-color3">日环比变化</th>					
+						<th class="table-word-center spl-thead-color4">营业C库连接数</th>					
+						<th class="table-word-center spl-thead-color4">日环比变化</th>					
+						<th class="table-word-center spl-thead-color5">营业D库连接数</th>					
+						<th class="table-word-center spl-thead-color5">日环比变化</th>					
 						<th class="table-word-center spl-thead-color1">时间</th>						
 						<th class="table-word-center spl-thead-color1">历史波动曲线查看</th>
 		                </tr>
@@ -156,15 +159,17 @@
 <!-- 表格数据 -->
 <script id="TPL_numberFluctuationTemp" type="text/x-handlebars-template">
 {{#each this}}
-<tr>
+<tr>  
     <td><input type="radio" class="minimal" value="{{indexId}}" name="indexId"></td>
-	<td class="table-word-center">{{db}}</td>
-    <td class="table-word-center">{{min}}</td>
-	<td class="table-word-center">{{max}}</td>
-    <td class="table-word-center">{{fact}}</td>
-    <td class="table-word-center {{addColor health}}">{{health}}</td>
-    <td class="table-word-center {{changePowerSty dayrate}}">{{pesentAdd dayrate}}</td>
-	<td class="table-word-center {{changePowerSty monthrate}}">{{pesentAdd monthrate}}</td>
+    <td class="table-word-center">{{system}}</td>
+	<td class="table-word-center">{{numa}}</td>
+    <td class="table-word-center {{changePowerSty pera}}">{{pera}}%</td>
+	<td class="table-word-center">{{numb}}</td>
+    <td class="table-word-center {{changePowerSty perb}}">{{perb}}%</td>
+	<td class="table-word-center">{{numc}}</td>
+    <td class="table-word-center {{changePowerSty perc}}">{{perc}}%</td>
+	<td class="table-word-center">{{numd}}</td>
+    <td class="table-word-center {{changePowerSty perd}}">{{perd}}%</td>
 	<td class="table-word-center">{{time}}</td>
 	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-db="{{db}}" data-time="{{time}}" name="detail7">7天曲线</button>
 		 <button type="button" class="btn btn-primary btn-table-detail30" data-db="{{db}}" data-time="{{time}}" name="detail30">30天曲线</button>

@@ -3618,31 +3618,34 @@ public class ArchitectureIndexController extends BaseService {
 				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
 					continue;
 				}
-				String db = String.valueOf(baseConnect.getKey1().charAt(5));
-				
-				if(db.equalsIgnoreCase("A")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnuma += Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numa += Long.parseLong(baseConnect.getResultValue());
-					}
-				}else if(db.equalsIgnoreCase("B")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnumb += Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numb += Long.parseLong(baseConnect.getResultValue());
-					}
-				}else if(db.equalsIgnoreCase("C")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnumc += Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numc += Long.parseLong(baseConnect.getResultValue());
-					}
-				}else if(db.equalsIgnoreCase("D")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnumd += Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numd += Long.parseLong(baseConnect.getResultValue());
+				if(baseConnect.getKey1().length()>5){
+					
+					String db = String.valueOf(baseConnect.getKey1().charAt(5));
+					
+					if(db.equalsIgnoreCase("A")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnuma += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numa += Long.parseLong(baseConnect.getResultValue());
+						}
+					}else if(db.equalsIgnoreCase("B")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnumb += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numb += Long.parseLong(baseConnect.getResultValue());
+						}
+					}else if(db.equalsIgnoreCase("C")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnumc += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numc += Long.parseLong(baseConnect.getResultValue());
+						}
+					}else if(db.equalsIgnoreCase("D")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnumd += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numd += Long.parseLong(baseConnect.getResultValue());
+						}
 					}
 				}
 			}

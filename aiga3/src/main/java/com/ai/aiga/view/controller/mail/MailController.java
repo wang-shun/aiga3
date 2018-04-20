@@ -52,12 +52,13 @@ public class MailController {
 			@RequestParam(required=false) String content,
 			@RequestParam(required=false) MultipartFile[] files) throws UnsupportedEncodingException{
 		JsonBean bean = new JsonBean();
-		
+		if(StringUtils.isNotBlank(subject)){
+			content = URLDecoder.decode(subject,"utf-8");
+		}
 		if(StringUtils.isNotBlank(content)){
 			content = URLDecoder.decode(content,"utf-8");
 		}
-		
-		mailCmpt.sendMail(addressee, ccList, subject, content, files);
+		mailCmpt.sendMail(addressee, StringUtils.isBlank(ccList)||ccList.equals("null")?"":ccList, subject, content, files);
 		return bean;
 	}
 	
@@ -68,7 +69,7 @@ public class MailController {
 			@RequestParam(required=false) String ccList) throws UnsupportedEncodingException{
 		JsonBean bean = new JsonBean();	
 		
-		reportEmailSend.taskDo(addressee, ccList);
+		reportEmailSend.taskDo(addressee, ccList.equals("null")?"":ccList);
 		return bean;
 	}
 	

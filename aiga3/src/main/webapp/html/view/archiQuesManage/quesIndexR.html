@@ -1,3 +1,44 @@
+  <style type="text/css">
+	#Page_quesIndexRView .width-input-167 {width: 167px;}
+	#Page_quesIndexRView .width-input-400 {width: 400px;}
+	#Page_quesIndexRView .width-input-158 {width: 155px;}
+	#Page_quesIndexRView .btn-center {text-align: center;}
+	#Page_quesIndexRView .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_quesIndexRView .total-width {width: 850px;}
+	#Page_quesIndexRView .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_quesIndexRView .query-data-label {width: 80px;}
+	#Page_quesIndexRView .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_quesIndexRView .col2-sec-label {margin-left: 250px;}
+	#Page_quesIndexRView .col3-after-label {margin-left: 17px;}
+	#Page_quesIndexRView .line-sen-top {margin-top: 15px;}
+	#Page_quesIndexRView .text-area-sty {width: 680px;vertical-align:middle; }
+	#Page_quesIndexRView .btn-table-change {margin-right: 20px;}
+	#Page_quesIndexRView .btn-table-report {margin-right: 20px;}
+	#Page_quesIndexRView .btn-center {text-align: center;}
+	#Page_quesIndexRView .total-width {width: 850px;}
+	#Page_quesIndexRView .btn-table-change {margin-right: 20px;}
+	#Page_quesIndexRView .btn-table-report {margin-right: 20px;}
+	#Page_quesIndexRView .errcode-center {color:blue;font-size:18px;font-weight: bold;}
+	#Page_quesIndexRView .text-style {color:red;font-size:16px;font-weight: bold;}
+	#Page_quesIndexRView .min-height{min-height:50px;}
+	#Page_quesIndexRView .select-label-word {margin-top: 7px;width: 70px;}
+	#Page_quesIndexRView .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_quesIndexRView .show-nothing {display:none;}  
+	#Page_quesIndexRView .spl-thead-color1 {background-color: #00a65a;color: white;}  
+	#Page_quesIndexRView .spl-thead-color2 {background-color: #3c8dbc;color: white;}  
+	#Page_quesIndexRView .spl-thead-color3 {background-color: #f39c12;color: white;}  
+	#Page_quesIndexRView .spl-thead-color4 {background-color: #8ac14a;color: white;}  
+	#Page_quesIndexRView .spl-thead-color5 {background-color: #e1b34a;color: white;}  
+	#Page_quesIndexRView .spl-thead-wid {} 
+	#Page_quesIndexRView .change-font-red {color: red;font-weight: 700;} 
+	#Page_quesIndexRView .change-font-green {color: green;font-weight: 700;} 
+	#Page_quesIndexRView .change-font-orange {color: yellow;font-weight: 700;} 
+	#Page_quesIndexRView .change-font-yellow {color: orange;font-weight: 700;} 
+	#Page_quesIndexRView .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_quesIndexRView .table-kuan1{width:6%;}
+	#Page_quesIndexRView .table-kuan2{width:10%;}
+	#Page_quesIndexRView .table-kuan3{width:15%;}
+  </style>
 <div class="row" id="Page_quesIndexRView">
     <div class="col-md-4">
     	<div class="nav-tabs-custom">
@@ -216,22 +257,41 @@
 	
 	<div class="col-md-12">
 	    <div class="box" id="JS_getDataMaintainListTop" name="initTable" style="display:none">
-            <div class="box-header ">
-                <h3 class="box-title">本月数据库连接数相对上月平均数增长来源分析</h3>
-                <div class="box-tools">
-                </div>
+            <div class="box-header" style="height:80px">
+                <h3 class="box-title">数据库连接数平均数增长来源分析(起始时间/截止时间对比)</h3>
+				<div class="box">
+		            <form id="JS_queryDB">
+		                <div class="box-body">
+		                	<div class="row" id="JS_selectData">
+					        	<div class="form-group col-sm-10">
+			                        <label class="col-sm-1 control-label">起始时间:</label>
+					        		<div class="col-sm-2">
+				                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+					        		</div>
+			                        <label class="col-sm-1 control-label">截止时间:</label>
+					        		<div class="col-sm-2">
+			                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
+					        		</div>
+					        		<div class="col-sm-1">
+		                        		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+				                    </div>
+					        	</div>
+					        </div>
+    			        </div>
+					</form>
+       		    </div>
             </div>
             <div class="box-body">
                 <table class="table table-bordered table-hover" id="dataMaintainListTopTable">
                     <thead>
 		                <tr>
-	                    <th class="iCheckbox" width="15"></th>
-						<th>排名情况</th>
-						<th>系统来源</th>
-						<th>上月平均值</th>
-						<th>当月平均值</th>
-						<th>连接数增长量</th>
-						<th>增长率占比%</th>
+	                    <th class="iCheckbox table-word-center spl-thead-color1" width="15"></th>
+						<th class="table-word-center spl-thead-color1">排名情况</th>
+						<th class="table-word-center spl-thead-color1">系统来源</th>
+						<th class="table-word-center spl-thead-color2">起始时间当天平均值</th>
+						<th class="table-word-center spl-thead-color3">截止时间当天平均值</th>
+						<th class="table-word-center spl-thead-color4">两天连接数增长量</th>
+						<th class="table-word-center spl-thead-color5">两天增长率占比%</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>

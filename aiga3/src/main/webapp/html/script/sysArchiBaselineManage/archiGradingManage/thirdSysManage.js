@@ -65,6 +65,55 @@ define(function(require, exports, module) {
 			}
 		},
 		
+		//数据校验
+		checkNum:function(_modal){
+			var self = this;
+			var _form = Page.findId("thirdApplyForm");
+			var _cmd = _form.serialize();	
+			//数据校验
+			if(_cmd.indexOf('name=&')>-1) {
+				XMS.msgbox.show('名称为空！', 'error', 2000);
+				return
+			}
+			var name = _form.find('[name="name"]').val();
+			if(name.indexOf('-')>-1 || name.indexOf('(')>-1 || name.indexOf(')')>-1){
+				XMS.msgbox.show('不能带特殊符号！', 'error', 2000);
+				return
+			}
+			if(name.lastIndexOf('系统') == -1 && name.lastIndexOf('平台') == -1 && name.lastIndexOf('中心') == -1){
+				XMS.msgbox.show('名称末尾应包含系统、平台或是中心！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('idFirst=&')>-1) {
+				XMS.msgbox.show('所属一级域为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('idBelong=&')>-1) {
+				XMS.msgbox.show('所属二级域为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('rankInfo=&')>-1) {
+				XMS.msgbox.show('等级信息为空！', 'error', 2000);
+				return
+			}
+			
+			var developer = _form.find('[name="developer"]').val();
+			if(developer != 0 && name.indexOf(developer)>-1){
+				XMS.msgbox.show('开发商名字不要出现在名称里！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('sysState=&')>-1) {
+				XMS.msgbox.show('建设状态为空！', 'error', 2000);
+				return
+			}			
+			var hierarchy = _form.find('[name="hierarchy"]');
+			if(!hierarchy.is(':checked')){
+				XMS.msgbox.show('分层层级为空！', 'error', 2000);
+				return
+			}			
+			self.uploadAnNiu(_modal);			
+		},
+		
 		//上传附件，提交申请单
 		uploadAnNiu: function(_modal) {	
     		var self = this;
@@ -142,27 +191,7 @@ define(function(require, exports, module) {
 			}	
 			_cmd += '&ext3='+ Page.find("[name='groupApply']:checked").val();
 			_cmd += '&ext1=3&description=新增';
-			//数据校验
-			if(_cmd.indexOf('name=&')>-1) {
-				XMS.msgbox.show('名称为空！', 'error', 2000);
-				return
-			}
-			if(_cmd.indexOf('sysId=&')>-1) {
-				XMS.msgbox.show('系统编号为空！', 'error', 2000);
-				return
-			}
-			if(_cmd.indexOf('idBelong=&')>-1) {
-				XMS.msgbox.show('所属二级域为空！', 'error', 2000);
-				return
-			}
-			if(_cmd.indexOf('sysState=&')>-1) {
-				XMS.msgbox.show('建设状态为空！', 'error', 2000);
-				return
-			}
-			if(!belongLevel) {
-				XMS.msgbox.show('分层层级为空！', 'error', 2000);
-				return
-			}
+			
 			
 			//调用服务
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -214,7 +243,7 @@ define(function(require, exports, module) {
 				    confirmButton: '确认',
 				    cancelButton: '取消',
 				    confirm: function(){
-						self.uploadAnNiu(_modal);
+				    	self.checkNum(_modal);
 				    },
 				    cancel:function(){}
 				});

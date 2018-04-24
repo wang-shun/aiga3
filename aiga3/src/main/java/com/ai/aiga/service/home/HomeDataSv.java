@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +68,8 @@ public class HomeDataSv {
 		naIndexAllocationDao.update();
 		Boolean hasShow = false;
 		//获取全部的指标的具体信息
-		List<NaIndexAllocation> kpiList = naIndexAllocationDao.findAll();
+		  Sort sortx = new Sort(new Sort.Order(Sort.Direction.ASC,"kpiId"));
+		List<NaIndexAllocation> kpiList = naIndexAllocationDao.findAll(sortx);
 		//如果当前用户有指标
 		if (relaList != null && relaList.size() > 0) {
 			for (NaStaffKpiRela rela : relaList) {

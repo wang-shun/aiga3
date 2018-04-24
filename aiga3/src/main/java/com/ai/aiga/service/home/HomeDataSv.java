@@ -62,8 +62,9 @@ public class HomeDataSv {
 
 	public List<NaIndexAllocation> kpiList() {
 		//获取当前用户关联的指标，但是不包括指标的具体信息，只有id
+		 Sort sortr = new Sort(new Sort.Order(Sort.Direction.ASC,"kpiId"));
 		List<NaStaffKpiRela> relaList = naStaffKpiRelaDao.findByStaffIdAndState(SessionMgrUtil.getStaff().getStaffId(),
-				1L);
+				1L,sortr);
 		//初始化全部的指标默认不显示
 		naIndexAllocationDao.update();
 		Boolean hasShow = false;
@@ -89,9 +90,7 @@ public class HomeDataSv {
 					}
 				}
 				if(!hasShow) {
-					List<Condition> cons = new ArrayList<Condition>();
-					cons.add(new Condition("ext2", 1, Condition.Type.EQ));
-					kpiList=naIndexAllocationDao.search(cons );
+					kpiList=naIndexAllocationDao.findByExt2("1",sortx);
 					for (int i = 0; i < kpiList.size(); i++) {
 						NaIndexAllocation kpi = kpiList.get(i);
 						List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
@@ -103,9 +102,7 @@ public class HomeDataSv {
 				}
 			}
 		}else{   //如果当前用户没有指标，加载默认
-			List<Condition> cons = new ArrayList<Condition>();
-			cons.add(new Condition("ext2", 1, Condition.Type.EQ));
-			kpiList=naIndexAllocationDao.search(cons );
+			kpiList=naIndexAllocationDao.findByExt2("1",sortx);
 			for (int i = 0; i < kpiList.size(); i++) {
 				NaIndexAllocation kpi = kpiList.get(i);
 				List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());

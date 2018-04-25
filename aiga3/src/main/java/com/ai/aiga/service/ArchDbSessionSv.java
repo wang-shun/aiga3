@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.ai.aiga.domain.ArchDbSession;
+import com.ai.aiga.domain.DbSessionCount;
 import com.ai.aiga.dao.ArchDbSessionDao;
+import com.ai.aiga.dao.DbSessionCountDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.service.base.BaseService;
 
@@ -29,6 +31,8 @@ public class ArchDbSessionSv extends BaseService {
 
 	@Autowired
 	private ArchDbSessionDao archDbSessionDao;
+	@Autowired
+	private DbSessionCountDao dbSessionCountDao;
 	@Value("${archdbsession.address.url}")
 	@Autowired
 	private String addressUrl;
@@ -59,25 +63,18 @@ public class ArchDbSessionSv extends BaseService {
 			JSONObject jsonObj = JSONObject.fromObject(params2);	          
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);
 			
-			String sql;
 			for(int i = 0;i<list.size();i++){
 				String cloudUrl = addressUrl+list.get(i).getKey3();
 				bean = restTemplate.getForObject(cloudUrl, DbSession.class,formEntity );
 				if(bean.data == null)
 					continue;
 				String[]  strs=bean.data.toString().split(",");
-				String system;
-				String system_subdomain;
-				for(int j=0,len=strs.length-1;j<len;j++){
-					if(j==0) 
-						system = strs[j].toString().substring(9);
-					if(j==1)
-						system_subdomain = strs[j].toString().substring(18);
-						//System.out.println(strs[j].toString().substring(18));
-					/*sql = "insert into Db_Session_Count values("+(i+1)+","+ system +","+ system_subdomain +")";
-					StringBuilder nativeSql2 = new StringBuilder(sql);
-					System.out.println(nativeSql2);*/
-				}
+				DbSessionCount request = new DbSessionCount();
+				request.setId(i+1);
+				request.setSystemNAME(strs[0].toString().substring(9)); 
+				request.setSystemSubdomain(strs[1].toString().substring(18)); 				
+				dbSessionCountDao.save(request);
+												
 			}
 			
 		} catch (Exception e) {				

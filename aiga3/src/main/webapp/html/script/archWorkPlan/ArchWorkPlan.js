@@ -10,9 +10,9 @@ define(function(require, exports, module) {
 
 
 	//显示查询信息表
-	srvMap.add("getWorkPlanList", pathAlias+"getList.json", "archi/workplan/queryByCondition");
+	srvMap.add("getWorkPlanList", pathAlias+"getList.json", "archi/archDbSession/queryByCondition");
 	//增加页面
-	srvMap.add("workPlanSave", pathAlias+"workSave.json", "archi/workplan/save");
+	//srvMap.add("workPlanSave", pathAlias+"workSave.json", "archi/workplan/save");
 	//分类下拉框
 	srvMap.add("workplanState", pathAlias+"workplanState.json", "webservice/static/workplanState");
 	//工作状态下拉框

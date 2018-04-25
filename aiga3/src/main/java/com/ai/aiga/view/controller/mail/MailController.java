@@ -77,42 +77,14 @@ public class MailController {
 			@RequestParam(required=false) String ccList,
 			@RequestParam String subject,
 			@RequestParam String fileSql,
-			@RequestParam(required=false) String content,
-			@RequestParam(required=false) List<File> files) throws IOException{
+			@RequestParam(required=false) String content) throws IOException{
 		JsonBean bean = new JsonBean();
-		
-		
-		if(StringUtils.isNoneBlank(fileSql)) {
-			//文件地址处理
-	        if('/'==(ftpPath.charAt(ftpPath.length()-1))) {
-	        } else {
-	        	ftpPath+="/";
-	        }
-			
-			//数据查询
-			List<Map> list = archSrvManageSv.fileSqlQuery(fileSql);
-			HSSFWorkbook sqlFileExt = excelCmpt.mspcsfMonRepot("sheetName",list);
-			
-			//时间设置
-			SimpleDateFormat format =  new SimpleDateFormat("yyyyMMdd");
-			String time = format.format(new Date());
-			String sqlFileName  = "error_"+time+".xls";
-			
-			//写入文件
-			File file = new File(ftpPath,sqlFileName);
-			OutputStream cenOut = new FileOutputStream(file);
-			sqlFileExt.write(cenOut);
-			cenOut.close();
-
-			files = new ArrayList<File>();
-			files.add(file); 
-		}
 		
 		if(StringUtils.isNotBlank(content)){
 			content = URLDecoder.decode(content,"utf-8");
 		}
 		
-		mailCmpt.sendMailFile(addressee, ccList, subject, content, files);
+		mailCmpt.sendMailFileBySql(addressee, ccList.equals("null")?"":ccList, subject, content, fileSql);
 		return bean.success;
 	}
 }

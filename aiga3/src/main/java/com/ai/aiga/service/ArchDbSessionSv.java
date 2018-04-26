@@ -37,6 +37,9 @@ public class ArchDbSessionSv extends BaseService {
 	@Value("${archdbsession.address.url}")
 	@Autowired
 	private String addressUrl;
+	@Value("${archdbsessionTwo.address.url}")
+	@Autowired
+	private String addressUrlTwo;
 	
 	//find
 	public List<ArchDbSession> findAll(){
@@ -69,9 +72,13 @@ public class ArchDbSessionSv extends BaseService {
 				if(key3.contains("\\"))
 					continue;
 				String cloudUrl = addressUrl+key3;
+				String cloudUrlTwo = addressUrlTwo +key3;
 				bean = restTemplate.getForObject(cloudUrl, DbSession.class,formEntity );
-				if(bean.data == null)
-					continue;
+				if(bean.data == null){
+					bean = restTemplate.getForObject(cloudUrlTwo, DbSession.class,formEntity );
+					if(bean.data == null)
+						continue;
+				}					
 				String[]  strs=bean.data.toString().split(",");
 				DbSessionCount request = new DbSessionCount();
 				request.setId(i+1);

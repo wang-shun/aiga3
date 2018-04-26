@@ -23,11 +23,25 @@ define(function(require, exports, module) {
 		},
 		
 		_render: function() {
+			this._time();
 			//查询
 			this._query_event();
-			//this._getGridList();
+			var _form = Page.findId('queryDataForm');
+			var cmd = _form.serialize();
+			this._getGridList(cmd);
 			
 		},		
+		
+		//初始化时间框
+		_time:function(){	
+			function showMonthFirstDay() {     
+				var date=new Date();
+			 	date.setDate(1);
+			 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
+			}
+			var _form = Page.findId('queryDataForm'); 
+			_form.find('[name="createTime"]').val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
+		},
 		
 		// 查询表格数据
 		_getGridList: function(cmd){
@@ -39,15 +53,6 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('dbSessionCountList');
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			_cmd = _cmd.replace(/-/g,"");
-					
-			/*//初始化时间框
-			function showMonthFirstDay() {     
-				var date=new Date();
-			 	date.setDate(1);
-			 	return Rose.date.dateTime2str(date,"yyyy-MM-dd");   
-			}
-			var _form = Page.findId('queryDataForm'); 
-			_form.find('[name="createTime"]').val(showMonthFirstDay());*/
 
 			//调用服务
 			Rose.ajax.postJson(srvMap.get('getDbSessionCountList'),_cmd,function(json, status){

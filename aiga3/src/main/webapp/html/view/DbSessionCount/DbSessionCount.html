@@ -29,20 +29,17 @@
                 </div>
                 <div class="box-body"><br/>
 		            <div class ="row">
-		            	<div class="form-group col-sm-6">
+		            	<div class="form-group col-sm-5">
 		            		<label class="col-sm-2  control-label">查询时间:</label>
 		            		<div class="col-sm-4">
                   				<input type="text" class="form-control input-sm " name="createTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
                   		</div>
-
+						<div class="form-group col-sm-6">
+		            		<button type="reset" class="btn btn-default">重置</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                         	<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                  		</div>
 		            </div>
-                </div>
-                <div class="box-footer">
-                    <div class="text-center">
-                         <button type="reset" class="btn btn-default">重置</button>
-                         <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
-                    </div>
                 </div>
             </form>
         </div>
@@ -54,6 +51,7 @@
                 <table class="table table-bordered table-hover" id="dataMaintainListTable">
                     <thead>
 		                <tr>
+		                <th class="iCheckbox" width="15"></th>
 	                    <th >system_name</th>
 	                    <th >system_subdomain</th>
 	                    <th >create_time</th>
@@ -70,10 +68,11 @@
 <script id="TPL_dbSessionCountTemp" type="text/x-handlebars-template">
 {{#each this}}
 <tr>
-	<th >{{systemName}}</th>
-	<th >{{systemSubdomain}}</th>
-	<th >{{createTime}}</th>
-	<th >{{num}}</th>
+	<td><input type="radio" class="minimal"  name="id"></td>
+	<td >{{systemName}}</td>
+	<td >{{systemSubdomain}}</td>
+	<td >{{createTime}}</td>
+	<td >{{num}}</td>
 </tr>
 {{/each}}
 </script>

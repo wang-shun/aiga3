@@ -2,13 +2,13 @@
     <tbody>
         {{#each this}}
         <tr>
-	        <td><input type="radio" class="minimal" value="{{id}}" name="id">
-			<td>{{id}}</td>
-			<td>{{system}}</td>
-			<td>{{lastmonth}}</td>
-			<td>{{thismonth}}</td>
-			<td>{{increase}}{{key3}}</td>
-			<td>{{percentage}}%</td>
+	        <td><input type="radio" class="minimal table-word-center" value="{{id}}" name="id">
+			<td class="table-word-center">{{id}}</td>
+			<td class="table-word-center">{{system}}</td>
+			<td class="table-word-center">{{lastmonth}}</td>
+			<td class="table-word-center">{{thismonth}}</td>
+			<td class="table-word-center">{{increase}}{{key3}}</td>
+			<td class="table-word-center">{{percentage}}%</td>
         </tr>
         {{/each}}
     </tbody>

@@ -159,20 +159,23 @@ public class MailCmpt {
 				
 				//数据查询
 				List<Map> list = archSrvManageSv.fileSqlQuery(fileSql);
-				HSSFWorkbook sqlFileExt = excelCmpt.sqlFileRepot("sheetName",list);			
-				//时间设置
-				SimpleDateFormat format =  new SimpleDateFormat("yyyyMMdd");
-				String time = format.format(new Date());
-				String sqlFileName  = "error_"+time+".xls";
-				
-				//写入文件
-				file = new File(ftpPath,sqlFileName);
-				OutputStream cenOut = new FileOutputStream(file);
-				sqlFileExt.write(cenOut);
-				cenOut.close();
+				HSSFWorkbook sqlFileExt = excelCmpt.sqlFileRepot("sheetName",list);		
+				if(sqlFileExt!=null) {
+					//时间设置
+					SimpleDateFormat format =  new SimpleDateFormat("yyyyMMdd");
+					String time = format.format(new Date());
+					String sqlFileName  = "error_"+time+".xls";
+					
+					//写入文件
+					file = new File(ftpPath,sqlFileName);
+					OutputStream cenOut = new FileOutputStream(file);
+					sqlFileExt.write(cenOut);
+					cenOut.close();
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		try {
 			MimeMessage message = javaMailSender.createMimeMessage();

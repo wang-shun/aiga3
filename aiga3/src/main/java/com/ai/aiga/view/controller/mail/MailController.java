@@ -72,14 +72,13 @@ public class MailController {
 	
 	
 	@RequestMapping(path = "/sys/email/sendAddFile")
-	public @ResponseBody JsonBean sendAddFile(
+	public @ResponseBody JsonBean sendAddFile(	
 			@RequestParam String addressee,
 			@RequestParam(required=false) String ccList,
 			@RequestParam String subject,
-			@RequestParam String fileSql,
+			@RequestParam(required=false) String fileSql,
 			@RequestParam(required=false) String content) throws IOException{
 		JsonBean bean = new JsonBean();
-		
 		if(StringUtils.isNotBlank(content)){
 			content = URLDecoder.decode(content,"utf-8");
 		}

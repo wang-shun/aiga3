@@ -730,7 +730,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.ai.aiga.domain.ArchDbSession;
+import com.ai.aiga.domain.ArchWorkPlan;
 import com.ai.aiga.domain.DbSessionCount;
 import com.ai.aiga.dao.ArchDbSessionDao;
 import com.ai.aiga.dao.DbSessionCountDao;
@@ -64,7 +65,10 @@ public class ArchDbSessionSv extends BaseService {
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);
 			
 			for(int i = 0;i<list.size();i++){
-				String cloudUrl = addressUrl+list.get(i).getKey3();
+				String key3 = list.get(i).getKey3();
+				if(key3.contains("\\"))
+					continue;
+				String cloudUrl = addressUrl+key3;
 				bean = restTemplate.getForObject(cloudUrl, DbSession.class,formEntity );
 				if(bean.data == null)
 					continue;
@@ -72,7 +76,8 @@ public class ArchDbSessionSv extends BaseService {
 				DbSessionCount request = new DbSessionCount();
 				request.setId(i+1);
 				request.setSystemNAME(strs[0].toString().substring(9)); 
-				request.setSystemSubdomain(strs[1].toString().substring(18)); 				
+				request.setSystemSubdomain(strs[1].toString().substring(18));
+				request.setCreateTime(df.format(day));
 				dbSessionCountDao.save(request);
 												
 			}

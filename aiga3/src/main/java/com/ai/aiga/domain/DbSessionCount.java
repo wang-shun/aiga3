@@ -18,17 +18,17 @@ public class DbSessionCount  implements java.io.Serializable {
      private long id;
      private String systemNAME;
      private String systemSubdomain;
-
+     private String createTime;
 
     public DbSessionCount() {
     }
 
 
-    public DbSessionCount(long id, String systemNAME, String systemSubdomain) {
+    public DbSessionCount(long id, String systemNAME, String systemSubdomain, String createTime) {
        this.id = id;
        this.systemNAME = systemNAME;
        this.systemSubdomain = systemSubdomain;
-
+       this.createTime = createTime;
     }
    
      @Id 
@@ -61,6 +61,14 @@ public class DbSessionCount  implements java.io.Serializable {
         this.systemSubdomain = systemSubdomain;
     }
     
+    @Column(name="create_time",  length=20)
+    public String getCreateTime() {
+        return this.createTime;
+    }
+    
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }    
     
 
 }

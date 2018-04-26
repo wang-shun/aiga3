@@ -52,7 +52,6 @@ define(function(require, exports, module) {
 			//调用服务
 			Rose.ajax.postJson(srvMap.get('getDbSessionCountList'),_cmd,function(json, status){
 				if(status) {
-					debugger
 					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Page.findTpl('dbSessionCountTemp'));				
 	        		var tablebtn = _dom.find("[name='content']");
@@ -75,10 +74,10 @@ define(function(require, exports, module) {
 				var cmd = _form.serialize();
 				
 				var createTime = _form.find("[name='createTime']").val();
-//				if(createTime == 0) {
-//					XMS.msgbox.show('查询时间为空！', 'error', 2000);
-//					return
-//				}
+				if(createTime == 0) {
+					XMS.msgbox.show('查询时间为空！', 'error', 2000);
+					return
+				}
 				self._getGridList(cmd);
 			});		
         },

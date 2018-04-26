@@ -164,7 +164,7 @@ public class MailCmpt {
 					//时间设置
 					SimpleDateFormat format =  new SimpleDateFormat("yyyyMMdd");
 					String time = format.format(new Date());
-					String sqlFileName  = "error_"+time+".xls";
+					String sqlFileName  = time+".xls";
 					
 					//写入文件
 					file = new File(ftpPath,sqlFileName);

@@ -2706,6 +2706,14 @@ public class ArchitectureIndexController extends BaseService {
 		thisMonthcdt.setStartMonth(condition.getEndMonth());
 		thisMonthcdt.setEndMonth(condition.getEndMonth());
 		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(thisMonthcdt);
+		//去除空数据drop key2/key3 is null
+		for(int f=0;f<connectList.size();f++){
+			ArchDbConnect tempArchDbConnect = connectList.get(f);
+			String key1 = tempArchDbConnect.getKey1();
+			if(key1.length()>4 && tempArchDbConnect.getKey2()==null && tempArchDbConnect.getKey3()==null){
+				connectList.remove(f);
+			}
+		}
 		int SYSTEM_SIZE = indexid2d.length;
 		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
 		for(int x=0;x<SYSTEM_SIZE;x++){
@@ -2769,6 +2777,14 @@ public class ArchitectureIndexController extends BaseService {
 		preMonthcdt.setEndMonth(condition.getStartMonth());
 		List<CenterDbConnectTopList>prelist = new ArrayList<CenterDbConnectTopList>();
 		List<ArchDbConnect>preConnectList = architectureIndexSv.listDbConnects2Youhua(preMonthcdt);
+		//去除空数据drop key2/key3 is null
+		for(int f=0;f<preConnectList.size();f++){
+			ArchDbConnect tempArchDbConnect = preConnectList.get(f);
+			String key1 = tempArchDbConnect.getKey1();
+			if(key1.length()>4 && tempArchDbConnect.getKey2()==null && tempArchDbConnect.getKey3()==null){
+				preConnectList.remove(f);
+			}
+		}
 		List<List<ArchDbConnect>>listPreConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
 		for(int x=0;x<SYSTEM_SIZE;x++){
 			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();

@@ -80,13 +80,20 @@ define(function(require, exports, module) {
 			var _dom = Page.findId('connectionPoolList');
 			var _domPagination = _dom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');			
-			
 			// 设置服务器端分页
 			Rose.ajax.postJson(srvMap.get('querybylistreport'),_topcmd,function(json){
 				window.XMS.msgbox.hide();		
 				var template = Handlebars.compile(Page.findTpl('connectionPoolTemp'));                
                 var tablebtn = _dom.find("[name='content']");
-                tablebtn.html(template(json.data));
+                var newjson =[] ;
+                var totaldata = null;
+                for(index in json.data){
+                	if(json.data[index].centerName=='合计'){
+                		totaldata=json.data[index];
+                	}
+                	newjson[index]=json.data[index];
+                };
+                tablebtn.html(template(newjson));
         		Utils.eventTrClickCallback(_dom);
         		//展示报告内容
 				var templateText = Handlebars.compile(Page.findTpl('errorCodeTempText'));
@@ -96,19 +103,25 @@ define(function(require, exports, module) {
 					percentage:"0",
 					standard:"0"
 				}
-				var tmp = 0;
-				tmp = json.data.length;
-				var all = 0;
-				var totalPercentage = 0;
-				var totalStandard = 0;
-				for(index in json.data){
-					all += json.data[index].errcodeCfgNum;
-					totalPercentage += parseInt(json.data[index].errcodeCoverRate);
-					totalStandard += parseInt(json.data[index].errcodeSpecRate);
+				if(totaldata){
+					result.total=totaldata.errcodeCfgNum;
+					result.percentage=totaldata.errcodeCoverRate;
+					result.standard=totaldata.errcodeSpecRate;
+				}else{
+					var tmp = 0;
+					tmp = json.data.length;
+					var all = 0;
+					var totalPercentage = 0;
+					var totalStandard = 0;
+					for(index in json.data){
+						all += json.data[index].errcodeCfgNum;
+						totalPercentage += parseInt(json.data[index].errcodeCoverRate);
+						totalStandard += parseInt(json.data[index].errcodeSpecRate);
+					}
+					result.total=all;
+					result.percentage=Math.round((totalPercentage/tmp)*100)/100;
+					result.standard=Math.round((totalStandard/tmp)*100)/100;
 				}
-				result.total=all;
-				result.percentage=Math.round((totalPercentage/tmp)*100)/100;
-				result.standard=Math.round((totalStandard/tmp)*100)/100;
     			_text.html(templateText(result));
     			//打印查询月份
 				var _form = Page.findId('queryDataForm');

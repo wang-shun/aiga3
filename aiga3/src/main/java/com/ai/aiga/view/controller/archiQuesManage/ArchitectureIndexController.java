@@ -2715,6 +2715,7 @@ public class ArchitectureIndexController extends BaseService {
 				connectList.remove(f);
 			}
 		}
+		//初始化
 		int SYSTEM_SIZE = indexid2d.length;
 		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
 		for(int x=0;x<SYSTEM_SIZE;x++){
@@ -2724,6 +2725,7 @@ public class ArchitectureIndexController extends BaseService {
 			element.add(archDbConnect);
 			listConnectList.add(x, element);
 		}
+		//分组
 		for(int i=0;i<connectList.size();i++){
 			ArchDbConnect element = connectList.get(i);
 			long indexid = element.getIndexId();
@@ -2735,6 +2737,7 @@ public class ArchitectureIndexController extends BaseService {
 				}
 			}
 		}
+		//求和
 		for(int i=0;i<listConnectList.size();i++){
 			List<ArchDbConnect> baseConnectList = listConnectList.get(i);
 			CenterDbConnectTopList center = new CenterDbConnectTopList();
@@ -2786,6 +2789,7 @@ public class ArchitectureIndexController extends BaseService {
 				preConnectList.remove(f);
 			}
 		}
+		//初始化
 		List<List<ArchDbConnect>>listPreConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
 		for(int x=0;x<SYSTEM_SIZE;x++){
 			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
@@ -2794,6 +2798,7 @@ public class ArchitectureIndexController extends BaseService {
 			element.add(archDbConnect);
 			listPreConnectList.add(x, element);
 		}
+		//分组
 		for(int i=0;i<preConnectList.size();i++){
 			ArchDbConnect element = preConnectList.get(i);
 			long indexid = element.getIndexId();
@@ -2805,6 +2810,7 @@ public class ArchitectureIndexController extends BaseService {
 				}
 			}
 		}
+		//求和
 		for(int i=0;i<listPreConnectList.size();i++){
 			List<ArchDbConnect> baseConnectList = listPreConnectList.get(i);
 			CenterDbConnectTopList center = new CenterDbConnectTopList();
@@ -2826,22 +2832,24 @@ public class ArchitectureIndexController extends BaseService {
 			prelist.add(center);
 		}
 		//汇总拼装
-		long increaseTotal = 0L;
+//		long increaseTotal = 0L;
 		for(int i=0;i<list.size();i++){
 			CenterDbConnectTopList base = list.get(i);
 			CenterDbConnectTopList prebase = prelist.get(i);
 			base.setLastmonth(prebase.getLastmonth());
 			base.setIncrease(base.getThismonth()-prebase.getLastmonth());
-			if(base.getIncrease()>0){
-				increaseTotal += base.getIncrease();
-			}
+//			if(base.getIncrease()>0){
+//				increaseTotal += base.getIncrease();
+//			}
 		}
 		for(int i=0;i<list.size();i++){
 			CenterDbConnectTopList base = list.get(i);
 			if(base.getIncrease()>0){
-				base.setPercentage((base.getIncrease()*100)/increaseTotal);
+//				base.setPercentage((base.getIncrease()*100)/increaseTotal);
+				base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
 			}else{
-				base.setPercentage(0);
+				base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+//				base.setPercentage(0);
 			}
 		}
 		Collections.sort(list, new IncreaseComparator());

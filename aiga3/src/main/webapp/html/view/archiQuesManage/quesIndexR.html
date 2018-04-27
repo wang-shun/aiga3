@@ -258,22 +258,25 @@
 	<div class="col-md-12">
 	    <div class="box" id="JS_getDataMaintainListTop" name="initTable" style="display:none">
             <div class="box-header" style="height:80px">
-                <h3 class="box-title">数据库连接数平均数增长来源分析(起始时间/截止时间对比)</h3>
+                <h3 class="box-title">数据库连接数平均数增长来源分析(可任意选择两天参照对比)</h3>
 				<div class="box">
 		            <form id="JS_queryDB">
 		                <div class="box-body">
 		                	<div class="row" id="JS_selectData">
 					        	<div class="form-group col-sm-10">
-			                        <label class="col-sm-1 control-label">起始时间:</label>
+			                        <label class="col-sm-1 control-label">对比日期1:</label>
 					        		<div class="col-sm-2">
 				                  		<input type="text" class="form-control input-sm " name="startMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
 					        		</div>
-			                        <label class="col-sm-1 control-label">截止时间:</label>
+			                        <label class="col-sm-1 control-label">对比日期2:</label>
 					        		<div class="col-sm-2">
 			                  			<input type="text" class="form-control input-sm " name="endMonth" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/> 
 					        		</div>
 					        		<div class="col-sm-1">
 		                        		<button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+				                    </div>
+					        		<div class="col-sm-1">
+		                        		<button type="button" class="btn btn-primary" data-toggle="modal" name="excel">导出</button>
 				                    </div>
 					        	</div>
 					        </div>
@@ -288,10 +291,10 @@
 	                    <th class="iCheckbox table-word-center spl-thead-color1" width="15"></th>
 						<th class="table-word-center spl-thead-color1">排名情况</th>
 						<th class="table-word-center spl-thead-color1">系统来源</th>
-						<th class="table-word-center spl-thead-color2">起始时间当天平均值</th>
-						<th class="table-word-center spl-thead-color3">截止时间当天平均值</th>
-						<th class="table-word-center spl-thead-color4">两天连接数增长量</th>
-						<th class="table-word-center spl-thead-color5">两天增长率占比%</th>
+						<th class="table-word-center spl-thead-color2">对比日期1 当天平均值</th>
+						<th class="table-word-center spl-thead-color3">对比日期2 当天平均值</th>
+						<th class="table-word-center spl-thead-color4">环比连接数增长量</th>
+						<th class="table-word-center spl-thead-color5">环比增长率%</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>

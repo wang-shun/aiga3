@@ -78,6 +78,8 @@ define(function(require, exports, module) {
     srvMap.add("listDbConnectsTop", "", "arch/index/listDbConnectsTop");
     //top 10
     srvMap.add("listDbConnectsTop2", "", "arch/index/listDbConnectsTop2");
+    //excle export
+	srvMap.add("excelexport", "", "webservice/quesindex/excelexport");
 	// 模板对象
 	var Tpl = {
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
@@ -719,6 +721,11 @@ define(function(require, exports, module) {
 					}
 	  			});
 			});
+			var _excelBtn = _form.find("[name='excel']");
+			_excelBtn.off('click').on('click', function() {
+    			var url = srvMap.get('excelexport')+"?startMonth="+_form.find('input[name="startMonth"]').val()+"&endMonth="+_form.find('input[name="endMonth"]').val()+"&indexId="+Data.top2cmd.indexId+"&indexName="+Data.pieIndexNameList;
+				location.href = encodeURI(encodeURI(url));
+    		});
 			var today = new Date(); 
 			var _topcmd = {
 				startMonth : Utils.showPreTwoDay(),
@@ -795,8 +802,17 @@ define(function(require, exports, module) {
                 } else if (value == 'ZJXLOG') {
                     return "日志库";
                 }
-            });         
-		},		
+            });   
+            Handlebars.registerHelper("changePowerSty",function(value) {
+				if(value>=0) {
+					return 'change-font-green';
+				} else if(value<0){
+					return 'change-font-red';
+				}else{
+					return '';
+				}
+			});
+		},	
 		_graphSec: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
             myChart.showLoading({

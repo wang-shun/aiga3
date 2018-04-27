@@ -7,8 +7,8 @@
 			<td class="table-word-center">{{system}}</td>
 			<td class="table-word-center">{{lastmonth}}</td>
 			<td class="table-word-center">{{thismonth}}</td>
-			<td class="table-word-center">{{increase}}{{key3}}</td>
-			<td class="table-word-center">{{percentage}}%</td>
+			<td class="table-word-center {{changePowerSty increase}}">{{increase}}{{key3}}</td>
+			<td class="table-word-center {{changePowerSty percentage}}">{{percentage}}%</td>
         </tr>
         {{/each}}
     </tbody>

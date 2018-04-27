@@ -221,8 +221,11 @@ public class ArchBusiErrcodeMapController {
 		String start = simpleDateFormat.format(before7Day);
 		String _start = start.replace("-", "");
 		condition.setStartTime(_start);
-		
-		condition.setCenter(decodeCenter);
+		if(decodeCenter.equals("合计")){
+			condition.setCenter(null);
+		}else{
+			condition.setCenter(decodeCenter);
+		}
 		List<SrvcallDayTransfer> findData = archBusiErrcodeMapSv.uncover(condition);
 		HSSFWorkbook wb = uncoveRepot(findData,decodeCenter,insertTime);  
 		response.setContentType("application/vnd.ms-excel");  
@@ -254,8 +257,11 @@ public class ArchBusiErrcodeMapController {
         String start = simpleDateFormat.format(before7Day);
         String _start = start.replace("-", "");
         condition.setStartTime(_start);
-        
-		condition.setCenter(decodeCenter);
+        if(decodeCenter.equals("合计")){
+        	condition.setCenter(null);
+        }else{
+        	condition.setCenter(decodeCenter);
+        }
 		List<ArchBusiErrcodeMapTransfer> findData = archBusiErrcodeMapSv.unstandard(condition);
         HSSFWorkbook wb = unstandardRepot(findData,decodeCenter,insertTime);  
         response.setContentType("application/vnd.ms-excel");  

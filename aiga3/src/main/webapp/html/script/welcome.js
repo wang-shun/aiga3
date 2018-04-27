@@ -192,7 +192,7 @@ define(function(require,exports,module){
 		_error_code:function() {
 			var self = this;
 			//设置默认参数
-			var yesterday = Rose.date.yesterdayTime2str(new Date(),"yyyyMMdd");
+			var yesterday = Rose.date.dateTime2str(new Date(),"yyyyMMdd");
 			Page.find("[name='errCodeButton']").off('click').on('click',function() {
 				var obj= {
 					id : '463',

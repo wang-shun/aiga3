@@ -53,14 +53,8 @@ define(function(require, exports, module) {
 		
 		//初始化时间框
 		_time:function(){			
-			//初始化时间框
-			function showMonthFirstDay() {     
-				var date=new Date();
-			 	date.setDate(1);
-			 	return Rose.date.yesterdayTime2str(date,"yyyy-MM-dd");   
-			}
 			var _form = Page.findId('queryDataForm'); 
-			_form.find("[name='insertTime']").val(Rose.date.yesterdayTime2str(new Date(),"yyyy-MM-dd"));
+			_form.find("[name='insertTime']").val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
 		},
 		
 		// 查询表格数据

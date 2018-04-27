@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.ai.aiga.domain.ArchDbSession;
-import com.ai.aiga.domain.ArchWorkPlan;
 import com.ai.aiga.domain.DbSessionCount;
 import com.ai.aiga.dao.ArchDbSessionDao;
 import com.ai.aiga.dao.DbSessionCountDao;
@@ -41,13 +40,9 @@ public class ArchDbSessionSv extends BaseService {
 	@Autowired
 	private String addressUrlTwo;
 	
-	//find
-	public List<ArchDbSession> findAll(){
-		return archDbSessionDao.findAll();
-	}
 
 	public List<ArchDbSession> queryByCondition(ArchDbSession condition) throws ParseException {
-		Date day=new Date();    
+        Date day=new Date();    
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd"); 		
 		StringBuilder nativeSql = new StringBuilder("select * from aiam.Arch_Db_Session_"+/*df.format(day)*/20180309+" a where 1=1 "); 		
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
@@ -55,7 +50,6 @@ public class ArchDbSessionSv extends BaseService {
 		
 		DbSession bean = new DbSession();
 		Object params2=new Object();
-		//String service;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
@@ -74,19 +68,57 @@ public class ArchDbSessionSv extends BaseService {
 				String cloudUrl = addressUrl+key3;
 				String cloudUrlTwo = addressUrlTwo +key3;
 				bean = restTemplate.getForObject(cloudUrl, DbSession.class,formEntity );
+				DbSessionCount request = new DbSessionCount();
 				if(bean.data == null){
 					bean = restTemplate.getForObject(cloudUrlTwo, DbSession.class,formEntity );
-					if(bean.data == null)
+					if(bean.data == null){
 						continue;
-				}					
+					}else{
+						request.setBusinessInfo("getVMBusinessInfo");
+					}
+				}else{
+					request.setBusinessInfo("getPhyBusinessInfo");
+				}
 				String[]  strs=bean.data.toString().split(",");
-				DbSessionCount request = new DbSessionCount();
+				String system;
+				String system_subdomain;
+				String name;
+				for(int j=0;j<strs.length;j++){
+					if(strs[j].indexOf("system=")>-1 && strs[j].indexOf("}]") == -1){
+						system = strs[j].substring(strs[j].lastIndexOf("=")+1, strs[j].length());
+						request.setSystemName(system);
+						continue;
+					}
+					if(strs[j].indexOf("system=")>-1 && strs[j].indexOf("}]") > -1){
+						system = strs[j].substring(strs[j].lastIndexOf("=")+1, strs[j].lastIndexOf("}]"));
+						request.setSystemName(system);
+						continue;
+					}
+					if(strs[j].indexOf("system_subdomain=")>-1 && strs[j].indexOf("}]") == -1){
+						system_subdomain = strs[j].substring(strs[j].lastIndexOf("=")+1, strs[j].length());
+						request.setSystemSubdomain(system_subdomain);
+						continue;
+					}
+					if(strs[j].indexOf("system_subdomain=")>-1 && strs[j].indexOf("}]") > -1){
+						system_subdomain = strs[j].substring(strs[j].lastIndexOf("=")+1, strs[j].lastIndexOf("}]"));
+						request.setSystemSubdomain(system_subdomain);
+						continue;
+					}
+					if(strs[j].indexOf("name=")>-1 && strs[j].indexOf("}]") == -1){
+						name = strs[j].substring(strs[j].lastIndexOf("=")+1, strs[j].length());
+						request.setName(name);
+						continue;
+					}
+					if(strs[j].indexOf("name=")>-1 && strs[j].indexOf("}]") > -1){
+						name = strs[j].substring(strs[j].lastIndexOf("=")+1, strs[j].lastIndexOf("}]"));
+						request.setName(name);
+						continue;
+					}
+				}
+				
 				request.setId(i+1);
-				request.setSystemNAME(strs[0].toString().substring(9)); 
-				request.setSystemSubdomain(strs[1].toString().substring(18));
 				request.setCreateTime(df.format(day));
-				dbSessionCountDao.save(request);
-												
+				dbSessionCountDao.save(request);												
 			}
 			
 		} catch (Exception e) {				

@@ -16,18 +16,22 @@ public class DbSessionCount  implements java.io.Serializable {
 
 
      private long id;
-     private String systemNAME;
+     private String systemName;
      private String systemSubdomain;
+     private String name;
+     private String businessInfo;
      private String createTime;
 
     public DbSessionCount() {
     }
 
 
-    public DbSessionCount(long id, String systemNAME, String systemSubdomain, String createTime) {
+    public DbSessionCount(long id, String systemName, String systemSubdomain, String name, String businessInfo, String createTime) {
        this.id = id;
-       this.systemNAME = systemNAME;
+       this.systemName = systemName;
        this.systemSubdomain = systemSubdomain;
+       this.name = name;
+       this.businessInfo = businessInfo;
        this.createTime = createTime;
     }
    
@@ -44,12 +48,12 @@ public class DbSessionCount  implements java.io.Serializable {
     }
     
     @Column(name="system_NAME", length=30)
-    public String getSystemNAME() {
-        return this.systemNAME;
+    public String getSystemName() {
+        return this.systemName;
     }
     
-    public void setSystemNAME(String systemNAME) {
-        this.systemNAME = systemNAME;
+    public void setSystemName(String systemName) {
+        this.systemName = systemName;
     }
     
     @Column(name="system_Subdomain",  length=30)
@@ -59,6 +63,24 @@ public class DbSessionCount  implements java.io.Serializable {
     
     public void setSystemSubdomain(String systemSubdomain) {
         this.systemSubdomain = systemSubdomain;
+    }
+    
+    @Column(name="name",  length=30)
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    @Column(name="business_Info",  length=30)
+    public String getBusinessInfo() {
+        return this.businessInfo;
+    }
+    
+    public void setBusinessInfo(String businessInfo) {
+        this.businessInfo = businessInfo;
     }
     
     @Column(name="create_time",  length=20)

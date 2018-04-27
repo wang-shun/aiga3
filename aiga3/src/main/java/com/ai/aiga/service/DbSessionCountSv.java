@@ -24,7 +24,7 @@ public class DbSessionCountSv extends BaseService {
 
 	public List<DbSessionData> queryByCondition(DbSessionData condition) throws ParseException {
 
-		StringBuilder nativeSql = new StringBuilder("select am.system_name, am.system_subdomain, am.create_time,count(1) as num from Db_Session_Count am where 1=1 "); 
+		StringBuilder nativeSql = new StringBuilder("select am.system_name, am.system_subdomain,am.name,am.Business_Info, am.create_time,count(1) as num from Db_Session_Count am where 1=1 "); 
 		
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 

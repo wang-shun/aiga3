@@ -58,7 +58,7 @@ define(function(require, exports, module) {
 			var stime = _cmd.substring(11,21);
 			var _cmd2 = {
     			endMonth:stime,
-    			indexId:[1001001,1001002,1001003,1001004,1001005,1001007]
+    			indexId:[1001001,1001002,1001003,1001004,1001005,1034000,1035000,1036000,1036001,1036002,1036003]
 			};
 			Rose.ajax.postJson(srvMap.get('query2daynew'),_cmd2,function(json, status){
 				if(status) {
@@ -94,8 +94,18 @@ define(function(require, exports, module) {
 	        				_ggcmd.indexId=[1001004];
 	        			}else if(db=='ZJRES'){
 	        				_ggcmd.indexId=[1001005];
+	        			}else if(db=='ZJRES'){
+	        				_ggcmd.indexId=[1034000];
 	        			}else if(db=='ZJPUB'){
-	        				_ggcmd.indexId=[1001007];
+	        				_ggcmd.indexId=[1035000];
+	        			}else if(db=='ZJZWA'){
+	        				_ggcmd.indexId=[1036000];
+	        			}else if(db=='ZJZWB'){
+	        				_ggcmd.indexId=[1036001];
+	        			}else if(db=='ZJZWC'){
+	        				_ggcmd.indexId=[1036002];
+	        			}else if(db=='ZJZWD'){
+	        				_ggcmd.indexId=[1036003];
 	        			}
 	        			var _7cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
 						Rose.ajax.postJson(srvMap.get("listTotalDbConnects"), _7cmd, function(json, status) {
@@ -139,8 +149,18 @@ define(function(require, exports, module) {
 	        				_ggcmd.indexId=[1001004];
 	        			}else if(db=='ZJRES'){
 	        				_ggcmd.indexId=[1001005];
+	        			}else if(db=='ZJRES'){
+	        				_ggcmd.indexId=[1034000];
 	        			}else if(db=='ZJPUB'){
-	        				_ggcmd.indexId=[1001007];
+	        				_ggcmd.indexId=[1035000];
+	        			}else if(db=='ZJZWA'){
+	        				_ggcmd.indexId=[1036000];
+	        			}else if(db=='ZJZWB'){
+	        				_ggcmd.indexId=[1036001];
+	        			}else if(db=='ZJZWC'){
+	        				_ggcmd.indexId=[1036002];
+	        			}else if(db=='ZJZWD'){
+	        				_ggcmd.indexId=[1036003];
 	        			}
 	        			var _30cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
 						Rose.ajax.postJson(srvMap.get("listTotalDbConnects"), _30cmd, function(json, status) {

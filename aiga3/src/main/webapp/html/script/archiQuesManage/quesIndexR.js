@@ -677,7 +677,6 @@ define(function(require, exports, module) {
 		},
 		getDatabaseConnectTopList : function(){
 			//查top10
-//			debugger
 			var _domTop = Page.findId('getDataMaintainListTop');
 			var _domPaginationTop = _domTop.find("[name='paginationTop']");
 			var toptask = 'listDbConnectsTop';
@@ -703,6 +702,7 @@ define(function(require, exports, module) {
 				_topcmd.indexName = Data.pieIndexNameList;
 				_topcmd.startMonth = _form.find('input[name="startMonth"]').val();
 				_topcmd.endMonth = _form.find('input[name="endMonth"]').val();
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get(toptask), _topcmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();

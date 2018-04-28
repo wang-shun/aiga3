@@ -165,40 +165,6 @@ public class ArchBusiErrcodeMapController {
 		return bean;
 	} 
 	
-	@RequestMapping(path="/webservice/quesindex/excelexport")
-	public @ResponseBody void excelexport(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
-		String insertTime = request.getParameter("insertTime");
-		String center = request.getParameter("center");
-		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
-		condition.setInsertTime(insertTime);
-		
-		String end = condition.getInsertTime();
-        //获取前七天时间字符串
-        String nowday = end;
-        String _nowday = nowday.replace("-", "");
-        DateFormat format = new SimpleDateFormat("yyyyMMdd");
-        Date today = format.parse(nowday);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(today);
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
-        Date before7Day = calendar.getTime();
-        String start = simpleDateFormat.format(before7Day);
-        String _start = start.replace("-", "");
-        condition.setStartTime(_start);
-        
-		condition.setCenter(decodeCenter);
-		List<SrvcallDayTransfer> findData = archBusiErrcodeMapSv.uncover(condition);
-        HSSFWorkbook wb = uncoveRepot(findData,decodeCenter,insertTime);  
-        response.setContentType("application/vnd.ms-excel");  
-        response.setHeader("Content-disposition", "attachment;filename="+new String((decodeCenter+"CSF错误码未覆盖清单_"+insertTime).getBytes(),"iso-8859-1")+".xls");  
-        OutputStream ouputStream = response.getOutputStream();  
-        wb.write(ouputStream);  
-        ouputStream.flush();  
-        ouputStream.close(); 
-	}
-	
 	@RequestMapping(path="/webservice/csferrcode/uncover")
 	public @ResponseBody void uncover(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
 		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();

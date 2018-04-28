@@ -2,6 +2,9 @@ package com.ai.aiga.view.controller.archiQuesManage;
 
 
 import io.swagger.annotations.Api;
+
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +15,16 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +52,8 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectTransfer;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapPeriod;
+import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
@@ -3942,4 +3956,82 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(output);
 		return bean;
 	}
+	
+	@RequestMapping(path="/webservice/quesindex/excelexport")
+	public @ResponseBody void excelexport(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
+		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
+		
+		String startMonth = request.getParameter("startMonth");
+		String endMonth   = request.getParameter("endMonth");
+		String center     = request.getParameter("center");
+		
+		
+		String insertTime = request.getParameter("insertTime");
+//		String center = request.getParameter("center");
+		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
+		condition.setInsertTime(insertTime);
+		
+		String end = condition.getInsertTime();
+        //获取前七天时间字符串
+        String nowday = end;
+        String _nowday = nowday.replace("-", "");
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date today = format.parse(nowday);
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
+        Date before7Day = calendar.getTime();
+        String start = simpleDateFormat.format(before7Day);
+        String _start = start.replace("-", "");
+        condition.setStartTime(_start);
+        
+		condition.setCenter(decodeCenter);
+		List<SrvcallDayTransfer> findData = architectureIndexSv.uncover(condition);
+        HSSFWorkbook wb = uncoveRepot(findData,decodeCenter,insertTime);  
+        response.setContentType("application/vnd.ms-excel");  
+        response.setHeader("Content-disposition", "attachment;filename="+new String((decodeCenter+"CSF错误码未覆盖清单_"+insertTime).getBytes(),"iso-8859-1")+".xls");  
+        OutputStream ouputStream = response.getOutputStream();  
+        wb.write(ouputStream);  
+        ouputStream.flush();  
+        ouputStream.close(); 
+	}
+	
+	public HSSFWorkbook uncoveRepot(List<SrvcallDayTransfer> list,String center,String insertTime) {
+		String[] head = {"CSF服务编号","平均调用市时常","访问次数","错误次数","调用时间","CSF服务状态码","错误信息","最大调用时长","最小调用时长","总调用时长","渠道","状态码"};
+		HSSFWorkbook wb = new HSSFWorkbook();  
+		HSSFSheet sheet = null;
+		sheet = wb.createSheet(center+"CSF错误码未覆盖清单_"+insertTime);
+		HSSFRow row1 = sheet.createRow((int) 0);
+		HSSFCellStyle style = wb.createCellStyle();  
+		style.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
+		for (int i = 0; i < head.length; i++) {
+			HSSFCell cell = row1.createCell(i);
+			cell.setCellValue(head[i]);  
+			cell.setCellStyle(style); 
+			if("0".equals(String.valueOf(i))) {
+				sheet.setColumnWidth(i, 20 * 256);
+			} else {
+				sheet.setColumnWidth(i, 12 * 256);
+			}	         
+		}
+		int index = 0;
+		for (SrvcallDayTransfer data : list) {  
+			HSSFRow rowLine = sheet.createRow(++index);  
+			rowLine.createCell(0).setCellValue(String.valueOf(data.getServiceid()).replace("null", ""));
+			rowLine.createCell(1).setCellValue(String.valueOf(data.getAvgduration()).replace("null", ""));
+			rowLine.createCell(2).setCellValue(String.valueOf(data.getAccesstimes()).replace("null", ""));
+			rowLine.createCell(3).setCellValue(String.valueOf(data.getErrortimes()).replace("null", ""));
+			rowLine.createCell(4).setCellValue(String.valueOf(data.getTimeperoid()).replace("null", ""));
+			rowLine.createCell(5).setCellValue(String.valueOf(data.getServicestatus()).replace("null", ""));
+			rowLine.createCell(6).setCellValue(String.valueOf(data.getErrmsg()).replace("null", ""));
+			rowLine.createCell(7).setCellValue(String.valueOf(data.getMaxduration()).replace("null", "")); 
+			rowLine.createCell(8).setCellValue(String.valueOf(data.getMinduration()).replace("null", ""));
+			rowLine.createCell(9).setCellValue(String.valueOf(data.getSumduration()).replace("null", ""));
+			rowLine.createCell(10).setCellValue(String.valueOf(data.getStatskind()).replace("null", "")); 
+			rowLine.createCell(11).setCellValue(String.valueOf(data.getStatscode()).replace("null", ""));
+		}  
+		return wb;	
+	} 
+	
 }

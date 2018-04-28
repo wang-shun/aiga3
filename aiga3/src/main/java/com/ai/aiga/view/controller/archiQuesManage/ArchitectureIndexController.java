@@ -2846,15 +2846,23 @@ public class ArchitectureIndexController extends BaseService {
 			prelist.add(center);
 		}
 		//汇总拼装
-//		long increaseTotal = 0L;
+//		for(int i=0;i<list.size();i++){
+//			CenterDbConnectTopList base = list.get(i);
+//			CenterDbConnectTopList prebase = prelist.get(i);
+//			base.setLastmonth(prebase.getLastmonth());
+//			base.setIncrease(base.getThismonth()-prebase.getLastmonth());
+//		}
+		//汇总拼装 对应
 		for(int i=0;i<list.size();i++){
 			CenterDbConnectTopList base = list.get(i);
-			CenterDbConnectTopList prebase = prelist.get(i);
-			base.setLastmonth(prebase.getLastmonth());
-			base.setIncrease(base.getThismonth()-prebase.getLastmonth());
-//			if(base.getIncrease()>0){
-//				increaseTotal += base.getIncrease();
-//			}
+			String system = base.getSystem();
+			for(int j=0;j<prelist.size();j++){
+				CenterDbConnectTopList prebase = prelist.get(i);
+				if(prebase.getSystem().equals(system)){
+					base.setLastmonth(prebase.getLastmonth());
+					base.setIncrease(base.getThismonth()-prebase.getLastmonth());
+				}
+			}
 		}
 		for(int i=0;i<list.size();i++){
 			CenterDbConnectTopList base = list.get(i);

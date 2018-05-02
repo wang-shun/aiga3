@@ -2766,8 +2766,10 @@ public class ArchitectureIndexController extends BaseService {
 				long temp = Double.valueOf(baseConnect.getResultValue()).longValue();
 				thismonth += temp;
 			}
-			thismonth /= (baseConnectList.size()-1);
-			thismonth *= indexid2d[i].length;
+			if(baseConnectList.size()>1){
+				thismonth /= (baseConnectList.size()-1);
+				thismonth *= indexid2d[i].length;
+			}
 			center.setThismonth(thismonth);
 			list.add(center);
 		}

@@ -264,7 +264,7 @@ define(function(require, exports, module) {
 				}
 			});
 			Handlebars.registerHelper("changeRed",function(value) {
-				if((parseInt(value))<60) {
+				if((parseInt(value))<95) {
 					return 'change-font-red';
 				} else {
 					return '';

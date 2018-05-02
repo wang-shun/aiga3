@@ -2872,9 +2872,13 @@ public class ArchitectureIndexController extends BaseService {
 			CenterDbConnectTopList base = list.get(i);
 			if(base.getIncrease()>0){
 //				base.setPercentage((base.getIncrease()*100)/increaseTotal);
-				base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				if(base.getLastmonth()!=0){
+					base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				}
 			}else{
-				base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				if(base.getLastmonth()!=0){
+					base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				}
 //				base.setPercentage(0);
 			}
 		}

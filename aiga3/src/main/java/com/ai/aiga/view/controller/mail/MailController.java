@@ -79,9 +79,6 @@ public class MailController {
 			@RequestParam(required=false) String fileSql,
 			@RequestParam(required=false) String content) throws IOException{
 		JsonBean bean = new JsonBean();
-		if(StringUtils.isNotBlank(content)){
-			content = URLDecoder.decode(content,"utf-8");
-		}
 		
 		mailCmpt.sendMailFileBySql(addressee, ccList.equals("null")?"":ccList, subject, content, fileSql);
 		return bean.success;

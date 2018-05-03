@@ -2,7 +2,6 @@ package com.ai.aiga.view.controller.archiQuesManage;
 
 
 import io.swagger.annotations.Api;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
@@ -15,10 +14,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -52,7 +49,7 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectTransfer;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
-import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapPeriod;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
@@ -3975,7 +3972,7 @@ public class ArchitectureIndexController extends BaseService {
 	
 	@RequestMapping(path="/webservice/quesindex/excelexport")
 	public @ResponseBody void excelexport(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
+		ArchBusiErrcodeMapSelects condition = new ArchBusiErrcodeMapSelects();
 		
 		String startMonth = request.getParameter("startMonth");
 		String endMonth   = request.getParameter("endMonth");
@@ -3999,7 +3996,7 @@ public class ArchitectureIndexController extends BaseService {
         Date before7Day = calendar.getTime();
         String start = simpleDateFormat.format(before7Day);
         String _start = start.replace("-", "");
-        condition.setStartTime(_start);
+//        condition.setStartTime(_start);
         
 		condition.setCenter(decodeDb);
 		List<SrvcallDayTransfer> findData = architectureIndexSv.uncover(condition);

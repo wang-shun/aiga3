@@ -24,7 +24,7 @@ import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectFlow;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectTransf;
-import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapPeriod;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
 @Service
 @Transactional
@@ -894,7 +894,7 @@ public class ArchitectureIndexSv extends BaseService {
 		return archDbConnectDao.searchByNativeSQL(nativeSql.toString(), params, ArchDbConnectFlow.class);
 	}
 
-	public List<SrvcallDayTransfer> uncover(ArchBusiErrcodeMapPeriod condition) {
+	public List<SrvcallDayTransfer> uncover(ArchBusiErrcodeMapSelects condition) {
 		// TODO Auto-generated method stub
 		return null;
 	}

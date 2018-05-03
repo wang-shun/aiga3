@@ -2888,6 +2888,187 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(list);	
 		return bean;
 	}
+	public List<CenterDbConnectTopList> listDbConnectsTop2in(@RequestBody AmCoreIndexTopParams condition) throws ParseException{
+		List<CenterDbConnectTopList>list = new ArrayList<CenterDbConnectTopList>();
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		//transfer "[][]" to "[]" 
+		long[][] indexid2d = condition.getIndexId();
+		int len = 0;
+		for(long[] element : indexid2d){
+			len += element.length;
+		}
+		long[] indexid1d = new long[len];
+		int index = 0;
+		for(long[] array : indexid2d){
+			for(long element : array){
+				indexid1d[index++]=element;
+			}
+		}
+		AmCoreIndexParams thisMonthcdt=new AmCoreIndexParams();
+		thisMonthcdt.setIndexId(indexid1d);
+		thisMonthcdt.setStartMonth(condition.getEndMonth());
+		thisMonthcdt.setEndMonth(condition.getEndMonth());
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(thisMonthcdt);
+		//去除空数据drop key2/key3 is null
+		for(int f=0;f<connectList.size();f++){
+			ArchDbConnect tempArchDbConnect = connectList.get(f);
+			String key1 = tempArchDbConnect.getKey1();
+			if(key1.length()>4 && tempArchDbConnect.getKey2()==null && tempArchDbConnect.getKey3()==null){
+				connectList.remove(f);
+			}
+		}
+		//初始化
+		int SYSTEM_SIZE = indexid2d.length;
+		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listConnectList.add(x, element);
+		}
+		//分组
+		for(int i=0;i<connectList.size();i++){
+			ArchDbConnect element = connectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		//求和
+		for(int i=0;i<listConnectList.size();i++){
+			List<ArchDbConnect> baseConnectList = listConnectList.get(i);
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			long thismonth = 0L;
+			for(int j=0;j<baseConnectList.size();j++){
+				ArchDbConnect baseConnect = baseConnectList.get(j);
+				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
+					continue;
+				}
+				long temp = Double.valueOf(baseConnect.getResultValue()).longValue();
+				thismonth += temp;
+			}
+			if(baseConnectList.size()>1){
+				thismonth /= (baseConnectList.size()-1);
+				thismonth *= indexid2d[i].length;
+			}
+			center.setThismonth(thismonth);
+			list.add(center);
+		}
+		String firstDay = condition.getStartMonth();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date firstDayOfMonth = format.parse(firstDay);
+		//get last month first day
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(firstDayOfMonth);
+		calendar.add(Calendar.MONTH, -1);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		String preMonthFirstDayString = simpleDateFormat.format(calendar.getTime());
+		//get last month last day
+		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar2=Calendar.getInstance();
+		calendar2.setTime(firstDayOfMonth);
+		calendar2.set(Calendar.DAY_OF_MONTH, 1);
+		calendar2.add(Calendar.DATE, -1);
+		String preMonthLastDayString = sf.format(calendar2.getTime());
+		//last month query condition
+		AmCoreIndexParams preMonthcdt=new AmCoreIndexParams();
+		preMonthcdt.setIndexId(indexid1d);
+		preMonthcdt.setStartMonth(condition.getStartMonth());
+		preMonthcdt.setEndMonth(condition.getStartMonth());
+		List<CenterDbConnectTopList>prelist = new ArrayList<CenterDbConnectTopList>();
+		List<ArchDbConnect>preConnectList = architectureIndexSv.listDbConnects2Youhua(preMonthcdt);
+		//去除空数据drop key2/key3 is null
+		for(int f=0;f<preConnectList.size();f++){
+			ArchDbConnect tempArchDbConnect = preConnectList.get(f);
+			String key1 = tempArchDbConnect.getKey1();
+			if(key1.length()>4 && tempArchDbConnect.getKey2()==null && tempArchDbConnect.getKey3()==null){
+				preConnectList.remove(f);
+			}
+		}
+		//初始化
+		List<List<ArchDbConnect>>listPreConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listPreConnectList.add(x, element);
+		}
+		//分组
+		for(int i=0;i<preConnectList.size();i++){
+			ArchDbConnect element = preConnectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listPreConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		//求和
+		for(int i=0;i<listPreConnectList.size();i++){
+			List<ArchDbConnect> baseConnectList = listPreConnectList.get(i);
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+//			String id = "TOP" + (i+1);
+//			center.setId(id);
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			long lastmonth = 0L;
+			for(int j=0;j<baseConnectList.size();j++){
+				ArchDbConnect baseConnect = baseConnectList.get(j);
+				if(baseConnect.getResultValue()==null){
+					continue;
+				}
+				lastmonth += Double.valueOf(baseConnect.getResultValue()).longValue();
+			}
+			if(baseConnectList.size()>1){
+				lastmonth /= (baseConnectList.size()-1);
+				lastmonth *= indexid2d[i].length;
+			}
+			center.setLastmonth(lastmonth);
+			prelist.add(center);
+		}
+		//汇总拼装 对应
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			String system = base.getSystem();
+			for(int j=0;j<prelist.size();j++){
+				CenterDbConnectTopList prebase = prelist.get(i);
+				if(prebase.getSystem().equals(system)){
+					base.setLastmonth(prebase.getLastmonth());
+					base.setIncrease(base.getThismonth()-prebase.getLastmonth());
+				}
+			}
+		}
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			if(base.getIncrease()>0){
+				if(base.getLastmonth()!=0){
+					base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				}
+			}else{
+				if(base.getLastmonth()!=0){
+					base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				}
+			}
+		}
+		Collections.sort(list, new IncreaseComparator());
+		
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			base.setId("TOP" + (i+1));
+		}
+		return list;
+	}
 	// 自定义比较器：按increase排序  
 	static class IncreaseComparator implements Comparator {  
 		public int compare(Object object1, Object object2) {// 实现接口中的方法  
@@ -3972,44 +4153,115 @@ public class ArchitectureIndexController extends BaseService {
 	
 	@RequestMapping(path="/webservice/quesindex/excelexport")
 	public @ResponseBody void excelexport(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		ArchBusiErrcodeMapSelects condition = new ArchBusiErrcodeMapSelects();
 		
 		String startMonth = request.getParameter("startMonth");
 		String endMonth   = request.getParameter("endMonth");
 		String db         = request.getParameter("db");
-		
-		
-		String insertTime = request.getParameter("insertTime");
 		String decodeDb = java.net.URLDecoder.decode(db,"UTF-8");
-		condition.setInsertTime(insertTime);
+		AmCoreIndexTopParams cdts = new AmCoreIndexTopParams();
+		cdts.setStartMonth(startMonth);
+		cdts.setEndMonth(endMonth);
+		String[] indexName = {"账户中心连接数","融合CRM连接数","客户中心连接数","政企中心连接数","流量中心连接数","家庭订单子中心连接数","资源中心连接数","规则中心连接数","个人订单子中心连接数","通用中心连接数","政企订单子中心连接数","外围中心连接数","4A系统用户连接数","到期中心连接数","开通中心连接数","账管BOSS连接数","物联网中心连接数","其他渠道中心连接数"};
+		cdts.setIndexName(indexName);
+		if(decodeDb.equals("ZJCRMB")){
+			long[][] indexId ={ 
+					{1031001, 1031002, 1031022},
+					{1031003, 1031004},
+					{1031005, 1031038},
+					{1031006, 1031007},
+					{1031008, 1031009},
+					{1031010, 1031011, 1031013},
+					{1031014, 1031015},
+					{1031016},
+					{1031017, 1031018, 1031039},
+					{1031019, 1031041},
+					{1031020, 1031021, 1031040},
+					{1031023, 1031024},
+					{1031025},
+					{1031026, 1031028},
+					{1031027},
+					{1031029},
+					{1031030, 1031031, 1031032},
+					{1031033, 1031034, 1031035, 1031036, 1031037, 1031042}};
+			cdts.setIndexId(indexId);
+		}else if(decodeDb.equals("ZJCRMC")){
+			long[][] indexId = {
+					{1032001, 1032002, 1032022},
+					{1032003, 1032004},
+					{1032005, 1032038},
+					{1032006, 1032007},
+					{1032008, 1032009},
+					{1032010, 1032011, 1032013},
+					{1032014, 1032015},
+					{1032016},
+					{1032017, 1032018, 1032039},
+					{1032019, 1032041},
+					{1032020, 1032021, 1032040},
+					{1032023, 1032024},
+					{1032025},
+					{1032026, 1032028},
+					{1032027},
+					{1032029},
+					{1032030, 1032031, 1032032},
+					{1032033, 1032034, 1032035, 1032036, 1032037, 1032042}
+			};
+			cdts.setIndexId(indexId);
+		}else if(decodeDb.equals("ZJCRMD")){
+			long[][] indexId = {
+					{1033001, 1033002, 1033022},
+					{1033003, 1033004},
+					{1033005, 1033038},
+					{1033006, 1033007},
+					{1033008, 1033009},
+					{1033010, 1033011, 1033013},
+					{1033014, 1033015},
+					{1033016},
+					{1033017, 1033018, 1033039},
+					{1033019, 1033041},
+					{1033020, 1033021, 1033040},
+					{1033023, 1033024},
+					{1033025},
+					{1033026, 1033028},
+					{1033027},
+					{1033029},
+					{1033030, 1033031, 1033032},
+					{1033033, 1033034, 1033035, 1033036, 1033037, 1033042}
+			};
+			cdts.setIndexId(indexId);
+		}else{
+			long[][] indexId ={
+					{1030001, 1030002, 1030022},
+					{1030003, 1030004},
+					{1030005, 1030038},
+					{1030006, 1030007},
+					{1030008, 1030009},
+					{1030010, 1030011, 1030013},
+					{1030014, 1030015},
+					{1030016},
+					{1030017, 1030018, 1030039},
+					{1030019, 1030041},
+					{1030020, 1030021, 1030040},
+					{1030023, 1030024},
+					{1030025},
+					{1030026, 1030028},
+					{1030027},
+					{1030029},
+					{1030030, 1030031, 1030032},
+					{1030033, 1030034, 1030035, 1030036, 1030037, 1030042}};
+			cdts.setIndexId(indexId);
 		
-		String end = condition.getInsertTime();
-        //获取前七天时间字符串
-        String nowday = end;
-        String _nowday = nowday.replace("-", "");
-        DateFormat format = new SimpleDateFormat("yyyyMMdd");
-        Date today = format.parse(nowday);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(today);
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
-        Date before7Day = calendar.getTime();
-        String start = simpleDateFormat.format(before7Day);
-        String _start = start.replace("-", "");
-//        condition.setStartTime(_start);
-        
-		condition.setCenter(decodeDb);
-		List<SrvcallDayTransfer> findData = architectureIndexSv.uncover(condition);
-        HSSFWorkbook wb = uncoveRepot(findData,decodeDb,insertTime);  
+		}
+		List<CenterDbConnectTopList>findData = listDbConnectsTop2in(cdts);
+        HSSFWorkbook wb = uncoveRepot(findData,decodeDb,endMonth);  
         response.setContentType("application/vnd.ms-excel");  
-        response.setHeader("Content-disposition", "attachment;filename="+new String((decodeDb+"CSF错误码未覆盖清单_"+insertTime).getBytes(),"iso-8859-1")+".xls");  
+        response.setHeader("Content-disposition", "attachment;filename="+new String((decodeDb+"数据库连接数平均数增长来源分析_"+endMonth).getBytes(),"iso-8859-1")+".xls");  
         OutputStream ouputStream = response.getOutputStream();  
         wb.write(ouputStream);  
         ouputStream.flush();  
         ouputStream.close(); 
 	}
 	
-	public HSSFWorkbook uncoveRepot(List<SrvcallDayTransfer> list,String center,String insertTime) {
+	public HSSFWorkbook uncoveRepot(List<CenterDbConnectTopList> list,String center,String insertTime) {
 		String[] head = {"排名情况","系统来源","对比日期1当天平均值","对比日期2当天平均值","环比连接数增长量","环比增长率%"};
 		HSSFWorkbook wb = new HSSFWorkbook();  
 		HSSFSheet sheet = null;
@@ -4028,20 +4280,14 @@ public class ArchitectureIndexController extends BaseService {
 			}	         
 		}
 		int index = 0;
-		for (SrvcallDayTransfer data : list) {  
+		for (CenterDbConnectTopList data : list) {  
 			HSSFRow rowLine = sheet.createRow(++index);  
-			rowLine.createCell(0).setCellValue(String.valueOf(data.getServiceid()).replace("null", ""));
-			rowLine.createCell(1).setCellValue(String.valueOf(data.getAvgduration()).replace("null", ""));
-			rowLine.createCell(2).setCellValue(String.valueOf(data.getAccesstimes()).replace("null", ""));
-			rowLine.createCell(3).setCellValue(String.valueOf(data.getErrortimes()).replace("null", ""));
-			rowLine.createCell(4).setCellValue(String.valueOf(data.getTimeperoid()).replace("null", ""));
-			rowLine.createCell(5).setCellValue(String.valueOf(data.getServicestatus()).replace("null", ""));
-			rowLine.createCell(6).setCellValue(String.valueOf(data.getErrmsg()).replace("null", ""));
-			rowLine.createCell(7).setCellValue(String.valueOf(data.getMaxduration()).replace("null", "")); 
-			rowLine.createCell(8).setCellValue(String.valueOf(data.getMinduration()).replace("null", ""));
-			rowLine.createCell(9).setCellValue(String.valueOf(data.getSumduration()).replace("null", ""));
-			rowLine.createCell(10).setCellValue(String.valueOf(data.getStatskind()).replace("null", "")); 
-			rowLine.createCell(11).setCellValue(String.valueOf(data.getStatscode()).replace("null", ""));
+			rowLine.createCell(0).setCellValue(String.valueOf(data.getId()).replace("null", ""));
+			rowLine.createCell(1).setCellValue(String.valueOf(data.getSystem()).replace("null", ""));
+			rowLine.createCell(2).setCellValue(String.valueOf(data.getLastmonth()).replace("null", ""));
+			rowLine.createCell(3).setCellValue(String.valueOf(data.getThismonth()).replace("null", ""));
+			rowLine.createCell(4).setCellValue(String.valueOf(data.getIncrease()).replace("null", ""));
+			rowLine.createCell(5).setCellValue(String.valueOf(data.getPercentage()).replace("null", ""));
 		}  
 		return wb;	
 	} 

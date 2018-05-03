@@ -134,7 +134,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.name = name;
     }
     
-    @Column(name="SYSTEM_FUNCTION", length=500)
+    @Column(name="SYSTEM_FUNCTION", length=2048)
     public String getSystemFunction() {
         return this.systemFunction;
     }

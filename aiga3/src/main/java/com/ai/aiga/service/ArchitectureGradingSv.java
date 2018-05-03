@@ -49,6 +49,15 @@ public class ArchitectureGradingSv extends BaseService {
 		return architectureGradingDao.findAll();
 	}
 	
+	
+	public List<ArchitectureGrading> systemCheck(ArchitectureGrading condition) throws ParseException {
+
+		List<ArchitectureGrading>list=architectureGradingDao.findByCode(condition.getCode());
+		return list;
+		
+	}
+	
+	
 	public List<Map> findChangeMessage (ArchiGradingConditionParam input) throws ParseException{
 		String sql = "select  t.id_belong, t.sys_id, to_char(t.modify_date,'yyyy-mm') as cnt_date from ARCHITECTURE_GRADING t  where 1=1";
 		if(StringUtils.isNotBlank(input.getState())) {

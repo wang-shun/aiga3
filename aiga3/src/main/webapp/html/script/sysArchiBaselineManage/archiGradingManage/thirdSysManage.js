@@ -23,10 +23,13 @@ define(function(require, exports, module) {
     srvMap.add("rankInfoStatic", pathAlias + "getDeliverablesList.json", "webservice/static/rankInfo");  
     //获取所属一级域信息
     srvMap.add("getFirstBySecond", pathAlias + "getDeliverablesList.json", "webservice/archiSecond/getFirst");  
-
+    //获取系统简称
+    srvMap.add("systemCheck", pathAlias + "systemCheck.json", "webservice/archiGrading/systemCheck");
+    
+    
 	var idcache = {
 		onlysysId : ""
-	}
+	};
 	
 	var cache = {	
 		datas : "",     	//查询出的系统信息
@@ -63,6 +66,78 @@ define(function(require, exports, module) {
 					_queryBtn.click();
 				}
 			}
+		},
+		
+		//数据校验
+		checkNum:function(_modal){
+			var self = this;
+			var _form = Page.findId("thirdApplyForm");
+			var _cmd = _form.serialize();	
+			//数据校验
+			if(_cmd.indexOf('name=&')>-1) {
+				XMS.msgbox.show('名称为空！', 'error', 2000);
+				return
+			}
+			var name = _form.find('[name="name"]').val();      
+		    var pattern = /^[A-Za-z0-9\u4e00-\u9fa5]+$/;  
+			if(!pattern.test(name) ){
+				XMS.msgbox.show('名称不能带特殊符号！', 'error', 2000);
+				return
+			}
+			
+			var realLength = 0, len = name.length, charCode = -1;  
+	        for ( var i = 0; i < len; i++) {  
+	            charCode = name.charCodeAt(i);  
+	            if (charCode >= 0 && charCode <= 128)  
+	                realLength += 1;  
+	            else  
+	                realLength += 2;  
+	        }
+	        if(realLength>30){
+	        	XMS.msgbox.show('名称不能超过30字节！', 'error', 2000);
+				return
+	        }
+			
+			var code = _form.find('[name="code"]').val();
+			if(code != ''){
+				//判断简称是否已存在
+				Rose.ajax.postJson(srvMap.get('systemCheck'),_cmd,function(json, status){
+					if(json.retCode == 500) {						
+						XMS.msgbox.show('此简称已存在，请更换！', 'error', 2000);
+						return							
+					}					
+				});
+			}
+			
+			
+			if(_cmd.indexOf('idFirst=&')>-1) {
+				XMS.msgbox.show('所属一级域为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('idBelong=&')>-1) {
+				XMS.msgbox.show('所属二级域为空！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('rankInfo=&')>-1) {
+				XMS.msgbox.show('等级信息为空！', 'error', 2000);
+				return
+			}			
+			var developer = _form.find('[name="developer"]').val();
+			var idFirst = _form.find('[name="idFirst"]').val();
+			if(developer != 0 && idFirst !='50000000' && name.indexOf(developer)>-1){
+				XMS.msgbox.show('开发商名字不要出现在名称里！', 'error', 2000);
+				return
+			}
+			if(_cmd.indexOf('sysState=&')>-1) {
+				XMS.msgbox.show('建设状态为空！', 'error', 2000);
+				return
+			}			
+			var hierarchy = _form.find('[name="hierarchy"]');
+			if(!hierarchy.is(':checked')){
+				XMS.msgbox.show('分层层级为空！', 'error', 2000);
+				return
+			}			
+			self.uploadAnNiu(_modal);			
 		},
 		
 		//上传附件，提交申请单
@@ -142,27 +217,7 @@ define(function(require, exports, module) {
 			}	
 			_cmd += '&ext3='+ Page.find("[name='groupApply']:checked").val();
 			_cmd += '&ext1=3&description=新增';
-			//数据校验
-			if(_cmd.indexOf('name=&')>-1) {
-				XMS.msgbox.show('名称为空！', 'error', 2000);
-				return
-			}
-			if(_cmd.indexOf('sysId=&')>-1) {
-				XMS.msgbox.show('系统编号为空！', 'error', 2000);
-				return
-			}
-			if(_cmd.indexOf('idBelong=&')>-1) {
-				XMS.msgbox.show('所属二级域为空！', 'error', 2000);
-				return
-			}
-			if(_cmd.indexOf('sysState=&')>-1) {
-				XMS.msgbox.show('建设状态为空！', 'error', 2000);
-				return
-			}
-			if(!belongLevel) {
-				XMS.msgbox.show('分层层级为空！', 'error', 2000);
-				return
-			}
+			
 			
 			//调用服务
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -214,7 +269,7 @@ define(function(require, exports, module) {
 				    confirmButton: '确认',
 				    cancelButton: '取消',
 				    confirm: function(){
-						self.uploadAnNiu(_modal);
+				    	self.checkNum(_modal);
 				    },
 				    cancel:function(){}
 				});

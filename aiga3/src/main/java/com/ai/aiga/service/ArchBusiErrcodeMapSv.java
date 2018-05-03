@@ -134,6 +134,7 @@ public class ArchBusiErrcodeMapSv extends BaseService {
         	nativeSql.append(" and ar.month_date = :insertTime ");
         	params.add(new ParameterCondition("insertTime", condition.getInsertTime()));
         }
+        nativeSql.append(" order by ar.id ");
         List<ArchCsfErrcodeReportTable>listDay = archCsfErrcodeReportDao.searchByNativeSQL(nativeSql.toString(), params, ArchCsfErrcodeReportTable.class);
         return listDay;
     }

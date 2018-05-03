@@ -2,6 +2,9 @@ package com.ai.aiga.view.controller.archiQuesManage;
 
 
 import io.swagger.annotations.Api;
+
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +15,16 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +52,8 @@ import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectTransfer;
 import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapPeriod;
+import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
 import com.ai.aiga.view.json.base.JsonBean;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
@@ -730,7 +744,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1030000 || idcdt[i]==1031000 || idcdt[i]==1032000 || idcdt[i]==1033000 || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -871,7 +885,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1030000 || idcdt[i]==1031000 || idcdt[i]==1032000 || idcdt[i]==1033000 || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -1007,7 +1021,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1030000 || idcdt[i]==1031000 || idcdt[i]==1032000 || idcdt[i]==1033000 || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -1140,7 +1154,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1030000 || idcdt[i]==1031000 || idcdt[i]==1032000 || idcdt[i]==1033000 || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -1282,7 +1296,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -1447,7 +1461,8 @@ public class ArchitectureIndexController extends BaseService {
 				singlecdt.setStartMonth(condition.getStartMonth());
 				singlecdt.setEndMonth(condition.getEndMonth());
 				for(int j=0;j<singleIndexIds.length;j++){
-					if(singleIndexIds[j]>=1001001 && singleIndexIds[j]<=1001006){
+					if((singleIndexIds[i]>=1001001 && singleIndexIds[i]<=1001006) || singleIndexIds[i]==1034000 || singleIndexIds[i]==1035000 || (singleIndexIds[i]>=1036000 && singleIndexIds[i]<=1036003)){
+//					if(singleIndexIds[j]>=1001001 && singleIndexIds[j]<=1001006){
 						flag=true;
 					}else{
 						flag=false;
@@ -1635,7 +1650,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -1834,7 +1849,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -2028,7 +2043,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -2220,7 +2235,7 @@ public class ArchitectureIndexController extends BaseService {
 			if(condition.getIndexId()!=null){
 				long[] idcdt = condition.getIndexId();
 				for(int i=0;i<idcdt.length;i++){
-					if(idcdt[i]>=1001001 && idcdt[i]<=1001006){
+					if((idcdt[i]>=1001001 && idcdt[i]<=1001006) || idcdt[i]==1034000 || idcdt[i]==1035000 || (idcdt[i]>=1036000 && idcdt[i]<=1036003)){
 						condition.setIndexGroup("数据库连接总数");
 					}
 				}
@@ -2430,8 +2445,6 @@ public class ArchitectureIndexController extends BaseService {
 		for(int i=0;i<listConnectList.size();i++){
 			List<ArchDbConnect> baseConnectList = listConnectList.get(i);
 			CenterDbConnectTopList center = new CenterDbConnectTopList();
-//			String id = "TOP" + (i+1);
-//			center.setId(id);
 			String system = condition.getIndexName()[i];
 			center.setSystem(system);
 			long thismonth = 0L;
@@ -2441,7 +2454,6 @@ public class ArchitectureIndexController extends BaseService {
 					continue;
 				}
 				long temp = Double.valueOf(baseConnect.getResultValue()).longValue();
-//				thismonth += Long.parseLong(baseConnect.getResultValue().contains(".")?baseConnect.getResultValue().split("\\.")[0]:baseConnect.getResultValue());
 				thismonth += temp;
 			}
 			thismonth /= baseConnectList.size();
@@ -2673,6 +2685,211 @@ public class ArchitectureIndexController extends BaseService {
 		}
 		bean.setData(list);	
 		return bean;*/
+	}
+	@RequestMapping(path = "/arch/index/listDbConnectsTop2")
+	public @ResponseBody JsonBean listDbConnectsTop2(@RequestBody AmCoreIndexTopParams condition) throws ParseException{
+		JsonBean bean = new JsonBean();
+		List<CenterDbConnectTopList>list = new ArrayList<CenterDbConnectTopList>();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间aaaaaaaaaaaaa！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		//transfer "[][]" to "[]" 
+		long[][] indexid2d = condition.getIndexId();
+		int len = 0;
+		for(long[] element : indexid2d){
+			len += element.length;
+		}
+		long[] indexid1d = new long[len];
+		int index = 0;
+		for(long[] array : indexid2d){
+			for(long element : array){
+				indexid1d[index++]=element;
+			}
+		}
+		AmCoreIndexParams thisMonthcdt=new AmCoreIndexParams();
+		thisMonthcdt.setIndexId(indexid1d);
+		thisMonthcdt.setStartMonth(condition.getEndMonth());
+		thisMonthcdt.setEndMonth(condition.getEndMonth());
+		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2Youhua(thisMonthcdt);
+		//去除空数据drop key2/key3 is null
+		for(int f=0;f<connectList.size();f++){
+			ArchDbConnect tempArchDbConnect = connectList.get(f);
+			String key1 = tempArchDbConnect.getKey1();
+			if(key1.length()>4 && tempArchDbConnect.getKey2()==null && tempArchDbConnect.getKey3()==null){
+				connectList.remove(f);
+			}
+		}
+		//初始化
+		int SYSTEM_SIZE = indexid2d.length;
+		List<List<ArchDbConnect>>listConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listConnectList.add(x, element);
+		}
+		//分组
+		for(int i=0;i<connectList.size();i++){
+			ArchDbConnect element = connectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		//求和
+		for(int i=0;i<listConnectList.size();i++){
+			List<ArchDbConnect> baseConnectList = listConnectList.get(i);
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			long thismonth = 0L;
+			for(int j=0;j<baseConnectList.size();j++){
+				ArchDbConnect baseConnect = baseConnectList.get(j);
+				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
+					continue;
+				}
+				long temp = Double.valueOf(baseConnect.getResultValue()).longValue();
+				thismonth += temp;
+			}
+			if(baseConnectList.size()>1){
+				thismonth /= (baseConnectList.size()-1);
+				thismonth *= indexid2d[i].length;
+			}
+			center.setThismonth(thismonth);
+			list.add(center);
+		}
+		String firstDay = condition.getStartMonth();
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Date firstDayOfMonth = format.parse(firstDay);
+		//get last month first day
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(firstDayOfMonth);
+		calendar.add(Calendar.MONTH, -1);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		String preMonthFirstDayString = simpleDateFormat.format(calendar.getTime());
+		//get last month last day
+		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar2=Calendar.getInstance();
+		calendar2.setTime(firstDayOfMonth);
+		calendar2.set(Calendar.DAY_OF_MONTH, 1);
+		calendar2.add(Calendar.DATE, -1);
+		String preMonthLastDayString = sf.format(calendar2.getTime());
+		//last month query condition
+		AmCoreIndexParams preMonthcdt=new AmCoreIndexParams();
+		preMonthcdt.setIndexId(indexid1d);
+		preMonthcdt.setStartMonth(condition.getStartMonth());
+		preMonthcdt.setEndMonth(condition.getStartMonth());
+		List<CenterDbConnectTopList>prelist = new ArrayList<CenterDbConnectTopList>();
+		List<ArchDbConnect>preConnectList = architectureIndexSv.listDbConnects2Youhua(preMonthcdt);
+		//去除空数据drop key2/key3 is null
+		for(int f=0;f<preConnectList.size();f++){
+			ArchDbConnect tempArchDbConnect = preConnectList.get(f);
+			String key1 = tempArchDbConnect.getKey1();
+			if(key1.length()>4 && tempArchDbConnect.getKey2()==null && tempArchDbConnect.getKey3()==null){
+				preConnectList.remove(f);
+			}
+		}
+		//初始化
+		List<List<ArchDbConnect>>listPreConnectList = new ArrayList<List<ArchDbConnect>>(SYSTEM_SIZE);
+		for(int x=0;x<SYSTEM_SIZE;x++){
+			List<ArchDbConnect> element = new ArrayList<ArchDbConnect>();
+			ArchDbConnect archDbConnect = new ArchDbConnect();
+			archDbConnect.setIndexId(1L);
+			element.add(archDbConnect);
+			listPreConnectList.add(x, element);
+		}
+		//分组
+		for(int i=0;i<preConnectList.size();i++){
+			ArchDbConnect element = preConnectList.get(i);
+			long indexid = element.getIndexId();
+			for(int y=0;y<indexid2d.length;y++){
+				for(int z=0;z<indexid2d[y].length;z++){
+					if(indexid == indexid2d[y][z]){
+						listPreConnectList.get(y).add(element);
+					}
+				}
+			}
+		}
+		//求和
+		for(int i=0;i<listPreConnectList.size();i++){
+			List<ArchDbConnect> baseConnectList = listPreConnectList.get(i);
+			CenterDbConnectTopList center = new CenterDbConnectTopList();
+//			String id = "TOP" + (i+1);
+//			center.setId(id);
+			String system = condition.getIndexName()[i];
+			center.setSystem(system);
+			long lastmonth = 0L;
+			for(int j=0;j<baseConnectList.size();j++){
+				ArchDbConnect baseConnect = baseConnectList.get(j);
+				if(baseConnect.getResultValue()==null){
+					continue;
+				}
+				lastmonth += Double.valueOf(baseConnect.getResultValue()).longValue();
+			}
+			if(baseConnectList.size()>1){
+				lastmonth /= (baseConnectList.size()-1);
+				lastmonth *= indexid2d[i].length;
+			}
+			center.setLastmonth(lastmonth);
+			prelist.add(center);
+		}
+		//汇总拼装
+//		for(int i=0;i<list.size();i++){
+//			CenterDbConnectTopList base = list.get(i);
+//			CenterDbConnectTopList prebase = prelist.get(i);
+//			base.setLastmonth(prebase.getLastmonth());
+//			base.setIncrease(base.getThismonth()-prebase.getLastmonth());
+//		}
+		//汇总拼装 对应
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			String system = base.getSystem();
+			for(int j=0;j<prelist.size();j++){
+				CenterDbConnectTopList prebase = prelist.get(i);
+				if(prebase.getSystem().equals(system)){
+					base.setLastmonth(prebase.getLastmonth());
+					base.setIncrease(base.getThismonth()-prebase.getLastmonth());
+				}
+			}
+		}
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			if(base.getIncrease()>0){
+//				base.setPercentage((base.getIncrease()*100)/increaseTotal);
+				if(base.getLastmonth()!=0){
+					base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				}
+			}else{
+				if(base.getLastmonth()!=0){
+					base.setPercentage((base.getIncrease()*100)/base.getLastmonth());
+				}
+//				base.setPercentage(0);
+			}
+		}
+		Collections.sort(list, new IncreaseComparator());
+		
+		for(int i=0;i<list.size();i++){
+			CenterDbConnectTopList base = list.get(i);
+			base.setId("TOP" + (i+1));
+		}
+		bean.setData(list);	
+		return bean;
 	}
 	// 自定义比较器：按increase排序  
 	static class IncreaseComparator implements Comparator {  
@@ -3618,31 +3835,34 @@ public class ArchitectureIndexController extends BaseService {
 				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
 					continue;
 				}
-				String db = String.valueOf(baseConnect.getKey1().charAt(5));
-				
-				if(db.equalsIgnoreCase("A")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnuma = Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numa = Long.parseLong(baseConnect.getResultValue());
-					}
-				}else if(db.equalsIgnoreCase("B")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnumb = Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numb = Long.parseLong(baseConnect.getResultValue());
-					}
-				}else if(db.equalsIgnoreCase("C")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnumc = Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numc = Long.parseLong(baseConnect.getResultValue());
-					}
-				}else if(db.equalsIgnoreCase("D")){
-					if(baseConnect.getSettMonth().equals(_yesterday)){
-						pnumd = Long.parseLong(baseConnect.getResultValue());
-					}else if(baseConnect.getSettMonth().equals(_nowday)){
-						numd = Long.parseLong(baseConnect.getResultValue());
+				if(baseConnect.getKey1().length()>5){
+					
+					String db = String.valueOf(baseConnect.getKey1().charAt(5));
+					
+					if(db.equalsIgnoreCase("A")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnuma += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numa += Long.parseLong(baseConnect.getResultValue());
+						}
+					}else if(db.equalsIgnoreCase("B")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnumb += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numb += Long.parseLong(baseConnect.getResultValue());
+						}
+					}else if(db.equalsIgnoreCase("C")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnumc += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numc += Long.parseLong(baseConnect.getResultValue());
+						}
+					}else if(db.equalsIgnoreCase("D")){
+						if(baseConnect.getSettMonth().equals(_yesterday)){
+							pnumd += Long.parseLong(baseConnect.getResultValue());
+						}else if(baseConnect.getSettMonth().equals(_nowday)){
+							numd += Long.parseLong(baseConnect.getResultValue());
+						}
 					}
 				}
 			}
@@ -3678,4 +3898,155 @@ public class ArchitectureIndexController extends BaseService {
 		bean.setData(list);	
 		return bean;
 	}
+	
+	@RequestMapping(path = "/arch/index/listTotalDbConnectsnew")
+	public @ResponseBody JsonBean listTotalDbConnectsnew(AmCoreIndexParams condition) throws ParseException {
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage output = new ArchiChangeMessage();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		System.out.println("qqqqqqqqqqq"+months2);
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		output.setxAxis(months2);
+		final int constantValue = months2.size();
+		List<String>legendList = new ArrayList<String>();
+		List<ArchDbConnect>connectList = new ArrayList<ArchDbConnect>();
+		connectList = architectureIndexSv.listDbConnects2YouhuaRound(condition);
+		List<ArchDbConnect>connectList2 = new ArrayList<ArchDbConnect>(connectList);       
+		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
+		List<String>key1List=new ArrayList<String>();
+		Iterator<ArchDbConnect>iter=connectList.iterator();
+		while(iter.hasNext()){
+			ArchDbConnect outt = iter.next();
+			String key1 = outt.getKey1();
+			if(!key1List.contains(key1)){
+				key1List.add(key1);
+				ViewSeries baseSeries = new ViewSeries();
+				baseSeries.setType("line");
+				String name = key1;
+				baseSeries.setName(name);		
+				legendList.add(name);
+				//给对应的列赋值
+				int[] data = new int[constantValue];
+				int[] a =new int[constantValue];
+				for(int i=0;i<a.length;i++){
+					a[i]=1;
+				}					
+				Iterator<ArchDbConnect>iterator = connectList2.iterator();
+				while(iterator.hasNext()){
+					ArchDbConnect archDbConnect = iterator.next();
+					if(archDbConnect.getKey1().equals(name)) {
+						String SetMonths = archDbConnect.getSettMonth().trim();
+						for(int i=0;i<data.length;i++){
+							String newMonth = months2.get(i).trim();
+							String newDay = newMonth.replace("-", "");
+							if(SetMonths.equals(newDay)){
+								if(data[i]==0){
+									data[i]=Integer.parseInt(archDbConnect.getResultValue());
+								}else{
+//									data[i]=((data[i]*a[i])+Integer.parseInt(archDbConnect.getResultValue()))/(a[i]+1);
+									data[i]+=Integer.parseInt(archDbConnect.getResultValue());
+									a[i]++;
+								}
+								iterator.remove();
+							}
+						}
+					}					
+				}
+				baseSeries.setData(data);
+				seriesList.add(baseSeries);
+			}
+		};
+		output.setLegend(legendList);
+		output.setSeries(seriesList);
+		bean.setData(output);
+		return bean;
+	}
+	
+	@RequestMapping(path="/webservice/quesindex/excelexport")
+	public @ResponseBody void excelexport(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
+		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
+		
+		String startMonth = request.getParameter("startMonth");
+		String endMonth   = request.getParameter("endMonth");
+		String db         = request.getParameter("db");
+		
+		
+		String insertTime = request.getParameter("insertTime");
+		String decodeDb = java.net.URLDecoder.decode(db,"UTF-8");
+		condition.setInsertTime(insertTime);
+		
+		String end = condition.getInsertTime();
+        //获取前七天时间字符串
+        String nowday = end;
+        String _nowday = nowday.replace("-", "");
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        Date today = format.parse(nowday);
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
+        Date before7Day = calendar.getTime();
+        String start = simpleDateFormat.format(before7Day);
+        String _start = start.replace("-", "");
+        condition.setStartTime(_start);
+        
+		condition.setCenter(decodeDb);
+		List<SrvcallDayTransfer> findData = architectureIndexSv.uncover(condition);
+        HSSFWorkbook wb = uncoveRepot(findData,decodeDb,insertTime);  
+        response.setContentType("application/vnd.ms-excel");  
+        response.setHeader("Content-disposition", "attachment;filename="+new String((decodeDb+"CSF错误码未覆盖清单_"+insertTime).getBytes(),"iso-8859-1")+".xls");  
+        OutputStream ouputStream = response.getOutputStream();  
+        wb.write(ouputStream);  
+        ouputStream.flush();  
+        ouputStream.close(); 
+	}
+	
+	public HSSFWorkbook uncoveRepot(List<SrvcallDayTransfer> list,String center,String insertTime) {
+		String[] head = {"排名情况","系统来源","对比日期1当天平均值","对比日期2当天平均值","环比连接数增长量","环比增长率%"};
+		HSSFWorkbook wb = new HSSFWorkbook();  
+		HSSFSheet sheet = null;
+		sheet = wb.createSheet(center+"数据库连接数平均数增长来源分析_"+insertTime);
+		HSSFRow row1 = sheet.createRow((int) 0);
+		HSSFCellStyle style = wb.createCellStyle();  
+		style.setAlignment(HSSFCellStyle.ALIGN_CENTER); 
+		for (int i = 0; i < head.length; i++) {
+			HSSFCell cell = row1.createCell(i);
+			cell.setCellValue(head[i]);  
+			cell.setCellStyle(style); 
+			if("0".equals(String.valueOf(i))) {
+				sheet.setColumnWidth(i, 20 * 256);
+			} else {
+				sheet.setColumnWidth(i, 12 * 256);
+			}	         
+		}
+		int index = 0;
+		for (SrvcallDayTransfer data : list) {  
+			HSSFRow rowLine = sheet.createRow(++index);  
+			rowLine.createCell(0).setCellValue(String.valueOf(data.getServiceid()).replace("null", ""));
+			rowLine.createCell(1).setCellValue(String.valueOf(data.getAvgduration()).replace("null", ""));
+			rowLine.createCell(2).setCellValue(String.valueOf(data.getAccesstimes()).replace("null", ""));
+			rowLine.createCell(3).setCellValue(String.valueOf(data.getErrortimes()).replace("null", ""));
+			rowLine.createCell(4).setCellValue(String.valueOf(data.getTimeperoid()).replace("null", ""));
+			rowLine.createCell(5).setCellValue(String.valueOf(data.getServicestatus()).replace("null", ""));
+			rowLine.createCell(6).setCellValue(String.valueOf(data.getErrmsg()).replace("null", ""));
+			rowLine.createCell(7).setCellValue(String.valueOf(data.getMaxduration()).replace("null", "")); 
+			rowLine.createCell(8).setCellValue(String.valueOf(data.getMinduration()).replace("null", ""));
+			rowLine.createCell(9).setCellValue(String.valueOf(data.getSumduration()).replace("null", ""));
+			rowLine.createCell(10).setCellValue(String.valueOf(data.getStatskind()).replace("null", "")); 
+			rowLine.createCell(11).setCellValue(String.valueOf(data.getStatscode()).replace("null", ""));
+		}  
+		return wb;	
+	} 
+	
 }

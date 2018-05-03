@@ -78,7 +78,7 @@
 							<th class="table-kuan2 table-word-center spl-thead-color1">系统名称</th>	
 							<th class="table-kuan1 table-word-center spl-thead-color1">已配置有效数据量(存在CSF注册)</th>
 							<th class="table-kuan1 table-word-center spl-thead-color1">配置涉及CSF服务数</th>						
-							<th class="table-kuan1 table-word-center spl-thead-color1">中心注册CSF服务数量</th>
+							<th class="table-kuan1 table-word-center spl-thead-color1">中心注册CSF服务数量(近7天存在调用)</th>
 							<th class="table-kuan1 table-word-center spl-thead-color2">CSF服务错误码配置覆盖率</th>
 							<th class="table-kuan1 table-word-center spl-thead-color2">环比变化</th>
 							<th class="table-kuan1 table-word-center spl-thead-color3">配置巡检规范率</th>
@@ -96,7 +96,7 @@
                 </table>
             </div>
             <div class="box-footer no-border">
-                <h5>标注：覆盖规范率低于60%和环比下降标记为红色，环比上升标记为绿色。</h5> 
+                <h5>标注：覆盖规范率低于95%和环比下降标记为红色，环比上升标记为绿色。</h5> 
             	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
             </div>
         </div>
@@ -107,7 +107,7 @@
 1、巡检数据取自各业务系统配置库bs_busi_errcode_map表数据;
 2、已配置有效数据量：取全量配置数据且配置对应的CSF服务在能力平台存在CSF注册的有效数据量;
 3、配置涉及CSF服务数:已配置有效数据量涉及的注册CSF服务数;
-4、存在调用的CSF服务数:该中心在能力平台注册的CSF服务总数;
+4、中心注册CSF服务数量(近7天存在调用)：该中心在能力平台注册，且近7天存在有效接口调用的CSF服务数量;
 5、CSF服务错误码配置覆盖率：配置涉及CSF服务数/(中心注册CSF服务数量-经中心确认无错误码的特殊服务清单);
 6、规范率: 经平台巡检配置规范的数据量/已配置有效数据量;
 		</textarea>

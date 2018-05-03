@@ -131,7 +131,7 @@ public class ArchitectureThird  implements java.io.Serializable {
         this.systemCode = systemCode;
     }
     
-    @Column(name="SYSTEM_FUNCTION", length=500)
+    @Column(name="SYSTEM_FUNCTION", length=2048)
     public String getSystemFunction() {
         return this.systemFunction;
     }

@@ -69,6 +69,18 @@ public class ArchiGradingController {
 	private CloudService cloudService;
 	
 	
+	@RequestMapping(path="/webservice/archiGrading/systemCheck")
+	public @ResponseBody JsonBean systemCheck(
+			ArchitectureGrading condition) throws ParseException{
+				JsonBean bean = new JsonBean();
+				bean.setData(architectureGradingSv.systemCheck( condition));
+				if(architectureGradingSv.systemCheck( condition).size()>0){
+					bean.fail("此简称已存在，请更换！");
+					return bean;
+				}
+			return bean;
+	}
+	
 	@RequestMapping(path="/webservice/archiGrading/sysMonthReport")
 	public @ResponseBody JsonBean sysMonthReport(
             @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,

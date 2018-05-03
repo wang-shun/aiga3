@@ -36,7 +36,9 @@ import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.ArchitectureThirdSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.PlatformOperateReportParams;
 import com.ai.aiga.view.controller.excelexport.ExcelExportController;
+import com.ai.aiga.view.controller.mail.MailController;
 import com.ai.task.taskimpl.EmailSend;
+
 
 /**
  * @ClassName: MailCmptTest
@@ -50,15 +52,10 @@ import com.ai.task.taskimpl.EmailSend;
 @ActiveProfiles("dev")
 public class MailCmptTest {
 	@Autowired
-	private EmailSend emailSend;
+	private MailController mailController;
 	
 	@Test
-	public void test(){
-		ArchTaskPlan param = new ArchTaskPlan();
-		param.setParam1("dupeng5@asiainfo.com");
-		param.setParam2("");
-
-		emailSend.taskDo(param);
+	public void test() throws IOException{
 	}	
 }
 

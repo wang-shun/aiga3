@@ -13,5 +13,7 @@ public interface ArchitectureGradingDao extends JpaRepository<ArchitectureGradin
 	ArchitectureGrading findByCloudOrderIdAndState(String cloudOrderId, String state);
 	
 	List<ArchitectureGrading> findByName(String name);
+	
+	List<ArchitectureGrading> findByCode(String code);
 
 }

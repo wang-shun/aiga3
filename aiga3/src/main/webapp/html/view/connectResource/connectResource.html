@@ -103,12 +103,11 @@
     </div>
     <div class="col-md-12">
   
-		<textarea cols="70" rows="5" disabled>
-健康度等级说明：
-（1）实际连接数&lt安全连接数上限*80 优秀（绿字）
-（2）安全连接数上限*80%&lt实际连接数&lt安全连接数上限 良好（黄字）
-（3）安全连接数上限&lt实际连接数&lt最高连接数上限 较差（橙字）
-（4）最高连接数上限&lt实际连接数 危险（红字）
+		<textarea cols="100" rows="5" disabled>
+核心数据库连接数接入来源说明：
+(1):按照各系统中心和核心数据库营业A/B/C/D库两个维度进行按天连接数的情况列表展示；
+(2):日环比变化是相较于前一天增量的百分比，下降标红，上升或不变标绿；
+(3):最后附带近7、30天变化曲线展示；
 		</textarea>
 
     </div>	
@@ -171,8 +170,8 @@
 	<td class="table-word-center">{{numd}}</td>
     <td class="table-word-center {{changePowerSty perd}}">{{perd}}%</td>
 	<td class="table-word-center">{{time}}</td>
-	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-db="{{db}}" data-time="{{time}}" name="detail7">7天曲线</button>
-		 <button type="button" class="btn btn-primary btn-table-detail30" data-db="{{db}}" data-time="{{time}}" name="detail30">30天曲线</button>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-db="{{system}}" data-time="{{time}}" name="detail7">7天曲线</button>
+		 <button type="button" class="btn btn-primary btn-table-detail30" data-db="{{system}}" data-time="{{time}}" name="detail30">30天曲线</button>
 	</td>
 </tr>
 {{/each}}

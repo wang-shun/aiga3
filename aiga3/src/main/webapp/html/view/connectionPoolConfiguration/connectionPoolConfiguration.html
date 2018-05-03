@@ -5,6 +5,40 @@
 	#Page_connectionPool .btn-table-report {margin-right: 20px;}
 	#Page_connectionPool .text-style {color:red;font-size:16px;}
 	#Page_connectionPool .min-height{min-height:50px;}
+	#Page_connectionPool .width-input-167 {width: 167px;}
+	#Page_connectionPool .width-input-400 {width: 400px;}
+	#Page_connectionPool .width-input-158 {width: 155px;}
+	#Page_connectionPool .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_connectionPool .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_connectionPool .query-data-label {width: 80px;}
+	#Page_connectionPool .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_connectionPool .col2-sec-label {margin-left: 250px;}
+	#Page_connectionPool .col3-after-label {margin-left: 17px;}
+	#Page_connectionPool .line-sen-top {margin-top: 15px;}
+	#Page_connectionPool .text-area-sty {width: 680px;vertical-align:middle; }
+	#Page_connectionPool .btn-center {text-align: center;}
+	#Page_connectionPool .total-width {width: 850px;}
+	#Page_connectionPool .btn-table-change {margin-right: 20px;}
+	#Page_connectionPool .btn-table-report {margin-right: 20px;}
+	#Page_connectionPool .errcode-center {color:blue;font-size:18px;font-weight: bold;}
+	#Page_connectionPool .text-style {color:red;font-size:16px;font-weight: bold;}
+	#Page_connectionPool .select-label-word {margin-top: 7px;width: 70px;}
+	#Page_connectionPool .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_connectionPool .show-nothing {display:none;}  
+	#Page_connectionPool .spl-thead-color1 {background-color: #00a65a;color: white;}  
+	#Page_connectionPool .spl-thead-color2 {background-color: #3c8dbc;color: white;}  
+	#Page_connectionPool .spl-thead-color3 {background-color: #f39c12;color: white;}  
+	#Page_connectionPool .spl-thead-color4 {background-color: #8ac14a;color: white;}  
+	#Page_connectionPool .spl-thead-color5 {background-color: #e1b34a;color: white;}  
+	#Page_connectionPool .spl-thead-wid {} 
+	#Page_connectionPool .change-font-red {color: red;font-weight: 700;} 
+	#Page_connectionPool .change-font-green {color: green;font-weight: 700;} 
+	#Page_connectionPool .change-font-orange {color: yellow;font-weight: 700;} 
+	#Page_connectionPool .change-font-yellow {color: orange;font-weight: 700;} 
+	#Page_connectionPool .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_connectionPool .table-kuan1{width:6%;}
+	#Page_connectionPool .table-kuan2{width:10%;}
+	#Page_connectionPool .table-kuan3{width:15%;}
   </style>
 <div class="row" id="Page_connectionPool">
     <div class="col-md-12">
@@ -77,18 +111,18 @@
                 <table class="table table-bordered table-hover" id="dataMaintainListTable">
                     <thead>
 		                <tr>
-		                <th class="iCheckbox" width="15"></th>
-	                    <th >业务系统</th>
-	                    <th >系统模块</th>
-	                    <th >目标数据库节点</th>
-						<th >initial_size</th>	
-						<th >max_active</th>					
-						<th >max_idle</th>
-						<th >min_idle</th>						
-						<th >max_wait</th>
-						<th >采集时间</th>
-						<th >是否变化</th>
-						<th >是否已报备</th>
+		                <th class="iCheckbox table-word-center spl-thead-color1" width="15"></th>
+	                    <th class="table-word-center spl-thead-color1">业务系统</th>
+	                    <th class="table-word-center spl-thead-color1">系统模块</th>
+	                    <th class="table-word-center spl-thead-color1">目标数据库节点</th>
+						<th class="table-word-center spl-thead-color3">initial_size</th>	
+						<th class="table-word-center spl-thead-color3">max_active</th>					
+						<th class="table-word-center spl-thead-color3">max_idle</th>
+						<th class="table-word-center spl-thead-color3">min_idle</th>						
+						<th class="table-word-center spl-thead-color1">max_wait</th>
+						<th class="table-word-center spl-thead-color1">采集时间</th>
+						<th class="table-word-center spl-thead-color1">是否变化</th>
+						<th class="table-word-center spl-thead-color1">是否已报备</th>
 		                </tr>
                     </thead>
                     <tbody name="content"></tbody>         
@@ -116,17 +150,17 @@
 							<table class="table table-bordered table-hover">
 								<thead>
 									<tr>
-										<th class="iCheckbox" width="15"></th>
-					                    <th >业务系统</th>
-					                    <th >系统模块</th>
-					                    <th >目标数据库节点</th>
-										<th >initial_size</th>	
-										<th >max_active</th>					
-										<th >max_idle</th>
-										<th >min_idle</th>						
-										<th >max_wait</th>
-										<th >采集时间</th>
-										<th >是否已报备</th>
+										<th class="iCheckbox table-word-center spl-thead-color1" width="15"></th>
+					                    <th class="table-word-center spl-thead-color1">业务系统</th>
+					                    <th class="table-word-center spl-thead-color1">系统模块</th>
+					                    <th class="table-word-center spl-thead-color1">目标数据库节点</th>
+										<th class="table-word-center spl-thead-color3">initial_size</th>	
+										<th class="table-word-center spl-thead-color3">max_active</th>					
+										<th class="table-word-center spl-thead-color3">max_idle</th>
+										<th class="table-word-center spl-thead-color3">min_idle</th>						
+										<th class="table-word-center spl-thead-color1">max_wait</th>
+										<th class="table-word-center spl-thead-color1">采集时间</th>
+										<th class="table-word-center spl-thead-color1">是否已报备</th>
 									</tr>
 								</thead>
 								<tbody name="content"></tbody>
@@ -168,17 +202,17 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td >{{center}}</td>
-    <td >{{module}}</td>
-	<td >{{db}}</td>
-    <td >{{initialSize}}</td>
-    <td >{{maxActive}}</td>
-    <td >{{maxIdle}}</td>
-	<td >{{minIdle}}</td>
-	<td >{{maxWait}}</td>
-	<td >{{insertTime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-change" data-center="{{center}}" data-module="{{module}}" data-db="{{db}}" data-date="{{insertTime}}" name="isChange">{{isChange}}</button></td>
-	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
+	<td class="table-word-center">{{center}}</td>
+    <td class="table-word-center">{{module}}</td>
+	<td class="table-word-center">{{db}}</td>
+    <td class="table-word-center">{{initialSize}}</td>
+    <td class="table-word-center">{{maxActive}}</td>
+    <td class="table-word-center">{{maxIdle}}</td>
+	<td class="table-word-center">{{minIdle}}</td>
+	<td class="table-word-center">{{maxWait}}</td>
+	<td class="table-word-center">{{insertTime}}</td>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-change" data-center="{{center}}" data-module="{{module}}" data-db="{{db}}" data-date="{{insertTime}}" name="isChange">{{isChange}}</button></td>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
 </tr>
 {{/each}}
 </script>
@@ -189,16 +223,16 @@
 {{#each this}}
 <tr>
     <td><input type="radio" class="minimal" value="{{id}}" name="id"></td>
-	<td >{{center}}</td>
-    <td >{{module}}</td>
-	<td >{{db}}</td>
-    <td >{{initialSize}}</td>
-    <td >{{maxActive}}</td>
-    <td >{{maxIdle}}</td>
-	<td >{{minIdle}}</td>
-	<td >{{maxWait}}</td>
-	<td >{{insertTime}}</td>
-	<td ><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
+	<td class="table-word-center">{{center}}</td>
+    <td class="table-word-center">{{module}}</td>
+	<td class="table-word-center">{{db}}</td>
+    <td class="table-word-center">{{initialSize}}</td>
+    <td class="table-word-center">{{maxActive}}</td>
+    <td class="table-word-center">{{maxIdle}}</td>
+	<td class="table-word-center">{{minIdle}}</td>
+	<td class="table-word-center">{{maxWait}}</td>
+	<td class="table-word-center">{{insertTime}}</td>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-report" name="report">否</button></td>
 </tr>
 {{/each}}
 </script>

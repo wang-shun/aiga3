@@ -76,6 +76,10 @@ define(function(require, exports, module) {
     srvMap.add("listTotalMonthIndexPie", "", "arch/index/listTotalMonthIndexPie");
     //top 10
     srvMap.add("listDbConnectsTop", "", "arch/index/listDbConnectsTop");
+    //top 10
+    srvMap.add("listDbConnectsTop2", "", "arch/index/listDbConnectsTop2");
+    //excle export
+	srvMap.add("excelexport", "", "webservice/quesindex/excelexport");
 	// 模板对象
 	var Tpl = {
 		getQuestionInfoList: require('tpl/archiQuesManage/quesTemplate.tpl'),
@@ -218,6 +222,9 @@ define(function(require, exports, module) {
 			var now = new Date(); 
 			_form.find('input[name="startMonth"]').val(Utils.showMonthFirstDay());
 			_form.find('input[name="endMonth"]').val(this.formatDate(now));
+//			var second_form = Page.findId('queryDB');
+//			second_form.find('input[name="startMonth"]').val(Utils.showPreTwoDay);
+//			second_form.find('input[name="endMonth"]').val(Utils.showYesterDay);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {				
 //                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
@@ -676,7 +683,7 @@ define(function(require, exports, module) {
 			if(cache.tableName){
 				switch(cache.tableName){
             		case "ARCH_DB_CONNECT":
-            			toptask = 'listDbConnectsTop';
+            			toptask = 'listDbConnectsTop2';
             			break;
             		case "ARCH_SRV_MANAGE":
             			toptask = 'listSrvManagesTop';
@@ -686,17 +693,50 @@ define(function(require, exports, module) {
 						break;
             	}
 			}
+			var _form = Page.findId('queryDB');
+			_form.find('input[name="startMonth"]').val(Utils.showPreTwoDay);
+			_form.find('input[name="endMonth"]').val(Utils.showYesterDay);
+			var _queryBtn = _form.find("[name='query']");
+			_queryBtn.off('click').on('click', function() {	
+				_topcmd.indexId = Data.top2cmd.indexId;
+				_topcmd.indexName = Data.pieIndexNameList;
+				_topcmd.startMonth = _form.find('input[name="startMonth"]').val();
+				_topcmd.endMonth = _form.find('input[name="endMonth"]').val();
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get(toptask), _topcmd, function(json, status) {
+					if(status) {
+						window.XMS.msgbox.hide();
+						var template = Handlebars.compile(Tpl.getArchDbConnectTop);
+						for(var i=0;i<json.data.length;i++){
+							if(json.data[i].key3!=null){
+								json.data[i].key3="("+json.data.content[i].key3+")";
+							}
+						};
+						_domTop.find("[name='content']").html(template(json.data));
+						//美化单机
+						Utils.eventTrClickCallback(_domTop);
+						Data.whetherShowTopList=false;
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}
+	  			});
+			});
+			var _excelBtn = _form.find("[name='excel']");
+			_excelBtn.off('click').on('click', function() {
+    			var url = srvMap.get('excelexport')+"?startMonth="+_form.find('input[name="startMonth"]').val()+"&endMonth="+_form.find('input[name="endMonth"]').val()+"&db="+_form.find('select[name="db"]').val();
+				location.href = encodeURI(encodeURI(url));
+    		});
 			var today = new Date(); 
 			var _topcmd = {
-				startMonth : Utils.showMonthFirstDay(),
-				endMonth : this.formatDate(today),
+				startMonth : Utils.showPreTwoDay(),
+				endMonth : Utils.showYesterDay(),
 				indexId : new Array(),
 				indexName : new Array()
 			}
 			_topcmd.indexId = Data.top2cmd.indexId;
 			_topcmd.indexName = Data.pieIndexNameList;
-			_topcmd.startMonth = Data.top2cmd.startMonth;
-			_topcmd.endMonth = Data.top2cmd.endMonth;
+			_topcmd.startMonth = _topcmd.startMonth;
+			_topcmd.endMonth = _topcmd.endMonth;
 			Rose.ajax.postJson(srvMap.get(toptask), _topcmd, function(json, status) {
 				if(status) {
 					window.XMS.msgbox.hide();
@@ -762,8 +802,17 @@ define(function(require, exports, module) {
                 } else if (value == 'ZJXLOG') {
                     return "日志库";
                 }
-            });         
-		},		
+            });   
+            Handlebars.registerHelper("changePowerSty",function(value) {
+				if(value>=0) {
+					return 'change-font-green';
+				} else if(value<0){
+					return 'change-font-red';
+				}else{
+					return '';
+				}
+			});
+		},	
 		_graphSec: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexView')[0]);
             myChart.showLoading({

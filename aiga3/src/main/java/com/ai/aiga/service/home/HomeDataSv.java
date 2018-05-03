@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,13 +62,15 @@ public class HomeDataSv {
 
 	public List<NaIndexAllocation> kpiList() {
 		//获取当前用户关联的指标，但是不包括指标的具体信息，只有id
+		 Sort sortr = new Sort(new Sort.Order(Sort.Direction.ASC,"kpiId"));
 		List<NaStaffKpiRela> relaList = naStaffKpiRelaDao.findByStaffIdAndState(SessionMgrUtil.getStaff().getStaffId(),
-				1L);
+				1L,sortr);
 		//初始化全部的指标默认不显示
 		naIndexAllocationDao.update();
 		Boolean hasShow = false;
 		//获取全部的指标的具体信息
-		List<NaIndexAllocation> kpiList = naIndexAllocationDao.findAll();
+		  Sort sortx = new Sort(new Sort.Order(Sort.Direction.ASC,"kpiId"));
+		List<NaIndexAllocation> kpiList = naIndexAllocationDao.findAll(sortx);
 		//如果当前用户有指标
 		if (relaList != null && relaList.size() > 0) {
 			for (NaStaffKpiRela rela : relaList) {
@@ -78,38 +81,46 @@ public class HomeDataSv {
 						//将执行当前用户的指标的sql语句，语句返回的key=kpiName的map
 						List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
 						//将指标的value设置成sql返回的map的value值
-						Map<String, Object> map = list.get(0);
-						Object object = map.get(kpi.getKpiName());
-						kpi.setValue(((BigDecimal) object));
+						if(!list.isEmpty() && list.size()>0) {
+							Map<String, Object> map = list.get(0);
+							Object object = map.get(kpi.getKpiName());
+							kpi.setValue(((BigDecimal) object));
+						} else {
+							kpi.setValue(null);
+						}
 						//设置当前用户的指标显示
 						kpi.setIsShow(1L);
-						hasShow = true;
+						hasShow = true;		
 					}
 				}
 				if(!hasShow) {
-					List<Condition> cons = new ArrayList<Condition>();
-					cons.add(new Condition("ext2", 1, Condition.Type.EQ));
-					kpiList=naIndexAllocationDao.search(cons );
+					kpiList=naIndexAllocationDao.findByExt2("1",sortx);
 					for (int i = 0; i < kpiList.size(); i++) {
 						NaIndexAllocation kpi = kpiList.get(i);
 						List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
-						Map<String, Object> map = list.get(0);
-						Object object = map.get(kpi.getKpiName());
-						kpi.setValue(((BigDecimal) object));
+						if(!list.isEmpty() && list.size()>0) {
+							Map<String, Object> map = list.get(0);
+							Object object = map.get(kpi.getKpiName());
+							kpi.setValue(((BigDecimal) object));
+						} else {
+							kpi.setValue(null);
+						}
 						kpi.setIsShow(1L);
 					}
 				}
 			}
 		}else{   //如果当前用户没有指标，加载默认
-			List<Condition> cons = new ArrayList<Condition>();
-			cons.add(new Condition("ext2", 1, Condition.Type.EQ));
-			kpiList=naIndexAllocationDao.search(cons );
+			kpiList=naIndexAllocationDao.findByExt2("1",sortx);
 			for (int i = 0; i < kpiList.size(); i++) {
 				NaIndexAllocation kpi = kpiList.get(i);
 				List<Map> list = naIndexAllocationDao.searchByNativeSQL(kpi.getKpiSql().toString());
-				Map<String, Object> map = list.get(0);
-				Object object = map.get(kpi.getKpiName());
-				kpi.setValue(((BigDecimal) object));
+				if(!list.isEmpty() && list.size()>0) {
+					Map<String, Object> map = list.get(0);
+					Object object = map.get(kpi.getKpiName());
+					kpi.setValue(((BigDecimal) object));
+				} else {
+					kpi.setValue(null);
+				}
 				kpi.setIsShow(1L);
 			}
 		}

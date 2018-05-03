@@ -1,15 +1,21 @@
 package com.ai.aiga.component;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
+import com.ai.aiga.service.ArchSrvManageSv;
+import com.ai.aiga.view.controller.mail.ReportEmailSend;
 
 /**
  * @ClassName: MailCmpt
@@ -36,6 +44,14 @@ import com.ai.aiga.exception.ErrorCode;
 public class MailCmpt {
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
+	@Autowired
+	private ReportEmailSend reportEmailSend;
+	@Autowired
+	private ArchSrvManageSv archSrvManageSv;
+	@Autowired
+	private ExcelCmpt excelCmpt;
+	@Value("${app.ftp.path}")
+	private String ftpPath;
 	
 	@Value("${app.email.username}")
 	private String fromEmail;
@@ -114,6 +130,72 @@ public class MailCmpt {
 				for(File file : files){
 					helper.addAttachment(file.getName(),file);    //用新的字符编码生成字符串file.getName(), file);
 				}		
+			}
+			
+			this.javaMailSender.send(message);
+		} catch (MailException ex) {
+			log.error("发邮件失败!", ex);
+		} catch (MessagingException e) {
+			log.error("发邮件失败!", e);
+		}
+	}
+	
+	public void sendMailFileBySql(String toAddress, String ccList, String subject, String content, String fileSql) {
+		if(StringUtils.isBlank(toAddress)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "toAddress");
+		}
+		
+		if(StringUtils.isBlank(subject)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "subject");
+		}
+		File file = null;
+		try {
+			if(StringUtils.isNoneBlank(fileSql)) {
+				//文件地址处理
+		        if('/'==(ftpPath.charAt(ftpPath.length()-1))) {
+		        } else {
+		        	ftpPath+="/";
+		        }
+				
+				//数据查询
+				List<Map> list = archSrvManageSv.fileSqlQuery(fileSql);
+				HSSFWorkbook sqlFileExt = excelCmpt.sqlFileRepot("sheetName",list);		
+				if(sqlFileExt!=null) {
+					//时间设置
+					SimpleDateFormat format =  new SimpleDateFormat("yyyyMMdd");
+					String time = format.format(new Date());
+					String sqlFileName  = time+".xls";
+					
+					//写入文件
+					file = new File(ftpPath,sqlFileName);
+					OutputStream cenOut = new FileOutputStream(file);
+					sqlFileExt.write(cenOut);
+					cenOut.close();
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		try {
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = null;
+			if(file != null){
+				helper = new MimeMessageHelper(message, true, "utf-8");
+			}else{
+				helper = new MimeMessageHelper(message, "utf-8");
+			}
+			
+			helper.setFrom(fromEmail);
+			helper.setTo(deleteTest(toAddress).split(","));
+			if(StringUtils.isNotBlank(ccList)){
+				helper.setCc(deleteTest(ccList).split(","));
+			}
+			helper.setSubject(subject);
+			helper.setText(content, true);
+			
+			if(file != null){
+				helper.addAttachment(file.getName(),file);    //用新的字符编码生成字符串file.getName(), file);
 			}
 			
 			this.javaMailSender.send(message);

@@ -723,7 +723,7 @@ define(function(require, exports, module) {
 			});
 			var _excelBtn = _form.find("[name='excel']");
 			_excelBtn.off('click').on('click', function() {
-    			var url = srvMap.get('excelexport')+"?startMonth="+_form.find('input[name="startMonth"]').val()+"&endMonth="+_form.find('input[name="endMonth"]').val()+"&indexId="+Data.top2cmd.indexId+"&indexName="+Data.pieIndexNameList;
+    			var url = srvMap.get('excelexport')+"?startMonth="+_form.find('input[name="startMonth"]').val()+"&endMonth="+_form.find('input[name="endMonth"]').val()+"&db="+_form.find('select[name="db"]').val();
 				location.href = encodeURI(encodeURI(url));
     		});
 			var today = new Date(); 

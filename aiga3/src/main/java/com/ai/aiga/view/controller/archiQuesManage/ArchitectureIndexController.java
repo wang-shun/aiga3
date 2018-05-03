@@ -3979,12 +3979,11 @@ public class ArchitectureIndexController extends BaseService {
 		
 		String startMonth = request.getParameter("startMonth");
 		String endMonth   = request.getParameter("endMonth");
-		String center     = request.getParameter("center");
+		String db         = request.getParameter("db");
 		
 		
 		String insertTime = request.getParameter("insertTime");
-//		String center = request.getParameter("center");
-		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
+		String decodeDb = java.net.URLDecoder.decode(db,"UTF-8");
 		condition.setInsertTime(insertTime);
 		
 		String end = condition.getInsertTime();
@@ -4002,11 +4001,11 @@ public class ArchitectureIndexController extends BaseService {
         String _start = start.replace("-", "");
         condition.setStartTime(_start);
         
-		condition.setCenter(decodeCenter);
+		condition.setCenter(decodeDb);
 		List<SrvcallDayTransfer> findData = architectureIndexSv.uncover(condition);
-        HSSFWorkbook wb = uncoveRepot(findData,decodeCenter,insertTime);  
+        HSSFWorkbook wb = uncoveRepot(findData,decodeDb,insertTime);  
         response.setContentType("application/vnd.ms-excel");  
-        response.setHeader("Content-disposition", "attachment;filename="+new String((decodeCenter+"CSF错误码未覆盖清单_"+insertTime).getBytes(),"iso-8859-1")+".xls");  
+        response.setHeader("Content-disposition", "attachment;filename="+new String((decodeDb+"CSF错误码未覆盖清单_"+insertTime).getBytes(),"iso-8859-1")+".xls");  
         OutputStream ouputStream = response.getOutputStream();  
         wb.write(ouputStream);  
         ouputStream.flush();  
@@ -4014,10 +4013,10 @@ public class ArchitectureIndexController extends BaseService {
 	}
 	
 	public HSSFWorkbook uncoveRepot(List<SrvcallDayTransfer> list,String center,String insertTime) {
-		String[] head = {"CSF服务编号","平均调用市时常","访问次数","错误次数","调用时间","CSF服务状态码","错误信息","最大调用时长","最小调用时长","总调用时长","渠道","状态码"};
+		String[] head = {"排名情况","系统来源","对比日期1当天平均值","对比日期2当天平均值","环比连接数增长量","环比增长率%"};
 		HSSFWorkbook wb = new HSSFWorkbook();  
 		HSSFSheet sheet = null;
-		sheet = wb.createSheet(center+"CSF错误码未覆盖清单_"+insertTime);
+		sheet = wb.createSheet(center+"数据库连接数平均数增长来源分析_"+insertTime);
 		HSSFRow row1 = sheet.createRow((int) 0);
 		HSSFCellStyle style = wb.createCellStyle();  
 		style.setAlignment(HSSFCellStyle.ALIGN_CENTER); 

@@ -29,7 +29,6 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchBusiErrcodeMapSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
-import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapPeriod;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTransfer;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportSelects;
@@ -167,26 +166,26 @@ public class ArchBusiErrcodeMapController {
 	
 	@RequestMapping(path="/webservice/csferrcode/uncover")
 	public @ResponseBody void uncover(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
+		ArchBusiErrcodeMapSelects condition = new ArchBusiErrcodeMapSelects();
 		String insertTime = request.getParameter("insertTime");
 		String center = request.getParameter("center");
 		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
 		condition.setInsertTime(insertTime);
 		
-		String end = condition.getInsertTime();
-		//获取前七天时间字符串
-		String nowday = end;
-		String _nowday = nowday.replace("-", "");
-		DateFormat format = new SimpleDateFormat("yyyyMMdd");
-		Date today = format.parse(nowday);
-		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-		Calendar calendar=Calendar.getInstance();
-		calendar.setTime(today);
-		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
-		Date before7Day = calendar.getTime();
-		String start = simpleDateFormat.format(before7Day);
-		String _start = start.replace("-", "");
-		condition.setStartTime(_start);
+//		String end = condition.getInsertTime();
+//		//获取前七天时间字符串
+//		String nowday = end;
+//		String _nowday = nowday.replace("-", "");
+//		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+//		Date today = format.parse(nowday);
+//		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+//		Calendar calendar=Calendar.getInstance();
+//		calendar.setTime(today);
+//		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
+//		Date before7Day = calendar.getTime();
+//		String start = simpleDateFormat.format(before7Day);
+//		String _start = start.replace("-", "");
+//		condition.setStartTime(_start);
 		if(decodeCenter.equals("合计")){
 			condition.setCenter(null);
 		}else{
@@ -204,25 +203,25 @@ public class ArchBusiErrcodeMapController {
 	
 	@RequestMapping(path="/webservice/csferrcode/unstandard")
 	public @ResponseBody void unstandard(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
+		ArchBusiErrcodeMapSelects condition = new ArchBusiErrcodeMapSelects();
 		String insertTime = request.getParameter("insertTime");
 		String center = request.getParameter("center");
 		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
 		condition.setInsertTime(insertTime);
 		
-		String end = condition.getInsertTime();
-        //获取前七天时间字符串
-        String nowday = end;
-        DateFormat format0 = new SimpleDateFormat("yyyyMMdd");
-        Date today = format0.parse(nowday);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(today);
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
-        Date before7Day = calendar.getTime();
-        String start = simpleDateFormat.format(before7Day);
-        String _start = start.replace("-", "");
-        condition.setStartTime(_start);
+//		String end = condition.getInsertTime();
+//        //获取前七天时间字符串
+//        String nowday = end;
+//        DateFormat format0 = new SimpleDateFormat("yyyyMMdd");
+//        Date today = format0.parse(nowday);
+//        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+//        Calendar calendar=Calendar.getInstance();
+//        calendar.setTime(today);
+//        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
+//        Date before7Day = calendar.getTime();
+//        String start = simpleDateFormat.format(before7Day);
+//        String _start = start.replace("-", "");
+//        condition.setStartTime(_start);
         if(decodeCenter.equals("合计")){
         	condition.setCenter(null);
         }else{

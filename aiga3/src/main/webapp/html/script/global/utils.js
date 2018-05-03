@@ -1121,6 +1121,10 @@ define(function(require, exports, module) {
 			var yesterday = new Date(new Date().getTime() - 86400000);
 			return Rose.date.dateTime2str(yesterday,"yyyy-MM-dd")
 		},
+		showPreTwoDay:function() {
+			var yester2day = new Date(new Date().getTime() - 86400000*2);
+			return Rose.date.dateTime2str(yester2day,"yyyy-MM-dd")
+		},
 		//报错提示
 		showNotification: function(from, align ,message){
 			var type = ['','info','success','warning','danger'];

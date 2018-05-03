@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Lazy
 public class ExcelCmpt {
 	
-	public HSSFWorkbook mspcsfMonRepot(String sheetName,List<Map> list) {
+	public HSSFWorkbook sqlFileRepot(String sheetName,List<Map> list) {
 		if(list == null || list.size()<=0) {
 			return null;
 		}

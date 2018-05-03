@@ -146,10 +146,15 @@ define(function(require,exports,module){
 					if(_punctuation.text() == '、'){
 						_punctuation.text('。');
 					}
+					//判空校验
+					var _spanA = _monthReportNowData.find("[name='span']").length;
+					if(_spanA == 0){
+					var templateC = Handlebars.compile(Page.findTpl('baseDataChangeTempC'));
+					_monthReportNowData.html(templateC(json.data.sysMonthApplyReport));
 				} else {
 					_monthReportNowData.html(json.retMessage);
 				}
-			});
+			}});
 		},
 		//连接池配置模块加载
 		_connection_pool: function() {
@@ -192,7 +197,7 @@ define(function(require,exports,module){
 		_error_code:function() {
 			var self = this;
 			//设置默认参数
-			var yesterday = Rose.date.yesterdayTime2str(new Date(),"yyyyMMdd");
+			var yesterday = Rose.date.dateTime2str(new Date(),"yyyyMMdd");
 			Page.find("[name='errCodeButton']").off('click').on('click',function() {
 				var obj= {
 					id : '463',

@@ -25,7 +25,7 @@ public class ArchDbSessionController {
             ArchDbSession condition) throws ParseException{
 				JsonBean bean = new JsonBean();
 				bean.setData(archDbSessionSv.queryByCondition(condition));
-			return bean;
+			return JsonBean.success;
 	}
 
 }

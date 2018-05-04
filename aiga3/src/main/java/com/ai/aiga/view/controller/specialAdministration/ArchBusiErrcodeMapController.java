@@ -29,11 +29,13 @@ import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchBusiErrcodeMapSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapPeriod;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapTransfer;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
+import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayLow;
 import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
 import com.ai.aiga.view.json.base.JsonBean;
 
@@ -166,32 +168,32 @@ public class ArchBusiErrcodeMapController {
 	
 	@RequestMapping(path="/webservice/csferrcode/uncover")
 	public @ResponseBody void uncover(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		ArchBusiErrcodeMapSelects condition = new ArchBusiErrcodeMapSelects();
+		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
 		String insertTime = request.getParameter("insertTime");
 		String center = request.getParameter("center");
 		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
 		condition.setInsertTime(insertTime);
 		
-//		String end = condition.getInsertTime();
-//		//获取前七天时间字符串
-//		String nowday = end;
-//		String _nowday = nowday.replace("-", "");
-//		DateFormat format = new SimpleDateFormat("yyyyMMdd");
-//		Date today = format.parse(nowday);
-//		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-//		Calendar calendar=Calendar.getInstance();
-//		calendar.setTime(today);
-//		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
-//		Date before7Day = calendar.getTime();
-//		String start = simpleDateFormat.format(before7Day);
-//		String _start = start.replace("-", "");
-//		condition.setStartTime(_start);
+		String end = condition.getInsertTime();
+		//获取前七天时间字符串
+		String nowday = end;
+		String _nowday = nowday.replace("-", "");
+		DateFormat format = new SimpleDateFormat("yyyyMMdd");
+		Date today = format.parse(nowday);
+		SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(today);
+		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
+		Date before7Day = calendar.getTime();
+		String start = simpleDateFormat.format(before7Day);
+		String _start = start.replace("-", "");
+		condition.setStartTime(_start);
 		if(decodeCenter.equals("合计")){
 			condition.setCenter(null);
 		}else{
 			condition.setCenter(decodeCenter);
 		}
-		List<SrvcallDayTransfer> findData = archBusiErrcodeMapSv.uncover(condition);
+		List<SrvcallDayLow> findData = archBusiErrcodeMapSv.uncover(condition);
 		HSSFWorkbook wb = uncoveRepot(findData,decodeCenter,insertTime);  
 		response.setContentType("application/vnd.ms-excel");  
 		response.setHeader("Content-disposition", "attachment;filename="+new String((decodeCenter+"CSF错误码未覆盖清单_"+insertTime).getBytes(),"iso-8859-1")+".xls");  
@@ -203,25 +205,25 @@ public class ArchBusiErrcodeMapController {
 	
 	@RequestMapping(path="/webservice/csferrcode/unstandard")
 	public @ResponseBody void unstandard(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		ArchBusiErrcodeMapSelects condition = new ArchBusiErrcodeMapSelects();
+		ArchBusiErrcodeMapPeriod condition = new ArchBusiErrcodeMapPeriod();
 		String insertTime = request.getParameter("insertTime");
 		String center = request.getParameter("center");
 		String decodeCenter = java.net.URLDecoder.decode(center,"UTF-8");
 		condition.setInsertTime(insertTime);
 		
-//		String end = condition.getInsertTime();
-//        //获取前七天时间字符串
-//        String nowday = end;
-//        DateFormat format0 = new SimpleDateFormat("yyyyMMdd");
-//        Date today = format0.parse(nowday);
-//        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-//        Calendar calendar=Calendar.getInstance();
-//        calendar.setTime(today);
-//        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
-//        Date before7Day = calendar.getTime();
-//        String start = simpleDateFormat.format(before7Day);
-//        String _start = start.replace("-", "");
-//        condition.setStartTime(_start);
+		String end = condition.getInsertTime();
+        //获取前七天时间字符串
+        String nowday = end;
+        DateFormat format0 = new SimpleDateFormat("yyyyMMdd");
+        Date today = format0.parse(nowday);
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7);  
+        Date before7Day = calendar.getTime();
+        String start = simpleDateFormat.format(before7Day);
+        String _start = start.replace("-", "");
+        condition.setStartTime(_start);
         if(decodeCenter.equals("合计")){
         	condition.setCenter(null);
         }else{
@@ -278,8 +280,8 @@ public class ArchBusiErrcodeMapController {
         }  
 		return wb;	
 	}  
-	public HSSFWorkbook uncoveRepot(List<SrvcallDayTransfer> list,String center,String insertTime) {
-		String[] head = {"CSF服务编号","平均调用市时常","访问次数","错误次数","调用时间","CSF服务状态码","错误信息","最大调用时长","最小调用时长","总调用时长","渠道","状态码"};
+	public HSSFWorkbook uncoveRepot(List<SrvcallDayLow> list,String center,String insertTime) {
+		String[] head = {"CSF服务编号","平均调用市时常","访问次数","错误次数"};
 		HSSFWorkbook wb = new HSSFWorkbook();  
 		HSSFSheet sheet = null;
 		sheet = wb.createSheet(center+"CSF错误码未覆盖清单_"+insertTime);
@@ -297,20 +299,20 @@ public class ArchBusiErrcodeMapController {
 			}	         
 		}
 		int index = 0;
-		for (SrvcallDayTransfer data : list) {  
+		for (SrvcallDayLow data : list) {  
 			HSSFRow rowLine = sheet.createRow(++index);  
 			rowLine.createCell(0).setCellValue(String.valueOf(data.getServiceid()).replace("null", ""));
 			rowLine.createCell(1).setCellValue(String.valueOf(data.getAvgduration()).replace("null", ""));
 			rowLine.createCell(2).setCellValue(String.valueOf(data.getAccesstimes()).replace("null", ""));
 			rowLine.createCell(3).setCellValue(String.valueOf(data.getErrortimes()).replace("null", ""));
-			rowLine.createCell(4).setCellValue(String.valueOf(data.getTimeperoid()).replace("null", ""));
-			rowLine.createCell(5).setCellValue(String.valueOf(data.getServicestatus()).replace("null", ""));
-			rowLine.createCell(6).setCellValue(String.valueOf(data.getErrmsg()).replace("null", ""));
-			rowLine.createCell(7).setCellValue(String.valueOf(data.getMaxduration()).replace("null", "")); 
-			rowLine.createCell(8).setCellValue(String.valueOf(data.getMinduration()).replace("null", ""));
-			rowLine.createCell(9).setCellValue(String.valueOf(data.getSumduration()).replace("null", ""));
-			rowLine.createCell(10).setCellValue(String.valueOf(data.getStatskind()).replace("null", "")); 
-			rowLine.createCell(11).setCellValue(String.valueOf(data.getStatscode()).replace("null", ""));
+//			rowLine.createCell(4).setCellValue(String.valueOf(data.getTimeperoid()).replace("null", ""));
+//			rowLine.createCell(5).setCellValue(String.valueOf(data.getServicestatus()).replace("null", ""));
+//			rowLine.createCell(6).setCellValue(String.valueOf(data.getErrmsg()).replace("null", ""));
+//			rowLine.createCell(7).setCellValue(String.valueOf(data.getMaxduration()).replace("null", "")); 
+//			rowLine.createCell(8).setCellValue(String.valueOf(data.getMinduration()).replace("null", ""));
+//			rowLine.createCell(9).setCellValue(String.valueOf(data.getSumduration()).replace("null", ""));
+//			rowLine.createCell(10).setCellValue(String.valueOf(data.getStatskind()).replace("null", "")); 
+//			rowLine.createCell(11).setCellValue(String.valueOf(data.getStatscode()).replace("null", ""));
 		}  
 		return wb;	
 	}  

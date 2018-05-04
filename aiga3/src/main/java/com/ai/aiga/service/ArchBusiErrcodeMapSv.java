@@ -17,6 +17,7 @@ import com.ai.aiga.dao.SrvcallDayDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
 import com.ai.aiga.domain.ArchBusiErrcodeMap;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapPeriod;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapResult;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapStandard;
@@ -27,6 +28,7 @@ import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapT
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportSelects;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchCsfErrcodeReportTable;
 import com.ai.aiga.view.controller.specialAdministration.dto.ArchDbConnectHeatBaseSelects;
+import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayLow;
 import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
 @Service
 @Transactional
@@ -498,10 +500,11 @@ public class ArchBusiErrcodeMapSv extends BaseService {
     }
 
     //EXPORT XLS UNCOVER NEW
-    public List<SrvcallDayTransfer> uncover(ArchBusiErrcodeMapSelects condition){
+    public List<SrvcallDayLow> uncover(ArchBusiErrcodeMapPeriod condition){
     	//查询srvcall_day配置涉及CSF服务数signin
+    	
     	StringBuilder siinSql = new StringBuilder(
-    			     	" select sc.serviceid,to_char(sc.avgduration) as avgduration,to_char(sc.accesstimes) as accesstimes,to_char(sc.errortimes) as errortimes,sc.timeperoid,sc.servicestatus||'正常' as servicestatus,sc.errmsg,sc.maxduration,sc.minduration,sc.sumduration,sc.statskind,sc.statscode " +
+    			     	" select sc.serviceid,to_char(avg(sc.avgduration)) as avgduration,to_char(sum(sc.accesstimes)) as accesstimes,to_char(sum(sc.errortimes)) as errortimes " +
     					" from aiam.srvcall_day sc, aiam.csf_center_info cc " +
     					" where sc.statscode = cc.center_code " +
     					" and sc.accesstimes > 0 " +
@@ -513,12 +516,12 @@ public class ArchBusiErrcodeMapSv extends BaseService {
     		siinSql.append(" and cc.center_name = :center ");
     		siinParams.add(new ParameterCondition("center", condition.getCenter()));
     	}
-//    	if (StringUtils.isNotBlank(condition.getStartTime())) {
-//    		siinSql.append(" and sc.timeperoid > :startTime ");
-//    		siinParams.add(new ParameterCondition("startTime", condition.getStartTime()));
-//    	}
+    	if (StringUtils.isNotBlank(condition.getStartTime())) {
+    		siinSql.append(" and sc.timeperoid > :startTime ");
+    		siinParams.add(new ParameterCondition("startTime", condition.getStartTime()));
+    	}
     	if (StringUtils.isNotBlank(condition.getInsertTime())) {
-    		siinSql.append(" and sc.timeperoid = :insertTime ");
+    		siinSql.append(" and sc.timeperoid <= :insertTime ");
     		siinParams.add(new ParameterCondition("insertTime", condition.getInsertTime()));
     	}
     	siinSql.append(" and sc.serviceid not in ( " +
@@ -538,11 +541,12 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 //    		siinParams.add(new ParameterCondition("startTime2", condition.getStartTime()));
 //    	}
     	siinSql.append(")");
-    	return srvcallDayDao.searchByNativeSQL(siinSql.toString(), siinParams, SrvcallDayTransfer.class);
+    	siinSql.append(" group by sc.serviceid ");
+    	return srvcallDayDao.searchByNativeSQL(siinSql.toString(), siinParams, SrvcallDayLow.class);
     }
     
     //EXPORT XLS UNSTANDARD
-    public List<ArchBusiErrcodeMapTransfer> unstandard(ArchBusiErrcodeMapSelects condition){
+    public List<ArchBusiErrcodeMapTransfer> unstandard(ArchBusiErrcodeMapPeriod condition){
 		//查询未覆盖--a.check_result!='满足规范要求' 
 		StringBuilder ckSql = new StringBuilder(
 				" select to_char(ar.INSERT_TIME,'yyyymmdd') as INSERT_TIME,ar.PERSON,ar.CENTER,ar.DATA_RESOURCE,ar.ERRCODE_MAP_ID,ar.CSF_SERVICE_CODE,ar.I18N_ERRCODE,ar.I18N_ERRCODE_DESC,ar.ESB_ERRCODE,ar.ESB_ERRCODE_DESC,ar.CSF_ERRCODE,ar.CSF_ERRCODE_DESC,to_char(ar.CREATE_DATE,'yyyymmdd') as CREATE_DATE,to_char(ar.STATE_DATE,'yyyymmdd') as STATE_DATE,to_char(ar.STATE)||'正常' as STATE,ar.REMARKS,ar.CHECK_RESULT  "+
@@ -558,10 +562,10 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			ckSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) = :insertTime ");
 			ckParam.add(new ParameterCondition("insertTime", condition.getInsertTime()));
 		}
-//    	if (StringUtils.isNotBlank(condition.getInsertTime())) {
-//    		ckSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) > :startTime2 ");
-//    		ckParam.add(new ParameterCondition("startTime2", condition.getStartTime()));
-//    	}
+    	if (StringUtils.isNotBlank(condition.getInsertTime())) {
+    		ckSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) > :startTime2 ");
+    		ckParam.add(new ParameterCondition("startTime2", condition.getStartTime()));
+    	}
 		return archBusiErrcodeMapDao.searchByNativeSQL(ckSql.toString(), ckParam, ArchBusiErrcodeMapTransfer.class);
     }
     

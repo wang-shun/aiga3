@@ -546,7 +546,7 @@ public class ArchBusiErrcodeMapSv extends BaseService {
     }
     
     //EXPORT XLS UNSTANDARD
-    public List<ArchBusiErrcodeMapTransfer> unstandard(ArchBusiErrcodeMapPeriod condition){
+    public List<ArchBusiErrcodeMapTransfer> unstandard(ArchBusiErrcodeMapSelects condition){
 		//查询未覆盖--a.check_result!='满足规范要求' 
 		StringBuilder ckSql = new StringBuilder(
 				" select to_char(ar.INSERT_TIME,'yyyymmdd') as INSERT_TIME,ar.PERSON,ar.CENTER,ar.DATA_RESOURCE,ar.ERRCODE_MAP_ID,ar.CSF_SERVICE_CODE,ar.I18N_ERRCODE,ar.I18N_ERRCODE_DESC,ar.ESB_ERRCODE,ar.ESB_ERRCODE_DESC,ar.CSF_ERRCODE,ar.CSF_ERRCODE_DESC,to_char(ar.CREATE_DATE,'yyyymmdd') as CREATE_DATE,to_char(ar.STATE_DATE,'yyyymmdd') as STATE_DATE,to_char(ar.STATE)||'正常' as STATE,ar.REMARKS,ar.CHECK_RESULT  "+
@@ -562,10 +562,10 @@ public class ArchBusiErrcodeMapSv extends BaseService {
 			ckSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) = :insertTime ");
 			ckParam.add(new ParameterCondition("insertTime", condition.getInsertTime()));
 		}
-    	if (StringUtils.isNotBlank(condition.getInsertTime())) {
-    		ckSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) > :startTime2 ");
-    		ckParam.add(new ParameterCondition("startTime2", condition.getStartTime()));
-    	}
+//    	if (StringUtils.isNotBlank(condition.getInsertTime())) {
+//    		ckSql.append(" and substr(to_char(ar.insert_time,'yyyymmdd'),0,10) > :startTime2 ");
+//    		ckParam.add(new ParameterCondition("startTime2", condition.getStartTime()));
+//    	}
 		return archBusiErrcodeMapDao.searchByNativeSQL(ckSql.toString(), ckParam, ArchBusiErrcodeMapTransfer.class);
     }
     

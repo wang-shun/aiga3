@@ -93,7 +93,6 @@ function loginMethod() {
     });
 }
 //新注册
-//注册
 function registerMethodNew() {
     var data = {
     	staffCode:          $('#usernamesignup').val(),
@@ -103,7 +102,7 @@ function registerMethodNew() {
         email:         		$('#emailsignup').val(),
         billId:        		$('#phonesignup').val(),
 		organizeId:    		$('#groupsignup').val(),
-		organizeName:  		$('#groupsignup').text(),
+		organizeName:  		$('#groupsignup option:checked').text(),
 		state:              '1'
     }
     if($.trim(data.staffCode)=='' || $.trim(data.staffPassword)==''){

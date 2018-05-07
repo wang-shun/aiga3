@@ -149,12 +149,11 @@ define(function(require,exports,module){
 					//判空校验
 					var _spanA = _monthReportNowData.find("[name='span']").length;
 					if(_spanA == 0){
-					var templateC = Handlebars.compile(Page.findTpl('baseDataChangeTempC'));
-					_monthReportNowData.html(templateC(json.data.sysMonthApplyReport));
-				} else {
-					_monthReportNowData.html(json.retMessage);
-				}
-			}});
+						var templateC = Handlebars.compile(Page.findTpl('baseDataChangeTempC'));
+						_monthReportNowData.html(templateC(json.data.sysMonthApplyReport));
+					}
+				}	
+			});
 		},
 		//连接池配置模块加载
 		_connection_pool: function() {

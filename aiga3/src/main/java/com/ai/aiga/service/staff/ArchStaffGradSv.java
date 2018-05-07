@@ -1,6 +1,7 @@
 package com.ai.aiga.service.staff;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +68,26 @@ public class ArchStaffGradSv extends BaseService {
 
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return archStaffGradDao.search(cons, pageable);
+	}
+	
+	public String reject(ArchStaffGrad archStaffGrad) {
+		String outMessage = "true";
+		if(archStaffGrad.getApplyId()==0L) {
+			ArchStaffGrad back = archStaffGradDao.findOne(archStaffGrad.getApplyId());
+			if(back == null) {
+				outMessage = "申请单不存在";
+			} else if(!"1".equals(back.getState())) {
+				back.setState("3");
+				back.setModifyDate(new Date());
+				archStaffGradDao.save(back);
+			} else {
+				outMessage = "申请单已被审批";
+			}
+		} else {
+			outMessage  = "申请单编号为空";
+		}
+		return outMessage;
+
 	}
 	
 	public ArchStaffGrad save(ArchStaffGrad archStaffGrad) {

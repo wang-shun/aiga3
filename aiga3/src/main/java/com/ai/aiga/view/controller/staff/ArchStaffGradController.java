@@ -26,6 +26,17 @@ public class ArchStaffGradController {
 		return bean;
 	}
 
+	@RequestMapping(path = "/staff/info/rejet")
+	public @ResponseBody JsonBean rejet(ArchStaffGrad request){
+		JsonBean bean = new JsonBean();
+		try {
+			archStaffGradSv.reject(request);
+		} catch (Exception e) {
+			bean.fail(e.getMessage());	
+		}
+		return bean;
+	}
+	
 	@RequestMapping(path = "/staff/info/apply")
 	public @ResponseBody JsonBean apply(ArchStaffGrad request){
 		JsonBean bean = new JsonBean();

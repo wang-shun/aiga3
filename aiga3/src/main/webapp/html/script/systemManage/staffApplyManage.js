@@ -11,6 +11,8 @@ define(function(require,exports,module){
 	srvMap.add("findApplyStaff", "", "staff/info/findApply");	
 	//驳回接口	
 	srvMap.add("rejectIn", pathAlias+"rejectIn.json", "staff/info/rejet");	
+	//确认信息通过
+	srvMap.add("acceptIn", pathAlias+"rejectIn.json", "staff/info/accept");
 	//查询所有岗位信息
     srvMap.add("getStaffRoleList", pathAlias + "getStaffRoleList.json", "sys/role/list");
     
@@ -111,7 +113,6 @@ define(function(require,exports,module){
 				Rose.ajax.postJson(srvMap.get('rejectIn'),cmd,function(json, status){
 					if(status) {
 						XMS.msgbox.show('申请单驳回成功', 'success', 1500);
-						//Cache.data.state = '3';
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}					
@@ -121,7 +122,7 @@ define(function(require,exports,module){
         },
         //第二步
         _step2:function(){
-        	
+        	_roleIdsArray = [];
         	var stepTemplate2 = Handlebars.compile(Page.findTpl('staffApplyStep2'));			
 			Page.findId("stepContent").html(stepTemplate2(Cache.data));
 			this.getStaffRoleList();
@@ -134,14 +135,17 @@ define(function(require,exports,module){
                 var self = this;
                 if (status) {
                     var template = Handlebars.compile(Tpl.getStaffRoleList);
-                    console.log(json.data)
                     Page.findId(Dom.getStaffRoleList).html(template(json.data));
                     //iCheck
                     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                         checkboxClass: 'icheckbox_minimal-blue',
                         radioClass: 'iradio_minimal-blue'
                     });
-
+                    if(_roleIdsArray.length != 0){
+                    	for (x in _roleIdsArray) {
+                            $("#JS_role_" + _roleIdsArray[x]).iCheck('check');
+                        }
+                    }
                 }
             });
         },
@@ -151,7 +155,7 @@ define(function(require,exports,module){
             nextStep2 = Page.findId("stepContent").find("[name='nextStep2']");
             nextStep2.bind('click', function() {
                 var _dom = Page.findId(Dom.getStaffRoleListTable).find("input[name='roleId']:checked");
-                var _roleIdsArray = [];
+                _roleIdsArray = [];
                 _dom.each(function() {
                     _roleIdsArray.push($(this).val());
                 })
@@ -167,16 +171,36 @@ define(function(require,exports,module){
         },
         
         //第三步
-        _step3:function(){       	
+        _step3:function(){
+        	var self = this;
         	var stepTemplate3 = Handlebars.compile(Page.findTpl('staffApplyStep3'));			
 			Page.findId("stepContent").html(stepTemplate3(Cache.data));
-			this._next_step3();			
+			
+			this.getStaffRoleList();
+			nextStep3 = Page.findId("stepContent").find("[name='nextStep3']");
+			nextStep3.off('click').on('click',function() {
+				debugger
+				var cmd = "applyId="+Cache.data.applyId;
+				Rose.ajax.postJson(srvMap.get('acceptIn'),cmd,function(json, status){
+					debugger
+					if(status) {
+						XMS.msgbox.show('申请单认定通过', 'success', 1500);
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}					
+				});
+				Dom.stepDom.nextStep();
+				self._step4();
+			});
+            
         },
-        _next_step3: function() {
-            var self = this;
-            nextStep3 = Page.findId("stepContent").find("[name='nextStep3']");
+        //第四步
+        _step4:function(){       	
+        	var stepTemplate4 = Handlebars.compile(Page.findTpl('staffApplyStep4'));			
+			Page.findId("stepContent").html(stepTemplate4(Cache.data));
+			
+        },
 
-        },
         
 	};
 	module.exports = Query;

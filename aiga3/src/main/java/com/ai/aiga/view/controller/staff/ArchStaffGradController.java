@@ -49,9 +49,8 @@ public class ArchStaffGradController {
 	public @ResponseBody JsonBean accept(ArchStaffGrad request){
 		JsonBean bean = new JsonBean();
 		try {
-			String msg = archStaffGradSv.accept(request);
-			if("true".equals(msg)) {
-				
+			String msg = archStaffGradSv.acceptCheck(request);
+			if("true".equals(msg)) {			
 				StaffInfoRequest input = new StaffInfoRequest();
 				input.setCode(request.getStaffCode());
 				input.setName(request.getStaffName());
@@ -60,6 +59,8 @@ public class ArchStaffGradController {
 				input.setBillId(request.getBillId());
 				//存表
 				staffSv.saveStaffOrgSignIn(input, Long.valueOf(request.getOrganizeId()), request.getRoleId());
+				//更新申请表
+				archStaffGradSv.acceptSave(request);
 			} else {
 				bean.fail(msg);	
 			}

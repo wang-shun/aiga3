@@ -85,17 +85,23 @@ public class ArchStaffGradSv extends BaseService {
 		return outMessage;
 	}
 	
-	public String accept(ArchStaffGrad request) {
+	public void acceptSave(ArchStaffGrad request) {
+		ArchStaffGrad back = archStaffGradDao.findOne(request.getApplyId());
+		back.setState("3");
+		back.setModifyDate(new Date());
+		back.setRoleId(request.getRoleId());
+		archStaffGradDao.save(back);
+	}
+
+	
+	public String acceptCheck(ArchStaffGrad request) {
 		String outMessage = "true";
 		if(request.getApplyId() !=0L) {
 			ArchStaffGrad back = archStaffGradDao.findOne(request.getApplyId());
 			if(back == null) {
 				outMessage = "申请单不存在";
 			} else if(!"1".equals(back.getState())) {
-				back.setState("3");
-				back.setModifyDate(new Date());
-				back.setRoleId(request.getRoleId());
-				archStaffGradDao.save(back);
+
 			} else {
 				outMessage = "申请单已被审批";
 			}

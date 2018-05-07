@@ -51,9 +51,9 @@ define(function(require,exports,module){
         					break;
         				}
         			}
-        			Dom.stepDom.$step.toStep(1);
+        			Dom.stepDom.toStep(0);
         			var stepTemplate = Handlebars.compile(Page.findTpl('staffApplyStep1'));			
-    				tableDom.findId("stepContent").html(template(data));
+    				Page.findId("stepContent").html(template(data));
         		});
 			},_domPagination);
 		},

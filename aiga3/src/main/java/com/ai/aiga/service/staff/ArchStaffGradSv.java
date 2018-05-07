@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +17,7 @@ import com.ai.aiga.dao.ArchStaffGradDao;
 import com.ai.aiga.dao.jpa.Condition;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchStaffGrad;
-import com.ai.aiga.exception.BusinessException;
-import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.json.base.JsonBean;
 @Service
 @Transactional
 public class ArchStaffGradSv extends BaseService {
@@ -70,10 +66,10 @@ public class ArchStaffGradSv extends BaseService {
 		return archStaffGradDao.search(cons, pageable);
 	}
 	
-	public String reject(ArchStaffGrad archStaffGrad) {
+	public String reject(Long applyId) {
 		String outMessage = "true";
-		if(archStaffGrad.getApplyId()==0L) {
-			ArchStaffGrad back = archStaffGradDao.findOne(archStaffGrad.getApplyId());
+		if(applyId != null && applyId !=0L) {
+			ArchStaffGrad back = archStaffGradDao.findOne(applyId);
 			if(back == null) {
 				outMessage = "申请单不存在";
 			} else if(!"1".equals(back.getState())) {
@@ -87,7 +83,26 @@ public class ArchStaffGradSv extends BaseService {
 			outMessage  = "申请单编号为空";
 		}
 		return outMessage;
-
+	}
+	
+	public String accept(ArchStaffGrad request) {
+		String outMessage = "true";
+		if(request.getApplyId() !=0L) {
+			ArchStaffGrad back = archStaffGradDao.findOne(request.getApplyId());
+			if(back == null) {
+				outMessage = "申请单不存在";
+			} else if(!"1".equals(back.getState())) {
+				back.setState("3");
+				back.setModifyDate(new Date());
+				back.setRoleId(request.getRoleId());
+				archStaffGradDao.save(back);
+			} else {
+				outMessage = "申请单已被审批";
+			}
+		} else {
+			outMessage  = "申请单编号为空";
+		}
+		return outMessage;
 	}
 	
 	public ArchStaffGrad save(ArchStaffGrad archStaffGrad) {

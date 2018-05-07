@@ -72,7 +72,7 @@ public class ArchStaffGradSv extends BaseService {
 			ArchStaffGrad back = archStaffGradDao.findOne(applyId);
 			if(back == null) {
 				outMessage = "申请单不存在";
-			} else if(!"1".equals(back.getState())) {
+			} else if("1".equals(back.getState())) {
 				back.setState("3");
 				back.setModifyDate(new Date());
 				archStaffGradDao.save(back);
@@ -100,7 +100,7 @@ public class ArchStaffGradSv extends BaseService {
 			ArchStaffGrad back = archStaffGradDao.findOne(request.getApplyId());
 			if(back == null) {
 				outMessage = "申请单不存在";
-			} else if(!"1".equals(back.getState())) {
+			} else if("1".equals(back.getState())) {
 
 			} else {
 				outMessage = "申请单已被审批";

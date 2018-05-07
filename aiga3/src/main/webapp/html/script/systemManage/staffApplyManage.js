@@ -8,26 +8,30 @@ define(function(require,exports,module){
 	var pathAlias = "systemManage/staffManage/";
 
 	// 组织结构列表查询
-	srvMap.add("findApplyStaff", "", "staff/info/findApply");
-	
-	//驳回接口
-	
-	srvMap.add("rejectIn", pathAlias+"rejectIn.json", "staff/info/rejet");
-	
+	srvMap.add("findApplyStaff", "", "staff/info/findApply");	
+	//驳回接口	
+	srvMap.add("rejectIn", pathAlias+"rejectIn.json", "staff/info/rejet");	
+	//查询所有岗位信息
+    srvMap.add("getStaffRoleList", pathAlias + "getStaffRoleList.json", "sys/role/list");
+    
 	// 模板对象
     var Tpl = {
-        getUserinfoList: require('tpl/systemManage/staffManage/getUserinfoList.tpl'),
+        getStaffRoleList: require('tpl/staffRole/getStaffRoleList.tpl')
     };
-
+    
     // 容器对象
     var Dom = {
+    	getStaffRoleList: 'getStaffRoleList',
         stepDom : null,
+        getStaffRoleListTable: 'getStaffRoleListTable'
     };
     
     //暂存数据
     var Cache = {
-    	applyData:""
-    } 
+    	applyData:null,
+    	data: null,
+    	roleId:null
+    };
 
 	var Query = {
 		init: function(){
@@ -48,19 +52,28 @@ define(function(require,exports,module){
 				var template = Handlebars.compile(Page.findTpl('getStaffApplyList'));			
 				tableDom.find("[name='content']").html(template(json.data.content));
         		Utils.eventDClickCallback(tableDom,function(isChecked,_input) {
+
+        			//清空cache
+        			Cache.data = null;             			
         			var applyId = _input[0].value;
         			var datas = Cache.applyData;
-        			var data = null;
-        			for(var i in data) {
-        				if(data[i].applyId == applyId){
-        					data = data[i];
+        			for(var i in datas) {
+        				if(datas[i].applyId == applyId){
+        					Cache.data = datas[i];
         					break;
         				}
         			}
         			Dom.stepDom.toStep(0);
         			var stepTemplate = Handlebars.compile(Page.findTpl('staffApplyStep1'));			
-    				Page.findId("stepContent").html(stepTemplate(datas[0]));
+    				Page.findId("stepContent").html(stepTemplate(Cache.data));
+    				//绑定不通过按钮
     				self._reject();
+    				//绑定下一步按钮
+    				var _stepContent = Page.findId('stepContent');
+    				_stepContent.find("[name='nextStep1']").off('click').on('click',function() {
+    					Dom.stepDom.nextStep();
+    					self._step2();
+    				});
         		});
 			},_domPagination);
 		},
@@ -72,7 +85,8 @@ define(function(require,exports,module){
 				title: ["申请人信息","分配权限","确认信息","完成"]
 			});
 			Dom.stepDom = stepDom;
-			Page.find("[name='nextStep']").off('click').on('click',function() {
+			var _stepContent = Page.findId('stepContent');
+			_stepContent.find("[name='nextStep']").off('click').on('click',function() {
 				stepDom.nextStep();
 			});
 		},
@@ -80,11 +94,9 @@ define(function(require,exports,module){
         _reject: function() {
 			var self = this;
 			var _stepContent = Page.findId('stepContent');			 
-			//Utils.setSelectData(_form);		 
 			var _rejectBtn = _stepContent.find("[name='reject']");
 			var isRun = false;
 			_rejectBtn.off('click').on('click',function(){
-				debugger
 				if(isRun){
 		             return;
 		         } else {
@@ -93,16 +105,13 @@ define(function(require,exports,module){
 			             isRun=false;
 			         },1500); //点击后相隔多长时间可执行
 		         }
-				var datas = Cache.applyData;
-				
-				//var _cmd = jQuery.param(datas[0]);
-				cmd = "applyId="+datas[0].applyId; 
+
+				var cmd = "applyId="+Cache.data.applyId; 
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('rejectIn'),cmd,function(json, status){
-					debugger
 					if(status) {
-						XMS.msgbox.show('审批不通过', 'error', 1500);
-						datas[0].state = '3';
+						XMS.msgbox.show('申请单驳回成功', 'success', 1500);
+						//Cache.data.state = '3';
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}					
@@ -110,6 +119,65 @@ define(function(require,exports,module){
 				
 			});		
         },
+        //第二步
+        _step2:function(){
+        	
+        	var stepTemplate2 = Handlebars.compile(Page.findTpl('staffApplyStep2'));			
+			Page.findId("stepContent").html(stepTemplate2(Cache.data));
+			this.getStaffRoleList();
+			this._next_step2();
+			
+        },
+        //获取岗位授权列表
+        getStaffRoleList: function(cmd) {
+            Rose.ajax.postJson(srvMap.get('getStaffRoleList'), cmd, function(json, status) {
+                var self = this;
+                if (status) {
+                    var template = Handlebars.compile(Tpl.getStaffRoleList);
+                    console.log(json.data)
+                    Page.findId(Dom.getStaffRoleList).html(template(json.data));
+                    //iCheck
+                    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                        checkboxClass: 'icheckbox_minimal-blue',
+                        radioClass: 'iradio_minimal-blue'
+                    });
+
+                }
+            });
+        },
+        //分配权限
+        _next_step2: function() {
+            var self = this;
+            nextStep2 = Page.findId("stepContent").find("[name='nextStep2']");
+            nextStep2.bind('click', function() {
+                var _dom = Page.findId(Dom.getStaffRoleListTable).find("input[name='roleId']:checked");
+                var _roleIdsArray = [];
+                _dom.each(function() {
+                    _roleIdsArray.push($(this).val());
+                })
+                Cache.roleId = _roleIdsArray.join(",");
+
+                if (_roleIdsArray.length == 0) {
+                    window.XMS.msgbox.show('请先选择一个授权权限点！', 'error', 2000);
+                    return;
+                }
+                Dom.stepDom.nextStep();
+                self._step3();
+            });
+        },
+        
+        //第三步
+        _step3:function(){       	
+        	var stepTemplate3 = Handlebars.compile(Page.findTpl('staffApplyStep3'));			
+			Page.findId("stepContent").html(stepTemplate3(Cache.data));
+			this._next_step3();			
+        },
+        _next_step3: function() {
+            var self = this;
+            nextStep3 = Page.findId("stepContent").find("[name='nextStep3']");
+
+        },
+        
 	};
 	module.exports = Query;
 });

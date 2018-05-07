@@ -88,12 +88,28 @@
 	<div class="col-md-12">
 		<div style="text-align:center">
 			<button type="button" class="btn btn-primary margin-onl" name="reject">不通过</button>&nbsp;&nbsp;
-			<button type="button" class="btn btn-primary margin-onl" name="nextStep">下一步</button>
+			<button type="button" class="btn btn-primary margin-onl" name="nextStep1">下一步</button>
 		</div>
 	</div>
 </form>
 </script>
 <script id="TPL_staffApplyStep2" type="text/x-handlebars-template">
+<form>
+	<div class="col-md-12">
+		<div class="box">
+            <div class="box-header">
+                <h3 class="box-title">岗位授权</h3>
+                <div class="box-tools">
+                    <button id="JS_saveStaffRole" type="button" class="btn btn-primary" name="nextStep2">下一步</button>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="min-height: 100px;margin-bottom:-15px;" id="JS_getStaffRoleList">
+            </div>
+            <!-- /.box-body -->
+        </div>
+	</div>
+</form>
 </script>
 <script id="TPL_staffApplyStep3" type="text/x-handlebars-template">
 </script>

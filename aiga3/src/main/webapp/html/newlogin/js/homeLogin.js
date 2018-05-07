@@ -92,6 +92,61 @@ function loginMethod() {
         }
     });
 }
+//新注册
+//注册
+function registerMethodNew() {
+    var data = {
+    	staffCode:          $('#usernamesignup').val(),
+    	staffName:          $('#namesignup').val(),
+    	staffPassword:      $('#passwordsignup').val(),
+        recentPassword:		$('#passwordsignup_confirm').val(),
+        email:         		$('#emailsignup').val(),
+        billId:        		$('#phonesignup').val(),
+		organizeId:    		$('#groupsignup').val(),
+		organizeName:  		$('#groupsignup').text(),
+		state:              '1'
+    }
+    if($.trim(data.staffCode)=='' || $.trim(data.staffPassword)==''){
+        XMS.msgbox.show('亲，账号和密码不能为空！', 'error', 2000);
+        return false;
+    }
+    if($.trim(data.staffName)==''){
+        XMS.msgbox.show('亲，用户姓名不能为空！', 'error', 2000);
+        return false;
+    }
+    if($.trim(data.billId)==''){
+        XMS.msgbox.show('亲，手机号码不能为空！', 'error', 2000);
+        return false;
+    }
+    if($.trim(data.email)==''){
+        XMS.msgbox.show('亲，邮箱不能为空！', 'error', 2000);
+        return false;
+    }
+    if($.trim(data.staffPassword)=='' || $.trim(data.staffPassword)==''){
+        XMS.msgbox.show('亲，密码和重复密码不能为空！', 'error', 2000);
+        return false;
+    }
+    if(data.staffPassword!=data.recentPassword){
+        XMS.msgbox.show('亲，请确认两次密码输入一致！', 'error', 2000);
+        return false;
+    }
+	if($.trim(data.organizeId)==''){
+        XMS.msgbox.show('亲，用户所属组织不能为空！', 'error', 2000);
+        return false;
+    }
+    XMS.msgbox.show('正在注册中，请稍候...', 'loading');
+    $.post("../../staff/info/apply", data, function(d) {
+    	window.XMS.msgbox.hide();
+        if (d) {
+            var status = d["retCode"];
+            if (status == "200") {
+                window.XMS.msgbox.show("申请单成功:请等待管理员审批,通知邮件将会下发至邮箱请注意查收。", 'success', 2000);
+            } else {
+                window.XMS.msgbox.show("注册失败："+d["retMessage"], 'error', 2000);
+            }
+        }
+    });          
+}
 //注册
 function registerMethod() {
      var data = {

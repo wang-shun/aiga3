@@ -1,0 +1,69 @@
+
+
+<link rel="stylesheet" type="text/css" href="lib/jqueryStep/css/jquery.step.css" />
+<script src="lib/jqueryStep/js/jquery.step.min.js"></script>
+
+
+<div class="row" id="Page_staffApplyManage">
+	<div class="col-md-3">
+		<div class="box" id="JS_staffApplyList">
+			<div class="box-header">
+				<h3 class="box-title">账号申请列表</h3>
+			</div>
+			<div class="box-body">
+			    <table class="table table-bordered table-hover">
+		        	<thead>
+		                <tr>
+		                    <th class="iCheckbox" width="15"></th>
+		                    <th>申请人账号</th>
+		                    <th>申请人姓名</th>
+		                </tr>
+		            </thead>
+		            <tbody name="content"></tbody>
+		        </table>
+			</div>
+			<div class="box-footer no-border">
+		        <div class="dataTables_paginate" style="text-align: center;" name="pagination"></div>
+		    </div> 
+		</div>
+	</div>
+	
+	<div class="col-md-9">
+		<div class="box">
+			<div class="box-header">
+				<div id="JS_step"></div>
+			</div>	
+			<div class="box-body">
+				<div id="JS_stepContent">
+				</div>
+				<button type="button" class="btn btn-primary margin-onl" data-toggle="modal" name="nextStep">下一步</button>
+			</div>			
+		</div>
+	</div>
+</div>
+
+<!-- 步骤模板 -->
+<script id="TPL_staffApplyStep1" type="text/x-handlebars-template">
+	
+</script>
+<script id="TPL_staffApplyStep2" type="text/x-handlebars-template">
+</script>
+<script id="TPL_staffApplyStep3" type="text/x-handlebars-template">
+</script>
+<script id="TPL_staffApplyStep4" type="text/x-handlebars-template">
+</script>
+<!-- 表格数据  -->
+<script id="TPL_getStaffApplyList" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal" value="{{applyId}}" name="applyId"></td>
+    <td>{{staffCode}}</td>
+    <td>{{staffName}}</td>
+</tr>
+{{/each}}
+</script>
+<script>
+seajs.use("script/systemManage/staffApplyManage", function(Query) {
+    Query.init();
+});
+</script>

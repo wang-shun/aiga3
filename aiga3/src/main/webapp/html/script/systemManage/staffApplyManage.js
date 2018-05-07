@@ -9,6 +9,11 @@ define(function(require,exports,module){
 
 	// 组织结构列表查询
 	srvMap.add("findApplyStaff", "", "staff/info/findApply");
+	
+	//驳回接口
+	
+	srvMap.add("rejectIn", pathAlias+"rejectIn.json", "staff/info/rejet");
+	
 	// 模板对象
     var Tpl = {
         getUserinfoList: require('tpl/systemManage/staffManage/getUserinfoList.tpl'),
@@ -22,7 +27,7 @@ define(function(require,exports,module){
     //暂存数据
     var Cache = {
     	applyData:""
-    }
+    } 
 
 	var Query = {
 		init: function(){
@@ -33,6 +38,7 @@ define(function(require,exports,module){
 			this._step_load();
 		},
 		_staff_apply_load:function(){
+			var self = this;
 			var tableDom = Page.findId('staffApplyList');
 			var _domPagination = tableDom.find("[name='pagination']");
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -53,7 +59,8 @@ define(function(require,exports,module){
         			}
         			Dom.stepDom.toStep(0);
         			var stepTemplate = Handlebars.compile(Page.findTpl('staffApplyStep1'));			
-    				Page.findId("stepContent").html(template(data));
+    				Page.findId("stepContent").html(stepTemplate(datas[0]));
+    				self._reject();
         		});
 			},_domPagination);
 		},
@@ -68,7 +75,41 @@ define(function(require,exports,module){
 			Page.find("[name='nextStep']").off('click').on('click',function() {
 				stepDom.nextStep();
 			});
-		}
+		},
+		//绑定不通过按钮事件
+        _reject: function() {
+			var self = this;
+			var _stepContent = Page.findId('stepContent');			 
+			//Utils.setSelectData(_form);		 
+			var _rejectBtn = _stepContent.find("[name='reject']");
+			var isRun = false;
+			_rejectBtn.off('click').on('click',function(){
+				debugger
+				if(isRun){
+		             return;
+		         } else {
+		        	 isRun = true;
+			         setTimeout(function(){
+			             isRun=false;
+			         },1500); //点击后相隔多长时间可执行
+		         }
+				var datas = Cache.applyData;
+				
+				//var _cmd = jQuery.param(datas[0]);
+				cmd = "applyId="+datas[0].applyId; 
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				Rose.ajax.postJson(srvMap.get('rejectIn'),cmd,function(json, status){
+					debugger
+					if(status) {
+						XMS.msgbox.show('审批不通过', 'error', 1500);
+						datas[0].state = '3';
+					} else {
+						XMS.msgbox.show(json.retMessage, 'error', 2000);
+					}					
+				});
+				
+			});		
+        },
 	};
 	module.exports = Query;
 });

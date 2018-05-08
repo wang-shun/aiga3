@@ -1,7 +1,9 @@
 package com.ai.aiga.view.controller.staff;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ai.aiga.component.MailCmpt;
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.ArchStaffGrad;
 import com.ai.aiga.service.staff.ArchStaffGradSv;
 import com.ai.aiga.service.staff.StaffSv;
@@ -90,7 +93,21 @@ public class ArchStaffGradController {
 				request.setCreateDate(new Date());
 				archStaffGradSv.save(request);
 				//发送邮件
-				mailCmpt.sendMail(request.getEmail(), "", "架构资产管控平台账号申请", "账号申请单已提交请耐心等待审核", null);
+				String mailAddress = request.getEmail();
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
+				String content = "<p>架构资产管控平台自动消息：</p><p>"+request.getStaffName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个账号申请 ,等待审核</p>";
+				for(AigaStaff staffBase : staffSv.findStaffByRole("STAFF_CONFIRM")) {
+					if(StringUtils.isNotBlank(mailAddress)) {
+						if(!mailAddress.contains(staffBase.getEmail())) {
+							mailAddress += StringUtils.isNotBlank(staffBase.getEmail())? ","+staffBase.getEmail() :"";
+						}				
+					} else {
+						if(!mailAddress.contains(staffBase.getEmail())) {
+							mailAddress += StringUtils.isNotBlank(staffBase.getEmail())? staffBase.getEmail() :"";
+						}
+					}
+				}
+				mailCmpt.sendMail(mailAddress, "", "架构资产管控平台账号申请", content, null);
 			} else {
 				bean.fail(backState);
 			}

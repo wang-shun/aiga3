@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ai.aiga.component.MailCmpt;
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchStaffGrad;
 import com.ai.aiga.service.staff.ArchStaffGradSv;
@@ -21,6 +22,8 @@ public class ArchStaffGradController {
 	private ArchStaffGradSv archStaffGradSv;
 	@Autowired
 	private StaffSv staffSv;
+	@Autowired
+	private MailCmpt mailCmpt;
 	
 	@RequestMapping(path = "/staff/info/findApply")
 	public @ResponseBody JsonBean findApply(
@@ -38,6 +41,10 @@ public class ArchStaffGradController {
 			String msg = archStaffGradSv.reject(applyId);
 			if(!"true".equals(msg)) {
 				bean.fail(msg);	
+			} else {
+				//发送邮件
+				String email = archStaffGradSv.getRejectEmail(applyId);
+				mailCmpt.sendMail(email, "", "架构资产管控平台账号申请未通过", "", null);
 			}
 		} catch (Exception e) {
 			bean.fail(e.getMessage());	
@@ -52,15 +59,19 @@ public class ArchStaffGradController {
 			String msg = archStaffGradSv.acceptCheck(request);
 			if("true".equals(msg)) {			
 				StaffInfoRequest input = new StaffInfoRequest();
-				input.setCode(request.getStaffCode());
-				input.setName(request.getStaffName());
-				input.setPassword(request.getStaffPassword());
-				input.setEmail(request.getEmail());
-				input.setBillId(request.getBillId());
+				ArchStaffGrad theOne = archStaffGradSv.findOne(request.getApplyId());
+				input.setCode(theOne.getStaffCode());
+				input.setName(theOne.getStaffName());
+				input.setPassword(theOne.getStaffPassword());
+				input.setEmail(theOne.getEmail());
+				input.setBillId(theOne.getBillId());
+				theOne.setRoleId(request.getRoleId());
 				//存表
-				staffSv.saveStaffOrgSignIn(input, Long.valueOf(request.getOrganizeId()), request.getRoleId());
+				staffSv.saveStaffOrgSignIn(input, Long.valueOf(theOne.getOrganizeId()), request.getRoleId());
 				//更新申请表
-				archStaffGradSv.acceptSave(request);
+				archStaffGradSv.acceptSave(theOne);
+				//发送邮件
+				mailCmpt.sendMail(request.getEmail(), "", "架构资产管控平台账号申请通过", "账号申请成功", null);
 			} else {
 				bean.fail(msg);	
 			}
@@ -78,6 +89,8 @@ public class ArchStaffGradController {
 			if("true".equals(backState)) {
 				request.setCreateDate(new Date());
 				archStaffGradSv.save(request);
+				//发送邮件
+				mailCmpt.sendMail(request.getEmail(), "", "架构资产管控平台账号申请", "账号申请单已提交请耐心等待审核", null);
 			} else {
 				bean.fail(backState);
 			}

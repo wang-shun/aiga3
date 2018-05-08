@@ -180,7 +180,7 @@ define(function(require,exports,module){
 			nextStep3 = Page.findId("stepContent").find("[name='nextStep3']");
 			nextStep3.off('click').on('click',function() {
 				debugger
-				var cmd = "applyId="+Cache.data.applyId;
+				var cmd = "applyId="+Cache.data.applyId+"&roleId="+Cache.roleId;
 				Rose.ajax.postJson(srvMap.get('acceptIn'),cmd,function(json, status){
 					debugger
 					if(status) {

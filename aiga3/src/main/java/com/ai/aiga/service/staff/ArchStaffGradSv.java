@@ -65,7 +65,11 @@ public class ArchStaffGradSv extends BaseService {
 		Pageable pageable = new PageRequest(pageNumber, pageSize);
 		return archStaffGradDao.search(cons, pageable);
 	}
-	
+	public String getRejectEmail(Long applyId) {
+		ArchStaffGrad back = archStaffGradDao.findOne(applyId);
+		return back.getEmail();
+	}
+
 	public String reject(Long applyId) {
 		String outMessage = "true";
 		if(applyId != null && applyId !=0L) {
@@ -87,7 +91,7 @@ public class ArchStaffGradSv extends BaseService {
 	
 	public void acceptSave(ArchStaffGrad request) {
 		ArchStaffGrad back = archStaffGradDao.findOne(request.getApplyId());
-		back.setState("3");
+		back.setState("2");
 		back.setModifyDate(new Date());
 		back.setRoleId(request.getRoleId());
 		archStaffGradDao.save(back);

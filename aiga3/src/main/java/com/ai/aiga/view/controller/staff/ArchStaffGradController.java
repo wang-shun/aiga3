@@ -71,7 +71,7 @@ public class ArchStaffGradController {
 				//更新申请表
 				archStaffGradSv.acceptSave(theOne);
 				//发送邮件
-				mailCmpt.sendMail(request.getEmail(), "", "架构资产管控平台账号申请通过", "账号申请成功", null);
+				mailCmpt.sendMail(theOne.getEmail(), "", "架构资产管控平台账号申请通过", "账号申请成功", null);
 			} else {
 				bean.fail(msg);	
 			}

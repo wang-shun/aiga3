@@ -182,10 +182,10 @@ define(function(require,exports,module){
 				var cmd = "applyId="+Cache.data.applyId+"&roleId="+Cache.roleId;
 				Rose.ajax.postJson(srvMap.get('acceptIn'),cmd,function(json, status){
 					if(status) {
-						XMS.msgbox.show('申请单认定通过', 'success', 1500);
 						Dom.stepDom.nextStep();
 						self._step4();
 					} else {
+						//第四步审批失败信息打印
 						Dom.stepDom.nextStep();
 						var error4 = Handlebars.compile(Page.findTpl('error4'));			
 						Page.findId("stepContent").html(error4(json.retMessage));

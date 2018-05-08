@@ -186,7 +186,6 @@ define(function(require,exports,module){
 						Dom.stepDom.nextStep();
 						self._step4();
 					} else {
-						XMS.msgbox.show(json.retMessage, 'error', 2000);
 						Dom.stepDom.nextStep();
 						var error4 = Handlebars.compile(Page.findTpl('error4'));			
 						Page.findId("stepContent").html(error4(json.retMessage));

@@ -179,29 +179,31 @@ define(function(require,exports,module){
 			this.getStaffRoleList();
 			nextStep3 = Page.findId("stepContent").find("[name='nextStep3']");
 			nextStep3.off('click').on('click',function() {
-				debugger
 				var cmd = "applyId="+Cache.data.applyId+"&roleId="+Cache.roleId;
 				Rose.ajax.postJson(srvMap.get('acceptIn'),cmd,function(json, status){
-					debugger
 					if(status) {
 						XMS.msgbox.show('申请单认定通过', 'success', 1500);
+						Dom.stepDom.nextStep();
+						self._step4();
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
+						Dom.stepDom.nextStep();
+						var error4 = Handlebars.compile(Page.findTpl('error4'));			
+						Page.findId("stepContent").html(error4(json.retMessage));
+						var message = json.retMessage.substring(json.retMessage.indexOf("[")+1,json.retMessage.lastIndexOf("]"));
+						Page.findId("stepContent").find("[name='errorMessage']").text(message);
+						return 
 					}					
 				});
-				Dom.stepDom.nextStep();
-				self._step4();
+				
 			});
             
         },
         //第四步
         _step4:function(){       	
         	var stepTemplate4 = Handlebars.compile(Page.findTpl('staffApplyStep4'));			
-			Page.findId("stepContent").html(stepTemplate4(Cache.data));
-			
-        },
-
-        
+			Page.findId("stepContent").html(stepTemplate4(Cache.data));			
+        },       
 	};
 	module.exports = Query;
 });

@@ -99,20 +99,23 @@ define(function(require,exports,module){
 			var _rejectBtn = _stepContent.find("[name='reject']");
 			var isRun = false;
 			_rejectBtn.off('click').on('click',function(){
-				if(isRun){
+				/*if(isRun){
 		             return;
 		         } else {
 		        	 isRun = true;
 			         setTimeout(function(){
 			             isRun=false;
 			         },1500); //点击后相隔多长时间可执行
-		         }
+		         }*/
 
 				var cmd = "applyId="+Cache.data.applyId; 
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('rejectIn'),cmd,function(json, status){
+					debugger
 					if(status) {
-						XMS.msgbox.show('申请单驳回成功', 'success', 1500);
+						XMS.msgbox.show('申请单驳回成功', 'success', 2000);
+						self._staff_apply_load();
+						_stepContent.find("[name='staffApplyStep1']").remove();
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}					

@@ -97,21 +97,10 @@ define(function(require,exports,module){
 			var self = this;
 			var _stepContent = Page.findId('stepContent');			 
 			var _rejectBtn = _stepContent.find("[name='reject']");
-			var isRun = false;
 			_rejectBtn.off('click').on('click',function(){
-				/*if(isRun){
-		             return;
-		         } else {
-		        	 isRun = true;
-			         setTimeout(function(){
-			             isRun=false;
-			         },1500); //点击后相隔多长时间可执行
-		         }*/
-
 				var cmd = "applyId="+Cache.data.applyId; 
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get('rejectIn'),cmd,function(json, status){
-					debugger
 					if(status) {
 						window.XMS.msgbox.show('申请单驳回成功', 'success', 2000);
 						setTimeout(function() {self._staff_apply_load();},1000);
@@ -194,6 +183,7 @@ define(function(require,exports,module){
 						Page.findId("stepContent").html(error4(json.retMessage));
 						var message = json.retMessage.substring(json.retMessage.indexOf("[")+1,json.retMessage.lastIndexOf("]"));
 						Page.findId("stepContent").find("[name='errorMessage']").text(message);
+						self._staff_apply_load();
 						return 
 					}					
 				});
@@ -204,7 +194,8 @@ define(function(require,exports,module){
         //第四步
         _step4:function(){       	
         	var stepTemplate4 = Handlebars.compile(Page.findTpl('staffApplyStep4'));			
-			Page.findId("stepContent").html(stepTemplate4(Cache.data));			
+			Page.findId("stepContent").html(stepTemplate4(Cache.data));
+			this._staff_apply_load();
         },       
 	};
 	module.exports = Query;

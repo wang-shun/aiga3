@@ -113,8 +113,8 @@ define(function(require,exports,module){
 				Rose.ajax.postJson(srvMap.get('rejectIn'),cmd,function(json, status){
 					debugger
 					if(status) {
-						XMS.msgbox.show('申请单驳回成功', 'success', 2000);
-						self._staff_apply_load();
+						window.XMS.msgbox.show('申请单驳回成功', 'success', 2000);
+						setTimeout(function() {self._staff_apply_load();},1000);
 						_stepContent.find("[name='staffApplyStep1']").remove();
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);

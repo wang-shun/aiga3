@@ -95,7 +95,7 @@ public class ArchStaffGradController {
 				//发送邮件
 				String mailAddress = request.getEmail();
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
-				String content = "<p>架构资产管控平台自动消息：</p><p>"+request.getStaffName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个账号申请 ,等待审核</p>";
+				String content = "<p>架构资产管控平台自动消息：</p><p>"+request.getStaffName()+"&nbsp;&nbsp;于&nbsp;&nbsp;"+ sdf.format(new Date())+"&nbsp;&nbsp;提交了一个账号申请 ,等待管理员审核</p>";
 				for(AigaStaff staffBase : staffSv.findStaffByRole("STAFF_CONFIRM")) {
 					if(StringUtils.isNotBlank(mailAddress)) {
 						if(!mailAddress.contains(staffBase.getEmail())) {

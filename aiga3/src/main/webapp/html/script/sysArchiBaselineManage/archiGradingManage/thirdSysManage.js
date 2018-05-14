@@ -419,9 +419,68 @@ define(function(require, exports, module) {
 	        			confirmButtonClass:'btn-primary',
 					    confirmButton: '确认',
 					    cancelButton: '取消',
-					    confirm: function(){
+					    confirm: function(){														
 							var updateDom = Page.findId('thirdUpdateForm');
-							var _cmd = updateDom.serialize();
+							var _cmd = updateDom.serialize();							
+							//数据校验
+							if(_cmd.indexOf('name=&')>-1) {
+								XMS.msgbox.show('名称为空！', 'error', 2000);
+								return
+							}
+							var name = updateDom.find('[name="name"]').val();      
+						    var pattern = /^[A-Za-z0-9\u4e00-\u9fa5]+$/;  
+							if(!pattern.test(name) ){
+								XMS.msgbox.show('名称不能带特殊符号！', 'error', 2000);
+								return
+							}
+							
+							var realLength = 0, len = name.length, charCode = -1;  
+					        for ( var i = 0; i < len; i++) {  
+					            charCode = name.charCodeAt(i);  
+					            if (charCode >= 0 && charCode <= 128)  
+					                realLength += 1;  
+					            else  
+					                realLength += 2;  
+					        }
+					        if(realLength>30){
+					        	XMS.msgbox.show('名称不能超过30字节！', 'error', 2000);
+								return
+					        }
+							
+							var code = updateDom.find('[name="code"]').val();
+							if(code != ''){
+								//判断简称是否已存在
+								Rose.ajax.postJson(srvMap.get('systemCheck'),_cmd,function(json, status){
+									if(json.retCode == 500) {						
+										XMS.msgbox.show('此简称已存在，请更换！', 'error', 2000);
+										return							
+									}					
+								});
+							}
+														
+							if(_cmd.indexOf('idFirst=&')>-1) {
+								XMS.msgbox.show('所属一级域为空！', 'error', 2000);
+								return
+							}
+							if(_cmd.indexOf('idBelong=&')>-1) {
+								XMS.msgbox.show('所属二级域为空！', 'error', 2000);
+								return
+							}
+							if(_cmd.indexOf('rankInfo=&')>-1) {
+								XMS.msgbox.show('等级信息为空！', 'error', 2000);
+								return
+							}			
+							var developer = updateDom.find('[name="developer"]').val();
+							var idFirst = updateDom.find('[name="idFirst"]').val();
+							if(developer != 0 && idFirst !='50000000' && name.indexOf(developer)>-1){
+								XMS.msgbox.show('开发商名字不要出现在名称里！', 'error', 2000);
+								return
+							}
+							if(_cmd.indexOf('sysState=&')>-1) {
+								XMS.msgbox.show('建设状态为空！', 'error', 2000);
+								return
+							}			
+							
 							//获取分层层级
 							var belongLevel = '';
 							Page.find("[name='hierarchysec']:checked").each(function() {

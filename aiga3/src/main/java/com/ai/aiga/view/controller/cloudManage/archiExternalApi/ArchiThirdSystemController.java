@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,15 @@ public class ArchiThirdSystemController {
 		String description = request.getDescription();
 		if(!("新增".equals(description) || "修改".equals(description) || "删除".equals(description))) {
 			bean.fail("该操作类型不合法！");
+			return bean;
+		}
+        //正则规则  //
+        Pattern pattern=Pattern.compile("^[A-Za-z0-9\u4e00-\u9fa5]+$");  
+        //被校验的字符串  
+        Matcher match=pattern.matcher(request.getName());  
+		//名称过滤特殊符号校验
+		if(!match.matches()) {
+			bean.fail("申请单名称不能包含特殊符号");
 			return bean;
 		}
 		//非空校验

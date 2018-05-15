@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -280,6 +282,14 @@ public class ArchiGradingController {
 				if(StringUtils.isBlank(architectureGrading.getName())) {
 					bean.fail("名称为空！");
 					return bean;
+				} else {
+					Pattern pattern	= Pattern.compile("^[A-Za-z0-9\u4e00-\u9fa5]+$");
+					Matcher match=pattern.matcher(architectureGrading.getName()); 
+			        if(match.matches()){  
+			        }  else {
+			        	bean.fail("名称仅能包含中文英文数字");
+						return bean;
+			        }
 				}
 				if(architectureGrading.getIdBelong() == null || architectureGrading.getIdBelong()<=0) {
 					bean.fail("所属二级域为空！");
@@ -336,6 +346,14 @@ public class ArchiGradingController {
 				if(StringUtils.isBlank(architectureGrading.getName())) {
 					bean.fail("名称为空！");
 					return bean;
+				} else {
+					Pattern pattern	= Pattern.compile("^[A-Za-z0-9\u4e00-\u9fa5]+$");
+					Matcher match=pattern.matcher(architectureGrading.getName()); 
+			        if(match.matches()){  
+			        }  else {
+			        	bean.fail("名称仅能包含中文英文数字");
+						return bean;
+			        }
 				}
 				if(architectureGrading.getIdBelong() == null || architectureGrading.getIdBelong()<=0) {
 					bean.fail("所属二级域为空！");

@@ -272,6 +272,12 @@
 			<label class="control-label margin-label-grading">系统功能描述:</label>
 			<textarea name="systemFunction" cols="112" rows="4" class="form-control input-sm text-area-sty" readonly="readonly">{{systemFunction}}</textarea>
 		</div>
+		{{#if backMessage}}
+		<div class="col-md-12 margin-bottom-col">
+			<label class="control-label margin-label-grading">审批意见回复:</label>
+			<textarea name="backMessage" cols="112" rows="4" class="form-control input-sm text-area-sty" readonly="readonly">{{backMessage}}</textarea>
+		</div>
+		{{/if}}
 		<div class="col-md-12 margin-bottom-col" name="identifiedModal">
 			<label class="control-label margin-label-grading">认定信息:</label>
 			<textarea name="identifiedInfo" cols="112" rows="4" class="form-control input-sm text-area-sty" readonly="readonly">{{identifiedInfo}}</textarea>

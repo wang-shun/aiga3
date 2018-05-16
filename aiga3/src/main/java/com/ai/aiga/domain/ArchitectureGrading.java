@@ -1,5 +1,5 @@
 package com.ai.aiga.domain;
-// Generated 2017-12-27 11:32:43 by Hibernate Tools 3.2.2.GA
+// Generated 2018-5-16 11:01:33 by Hibernate Tools 3.2.2.GA
 
 
 import java.math.BigDecimal;
@@ -51,6 +51,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
      private String cloudOrderId;
      private String applyUserInfo;
      private String principal;
+     private String backMessage;
 
     public ArchitectureGrading() {
     }
@@ -63,7 +64,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.state = state;
         this.applyUser = applyUser;
     }
-    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId, String developer, String cloudOrderId, String applyUserInfo, String principal) {
+    public ArchitectureGrading(long applyId, String identifiedInfo, long sysId, String name, String systemFunction, String description, String code, Long idBelong, String belongLevel, String department, String projectInfo, String designInfo, String sysState, String state, String rankInfo, String applyUser, Date applyTime, Date modifyDate, Date createDate, String ext1, String ext2, String ext3, Long onlysysId, String identifyUser, BigDecimal fileId, String developer, String cloudOrderId, String applyUserInfo, String principal, String backMessage) {
        this.applyId = applyId;
        this.identifiedInfo = identifiedInfo;
        this.sysId = sysId;
@@ -93,11 +94,12 @@ public class ArchitectureGrading  implements java.io.Serializable {
        this.cloudOrderId = cloudOrderId;
        this.applyUserInfo = applyUserInfo;
        this.principal = principal;
+       this.backMessage = backMessage;
     }
    
      @Id 
      @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="ARCHITECTURE_GRADING$SEQ")
-     @SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1)       
+     @SequenceGenerator(name="ARCHITECTURE_GRADING$SEQ",sequenceName="ARCHITECTURE_GRADING$SEQ",allocationSize=1)          
     @Column(name="APPLY_ID", unique=true, nullable=false, precision=10, scale=0)
     public long getApplyId() {
         return this.applyId;
@@ -305,7 +307,7 @@ public class ArchitectureGrading  implements java.io.Serializable {
         this.onlysysId = onlysysId;
     }
     
-    @Column(name="IDENTIFY_USER", length=10)
+    @Column(name="IDENTIFY_USER")
     public String getIdentifyUser() {
         return this.identifyUser;
     }
@@ -357,6 +359,15 @@ public class ArchitectureGrading  implements java.io.Serializable {
     
     public void setPrincipal(String principal) {
         this.principal = principal;
+    }
+    
+    @Column(name="BACK_MESSAGE", length=2048)
+    public String getBackMessage() {
+        return this.backMessage;
+    }
+    
+    public void setBackMessage(String backMessage) {
+        this.backMessage = backMessage;
     }
 
 

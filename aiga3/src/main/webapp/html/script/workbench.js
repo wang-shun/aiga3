@@ -26,9 +26,9 @@ define(function(require, exports, module) {
 	                Page.find("li").off('click').on('click',function() {
 	                	var number = $(this).find('[class="bill-apply-num"]:first-child').val();
 	                	var name = $(this).find('[class~="bill-apply-name"]').attr("name");
-	                	if(number < 1 || typeof(name) == 'undefined') {
-	                		return
-	                	}
+//	                	if(number < 1 || typeof(name) == 'undefined') {
+//	                		return
+//	                	}
 	                	if(name == 'applyFirst' || name == 'applySecond' || name == 'applyThird') {
 	                		var ext = name == 'applyFirst'? 1: name== 'applySecond' ? 2: name == 'applyThird' ? 3:0;
 	                        Sidebar.creatTab({

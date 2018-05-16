@@ -2938,11 +2938,27 @@ public class ArchitectureIndexController extends BaseService {
 			}
 		}
 		Collections.sort(list, new IncreaseComparator());
-		
+		CenterDbConnectTopList totalnum = new CenterDbConnectTopList();
+	    long lastmonthtotal = 0L;
+	    long thismonthtotal = 0L;
+	    long increasetotal = 0L;
+	    double percentagetotal = 0;
+		totalnum.setSystem("总计");
 		for(int i=0;i<list.size();i++){
 			CenterDbConnectTopList base = list.get(i);
 			base.setId("TOP" + (i+1));
+			lastmonthtotal += base.getLastmonth();
+			thismonthtotal += base.getThismonth();
+			increasetotal  += base.getIncrease();
 		}
+		if(thismonthtotal!=0){
+			percentagetotal=(increasetotal*100)/thismonthtotal;
+		}
+		totalnum.setLastmonth(lastmonthtotal);
+		totalnum.setThismonth(thismonthtotal);
+		totalnum.setIncrease(increasetotal);
+		totalnum.setPercentage(percentagetotal);
+		list.add(totalnum);
 		bean.setData(list);	
 		return bean;
 	}
@@ -4066,39 +4082,70 @@ public class ArchitectureIndexController extends BaseService {
 			long numc = 0L;
 			long pnumd = 0L;
 			long numd = 0L;
+//			for(int j=0;j<baseConnectList.size();j++){
+//				ArchDbConnect baseConnect = baseConnectList.get(j);
+//				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
+//					continue;
+//				}
+//				if(baseConnect.getKey1().length()>5 ){
+//					String db = String.valueOf(baseConnect.getKey1().charAt(5));
+//					if(db.equalsIgnoreCase("A")){
+//						if(baseConnect.getSettMonth().equals(_yesterday)){
+//							pnuma += Long.parseLong(baseConnect.getResultValue());
+//						}else if(baseConnect.getSettMonth().equals(_nowday)){
+//							numa += Long.parseLong(baseConnect.getResultValue());
+//						}
+//					}else if(db.equalsIgnoreCase("B")){
+//						if(baseConnect.getSettMonth().equals(_yesterday)){
+//							pnumb += Long.parseLong(baseConnect.getResultValue());
+//						}else if(baseConnect.getSettMonth().equals(_nowday)){
+//							numb += Long.parseLong(baseConnect.getResultValue());
+//						}
+//					}else if(db.equalsIgnoreCase("C")){
+//						if(baseConnect.getSettMonth().equals(_yesterday)){
+//							pnumc += Long.parseLong(baseConnect.getResultValue());
+//						}else if(baseConnect.getSettMonth().equals(_nowday)){
+//							numc += Long.parseLong(baseConnect.getResultValue());
+//						}
+//					}else if(db.equalsIgnoreCase("D")){
+//						if(baseConnect.getSettMonth().equals(_yesterday)){
+//							pnumd += Long.parseLong(baseConnect.getResultValue());
+//						}else if(baseConnect.getSettMonth().equals(_nowday)){
+//							numd += Long.parseLong(baseConnect.getResultValue());
+//						}
+//					}
+//				}
+//			}
 			for(int j=0;j<baseConnectList.size();j++){
 				ArchDbConnect baseConnect = baseConnectList.get(j);
 				if(baseConnect.getResultValue()==null || baseConnect.getResultValue()=="" ){
 					continue;
 				}
-				if(baseConnect.getKey1().length()>5){
-					
-					String db = String.valueOf(baseConnect.getKey1().charAt(5));
-					
-					if(db.equalsIgnoreCase("A")){
-						if(baseConnect.getSettMonth().equals(_yesterday)){
-							pnuma += Long.parseLong(baseConnect.getResultValue());
-						}else if(baseConnect.getSettMonth().equals(_nowday)){
-							numa += Long.parseLong(baseConnect.getResultValue());
-						}
-					}else if(db.equalsIgnoreCase("B")){
-						if(baseConnect.getSettMonth().equals(_yesterday)){
-							pnumb += Long.parseLong(baseConnect.getResultValue());
-						}else if(baseConnect.getSettMonth().equals(_nowday)){
-							numb += Long.parseLong(baseConnect.getResultValue());
-						}
-					}else if(db.equalsIgnoreCase("C")){
-						if(baseConnect.getSettMonth().equals(_yesterday)){
-							pnumc += Long.parseLong(baseConnect.getResultValue());
-						}else if(baseConnect.getSettMonth().equals(_nowday)){
-							numc += Long.parseLong(baseConnect.getResultValue());
-						}
-					}else if(db.equalsIgnoreCase("D")){
-						if(baseConnect.getSettMonth().equals(_yesterday)){
-							pnumd += Long.parseLong(baseConnect.getResultValue());
-						}else if(baseConnect.getSettMonth().equals(_nowday)){
-							numd += Long.parseLong(baseConnect.getResultValue());
-						}
+				String indexId = String.valueOf(baseConnect.getIndexId());
+				String db = String.valueOf(indexId.charAt(3));
+				if(db.equals("0")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnuma += Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numa += Long.parseLong(baseConnect.getResultValue());
+					}
+				}else if(db.equals("1")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnumb += Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numb += Long.parseLong(baseConnect.getResultValue());
+					}
+				}else if(db.equals("2")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnumc += Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numc += Long.parseLong(baseConnect.getResultValue());
+					}
+				}else if(db.equals("3")){
+					if(baseConnect.getSettMonth().equals(_yesterday)){
+						pnumd += Long.parseLong(baseConnect.getResultValue());
+					}else if(baseConnect.getSettMonth().equals(_nowday)){
+						numd += Long.parseLong(baseConnect.getResultValue());
 					}
 				}
 			}
@@ -4131,6 +4178,25 @@ public class ArchitectureIndexController extends BaseService {
 			ConnectResourceTopList base = list.get(i);
 			base.setId("TOP" + (i+1));
 		}
+		ConnectResourceTopList centertotal = new ConnectResourceTopList();
+		long numatotal = 0L;
+		long numbtotal = 0L;
+		long numctotal = 0L;
+		long numdtotal = 0L;
+		for(int p=0;p<list.size();p++){
+			ConnectResourceTopList center = list.get(p);
+			numatotal += center.getNuma();
+			numbtotal += center.getNumb();
+			numctotal += center.getNumc();
+			numdtotal += center.getNumd();
+		}
+		centertotal.setSystem("总计");
+		centertotal.setNuma(numatotal);
+		centertotal.setNumb(numbtotal);
+		centertotal.setNumc(numctotal);
+		centertotal.setNumd(numdtotal);
+		centertotal.setTime(nowday);
+		list.add(centertotal);
 		bean.setData(list);	
 		return bean;
 	}

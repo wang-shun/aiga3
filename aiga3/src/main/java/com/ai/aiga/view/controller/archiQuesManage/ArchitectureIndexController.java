@@ -4161,7 +4161,7 @@ public class ArchitectureIndexController extends BaseService {
 			double perb = 0;
 			double perc = 0;
 			double perd = 0;
-			if(numa!=0 || numb!=0 || numc!=0 || numd!=0){
+			if(numa!=0 && numb!=0 && numc!=0 && numd!=0){
 				pera = (numa-pnuma)*100/numa;
 				perb = (numb-pnumb)*100/numb;
 				perc = (numc-pnumc)*100/numc;

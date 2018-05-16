@@ -1194,7 +1194,20 @@ public class ArchitectureIndexController extends BaseService {
 							}
 						}					
 					}
-					baseSeries.setData(data);
+					List<Integer> datalist = new ArrayList<Integer>();
+					List<String>dayslist=new ArrayList<String>();
+					for(int k=0;k<data.length;k++){
+						if(data[k]!=0){
+							datalist.add(data[k]);
+							dayslist.add(k+":00");
+						}
+					}
+					int[] datanew = new int[datalist.size()];
+					for(int v=0;v<datalist.size();v++){
+						datanew[v]=(int)datalist.get(v);
+					}
+					baseSeries.setData(datanew);
+					output.setxAxis(dayslist);
 					seriesList.add(baseSeries);
 				}
 			}else{
@@ -1241,7 +1254,20 @@ public class ArchitectureIndexController extends BaseService {
 							}
 						}					
 					}
-					baseSeries.setData(data);
+					List<Integer> datalist = new ArrayList<Integer>();
+					List<String>dayslist=new ArrayList<String>();
+					for(int k=0;k<data.length;k++){
+						if(data[k]!=0){
+							datalist.add(data[k]);
+							dayslist.add(k+":00");
+						}
+					}
+					int[] datanew = new int[datalist.size()];
+					for(int v=0;v<datalist.size();v++){
+						datanew[v]=(int)datalist.get(v);
+					}
+					baseSeries.setData(datanew);
+					
 					int[] all = baseSeries.getData();
 					long allValue = 0L;
 					for(int u=0;u<all.length;u++){
@@ -1250,6 +1276,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(baseSeries.getName().equals("OTHER(TATAL)") && allValue==0){
 						
 					}else{
+						output.setxAxis(dayslist);
 						seriesList.add(baseSeries);
 					}
 				}
@@ -2205,6 +2232,7 @@ public class ArchitectureIndexController extends BaseService {
 		}
 		output.setxAxis(days);
 		final int constantValue = days.size();
+		int realValue = 0;
 		List<String>legendList = new ArrayList<String>();
 		boolean flag = true;
 		if(condition.getIndexId()!=null){
@@ -2273,7 +2301,22 @@ public class ArchitectureIndexController extends BaseService {
 							}
 						}					
 					}
-					baseSeries.setData(data);
+					List<Integer> datalist = new ArrayList<Integer>();
+					List<String>dayslist=new ArrayList<String>();
+					for(int k=0;k<data.length;k++){
+						if(data[k]!=0){
+							datalist.add(data[k]);
+							dayslist.add(k+":00");
+						}
+					}
+					realValue = datalist.size();
+					int[] datanew = new int[datalist.size()];
+					for(int v=0;v<datalist.size();v++){
+						datanew[v]=(int)datalist.get(v);
+					}
+					baseSeries.setData(datanew);
+					output.setxAxis(dayslist);
+					
 					seriesList.add(baseSeries);
 				}
 //				}
@@ -2321,7 +2364,20 @@ public class ArchitectureIndexController extends BaseService {
 							}
 						}					
 					}
-					baseSeries.setData(data);
+					List<Double> datalist = new ArrayList<Double>();
+					List<String>dayslist=new ArrayList<String>();
+					for(int k=0;k<data.length;k++){
+						if(data[k]!=0){
+							datalist.add(data[k]);
+							dayslist.add(k+":00");
+						}
+					}
+					double[] datanew = new double[datalist.size()];
+					realValue = datalist.size();
+					for(int v=0;v<datalist.size();v++){
+						datanew[v]=(double)datalist.get(v);
+					}
+					baseSeries.setData(datanew);
 					double[] all = baseSeries.getData();
 					long allValue = 0L;
 					for(int u=0;u<all.length;u++){
@@ -2330,6 +2386,7 @@ public class ArchitectureIndexController extends BaseService {
 					if(allValue==0 && baseSeries.getName().equals("OTHER(TOTAL)")){
 						
 					}else{
+						output.setxAxis(dayslist);
 						seriesList2.add(baseSeries);
 					}
 				}
@@ -2340,7 +2397,7 @@ public class ArchitectureIndexController extends BaseService {
 			ViewSeries totalSeries = new ViewSeries();
 			totalSeries.setType("line");
 			totalSeries.setName("数据库连接总数");	
-			int[] totalData = new int[constantValue];
+			int[] totalData = new int[realValue];
 			for(int i=0;i<seriesList.size();i++){
 				ViewSeries baseSeries = seriesList.get(i);
 				for(int j=0;j<totalData.length;j++){
@@ -2361,7 +2418,7 @@ public class ArchitectureIndexController extends BaseService {
 			ViewSeries totalSeries = new ViewSeries();
 			totalSeries.setType("line");
 			totalSeries.setName("数据库连接总数");	
-			double[] totalData = new double[constantValue];
+			double[] totalData = new double[realValue];
 			for(int i=0;i<seriesList2.size();i++){
 				ViewSeries2 baseSeries = seriesList2.get(i);
 				for(int j=0;j<totalData.length;j++){
@@ -2369,7 +2426,7 @@ public class ArchitectureIndexController extends BaseService {
 					totalData[j] += data[j];
 				}
 			}
-			int[] totaldoubledata = new int[constantValue];
+			int[] totaldoubledata = new int[realValue];
 			for(int g = 0;g<totaldoubledata.length;g++){
 				totaldoubledata[g] = (int)totalData[g];
 			}
@@ -2379,6 +2436,7 @@ public class ArchitectureIndexController extends BaseService {
 			totalLegendList.add("数据库连接汇总数量");
 			output.setLegend(totalLegendList);
 			output.setSeries(totalSeriesList);
+			
 			bean.setData(output);	
 		}
 		return bean;

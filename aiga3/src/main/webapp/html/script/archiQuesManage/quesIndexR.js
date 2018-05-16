@@ -283,7 +283,7 @@ define(function(require, exports, module) {
 								secondLastClassIdList.push(command[i].indexId);
 								secondLastClassNameList.push(command[i].indexName);
 								secondLastClassNodes.push(command[i]);
-							}else if((command[i].indexId>=100001 && command[i].indexId<=100077)||(command[i].indexId>=1000 && command[i].indexId<=2010 && command[i].indexId !=1002)){
+							}else if((command[i].indexId>=100001 && command[i].indexId<=100083)||(command[i].indexId>=1000 && command[i].indexId<=2010 && command[i].indexId !=1002)){
 								lastClassIdList.push(command[i].indexId);
 								lastClassNameList.push(command[i].indexName);
 								lastClassNodes.push(command[i]);	
@@ -324,8 +324,7 @@ define(function(require, exports, module) {
 					if(indexIds == ''){
 						Data.flag = false;
 						//倒数第二层
-//						debugger
-						if((100001<=lastFatherId && lastFatherId<=100077) || (1001<=lastFatherId && lastFatherId<=2010 && lastFatherId != 1002)){
+						if((100001<=lastFatherId && lastFatherId<=100083) || (1001<=lastFatherId && lastFatherId<=2010 && lastFatherId != 1002)){
 							//如果同层节点仅有一个
 							if(lastClassNodes.length==1){
 								Data.isOne = true;
@@ -713,7 +712,8 @@ define(function(require, exports, module) {
 									"开通中心连接数",
 									"账管BOSS连接数",
 									"物联网中心连接数",
-									"其他渠道中心连接数"];
+									"其他渠道中心连接数",
+									"内部运营支撑中心连接数"];
 			var COMMON_INDEX_ID_A = [[1030001, 1030002, 1030022],
 									[1030003, 1030004],
 									[1030005, 1030038],
@@ -723,7 +723,7 @@ define(function(require, exports, module) {
 									[1030014, 1030015],
 									[1030016],
 									[1030017, 1030018, 1030039],
-									[1030019, 1030041],
+									[1030019],
 									[1030020, 1030021, 1030040],
 									[1030023, 1030024],
 									[1030025],
@@ -731,7 +731,8 @@ define(function(require, exports, module) {
 									[1030027],
 									[1030029],
 									[1030030, 1030031, 1030032],
-									[1030033, 1030034, 1030035, 1030036, 1030037, 1030042]];
+									[1030033, 1030034, 1030035, 1030036, 1030037, 1030042],
+									[1030041]];
 			var COMMON_INDEX_ID_B = [[1031001, 1031002, 1031022],
 									[1031003, 1031004],
 									[1031005, 1031038],
@@ -741,7 +742,7 @@ define(function(require, exports, module) {
 									[1031014, 1031015],
 									[1031016],
 									[1031017, 1031018, 1031039],
-									[1031019, 1031041],
+									[1031019],
 									[1031020, 1031021, 1031040],
 									[1031023, 1031024],
 									[1031025],
@@ -749,7 +750,8 @@ define(function(require, exports, module) {
 									[1031027],
 									[1031029],
 									[1031030, 1031031, 1031032],
-									[1031033, 1031034, 1031035, 1031036, 1031037, 1031042]];
+									[1031033, 1031034, 1031035, 1031036, 1031037, 1031042],
+									[1031041]];
 			var COMMON_INDEX_ID_C = [[1032001, 1032002, 1032022],
 									[1032003, 1032004],
 									[1032005, 1032038],
@@ -759,7 +761,7 @@ define(function(require, exports, module) {
 									[1032014, 1032015],
 									[1032016],
 									[1032017, 1032018, 1032039],
-									[1032019, 1032041],
+									[1032019],
 									[1032020, 1032021, 1032040],
 									[1032023, 1032024],
 									[1032025],
@@ -767,7 +769,8 @@ define(function(require, exports, module) {
 									[1032027],
 									[1032029],
 									[1032030, 1032031, 1032032],
-									[1032033, 1032034, 1032035, 1032036, 1032037, 1032042]];
+									[1032033, 1032034, 1032035, 1032036, 1032037, 1032042],
+									[1032041]];
 			var COMMON_INDEX_ID_D = [[1033001, 1033002, 1033022],
 									[1033003, 1033004],
 									[1033005, 1033038],
@@ -777,7 +780,7 @@ define(function(require, exports, module) {
 									[1033014, 1033015],
 									[1033016],
 									[1033017, 1033018, 1033039],
-									[1033019, 1033041],
+									[1033019],
 									[1033020, 1033021, 1033040],
 									[1033023, 1033024],
 									[1033025],
@@ -785,7 +788,8 @@ define(function(require, exports, module) {
 									[1033027],
 									[1033029],
 									[1033030, 1033031, 1033032],
-									[1033033, 1033034, 1033035, 1033036, 1033037, 1033042]];
+									[1033033, 1033034, 1033035, 1033036, 1033037, 1033042],
+									[1033041]];
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {	
 				_topcmd.indexId = Data.top2cmd.indexId;

@@ -67,10 +67,6 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
-<!-- 	<listener>
-		<listener-class>com.ai.aiga.view.util.IndexContextListener</listener-class>
-	</listener> -->
-  
 	
 	<servlet>
 		<servlet-name>spring-dispatcher</servlet-name>

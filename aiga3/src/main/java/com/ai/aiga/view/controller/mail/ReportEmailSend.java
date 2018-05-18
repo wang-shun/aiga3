@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -21,15 +19,11 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.ai.aiga.component.MailCmpt;
-import com.ai.aiga.domain.ArchTaskPlan;
 import com.ai.aiga.domain.PCsfReportBymonth;
 import com.ai.aiga.domain.PTopCsfReportBymonth;
 import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.view.controller.archiQuesManage.dto.PlatformOperateReportParams;
-import com.ai.task.TaskInterFace;
 
 @Component
 public class ReportEmailSend{

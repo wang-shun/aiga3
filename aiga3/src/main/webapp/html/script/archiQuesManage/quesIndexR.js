@@ -538,7 +538,9 @@ define(function(require, exports, module) {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
-	  			if(mmd){
+	  			var liform = Page.findId('sysMessageViewLabel');
+				var _maxBtn = liform.find("[name='maxshow']");
+				_maxBtn.off('click').on('click', function() {
 					Rose.ajax.postJson(srvMap.get(task2Max), _ggcmd, function(json, status) {
 						if(status) {
 							window.XMS.msgbox.hide();
@@ -557,6 +559,9 @@ define(function(require, exports, module) {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}
 		  			});
+				});
+				var _minBtn = liform.find("[name='minshow']");
+				_minBtn.off('click').on('click', function() {
 					Rose.ajax.postJson(srvMap.get(task2Min), _ggcmd, function(json, status) {
 						if(status) {
 							window.XMS.msgbox.hide();
@@ -575,6 +580,9 @@ define(function(require, exports, module) {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}
 		  			});
+				});
+				var _detailBtn = liform.find("[name='detailshow']");
+				_detailBtn.off('click').on('click', function() {
 					Rose.ajax.postJson(srvMap.get(task2Detail), _ggcmd, function(json, status) {
 						if(status) {
 							window.XMS.msgbox.hide();
@@ -593,6 +601,8 @@ define(function(require, exports, module) {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}
 		  			});
+				});
+	  			if(mmd){
 	  			};
 				Rose.ajax.postJson(srvMap.get(taskPie), _cmd, function(json, status) {
 					if(status) {

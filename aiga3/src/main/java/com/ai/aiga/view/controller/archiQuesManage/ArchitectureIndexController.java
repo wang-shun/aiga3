@@ -14,6 +14,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -729,6 +731,9 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		output.setxAxis(months2);
+		List<Map>recent = architectureIndexSv.listDbConnects2RecentTime(condition);
+		String recentString = String.valueOf(recent.get(0).get("recent"));
+		output.setRecentTime(recentString);
 		final int constantValue = months2.size();
 		List<String>legendList = new ArrayList<String>();
 		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
@@ -870,6 +875,9 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		output.setxAxis(months2);
+		List<Map>recent = architectureIndexSv.listDbConnects2RecentTime(condition);
+		String recentString = String.valueOf(recent.get(0).get("recent"));
+		output.setRecentTime(recentString);
 		final int constantValue = months2.size();
 		List<String>legendList = new ArrayList<String>();
 		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
@@ -1006,6 +1014,9 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		output.setxAxis(months2);
+		List<Map>recent = architectureIndexSv.listDbConnects2RecentTime(condition);
+		String recentString = String.valueOf(recent.get(0).get("recent"));
+		output.setRecentTime(recentString);
 		final int constantValue = months2.size();
 		List<String>legendList = new ArrayList<String>();
 		List<ArchDbConnect>connectList = architectureIndexSv.listDbConnects2(condition);
@@ -1139,6 +1150,9 @@ public class ArchitectureIndexController extends BaseService {
 			days.add(i+":00");
 		}
 		output.setxAxis(days);
+		List<Map>recent = architectureIndexSv.listDbConnects2RecentTime(condition);
+		String recentString = String.valueOf(recent.get(0).get("recent"));
+		output.setRecentTime(recentString);
 		final int constantValue = days.size();
 		List<String>legendList = new ArrayList<String>();
 		List<ArchDbConnectTransf>connectList = architectureIndexSv.listDbConnects2Detail(condition);

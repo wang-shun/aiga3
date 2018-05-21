@@ -8,7 +8,16 @@ public class ArchiChangeMessage implements Serializable {
 	private List<ViewSeries> series;
 	private List<String> legend;
 	private List<String> xAxis;
+	private String recentTime;
 	
+	public String getRecentTime() {
+		return recentTime;
+	}
+
+	public void setRecentTime(String recentTime) {
+		this.recentTime = recentTime;
+	}
+
 	public List<String> getxAxis() {
 		return xAxis;
 	}

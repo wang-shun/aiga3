@@ -529,6 +529,10 @@ define(function(require, exports, module) {
 								json.data.series[index].name=Data.totalIndexNameList[index];
 							}
 						}
+						if(json.data.recentTime){
+			                var deadont = json.data.recentTime;
+			                cache.deadline="数据采集截止时间："+deadont;
+			            }
 						self._graphSec(json);
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -544,6 +548,10 @@ define(function(require, exports, module) {
 									json.data.series[index].name=Data.totalIndexNameList[index];
 								}
 							}
+							if(json.data.recentTime){
+				                var deadont = json.data.recentTime;
+				                cache.deadline="数据采集截止时间："+deadont;
+				            }
 							self._graphSecMax(json);
 						} else {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -558,6 +566,10 @@ define(function(require, exports, module) {
 									json.data.series[index].name=Data.totalIndexNameList[index];
 								}
 							}
+							if(json.data.recentTime){
+				                var deadont = json.data.recentTime;
+				                cache.deadline="数据采集截止时间："+deadont;
+				            }
 							self._graphSecMin(json);
 						} else {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -572,6 +584,10 @@ define(function(require, exports, module) {
 									json.data.series[index].name=Data.totalIndexNameList[index];
 								}
 							}
+							if(json.data.recentTime){
+				                var deadont = json.data.recentTime;
+				                cache.deadline="数据采集截止时间："+deadont;
+				            }
 							self._graphSecDetail(json);
 						} else {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -620,7 +636,8 @@ define(function(require, exports, module) {
 				}
 			}, _domPagination);
 			//查分表
-			var _domSec = Page.findId('getDataMaintainListSec');
+			//取消
+/*			var _domSec = Page.findId('getDataMaintainListSec');
 			var _domPaginationSec = _domSec.find("[name='paginationSec']");
 			// 设置服务器端分页listDbConnects
 			var task = 'listDbConnects22';
@@ -656,7 +673,7 @@ define(function(require, exports, module) {
 				_domSec.find("[name='content']").html(template(json.data.content));
 				//美化单机
 				Utils.eventTrClickCallback(_domSec);
-			}, _domPaginationSec);
+			}, _domPaginationSec);*/
 			
 /*			Utils.getServerPage(srvMap.get(toptask), _topcmd, function(json, status) {//getArchDbConnectList
 				cache.datas = json.data;
@@ -1208,52 +1225,21 @@ define(function(require, exports, module) {
 			        }
 			    ]
 			};
-			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
-				if(status) {
-					window.XMS.msgbox.hide();
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}
-				if(json && json.data) {
-					option.legend.data = json.data.legend;
-					option.series = json.data.series;
-					if(json.data.xAxis) {
-						var onlinePonint = new Array(100);
-						for(var indexXAxis in json.data.xAxis){
-							for(var indexOnline in onlinejson.data){
-								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
-									json.data.xAxis[indexXAxis] += "上线";
-									onlinePonint.push(indexXAxis);
-								}
-							}
-						}
-						option.xAxis[0].data = json.data.xAxis;
-					}
-					for(var indexSeries in option.series) {
-						var markData = [];
-						for(var indexPoint in onlinePonint){
-							var pzs = parseInt(onlinePonint[indexPoint]);
-                			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
-	                		markData.push(plan);
-						}
-			            option.series[indexSeries].markPoint = {
-			                data : markData
-			            };
-					}
-					option.title.subtext=cache.deadline;
-//					cache.deadline='';
-				}
-				//加载前数据刷新
-				myChart.clear();
-				myChart.setOption(option);	
-				myChart.hideLoading();//隐藏loading
+			if(json && json.data) {
+				option.legend.data = json.data.legend;
+				option.series = json.data.series;
+				option.xAxis[0].data = json.data.xAxis;
+				option.title.subtext=cache.deadline;
+			}
+			//加载前数据刷新
+			myChart.clear();
+			myChart.setOption(option);	
+			myChart.hideLoading();//隐藏loading
 
-				window.onresize = myChart.resize;
-				Page.findId('archiIndexViewMax').resize(function(){
-	                myChart.resize();             
-	            });
-
-  			});			
+			window.onresize = myChart.resize;
+			Page.findId('archiIndexViewMax').resize(function(){
+                myChart.resize();             
+            });
 		},
 		_graphSecMin: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexViewMin')[0]);
@@ -1378,52 +1364,21 @@ define(function(require, exports, module) {
 			        }
 			    ]
 			};
-			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
-				if(status) {
-					window.XMS.msgbox.hide();
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}
-				if(json && json.data) {
-					option.legend.data = json.data.legend;
-					option.series = json.data.series;
-					if(json.data.xAxis) {
-						var onlinePonint = new Array(100);
-						for(var indexXAxis in json.data.xAxis){
-							for(var indexOnline in onlinejson.data){
-								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
-									json.data.xAxis[indexXAxis] += "上线";
-									onlinePonint.push(indexXAxis);
-								}
-							}
-						}
-						option.xAxis[0].data = json.data.xAxis;
-					}
-					for(var indexSeries in option.series) {
-						var markData = [];
-						for(var indexPoint in onlinePonint){
-							var pzs = parseInt(onlinePonint[indexPoint]);
-                			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
-	                		markData.push(plan);
-						}
-			            option.series[indexSeries].markPoint = {
-			                data : markData
-			            };
-					}
-					option.title.subtext=cache.deadline;
-//					cache.deadline='';
-				}
-				//加载前数据刷新
-				myChart.clear();
-				myChart.setOption(option);	
-				myChart.hideLoading();//隐藏loading
+			if(json && json.data) {
+				option.legend.data = json.data.legend;
+				option.series = json.data.series;
+				option.xAxis[0].data = json.data.xAxis;
+				option.title.subtext=cache.deadline;
+			}
+			//加载前数据刷新
+			myChart.clear();
+			myChart.setOption(option);	
+			myChart.hideLoading();//隐藏loading
 
-				window.onresize = myChart.resize;
-				Page.findId('archiIndexViewMin').resize(function(){
-	                myChart.resize();             
-	            });
-
-  			});			
+			window.onresize = myChart.resize;
+			Page.findId('archiIndexViewMin').resize(function(){
+                myChart.resize();             
+            });
 		},
 		_graphSecDetail: function(json) {
 			var myChart = echarts.init(Page.findId('archiIndexViewDetail')[0]);
@@ -1542,52 +1497,21 @@ define(function(require, exports, module) {
 			        }
 			    ]
 			};
-			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
-				if(status) {
-					window.XMS.msgbox.hide();
-				} else {
-					XMS.msgbox.show(json.retMessage, 'error', 2000);
-				}
-				if(json && json.data) {
-					option.legend.data = json.data.legend;
-					option.series = json.data.series;
-					if(json.data.xAxis) {
-						var onlinePonint = new Array(100);
-						for(var indexXAxis in json.data.xAxis){
-							for(var indexOnline in onlinejson.data){
-								if(json.data.xAxis[indexXAxis]==onlinejson.data[indexOnline]){
-									json.data.xAxis[indexXAxis] += "上线";
-									onlinePonint.push(indexXAxis);
-								}
-							}
-						}
-						option.xAxis[0].data = json.data.xAxis;
-					}
-					for(var indexSeries in option.series) {
-						var markData = [];
-						for(var indexPoint in onlinePonint){
-							var pzs = parseInt(onlinePonint[indexPoint]);
-                			var plan =  {name : '上线',value:option.series[indexSeries].data[pzs], xAxis: pzs, yAxis: option.series[indexSeries].data[pzs]};
-	                		markData.push(plan);
-						}
-			            option.series[indexSeries].markPoint = {
-			                data : markData
-			            };
-					}
-					option.title.subtext=cache.deadline;
-//					cache.deadline='';
-				}
-				//加载前数据刷新
-				myChart.clear();
-				myChart.setOption(option);	
-				myChart.hideLoading();//隐藏loading
+			if(json && json.data) {
+				option.legend.data = json.data.legend;
+				option.series = json.data.series;
+				option.xAxis[0].data = json.data.xAxis;
+				option.title.subtext=cache.deadline;
+			}
+			//加载前数据刷新
+			myChart.clear();
+			myChart.setOption(option);	
+			myChart.hideLoading();//隐藏loading
 
-				window.onresize = myChart.resize;
-				Page.findId('archiIndexViewDetail').resize(function(){
-	                myChart.resize();             
-	            });
-
-  			});			
+			window.onresize = myChart.resize;
+			Page.findId('archiIndexViewDetail').resize(function(){
+                myChart.resize();             
+            });
 		},
 		//汇总饼状图
 		_graphTotal: function(json) {

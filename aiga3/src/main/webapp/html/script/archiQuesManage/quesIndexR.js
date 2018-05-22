@@ -229,7 +229,7 @@ define(function(require, exports, module) {
 //			second_form.find('input[name="endMonth"]').val(Utils.showYesterDay);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click', function() {	
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				window.XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 //                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 //                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  

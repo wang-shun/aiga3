@@ -228,7 +228,7 @@ define(function(require, exports, module) {
 //			second_form.find('input[name="startMonth"]').val(Utils.showPreTwoDay);
 //			second_form.find('input[name="endMonth"]').val(Utils.showYesterDay);
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.off('click').on('click', function() {		
+			_queryBtn.off('click').on('click', function() {	
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 //                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 //                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
@@ -641,10 +641,8 @@ define(function(require, exports, module) {
 			var _domPagination = _dom.find("[name='pagination']");
 //			var tcmd = _cmd.split(",")[0];
 			var tcmd = "indexId=" + _cmd.substring(_cmd.length-7,_cmd.length);
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.postJsonSync(srvMap.get('getAmCoreIndexList2'), tcmd, function(json, status) {
 				if(status) {
-					window.XMS.msgbox.hide();
 					// 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
 					var template = Handlebars.compile(Tpl.getAmCoreIndexList);
 					_dom.find("[name='content']").html(template(json.data));

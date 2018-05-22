@@ -1080,10 +1080,8 @@ define(function(require, exports, module) {
 			        }
 			    ]
 			};
-			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.postJson(srvMap.get("onlineTimeFind"), '', function(onlinejson, status) {
 				if(status) {
-					window.XMS.msgbox.hide();
 				} else {
 					XMS.msgbox.show(json.retMessage, 'error', 2000);
 				}
@@ -1114,7 +1112,6 @@ define(function(require, exports, module) {
 			            };
 					}
 					option.title.subtext=cache.deadline;
-//					cache.deadline='';
 				}
 				//加载前数据刷新
 				myChart.clear();

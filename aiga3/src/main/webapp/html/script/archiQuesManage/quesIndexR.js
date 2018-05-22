@@ -228,7 +228,8 @@ define(function(require, exports, module) {
 //			second_form.find('input[name="startMonth"]').val(Utils.showPreTwoDay);
 //			second_form.find('input[name="endMonth"]').val(Utils.showYesterDay);
 			var _queryBtn = _form.find("[name='query']");
-			_queryBtn.off('click').on('click', function() {				
+			_queryBtn.off('click').on('click', function() {		
+				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 //                Page.findId('getDataMaintainListSec').attr({style:"display:display;height:460px;"});      
 //                Page.findId('getDataMaintainListTop').attr({style:"display:display;height:460px;"});      
 				Page.findId('sysMessageView').attr({style:"display:display"});  
@@ -519,9 +520,10 @@ define(function(require, exports, module) {
 						taskPie = "listTotalMonthIndexPie";
 					}
 				}
-				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+				
 				Rose.ajax.postJsonSync(srvMap.get(task2), _ggcmd, function(json, status) {
 					if(status) {
+						window.XMS.msgbox.hide();
 						if(Data.totalIndexNameList.length>0){
 							json.data.legend = Data.totalIndexNameList;
 							for(var index in json.data.series){
@@ -533,7 +535,7 @@ define(function(require, exports, module) {
 			                cache.deadline="数据采集截止时间："+deadont;
 			            }
 						self._graphSec(json);
-                    	window.XMS.msgbox.hide();
+                    	
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -544,6 +546,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.postJson(srvMap.get(task2Max), _ggcmd, function(json, status) {
 						if(status) {
+							window.XMS.msgbox.hide();
 							if(Data.totalIndexNameList.length>0){
 								json.data.legend = Data.totalIndexNameList;
 								for(var index in json.data.series){
@@ -555,7 +558,6 @@ define(function(require, exports, module) {
 				                cache.deadline="数据采集截止时间："+deadont;
 				            }
 							self._graphSecMax(json);
-							window.XMS.msgbox.hide();
 						} else {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}
@@ -566,6 +568,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.postJson(srvMap.get(task2Min), _ggcmd, function(json, status) {
 						if(status) {
+							window.XMS.msgbox.hide();
 							if(Data.totalIndexNameList.length>0){
 								json.data.legend = Data.totalIndexNameList;
 								for(var index in json.data.series){
@@ -577,7 +580,6 @@ define(function(require, exports, module) {
 				                cache.deadline="数据采集截止时间："+deadont;
 				            }
 							self._graphSecMin(json);
-							window.XMS.msgbox.hide();
 						} else {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}
@@ -588,6 +590,7 @@ define(function(require, exports, module) {
 					XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 					Rose.ajax.postJson(srvMap.get(task2Detail), _ggcmd, function(json, status) {
 						if(status) {
+							window.XMS.msgbox.hide();
 							if(Data.totalIndexNameList.length>0){
 								json.data.legend = Data.totalIndexNameList;
 								for(var index in json.data.series){
@@ -599,7 +602,6 @@ define(function(require, exports, module) {
 				                cache.deadline="数据采集截止时间："+deadont;
 				            }
 							self._graphSecDetail(json);
-							window.XMS.msgbox.hide();
 						} else {
 							XMS.msgbox.show(json.retMessage, 'error', 2000);
 						}
@@ -610,6 +612,7 @@ define(function(require, exports, module) {
 	  			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get(taskPie), _cmd, function(json, status) {
 					if(status) {
+						window.XMS.msgbox.hide();
 						if(Data.pieIndexNameList.length>0){
 							json.data.legendData = Data.pieIndexNameList;
 							for(var index in json.data.seriesData){
@@ -617,7 +620,6 @@ define(function(require, exports, module) {
 							}
 						}
 						self._graphTotal(json);
-						window.XMS.msgbox.hide();
 					} else {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
@@ -848,6 +850,7 @@ define(function(require, exports, module) {
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				Rose.ajax.postJson(srvMap.get(toptask), _topcmd, function(json, status) {
 					if(status) {
+						window.XMS.msgbox.hide();
 						var template = Handlebars.compile(Tpl.getArchDbConnectTop);
 						for(var i=0;i<json.data.length;i++){
 							if(json.data[i].key3!=null){
@@ -855,7 +858,6 @@ define(function(require, exports, module) {
 							}
 						};
 						_domTop.find("[name='content']").html(template(json.data));
-						window.XMS.msgbox.hide();
 						//美化单机
 						Utils.eventTrClickCallback(_domTop);
 						Data.whetherShowTopList=false;
@@ -883,6 +885,7 @@ define(function(require, exports, module) {
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.postJson(srvMap.get(toptask), _topcmd, function(json, status) {
 				if(status) {
+					window.XMS.msgbox.hide();
 					var template = Handlebars.compile(Tpl.getArchDbConnectTop);
 					for(var i=0;i<json.data.length;i++){
 						if(json.data[i].key3!=null){
@@ -890,7 +893,6 @@ define(function(require, exports, module) {
 						}
 					};
 					_domTop.find("[name='content']").html(template(json.data));
-					window.XMS.msgbox.hide();
 					//美化单机
 					Utils.eventTrClickCallback(_domTop);
 					Data.whetherShowTopList=false;

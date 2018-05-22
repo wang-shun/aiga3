@@ -444,9 +444,7 @@ define(function(require, exports, module) {
 					return
 				}
 				self.getDataMaintainList(_cmd);
-				if(Data.whetherShowTopList){
-					self.getDatabaseConnectTopList();
-				}
+
 				var _ggcmd = _cmd;	
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 				if(cache.tableName){
@@ -618,6 +616,10 @@ define(function(require, exports, module) {
 						XMS.msgbox.show(json.retMessage, 'error', 2000);
 					}
 	  			});
+	  			//调整top排名最后执行
+	  			if(Data.whetherShowTopList){
+					self.getDatabaseConnectTopList();
+				}
 			});
 		},
 		// 查询数据维护

@@ -723,9 +723,7 @@ public class ArchitectureIndexController extends BaseService {
 			bean.fail("请输入结束时间！");
 			return bean;
 		}
-		List<String>months = getMonthBetween(condition.getStartMonth(),condition.getEndMonth());
 		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
-		System.out.println("qqqqqqqqqqq"+months2);
 		if(months2.size()<=0){
 			bean.fail("结束时间小于开始时间！");
 			return bean;
@@ -752,9 +750,6 @@ public class ArchitectureIndexController extends BaseService {
 				}
 			}
 			if((condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("数据库连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库A中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库A中心连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库B中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库B中心连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库C中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库C中心连接总数")) || (condition.getIndexGroup()!=null && condition.getIndexGroup().trim().equals("营业数据库D中心连接数接入系统分析") && condition.getIndexName().trim().equals("营业数据库D中心连接总数"))){
-				
-//				if(condition.getIndexGroup().trim().equals("数据库连接总数")){
-
 					if(!newList.contains(baseConnect.getKey1())){
 						ViewSeries baseSeries = new ViewSeries();
 						baseSeries.setType("line");
@@ -791,7 +786,6 @@ public class ArchitectureIndexController extends BaseService {
 						}
 						baseSeries.setData(data);
 						seriesList.add(baseSeries);
-//				    }
 				}
 			}else{
 				if(baseConnect.getKey2()==null || baseConnect.getKey3()==null){

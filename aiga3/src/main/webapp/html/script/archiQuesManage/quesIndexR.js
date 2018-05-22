@@ -518,7 +518,7 @@ define(function(require, exports, module) {
 						taskPie = "listTotalMonthIndexPie";
 					}
 				}
-				Rose.ajax.postJsonSync(srvMap.get(task2), _ggcmd, function(json, status) {
+				Rose.ajax.postJson(srvMap.get(task2), _ggcmd, function(json, status) {
 					if(status) {
 						window.XMS.msgbox.hide();
 						if(Data.totalIndexNameList.length>0){

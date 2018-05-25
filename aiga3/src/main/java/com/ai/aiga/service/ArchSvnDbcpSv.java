@@ -8,8 +8,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -158,17 +161,31 @@ public class ArchSvnDbcpSv extends BaseService {
     
     //distinct center
     public List<ArchSvnDbcp> distinctCenter(){
-    	List<ArchSvnDbcp>list = archSrvDbcpDao.findAll();
-    	List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>(); 
-        List<String>indexGrouplist = new ArrayList<String>(); 
-        Iterator iter= list.iterator();//List接口实现了Iterable接口  
-        while(iter.hasNext()){  
-        	ArchSvnDbcp am=(ArchSvnDbcp)iter.next();  
-         	if(!indexGrouplist.contains(am.getCenter().trim())){
-         		indexGrouplist.add(am.getCenter().trim());
-         		newList.add(am);
-         	}
-        }  
+		StringBuilder nativeSql = new StringBuilder(
+				" select distinct a.center as center from aiam.arch_svn_dbcp a ");
+		List<Map>listMaps=new ArrayList<Map>();
+		listMaps = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString());
+		List<String>listCenter = new ArrayList<String>(); 
+		List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>(); 
+		for(int i=0;i<listMaps.size();i++){
+			String centerString = String.valueOf(listMaps.get(i).get("center"));
+			listCenter.add(centerString);
+			ArchSvnDbcp base = new ArchSvnDbcp();
+			base.setCenter(centerString);
+			newList.add(base);
+		}
+//    	List<ArchSvnDbcp>list = archSrvDbcpDao.findAll();
+//    	List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>(); 
+//        List<String>indexGrouplist = new ArrayList<String>(); 
+//        Iterator iter= list.iterator();//List接口实现了Iterable接口  
+//        while(iter.hasNext()){  
+//        	ArchSvnDbcp am=(ArchSvnDbcp)iter.next();  
+//         	if(!indexGrouplist.contains(am.getCenter().trim())){
+//         		indexGrouplist.add(am.getCenter().trim());
+//         		newList.add(am);
+//         	}
+//        }  
+//        return newList;
         return newList;
     }
     //distinct db

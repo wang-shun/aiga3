@@ -86,23 +86,23 @@ public class ArchitectureGradingSv extends BaseService {
 			time=condition.getApplyTime();
 		}
 		StringBuilder nativeSql = new StringBuilder(
-			"select distinct (select count(state) from ARCHITECTURE_GRADING t where to_char(t.apply_time,'yyyyMM') = "+ time +" and ext_1 = '3') as applycount,"+
-			"(select count(state) from ARCHITECTURE_GRADING t where t.state ='审批通过' and to_char(t.modify_date,'yyyyMM') = "+ time +" and ext_1 = '3') as tongGuo ,"+
-			"(select count(name) from ARCHITECTURE_GRADING t where (t.state = '审批未通过' or t.state = '已撤销') and to_char(t.modify_date,'yyyyMM') = "+ time +" and ext_1 = '3')  as boHui,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where  to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as xinZeng ,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '1%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as yewu,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '2%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as guanxin,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '3%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as bomc,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '5%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as shuju,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '4%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as anquan,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '6%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as gonggong,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '7%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as wangluo,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '8%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as dishi,"+
-			"(select count(name) from ARCHITECTURE_THIRD t where id_third like '9%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as kaifang,"+				
-			"(select count(state) from ARCHITECTURE_GRADING t where  to_char(t.apply_time,'yyyyMM') between '201708' and '"+time+"' and ext_1 = '3') as totalcount,"+
-			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"' and ext_1 = '3') as totalguo,"+
-			"(select count(state) from ARCHITECTURE_GRADING t where t.state = '审批未通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"' and ext_1 = '3') as totalnotguo,"+
-			"(select count(name) from ARCHITECTURE_THIRD a where to_char(a.create_date,'yyyyMM') <= '"+time+"' and ext_1 = '3') as totalzeng"+
+			"select distinct (select count(state) from ARCHITECTURE_GRADING t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and to_char(t.apply_time,'yyyyMM') = "+ time +" and ext_1 = '3') as applycount,"+
+			"(select count(state) from ARCHITECTURE_GRADING t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and t.state ='审批通过' and to_char(t.modify_date,'yyyyMM') = "+ time +" and ext_1 = '3') as tongGuo ,"+
+			"(select count(name) from ARCHITECTURE_GRADING t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and (t.state = '审批未通过' or t.state = '已撤销') and to_char(t.modify_date,'yyyyMM') = "+ time +" and ext_1 = '3')  as boHui,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as xinZeng ,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '1%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as yewu,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '2%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as guanxin,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '3%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as bomc,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '5%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as shuju,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '4%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as anquan,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '6%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as gonggong,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '7%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as wangluo,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '8%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as dishi,"+
+			"(select count(name) from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and id_third like '9%'  and to_char(t.create_date,'yyyyMM') = "+ time +" and ext_1 = '3') as kaifang,"+				
+			"(select count(state) from ARCHITECTURE_GRADING t where  not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and to_char(t.apply_time,'yyyyMM') between '201708' and '"+time+"' and ext_1 = '3') as totalcount,"+
+			"(select count(state) from ARCHITECTURE_GRADING t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and t.state = '审批通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"' and ext_1 = '3') as totalguo,"+
+			"(select count(state) from ARCHITECTURE_GRADING t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and t.state = '审批未通过' and to_char(t.modify_date,'yyyyMM') between '201708' and '"+time+"' and ext_1 = '3') as totalnotguo,"+
+			"(select count(name) from ARCHITECTURE_THIRD a where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and to_char(a.create_date,'yyyyMM') <= '"+time+"' and ext_1 = '3') as totalzeng"+
 			" from dual,ARCHITECTURE_GRADING t "
 		);
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
@@ -138,7 +138,7 @@ public class ArchitectureGradingSv extends BaseService {
 			time=condition.getApplyTime();
 		}
 		StringBuilder nativeSql = new StringBuilder(
-			"select name, id_third from ARCHITECTURE_THIRD t where  to_char(t.create_date,'yyyyMM') = "+ time
+			"select name, id_third from ARCHITECTURE_THIRD t where not (t.apply_user='lizhiyong6' or t.apply_user='xianan' or t.apply_user='dongjian3' or t.apply_user='wangliefeng2' or t.apply_user='liwei48' or t.apply_user='chenting13' ) and to_char(t.create_date,'yyyyMM') = "+ time
 		);
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 

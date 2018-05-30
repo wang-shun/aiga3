@@ -344,6 +344,27 @@ public class StaffSv extends BaseService {
 		
 		return aigaStaffDao.save(aigaStaff);
 	}
+	
+	public AigaStaff saveFouraStaff(StaffInfoRequest staffRequest) {
+		if (staffRequest == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		if (StringUtils.isBlank(staffRequest.getCode())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Code");
+		}
+		if (StringUtils.isBlank(staffRequest.getName())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Name");
+		}
+		if (StringUtils.isBlank(staffRequest.getBillId())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "BillId");
+		}
+		if (StringUtils.isBlank(staffRequest.getEmail())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Email");
+		}
+		AigaStaff aigaStaff = BeanMapper.map(staffRequest, AigaStaff.class);
+		aigaStaff.setState(StaffConstant.STATE_NORMAL);
+		return aigaStaffDao.save(aigaStaff);
+	}
 
 	public void updateStaff(StaffInfoRequest staffRequest) {
 		

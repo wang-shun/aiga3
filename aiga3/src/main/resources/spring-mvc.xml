@@ -28,7 +28,16 @@
                         </bean>  
                     </property>  
                 </bean>
-            </property>  
+            </property>
+            <property name="supportedMediaTypes">  
+                <list>  
+                    <value>text/html;charset=utf-8</value>  
+                    <value>text/xml;charset=utf-8</value>  
+                    <value>text/plain;</value>  
+                    <value>text/json;charset=utf-8</value>  
+                    <value>application/json;charset=UTF-8</value>  
+                </list>  
+            </property>   
         </bean>  
     </mvc:message-converters>  
     </mvc:annotation-driven>  

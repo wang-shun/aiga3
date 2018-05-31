@@ -975,12 +975,6 @@ define(function(require, exports, module) {
 			    	y:'bottom',
                     type: 'scroll',
 			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']
-/*                    type: 'scroll',
-                    orient: 'vertical',
-                    right: 10,
-                    top: 40,
-                    bottom: 20,
-			        data:['营业库A','营业库B','营业库C','营业库D','渠道资源库']*/
 			    },
 			    toolbox: {
 			        show : true,

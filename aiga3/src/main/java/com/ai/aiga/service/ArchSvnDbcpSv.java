@@ -1,18 +1,13 @@
 package com.ai.aiga.service;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.dao.ArchSvnDbcpDao;
+import com.ai.aiga.dao.jpa.ParameterCondition;
+import com.ai.aiga.domain.ArchSvnDbcp;
+import com.ai.aiga.domain.ArchSvnDbcpTwo;
+import com.ai.aiga.domain.ArchitectureStaticData;
+import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,22 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.dao.ArchSvnDbcpDao;
-import com.ai.aiga.dao.jpa.Condition;
-import com.ai.aiga.dao.jpa.ParameterCondition;
-import com.ai.aiga.domain.AmCoreIndex;
-import com.ai.aiga.domain.ArchSvnDbcp;
-import com.ai.aiga.domain.ArchSvnDbcpTwo;
-import com.ai.aiga.domain.IndexConnect;
-import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 @Service
 @Transactional
 public class ArchSvnDbcpSv extends BaseService {
-	
+    @Autowired
+    private ArchitectureStaticDataSv architectureStaticDataSv;
 	@Autowired		
 	private ArchSvnDbcpDao archSrvDbcpDao;
 	//find all
@@ -166,14 +153,28 @@ public class ArchSvnDbcpSv extends BaseService {
 		List<Map>listMaps=new ArrayList<Map>();
 		listMaps = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString());
 		List<String>listCenter = new ArrayList<String>(); 
-		List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>(); 
-		for(int i=0;i<listMaps.size();i++){
-			String centerString = String.valueOf(listMaps.get(i).get("center"));
-			listCenter.add(centerString);
-			ArchSvnDbcp base = new ArchSvnDbcp();
-			base.setCenter(centerString);
-			newList.add(base);
-		}
+		List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>();
+        String codeType = "POOLCONFIGURATION_PRO_BUSINESS";
+        List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
+        Map<String,String> architectureCenters=new HashMap<String,String>();
+        if(null!=architectureStaticDatas){
+            for(ArchitectureStaticData architectureStaticData:architectureStaticDatas){
+                String codeValue=architectureStaticData.getCodeValue();
+                String codeName=architectureStaticData.getCodeName();
+                architectureCenters.put(codeValue,codeName);
+            }
+        }
+        for(int i=0;i<listMaps.size();i++) {
+            String centerString = String.valueOf(listMaps.get(i).get("center"));
+            listCenter.add(centerString);
+            ArchSvnDbcp base = new ArchSvnDbcp();
+            String centerName = architectureCenters.get(centerString);
+            if (null != centerName) {
+                centerString = centerName;
+            }
+            base.setCenter(centerString);
+            newList.add(base);
+        }
 //    	List<ArchSvnDbcp>list = archSrvDbcpDao.findAll();
 //    	List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>(); 
 //        List<String>indexGrouplist = new ArrayList<String>(); 

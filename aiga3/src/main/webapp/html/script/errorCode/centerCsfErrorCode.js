@@ -25,8 +25,6 @@ define(function(require, exports, module) {
 	srvMap.add("queryState", pathAlias+"queryState.json", "webservice/static/queryState");
 	//查询状态下拉框 center
 	srvMap.add("distinctCenter", pathAlias+"distinctCenter.json", "webservice/configure/distinctCenter");
-	//查询状态下拉框 db
-	srvMap.add("distinctDb", pathAlias+"distinctDb.json", "webservice/configure/distinctDb");
 	//excle export uncover
 	srvMap.add("uncover", pathAlias+"getText.json", "webservice/csferrcode/uncover");
 	//excle export unstandard

@@ -28,8 +28,6 @@ define(function(require, exports, module) {
 	srvMap.add("queryState", pathAlias+"queryState.json", "webservice/static/queryState");
 	//查询状态下拉框 center
 	srvMap.add("distinctCenter", pathAlias+"distinctCenter.json", "webservice/configure/distinctCenter");
-	//查询状态下拉框 db
-	srvMap.add("distinctDb", pathAlias+"distinctDb.json", "webservice/configure/distinctDb");
 	//查询文字
 	srvMap.add("getText", pathAlias+"getText.json", "webservice/configure/getText");
 	//

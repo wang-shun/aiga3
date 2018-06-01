@@ -152,7 +152,6 @@ public class ArchSvnDbcpSv extends BaseService {
 				" select distinct a.center as center from aiam.arch_svn_dbcp a ");
 		List<Map>listMaps=new ArrayList<Map>();
 		listMaps = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString());
-		List<String>listCenter = new ArrayList<String>(); 
 		List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>();
         String codeType = "POOLCONFIGURATION_PRO_BUSINESS";
         List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
@@ -166,13 +165,13 @@ public class ArchSvnDbcpSv extends BaseService {
         }
         for(int i=0;i<listMaps.size();i++) {
             String centerString = String.valueOf(listMaps.get(i).get("center"));
-            listCenter.add(centerString);
             ArchSvnDbcp base = new ArchSvnDbcp();
+            base.setCenter(centerString);
             String centerName = architectureCenters.get(centerString);
             if (null != centerName) {
                 centerString = centerName;
             }
-            base.setCenter(centerString);
+            base.setModule(centerString);
             newList.add(base);
         }
 //    	List<ArchSvnDbcp>list = archSrvDbcpDao.findAll();

@@ -404,7 +404,22 @@ define(function(require, exports, module) {
                         self.setSelectHtmlPost(_thisSub,isComboSelect, suburl, subcmd);
                     }
                 }
-            })
+            });
+           obj.on("change", "select[data-subname2]", function() {
+                        var _this = $(this);
+
+                        // 判断如果有异步子项，统一做处理
+                        var _subname = _this.data("subname2");
+                        if (_subname) {
+                            var _thisSub = obj.find("select[name=" + _subname + "]");
+                            var suburl = _thisSub.data("suburl2");
+                            var subcmd = _this.attr("name") + "=" + _this.val();
+                            if (suburl) {
+                                self.setSelectHtmlPost(_thisSub,isComboSelect, suburl, subcmd);
+                            }
+                        }
+                    })
+
         },
 		        /**
          * 设置下拉框option节点

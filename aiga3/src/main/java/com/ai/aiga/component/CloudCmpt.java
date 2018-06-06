@@ -2,6 +2,7 @@ package com.ai.aiga.component;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpEntity;
@@ -18,6 +19,8 @@ public class CloudCmpt {
 	
 	@Value("${cloudmanage.address.url}")
 	private String addressUrl;
+	@Value("${cloudmanage.address.urlsec}")
+	private String addressUrlsec;
 	/**
 	 * 使用restTemplate发起post请求
 	 * @param service      服务名称
@@ -68,6 +71,17 @@ public class CloudCmpt {
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);
 			String cloudUrl = addressUrl+service;	
 			bean = restTemplate.postForObject(cloudUrl, formEntity, CloudOutput.class);
+			if(!addressUrlsec.equals("${cloudmanage.address.urlsec}")&& StringUtils.isNotBlank(addressUrlsec)) {
+				if(bean != null) {
+					if(bean.getSuccess() == null || bean.getSuccess() != 1L) {
+						restTemplate.postForObject(addressUrlsec, formEntity, CloudOutput.class);
+					} else {
+						bean = restTemplate.postForObject(addressUrlsec, formEntity, CloudOutput.class);
+					}
+				} else {
+					restTemplate.postForObject(addressUrlsec, formEntity, CloudOutput.class);
+				}
+			}
 		} catch (Exception e) {				
 			bean.setSuccess(0L);
 			bean.setMessage(e.getMessage());

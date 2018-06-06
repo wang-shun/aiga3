@@ -59,6 +59,20 @@ public class CloudCmpt {
 	 */
 	public CloudOutput cloudRestfulcall(String service, Object params) {
 		CloudOutput bean = new CloudOutput();
+		
+		bean = urlpost(service,params,addressUrl);
+		if(!addressUrlsec.equals("${cloudmanage.address.urlsec}")&&StringUtils.isNotBlank(addressUrlsec)) {
+			if(bean.success == 1l) {
+				bean = urlpost(service,params,addressUrlsec);
+			} else {
+				urlpost(service,params,addressUrlsec);
+			}
+		}		
+		return bean;
+	}
+	
+	public CloudOutput urlpost(String service, Object params , String url) {
+		CloudOutput bean = new CloudOutput();
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			HttpHeaders headers = new HttpHeaders();
@@ -69,19 +83,8 @@ public class CloudCmpt {
 			headers.add("businesscenter", "businesscenter");
 			JSONObject jsonObj = JSONObject.fromObject(params);	          
 			HttpEntity<String> formEntity = new HttpEntity<String>(jsonObj.toString(), headers);
-			String cloudUrl = addressUrl+service;	
+			String cloudUrl = url+service;	
 			bean = restTemplate.postForObject(cloudUrl, formEntity, CloudOutput.class);
-			if(!addressUrlsec.equals("${cloudmanage.address.urlsec}")&& StringUtils.isNotBlank(addressUrlsec)) {
-				if(bean != null) {
-					if(bean.getSuccess() == null || bean.getSuccess() != 1L) {
-						restTemplate.postForObject(addressUrlsec, formEntity, CloudOutput.class);
-					} else {
-						bean = restTemplate.postForObject(addressUrlsec, formEntity, CloudOutput.class);
-					}
-				} else {
-					restTemplate.postForObject(addressUrlsec, formEntity, CloudOutput.class);
-				}
-			}
 		} catch (Exception e) {				
 			bean.setSuccess(0L);
 			bean.setMessage(e.getMessage());
@@ -89,5 +92,6 @@ public class CloudCmpt {
 		}
 		return bean;
 	}
+
 	
 }

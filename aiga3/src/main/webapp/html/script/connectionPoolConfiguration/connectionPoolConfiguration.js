@@ -9,6 +9,9 @@ define(function(require, exports, module) {
 	var Page = Utils.initPage('connectionPool');
 
 
+//系统模块下拉框 distinctModule
+    srvMap.add("distinctModule", pathAlias+"distinctModule.json", "webservice/configure/distinctModule");
+
 	//显示查询信息表
 	srvMap.add("poolConfigurationList", pathAlias+"poolConfigurationList.json", "webservice/configure/query");
 	//显示查询信息表    前七天
@@ -41,6 +44,7 @@ define(function(require, exports, module) {
 			var cmd = _form.serialize();
 			this._getGridList(cmd);
 			this._query_event();
+			this._cobom_select();
 		},
 		
 		//初始化时间框
@@ -54,8 +58,80 @@ define(function(require, exports, module) {
 			var _form = Page.findId('queryDataForm'); 
 			_form.find("[name='insertTime']").val(Rose.date.dateTime2str(new Date(),"yyyy-MM-dd"));
 		},
-		
-		// 查询表格数据
+        //联动下拉框
+        _cobom_select: function(){
+            var self = this;
+            var dom1 = Page.find("[name='center']");
+            var dom2 = Page.find("[name='module']");
+            var dom3 = Page.find("[name='db']");
+            //obj1 数据加载
+            var _url = dom1.data("url");
+            var _cmd = dom1.data("cmd") || '';
+            if (_url) {
+                self._load_select_html(dom1,_url,_cmd);
+            }
+
+            dom1.on("change", function() {
+                //取obj1选中值
+                var subcmd = dom1.attr("name") + "=" + dom1.val();
+                //刷新obj2的数据
+                self._load_select_html(dom2,dom2.data("suburl"),subcmd);
+                //刷新obj3的数据
+                self._load_select_html(dom3,dom3.data("suburl"),subcmd);
+            });
+            dom2.on("change", function() {
+                //取obj1选中值
+                var val1 = dom1.val();
+                //取obj2选中值
+                var val2 = dom2.val()
+                //刷新obj3的数据
+                self._load_select_html(dom3,dom3.data("suburl"),"center="+val1+"&module="+val2);
+            });
+        },
+
+        _load_select_html: function(obj,url,cmd,callback){
+            var self = this;
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            Rose.ajax.postJson(srvMap.get(url), cmd, function(json, status) {
+                if (status) {
+                    window.XMS.msgbox.hide();
+                    var _data = json.data;
+                    var _html = '<option value="">请选择</option>';
+
+                    var idv = obj.data("idkey");
+                    var namev = obj.data("namekey");
+
+                    for (var i in _data) {
+                        var _json = _data[i];
+                        var _key, _value;
+
+                        if (idv && namev) {
+                            _key = _json[idv];
+                            _value = _json[namev];
+                        } else {
+                            for (var key in _json) {
+                                if (key.indexOf("Id") >= 0) {
+                                    _key = _json[key];
+                                }
+                                if (key.indexOf("Name") >= 0) {
+                                    _value = _json[key];
+                                }
+                            }
+                        }
+                        _html += '<option value="' + _key + '">' + _value + '</option>';
+
+                    }
+                    obj.html(_html);
+
+                    self.clearSubOptions(obj,true);
+                    obj.comboSelect();
+                    if (callback) {
+                        callback();
+                    }
+                }
+            });
+        },
+        // 查询表格数据
 		_getGridList: function(cmd){
 			var self = this;
 			var _cmd = '';

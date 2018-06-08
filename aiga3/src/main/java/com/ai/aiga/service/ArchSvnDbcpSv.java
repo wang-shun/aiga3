@@ -7,7 +7,6 @@ import com.ai.aiga.domain.ArchSvnDbcp;
 import com.ai.aiga.domain.ArchSvnDbcpTwo;
 import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,12 +147,12 @@ public class ArchSvnDbcpSv extends BaseService {
 	//update
     
     //distinct center
-    public List<ArchSvnDbcpParams> distinctCenter(){
+    public List<ArchSvnDbcp> distinctCenter(){
 		StringBuilder nativeSql = new StringBuilder(
 				" select distinct a.center as center from aiam.arch_svn_dbcp a ");
 		List<Map>listMaps=new ArrayList<Map>();
 		listMaps = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString());
-		List<ArchSvnDbcpParams>newList = new ArrayList<ArchSvnDbcpParams>();
+		List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>();
         String codeType = "POOLCONFIGURATION_PRO_BUSINESS";
         List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
         Map<String,String> architectureCenters=new HashMap<String,String>();
@@ -166,13 +165,13 @@ public class ArchSvnDbcpSv extends BaseService {
         }
         for(int i=0;i<listMaps.size();i++) {
             String centerString = String.valueOf(listMaps.get(i).get("center"));
-			ArchSvnDbcpParams base = new ArchSvnDbcpParams();
+            ArchSvnDbcp base = new ArchSvnDbcp();
             base.setCenter(centerString);
             String centerName = architectureCenters.get(centerString);
             if (null != centerName) {
                 centerString = centerName;
             }
-            base.setCenterName(centerString);
+            base.setModule(centerString);
             newList.add(base);
         }
 //    	List<ArchSvnDbcp>list = archSrvDbcpDao.findAll();
@@ -189,35 +188,6 @@ public class ArchSvnDbcpSv extends BaseService {
 //        return newList;
         return newList;
     }
-    /**
-     *系统模块下拉框 distinctModule
-     *@param
-     *@return
-     *@author zhuchao
-     *@version v1.0.0
-     *@date 18-6-4 上午10:09
-     */
-	public List<ArchSvnDbcp> systemModule(ArchSvnDbcpSelects condition){
-		String center = condition.getCenter();
-//    	List<ArchSvnDbcp>list = archSrvDbcpDao.findByCenter(center);
-		List<ArchSvnDbcp> disinctDbList = new ArrayList<ArchSvnDbcp>();
-		StringBuilder nativeSql = new StringBuilder(
-				" select distinct ar.module from aiam.arch_svn_dbcp ar where 1=1 "
-		);
-
-		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
-		if (StringUtils.isNotBlank(condition.getCenter())) {
-			nativeSql.append(" and ar.center = :center ");
-			params.add(new ParameterCondition("center", condition.getCenter()));
-		}
-		List<ArchSvnDbcp>list = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class);
-		Iterator iterator = list.iterator();
-		while(iterator.hasNext()){
-			ArchSvnDbcp base = (ArchSvnDbcp)iterator.next();
-			disinctDbList.add(base);
-		}
-		return disinctDbList;
-	}
     //distinct db
     public List<ArchSvnDbcp>selectDb(ArchSvnDbcpSelects condition){
     	String center = condition.getCenter();

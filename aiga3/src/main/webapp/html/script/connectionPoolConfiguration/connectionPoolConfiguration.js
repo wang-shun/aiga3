@@ -22,8 +22,6 @@ define(function(require, exports, module) {
 	srvMap.add("distinctCenter", pathAlias+"distinctCenter.json", "webservice/configure/distinctCenter");
 	//查询状态下拉框 db
 	srvMap.add("distinctDb", pathAlias+"distinctDb.json", "webservice/configure/distinctDb");
-    //系统模块下拉框 distinctModule
-    srvMap.add("distinctModule", pathAlias+"distinctModule.json", "webservice/configure/distinctModule");
 	//查询文字
 	srvMap.add("getText", pathAlias+"getText.json", "webservice/configure/getText");
 	

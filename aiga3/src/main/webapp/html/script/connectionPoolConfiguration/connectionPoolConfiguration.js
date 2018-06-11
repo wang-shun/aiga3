@@ -64,13 +64,19 @@ define(function(require, exports, module) {
             var dom1 = Page.find("[name='center']");
             var dom2 = Page.find("[name='module']");
             var dom3 = Page.find("[name='db']");
+            var dom4=Page.find("[name='isChange']");
             //obj1 数据加载
             var _url = dom1.data("url");
             var _cmd = dom1.data("cmd") || '';
             if (_url) {
                 self._load_select_html(dom1,_url,_cmd);
             }
-
+            //obj4 数据加载
+            var _url = dom4.data("url");
+            var _cmd = dom4.data("cmd") || '';
+            if (_url) {
+                self._load_select_html(dom4,_url,_cmd);
+            }
             dom1.on("change", function() {
                 //取obj1选中值
                 var subcmd = dom1.attr("name") + "=" + dom1.val();
@@ -219,7 +225,7 @@ define(function(require, exports, module) {
         _query_event: function() {
 			var self = this;
 			var _form = Page.findId('queryDataForm');
-			Utils.setSelectDataPost(_form,true);
+			// Utils.setSelectDataPost(_form,true);
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
 				var cmd = _form.serialize();				

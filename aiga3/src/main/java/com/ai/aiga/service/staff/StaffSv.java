@@ -361,11 +361,60 @@ public class StaffSv extends BaseService {
 		if (StringUtils.isBlank(staffRequest.getEmail())) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Email");
 		}
+		AigaStaff staff_code = aigaStaffDao.findByCode(staffRequest.getCode());
+		if(staff_code!=null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，账号已存在");
+		}
+		AigaStaff staff_billId = aigaStaffDao.findByBillId(staffRequest.getBillId());
+		if(staff_billId!=null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，手机号码已存在");
+		}
+		List<AigaStaff> staff_email = aigaStaffDao.findByEmail(staffRequest.getEmail());
+		if(staff_email.size()>0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，邮箱已存在");
+		}
 		AigaStaff aigaStaff = BeanMapper.map(staffRequest, AigaStaff.class);
-		aigaStaff.setState(StaffConstant.STATE_NORMAL);
 		return aigaStaffDao.save(aigaStaff);
 	}
-
+	
+	public AigaStaff updateFouraStaff(AigaStaff staffRequest) {
+		if (staffRequest == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+		}
+		if (StringUtils.isBlank(staffRequest.getCode())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Code");
+		}
+		if (StringUtils.isBlank(staffRequest.getName())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Name");
+		}
+		if (StringUtils.isBlank(staffRequest.getBillId())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "BillId");
+		}
+		if (StringUtils.isBlank(staffRequest.getEmail())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "Email");
+		}
+		AigaStaff staff_code = aigaStaffDao.findByCode(staffRequest.getCode());
+		if(staff_code!=null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，账号已存在");
+		}
+		AigaStaff staff_billId = aigaStaffDao.findByBillId(staffRequest.getBillId());
+		if(staff_billId!=null){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，手机号码已存在");
+		}
+		List<AigaStaff> staff_email = aigaStaffDao.findByEmail(staffRequest.getEmail());
+		if(staff_email.size()>0){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_invalid,"对不起，邮箱已存在");
+		}
+		return aigaStaffDao.save(staffRequest);
+	}
+	
+	public void deleteFouraStaff(Long staffId) {
+		if (staffId == null || staffId < 0) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
+		}
+		aigaStaffDao.deleteByStaffId(staffId);
+	}
+	
 	public void updateStaff(StaffInfoRequest staffRequest) {
 		
 		if (staffRequest == null) {

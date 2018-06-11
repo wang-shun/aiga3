@@ -1,13 +1,17 @@
 package com.ai.aiga.view.controller.assess4A;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-
+import java.io.InputStreamReader;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.hibernate.internal.util.xml.XmlDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.service.staff.StaffSv;
 import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -28,19 +34,36 @@ public class FouraController {
 
 	@Autowired
 	private StaffSv staffsv;
-	
+
 	@RequestMapping(path = "/archi/assess4A/UpdateFouraIntfAppAcctServices",produces="text/xml")
-	public @ResponseBody JsonBean UpdateFouraIntfAppAcctServices(HttpServletRequest request, HttpServletResponse response, String FOURAINTFINFO) throws Exception{
+	public @ResponseBody String UpdateFouraIntfAppAcctServices(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setContentType("text/xml");    
+        if(request.getMethod()==null || !request.getMethod().equalsIgnoreCase("post")){  
+            return null;  
+        }  
+		// 获取HTTP请求的输入流
+        // 已HTTP请求输入流建立一个BufferedReader对象
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream(), "UTF-8"));
+        String buffer = null;
+        // 存放请求内容
+        StringBuffer xml = new StringBuffer();
+        while ((buffer = br.readLine()) != null) {
+            // 在页面中显示读取到的请求参数
+            xml.append(buffer);
+        }
+        System.out.println(xml);
+        //操作类型 add update delete
+        String dealwith = null;
 		JsonBean bean = new JsonBean();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		StaffInfoRequest staff = new StaffInfoRequest();
 		// 创建解析器工厂
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		// 由工厂创建一个DocumentBuilder解析器
 		DocumentBuilder db = factory.newDocumentBuilder();
 		// 创建一个Document对象
-		org.w3c.dom.Document doc = db.parse(new InputSource(new ByteArrayInputStream(FOURAINTFINFO.getBytes("utf-8"))));  
-		// 获取所有节点
+		org.w3c.dom.Document doc = db.parse(new InputSource(new ByteArrayInputStream(xml.toString().getBytes("utf-8"))));
+        // 获取所有节点
 		NodeList nodes = doc.getChildNodes();
 		// 获取根节点
 		Node root = nodes.item(0);
@@ -58,6 +81,7 @@ public class FouraController {
 				if(info.getNodeName().equals("APPID")){
 					staff.setOpId(Long.parseLong(info.getTextContent()));
 				}else if(info.getNodeName().equals("MODIFYMODE")){
+					dealwith = info.getTextContent();
 					staff.setOldCode(info.getTextContent());
 				}else if(info.getNodeName().equals("TIMESTAMP")){
 					Date sys_date = new Date(Long.parseLong(info.getTextContent()));
@@ -98,7 +122,26 @@ public class FouraController {
 				}
 			}
 		}
-		staffsv.saveFouraStaff(staff);
+		//判断操作类型add/update/delete执行不同的操作
+		if(dealwith.equalsIgnoreCase("add")){
+			staffsv.saveFouraStaff(staff);
+		}else if(dealwith.equalsIgnoreCase("update")){
+			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());
+			staff_code.setOpId(staff.getOpId());
+			staff_code.setOldCode(staff.getOldCode());
+			staff_code.setCardNo(staff.getCardNo());
+			staff_code.setCode(staff.getCode());
+			staff_code.setName(staff.getName());
+			staff_code.setOrgId(staff.getOrgId());
+			staff_code.setEmail(staff.getEmail());
+			staff_code.setBillId(staff.getBillId());
+			staff_code.setOpType(staff.getOpType());
+			staff_code.setState(staff.getState());
+			staffsv.updateFouraStaff(staff_code);
+		}else if(dealwith.equalsIgnoreCase("delete")){
+			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());
+			staffsv.deleteFouraStaff(staff_code.getStaffId());
+		}
         //DocumentHelper提供了创建Document对象的方法
 		org.dom4j.Document document = DocumentHelper.createDocument();
         //添加根节点信息
@@ -113,7 +156,6 @@ public class FouraController {
         //将document文档对象直接转换成字符串输出
         String result = document.asXML();
         System.out.println(result); 
-        bean.setData(result);
-        return bean;
+      return result;
 	}
 }

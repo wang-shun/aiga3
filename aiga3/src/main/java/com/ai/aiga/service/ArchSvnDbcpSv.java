@@ -7,6 +7,7 @@ import com.ai.aiga.domain.ArchSvnDbcp;
 import com.ai.aiga.domain.ArchSvnDbcpTwo;
 import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,7 +127,35 @@ public class ArchSvnDbcpSv extends BaseService {
     	Pageable pageable = new PageRequest(pageNumber, pageSize);
     	return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class, pageable);
     }
-    
+	/**
+	 *系统模块下拉框 distinctModule
+	 *@param
+	 *@return
+	 *@author zhuchao
+	 *@version v1.0.0
+	 *@date 18-6-4 上午10:09
+	 */
+	public List<ArchSvnDbcp> systemModule(ArchSvnDbcpSelects condition){
+		String center = condition.getCenter();
+//    	List<ArchSvnDbcp>list = archSrvDbcpDao.findByCenter(center);
+		List<ArchSvnDbcp> disinctDbList = new ArrayList<ArchSvnDbcp>();
+		StringBuilder nativeSql = new StringBuilder(
+				" select distinct ar.module from aiam.arch_svn_dbcp ar where 1=1 "
+		);
+
+		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+		if (StringUtils.isNotBlank(condition.getCenter())) {
+			nativeSql.append(" and ar.center = :center ");
+			params.add(new ParameterCondition("center", condition.getCenter()));
+		}
+		List<ArchSvnDbcp>list = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class);
+		Iterator iterator = list.iterator();
+		while(iterator.hasNext()){
+			ArchSvnDbcp base = (ArchSvnDbcp)iterator.next();
+			disinctDbList.add(base);
+		}
+		return disinctDbList;
+	}
     public List<ArchSvnDbcpTwo>queryByPageTwo(ArchSvnDbcpSelects condition){
     	String time="";
 		if (condition.getInsertTime() != null) {
@@ -145,52 +174,39 @@ public class ArchSvnDbcpSv extends BaseService {
     
     
 	//update
-    
+
     //distinct center
-    public List<ArchSvnDbcp> distinctCenter(){
+    public List<ArchSvnDbcpParams> distinctCenter(){
 		StringBuilder nativeSql = new StringBuilder(
 				" select distinct a.center as center from aiam.arch_svn_dbcp a ");
 		List<Map>listMaps=new ArrayList<Map>();
 		listMaps = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString());
-		List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>();
-        String codeType = "POOLCONFIGURATION_PRO_BUSINESS";
-        List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
-        Map<String,String> architectureCenters=new HashMap<String,String>();
-        if(null!=architectureStaticDatas){
-            for(ArchitectureStaticData architectureStaticData:architectureStaticDatas){
-                String codeValue=architectureStaticData.getCodeValue();
-                String codeName=architectureStaticData.getCodeName();
-                architectureCenters.put(codeValue,codeName);
-            }
-        }
-        for(int i=0;i<listMaps.size();i++) {
-            String centerString = String.valueOf(listMaps.get(i).get("center"));
-            ArchSvnDbcp base = new ArchSvnDbcp();
-            base.setCenter(centerString);
-            String centerName = architectureCenters.get(centerString);
-            if (null != centerName) {
-                centerString = centerName;
-            }
-            base.setModule(centerString);
-            newList.add(base);
-        }
-//    	List<ArchSvnDbcp>list = archSrvDbcpDao.findAll();
-//    	List<ArchSvnDbcp>newList = new ArrayList<ArchSvnDbcp>(); 
-//        List<String>indexGrouplist = new ArrayList<String>(); 
-//        Iterator iter= list.iterator();//List接口实现了Iterable接口  
-//        while(iter.hasNext()){  
-//        	ArchSvnDbcp am=(ArchSvnDbcp)iter.next();  
-//         	if(!indexGrouplist.contains(am.getCenter().trim())){
-//         		indexGrouplist.add(am.getCenter().trim());
-//         		newList.add(am);
-//         	}
-//        }  
-//        return newList;
-        return newList;
+		List<ArchSvnDbcpParams>newList = new ArrayList<ArchSvnDbcpParams>();
+		String codeType = "POOLCONFIGURATION_PRO_BUSINESS";
+		List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
+		Map<String,String> architectureCenters=new HashMap<String,String>();
+		if(null!=architectureStaticDatas){
+			for(ArchitectureStaticData architectureStaticData:architectureStaticDatas){
+				String codeValue=architectureStaticData.getCodeValue();
+				String codeName=architectureStaticData.getCodeName();
+				architectureCenters.put(codeValue,codeName);
+			}
+		}
+		for(int i=0;i<listMaps.size();i++) {
+			String centerString = String.valueOf(listMaps.get(i).get("center"));
+			ArchSvnDbcpParams base = new ArchSvnDbcpParams();
+			base.setCenter(centerString);
+			String centerName = architectureCenters.get(centerString);
+			if (null != centerName) {
+				centerString = centerName;
+			}
+			base.setCenterName(centerString);
+			newList.add(base);
+		}
+		return newList;
     }
     //distinct db
     public List<ArchSvnDbcp>selectDb(ArchSvnDbcpSelects condition){
-    	String center = condition.getCenter();
 //    	List<ArchSvnDbcp>list = archSrvDbcpDao.findByCenter(center);
     	List<ArchSvnDbcp> disinctDbList = new ArrayList<ArchSvnDbcp>();
     	StringBuilder nativeSql = new StringBuilder(
@@ -202,6 +218,10 @@ public class ArchSvnDbcpSv extends BaseService {
     		nativeSql.append(" and ar.center = :center ");
     		params.add(new ParameterCondition("center", condition.getCenter()));
     	}
+        if(StringUtils.isNotBlank(condition.getModule())) {
+            nativeSql.append(" and ar.module = :module");
+            params.add(new ParameterCondition("module", condition.getModule()));
+        }
     	List<ArchSvnDbcp>list = archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class);
     	Iterator iterator = list.iterator();
     	while(iterator.hasNext()){

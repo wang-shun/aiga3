@@ -1,20 +1,17 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
-import java.text.ParseException;
-
+import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.service.ArchSvnDbcpSv;
+import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
+import com.ai.aiga.view.json.base.JsonBean;
 import io.swagger.annotations.Api;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.service.ArchSvnDbcpSv;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexSelects;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
-import com.ai.aiga.view.json.base.JsonBean;
+import java.text.ParseException;
 
 @Controller
 @Api(value = "ArchSvnDbcpController", description = "专项治理控制层")
@@ -22,7 +19,7 @@ public class ArchSvnDbcpController {
 
 	@Autowired
 	private ArchSvnDbcpSv archSvnDbcpSv;
-	
+
 	@RequestMapping(path = "/webservice/configure/findAll")
 	public @ResponseBody JsonBean findAll(){
 		JsonBean bean = new JsonBean();
@@ -47,7 +44,21 @@ public class ArchSvnDbcpController {
 		JsonBean bean = new JsonBean();
 		bean.setData(archSvnDbcpSv.queryBefore7DayByPage(condition, pageNumber, pageSize));
 		return bean;
-	}	
+	}
+	/**
+	 *系统模块下拉框 distinctModule
+	 *@param
+	 *@return
+	 *@author zhuchao
+	 *@version v1.0.0
+	 *@date 18-6-4 上午10:08
+	 */
+	@RequestMapping(path = "webservice/configure/distinctModule")
+	public @ResponseBody JsonBean systemModule(ArchSvnDbcpSelects condition){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSvnDbcpSv.systemModule(condition));
+		return bean;
+	}
 	@RequestMapping(path = "/webservice/configure/distinctCenter")
 	public @ResponseBody JsonBean distinct(){
 		JsonBean bean = new JsonBean();

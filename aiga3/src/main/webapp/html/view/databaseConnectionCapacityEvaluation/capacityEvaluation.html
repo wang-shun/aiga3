@@ -47,12 +47,45 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">新接入业务数据库连接容量评估</h3>
                 </div>
+                <div class="box-body"><br/>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label class="col-sm-5  control-label">请输入服务调用时长(毫秒ms):</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control input-sm " name="serviceCalledTime"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"> <label class="col-sm-5 control-label">请选择待评估数据库(多选)：</label></div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input  type="checkbox" value="1" name="营业A库">营业A库
+                            <input  type="checkbox" value="2" name="营业B库">营业B库
+                            <input  type="checkbox" value="3" name="营业C库">营业C库
+                            <input  type="checkbox" value="4" name="营业D库">营业C库
+                        </div>
+                    </div>
+                    <div class="row"> <label class="col-sm-5 control-label">请选择按地市分节点访问的分中心数据库(多选)：</label></div>
+                    <div class="col-sm-12">
+                        <input  type="checkbox" value="1" name="营业A库">营业A库
+                        <input  type="checkbox" value="2" name="营业B库">营业B库
+                        <input  type="checkbox" value="3" name="营业C库">营业C库
+                        <input  type="checkbox" value="4" name="营业D库">营业C库
+                    </div>
+                </div>
+                <hr/>
             </form>
         </div>
     </div>
+    <input type="checkbox">
+    <input type="checkbox" checked>
+    <input type="radio" name="iCheck">
+    <input type="radio" name="iCheck" checked>
 </div>
 <script type="text/javascript">
     //<![CDATA[
+
+
     seajs.use("script/databaseConnectionCapacityEvaluation/capacityEvaluation", function(init) {
         init.init();
     });
@@ -60,3 +93,4 @@
 </script>
 
 
+<link rel="stylesheet"href="icheck/skins/minimal/red.css" />

@@ -9,17 +9,18 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.ai.aiga.dao.AigaOrganizeDao;
 import com.ai.aiga.dao.AigaStaffOrgRelatDao;
 import com.ai.aiga.domain.AigaOrganize;
+import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.AigaStaffOrgRelat;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
-import com.ai.aiga.security.shiro.UserInfo;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.util.mapper.BeanMapper;
+import com.ai.aiga.view.controller.organize.dto.FouraOrginazeRequest;
+import com.ai.aiga.view.controller.organize.dto.FouraStaffOrgRelatRequest;
 import com.ai.aiga.view.controller.organize.dto.OrginazeRequest;
-import com.ai.aiga.view.util.SessionMgrUtil;
 
 /**
  * 系统管理-组织信息
@@ -147,6 +148,163 @@ public class OrganizeSv extends BaseService {
 		organizeDao.save(organize);
 	}
 
+	public void saveFouraOrginaze(FouraOrginazeRequest orginazeRequest) {
+		AigaOrganize organize = new AigaOrganize();
+		// 对象不为空
+		if (orginazeRequest == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRequest");
+		}
+		// 主键不为空--修改 ；主键为空--新增
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrganizeId()))) {
+			organize.setOrganizeId(orginazeRequest.getOrganizeId());
+			organize.setDoneDate(new Date());
+		} else {
+			organize.setCreateDate(new Date());
+		}
+		// 组织名称
+		if (StringUtils.isBlank(orginazeRequest.getOrganizeName())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "name");
+		} else {
+			organize.setOrganizeName(orginazeRequest.getOrganizeName());
+		}
+		// 父节点如果为空，默认是-1
+		if (StringUtils.isBlank(String.valueOf(orginazeRequest.getParentOrganizeId()))) {
+			organize.setParentOrganizeId(-1L);
+		} else {
+			organize.setParentOrganizeId(orginazeRequest.getParentOrganizeId());
+		}
+		// 编码
+//		if (StringUtils.isBlank(orginazeRequest.getCode())) {
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+//		} else {
+//			organize.setCode(orginazeRequest.getCode());
+//		}
+		if (!StringUtils.isBlank(orginazeRequest.getOrganizeName())) {
+			organize.setCode(orginazeRequest.getCode());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getShortName())) {
+			organize.setShortName(orginazeRequest.getShortName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getShortName())) {
+			organize.setShortName(orginazeRequest.getShortName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getContactBillId())) {
+			organize.setContactBillId(orginazeRequest.getContactBillId());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getContactCardId())) {
+			organize.setContactCardId(orginazeRequest.getContactCardId());
+		}
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getContactCardType()))) {
+			organize.setContactCardType(orginazeRequest.getContactCardType());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getContactName())) {
+			organize.setContactName(orginazeRequest.getContactName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getDistrictId())) {
+			organize.setDistrictId(orginazeRequest.getDistrictId());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getEmail())) {
+			organize.setEmail(orginazeRequest.getEmail());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getEnglishName())) {
+			organize.setEnglishName(orginazeRequest.getEnglishName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getFaxId())) {
+			organize.setFaxId(orginazeRequest.getFaxId());
+		}
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getMemberNum()))) {
+			organize.setMemberNum(orginazeRequest.getMemberNum());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getPhoneId())) {
+			organize.setPhoneId(orginazeRequest.getPhoneId());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getManagerName())) {
+			organize.setManagerName(orginazeRequest.getManagerName());
+		}
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrgRoleTypeId()))) {
+			organize.setOrgRoleTypeId(orginazeRequest.getOrgRoleTypeId());
+		}
+		organizeDao.save(organize);
+	}
+	public void updateFouraOrginaze(AigaOrganize orginazeRequest) {
+		AigaOrganize organize = new AigaOrganize();
+		// 对象不为空
+		if (orginazeRequest == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRequest");
+		}
+		// 主键不为空--修改 ；主键为空--新增
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrganizeId()))) {
+			organize.setOrganizeId(orginazeRequest.getOrganizeId());
+			organize.setDoneDate(new Date());
+		} else {
+			organize.setCreateDate(new Date());
+		}
+		// 组织名称
+		if (StringUtils.isBlank(orginazeRequest.getOrganizeName())) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "name");
+		} else {
+			organize.setOrganizeName(orginazeRequest.getOrganizeName());
+		}
+		// 父节点如果为空，默认是-1
+		if (StringUtils.isBlank(String.valueOf(orginazeRequest.getParentOrganizeId()))) {
+			organize.setParentOrganizeId(-1L);
+		} else {
+			organize.setParentOrganizeId(orginazeRequest.getParentOrganizeId());
+		}
+		// 编码
+//		if (StringUtils.isBlank(orginazeRequest.getCode())) {
+//			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
+//		} else {
+//			organize.setCode(orginazeRequest.getCode());
+//		}
+		if (!StringUtils.isBlank(orginazeRequest.getOrganizeName())) {
+			organize.setCode(orginazeRequest.getCode());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getShortName())) {
+			organize.setShortName(orginazeRequest.getShortName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getShortName())) {
+			organize.setShortName(orginazeRequest.getShortName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getContactBillId())) {
+			organize.setContactBillId(orginazeRequest.getContactBillId());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getContactCardId())) {
+			organize.setContactCardId(orginazeRequest.getContactCardId());
+		}
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getContactCardType()))) {
+			organize.setContactCardType(orginazeRequest.getContactCardType());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getContactName())) {
+			organize.setContactName(orginazeRequest.getContactName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getDistrictId())) {
+			organize.setDistrictId(orginazeRequest.getDistrictId());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getEmail())) {
+			organize.setEmail(orginazeRequest.getEmail());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getEnglishName())) {
+			organize.setEnglishName(orginazeRequest.getEnglishName());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getFaxId())) {
+			organize.setFaxId(orginazeRequest.getFaxId());
+		}
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getMemberNum()))) {
+			organize.setMemberNum(orginazeRequest.getMemberNum());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getPhoneId())) {
+			organize.setPhoneId(orginazeRequest.getPhoneId());
+		}
+		if (!StringUtils.isBlank(orginazeRequest.getManagerName())) {
+			organize.setManagerName(orginazeRequest.getManagerName());
+		}
+		if (!StringUtils.isBlank(String.valueOf(orginazeRequest.getOrgRoleTypeId()))) {
+			organize.setOrgRoleTypeId(orginazeRequest.getOrgRoleTypeId());
+		}
+		organizeDao.save(organize);
+	}
+
 	/**
 	 * 根据组织编号删除,如果该组织下面存在子组织和人员，就不能删除
 	 * 
@@ -173,4 +331,20 @@ public class OrganizeSv extends BaseService {
 		return map;
 	}
 
+	public void saveFouraOrgRelat(FouraStaffOrgRelatRequest request){
+		// 对象不为空
+		if (request == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRelatRequest");
+		}
+		AigaStaffOrgRelat orgRelat = BeanMapper.map(request, AigaStaffOrgRelat.class);
+		aigaStaffOrgRelatDao.save(orgRelat);
+	}
+	
+	public void deleteFouraOrgRelat(FouraStaffOrgRelatRequest request){
+		// 对象不为空
+		if (request == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRelatRequest");
+		}
+		aigaStaffOrgRelatDao.deleteByStaffIdAndOrgId(request.getStaffId(),request.getOrganizeId());
+	}
 }

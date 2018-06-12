@@ -70,4 +70,26 @@ public class AuthorSv {
         }
         aigaAuthorDao.save(authorList);
     }
+    
+    public void deleteFouraRoles(AuthorRoleRequest authorRoleRequest){
+    	if (authorRoleRequest == null) {
+    		BusinessException.throwBusinessException(ErrorCode.Parameter_com_null);
+    	}
+    	if (authorRoleRequest.getStaffId() == null) {
+    		BusinessException.throwBusinessException(ErrorCode.Parameter_null, "staffId");
+    	}
+    	if (authorRoleRequest.getRoleIds() == null) {
+    		BusinessException.throwBusinessException(ErrorCode.Parameter_null, "roleIds");
+    	}
+    	/*通过 , 解析roleIds*/
+    	String[]roleIdAry=authorRoleRequest.getRoleIds().split(",");
+    	List<AigaAuthor> authorList=new ArrayList<AigaAuthor>();
+    	for(String roleId:roleIdAry){
+    		AigaAuthor author=new AigaAuthor();
+    		author.setStaffId(authorRoleRequest.getStaffId());
+    		author.setRoleId(Long.parseLong(roleId));
+    		authorList.add(author);
+    	}
+    	aigaAuthorDao.delete(authorList);
+    }
 }

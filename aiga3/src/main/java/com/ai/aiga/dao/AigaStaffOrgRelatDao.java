@@ -7,9 +7,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ai.aiga.dao.jpa.SearchAndPageRepository;
+import com.ai.aiga.domain.AigaOrganize;
 import com.ai.aiga.domain.AigaStaffOrgRelat;
+import com.ai.aiga.domain.AmCoreIndex;
 
-public interface AigaStaffOrgRelatDao extends SearchAndPageRepository<AigaStaffOrgRelat,Long>{
+public interface AigaStaffOrgRelatDao extends JpaRepository<AigaStaffOrgRelat, Long>, SearchAndPageRepository<AigaStaffOrgRelat,Long>{
 
 	@Modifying
 	@Query("delete from AigaStaffOrgRelat o where o.staffId = ?1 and o.organizeId = ?2")

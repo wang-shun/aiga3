@@ -15,4 +15,8 @@ public interface AigaAuthorDao extends SearchAndPageRepository<AigaAuthor, Long>
     @Modifying
     @Query("delete from AigaAuthor a where a.staffId=?1")
     int deleteByStaffId(Long staffId);
+    
+    @Modifying
+    @Query("delete from AigaAuthor a where a.staffId=?1 and a.roleId=?2")
+    int deleteByStaffIdAndRoleId(Long staffId,Long roleId);
 }

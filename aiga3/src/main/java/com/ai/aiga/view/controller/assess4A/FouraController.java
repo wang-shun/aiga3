@@ -446,10 +446,10 @@ public class FouraController {
                         for(int m=0;m<beinfos.getLength();m++){
                         	Node beinfo = beinfos.item(m);
                         	if(beinfo.getNodeName().equals("BE_GRANT_ID")){
-                        		be_grant_id = be_grant_id + info.getTextContent()+",";
+                        		be_grant_id = be_grant_id + beinfo.getTextContent().trim()+",";
                         	}
                         }
-                        author.setRoleIds(be_grant_id);
+                        author.setRoleIds(be_grant_id.trim());
                     }                    
                 }
             //组织关联关键字？？？？？
@@ -462,12 +462,18 @@ public class FouraController {
                     }else if(info.getNodeName().equals("TIMESTAMP")){
     					Date sys_date = sdfts.parse(info.getTextContent());  
             			orgrelat.setExpireDate(sys_date);
-                    }else if(info.getNodeName().equals("IDENTITYENTITY")){
-                    	orgrelat.setNotes(info.getTextContent());
                     }else if(info.getNodeName().equals("MAIN_GRANT_ID")){
                     	orgrelat.setStaffId(Long.parseLong(info.getTextContent()));
-                    }else if(info.getNodeName().equals("BE_GRANT_ID")){
-                    	orgrelat.setOrganizeId(Long.parseLong(info.getTextContent()));
+                    }else if(info.getNodeName().equals("BE_GRANT_ID_LIST")){
+                        // 获得BE_GRANT_ID_LIST节点下子节点的子节点
+                        NodeList beinfos = info.getChildNodes();
+                        for(int m=0;m<beinfos.getLength();m++){
+                        	Node beinfo = beinfos.item(m);
+                        	if(beinfo.getNodeName().equals("BE_GRANT_ID")){
+                        		be_grant_id = beinfo.getTextContent().trim();
+                        	}
+                        }
+                    	orgrelat.setOrganizeId(Long.parseLong(be_grant_id));
                     }else if(info.getNodeName().equals("CREATE_TIME")){
                         Date create_date = sdf.parse(info.getTextContent());  
                         orgrelat.setCreateDate(create_date);

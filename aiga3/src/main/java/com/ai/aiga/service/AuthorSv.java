@@ -83,14 +83,12 @@ public class AuthorSv {
     	}
     	/*通过 , 解析roleIds*/
     	String[]roleIdAry=authorRoleRequest.getRoleIds().split(",");
-    	List<AigaAuthor> authorList=new ArrayList<AigaAuthor>();
     	for(String roleId:roleIdAry){
     		AigaAuthor author=new AigaAuthor();
     		author.setStaffId(authorRoleRequest.getStaffId());
     		author.setRoleId(Long.parseLong(roleId));
-    		authorList.add(author);
+    		aigaAuthorDao.deleteByStaffIdAndRoleId(author.getStaffId(),author.getRoleId());
     	}
-    	aigaAuthorDao.delete(authorList);
     }
     //删除账号对应的角色关系
     public void deleteFouraStaffRoles(Long staffId){

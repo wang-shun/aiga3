@@ -68,7 +68,9 @@ public class FouraController {
         //操作类型 add update delete
         String dealwith = null;
 		JsonBean bean = new JsonBean();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		//样例：2017-03-26 15:13:38
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdfts = new SimpleDateFormat("yyyyMMddhhmmss");
 		StaffInfoRequest staff = new StaffInfoRequest();
 		// 创建解析器工厂
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -97,7 +99,7 @@ public class FouraController {
 					dealwith = info.getTextContent();
 					staff.setOldCode(info.getTextContent());
 				}else if(info.getNodeName().equals("TIMESTAMP")){
-					Date sys_date = new Date(Long.parseLong(info.getTextContent()));
+					Date sys_date = sdfts.parse(info.getTextContent());  
 					staff.setAcctEffectDate(sys_date);
 				}else if(info.getNodeName().equals("IDENTITYENTITY")){
 					staff.setCardNo(info.getTextContent());
@@ -154,6 +156,8 @@ public class FouraController {
 		}else if(dealwith.equalsIgnoreCase("delete")){
 			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());
 			staffsv.deleteFouraStaff(staff_code.getStaffId());
+			//对应删除账号对应的角色关系；审计需要；
+			authorsv.deleteFouraStaffRoles(staff_code.getStaffId());
 		}
         //DocumentHelper提供了创建Document对象的方法
 		org.dom4j.Document document = DocumentHelper.createDocument();
@@ -169,7 +173,7 @@ public class FouraController {
         //将document文档对象直接转换成字符串输出
         String result = document.asXML();
         System.out.println(result); 
-      return result;
+        return result;
 	}
 	
 	//2  应用实体(如：角色/组织)变更接口
@@ -195,7 +199,9 @@ public class FouraController {
         //操作类型 add update delete
         String dealwith = null;
     	JsonBean bean = new JsonBean();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+		//样例：2017-03-26 15:13:38
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdfts = new SimpleDateFormat("yyyyMMddhhmmss");
         FouraRoleRequest role = new FouraRoleRequest();
         FouraOrginazeRequest orginaze = new FouraOrginazeRequest();
         // 创建解析器工厂
@@ -236,7 +242,7 @@ public class FouraController {
             		if(info.getNodeName().equals("APPID")){
             			role.setOpId(Long.parseLong(info.getTextContent()));
             		}else if(info.getNodeName().equals("TIMESTAMP")){
-            			Date sys_date = new Date(Long.parseLong(info.getTextContent()));
+    					Date sys_date = sdfts.parse(info.getTextContent());  
             			role.setExpireDate(sys_date);
             		}else if(info.getNodeName().equals("IDENTITYENTITY")){
             			role.setNotes(info.getTextContent());
@@ -266,7 +272,7 @@ public class FouraController {
             		if(info.getNodeName().equals("APPID")){
             			orginaze.setOpId(Long.parseLong(info.getTextContent()));
             		}else if(info.getNodeName().equals("TIMESTAMP")){
-            			Date sys_date = new Date(Long.parseLong(info.getTextContent()));
+    					Date sys_date = sdfts.parse(info.getTextContent());  
             			orginaze.setExpireDate(sys_date);
             		}else if(info.getNodeName().equals("IDENTITYENTITY")){
             			orginaze.setNotes(info.getTextContent());
@@ -383,8 +389,10 @@ public class FouraController {
         String dealwith = null;
 
     	JsonBean bean = new JsonBean();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
-        AuthorRoleRequest author = new AuthorRoleRequest();
+		//样例：2017-03-26 15:13:38
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdfts = new SimpleDateFormat("yyyyMMddhhmmss");
+		AuthorRoleRequest author = new AuthorRoleRequest();
         FouraStaffOrgRelatRequest orgrelat = new FouraStaffOrgRelatRequest();
         // 创建解析器工厂
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -449,7 +457,7 @@ public class FouraController {
                     if(info.getNodeName().equals("APPID")){
                     	orgrelat.setOpId(Long.parseLong(info.getTextContent()));
                     }else if(info.getNodeName().equals("TIMESTAMP")){
-            			Date sys_date = new Date(Long.parseLong(info.getTextContent()));
+    					Date sys_date = sdfts.parse(info.getTextContent());  
             			orgrelat.setExpireDate(sys_date);
                     }else if(info.getNodeName().equals("IDENTITYENTITY")){
                     	orgrelat.setNotes(info.getTextContent());

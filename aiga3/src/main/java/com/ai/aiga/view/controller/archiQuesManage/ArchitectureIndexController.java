@@ -2829,10 +2829,10 @@ public class ArchitectureIndexController extends BaseService {
 				long temp = Double.valueOf(baseConnect.getResultValue()).longValue();
 				thismonth += temp;
 			}
-			if(baseConnectList.size()>1){
-				thismonth /= (baseConnectList.size()-1);
-				thismonth *= indexid2d[i].length;
-			}
+//			if(baseConnectList.size()>1){
+//				thismonth /= (baseConnectList.size()-1);
+//				thismonth *= indexid2d[i].length;
+//			}
 			center.setThismonth(thismonth);
 			list.add(center);
 		}
@@ -2905,10 +2905,10 @@ public class ArchitectureIndexController extends BaseService {
 				}
 				lastmonth += Double.valueOf(baseConnect.getResultValue()).longValue();
 			}
-			if(baseConnectList.size()>1){
-				lastmonth /= (baseConnectList.size()-1);
-				lastmonth *= indexid2d[i].length;
-			}
+//			if(baseConnectList.size()>1){
+//				lastmonth /= (baseConnectList.size()-1);
+//				lastmonth *= indexid2d[i].length;
+//			}
 			center.setLastmonth(lastmonth);
 			prelist.add(center);
 		}

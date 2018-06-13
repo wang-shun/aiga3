@@ -92,9 +92,6 @@ public Object list(int pageNumber, int pageSize ,SysRole condition ) throws Pars
 		if(roleRequest == null){ 
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
 		}
-		if(StringUtils.isBlank(roleRequest.getCode())){
-			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "code");
-		}
 		if(StringUtils.isBlank(roleRequest.getName())){
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "name");
 		}
@@ -168,6 +165,10 @@ public Object list(int pageNumber, int pageSize ,SysRole condition ) throws Pars
 		}
 		
 		return sysRoleDao.findOne(roleId);
+	}
+	
+	public List<SysRole> findByName(String name) {
+		return sysRoleDao.findByName(name);
 	}
 
 	public List<SysRole> findRolesByUserId(Long staffId) {

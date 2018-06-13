@@ -215,6 +215,10 @@ public class FouraController {
             Node item = items.item(i);
             // 获得根节点下子节点的所有子节点
             NodeList infos = item.getChildNodes();
+            //过滤掉父节点HEAD/BODY
+//            if(infos.getLength()==0){
+//            	continue;
+//            }
             //第一次遍历 获取实体类型（角色、组织）以及操作类型（add/update/delete）
             for(int j=0;j<infos.getLength();j++){
                 // 遍历根节点下子节点的子节点,并解析其文本内容
@@ -227,6 +231,10 @@ public class FouraController {
                 	continue;
                 }
             }
+            //过滤非AUTHOR_TYPE/MODIFYMODE节点
+            if(entity_type==null || dealwith==null){
+            	continue;
+            }
             //根据不同的实体类型（角色、组织）进行第二次遍历封装成对象（角色、组织）
             if(entity_type.equalsIgnoreCase("ZJROLE")){
             	for(int k=0;k<infos.getLength();k++){
@@ -237,15 +245,15 @@ public class FouraController {
             		}else if(info.getNodeName().equals("TIMESTAMP")){
     					Date sys_date = sdfts.parse(info.getTextContent());  
             			role.setExpireDate(sys_date);
-            		}else if(info.getNodeName().equals("IDENTITYENTITY")){
-            			role.setNotes(info.getTextContent());
             		}else if(info.getNodeName().equals("AUTHOR_ID")){
             			role.setRoleId(Long.parseLong(info.getTextContent()));
             		}else if(info.getNodeName().equals("AUTHOR_PARENT_ID")){
             			role.setOrgId(Long.parseLong(info.getTextContent()));
             		}else if(info.getNodeName().equals("AUTHOR_NAME")){
-            			String author_name = new String(info.getTextContent().getBytes("ISO-8859-1"),"UTF-8");
+            			String author_name = new String(info.getTextContent());
+            			role.setCode(author_name);
             			role.setName(author_name);
+            			role.setNotes(author_name);
             		}else if(info.getNodeName().equals("STATE")){
             			role.setState(Byte.valueOf(info.getTextContent()));
             		}else if(info.getNodeName().equals("CREATE_TIME")){
@@ -267,15 +275,19 @@ public class FouraController {
             		}else if(info.getNodeName().equals("TIMESTAMP")){
     					Date sys_date = sdfts.parse(info.getTextContent());  
             			orginaze.setExpireDate(sys_date);
-            		}else if(info.getNodeName().equals("IDENTITYENTITY")){
-            			orginaze.setNotes(info.getTextContent());
             		}else if(info.getNodeName().equals("AUTHOR_ID")){
             			orginaze.setOrganizeId(Long.parseLong(info.getTextContent()));
             		}else if(info.getNodeName().equals("AUTHOR_PARENT_ID")){
-            			orginaze.setParentOrganizeId(Long.parseLong(info.getTextContent()));
+            			String parentIdString = info.getTextContent();
+            			if(parentIdString.length()>0){
+            				orginaze.setParentOrganizeId(Long.parseLong(parentIdString));
+            			}else{
+            				orginaze.setParentOrganizeId(-1L);
+            			}
             		}else if(info.getNodeName().equals("AUTHOR_NAME")){
-            			String author_name = new String(info.getTextContent().getBytes("ISO-8859-1"),"UTF-8");
+            			String author_name = new String(info.getTextContent());
             			orginaze.setOrganizeName(author_name);
+            			orginaze.setCode(author_name);
             		}else if(info.getNodeName().equals("STATE")){
             			orginaze.setOrgRoleTypeId(Long.parseLong(info.getTextContent()));
             		}else if(info.getNodeName().equals("CREATE_TIME")){
@@ -297,12 +309,9 @@ public class FouraController {
         		rolesv.saveFouraRole(role);
         	}else if(dealwith.equalsIgnoreCase("update")){
         		SysRole role_roleId = rolesv.findOne(role.getRoleId());
-        		role_roleId.setOpId(role.getOpId());
-        		role_roleId.setNotes(role.getNotes());
-        		role_roleId.setOrgId(role.getOrgId());
         		role_roleId.setName(role.getName());
-        		role_roleId.setState(role.getState());
-        		role_roleId.setDoneCode(role.getDoneCode());
+        		role_roleId.setCode(role.getName());
+        		role_roleId.setNotes(role.getName());
         		rolesv.updateFouraRole(role_roleId);
         	}else if(dealwith.equalsIgnoreCase("delete")){
         		SysRole role_roleId = rolesv.findOne(role.getRoleId());
@@ -315,20 +324,13 @@ public class FouraController {
         		organizesv.saveFouraOrginaze(orginaze);
         	}else if(dealwith.equalsIgnoreCase("update")){
         		List<AigaOrganize> organize_list = organizesv.findOrganize(orginaze.getOrganizeId());
-        		if(organize_list.size()==1){
-            		organize_list.get(0).setOpId(orginaze.getOpId());
-            		organize_list.get(0).setNotes(orginaze.getNotes());
-            		organize_list.get(0).setParentOrganizeId(orginaze.getParentOrganizeId());
+        		if(organize_list.size()>0){
+            		organize_list.get(0).setCode(orginaze.getOrganizeName());
             		organize_list.get(0).setOrganizeName(orginaze.getOrganizeName());
-            		organize_list.get(0).setOrgRoleTypeId(orginaze.getOrgRoleTypeId());
-            		organize_list.get(0).setDoneCode(orginaze.getDoneCode());
             		organizesv.updateFouraOrginaze(organize_list.get(0));
         		}
         	}else if(dealwith.equalsIgnoreCase("delete")){
-        		List<AigaOrganize> origanize_list = organizesv.findOrganize(orginaze.getOrgId());
-        		if(origanize_list.size()==1){
-        			organizesv.deleteOrginaze(origanize_list.get(0).getOrgId());
-        		}
+    			organizesv.deleteOrginaze(orginaze.getOrganizeId());
         	}
         }
         //DocumentHelper提供了创建Document对象的方法
@@ -341,7 +343,11 @@ public class FouraController {
         Element valueIdelementId = null;
         if(dealwith.equalsIgnoreCase("add")){
         	valueIdelementId = rootElement.addElement("RETURN_VALUE_ID"); 
-        	valueIdelementId.setText(String.valueOf(role.getRoleId()));
+        	if(entity_type.equalsIgnoreCase("ZJROLE")){
+        		valueIdelementId.setText(String.valueOf(role.getRoleId()));
+        	}else if(entity_type.equalsIgnoreCase("ZJORG")){
+        		valueIdelementId.setText(String.valueOf(orginaze.getOrganizeId()));
+			}
         }
         Element descelement = rootElement.addElement("ERR_DESC");
         
@@ -412,16 +418,20 @@ public class FouraController {
                 // 遍历根节点下子节点的子节点,并解析其文本内容
                 Node info = infos.item(j);
                 if(info.getNodeName().equals("MAIN_AUTHOR_TYPE_NAME")){
-                    String mainAuthorTypeName = new String(info.getTextContent().getBytes("ISO-8859-1"),"UTF-8");
+                    String mainAuthorTypeName = new String(info.getTextContent());
                 	main_entity_type = mainAuthorTypeName;
                 }else if(info.getNodeName().equals("BE_AUTHOR_TYPE_NAME")){
-                    String beAuthorTypeName = new String(info.getTextContent().getBytes("ISO-8859-1"),"UTF-8");
+                    String beAuthorTypeName = new String(info.getTextContent());
                 	be_entity_type = beAuthorTypeName;
                 }else if(info.getNodeName().equals("MODIFYMODE")){
                 	dealwith = info.getTextContent();
                 }else{
                 	continue;
                 }
+            }
+            //过滤非MAIN_AUTHOR_TYPE_NAME/BE_AUTHOR_TYPE_NAME节点
+            if(main_entity_type==null || be_entity_type==null){
+            	continue;
             }
             //根据不同的主被授权实体类型（角色、组织）进行第二次遍历封装成对象（角色、组织）
             if(main_entity_type.equals("USER") && be_entity_type.equals("ROLE")){

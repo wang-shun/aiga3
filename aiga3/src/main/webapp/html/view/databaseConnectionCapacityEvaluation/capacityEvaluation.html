@@ -1,86 +1,120 @@
 <style type="text/css">
-    #Page_connectionPool .btn-center {text-align: center;}
-    #Page_connectionPool .total-width {width: 850px;}
-    #Page_connectionPool .btn-table-change {margin-right: 20px;}
-    #Page_connectionPool .btn-table-report {margin-right: 20px;}
-    #Page_connectionPool .text-style {color:red;font-size:16px;}
-    #Page_connectionPool .min-height{min-height:50px;}
-    #Page_connectionPool .width-input-167 {width: 167px;}
-    #Page_connectionPool .width-input-400 {width: 400px;}
-    #Page_connectionPool .width-input-158 {width: 155px;}
-    #Page_connectionPool .check-inline-label {display: block;float:left;margin-top: 10px;}
-    #Page_connectionPool .margin-onl {margin-left: 20px;margin-right: 20px;}
-    #Page_connectionPool .query-data-label {width: 80px;}
-    #Page_connectionPool .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
-    #Page_connectionPool .col2-sec-label {margin-left: 250px;}
-    #Page_connectionPool .col3-after-label {margin-left: 17px;}
-    #Page_connectionPool .line-sen-top {margin-top: 15px;}
-    #Page_connectionPool .text-area-sty {width: 680px;vertical-align:middle; }
-    #Page_connectionPool .btn-center {text-align: center;}
-    #Page_connectionPool .total-width {width: 850px;}
-    #Page_connectionPool .btn-table-change {margin-right: 20px;}
-    #Page_connectionPool .btn-table-report {margin-right: 20px;}
-    #Page_connectionPool .errcode-center {color:blue;font-size:18px;font-weight: bold;}
-    #Page_connectionPool .text-style {color:red;font-size:16px;font-weight: bold;}
-    #Page_connectionPool .select-label-word {margin-top: 7px;width: 70px;}
-    #Page_connectionPool .table-word-center {text-align: center;vertical-align: middle;}
-    #Page_connectionPool .show-nothing {display:none;}
-    #Page_connectionPool .spl-thead-color1 {background-color: #00a65a;color: white;}
-    #Page_connectionPool .spl-thead-color2 {background-color: #3c8dbc;color: white;}
-    #Page_connectionPool .spl-thead-color3 {background-color: #f39c12;color: white;}
-    #Page_connectionPool .spl-thead-color4 {background-color: #8ac14a;color: white;}
-    #Page_connectionPool .spl-thead-color5 {background-color: #e1b34a;color: white;}
-    #Page_connectionPool .spl-thead-wid {}
-    #Page_connectionPool .change-font-red {color: red;font-weight: 700;}
-    #Page_connectionPool .change-font-green {color: green;font-weight: 700;}
-    #Page_connectionPool .change-font-orange {color: yellow;font-weight: 700;}
-    #Page_connectionPool .change-font-yellow {color: orange;font-weight: 700;}
-    #Page_connectionPool .table-word-center {text-align: center;vertical-align: middle;}
-    #Page_connectionPool .table-kuan1{width:6%;}
-    #Page_connectionPool .table-kuan2{width:10%;}
-    #Page_connectionPool .table-kuan3{width:15%;}
+    #Page_capacityEvaluation  .cbsize{width:20%;}
+    #Page_capacityEvaluation .txtime{
+        margin-left: 200px;
+    }
+    #Page_capacityEvaluation .txlabel{
+        font-weight:bold;
+        font-family:"Microsoft YaHei";
+        font-family: Verdana, Arial;
+    }
+    #Page_capacityEvaluation .checkboxdiv{
+        margin-left:50px;
+    }
+    #Page_capacityEvaluation .formdiv div{
+        margin-left:10px;
+        margin-top: 10px;
+    }
+    #Page_capacityEvaluation .cbsize{
+        margin-left: 5px;
+        vertical-align:-5px;
+    }
+    #Page_capacityEvaluation .sct
+    {
+        margin-left:5px;
+        width:100px;
+        margin-bottom:6px;
+        background-color:white;
+        font-family: Verdana, Arial;
+    }
+    #Page_capacityEvaluation .selectopt
+    {
+      width: 100px;
+      height: 24px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px #ccc;
+      position: relative;
+    }
 </style>
 <div class="row" id="Page_capacityEvaluation">
     <div class="col-md-12">
-        <div class="box">
-            <form id="JS_queryDataForm">
+           <div class="box">
+            <form id="JS_queryDataForm" >
                 <div class="box-header with-border">
                     <h3 class="box-title">新接入业务数据库连接容量评估</h3>
                 </div>
-                <div class="box-body"><br/>
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <label class="col-sm-5  control-label">请输入服务调用时长(毫秒ms):</label>
-                            <div class="col-sm-2">
-                                <input type="text" class="form-control input-sm " name="serviceCalledTime"/>
-                            </div>
-                        </div>
+                <div class="box-body formdiv"><br/>
+                    <div>
+                        <h class="txlabel">请输入tps(系统吞吐量):</h>
+                        <input class="sct" type="text"  name="tpsnumbers"/>
+                        <h>笔/</h>
+                        <select class="selectopt">
+                            <option value ="sectime">秒</option>
+                            <option value ="mintime">分</option>
+                        </select>
+                        <h class="txlabel txtime">请输入服务调用时长(毫秒ms):</h>
+                        <input class="sct" type="text"  name="serviceCalledTime"/>
+                        <h class="txlabel txtime">预计新增部署实例数(可选):</h>
+                        <input class="sct" type="text"  name="deployednumbers"/>
                     </div>
-                    <div class="row"> <label class="col-sm-5 control-label">请选择待评估数据库(多选)：</label></div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <input  type="checkbox" value="1" name="营业A库">营业A库
-                            <input  type="checkbox" value="2" name="营业B库">营业B库
-                            <input  type="checkbox" value="3" name="营业C库">营业C库
-                            <input  type="checkbox" value="4" name="营业D库">营业C库
-                        </div>
+                    <div> <h class="txlabel">请选择待评估数据库(多选)：</h></div>
+                    <div class="checkboxdiv">
+                            <input  type="checkbox" value="1" name="营业A库"><h class="cbsize">营业A库</h>
+                            <input   type="checkbox" value="2" name="营业B库"><h class="cbsize">营业B库</h>
+                            <input  type="checkbox" value="3" name="营业C库"><h class="cbsize">营业C库</h>
+                            <input  type="checkbox" value="4" name="营业D库"><h class="cbsize">营业D库</h>
                     </div>
-                    <div class="row"> <label class="col-sm-5 control-label">请选择按地市分节点访问的分中心数据库(多选)：</label></div>
-                    <div class="col-sm-12">
-                        <input  type="checkbox" value="1" name="营业A库">营业A库
-                        <input  type="checkbox" value="2" name="营业B库">营业B库
-                        <input  type="checkbox" value="3" name="营业C库">营业C库
-                        <input  type="checkbox" value="4" name="营业D库">营业C库
+                    <div> <h class="txlabel">请选择按地市分节点访问的分中心数据库(多选)：</h></div>
+                    <div class="checkboxdiv">
+                        <input   type="checkbox" value="1" name="营业A库"><h class="cbsize" >营业A库</h>
+                        <input   type="checkbox" value="2" name="营业B库"><h class="cbsize" >营业B库</h>
+                        <input   type="checkbox" value="3" name="营业C库"><h class="cbsize" >营业C库</h>
+                        <input   type="checkbox" value="4" name="营业D库"><h class="cbsize" >营业D库</h>
+                    </div>
+                    <div class="box-footer">
+                        <div class="text-center">
+                            <button type="reset" class="btn btn-default">重置</button>
+                            <button type="button" class="btn btn-primary"  name="query">提交</button>
+                        </div>
                     </div>
                 </div>
-                <hr/>
             </form>
+           </div>
         </div>
+    <div class="col-md-12">
+                <div class="box" id="JS_numberFluctuationList" style="min-height:100px;">
+                    <div class="box-header ">
+                        <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
+                    </div>
+                    <div class="box-body">
+                        <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                            <thead>
+                            <tr>
+                                <th class="iCheckbox table-word-center spl-thead-color4" width="15"></th>
+                                <th class="table-word-center spl-thead-color1">数据库名</th>
+                                <th class="table-word-center spl-thead-color2">预计增长连接数</th>
+                                <th class="table-word-center spl-thead-color1">minIdle参考值</th>
+                                <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
+                                <th class="table-word-center spl-thead-color1">maxActive参考值</th>
+                            </tr>
+                            </thead>
+                            <tbody name="content"></tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border">
+                        <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                    </div>
+                </div>
+            </div>
+    <div class="col-md-12">
+		<textarea cols="100" rows="5" disabled>
+新接入业务数据库连接容量评估说明：
+(1):
+(2):
+(3):
+		</textarea>
     </div>
-    <input type="checkbox">
-    <input type="checkbox" checked>
-    <input type="radio" name="iCheck">
-    <input type="radio" name="iCheck" checked>
+</div>
 </div>
 <script type="text/javascript">
     //<![CDATA[
@@ -93,4 +127,3 @@
 </script>
 
 
-<link rel="stylesheet"href="icheck/skins/minimal/red.css" />

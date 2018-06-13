@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
     //引入icheck的js
-    require("icheck/js/icheck.min.js");
+    require("lib/iCheck/icheck.min.js");
     // 通用工具模块
     var Utils = require("global/utils.js");
     var pathAlias = "databaseConnectionCapacityEvaluation/";

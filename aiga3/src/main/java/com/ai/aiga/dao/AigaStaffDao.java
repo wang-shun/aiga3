@@ -14,6 +14,10 @@ public interface AigaStaffDao extends SearchAndPageRepository<AigaStaff,Long>{
 	@Query("delete from AigaAuthor a where a.staffId = ?1")
 	void deleteByStaffId(Long staffId);
 	
+	@Modifying
+	@Query("delete from AigaStaff a where a.staffId = ?1")
+	void deleteByStaffId2(Long staffId);
+	
 //	@Query(value = "select af.staff_id,af.code,af.name,af.state,ao.organize_id,ao.organize_name,ao.code as organize_code"
 //			+ " from aiga_staff af,aiga_organize ao ,aiga_staff_org_relat ar where af.staff_id = ar.staff_id"
 //			+ " and ar.organize_id = ao.organize_id and ar.organize_id =?1",nativeQuery= true)

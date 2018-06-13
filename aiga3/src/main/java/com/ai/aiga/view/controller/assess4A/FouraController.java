@@ -142,17 +142,9 @@ public class FouraController {
 			staffsv.saveFouraStaff(staff);
 		}else if(dealwith.equalsIgnoreCase("update")){
 			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());
-//			a)	允许账号编辑字段：ORG_ID，EMAIL，MOBILE
-//			staff_code.setOpId(staff.getOpId());
-//			staff_code.setOldCode(staff.getOldCode());
-//			staff_code.setCardNo(staff.getCardNo());
-//			staff_code.setCode(staff.getCode());
-//			staff_code.setName(staff.getName());
 			staff_code.setOrgId(staff.getOrgId());
 			staff_code.setEmail(staff.getEmail());
 			staff_code.setBillId(staff.getBillId());
-//			staff_code.setOpType(staff.getOpType());
-//			staff_code.setState(staff.getState());
 			staffsv.updateFouraStaff(staff_code);
 		}else if(dealwith.equalsIgnoreCase("delete")){
 			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());

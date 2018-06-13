@@ -96,20 +96,22 @@ public class AuthorSv {
     public void deleteFouraStaffRoles(Long staffId){
     	String roleIdString = "";
     	List<AigaAuthor> list = aigaAuthorDao.findByStaffId(staffId);
-    	for(int i=0;i<list.size();i++){
-    		AigaAuthor baseAigaAuthor = list.get(i);
-    		roleIdString = roleIdString+baseAigaAuthor.getRoleId()+",";
+    	if(list.size()>0){
+        	for(int i=0;i<list.size();i++){
+        		AigaAuthor baseAigaAuthor = list.get(i);
+        		roleIdString = roleIdString+baseAigaAuthor.getRoleId()+",";
+        	}
+        	roleIdString = roleIdString.substring(0, roleIdString.length()-1);
+        	/*通过 , 解析roleIds*/
+        	String[] roleIdAry = roleIdString.split(",");
+        	List<AigaAuthor> authorList=new ArrayList<AigaAuthor>();
+        	for(String roleId:roleIdAry){
+        		AigaAuthor author=new AigaAuthor();
+        		author.setStaffId(staffId);
+        		author.setRoleId(Long.parseLong(roleId));
+        		authorList.add(author);
+        	}
+        	aigaAuthorDao.delete(authorList);
     	}
-    	roleIdString = roleIdString.substring(0, roleIdString.length()-1);
-    	/*通过 , 解析roleIds*/
-    	String[] roleIdAry = roleIdString.split(",");
-    	List<AigaAuthor> authorList=new ArrayList<AigaAuthor>();
-    	for(String roleId:roleIdAry){
-    		AigaAuthor author=new AigaAuthor();
-    		author.setStaffId(staffId);
-    		author.setRoleId(Long.parseLong(roleId));
-    		authorList.add(author);
-    	}
-    	aigaAuthorDao.delete(authorList);
     }
 }

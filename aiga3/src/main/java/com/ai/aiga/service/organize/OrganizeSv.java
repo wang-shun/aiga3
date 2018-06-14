@@ -49,6 +49,10 @@ public class OrganizeSv extends BaseService {
 		return organizeDao.findByOrganizeId(organizeId);
 	}
 	
+	public List<AigaOrganize> findByOrganizeName(String organizeName) {
+		return organizeDao.findByOrganizeName(organizeName);
+	}
+	
 	public List<AigaOrganize> findAll() {
 		return organizeDao.findAll();
 	}

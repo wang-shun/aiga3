@@ -30,6 +30,7 @@ import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
 import com.ai.aiga.view.json.AuthorRoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import io.swagger.annotations.Api;
@@ -246,7 +247,10 @@ public class FouraController {
     					Date sys_date = sdfts.parse(info.getTextContent());  
             			role.setExpireDate(sys_date);
             		}else if(info.getNodeName().equals("AUTHOR_ID")){
-            			role.setRoleId(Long.parseLong(info.getTextContent()));
+            			//新增实体的时候，为空
+            			if(!dealwith.equalsIgnoreCase("add")){
+            				role.setRoleId(Long.parseLong(info.getTextContent()));
+            			}
             		}else if(info.getNodeName().equals("AUTHOR_PARENT_ID")){
             			role.setOrgId(Long.parseLong(info.getTextContent()));
             		}else if(info.getNodeName().equals("AUTHOR_NAME")){
@@ -276,7 +280,10 @@ public class FouraController {
     					Date sys_date = sdfts.parse(info.getTextContent());  
             			orginaze.setExpireDate(sys_date);
             		}else if(info.getNodeName().equals("AUTHOR_ID")){
-            			orginaze.setOrganizeId(Long.parseLong(info.getTextContent()));
+            			//新增实体的时候，为空
+            			if(!dealwith.equalsIgnoreCase("add")){
+            				orginaze.setOrganizeId(Long.parseLong(info.getTextContent()));
+            			}
             		}else if(info.getNodeName().equals("AUTHOR_PARENT_ID")){
             			String parentIdString = info.getTextContent();
             			if(parentIdString.length()>0){
@@ -302,11 +309,14 @@ public class FouraController {
             	}
             }
         }
+        List<SysRole> add_role_list = null;
+        List<AigaOrganize> add_org_list = null;
         //角色
         if(entity_type.equalsIgnoreCase("ZJROLE")){
         	//判断操作类型add/update/delete执行不同的操作
         	if(dealwith.equalsIgnoreCase("add")){
         		rolesv.saveFouraRole(role);
+        		add_role_list = rolesv.findByName(role.getName());
         	}else if(dealwith.equalsIgnoreCase("update")){
         		SysRole role_roleId = rolesv.findOne(role.getRoleId());
         		role_roleId.setName(role.getName());
@@ -322,6 +332,7 @@ public class FouraController {
         	//判断操作类型add/update/delete执行不同的操作
         	if(dealwith.equalsIgnoreCase("add")){
         		organizesv.saveFouraOrginaze(orginaze);
+        		add_org_list = organizesv.findByOrganizeName(orginaze.getOrganizeName());
         	}else if(dealwith.equalsIgnoreCase("update")){
         		List<AigaOrganize> organize_list = organizesv.findOrganize(orginaze.getOrganizeId());
         		if(organize_list.size()>0){
@@ -343,10 +354,10 @@ public class FouraController {
         Element valueIdelementId = null;
         if(dealwith.equalsIgnoreCase("add")){
         	valueIdelementId = rootElement.addElement("RETURN_VALUE_ID"); 
-        	if(entity_type.equalsIgnoreCase("ZJROLE")){
-        		valueIdelementId.setText(String.valueOf(role.getRoleId()));
-        	}else if(entity_type.equalsIgnoreCase("ZJORG")){
-        		valueIdelementId.setText(String.valueOf(orginaze.getOrganizeId()));
+        	if(entity_type.equalsIgnoreCase("ZJROLE") && add_role_list.size()>0){
+        		valueIdelementId.setText(String.valueOf(add_role_list.get(0).getRoleId()));
+        	}else if(entity_type.equalsIgnoreCase("ZJORG") && add_org_list.size()>0){
+        		valueIdelementId.setText(String.valueOf(add_org_list.get(0).getOrganizeId()));
 			}
         }
         Element descelement = rootElement.addElement("ERR_DESC");

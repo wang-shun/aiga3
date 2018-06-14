@@ -1,23 +1,13 @@
 <style type="text/css">
-    #Page_capacityEvaluation  .cbsize{width:20%;}
-    #Page_capacityEvaluation .txtime{
-        margin-left: 200px;
+    #Page_capacityEvaluation .table-word-center {text-align: center;vertical-align: middle;}
+    #Page_capacityEvaluation .tx_size{
+        font-size:16px;
+        color: rgb(0, 0, 0);
+        font-family:"KaiTi";
     }
-    #Page_capacityEvaluation .txlabel{
-        font-weight:bold;
-        font-family:"Microsoft YaHei";
-        font-family: Verdana, Arial;
-    }
-    #Page_capacityEvaluation .checkboxdiv{
-        margin-left:50px;
-    }
-    #Page_capacityEvaluation .formdiv div{
+    #Page_capacityEvaluation .div_bottom div{
         margin-left:10px;
-        margin-top: 10px;
-    }
-    #Page_capacityEvaluation .cbsize{
-        margin-left: 5px;
-        vertical-align:-5px;
+        margin-bottom: 10px;
     }
     #Page_capacityEvaluation .sct
     {
@@ -25,64 +15,81 @@
         width:100px;
         margin-bottom:6px;
         background-color:white;
-        font-family: Verdana, Arial;
     }
-    #Page_capacityEvaluation .selectopt
+    #Page_capacityEvaluation .select_size
     {
+      text-align: center;
       width: 100px;
       height: 24px;
       border-radius: 5px;
       box-shadow: 0 0 5px #ccc;
       position: relative;
     }
+    #Page_capacityEvaluation .div_databasetext_sytle{
+        margin-left: 5%;
+    }
+    #Page_capacityEvaluation .div_float1{
+        width:40%;
+        float:left;
+    }
+    #Page_capacityEvaluation .div_float2{
+        width:25%;
+        float:left;
+    }
+    #Page_capacityEvaluation .div_float3{
+        width:25%;
+        float:left;
+    }
 </style>
-<div class="row" id="Page_capacityEvaluation">
-    <div class="col-md-12">
+   <div class="row" id="Page_capacityEvaluation">
+     <div class="col-md-12">
            <div class="box">
-            <form id="JS_queryDataForm" >
+              <form id="JS_queryDataForm" >
                 <div class="box-header with-border">
                     <h3 class="box-title">新接入业务数据库连接容量评估</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
                 </div>
-                <div class="box-body formdiv"><br/>
-                    <div>
-                        <h class="txlabel">请输入tps(系统吞吐量):</h>
-                        <input class="sct" type="text"  name="tpsnumbers"/>
-                        <h>笔/</h>
-                        <select class="selectopt">
-                            <option value ="sectime">秒</option>
-                            <option value ="mintime">分</option>
-                        </select>
-                        <h class="txlabel txtime">请输入服务调用时长(毫秒ms):</h>
-                        <input class="sct" type="text"  name="serviceCalledTime"/>
-                        <h class="txlabel txtime">预计新增部署实例数(可选):</h>
-                        <input class="sct" type="text"  name="deployednumbers"/>
+                <div class="box" id="JS_text" style="min-height:50px;">
+                    <div class="box-body">
+                        <div style="margin-top:10px">
+                            <div class="div_float1">
+                                <h class="tx_size">请输入新接入业务tps(系统吞吐量):</h>
+                                <input class="sct" type="number"  name="tpsnumbers"  value="0" oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
+                                <h>笔/</h>
+                                <select class="select_size" name="timetype">
+                                  <option value ="sectime">秒</option>
+                                  <option value ="mintime">分</option>
+                                </select>
+                            </div>
+                            <div class="div_float2">
+                                <h class="tx_size">请输入服务调用时长(毫秒ms):</h>
+                                <input class="sct" type="number"  name="serviceCalledTime" value="0" oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
+                            </div >
+                            <div class="div_float3">
+                               <h class="tx_size">预计新增部署实例数(非必填):</h>
+                               <input class="sct" type="number"  name="deployednumbers" value="0" />
+                            </div>
+                        </div>
                     </div>
-                    <div> <h class="txlabel">请选择待评估数据库(多选)：</h></div>
-                    <div class="checkboxdiv">
-                            <input  type="checkbox" value="1" name="营业A库"><h class="cbsize">营业A库</h>
-                            <input   type="checkbox" value="2" name="营业B库"><h class="cbsize">营业B库</h>
-                            <input  type="checkbox" value="3" name="营业C库"><h class="cbsize">营业C库</h>
-                            <input  type="checkbox" value="4" name="营业D库"><h class="cbsize">营业D库</h>
-                    </div>
-                    <div> <h class="txlabel">请选择按地市分节点访问的分中心数据库(多选)：</h></div>
-                    <div class="checkboxdiv">
-                        <input   type="checkbox" value="1" name="营业A库"><h class="cbsize" >营业A库</h>
-                        <input   type="checkbox" value="2" name="营业B库"><h class="cbsize" >营业B库</h>
-                        <input   type="checkbox" value="3" name="营业C库"><h class="cbsize" >营业C库</h>
-                        <input   type="checkbox" value="4" name="营业D库"><h class="cbsize" >营业D库</h>
-                    </div>
-                    <div class="box-footer">
+                </div>
+                <div style="margin-top: 10px">
+                    <h class="div_databasetext_sytle tx_size">请选择待评估数据库(多选)：</h>
+                </div>
+                <div id="JS_tableForm" class="col-md-12"></div>
+                <div class="box-footer">
                         <div class="text-center">
                             <button type="reset" class="btn btn-default">重置</button>
                             <button type="button" class="btn btn-primary"  name="query">提交</button>
                         </div>
                     </div>
-                </div>
-            </form>
+               </form>
            </div>
-        </div>
-    <div class="col-md-12">
-                <div class="box" id="JS_numberFluctuationList" style="min-height:100px;">
+    </div>
+     <div class="col-md-12">
+                <div class="box" id="JS_evaluationList" style="min-height:100px;">
                     <div class="box-header ">
                         <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
                     </div>
@@ -90,7 +97,6 @@
                         <table class="table table-bordered table-hover" id="dataMaintainListTable">
                             <thead>
                             <tr>
-                                <th class="iCheckbox table-word-center spl-thead-color4" width="15"></th>
                                 <th class="table-word-center spl-thead-color1">数据库名</th>
                                 <th class="table-word-center spl-thead-color2">预计增长连接数</th>
                                 <th class="table-word-center spl-thead-color1">minIdle参考值</th>
@@ -105,8 +111,8 @@
                         <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
                     </div>
                 </div>
-            </div>
-    <div class="col-md-12">
+    </div>
+     <div class="col-md-12">
 		<textarea cols="100" rows="5" disabled>
 新接入业务数据库连接容量评估说明：
 (1):
@@ -114,12 +120,30 @@
 (3):
 		</textarea>
     </div>
-</div>
-</div>
+   </div>
+
+<!-- 表格数据 -->
+<script id="TPL_tableList" type="text/x-handlebars-template">
+    {{#each this}}
+        <div class="col-md-4 check_pub_sty">
+            <input name="databases" value={{dbName}} type="checkbox" /><label class="check_table_sty" >{{dbValue}}</label>
+            <input type="radio" value="1" name={{dbName}}>是</input><input type="radio" value="0" name={{dbName}} checked="checked">否</input>
+        </div>
+    {{/each}}
+</script>
+<!-- 表格数据 -->
+<script id="TPL_evaluationList" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr>
+        <td class="table-word-center">{{database}}</td>
+        <td class="table-word-center">{{connections}}</td>
+        <td class="table-word-center">{{minIdle}}</td>
+        <td class="table-word-center">{{maxIdle}}</td>
+        <td class="table-word-center">{{maxActive}}</td>
+    </tr>
+    {{/each}}
+</script>
 <script type="text/javascript">
-    //<![CDATA[
-
-
     seajs.use("script/databaseConnectionCapacityEvaluation/capacityEvaluation", function(init) {
         init.init();
     });

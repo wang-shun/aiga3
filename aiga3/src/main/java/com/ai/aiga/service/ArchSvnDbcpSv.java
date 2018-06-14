@@ -7,8 +7,7 @@ import com.ai.aiga.domain.ArchSvnDbcp;
 import com.ai.aiga.domain.ArchSvnDbcpTwo;
 import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpParams;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
+import com.ai.aiga.view.controller.archiQuesManage.dto.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +24,7 @@ import java.util.*;
 public class ArchSvnDbcpSv extends BaseService {
     @Autowired
     private ArchitectureStaticDataSv architectureStaticDataSv;
+
 	@Autowired		
 	private ArchSvnDbcpDao archSrvDbcpDao;
 	//find all
@@ -126,6 +126,54 @@ public class ArchSvnDbcpSv extends BaseService {
     	nativeSql.append(" order by ar.insert_time ");
     	Pageable pageable = new PageRequest(pageNumber, pageSize);
     	return archSrvDbcpDao.searchByNativeSQL(nativeSql.toString(), params, ArchSvnDbcp.class, pageable);
+    }
+    /**
+     *
+     *@param
+     *@return
+     *@author zhuchao
+     *@version v1.0.0
+     *@date 18-6-14 上午11:36
+     */
+    public List<ArchSvnDbcpEvalutionDbOut> getEvalDb(){
+        String codeType = "POOLCONFIGURATION_DB_EVALUTION";
+        List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
+        List<ArchSvnDbcpEvalutionDbOut> archSvnDbcpEvalutionOuts=new ArrayList<ArchSvnDbcpEvalutionDbOut>();
+        if(architectureStaticDatas!=null&&architectureStaticDatas.size()>0){
+            for(ArchitectureStaticData architectureStaticData:architectureStaticDatas){
+                ArchSvnDbcpEvalutionDbOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionDbOut();
+                archSvnDbcpEvalutionOut.setDbName(architectureStaticData.getCodeValue());
+                archSvnDbcpEvalutionOut.setDbValue(architectureStaticData.getCodeName());
+                archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
+            }
+        }
+        return archSvnDbcpEvalutionOuts;
+    }
+    /**
+     *
+     *@param
+     *@return
+     *@author zhuchao
+     *@version v1.0.0
+     *@date 18-6-14 上午10:29
+     */
+    public List<ArchSvnDbcpEvalutionOut> getEvalution(ArchSvnDbcpEvalutionIn condition){
+           Long  tpsnumbers=condition.getTpsnumbers();
+           String timetype=condition.getTimetype();
+           Long serviceCalledTime=condition.getServiceCalledTime();
+           Long deployednumbers=condition.getDeployednumbers();
+           String databases=condition.getDatabases();
+           List<ArchSvnDbcpEvalutionOut> archSvnDbcpEvalutionOuts=new ArrayList<ArchSvnDbcpEvalutionOut>();
+           for(int i=0;i<2;i++){
+               ArchSvnDbcpEvalutionOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionOut();
+               archSvnDbcpEvalutionOut.setDatabase("营业A库");
+               archSvnDbcpEvalutionOut.setConnections("100");
+               archSvnDbcpEvalutionOut.setMinIdle("200");
+               archSvnDbcpEvalutionOut.setMaxIdle("100");
+               archSvnDbcpEvalutionOut.setMaxActive("200");
+               archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
+           }
+           return archSvnDbcpEvalutionOuts;
     }
 	/**
 	 *系统模块下拉框 distinctModule

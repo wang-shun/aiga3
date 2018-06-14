@@ -161,8 +161,12 @@ public class FouraController {
         Element valueelement = rootElement.addElement("RETURN_VALUE");
         Element descelement = rootElement.addElement("ERR_DESC");
         String return_value = bean.getRetCode();
+        if(Long.parseLong(return_value) == 200){
+        	valueelement.setText("0");
+        }else{
+        	valueelement.setText("异常");
+        }
         String err_desc = bean.getRetMessage();
-        valueelement.setText(return_value);
         descelement.setText(err_desc==null?"success":err_desc);
         //将document文档对象直接转换成字符串输出
         String result = document.asXML();
@@ -364,8 +368,11 @@ public class FouraController {
         
         String return_value = bean.getRetCode();        
         String err_desc = bean.getRetMessage();
-        
-        valueelement.setText(return_value);
+        if(Long.parseLong(return_value) == 200){
+        	valueelement.setText("0");
+        }else{
+        	valueelement.setText("异常");
+        }
         descelement.setText(err_desc==null?"success":err_desc);
         
         //将document文档对象直接转换成字符串输出
@@ -523,8 +530,12 @@ public class FouraController {
         Element valueelement = rootElement.addElement("RETURN_VALUE");        
         Element descelement = rootElement.addElement("ERR_DESC");            
         String return_value = bean.getRetCode();            
-        String err_desc = bean.getRetMessage();                       
-        valueelement.setText(return_value);
+        String err_desc = bean.getRetMessage();  
+        if(Long.parseLong(return_value) == 200){
+        	valueelement.setText("0");
+        }else{
+        	valueelement.setText("异常");
+        }
         descelement.setText(err_desc==null?"success":err_desc);
         //将document文档对象直接转换成字符串输出
         String result = document.asXML();

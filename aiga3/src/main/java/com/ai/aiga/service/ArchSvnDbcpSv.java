@@ -241,7 +241,7 @@ public class ArchSvnDbcpSv extends BaseService {
                int minIdle=(int)(sitcNumber*sec*minIdelSEC)+1;
                int maxIdle=(int)(sitcNumber*sec*maxIdleSEC)+1;
                int maxActive=(int)(sitcNumber*sec*maxActiveSEC)+1;
-               int connections=(int)(sitcNumber*sec*minIdelSEC*deployednumbers*instanceSEC)+1;
+               int connections=(int)(minIdle*deployednumbers*instanceSEC);
                ArchSvnDbcpEvalutionOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionOut();
                archSvnDbcpEvalutionOut.setDatabase(databaseName);
                archSvnDbcpEvalutionOut.setConnections(String.valueOf(connections));

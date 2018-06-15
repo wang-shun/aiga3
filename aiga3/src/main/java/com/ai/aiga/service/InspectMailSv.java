@@ -70,11 +70,14 @@ public class InspectMailSv extends BaseService {
 			//生成大标题
 			if(titleMap.get(inspectMailData.getReportShowOrder()) == null){
 				String btitle = "  ";
-				switch(inspectMailData.getReportShowOrder().toString()){
-					case "1" : btitle="一、平台运营："; break;
-					case "2" : btitle="二、专题跟踪："; break;
-					case "3" : btitle="三、应用配置类："; break;
-					default:  break;
+				if(inspectMailData.getReportShowOrder() ==1L) {
+					btitle="一、平台运营：";
+				} else if(inspectMailData.getReportShowOrder() ==2L) {
+					btitle="二、专题跟踪：";
+				} else if(inspectMailData.getReportShowOrder() ==3L) {
+					btitle="三、应用配置类：";
+				} else {
+					//不存在此种情况
 				}
 				html+="<div style='font-weight: bold;font-family: 等线;'>"+btitle+"</div>";
 				titleMap.put(inspectMailData.getReportShowOrder(), inspectMailData.getReportShowOrder());

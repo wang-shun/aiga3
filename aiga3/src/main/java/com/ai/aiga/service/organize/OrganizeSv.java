@@ -344,13 +344,12 @@ public class OrganizeSv extends BaseService {
 		aigaStaffOrgRelatDao.save(orgRelat);
 	}
 	
-	public List<AigaStaffOrgRelat> findByStaffId(FouraStaffOrgRelatRequest request){
+	public List<AigaStaffOrgRelat> findByStaffId(Long request){
 		// 对象不为空
 		if (request == null) {
 			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRelatRequest");
 		}
-		AigaStaffOrgRelat orgRelat = BeanMapper.map(request, AigaStaffOrgRelat.class);
-		return aigaStaffOrgRelatDao.findByStaffId(orgRelat.getStaffId());
+		return aigaStaffOrgRelatDao.findByStaffId(request);
 	}
 	
 	public void updateFouraOrgRelat(AigaStaffOrgRelat request){

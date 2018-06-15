@@ -161,7 +161,7 @@ public class FouraController {
 			staff_code.setBillId(staff.getBillId());
 			staffsv.updateFouraStaff(staff_code);
 			//修改从账号-组织关联（4A不支持人员-组织）
-			List<AigaStaffOrgRelat> staff_org_relat_list = organizesv.findByStaffId(orgrelat);
+			List<AigaStaffOrgRelat> staff_org_relat_list = organizesv.findByStaffId(staff_code.getStaffId());
 			if(staff_org_relat_list.size()>0){
 				AigaStaffOrgRelat base = staff_org_relat_list.get(0);
 				base.setOrganizeId(orgrelat.getOrganizeId());
@@ -169,12 +169,12 @@ public class FouraController {
 			}
 		}else if(dealwith.equalsIgnoreCase("delete")){
 			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());
-			staffsv.deleteFouraStaff(staff_code.getStaffId());
+			Long staff_code_id = staff_code.getStaffId();
+			staffsv.deleteFouraStaff(staff_code_id);
 			//对应删除账号对应的角色关系；审计需要；
-			authorsv.deleteFouraStaffRoles(staff_code.getStaffId());
+			authorsv.deleteFouraStaffRoles(staff_code_id);
 			//对应删除人员-组织关联；
-			AigaStaff code_staff = staffsv.findStaffByCode(staff.getCode());
-			orgrelat.setStaffId(code_staff.getStaffId());
+			orgrelat.setStaffId(staff_code_id);
     		organizesv.deleteFouraOrgRelat(orgrelat);
 		}
         //DocumentHelper提供了创建Document对象的方法

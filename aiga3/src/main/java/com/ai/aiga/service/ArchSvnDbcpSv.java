@@ -155,23 +155,97 @@ public class ArchSvnDbcpSv extends BaseService {
      *@return
      *@author zhuchao
      *@version v1.0.0
+     *@date 18-6-15 上午9:27
+     */
+    public double solveException(String s1,double defalut){
+        double value=0;
+        try{
+            value=Double.parseDouble(s1);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            e.printStackTrace();
+            value=defalut;
+        }
+        return value;
+    }
+    /**
+     *
+     *@param
+     *@return
+     *@author zhuchao
+     *@version v1.0.0
      *@date 18-6-14 上午10:29
      */
-    public List<ArchSvnDbcpEvalutionOut> getEvalution(ArchSvnDbcpEvalutionIn condition){
+    public List<ArchSvnDbcpEvalutionOut> getEvalution(ArchSvnDbcpEvalutionIn condition)throws Exception{
            Long  tpsnumbers=condition.getTpsnumbers();
            String timetype=condition.getTimetype();
            Long serviceCalledTime=condition.getServiceCalledTime();
            Long deployednumbers=condition.getDeployednumbers();
            String databases=condition.getDatabases();
+           if(tpsnumbers==null||timetype==null||serviceCalledTime==null||deployednumbers==null||databases==null||databases.length()==0){
+               throw new Exception("传入参数出错");
+           }
+           double theoreticalSystemConcurrency=0;
+           if("sectime".equals(timetype)){
+               theoreticalSystemConcurrency=tpsnumbers/(60*1000)*serviceCalledTime;
+           }else if("mintime".equals(timetype)){
+               theoreticalSystemConcurrency=tpsnumbers/1000*serviceCalledTime;
+           }else {
+               throw  new Exception("系统错误!");
+           }
+           double sitcNumber=theoreticalSystemConcurrency/deployednumbers;
+           double minIdelSEC,maxIdleSEC,maxActiveSEC,instanceSEC=0;
+           String minIdleName=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","minIdleSEC").get(0).getCodeName();
+           minIdelSEC=solveException(minIdleName,1.0);
+           String maxIdleName=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","maxIdleSEC").get(0).getCodeName();
+           maxIdleSEC=solveException(maxIdleName,1.5);
+           String maxActiveName=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","maxActiveSEC").get(0).getCodeName();
+           maxActiveSEC=solveException(maxActiveName,2.0);
+           String instanceSECNAME=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","maxActiveSEC").get(0).getCodeName();
+           instanceSEC=solveException(instanceSECNAME,2.0);
+           Map<String,String> databaseMap=new HashMap<String,String>();
+           String[] databaseArray=databases.split(",");
+           for(int i=0;i<databaseArray.length;i++,i++){
+               databaseMap.put(databaseArray[i],databaseArray[i+1]);
+           }
            List<ArchSvnDbcpEvalutionOut> archSvnDbcpEvalutionOuts=new ArrayList<ArchSvnDbcpEvalutionOut>();
-           for(int i=0;i<2;i++){
+           String codeType = "POOLCONFIGURATION_DB_EVALUTION";
+           List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
+           Map<String,Map<String,String>> architectureDbs=new HashMap<String,Map<String,String>>();
+           if(null!=architectureStaticDatas){
+              for(ArchitectureStaticData architectureStaticData:architectureStaticDatas){
+                  String codeValue=architectureStaticData.getCodeValue();
+                  String codeName=architectureStaticData.getCodeName();
+                  String ext1=architectureStaticData.getExt1();
+                  String ext2=architectureStaticData.getExt2();
+                  Map<String,String> map=new HashMap<String, String>();
+                  map.put("ext1",ext1);
+                  map.put("ext2",ext2);
+                  map.put("codeName",codeName);
+                  architectureDbs.put(codeValue,map);
+              }
+           }
+           Iterator<Map.Entry<String, String>> it = databaseMap.entrySet().iterator();
+           while (it.hasNext()) {
+               Map.Entry<String, String> entry = it.next();
+               String databaseValue=entry.getKey();
+               int choose=Integer.parseInt(entry.getValue());
+               Map<String,String> map=architectureDbs.get(databaseValue);
+               String databaseName=map.get("codeName");
+               double ext1=solveException(map.get("ext1"),1.0);
+               double ext2=solveException(map.get("ext2"),1.0);
+               double sec=(choose==1)?ext1:ext2;
+               int minIdle=(int)(sitcNumber*sec*minIdelSEC)+1;
+               int maxIdle=(int)(sitcNumber*sec*maxIdleSEC)+1;
+               int maxActive=(int)(sitcNumber*sec*maxActiveSEC)+1;
+               int connections=(int)(sitcNumber*sec*minIdelSEC*deployednumbers*instanceSEC)+1;
                ArchSvnDbcpEvalutionOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionOut();
-               archSvnDbcpEvalutionOut.setDatabase("营业A库");
-               archSvnDbcpEvalutionOut.setConnections("100");
-               archSvnDbcpEvalutionOut.setMinIdle("200");
-               archSvnDbcpEvalutionOut.setMaxIdle("100");
-               archSvnDbcpEvalutionOut.setMaxActive("200");
-               archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
+               archSvnDbcpEvalutionOut.setDatabase(databaseName);
+               archSvnDbcpEvalutionOut.setConnections(String.valueOf(connections));
+               archSvnDbcpEvalutionOut.setMinIdle(String.valueOf(minIdle));
+               archSvnDbcpEvalutionOut.setMaxIdle(String.valueOf(maxIdle));
+               archSvnDbcpEvalutionOut.setMaxActive(String.valueOf(maxActive));
+
            }
            return archSvnDbcpEvalutionOuts;
     }

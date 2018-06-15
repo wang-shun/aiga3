@@ -181,15 +181,15 @@ public class ArchSvnDbcpSv extends BaseService {
            String timetype=condition.getTimetype();
            Long serviceCalledTime=condition.getServiceCalledTime();
            Long deployednumbers=condition.getDeployednumbers();
-           String databases=condition.getDatabases();
+           String databases=condition.getDbs();
            if(tpsnumbers==null||timetype==null||serviceCalledTime==null||deployednumbers==null||databases==null||databases.length()==0){
                throw new Exception("传入参数出错");
            }
            double theoreticalSystemConcurrency=0;
-           if("sectime".equals(timetype)){
-               theoreticalSystemConcurrency=tpsnumbers/(60*1000)*serviceCalledTime;
-           }else if("mintime".equals(timetype)){
-               theoreticalSystemConcurrency=tpsnumbers/1000*serviceCalledTime;
+           if("mintime".equals(timetype)){
+               theoreticalSystemConcurrency=tpsnumbers/(60.0*1000.0)*serviceCalledTime;
+           }else if("sectime".equals(timetype)){
+               theoreticalSystemConcurrency=tpsnumbers/1000.0*serviceCalledTime;
            }else {
                throw  new Exception("系统错误!");
            }
@@ -245,7 +245,7 @@ public class ArchSvnDbcpSv extends BaseService {
                archSvnDbcpEvalutionOut.setMinIdle(String.valueOf(minIdle));
                archSvnDbcpEvalutionOut.setMaxIdle(String.valueOf(maxIdle));
                archSvnDbcpEvalutionOut.setMaxActive(String.valueOf(maxActive));
-
+               archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
            }
            return archSvnDbcpEvalutionOuts;
     }

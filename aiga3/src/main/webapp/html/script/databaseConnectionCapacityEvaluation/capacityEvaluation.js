@@ -63,12 +63,12 @@ define(function(require, exports, module) {
                 var timetype= _form.find("[name='timetype']").val();
                 var serviceCalledTime=_form.find("[name='serviceCalledTime']").val();
                 var deployednumbers=_form.find("[name='deployednumbers']").val();
-                var databases=self._checkbox("databases");
-                cmd=cmd+"&databases="+databases;
+                var dbs=self._checkbox("databases");
+                cmd=cmd+"&dbs="+dbs;
                 console.log('tpsnumber:'+tpsnumbers);
                 console.log('timetype:'+timetype);
                 console.log('serviceCalledTime:'+serviceCalledTime);
-                console.log('databases:'+databases);
+                console.log('databases:'+dbs);
                 console.log('deployednumbers:'+deployednumbers);
                 console.log('cmd:'+cmd);
                 if(tpsnumbers==null||tpsnumbers <=0) {
@@ -93,6 +93,7 @@ define(function(require, exports, module) {
             }
             var _dom = Page.findId('evaluationList');
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            console.log(_cmd);
             Rose.ajax.postJson(srvMap.get('getEvalution'),_cmd,function(json, status){
                 if(status) {
                     window.XMS.msgbox.hide();

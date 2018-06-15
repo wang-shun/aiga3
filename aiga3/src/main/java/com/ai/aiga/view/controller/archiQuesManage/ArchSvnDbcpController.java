@@ -27,7 +27,7 @@ public class ArchSvnDbcpController {
         return bean;
     }
     @RequestMapping(path="/webservice/configure/getEvalution")
-    public @ResponseBody JsonBean getEvalution(ArchSvnDbcpEvalutionIn condition){
+    public @ResponseBody JsonBean getEvalution(ArchSvnDbcpEvalutionIn condition)throws Exception{
         JsonBean bean = new JsonBean();
         bean.setData(archSvnDbcpSv.getEvalution(condition));
         return bean;

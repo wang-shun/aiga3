@@ -17,6 +17,9 @@ define(function(require, exports, module) {
             this._load_table();
             //查询
             this._query_event();
+            
+            //加载icheck样式
+            this._icheck();
         },
         _load_table:function(){
             this._load_table_html(srvMap.get("getEvalDb"));
@@ -51,6 +54,15 @@ define(function(require, exports, module) {
             var radio_value=$("input[type='radio'][name='"+name+"']:checked").val()
             return radio_value;
         },
+        
+        _icheck:function(){
+        	debugger
+        	$('#Page_capacityEvaluation input').iCheck({
+    		    checkboxClass: 'icheckbox_minimal-red',
+    		    radioClass: 'iradio_minimal-red',
+    		    increaseArea: '20%' // optional
+    		});
+        },
 
         //绑定查询按钮事件
         _query_event: function() {
@@ -74,11 +86,15 @@ define(function(require, exports, module) {
                 if(tpsnumbers==null||tpsnumbers <=0) {
                     //XMS.msgbox.show('新接入业务tps(系统吞吐量)！需要正数', 'error', 2000);
                 	$(".toast__cell").css("display","block");
+                	$("#toast__message").text("新接入业务tps(系统吞吐量)！需要正数");
                 	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
                     return
                 }
                 if(serviceCalledTime==null||serviceCalledTime<=0){
                     XMS.msgbox.show('服务调用时长需要正数！', 'error', 2000);
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("服务调用时长需要正数！");
+                	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
                     return
                 }
                 self._getGridList(cmd);

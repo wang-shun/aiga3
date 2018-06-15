@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import com.ai.aiga.domain.AigaOrganize;
 import com.ai.aiga.domain.AigaStaff;
+import com.ai.aiga.domain.AigaStaffOrgRelat;
 import com.ai.aiga.domain.SysRole;
 import com.ai.aiga.service.AuthorSv;
 import com.ai.aiga.service.RoleSv;
@@ -30,7 +31,6 @@ import com.ai.aiga.view.controller.staff.dto.StaffInfoRequest;
 import com.ai.aiga.view.json.AuthorRoleRequest;
 import com.ai.aiga.view.json.base.JsonBean;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import io.swagger.annotations.Api;
@@ -73,6 +73,7 @@ public class FouraController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		SimpleDateFormat sdfts = new SimpleDateFormat("yyyyMMddhhmmss");
 		StaffInfoRequest staff = new StaffInfoRequest();
+        FouraStaffOrgRelatRequest orgrelat = new FouraStaffOrgRelatRequest();
 		// 创建解析器工厂
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		// 由工厂创建一个DocumentBuilder解析器
@@ -96,12 +97,14 @@ public class FouraController {
 				Node info = infos.item(j);
 				if(info.getNodeName().equals("APPID")){
 					staff.setOpId(Long.parseLong(info.getTextContent()));
+                	orgrelat.setOpId(Long.parseLong(info.getTextContent()));
 				}else if(info.getNodeName().equals("MODIFYMODE")){
 					dealwith = info.getTextContent();
 					staff.setOldCode(info.getTextContent());
 				}else if(info.getNodeName().equals("TIMESTAMP")){
 					Date sys_date = sdfts.parse(info.getTextContent());  
 					staff.setAcctEffectDate(sys_date);
+        			orgrelat.setExpireDate(sys_date);
 				}else if(info.getNodeName().equals("IDENTITYENTITY")){
 					staff.setCardNo(info.getTextContent());
 				}else if(info.getNodeName().equals("USER_ID")){
@@ -113,6 +116,9 @@ public class FouraController {
 					staff.setName(info.getTextContent());
 				}else if(info.getNodeName().equals("ORG_ID")){
 					staff.setOrgId(Long.parseLong(info.getTextContent()));
+                	orgrelat.setOrganizeId(Long.parseLong(info.getTextContent()));
+                	orgrelat.setIsAdminStaff("N".charAt(0));
+                	orgrelat.setIsBaseOrg("Y".charAt(0));
 				}else if(info.getNodeName().equals("EMAIL")){
 					staff.setEmail(info.getTextContent());
 				}else if(info.getNodeName().equals("MOBILE")){
@@ -130,28 +136,46 @@ public class FouraController {
 				}else if(info.getNodeName().equals("CREATE_TIME")){
 					Date create_date = sdf.parse(info.getTextContent());  
 					staff.setValidDate(create_date);
+					orgrelat.setCreateDate(create_date);
 				}else if(info.getNodeName().equals("UPDATE_TIME")){
 					Date done_date = sdf.parse(info.getTextContent());  
 					staff.setValidDate(done_date);
+					orgrelat.setDoneDate(done_date);
 				}else if(info.getNodeName().equals("WORK_NO")){
 					staff.setDoneCode(Long.parseLong(info.getTextContent()));
+					orgrelat.setDoneCode(Long.parseLong(info.getTextContent()));  
 				}
 			}
 		}
 		//判断操作类型add/update/delete执行不同的操作
 		if(dealwith.equalsIgnoreCase("add")){
 			staffsv.saveFouraStaff(staff);
+			AigaStaff added_staff = staffsv.findStaffByCode(staff.getCode());
+			//保存从账号-组织关联（4A不支持人员-组织）
+			orgrelat.setStaffId(added_staff.getStaffId());
+			organizesv.saveFouraOrgRelat(orgrelat);
 		}else if(dealwith.equalsIgnoreCase("update")){
 			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());
 			staff_code.setOrgId(staff.getOrgId());
 			staff_code.setEmail(staff.getEmail());
 			staff_code.setBillId(staff.getBillId());
 			staffsv.updateFouraStaff(staff_code);
+			//修改从账号-组织关联（4A不支持人员-组织）
+			List<AigaStaffOrgRelat> staff_org_relat_list = organizesv.findByStaffId(orgrelat);
+			if(staff_org_relat_list.size()>0){
+				AigaStaffOrgRelat base = staff_org_relat_list.get(0);
+				base.setOrganizeId(orgrelat.getOrganizeId());
+				organizesv.updateFouraOrgRelat(base);
+			}
 		}else if(dealwith.equalsIgnoreCase("delete")){
 			AigaStaff staff_code = staffsv.findStaffByCode(staff.getCode());
 			staffsv.deleteFouraStaff(staff_code.getStaffId());
 			//对应删除账号对应的角色关系；审计需要；
 			authorsv.deleteFouraStaffRoles(staff_code.getStaffId());
+			//对应删除人员-组织关联；
+			AigaStaff code_staff = staffsv.findStaffByCode(staff.getCode());
+			orgrelat.setStaffId(code_staff.getStaffId());
+    		organizesv.deleteFouraOrgRelat(orgrelat);
 		}
         //DocumentHelper提供了创建Document对象的方法
 		org.dom4j.Document document = DocumentHelper.createDocument();

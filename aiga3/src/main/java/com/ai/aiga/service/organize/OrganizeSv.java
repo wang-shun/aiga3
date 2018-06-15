@@ -344,6 +344,23 @@ public class OrganizeSv extends BaseService {
 		aigaStaffOrgRelatDao.save(orgRelat);
 	}
 	
+	public List<AigaStaffOrgRelat> findByStaffId(FouraStaffOrgRelatRequest request){
+		// 对象不为空
+		if (request == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRelatRequest");
+		}
+		AigaStaffOrgRelat orgRelat = BeanMapper.map(request, AigaStaffOrgRelat.class);
+		return aigaStaffOrgRelatDao.findByStaffId(orgRelat.getStaffId());
+	}
+	
+	public void updateFouraOrgRelat(AigaStaffOrgRelat request){
+		// 对象不为空
+		if (request == null) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "orginazeRelatRequest");
+		}
+		aigaStaffOrgRelatDao.save(request);
+	}
+	
 	public void deleteFouraOrgRelat(FouraStaffOrgRelatRequest request){
 		// 对象不为空
 		if (request == null) {

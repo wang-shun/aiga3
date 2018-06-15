@@ -18,6 +18,10 @@ public interface AigaStaffOrgRelatDao extends JpaRepository<AigaStaffOrgRelat, L
 	void deleteByStaffIdAndOrgId(Long staffId, Long orga);
 	
 	@Modifying
+	@Query("select o from AigaStaffOrgRelat o where o.staffId = ?1 ")
+	List<AigaStaffOrgRelat> findByStaffId(Long staffId);
+	
+	@Modifying
 	@Query("update AigaStaffOrgRelat o set o.isAdminStaff = ?3 , o.isBaseOrg = ?4 where o.staffId = ?1 and o.organizeId = ?2")
 	void updateByStaffIdAndOrgId(Long staffId, Long organizeId, Character isAdminStaff,
 			Character isBaseOrg);

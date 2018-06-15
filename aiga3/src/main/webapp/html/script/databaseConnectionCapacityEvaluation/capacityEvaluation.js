@@ -13,28 +13,28 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-            this._load_table();
             //查询
             this._query_event();
+            
+            this._load_table();
         },
         _load_table:function(){
-            $('#input').iCheck({
-                labelHover : false,
-                cursor : true,
-                checkboxClass : 'icheckbox_squarte-blue',
-                radioClass : 'iradio_square-blue',
-                increaseArea : '20%'
-            });
-            this._load_table_html(srvMap.get("getEvalDb"));
+            this._load_table_html();
         },
-        _load_table_html:function(url,cmd){
+        _load_table_html:function(){
             var self = this;
-         //   XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.postJson(url, cmd, function(json, status) {
+            Rose.ajax.postJson(srvMap.get("getEvalDb"), '', function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Page.findTpl('tableList'));
                     var tablebtn = Page.findId("tableForm");
                     tablebtn.html(template(json.data));
+                    $('#Page_capacityEvaluation input').iCheck({
+                        labelHover : false,
+                        cursor : true,
+                        checkboxClass : 'icheckbox_square-blue',
+                        radioClass : 'iradio_square-green',
+                        increaseArea : '20%'
+                    });
                 }
             });
         },
@@ -71,12 +71,6 @@ define(function(require, exports, module) {
                 var deployednumbers=_form.find("[name='deployednumbers']").val();
                 var dbs=self._checkbox("databases");
                 cmd=cmd+"&dbs="+dbs;
-                console.log('tpsnumber:'+tpsnumbers);
-                console.log('timetype:'+timetype);
-                console.log('serviceCalledTime:'+serviceCalledTime);
-                console.log('databases:'+dbs);
-                console.log('deployednumbers:'+deployednumbers);
-                console.log('cmd:'+cmd);
                 if(tpsnumbers==null||tpsnumbers <=0) {
                 	$(".toast__cell").css("display","block");
                 	$("#toast__message").text("请输入新接入业务tps(系统吞吐量)！");

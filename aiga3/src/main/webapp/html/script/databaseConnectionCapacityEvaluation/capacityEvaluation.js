@@ -75,18 +75,27 @@ define(function(require, exports, module) {
                 	$(".toast__cell").css("display","block");
                 	$("#toast__message").text("请输入新接入业务tps(系统吞吐量)！");
                 	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                	$(".toast__close").click(function(){
+                		$(".toast__cell").css("display","none");
+                	});
                     return
                 }
                 if(serviceCalledTime==null||serviceCalledTime<=0){
                     $(".toast__cell").css("display","block");
                     $("#toast__message").text("请输入服务调用时长！");
                 	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                	$(".toast__close").click(function(){
+                		$(".toast__cell").css("display","none");
+                	});
                     return
                 }
                 if(deployednumbers==null||deployednumbers<=0){
                     $(".toast__cell").css("display","block");
                     $("#toast__message").text("请输入新增部署实例数！");
                     setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                    $(".toast__close").click(function(){
+                		$(".toast__cell").css("display","none");
+                	});
                     return
                 }
                 self._getGridList(cmd);

@@ -18,13 +18,6 @@ define(function(require, exports, module) {
             this._query_event();
         },
         _load_table:function(){
-            $('#input').iCheck({
-                labelHover : false,
-                cursor : true,
-                checkboxClass : 'icheckbox_squarte-blue',
-                radioClass : 'iradio_square-blue',
-                increaseArea : '20%'
-            });
             this._load_table_html(srvMap.get("getEvalDb"));
         },
         _load_table_html:function(url,cmd){
@@ -35,6 +28,13 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Page.findTpl('tableList'));
                     var tablebtn = Page.findId("tableForm");
                     tablebtn.html(template(json.data));
+                    $('#Page_capacityEvaluation input[type="radio"]').iCheck({
+                        labelHover : false,
+                        cursor : true,
+                        checkboxClass : 'icheckbox_squarte-blue',
+                        radioClass : 'iradio_square-blue',
+                        increaseArea : '20%'
+                    });
                 }
             });
         },

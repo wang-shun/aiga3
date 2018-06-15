@@ -1,5 +1,4 @@
 define(function(require, exports, module) {
-    require("lib/iCheck/icheck.min.js");
     // 通用工具模块
     var Utils = require("global/utils.js");
     var pathAlias = "databaseConnectionCapacityEvaluation/";
@@ -19,11 +18,18 @@ define(function(require, exports, module) {
             this._query_event();
         },
         _load_table:function(){
+            $('#input').iCheck({
+                labelHover : false,
+                cursor : true,
+                checkboxClass : 'icheckbox_squarte-blue',
+                radioClass : 'iradio_square-blue',
+                increaseArea : '20%'
+            });
             this._load_table_html(srvMap.get("getEvalDb"));
         },
         _load_table_html:function(url,cmd){
             var self = this;
-            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+         //   XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             Rose.ajax.postJson(url, cmd, function(json, status) {
                 if (status) {
                     var template = Handlebars.compile(Page.findTpl('tableList'));
@@ -72,17 +78,21 @@ define(function(require, exports, module) {
                 console.log('deployednumbers:'+deployednumbers);
                 console.log('cmd:'+cmd);
                 if(tpsnumbers==null||tpsnumbers <=0) {
-                    //XMS.msgbox.show('新接入业务tps(系统吞吐量)！需要正数', 'error', 2000);
                 	$(".toast__cell").css("display","block");
-                	$("#toast__message").text("新接入业务tps(系统吞吐量)！需要正数");
+                	$("#toast__message").text("请输入新接入业务tps(系统吞吐量)！");
                 	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
                     return
                 }
                 if(serviceCalledTime==null||serviceCalledTime<=0){
-                    //XMS.msgbox.show('服务调用时长需要正数！', 'error', 2000);
                     $(".toast__cell").css("display","block");
-                    $("#toast__message").text("服务调用时长需要正数！");
+                    $("#toast__message").text("请输入服务调用时长！");
                 	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                    return
+                }
+                if(deployednumbers==null||deployednumbers<=0){
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("请输入新增部署实例数！");
+                    setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
                     return
                 }
                 self._getGridList(cmd);

@@ -182,8 +182,12 @@ public class ArchSvnDbcpSv extends BaseService {
            Long serviceCalledTime=condition.getServiceCalledTime();
            Long deployednumbers=condition.getDeployednumbers();
            String databases=condition.getDbs();
-           if(tpsnumbers==null||timetype==null||serviceCalledTime==null||deployednumbers==null||databases==null||databases.length()==0){
+           if(tpsnumbers==null||timetype==null||serviceCalledTime==null||deployednumbers==null){
                throw new Exception("传入参数出错");
+           }
+           List<ArchSvnDbcpEvalutionOut> archSvnDbcpEvalutionOuts=new ArrayList<ArchSvnDbcpEvalutionOut>();
+           if(databases==null||databases.length()==0){
+               return archSvnDbcpEvalutionOuts;
            }
            double theoreticalSystemConcurrency=0;
            if("mintime".equals(timetype)){
@@ -208,7 +212,6 @@ public class ArchSvnDbcpSv extends BaseService {
            for(int i=0;i<databaseArray.length;i++,i++){
                databaseMap.put(databaseArray[i],databaseArray[i+1]);
            }
-           List<ArchSvnDbcpEvalutionOut> archSvnDbcpEvalutionOuts=new ArrayList<ArchSvnDbcpEvalutionOut>();
            String codeType = "POOLCONFIGURATION_DB_EVALUTION";
            List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
            Map<String,Map<String,String>> architectureDbs=new HashMap<String,Map<String,String>>();

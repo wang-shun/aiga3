@@ -40,6 +40,81 @@
         width:25%;
         float:left;
     }
+    
+    .toast__cell{
+  		display:inline-block;
+	}
+
+	.add-margin{
+	  margin-top:20px;
+	}
+	
+	.toast__svg{
+	  fill:#fff;
+	}
+	
+	.toast {
+	  text-align:left;
+	    padding: 21px 0;
+	    background-color:#fff;
+	    border-radius:4px;
+	    max-width: 500px;
+	    top: 0px;
+	    position:relative;
+	    box-shadow: 1px 7px 14px -5px rgba(0,0,0,0.2);
+	}
+	
+	
+	.toast:before {
+	    content: '';
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 4px;
+	    height: 100%;
+	  border-top-left-radius:4px;
+	  border-bottom-left-radius: 4px;
+	
+	}
+	
+	.toast__icon{
+	  position:absolute;
+	  top:50%;
+	  left:22px;
+	  transform:translateY(-50%);
+	  width:14px;
+	  height:14px;
+	  padding: 7px;
+	  border-radius:50%;
+	  display:inline-block;
+	}
+	
+	.toast__type {
+	  color: #3e3e3e;
+	  font-weight: 700;
+	  margin-top: 0;
+	  margin-bottom: 8px;
+	}
+	
+	.toast__message {
+	    font-size: 14px;
+	    margin-top: 0;
+	  margin-bottom: 0;
+	    color: #878787;
+	}
+	
+	.toast__content{
+	  padding-left:70px;
+	  padding-right:60px;
+	}
+	
+	.toast--yellow .toast__icon{
+  		background-color:red;
+	}
+
+	.toast--yellow:before{
+  		background-color:red;
+	}   
 </style>
    <div class="row" id="Page_capacityEvaluation">
      <div class="col-md-12">
@@ -75,11 +150,11 @@
                         </div>
                     </div>
                 </div>
-                <div style="margin-top: 10px">
+                <!-- <div style="margin-top: 10px">
                     <h class="div_databasetext_sytle tx_size">请选择待评估数据库(多选)：</h>
-                </div>
-                <div id="JS_tableForm" class="col-md-12"></div>
-                <div class="box-footer">
+                </div> -->
+                	<div id="JS_tableForm" class="col-md-12" style="border:1px solid #f5f3f3;margin-bottom:5px;"></div>
+                	<div class="box-footer">
                         <div class="text-center">
                             <button type="reset" class="btn btn-default">重置</button>
                             <button type="button" class="btn btn-primary"  name="query">提交</button>
@@ -121,15 +196,41 @@
 		</textarea>
     </div>
    </div>
+   
+<!-- 弹出框样式 -->  
+<div class="toast__cell" style="position:absolute;left:38%;top:30%;display:none;">	
+	<div class="toast toast--yellow add-margin">
+  	 <div class="toast__icon">
+	  <svg version="1.1" class="toast__svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 301.691 301.691" style="enable-background:new 0 0 301.691 301.691;" xml:space="preserve">
+        <g>
+	      <polygon points="119.151,0 129.6,218.406 172.06,218.406 182.54,0  "></polygon>
+	       <rect x="130.563" y="261.168" width="40.525" height="40.523"></rect>
+        </g>
+      </svg>
+     </div>
+  <div class="toast__content">
+    <p class="toast__type">警告</p>
+    <p class="toast__message">新接入业务tps(系统吞吐量)！需要正数。</p>
+  </div>	
+</div>   
+   
 
 <!-- 表格数据 -->
 <script id="TPL_tableList" type="text/x-handlebars-template">
-    {{#each this}}
+
+    <h5 class="tx_size" style="margin-left:4px;">请选择待评估数据库(是否要XXX)：</h5>
+	
+    {{#each this}}		
         <div class="col-md-4 check_pub_sty">
-            <input name="databases" value={{dbName}} type="checkbox" /><label class="check_table_sty" >{{dbValue}}</label>
-            <input type="radio" value="1" name={{dbName}}>是</input><input type="radio" value="0" name={{dbName}} checked="checked">否</input>
+			<div class="col-md-4">
+            	<input name="databases" value={{dbName}} type="checkbox" /><label class="check_table_sty" >{{dbValue}}</label>
+			</div>
+			<div class="col-md-3">
+            	<input type="radio" value="1" name={{dbName}}>是</input><input type="radio" value="0" name={{dbName}} checked="checked">否</input>
+			</div>
         </div>
     {{/each}}
+	
 </script>
 <!-- 表格数据 -->
 <script id="TPL_evaluationList" type="text/x-handlebars-template">

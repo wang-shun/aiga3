@@ -72,7 +72,9 @@ define(function(require, exports, module) {
                 console.log('deployednumbers:'+deployednumbers);
                 console.log('cmd:'+cmd);
                 if(tpsnumbers==null||tpsnumbers <=0) {
-                    XMS.msgbox.show('新接入业务tps(系统吞吐量)！需要正数', 'error', 2000);
+                    //XMS.msgbox.show('新接入业务tps(系统吞吐量)！需要正数', 'error', 2000);
+                	$(".toast__cell").css("display","block");
+                	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
                     return
                 }
                 if(serviceCalledTime==null||serviceCalledTime<=0){
@@ -103,6 +105,6 @@ define(function(require, exports, module) {
                 }
             });
         }
-        };
+    };
     module.exports = init;
 });

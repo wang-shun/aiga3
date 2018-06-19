@@ -139,14 +139,33 @@ public class ArchSvnDbcpSv extends BaseService {
     public List<ArchSvnDbcpEvalutionDbOut> getEvalDb(){
         String codeType = "POOLCONFIGURATION_DB_EVALUTION";
         List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
-        List<ArchSvnDbcpEvalutionDbOut> archSvnDbcpEvalutionOuts=new ArrayList<ArchSvnDbcpEvalutionDbOut>();
-        if(architectureStaticDatas!=null&&architectureStaticDatas.size()>0){
+        Map<String,Map<String,String>> architectureDbs=new HashMap<String,Map<String,String>>();
+        if(null!=architectureStaticDatas&&architectureStaticDatas.size()>0){
             for(ArchitectureStaticData architectureStaticData:architectureStaticDatas){
-                ArchSvnDbcpEvalutionDbOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionDbOut();
-                archSvnDbcpEvalutionOut.setDbName(architectureStaticData.getCodeValue());
-                archSvnDbcpEvalutionOut.setDbValue(architectureStaticData.getCodeName());
-                archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
+                String codeValue=architectureStaticData.getCodeValue();
+                String codeName=architectureStaticData.getCodeName();
+                String ext1=architectureStaticData.getExt1();
+                String ext2=architectureStaticData.getExt2();
+                Map<String,String> map=new HashMap<String, String>();
+                map.put("ext1",ext1);
+                map.put("ext2",ext2);
+                map.put("codeName",codeName);
+                architectureDbs.put(codeValue,map);
             }
+        }
+        List<ArchSvnDbcpEvalutionDbOut> archSvnDbcpEvalutionOuts=new ArrayList<ArchSvnDbcpEvalutionDbOut>();
+        Iterator<Map.Entry<String, Map<String,String>>> it = architectureDbs.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Map<String,String>> entry = it.next();
+            String dbName=entry.getKey();
+            Map<String,String> map=entry.getValue();
+            String dbValue=map.get("codeName");
+            double ext2=solveException(map.get("ext2"),1.0);
+            ArchSvnDbcpEvalutionDbOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionDbOut();
+            archSvnDbcpEvalutionOut.setDbName(dbName);
+            archSvnDbcpEvalutionOut.setDbValue(dbValue);
+            archSvnDbcpEvalutionOut.setConversionFactor(String.valueOf(new BigDecimal(ext2).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()));
+            archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
         }
         return archSvnDbcpEvalutionOuts;
     }
@@ -253,37 +272,42 @@ public class ArchSvnDbcpSv extends BaseService {
            maxActiveSEC=solveException(maxActiveName,2.0);
            String instanceSECNAME=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","maxActiveSEC").get(0).getCodeName();
            instanceSEC=solveException(instanceSECNAME,2.0);
-           Map<String,String> databaseMap=new HashMap<String,String>();
+           Map<String,Map<String,String>> databaseMap=new HashMap<String,Map<String,String>>();
            String[] databaseArray=databases.split(",");
-           for(int i=0;i<databaseArray.length;i++,i++){
-               databaseMap.put(databaseArray[i],databaseArray[i+1]);
+           for(int i=0;i<databaseArray.length;i++,i++,i++){
+               Map<String,String> map=new HashMap<String,String>();
+               map.put("choose",databaseArray[i+1]);
+               map.put("ext",databaseArray[i+2]);
+               databaseMap.put(databaseArray[i],map);
            }
            String codeType = "POOLCONFIGURATION_DB_EVALUTION";
            List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeType(codeType);
            Map<String,Map<String,String>> architectureDbs=new HashMap<String,Map<String,String>>();
-           if(null!=architectureStaticDatas){
+           if(null!=architectureStaticDatas&&architectureStaticDatas.size()>0){
               for(ArchitectureStaticData architectureStaticData:architectureStaticDatas){
                   String codeValue=architectureStaticData.getCodeValue();
                   String codeName=architectureStaticData.getCodeName();
-                  String ext1=architectureStaticData.getExt1();
-                  String ext2=architectureStaticData.getExt2();
+                 // String ext1=architectureStaticData.getExt1();
+                 // String ext2=architectureStaticData.getExt2();
                   Map<String,String> map=new HashMap<String, String>();
-                  map.put("ext1",ext1);
-                  map.put("ext2",ext2);
+                 // map.put("ext1",ext1);
+                //  map.put("ext2",ext2);
                   map.put("codeName",codeName);
                   architectureDbs.put(codeValue,map);
               }
            }
-           Iterator<Map.Entry<String, String>> it = databaseMap.entrySet().iterator();
+           Iterator<Map.Entry<String, Map<String,String>>> it = databaseMap.entrySet().iterator();
            while (it.hasNext()) {
-               Map.Entry<String, String> entry = it.next();
+               Map.Entry<String, Map<String,String>> entry = it.next();
                String databaseValue=entry.getKey();
-               int choose=Integer.parseInt(entry.getValue());
+               Map<String,String> mapExt=entry.getValue();
+              // int choose=Integer.parseInt(entry.getValue());
                Map<String,String> map=architectureDbs.get(databaseValue);
                String databaseName=map.get("codeName");
-               double ext1=solveException(map.get("ext1"),1.0);
-               double ext2=solveException(map.get("ext2"),1.0);
-               double sec=(choose==1)?ext1:ext2;
+             //  double ext1=solveException(map.get("ext1"),1.0);
+               // double ext2=solveException(map.get("ext2"),1.0);
+               //double sec=(choose==1)?ext1:ext2;
+               double sec=solveException(mapExt.get("ext"),1.0);
                int minIdle=(int)(sitcNumber*sec*minIdelSEC)+1;
                int maxIdle=(int)(sitcNumber*sec*maxIdleSEC)+1;
                int maxActive=(int)(sitcNumber*sec*maxActiveSEC)+1;

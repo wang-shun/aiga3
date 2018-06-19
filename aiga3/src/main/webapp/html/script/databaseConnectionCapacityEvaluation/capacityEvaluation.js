@@ -40,10 +40,23 @@ define(function(require, exports, module) {
                         radioClass : 'iradio_square-green',
                         increaseArea : '20%'
                     });
+                    //设置分页
+                 //   self.initPaging($('#JS_evalDbList'),4);
                     Utils.eventTrClickCallback(_dom);
                 }else {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
+            });
+        },
+        initPaging:function(obj,length){
+            obj.find("table").DataTable({
+                "iDisplayLength":length,
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": false,
+                "info": true,
+                "autoWidth": false
             });
         },
         _checkbox:function (name) {
@@ -54,8 +67,10 @@ define(function(require, exports, module) {
                         var radio_value=this._radio(obj[k].value);
                         console.log(radio_value);
                         var databases=[];
+                        var text= $('#Page_capacityEvaluation span[name='+obj[k].value+']').text();
                         databases.push(obj[k].value);
                         databases.push(radio_value);
+                        databases.push(text);
                         checkbox_values.push(databases);
                     }
                 }

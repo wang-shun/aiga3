@@ -110,7 +110,10 @@
 	    height: 14px;
 	  	fill:#878787;
 	    transform: translateY(-50%);
-	}    
+	}
+	.table_button_style{
+		margin-left: 20px;
+	}
 </style>
 <div class="row" id="Page_capacityEvaluation">
      <div class="col-md-12">
@@ -147,7 +150,7 @@
 	                     <div class="col-md-4"><input class="sct" type="number"  name="deployednumbers" /></div>
 	                  </div>
 	              </div>
-	              <div id="JS_tableForm" class="col-md-12" style="border-top:1px solid #f5f3f3">
+	              <div id="JS_tableForm" class="col-md-10" style="border-top:1px solid #f5f3f3">
 					  <div class="box" id="JS_evalDbList" style="min-height:100px;">
 						  <h5 class="tx_size" style="margin-left:4px;">请选择待评估数据库：</h5>
 						  <div class="box-body">
@@ -161,9 +164,6 @@
 								  </thead>
 								  <tbody name="contentdb"></tbody>
 							  </table>
-						  </div>
-						  <div class="box-footer no-border">
-							  <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
 						  </div>
 					  </div>
 				  </div>
@@ -198,9 +198,6 @@
 					 </thead>
 					 <tbody name="content"></tbody>
 				 </table>
-			 </div>
-			 <div class="box-footer no-border">
-				 <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
 			 </div>
 		 </div>
 	 </div>
@@ -248,23 +245,16 @@
 <!-- 表格数据 -->
 <script id="TPL_tableList" type="text/x-handlebars-template">
     {{#each this}}
-        <!--<div class="col-md-3 check_pub_sty">
-			<div class="col-md-6">
-            	<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
-			</div>
-			<div class="col-md-6">
-            	<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
-			</div>
-        </div>-->
 	<tr>
-		<td class="table-word-center">
+		<td class="table-word-center col-md-3">
 			<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
 		</td>
-		<td class="table-word-center">
+		<td class="table-word-center col-md-5">
 			<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
 		</td>
-		<td class="table-word-center">
-			0.8
+		<td class="table-word-center col-md-4">
+			<span name={{dbName}}>{{conversionFactor}}</span>
+			<button type="button" class="btn btn-primary table_button_style"  name="change">修改</button>
 		</td>
 	</tr>
     {{/each}}

@@ -11,5 +11,6 @@ import java.io.Serializable;
 public class ArchSvnDbcpEvalutionDbOut implements Serializable {
     private String dbName;
     private String dbValue;
+    private String  conversionFactor;
 
 }

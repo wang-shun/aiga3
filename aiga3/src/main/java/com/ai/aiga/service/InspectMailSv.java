@@ -33,6 +33,10 @@ public class InspectMailSv extends BaseService {
 	
 	public String creatInspectMailHtml(String time) throws ParseException {
 		List<InspectMailData> inspectMailDatas = getDataByTime(time);
+		//无数据处理
+		if(inspectMailDatas==null || inspectMailDatas.size()==0) {
+			return null;
+		}
 		//处理时间
 		SimpleDateFormat dataf = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");//目标格式

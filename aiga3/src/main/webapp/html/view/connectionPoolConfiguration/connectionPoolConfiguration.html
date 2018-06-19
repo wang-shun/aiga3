@@ -54,15 +54,15 @@
                 <div class="box-body"><br/>		            
 		            <div class="row">
 		            	<div class="col-sm-4">
-		            		<label class="col-sm-2  control-label">采集日期:</label>
-		            		<div class="col-sm-4">
-                  				<input type="text" class="form-control input-sm " name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+		            		<label class="col-sm-3  control-label">采集日期:</label>
+		            		<div class="col-sm-5">
+                  				<input type="text" class="form-control input-sm" name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
                   		</div>
                 		<div class="col-sm-4">
-		                    <label  class="col-sm-2  control-label">业务系统：</label>
-		                    <div class="col-sm-4 min-height">
-		                    	<select name="center" class="form-control select2 input-sm" data-url="distinctCenter" data-subname="db" data-idkey="center" data-namekey="centerName">
+		                    <label  class="col-sm-3  control-label">业务系统：</label>
+		                    <div class="col-sm-5 min-height">
+		                    	<select name="center" class="form-control select2 input-sm"   data-url="distinctCenter" data-subname="db" data-idkey="center" data-namekey="centerName">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
@@ -70,24 +70,24 @@
 		            </div>
 		            <div class ="row">
 						<div class="col-sm-4">
-							<label  class="col-sm-2  control-label">系统模块：</label>
-							<div class="col-sm-4 min-height">
+							<label  class="col-sm-3  control-label">系统模块：</label>
+							<div class="col-sm-5 min-height">
 								<select name="module" class="form-control select2 input-sm" data-suburl="distinctModule" data-idkey="module" data-namekey="module">
 									<option value="">请选择</option>
 								</select>
 							</div>
 						</div>
 		            	<div class="col-sm-4">
-		                    <label  class="col-sm-2  control-label">数据库节点名：</label>
-		                    <div class="col-sm-4 min-height">
+		                    <label  class="col-sm-3  control-label">数据库节点名：</label>
+		                    <div class="col-sm-5 min-height">
                    				<select name="db" class="form-control select2 input-sm" data-suburl="distinctDb" data-idkey="db" data-namekey="db">
 			                        <option value="">请选择</option>
 			                    </select>
 			                </div>
 		                </div>
 		                <div class="col-sm-4">
-		                    <label  class="col-sm-2  control-label">查询状态：</label>
-		                    <div class="col-sm-4 min-height">
+		                    <label  class="col-sm-3  control-label">查询状态：</label>
+		                    <div class="col-sm-5 min-height">
 		                        <select name="isChange" class="form-control select2 input-sm" data-url="queryState" data-idkey="codeValue" data-namekey="codeName">		                    
 			                        <option value="">请选择</option>
 			                    </select>

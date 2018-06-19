@@ -108,74 +108,74 @@
 </style>
 <div class="row" id="Page_capacityEvaluation">
      <div class="col-md-12">
-           <div class="box">
-              <form id="JS_queryDataForm" >
-                <div class="box-header with-border">
-                    <h3 class="box-title">新接入业务数据库连接容量评估</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="box-body" id="JS_text">
-                    <div style="margin-top:10px">
-                        <div class="col-md-5">
-                            <div class="col-md-6"><span>请输入新接入业务tps(系统吞吐量):</span></div>
-                            <div class="col-md-6">
-                             <input class="sct" type="number"  name="tpsnumbers"   oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
-                             <h>笔/</h>
-                             <select class="select_size" name="timetype">
-                               <option value ="sectime">秒</option>
-                               <option value ="mintime">分</option>
-                             </select>
-                     	</div>
-                        </div>
-                        <div class="col-md-3">
-                        	<div class="col-md-8"><span>请输入服务调用时长(毫秒ms):</span></div>
-                            <div class="col-md-4">
-                            	<input class="sct" type="number"  name="serviceCalledTime" oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
-                        	</div>
-                        </div >
-                        <div class="col-md-3">
-                           <div class="col-md-6"><span>预计新增部署实例数:</span></div>
-                           <div class="col-md-4"><input class="sct" type="number"  name="deployednumbers" /></div>
-                        </div>
-                    </div>
-                    <div id="JS_tableForm" class="col-md-12" style="border-top:1px solid #f5f3f3"></div>
-                </div>
-                <div class="box-footer">
-                    <div class="text-center">
-                        <button type="reset" class="btn btn-default">重置</button>
-                        <button type="button" class="btn btn-primary"  name="query">提交</button>
-                    </div>
-                </div>
-               </form>
-           </div>
-    </div>
+	     <div class="box">
+	        <form id="JS_queryDataForm" >
+	          <div class="box-header with-border">
+	              <h3 class="box-title">新接入业务数据库连接容量评估</h3>
+	              <div class="box-tools pull-right">
+	                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+	                  </button>
+	              </div>
+	          </div>
+	          <div class="box-body" id="JS_text">
+	              <div style="margin-top:10px">
+	                  <div class="col-md-5">
+	                    <div class="col-md-6"><span>请输入新接入业务tps(系统吞吐量):</span></div>
+	                    <div class="col-md-6">
+							<input class="sct" type="number"  name="tpsnumbers"   oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
+							<h>笔/</h>
+							<select class="select_size" name="timetype">
+							  <option value ="sectime">秒</option>
+							  <option value ="mintime">分</option>
+							</select>
+	               	    </div>
+	                  </div>
+	                  <div class="col-md-3">
+	                  	<div class="col-md-7"><span>请输入服务调用时长(毫秒ms):</span></div>
+	                    <div class="col-md-4">
+	                      	<input class="sct" type="number"  name="serviceCalledTime" oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
+	                  	</div>
+	                  </div >
+	                  <div class="col-md-3">
+	                     <div class="col-md-6"><span>预计新增部署实例数:</span></div>
+	                     <div class="col-md-4"><input class="sct" type="number"  name="deployednumbers" /></div>
+	                  </div>
+	              </div>
+	              <div id="JS_tableForm" class="col-md-12" style="border-top:1px solid #f5f3f3"></div>
+	          </div>
+	          <div class="box-footer">
+	              <div class="text-center">
+	                  <button type="reset" class="btn btn-default">重置</button>
+	                  <button type="button" class="btn btn-primary"  name="query">提交</button>
+	              </div>
+	          </div>
+	         </form>
+	     </div>
+     </div>
      <div class="col-md-12">
-                <div class="box" id="JS_evaluationList" style="min-height:100px;">
-                    <div class="box-header ">
-                        <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
-                    </div>
-                    <div class="box-body">
-                        <table class="table table-bordered table-hover" id="dataMaintainListTable">
-                            <thead>
-                            <tr>
-                                <th class="table-word-center spl-thead-color1">数据库名</th>
-                                <th class="table-word-center spl-thead-color2">预计增长连接数</th>
-                                <th class="table-word-center spl-thead-color1">minIdle参考值</th>
-                                <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
-                                <th class="table-word-center spl-thead-color1">maxActive参考值</th>
-                            </tr>
-                            </thead>
-                            <tbody name="content"></tbody>
-                        </table>
-                    </div>
-                    <div class="box-footer no-border">
-                        <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-                    </div>
-                </div>
-    </div>
+	     <div class="box" id="JS_evaluationList" style="min-height:100px;">
+	         <div class="box-header ">
+	             <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
+	         </div>
+	         <div class="box-body">
+	             <table class="table table-bordered table-hover" id="dataMaintainListTable">
+	                 <thead>
+	                 <tr>
+	                     <th class="table-word-center spl-thead-color1">数据库名</th>
+	                     <th class="table-word-center spl-thead-color2">预计增长连接数</th>
+	                     <th class="table-word-center spl-thead-color1">minIdle参考值</th>
+	                     <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
+	                     <th class="table-word-center spl-thead-color1">maxActive参考值</th>
+	                 </tr>
+	                 </thead>
+	                 <tbody name="content"></tbody>
+	             </table>
+	         </div>
+	         <div class="box-footer no-border">
+	             <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+	         </div>
+	     </div>
+	 </div>
      <div class="col-md-12">
 		<textarea cols="100" rows="9" disabled>
 说明：
@@ -191,7 +191,7 @@
         业务扩展系数则需根据接入系统以后业务的增长情况，确定一个扩展系数，上述系数仅供参考。
 		</textarea>
     </div>
-   </div>
+</div>
    
 <!-- 弹出框样式 -->
 <div class="toast__cell" style="position:absolute;left:38%;top:30%;display:none;">
@@ -222,10 +222,10 @@
     <h5 class="tx_size" style="margin-left:4px;">请选择待评估数据库(分中心数据库是否按地市分节点优先访问)：</h5>
     {{#each this}}
         <div class="col-md-3 check_pub_sty">
-			<div class="col-md-7">
+			<div class="col-md-6">
             	<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
 			</div>
-			<div class="col-md-5">
+			<div class="col-md-6">
             	<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
 			</div>
         </div>

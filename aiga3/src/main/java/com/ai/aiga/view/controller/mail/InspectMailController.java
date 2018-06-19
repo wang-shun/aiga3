@@ -2,6 +2,7 @@ package com.ai.aiga.view.controller.mail;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ai.aiga.component.MailCmpt;
+import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.ArchWorkPlan;
 import com.ai.aiga.service.InspectMailSv;
 import com.ai.aiga.view.controller.mail.dto.InspectMailData;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -45,5 +48,19 @@ public class InspectMailController {
 		}
 
 		return bean;
+	}
+
+	
+	@RequestMapping(path = "/inspect/report/yesterDayInspection")
+	public @ResponseBody JsonBean queryByCondition(InspectMailData condition) throws ParseException{
+			JsonBean bean = new JsonBean();			
+			try {
+				String htmlcontent = inspectMailSv.creatInspectMailHtml(condition.getCjDate());
+				bean.setData(htmlcontent);
+			} catch (Exception e) {
+				e.printStackTrace();
+				bean.fail(e.getMessage());
+			}
+			return bean;
 	}
 }

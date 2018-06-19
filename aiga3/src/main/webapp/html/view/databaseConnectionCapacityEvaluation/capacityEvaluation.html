@@ -147,7 +147,26 @@
 	                     <div class="col-md-4"><input class="sct" type="number"  name="deployednumbers" /></div>
 	                  </div>
 	              </div>
-	              <div id="JS_tableForm" class="col-md-12" style="border-top:1px solid #f5f3f3"></div>
+	              <div id="JS_tableForm" class="col-md-12" style="border-top:1px solid #f5f3f3">
+					  <div class="box" id="JS_evalDbList" style="min-height:100px;">
+						  <h5 class="tx_size" style="margin-left:4px;">请选择待评估数据库：</h5>
+						  <div class="box-body">
+							  <table class="table table-bordered table-hover">
+								  <thead>
+								  <tr>
+									  <th class="table-word-center spl-thead-color1">数据库名</th>
+									  <th class="table-word-center spl-thead-color1">访问策略(是否按地市分节点优先访问) </th>
+									  <th class="table-word-center spl-thead-color1">单库折算系数(可根据评估系统实际业务特点修改默认折算系数)</th>
+								  </tr>
+								  </thead>
+								  <tbody name="contentdb"></tbody>
+							  </table>
+						  </div>
+						  <div class="box-footer no-border">
+							  <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+						  </div>
+					  </div>
+				  </div>
 	          </div>
 	          <div class="box-footer">
 	              <div class="text-center">
@@ -159,31 +178,31 @@
 	     </div>
      </div>
      <div class="col-md-12">
-	     <div class="box" id="JS_evaluationList" style="min-height:100px;">
-	         <div class="box-header ">
-	             <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
-	         </div>
-             <div>
-                 <p class="markedword" id="markedword"></p>
-             </div>
-	         <div class="box-body">
-	             <table class="table table-bordered table-hover" id="dataMaintainListTable">
-	                 <thead>
-	                 <tr>
-	                     <th class="table-word-center spl-thead-color1">数据库名</th>
-	                     <th class="table-word-center spl-thead-color2">预计增长连接数</th>
-	                     <th class="table-word-center spl-thead-color1">minIdle参考值</th>
-	                     <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
-	                     <th class="table-word-center spl-thead-color1">maxActive参考值</th>
-	                 </tr>
-	                 </thead>
-	                 <tbody name="content"></tbody>
-	             </table>
-	         </div>
-	         <div class="box-footer no-border">
-	             <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-	         </div>
-	     </div>
+		 <div class="box" id="JS_evaluationList" style="min-height:100px;">
+			 <div class="box-header ">
+				 <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
+			 </div>
+			 <div>
+				 <p class="markedword" id="markedword"></p>
+			 </div>
+			 <div class="box-body">
+				 <table class="table table-bordered table-hover" id="dataMaintainListTable">
+					 <thead>
+					 <tr>
+						 <th class="table-word-center spl-thead-color1">数据库名</th>
+						 <th class="table-word-center spl-thead-color2">预计增长连接数</th>
+						 <th class="table-word-center spl-thead-color1">minIdle参考值</th>
+						 <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
+						 <th class="table-word-center spl-thead-color1">maxActive参考值</th>
+					 </tr>
+					 </thead>
+					 <tbody name="content"></tbody>
+				 </table>
+			 </div>
+			 <div class="box-footer no-border">
+				 <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+			 </div>
+		 </div>
 	 </div>
      <div class="col-md-12">
 		<textarea cols="100" rows="9" disabled>
@@ -228,16 +247,26 @@
 
 <!-- 表格数据 -->
 <script id="TPL_tableList" type="text/x-handlebars-template">
-    <h5 class="tx_size" style="margin-left:4px;">请选择待评估数据库(分中心数据库是否按地市分节点优先访问)：</h5>
     {{#each this}}
-        <div class="col-md-3 check_pub_sty">
+        <!--<div class="col-md-3 check_pub_sty">
 			<div class="col-md-6">
             	<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
 			</div>
 			<div class="col-md-6">
             	<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
 			</div>
-        </div>
+        </div>-->
+	<tr>
+		<td class="table-word-center">
+			<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
+		</td>
+		<td class="table-word-center">
+			<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
+		</td>
+		<td class="table-word-center">
+			0.8
+		</td>
+	</tr>
     {{/each}}
 </script>
 <!-- 表格数据 -->

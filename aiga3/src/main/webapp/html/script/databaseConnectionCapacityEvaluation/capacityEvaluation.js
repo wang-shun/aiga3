@@ -25,11 +25,14 @@ define(function(require, exports, module) {
         },
         _load_table_html:function(){
             var self = this;
+            var _dom = Page.findId('evalDbList');
             Rose.ajax.postJson(srvMap.get("getEvalDb"), '', function(json, status) {
                 if (status) {
+                    window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Page.findTpl('tableList'));
-                    var tablebtn = Page.findId("tableForm");
+                    var tablebtn = _dom.find("[name='contentdb']");
                     tablebtn.html(template(json.data));
+                    var _data = json.data;
                     $('#Page_capacityEvaluation input').iCheck({
                         labelHover : false,
                         cursor : true,
@@ -37,6 +40,9 @@ define(function(require, exports, module) {
                         radioClass : 'iradio_square-green',
                         increaseArea : '20%'
                     });
+                    Utils.eventTrClickCallback(_dom);
+                }else {
+                    XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });
         },

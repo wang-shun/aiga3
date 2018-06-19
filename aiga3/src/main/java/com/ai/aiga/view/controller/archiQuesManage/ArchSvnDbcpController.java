@@ -26,8 +26,14 @@ public class ArchSvnDbcpController {
         bean.setData(archSvnDbcpSv.getEvalDb());
         return bean;
     }
+    @RequestMapping(path="/webservice/configure/getMarkedWord")
+    public @ResponseBody JsonBean getMarkedWord(ArchSvnDbcpEvalutionIn condition)throws Exception{
+        JsonBean bean = new JsonBean();
+        bean.setData(archSvnDbcpSv.getMarkedWord(condition));
+        return bean;
+    }
     @RequestMapping(path="/webservice/configure/getEvalution")
-    public @ResponseBody JsonBean getEvalution(ArchSvnDbcpEvalutionIn condition){
+    public @ResponseBody JsonBean getEvalution(ArchSvnDbcpEvalutionIn condition)throws Exception{
         JsonBean bean = new JsonBean();
         bean.setData(archSvnDbcpSv.getEvalution(condition));
         return bean;

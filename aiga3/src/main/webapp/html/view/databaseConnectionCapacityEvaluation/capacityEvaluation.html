@@ -1,10 +1,11 @@
 <style type="text/css">
-    #Page_capacityEvaluation .table-word-center {text-align: center;vertical-align: middle;}
-    #Page_capacityEvaluation .tx_size{
+    #Page_capacityEvaluation .markedword{
         font-size:16px;
-        color: rgb(0, 0, 0);
+        color: rgb(255, 36, 24);
         font-family:"KaiTi";
+        margin-left:20px;
     }
+    #Page_capacityEvaluation .table-word-center {text-align: center;vertical-align: middle;}
     #Page_capacityEvaluation .div_bottom div{
         margin-left:10px;
         margin-bottom: 10px;
@@ -25,110 +26,247 @@
       box-shadow: 0 0 5px #ccc;
       position: relative;
     }
-    #Page_capacityEvaluation .div_databasetext_sytle{
-        margin-left: 5%;
-    }
-    #Page_capacityEvaluation .div_float1{
-        width:40%;
-        float:left;
-    }
-    #Page_capacityEvaluation .div_float2{
-        width:25%;
-        float:left;
-    }
-    #Page_capacityEvaluation .div_float3{
-        width:25%;
-        float:left;
-    }
+    .toast__cell{
+  		display:inline-block;
+	}
+
+	.add-margin{
+	  margin-top:20px;
+	}
+	
+	.toast__svg{
+	  fill:#fff;
+	}
+	
+	.toast {
+	  text-align:left;
+	    padding: 21px 0;
+	    background-color:#fff;
+	    border-radius:4px;
+	    max-width: 500px;
+	    top: 0px;
+	    position:relative;
+	    box-shadow: 1px 7px 14px -5px rgba(0,0,0,0.2);
+	}
+	
+	
+	.toast:before {
+	    content: '';
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 4px;
+	    height: 100%;
+	  border-top-left-radius:4px;
+	  border-bottom-left-radius: 4px;
+	
+	}
+	
+	.toast__icon{
+	  position:absolute;
+	  top:50%;
+	  left:22px;
+	  transform:translateY(-50%);
+	  width:14px;
+	  height:14px;
+	  padding: 7px;
+	  border-radius:50%;
+	  display:inline-block;
+	}
+	
+	.toast__type {
+	  color: #3e3e3e;
+	  font-weight: 700;
+	  margin-top: 0;
+	  margin-bottom: 8px;
+	}
+	
+	.toast__message {
+	    font-size: 14px;
+	    margin-top: 0;
+	  margin-bottom: 0;
+	    color: #878787;
+	}
+	
+	.toast__content{
+	  padding-left:70px;
+	  padding-right:60px;
+	}
+	
+	.toast--yellow .toast__icon{
+  		background-color:red;
+	}
+
+	.toast--yellow:before{
+  		background-color:red;
+	}
+	
+	.toast__close {
+	    position: absolute;
+	    right: 22px;
+	    top: 50%;
+	    width: 14px;
+	    cursor:pointer;
+	    height: 14px;
+	  	fill:#878787;
+	    transform: translateY(-50%);
+	}    
 </style>
-   <div class="row" id="Page_capacityEvaluation">
+<div class="row" id="Page_capacityEvaluation">
      <div class="col-md-12">
-           <div class="box">
-              <form id="JS_queryDataForm" >
-                <div class="box-header with-border">
-                    <h3 class="box-title">新接入业务数据库连接容量评估</h3>
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="box" id="JS_text" style="min-height:50px;">
-                    <div class="box-body">
-                        <div style="margin-top:10px">
-                            <div class="div_float1">
-                                <h class="tx_size">请输入新接入业务tps(系统吞吐量):</h>
-                                <input class="sct" type="number"  name="tpsnumbers"  value="0" oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
-                                <h>笔/</h>
-                                <select class="select_size" name="timetype">
-                                  <option value ="sectime">秒</option>
-                                  <option value ="mintime">分</option>
-                                </select>
-                            </div>
-                            <div class="div_float2">
-                                <h class="tx_size">请输入服务调用时长(毫秒ms):</h>
-                                <input class="sct" type="number"  name="serviceCalledTime" value="0" oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
-                            </div >
-                            <div class="div_float3">
-                               <h class="tx_size">预计新增部署实例数(非必填):</h>
-                               <input class="sct" type="number"  name="deployednumbers" value="0" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div style="margin-top: 10px">
-                    <h class="div_databasetext_sytle tx_size">请选择待评估数据库(多选)：</h>
-                </div>
-                <div id="JS_tableForm" class="col-md-12"></div>
-                <div class="box-footer">
-                        <div class="text-center">
-                            <button type="reset" class="btn btn-default">重置</button>
-                            <button type="button" class="btn btn-primary"  name="query">提交</button>
-                        </div>
-                    </div>
-               </form>
-           </div>
-    </div>
+	     <div class="box">
+	        <form id="JS_queryDataForm" >
+	          <div class="box-header with-border">
+	              <h3 class="box-title">新接入业务数据库连接容量评估</h3>
+	              <div class="box-tools pull-right">
+	                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+	                  </button>
+	              </div>
+	          </div>
+	          <div class="box-body" id="JS_text">
+	              <div style="margin-top:10px">
+	                  <div class="col-md-5">
+	                    <div class="col-md-6"><span>请输入新接入业务tps(系统吞吐量):</span></div>
+	                    <div class="col-md-6">
+							<input class="sct" type="number"  name="tpsnumbers"   oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
+							<h>笔/</h>
+							<select class="select_size" name="timetype">
+							  <option value ="sectime">秒</option>
+							  <option value ="mintime">分</option>
+							</select>
+	               	    </div>
+	                  </div>
+	                  <div class="col-md-3">
+	                  	<div class="col-md-7"><span>请输入服务调用时长(毫秒ms):</span></div>
+	                    <div class="col-md-4">
+	                      	<input class="sct" type="number"  name="serviceCalledTime" oninput='this.value=this.value.replace(/^[0]+[0-9]*$/gi,"")'/>
+	                  	</div>
+	                  </div >
+	                  <div class="col-md-3">
+	                     <div class="col-md-6"><span>预计新增部署实例数:</span></div>
+	                     <div class="col-md-4"><input class="sct" type="number"  name="deployednumbers" /></div>
+	                  </div>
+	              </div>
+	              <div id="JS_tableForm" class="col-md-12" style="border-top:1px solid #f5f3f3">
+					  <div class="box" id="JS_evalDbList" style="min-height:100px;">
+						  <h5 class="tx_size" style="margin-left:4px;">请选择待评估数据库：</h5>
+						  <div class="box-body">
+							  <table class="table table-bordered table-hover">
+								  <thead>
+								  <tr>
+									  <th class="table-word-center spl-thead-color1">数据库名</th>
+									  <th class="table-word-center spl-thead-color1">访问策略(是否按地市分节点优先访问) </th>
+									  <th class="table-word-center spl-thead-color1">单库折算系数(可根据评估系统实际业务特点修改默认折算系数)</th>
+								  </tr>
+								  </thead>
+								  <tbody name="contentdb"></tbody>
+							  </table>
+						  </div>
+						  <div class="box-footer no-border">
+							  <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+						  </div>
+					  </div>
+				  </div>
+	          </div>
+	          <div class="box-footer">
+	              <div class="text-center">
+	                  <button type="reset" class="btn btn-default">重置</button>
+	                  <button type="button" class="btn btn-primary"  name="query">提交</button>
+	              </div>
+	          </div>
+	         </form>
+	     </div>
+     </div>
      <div class="col-md-12">
-                <div class="box" id="JS_evaluationList" style="min-height:100px;">
-                    <div class="box-header ">
-                        <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
-                    </div>
-                    <div class="box-body">
-                        <table class="table table-bordered table-hover" id="dataMaintainListTable">
-                            <thead>
-                            <tr>
-                                <th class="table-word-center spl-thead-color1">数据库名</th>
-                                <th class="table-word-center spl-thead-color2">预计增长连接数</th>
-                                <th class="table-word-center spl-thead-color1">minIdle参考值</th>
-                                <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
-                                <th class="table-word-center spl-thead-color1">maxActive参考值</th>
-                            </tr>
-                            </thead>
-                            <tbody name="content"></tbody>
-                        </table>
-                    </div>
-                    <div class="box-footer no-border">
-                        <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-                    </div>
-                </div>
-    </div>
+		 <div class="box" id="JS_evaluationList" style="min-height:100px;">
+			 <div class="box-header ">
+				 <h3 class="box-title">新接入业务数据库连接容量评估列表</h3>
+			 </div>
+			 <div>
+				 <p class="markedword" id="markedword"></p>
+			 </div>
+			 <div class="box-body">
+				 <table class="table table-bordered table-hover" id="dataMaintainListTable">
+					 <thead>
+					 <tr>
+						 <th class="table-word-center spl-thead-color1">数据库名</th>
+						 <th class="table-word-center spl-thead-color2">预计增长连接数</th>
+						 <th class="table-word-center spl-thead-color1">minIdle参考值</th>
+						 <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
+						 <th class="table-word-center spl-thead-color1">maxActive参考值</th>
+					 </tr>
+					 </thead>
+					 <tbody name="content"></tbody>
+				 </table>
+			 </div>
+			 <div class="box-footer no-border">
+				 <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+			 </div>
+		 </div>
+	 </div>
      <div class="col-md-12">
-		<textarea cols="100" rows="5" disabled>
-新接入业务数据库连接容量评估说明：
-(1):
-(2):
-(3):
+		<textarea cols="100" rows="9" disabled>
+说明：
+        本评估模型从业务吞吐量角度，结合生产经验提供连接池参数配置评估建议。但因各业务系统业务特点不同，不同的服务调用对数据库访问需求存在较大差异，
+        因此本模型从跨系统通用性角度评估，评估结果仅供参考，请接入系统结合本系统实际业务特点后再评估确定评估方案，如对评估模型有疑问或建议，可联系架构治理平台管理员。
+        理论系统并发数=TPS*平均调用时长
+        单实例理论并发数=理论系统并发数/实例数
+        minIdle=单实例理论并发数*单库折算系数*业务扩展系数（暂定1.0）
+        maxIdle=单实例理论并发数*单库折算系数*业务扩展系数（暂定1.5）
+        maxActive=单实例理论并发数*单库折算系数*业务扩展系数（暂定2.0）
+        增长连接数=minIdle*2*实例数
+        其中单库折算系数需根据待评估系统结合业务与数据库节点访问的比例，确定一个合理的系数
+        业务扩展系数则需根据接入系统以后业务的增长情况，确定一个扩展系数，上述系数仅供参考。
 		</textarea>
     </div>
-   </div>
+</div>
+   
+<!-- 弹出框样式 -->
+<div class="toast__cell" style="position:absolute;left:38%;top:30%;display:none;">
+	<div class="toast toast--yellow add-margin">
+  	 <div class="toast__icon">
+	  <svg version="1.1" class="toast__svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 301.691 301.691" style="enable-background:new 0 0 301.691 301.691;" xml:space="preserve">
+        <g>
+	      <polygon points="119.151,0 129.6,218.406 172.06,218.406 182.54,0  "></polygon>
+	       <rect x="130.563" y="261.168" width="40.525" height="40.523"></rect>
+        </g>
+      </svg>
+     </div>
+     <div class="toast__content">
+       <p class="toast__type">警告</p>
+       <p class="toast__message" id="toast__message"></p>
+     </div>
+     <div class="toast__close">
+    	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.642 15.642" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 15.642 15.642">
+  			<path fill-rule="evenodd" d="M8.882,7.821l6.541-6.541c0.293-0.293,0.293-0.768,0-1.061  c-0.293-0.293-0.768-0.293-1.061,0L7.821,6.76L1.28,0.22c-0.293-0.293-0.768-0.293-1.061,0c-0.293,0.293-0.293,0.768,0,1.061  l6.541,6.541L0.22,14.362c-0.293,0.293-0.293,0.768,0,1.061c0.147,0.146,0.338,0.22,0.53,0.22s0.384-0.073,0.53-0.22l6.541-6.541  l6.541,6.541c0.147,0.146,0.338,0.22,0.53,0.22c0.192,0,0.384-0.073,0.53-0.22c0.293-0.293,0.293-0.768,0-1.061L8.882,7.821z"></path>
+		</svg>
+  	 </div>
+    </div>
+</div>
+
 
 <!-- 表格数据 -->
 <script id="TPL_tableList" type="text/x-handlebars-template">
     {{#each this}}
-        <div class="col-md-4 check_pub_sty">
-            <input name="databases" value={{dbName}} type="checkbox" /><label class="check_table_sty" >{{dbValue}}</label>
-            <input type="radio" value="1" name={{dbName}}>是</input><input type="radio" value="0" name={{dbName}} checked="checked">否</input>
-        </div>
+        <!--<div class="col-md-3 check_pub_sty">
+			<div class="col-md-6">
+            	<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
+			</div>
+			<div class="col-md-6">
+            	<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
+			</div>
+        </div>-->
+	<tr>
+		<td class="table-word-center">
+			<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
+		</td>
+		<td class="table-word-center">
+			<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
+		</td>
+		<td class="table-word-center">
+			0.8
+		</td>
+	</tr>
     {{/each}}
 </script>
 <!-- 表格数据 -->
@@ -149,5 +287,3 @@
     });
     //]]>
 </script>
-
-

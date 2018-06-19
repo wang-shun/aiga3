@@ -14,6 +14,6 @@ public class ArchSvnDbcpEvalutionIn implements Serializable {
     private String timetype;
     private Long serviceCalledTime;
     private Long deployednumbers;
-    private String databases;
+    private String dbs;
 
 }

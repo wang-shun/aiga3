@@ -1,5 +1,4 @@
 define(function(require, exports, module) {
-    require("lib/iCheck/icheck.min.js")
     // 通用工具模块
     var Utils = require("global/utils.js");
     var pathAlias = "databaseConnectionCapacityEvaluation/";
@@ -9,26 +8,41 @@ define(function(require, exports, module) {
     srvMap.add("getEvalDb", pathAlias+"", "webservice/configure/getEvalDb");
     //查询信息表
     srvMap.add("getEvalution", pathAlias+"", "webservice/configure/getEvalution");
+    //单实例理论并发数评估提示语
+    srvMap.add("getMarkedWord",pathAlias+"", "webservice/configure/getMarkedWord");
     var init = {
         init: function() {
             this._render();
         },
         _render: function() {
-            this._load_table();
             //查询
             this._query_event();
+            
+            this._load_table();
         },
         _load_table:function(){
-            this._load_table_html(srvMap.get("getEvalDb"));
+            this._load_table_html();
         },
-        _load_table_html:function(url,cmd){
+        _load_table_html:function(){
             var self = this;
-            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            Rose.ajax.postJson(url, cmd, function(json, status) {
+            var _dom = Page.findId('evalDbList');
+            Rose.ajax.postJson(srvMap.get("getEvalDb"), '', function(json, status) {
                 if (status) {
+                    window.XMS.msgbox.hide();
                     var template = Handlebars.compile(Page.findTpl('tableList'));
-                    var tablebtn = Page.findId("tableForm");
+                    var tablebtn = _dom.find("[name='contentdb']");
                     tablebtn.html(template(json.data));
+                    var _data = json.data;
+                    $('#Page_capacityEvaluation input').iCheck({
+                        labelHover : false,
+                        cursor : true,
+                        checkboxClass : 'icheckbox_square-blue',
+                        radioClass : 'iradio_square-green',
+                        increaseArea : '20%'
+                    });
+                    Utils.eventTrClickCallback(_dom);
+                }else {
+                    XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });
         },
@@ -48,7 +62,7 @@ define(function(require, exports, module) {
                 return checkbox_values;
         },
         _radio:function(name){
-            var radio_value=$("input[type='radio'][name='"+name+"']:checked").val()
+            var radio_value=$("input[type='radio'][name='"+name+"']:checked").val();
             return radio_value;
         },
 
@@ -63,23 +77,62 @@ define(function(require, exports, module) {
                 var timetype= _form.find("[name='timetype']").val();
                 var serviceCalledTime=_form.find("[name='serviceCalledTime']").val();
                 var deployednumbers=_form.find("[name='deployednumbers']").val();
-                var databases=self._checkbox("databases");
-                cmd=cmd+"&databases="+databases;
-                console.log('tpsnumber:'+tpsnumbers);
-                console.log('timetype:'+timetype);
-                console.log('serviceCalledTime:'+serviceCalledTime);
-                console.log('databases:'+databases);
-                console.log('deployednumbers:'+deployednumbers);
-                console.log('cmd:'+cmd);
+                var dbs=self._checkbox("databases");
+                cmd=cmd+"&dbs="+dbs;
                 if(tpsnumbers==null||tpsnumbers <=0) {
-                    XMS.msgbox.show('新接入业务tps(系统吞吐量)！需要正数', 'error', 2000);
+                	$(".toast__cell").css("display","block");
+                	$("#toast__message").text("请输入新接入业务tps(系统吞吐量)！");
+                	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                	$(".toast__close").click(function(){
+                		$(".toast__cell").css("display","none");
+                	});
                     return
                 }
                 if(serviceCalledTime==null||serviceCalledTime<=0){
-                    XMS.msgbox.show('服务调用时长需要正数！', 'error', 2000);
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("请输入服务调用时长！");
+                	setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                	$(".toast__close").click(function(){
+                		$(".toast__cell").css("display","none");
+                	});
                     return
                 }
+                if(deployednumbers==null||deployednumbers<=0){
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("请输入新增部署实例数！");
+                    setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                    $(".toast__close").click(function(){
+                		$(".toast__cell").css("display","none");
+                	});
+                    return
+                }
+                self._markedWord(cmd);
                 self._getGridList(cmd);
+            });
+        },
+        //单实例理论并发数评估提示语
+        _markedWord:function (cmd) {
+            var self = this;
+            var _cmd = '';
+            if(cmd){
+                _cmd = cmd;
+            }
+            var _dom = Page.findId('evaluationList');
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            Rose.ajax.postJson(srvMap.get('getMarkedWord'),_cmd,function(json, status){
+                if(status) {
+                    window.XMS.msgbox.hide();
+                    var _value="";
+                    for (var key in json.data) {
+                        if (key.indexOf("markedWord") >= 0) {
+                            _value = json.data[key];
+                        }
+                    }
+                    $("#markedword").text(_value);
+                    Utils.eventTrClickCallback(_dom);
+                } else {
+                    XMS.msgbox.show(json.retMessage, 'error', 2000);
+                }
             });
         },
         // 查询表格数据
@@ -97,12 +150,13 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Page.findTpl('evaluationList'));
                     var tablebtn = _dom.find("[name='content']");
                     tablebtn.html(template(json.data));
+                    var _data = json.data;
                     Utils.eventTrClickCallback(_dom);
                 } else {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });
         }
-        };
+    };
     module.exports = init;
 });

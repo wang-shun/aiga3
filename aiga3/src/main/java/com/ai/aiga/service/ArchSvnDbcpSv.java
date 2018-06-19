@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -168,6 +169,51 @@ public class ArchSvnDbcpSv extends BaseService {
         }
         return value;
     }
+    /**
+     *
+     *@param
+     *@return
+     *@author zhuchao
+     *@version v1.0.0
+     *@date 18-6-19 下午1:00
+     */
+	public ArchSvnDbcpMarkedWordOut getMarkedWord(ArchSvnDbcpEvalutionIn condition)throws Exception{
+        Long  tpsnumbers=condition.getTpsnumbers();
+        String timetype=condition.getTimetype();
+        Long serviceCalledTime=condition.getServiceCalledTime();
+        Long deployednumbers=condition.getDeployednumbers();
+        String databases=condition.getDbs();
+        ArchSvnDbcpMarkedWordOut archSvnDbcpMarkedWordOut=new ArchSvnDbcpMarkedWordOut();
+        if(tpsnumbers==null||timetype==null||serviceCalledTime==null||deployednumbers==null){
+            throw new Exception("传入参数出错");
+        }
+        if(databases==null||databases.length()==0){
+            archSvnDbcpMarkedWordOut.setMarkedWord("");
+            return archSvnDbcpMarkedWordOut;
+        }
+        double theoreticalSystemConcurrency=0;
+        if("mintime".equals(timetype)){
+            theoreticalSystemConcurrency=tpsnumbers/(60.0*1000.0)*serviceCalledTime;
+        }else if("sectime".equals(timetype)){
+            theoreticalSystemConcurrency=tpsnumbers/1000.0*serviceCalledTime;
+        }else {
+            throw  new Exception("系统错误!");
+        }
+        double sitcNumber=theoreticalSystemConcurrency/deployednumbers;
+        double sitcMAX,sitcMin =0;
+        sitcMAX=solveException(architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","SITCNMAX").get(0).getCodeName(),3.0);
+        sitcMin=solveException(architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","SITCNMIN").get(0).getCodeName(),3.0);
+	    if(sitcNumber<sitcMin){
+	        String markedWord="根据输入TPS测算，单实例业务峰值并发数为"+new BigDecimal(sitcNumber).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+",低于"+sitcMin+"的建议并发下限，建议考虑缩减应用集群实例数";
+	        archSvnDbcpMarkedWordOut.setMarkedWord(markedWord);
+        }else if(sitcNumber>sitcMAX){
+            String markedWord="根据输入TPS测算，单实例业务峰值并发数为"+new BigDecimal(sitcNumber).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()+",高于"+sitcMAX+"的建议并发上限，建议考虑增加应用集群实例数";
+            archSvnDbcpMarkedWordOut.setMarkedWord(markedWord);
+        }else {
+            archSvnDbcpMarkedWordOut.setMarkedWord("");
+        }
+        return archSvnDbcpMarkedWordOut;
+	}
     /**
      *
      *@param

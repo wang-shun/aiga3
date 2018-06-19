@@ -8,6 +8,8 @@ define(function(require, exports, module) {
     srvMap.add("getEvalDb", pathAlias+"", "webservice/configure/getEvalDb");
     //查询信息表
     srvMap.add("getEvalution", pathAlias+"", "webservice/configure/getEvalution");
+    //单实例理论并发数评估提示语
+    srvMap.add("getMarkedWord",pathAlias+"", "webservice/configure/getMarkedWord");
     var init = {
         init: function() {
             this._render();
@@ -98,7 +100,33 @@ define(function(require, exports, module) {
                 	});
                     return
                 }
+                self._markedWord(cmd);
                 self._getGridList(cmd);
+            });
+        },
+        //单实例理论并发数评估提示语
+        _markedWord:function (cmd) {
+            var self = this;
+            var _cmd = '';
+            if(cmd){
+                _cmd = cmd;
+            }
+            var _dom = Page.findId('evaluationList');
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            Rose.ajax.postJson(srvMap.get('getMarkedWord'),_cmd,function(json, status){
+                if(status) {
+                    window.XMS.msgbox.hide();
+                    var _value="";
+                    for (var key in json.data) {
+                        if (key.indexOf("markedWord") >= 0) {
+                            _value = json.data[key];
+                        }
+                    }
+                    $("#markedword").text(_value);
+                    Utils.eventTrClickCallback(_dom);
+                } else {
+                    XMS.msgbox.show(json.retMessage, 'error', 2000);
+                }
             });
         },
         // 查询表格数据
@@ -116,6 +144,7 @@ define(function(require, exports, module) {
                     var template = Handlebars.compile(Page.findTpl('evaluationList'));
                     var tablebtn = _dom.find("[name='content']");
                     tablebtn.html(template(json.data));
+                    var _data = json.data;
                     Utils.eventTrClickCallback(_dom);
                 } else {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);

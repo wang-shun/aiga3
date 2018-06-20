@@ -100,7 +100,7 @@ public class InspectMailSv extends BaseService {
 			if("标题".equals(inspectMailData.getModuleType())) {
 				html+="<div style='margin-left:39.0pt;text-indent:-18.0pt;font-family: 等线;font-weight: bold;'>"+inspectMailData.getReportShowOrder()+"."+inspectMailData.getModuleShowOrder()+inspectMailData.getReportContent1()+"</div>";
 			} else if("正文".equals(inspectMailData.getModuleType())) {
-				html+="<div style='margin-left: 42.0pt;'>";
+				html+="<div style='margin-left: 39.0pt;text-indent:2em;'>";
 				if(inspectMailData.getReportContent1() !=null) {
 					html+=inspectMailData.getReportContent1();
 				}

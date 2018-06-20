@@ -22,6 +22,7 @@ define(function(require, exports, module) {
 					return;
 				}
 		        var dom = Page.findId("logList");
+		        var _wrap = Page.find("[name='wrap']");
 				var cmd = _form.serialize();
 		        var _cmd = cmd.replace(/-/g,"");
 				XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -31,7 +32,7 @@ define(function(require, exports, module) {
 						XMS.msgbox.show('查询的时间暂无数据！', 'error', 2000);
 						return;
 					}else if(status) {
-						dom.css("display","block");
+						_wrap.css("display","block");
 						dom.html(json.data);
 						Utils.eventClickChecked(dom);
 					}else{

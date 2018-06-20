@@ -4,6 +4,8 @@ define(function(require, exports, module) {
     var pathAlias = "databaseConnectionCapacityEvaluation/";
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
     var Page = Utils.initPage('capacityEvaluation');
+    //查询单库折算系数
+    srvMap.add('getConversionFactor',pathAlias+"","webservice/configure/getConversionFactor");
     //数据库表格
     srvMap.add("getEvalDb", pathAlias+"", "webservice/configure/getEvalDb");
     //查询信息表
@@ -15,13 +17,70 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-            //查询
             this._query_event();
-            
+            //查询
             this._load_table();
+        },
+
+        _band_table_btn: function(cf, name,type) {
+            var self = this;
+            var index = 0;
+            if(type == 'update') {
+               var template = Handlebars.compile(Page.findTpl('primaryUpdateFrom'));
+                var subData={'cf':cf};
+                Page.findId('updateModal').html(template(subData));
+                var _modal = Page.findId('primaryUpdateModal');
+                _modal.modal('show');
+                Utils.setSelectData(_modal);
+
+                _modal.on('shown.bs.modal', function () {
+                    //修改保存按钮
+                    var saveBtn = _modal.find("[name='save']");
+                    saveBtn.off('click').confirm({
+                        title:'提示',
+                        content:'确认修改',
+                        confirmButtonClass:'btn-primary',
+                        confirmButton: '确认',
+                        cancelButton: '取消',
+                        confirm: function(){
+                            var num =Page.findId('firUpdateForm').find("[name='cf']").val();
+                            if(num ==null||num==undefined||num==''||parseFloat(num)<=0||parseFloat(num)>1){
+                                XMS.msgbox.show('修改失败,单库折算系数必须为(0,1]区间内！', 'error', 2000);
+                                return;
+                            }
+                            $('#Page_capacityEvaluation span[name='+name+']').text(num);
+                            _modal.modal('hide');
+                            XMS.msgbox.show('修改成功！', 'success', 2000);
+                        },
+                        cancel:function(){}
+                    });
+                });
+            }
         },
         _load_table:function(){
             this._load_table_html();
+        },
+        _radio_change:function () {
+            $("#Page_capacityEvaluation input:radio").on('ifChecked', function(event){
+                var center=$(this).attr("data-radio");
+                var value=$(this).val();
+                var _cmd='&center='+center+'&radiovalue='+value;
+                XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                Rose.ajax.postJson(srvMap.get('getConversionFactor'),_cmd,function(json, status){
+                    if(status) {
+                        window.XMS.msgbox.hide();
+                        var num;
+                        for (var key in json.data) {
+                            if (key.indexOf("conversionFactor") >= 0) {
+                                num = json.data[key];
+                            }
+                        }
+                        $('#Page_capacityEvaluation span[name='+center+']').text(num)
+                    } else {
+                        XMS.msgbox.show(json.retMessage, 'error', 2000);
+                    }
+                });
+            });
         },
         _load_table_html:function(){
             var self = this;
@@ -40,23 +99,13 @@ define(function(require, exports, module) {
                         radioClass : 'iradio_square-green',
                         increaseArea : '20%'
                     });
-                    //设置分页
-                 //   self.initPaging($('#JS_evalDbList'),4);
-                    Utils.eventTrClickCallback(_dom);
+                    self._radio_change();
+                    tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
+                        self._band_table_btn($('#Page_capacityEvaluation span[name='+$(this).attr("data-source")+']').text(),$(this).attr("data-source"),"update");
+                    });
                 }else {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
-            });
-        },
-        initPaging:function(obj,length){
-            obj.find("table").DataTable({
-                "iDisplayLength":length,
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": false,
-                "info": true,
-                "autoWidth": false
             });
         },
         _checkbox:function (name) {
@@ -68,6 +117,9 @@ define(function(require, exports, module) {
                         console.log(radio_value);
                         var databases=[];
                         var text= $('#Page_capacityEvaluation span[name='+obj[k].value+']').text();
+                        if(text ==null||text==undefined||text==''){
+                            return -1;
+                        }
                         databases.push(obj[k].value);
                         databases.push(radio_value);
                         databases.push(text);
@@ -93,7 +145,18 @@ define(function(require, exports, module) {
                 var serviceCalledTime=_form.find("[name='serviceCalledTime']").val();
                 var deployednumbers=_form.find("[name='deployednumbers']").val();
                 var dbs=self._checkbox("databases");
-                cmd=cmd+"&dbs="+dbs;
+                if(dbs!==null&&dbs!==undefined&&dbs=='-1'){
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("所选数据库对应的单库折算系数不能为空！");
+                    setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                    $(".toast__close").click(function(){
+                        $(".toast__cell").css("display","none");
+                    });
+                    return;
+                }
+                cmd=cmd+"&dbs="+dbs+"&tpsnumbers="+tpsnumbers+"&timetype="+timetype+"&serviceCalledTime="+serviceCalledTime+
+                   "&deployednumbers="+deployednumbers;
+                console.log("cmd:"+cmd);
                 if(tpsnumbers==null||tpsnumbers <=0) {
                 	$(".toast__cell").css("display","block");
                 	$("#toast__message").text("请输入新接入业务tps(系统吞吐量)！");

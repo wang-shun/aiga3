@@ -134,6 +134,32 @@ public class ArchSvnDbcpSv extends BaseService {
      *@return
      *@author zhuchao
      *@version v1.0.0
+     *@date 18-6-20 下午3:38
+     */
+    public ArchSvnDbcpEvalutionDbOut getConversionFactor(ArchSvnDbcpConversionFactorIn condition)throws Exception{
+        String codeType = "POOLCONFIGURATION_DB_EVALUTION";
+        String center=condition.getCenter();
+        String radioValue=condition.getRadiovalue();
+        if(center==null||center.trim().equals("")||radioValue==null||radioValue.trim().equals("")){
+            throw new Exception("传入参出错");
+        }
+        ArchSvnDbcpEvalutionDbOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionDbOut();
+        List<ArchitectureStaticData> architectureStaticDatas=architectureStaticDataSv.findByCodeTypeAndCodeValue(codeType,center);
+        if(architectureStaticDatas!=null&&architectureStaticDatas.size()>=1){
+            if("1".equals(radioValue)){
+                archSvnDbcpEvalutionOut.setConversionFactor(String.valueOf(new BigDecimal(solveException(architectureStaticDatas.get(0).getExt1(),1.0)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()));
+            }else {
+                archSvnDbcpEvalutionOut.setConversionFactor(String.valueOf(new BigDecimal(solveException(architectureStaticDatas.get(0).getExt2(),1.0)).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()));
+            }
+        }
+        return archSvnDbcpEvalutionOut;
+    }
+    /**
+     *
+     *@param
+     *@return
+     *@author zhuchao
+     *@version v1.0.0
      *@date 18-6-14 上午11:36
      */
     public List<ArchSvnDbcpEvalutionDbOut> getEvalDb(){
@@ -147,8 +173,8 @@ public class ArchSvnDbcpSv extends BaseService {
                 String ext1=architectureStaticData.getExt1();
                 String ext2=architectureStaticData.getExt2();
                 Map<String,String> map=new HashMap<String, String>();
-                map.put("ext1",ext1);
-                map.put("ext2",ext2);
+               // map.put("ext1",ext1);
+               // map.put("ext2",ext2);
                 map.put("codeName",codeName);
                 architectureDbs.put(codeValue,map);
             }
@@ -160,11 +186,11 @@ public class ArchSvnDbcpSv extends BaseService {
             String dbName=entry.getKey();
             Map<String,String> map=entry.getValue();
             String dbValue=map.get("codeName");
-            double ext2=solveException(map.get("ext2"),1.0);
+           // double ext2=solveException(map.get("ext2"),1.0);
             ArchSvnDbcpEvalutionDbOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionDbOut();
             archSvnDbcpEvalutionOut.setDbName(dbName);
             archSvnDbcpEvalutionOut.setDbValue(dbValue);
-            archSvnDbcpEvalutionOut.setConversionFactor(String.valueOf(new BigDecimal(ext2).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()));
+            archSvnDbcpEvalutionOut.setConversionFactor("");
             archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
         }
         return archSvnDbcpEvalutionOuts;

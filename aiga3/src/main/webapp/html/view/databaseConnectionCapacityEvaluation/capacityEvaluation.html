@@ -1,4 +1,7 @@
 <style type="text/css">
+    #Page_capacityEvaluation .btn_style{
+
+    }
     #Page_capacityEvaluation .markedword{
         font-size:16px;
         color: rgb(255, 36, 24);
@@ -118,7 +121,7 @@
 <div class="row" id="Page_capacityEvaluation">
      <div class="col-md-12">
 	     <div class="box">
-	        <form id="JS_queryDataForm" >
+	        <div id="JS_queryDataForm" >
 	          <div class="box-header with-border">
 	              <h3 class="box-title">新接入业务数据库连接容量评估</h3>
 	              <div class="box-tools pull-right">
@@ -171,10 +174,10 @@
 	          <div class="box-footer">
 	              <div class="text-center">
 	                  <button type="reset" class="btn btn-default">重置</button>
-	                  <button type="button" class="btn btn-primary"  name="query">提交</button>
+	                  <button type="button" class="btn btn-primary" name="query">查询</button>
 	              </div>
 	          </div>
-	         </form>
+	         </div>
 	     </div>
      </div>
      <div class="col-md-12">
@@ -241,7 +244,23 @@
     </div>
 </div>
 
-
+<!-- 修改页面 -->
+<div class="modal fade" id="JS_primaryUpdateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog total-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">单库折算系数修改</h4>
+            </div>
+            <div id="JS_updateModal" class="modal-body" style="padding-bottom: 0">
+            </div>
+            <div class="modal-footer btn-centen">
+                <button type="button" class="btn btn-primary" name="save">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 表格数据 -->
 <script id="TPL_tableList" type="text/x-handlebars-template">
     {{#each this}}
@@ -249,15 +268,26 @@
 		<td class="table-word-center col-md-3">
 			<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
 		</td>
-		<td class="table-word-center col-md-5">
-			<input type="radio" value="1" name={{dbName}}>是 &nbsp;<input type="radio" value="0" name={{dbName}} checked="checked">否
+		<td name='radiobutton'class="table-word-center col-md-5">
+			<input type="radio"
+                   value="1"  data-radio="{{dbName}}" name={{dbName}}>是 &nbsp;<input type="radio" data-radio="{{dbName}}" value="0"  name={{dbName}}>否
 		</td>
 		<td class="table-word-center col-md-4">
 			<span name={{dbName}}>{{conversionFactor}}</span>
-			<button type="button" class="btn btn-primary table_button_style"  name="change">修改</button>
+            <button class="btn btn-primary btn-table-update"   data-source="{{dbName}}"><span class="btn_style">修改</span></button>
 		</td>
 	</tr>
     {{/each}}
+</script>
+<script id="TPL_primaryUpdateFrom" type="text/x-handlebars-template">
+	<div class="box-body form-group form-inline">
+		<form id="JS_firUpdateForm">
+			<div class="col-md-12">
+				<label class="control-label first-name-label">单库折算系数<span style="color:red">*</span></label>
+				<input name="cf" type="number" class="form-control input-sm" value="{{cf}}"></input>
+			</div>
+		</form>
+	</div>
 </script>
 <!-- 表格数据 -->
 <script id="TPL_evaluationList" type="text/x-handlebars-template">

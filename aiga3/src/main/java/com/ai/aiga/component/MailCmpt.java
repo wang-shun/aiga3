@@ -1,7 +1,9 @@
 package com.ai.aiga.component;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -27,9 +29,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ai.aiga.domain.ArchitectureStaticData;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.ArchSrvManageSv;
+import com.ai.aiga.service.ArchitectureStaticDataSv;
 import com.ai.aiga.view.controller.mail.ReportEmailSend;
 
 /**
@@ -44,10 +48,9 @@ import com.ai.aiga.view.controller.mail.ReportEmailSend;
 public class MailCmpt {
 	
 	protected Logger log = LoggerFactory.getLogger(getClass());
+
 	@Autowired
-	private ReportEmailSend reportEmailSend;
-	@Autowired
-	private ArchSrvManageSv archSrvManageSv;
+	private ArchitectureStaticDataSv architectureStaticDataSv;
 	@Autowired
 	private ExcelCmpt excelCmpt;
 	@Value("${app.ftp.path}")
@@ -158,7 +161,7 @@ public class MailCmpt {
 		        }
 				
 				//数据查询
-				List<Map> list = archSrvManageSv.fileSqlQuery(fileSql);
+				List<Map> list = architectureStaticDataSv.fileSqlQuery(fileSql);
 				HSSFWorkbook sqlFileExt = excelCmpt.sqlFileRepot("sheetName",list);		
 				if(sqlFileExt!=null) {
 					//时间设置
@@ -203,6 +206,79 @@ public class MailCmpt {
 			log.error("发邮件失败!", ex);
 		} catch (MessagingException e) {
 			log.error("发邮件失败!", e);
+		}
+	}
+	
+	public void sendMailFileByStatic(String toAddress, String ccList, String subject, String content, String staticType) {
+		if(StringUtils.isBlank(toAddress)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "toAddress");
+		}
+		
+		if(StringUtils.isBlank(subject)){
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null, "subject");
+		}
+		List<File> fileList = new ArrayList<File>();
+		//取附件
+		List<ArchitectureStaticData> filesBean = architectureStaticDataSv.findByCodeType(staticType);
+		try {
+			if(filesBean.size()>0) {
+				//文件地址处理
+		        if('/'==(ftpPath.charAt(ftpPath.length()-1))) {
+		        } else {
+		        	ftpPath+="/";
+		        }
+				for(ArchitectureStaticData architectureStaticData:filesBean) {
+					String fileName = architectureStaticData.getCodeName();
+					String fileSql = architectureStaticData.getCodeValue();
+					//数据查询
+					List<Map> list = architectureStaticDataSv.fileSqlQuery(fileSql);
+					HSSFWorkbook sqlFileExt = excelCmpt.sqlFileRepot("sheetName",list);		
+					if(sqlFileExt!=null) {
+						//写入文件
+						File file = new File(ftpPath,fileName+".xls");
+						OutputStream streamOut = new FileOutputStream(file);
+						sqlFileExt.write(streamOut);
+						streamOut.close();
+						fileList.add(file);
+					}
+				}
+			}
+			
+			MimeMessage message = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = null;
+			if(fileList != null && fileList.size()>0){
+				helper = new MimeMessageHelper(message, true, "utf-8");
+			}else{
+				helper = new MimeMessageHelper(message, "utf-8");
+			}
+			
+			helper.setFrom(fromEmail);
+			helper.setTo(deleteTest(toAddress).split(","));
+			if(StringUtils.isNotBlank(ccList)){
+				helper.setCc(deleteTest(ccList).split(","));
+			}
+			helper.setSubject(subject);
+			helper.setText(content, true);
+			
+			if(fileList != null && fileList.size()>0){
+				for(File file : fileList){
+					helper.addAttachment(file.getName(),file);    //用新的字符编码生成字符串file.getName(), file);
+				}		
+			}		
+			this.javaMailSender.send(message);
+		} catch (MailException ex) {
+			log.error("发邮件失败!", ex);
+		} catch (MessagingException e) {
+			log.error("发邮件失败!", e);
+		} catch (FileNotFoundException e) {
+			log.error("发邮件失败!", e);
+		} catch (IOException e) {
+			log.error("发邮件失败!", e);
+		} finally {
+			//回收
+			for(File file:fileList){
+				file.delete();
+			}	
 		}
 	}
 	

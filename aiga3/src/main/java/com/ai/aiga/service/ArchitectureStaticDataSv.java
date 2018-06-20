@@ -3,6 +3,7 @@ package com.ai.aiga.service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,14 @@ public class ArchitectureStaticDataSv extends BaseService {
 		}
 		architectureStaticDataDao.delete(id);
 	}
-
+	//邮件预警 附件sql查询
+	public List<Map> fileSqlQuery(String fileSql) {
+		if(StringUtils.isBlank(fileSql)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			return null;
+		}
+		return architectureStaticDataDao.searchByNativeSQL(fileSql);
+	}
 	//update
 	public void update(ArchitectureStaticData request){
 		architectureStaticDataDao.save(request);

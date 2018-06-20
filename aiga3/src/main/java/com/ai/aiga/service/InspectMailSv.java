@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ai.aiga.dao.ArchiTopListDao;
+import com.ai.aiga.exception.BusinessException;
+import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.mail.dto.InspectMailData;
 
@@ -29,6 +31,14 @@ public class InspectMailSv extends BaseService {
 		String sql="SELECT * FROM ARCH_SYS_REPORT_RESULT t where CJ_DATE = "+time+" order by report_show_order asc ,module_show_order asc,decode(module_type, '标题',1, '正文', 2,'采集说明',3)";
 		List<InspectMailData> inspectMailDatas = archiTopListDao.searchByNativeSQL(sql, InspectMailData.class);
 		return inspectMailDatas;
+	}
+	//邮件预警 附件sql查询
+	public List<Map> fileSqlQuery(String fileSql) {
+		if(StringUtils.isBlank(fileSql)) {
+			BusinessException.throwBusinessException(ErrorCode.Parameter_null);
+			return null;
+		}
+		return archiTopListDao.searchByNativeSQL(fileSql);
 	}
 	
 	public String creatInspectMailHtml(String time) throws ParseException {

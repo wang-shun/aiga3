@@ -35,21 +35,26 @@ public class InspectMailController {
 	private MailCmpt mailCmpt;
 	
 	@RequestMapping(path = "/inspect/report/send")
-	public @ResponseBody JsonBean send() throws UnsupportedEncodingException{
+	public @ResponseBody JsonBean send(			
+			@RequestParam String addressee,
+			@RequestParam(required=false) String ccList,
+			@RequestParam String subject ) throws UnsupportedEncodingException{
+		
 		JsonBean bean = new JsonBean();
-		try {
+		try {		
+			//获取邮件正文
 			Date yesterday = new Date(new Date().getTime() - 86400000L);
 			SimpleDateFormat dataf = new SimpleDateFormat("yyyyMMdd");	
 			String htmlcontent = inspectMailSv.creatInspectMailHtml(dataf.format(yesterday));
-			mailCmpt.sendMail("dupeng5@asiainfo.com", "luoyk@asiainfo.com", "上线次日巡检报告", htmlcontent, null);
+			if(htmlcontent != null) {
+				mailCmpt.sendMailFileByStatic(addressee, ccList.equals("null")?"":ccList, subject, htmlcontent, "INSPECT_FILE");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			bean.fail(e.getMessage());
 		}
-
 		return bean;
 	}
-
 	
 	@RequestMapping(path = "/inspect/report/yesterDayInspection")
 	public @ResponseBody JsonBean queryByCondition(InspectMailData condition) throws ParseException{

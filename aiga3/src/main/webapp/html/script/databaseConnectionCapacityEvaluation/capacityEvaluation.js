@@ -5,13 +5,15 @@ define(function(require, exports, module) {
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
     var Page = Utils.initPage('capacityEvaluation');
     //查询单库折算系数
-    srvMap.add('getConversionFactor',pathAlias+"","webservice/configure/getConversionFactor");
+    srvMap.add('getConversionFactor',pathAlias+"","webservice/evaluateddb/getConversionFactor");
     //数据库表格
-    srvMap.add("getEvalDb", pathAlias+"", "webservice/configure/getEvalDb");
+    srvMap.add("getEvalDb", pathAlias+"", "webservice/evaluateddb/getEvalDb");
     //查询信息表
-    srvMap.add("getEvalution", pathAlias+"", "webservice/configure/getEvalution");
+    srvMap.add("getEvalution", pathAlias+"", "webservice/evaluateddb/getEvalution");
     //单实例理论并发数评估提示语
-    srvMap.add("getMarkedWord",pathAlias+"", "webservice/configure/getMarkedWord");
+    srvMap.add("getMarkedWord",pathAlias+"", "webservice/evaluateddb/getMarkedWord");
+    //导出word
+    srvMap.add('wordexport',pathAlias+"","/webservice/evaluateddb/evaluatedwordReport")
     var init = {
         init: function() {
             this._render();
@@ -21,9 +23,18 @@ define(function(require, exports, module) {
             this._query_event();
             //重置
             this._reset_event();
+            //导出
+            this._export_event();
             this._load_table();
         },
-
+        _export_event:function () {
+            var self = this;
+            var _form = Page.findId('queryDataForm');
+            var _exportBtn = _form.find("[name='export']");
+            _exportBtn.off('click').on('click',function(){
+                location.href = srvMap.get('wordexport');
+            });
+        },
         _band_table_btn: function(cf, name,type) {
             var self = this;
             var index = 0;

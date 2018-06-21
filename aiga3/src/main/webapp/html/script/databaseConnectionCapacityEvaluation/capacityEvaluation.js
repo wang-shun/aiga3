@@ -17,8 +17,10 @@ define(function(require, exports, module) {
             this._render();
         },
         _render: function() {
-            this._query_event();
             //查询
+            this._query_event();
+            //重置
+            this._reset_event();
             this._load_table();
         },
 
@@ -131,7 +133,16 @@ define(function(require, exports, module) {
             var radio_value=$("input[type='radio'][name='"+name+"']:checked").val();
             return radio_value;
         },
-
+        _reset_event:function () {
+            var self = this;
+            var _form = Page.findId('queryDataForm');
+            var _resetBtn = _form.find("[name='reset']");
+            _resetBtn.off('click').on('click',function(){
+                $('#Page_capacityEvaluation input[type="number"]').val("");
+                $('#Page_capacityEvaluation').iCheck('uncheck');
+                $('#Page_capacityEvaluation').find(".cf_span").text('1.0');
+            });
+        },
         //绑定查询按钮事件
         _query_event: function() {
             var self = this;

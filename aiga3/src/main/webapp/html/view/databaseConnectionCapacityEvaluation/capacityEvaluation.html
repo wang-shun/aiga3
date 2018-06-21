@@ -176,7 +176,7 @@
 	          </div>
 	          <div class="box-footer">
 	              <div class="text-center">
-	                  <button type="reset" class="btn btn-default">重置</button>
+	                  <button type="button" class="btn btn-primary" name="reset">重置</button>
 	                  <button type="button" class="btn btn-primary" name="query">查询</button>
 	              </div>
 	          </div>
@@ -278,7 +278,7 @@
                    value="1"  data-radio="{{dbName}}" name={{dbName}}>是 &nbsp;<input type="radio" data-radio="{{dbName}}" value="0"  name={{dbName}}>否
 		</td>
 		<td class="table-word-center col-md-4">
-			<span name={{dbName}}>{{conversionFactor}}</span>
+			<span class="cf_span" name={{dbName}}>{{conversionFactor}}</span>
             <button name="changebutton" class="btn btn-primary btn-table-update btn_style"   data-source="{{dbName}}"><span>修改</span></button>
 		</td>
 	</tr>

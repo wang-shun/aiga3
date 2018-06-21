@@ -2,7 +2,6 @@ package com.ai.aiga.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +76,7 @@ public class InspectMailSv extends BaseService {
 			"<div style='text-align: center;font-size: 16.0pt;font-weight: bold;'>"+dateString+"新业务上线次日系统运行情况巡检报告</div>"+
 			"<div style='font-family: 等线;'>&nbsp;</div>"+
 			"<div style='font-family: 等线;'><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>本次架构治理共对"+bModuleNum+"大类"+sModuleNum+"小类完成新业务上线次日巡检，共发现"+dModuleNum+"小类存在异常波动，详细巡检结果见下文：</div>"+
+			"<div style='font-family: 等线;'>&nbsp;</div>"+
 			"</head>";
 		//模块添加
 		Map<Long,Long> titleMap = new HashMap();
@@ -93,14 +93,14 @@ public class InspectMailSv extends BaseService {
 				} else {
 					//不存在此种情况
 				}
-				html+="<div style='font-weight: bold;font-family: 等线;'>"+btitle+"</div>";
+				html+="<div style='font-weight: bold;font-family: 等线;margin-bottom: 5pt;'>"+btitle+"</div>";
 				titleMap.put(inspectMailData.getReportShowOrder(), inspectMailData.getReportShowOrder());
 			} 
 			//生成小模块
 			if("标题".equals(inspectMailData.getModuleType())) {
-				html+="<div style='margin-left:39.0pt;text-indent:-18.0pt;font-family: 等线;font-weight: bold;'>"+inspectMailData.getReportShowOrder()+"."+inspectMailData.getModuleShowOrder()+inspectMailData.getReportContent1()+"</div>";
+				html+="<div style='margin-left:39.0pt;text-indent:-18.0pt;font-family: 等线;font-weight: bold;margin-bottom: 5pt;'>"+inspectMailData.getReportShowOrder()+"."+inspectMailData.getModuleShowOrder()+inspectMailData.getReportContent1()+"</div>";
 			} else if("正文".equals(inspectMailData.getModuleType())) {
-				html+="<div style='margin-left: 39.0pt;text-indent:2em;'>";
+				html+="<div style='margin-left: 39.0pt;text-indent:2em;margin-bottom: 5pt;'>";
 				if(inspectMailData.getReportContent1() !=null) {
 					html+=inspectMailData.getReportContent1();
 				}
@@ -112,7 +112,7 @@ public class InspectMailSv extends BaseService {
 				}
 				html+="</div>";
 			} else if("采集说明".equals(inspectMailData.getModuleType())) {
-				html+="<div style='margin-left: 39.0pt;font-weight: bold;font-family: 等线;'>";
+				html+="<div style='margin-left: 39.0pt;font-weight: bold;font-family: 等线;margin-bottom: 5pt;'>";
 				if(inspectMailData.getReportContent1() !=null) {
 					html+=inspectMailData.getReportContent1();
 				}

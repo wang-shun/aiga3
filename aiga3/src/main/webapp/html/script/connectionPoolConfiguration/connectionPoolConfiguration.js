@@ -64,13 +64,15 @@ define(function(require, exports, module) {
             var dom1 = Page.find("[name='center']");
             var dom2 = Page.find("[name='module']");
             var dom3 = Page.find("[name='db']");
-            var dom4=Page.find("[name='isChange']");
+            var dom4 = Page.find("[name='isChange']");
             //obj1 数据加载
             var _url = dom1.data("url");
             var _cmd = dom1.data("cmd") || '';
             if (_url) {
                 self._load_select_html(dom1,_url,_cmd);
             }
+            dom2.comboSelect();
+            dom3.comboSelect();
             //obj4 数据加载
             var _url = dom4.data("url");
             var _cmd = dom4.data("cmd") || '';
@@ -125,11 +127,8 @@ define(function(require, exports, module) {
                             }
                         }
                         _html += '<option value="' + _key + '">' + _value + '</option>';
-
                     }
                     obj.html(_html);
-
-                    self.clearSubOptions(obj,true);
                     obj.comboSelect();
                     if (callback) {
                         callback();
@@ -137,6 +136,8 @@ define(function(require, exports, module) {
                 }
             });
         },
+
+
         // 查询表格数据
 		_getGridList: function(cmd){
 			var self = this;

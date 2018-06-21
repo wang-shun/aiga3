@@ -1,6 +1,12 @@
 <style type="text/css">
     #Page_capacityEvaluation .btn_style{
-
+        position: relative;
+        left:20px;
+    }
+    #Page_capacityEvaluation .td-center-word{
+        position:relative;
+        left:100px;
+        text-align:left;
     }
     #Page_capacityEvaluation .markedword{
         font-size:16px;
@@ -36,7 +42,7 @@
 	.add-margin{
 	  margin-top:20px;
 	}
-	
+
 	.toast__svg{
 	  fill:#fff;
 	}
@@ -113,9 +119,6 @@
 	    height: 14px;
 	  	fill:#878787;
 	    transform: translateY(-50%);
-	}
-	.table_button_style{
-		margin-left: 20px;
 	}
 </style>
 <div class="row" id="Page_capacityEvaluation">
@@ -265,8 +268,10 @@
 <script id="TPL_tableList" type="text/x-handlebars-template">
     {{#each this}}
 	<tr>
-		<td class="table-word-center col-md-3">
-			<input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
+		<td class="col-md-3 td-center-word">
+            <div>
+                <input name="databases" value={{dbName}} type="checkbox" >&nbsp;<label class="check_table_sty" >{{dbValue}}</label>
+            </div>
 		</td>
 		<td name='radiobutton'class="table-word-center col-md-5">
 			<input type="radio"
@@ -274,7 +279,7 @@
 		</td>
 		<td class="table-word-center col-md-4">
 			<span name={{dbName}}>{{conversionFactor}}</span>
-            <button class="btn btn-primary btn-table-update"   data-source="{{dbName}}"><span class="btn_style">修改</span></button>
+            <button name="changebutton" class="btn btn-primary btn-table-update btn_style"   data-source="{{dbName}}"><span>修改</span></button>
 		</td>
 	</tr>
     {{/each}}
@@ -285,6 +290,7 @@
 			<div class="col-md-12">
 				<label class="control-label first-name-label">单库折算系数<span style="color:red">*</span></label>
 				<input name="cf" type="number" step="0.1" class="form-control input-sm" value="{{cf}}"></input>
+				<span>(0,1]区间</span>
 			</div>
 		</form>
 	</div>

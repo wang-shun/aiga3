@@ -65,7 +65,6 @@ define(function(require, exports, module) {
                 var center=$(this).attr("data-radio");
                 var value=$(this).val();
                 var _cmd='&center='+center+'&radiovalue='+value;
-                XMS.msgbox.show('数据加载中，请稍候...', 'loading');
                 Rose.ajax.postJson(srvMap.get('getConversionFactor'),_cmd,function(json, status){
                     if(status) {
                         window.XMS.msgbox.hide();
@@ -100,7 +99,7 @@ define(function(require, exports, module) {
                         increaseArea : '20%'
                     });
                     self._radio_change();
-                    tablebtn.find("[class='btn btn-primary btn-table-update']").off('click').on('click', function() {
+                    tablebtn.find("[name='changebutton']").off('click').on('click', function() {
                         self._band_table_btn($('#Page_capacityEvaluation span[name='+$(this).attr("data-source")+']').text(),$(this).attr("data-source"),"update");
                     });
                 }else {

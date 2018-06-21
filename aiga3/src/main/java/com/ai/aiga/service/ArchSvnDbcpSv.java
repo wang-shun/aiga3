@@ -190,7 +190,7 @@ public class ArchSvnDbcpSv extends BaseService {
             ArchSvnDbcpEvalutionDbOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionDbOut();
             archSvnDbcpEvalutionOut.setDbName(dbName);
             archSvnDbcpEvalutionOut.setDbValue(dbValue);
-            archSvnDbcpEvalutionOut.setConversionFactor("");
+            archSvnDbcpEvalutionOut.setConversionFactor("1.0");
             archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
         }
         return archSvnDbcpEvalutionOuts;

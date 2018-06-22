@@ -16,7 +16,7 @@ public class ExportWordUtil {
     static{
         configuration = new Configuration(Configuration.VERSION_2_3_0);
         configuration.setDefaultEncoding("UTF-8");
-        configuration.setClassForTemplateLoading(ExportWordUtil.class, "/com/zhihua/templates");
+        configuration.setClassForTemplateLoading(ExportWordUtil.class, "/com/ai/aiga/template");
         allTemplate = new HashMap<String,Template>();
         try{
             allTemplate.put("evaluatedDb", configuration.getTemplate("evaluateddb.ftl"));

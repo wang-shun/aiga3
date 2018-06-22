@@ -16,10 +16,10 @@ public class ExportWordUtil {
     static{
         configuration = new Configuration(Configuration.VERSION_2_3_0);
         configuration.setDefaultEncoding("UTF-8");
-       // configuration.setDirectoryForTemplateLoading(new File("C:/"));
         configuration.setClassForTemplateLoading(ExportWordUtil.class, "/com/ai/aiga/template");
         allTemplate = new HashMap<String,Template>();
         try{
+        //    configuration.setDirectoryForTemplateLoading(new File("template"));
             allTemplate.put("evaluatedDb", configuration.getTemplate(new String("evaluateddb".getBytes(),"utf-8")+".ftl","utf-8"));
         }catch(IOException e){
             e.printStackTrace();

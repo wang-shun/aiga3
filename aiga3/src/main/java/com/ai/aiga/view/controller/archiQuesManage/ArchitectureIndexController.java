@@ -1,63 +1,38 @@
 package com.ai.aiga.view.controller.archiQuesManage;
 
 
+import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.ArchDbConnect;
+import com.ai.aiga.domain.ArchMonthIndex;
+import com.ai.aiga.domain.ArchSrvManage;
+import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
+import com.ai.aiga.service.ArchIndexDbSv;
+import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.view.controller.archiQuesManage.dto.*;
+import com.ai.aiga.view.json.base.JsonBean;
 import io.swagger.annotations.Api;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ai.aiga.constant.BusiConstant;
-import com.ai.aiga.domain.ArchDbConnect;
-import com.ai.aiga.domain.ArchMonthIndex;
-import com.ai.aiga.domain.ArchSrvManage;
-import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
-import com.ai.aiga.service.base.BaseService;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexGroupParams;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
-import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexTopParams;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectFlow;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchDbConnectTransf;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiChangeMessage2;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchiIndexTotalMessage;
-import com.ai.aiga.view.controller.archiQuesManage.dto.CenterDbConnectTopList;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ConnectResourceTopList;
-import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectFlow;
-import com.ai.aiga.view.controller.archiQuesManage.dto.DbConnectTransfer;
-import com.ai.aiga.view.controller.archiQuesManage.dto.SeriesData;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ViewSeries2;
-import com.ai.aiga.view.controller.specialAdministration.dto.ArchBusiErrcodeMapSelects;
-import com.ai.aiga.view.controller.specialAdministration.dto.SrvcallDayTransfer;
-import com.ai.aiga.view.json.base.JsonBean;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 @Controller
 @Api(value = "ArchDbConnectController", description = "指标分表")
 public class ArchitectureIndexController extends BaseService {
-
+    @Autowired
+	private ArchIndexDbSv archIndexDbSv;
 	@Autowired
 	private ArchitectureIndexSv architectureIndexSv;
 
@@ -3920,84 +3895,8 @@ public class ArchitectureIndexController extends BaseService {
 	
 	@RequestMapping(path = "/arch/numberflow/query2daynew")
 	public @ResponseBody JsonBean query2daynew(@RequestBody AmCoreIndexParams condition) throws ParseException {
-		String end = condition.getEndMonth();
-        //获取上个月同一天时间字符串
-        String nowday = end;
-        String _nowday = nowday.replace("-", "");
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date today = format.parse(nowday);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(today);
-        calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 31);  
-        Date before31Day = calendar.getTime();
-        String start = simpleDateFormat.format(before31Day);
-        String _start = start.replace("-", "");
-        condition.setStartMonth(start);
-        
-        //获取昨日时间字符串
-        Calendar calendar2=Calendar.getInstance();
-        calendar2.setTime(today);
-        calendar2.set(Calendar.DAY_OF_YEAR, calendar2.get(Calendar.DAY_OF_YEAR) - 1); 
-        Date before1Day = calendar2.getTime();
-        String yesterday = simpleDateFormat.format(before1Day);
-        String _yesterday = yesterday.replace("-", "");
-        
 		JsonBean bean = new JsonBean();
-		List<ArchDbConnectFlow>connectList = architectureIndexSv.listDbConnects2Flow(condition);
-		List<ArchDbConnectFlow>connectList2 = new ArrayList<ArchDbConnectFlow>(connectList);
-		List<String>key1List = new ArrayList<String>();
-		List<DbConnectTransfer> transfers = new ArrayList<DbConnectTransfer>();
-		Iterator<ArchDbConnectFlow>iterator = connectList.iterator();
-		List<DbConnectFlow> flows = new ArrayList<DbConnectFlow>();
-		while(iterator.hasNext()){
-			DbConnectTransfer transfer = new DbConnectTransfer();
-			ArchDbConnectFlow base = iterator.next();
-			String key1 = base.getKey1();
-			if(!key1List.contains(key1)){
-				key1List.add(key1);
-				transfer.setDb(key1);
-				transfer.setMin(20000);
-				transfer.setMax(25000);
-				long fact = 0L;
-				Iterator<ArchDbConnectFlow>iter = connectList2.iterator();
-				while(iter.hasNext()){
-					ArchDbConnectFlow inne = iter.next();
-					if(inne.getKey1().equals(key1)){
-						if(inne.getSettMonth().equals(_nowday)){
-							fact = Long.valueOf(inne.getResultValue());
-							transfer.setFact(fact);
-						}else if(inne.getSettMonth().equals(_yesterday)){
-							transfer.setFact1(Long.valueOf(inne.getResultValue()));
-						}else if(inne.getSettMonth().equals(_start)){
-							transfer.setFact31(Long.valueOf(inne.getResultValue()));
-						}
-					}
-				}
-				String health = "优秀";
-				if(fact<20000*0.8){
-					health = "优秀";
-				}else if((20000*0.8)<=fact && fact<=20000){
-					health = "良好";
-				}else if(20000<=fact && fact<=25000){
-					health = "较差";
-				}else if(fact>25000){
-					health = "危险";
-				}
-				transfer.setHealth(health);
-				double dayrate = 0L;
-				double monthrate = 0L;
-				if(transfer.getFact()!=0){
-					dayrate = (transfer.getFact()-transfer.getFact1())*100/transfer.getFact();
-					monthrate = (transfer.getFact()-transfer.getFact31())*100/transfer.getFact();
-				}
-				transfer.setDayrate(dayrate);
-				transfer.setMonthrate(monthrate);
-				transfer.setTime(nowday);
-				transfers.add(transfer);
-			}
-		}
-		bean.setData(transfers);
+		bean.setData(archIndexDbSv.query2daynew(condition));
 		return bean;
 	}
 	@RequestMapping(path = "/arch/index/listDbConnectsTopnew")

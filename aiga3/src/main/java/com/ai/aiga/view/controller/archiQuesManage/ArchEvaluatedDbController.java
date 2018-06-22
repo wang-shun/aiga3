@@ -100,7 +100,7 @@ public class ArchEvaluatedDbController {
             }
             dataMap.put("edb1List", list);
             dataMap.put("edb2List", list2);
-            file = ExportWordUtil.createWord(dataMap, "resume.doc","evaluatedDb");
+            file = ExportWordUtil.createWord(dataMap, "evaluateddb.doc","evaluatedDb");
             fin = new FileInputStream(file);
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/msword");

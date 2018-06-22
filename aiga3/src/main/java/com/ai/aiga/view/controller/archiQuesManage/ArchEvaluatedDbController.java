@@ -2,11 +2,9 @@ package com.ai.aiga.view.controller.archiQuesManage;
 
 import com.ai.aiga.service.ArchEvaluatedDbSv;
 import com.ai.aiga.util.ExportWordUtil;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpConversionFactorIn;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpEvalutionIn;
-import com.ai.aiga.view.controller.archiQuesManage.dto.Edb1In;
-import com.ai.aiga.view.controller.archiQuesManage.dto.Edb2In;
+import com.ai.aiga.view.controller.archiQuesManage.dto.*;
 import com.ai.aiga.view.json.base.JsonBean;
+import com.ai.aiga.view.util.SessionMgrUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +18,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by zhuchao on 18-6-21.
@@ -41,39 +37,74 @@ public class ArchEvaluatedDbController {
         ServletOutputStream out = null;
         try{
             Map<String, Object> dataMap = new HashMap<String, Object>();
-            dataMap.put("tpsnumbers", "1000");
-            dataMap.put("timetype", "分");
-            dataMap.put("serviceCalledTime", "1000");
-            dataMap.put("deployednumbers", "1000");
-            dataMap.put("evaluatedDate", "2018-12-11 11:11:11");
-            dataMap.put("person", "admin");
-            dataMap.put("attention", "实例。");
-            List<Edb1In> list = new ArrayList<Edb1In>();
-            for (int i = 0; i < 10; i++) {
-                Edb1In evaluateddb11In = new Edb1In();
-                evaluateddb11In.setName("db1");
-                evaluateddb11In.setChoose("是");
-                evaluateddb11In.setCf("0.6");
-                list.add(evaluateddb11In);
+            String tpsnumbers=request.getParameter("tpsnumbers");
+            String timeType=request.getParameter("timetype");
+            String dbs=request.getParameter("dbs");
+            String type="";
+            if("mintime".equals(timeType)){
+                type="分";
+            }else if("sectime".equals(timeType)){
+                type="秒";
             }
-            dataMap.put("edb1List", list);
+            String deployednumbers=request.getParameter("deployednumbers");
+            String serviceCalledTime=request.getParameter("serviceCalledTime");
+            String personName= SessionMgrUtil.getUserInfo().getStaff().getName();
+            Date date=new Date();
+            //转换成时间格式24小时制
+            SimpleDateFormat df_24=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDate=df_24.format(date);
+            ArchSvnDbcpEvalutionIn condition=new ArchSvnDbcpEvalutionIn();
+            condition.setDbs(dbs);
+            condition.setDeployednumbers(Long.valueOf(deployednumbers));
+            condition.setServiceCalledTime(Long.valueOf(serviceCalledTime));
+            condition.setTimetype(timeType);
+            condition.setTpsnumbers(Long.valueOf(tpsnumbers));
+            ArchSvnDbcpMarkedWordOut archSvnDbcpMarkedWordOut=archEvaluatedDbSv.getMarkedWord(condition);
+            String attention="";
+            if("".equals(archSvnDbcpMarkedWordOut.getMarkedWord().trim())){
+                attention="无。";
+            }else {
+                attention=archSvnDbcpMarkedWordOut.getMarkedWord()+"。";
+            }
+            dataMap.put("tpsnumbers", tpsnumbers);
+            dataMap.put("timetype", timeType);
+            dataMap.put("serviceCalledTime", serviceCalledTime);
+            dataMap.put("deployednumbers", deployednumbers);
+            dataMap.put("evaluatedDate", currentDate);
+            dataMap.put("person", personName);
+            dataMap.put("attention", attention);
+            List<Edb1In> list = new ArrayList<Edb1In>();
             List<Edb2In> list2 = new ArrayList<Edb2In>();
-            for (int i = 0; i < 10; i++) {
+            List<ArchSvnDbcpEvalutionOut>  archSvnDbcpEvalutionOuts= archEvaluatedDbSv.getEvalution(condition);
+            for (int i = 0; i < archSvnDbcpEvalutionOuts.size(); i++) {
+                ArchSvnDbcpEvalutionOut archSvnDbcpEvalutionOut=archSvnDbcpEvalutionOuts.get(i);
+                Edb1In evaluateddb11In = new Edb1In();
+                String choose=archSvnDbcpEvalutionOut.getChoose();
+                if(choose==null||"".equals(choose.trim())){
+                    evaluateddb11In.setChoose("");
+                }else if ("1".equals(choose.trim())){
+                    evaluateddb11In.setChoose("是");
+                }else if("0".equals(choose.trim())){
+                    evaluateddb11In.setChoose("否");
+                }
+                evaluateddb11In.setName(archSvnDbcpEvalutionOut.getDatabase());
+                evaluateddb11In.setCf(archSvnDbcpEvalutionOut.getConnectionFactor());
+                list.add(evaluateddb11In);
                 Edb2In evaluateddb22In = new Edb2In();
-                evaluateddb22In.setName("db1");
-                evaluateddb22In.setConns("1000");
-                evaluateddb22In.setMaxActive("10");
-                evaluateddb22In.setMaxIdle("10");
-                evaluateddb22In.setMinIdle("10");
+                evaluateddb22In.setName(archSvnDbcpEvalutionOut.getDatabase());
+                evaluateddb22In.setConns(archSvnDbcpEvalutionOut.getConnections());
+                evaluateddb22In.setMaxActive(archSvnDbcpEvalutionOut.getMaxActive());
+                evaluateddb22In.setMaxIdle(archSvnDbcpEvalutionOut.getMaxIdle());
+                evaluateddb22In.setMinIdle(archSvnDbcpEvalutionOut.getMinIdle());
                 list2.add(evaluateddb22In);
             }
+            dataMap.put("edb1List", list);
             dataMap.put("edb2List", list2);
             file = ExportWordUtil.createWord(dataMap, "resume.doc","evaluatedDb");
             fin = new FileInputStream(file);
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/msword");
-            response.addHeader("Content-Disposition", "attachment;filename=resume.doc");
-
+            response.addHeader("Content-Disposition", "attachment;filename="+new String("新接入业务数据库连接容量评估报告".getBytes(),"iso-8859-1")+".doc");
             out = response.getOutputStream();
             byte[] buffer = new byte[1024];//缓冲区
             int bytesToRead = -1;

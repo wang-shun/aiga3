@@ -14,6 +14,13 @@ define(function(require, exports, module) {
     srvMap.add("getMarkedWord",pathAlias+"", "webservice/evaluateddb/getMarkedWord");
     //导出word
     srvMap.add('wordexport',pathAlias+"","/webservice/evaluateddb/evaluatedwordReport")
+    Data = {
+        data_tpsnumbers: '',
+        data_timetype: '',
+        data_serviceCalledTime: '',
+        data_deployednumbers:'',
+        data_dbs:''
+    };
     var init = {
         init: function() {
             this._render();
@@ -32,7 +39,18 @@ define(function(require, exports, module) {
             var _form = Page.findId('queryDataForm');
             var _exportBtn = _form.find("[name='export']");
             _exportBtn.off('click').on('click',function(){
-                location.href = srvMap.get('wordexport');
+                if(Data.data_dbs ==null||Data.data_dbs==undefined||Data.data_dbs==''){
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("没有查询记录可供导出！");
+                    setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                    $(".toast__close").click(function(){
+                        $(".toast__cell").css("display","none");
+                    });
+                    return;
+                }else {
+                    location.href = srvMap.get('wordexport')+"?dbs="+Data.data_dbs+"&tpsnumbers="+Data.data_tpsnumbers+"&timetype="+Data.data_timetype+"&serviceCalledTime="+Data.data_serviceCalledTime+
+                        "&deployednumbers="+Data.data_deployednumbers;
+                }
             });
         },
         _band_table_btn: function(cf, name,type) {
@@ -205,6 +223,11 @@ define(function(require, exports, module) {
                 	});
                     return
                 }
+                Data.data_tpsnumbers=tpsnumbers;
+                Data.data_timetype=timetype;
+                Data.data_serviceCalledTime=serviceCalledTime;
+                Data.data_deployednumbers=deployednumbers;
+                Data.data_dbs=dbs;
                 self._markedWord(cmd);
                 self._getGridList(cmd);
             });

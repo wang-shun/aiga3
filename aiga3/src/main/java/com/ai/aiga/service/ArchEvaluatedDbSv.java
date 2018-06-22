@@ -228,12 +228,15 @@ public class ArchEvaluatedDbSv extends BaseService {
             int maxIdle=(int)(sitcNumber*sec*maxIdleSEC)+1;
             int maxActive=(int)(sitcNumber*sec*maxActiveSEC)+1;
             int connections=(int)(minIdle*deployednumbers*instanceSEC);
+            String choose=map.get("choose");
             ArchSvnDbcpEvalutionOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionOut();
+            archSvnDbcpEvalutionOut.setConnectionFactor(String.valueOf(new BigDecimal(sec).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()));
             archSvnDbcpEvalutionOut.setDatabase(databaseName);
             archSvnDbcpEvalutionOut.setConnections(String.valueOf(connections));
             archSvnDbcpEvalutionOut.setMinIdle(String.valueOf(minIdle));
             archSvnDbcpEvalutionOut.setMaxIdle(String.valueOf(maxIdle));
             archSvnDbcpEvalutionOut.setMaxActive(String.valueOf(maxActive));
+            archSvnDbcpEvalutionOut.setChoose(choose);
             archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
         }
         return archSvnDbcpEvalutionOuts;

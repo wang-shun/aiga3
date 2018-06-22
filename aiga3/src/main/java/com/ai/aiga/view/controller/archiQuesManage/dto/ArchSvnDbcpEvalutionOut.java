@@ -13,6 +13,7 @@ public class ArchSvnDbcpEvalutionOut implements Serializable{
     private String connections;
     private  String minIdle;
     private String maxIdle;
+    private String choose;
     private String maxActive;
-
+    private String connectionFactor;
 }

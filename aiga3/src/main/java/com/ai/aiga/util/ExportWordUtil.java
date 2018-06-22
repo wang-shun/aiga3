@@ -17,7 +17,7 @@ public class ExportWordUtil {
         configuration = new Configuration(Configuration.VERSION_2_3_0);
         configuration.setDefaultEncoding("UTF-8");
        // configuration.setDirectoryForTemplateLoading(new File("C:/"));
-       configuration.setClassForTemplateLoading(ExportWordUtil.class, "/com/ai/aiga/template");
+        configuration.setClassForTemplateLoading(ExportWordUtil.class, "/com/ai/aiga/template");
         allTemplate = new HashMap<String,Template>();
         try{
             allTemplate.put("evaluatedDb", configuration.getTemplate(new String("新接入业务数据库连接容量评估报告".getBytes(),"utf-8")+".ftl","utf-8"));

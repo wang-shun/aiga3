@@ -19,7 +19,7 @@ public class ExportWordUtil {
         configuration.setClassForTemplateLoading(ExportWordUtil.class, "/com/ai/aiga/template");
         allTemplate = new HashMap<String,Template>();
         try{
-            allTemplate.put("evaluatedDb", configuration.getTemplate("新接入业务数据库连接容量评估报告.ftl"));
+            allTemplate.put("evaluatedDb", configuration.getTemplate("evaluateddb.ftl"));
         }catch(IOException e){
             e.printStackTrace();
             throw new RuntimeException(e);

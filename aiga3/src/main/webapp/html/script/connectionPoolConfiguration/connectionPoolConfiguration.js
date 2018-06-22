@@ -113,19 +113,16 @@ define(function(require, exports, module) {
 	                    var desc = function (x, y) {
 	            	        return (x.centerName).localeCompare(y.centerName,"zh");
 	            	    };                    
-	                    _data.sort(desc);
                     }else if(namev == "module"){
                     	var desc = function (x, y) {
 	            	        return (x.module).localeCompare(y.module);
 	            	    };                    
-	                    _data.sort(desc);
                     }else if(namev == "db"){
                     	var desc = function (x, y) {
 	            	        return (x.db).localeCompare(y.db);
-	            	    };                    
-	                    _data.sort(desc);
+	            	    };                    	                    
                     }
-                    
+                    _data.sort(desc);
                     for (var i in _data) {
                     	var _json = _data[i];
                         var _key, _value;

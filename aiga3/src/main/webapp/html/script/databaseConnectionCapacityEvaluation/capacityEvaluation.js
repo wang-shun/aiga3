@@ -5,13 +5,22 @@ define(function(require, exports, module) {
     // 初始化页面ID(和文件名一致)，不需要带'#Page_'
     var Page = Utils.initPage('capacityEvaluation');
     //查询单库折算系数
-    srvMap.add('getConversionFactor',pathAlias+"","webservice/configure/getConversionFactor");
+    srvMap.add('getConversionFactor',pathAlias+"","webservice/evaluateddb/getConversionFactor");
     //数据库表格
-    srvMap.add("getEvalDb", pathAlias+"", "webservice/configure/getEvalDb");
+    srvMap.add("getEvalDb", pathAlias+"", "webservice/evaluateddb/getEvalDb");
     //查询信息表
-    srvMap.add("getEvalution", pathAlias+"", "webservice/configure/getEvalution");
+    srvMap.add("getEvalution", pathAlias+"", "webservice/evaluateddb/getEvalution");
     //单实例理论并发数评估提示语
-    srvMap.add("getMarkedWord",pathAlias+"", "webservice/configure/getMarkedWord");
+    srvMap.add("getMarkedWord",pathAlias+"", "webservice/evaluateddb/getMarkedWord");
+    //导出word
+    srvMap.add('wordexport',pathAlias+"","/webservice/evaluateddb/evaluatedwordReport")
+    Data = {
+        data_tpsnumbers: '',
+        data_timetype: '',
+        data_serviceCalledTime: '',
+        data_deployednumbers:'',
+        data_dbs:''
+    };
     var init = {
         init: function() {
             this._render();
@@ -21,9 +30,29 @@ define(function(require, exports, module) {
             this._query_event();
             //重置
             this._reset_event();
+            //导出
+            this._export_event();
             this._load_table();
         },
-
+        _export_event:function () {
+            var self = this;
+            var _form = Page.findId('queryDataForm');
+            var _exportBtn = _form.find("[name='export']");
+            _exportBtn.off('click').on('click',function(){
+                if(Data.data_dbs ==null||Data.data_dbs==undefined||Data.data_dbs==''){
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("没有查询记录可供导出！");
+                    setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                    $(".toast__close").click(function(){
+                        $(".toast__cell").css("display","none");
+                    });
+                    return;
+                }else {
+                    location.href = srvMap.get('wordexport')+"?dbs="+Data.data_dbs+"&tpsnumbers="+Data.data_tpsnumbers+"&timetype="+Data.data_timetype+"&serviceCalledTime="+Data.data_serviceCalledTime+
+                        "&deployednumbers="+Data.data_deployednumbers;
+                }
+            });
+        },
         _band_table_btn: function(cf, name,type) {
             var self = this;
             var index = 0;
@@ -194,6 +223,11 @@ define(function(require, exports, module) {
                 	});
                     return
                 }
+                Data.data_tpsnumbers=tpsnumbers;
+                Data.data_timetype=timetype;
+                Data.data_serviceCalledTime=serviceCalledTime;
+                Data.data_deployednumbers=deployednumbers;
+                Data.data_dbs=dbs;
                 self._markedWord(cmd);
                 self._getGridList(cmd);
             });

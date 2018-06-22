@@ -2,8 +2,6 @@ package com.ai.aiga.view.controller.archiQuesManage;
 
 import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.service.ArchSvnDbcpSv;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpConversionFactorIn;
-import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpEvalutionIn;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSvnDbcpSelects;
 import com.ai.aiga.view.json.base.JsonBean;
 import io.swagger.annotations.Api;
@@ -21,30 +19,6 @@ public class ArchSvnDbcpController {
 
 	@Autowired
 	private ArchSvnDbcpSv archSvnDbcpSv;
-	@RequestMapping(path="webservice/configure/getConversionFactor")
-    public @ResponseBody JsonBean getConversionFactor(ArchSvnDbcpConversionFactorIn condition)throws Exception{
-        JsonBean bean = new JsonBean();
-        bean.setData(archSvnDbcpSv.getConversionFactor(condition));
-        return bean;
-    }
-    @RequestMapping(path="webservice/configure/getEvalDb")
-    public @ResponseBody JsonBean getEvalDb(){
-        JsonBean bean = new JsonBean();
-        bean.setData(archSvnDbcpSv.getEvalDb());
-        return bean;
-    }
-    @RequestMapping(path="/webservice/configure/getMarkedWord")
-    public @ResponseBody JsonBean getMarkedWord(ArchSvnDbcpEvalutionIn condition)throws Exception{
-        JsonBean bean = new JsonBean();
-        bean.setData(archSvnDbcpSv.getMarkedWord(condition));
-        return bean;
-    }
-    @RequestMapping(path="/webservice/configure/getEvalution")
-    public @ResponseBody JsonBean getEvalution(ArchSvnDbcpEvalutionIn condition)throws Exception{
-        JsonBean bean = new JsonBean();
-        bean.setData(archSvnDbcpSv.getEvalution(condition));
-        return bean;
-    }
 	@RequestMapping(path = "/webservice/configure/findAll")
 	public @ResponseBody JsonBean findAll(){
 		JsonBean bean = new JsonBean();

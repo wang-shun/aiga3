@@ -67,7 +67,7 @@ public class ArchEvaluatedDbController {
                 attention=archSvnDbcpMarkedWordOut.getMarkedWord()+"。";
             }
             dataMap.put("tpsnumbers", tpsnumbers);
-            dataMap.put("timetype", timeType);
+            dataMap.put("timetype", type);
             dataMap.put("serviceCalledTime", serviceCalledTime);
             dataMap.put("deployednumbers", deployednumbers);
             dataMap.put("evaluatedDate", currentDate);
@@ -91,6 +91,9 @@ public class ArchEvaluatedDbController {
                 evaluateddb11In.setCf(archSvnDbcpEvalutionOut.getConnectionFactor());
                 list.add(evaluateddb11In);
                 Edb2In evaluateddb22In = new Edb2In();
+                evaluateddb22In.setMax(archSvnDbcpEvalutionOut.getMax());
+                evaluateddb22In.setMin(archSvnDbcpEvalutionOut.getMin());
+                evaluateddb22In.setFact(archSvnDbcpEvalutionOut.getFact());
                 evaluateddb22In.setName(archSvnDbcpEvalutionOut.getDatabase());
                 evaluateddb22In.setConns(archSvnDbcpEvalutionOut.getConnections());
                 evaluateddb22In.setMaxActive(archSvnDbcpEvalutionOut.getMaxActive());

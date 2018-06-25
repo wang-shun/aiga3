@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -16,6 +17,9 @@ import java.util.*;
 @Service
 @Transactional
 public class ArchEvaluatedDbSv extends BaseService {
+
+    @Autowired
+    private ArchIndexDbSv archIndexDbSv;
     @Autowired
     private ArchitectureStaticDataSv architectureStaticDataSv;
     /**
@@ -158,6 +162,23 @@ public class ArchEvaluatedDbSv extends BaseService {
      *@date 18-6-14 上午10:29
      */
     public List<ArchSvnDbcpEvalutionOut> getEvalution(ArchSvnDbcpEvalutionIn condition)throws Exception{
+        AmCoreIndexParams amCoreIndexParams=new AmCoreIndexParams();
+        Date date=new Date();
+        SimpleDateFormat df_24=new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate=df_24.format(date);
+        amCoreIndexParams.setEndMonth(currentDate);
+        amCoreIndexParams.setIndexId(new long[]{1001001L,1001002L,1001003L,1001004L,1001005L,1034000L,1035000L,1036000L,1036001L,1036002L,1036003L} );
+        List<DbConnectTransfer> dbConnectTransfers=archIndexDbSv.query2daynew(amCoreIndexParams);
+        Map<String,Map<String,Long>> dbConnectMaps=new HashMap<String, Map<String, Long>>();
+        if(dbConnectTransfers!=null&&dbConnectTransfers.size()>0){
+            for(DbConnectTransfer dbConnectTransfer:dbConnectTransfers){
+                Map<String,Long> dbConnectMap=new HashMap<String, Long>();
+                dbConnectMap.put("min",dbConnectTransfer.getMin());
+                dbConnectMap.put("max",dbConnectTransfer.getMax());
+                dbConnectMap.put("fact",dbConnectTransfer.getFact());
+                dbConnectMaps.put(dbConnectTransfer.getDb(),dbConnectMap);
+            }
+        }
         Long  tpsnumbers=condition.getTpsnumbers();
         String timetype=condition.getTimetype();
         Long serviceCalledTime=condition.getServiceCalledTime();
@@ -205,9 +226,11 @@ public class ArchEvaluatedDbSv extends BaseService {
                 String codeName=architectureStaticData.getCodeName();
                 // String ext1=architectureStaticData.getExt1();
                 // String ext2=architectureStaticData.getExt2();
+                String ext3=architectureStaticData.getExt3();
                 Map<String,String> map=new HashMap<String, String>();
                 // map.put("ext1",ext1);
                 //  map.put("ext2",ext2);
+                map.put("ext3",ext3);
                 map.put("codeName",codeName);
                 architectureDbs.put(codeValue,map);
             }
@@ -223,6 +246,26 @@ public class ArchEvaluatedDbSv extends BaseService {
             //  double ext1=solveException(map.get("ext1"),1.0);
             // double ext2=solveException(map.get("ext2"),1.0);
             //double sec=(choose==1)?ext1:ext2;
+            String ext3=map.get("ext3");
+            Long aveMin=null,aveMax=null,aveFact=null;
+            String[] dbs={};
+            if(ext3!=null&&!ext3.trim().equals(""))
+              dbs=ext3.split(";");
+            if(dbs!=null&&dbs.length>0){
+                Long minCount=0l,maxCount=0l,factCount=0l;
+                aveMin=aveMax=aveFact=0L;
+               for(String db:dbs){
+                     Map<String,Long> dbconnectMap=dbConnectMaps.get(db);
+                     if(dbconnectMap!=null){
+                         minCount+=dbconnectMap.get("min");
+                         maxCount+=dbconnectMap.get("max");
+                         factCount+=dbconnectMap.get("fact");
+                     }
+               }
+               aveMin=minCount/dbs.length;
+               aveMax=maxCount/dbs.length;
+               aveFact=factCount/dbs.length;
+            }
             double sec=solveException(mapExt.get("ext"),1.0);
             int minIdle=(int)(sitcNumber*sec*minIdelSEC)+1;
             int maxIdle=(int)(sitcNumber*sec*maxIdleSEC)+1;
@@ -237,6 +280,21 @@ public class ArchEvaluatedDbSv extends BaseService {
             archSvnDbcpEvalutionOut.setMaxIdle(String.valueOf(maxIdle));
             archSvnDbcpEvalutionOut.setMaxActive(String.valueOf(maxActive));
             archSvnDbcpEvalutionOut.setChoose(choose);
+            if(aveMin==null){
+                archSvnDbcpEvalutionOut.setMin("*");
+            }else{
+                archSvnDbcpEvalutionOut.setMin(String.valueOf(aveMin));
+            }
+            if(aveFact==null){
+                archSvnDbcpEvalutionOut.setFact("*");
+            }else {
+                archSvnDbcpEvalutionOut.setFact(String.valueOf(aveFact));
+            }
+            if(aveMax==null){
+                archSvnDbcpEvalutionOut.setMax("*");
+            }else {
+                archSvnDbcpEvalutionOut.setMax(String.valueOf(aveMax));
+            }
             archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
         }
         return archSvnDbcpEvalutionOuts;

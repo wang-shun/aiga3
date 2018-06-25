@@ -9,6 +9,33 @@ public class Edb2In {
     private String minIdle;
     private String maxIdle;
     private String maxActive;
+    private String min;
+    private String max;
+    private String fact;
+
+    public String getMin() {
+        return min;
+    }
+
+    public void setMin(String min) {
+        this.min = min;
+    }
+
+    public String getMax() {
+        return max;
+    }
+
+    public void setMax(String max) {
+        this.max = max;
+    }
+
+    public String getFact() {
+        return fact;
+    }
+
+    public void setFact(String fact) {
+        this.fact = fact;
+    }
 
     public String getName() {
         return name;

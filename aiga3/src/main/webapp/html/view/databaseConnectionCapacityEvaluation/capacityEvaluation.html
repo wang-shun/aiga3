@@ -201,6 +201,9 @@
 					 <tr>
 						 <th class="table-word-center spl-thead-color1">数据库名</th>
 						 <th class="table-word-center spl-thead-color2">预计增长连接数</th>
+						 <th class="table-word-center spl-thead-color1">安全连接数上限</th>
+                         <th class="table-word-center spl-thead-color1">最高连接数上限</th>
+                         <th class="table-word-center spl-thead-color1">本日实际连接数值</th>
 						 <th class="table-word-center spl-thead-color1">minIdle参考值</th>
 						 <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
 						 <th class="table-word-center spl-thead-color1">maxActive参考值</th>
@@ -305,6 +308,9 @@
     <tr>
         <td class="table-word-center">{{database}}</td>
         <td class="table-word-center">{{connections}}</td>
+        <td class="table-word-center">{{min}}</td>
+        <td class="table-word-center">{{max}}</td>
+        <td class="table-word-center">{{fact}}</td>
         <td class="table-word-center">{{minIdle}}</td>
         <td class="table-word-center">{{maxIdle}}</td>
         <td class="table-word-center">{{maxActive}}</td>

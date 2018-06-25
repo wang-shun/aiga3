@@ -67,7 +67,7 @@ public class ArchEvaluatedDbController {
                 attention=archSvnDbcpMarkedWordOut.getMarkedWord()+"。";
             }
             dataMap.put("tpsnumbers", tpsnumbers);
-            dataMap.put("timetype", timeType);
+            dataMap.put("timetype", type);
             dataMap.put("serviceCalledTime", serviceCalledTime);
             dataMap.put("deployednumbers", deployednumbers);
             dataMap.put("evaluatedDate", currentDate);
@@ -91,6 +91,9 @@ public class ArchEvaluatedDbController {
                 evaluateddb11In.setCf(archSvnDbcpEvalutionOut.getConnectionFactor());
                 list.add(evaluateddb11In);
                 Edb2In evaluateddb22In = new Edb2In();
+                evaluateddb22In.setMax(archSvnDbcpEvalutionOut.getMax());
+                evaluateddb22In.setMin(archSvnDbcpEvalutionOut.getMin());
+                evaluateddb22In.setFact(archSvnDbcpEvalutionOut.getFact());
                 evaluateddb22In.setName(archSvnDbcpEvalutionOut.getDatabase());
                 evaluateddb22In.setConns(archSvnDbcpEvalutionOut.getConnections());
                 evaluateddb22In.setMaxActive(archSvnDbcpEvalutionOut.getMaxActive());
@@ -100,7 +103,7 @@ public class ArchEvaluatedDbController {
             }
             dataMap.put("edb1List", list);
             dataMap.put("edb2List", list2);
-            file = ExportWordUtil.createWord(dataMap, "resume.doc","evaluatedDb");
+            file = ExportWordUtil.createWord(dataMap, "evaluateddb.doc","evaluatedDb");
             fin = new FileInputStream(file);
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/msword");

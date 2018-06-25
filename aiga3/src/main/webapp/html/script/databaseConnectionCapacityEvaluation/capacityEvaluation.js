@@ -33,6 +33,15 @@ define(function(require, exports, module) {
             //导出
             this._export_event();
             this._load_table();
+            //清空
+            this._clear();
+        },
+        _clear:function(){
+            Data.data_tpsnumbers='';
+            Data.data_deployednumbers='';
+            Data.data_timetype='';
+            Data.data_serviceCalledTime='';
+            Data.data_dbs='';
         },
         _export_event:function () {
             var self = this;

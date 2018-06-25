@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -162,7 +163,10 @@ public class ArchEvaluatedDbSv extends BaseService {
      */
     public List<ArchSvnDbcpEvalutionOut> getEvalution(ArchSvnDbcpEvalutionIn condition)throws Exception{
         AmCoreIndexParams amCoreIndexParams=new AmCoreIndexParams();
-        amCoreIndexParams.setEndMonth("2018-06-01");
+        Date date=new Date();
+        SimpleDateFormat df_24=new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate=df_24.format(date);
+        amCoreIndexParams.setEndMonth(currentDate);
         amCoreIndexParams.setIndexId(new long[]{1001001L,1001002L,1001003L,1001004L,1001005L,1034000L,1035000L,1036000L,1036001L,1036002L,1036003L} );
         List<DbConnectTransfer> dbConnectTransfers=archIndexDbSv.query2daynew(amCoreIndexParams);
         Map<String,Map<String,Long>> dbConnectMaps=new HashMap<String, Map<String, Long>>();
@@ -242,7 +246,7 @@ public class ArchEvaluatedDbSv extends BaseService {
             //  double ext1=solveException(map.get("ext1"),1.0);
             // double ext2=solveException(map.get("ext2"),1.0);
             //double sec=(choose==1)?ext1:ext2;
-            String ext3=mapExt.get("ext3");
+            String ext3=map.get("ext3");
             Long aveMin=null,aveMax=null,aveFact=null;
             String[] dbs={};
             if(ext3!=null&&!ext3.trim().equals(""))
@@ -276,9 +280,21 @@ public class ArchEvaluatedDbSv extends BaseService {
             archSvnDbcpEvalutionOut.setMaxIdle(String.valueOf(maxIdle));
             archSvnDbcpEvalutionOut.setMaxActive(String.valueOf(maxActive));
             archSvnDbcpEvalutionOut.setChoose(choose);
-            archSvnDbcpEvalutionOut.setMin(aveMin);
-            archSvnDbcpEvalutionOut.setMax(aveMax);
-            archSvnDbcpEvalutionOut.setFact(aveFact);
+            if(aveMin==null){
+                archSvnDbcpEvalutionOut.setMin("*");
+            }else{
+                archSvnDbcpEvalutionOut.setMin(String.valueOf(aveMin));
+            }
+            if(aveFact==null){
+                archSvnDbcpEvalutionOut.setFact("*");
+            }else {
+                archSvnDbcpEvalutionOut.setFact(String.valueOf(aveFact));
+            }
+            if(aveMax==null){
+                archSvnDbcpEvalutionOut.setMax("*");
+            }else {
+                archSvnDbcpEvalutionOut.setMax(String.valueOf(aveMax));
+            }
             archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
         }
         return archSvnDbcpEvalutionOuts;

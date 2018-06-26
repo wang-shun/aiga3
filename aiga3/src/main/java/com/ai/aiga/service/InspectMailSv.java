@@ -103,7 +103,7 @@ public class InspectMailSv extends BaseService {
 			} 
 			//生成小模块
 			if("标题".equals(inspectMailData.getModuleType())) {
-				html.append("<div style='margin-left:39.0pt;text-indent:-18.0pt;font-family: 等线;font-weight: bold;margin-bottom: 5pt;font-size: 12pt;'>"+inspectMailData.getReportShowOrder()+"."+inspectMailData.getModuleShowOrder()+"   "+inspectMailData.getReportContent1()+"</div>");
+				html.append("<div style='margin-left:39.0pt;text-indent:-18.0pt;font-family: 等线;font-weight: bold;margin-bottom: 5pt;font-size: 13pt;'>"+inspectMailData.getReportShowOrder()+"."+inspectMailData.getModuleShowOrder()+"   "+inspectMailData.getReportContent1()+"</div>");
 			} else if("正文".equals(inspectMailData.getModuleType())) {
 				html.append("<div style='margin-left: 39.0pt;text-indent:2em;'>");
 				if(inspectMailData.getReportContent1() !=null) {

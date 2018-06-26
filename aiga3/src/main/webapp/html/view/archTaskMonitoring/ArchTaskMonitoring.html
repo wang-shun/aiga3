@@ -1,0 +1,95 @@
+
+  <style type="text/css">
+	#Page_workPlan .width-input-167 {width: 167px;}
+	#Page_workPlan .width-input-400 {width: 400px;}
+	#Page_workPlan .width-input-158 {width: 155px;}
+	#Page_workPlan .btn-center {text-align: center;}
+	#Page_workPlan .btn-table-update {margin-right: 20px;}
+	#Page_workPlan .btn-table-delete {margin-right: 20px;}
+	#Page_workPlan .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_workPlan .total-width {width: 850px;}
+	#Page_workPlan .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_workPlan .query-data-label {width: 80px;}
+	#Page_workPlan .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_workPlan .col2-sec-label {margin-left: 250px;}
+	#Page_workPlan .col3-after-label {margin-left: 17px;}
+	#Page_workPlan .line-sen-top {margin-top: 15px;}
+	#Page_workPlan .text-area-sty {width: 680px;vertical-align:middle; }
+  </style>
+<div class="row" id="Page_taskMonitoring">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">平台任务监控按条件查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>
+		            <div class ="row">
+		            	<div class="form-group col-sm-6">
+		            		<label class="col-sm-2  control-label">查询时间:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="finishDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
+		            </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary" data-toggle="modal" name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="box" id="JS_taskMonitoringList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">监控信息列表</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+	                    <th class="iCheckbox" width="15"></th>
+	                    <th >Index_Name</th>
+	                    <th >Task_Name</th>
+	                    <th >Results</th>
+						<th >State</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+                <div class="box-footer no-border">
+                	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 表格数据 -->
+<script id="TPL_taskMonitoringTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>
+    <td><input type="radio" class="minimal"></td>
+	<td >{{indexName}}</td>
+    <td >{{taskName}}</td>
+	<td >{{results}}</td>
+    <td >{{state}}</td>
+</tr>
+{{/each}}
+</script>
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/archTaskMonitoring/ArchTaskMonitoring", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

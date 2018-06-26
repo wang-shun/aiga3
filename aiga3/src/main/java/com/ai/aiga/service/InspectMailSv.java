@@ -51,8 +51,8 @@ public class InspectMailSv extends BaseService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");//目标格式
         String dateString = sdf.format(dataf.parse(time));
 		//区分大类小类异常指标
-		Map<Long,Long> moduleMap = new HashMap();
-
+		Map<Long,Long> moduleMap = new HashMap<Long, Long>();
+		Map<String,String> reportMap = new HashMap<String, String>();
 		Long bModuleNum = 0L;
 		Long sModuleNum = 0L;
 		Long dModuleNum = 0L;
@@ -62,71 +62,76 @@ public class InspectMailSv extends BaseService {
 				bModuleNum++;
 				moduleMap.put(inspectMailData.getReportShowOrder(), inspectMailData.getReportShowOrder());
 			} 
-			//统计小类异常类
-			if("标题".equals(inspectMailData.getModuleType())) {
+			//统计小类
+			if(reportMap.get(inspectMailData.getReportShowOrder()+","+inspectMailData.getModuleShowOrder()) == null) {
 				sModuleNum++;
+				reportMap.put(inspectMailData.getReportShowOrder()+","+inspectMailData.getModuleShowOrder(), inspectMailData.getReportShowOrder()+","+inspectMailData.getModuleShowOrder());
+			}
+			//统计异常类
+			if("标题".equals(inspectMailData.getModuleType())) {
 				if(inspectMailData.getReportContent1().contains("个异常波动点")) {
 					dModuleNum++;
 				}
 			}
 		}
 		//拼装巡检报告HTML
-		String html = "<html>"+
+		StringBuffer html = new StringBuffer();
+		html.append("<html>"+
 			"<head>"+
 			"<div style='text-align: center;font-size: 16.0pt;font-weight: bold;border-bottom:1px solid #9b9999;padding-top:3px;padding-bottom:3px;'>"+dateString+"新业务上线次日系统运行情况巡检报告</div>"+
 			"<div style='font-family: 等线;'>&nbsp;</div>"+
 			"<div style='font-family: 等线;'><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>本次架构治理共对"+bModuleNum+"大类"+sModuleNum+"小类完成新业务上线次日巡检，共发现"+dModuleNum+"小类存在异常波动，详细巡检结果见下文：</div>"+
 			"<div style='font-family: 等线;'>&nbsp;</div>"+
-			"</head>";
+			"</head>");
 		//模块添加
-		Map<Long,Long> titleMap = new HashMap();
+		Map<Long,Long> titleMap = new HashMap<Long, Long>();
 		for(InspectMailData inspectMailData:inspectMailDatas) {
 			//生成大标题
 			if(titleMap.get(inspectMailData.getReportShowOrder()) == null){
 				String btitle = "  ";
 				if(inspectMailData.getReportShowOrder() ==1L) {
-					btitle="一、平台运营：";
+					btitle="一、服务巡检：";
 				} else if(inspectMailData.getReportShowOrder() ==2L) {
-					btitle="二、专题跟踪：";
+					btitle="二、容量巡检：";
 				} else if(inspectMailData.getReportShowOrder() ==3L) {
-					btitle="三、应用配置类：";
+					btitle="三、架构耦合：";
 				} else {
 					//不存在此种情况
 				}
-				html+="<div style='font-weight: bold;font-family: 等线;margin-bottom: 5pt;'>"+btitle+"</div>";
+				html.append("<div style='font-weight: bold;font-family: 等线;margin-bottom: 5pt;font-size: 15pt;'>"+btitle+"</div>");
 				titleMap.put(inspectMailData.getReportShowOrder(), inspectMailData.getReportShowOrder());
 			} 
 			//生成小模块
 			if("标题".equals(inspectMailData.getModuleType())) {
-				html+="<div style='margin-left:39.0pt;text-indent:-18.0pt;font-family: 等线;font-weight: bold;margin-bottom: 5pt;'>"+inspectMailData.getReportShowOrder()+"."+inspectMailData.getModuleShowOrder()+inspectMailData.getReportContent1()+"</div>";
+				html.append("<div style='margin-left:39.0pt;text-indent:-18.0pt;font-family: 等线;font-weight: bold;margin-bottom: 5pt;font-size: 12pt;'>"+inspectMailData.getReportShowOrder()+"."+inspectMailData.getModuleShowOrder()+"   "+inspectMailData.getReportContent1()+"</div>");
 			} else if("正文".equals(inspectMailData.getModuleType())) {
-				html+="<div style='margin-left: 39.0pt;text-indent:2em;margin-bottom: 5pt;'>";
+				html.append("<div style='margin-left: 39.0pt;text-indent:2em;'>");
 				if(inspectMailData.getReportContent1() !=null) {
-					html+=inspectMailData.getReportContent1();
+					html.append(inspectMailData.getReportContent1());
 				}
 				if(inspectMailData.getReportContent2() !=null) {
-					html+=inspectMailData.getReportContent1();
+					html.append(inspectMailData.getReportContent2());
 				}
 				if(inspectMailData.getReportContent3() !=null) {
-					html+=inspectMailData.getReportContent1();
+					html.append(inspectMailData.getReportContent3());
 				}
-				html+="</div>";
+				html.append("</div>");
 			} else if("采集说明".equals(inspectMailData.getModuleType())) {
-				html+="<div style='margin-left: 39.0pt;font-weight: bold;font-family: 等线;margin-bottom: 5pt;'>";
+				html.append("<div style='margin-left: 39.0pt;font-weight: bold;font-family: 等线;'>");
 				if(inspectMailData.getReportContent1() !=null) {
-					html+=inspectMailData.getReportContent1();
+					html.append(inspectMailData.getReportContent1());
 				}
 				if(inspectMailData.getReportContent2() !=null) {
-					html+=inspectMailData.getReportContent1();
+					html.append(inspectMailData.getReportContent2());
 				}
 				if(inspectMailData.getReportContent3() !=null) {
-					html+=inspectMailData.getReportContent1();
+					html.append(inspectMailData.getReportContent3());
 				}
-				html+="</div>";
+				html.append("</div><div style='font-family: 等线;'>&nbsp;</div>");
 			}
 		}
-		html += "</html>";
-		return html;	
+		html.append("</html>");
+		return html.toString();	
 	}
 	
 }

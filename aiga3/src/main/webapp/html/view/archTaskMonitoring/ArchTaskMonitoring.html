@@ -32,7 +32,7 @@
 		            	<div class="form-group col-sm-6">
 		            		<label class="col-sm-2  control-label">查询时间:</label>
 		            		<div class="col-sm-4">
-                  				<input type="text" class="form-control input-sm " name="finishDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  				<input type="text" class="form-control input-sm " name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
                   		</div>
 		            </div>
@@ -50,21 +50,8 @@
                 <h3 class="box-title">监控信息列表</h3>
             </div>
             <div class="box-body">
-                <table class="table table-bordered table-hover" id="dataMaintainListTable">
-                    <thead>
-		                <tr>
-	                    <th class="iCheckbox" width="15"></th>
-	                    <th >Index_Name</th>
-	                    <th >Task_Name</th>
-	                    <th >Results</th>
-						<th >State</th>
-		                </tr>
-                    </thead>
-                    <tbody name="content"></tbody>         
-                </table>
-                <div class="box-footer no-border">
-                	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-                </div>
+                <div id="taskSuccessFail" style="width: 600px;height:400px;"></div>
+                <div id="taskClassSuccess" style="width: 600px;height:400px;"></div>
             </div>
         </div>
     </div>

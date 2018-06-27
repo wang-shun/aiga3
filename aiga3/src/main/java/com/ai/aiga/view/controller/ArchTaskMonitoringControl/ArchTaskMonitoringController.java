@@ -22,11 +22,9 @@ public class ArchTaskMonitoringController {
 
 	@RequestMapping(path="/arch/taskMonitoring/queryByCondition")
 	public @ResponseBody JsonBean queryByCondition(
-            @RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
-            @RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
             ArchTaskMonitoring condition) throws ParseException{
 			JsonBean bean = new JsonBean();
-			bean.setData(archTaskMonitoringSv.queryByCondition(condition, pageNumber, pageSize));
+			bean.setData(archTaskMonitoringSv.queryByCondition(condition));
 			return bean;
 	}
 

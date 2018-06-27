@@ -57,20 +57,6 @@
     </div>
 </div>
 
-
-
-<!-- 表格数据 -->
-<script id="TPL_taskMonitoringTemp" type="text/x-handlebars-template">
-{{#each this}}
-<tr>
-    <td><input type="radio" class="minimal"></td>
-	<td >{{indexName}}</td>
-    <td >{{taskName}}</td>
-	<td >{{results}}</td>
-    <td >{{state}}</td>
-</tr>
-{{/each}}
-</script>
 <script type="text/javascript">
 //<![CDATA[
 seajs.use("script/archTaskMonitoring/ArchTaskMonitoring", function(init) {

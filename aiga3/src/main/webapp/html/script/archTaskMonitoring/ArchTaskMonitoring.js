@@ -65,6 +65,7 @@ define(function(require, exports, module) {
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.postJson(srvMap.get('getTaskMonitoringList'),_cmd,function(json, status){
 				if(status){
+					debugger
 					window.XMS.msgbox.hide();									
 					var fail = [];
 					var success = [];
@@ -91,8 +92,9 @@ define(function(require, exports, module) {
 						        containLabel: true
 						    },
 						    toolbox: {
+						    	show: true,
 						        feature: {
-						            saveAsImage: {}
+						            magicType: {type: ['line', 'bar']},
 						        }
 						    },
 						    xAxis: {
@@ -107,13 +109,11 @@ define(function(require, exports, module) {
 						        {
 						            name:'成功任务数',
 						            type:'line',
-						            stack: '总量',
 						            data:[120, 132, 101, 134, 90, 230, 210]
 						        },
 						        {
 						            name:'失败任务数',
 						            type:'line',
-						            stack: '总量',
 						            data:[120, 132, 101, 134, 90, 230, 210]
 						        }
 						    ]
@@ -129,12 +129,13 @@ define(function(require, exports, module) {
 			
 /*			Rose.ajax.postJson(srvMap.get('getTaskClassSuccessList'),_cmd,function(json, status){
 				if(status){
-					window.XMS.msgbox.hide();												
+					window.XMS.msgbox.hide();
+					Page.findId('taskClassSuccess').css("display","block");
 					//折线图展示各个task类一周内的成功率
 					var myChart = echarts.init(document.getElementById('taskClassSuccess'));
 					option = {
 						    title: {
-						        text: '周任务运行情况'
+						        text: '各task类周成功率'
 						    },
 						    tooltip: {
 						        trigger: 'axis'
@@ -149,8 +150,9 @@ define(function(require, exports, module) {
 						        containLabel: true
 						    },
 						    toolbox: {
+						        show: true,
 						        feature: {
-						            saveAsImage: {}
+						            magicType: {type: ['line', 'bar']},
 						        }
 						    },
 						    xAxis: {
@@ -165,13 +167,11 @@ define(function(require, exports, module) {
 						        {
 						            name:'class1',
 						            type:'line',
-						            stack: '总量',
 						            data:[120, 132, 101, 134, 90, 230, 210]
 						        },
 						        {
 						            name:'class2',
 						            type:'line',
-						            stack: '总量',
 						            data:[120, 132, 101, 134, 90, 230, 210]
 						        }
 						    ]

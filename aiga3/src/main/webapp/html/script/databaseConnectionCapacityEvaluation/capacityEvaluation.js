@@ -35,6 +35,20 @@ define(function(require, exports, module) {
             this._load_table();
             //清空
             this._clear();
+            //helper 注册
+            this._handlebar_help_register();
+        },
+        _handlebar_help_register: function() {
+            Handlebars.registerHelper("addColor",function(value) {
+                debugger;
+               if(value=='连接数健康度等级良好，允许接入'){
+                    return 'change-font-green';
+                } else if(value=='连接数健康度等级已低于良好，建议慎重接入'){
+                    return 'change-font-red';
+                }else{
+                    return '';
+                }
+            });
         },
         _clear:function(){
             Data.data_tpsnumbers='';

@@ -1,4 +1,8 @@
 <style type="text/css">
+    #Page_capacityEvaluation .change-font-red {color: red;font-weight: 700;}
+    #Page_capacityEvaluation .change-font-green {color: green;font-weight: 700;}
+    #Page_capacityEvaluation .change-font-orange {color: #fffd8a;font-weight: 700;}
+    #Page_capacityEvaluation .change-font-yellow {color: orange;font-weight: 700;}
     #Page_capacityEvaluation .dl-btn{
         text-align:right;
     }
@@ -312,7 +316,7 @@
         <td class="table-word-center">{{fact}}</td>
         <td class="table-word-center">{{min}}</td>
         <td class="table-word-center">{{max}}</td>
-        <td class="table-word-center">{{advise}}</td>
+        <td class="table-word-center {{addColor advise}}">{{advise}}</td>
         <td class="table-word-center">{{minIdle}}</td>
         <td class="table-word-center">{{maxIdle}}</td>
         <td class="table-word-center">{{maxActive}}</td>

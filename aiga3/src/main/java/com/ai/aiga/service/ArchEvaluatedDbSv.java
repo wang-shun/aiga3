@@ -302,7 +302,7 @@ public class ArchEvaluatedDbSv extends BaseService {
             if(aveFact==null||aveMax==null){
                 archSvnDbcpEvalutionOut.setAdvise("该库连接数未采集，请联系DBA核实实际连接数后评估");
             }
-            else if(aveFact+connections<=aveMax){
+            else if(aveFact+connections<=aveMin){
                 archSvnDbcpEvalutionOut.setAdvise("连接数健康度等级良好，允许接入");
             }else{
                 archSvnDbcpEvalutionOut.setAdvise("连接数健康度等级已低于良好，建议慎重接入");

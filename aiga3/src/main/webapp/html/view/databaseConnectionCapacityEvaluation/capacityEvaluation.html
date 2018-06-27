@@ -201,9 +201,10 @@
 					 <tr>
 						 <th class="table-word-center spl-thead-color1">数据库名</th>
 						 <th class="table-word-center spl-thead-color2">预计增长连接数</th>
+                         <th class="table-word-center spl-thead-color1">本日实际连接数值</th>
 						 <th class="table-word-center spl-thead-color1">安全连接数上限</th>
                          <th class="table-word-center spl-thead-color1">最高连接数上限</th>
-                         <th class="table-word-center spl-thead-color1">本日实际连接数值</th>
+                         <th class="table-word-center spl-thead-color1">评估结果建议</th>
 						 <th class="table-word-center spl-thead-color1">minIdle参考值</th>
 						 <th class="table-word-center spl-thead-color1">maxIdle参考值</th>
 						 <th class="table-word-center spl-thead-color1">maxActive参考值</th>
@@ -221,10 +222,10 @@
         因此本模型从跨系统通用性角度评估，评估结果仅供参考，请接入系统结合本系统实际业务特点后再评估确定评估方案，如对评估模型有疑问或建议，可联系架构治理平台管理员。
         理论系统并发数=TPS*平均调用时长
         单实例理论并发数=理论系统并发数/实例数
-        minIdle=单实例理论并发数*单库折算系数*业务扩展系数（暂定1.0）
-        maxIdle=单实例理论并发数*单库折算系数*业务扩展系数（暂定1.5）
-        maxActive=单实例理论并发数*单库折算系数*业务扩展系数（暂定2.0）
-        增长连接数=minIdle*2*实例数
+        minIdle=单实例理论并发数*单库折算系数*业务扩展系数（1.0）
+        maxIdle=单实例理论并发数*单库折算系数*业务扩展系数（1.5）
+        maxActive=单实例理论并发数*单库折算系数*业务扩展系数（2.0）
+        增长连接数=minIdle*单库数据源配置数*实例数(单库数据源配置数根据是否分节点判断，如果是则为2，否则为1)
         其中单库折算系数需根据待评估系统结合业务与数据库节点访问的比例，确定一个合理的系数
         业务扩展系数则需根据接入系统以后业务的增长情况，确定一个扩展系数，上述系数仅供参考。
 		</textarea>
@@ -308,9 +309,10 @@
     <tr>
         <td class="table-word-center">{{database}}</td>
         <td class="table-word-center">{{connections}}</td>
+        <td class="table-word-center">{{fact}}</td>
         <td class="table-word-center">{{min}}</td>
         <td class="table-word-center">{{max}}</td>
-        <td class="table-word-center">{{fact}}</td>
+        <td class="table-word-center">{{advise}}</td>
         <td class="table-word-center">{{minIdle}}</td>
         <td class="table-word-center">{{maxIdle}}</td>
         <td class="table-word-center">{{maxActive}}</td>

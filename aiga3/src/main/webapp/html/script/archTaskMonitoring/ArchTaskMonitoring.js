@@ -8,9 +8,11 @@ define(function(require, exports, module) {
 	// 初始化页面ID(和文件名一致)，不需要带'#Page_'
 	var Page = Utils.initPage('taskMonitoring');
 
-	//显示查询信息表
+	//一周的任务成功失败情况
     srvMap.add("getTaskMonitoringList", pathAlias+"getList.json", "arch/taskMonitoring/queryByCondition");
-	
+    //各个task类一周内的成功率
+    //srvMap.add("getTaskClassSuccessList", pathAlias+"getList.json", "arch/taskClassSuccess/queryByCondition");
+    
 	var cache = {
 			datas : ""
 		};
@@ -69,10 +71,22 @@ define(function(require, exports, module) {
 					window.XMS.msgbox.hide();									
 					var fail = [];
 					var success = [];
-					for(var i=0;i<json.data.length;i++){
-						fail.push(json.data[i].failTotal);
-						success.push(json.data[i].successTotal);
+					if(json.data.length == 7){
+						for(var i=0;i<json.data.length;i++){
+							fail.push(json.data[i].failTotal);
+							success.push(json.data[i].successTotal);
+						}
+					}else{
+						for(var i=0;i<7-json.data.length;i++){
+							fail.push('0');
+							success.push('0');
+						}
+						for(var j=0;j<json.data.length;j++){
+							fail.push(json.data[j].failTotal);
+							success.push(json.data[j].successTotal);
+						}
 					}
+					
 					//折线图展示失败成功率
 					var myChart = echarts.init(document.getElementById('taskSuccessFail'));
 					option = {
@@ -130,7 +144,6 @@ define(function(require, exports, module) {
 /*			Rose.ajax.postJson(srvMap.get('getTaskClassSuccessList'),_cmd,function(json, status){
 				if(status){
 					window.XMS.msgbox.hide();
-					Page.findId('taskClassSuccess').css("display","block");
 					//折线图展示各个task类一周内的成功率
 					var myChart = echarts.init(document.getElementById('taskClassSuccess'));
 					option = {

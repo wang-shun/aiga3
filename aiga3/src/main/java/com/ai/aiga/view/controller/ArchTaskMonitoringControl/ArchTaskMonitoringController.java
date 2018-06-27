@@ -27,5 +27,13 @@ public class ArchTaskMonitoringController {
 			bean.setData(archTaskMonitoringSv.queryByCondition(condition));
 			return bean;
 	}
+	
+	@RequestMapping(path="/arch/taskClassSuccess/queryByCondition")
+	public @ResponseBody JsonBean queryTaskClassSuccess(
+            ArchTaskMonitoring condition) throws ParseException{
+			JsonBean bean = new JsonBean();
+			bean.setData(archTaskMonitoringSv.queryTaskClassSuccess(condition));
+			return bean;
+	}
 
 }

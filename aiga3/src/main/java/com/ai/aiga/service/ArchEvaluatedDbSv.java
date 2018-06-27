@@ -207,8 +207,7 @@ public class ArchEvaluatedDbSv extends BaseService {
         maxIdleSEC=solveException(maxIdleName,1.5);
         String maxActiveName=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","maxActiveSEC").get(0).getCodeName();
         maxActiveSEC=solveException(maxActiveName,2.0);
-        String instanceSECNAME=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","maxActiveSEC").get(0).getCodeName();
-        instanceSEC=solveException(instanceSECNAME,2.0);
+        ArchitectureStaticData archInstanceSEC=architectureStaticDataSv.findByCodeTypeAndCodeValue("POOLCONFIGURATION_DBCP_SEC","instancesSEC").get(0);
         Map<String,Map<String,String>> databaseMap=new HashMap<String,Map<String,String>>();
         String[] databaseArray=databases.split(",");
         for(int i=0;i<databaseArray.length;i++,i++,i++){
@@ -266,12 +265,17 @@ public class ArchEvaluatedDbSv extends BaseService {
                aveMax=maxCount/dbs.length;
                aveFact=factCount/dbs.length;
             }
+            String choose=mapExt.get("choose");
+           if ("1".equals(choose.trim())){
+              instanceSEC=solveException(archInstanceSEC.getExt2(),2.0);
+            }else {
+                instanceSEC=solveException(archInstanceSEC.getExt1(),1.0);
+            }
             double sec=solveException(mapExt.get("ext"),1.0);
             int minIdle=(int)(sitcNumber*sec*minIdelSEC)+1;
             int maxIdle=(int)(sitcNumber*sec*maxIdleSEC)+1;
             int maxActive=(int)(sitcNumber*sec*maxActiveSEC)+1;
             int connections=(int)(minIdle*deployednumbers*instanceSEC);
-            String choose=mapExt.get("choose");
             ArchSvnDbcpEvalutionOut archSvnDbcpEvalutionOut=new ArchSvnDbcpEvalutionOut();
             archSvnDbcpEvalutionOut.setConnectionFactor(String.valueOf(new BigDecimal(sec).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()));
             archSvnDbcpEvalutionOut.setDatabase(databaseName);
@@ -294,6 +298,14 @@ public class ArchEvaluatedDbSv extends BaseService {
                 archSvnDbcpEvalutionOut.setMax("*");
             }else {
                 archSvnDbcpEvalutionOut.setMax(String.valueOf(aveMax));
+            }
+            if(aveFact==null||aveMax==null){
+                archSvnDbcpEvalutionOut.setAdvise("该库连接数未采集，请联系DBA核实实际连接数后评估");
+            }
+            else if(aveFact+connections<=aveMax){
+                archSvnDbcpEvalutionOut.setAdvise("连接数健康度等级良好，允许接入");
+            }else{
+                archSvnDbcpEvalutionOut.setAdvise("连接数健康度等级已低于良好，建议慎重接入");
             }
             archSvnDbcpEvalutionOuts.add(archSvnDbcpEvalutionOut);
         }

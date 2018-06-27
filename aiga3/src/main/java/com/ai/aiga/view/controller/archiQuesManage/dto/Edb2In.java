@@ -12,6 +12,15 @@ public class Edb2In {
     private String min;
     private String max;
     private String fact;
+    private String advise;
+
+    public String getAdvise() {
+        return advise;
+    }
+
+    public void setAdvise(String advise) {
+        this.advise = advise;
+    }
 
     public String getMin() {
         return min;

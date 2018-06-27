@@ -19,4 +19,5 @@ public class ArchSvnDbcpEvalutionOut implements Serializable{
     private String min;
     private String max;
     private String fact;
+    private String advise;
 }

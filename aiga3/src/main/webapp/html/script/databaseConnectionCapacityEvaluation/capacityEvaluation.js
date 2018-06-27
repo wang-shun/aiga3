@@ -153,6 +153,9 @@ define(function(require, exports, module) {
                 for(k in obj){
                     if(obj[k].checked){
                         var radio_value=this._radio(obj[k].value);
+                        if(radio_value ==null||radio_value==undefined||radio_value==''){
+                            return -2;
+                        }
                         console.log(radio_value);
                         var databases=[];
                         var text= $('#Page_capacityEvaluation span[name='+obj[k].value+']').text();
@@ -196,6 +199,15 @@ define(function(require, exports, module) {
                 if(dbs!==null&&dbs!==undefined&&dbs=='-1'){
                     $(".toast__cell").css("display","block");
                     $("#toast__message").text("所选数据库对应的单库折算系数不能为空！");
+                    setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
+                    $(".toast__close").click(function(){
+                        $(".toast__cell").css("display","none");
+                    });
+                    return;
+                }
+                if(dbs!==null&&dbs!==undefined&&dbs=='-2'){
+                    $(".toast__cell").css("display","block");
+                    $("#toast__message").text("请选择访问策略(是否按地市分节点优先访问！");
                     setTimeout('$(".toast__cell").fadeOut("slow", function() { $(".toast__cell").css("display","none"); } )',2000);
                     $(".toast__close").click(function(){
                         $(".toast__cell").css("display","none");

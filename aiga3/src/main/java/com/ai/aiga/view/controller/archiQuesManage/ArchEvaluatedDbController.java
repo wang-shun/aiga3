@@ -99,6 +99,7 @@ public class ArchEvaluatedDbController {
                 evaluateddb22In.setMaxActive(archSvnDbcpEvalutionOut.getMaxActive());
                 evaluateddb22In.setMaxIdle(archSvnDbcpEvalutionOut.getMaxIdle());
                 evaluateddb22In.setMinIdle(archSvnDbcpEvalutionOut.getMinIdle());
+                evaluateddb22In.setAdvise(archSvnDbcpEvalutionOut.getAdvise());
                 list2.add(evaluateddb22In);
             }
             dataMap.put("edb1List", list);

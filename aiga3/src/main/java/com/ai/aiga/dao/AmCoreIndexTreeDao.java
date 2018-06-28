@@ -9,7 +9,6 @@ import com.ai.aiga.domain.AmCoreIndexTree;
 
 public interface AmCoreIndexTreeDao extends JpaRepository<AmCoreIndexTree, Long>, SearchAndPageRepository<AmCoreIndexTree, Long> {
 
-		
 	  //月份指标查询所有
 	  @Modifying
 	  @Query(value = " select a.* from am_core_index_tree a where a.group_id like '1___' ", nativeQuery = true)
@@ -31,4 +30,6 @@ public interface AmCoreIndexTreeDao extends JpaRepository<AmCoreIndexTree, Long>
 //	  @Query(value = " select a.* from am_core_index_tree a where a.group_id not like '3___' and a.group_id not like '4___' and a.group_id not like '1___' and a.index_id not like '1___' and a.state = 'U' and a.index_id not like '1____' and a.index_id not like '1_____'", nativeQuery = true)
 	  @Query(value = " (select a.* from am_core_index_tree a where a.state = 'U' and a.group_id = 999999 union select a.* from am_core_index_tree a where a.state = 'U' and a.index_id like '2___' union select a.* from am_core_index_tree a where a.state = 'U' and a.group_id like '2___' union select a.* from am_core_index_tree a where a.state = 'U' and a.group_id like '2____' union select a.* from am_core_index_tree a where a.state = 'U' and a.group_id like '2_____') ", nativeQuery = true)
 	  List<AmCoreIndexTree>findAllIndexByMonth();
+	  
+	  List<AmCoreIndexTree>findByGroupId(Long groupId);
 }

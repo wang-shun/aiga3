@@ -27,4 +27,10 @@ public class AmCoreIndexTreeController {
 		bean.setData(amCoreIndexTreeSv.findAllIndexByMonth());
 		return bean;
 	}
+	@RequestMapping(path = "/index/tree/findByGroupId")
+	public @ResponseBody JsonBean findByGroupId(){
+		JsonBean bean = new JsonBean();
+		bean.setData(amCoreIndexTreeSv.findByGroupId(1002L));
+		return bean;
+	}
 }

@@ -14,6 +14,8 @@ define(function(require, exports, module) {
 	srvMap.add("query2daynew", "", "arch/numberflow/query2daynew");
 	//查询接口
 	srvMap.add("listTotalDbConnects", "", "arch/index/listTotalDbConnects");
+	//查询接口
+	srvMap.add("findByGroupId", "", "index/tree/findByGroupId");
 
 	
 	var cache = {

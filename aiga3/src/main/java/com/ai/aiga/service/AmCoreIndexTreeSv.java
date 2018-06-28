@@ -20,5 +20,8 @@ public class AmCoreIndexTreeSv extends BaseService {
 	public List<AmCoreIndexTree> findAllIndexByMonth(){
 		return amCoreIndexTreeDao.findAllIndexByMonth();
 	}
+	public List<AmCoreIndexTree> findByGroupId(Long groupId){
+		return amCoreIndexTreeDao.findByGroupId(groupId);
+	}
 	
 }

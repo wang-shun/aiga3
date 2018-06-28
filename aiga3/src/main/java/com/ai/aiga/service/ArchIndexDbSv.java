@@ -1,5 +1,6 @@
 package com.ai.aiga.service;
 
+import com.ai.aiga.domain.AmCoreIndexTree;
 import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.AmCoreIndexParams;
@@ -23,7 +24,8 @@ import java.util.*;
 public class ArchIndexDbSv extends BaseService {
     @Autowired
     private ArchitectureIndexSv architectureIndexSv;
-    public List<DbConnectTransfer> query2daynew(AmCoreIndexParams condition)throws ParseException {
+    
+    public List<DbConnectTransfer> query2daynew(AmCoreIndexParams condition,List<AmCoreIndexTree>list)throws ParseException {
         String end = condition.getEndMonth();
         //获取上个月同一天时间字符串
         String nowday = end;
@@ -48,24 +50,37 @@ public class ArchIndexDbSv extends BaseService {
         String _yesterday = yesterday.replace("-", "");
         List<ArchDbConnectFlow>connectList = architectureIndexSv.listDbConnects2Flow(condition);
         List<ArchDbConnectFlow>connectList2 = new ArrayList<ArchDbConnectFlow>(connectList);
-        List<String>key1List = new ArrayList<String>();
+        List key1List = new ArrayList();
         List<DbConnectTransfer> transfers = new ArrayList<DbConnectTransfer>();
         Iterator<ArchDbConnectFlow> iterator = connectList.iterator();
         List<DbConnectFlow> flows = new ArrayList<DbConnectFlow>();
         while(iterator.hasNext()){
             DbConnectTransfer transfer = new DbConnectTransfer();
             ArchDbConnectFlow base = iterator.next();
-            String key1 = base.getKey1();
-            if(!key1List.contains(key1)){
-                key1List.add(key1);
-                transfer.setDb(key1);
-                transfer.setMin(20000);
-                transfer.setMax(25000);
+            long indexId = base.getIndexId();
+			if(indexId==1030000){
+				indexId = 10001;
+			}else if(indexId==1031000){
+				indexId = 10002;
+			}else if(indexId==1032000){
+				indexId = 10003;
+			}else if(indexId==1033000){
+				indexId = 10004;
+			}
+            if(!key1List.contains(indexId)){
+                key1List.add(indexId);
+                for(int i=0;i<list.size();i++){
+                	if(indexId==list.get(i).getIndexId()){
+                		transfer.setDb(list.get(i).getIndexGroup());
+                		transfer.setMin(Long.parseLong(list.get(i).getExt1()));
+                		transfer.setMax(Long.parseLong(list.get(i).getExt2()));
+                	}
+                }
                 long fact = 0L;
                 Iterator<ArchDbConnectFlow>iter = connectList2.iterator();
                 while(iter.hasNext()){
                     ArchDbConnectFlow inne = iter.next();
-                    if(inne.getKey1().equals(key1)){
+                    if(inne.getIndexId()==indexId){
                         if(inne.getSettMonth().equals(_nowday)){
                             fact = Long.valueOf(inne.getResultValue());
                             transfer.setFact(fact);

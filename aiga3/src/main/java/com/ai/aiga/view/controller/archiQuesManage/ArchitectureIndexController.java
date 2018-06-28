@@ -2,10 +2,12 @@ package com.ai.aiga.view.controller.archiQuesManage;
 
 
 import com.ai.aiga.constant.BusiConstant;
+import com.ai.aiga.domain.AmCoreIndexTree;
 import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.domain.ArchMonthIndex;
 import com.ai.aiga.domain.ArchSrvManage;
 import com.ai.aiga.service.ArchIndex.ArchitectureIndexSv;
+import com.ai.aiga.service.AmCoreIndexTreeSv;
 import com.ai.aiga.service.ArchIndexDbSv;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.*;
@@ -35,7 +37,9 @@ public class ArchitectureIndexController extends BaseService {
 	private ArchIndexDbSv archIndexDbSv;
 	@Autowired
 	private ArchitectureIndexSv architectureIndexSv;
-
+	@Autowired
+	private AmCoreIndexTreeSv amCoreIndexTreeSv;
+	
 	@RequestMapping(path = "/arch/index/listDbConnects")
 	public @ResponseBody JsonBean listDbConnects(
 			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
@@ -3896,9 +3900,34 @@ public class ArchitectureIndexController extends BaseService {
 	@RequestMapping(path = "/arch/numberflow/query2daynew")
 	public @ResponseBody JsonBean query2daynew(@RequestBody AmCoreIndexParams condition) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archIndexDbSv.query2daynew(condition));
+		List<AmCoreIndexTree> list = amCoreIndexTreeSv.findByGroupId(1002L);
+		String indexIdString = "";
+		if(list.size()>0){
+			for(int i=0;i<list.size();i++){
+				long temp = list.get(i).getIndexId();
+				if(temp==10001){
+					temp = 1030000;
+				}else if(temp==10002){
+					temp = 1031000;
+				}else if(temp==10003){
+					temp = 1032000;
+				}else if(temp==10004){
+					temp = 1033000;
+				}
+				indexIdString += temp+",";
+			}
+		}
+		indexIdString.substring(0, indexIdString.length()-1);
+		String[] indexIds = indexIdString.split(",");
+		long[] indexIdLong = new long[indexIds.length];
+		for(int j=0;j<indexIds.length;j++){
+			indexIdLong[j]=Long.parseLong(indexIds[j]);
+		}
+		condition.setIndexId(indexIdLong);
+		bean.setData(archIndexDbSv.query2daynew(condition,list));
 		return bean;
 	}
+
 	@RequestMapping(path = "/arch/index/listDbConnectsTopnew")
 	public @ResponseBody JsonBean listDbConnectsTopnew(@RequestBody AmCoreIndexTopParams condition) throws ParseException{
 		String end = condition.getEndMonth();

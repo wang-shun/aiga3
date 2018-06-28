@@ -100,7 +100,7 @@ public class ArchIndexDbSv extends BaseService {
                 		inid=1033000;
                 	}
                 	if(indexId==inid){
-                		transfer.setDb(key1);
+                		transfer.setDb(String.valueOf(indexId));
                 		transfer.setDbName(list.get(i).getIndexGroup());
                 		transfer.setMin(Long.parseLong(list.get(i).getExt1()));
                 		transfer.setMax(Long.parseLong(list.get(i).getExt2()));

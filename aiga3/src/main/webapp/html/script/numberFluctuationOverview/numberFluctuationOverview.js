@@ -86,28 +86,34 @@ define(function(require, exports, module) {
 							endMonth : time,
 							indexId : new Array()
 						}
-	        			if(db=='ZJCRMA'){
-	        				_ggcmd.indexId=[1001001];
-	        			}else if(db=='ZJCRMB'){
-	        				_ggcmd.indexId=[1001002];
-	        			}else if(db=='ZJCRMC'){
-	        				_ggcmd.indexId=[1001003];
-	        			}else if(db=='ZJCRMD'){
-	        				_ggcmd.indexId=[1001004];
-	        			}else if(db=='ZJRES'){
-	        				_ggcmd.indexId=[1001005];
-	        			}else if(db=='ZJRES'){
+	        			if(db=='营业数据库A中心'){
+	        				_ggcmd.indexId=[1030000];
+	        			}else if(db=='营业数据库B中心'){
+	        				_ggcmd.indexId=[1031000];
+	        			}else if(db=='营业数据库C中心'){
+	        				_ggcmd.indexId=[1032000];
+	        			}else if(db=='营业数据库D中心'){
+	        				_ggcmd.indexId=[1033000];
+	        			}else if(db=='渠道资源库'){
 	        				_ggcmd.indexId=[1034000];
-	        			}else if(db=='ZJPUB'){
+	        			}else if(db=='ZJPUB公共库'){
 	        				_ggcmd.indexId=[1035000];
-	        			}else if(db=='ZJZWA'){
+	        			}else if(db=='账务ZJZW库A中心'){
 	        				_ggcmd.indexId=[1036000];
-	        			}else if(db=='ZJZWB'){
+	        			}else if(db=='账务ZJZW库B中心'){
 	        				_ggcmd.indexId=[1036001];
-	        			}else if(db=='ZJZWC'){
+	        			}else if(db=='账务ZJZW库C中心'){
 	        				_ggcmd.indexId=[1036002];
-	        			}else if(db=='ZJZWD'){
+	        			}else if(db=='账务ZJZW库D中心'){
 	        				_ggcmd.indexId=[1036003];
+	        			}else if(db=='CBOSS库'){
+	        				_ggcmd.indexId=[1037000];
+	        			}else if(db=='手厅库'){
+	        				_ggcmd.indexId=[1037001];
+	        			}else if(db=='网厅库'){
+	        				_ggcmd.indexId=[1037002];
+	        			}else if(db=='中心化数据库A库'){
+	        				_ggcmd.indexId=[1038000];
 	        			}
 	        			var _7cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
 						Rose.ajax.postJson(srvMap.get("listTotalDbConnects"), _7cmd, function(json, status) {
@@ -141,28 +147,34 @@ define(function(require, exports, module) {
 							endMonth : time,
 							indexId : new Array()
 						}
-	        			if(db=='ZJCRMA'){
-	        				_ggcmd.indexId=[1001001];
-	        			}else if(db=='ZJCRMB'){
-	        				_ggcmd.indexId=[1001002];
-	        			}else if(db=='ZJCRMC'){
-	        				_ggcmd.indexId=[1001003];
-	        			}else if(db=='ZJCRMD'){
-	        				_ggcmd.indexId=[1001004];
-	        			}else if(db=='ZJRES'){
-	        				_ggcmd.indexId=[1001005];
-	        			}else if(db=='ZJRES'){
+	        			if(db=='营业数据库A中心'){
+	        				_ggcmd.indexId=[1030000];
+	        			}else if(db=='营业数据库B中心'){
+	        				_ggcmd.indexId=[1031000];
+	        			}else if(db=='营业数据库C中心'){
+	        				_ggcmd.indexId=[1032000];
+	        			}else if(db=='营业数据库D中心'){
+	        				_ggcmd.indexId=[1033000];
+	        			}else if(db=='渠道资源库'){
 	        				_ggcmd.indexId=[1034000];
-	        			}else if(db=='ZJPUB'){
+	        			}else if(db=='ZJPUB公共库'){
 	        				_ggcmd.indexId=[1035000];
-	        			}else if(db=='ZJZWA'){
+	        			}else if(db=='账务ZJZW库A中心'){
 	        				_ggcmd.indexId=[1036000];
-	        			}else if(db=='ZJZWB'){
+	        			}else if(db=='账务ZJZW库B中心'){
 	        				_ggcmd.indexId=[1036001];
-	        			}else if(db=='ZJZWC'){
+	        			}else if(db=='账务ZJZW库C中心'){
 	        				_ggcmd.indexId=[1036002];
-	        			}else if(db=='ZJZWD'){
+	        			}else if(db=='账务ZJZW库D中心'){
 	        				_ggcmd.indexId=[1036003];
+	        			}else if(db=='CBOSS库'){
+	        				_ggcmd.indexId=[1037000];
+	        			}else if(db=='手厅库'){
+	        				_ggcmd.indexId=[1037001];
+	        			}else if(db=='网厅库'){
+	        				_ggcmd.indexId=[1037002];
+	        			}else if(db=='中心化数据库A库'){
+	        				_ggcmd.indexId=[1038000];
 	        			}
 	        			var _30cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
 						Rose.ajax.postJson(srvMap.get("listTotalDbConnects"), _30cmd, function(json, status) {

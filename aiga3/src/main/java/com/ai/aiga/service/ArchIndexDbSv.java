@@ -106,7 +106,7 @@ public class ArchIndexDbSv extends BaseService {
                 		transfer.setMax(Long.parseLong(list.get(i).getExt2()));
                 	}
                 }
-                long fact = 0L;
+                Long fact = null;
                 Iterator<ArchDbConnectFlow>iter = connectList2.iterator();
                 while(iter.hasNext()){
                     ArchDbConnectFlow inne = iter.next();

@@ -8,6 +8,7 @@ import lombok.Data;
 public class DbConnectTransfer implements Serializable {
 
 	private String db;
+	private String dbName;
 	private long min;
     private long max;
     private long fact;

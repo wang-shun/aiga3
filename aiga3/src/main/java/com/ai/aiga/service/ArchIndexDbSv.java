@@ -85,6 +85,7 @@ public class ArchIndexDbSv extends BaseService {
             DbConnectTransfer transfer = new DbConnectTransfer();
             ArchDbConnectFlow base = iterator.next();
             long indexId = base.getIndexId();
+            String key1 = base.getKey1();
             if(!key1List.contains(indexId)){
                 key1List.add(indexId);
                 for(int i=0;i<list.size();i++){
@@ -99,7 +100,8 @@ public class ArchIndexDbSv extends BaseService {
                 		inid=1033000;
                 	}
                 	if(indexId==inid){
-                		transfer.setDb(list.get(i).getIndexGroup());
+                		transfer.setDb(key1);
+                		transfer.setDbName(list.get(i).getIndexGroup());
                 		transfer.setMin(Long.parseLong(list.get(i).getExt1()));
                 		transfer.setMax(Long.parseLong(list.get(i).getExt2()));
                 	}

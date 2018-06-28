@@ -3924,7 +3924,7 @@ public class ArchitectureIndexController extends BaseService {
 			indexIdLong[j]=Long.parseLong(indexIds[j]);
 		}
 		condition.setIndexId(indexIdLong);
-		bean.setData(archIndexDbSv.query2daynew(condition,list));
+		bean.setData(archIndexDbSv.query2daycommon(condition,list));
 		return bean;
 	}
 

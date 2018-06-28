@@ -137,15 +137,6 @@ public class ArchIndexDbSv extends BaseService {
             DbConnectTransfer transfer = new DbConnectTransfer();
             ArchDbConnectFlow base = iterator.next();
             long indexId = base.getIndexId();
-			if(indexId==1030000){
-				indexId = 10001;
-			}else if(indexId==1031000){
-				indexId = 10002;
-			}else if(indexId==1032000){
-				indexId = 10003;
-			}else if(indexId==1033000){
-				indexId = 10004;
-			}
             if(!key1List.contains(indexId)){
                 key1List.add(indexId);
                 for(int i=0;i<list.size();i++){

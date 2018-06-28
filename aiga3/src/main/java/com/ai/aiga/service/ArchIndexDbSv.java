@@ -140,7 +140,17 @@ public class ArchIndexDbSv extends BaseService {
             if(!key1List.contains(indexId)){
                 key1List.add(indexId);
                 for(int i=0;i<list.size();i++){
-                	if(indexId==list.get(i).getIndexId()){
+                	long inid = list.get(i).getIndexId();
+                	if(inid==10001){
+                		inid=1030000;
+                	}else if(inid==10002){
+                		inid=1031000;
+                	}else if(inid==10003){
+                		inid=1032000;
+                	}else if(inid==10004){
+                		inid=1033000;
+                	}
+                	if(indexId==inid){
                 		transfer.setDb(list.get(i).getIndexGroup());
                 		transfer.setMin(Long.parseLong(list.get(i).getExt1()));
                 		transfer.setMax(Long.parseLong(list.get(i).getExt2()));

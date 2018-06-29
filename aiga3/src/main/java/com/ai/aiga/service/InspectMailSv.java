@@ -27,7 +27,7 @@ public class InspectMailSv extends BaseService {
 		if(time==null || StringUtils.isBlank(time)){
 			return null;
 		}
-		String sql="SELECT * FROM ARCH_SYS_REPORT_RESULT t where CJ_DATE = "+time+" order by report_show_order asc ,module_show_order asc,decode(module_type, '标题',1, '正文', 2,'采集说明',3)";
+		String sql="SELECT * FROM ARCH_SYS_REPORT_RESULT t where CJ_DATE = "+time+" order by report_show_order asc ,module_show_order asc,decode(module_type, '标题',1, '正文', 2,'表格',3,'采集说明',4)";
 		List<InspectMailData> inspectMailDatas = archiTopListDao.searchByNativeSQL(sql, InspectMailData.class);
 		return inspectMailDatas;
 	}
@@ -116,6 +116,16 @@ public class InspectMailSv extends BaseService {
 					html.append(inspectMailData.getReportContent3());
 				}
 				html.append("</div>");
+			} else if("表格".equals(inspectMailData.getModuleType())) {
+				if(inspectMailData.getReportContent1() !=null) {
+					html.append(inspectMailData.getReportContent1());
+				}
+				if(inspectMailData.getReportContent2() !=null) {
+					html.append(inspectMailData.getReportContent2());
+				}
+				if(inspectMailData.getReportContent3() !=null) {
+					html.append(inspectMailData.getReportContent3());
+				}
 			} else if("采集说明".equals(inspectMailData.getModuleType())) {
 				html.append("<div style='margin-left: 39.0pt;font-weight: bold;font-family: 等线;'>");
 				if(inspectMailData.getReportContent1() !=null) {

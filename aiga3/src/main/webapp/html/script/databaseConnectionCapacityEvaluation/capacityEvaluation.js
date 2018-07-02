@@ -14,6 +14,8 @@ define(function(require, exports, module) {
     srvMap.add("getMarkedWord",pathAlias+"", "webservice/evaluateddb/getMarkedWord");
     //导出word
     srvMap.add('wordexport',pathAlias+"","/webservice/evaluateddb/evaluatedwordReport")
+    //操作手册下载
+    srvMap.add('manualdownload',pathAlias+"","/webservice/evaluateddb/manualDownload")
     Data = {
         data_tpsnumbers: '',
         data_timetype: '',
@@ -32,6 +34,8 @@ define(function(require, exports, module) {
             this._reset_event();
             //导出
             this._export_event();
+            //操作手册下载
+            this._manualdownload_event();
             this._load_table();
             //清空
             this._clear();
@@ -56,6 +60,14 @@ define(function(require, exports, module) {
             Data.data_timetype='';
             Data.data_serviceCalledTime='';
             Data.data_dbs='';
+        },
+        _manualdownload_event:function () {
+            var self = this;
+            var _form = Page.findId('queryDataForm');
+            var _exportBtn = _form.find("[name='manualdownload']");
+            _exportBtn.off('click').on('click',function(){
+                location.href = srvMap.get('manualdownload');
+            });
         },
         _export_event:function () {
             var self = this;

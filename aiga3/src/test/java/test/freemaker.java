@@ -49,7 +49,7 @@ public class freemaker {
         configuration.setDirectoryForTemplateLoading(new File("/home/zhuchao/word"));
         File outFile = new File("/home/zhuchao/word/test.doc");
 
-        Template t =  configuration.getTemplate("新接入业务数据库连接容量评估报告.ftl","utf-8");
+        Template t =  configuration.getTemplate("evaluateddbmanual1.ftl","utf-8");
         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"),10240);
         t.process(dataMap, out);
         out.close();

@@ -29,6 +29,42 @@ import java.util.*;
 public class ArchEvaluatedDbController {
     @Autowired
     private ArchEvaluatedDbSv archEvaluatedDbSv;
+    @RequestMapping(path="/webservice/evaluateddb/manualDownload")
+    public @ResponseBody void manualDownload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("utf-8");
+        File file = null;
+        InputStream fin = null;
+        ServletOutputStream out = null;
+        try{
+            Map dataMap=new HashMap();
+            file = ExportWordUtil.createWord(dataMap, "evaluateddbmanual.doc","evaluatedDbManualDownload");
+            fin = new FileInputStream(file);
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("application/msword");
+            response.addHeader("Content-Disposition", "attachment;filename="+new String("新接入业务数据库连接容量评估操作手册".getBytes(),"iso-8859-1")+".doc");
+            out = response.getOutputStream();
+            byte[] buffer = new byte[1024];//缓冲区
+            int bytesToRead = -1;
+            // 通过循环将读入的Word文件的内容输出到浏览器中
+            while((bytesToRead = fin.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesToRead);
+            }
+
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+        finally{
+            if(fin != null){
+                fin.close();
+            }
+            if(out != null){
+                out.close();
+            }
+            if(file != null) {
+                file.delete(); // 删除临时文件
+            }
+        }
+    }
     @RequestMapping(path="/webservice/evaluateddb/evaluatedwordReport")
     public @ResponseBody void wordExport(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding("utf-8");

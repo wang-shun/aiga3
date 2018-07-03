@@ -67,7 +67,6 @@ define(function(require, exports, module) {
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			Rose.ajax.postJson(srvMap.get('getTaskMonitoringList'),_cmd,function(json, status){
 				if(status){
-					debugger
 					window.XMS.msgbox.hide();									
 					var fail = [];
 					var success = [];
@@ -206,8 +205,13 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				var cmd = _form.serialize();				
+				var cmd = _form.serialize();
 				var startDate = _form.find("[name='startDate']").val();
+				var today = new Date();
+				if(new Date(startDate)>today){
+					XMS.msgbox.show('查询时间不能超过今天！', 'error', 2000);
+					return
+				}
 				if(startDate == 0) {
 					XMS.msgbox.show('查询时间为空！', 'error', 2000);
 					return

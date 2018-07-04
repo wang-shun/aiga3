@@ -69,7 +69,7 @@ public class InspectMailSv extends BaseService {
 			}
 			//统计异常类
 			if("标题".equals(inspectMailData.getModuleType())) {
-				if(inspectMailData.getReportContent1().contains("个异常点")) {
+				if(inspectMailData.getReportContent1().contains("个潜在风险点")) {
 					dModuleNum++;
 				}
 			}

@@ -126,7 +126,7 @@ public class InspectMailSv extends BaseService {
 					html.append(inspectMailData.getReportContent3());
 				}
 			} else if("采集说明".equals(inspectMailData.getModuleType())) {
-				html.append("<div style='margin-left: 39.0pt;font-weight: bold;font-family: 等线;'>");
+				html.append("<div style='margin-left: 39.0pt;font-weight: bold;'>");
 				if(inspectMailData.getReportContent1() !=null) {
 					html.append(inspectMailData.getReportContent1());
 				}

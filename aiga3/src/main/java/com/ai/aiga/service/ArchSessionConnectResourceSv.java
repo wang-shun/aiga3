@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.ai.aiga.dao.ArchSessionConnectResourceDao;
 import com.ai.aiga.dao.jpa.ParameterCondition;
-import com.ai.aiga.domain.ArchDbConnect;
 import com.ai.aiga.service.base.BaseService;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSessionConnectResourceParams;
 import com.ai.aiga.view.controller.archiQuesManage.dto.ArchSessionConnectResourceShow;

@@ -93,7 +93,7 @@ public class InspectMailSv extends BaseService {
 				} else if(inspectMailData.getReportShowOrder() ==2L) {
 					btitle="二、容量巡检：";
 				} else if(inspectMailData.getReportShowOrder() ==3L) {
-					btitle="三、架构耦合：";
+					btitle="三、配置巡检：";
 				} else {
 					//不存在此种情况
 				}

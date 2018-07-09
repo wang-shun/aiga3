@@ -82,7 +82,6 @@ define(function(require, exports, module) {
                         collect.push(json.data[i].collectTotal);
                         successRate.push(json.data[i].successRate);
                     }
-					
 					//折线图展示失败成功率
 					var myChart = echarts.init(document.getElementById('taskSumAndSuccessful'));
 					var maxTaskNum = getMaxTaskNum();
@@ -375,8 +374,13 @@ define(function(require, exports, module) {
 			Utils.setSelectData(_form);		 
 			var _queryBtn = _form.find("[name='query']");
 			_queryBtn.off('click').on('click',function(){
-				var cmd = _form.serialize();				
+				var cmd = _form.serialize();
 				var startDate = _form.find("[name='startDate']").val();
+				var today = new Date();
+				if(new Date(startDate)>today){
+					XMS.msgbox.show('查询时间不能超过今天！', 'error', 2000);
+					return
+				}
 				if(startDate == 0) {
 					XMS.msgbox.show('查询时间为空！', 'error', 2000);
 					return

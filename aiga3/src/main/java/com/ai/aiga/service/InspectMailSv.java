@@ -69,7 +69,7 @@ public class InspectMailSv extends BaseService {
 			}
 			//统计异常类
 			if("标题".equals(inspectMailData.getModuleType())) {
-				if(inspectMailData.getReportContent1().contains("个异常波动点")) {
+				if(inspectMailData.getReportContent1().contains("个潜在风险点")) {
 					dModuleNum++;
 				}
 			}
@@ -77,12 +77,11 @@ public class InspectMailSv extends BaseService {
 		//拼装巡检报告HTML
 		StringBuffer html = new StringBuffer();
 		html.append("<html>"+
-			"<head>"+
+			"<head><style>#mail p{margin: 0 0 5px;} #mail span{color: red;font-weight: bold;} #mail td{border: 1px solid #f4f4f4;} #mail th{border: 1px solid #f4f4f4;border-bottom-width: 2px;text-align: left;}</style></head><body>" +
 			"<div style='text-align: center;font-size: 16.0pt;font-weight: bold;border-bottom:1px solid #9b9999;padding-top:3px;padding-bottom:3px;'>"+dateString+"新业务上线次日系统运行情况巡检报告</div>"+
 			"<div style='font-family: 等线;'>&nbsp;</div>"+
 			"<div style='font-family: 等线;font-size: 14pt;font-weight: bold;'><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>本次架构治理共对<span style='color:red'>"+bModuleNum+"</span>大类<span style='color:red'>"+sModuleNum+"</span>小类完成新业务上线次日巡检，共发现<span style='color:red'>"+dModuleNum+"</span>小类存在异常波动，详细巡检结果见下文：</div>"+
-			"<div style='font-family: 等线;'>&nbsp;</div>"+
-			"</head>");
+			"<div style='font-family: 等线;'>&nbsp;</div>"+"<div id='mail'>");
 		//模块添加
 		Map<Long,Long> titleMap = new HashMap<Long, Long>();
 		for(InspectMailData inspectMailData:inspectMailDatas) {
@@ -94,7 +93,7 @@ public class InspectMailSv extends BaseService {
 				} else if(inspectMailData.getReportShowOrder() ==2L) {
 					btitle="二、容量巡检：";
 				} else if(inspectMailData.getReportShowOrder() ==3L) {
-					btitle="三、架构耦合：";
+					btitle="三、配置巡检：";
 				} else {
 					//不存在此种情况
 				}
@@ -127,7 +126,7 @@ public class InspectMailSv extends BaseService {
 					html.append(inspectMailData.getReportContent3());
 				}
 			} else if("采集说明".equals(inspectMailData.getModuleType())) {
-				html.append("<div style='margin-left: 39.0pt;font-weight: bold;font-family: 等线;'>");
+				html.append("<div style='margin-left: 39.0pt;margin-top:10px;font-weight: bold;'>");
 				if(inspectMailData.getReportContent1() !=null) {
 					html.append(inspectMailData.getReportContent1());
 				}
@@ -140,7 +139,7 @@ public class InspectMailSv extends BaseService {
 				html.append("</div><div style='font-family: 等线;'>&nbsp;</div>");
 			}
 		}
-		html.append("</html>");
+		html.append("</div></body></html>");
 		return html.toString();	
 	}
 	

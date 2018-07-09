@@ -27,6 +27,7 @@ public class ArchTaskMonitoringSv extends BaseService {
 		String dateQueryStart = sdf.format(condition.getStartDate());
 		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
 		String dateQueryEnd = sdf.format(endTime);
+
 		StringBuilder nativeSql = new StringBuilder("select start_date,sum(checkNum) as check_total,sum(sessionNum) as session_total,sum(reportNum) as report_total,sum(collectNum) as collect_total,sum(successRate)*100 as success_rate"+
 				" from("+
 						" select to_char(b.start_date,'YYYY-MM-DD') start_Date,count(*) checkNum,0 sessionNum,0 reportNum,0 collectNum,0 successRate"+
@@ -84,9 +85,10 @@ public class ArchTaskMonitoringSv extends BaseService {
 		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoring.class);
 		
 	}
-	
+
 	public List<ArchTaskMonitoringByTime> queryTaskCount(ArchTaskMonitoringByTime condition2) throws ParseException {
-		List<ParameterCondition>params = new ArrayList<ParameterCondition>();		
+
+		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		String dateQueryStart = sdf.format(condition2.getStartDate());
 		StringBuilder nativeSql = new StringBuilder(
@@ -130,6 +132,6 @@ public class ArchTaskMonitoringSv extends BaseService {
 	
 		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringByTime.class);
 		
-	}
 
+	}
 }

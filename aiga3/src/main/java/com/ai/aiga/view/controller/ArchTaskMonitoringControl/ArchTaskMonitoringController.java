@@ -6,9 +6,7 @@ import com.ai.aiga.domain.ArchTaskMonitoringByTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.ai.aiga.constant.BusiConstant;
 import com.ai.aiga.domain.ArchTaskMonitoring;
 import com.ai.aiga.service.ArchTaskMonitoringSv;
 import com.ai.aiga.view.json.base.JsonBean;
@@ -31,15 +29,15 @@ public class ArchTaskMonitoringController {
 			System.out.println("bean:**********************"+bean.toString());
 			return bean;
 	}
-	
+
 	@RequestMapping(path="/arch/taskNumCount/queryByTime")
 	public @ResponseBody JsonBean queryTaskClassSuccess(ArchTaskMonitoringByTime condition2) throws ParseException{
 		System.out.println("进入Controller2***************");
 		System.out.println("condion2:       "+condition2);
-			JsonBean bean = new JsonBean();
-			bean.setData(archTaskMonitoringSv.queryTaskCount(condition2));
-			System.out.println("bean:**************box********"+bean.toString());
-			return bean;
+		JsonBean bean = new JsonBean();
+		bean.setData(archTaskMonitoringSv.queryTaskCount(condition2));
+		System.out.println("bean:**************box********"+bean.toString());
+		return bean;
 	}
 
 }

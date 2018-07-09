@@ -4,115 +4,35 @@ import java.io.Serializable;
 import java.util.Date;
 
 @SuppressWarnings("serial")
-public class ArchTaskMonitoring implements Serializable{	
-	 private long groupId;
-	 private String paramValue;
-	 private long cfgTaskId;
-	 private String indexName;
-     private String taskName;
-     private String results;
-     private String state;
+public class ArchTaskMonitoring implements Serializable{
+
+	//	 private long groupId;
+//	 private String paramValue;
+//	 private long cfgTaskId;
+//	 private String indexName;
+//   private String taskName;
+//   private String results;
+//	 private long total;
+//   private String state;
      private Date startDate;
-     private long total;
-     private long successTotal;
-     private long failTotal;
+     private long checkTotal;
+     private long sessionTotal;
+	 private long reportTotal;
+	 private long collectTotal;
+	 private double successRate;
 
-    public ArchTaskMonitoring() {
-    }
 
-    public ArchTaskMonitoring(long groupId, String paramValue, long cfgTaskId, String indexName, String taskName, String results, String state,
-    	Date startDate, long total, long successTotal, long failTotal) {
-       this.groupId = groupId;
-       this.paramValue = paramValue;
-       this.cfgTaskId = cfgTaskId;
-       this.indexName = indexName;
-       this.taskName = taskName;
-       this.results = results;
-       this.state = state;
-       this.startDate = startDate;       
-       this.total = total;
-       this.successTotal = successTotal;
-       this.failTotal = failTotal;
-    }
 
-     public long getTotal() {
-		return total;
+	public ArchTaskMonitoring() {
 	}
 
-	public void setTotal(long total) {
-		this.total = total;
-	}
-
-	public long getSuccessTotal() {
-		return successTotal;
-	}
-
-	public void setSuccessTotal(long successTotal) {
-		this.successTotal = successTotal;
-	}
-
-	public long getFailTotal() {
-		return failTotal;
-	}
-
-	public void setFailTotal(long failTotal) {
-		this.failTotal = failTotal;
-	}
-
-	public long getGroupId() {
-		return groupId;
-	}
-
-	public void setGroupId(long groupId) {
-		this.groupId = groupId;
-	}
-
-	public String getParamValue() {
-		return paramValue;
-	}
-
-	public void setParamValue(String paramValue) {
-		this.paramValue = paramValue;
-	}
-
-	public long getCfgTaskId() {
-		return cfgTaskId;
-	}
-
-	public void setCfgTaskId(long cfgTaskId) {
-		this.cfgTaskId = cfgTaskId;
-	}
-
-	public String getIndexName() {
-		return indexName;
-	}
-
-	public void setIndexName(String indexName) {
-		this.indexName = indexName;
-	}
-
-	public String getTaskName() {
-		return taskName;
-	}
-
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
-
-	public String getResults() {
-		return results;
-	}
-
-	public void setResults(String results) {
-		this.results = results;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
+	public ArchTaskMonitoring(Date startDate, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, double successRate) {
+		this.startDate = startDate;
+		this.checkTotal = checkTotal;
+		this.sessionTotal = sessionTotal;
+		this.reportTotal = reportTotal;
+		this.collectTotal = collectTotal;
+		this.successRate = successRate;
 	}
 
 	public Date getStartDate() {
@@ -121,7 +41,59 @@ public class ArchTaskMonitoring implements Serializable{
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
-	} 
+	}
+
+	public long getCheckTotal() {
+		return checkTotal;
+	}
+
+	public void setCheckTotal(long checkTotal) {
+		this.checkTotal = checkTotal;
+	}
+
+	public long getSessionTotal() {
+		return sessionTotal;
+	}
+
+	public void setSessionTotal(long sessionTotal) {
+		this.sessionTotal = sessionTotal;
+	}
+
+	public long getReportTotal() {
+		return reportTotal;
+	}
+
+	public void setReportTotal(long reportTotal) {
+		this.reportTotal = reportTotal;
+	}
+
+	public long getCollectTotal() {
+		return collectTotal;
+	}
+
+	public void setCollectTotal(long collectTotal) {
+		this.collectTotal = collectTotal;
+	}
+
+	public double getSuccessRate() {
+		return successRate;
+	}
+
+	public void setSuccessRate(double successRate) {
+		this.successRate = successRate;
+	}
+
+	@Override
+	public String toString() {
+		return "ArchTaskMonitoring{" +
+				"startDate=" + startDate +
+				", checkTotal=" + checkTotal +
+				", sessionTotal=" + sessionTotal +
+				", reportTotal=" + reportTotal +
+				", collectTotal=" + collectTotal +
+				", successRate=" + successRate +
+				'}';
+	}
 }
 
 

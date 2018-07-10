@@ -18,6 +18,7 @@ public class ArchSessionConnectResource  implements java.io.Serializable {
      private String remark;
      private String dbName;
      private String settMonth;
+     private String batchId;
      
     public ArchSessionConnectResource() {
     }
@@ -29,6 +30,16 @@ public class ArchSessionConnectResource  implements java.io.Serializable {
         this.dbName = dbName;
         this.settMonth = settMonth;
     }
+    
+    public ArchSessionConnectResource(String fromSysName, long total, String remark, String dbName, String settMonth, String batchId) {
+        this.fromSysName = fromSysName;
+        this.total = total;
+        this.remark = remark;
+        this.dbName = dbName;
+        this.settMonth = settMonth;
+        this.batchId = batchId;
+    }
+    
     @Id 
     @Column(name="FROM_SYS_NAME", nullable=false, length=256)
 	public String getFromSysName() {
@@ -65,7 +76,16 @@ public class ArchSessionConnectResource  implements java.io.Serializable {
 	public void setSettMonth(String settMonth) {
 		this.settMonth = settMonth;
 	}
+	@Column(name="BATCH_ID", nullable=false, length=32)
+	public String getBatchId() {
+		return batchId;
+	}
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
     
+	
+	
 }
 
 

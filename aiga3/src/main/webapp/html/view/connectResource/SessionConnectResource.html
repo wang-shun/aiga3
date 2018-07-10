@@ -1,0 +1,184 @@
+  <style type="text/css">
+	#Page_SessionConnectResource .width-input-167 {width: 167px;}
+	#Page_SessionConnectResource .width-input-400 {width: 400px;}
+	#Page_SessionConnectResource .width-input-158 {width: 155px;}
+	#Page_SessionConnectResource .btn-center {text-align: center;}
+	#Page_SessionConnectResource .check-inline-label {display: block;float:left;margin-top: 10px;}
+	#Page_SessionConnectResource .total-width {width: 850px;}
+	#Page_SessionConnectResource .margin-onl {margin-left: 20px;margin-right: 20px;}
+	#Page_SessionConnectResource .query-data-label {width: 80px;}
+	#Page_SessionConnectResource .fist-text-label, .col2-sec-label, .col3-after-label {margin-right: 5px;width: 84px;}
+	#Page_SessionConnectResource .col2-sec-label {margin-left: 250px;}
+	#Page_SessionConnectResource .col3-after-label {margin-left: 17px;}
+	#Page_SessionConnectResource .line-sen-top {margin-top: 15px;}
+	#Page_SessionConnectResource .text-area-sty {width: 680px;vertical-align:middle; }
+	#Page_SessionConnectResource .btn-table-change {margin-right: 20px;}
+	#Page_SessionConnectResource .btn-table-report {margin-right: 20px;}
+	#Page_SessionConnectResource .btn-center {text-align: center;}
+	#Page_SessionConnectResource .total-width {width: 850px;}
+	#Page_SessionConnectResource .btn-table-change {margin-right: 20px;}
+	#Page_SessionConnectResource .btn-table-report {margin-right: 20px;}
+	#Page_SessionConnectResource .errcode-center {color:blue;font-size:18px;font-weight: bold;}
+	#Page_SessionConnectResource .text-style {color:red;font-size:16px;font-weight: bold;}
+	#Page_SessionConnectResource .min-height{min-height:50px;}
+	#Page_SessionConnectResource .select-label-word {margin-top: 7px;width: 70px;}
+	#Page_SessionConnectResource .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_SessionConnectResource .show-nothing {display:none;}  
+	#Page_SessionConnectResource .spl-thead-color1 {background-color: #00a65a;color: white;}  
+	#Page_SessionConnectResource .spl-thead-color2 {background-color: #3c8dbc;color: white;}  
+	#Page_SessionConnectResource .spl-thead-color3 {background-color: #f39c12;color: white;}  
+	#Page_SessionConnectResource .spl-thead-color4 {background-color: #8ac14a;color: white;}  
+	#Page_SessionConnectResource .spl-thead-color5 {background-color: #e1b34a;color: white;}  
+	#Page_SessionConnectResource .spl-thead-wid {} 
+	#Page_SessionConnectResource .change-font-red {color: red;font-weight: 700;} 
+	#Page_SessionConnectResource .change-font-green {color: green;font-weight: 700;} 
+	#Page_SessionConnectResource .change-font-orange {color: yellow;font-weight: 700;} 
+	#Page_SessionConnectResource .change-font-yellow {color: orange;font-weight: 700;} 
+	#Page_SessionConnectResource .table-word-center {text-align: center;vertical-align: middle;}  
+	#Page_SessionConnectResource .table-kuan1{width:6%;}
+	#Page_SessionConnectResource .table-kuan2{width:10%;}
+	#Page_SessionConnectResource .table-kuan3{width:15%;}
+  </style>
+<div class="row" id="Page_SessionConnectResource">
+    <div class="col-md-12">
+        <div class="box">
+            <form id="JS_queryDataForm">
+                <div class="box-header with-border">
+                    <h3 class="box-title">核心数据库连接数接入来源分析查询</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body"><br/>		            
+		            <div class="row">
+		            	<div class="col-sm-6">
+		            		<label class="col-sm-2  control-label">采集日期:</label>
+		            		<div class="col-sm-4">
+                  				<input type="text" class="form-control input-sm " name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                  			</div>
+                  		</div>
+		            </div>
+                </div>
+                <div class="box-footer">
+                    <div class="text-center">
+                         <button type="reset" class="btn btn-default">重置</button>
+                         <button type="button" class="btn btn-primary"  name="query">查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>    
+
+    <div class="col-md-12">    
+        <div class="box" id="JS_numberFluctuationList" style="min-height:100px;">
+            <div class="box-header ">
+                <h3 class="box-title">核心数据库连接数接入来源分析列表</h3>
+            </div>
+            <div class="box-body">
+                <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                    <thead>
+		                <tr>
+		                <th class="iCheckbox table-word-center spl-thead-color4" width="15"></th>
+	                    <th class="table-word-center spl-thead-color1">系统来源</th>
+						<th class="table-word-center spl-thead-color2">营业A库连接数</th>					
+						<th class="table-word-center spl-thead-color2">营业B库连接数</th>					
+						<th class="table-word-center spl-thead-color2">营业C库连接数</th>					
+						<th class="table-word-center spl-thead-color2">营业D库连接数</th>					
+						<th class="table-word-center spl-thead-color3">ZJRES连接数</th>					
+						<th class="table-word-center spl-thead-color4">ZJPUB连接数</th>					
+						<th class="table-word-center spl-thead-color1">时间</th>						
+						<th class="table-word-center spl-thead-color1">历史波动曲线查看</th>
+		                </tr>
+                    </thead>
+                    <tbody name="content"></tbody>         
+                </table>
+            </div>
+            <div class="box-footer no-border">
+            	<div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+  
+		<textarea cols="100" rows="5" disabled>
+核心数据库连接数接入来源说明：
+(1):按照各系统中心和核心数据库营业A/B/C/D库两个维度进行按天连接数的情况列表展示；
+(2):日环比变化是相较于前一天增量的百分比，下降标红，上升或不变标绿；
+(3):最后附带近7、30天变化曲线展示；
+		</textarea>
+
+    </div>	
+    
+    <!-- 弹出页面（7天波动） -->
+	<div class="modal fade" id="JS_show7dayModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">最近七天核心数据库连接数波动展示</h4>
+	            </div>
+	            <div id="JS_recent7Modal" class="modal-body" style="padding-bottom: 0">
+				     <div class="box" id="JS_recent7dayView" name="initEcharts">
+				        <div class="box-header" ></div>
+				        <div class="box-body" id="JS_archiIndex7View" style="width: 100%; height:350px;"></div>
+			   		</div>	
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+
+	</div>
+    <!-- 弹出页面 （30天波动）-->
+	<div class="modal fade" id="JS_show30dayModal" tabindex="-1" role="dialog">
+	    <div class="modal-dialog total-width">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	                <h4 class="modal-title">最近三十天核心数据库连接数波动展示</h4>
+	            </div>
+	            <div id="JS_recent30Modal" class="modal-body" style="padding-bottom: 0">
+				     <div class="box" id="JS_recent30dayView" name="initEcharts">
+				        <div class="box-header" ></div>
+				        <div class="box-body" id="JS_archiIndex30View" style="width: 100%; height:350px;"></div>
+			   		</div>	
+	          	</div>
+	            <div class="modal-footer btn-center">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>              
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<!-- 表格数据 -->
+<script id="TPL_numberFluctuationTemp" type="text/x-handlebars-template">
+{{#each this}}
+<tr>  
+    <td><input type="radio" class="minimal" value="{{indexId}}" name="indexId"></td>
+    <td class="table-word-center">{{fromSysName}}</td>
+	<td class="table-word-center">{{totala}}</td>
+	<td class="table-word-center">{{totalb}}</td>
+	<td class="table-word-center">{{totalc}}</td>
+	<td class="table-word-center">{{totald}}</td>
+	<td class="table-word-center">{{totale}}</td>
+	<td class="table-word-center">{{totalf}}</td>
+	<td class="table-word-center">{{settMonth}}</td>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-db="{{system}}" data-time="{{time}}" name="detail7">7天曲线</button>
+		 <button type="button" class="btn btn-primary btn-table-detail30" data-db="{{system}}" data-time="{{time}}" name="detail30">30天曲线</button>
+	</td>
+</tr>
+{{/each}}
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+seajs.use("script/connectResource/SessionConnectResource", function(init) {
+    init.init();
+});
+//]]>
+</script>
+
+

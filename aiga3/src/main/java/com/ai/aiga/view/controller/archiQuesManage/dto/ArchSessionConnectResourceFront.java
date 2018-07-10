@@ -12,6 +12,7 @@ public class ArchSessionConnectResourceFront implements Serializable {
     private long totalc;
     private long totald;
     private long totale;
+    private long totalf;
     private String settMonth;
     
 }

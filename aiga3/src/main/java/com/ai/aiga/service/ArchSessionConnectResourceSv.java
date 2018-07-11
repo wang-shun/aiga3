@@ -19,6 +19,7 @@ public class ArchSessionConnectResourceSv extends BaseService {
 	private ArchSessionConnectResourceDao archSessionConnectResourceDao;
 	
 	public List<ArchSessionConnectResourceShow>listSessionConnectResource(ArchSessionConnectResourceParams condition){
+		
 		StringBuilder nativeSql = new StringBuilder(
 				" SELECT a.from_sys_name, avg(a.total) as total, a.db_name, substr(a.sett_month, 0, 8) as sett_month" +
 				" FROM aiam.arch_session_connect_resource a where 1=1 " );

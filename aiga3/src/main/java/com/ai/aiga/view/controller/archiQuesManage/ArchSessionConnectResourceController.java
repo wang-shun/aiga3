@@ -26,8 +26,16 @@ public class ArchSessionConnectResourceController extends BaseService {
 		String newend = end.replace("-", "");
 		condition.setEndMonth(newend);
 		List<ArchSessionConnectResourceShow> list = archSessionConnectResourceSv.listSessionConnectResource(condition);
+		//将null替换 成 未追溯到系统来源连接数
+		for(int i=0;i<list.size();i++){
+			ArchSessionConnectResourceShow base = list.get(i);
+			String fromSysName = base.getFromSysName();
+			if(fromSysName==null){
+				base.setFromSysName("未追溯到系统来源连接数");
+			}
+		}
 		List<ArchSessionConnectResourceShow> list2 = new ArrayList<ArchSessionConnectResourceShow>(list);
-		//获取类别ZJCRMA/B/C/D/ZJRES
+		//获取类别ZJCRMA/B/C/D/ZJRES/ZJPUB
 		List<String>dbname_list = new ArrayList<String>();
 		Iterator<ArchSessionConnectResourceShow>iterator = list.iterator();
 		while(iterator.hasNext()){
@@ -37,7 +45,7 @@ public class ArchSessionConnectResourceController extends BaseService {
 				dbname_list.add(dbName);
 			}
 		}
-		//分类ZJCRMA/B/C/D/ZJRES
+		//分类ZJCRMA/B/C/D/ZJRES/ZJPUB
 		Map<String, List<ArchSessionConnectResourceShow>>map=new HashMap<String, List<ArchSessionConnectResourceShow>>();
 		for(int i=0;i<dbname_list.size();i++){
 			String dbName = dbname_list.get(i);

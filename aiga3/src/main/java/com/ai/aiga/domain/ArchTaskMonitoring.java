@@ -6,22 +6,12 @@ import java.util.Date;
 @SuppressWarnings("serial")
 public class ArchTaskMonitoring implements Serializable{
 
-	//	 private long groupId;
-//	 private String paramValue;
-//	 private long cfgTaskId;
-//	 private String indexName;
-//   private String taskName;
-//   private String results;
-//	 private long total;
-//   private String state;
      private Date startDate;
      private long checkTotal;
      private long sessionTotal;
 	 private long reportTotal;
 	 private long collectTotal;
 	 private double successRate;
-
-
 
 	public ArchTaskMonitoring() {
 	}
@@ -35,9 +25,7 @@ public class ArchTaskMonitoring implements Serializable{
 		this.successRate = successRate;
 	}
 
-	public Date getStartDate() {
-		return startDate;
-	}
+	public Date getStartDate() {return startDate;}
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -83,17 +71,6 @@ public class ArchTaskMonitoring implements Serializable{
 		this.successRate = successRate;
 	}
 
-	@Override
-	public String toString() {
-		return "ArchTaskMonitoring{" +
-				"startDate=" + startDate +
-				", checkTotal=" + checkTotal +
-				", sessionTotal=" + sessionTotal +
-				", reportTotal=" + reportTotal +
-				", collectTotal=" + collectTotal +
-				", successRate=" + successRate +
-				'}';
-	}
 }
 
 

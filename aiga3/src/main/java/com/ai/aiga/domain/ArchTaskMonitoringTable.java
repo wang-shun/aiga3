@@ -1,47 +1,33 @@
 package com.ai.aiga.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @SuppressWarnings("serial")
-public class ArchTaskMonitoringByTime implements Serializable {
-
-
-    private Date startDate;
-    private int finishDate;//1天24个小时
+public class ArchTaskMonitoringTable implements Serializable {
+    private String startDate;
     private long checkTotal;
     private long sessionTotal;
     private long reportTotal;
     private long collectTotal;
-    private long taskTotal;
+    private double successRate;
 
-    public ArchTaskMonitoringByTime() {
-    }
+    public ArchTaskMonitoringTable() {}
 
-    public ArchTaskMonitoringByTime(Date startDate, int finishDate, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, long taskTotal) {
+    public ArchTaskMonitoringTable(String startDate, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, double successRate) {
         this.startDate = startDate;
-        this.finishDate = finishDate;
         this.checkTotal = checkTotal;
         this.sessionTotal = sessionTotal;
         this.reportTotal = reportTotal;
         this.collectTotal = collectTotal;
-        this.taskTotal = taskTotal;
+        this.successRate = successRate;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
-    }
-
-    public int getFinishDate() {
-        return finishDate;
-    }
-
-    public void setFinishDate(int finishDate) {
-        this.finishDate = finishDate;
     }
 
     public long getCheckTotal() {
@@ -76,12 +62,12 @@ public class ArchTaskMonitoringByTime implements Serializable {
         this.collectTotal = collectTotal;
     }
 
-    public long getTaskTotal() {
-        return taskTotal;
+    public double getSuccessRate() {
+        return successRate;
     }
 
-    public void setTaskTotal(long taskTotal) {
-        this.taskTotal = taskTotal;
+    public void setSuccessRate(double successRate) {
+        this.successRate = successRate;
     }
 
 }

@@ -30,7 +30,7 @@ public class ArchSessionConnectResourceController extends BaseService {
 		for(int i=0;i<list.size();i++){
 			ArchSessionConnectResourceShow base = list.get(i);
 			String fromSysName = base.getFromSysName();
-			if(fromSysName==null){
+			if(fromSysName.equals("null")){
 				base.setFromSysName("未追溯到系统来源连接数");
 			}
 		}

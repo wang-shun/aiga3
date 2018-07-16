@@ -1,4 +1,4 @@
-package com.ai.aiga.domain;
+package com.ai.aiga.service.archmonitoringtask.dto;
 
 import java.io.Serializable;
 import java.util.Date;

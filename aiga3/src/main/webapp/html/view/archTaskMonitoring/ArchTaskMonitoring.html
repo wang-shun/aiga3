@@ -74,17 +74,29 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="dataSelectByTable">
-                    <div class="box">
+                    <div class="box" >
                         <form id="JS_queryDataFormTable">
                             <div class="box-tools pull-right">
+
                             </div>
                             <div class="box-body"><br/>
                                 <div class ="row">
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6" style="float: left">
                                         <label class="col-sm-2  control-label">查询时间:</label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control input-sm " name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                                         </div>
+                                    </div>
+                                    <div class="dropdown" style="float:right;">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            快速定位表格位置
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                            <li><a href="#JS_taskMonitoringListTable">失败任务信息清单</a></li>
+                                            <li><a href="#JS_taskMonitoringListTableSecond">任务运行频率分布清单</a></li>
+                                            <li><a href="#JS_taskMonitoringListTableThird">指定时长内任务运行清单</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                                 <div class="box-footer">
@@ -99,23 +111,21 @@
                     <div class="box" id="JS_taskMonitoringListTable" style="width:auto;height:auto;">
                         <div class="box-header with-border">
                             <h3 class="box-title">监控信息表格一</h3>
-                            <div style="float:right;text-align: center;margin-right: 40px">一周内每个进程对应的任务总数以及每天的任务成功率</div>
+                            <div style="text-align: center;">一周内失败任务信息清单</div>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-target="#firstTable"><i class="fa fa-minus"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="box-body" id="firstTable">
+                        <div class="box-body" id="firstTable" style="overflow: auto;height:270px">
                             <table class="table table-bordered table-hover" id="dataMaintainListTable">
                                 <thead>
                                 <tr>
                                     <th style="width:30px"></th>
-                                    <th style="text-align:center;width: 160px">日期</th>
-                                    <th style="text-align:center">Check任务总数</th>
-                                    <th style="text-align:center">Session任务总数</th>
-                                    <th style="text-align:center">Report任务总数</th>
-                                    <th style="text-align:center">Collect任务总数</th>
-                                    <th style="text-align:center">SuccessRate</th>
+                                    <th style="text-align:center">start_date</th>
+                                    <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">task_name</th>
+                                    <th style="text-align:center">business_class</th>
                                 </tr>
                                 </thead>
                                 <tbody name="content"></tbody>
@@ -125,26 +135,24 @@
                             <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
                         </div>
                     </div>
-                    <div class="box" id="JS_taskMonitoringListTableSecond" style="width:auto;height:auto;">
+                    <div class="box" id="JS_taskMonitoringListTableSecond" >
                         <div class="box-header with-border">
                             <h3 class="box-title">监控信息表格二</h3>
-                            <div style="float:right;text-align: center;margin-right: 40px">每个进程一天不同时间段的任务总数</div>
+                            <div style="text-align: center;">一天内任务运行频率情况信息</div>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-target="#firstTable"><i class="fa fa-minus"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="box-body">
+                        <div class="box-body" id="secondTable" style="overflow: auto;height:270px">
                             <table class="table table-bordered table-hover" id="dataMaintainListTableSecond">
                                 <thead>
                                 <tr>
                                     <th style="width:30px"></th>
-                                    <th style="text-align:center;width: 160px">时刻(24小时)</th>
-                                    <th style="text-align:center">Check任务总数</th>
-                                    <th style="text-align:center">Session任务总数</th>
-                                    <th style="text-align:center">Report任务总数</th>
-                                    <th style="text-align:center">Collect任务总数</th>
-                                    <th style="text-align:center">全部任务总数</th>
+                                    <th style="text-align:center">运行次数</th>
+                                    <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">task_name</th>
+                                    <th style="text-align:center">business_class</th>
                                 </tr>
                                 </thead>
                                 <tbody name="content"></tbody>
@@ -154,51 +162,23 @@
                             <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
                         </div>
                     </div>
-                    <div class="box" id="JS_taskMonitoringListTableThird" style="float:left;width:50%;height:auto;">
+                    <div class="box" id="JS_taskMonitoringListTableThird" style="height:auto;">
                         <div class="box-header with-border">
                             <h3 class="box-title">监控信息表格三</h3>
-                            <div style="float:right;text-align: center;margin-right: 40px">一天的任务运行频率分布情况</div>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-target="#firstTable"><i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <table class="table table-bordered table-hover" id="dataMaintainListTableThird">
-                                <thead>
-                                <tr>
-                                    <th style="width:130px"></th>
-                                    <th style="text-align:center">5次及以下</th>
-                                    <th style="text-align:center">6-10次</th>
-                                    <th style="text-align:center">11-20次</th>
-                                    <th style="text-align:center">21次及以上</th>
-                                </tr>
-                                </thead>
-                                <tbody name="content"></tbody>
-                            </table>
-                        </div>
-                        <div class="box-footer no-border">
-                            <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
-                        </div>
-                    </div>
-                    <div class="box" id="JS_taskMonitoringListTableFour" style="float:right;width:50%;height:auto;">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">监控信息表格四</h3>
-                            <div style="float:right;text-align: center;margin-right: 40px">一天中任务指定时长内运行次数</div>
+                            <div style=";text-align: center;">一天中任务指定时长内任务运行信息</div>
                             <div class="box-tools pull-left">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-target="#firstTable"><i class="fa fa-minus"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="box-body">
-                            <table class="table table-bordered table-hover" id="dataMaintainListTableFour">
+                        <div class="box-body" style="overflow: auto;height:270px">
+                            <table class="table table-bordered table-hover" id="dataMaintainListTableThird">
                                 <thead>
                                 <tr>
                                     <th style="width:130px"></th>
-                                    <th style="text-align:center">5分钟及以下</th>
-                                    <th style="text-align:center">6-10分钟</th>
-                                    <th style="text-align:center">11-15分钟</th>
-                                    <th style="text-align:center">16分钟及以上</th>
+                                    <th style="text-align:center">运行时长(分钟)</th>
+                                    <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">task_name</th>
                                 </tr>
                                 </thead>
                                 <tbody name="content"></tbody>
@@ -213,8 +193,6 @@
                     <div class="box">
                         <form id="JS_queryDataFormTop">
                             <div class="box-tools pull-right">
-                                <!--<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>-->
-                                <!--</button>-->
                             </div>
                             <div class="box-body"><br/>
                                 <div class ="row">
@@ -234,24 +212,34 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-4" id="JS_taskMonitoringListTop" style="min-height: 600px;padding-left: 5px;padding-right: 5px">
-                        <div class="box">
-                            <h3 >失败率Top1</h3>
-                            <div class="box-body"  style="min-height: 100px">
-                                hello
-                                hello
-                                你好
-                            </div>
+                    <div class="box" id="JS_taskMonitoringListTopFirst" style="width: 33%;height:350px;float: left;">
+                        <div style="text-align: center;">一天中任务指定时长内任务运行信息</div>
+                        <div class="box-body" >
+                            <table class="table table-bordered table-hover" id="TopTableFirst">
+                                <thead>
+                                <tr>
+                                    <th style="width:80px"></th>
+                                    <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">运行次数</th>
+                                </tr>
+                                </thead>
+                                <tbody name="content"></tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col-md-4" style="min-height: 100px;padding-left: 5px;padding-right: 5px">
-                        <div class="box">
-                            <h3 >失败率Top1</h3>
-                            <div class="box-body" style="min-height: 100px">
-                                hello
-                                hello
-                                你好
-                            </div>
+                    <div class="box" style="width: 33%;height:350px;float:left;">
+                        <div style=";text-align: center;">***********************************</div>
+                        <div class="box-body" >
+                            <table class="table table-bordered table-hover" id="TopTableSecond">
+                                <thead>
+                                <tr>
+                                    <th style="width:80px"></th>
+                                    <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">countNum</th>
+                                </tr>
+                                </thead>
+                                <tbody name="content"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -263,12 +251,10 @@
      {{#each this}}
      <tr style="text-align: center">
          <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
-         <td>{{startDate}}</td>
-         <td>{{checkTotal}}</td>
-         <td>{{sessionTotal}}</td>
-         <td>{{reportTotal}}</td>
-         <td>{{collectTotal}}</td>
-         <td>{{successRate}}</td>
+         <td>{{startTime}}</td>
+         <td>{{cfgTaskId}}</td>
+         <td>{{taskName}}</td>
+         <td>{{businessClass}}</td>
      </tr>
      {{/each}}
  </script>
@@ -276,49 +262,33 @@
      {{#each this}}
      <tr style="text-align: center">
          <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
-         <td>{{finishDate}}</td>
-         <td>{{checkTotal}}</td>
-         <td>{{sessionTotal}}</td>
-         <td>{{reportTotal}}</td>
-         <td>{{collectTotal}}</td>
-         <td>{{taskTotal}}</td>
+         <td>{{times}}</td>
+         <td>{{cfgTaskId}}</td>
+         <td>{{taskName}}</td>
+         <td>{{businessClass}}</td>
      </tr>
      {{/each}}
  </script>
- <script id="TPL_getFullTableListThird" type="text/x-handlebars-template">
-     {{#each this}}
-     <tr style="text-align: center">
-         <td>任务总数</td>
-         <td>{{firstTimes}}</td>
-         <td>{{secondTimes}}</td>
-         <td>{{thirdTimes}}</td>
-         <td>{{fourTimes}}</td>
-     </tr>
-     <tr style="text-align: center">
-         <td>占比</td>
-         <td>{{firstPro}}%</td>
-         <td>{{secondPro}}%</td>
-         <td>{{thirdPro}}%</td>
-         <td>{{fourPro}}%</td>
-     </tr>
-     {{/each}}
- </script>
-<script id="TPL_getFullTableListFour" type="text/x-handlebars-template">
+<script id="TPL_getFullTableListThird" type="text/x-handlebars-template">
     {{#each this}}
     <tr style="text-align: center">
-        <td>运行次数</td>
-        <td>{{firstMinutes}}</td>
-        <td>{{secondMinutes}}</td>
-        <td>{{thirdMinutes}}</td>
-        <td>{{fourMinutes}}</td>
+        <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+        <td>{{minutes}}</td>
+        <td>{{cfgTaskId}}</td>
+        <td>{{taskName}}</td>
     </tr>
+    {{/each}}
+</script>
+<script id="TPL_getTopTableFirst" type="text/x-handlebars-template">
+    var num = 1;
+    {{#each this}}
     <tr style="text-align: center">
-        <td>占比</td>
-        <td>{{firstPro}}%</td>
-        <td>{{secondPro}}%</td>
-        <td>{{thirdPro}}%</td>
-        <td>{{fourPro}}%</td>
+        <td></td>
+        <td>{{cfgTaskId}}</td>
+        <td>{{countNum}}</td>
     </tr>
+    num++;
+    <%num++%>
     {{/each}}
 </script>
 <script type="text/javascript">

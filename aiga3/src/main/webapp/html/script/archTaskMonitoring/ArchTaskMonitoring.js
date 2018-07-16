@@ -22,12 +22,13 @@ define(function(require, exports, module) {
     //第二页
     //系统表格信息查询,监控信息表格一
     srvMap.add("getTableListFirst", pathAlias + "getList.json", "arch/TableListFirst/findTableListFirst");
-    //系统表格信息查询,监控信息表格二
+    // //系统表格信息查询,监控信息表格二
     srvMap.add("getTableListSecond", pathAlias + "getList.json", "arch/TableListSecond/findTableListSecond");
     //系统表格信息查询，监控信息表格三
     srvMap.add("getTableListThird", pathAlias + "getList.json", "arch/TableListThird/findTableListThird");
-    //系统表格信息查询，监控信息表格四
-    srvMap.add("getTableListFour", pathAlias + "getList.json", "arch/TableListFour/findTableListFour");
+
+    //Top10  表格一  一天中任务指定时长内任务运行信息
+    srvMap.add("getTopListFirst", pathAlias + "getList.json", "arch/TopListFirst/findTopListFirst");
 
     var init = {
 
@@ -38,14 +39,6 @@ define(function(require, exports, module) {
         _render: function () {
             //查询
             this._query_event();
-
-            //初始化时间框
-            function showMonthFirstDay() {
-                console.log("初始化时间框");
-                var date = new Date();
-                date.setDate(1);
-                return Rose.date.dateTime2str(date, "yyyy-MM-dd");
-            }
 
             //三个页面实现时间框初始化
             var _form1 = Page.findId('queryDataForm');
@@ -58,7 +51,7 @@ define(function(require, exports, module) {
             _form3.find('[name="startDate"]').val(Rose.date.dateTime2str(new Date(), "yyyy-MM-dd"));
         },
 
-        // 查询视图数据
+        // 查询视图数据(第一个tab页)
         _getGridList: function (cmd) {
             var self = this;
             var _cmd = '';
@@ -73,8 +66,6 @@ define(function(require, exports, module) {
             for (var i = 1; i < 7; i++) {
                 dateArr[7 - i] = format(new Date(lastTime).getTime() - 1000 * 60 * 60 * 24 * i);
             }
-            var timeArr = [dateArr[1], dateArr[2], dateArr[3], dateArr[4], dateArr[5], dateArr[6], lastTime];
-
             function format(timestamp) {
                 var time = new Date(timestamp);
                 var y = time.getFullYear();
@@ -82,6 +73,8 @@ define(function(require, exports, module) {
                 var d = time.getDate();
                 return y + '-' + m + '-' + d;
             }
+
+            var timeArr = [dateArr[1], dateArr[2], dateArr[3], dateArr[4], dateArr[5], dateArr[6], lastTime];
 
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
@@ -462,7 +455,7 @@ define(function(require, exports, module) {
                         legend: {
                             orient: 'vertical',
                             left: 'right',
-                            data: ['5分钟及以下', '6-10分钟', '11-15分钟', '16分钟及以上']
+                            data: ['[0,5]分钟', '(5,10]分钟', '(10,15]分钟', '15分钟以上']
                         },
                         series: [
                             {
@@ -471,10 +464,10 @@ define(function(require, exports, module) {
                                 radius: '55%',
                                 center: ['50%', '60%'],
                                 data: [
-                                    {value: firstMinutes, name: '5分钟及以下'},
-                                    {value: secondMinutes, name: '6-10分钟'},
-                                    {value: thirdMinutes, name: '11-15分钟'},
-                                    {value: fourMinutes, name: '16分钟及以上'}
+                                    {value: firstMinutes, name: '[0,5]分钟'},
+                                    {value: secondMinutes, name: '(5,10]分钟'},
+                                    {value: thirdMinutes, name: '(10,15]分钟'},
+                                    {value: fourMinutes, name: '15分钟以上'}
                                 ],
                                 itemStyle: {
                                     emphasis: {
@@ -493,7 +486,7 @@ define(function(require, exports, module) {
             });
         },
 
-        //查询表格数据
+        //查询表格数据(第二个tab页)
         _getTableList: function (cmd) {
             console.log("查询表格数据");
             var self = this;
@@ -501,6 +494,10 @@ define(function(require, exports, module) {
             if (cmd) {
                 var _cmd = cmd;
             }
+
+            //入参规定，将字符串'2018-06-26'转换成'2018/06/26'才能解析
+            _cmd = _cmd.replace(/-/g, "/");
+
 
             //第一个表格内容渲染
             var _dom1 = Page.findId('taskMonitoringListTable');
@@ -538,19 +535,32 @@ define(function(require, exports, module) {
                 var template = Handlebars.compile(Page.findTpl('getFullTableListThird'));
                 tablebtn.html(template(json.data));
             });
+        },
 
-            //第四个表格渲染
-            var _dom4 = Page.findId('taskMonitoringListTableFour');
+        //查询表格数据(第二个tab页)
+        _getTopTableList: function (cmd) {
+            console.log("查询表格数据");
+            var self = this;
+            var _cmd = '';
+            if (cmd) {
+                var _cmd = cmd;
+            }
+
+            //入参规定，将字符串'2018-06-26'转换成'2018/06/26'才能解析
+            _cmd = _cmd.replace(/-/g, "/");
+
+            //第一个Top内容渲染
+            var _dom1 = Page.findId('taskMonitoringListTopFirst');
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            // 设置服务器端分页
-            Utils.getServerPage(srvMap.get('getTableListFour'), _cmd, function (json) {
+            Utils.getServerPage(srvMap.get('getTopListFirst'), _cmd, function (json) {
                 window.XMS.msgbox.hide();
-                var tablebtn = _dom4.find("[name='content']");
-                var template = Handlebars.compile(Page.findTpl('getFullTableListFour'));
+                var tablebtn = _dom1.find("[name='content']");
+                var template = Handlebars.compile(Page.findTpl('getTopTableFirst'));
                 tablebtn.html(template(json.data));
             });
 
         },
+
 
         //绑定查询按钮事件
         _query_event: function () {
@@ -614,9 +624,8 @@ define(function(require, exports, module) {
                     XMS.msgbox.show('查询时间为空！', 'error', 2000);
                     return
                 }
-                // self._getGridList(cmd);
+                self._getTopTableList(cmd);
             });
-
         },
 
     };

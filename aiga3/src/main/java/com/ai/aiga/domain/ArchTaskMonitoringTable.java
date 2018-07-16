@@ -1,73 +1,120 @@
 package com.ai.aiga.domain;
 
 import java.io.Serializable;
+import java.util.Date;
+
 
 @SuppressWarnings("serial")
 public class ArchTaskMonitoringTable implements Serializable {
-    private String startDate;
-    private long checkTotal;
-    private long sessionTotal;
-    private long reportTotal;
-    private long collectTotal;
-    private double successRate;
+    private Date startDate;
+    private String cfgTaskTypeCode;
+
+    private long taskLogId;
+    private long cfgTaskId;
+    private String taskName;
+    private String businessClass;
+    private String results;
+    private String startTime;
+    private String finishTime;
 
     public ArchTaskMonitoringTable() {}
 
-    public ArchTaskMonitoringTable(String startDate, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, double successRate) {
+    public ArchTaskMonitoringTable(Date startDate, String cfgTaskTypeCode, long taskLogId, long cfgTaskId, String taskName, String businessClass, String results, String startTime, String finishTime) {
         this.startDate = startDate;
-        this.checkTotal = checkTotal;
-        this.sessionTotal = sessionTotal;
-        this.reportTotal = reportTotal;
-        this.collectTotal = collectTotal;
-        this.successRate = successRate;
+        this.cfgTaskTypeCode = cfgTaskTypeCode;
+        this.taskLogId = taskLogId;
+        this.cfgTaskId = cfgTaskId;
+        this.taskName = taskName;
+        this.businessClass = businessClass;
+        this.results = results;
+        this.startTime = startTime;
+        this.finishTime = finishTime;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public long getCheckTotal() {
-        return checkTotal;
+    public String getCfgTaskTypeCode() {
+        return cfgTaskTypeCode;
     }
 
-    public void setCheckTotal(long checkTotal) {
-        this.checkTotal = checkTotal;
+    public void setCfgTaskTypeCode(String cfgTaskTypeCode) {
+        this.cfgTaskTypeCode = cfgTaskTypeCode;
     }
 
-    public long getSessionTotal() {
-        return sessionTotal;
+    public long getTaskLogId() {
+        return taskLogId;
     }
 
-    public void setSessionTotal(long sessionTotal) {
-        this.sessionTotal = sessionTotal;
+    public void setTaskLogId(long taskLogId) {
+        this.taskLogId = taskLogId;
     }
 
-    public long getReportTotal() {
-        return reportTotal;
+    public long getCfgTaskId() {
+        return cfgTaskId;
     }
 
-    public void setReportTotal(long reportTotal) {
-        this.reportTotal = reportTotal;
+    public void setCfgTaskId(long cfgTaskId) {
+        this.cfgTaskId = cfgTaskId;
     }
 
-    public long getCollectTotal() {
-        return collectTotal;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setCollectTotal(long collectTotal) {
-        this.collectTotal = collectTotal;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
-    public double getSuccessRate() {
-        return successRate;
+    public String getBusinessClass() {
+        return businessClass;
     }
 
-    public void setSuccessRate(double successRate) {
-        this.successRate = successRate;
+    public void setBusinessClass(String businessClass) {
+        this.businessClass = businessClass;
     }
 
+    public String getResults() {
+        return results;
+    }
+
+    public void setResults(String results) {
+        this.results = results;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(String finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ArchTaskMonitoringTable{" +
+                "startDate='" + startDate + '\'' +
+                ", cfgTaskTypeCode='" + cfgTaskTypeCode + '\'' +
+                ", taskLogId=" + taskLogId +
+                ", cfgTaskId=" + cfgTaskId +
+                ", taskName='" + taskName + '\'' +
+                ", businessClass='" + businessClass + '\'' +
+                ", results='" + results + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", finishTime='" + finishTime + '\'' +
+                '}';
+    }
 }

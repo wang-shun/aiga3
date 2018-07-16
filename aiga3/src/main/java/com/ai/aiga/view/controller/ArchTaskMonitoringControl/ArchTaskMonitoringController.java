@@ -22,6 +22,7 @@ public class ArchTaskMonitoringController {
 	@Autowired
 	private ArchTaskMonitoringSv archTaskMonitoringSv;
 
+	//以下视图
 	@RequestMapping(path="/arch/taskMonitoring/queryByCondition")
 	public @ResponseBody JsonBean queryByCondition( ArchTaskMonitoring condition) throws ParseException{
 			JsonBean bean = new JsonBean();
@@ -50,33 +51,35 @@ public class ArchTaskMonitoringController {
 		return bean;
 	}
 
+
+	//以下表格
 	@RequestMapping(path="/arch/TableListFirst/findTableListFirst")
-	public @ResponseBody JsonBean findTableListFirst(ArchTaskMonitoringTable condition5) throws ParseException {
+	public @ResponseBody JsonBean findTableListFirst(ArchTaskMonitoringTable condition1) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTable(condition5));
+		bean.setData(archTaskMonitoringSv.queryByConditionTable(condition1));
+		System.out.println("bean----------------------"+bean);
 		return bean;
 	}
 
 	@RequestMapping(path="/arch/TableListSecond/findTableListSecond")
-	public @ResponseBody JsonBean findTableListSecond(ArchTaskMonitoringTableSecond condition6) throws ParseException {
+	public @ResponseBody JsonBean findTableListSecond(ArchTaskMonitoringTableSecond condition2) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition6));
+		bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition2));
 		return bean;
 	}
 
 	@RequestMapping(path="/arch/TableListThird/findTableListThird")
-	public @ResponseBody JsonBean findTableListThird(ArchTaskMonitoringTableThird condition7) throws ParseException {
-		System.out.println("Sv-------condition7:_______________---------------_"+condition7);
+	public @ResponseBody JsonBean findTableListThird(ArchTaskMonitoringTableThird condition3) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition7));
-		System.out.println("Sv7----bean.toString():-------------"+bean.toString());
+		bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition3));
 		return bean;
 	}
 
-	@RequestMapping(path="/arch/TableListFour/findTableListFour")
-	public @ResponseBody JsonBean findTableListFour(ArchTaskMonitoringTableFour condition8) throws ParseException {
+	//以下Top
+	@RequestMapping(path="/arch/TopListFirst/findTopListFirst")
+	public @ResponseBody JsonBean findTopListFirst(ArchTaskMonitoringTopFirst condition1) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTableFour(condition8));
+		bean.setData(archTaskMonitoringSv.queryByConditionTopFirst(condition1));
 		return bean;
 	}
 

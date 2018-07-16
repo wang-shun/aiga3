@@ -25,7 +25,9 @@ public class ArchTaskMonitoringSv extends BaseService {
 	public List<ArchTaskMonitoring> queryByCondition(ArchTaskMonitoring condition) throws ParseException {
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		System.out.println("111111111111111condition.getStartDate():------------------"+condition.getStartDate());
 		String dateQueryStart = sdf.format(condition.getStartDate());
+		System.out.println("dateQueryStart:-----------------"+dateQueryStart);
 		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
 		String dateQueryEnd = sdf.format(endTime);
 
@@ -203,285 +205,178 @@ public class ArchTaskMonitoringSv extends BaseService {
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		String dateQueryStart = sdf.format(condition4.getStartDate());
 		StringBuilder nativeSql = new StringBuilder(
-						"select sum(firstMinutes) as first_minutes,sum(secondMinutes) as second_minutes,sum(thirdMinutes) as third_minutes,sum(fourMinutes) as four_minutes\n" +
-						"from(\n" +
-						"       select count(*) as firstMinutes,0 secondMinutes,0 thirdMinutes,0 fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))<=5\n" +
-						"       \n" +
-						"       union all\n" +
-						"       select 0 firstMinutes,count(*) as secondMinutes,0 thirdMinutes,0 fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))>=6\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))<=10\n" +
-						"       \n" +
-						"       union all\n" +
-						"       select 0 firstMinutes,0 secondMinutes,count(*) as thirdMinutes,0 fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))>=11\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))<=15\n" +
-						"       \n" +
-						"       union all\n" +
-						"       select 0 firstMinutes,0 secondMinutes,0 thirdMinutes,count(*) as fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))>=16\n" +
-						")\n"
+						"select sum(firstMinutes) as first_minutes,\n" +
+								"       sum(secondMinutes) as second_minutes,\n" +
+								"       sum(thirdMinutes) as third_minutes,\n" +
+								"       sum(fourMinutes) as four_minutes\n" +
+								"  from (select count(*) as firstMinutes,\n" +
+								"               0 secondMinutes,\n" +
+								"               0 thirdMinutes,\n" +
+								"               0 fourMinutes\n" +
+								"          from aiam.task_log a \n" +
+								"          where a.results like '%uccess%'\n" +
+								"           and to_char(start_date, 'YYYY-MM-DD') = :startDate\n" +
+								"           and (finish_date-start_date)*24*60<=5\n" +
+								"        union all\n" +
+								"        select 0 firstMinutes,\n" +
+								"               count(*) as secondMinutes,\n" +
+								"               0 thirdMinutes,\n" +
+								"               0 fourMinutes\n" +
+								"          from aiam.task_log a\n" +
+								"         where a.results like '%uccess%'\n" +
+								"           and to_char(start_date, 'YYYY-MM-DD') = :startDate\n" +
+								"           and (finish_date-start_date)*24*60>5\n" +
+								"           and (finish_date-start_date)*24*60<=10\n" +
+								"        union all\n" +
+								"        select 0 firstMinutes,\n" +
+								"               0 secondMinutes,\n" +
+								"               count(*) as thirdMinutes,\n" +
+								"               0 fourMinutes\n" +
+								"          from aiam.task_log a\n" +
+								"         where a.results like '%uccess%'\n" +
+								"           and to_char(start_date, 'YYYY-MM-DD') = :startDate\n" +
+								"           and (finish_date-start_date)*24*60 > 10\n" +
+								"           and (finish_date-start_date)*24*60 <= 15\n" +
+								"        union all\n" +
+								"        select 0 firstMinutes,\n" +
+								"               0 secondMinutes,\n" +
+								"               0 thirdMinutes,\n" +
+								"               count(*) as fourMinutes\n" +
+								"          from aiam.task_log a\n" +
+								"         where a.results like '%uccess%'\n" +
+								"           and to_char(start_date, 'YYYY-MM-DD') = :startDate\n" +
+								"           and (finish_date-start_date)*24*60>15)"
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));
 		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringByFrequencyAndTimes.class);
 
 	}
 
-	public List<ArchTaskMonitoringTable> queryByConditionTable(ArchTaskMonitoringTable condition5 ) throws ParseException{
-		System.out.println("condition5----------------------=-=-"+condition5);
+	//以下表格
+	public List<ArchTaskMonitoringTable> queryByConditionTable(ArchTaskMonitoringTable condition1 ) throws ParseException{
+		System.out.println("condition5----------------------=-=-"+condition1);
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-//		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-		String dateQueryStart = condition5.getStartDate();
+		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		System.out.println("condition5.getStartDate()---------"+condition1.getStartDate());
+		String dateQueryStart = sdf.format(condition1.getStartDate());
+		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
+
+		String dateQueryEnd = sdf.format(endTime);
 		StringBuilder nativeSql = new StringBuilder(
-						"select start_date,sum(checkNum) check_total,sum(sessionNum) session_total,sum(reportNum) report_total,sum(collectNum) collect_total,sum(successRate)*100 success_rate\n" +
-						" from(\n" +
-						"       select to_char(b.start_date,'YYYY-MM-DD') start_date,count(*) checkNum,0 sessionNum,0 reportNum,0 collectNum,0 successRate\n" +
-						"       from aiam.cfg_task a,aiam.task_log b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id \n" +
-						"       and a.cfg_task_type_code='TASK_CHECK'\n" +
-						"       and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')<=to_date(:startDate,'YYYY-MM-DD')\n" +
-						"       and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')>=to_date(:startDate,'YYYY-MM-DD') - interval '6' day\n" +
-						"       group by to_char(b.start_date,'YYYY-MM-DD')\n" +
-						"       union all\n" +
-						"       select to_char(b.start_date,'YYYY-MM-DD') start_date,0 checkNum,count(*) sessionNum,0 reportNum,0 collectNum,0 successRate\n" +
-						"       from aiam.cfg_task a,aiam.task_log b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id \n" +
-						"       and a.cfg_task_type_code='TASK_SESSIONK'\n" +
-						"       and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')<=to_date(:startDate,'YYYY-MM-DD')\n" +
-						"       and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')>=to_date(:startDate,'YYYY-MM-DD') - interval '6' day\n" +
-						"       group by to_char(b.start_date,'YYYY-MM-DD')\n" +
-						"       union all\n" +
-						"       select to_char(b.start_date,'YYYY-MM-DD') start_date,0 checkNum,0 sessionNum，count(*) reportNum,0 collectNum,0 successRate\n" +
-						"       from aiam.cfg_task a,aiam.task_log b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id \n" +
-						"       and a.cfg_task_type_code='TASK_REPORT'\n" +
-						"       and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')<=to_date(:startDate,'YYYY-MM-DD')\n" +
-						"       and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')>=to_date(:startDate,'YYYY-MM-DD') - interval '6' day\n" +
-						"       group by to_char(b.start_date,'YYYY-MM-DD')\n" +
-						"       union all\n" +
-						"       select to_char(b.start_date,'YYYY-MM-DD') start_date,0 checkNum,0 sessionNum，0 reportNum,count(*) collectNum,0 successRate\n" +
-						"       from aiam.cfg_task a,aiam.task_log b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id \n" +
-						"      and a.cfg_task_type_code='TASK_COLLECT'\n" +
-						"     and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')<=to_date(:startDate,'YYYY-MM-DD')\n" +
-						"       and to_date(to_char(b.start_date,'YYYY-MM-DD'),'YYYY-MM-DD')>=to_date(:startDate,'YYYY-MM-DD') - interval '6' day\n" +
-						"      group by to_char(b.start_date,'YYYY-MM-DD')\n" +
-						"      union all\n" +
-						"      select start_date,0 checkNum,0 sessionNum,0 reportNum,0 collectNum,round(sum(successTotal)/sum(Total),3) successRate\n" +
-						"      from (\n" +
-						"           select to_char(start_date, 'YYYY-MM-DD') start_date,0 Total,count(results) successTotal,0 successRate\n" +
-						"           from aiam.task_log\n" +
-						"           where results like '%uccess%'\n" +
-						"            and to_date(to_char(start_date,'YYYY-MM-DD'),'YYYY-MM-DD')<=to_date(:startDate,'YYYY-MM-DD')\n" +
-						"             and to_date(to_char(start_date,'YYYY-MM-DD'),'YYYY-MM-DD')>=to_date(:startDate,'YYYY-MM-DD') - interval '6' day\n" +
-						"           group by to_char(start_date, 'YYYY-MM-DD')\n" +
-						"           union all\n" +
-						"           select to_char(start_date, 'YYYY-MM-DD') start_date,count(results) Total,0 successTotal,0 successRate\n" +
-						"           from aiam.task_log\n" +
-						"           where to_date(to_char(start_date,'YYYY-MM-DD'),'YYYY-MM-DD')<=to_date(:startDate,'YYYY-MM-DD')\n" +
-						"           and to_date(to_char(start_date,'YYYY-MM-DD'),'YYYY-MM-DD')>=to_date(:startDate,'YYYY-MM-DD') - interval '6' day\n" +
-						"           group by to_char(start_date, 'YYYY-MM-DD')\n" +
-						"       )group by start_date\n" +
-						" )group by start_date"
+				"select to_char(a.start_date,'yyyy-MM-dd') start_time,b.cfg_task_id,b.task_name,b.business_class\n" +
+                        " from aiam.task_log a,aiam.cfg_task b\n" +
+                        " where a.cfg_task_id=b.cfg_task_id\n" +
+                        " and a.results not like '%uccess%'\n" +
+                        " and to_char(a.start_date,'YYYY-MM-DD')<=:startDate\n" +
+                        " and to_char(a.start_date,'YYYY-MM-DD')>=:endDate\n" +
+                        " group by b.cfg_task_id,b.task_name,b.business_class,to_char(a.start_date,'yyyy-MM-dd')\n" +
+                        " union all\n" +
+                        " select to_char(a.start_date,'yyyy-MM-dd') start_time,b.cfg_task_id,b.task_name,b.business_class\n" +
+                        " from aiam.task_log a,aiam.cfg_task b\n" +
+                        " where a.cfg_task_id=b.cfg_task_id\n" +
+                        " and a.results is null\n" +
+                        " and to_char(a.start_date,'YYYY-MM-DD')<=:startDate\n" +
+                        " and to_char(a.start_date,'YYYY-MM-DD')>=:endDate\n" +
+                        " group by b.cfg_task_id,b.task_name,b.business_class,to_char(a.start_date,'yyyy-MM-dd')\n" +
+                        " order by start_time"
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));
+		params.add(new ParameterCondition("endDate", dateQueryEnd));
 		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringTable.class);
 
 	}
 
-	public List<ArchTaskMonitoringTableSecond> queryByConditionTableSecond(ArchTaskMonitoringTableSecond condition6 ) throws ParseException{
-		System.out.println("condition5----------------------=-=-"+condition6);
-		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-//		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-		//startDate是字符串类型
-		String dateQueryStart = condition6.getStartDate();
-		StringBuilder nativeSql = new StringBuilder("\n" +
-				"select finishTime as finish_date,\n" +
-				"       sum(checkTotal) as check_total,\n" +
-				"       sum(sessionTotal) as session_total,\n" +
-				"       sum(reportTotal) as report_total,\n" +
-				"       sum(collectTotal) as collect_total,\n" +
-				"       sum(checkTotal) + sum(sessionTotal) + sum(reportTotal) +\n" +
-				"       sum(collectTotal) as task_total\n" +
-				"  from (select to_char(b.finish_date, 'HH24') + 1 as finishTime,\n" +
-				"               count(a.cfg_task_type_code) as checkTotal,\n" +
-				"               0 sessionTotal,\n" +
-				"               0 reportTotal,\n" +
-				"               0 collectTotal\n" +
-				"          from aiam.cfg_task a, aiam.task_log b\n" +
-				"         where a.cfg_task_id = b.cfg_task_id\n" +
-				"           and b.results like '%uccess%'\n" +
-				"           and a.cfg_task_type_code = 'TASK_CHECK'\n" +
-				"           and to_char(b.finish_date, 'YYYY-MM-DD') = :startDate\n" +
-				"         group by to_char(b.finish_date, 'HH24')\n" +
-				"        union all\n" +
-				"        select to_char(b.finish_date, 'HH24') + 1 as finishTime,\n" +
-				"               0 checkTotal,\n" +
-				"               count(a.cfg_task_type_code) as sessionTotal,\n" +
-				"               0 reportTotal,\n" +
-				"               0 collectTotal\n" +
-				"          from aiam.cfg_task a, aiam.task_log b\n" +
-				"         where a.cfg_task_id = b.cfg_task_id\n" +
-				"           and b.results like '%uccess%'\n" +
-				"           and a.cfg_task_type_code = 'TASK_SESSION'\n" +
-				"           and to_char(b.finish_date, 'YYYY-MM-DD') = :startDate\n" +
-				"         group by to_char(b.finish_date, 'HH24')\n" +
-				"        union all\n" +
-				"        select to_char(b.finish_date, 'HH24') + 1 as finishTime1,\n" +
-				"               0 checkTotal,\n" +
-				"               0 sessionTotal,\n" +
-				"               count(a.cfg_task_type_code) as reportTotal,\n" +
-				"               0 collectTotal\n" +
-				"          from aiam.cfg_task a, aiam.task_log b\n" +
-				"         where a.cfg_task_id = b.cfg_task_id\n" +
-				"           and b.results like '%uccess%'\n" +
-				"           and a.cfg_task_type_code = 'TASK_REPORT'\n" +
-				"           and to_char(b.finish_date, 'YYYY-MM-DD') = :startDate\n" +
-				"         group by to_char(b.finish_date, 'HH24')\n" +
-				"        union all\n" +
-				"        select to_char(b.finish_date, 'HH24') + 1 as finishTime,\n" +
-				"               0 checkTotal,\n" +
-				"               0 sessionTotal,\n" +
-				"               0 reportTotal,\n" +
-				"               count(a.cfg_task_type_code) as collectTotal\n" +
-				"          from aiam.cfg_task a, aiam.task_log b\n" +
-				"         where a.cfg_task_id = b.cfg_task_id\n" +
-				"           and b.results like '%uccess%'\n" +
-				"           and a.cfg_task_type_code = 'TASK_COLLECT'\n" +
-				"           and to_char(b.finish_date, 'YYYY-MM-DD') = :startDate\n" +
-				"         group by to_char(b.finish_date, 'HH24') + 1)\n" +
-				" group by finishTime"
+	public List<ArchTaskMonitoringTableSecond> queryByConditionTableSecond(ArchTaskMonitoringTableSecond condition2 ) throws ParseException{
+        List<ParameterCondition> params = new ArrayList<ParameterCondition>();
+        //startDate是Date类型
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String dateQueryStart = sdf.format(condition2.getStartDate());
+		StringBuilder nativeSql = new StringBuilder(
+                "select a.cfg_task_id,b.task_name,b.business_class,count(*) times\n" +
+                "          from aiam.task_log a,aiam.cfg_task b\n" +
+                "          where a.cfg_task_id=b.cfg_task_id\n" +
+                "          and results like '%uccess%'\n" +
+                "          and to_char(finish_date,'YYYY-MM-DD')=:startDate\n" +
+                "          group by a.cfg_task_id,b.task_name,b.business_class\n" +
+                "          order by times desc"
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));
 		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringTableSecond.class);
 
 	}
 
-	public List<ArchTaskMonitoringTableThird> queryByConditionTableThird(ArchTaskMonitoringTableThird condition7 ) throws ParseException{
-		System.out.println("condition7----------------------=-=-"+condition7);
+	public List<ArchTaskMonitoringTableThird> queryByConditionTableThird(ArchTaskMonitoringTableThird condition3 ) throws ParseException{
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-//		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-		//startDate是字符串类型
-		String dateQueryStart = condition7.getStartDate();
-		StringBuilder nativeSql = new StringBuilder("\n" +
-				"select sum(firstTimes) first_times,sum(secondTimes) second_times,sum(thirdTimes) third_times,sum(fourTimes) four_times,\n" +
-				"round(sum(firstTimes)/（sum(firstTimes)+sum(secondTimes)+sum(thirdTimes)+sum(fourTimes)）,3)*100 first_pro,\n" +
-				"round(sum(secondTimes)/（sum(firstTimes)+sum(secondTimes)+sum(thirdTimes)+sum(fourTimes)),3)*100 second_pro,\n" +
-				"round(sum(thirdTimes)/(sum(firstTimes)+sum(secondTimes)+sum(thirdTimes)+sum(fourTimes)),3)*100 third_pro,\n" +
-				"round(sum(fourTimes)/(sum(firstTimes)+sum(secondTimes)+sum(thirdTimes)+sum(fourTimes)),3)*100 four_pro\n" +
-				"from (\n" +
-				"     select count(*) firstTimes,0 secondTimes,0 thirdTimes,0 fourTimes\n" +
-				"     from (select cfg_task_id,count(cfg_task_id) firstTimes\n" +
-				"          from aiam.task_log\n" +
-				"          where results like '%uccess%'\n" +
-				"          and to_char(finish_date,'YYYY-MM-DD')=:startDate\n" +
-				"          group by cfg_task_id\n" +
-				"          order by firstTimes\n" +
-				"          )\n" +
-				"      where firstTimes<=5\n" +
+		//startDate是Date类型
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        System.out.println("表格3   condition.getStartDate():------------------"+condition3.getStartDate());
+        String dateQueryStart = sdf.format(condition3.getStartDate());
+		StringBuilder nativeSql = new StringBuilder(
 				"\n" +
-				"      union all\n" +
-				"      select 0 firstTimes,count(*) secondTimes,0 thirdTimes,0 fourTimes\n" +
-				"      from (select cfg_task_id,count(cfg_task_id) secondTimes\n" +
-				"           from aiam.task_log\n" +
-				"           where results like '%uccess%'\n" +
-				"           and to_char(finish_date,'YYYY-MM-DD')=:startDate\n" +
-				"           group by cfg_task_id\n" +
-				"           order by secondTimes)\n" +
-				"      where secondTimes>=6 and secondTimes<=10\n" +
-				"\n" +
-				"      union all\n" +
-				"      select 0 firstTimes,0 secondTimes,count(*) thirdTimes,0 fourTimes\n" +
-				"      from (select cfg_task_id,count(cfg_task_id) thirdTimes\n" +
-				"           from aiam.task_log\n" +
-				"           where results like '%uccess%'\n" +
-				"           and to_char(finish_date,'YYYY-MM-DD')=:startDate\n" +
-				"           group by cfg_task_id\n" +
-				"           order by thirdTimes)\n" +
-				"      where thirdTimes>=11 and thirdTimes<=20\n" +
-				"      \n" +
-				"      union all\n" +
-				"      select 0 firstTimes,0 secondTimes,0 thirdTimes,count(*) fourTimes\n" +
-				"      from (select cfg_task_id,count(cfg_task_id)  fourTimes\n" +
-				"            from aiam.task_log\n" +
-				"            where results like '%uccess%'\n" +
-				"            and to_char(finish_date,'YYYY-MM-DD')=:startDate\n" +
-				"            group by cfg_task_id\n" +
-				"            order by fourTimes)\n" +
-				"      where fourTimes>=21\n" +
-				")"
+						"       select a.cfg_task_id,b.task_name,round((finish_date-start_date)*24*60,3) minutes\n" +
+						"       from aiam.task_log a,aiam.cfg_task b\n" +
+						"       where a.cfg_task_id=b.cfg_task_id\n" +
+						"       and a.results like '%uccess%'\n" +
+						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
+						"       and round((finish_date-start_date)*24*60,3)<=5\n" +
+						"       group by a.cfg_task_id,b.task_name, round((finish_date-start_date)*24*60,3)\n" +
+						"       \n" +
+						"       union all\n" +
+						"       select a.cfg_task_id,b.task_name,round((finish_date-start_date)*24*60,3) minutes\n" +
+						"       from aiam.task_log a,aiam.cfg_task b\n" +
+						"       where a.cfg_task_id=b.cfg_task_id\n" +
+						"       and a.results like '%uccess%'\n" +
+						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
+						"       and round((finish_date-start_date)*24*60,3)>5\n" +
+						"       and round((finish_date-start_date)*24*60,3)<=10\n" +
+						"       group by a.cfg_task_id,b.task_name, round((finish_date-start_date)*24*60,3)\n" +
+						"       \n" +
+						"       union all\n" +
+						"       select a.cfg_task_id,b.task_name,round((finish_date-start_date)*24*60,3) minutes\n" +
+						"       from aiam.task_log a,aiam.cfg_task b\n" +
+						"       where a.cfg_task_id=b.cfg_task_id\n" +
+						"       and a.results like '%uccess%'\n" +
+						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
+						"       and round((finish_date-start_date)*24*60,3)>10\n" +
+						"       and round((finish_date-start_date)*24*60,3)<=15\n" +
+						"       group by a.cfg_task_id,b.task_name, round((finish_date-start_date)*24*60,3)\n" +
+						"     \n" +
+						"       union all  \n" +
+						"       select a.cfg_task_id,b.task_name,round((finish_date-start_date)*24*60,3) minutes\n" +
+						"       from aiam.task_log a,aiam.cfg_task b\n" +
+						"       where a.cfg_task_id=b.cfg_task_id\n" +
+						"       and a.results like '%uccess%'\n" +
+						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
+						"       and round((finish_date-start_date)*24*60,3)>15\n" +
+						"       group by a.cfg_task_id,b.task_name, round((finish_date-start_date)*24*60,3)\n" +
+						"       order by minutes desc"
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));
 		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringTableThird.class);
 
 	}
 
-	public List<ArchTaskMonitoringTableFour> queryByConditionTableFour(ArchTaskMonitoringTableFour condition8 ) throws ParseException{
-		System.out.println("condition8----------------------=-=-"+condition8);
+	public List<ArchTaskMonitoringTopFirst> queryByConditionTopFirst(ArchTaskMonitoringTopFirst condition1 ) throws ParseException{
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-		//startDate是字符串类型
-		String dateQueryStart = condition8.getStartDate();
+		//startDate是Date类型
+		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+		System.out.println("Top1   condition.getStartDate():------------------"+condition1.getStartDate());
+		String dateQueryStart = sdf.format(condition1.getStartDate());
 		StringBuilder nativeSql = new StringBuilder(
-				"\n" +
-						"select sum(firstMinutes) as first_minutes,sum(secondMinutes) as second_minutes,sum(thirdMinutes) as third_minutes,sum(fourMinutes) as four_minutes,\n" +
-						"round((sum(firstMinutes)/(sum(firstMinutes)+sum(secondMinutes)+sum(thirdMinutes)+sum(fourMinutes))),3)*100 first_pro,\n" +
-						"round((sum(secondMinutes)/(sum(firstMinutes)+sum(secondMinutes)+sum(thirdMinutes)+sum(fourMinutes))),3)*100 second_pro,\n" +
-						"round((sum(thirdMinutes)/(sum(firstMinutes)+sum(secondMinutes)+sum(thirdMinutes)+sum(fourMinutes))),3)*100 third_pro,\n" +
-						"round((sum(fourMinutes)/(sum(firstMinutes)+sum(secondMinutes)+sum(thirdMinutes)+sum(fourMinutes))),3)*100 four_pro\n" +
-						"from(\n" +
-						"       select count(*) as firstMinutes,0 secondMinutes,0 thirdMinutes,0 fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))<=5\n" +
-						"       \n" +
-						"       union all\n" +
-						"       select 0 firstMinutes,count(*) as secondMinutes,0 thirdMinutes,0 fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))>=6\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))<=10\n" +
-						"       \n" +
-						"       union all\n" +
-						"       select 0 firstMinutes,0 secondMinutes,count(*) as thirdMinutes,0 fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))>=11\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))<=15\n" +
-						"       \n" +
-						"       union all\n" +
-						"       select 0 firstMinutes,0 secondMinutes,0 thirdMinutes,count(*) as fourMinutes\n" +
-						"       from aiam.task_log a,aiam.cfg_task b\n" +
-						"       where a.cfg_task_id=b.cfg_task_id\n" +
-						"       and a.results like '%uccess%'\n" +
-						"       and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
-						"       and (to_number(to_char(finish_date,'MI'))-to_number(to_char(start_date,'MI')))>=16\n" +
-						")"
+				"select cfg_task_id,count_num\n" +
+						" from (\n" +
+						"     select cfg_task_id,count(cfg_task_id) count_num\n" +
+						"     from aiam.task_log\n" +
+						"     where results not like '%uccess%'\n" +
+						"     or results is null\n" +
+						"     and to_char(start_date,'YYYY-MM-DD')=:startDate\n" +
+						"     group by cfg_task_id\n" +
+						"     order by count_num desc\n" +
+						")\n" +
+						"where rownum<=10"
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));
-		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringTableFour.class);
+		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringTopFirst.class);
 
 	}
 

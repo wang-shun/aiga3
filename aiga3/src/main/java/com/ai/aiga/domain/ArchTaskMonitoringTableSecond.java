@@ -1,84 +1,76 @@
 package com.ai.aiga.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public class ArchTaskMonitoringTableSecond implements Serializable {
 
-    private String startDate;
-    private int finishDate;
-    private int checkTotal;
-    private int sessionTotal;
-    private int reportTotal;
-    private int collectTotal;
-    private int taskTotal;
+    private Date startDate;
+    private int times;
+    private long cfgTaskId;
+    private String taskName;
+    private String businessClass;
 
-    public ArchTaskMonitoringTableSecond() {}
 
-    public ArchTaskMonitoringTableSecond(String startDate, int finishDate, int checkTotal, int sessionTotal, int reportTotal, int collectTotal, int taskTotal) {
+    public ArchTaskMonitoringTableSecond() { }
+
+    public ArchTaskMonitoringTableSecond(Date startDate, int times, long cfgTaskId, String taskName, String businessClass) {
         this.startDate = startDate;
-        this.finishDate = finishDate;
-        this.checkTotal = checkTotal;
-        this.sessionTotal = sessionTotal;
-        this.reportTotal = reportTotal;
-        this.collectTotal = collectTotal;
-        this.taskTotal = taskTotal;
+        this.times = times;
+        this.cfgTaskId = cfgTaskId;
+        this.taskName = taskName;
+        this.businessClass = businessClass;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public int getFinishDate() {
-        return finishDate;
+    public int getTimes() {
+        return times;
     }
 
-    public void setFinishDate(int finishDate) {
-        this.finishDate = finishDate;
+    public void setTimes(int times) {
+        this.times = times;
     }
 
-    public int getCheckTotal() {
-        return checkTotal;
+    public long getCfgTaskId() {
+        return cfgTaskId;
     }
 
-    public void setCheckTotal(int checkTotal) {
-        this.checkTotal = checkTotal;
+    public void setCfgTaskId(long cfgTaskId) {
+        this.cfgTaskId = cfgTaskId;
     }
 
-    public int getSessionTotal() {
-        return sessionTotal;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setSessionTotal(int sessionTotal) {
-        this.sessionTotal = sessionTotal;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
-    public int getReportTotal() {
-        return reportTotal;
+    public String getBusinessClass() {
+        return businessClass;
     }
 
-    public void setReportTotal(int reportTotal) {
-        this.reportTotal = reportTotal;
+    public void setBusinessClass(String businessClass) {
+        this.businessClass = businessClass;
     }
 
-    public int getCollectTotal() {
-        return collectTotal;
+    @Override
+    public String toString() {
+        return "ArchTaskMonitoringTableThird{" +
+                "startDate=" + startDate +
+                ", times=" + times +
+                ", cfgTaskId=" + cfgTaskId +
+                ", taskName='" + taskName + '\'' +
+                ", businessClass='" + businessClass + '\'' +
+                '}';
     }
-
-    public void setCollectTotal(int collectTotal) {
-        this.collectTotal = collectTotal;
-    }
-
-    public int getTaskTotal() {
-        return taskTotal;
-    }
-
-    public void setTaskTotal(int taskTotal) {
-        this.taskTotal = taskTotal;
-    }
-
 }

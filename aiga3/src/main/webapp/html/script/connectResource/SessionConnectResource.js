@@ -16,6 +16,10 @@ define(function(require, exports, module) {
 	srvMap.add("listDbConnectsTopnew", "", "arch/index/listDbConnectsTopnew");
 	//查询接口
 	srvMap.add("connectresource", "", "arch/session/connectresource");
+	//查询接口
+	srvMap.add("dbConnectResourceState", "", "arch/session/connectresourcestate");
+	//查询接口
+	srvMap.add("connectresource7day", "", "arch/session/connectresource7day");
 
 	
 	var cache = {
@@ -59,8 +63,15 @@ define(function(require, exports, module) {
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			var stime = _cmd.substring(11,21);
 			stime.replace(new RegExp(/-/g), "");
+			var dbName = "";
+			if(_cmd.charAt(_cmd.length-1)=='='){
+				dbName = "ZJCRMA";
+			}else{
+				dbName = _cmd.substring(28);
+			}
 			var _cmd2 = {
-    			endMonth:stime
+    			endMonth:stime,
+    			dbName:dbName
 			};
 			Rose.ajax.postJson(srvMap.get('connectresource'),_cmd2,function(json, status){
 				if(status) {
@@ -84,51 +95,10 @@ define(function(require, exports, module) {
 						var _ggcmd = {
 							startMonth : start,
 							endMonth : time,
-							indexId : new Array()
+							fromSysName : db
 						}
-	        			if(db=='账户中心连接数'){
-	        				_ggcmd.indexId=[1030001, 1030002, 1030022,1031001, 1031002, 1031022,1032001, 1032002, 1032022,1033001, 1033002, 1033022];
-	        			}else if(db=='融合CRM连接数'){
-	        				_ggcmd.indexId=[1030003, 1030004,1031003, 1031004,1032003, 1032004,1033003, 1033004];
-	        			}else if(db=='客户中心连接数'){
-	        				_ggcmd.indexId=[1030005, 1030038,1030043,1031005, 1031038,1031043,1032005, 1032038,1032043,1033005, 1033038,1033043];
-	        			}else if(db=='政企中心连接数'){
-	        				_ggcmd.indexId=[1030006, 1030007,1031006, 1031007,1032006, 1032007,1033006, 1033007];
-	        			}else if(db=='流量中心连接数'){
-	        				_ggcmd.indexId=[1030008, 1030009,1031008, 1031009,1032008, 1032009,1033008, 1033009];
-	        			}else if(db=='家庭订单子中心连接数'){
-	        				_ggcmd.indexId=[1030010, 1030011, 1030013,1031010, 1031011, 1031013,1032010, 1032011, 1032013,1033010, 1033011, 1033013];
-	        			}else if(db=='资源中心连接数'){
-	        				_ggcmd.indexId=[1030014, 1030015,1031014, 1031015,1032014, 1032015,1033014, 1033015];
-	        			}else if(db=='规则中心连接数'){
-	        				_ggcmd.indexId=[1030016,1031016,1032016,1033016];
-	        			}else if(db=='个人订单子中心连接数'){
-	        				_ggcmd.indexId=[1030017, 1030018,1030039, 1031017, 1031018,1031039,1032017, 1032018,1032039,1033017, 1033018,1033039];
-	        			}else if(db=='通用中心连接数'){
-	        				_ggcmd.indexId=[1030019,1031019,1032019,1033019];
-	        			}else if(db=='政企订单子中心连接数'){
-	        				_ggcmd.indexId=[1030020, 1030021,1030040,1031020, 1031021,1031040,1032020, 1032021,1032040,1033020, 1033021,1033040];
-	        			}else if(db=='外围中心连接数'){
-	        				_ggcmd.indexId=[1030023, 1030024,1031023, 1031024,1032023, 1032024,1033023, 1033024];
-	        			}else if(db=='4A系统用户连接数'){
-	        				_ggcmd.indexId=[1030025,1031025,1032025,1033025];
-	        			}else if(db=='到期中心连接数'){
-	        				_ggcmd.indexId=[1030026, 1030028,1031026, 1031028,1032026, 1032028,1033026, 1033028];
-	        			}else if(db=='开通中心连接数'){
-	        				_ggcmd.indexId=[1030027,1031027,1032027,1033027];
-	        			}else if(db=='账管BOSS连接数'){
-	        				_ggcmd.indexId=[1030029,1031029,1032029,1033029];
-	        			}else if(db=='物联网中心连接数'){
-	        				_ggcmd.indexId=[1030030, 1030031, 1030032,1031030, 1031031, 1031032,1032030, 1032031, 1032032,1033030, 1033031, 1033032];
-	        			}else if(db=='其他渠道中心连接数'){
-	        				_ggcmd.indexId=[1030033, 1030034, 1030035, 1030036, 1030037, 1030042,1031033, 1031034, 1031035, 1031036, 1031037, 1031042,1032033, 1032034, 1032035, 1032036, 1032037, 1032042,1033033, 1033034, 1033035, 1033036, 1033037, 1033042];
-	        			}else if(db=='内部运营支撑中心连接数'){
-	        				_ggcmd.indexId=[1030041, 1031041, 1032041, 1033041];
-	        			}else if(db=='业务报表中心连接数'){
-	        				_ggcmd.indexId=[1030045,1030046,1030047,1031045,1031046,1031047,1032045,1032046,1032047,1033045,1033046,1033047];
-	        			}
-	        			var _7cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
-						Rose.ajax.postJson(srvMap.get("listTotalDbConnectsnew"), _7cmd, function(json, status) {
+	        			var _7cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&fromSysName="+_ggcmd.fromSysName;
+						Rose.ajax.postJson(srvMap.get("connectresource7day"), _7cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.hide();
 								self._graphSec(7,json);
@@ -157,51 +127,10 @@ define(function(require, exports, module) {
 						var _ggcmd = {
 							startMonth : start,
 							endMonth : time,
-							indexId : new Array()
+							fromSysName : db
 						}
-	        			if(db=='账户中心连接数'){
-	        				_ggcmd.indexId=[1030001, 1030002, 1030022,1031001, 1031002, 1031022,1032001, 1032002, 1032022,1033001, 1033002, 1033022];
-	        			}else if(db=='融合CRM连接数'){
-	        				_ggcmd.indexId=[1030003, 1030004,1031003, 1031004,1032003, 1032004,1033003, 1033004];
-	        			}else if(db=='客户中心连接数'){
-	        				_ggcmd.indexId=[1030005, 1030038,1030043,1031005, 1031038,1031043,1032005, 1032038,1032043,1033005, 1033038,1033043];
-	        			}else if(db=='政企中心连接数'){
-	        				_ggcmd.indexId=[1030006, 1030007,1031006, 1031007,1032006, 1032007,1033006, 1033007];
-	        			}else if(db=='流量中心连接数'){
-	        				_ggcmd.indexId=[1030008, 1030009,1031008, 1031009,1032008, 1032009,1033008, 1033009];
-	        			}else if(db=='家庭订单子中心连接数'){
-	        				_ggcmd.indexId=[1030010, 1030011, 1030013,1031010, 1031011, 1031013,1032010, 1032011, 1032013,1033010, 1033011, 1033013];
-	        			}else if(db=='资源中心连接数'){
-	        				_ggcmd.indexId=[1030014, 1030015,1031014, 1031015,1032014, 1032015,1033014, 1033015];
-	        			}else if(db=='规则中心连接数'){
-	        				_ggcmd.indexId=[1030016,1031016,1032016,1033016];
-	        			}else if(db=='个人订单子中心连接数'){
-	        				_ggcmd.indexId=[1030017, 1030018,1030039, 1031017, 1031018,1031039,1032017, 1032018,1032039,1033017, 1033018,1033039];
-	        			}else if(db=='通用中心连接数'){
-	        				_ggcmd.indexId=[1030019,1031019,1032019,1033019];
-	        			}else if(db=='政企订单子中心连接数'){
-	        				_ggcmd.indexId=[1030020, 1030021,1030040,1031020, 1031021,1031040,1032020, 1032021,1032040,1033020, 1033021,1033040];
-	        			}else if(db=='外围中心连接数'){
-	        				_ggcmd.indexId=[1030023, 1030024,1031023, 1031024,1032023, 1032024,1033023, 1033024];
-	        			}else if(db=='4A系统用户连接数'){
-	        				_ggcmd.indexId=[1030025,1031025,1032025,1033025];
-	        			}else if(db=='到期中心连接数'){
-	        				_ggcmd.indexId=[1030026, 1030028,1031026, 1031028,1032026, 1032028,1033026, 1033028];
-	        			}else if(db=='开通中心连接数'){
-	        				_ggcmd.indexId=[1030027,1031027,1032027,1033027];
-	        			}else if(db=='账管BOSS连接数'){
-	        				_ggcmd.indexId=[1030029,1031029,1032029,1033029];
-	        			}else if(db=='物联网中心连接数'){
-	        				_ggcmd.indexId=[1030030, 1030031, 1030032,1031030, 1031031, 1031032,1032030, 1032031, 1032032,1033030, 1033031, 1033032];
-	        			}else if(db=='其他渠道中心连接数'){
-	        				_ggcmd.indexId=[1030033, 1030034, 1030035, 1030036, 1030037, 1030042,1031033, 1031034, 1031035, 1031036, 1031037, 1031042,1032033, 1032034, 1032035, 1032036, 1032037, 1032042,1033033, 1033034, 1033035, 1033036, 1033037, 1033042];
-	        			}else if(db=='内部运营支撑中心连接数'){
-	        				_ggcmd.indexId=[1030041, 1031041, 1032041, 1033041];
-	        			}else if(db=='业务报表中心连接数'){
-	        				_ggcmd.indexId=[1030045,1030046,1030047,1031045,1031046,1031047,1032045,1032046,1032047,1033045,1033046,1033047];
-	        			}
-	        			var _30cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&indexId="+_ggcmd.indexId;
-						Rose.ajax.postJson(srvMap.get("listTotalDbConnectsnew"), _30cmd, function(json, status) {
+	        			var _30cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&fromSysName="+_ggcmd.fromSysName;
+						Rose.ajax.postJson(srvMap.get("connectresource7day"), _30cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.hide();
 								self._graphSec(30,json);
@@ -209,7 +138,6 @@ define(function(require, exports, module) {
 								_modal.modal('show');
 								Utils.setSelectData(_modal);
 								_modal.off('shown.bs.modal').on('shown.bs.modal', function () {
-
 								});
 							} else {
 								XMS.msgbox.show(json.retMessage, 'error', 2000);

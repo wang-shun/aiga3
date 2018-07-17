@@ -58,6 +58,15 @@
                   				<input type="text" class="form-control input-sm " name="insertTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                   			</div>
                   		</div>
+                  		<div class="form-group col-sm-6">
+		                    <label for="state" class="col-sm-2 control-label">数据库名称：</label>
+		                    <div class="col-sm-4">
+			                    <select name="state" class="form-control select2 input-sm" data-url="dbConnectResourceState" data-idkey="codeValue" data-namekey="codeName">
+			                        <option value="">请选择</option>
+			                        <option value="ZJCRMA" selected="selected">ZJCRMA</option>
+			                    </select>
+			                </div>
+	                	</div>
 		            </div>
                 </div>
                 <div class="box-footer">
@@ -80,13 +89,12 @@
                     <thead>
 		                <tr>
 		                <th class="iCheckbox table-word-center spl-thead-color4" width="15"></th>
+	                    <th class="table-word-center spl-thead-color1">排名</th>
 	                    <th class="table-word-center spl-thead-color1">系统来源</th>
-						<th class="table-word-center spl-thead-color2">营业A库连接数</th>					
-						<th class="table-word-center spl-thead-color2">营业B库连接数</th>					
-						<th class="table-word-center spl-thead-color2">营业C库连接数</th>					
-						<th class="table-word-center spl-thead-color2">营业D库连接数</th>					
-						<th class="table-word-center spl-thead-color3">ZJRES连接数</th>					
-						<th class="table-word-center spl-thead-color4">ZJPUB连接数</th>					
+						<th class="table-word-center spl-thead-color1">数据库连接数连接数</th>					
+						<th class="table-word-center spl-thead-color3">日环比%</th>					
+						<th class="table-word-center spl-thead-color4">周环比%</th>					
+						<th class="table-word-center spl-thead-color5">月环比%</th>					
 						<th class="table-word-center spl-thead-color1">时间</th>						
 						<th class="table-word-center spl-thead-color1">历史波动曲线查看</th>
 		                </tr>
@@ -158,16 +166,15 @@
 {{#each this}}
 <tr>  
     <td><input type="radio" class="minimal" value="{{indexId}}" name="indexId"></td>
+    <td class="table-word-center">{{id}}</td>
     <td class="table-word-center">{{fromSysName}}</td>
-	<td class="table-word-center">{{totala}}</td>
-	<td class="table-word-center">{{totalb}}</td>
-	<td class="table-word-center">{{totalc}}</td>
-	<td class="table-word-center">{{totald}}</td>
-	<td class="table-word-center">{{totale}}</td>
-	<td class="table-word-center">{{totalf}}</td>
+	<td class="table-word-center">{{total}}</td>
+	<td class="table-word-center">{{persent1}}</td>
+	<td class="table-word-center">{{persent7}}</td>
+	<td class="table-word-center">{{persent31}}</td>
 	<td class="table-word-center">{{settMonth}}</td>
-	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-db="{{system}}" data-time="{{time}}" name="detail7">7天曲线</button>
-		 <button type="button" class="btn btn-primary btn-table-detail30" data-db="{{system}}" data-time="{{time}}" name="detail30">30天曲线</button>
+	<td class="table-word-center"><button type="button" class="btn btn-primary btn-table-detail7" data-db="{{fromSysName}}" data-time="{{settMonth}}" name="detail7">7天曲线</button>
+		 <button type="button" class="btn btn-primary btn-table-detail30" data-db="{{fromSysName}}" data-time="{{settMonth}}" name="detail30">30天曲线</button>
 	</td>
 </tr>
 {{/each}}

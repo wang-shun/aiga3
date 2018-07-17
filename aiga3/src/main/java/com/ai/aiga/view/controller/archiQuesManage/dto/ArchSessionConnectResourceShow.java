@@ -8,7 +8,6 @@ public class ArchSessionConnectResourceShow implements Serializable {
 
     private String fromSysName;
     private long total;
-    private String remark;
     private String dbName;
     private String settMonth;
     

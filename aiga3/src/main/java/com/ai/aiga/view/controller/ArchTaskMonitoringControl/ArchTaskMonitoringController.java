@@ -50,33 +50,45 @@ public class ArchTaskMonitoringController {
 
 
 	//以下表格
-	@RequestMapping(path="/arch/TableListFirst/findTableListFirst")
-	public @ResponseBody JsonBean findTableListFirst(ArchTaskMonitoringTable condition1) throws ParseException {
+	@RequestMapping(path="/arch/TableList/findTableList")
+	public @ResponseBody JsonBean findTableList(ArchTaskMonitoringTable condition) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTable(condition1));
-		System.out.println("bean----------------------"+bean);
+		System.out.println("Controller  ---------- condition.getCondition():------------------"+condition.getCondition());
+		if(condition.getCondition().equals("failTaskList")){
+			bean.setData(archTaskMonitoringSv.queryByConditionTable(condition));
+			System.out.println("Controller  bean1----------------------"+bean);
+		}else if(condition.getCondition().equals("taskRunningFrequency")){
+			bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition));
+			System.out.println("Controller  bean2----------------------"+bean);
+		}else if(condition.getCondition().equals("taskRunInTime")){
+			bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition));
+			System.out.println("Controller  bean3----------------------"+bean);
+		}
+
+
+
 		return bean;
 	}
 
-	@RequestMapping(path="/arch/TableListSecond/findTableListSecond")
-	public @ResponseBody JsonBean findTableListSecond(ArchTaskMonitoringTableSecond condition2) throws ParseException {
-		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition2));
-		return bean;
-	}
-
-	@RequestMapping(path="/arch/TableListThird/findTableListThird")
-	public @ResponseBody JsonBean findTableListThird(ArchTaskMonitoringTableThird condition3) throws ParseException {
-		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition3));
-		return bean;
-	}
+//	@RequestMapping(path="/arch/TableListSecond/findTableListSecond")
+//	public @ResponseBody JsonBean findTableListSecond(ArchTaskMonitoringTableSecond condition2) throws ParseException {
+//		JsonBean bean = new JsonBean();
+//		bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition2));
+//		return bean;
+//	}
+//
+//	@RequestMapping(path="/arch/TableListThird/findTableListThird")
+//	public @ResponseBody JsonBean findTableListThird(ArchTaskMonitoringTableThird condition3) throws ParseException {
+//		JsonBean bean = new JsonBean();
+//		bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition3));
+//		return bean;
+//	}
 
 	//以下Top
 	@RequestMapping(path="/arch/TopListFirst/findTopListFirst")
-	public @ResponseBody JsonBean findTopListFirst(ArchTaskMonitoringTopFirst condition1) throws ParseException {
+	public @ResponseBody JsonBean findTopListFirst(ArchTaskMonitoringTop condition) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTopFirst(condition1));
+		bean.setData(archTaskMonitoringSv.queryByConditionTop(condition));
 		return bean;
 	}
 

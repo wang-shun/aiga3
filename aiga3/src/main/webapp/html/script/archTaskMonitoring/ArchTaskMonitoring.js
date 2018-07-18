@@ -21,11 +21,11 @@ define(function(require, exports, module) {
 
     //第二页
     //系统表格信息查询,监控信息表格一
-    srvMap.add("getTableListFirst", pathAlias + "getList.json", "arch/TableListFirst/findTableListFirst");
-    // //系统表格信息查询,监控信息表格二
-    srvMap.add("getTableListSecond", pathAlias + "getList.json", "arch/TableListSecond/findTableListSecond");
-    //系统表格信息查询，监控信息表格三
-    srvMap.add("getTableListThird", pathAlias + "getList.json", "arch/TableListThird/findTableListThird");
+    srvMap.add("getTableList", pathAlias + "getList.json", "arch/TableList/findTableList");
+    // // //系统表格信息查询,监控信息表格二
+    // srvMap.add("getTableListSecond", pathAlias + "getList.json", "arch/TableListSecond/findTableListSecond");
+    // //系统表格信息查询，监控信息表格三
+    // srvMap.add("getTableListThird", pathAlias + "getList.json", "arch/TableListThird/findTableListThird");
 
     //Top10  表格一  一天中任务指定时长内任务运行信息
     srvMap.add("getTopListFirst", pathAlias + "getList.json", "arch/TopListFirst/findTopListFirst");
@@ -233,7 +233,7 @@ define(function(require, exports, module) {
                 if (status) {
                     console.log("进入第二个box");
                     window.XMS.msgbox.hide();
-                    var finishDate = [];
+                    var startTime = [];
                     var checkTotal = [];
                     var sessionTotal = [];
                     var reportTotal = [];
@@ -241,7 +241,7 @@ define(function(require, exports, module) {
                     var taskTotal = [];
 
                     for (var i = 0; i < json.data.length; i++) {
-                        finishDate.push(json.data[i].finishDate);
+                        startTime.push(json.data[i].startTime);
                         checkTotal.push(json.data[i].checkTotal);
                         sessionTotal.push(json.data[i].sessionTotal);
                         reportTotal.push(json.data[i].reportTotal);
@@ -280,7 +280,8 @@ define(function(require, exports, module) {
                         },
                         xAxis: {
                             type: 'category',
-                            boundaryGap: false,
+                            name:'时间',
+                            // boundaryGap: false,
                             data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
                         },
                         yAxis: {
@@ -373,7 +374,7 @@ define(function(require, exports, module) {
                             },
                         ]
                     };
-                    option.xAxis.data = finishDate;
+                    option.xAxis.data = startTime;
                     // option.yAxis.data=
                     myChart.setOption(option);
                 } else {
@@ -403,7 +404,7 @@ define(function(require, exports, module) {
                         legend: {
                             orient: 'vertical',
                             left: 'left',
-                            data: ['5次及以下', '6-10次', '11-20次', '21次及以上']
+                            data: ['[0,5]次', '[6,10]次', '[11-20]次', '21次及以上']
                         },
                         series: [
                             {
@@ -412,9 +413,9 @@ define(function(require, exports, module) {
                                 radius: '55%',
                                 center: ['50%', '60%'],
                                 data: [
-                                    {value: firstTimes, name: '5次及以下'},
-                                    {value: secondTimes, name: '6-10次'},
-                                    {value: thirdTimes, name: '11-20次'},
+                                    {value: firstTimes, name: '[0,5]次'},
+                                    {value: secondTimes, name: '[6,10]次'},
+                                    {value: thirdTimes, name: '[11-20]次'},
                                     {value: fourTimes, name: '21次及以上'}
                                 ],
                                 itemStyle: {
@@ -484,6 +485,8 @@ define(function(require, exports, module) {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });
+
+
         },
 
         //查询表格数据(第二个tab页)
@@ -498,46 +501,35 @@ define(function(require, exports, module) {
             //入参规定，将字符串'2018-06-26'转换成'2018/06/26'才能解析
             _cmd = _cmd.replace(/-/g, "/");
 
+            //获得select下拉框的值
+            var _form = Page.findId('queryDataFormTable');
+            var condition = _form.find('[name="condition"]').val();
+            console.log("condition:"+condition);
 
-            //第一个表格内容渲染
+            //第n个表格内容渲染
             var _dom1 = Page.findId('taskMonitoringListTable');
-            // var _domPagination = _dom1.find("[name='pagination']");没有使用分页
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             // 设置服务器端分页
-            Utils.getServerPage(srvMap.get('getTableListFirst'), _cmd, function (json) {
+            Utils.getServerPage(srvMap.get('getTableList'), _cmd, function (json) {
                 window.XMS.msgbox.hide();
-                // 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-                var tablebtn = _dom1.find("[name='content']");
-                var template = Handlebars.compile(Page.findTpl('getFullTableList'));
-                tablebtn.html(template(json.data));
-            });
+                if(condition=="failTaskList"){
+                    var tablebtn = _dom1.find("[name='content']");
+                    var template = Handlebars.compile(Page.findTpl('getFullTableList'));
+                    tablebtn.html(template(json.data));
+                }else if(condition=="taskRunningFrequency"){
+                    var tablebtn = _dom1.find("[name='content']");
+                    var template = Handlebars.compile(Page.findTpl('getFullTableListSecond'));
+                    tablebtn.html(template(json.data));
+                }else if(condition=="taskRunInTime"){
+                    var tablebtn = _dom1.find("[name='content']");
+                    var template = Handlebars.compile(Page.findTpl('getFullTableListThird'));
+                    tablebtn.html(template(json.data));
+                }
 
-            //第二个表格内容渲染
-            var _dom2 = Page.findId('taskMonitoringListTableSecond');
-            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            // 设置服务器端分页
-            Utils.getServerPage(srvMap.get('getTableListSecond'), _cmd, function (json) {
-                window.XMS.msgbox.hide();
-                // 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-                var tablebtn = _dom2.find("[name='content']");
-                var template = Handlebars.compile(Page.findTpl('getFullTableListSecond'));
-                tablebtn.html(template(json.data));
-            });
-
-            //第三个表格内容渲染
-            var _dom3 = Page.findId('taskMonitoringListTableThird');
-            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            // 设置服务器端分页
-            Utils.getServerPage(srvMap.get('getTableListThird'), _cmd, function (json) {
-                window.XMS.msgbox.hide();
-                // 查找页面内的Tpl，返回值html代码段，'#TPL_getCaseTempList' 即传入'getCaseTempList'
-                var tablebtn = _dom3.find("[name='content']");
-                var template = Handlebars.compile(Page.findTpl('getFullTableListThird'));
-                tablebtn.html(template(json.data));
             });
         },
 
-        //查询表格数据(第二个tab页)
+        //查询Top数据(第三个tab页)
         _getTopTableList: function (cmd) {
             console.log("查询表格数据");
             var self = this;
@@ -582,6 +574,18 @@ define(function(require, exports, module) {
                     XMS.msgbox.show('查询时间为空！', 'error', 2000);
                     return
                 }
+
+                //三张图提示信息渲染：页面查询按钮点击后才显示提示信息
+                //图一
+                var str1 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表一<br></p>";
+                document.getElementById("JS_tableFirstHint").innerHTML=str1;
+                //图二
+                var str2 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴时间2表示<br>2-3点之间<br></p>";
+                document.getElementById("JS_tableSecondHint").innerHTML=str2;
+                //图三图四
+                var str3 = "<p  style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表二表三</p>";
+                document.getElementById("JS_tableThirdHint").innerHTML=str3;
+
                 self._getGridList(cmd);
             });
 
@@ -592,6 +596,7 @@ define(function(require, exports, module) {
             _queryBtn2.off('click').on('click', function () {
                 var cmd = _form2.serialize();
                 var startDate = _form2.find("[name='startDate']").val();
+                var condition = _form2.find('[name="condition"]').val();
                 var today = new Date();
                 if (new Date(startDate) > today) {
                     XMS.msgbox.show('查询时间不能超过今天！', 'error', 2000);
@@ -601,11 +606,22 @@ define(function(require, exports, module) {
                     XMS.msgbox.show('查询时间为空！', 'error', 2000);
                     return
                 }
+                if(condition==""){
+                    XMS.msgbox.show('请选择查询内容！', 'error', 2000);
+                    return
+                }
                 //用于解决long型不可空传的问题
                 // if (cmd.charAt(cmd.length - 1) == '=') {
                 //     cmd += '0';
                 // }
                 self._getTableList(cmd);
+            });
+
+            //第二页重置按钮清空select下拉框
+            var _resetBtn = _form2.find("[name='resetSelect']");
+            _resetBtn.off('click').on('click', function () {
+                var a = document.getElementById("findTableByContent");
+                a.options[0].selected = true;
             });
 
             //第三页查询按钮点击事件

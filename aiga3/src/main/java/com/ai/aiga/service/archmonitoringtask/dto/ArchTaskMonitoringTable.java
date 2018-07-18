@@ -6,29 +6,33 @@ import java.util.Date;
 
 @SuppressWarnings("serial")
 public class ArchTaskMonitoringTable implements Serializable {
-    private Date startDate;
-    private String cfgTaskTypeCode;
 
-    private long taskLogId;
+    private Date startDate;
+    private String condition;
+
+    //第一张表需要以下字段
+    private String startTime;
     private long cfgTaskId;
     private String taskName;
     private String businessClass;
-    private String results;
-    private String startTime;
-    private String finishTime;
+
+    //第二张表除了cfgTaskId，taskName，businessClass之外，还需添加times字段
+    private int times;
+
+    //第三张表除了cfgTaskId，taskName，businessClass之外，minutes字段
+    private double minutes;
 
     public ArchTaskMonitoringTable() {}
 
-    public ArchTaskMonitoringTable(Date startDate, String cfgTaskTypeCode, long taskLogId, long cfgTaskId, String taskName, String businessClass, String results, String startTime, String finishTime) {
+    public ArchTaskMonitoringTable(Date startDate, String condition, String startTime, long cfgTaskId, String taskName, String businessClass, int times, double minutes) {
         this.startDate = startDate;
-        this.cfgTaskTypeCode = cfgTaskTypeCode;
-        this.taskLogId = taskLogId;
+        this.condition = condition;
+        this.startTime = startTime;
         this.cfgTaskId = cfgTaskId;
         this.taskName = taskName;
         this.businessClass = businessClass;
-        this.results = results;
-        this.startTime = startTime;
-        this.finishTime = finishTime;
+        this.times = times;
+        this.minutes = minutes;
     }
 
     public Date getStartDate() {
@@ -39,20 +43,20 @@ public class ArchTaskMonitoringTable implements Serializable {
         this.startDate = startDate;
     }
 
-    public String getCfgTaskTypeCode() {
-        return cfgTaskTypeCode;
+    public String getCondition() {
+        return condition;
     }
 
-    public void setCfgTaskTypeCode(String cfgTaskTypeCode) {
-        this.cfgTaskTypeCode = cfgTaskTypeCode;
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
-    public long getTaskLogId() {
-        return taskLogId;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setTaskLogId(long taskLogId) {
-        this.taskLogId = taskLogId;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public long getCfgTaskId() {
@@ -79,42 +83,33 @@ public class ArchTaskMonitoringTable implements Serializable {
         this.businessClass = businessClass;
     }
 
-    public String getResults() {
-        return results;
+    public int getTimes() {
+        return times;
     }
 
-    public void setResults(String results) {
-        this.results = results;
+    public void setTimes(int times) {
+        this.times = times;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public double getMinutes() {
+        return minutes;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getFinishTime() {
-        return finishTime;
-    }
-
-    public void setFinishTime(String finishTime) {
-        this.finishTime = finishTime;
+    public void setMinutes(double minutes) {
+        this.minutes = minutes;
     }
 
     @Override
     public String toString() {
         return "ArchTaskMonitoringTable{" +
-                "startDate='" + startDate + '\'' +
-                ", cfgTaskTypeCode='" + cfgTaskTypeCode + '\'' +
-                ", taskLogId=" + taskLogId +
+                "startDate=" + startDate +
+                ", condition='" + condition + '\'' +
+                ", startTime='" + startTime + '\'' +
                 ", cfgTaskId=" + cfgTaskId +
                 ", taskName='" + taskName + '\'' +
                 ", businessClass='" + businessClass + '\'' +
-                ", results='" + results + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", finishTime='" + finishTime + '\'' +
+                ", times=" + times +
+                ", minutes=" + minutes +
                 '}';
     }
 }

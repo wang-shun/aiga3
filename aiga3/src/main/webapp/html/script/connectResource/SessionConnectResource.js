@@ -20,6 +20,8 @@ define(function(require, exports, module) {
 	srvMap.add("dbConnectResourceState", "", "arch/session/connectresourcestate");
 	//查询接口
 	srvMap.add("connectresource7day", "", "arch/session/connectresource7day");
+	//查询接口
+	srvMap.add("selectdbname", "", "arch/session/selectdbname");
 
 	
 	var cache = {

@@ -12,6 +12,7 @@ public class ArchSessionConnectResourceFront implements Serializable {
     private long total1;
     private long total7;
     private long total31;
+    private double persent;
     private double persent1;
     private double persent7;
     private double persent31;

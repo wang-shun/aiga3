@@ -59,8 +59,38 @@ public class ArchSessionConnectResourceController extends BaseService {
 		
 		JsonBean bean = new JsonBean();
 		List<ArchSessionConnectResourceShow> list = archSessionConnectResourceSv.listSessionConnectResource(condition);
-		List<ArchSessionConnectResourceShow> list2 = new ArrayList<ArchSessionConnectResourceShow>(list);
 
+		//其他 按照月份
+		Iterator<ArchSessionConnectResourceShow>first = list.iterator();
+		List<String>months = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		long[] total_arr = new long[months.size()];
+		for(int i=0;i<total_arr.length;i++){
+			total_arr[i]=0;
+		}
+		List<ArchSessionConnectResourceShow>list_other=new ArrayList<ArchSessionConnectResourceShow>();
+		while(first.hasNext()){
+			ArchSessionConnectResourceShow base = first.next();
+			String settMonthString = base.getSettMonth();
+			String fromSysnameString = base.getFromSysName();
+			if(!fromSysnameString.contains("连接数")){
+				for(int i=0;i<months.size();i++){
+					if(settMonthString.equals(months.get(i))){
+						total_arr[i] += base.getTotal();
+						list.remove(base);
+					}
+				}
+			}
+		}
+		for(int i=0;i<months.size();i++){
+			ArchSessionConnectResourceShow basess = new ArchSessionConnectResourceShow();
+			basess.setFromSysName("其他未转换配置连接数");
+			basess.setDbName(condition.getDbName());
+			basess.setSettMonth(months.get(i));
+			basess.setTotal(total_arr[i]);
+			list.add(basess);
+		}
+		
+		List<ArchSessionConnectResourceShow> list2 = new ArrayList<ArchSessionConnectResourceShow>(list);
 		//遍历取当天/1/7/31天的数据
 		List<ArchSessionConnectResourceFront> outputs = new ArrayList<ArchSessionConnectResourceFront>();
 		Iterator<ArchSessionConnectResourceShow>iterator = list.iterator();
@@ -115,8 +145,14 @@ public class ArchSessionConnectResourceController extends BaseService {
 		//求和、添加总计
 		Long sum = 0L;
 		for(int i=0;i<outputs.size();i++){
-			ArchSessionConnectResourceShow base = list.get(i);
+			ArchSessionConnectResourceFront base = outputs.get(i);
 			sum += base.getTotal();
+		}
+		//计算占比
+		for(int i=0;i<outputs.size();i++){
+			ArchSessionConnectResourceFront base = outputs.get(i);
+			double pstg = base.getTotal()/sum;
+			base.setPersent(pstg);
 		}
 		ArchSessionConnectResourceFront all = new ArchSessionConnectResourceFront();
 		all.setFromSysName("总计");
@@ -129,6 +165,14 @@ public class ArchSessionConnectResourceController extends BaseService {
 	}
 	
 
+	//根据Type查询静态数据
+	@RequestMapping(path = "/arch/session/selectdbname")
+	public @ResponseBody JsonBean selectdbname(){
+		JsonBean bean = new JsonBean();
+		bean.setData(archSessionConnectResourceSv.select());
+		return bean;
+	} 
+	
 	//根据Type查询静态数据
 	@RequestMapping(path = "/arch/session/connectresourcestate")
 	public @ResponseBody JsonBean connectresourcestate(){

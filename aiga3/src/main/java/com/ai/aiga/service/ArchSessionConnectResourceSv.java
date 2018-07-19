@@ -40,6 +40,13 @@ public class ArchSessionConnectResourceSv extends BaseService {
 		return archSessionConnectResourceDao.searchByNativeSQL(nativeSql.toString(), params, ArchSessionConnectResourceShow.class);
 	}
 	
+	public List<ArchSessionConnectResourceShow>select(){
+		StringBuilder nativeSql = new StringBuilder(
+				" select distinct a.db_name from aiam.Arch_Session_Connect_Resource a " );
+		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+		return archSessionConnectResourceDao.searchByNativeSQL(nativeSql.toString(), params, ArchSessionConnectResourceShow.class);
+	}
+	
 	public List<ArchSessionConnectResourceShow>listSessionConnectResource7day(ArchSessionConnectResourceParams condition){
 		StringBuilder nativeSql = new StringBuilder(
 				" SELECT a.from_sys_name, avg(a.total) as total, a.db_name, substr(a.sett_month, 0, 8) as sett_month" +

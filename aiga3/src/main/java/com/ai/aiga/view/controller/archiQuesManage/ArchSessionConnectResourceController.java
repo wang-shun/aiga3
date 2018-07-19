@@ -67,7 +67,6 @@ public class ArchSessionConnectResourceController extends BaseService {
 			total_arr[i]=0;
 		}
 		Iterator<ArchSessionConnectResourceShow>first_iter = list.iterator();
-		List<ArchSessionConnectResourceShow>list_other=new ArrayList<ArchSessionConnectResourceShow>();
 		while(first_iter.hasNext()){
 			ArchSessionConnectResourceShow base = first_iter.next();
 			String settMonthString = base.getSettMonth();
@@ -76,7 +75,7 @@ public class ArchSessionConnectResourceController extends BaseService {
 				for(int i=0;i<months.size();i++){
 					if(settMonthString.equals(months.get(i))){
 						total_arr[i] += base.getTotal();
-						list.remove(base);
+						first_iter.remove();
 					}
 				}
 			}
@@ -151,8 +150,10 @@ public class ArchSessionConnectResourceController extends BaseService {
 		//计算占比
 		for(int i=0;i<outputs.size();i++){
 			ArchSessionConnectResourceFront base = outputs.get(i);
-			double pstg = base.getTotal()/sum;
-			base.setPersent(pstg);
+			if(sum!=0){
+				double pstg = base.getTotal()/sum;
+				base.setPersent(pstg);
+			}
 		}
 		ArchSessionConnectResourceFront all = new ArchSessionConnectResourceFront();
 		all.setFromSysName("总计");

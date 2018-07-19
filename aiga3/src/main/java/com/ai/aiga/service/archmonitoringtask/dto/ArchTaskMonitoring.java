@@ -1,4 +1,4 @@
-package com.ai.aiga.domain;
+package com.ai.aiga.service.archmonitoringtask.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -71,6 +71,17 @@ public class ArchTaskMonitoring implements Serializable{
 		this.successRate = successRate;
 	}
 
+	@Override
+	public String toString() {
+		return "ArchTaskMonitoring{" +
+				"startDate=" + startDate +
+				", checkTotal=" + checkTotal +
+				", sessionTotal=" + sessionTotal +
+				", reportTotal=" + reportTotal +
+				", collectTotal=" + collectTotal +
+				", successRate=" + successRate +
+				'}';
+	}
 }
 
 

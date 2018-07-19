@@ -1,4 +1,4 @@
-package com.ai.aiga.domain;
+package com.ai.aiga.service.archmonitoringtask.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,19 +8,18 @@ public class ArchTaskMonitoringByTime implements Serializable {
 
 
     private Date startDate;
-    private int finishDate;//1天24个小时
+    private int startTime;//1天24个小时
     private long checkTotal;
     private long sessionTotal;
     private long reportTotal;
     private long collectTotal;
     private long taskTotal;
 
-    public ArchTaskMonitoringByTime() {
-    }
+    public ArchTaskMonitoringByTime() {}
 
-    public ArchTaskMonitoringByTime(Date startDate, int finishDate, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, long taskTotal) {
+    public ArchTaskMonitoringByTime(Date startDate, int startTime, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, long taskTotal) {
         this.startDate = startDate;
-        this.finishDate = finishDate;
+        this.startTime = startTime;
         this.checkTotal = checkTotal;
         this.sessionTotal = sessionTotal;
         this.reportTotal = reportTotal;
@@ -36,12 +35,12 @@ public class ArchTaskMonitoringByTime implements Serializable {
         this.startDate = startDate;
     }
 
-    public int getFinishDate() {
-        return finishDate;
+    public int getStartTime() {
+        return startTime;
     }
 
-    public void setFinishDate(int finishDate) {
-        this.finishDate = finishDate;
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
     }
 
     public long getCheckTotal() {
@@ -83,5 +82,4 @@ public class ArchTaskMonitoringByTime implements Serializable {
     public void setTaskTotal(long taskTotal) {
         this.taskTotal = taskTotal;
     }
-
 }

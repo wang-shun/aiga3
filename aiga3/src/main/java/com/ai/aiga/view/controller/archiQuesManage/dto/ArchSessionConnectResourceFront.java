@@ -6,13 +6,15 @@ import lombok.Data;
 @Data
 public class ArchSessionConnectResourceFront implements Serializable {
 
+	private String id;
     private String fromSysName;
-    private long totala;
-    private long totalb;
-    private long totalc;
-    private long totald;
-    private long totale;
-    private long totalf;
+    private long total;
+    private long total1;
+    private long total7;
+    private long total31;
+    private double persent1;
+    private double persent7;
+    private double persent31;
     private String settMonth;
     
 }

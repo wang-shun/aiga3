@@ -61,15 +61,15 @@ public class ArchSessionConnectResourceController extends BaseService {
 		List<ArchSessionConnectResourceShow> list = archSessionConnectResourceSv.listSessionConnectResource(condition);
 
 		//其他 按照月份
-		Iterator<ArchSessionConnectResourceShow>first = list.iterator();
 		List<String>months = getDayBetween_(condition.getStartMonth(),condition.getEndMonth());
 		long[] total_arr = new long[months.size()];
 		for(int i=0;i<total_arr.length;i++){
 			total_arr[i]=0;
 		}
+		Iterator<ArchSessionConnectResourceShow>first_iter = list.iterator();
 		List<ArchSessionConnectResourceShow>list_other=new ArrayList<ArchSessionConnectResourceShow>();
-		while(first.hasNext()){
-			ArchSessionConnectResourceShow base = first.next();
+		while(first_iter.hasNext()){
+			ArchSessionConnectResourceShow base = first_iter.next();
 			String settMonthString = base.getSettMonth();
 			String fromSysnameString = base.getFromSysName();
 			if(!fromSysnameString.contains("连接数")){

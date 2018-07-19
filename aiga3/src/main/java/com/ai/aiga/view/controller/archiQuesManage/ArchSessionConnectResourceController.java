@@ -151,7 +151,7 @@ public class ArchSessionConnectResourceController extends BaseService {
 		for(int i=0;i<outputs.size();i++){
 			ArchSessionConnectResourceFront base = outputs.get(i);
 			if(sum!=0){
-				double pstg = base.getTotal()/sum;
+				double pstg = base.getTotal()*100/sum;
 				base.setPersent(pstg);
 			}
 		}

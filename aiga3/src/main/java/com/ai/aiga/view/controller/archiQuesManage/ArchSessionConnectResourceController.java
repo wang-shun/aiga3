@@ -62,7 +62,7 @@ public class ArchSessionConnectResourceController extends BaseService {
 
 		//其他 按照月份
 		Iterator<ArchSessionConnectResourceShow>first = list.iterator();
-		List<String>months = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		List<String>months = getDayBetween_(condition.getStartMonth(),condition.getEndMonth());
 		long[] total_arr = new long[months.size()];
 		for(int i=0;i<total_arr.length;i++){
 			total_arr[i]=0;
@@ -262,6 +262,33 @@ public class ArchSessionConnectResourceController extends BaseService {
     private List<String> getDayBetween(String minDate, String maxDate) throws ParseException {
     	ArrayList<String> result = new ArrayList<String>();
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//格式化为年月  
+    	Calendar min = Calendar.getInstance();
+    	Calendar max = Calendar.getInstance();
+    	min.setTime(sdf.parse(minDate));
+    	min.set(min.get(Calendar.YEAR), min.get(Calendar.MONTH), min.get(Calendar.DAY_OF_MONTH));
+    	
+    	max.setTime(sdf.parse(maxDate));
+    	max.set(max.get(Calendar.YEAR), max.get(Calendar.MONTH), max.get(Calendar.DAY_OF_MONTH)+1);
+    	if(max.before(min)) {
+    		return result;
+    	}
+    	Calendar curr = min;
+    	while (curr.before(max)) {
+    		result.add(sdf.format(curr.getTime()));
+    		curr.add(Calendar.DAY_OF_MONTH, 1);
+    	}
+    	return result;
+    }
+    /**
+     * 校验DAY
+     * @param minDate
+     * @param maxDate
+     * @return
+     * @throws ParseException
+     */
+    private List<String> getDayBetween_(String minDate, String maxDate) throws ParseException {
+    	ArrayList<String> result = new ArrayList<String>();
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");//格式化为年月  
     	Calendar min = Calendar.getInstance();
     	Calendar max = Calendar.getInstance();
     	min.setTime(sdf.parse(minDate));

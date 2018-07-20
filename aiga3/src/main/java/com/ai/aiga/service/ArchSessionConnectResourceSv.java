@@ -20,7 +20,8 @@ public class ArchSessionConnectResourceSv extends BaseService {
 	
 	public List<ArchSessionConnectResourceShow>listSessionConnectResource(ArchSessionConnectResourceParams condition){
 		StringBuilder nativeSql = new StringBuilder(
-				" SELECT a.from_sys_name, round(avg(a.total)) as total, a.db_name, substr(a.sett_month, 0, 8) as sett_month" +
+				" select from_sys_name, sum(totalnum) as total, db_name, sett_month from ( " + 
+				" SELECT a.from_sys_name, round(avg(a.total)) as totalnum, a.db_name, substr(a.sett_month, 0, 8) as sett_month, a.remark " +
 				" FROM aiam.arch_session_connect_resource a where 1=1 " );
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 		if (StringUtils.isNotBlank(condition.getStartMonth())) {
@@ -35,8 +36,9 @@ public class ArchSessionConnectResourceSv extends BaseService {
 			nativeSql.append(" and a.db_name = :dbName ");
 			params.add(new ParameterCondition("dbName", condition.getDbName()));
 		}
-		nativeSql.append(" group by a.from_sys_name, a.db_name, substr(a.sett_month, 0, 8) ");
-		nativeSql.append(" order by a.db_name ");
+		nativeSql.append(" group by a.from_sys_name, a.db_name, substr(a.sett_month, 0, 8), a.remark ");
+		nativeSql.append(" order by a.db_name) ");
+		nativeSql.append(" group by from_sys_name, db_name, sett_month ");
 		return archSessionConnectResourceDao.searchByNativeSQL(nativeSql.toString(), params, ArchSessionConnectResourceShow.class);
 	}
 	

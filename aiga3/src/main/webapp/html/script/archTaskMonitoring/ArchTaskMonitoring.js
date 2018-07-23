@@ -13,6 +13,8 @@ define(function(require, exports, module) {
     srvMap.add("getTaskMonitoringList", pathAlias + "getList.json", "arch/taskMonitoring/queryByCondition");
     //各个进程一天不同时间段的任务总数
     srvMap.add("getTaskNumCountList", pathAlias + "getList.json", "arch/taskNumCount/queryByTime");
+    //第二张图隐藏页
+    srvMap.add("getTaskNumCountListHint", pathAlias + "getList.json", "arch/taskNumCountListHint/queryByTimeHint");
     //一天的任务运行频率分布情况
     srvMap.add("getTaskFrequencyList", pathAlias + "getList.json", "arch/getTaskFrequencyList/queryByFrequency");
     //一天内任务在时长内运行次数
@@ -20,13 +22,10 @@ define(function(require, exports, module) {
 
 
     //第二页
-    //系统表格信息查询,监控信息表格一
+    //系统表格信息查询,监控信息表格
     srvMap.add("getTableList", pathAlias + "getList.json", "arch/TableList/findTableList");
-    // // //系统表格信息查询,监控信息表格二
-    // srvMap.add("getTableListSecond", pathAlias + "getList.json", "arch/TableListSecond/findTableListSecond");
-    // //系统表格信息查询，监控信息表格三
-    // srvMap.add("getTableListThird", pathAlias + "getList.json", "arch/TableListThird/findTableListThird");
 
+    //第三页
     //Top10  表格一  一天中任务指定时长内任务运行信息
     srvMap.add("getTopListFirst", pathAlias + "getList.json", "arch/TopListFirst/findTopListFirst");
 
@@ -87,14 +86,20 @@ define(function(require, exports, module) {
                     var session = [];
                     var report = [];
                     var collect = [];
-                    var successRate = [];
+                    var checkRate = [];
+                    var sessionRate = [];
+                    var reportRate = [];
+                    var collectRate = [];
 
                     for (var i = 0; i < json.data.length; i++) {
                         check.push(json.data[i].checkTotal);
                         session.push(json.data[i].sessionTotal);
                         report.push(json.data[i].reportTotal);
                         collect.push(json.data[i].collectTotal);
-                        successRate.push(json.data[i].successRate);
+                        checkRate.push(json.data[i].checkRate);
+                        sessionRate.push(json.data[i].sessionRate);
+                        reportRate.push(json.data[i].reportRate);
+                        collectRate.push(json.data[i].collectRate);
                     }
                     //折线图展示失败成功率
                     var myChart = echarts.init(document.getElementById('taskSumAndSuccessful'));
@@ -186,7 +191,25 @@ define(function(require, exports, module) {
                                 name: 'successRate',
                                 type: 'line',
                                 yAxisIndex: 1,
-                                data: successRate,
+                                data: checkRate,
+                            },
+                            {
+                                name: 'sessionRate',
+                                type: 'line',
+                                yAxisIndex: 1,
+                                data: sessionRate,
+                            },
+                            {
+                                name: 'reportRate',
+                                type: 'line',
+                                yAxisIndex: 1,
+                                data: reportRate,
+                            },
+                            {
+                                name: 'collectRate',
+                                type: 'line',
+                                yAxisIndex: 1,
+                                data: collectRate,
                             }
                         ]
                     };
@@ -375,7 +398,6 @@ define(function(require, exports, module) {
                         ]
                     };
                     option.xAxis.data = startTime;
-                    // option.yAxis.data=
                     myChart.setOption(option);
                 } else {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);
@@ -446,7 +468,7 @@ define(function(require, exports, module) {
                     var myChart1 = echarts.init(document.getElementById('taskRuntimeByTimes'));
                     option = {
                         title: {
-                            text: '一天某时长内任务运行次数',
+                            text: '一天中某任务平均运行时间在时间段内的次数',
                             x: 'center'
                         },
                         tooltip: {
@@ -486,7 +508,6 @@ define(function(require, exports, module) {
                 }
             });
 
-
         },
 
         //查询表格数据(第二个tab页)
@@ -506,7 +527,7 @@ define(function(require, exports, module) {
             var condition = _form.find('[name="condition"]').val();
             console.log("condition:"+condition);
 
-            //第n个表格内容渲染
+            //表格内容渲染
             var _dom1 = Page.findId('taskMonitoringListTable');
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
             // 设置服务器端分页
@@ -553,7 +574,126 @@ define(function(require, exports, module) {
 
         },
 
+        //按钮点击后渲染提示信息
+        _infoRender:function(){
+            var self=this;
+            //三张图提示信息渲染：页面查询按钮点击后才显示提示信息
+            //图一  提示
+            var str1 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表一<br></p>";
+            document.getElementById("JS_tableFirstHint").innerHTML=str1;
+            //图二 提示和隐藏图按钮
+            var str2 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴时间2表示<br>2-3点之间<br></p>";
+            var str = "<button  name=\"hintButton\"  style=\"float:right;margin-right:20px\">隐藏图展示</button>";
+            document.getElementById("JS_tableSecondHint").innerHTML=str2;
+            document.getElementById("JS_tableSecondHintButton").innerHTML=str;
+            //图三图四提示
+            var str3 = "<p  style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表二表三</p>";
+            document.getElementById("JS_tableThirdHint").innerHTML=str3;
 
+            self._hintButtonClick();
+
+        },
+
+        //隐藏按钮点击事件
+        _hintButtonClick: function() {
+
+            var self = this;
+            var isHint = true;
+            //第一页查询按钮点击事件
+            var a=Page.findId("tableSecondHintButton");
+            var hintButton = a.find("[name='hintButton']");
+
+            hintButton.off('click').on('click', function () {
+                console.log("隐藏按钮已点击");
+                self._getHintList();
+                self._infoHintRender();
+            });
+         },
+        //隐藏图提示信息（左侧）
+        _infoHintRender: function () {
+            var str = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴5表示5点<br>13.2表示13点20分<br></p>";
+            document.getElementById("JS_tableSecondHint").innerHTML=str;
+        },
+        //渲染隐藏图
+        _getHintList:function(){
+            // var self=this;
+            var _form = Page.findId('queryDataForm');
+            var startDate = _form.find('[name="startDate"]').val();
+            console.log("startDate:"+startDate);
+
+            var _cmd = "startDate="+startDate;
+            _cmd=_cmd.replace(/-/g, "/");
+            Rose.ajax.postJson(srvMap.get('getTaskNumCountListHint'), _cmd, function (json, status){
+                if (status) {
+                    console.log("拿到接口，返回");
+                    console.log("json.data.length:"+json.data.length);
+                    var keys = [];
+                    var values = [];
+
+                    for (var i = 0; i < json.data.length; i++) {
+                        keys.push(json.data[i].keys);
+                        values.push(json.data[i].values);
+                    }
+                    var myChart = echarts.init(document.getElementById('taskRuntimeByTime'));
+                    option1 = {
+                        title: {
+                            text: '一天10分钟颗粒度任务数查询'
+                        },
+                        tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data:['任务数量']
+                        },
+                        toolbox: {
+                            show: true,
+                            feature: {
+                                dataZoom: {
+                                    yAxisIndex: 'none'
+                                },
+                                magicType: {type: ['line', 'bar']},
+                                restore: {},
+                                saveAsImage: {}
+                            }
+                        },
+                        xAxis:  {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: keys
+                        },
+                        yAxis: {
+                            type: 'value',
+                            name:'任务数',
+                            axisLabel: {
+                                formatter: '{value} '
+                            }
+                        },
+                        series: [
+                            {
+                                name:'任务数量',
+                                type:'line',
+                                data:values,
+                                markPoint: {
+                                    data: [
+                                        {type: 'max', name: '最大值'},
+                                        {type: 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine: {
+                                    data: [
+                                        {type: 'average', name: '平均值'}
+                                    ]
+                                }
+                            }
+                        ]
+                    };
+
+                    myChart.setOption(option1,true);
+                } else {
+                    XMS.msgbox.show(json.retMessage, 'error', 2000);
+                }
+            });
+        },
         //绑定查询按钮事件
         _query_event: function () {
             var self = this;
@@ -575,16 +715,7 @@ define(function(require, exports, module) {
                     return
                 }
 
-                //三张图提示信息渲染：页面查询按钮点击后才显示提示信息
-                //图一
-                var str1 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表一<br></p>";
-                document.getElementById("JS_tableFirstHint").innerHTML=str1;
-                //图二
-                var str2 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴时间2表示<br>2-3点之间<br></p>";
-                document.getElementById("JS_tableSecondHint").innerHTML=str2;
-                //图三图四
-                var str3 = "<p  style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表二表三</p>";
-                document.getElementById("JS_tableThirdHint").innerHTML=str3;
+                self._infoRender();
 
                 self._getGridList(cmd);
             });

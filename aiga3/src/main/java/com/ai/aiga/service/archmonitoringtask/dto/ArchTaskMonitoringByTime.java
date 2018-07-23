@@ -15,6 +15,8 @@ public class ArchTaskMonitoringByTime implements Serializable {
     private long collectTotal;
     private long taskTotal;
 
+    
+
     public ArchTaskMonitoringByTime() {}
 
     public ArchTaskMonitoringByTime(Date startDate, int startTime, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, long taskTotal) {

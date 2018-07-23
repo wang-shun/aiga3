@@ -56,9 +56,9 @@
                             <h3 class="box-title">监控信息图二</h3>
                         </div>
                         <div class="box-body">
-                            <div  id="JS_tableSecondHint">
-                            </div>
-                            <div id="taskRuntimeByTime" style="width: 1000px;height:400px;margin: auto;position: relative;left: 0;right: 0;"></div>
+                            <div id="JS_tableSecondHint"> </div>
+                            <div id="taskRuntimeByTime" style="width: 1000px;height:400px;margin: auto;float:left;position: relative;left: 100px;right: 0;"></div>
+                            <div id="JS_tableSecondHintButton"></div>
                         </div>
                     </div>
                     <div class="box" id="JS_taskMonitoringFrequencyAndTimes" style="min-height:100px;">
@@ -194,6 +194,7 @@
          <th style="text-align:center">cfg_task_id</th>
          <th style="text-align:center">task_name</th>
          <th style="text-align:center">business_class</th>
+         <th style="text-align:center">results</th>
      </tr>
      {{#each this}}
      <tr style="text-align: center">
@@ -202,6 +203,7 @@
          <td>{{cfgTaskId}}</td>
          <td>{{taskName}}</td>
          <td>{{businessClass}}</td>
+         <td>{{results}}</td>
      </tr>
      {{/each}}
  </script>
@@ -211,19 +213,23 @@
          <th colspan="4" style="text-align:center;color: rgb(84,84,51)">一天内任务运行频率情况信息</th>
      </tr>
      <tr>
-     <th style="width:110px"></th>
-     <th style="text-align:center">运行次数</th>
-     <th style="text-align:center">cfg_task_id</th>
-     <th style="text-align:center">task_name</th>
-     <th style="text-align:center">business_class</th>
+        <th style="width:110px"></th>
+        <th style="text-align:center">成功运行次数</th>
+        <th style="text-align:center">失败运行次数</th>
+        <th style="text-align:center">cfg_task_id</th>
+        <th style="text-align:center">task_name</th>
+        <th style="text-align:center">business_class</th>
+        <th style="text-align:center">成功率</th>
      </tr>
      {{#each this}}
      <tr style="text-align: center">
          <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
-         <td>{{times}}</td>
+         <td>{{successTimes}}</td>
+         <td>{{failTimes}}</td>
          <td>{{cfgTaskId}}</td>
          <td>{{taskName}}</td>
          <td>{{businessClass}}</td>
+         <td>{{successRate}}%</td>
      </tr>
      {{/each}}
  </script>
@@ -233,17 +239,19 @@
         <th colspan="3" style="text-align: center;color:rgb(84,84,51)">一天中任务指定时长内任务运行信息</th>
     </tr>
     <tr>
-    <th style="width:110px"></th>
-    <th style="text-align:center">运行时长(分钟)</th>
-    <th style="text-align:center">cfg_task_id</th>
-    <th style="text-align:center">task_name</th>
+        <th style="width:110px"></th>
+        <th style="text-align:center">cfg_task_id</th>
+        <th style="text-align:center">task_name</th>
+        <th style="text-align:center">运行平均时长(分钟)</th>
+        <th style="text-align:center">task_expr</th>
     </tr>
     {{#each this}}
     <tr style="text-align: center">
         <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
-        <td>{{minutes}}</td>
         <td>{{cfgTaskId}}</td>
         <td>{{taskName}}</td>
+        <td>{{avgTime}}</td>
+        <td>{{taskExpr}}</td>
     </tr>
     {{/each}}
 </script>

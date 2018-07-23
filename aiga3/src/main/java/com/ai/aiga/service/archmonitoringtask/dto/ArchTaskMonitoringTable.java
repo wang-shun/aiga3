@@ -15,24 +15,32 @@ public class ArchTaskMonitoringTable implements Serializable {
     private long cfgTaskId;
     private String taskName;
     private String businessClass;
+    private String results;
 
-    //第二张表除了cfgTaskId，taskName，businessClass之外，还需添加times字段
-    private int times;
+    //第二张表除了cfgTaskId，taskName，businessClass之外，还需添加successTimes,failTimes,successRate字段
+    private int successTimes;
+    private int failTimes;
+    private float successRate;
 
-    //第三张表除了cfgTaskId，taskName，businessClass之外，minutes字段
-    private double minutes;
+    //第三张表除了cfgTaskId，taskName，businessClass之外，avgTime,taskExpr
+    private float avgTime;
+    private String taskExpr;
 
     public ArchTaskMonitoringTable() {}
 
-    public ArchTaskMonitoringTable(Date startDate, String condition, String startTime, long cfgTaskId, String taskName, String businessClass, int times, double minutes) {
+    public ArchTaskMonitoringTable(Date startDate, String condition, String startTime, long cfgTaskId, String taskName, String businessClass, String results, int successTimes, int failTimes, float successRate, float avgTime, String taskExpr) {
         this.startDate = startDate;
         this.condition = condition;
         this.startTime = startTime;
         this.cfgTaskId = cfgTaskId;
         this.taskName = taskName;
         this.businessClass = businessClass;
-        this.times = times;
-        this.minutes = minutes;
+        this.results = results;
+        this.successTimes = successTimes;
+        this.failTimes = failTimes;
+        this.successRate = successRate;
+        this.avgTime = avgTime;
+        this.taskExpr = taskExpr;
     }
 
     public Date getStartDate() {
@@ -83,33 +91,52 @@ public class ArchTaskMonitoringTable implements Serializable {
         this.businessClass = businessClass;
     }
 
-    public int getTimes() {
-        return times;
+    public String getResults() {
+        return results;
     }
 
-    public void setTimes(int times) {
-        this.times = times;
+    public void setResults(String results) {
+        this.results = results;
     }
 
-    public double getMinutes() {
-        return minutes;
+    public int getSuccessTimes() {
+        return successTimes;
     }
 
-    public void setMinutes(double minutes) {
-        this.minutes = minutes;
+    public void setSuccessTimes(int successTimes) {
+        this.successTimes = successTimes;
     }
 
-    @Override
-    public String toString() {
-        return "ArchTaskMonitoringTable{" +
-                "startDate=" + startDate +
-                ", condition='" + condition + '\'' +
-                ", startTime='" + startTime + '\'' +
-                ", cfgTaskId=" + cfgTaskId +
-                ", taskName='" + taskName + '\'' +
-                ", businessClass='" + businessClass + '\'' +
-                ", times=" + times +
-                ", minutes=" + minutes +
-                '}';
+    public int getFailTimes() {
+        return failTimes;
     }
+
+    public void setFailTimes(int failTimes) {
+        this.failTimes = failTimes;
+    }
+
+    public float getSuccessRate() {
+        return successRate;
+    }
+
+    public void setSuccessRate(float successRate) {
+        this.successRate = successRate;
+    }
+
+    public float getAvgTime() {
+        return avgTime;
+    }
+
+    public void setAvgTime(float avgTime) {
+        this.avgTime = avgTime;
+    }
+
+    public String getTaskExpr() {
+        return taskExpr;
+    }
+
+    public void setTaskExpr(String taskExpr) {
+        this.taskExpr = taskExpr;
+    }
+
 }

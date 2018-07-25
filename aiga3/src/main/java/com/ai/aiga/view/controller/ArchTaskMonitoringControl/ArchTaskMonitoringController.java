@@ -165,18 +165,27 @@ public class ArchTaskMonitoringController {
 	public @ResponseBody JsonBean findTableList(ArchTaskMonitoringTable condition) throws ParseException {
 		JsonBean bean = new JsonBean();
 		System.out.println("Controller  ---------- condition.getCondition():------------------"+condition.getCondition());
-		if(condition.getCondition().equals("failTaskList")){
-			bean.setData(archTaskMonitoringSv.queryByConditionTable(condition));
-			System.out.println("Controller  bean1----------------------"+bean);
-		}else if(condition.getCondition().equals("taskRunningFrequency")){
-			bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition));
-			System.out.println("Controller  bean2----------------------"+bean);
-		}else if(condition.getCondition().equals("taskRunInTime")){
-			bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition));
-			System.out.println("Controller  bean3----------------------"+bean);
+		System.out.println("Controller  ---------- condition.getSecondLevelCondition():------------------"+condition.getSecondLevelCondition());
+		if(condition.getSecondLevelCondition()==null || "noChoice".equals(condition.getSecondLevelCondition())){
+			if("failTaskList".equals(condition.getCondition())){
+				bean.setData(archTaskMonitoringSv.queryByConditionTable(condition));
+				System.out.println("Controller  bean1----------------------"+bean);
+			}else if("taskRunningFrequency".equals(condition.getCondition())){
+				bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition));
+				System.out.println("Controller  bean2----------------------"+bean);
+			}else if("taskRunInTime".equals(condition.getCondition())){
+				bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition));
+				System.out.println("Controller  bean3----------------------"+bean);
+			}
+		}else{
+			if("timesOne".equals(condition.getSecondLevelCondition()) || "timesTwo".equals(condition.getSecondLevelCondition()) || "timesThree".equals(condition.getSecondLevelCondition()) || "timesFour".equals(condition.getSecondLevelCondition())){
+				bean.setData(archTaskMonitoringSv.queryByConditionTableFour(condition));
+				System.out.println("Controller  bean4----------------------"+bean);
+			}else if("minutesOne".equals(condition.getSecondLevelCondition()) || "minutesTwo".equals(condition.getSecondLevelCondition()) || "minutesThree".equals(condition.getSecondLevelCondition()) || "minutesFour".equals(condition.getSecondLevelCondition())){
+				bean.setData(archTaskMonitoringSv.queryByConditionTableFive(condition));
+				System.out.println("Controller  bean5----------------------"+bean);
+			}
 		}
-
-
 
 		return bean;
 	}
@@ -185,7 +194,15 @@ public class ArchTaskMonitoringController {
 	@RequestMapping(path="/arch/TopListFirst/findTopListFirst")
 	public @ResponseBody JsonBean findTopListFirst(ArchTaskMonitoringTop condition) throws ParseException {
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryByConditionTop(condition));
+		bean.setData(archTaskMonitoringSv.queryByConditionTopFirst(condition));
+		return bean;
+	}
+
+
+	@RequestMapping(path="/arch/TopListSecond/findTopListSecond")
+	public @ResponseBody JsonBean findTopListSecond(ArchTaskMonitoringTop condition) throws ParseException {
+		JsonBean bean = new JsonBean();
+		bean.setData(archTaskMonitoringSv.queryByConditionTopSecond(condition));
 		return bean;
 	}
 

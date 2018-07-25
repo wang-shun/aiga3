@@ -1,6 +1,6 @@
 
 <style type="text/css">
-    #condition{
+    #condition,#secondLevelCondition,#thirdLevelCondition{
         width: 230px;
         padding:5px 0px;
         height: 30px;
@@ -16,7 +16,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#dataSelectByView" role="tab" data-toggle="tab">视图信息查询</a></li>
                 <li role="presentation"><a href="#dataSelectByTable" role="tab" data-toggle="tab">表格信息查询</a></li>
-                <li role="presentation"><a href="#dataSelectByTop" role="tab" data-toggle="tab">失败率Top10</a></li>
+                <li role="presentation"><a href="#dataSelectByTop" role="tab" data-toggle="tab">Top10</a></li>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="dataSelectByView">
@@ -27,7 +27,7 @@
                             <div class="box-body"><br/>
                                 <div class ="row">
                                     <div class="form-group col-sm-6">
-                                        <label class="col-sm-2  control-label">查询时间:</label>
+                                        <label class="col-sm-2  control-label" style="margin-top: 5px">查询时间:</label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control input-sm " name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                                         </div>
@@ -43,27 +43,25 @@
                         </form>
                     </div>
                     <div class="box" id="JS_taskMonitoringList" style="min-height:100px;">
-                        <div class="box-header ">
-                            <h3 class="box-title">监控信息图一</h3>
+                        <div class="box-header" id="JS_monitorInfoViewFirst">
                         </div>
                         <div class="box-body">
-                            <div  id="JS_tableFirstHint"> </div>
+                            <div  id="JS_tableFirstHint"></div>
                             <div id="taskSumAndSuccessful" style="width: 1000px;height:400px;margin: auto;position: relative;left: 0;right: 0;"></div>
                         </div>
                     </div>
                     <div class="box" id="JS_taskMonitoringListByTime" style="min-height:100px;">
-                        <div class="box-header ">
-                            <h3 class="box-title">监控信息图二</h3>
+                        <div class="box-header " id="JS_monitorInfoViewSecond">
                         </div>
                         <div class="box-body">
                             <div id="JS_tableSecondHint"> </div>
-                            <div id="taskRuntimeByTime" style="width: 1000px;height:400px;margin: auto;float:left;position: relative;left: 100px;right: 0;"></div>
+                            <!--<div id="taskRuntimeByTime" style="width: 1000px;height:400px;margin: auto;float:left;position: relative;left: 100px;right: 0;"></div>-->
+                            <div id="taskRuntimeByTime" style="width: 1000px;height:400px;margin-top: 30px;position: absolute;left: 50%;top: 50%;transform: translate(-50%,-50%)"></div>
                             <div id="JS_tableSecondHintButton"></div>
                         </div>
                     </div>
                     <div class="box" id="JS_taskMonitoringFrequencyAndTimes" style="min-height:100px;">
-                        <div class="box-header">
-                            <h3 class="box-title">监控信息图三</h3>
+                        <div class="box-header" id="JS_monitorInfoViewThird">
                         </div>
                         <div class="box-body">
                             <div  id="JS_tableThirdHint"></div>
@@ -80,22 +78,24 @@
                         <form id="JS_queryDataFormTable">
                             <div class="box-body"><br/>
                                 <div class ="row">
-                                    <div class="form-group col-sm-6" style="float: left">
-                                        <label class="col-sm-2  control-label">查询时间:</label>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control input-sm " name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
+                                    <div class="form-group col-sm-4" style="float: left">
+                                        <label class="col-sm-2" style="margin-top: 5px">查询时间:</label>
+                                        <div class="col-sm-2">
+                                            <input type="text" style="width: 200px;" class="form-control input-sm " name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                                         </div>
                                     </div>
-                                    <div class="form-group col-sm-6" >
-                                        <label class="col-sm-2  control-label">查询内容:</label>
-                                        <div class="col-sm-4">
-                                            <select name="condition" id="condition">
-                                                <option value="">请选择</option>
-                                                <option value="failTaskList">表一&nbsp;&nbsp;一周内失败任务信息清单</option>
-                                                <option value="taskRunningFrequency">表二&nbsp;&nbsp;一天内任务运行频率情况信息</option>
-                                                <option value="taskRunInTime">表三&nbsp;&nbsp;一天中任务指定时长内任务运行信息</option>
+                                    <div class="form-group col-sm-4" >
+                                        <label class="col-sm-2  control-label" style="margin-top: 5px">一级查询:</label>
+                                        <div class="col-sm-2">
+                                            <select class="selectpicker" name="condition" id="condition" data-live-search="true" title="请选择">
+                                                <option value="failTaskList">表一、一周内失败任务信息清单</option>
+                                                <option value="taskRunningFrequency">表二、一天内任务运行频率情况信息</option>
+                                                <option value="taskRunInTime">表三、一天中任务指定时长内任务运行信息</option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="form-group col-sm-4" id="secondLevelSelect">
+                                        <!--二级下拉框-->
                                     </div>
                                 </div>
                                 <div class="box-footer">
@@ -108,21 +108,21 @@
                         </form>
                     </div>
                     <div class="box" id="JS_taskMonitoringListTable" style="width:auto;height:auto;">
-                        <div class="box-header with-border">
-                            <div class="box-tools pull-right" style="margin-bottom: 10px">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-target="#firstTable"><i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="box-body" id="firstTable" style="overflow: auto;height:360px">
-                            <table class="table table-bordered table-hover" id="dataMaintainListTable">
-                                <tbody name="content"></tbody>
-                            </table>
-                        </div>
-                        <div class="box-footer no-border">
-                            <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                    <div class="box-header with-border">
+                        <div class="box-tools pull-right" style="margin-bottom: 10px">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-target="#firstTable"><i class="fa fa-minus"></i>
+                            </button>
                         </div>
                     </div>
+                    <div class="box-body" id="firstTable" style="overflow: auto;height:360px">
+                        <table class="table table-bordered table-hover" id="dataMaintainListTable">
+                            <tbody name="content"></tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer no-border">
+                        <div class="dataTables_paginate" name="pagination" style="text-align:center"></div>
+                    </div>
+                </div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="dataSelectByTop">
                     <div class="box">
@@ -132,7 +132,7 @@
                             <div class="box-body"><br/>
                                 <div class ="row">
                                     <div class="form-group col-sm-6">
-                                        <label class="col-sm-2  control-label">查询时间:</label>
+                                        <label class="col-sm-2  control-label" style="margin-top: 5px">查询时间:</label>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control input-sm " name="startDate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"/>
                                         </div>
@@ -162,15 +162,30 @@
                             </table>
                         </div>
                     </div>
-                    <div class="box" style="width: 33%;height:350px;float:left;">
-                        <div style=";text-align: center;">*****************************</div>
+                    <div class="box" id="JS_taskMonitoringListTopSecond" style="width: 33%;height:350px;float:left;">
+                        <div style=";text-align: center;">一周内任务执行失败率Top10</div>
                         <div class="box-body" >
                             <table class="table table-bordered table-hover" id="TopTableSecond">
                                 <thead>
                                 <tr>
                                     <th style="width:80px"></th>
                                     <th style="text-align:center">cfg_task_id</th>
-                                    <th style="text-align:center">countNum</th>
+                                    <th style="text-align:center">失败率</th>
+                                </tr>
+                                </thead>
+                                <tbody name="content"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="box" id="JS_taskMonitoringListTopThird" style="width: 33%;height:350px;float:left;">
+                        <div style=";text-align: center;">一周内****************Top10</div>
+                        <div class="box-body" >
+                            <table class="table table-bordered table-hover" id="TopTableThird">
+                                <thead>
+                                <tr>
+                                    <th style="width:80px"></th>
+                                    <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">*****</th>
                                 </tr>
                                 </thead>
                                 <tbody name="content"></tbody>
@@ -186,7 +201,7 @@
 
      <tr>
          <th colspan="1" style="text-align: left;color:rgb(84,84,51)">监控信息表格一</th>
-         <th colspan="4" style="text-align: center;color:rgb(84,84,51)">一周内失败任务信息清单</th>
+         <th colspan="5" style="text-align: center;color:rgb(84,84,51)">一周内失败任务信息清单</th>
      </tr>
      <tr>
          <th style="width:110px"></th>
@@ -210,7 +225,7 @@
  <script id="TPL_getFullTableListSecond" type="text/x-handlebars-template">
      <tr>
          <th colspan="1" style="text-align:left;color:rgb(84,84,51)">监控信息表格二</th>
-         <th colspan="4" style="text-align:center;color: rgb(84,84,51)">一天内任务运行频率情况信息</th>
+         <th colspan="6" style="text-align:center;color: rgb(84,84,51)">一天内任务运行频率情况信息</th>
      </tr>
      <tr>
         <th style="width:110px"></th>
@@ -236,13 +251,57 @@
 <script id="TPL_getFullTableListThird" type="text/x-handlebars-template">
     <tr>
         <th colspan="1" style="text-align: left;color:rgb(84,84,51)">监控信息表格三</th>
-        <th colspan="3" style="text-align: center;color:rgb(84,84,51)">一天中任务指定时长内任务运行信息</th>
+        <th colspan="4" style="text-align: center;color:rgb(84,84,51)">一天中任务指定时长内任务运行信息</th>
     </tr>
     <tr>
         <th style="width:110px"></th>
         <th style="text-align:center">cfg_task_id</th>
         <th style="text-align:center">task_name</th>
         <th style="text-align:center">运行平均时长(分钟)</th>
+        <th style="text-align:center">task_expr</th>
+    </tr>
+    {{#each this}}
+    <tr style="text-align: center">
+        <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+        <td>{{cfgTaskId}}</td>
+        <td>{{taskName}}</td>
+        <td>{{avgTime}}</td>
+        <td>{{taskExpr}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_getFullTableListTimes" type="text/x-handlebars-template">
+    <tr>
+        <th colspan="1" style="text-align: left;color:rgb(84,84,51)">监控信息表格三(二级查询)</th>
+        <th colspan="4" style="text-align: center;color:rgb(84,84,51)">一天内任务运行频率分布情况</th>
+    </tr>
+    <tr>
+        <th style="width:110px"></th>
+        <th style="text-align:center">cfg_task_id</th>
+        <th style="text-align:center">task_name</th>
+        <th style="text-align:center">cfg_task_type_code</th>
+        <th style="text-align:center">business_class</th>
+    </tr>
+    {{#each this}}
+    <tr style="text-align: center">
+        <td><input type="radio" class="minimal" value="{{idThird}}" name="idThird"></td>
+        <td>{{cfgTaskId}}</td>
+        <td>{{taskName}}</td>
+        <td>{{cfgTaskTypeCode}}</td>
+        <td>{{businessClass}}</td>
+    </tr>
+    {{/each}}
+</script>
+<script id="TPL_getFullTableListMinutes" type="text/x-handlebars-template">
+    <tr>
+        <th colspan="1" style="text-align: left;color:rgb(84,84,51)">监控信息表格三(二级查询)</th>
+        <th colspan="4" style="text-align: center;color:rgb(84,84,51)">一天内任务执行平均时长区间分布数量</th>
+    </tr>
+    <tr>
+        <th style="width:110px"></th>
+        <th style="text-align:center">cfg_task_id</th>
+        <th style="text-align:center">task_name</th>
+        <th style="text-align:center">avg_time</th>
         <th style="text-align:center">task_expr</th>
     </tr>
     {{#each this}}
@@ -264,6 +323,17 @@
     </tr>
     {{/each}}
 </script>
+<script id="TPL_getTopTableSecond" type="text/x-handlebars-template">
+    {{#each this}}
+    <tr style="text-align: center">
+        <td></td>
+        <td>{{cfgTaskId}}</td>
+        <td>{{failRate}}</td>
+    </tr>
+    {{/each}}
+</script>
+
+
 <script type="text/javascript">
 seajs.use("script/archTaskMonitoring/ArchTaskMonitoring", function(init) {
     init.init();

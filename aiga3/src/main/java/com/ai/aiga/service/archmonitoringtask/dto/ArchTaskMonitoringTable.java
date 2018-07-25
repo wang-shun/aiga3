@@ -9,6 +9,7 @@ public class ArchTaskMonitoringTable implements Serializable {
 
     private Date startDate;
     private String condition;
+    private String secondLevelCondition;
 
     //第一张表需要以下字段
     private String startTime;
@@ -22,15 +23,21 @@ public class ArchTaskMonitoringTable implements Serializable {
     private int failTimes;
     private float successRate;
 
-    //第三张表除了cfgTaskId，taskName，businessClass之外，avgTime,taskExpr
+    //第三张表除了cfgTaskId，taskName，businessClass之外，添加avgTime,taskExpr字段
     private float avgTime;
     private String taskExpr;
 
+    //第4-7
+    private String cfgTaskTypeCode;
+
+    // 8-11张表
+
     public ArchTaskMonitoringTable() {}
 
-    public ArchTaskMonitoringTable(Date startDate, String condition, String startTime, long cfgTaskId, String taskName, String businessClass, String results, int successTimes, int failTimes, float successRate, float avgTime, String taskExpr) {
+    public ArchTaskMonitoringTable(Date startDate, String condition, String secondLevelCondition, String startTime, long cfgTaskId, String taskName, String businessClass, String results, int successTimes, int failTimes, float successRate, float avgTime, String taskExpr, String cfgTaskTypeCode) {
         this.startDate = startDate;
         this.condition = condition;
+        this.secondLevelCondition = secondLevelCondition;
         this.startTime = startTime;
         this.cfgTaskId = cfgTaskId;
         this.taskName = taskName;
@@ -41,6 +48,7 @@ public class ArchTaskMonitoringTable implements Serializable {
         this.successRate = successRate;
         this.avgTime = avgTime;
         this.taskExpr = taskExpr;
+        this.cfgTaskTypeCode = cfgTaskTypeCode;
     }
 
     public Date getStartDate() {
@@ -57,6 +65,14 @@ public class ArchTaskMonitoringTable implements Serializable {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public String getSecondLevelCondition() {
+        return secondLevelCondition;
+    }
+
+    public void setSecondLevelCondition(String secondLevelCondition) {
+        this.secondLevelCondition = secondLevelCondition;
     }
 
     public String getStartTime() {
@@ -139,4 +155,11 @@ public class ArchTaskMonitoringTable implements Serializable {
         this.taskExpr = taskExpr;
     }
 
+    public String getCfgTaskTypeCode() {
+        return cfgTaskTypeCode;
+    }
+
+    public void setCfgTaskTypeCode(String cfgTaskTypeCode) {
+        this.cfgTaskTypeCode = cfgTaskTypeCode;
+    }
 }

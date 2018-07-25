@@ -25,9 +25,13 @@ define(function(require, exports, module) {
     //系统表格信息查询,监控信息表格
     srvMap.add("getTableList", pathAlias + "getList.json", "arch/TableList/findTableList");
 
-    //第三页
-    //Top10  表格一  一天中任务指定时长内任务运行信息
+    //第三页  Top10
+    //表格一  一周内任务失败次数Top10
     srvMap.add("getTopListFirst", pathAlias + "getList.json", "arch/TopListFirst/findTopListFirst");
+    //表格二   一周内任务执行失败率Top10
+    srvMap.add("getTopListSecond", pathAlias + "getList.json", "arch/TopListSecond/findTopListSecond");
+
+    var isHint = false;
 
     var init = {
 
@@ -48,6 +52,62 @@ define(function(require, exports, module) {
 
             var _form3 = Page.findId('queryDataFormTop');
             _form3.find('[name="startDate"]').val(Rose.date.dateTime2str(new Date(), "yyyy-MM-dd"));
+
+            this._selectChange();
+        },
+
+        //第二页下拉框change事件
+        _selectChange:function(){
+
+            $("#condition").change(function(){
+                var ptitle = $(this).find("option:selected").text();
+                var numbers = $("#condition").find("option"); //获取select下拉框的所有值
+                var temp = -1;
+                for(var i=0;i<numbers.size();i++){
+                    if(ptitle==numbers[i].text){
+                        temp = i;
+                    }
+                }
+                if(temp==0){_secLevSelectRender()}
+                else if(temp==1){_firstSecLevSelectRender()}
+                else if(temp==2){_secondSecLevSelectRender()}
+
+            });
+
+            //不显示二级下拉框
+            function _secLevSelectRender(){
+                document.getElementById("secondLevelSelect").innerHTML="";
+            }
+
+            //第1个二级下拉框渲染
+            function _firstSecLevSelectRender () {
+                var str = "<label class=\"col-sm-2  control-label\" style=\"margin-top: 5px\">二级查询:</label>\n" +
+                    "                                        <div class=\"col-sm-2\">\n" +
+                    "                                            <select class=\"selectpicker\"  name=\"secondLevelCondition\" id=\"secondLevelCondition\" data-live-search=\"true\" >\n" +
+                    "                                                <option value=\"noChoice\">详细信息请选择</option>\n" +
+                    "                                                <option value=\"timesOne\">[0,5]次任务运行次数信息</option>\n" +
+                    "                                                <option value=\"timesTwo\">[6,10]次任务运行次数信息</option>\n" +
+                    "                                                <option value=\"timesThree\">[11,20]次任务运行次数信息</option>\n" +
+                    "                                                <option value=\"timesFour\">21次及以上任务运行次数信息</option>\n" +
+                    "                                            </select>\n" +
+                    "                                        </div>";
+                document.getElementById("secondLevelSelect").innerHTML=str;
+            }
+
+            //第2个二级下拉框渲染
+            function _secondSecLevSelectRender () {
+                var str = "<label class=\"col-sm-2  control-label\" style=\"margin-top: 5px\">二级查询:</label>\n" +
+                    "                                        <div class=\"col-sm-2\">\n" +
+                    "                                            <select class=\"selectpicker\"  name=\"secondLevelCondition\" id=\"thirdLevelCondition\" data-live-search=\"true\" title=\"请选择\">\n" +
+                    "                                                <option value=\"noChoice\">详细信息请选择</option>\n" +
+                    "                                                <option value=\"minutesOne\">[0,5]分钟任务运行平均时间在内的次数</option>\n" +
+                    "                                                <option value=\"minutesTwo\">(5,10]分钟任务运行平均时间在内的次数</option>\n" +
+                    "                                                <option value=\"minutesThree\">(10,15]分钟任务运行平均时间在内的次数</option>\n" +
+                    "                                                <option value=\"minutesFour\">15分钟以上任务运行平均时间在内的次数</option>\n" +
+                    "                                            </select>\n" +
+                    "                                        </div>";
+                document.getElementById("secondLevelSelect").innerHTML=str;
+            }
         },
 
         // 查询视图数据(第一个tab页)
@@ -133,7 +193,7 @@ define(function(require, exports, module) {
                             }
                         },
                         legend: {
-                            data: ['check', 'session', 'report', 'collect']
+                            data: ['task_check', 'task_session', 'task_report', 'task_collect']
                         },
                         xAxis: [
                             {
@@ -168,27 +228,27 @@ define(function(require, exports, module) {
                         ],
                         series: [
                             {
-                                name: 'check',
+                                name: 'task_check',
                                 type: 'bar',
                                 data: check,
                             },
                             {
-                                name: 'session',
+                                name: 'task_session',
                                 type: 'bar',
                                 data: session,
                             },
                             {
-                                name: 'report',
+                                name: 'task_report',
                                 type: 'bar',
                                 data: report,
                             },
                             {
-                                name: 'collect',
+                                name: 'task_collect',
                                 type: 'bar',
                                 data: collect,
                             },
                             {
-                                name: 'successRate',
+                                name: 'checkRate',
                                 type: 'line',
                                 yAxisIndex: 1,
                                 data: checkRate,
@@ -234,7 +294,6 @@ define(function(require, exports, module) {
                         }
                         return maxvalue;
                     }
-
                     function getArrMax(array) {
                         var max = 0;
                         for (var i = 0; i < array.length; i++) {
@@ -244,14 +303,221 @@ define(function(require, exports, module) {
                         }
                         return max;
                     }
-
-                    myChart.setOption(option);
+                    myChart.setOption(option,true);
                 } else {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });
 
-            //第二个box图标展示各个进程一天不同时间段的任务总数
+            //第二个box图标展示各个进程一天不同时间段的任务总数-----封装到方法
+            self._getGridListSecondBox(_cmd);
+
+            //第三个box图标展示一天的任务运行频率分布情况
+            Rose.ajax.postJson(srvMap.get('getTaskFrequencyList'), _cmd, function (json, status) {
+                if (status) {
+                    window.XMS.msgbox.hide();
+                    console.log("进入第三个box");
+                    var firstTimes = json.data[0].firstTimes;
+                    var secondTimes = json.data[0].secondTimes;
+                    var thirdTimes = json.data[0].thirdTimes;
+                    var fourTimes = json.data[0].fourTimes;
+                    var myChart1 = echarts.init(document.getElementById('taskRuntimeByFrequency'));
+                    option1 = {
+                        title: {
+                            text: '一天内任务运行频率分布情况',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                            data: ['[0,5]次', '[6,10]次', '[11,20]次', '21次及以上']
+                        },
+                        series: [
+                            {
+                                name: '任务数量',
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '60%'],
+                                data: [
+                                    {value: firstTimes, name: '[0,5]次'},
+                                    {value: secondTimes, name: '[6,10]次'},
+                                    {value: thirdTimes, name: '[11,20]次'},
+                                    {value: fourTimes, name: '21次及以上'}
+                                ],
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    myChart1.setOption(option1);
+
+                    //echarts图表点击跳转
+                    myChart1.on('click', function (param){
+                        var name=param.name;
+
+                        //饼状图点击后，先渲染出二级下拉框
+                        _firstSecLevSelectRender();
+
+                        //对二级下拉框进行默认设值
+                        var numbers = $("#condition").find("option"); //获取select下拉框的所有值
+                        $(numbers[1]).attr("selected", "selected");  //默认选中第2个
+
+                        //对日期默认设值
+                        var _form = Page.findId("queryDataForm");
+                        var startDate = _form.find("[name='startDate']").val();
+
+                        var _form1 = Page.findId("queryDataFormTable");
+                        _form1.find('[name="startDate"]').val(startDate);
+
+                        var number = $("#secondLevelCondition").find("option");//获取第一个二级下拉框
+                        if(name=="详细信息请选择"){
+                            $(number[0]).attr("selected","selected");
+                        }else if(name=="[0,5]次"){
+                            $(number[1]).attr("selected","selected");
+                        }else if(name=="[6,10]次"){
+                            $(number[2]).attr("selected","selected");
+                        }else if(name=="[11,20]次"){
+                            $(number[3]).attr("selected","selected");
+                        }else if(name=="21次及以上"){
+                            $(number[4]).attr("selected","selected");
+                        }
+                        //标签页第二页展示
+                        $('#Page_taskMonitoring li:eq(1) a').tab('show');
+                    });
+
+                } else {
+                    XMS.msgbox.show(json.retMessage, 'error', 2000);
+                }
+            });
+
+            //第四个box图标展示一天内任务在时长内运行次数
+            Rose.ajax.postJson(srvMap.get('getTaskTimesList'), _cmd, function (json, status) {
+                if (status) {
+                    window.XMS.msgbox.hide();
+                    console.log("进入第四个box");
+                    var firstMinutes = json.data[0].firstMinutes;
+                    var secondMinutes = json.data[0].secondMinutes;
+                    var thirdMinutes = json.data[0].thirdMinutes;
+                    var fourMinutes = json.data[0].fourMinutes;
+                    var myChart1 = echarts.init(document.getElementById('taskRuntimeByTimes'));
+                    option = {
+                        title: {
+                            text: '一天内任务执行平均时长区间分布数量',
+                            x: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: "{a} <br/>{b} : {c} ({d}%)"
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'right',
+                            data: ['[0,5]分钟', '(5,10]分钟', '(10,15]分钟', '15分钟以上']
+                        },
+                        series: [
+                            {
+                                name: '任务数量',
+                                type: 'pie',
+                                radius: '55%',
+                                center: ['50%', '60%'],
+                                data: [
+                                    {value: firstMinutes, name: '[0,5]分钟'},
+                                    {value: secondMinutes, name: '(5,10]分钟'},
+                                    {value: thirdMinutes, name: '(10,15]分钟'},
+                                    {value: fourMinutes, name: '15分钟以上'}
+                                ],
+                                itemStyle: {
+                                    emphasis: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                    myChart1.setOption(option);
+                    //echarts图表点击跳转
+                    myChart1.on('click', function (param){
+                        var name=param.name;
+
+                        //饼状图点击后，先渲染出二级下拉框
+                        _secondSecLevSelectRender();
+
+                        //对二级下拉框进行默认设值
+                        var numbers = $("#condition").find("option"); //获取select下拉框的所有值
+                        $(numbers[2]).attr("selected", "selected");  //默认选中第3个
+
+                        //对日期默认设值
+                        var _form = Page.findId("queryDataForm");
+                        var startDate = _form.find("[name='startDate']").val();
+
+                        var _form1 = Page.findId("queryDataFormTable");
+                        _form1.find('[name="startDate"]').val(startDate);
+
+                        var number = $("#thirdLevelCondition").find("option");//获取第2个二级下拉框
+                        if(name=="详细信息请选择"){
+                            $(number[0]).attr("selected","selected");
+                        }else if(name=="[0,5]分钟"){
+                            $(number[1]).attr("selected","selected");
+                        }else if(name=="(5,10]分钟"){
+                            $(number[2]).attr("selected","selected");
+                        }else if(name=="(10,15]分钟"){
+                            $(number[3]).attr("selected","selected");
+                        }else if(name=="15分钟以上"){
+                            $(number[4]).attr("selected","selected");
+                        }
+                        //标签页第二页展示
+                        $('#Page_taskMonitoring li:eq(1) a').tab('show');
+                    });
+                } else {
+                    XMS.msgbox.show(json.retMessage, 'error', 2000);
+                }
+            });
+
+            //第1个二级下拉框渲染
+            function _firstSecLevSelectRender () {
+                var str = "<label class=\"col-sm-2  control-label\" style=\"margin-top: 5px\">二级查询</label>\n" +
+                    "                                        <div class=\"col-sm-2\">\n" +
+                    "                                            <select class=\"selectpicker\"  name=\"secondLevelCondition\" id=\"secondLevelCondition\" data-live-search=\"true\" title=\"请选择\">\n" +
+                    "                                                <option value=\"noChoice\">详细信息请选择</option>\n" +
+                    "                                                <option value=\"timesOne\">[0,5]次任务运行次数信息</option>\n" +
+                    "                                                <option value=\"timesTwo\">[6,10]次任务运行次数信息</option>\n" +
+                    "                                                <option value=\"timesThree\">[11,20]次任务运行次数信息</option>\n" +
+                    "                                                <option value=\"timesFour\">21次及以上任务运行次数信息</option>\n" +
+                    "                                            </select>\n" +
+                    "                                        </div>";
+                document.getElementById("secondLevelSelect").innerHTML=str;
+            }
+
+            //第2个二级下拉框渲染
+            function _secondSecLevSelectRender () {
+                var str = "<label class=\"col-sm-2  control-label\" style=\"margin-top: 5px\">二级查询:</label>\n" +
+                    "                                        <div class=\"col-sm-2\">\n" +
+                    "                                            <select class=\"selectpicker\"  name=\"secondLevelCondition\" id=\"thirdLevelCondition\" data-live-search=\"true\" title=\"请选择\">\n" +
+                    "                                                <option value=\"noChoice\">详细信息请选择</option>\n" +
+                    "                                                <option value=\"minutesOne\">[0,5]分钟任务运行平均时间在内的次数</option>\n" +
+                    "                                                <option value=\"minutesTwo\">(5,10]分钟任务运行平均时间在内的次数</option>\n" +
+                    "                                                <option value=\"minutesThree\">(10,15]分钟任务运行平均时间在内的次数</option>\n" +
+                    "                                                <option value=\"minutesFour\">15分钟以上任务运行平均时间在内的次数</option>\n" +
+                    "                                            </select>\n" +
+                    "                                        </div>";
+                document.getElementById("secondLevelSelect").innerHTML=str;
+            }
+
+        },
+
+        //第二个box图标展示各个进程一天不同时间段的任务总数-----封装到方法
+        _getGridListSecondBox: function (_cmd) {
             Rose.ajax.postJson(srvMap.get('getTaskNumCountList'), _cmd, function (json, status) {
                 if (status) {
                     console.log("进入第二个box");
@@ -287,7 +553,7 @@ define(function(require, exports, module) {
                             trigger: 'axis'
                         },
                         legend: {
-                            data: ['check', 'session', 'report', 'collect', 'taskTotal']
+                            data: ['task_check', 'task_session', 'task_report', 'task_collect', 'taskTotal']
                         },
                         toolbox: {
                             show: true,
@@ -316,7 +582,7 @@ define(function(require, exports, module) {
                         },
                         series: [
                             {
-                                name: 'check',
+                                name: 'task_check',
                                 type: 'line',
                                 data: checkTotal,
                                 markPoint: {
@@ -332,7 +598,7 @@ define(function(require, exports, module) {
                                 }
                             },
                             {
-                                name: 'session',
+                                name: 'task_session',
                                 type: 'line',
                                 data: sessionTotal,
                                 markPoint: {
@@ -348,7 +614,7 @@ define(function(require, exports, module) {
                                 }
                             },
                             {
-                                name: 'report',
+                                name: 'task_report',
                                 type: 'line',
                                 data: reportTotal,
                                 markPoint: {
@@ -364,7 +630,7 @@ define(function(require, exports, module) {
                                 }
                             },
                             {
-                                name: 'collect',
+                                name: 'task_collect',
                                 type: 'line',
                                 data: collectTotal,
                                 markPoint: {
@@ -403,111 +669,6 @@ define(function(require, exports, module) {
                     XMS.msgbox.show(json.retMessage, 'error', 2000);
                 }
             });
-
-            //第三个box图标展示一天的任务运行频率分布情况
-            Rose.ajax.postJson(srvMap.get('getTaskFrequencyList'), _cmd, function (json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    console.log("进入第三个box");
-                    var firstTimes = json.data[0].firstTimes;
-                    var secondTimes = json.data[0].secondTimes;
-                    var thirdTimes = json.data[0].thirdTimes;
-                    var fourTimes = json.data[0].fourTimes;
-                    var myChart1 = echarts.init(document.getElementById('taskRuntimeByFrequency'));
-                    option1 = {
-                        title: {
-                            text: '一天内任务运行频率分布情况',
-                            x: 'center'
-                        },
-                        tooltip: {
-                            trigger: 'item',
-                            formatter: "{a} <br/>{b} : {c} ({d}%)"
-                        },
-                        legend: {
-                            orient: 'vertical',
-                            left: 'left',
-                            data: ['[0,5]次', '[6,10]次', '[11-20]次', '21次及以上']
-                        },
-                        series: [
-                            {
-                                name: '运行次数',
-                                type: 'pie',
-                                radius: '55%',
-                                center: ['50%', '60%'],
-                                data: [
-                                    {value: firstTimes, name: '[0,5]次'},
-                                    {value: secondTimes, name: '[6,10]次'},
-                                    {value: thirdTimes, name: '[11-20]次'},
-                                    {value: fourTimes, name: '21次及以上'}
-                                ],
-                                itemStyle: {
-                                    emphasis: {
-                                        shadowBlur: 10,
-                                        shadowOffsetX: 0,
-                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                    }
-                                }
-                            }
-                        ]
-                    };
-                    myChart1.setOption(option1);
-                } else {
-                    XMS.msgbox.show(json.retMessage, 'error', 2000);
-                }
-            });
-
-            //第四个box图标展示一天内任务在时长内运行次数
-            Rose.ajax.postJson(srvMap.get('getTaskTimesList'), _cmd, function (json, status) {
-                if (status) {
-                    window.XMS.msgbox.hide();
-                    console.log("进入第四个box");
-                    var firstMinutes = json.data[0].firstMinutes;
-                    var secondMinutes = json.data[0].secondMinutes;
-                    var thirdMinutes = json.data[0].thirdMinutes;
-                    var fourMinutes = json.data[0].fourMinutes;
-                    var myChart1 = echarts.init(document.getElementById('taskRuntimeByTimes'));
-                    option = {
-                        title: {
-                            text: '一天中某任务平均运行时间在时间段内的次数',
-                            x: 'center'
-                        },
-                        tooltip: {
-                            trigger: 'item',
-                            formatter: "{a} <br/>{b} : {c} ({d}%)"
-                        },
-                        legend: {
-                            orient: 'vertical',
-                            left: 'right',
-                            data: ['[0,5]分钟', '(5,10]分钟', '(10,15]分钟', '15分钟以上']
-                        },
-                        series: [
-                            {
-                                name: '运行次数',
-                                type: 'pie',
-                                radius: '55%',
-                                center: ['50%', '60%'],
-                                data: [
-                                    {value: firstMinutes, name: '[0,5]分钟'},
-                                    {value: secondMinutes, name: '(5,10]分钟'},
-                                    {value: thirdMinutes, name: '(10,15]分钟'},
-                                    {value: fourMinutes, name: '15分钟以上'}
-                                ],
-                                itemStyle: {
-                                    emphasis: {
-                                        shadowBlur: 10,
-                                        shadowOffsetX: 0,
-                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                    }
-                                }
-                            }
-                        ]
-                    };
-                    myChart1.setOption(option);
-                } else {
-                    XMS.msgbox.show(json.retMessage, 'error', 2000);
-                }
-            });
-
         },
 
         //查询表格数据(第二个tab页)
@@ -522,32 +683,54 @@ define(function(require, exports, module) {
             //入参规定，将字符串'2018-06-26'转换成'2018/06/26'才能解析
             _cmd = _cmd.replace(/-/g, "/");
 
-            //获得select下拉框的值
+            //获得一级下拉框的值
             var _form = Page.findId('queryDataFormTable');
             var condition = _form.find('[name="condition"]').val();
-            console.log("condition:"+condition);
-
-            //表格内容渲染
-            var _dom1 = Page.findId('taskMonitoringListTable');
-            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-            // 设置服务器端分页
-            Utils.getServerPage(srvMap.get('getTableList'), _cmd, function (json) {
-                window.XMS.msgbox.hide();
-                if(condition=="failTaskList"){
-                    var tablebtn = _dom1.find("[name='content']");
-                    var template = Handlebars.compile(Page.findTpl('getFullTableList'));
-                    tablebtn.html(template(json.data));
-                }else if(condition=="taskRunningFrequency"){
-                    var tablebtn = _dom1.find("[name='content']");
-                    var template = Handlebars.compile(Page.findTpl('getFullTableListSecond'));
-                    tablebtn.html(template(json.data));
-                }else if(condition=="taskRunInTime"){
-                    var tablebtn = _dom1.find("[name='content']");
-                    var template = Handlebars.compile(Page.findTpl('getFullTableListThird'));
-                    tablebtn.html(template(json.data));
-                }
-
-            });
+            var conditionSecond = _form.find('[name="secondLevelCondition"]').val();
+            if(conditionSecond==null || conditionSecond=="noChoice"){
+                console.log("conditionSecond="+conditionSecond);
+                //表格内容渲染
+                var _dom1 = Page.findId('taskMonitoringListTable');
+                XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                // 暂不设置服务器端分页
+                Utils.getServerPage(srvMap.get('getTableList'), _cmd, function (json) {
+                    window.XMS.msgbox.hide();
+                    if(condition=="failTaskList"){
+                        var tablebtn = _dom1.find("[name='content']");
+                        var template = Handlebars.compile(Page.findTpl('getFullTableList'));
+                        tablebtn.html(template(json.data));
+                    }else if(condition=="taskRunningFrequency"){
+                        var tablebtn = _dom1.find("[name='content']");
+                        var template = Handlebars.compile(Page.findTpl('getFullTableListSecond'));
+                        tablebtn.html(template(json.data));
+                    }else if(condition=="taskRunInTime"){
+                        var tablebtn = _dom1.find("[name='content']");
+                        var template = Handlebars.compile(Page.findTpl('getFullTableListThird'));
+                        tablebtn.html(template(json.data));
+                    }
+                });
+            }else{
+                console.log("conditionSecond!=null");
+                //表格内容渲染
+                var _dom1 = Page.findId('taskMonitoringListTable');
+                XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+                console.log(conditionSecond.substring(0,1));
+                Utils.getServerPage(srvMap.get('getTableList'), _cmd, function (json) {
+                    window.XMS.msgbox.hide();
+                    //第二张表对应的四张表timesOne,timesTwo,timesThree,timesFour
+                    if(conditionSecond.substring(0,1)=='t'){
+                        var tablebtn = _dom1.find("[name='content']");
+                        var template = Handlebars.compile(Page.findTpl('getFullTableListTimes'));
+                        tablebtn.html(template(json.data));
+                    }
+                    //第三张表对应的四张表minutesOne,minutesTwo,minutesThree,minutesFour
+                    else if(conditionSecond.substring(0,1)=='m'){
+                        var tablebtn = _dom1.find("[name='content']");
+                        var template = Handlebars.compile(Page.findTpl('getFullTableListMinutes'));
+                        tablebtn.html(template(json.data));
+                    }
+                });
+            }
         },
 
         //查询Top数据(第三个tab页)
@@ -572,26 +755,58 @@ define(function(require, exports, module) {
                 tablebtn.html(template(json.data));
             });
 
+            //第二个Top内容渲染
+            var _dom2 = Page.findId('taskMonitoringListTopSecond');
+            XMS.msgbox.show('数据加载中，请稍候...', 'loading');
+            Utils.getServerPage(srvMap.get('getTopListSecond'), _cmd, function (json) {
+                window.XMS.msgbox.hide();
+                var tablebtn = _dom2.find("[name='content']");
+                var template = Handlebars.compile(Page.findTpl('getTopTableSecond'));
+                tablebtn.html(template(json.data));
+            });
         },
 
-        //按钮点击后渲染提示信息
+        //查询按钮点击后渲染提示信息
         _infoRender:function(){
             var self=this;
             //三张图提示信息渲染：页面查询按钮点击后才显示提示信息
             //图一  提示
             var str1 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表一<br></p>";
             document.getElementById("JS_tableFirstHint").innerHTML=str1;
-            //图二 提示和隐藏图按钮
-            var str2 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴时间2表示<br>2-3点之间<br></p>";
-            var str = "<button  name=\"hintButton\"  style=\"float:right;margin-right:20px\">隐藏图展示</button>";
-            document.getElementById("JS_tableSecondHint").innerHTML=str2;
-            document.getElementById("JS_tableSecondHintButton").innerHTML=str;
+            //图一 “监控信息图一”
+            var str2 = " <h3 class=\"box-title\">监控信息图一</h3>";
+            document.getElementById("JS_monitorInfoViewFirst").innerHTML=str2;
+
+            //图二 提示信息
+            self._infoTableSecondRender();
+            //图二 隐藏图按钮
+            var str3 = "<button  id=\"hintButton\" name=\"hintButton\" class=\"btn btn-default\" style=\"float:right;margin-right:20px\">10分钟颗粒度查询</button>";
+            document.getElementById("JS_tableSecondHintButton").innerHTML=str3;
+            //图二 “监控信息图二”
+            var str4 = "<h3 class=\"box-title\">监控信息图二</h3>";
+            document.getElementById("JS_monitorInfoViewSecond").innerHTML=str4;
+
             //图三图四提示
-            var str3 = "<p  style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表二表三</p>";
-            document.getElementById("JS_tableThirdHint").innerHTML=str3;
+            var str5 = "<p  style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">对应表格信息<br>请到<br>表格信息查询页<br>查询内容表二表三</p>";
+            document.getElementById("JS_tableThirdHint").innerHTML=str5;
+            //图三 “监控信息图三”
+            var str6 = " <h3 class=\"box-title\">监控信息图三</h3>";
+            document.getElementById("JS_monitorInfoViewThird").innerHTML=str6;
 
             self._hintButtonClick();
 
+        },
+
+        //第二张图左侧提示信息和按钮文本change
+        _infoTableSecondRender: function () {
+            var str2 = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴时间2表示<br>2-3点之间<br></p>";
+            document.getElementById("JS_tableSecondHint").innerHTML=str2;
+        },
+
+        //隐藏图提示信息（左侧）和按钮文本change
+        _infoHintRender: function () {
+            var str = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴5表示5点<br>13.2表示13点20分<br></p>";
+            document.getElementById("JS_tableSecondHint").innerHTML=str;
         },
 
         //隐藏按钮点击事件
@@ -605,15 +820,27 @@ define(function(require, exports, module) {
 
             hintButton.off('click').on('click', function () {
                 console.log("隐藏按钮已点击");
-                self._getHintList();
-                self._infoHintRender();
+                if(isHint){
+                    self._getHintList();
+                    self._infoHintRender();
+                    document.getElementById("hintButton").innerText="各时段任务总数图";
+                }else{
+                    var _form1 = Page.findId('queryDataForm');
+                    var cmd = _form1.serialize();
+                    cmd = cmd.replace(/-/g, "/");
+                    self._getGridListSecondBox(cmd);
+                    self._infoTableSecondRender();
+                    document.getElementById("hintButton").innerText="10分钟颗粒度查询";
+                }
+                if(isHint){
+                    isHint = false;
+                }else{
+                    isHint = true;
+                }
+
             });
          },
-        //隐藏图提示信息（左侧）
-        _infoHintRender: function () {
-            var str = "<p style=\"float: left;width: 120px;height:100px; color:cadetblue;margin-top: 250px\">例：x轴5表示5点<br>13.2表示13点20分<br></p>";
-            document.getElementById("JS_tableSecondHint").innerHTML=str;
-        },
+
         //渲染隐藏图
         _getHintList:function(){
             // var self=this;
@@ -643,7 +870,7 @@ define(function(require, exports, module) {
                             trigger: 'axis'
                         },
                         legend: {
-                            data:['任务数量']
+                            data:['任务总数']
                         },
                         toolbox: {
                             show: true,
@@ -670,7 +897,7 @@ define(function(require, exports, module) {
                         },
                         series: [
                             {
-                                name:'任务数量',
+                                name:'任务总数',
                                 type:'line',
                                 data:values,
                                 markPoint: {
@@ -694,6 +921,7 @@ define(function(require, exports, module) {
                 }
             });
         },
+
         //绑定查询按钮事件
         _query_event: function () {
             var self = this;

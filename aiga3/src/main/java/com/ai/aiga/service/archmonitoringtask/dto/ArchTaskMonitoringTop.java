@@ -9,17 +9,19 @@ public class ArchTaskMonitoringTop implements Serializable {
     private Date startDate;
     private long cfgTaskId;
     private long countSum;
-    private String failRate;
+    private double failRate;
+    private String taskName;
     private int failSum;
     private int totalSum;
 
     public ArchTaskMonitoringTop() {}
 
-    public ArchTaskMonitoringTop(Date startDate, long cfgTaskId, long countSum, String failRate, int failSum, int totalSum) {
+    public ArchTaskMonitoringTop(Date startDate, long cfgTaskId, long countSum, double failRate, String taskName, int failSum, int totalSum) {
         this.startDate = startDate;
         this.cfgTaskId = cfgTaskId;
         this.countSum = countSum;
         this.failRate = failRate;
+        this.taskName = taskName;
         this.failSum = failSum;
         this.totalSum = totalSum;
     }
@@ -48,12 +50,20 @@ public class ArchTaskMonitoringTop implements Serializable {
         this.countSum = countSum;
     }
 
-    public String getFailRate() {
+    public double getFailRate() {
         return failRate;
     }
 
-    public void setFailRate(String failRate) {
+    public void setFailRate(double failRate) {
         this.failRate = failRate;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public int getFailSum() {

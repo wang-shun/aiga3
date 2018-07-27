@@ -22,6 +22,269 @@ public class ArchTaskMonitoringSv extends BaseService {
 	@Autowired
 	private AigaAuthorDao archTaskMonitoringDao;
 
+	//以下报告
+	public List<ArchTaskMonitoringReport> queryByReport(String startDate) throws ParseException {
+		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
+		StringBuilder nativeSql = new StringBuilder(
+				"select sum(lastday_task_count) lastday_task_count,\n" +
+						"       sum(lastday_add_task_count) lastday_add_task_count,\n" +
+						"       sum(all_task_count) all_task_count,\n" +
+						"       sum(count_change) count_change,\n" +
+						"       sum(task_success_rate) task_success_rate,\n" +
+						"       sum(task_success_rate_change) task_success_rate_change,\n" +
+						"       sum(task_avg_time) task_avg_time,\n" +
+						"       sum(task_avg_time_change) task_avg_time_change\n" +
+						"  from (select count(1) lastday_task_count,\n" +
+						"               0 lastday_add_task_count,\n" +
+						"               0 all_task_count,\n" +
+						"               0 count_change,\n" +
+						"               0 task_success_rate,\n" +
+						"               0 task_success_rate_change,\n" +
+						"               0 task_avg_time,\n" +
+						"               0 task_avg_time_change\n" +
+						"          from aiam.cfg_task a\n" +
+						"         where a.create_date < trunc(to_date(:startDate, 'yyyy-mm-dd'))\n" +
+						"        union all\n" +
+						"        select 0 lastday_task_count,\n" +
+						"               count(1) lastday_add_task_count,\n" +
+						"               0 all_task_count,\n" +
+						"               0 count_change,\n" +
+						"               0 task_success_rate,\n" +
+						"               0 task_success_rate_change,\n" +
+						"               0 task_avg_time,\n" +
+						"               0 task_avg_time_change\n" +
+						"          from aiam.cfg_task a\n" +
+						"         where a.create_date between\n" +
+						"               trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"               trunc(to_date(:startDate, 'yyyy-mm-dd'))\n" +
+						"        union all\n" +
+						"        select 0 lastday_task_count,\n" +
+						"               0 lastday_add_task_count,\n" +
+						"               count(1) all_task_count,\n" +
+						"               0 count_change,\n" +
+						"               0 task_success_rate,\n" +
+						"               0 task_success_rate_change,\n" +
+						"               0 task_avg_time,\n" +
+						"               0 task_avg_time_change\n" +
+						"          from aiam.task_log a\n" +
+						"         where a.start_date between\n" +
+						"               trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"               trunc(to_date(:startDate, 'yyyy-mm-dd'))\n" +
+						"        union all\n" +
+						"        select 0 lastday_task_count,\n" +
+						"               0 lastday_add_task_count,\n" +
+						"               0 all_task_count,\n" +
+						"               (select count(1)\n" +
+						"                  from aiam.task_log a\n" +
+						"                 where a.start_date between\n" +
+						"                       trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"                       trunc(to_date(:startDate, 'yyyy-mm-dd'))) -\n" +
+						"               (select count(1)\n" +
+						"                  from aiam.task_log a\n" +
+						"                 where a.start_date between\n" +
+						"                       trunc(to_date(:startDate, 'yyyy-mm-dd') - 2) and\n" +
+						"                       trunc(to_date(:startDate, 'yyyy-mm-dd') - 1)) count_change,\n" +
+						"               0 task_success_rate,\n" +
+						"               0 task_success_rate_change,\n" +
+						"               0 task_avg_time,\n" +
+						"               0 task_avg_time_change\n" +
+						"          from dual\n" +
+						"        union all\n" +
+						"        select 0 lastday_task_count,\n" +
+						"               0 lastday_add_task_count,\n" +
+						"               0 all_task_count,\n" +
+						"               0 count_change,\n" +
+						"decode ((select count(1)\n" +
+						"                 from aiam.task_log a\n" +
+						"                where a.start_date between\n" +
+						"                      trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"                      trunc(to_date(:startDate, 'yyyy-mm-dd'))), 0, 0,\n" +
+						"                round((select count(1)\n" +
+						"                               from aiam.task_log a\n" +
+						"                              where a.start_date between\n" +
+						"                                    trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"                                    trunc(to_date(:startDate, 'yyyy-mm-dd'))\n" +
+						"                                and lower(a.results) like '%uccess%') /\n" +
+						"                            (select count(1)\n" +
+						"                               from aiam.task_log a\n" +
+						"                              where a.start_date between\n" +
+						"                                    trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"                                    trunc(to_date(:startDate, 'yyyy-mm-dd'))) * 100,\n" +
+						"                            2)) task_success_rate,\n"+
+		"               0 task_success_rate_change,\n" +
+						"               0 task_avg_time,\n" +
+						"               0 task_avg_time_change\n" +
+						"          from dual\n" +
+						"        union all\n" +
+						"select 0 lastday_task_count,\n" +
+						"       0 lastday_add_task_count,\n" +
+						"       0 all_task_count,\n" +
+						"       0 count_change,\n" +
+						"       0 task_success_rate,\n" +
+						"       (（select decode((select count(1)\n" +
+						"                          from aiam.task_log a\n" +
+						"                         where a.start_date between\n" +
+						"                               trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"                               trunc(to_date(:startDate, 'yyyy-mm-dd'))), 0, 0, round((select count(1)\n" +
+						"                                                                                           from aiam.task_log a\n" +
+						"                                                                                          where a.start_date between\n" +
+						"                                                                                                trunc(to_date(:startDate,\n" +
+						"                                                                                                              'yyyy-mm-dd') - 1) and\n" +
+						"                                                                                                trunc(to_date(:startDate,\n" +
+						"                                                                                                              'yyyy-mm-dd'))\n" +
+						"                                                                                            and lower(a.results) like\n" +
+						"                                                                                                '%uccess%') / (select count(1)\n" +
+						"                                                                                                                 from aiam.task_log a\n" +
+						"                                                                                                                where a.start_date between\n" +
+						"                                                                                                                      trunc(to_date(:startDate,\n" +
+						"                                                                                                                                    'yyyy-mm-dd') - 1) and\n" +
+						"                                                                                                                      trunc(to_date(:startDate,\n" +
+						"                                                                                                                                    'yyyy-mm-dd'))) * 100, 2)) from dual） - （\n" +
+						"         select decode((select count(1)\n" +
+						"                         from aiam.task_log a\n" +
+						"                        where a.start_date between\n" +
+						"                              trunc(to_date(:startDate, 'yyyy-mm-dd') - 2) and\n" +
+						"                              trunc(to_date(:startDate, 'yyyy-mm-dd') - 1)),\n" +
+						"                       0,\n" +
+						"                       0,\n" +
+						"                       round((select count(1)\n" +
+						"                                from aiam.task_log a\n" +
+						"                               where a.start_date between\n" +
+						"                                     trunc(to_date(:startDate, 'yyyy-mm-dd') - 2) and\n" +
+						"                                     trunc(to_date(:startDate, 'yyyy-mm-dd') - 1)\n" +
+						"                                 and lower(a.results) like '%uccess%') /\n" +
+						"                             (select count(1)\n" +
+						"                                from aiam.task_log a\n" +
+						"                               where a.start_date between\n" +
+						"                                     trunc(to_date(:startDate, 'yyyy-mm-dd') - 2) and\n" +
+						"                                     trunc(to_date(:startDate, 'yyyy-mm-dd') - 1)) * 100,\n" +
+						"                             2))\n" +
+						"\n" +
+						"           from dual）) task_success_rate_change, 0 task_avg_time, 0 task_avg_time_change\n" +
+						"           from dual"+
+		"                 union all\n" +
+						"                 select 0 lastday_task_count,\n" +
+						"                        0 lastday_add_task_count,\n" +
+						"                        0 all_task_count,\n" +
+						"                        0 count_change,\n" +
+						"                        0 task_success_rate,\n" +
+						"                        0 task_success_rate_change,\n" +
+						"                        round(avg(a.finish_date - a.start_date) * 24 * 1440,\n" +
+						"                              2) task_avg_time,\n" +
+						"                        0 task_avg_time_change\n" +
+						"                   from aiam.task_log a\n" +
+						"                  where a.start_date between\n" +
+						"                        trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"                        trunc(to_date(:startDate, 'yyyy-mm-dd'))\n" +
+						"                    and a.results like '%uccess%'\n" +
+						"                 union all\n" +
+						"                 select 0 lastday_task_count,\n" +
+						"                        0 lastday_add_task_count,\n" +
+						"                        0 all_task_count,\n" +
+						"                        0 count_change,\n" +
+						"                        0 task_success_rate,\n" +
+						"                        0 task_success_rate_change,\n" +
+						"                        0 task_avg_time,\n" +
+						"                        ((select round(avg(a.finish_date - a.start_date) * 24 * 1440,\n" +
+						"                                       2)\n" +
+						"                            from aiam.task_log a\n" +
+						"                           where a.start_date between\n" +
+						"                                 trunc(to_date(:startDate, 'yyyy-mm-dd') - 1) and\n" +
+						"                                 trunc(to_date(:startDate, 'yyyy-mm-dd'))\n" +
+						"                             and a.results like '%uccess%') -\n" +
+						"                        (select round(avg(a.finish_date - a.start_date) * 24 * 1440,\n" +
+						"                                       2)\n" +
+						"                            from aiam.task_log a\n" +
+						"                           where a.start_date between\n" +
+						"                                 trunc(to_date(:startDate, 'yyyy-mm-dd') - 2) and\n" +
+						"                                 trunc(to_date(:startDate, 'yyyy-mm-dd') - 1)\n" +
+						"                             and a.results like '%uccess%')) task_avg_time_change\n" +
+						"                   from dual\n" +
+						"        )"
+
+		);
+
+		params.add(new ParameterCondition("startDate", startDate));
+		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringReport.class);
+
+	}
+
+	public List<ArchTaskMonitoringReport> queryByReportSecond() throws ParseException {
+		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
+		StringBuilder nativeSql = new StringBuilder(
+				"select to_char(sys_date,'YYYY-MM-DD HH24:MI:SS') sys_date,\n" +
+						"       sum(task_over_count) task_over_count,\n" +
+						"       sum(fail_task_count) fail_task_count,\n" +
+						"       sum(task_connect_count) task_connect_count,\n" +
+						"       sum(task_more_avg_count) task_more_avg_count\n" +
+						"  from (select sysdate sys_date,\n" +
+						"               0       task_over_count,\n" +
+						"               0       fail_task_count,\n" +
+						"               0       task_connect_count,\n" +
+						"               0       task_more_avg_count\n" +
+						"          from dual\n" +
+						"        union all\n" +
+						"        select sysdate sys_date,\n" +
+						"               count(1) task_over_count,\n" +
+						"               0 fail_task_count,\n" +
+						"               0 task_connect_count,\n" +
+						"               0 task_more_avg_count\n" +
+						"          from aiam.task_log a\n" +
+						"         where a.start_date > trunc(sysdate)\n" +
+						"           and a.start_date <= sysdate\n" +
+						"        union all\n" +
+						"        select sysdate sys_date,\n" +
+						"               0 task_over_count,\n" +
+						"               ((select count(1)\n" +
+						"                   from aiam.task_log a\n" +
+						"                  where a.start_date > trunc(sysdate)\n" +
+						"                    and a.start_date <= sysdate\n" +
+						"                    and a.results not like '%uccess%') +\n" +
+						"               (select count(1)\n" +
+						"                   from aiam.task_log a\n" +
+						"                  where a.start_date > trunc(sysdate)\n" +
+						"                    and a.start_date <= sysdate\n" +
+						"                    and a.results is null)) fail_task_count,\n" +
+						"               0 task_connect_count,\n" +
+						"               0 task_more_avg_count\n" +
+						"          from dual\n" +
+						"        union all\n" +
+						"        select sysdate sys_date,\n" +
+						"               0 task_over_count,\n" +
+						"               0 fail_task_count,\n" +
+						"               count(1) task_connect_count,\n" +
+						"               0 task_more_avg_count\n" +
+						"          from (select distinct cfg_task_id\n" +
+						"                  from aiam.task_log a\n" +
+						"                 where a.start_date > trunc(sysdate)\n" +
+						"                   and a.start_date <= sysdate\n" +
+						"                   and a.results not like '%uccess%'\n" +
+						"                union\n" +
+						"                select distinct cfg_task_id\n" +
+						"                  from aiam.task_log a\n" +
+						"                 where a.start_date > trunc(sysdate)\n" +
+						"                   and a.start_date <= sysdate\n" +
+						"                   and a.results is null)\n" +
+						"        union all\n" +
+						"        select sysdate sys_date,\n" +
+						"               0 task_over_count,\n" +
+						"               0 fail_task_count,\n" +
+						"               0 task_connect_count,\n" +
+						"               count(1) task_more_avg_count\n" +
+						"          from (select a.cfg_task_id,\n" +
+						"                       round(avg(a.finish_date - a.start_date) * 24 * 1440, 5)\n" +
+						"                  from aiam.task_log a\n" +
+						"                 where a.start_date > trunc(sysdate)\n" +
+						"                   and a.start_date <= sysdate\n" +
+						"                   and a.results like '%uccess%'\n" +
+						"                 group by a.cfg_task_id\n" +
+						"                having round(avg(a.finish_date - a.start_date) * 24 * 1440, 5) > 15))\n" +
+						" group by sys_date"
+		);
+		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringReport.class);
+
+	}
+	//以下视图
 	public List<ArchTaskMonitoring> queryByCondition(ArchTaskMonitoring condition) throws ParseException {
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
@@ -276,7 +539,6 @@ public class ArchTaskMonitoringSv extends BaseService {
 	}
 
 	public List<ArchTaskMonitoringByTime> queryTaskCount(ArchTaskMonitoringByTime condition2)  throws ParseException{
-
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		String dateQueryStart = sdf.format(condition2.getStartDate());
@@ -344,12 +606,10 @@ public class ArchTaskMonitoringSv extends BaseService {
 	}
 
 	public List<ArchTaskMonitoringHintView> queryTaskCountHint(Date startDate)  throws ParseException{
-
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		String dateQueryStart = sdf.format(startDate);
 		StringBuilder nativeSql = new StringBuilder(
-
 				"select to_char(start_date,'HH24:MI') as start_time,to_char(finish_date,'HH24:MI') as finish_time " +
 						" from aiam.task_log where to_char(start_date,'YYYY-MM-DD')=:startDate \n" +
 						" and to_char(finish_date,'YYYY-MM-DD')=:startDate order by finish_date desc "
@@ -357,7 +617,6 @@ public class ArchTaskMonitoringSv extends BaseService {
 		params.add(new ParameterCondition("startDate", dateQueryStart));
 		return archTaskMonitoringDao.searchByNativeSQL(nativeSql.toString(), params, ArchTaskMonitoringHintView.class);
 	}
-
 
 	public List<ArchTaskMonitoringByFrequencyAndTimes> queryTaskByFrequency(ArchTaskMonitoringByFrequencyAndTimes condition3) throws ParseException{
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
@@ -490,10 +749,8 @@ public class ArchTaskMonitoringSv extends BaseService {
 
 	//以下表格
 	public List<ArchTaskMonitoringTable> queryByConditionTable(ArchTaskMonitoringTable condition ) throws ParseException{
-		System.out.println("condition.getCondition()----------------------------------------=-=-"+condition.getCondition());
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("condition.getStartDate()---------"+condition.getStartDate());
 		String dateQueryStart = sdf.format(condition.getStartDate());
 		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
 
@@ -540,7 +797,6 @@ public class ArchTaskMonitoringSv extends BaseService {
 
 	public List<ArchTaskMonitoringTable> queryByConditionTableSecond(ArchTaskMonitoringTable condition ) throws ParseException{
         List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-        //startDate是Date类型
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String dateQueryStart = sdf.format(condition.getStartDate());
 		StringBuilder nativeSql = new StringBuilder(
@@ -597,9 +853,7 @@ public class ArchTaskMonitoringSv extends BaseService {
 
 	public List<ArchTaskMonitoringTable> queryByConditionTableThird(ArchTaskMonitoringTable condition ) throws ParseException{
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-		//startDate是Date类型
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        System.out.println("表格3   condition.getStartDate():------------------"+condition.getStartDate());
         String dateQueryStart = sdf.format(condition.getStartDate());
 		StringBuilder nativeSql = new StringBuilder(
 				"select b.cfg_task_id,b.task_name,round(avg((a.finish_date-a.start_date)*1440),1) avg_time,b.task_expr " +
@@ -616,7 +870,6 @@ public class ArchTaskMonitoringSv extends BaseService {
 
 	public List<ArchTaskMonitoringTable> queryByConditionTableFour(ArchTaskMonitoringTable condition ) throws ParseException{
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-		//startDate是Date类型
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 		String dateQueryStart = sdf.format(condition.getStartDate());
 		String str1 = " and times <=5)";
@@ -654,9 +907,7 @@ public class ArchTaskMonitoringSv extends BaseService {
 
 	public List<ArchTaskMonitoringTable> queryByConditionTableFive(ArchTaskMonitoringTable condition ) throws ParseException{
 		List<ParameterCondition> params = new ArrayList<ParameterCondition>();
-		//startDate是Date类型
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-		System.out.println("表格5   condition.getStartDate():------------------"+condition.getStartDate());
 		String dateQueryStart = sdf.format(condition.getStartDate());
 		String str1 = " and avg_time>=0 and avg_time<=5";
 		String str2 = " and avg_time>5 and avg_time<=10";
@@ -692,28 +943,32 @@ public class ArchTaskMonitoringSv extends BaseService {
 		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
 		String dateQueryEnd = sdf.format(endTime);
 		StringBuilder nativeSql = new StringBuilder(
-				"select cfg_task_id,count_sum\n" +
-						"         from(\n" +
-						"         select cfg_task_id, sum(countNum) count_sum\n" +
-						"           from (select cfg_task_id, count(cfg_task_id) countNum\n" +
-						"                   from aiam.task_log\n" +
-						"                  where results not like '%uccess%'\n" +
-						"                    and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"                    and to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
-						"                  group by cfg_task_id\n" +
-						"                 \n" +
-						"                 union all\n" +
-						"                 select cfg_task_id, count(cfg_task_id) countNum\n" +
-						"                   from aiam.task_log\n" +
-						"                  where results is null\n" +
-						"                    and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"                    and to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
-						"                  group by cfg_task_id\n" +
-						"                 )\n" +
-						"         group by cfg_task_id\n" +
-						"         order by count_sum desc\n" +
-						"         )\n" +
-						"         where rownum <= 10"
+				"select cfg_task_id, task_name,count_sum\n" +
+						"  from (                 select cfg_task_id, task_name, sum(count_sum) count_sum\n" +
+						"                   from (select a.cfg_task_id,\n" +
+						"                                b.task_name,\n" +
+						"                                count(1) count_sum\n" +
+						"                           from aiam.task_log a, aiam.cfg_task b\n" +
+						"                          where a.cfg_task_id = b.cfg_task_id\n" +
+						"                            and results not like '%uccess%'\n" +
+						"                            and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
+						"                            and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
+						"                          group by a.cfg_task_id, b.task_name\n" +
+						"                         union all\n" +
+						"                         select a.cfg_task_id,\n" +
+						"                                b.task_name,\n" +
+						"                                count(1) count_sum\n" +
+						"                           from aiam.task_log a, aiam.cfg_task b\n" +
+						"                          where a.cfg_task_id = b.cfg_task_id\n" +
+						"                            and results is null\n" +
+						"                            and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
+						"                            and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
+						"                          group by a.cfg_task_id, b.task_name)\n" +
+						"                  group by cfg_task_id, task_name\n" +
+						"                  order by count_sum desc\n" +
+						")\n" +
+						" where rownum <= 10"
+
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));
 		params.add(new ParameterCondition("endDate", dateQueryEnd));
@@ -730,46 +985,51 @@ public class ArchTaskMonitoringSv extends BaseService {
 		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
 		String dateQueryEnd = sdf.format(endTime);
 		StringBuilder nativeSql = new StringBuilder(
-				"select cfg_task_id, sum(fail_sum) fail_sum, sum(total_sum) total_sum,round(sum(fail_sum)/sum(total_sum),2)*100||'%' fail_rate\n" +
-						"  from (\n" +
-						"        select cfg_task_id, 0 fail_sum, count(1) total_sum\n" +
-						"          from aiam.task_log\n" +
-						"         where to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
-						"           and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"           and cfg_task_id in\n" +
-						"               (select cfg_task_id\n" +
-						"                  from aiam.task_log\n" +
-						"                 where results not like '%uccess%'\n" +
+				"select cfg_task_id, task_name,fail_rate\n" +
+						"  from (select cfg_task_id,task_name,\n" +
+						"               sum(fail_sum) fail_sum,\n" +
+						"               sum(total_sum) total_sum,\n" +
+						"               decode(sum(total_sum),0,0,round(sum(fail_sum) / sum(total_sum), 2) * 100) fail_rate\n" +
+						"          from (select a.cfg_task_id,b.task_name, 0 fail_sum, count(1) total_sum\n" +
+						"                  from aiam.task_log a,aiam.cfg_task b\n" +
+						"                 where a.cfg_task_id=b.cfg_task_id\n" +
 						"                   and to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
 						"                   and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"                 group by cfg_task_id\n" +
-						"                union\n" +
-						"                select cfg_task_id\n" +
-						"                  from aiam.task_log\n" +
-						"                 where results is null\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"                 group by cfg_task_id)\n" +
-						"         group by cfg_task_id\n" +
-						"        union all\n" +
-						"        select cfg_task_id, sum(count_sum) fail_sum, 0 total_sum\n" +
-						"          from (select cfg_task_id, count(1) count_sum\n" +
-						"                  from aiam.task_log\n" +
-						"                 where results not like '%uccess%'\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"                 group by cfg_task_id\n" +
+						"                   and a.cfg_task_id in (select cfg_task_id\n" +
+						"                                         from aiam.task_log\n" +
+						"                                        where results not like '%uccess%'\n" +
+						"                                          and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
+						"                                          and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
+						"                                        group by cfg_task_id\n" +
+						"                                       union\n" +
+						"                                       select cfg_task_id\n" +
+						"                                         from aiam.task_log\n" +
+						"                                        where results is null\n" +
+						"                                          and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
+						"                                          and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
+						"                                        group by cfg_task_id)\n" +
+						"                 group by a.cfg_task_id,b.task_name\n" +
 						"                union all\n" +
-						"                select cfg_task_id, count(1) count_sum\n" +
-						"                  from aiam.task_log\n" +
-						"                 where results is null\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"                 group by cfg_task_id\n" +
-						"                 order by cfg_task_id)\n" +
-						"         group by cfg_task_id)\n" +
-						" group by cfg_task_id\n" +
-						" order by cfg_task_id"
+						"                select cfg_task_id,task_name, sum(fail_sum) fail_sum, 0 total_sum\n" +
+						"                  from (select a.cfg_task_id,b.task_name, count(1) fail_sum\n" +
+						"                          from aiam.task_log a,aiam.cfg_task b\n" +
+						"                         where a.cfg_task_id=b.cfg_task_id\n" +
+						"                           and results not like '%uccess%'\n" +
+						"                           and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
+						"                           and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
+						"                         group by a.cfg_task_id,b.task_name\n" +
+						"                        union all\n" +
+						"                        select a.cfg_task_id,b.task_name, count(1) fail_sum\n" +
+						"                          from aiam.task_log a,aiam.cfg_task b\n" +
+						"                         where a.cfg_task_id=b.cfg_task_id\n" +
+						"                           and results is null\n" +
+						"                           and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
+						"                           and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
+						"                         group by a.cfg_task_id,b.task_name)\n" +
+						"                 group by cfg_task_id,task_name)\n" +
+						"         group by cfg_task_id,task_name\n" +
+						"         order by fail_rate desc)\n" +
+						" where rownum <= 10"
 
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));

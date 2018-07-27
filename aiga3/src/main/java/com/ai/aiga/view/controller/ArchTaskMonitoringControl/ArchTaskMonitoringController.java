@@ -21,6 +21,22 @@ public class ArchTaskMonitoringController {
 	@Autowired
 	private ArchTaskMonitoringSv archTaskMonitoringSv;
 
+
+	//以下报告
+	@RequestMapping(path="/arch/infoReportText/queryByReport")
+	public @ResponseBody JsonBean queryByReport( String startDate) throws ParseException{
+		JsonBean bean = new JsonBean();
+		bean.setData(archTaskMonitoringSv.queryByReport(startDate));
+		return bean;
+	}
+
+	@RequestMapping(path="/arch/infoReportTextSecond/queryByReportSecond")
+	public @ResponseBody JsonBean queryByReportSecond() throws ParseException{
+		JsonBean bean = new JsonBean();
+		bean.setData(archTaskMonitoringSv.queryByReportSecond());
+		return bean;
+	}
+
 	//以下视图
 	@RequestMapping(path="/arch/taskMonitoring/queryByCondition")
 	public @ResponseBody JsonBean queryByCondition( ArchTaskMonitoring condition) throws ParseException{
@@ -55,7 +71,6 @@ public class ArchTaskMonitoringController {
 			}
 		});
 
-		System.out.println("lists.size:--------"+lists.size());
 		for (int i=0,key=0;i<24; i++) {
 			for(int j=0;j<6;){
 				map.put(key, 0);
@@ -66,7 +81,6 @@ public class ArchTaskMonitoringController {
 			}
 			key+=50;
 		}
-		System.out.println("map.size---------"+map.size());
 
 		for (int i = 0; i < lists.size(); i++) {
 			int startTime = changeDate(lists.get(i).getStartTime());
@@ -111,10 +125,7 @@ public class ArchTaskMonitoringController {
 			}
 		}
 
-		System.out.println("beans:-------"+beans);
-
 		//排序
-//		List<ArchTaskMonitoringHintView> beansSorts = new ArrayList<ArchTaskMonitoringHintView>(beans.entrySet());
 		List<Map.Entry<Double, Integer>> beansSorts = new ArrayList<Map.Entry<Double, Integer>>(beans.entrySet());
 		Collections.sort(beansSorts, new Comparator<Map.Entry<Double, Integer>>() {// 根据key排序
 			public int compare(Map.Entry<Double, Integer> o1, Map.Entry<Double, Integer> o2) {
@@ -127,10 +138,7 @@ public class ArchTaskMonitoringController {
 					return -1;
 			}
 		});
-		System.out.println("beansSorts:---------"+beansSorts);
-
 		for(Map.Entry<Double, Integer> bs:beansSorts){
-			System.out.println(bs.getKey() +"   "+bs.getValue());
 			ArchTaskMonitoringHintView atmhv = new ArchTaskMonitoringHintView();
 			atmhv.setKeys(bs.getKey());
 			atmhv.setValues(bs.getValue());
@@ -138,6 +146,7 @@ public class ArchTaskMonitoringController {
 		}
 		return beanHints;
 	}
+
 	public int changeDate(String time){
 		String [] strs = time.split(":");
 		String  str = strs[0]+""+strs[1];
@@ -164,29 +173,21 @@ public class ArchTaskMonitoringController {
 	@RequestMapping(path="/arch/TableList/findTableList")
 	public @ResponseBody JsonBean findTableList(ArchTaskMonitoringTable condition) throws ParseException {
 		JsonBean bean = new JsonBean();
-		System.out.println("Controller  ---------- condition.getCondition():------------------"+condition.getCondition());
-		System.out.println("Controller  ---------- condition.getSecondLevelCondition():------------------"+condition.getSecondLevelCondition());
 		if(condition.getSecondLevelCondition()==null || "noChoice".equals(condition.getSecondLevelCondition())){
 			if("failTaskList".equals(condition.getCondition())){
 				bean.setData(archTaskMonitoringSv.queryByConditionTable(condition));
-				System.out.println("Controller  bean1----------------------"+bean);
 			}else if("taskRunningFrequency".equals(condition.getCondition())){
 				bean.setData(archTaskMonitoringSv.queryByConditionTableSecond(condition));
-				System.out.println("Controller  bean2----------------------"+bean);
 			}else if("taskRunInTime".equals(condition.getCondition())){
 				bean.setData(archTaskMonitoringSv.queryByConditionTableThird(condition));
-				System.out.println("Controller  bean3----------------------"+bean);
 			}
 		}else{
 			if("timesOne".equals(condition.getSecondLevelCondition()) || "timesTwo".equals(condition.getSecondLevelCondition()) || "timesThree".equals(condition.getSecondLevelCondition()) || "timesFour".equals(condition.getSecondLevelCondition())){
 				bean.setData(archTaskMonitoringSv.queryByConditionTableFour(condition));
-				System.out.println("Controller  bean4----------------------"+bean);
 			}else if("minutesOne".equals(condition.getSecondLevelCondition()) || "minutesTwo".equals(condition.getSecondLevelCondition()) || "minutesThree".equals(condition.getSecondLevelCondition()) || "minutesFour".equals(condition.getSecondLevelCondition())){
 				bean.setData(archTaskMonitoringSv.queryByConditionTableFive(condition));
-				System.out.println("Controller  bean5----------------------"+bean);
 			}
 		}
-
 		return bean;
 	}
 

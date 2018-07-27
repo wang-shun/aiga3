@@ -10,6 +10,9 @@
         font-size: 12px;
         color: rgb(120, 120, 120);
     }
+    .text-style{
+        color: red;
+    }
 </style>
 <div class="row" id="Page_taskMonitoring">
     <div class="col-md-12">
@@ -41,6 +44,19 @@
                                 </div>
                             </div>
                         </form>
+                    </div>
+                    <div class="box" id="JS_text" style="min-height:100px;border:1px solid green;">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><span name="timeShow"></span>信息汇总报告:</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row" id="JS_archTaskInfoShowText">
+                                <!--报告1-->
+                            </div>
+                            <div class="row" id="JS_archTaskInfoShowTextSecond">
+                                <!--报告2-->
+                            </div>
+                        </div>
                     </div>
                     <div class="box" id="JS_taskMonitoringList" style="min-height:100px;">
                         <div class="box-header" id="JS_monitorInfoViewFirst">
@@ -153,8 +169,8 @@
                             <table class="table table-bordered table-hover" id="TopTableFirst">
                                 <thead>
                                 <tr>
-                                    <th style="width:80px"></th>
                                     <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">task_name</th>
                                     <th style="text-align:center">失败次数</th>
                                 </tr>
                                 </thead>
@@ -168,8 +184,8 @@
                             <table class="table table-bordered table-hover" id="TopTableSecond">
                                 <thead>
                                 <tr>
-                                    <th style="width:80px"></th>
                                     <th style="text-align:center">cfg_task_id</th>
+                                    <th style="text-align:center">task_name</th>
                                     <th style="text-align:center">失败率</th>
                                 </tr>
                                 </thead>
@@ -178,18 +194,18 @@
                         </div>
                     </div>
                     <div class="box" id="JS_taskMonitoringListTopThird" style="width: 33%;height:350px;float:left;">
-                        <div style=";text-align: center;">一周内****************Top10</div>
+                        <div style=";text-align: center;"></div>
                         <div class="box-body" >
-                            <table class="table table-bordered table-hover" id="TopTableThird">
-                                <thead>
-                                <tr>
-                                    <th style="width:80px"></th>
-                                    <th style="text-align:center">cfg_task_id</th>
-                                    <th style="text-align:center">*****</th>
-                                </tr>
-                                </thead>
-                                <tbody name="content"></tbody>
-                            </table>
+                            <!--<table class="table table-bordered table-hover" id="TopTableThird">-->
+                                <!--<thead>-->
+                                <!--<tr>-->
+                                    <!--<th style="text-align:center"></th>-->
+                                    <!--<th style="text-align:center"></th>-->
+                                    <!--<th style="text-align:center"></th>-->
+                                <!--</tr>-->
+                                <!--</thead>-->
+                                <!--<tbody name="content"></tbody>-->
+                            <!--</table>-->
                         </div>
                     </div>
                 </div>
@@ -197,6 +213,12 @@
     </div>
 </div>
 
+<script id="TPL_getReportText" type="text/x-handlebars-template">
+        <p style="text-indent:2em;margin-top:13px;">昨天任务总配置数为<span class="text-style">{{lastdayTaskCount}}</span>个，今天新增配置任务<span class="text-style">{{lastdayAddTaskCount}}</span>个;任务总执行次数为<span class="text-style">{{allTaskCount}}</span>次，相比前一天变化<span class="text-style">{{countChange}}</span>次;任务执行成功率为<span class="text-style">{{taskSuccessRate}}</span>%,相比前一天变化<span class="text-style">{{taskSuccessRateChange}}</span>%;任务执行平均时长为<span class="text-style">{{taskAvgTime}}</span>分钟,相比前一天变化<span class="text-style">{{taskAvgTimeChange}}</span>分钟;</p>
+</script>
+<script id="TPL_getReportTextSecond" type="text/x-handlebars-template">
+        <p style="text-indent:2em;margin-top:13px;">今天截止时间<span class="text-style">{{sysDate}}</span>，任务已执行<span class="text-style">{{taskOverCount}}</span>个，其中执行失败任务<span class="text-style">{{failTaskCount}}</span>次，涉及<span class="text-style">{{taskConnectCount}}</span>个任务，平均执行时间超过15分钟的有<span class="text-style">{{taskMoreAvgCount}}</span>条任务。任务执行失败详细清单和执行时长超长的任务清单可查看表一和表三；</p>
+</script>
  <script id="TPL_getFullTableList" type="text/x-handlebars-template">
 
      <tr>
@@ -317,8 +339,8 @@
 <script id="TPL_getTopTableFirst" type="text/x-handlebars-template">
     {{#each this}}
     <tr style="text-align: center">
-        <td></td>
         <td>{{cfgTaskId}}</td>
+        <td>{{taskName}}</td>
         <td>{{countSum}}</td>
     </tr>
     {{/each}}
@@ -326,9 +348,9 @@
 <script id="TPL_getTopTableSecond" type="text/x-handlebars-template">
     {{#each this}}
     <tr style="text-align: center">
-        <td></td>
         <td>{{cfgTaskId}}</td>
-        <td>{{failRate}}</td>
+        <td>{{taskName}}</td>
+        <td>{{failRate}}%</td>
     </tr>
     {{/each}}
 </script>

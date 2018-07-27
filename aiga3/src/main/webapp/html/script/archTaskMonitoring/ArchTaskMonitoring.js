@@ -9,6 +9,10 @@ define(function(require, exports, module) {
     var Page = Utils.initPage('taskMonitoring');
 
     //第一页
+    //信息报告第一条
+    srvMap.add("getInfoReportText", pathAlias + "getList.json", "arch/infoReportText/queryByReport");
+    //信息报告第二条
+    srvMap.add("getInfoReportTextSecond", pathAlias + "getList.json", "arch/infoReportTextSecond/queryByReportSecond");
     //一周的任务成功情况
     srvMap.add("getTaskMonitoringList", pathAlias + "getList.json", "arch/taskMonitoring/queryByCondition");
     //各个进程一天不同时间段的任务总数
@@ -141,7 +145,7 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getTaskMonitoringList'), _cmd, function (json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
-                    console.log("进入第一个box");
+                    // console.log("进入第一个box");
                     var check = [];
                     var session = [];
                     var report = [];
@@ -316,7 +320,7 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getTaskFrequencyList'), _cmd, function (json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
-                    console.log("进入第三个box");
+                    // console.log("进入第三个box");
                     var firstTimes = json.data[0].firstTimes;
                     var secondTimes = json.data[0].secondTimes;
                     var thirdTimes = json.data[0].thirdTimes;
@@ -403,7 +407,7 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getTaskTimesList'), _cmd, function (json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
-                    console.log("进入第四个box");
+                    // console.log("进入第四个box");
                     var firstMinutes = json.data[0].firstMinutes;
                     var secondMinutes = json.data[0].secondMinutes;
                     var thirdMinutes = json.data[0].thirdMinutes;
@@ -520,7 +524,7 @@ define(function(require, exports, module) {
         _getGridListSecondBox: function (_cmd) {
             Rose.ajax.postJson(srvMap.get('getTaskNumCountList'), _cmd, function (json, status) {
                 if (status) {
-                    console.log("进入第二个box");
+                    // console.log("进入第二个box");
                     window.XMS.msgbox.hide();
                     var startTime = [];
                     var checkTotal = [];
@@ -673,7 +677,7 @@ define(function(require, exports, module) {
 
         //查询表格数据(第二个tab页)
         _getTableList: function (cmd) {
-            console.log("查询表格数据");
+            // console.log("查询表格数据");
             var self = this;
             var _cmd = '';
             if (cmd) {
@@ -688,7 +692,6 @@ define(function(require, exports, module) {
             var condition = _form.find('[name="condition"]').val();
             var conditionSecond = _form.find('[name="secondLevelCondition"]').val();
             if(conditionSecond==null || conditionSecond=="noChoice"){
-                console.log("conditionSecond="+conditionSecond);
                 //表格内容渲染
                 var _dom1 = Page.findId('taskMonitoringListTable');
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
@@ -710,11 +713,9 @@ define(function(require, exports, module) {
                     }
                 });
             }else{
-                console.log("conditionSecond!=null");
                 //表格内容渲染
                 var _dom1 = Page.findId('taskMonitoringListTable');
                 XMS.msgbox.show('数据加载中，请稍候...', 'loading');
-                console.log(conditionSecond.substring(0,1));
                 Utils.getServerPage(srvMap.get('getTableList'), _cmd, function (json) {
                     window.XMS.msgbox.hide();
                     //第二张表对应的四张表timesOne,timesTwo,timesThree,timesFour
@@ -735,7 +736,7 @@ define(function(require, exports, module) {
 
         //查询Top数据(第三个tab页)
         _getTopTableList: function (cmd) {
-            console.log("查询表格数据");
+            // console.log("查询表格数据");
             var self = this;
             var _cmd = '';
             if (cmd) {
@@ -819,7 +820,6 @@ define(function(require, exports, module) {
             var hintButton = a.find("[name='hintButton']");
 
             hintButton.off('click').on('click', function () {
-                console.log("隐藏按钮已点击");
                 if(isHint){
                     self._getHintList();
                     self._infoHintRender();
@@ -841,19 +841,99 @@ define(function(require, exports, module) {
             });
          },
 
+        //报告信息数据
+        _getReportInfo: function(){
+
+            //拿到日期值，传入cmd
+            var form = Page.findId("queryDataForm");
+            var startDate = form.find("[name='startDate']").val();
+            var _cmd="startDate="+startDate;
+            _cmd = _cmd.replace(/-/g, "/");
+            var date = new Date().toLocaleDateString();
+            var inputDate = form.find("[name='startDate']").val().replace(/-/g, "/");
+
+            //将2018/06/09转换成 2018/6/9
+            var dateArr = inputDate.split("/");
+            var year = parseInt(dateArr[0]);
+            var month;
+            var day;
+            if(dateArr[1].indexOf("0") == 0){
+                month = parseInt(dateArr[1].substring(1));
+            }else{
+                month = parseInt(dateArr[1]);
+            }
+            if(dateArr[2].indexOf("1") == 0){
+                day = parseInt(dateArr[2].substring(1));
+            }else{
+                day = parseInt(dateArr[2])
+            }
+            var date2 = new Date(year,month -1,day).toLocaleDateString();
+
+            //标题change  ****日信息汇总报告
+            var dom = Page.findId("text");
+            var show = dom.find("[name='timeShow']");
+            show.text(date2+"日");
+
+            if(date==date2){
+                //隐藏
+                document.getElementById( "JS_archTaskInfoShowText").innerText= "" ;
+                document.getElementById( "JS_archTaskInfoShowTextSecond").innerText="";
+                var _cmd2="";
+                //第二条报告信息查询
+                Rose.ajax.postJson(srvMap.get('getInfoReportTextSecond'), _cmd2, function (json, status) {
+                    if (status) {
+                        window.XMS.msgbox.hide();
+                        var dom = Page.findId('archTaskInfoShowTextSecond');
+                        var templateText = Handlebars.compile(Page.findTpl('getReportTextSecond'));
+                        dom.html(templateText(json.data[0]));
+                    } else {
+                        XMS.msgbox.show(json.retMessage, 'error', 2000);
+                    }
+                });
+                //第一条报告信息查询
+                Rose.ajax.postJson(srvMap.get('getInfoReportText'), _cmd, function (json, status) {
+                    if (status) {
+                        window.XMS.msgbox.hide();
+                        var dom = Page.findId('archTaskInfoShowText');
+                        var templateText = Handlebars.compile(Page.findTpl('getReportText'));
+                        dom.html(templateText(json.data[0]));
+                    } else {
+                        XMS.msgbox.show(json.retMessage, 'error', 2000);
+                    }
+                });
+
+
+            }else{
+                //隐藏
+                document.getElementById( "JS_archTaskInfoShowText").innerText= "" ;
+                document.getElementById( "JS_archTaskInfoShowTextSecond").innerText="";
+                //第一条报告信息查询
+                Rose.ajax.postJson(srvMap.get('getInfoReportText'), _cmd, function (json, status) {
+                    if (status) {
+                        window.XMS.msgbox.hide();
+                        var dom = Page.findId('archTaskInfoShowText');
+                        var templateText = Handlebars.compile(Page.findTpl('getReportText'));
+                        dom.html(templateText(json.data[0]));
+                    } else {
+                        XMS.msgbox.show(json.retMessage, 'error', 2000);
+                    }
+                });
+
+
+            }
+
+        },
+
         //渲染隐藏图
         _getHintList:function(){
             // var self=this;
             var _form = Page.findId('queryDataForm');
             var startDate = _form.find('[name="startDate"]').val();
-            console.log("startDate:"+startDate);
 
             var _cmd = "startDate="+startDate;
             _cmd=_cmd.replace(/-/g, "/");
             Rose.ajax.postJson(srvMap.get('getTaskNumCountListHint'), _cmd, function (json, status){
                 if (status) {
-                    console.log("拿到接口，返回");
-                    console.log("json.data.length:"+json.data.length);
                     var keys = [];
                     var values = [];
 
@@ -944,6 +1024,8 @@ define(function(require, exports, module) {
                 }
 
                 self._infoRender();
+
+                self._getReportInfo();
 
                 self._getGridList(cmd);
             });

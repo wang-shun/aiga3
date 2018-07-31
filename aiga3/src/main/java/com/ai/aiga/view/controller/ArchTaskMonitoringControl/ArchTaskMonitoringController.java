@@ -159,13 +159,7 @@ public class ArchTaskMonitoringController {
 	//解析集合
 	public List<ArchTaskMonitoringHintView> complie(List<ArchTaskMonitoringHintView> lists) {
 		List<ArchTaskMonitoringHintView> beanHints = new ArrayList<ArchTaskMonitoringHintView>();
-		//map集合排序，用于测试
-		Map<Integer,Integer> map = new TreeMap<Integer, Integer>(new Comparator<Integer>(){
-			@Override
-			public int compare(Integer o1, Integer o2) {
-				return o1-o2;
-			}
-		});
+		Map<Integer,Integer> map = new HashMap<Integer, Integer>();
 
 		for (int i=0,key=0;i<24; i++) {
 			for(int j=0;j<6;){
@@ -177,34 +171,16 @@ public class ArchTaskMonitoringController {
 			}
 			key+=50;
 		}
-
 		for (int i = 0; i < lists.size(); i++) {
 			int startTime = changeDate(lists.get(i).getStartTime());
 			int finishTime = changeDate(lists.get(i).getFinishTime());
 			int firstTime = startTime - startTime % 10;
 			int secondTime = finishTime - finishTime % 10;
-
-			int n = (secondTime - firstTime-50) / 10;
-			boolean isTrue = false;
-			int temp = firstTime;
-			if (n >= 2) {
-				for (int j = 0; j < n; j++){
-					isTrue = false;
-					for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-						int key = entry.getKey();
-						if(isTrue){
-							map.put(key,entry.getValue()+1);
-							temp = entry.getKey();
-							break;
-						}
-						if(key==temp){
-							isTrue = true;
-						}
-					}
+			for(int temp=firstTime;temp<=secondTime;temp+=10){
+				if(map.get(temp)!=null){
+					map.put(temp,map.get(temp)+1);
 				}
 			}
-			map.put(firstTime, map.get(firstTime) + 1);
-			map.put(secondTime, map.get(secondTime) + 1);
 		}
 
 		Map<Double, Integer> beans = new HashMap<Double, Integer>();
@@ -216,7 +192,6 @@ public class ArchTaskMonitoringController {
 				int key = Integer.parseInt(iterator.next().toString());
 				int value = map.get(key);
 				double key2 = key/100.0;
-				System.out.println("key-----"+key+"   key2---"+key2);
 				beans.put(key2,value);
 			}
 		}

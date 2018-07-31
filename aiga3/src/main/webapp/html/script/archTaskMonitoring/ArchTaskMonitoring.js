@@ -28,6 +28,8 @@ define(function(require, exports, module) {
     //第二页
     //系统表格信息查询,监控信息表格
     srvMap.add("getTableList", pathAlias + "getList.json", "arch/TableList/findTableList");
+    //导出表格表一、表二、表三
+    srvMap.add("getExportTableList", pathAlias + "getList.json", "arch/tableList/exportTableList");
 
     //第三页  Top10
     //表格一  一周内任务失败次数Top10
@@ -320,11 +322,22 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getTaskFrequencyList'), _cmd, function (json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
-                    // console.log("进入第三个box");
-                    var firstTimes = json.data[0].firstTimes;
-                    var secondTimes = json.data[0].secondTimes;
-                    var thirdTimes = json.data[0].thirdTimes;
-                    var fourTimes = json.data[0].fourTimes;
+                    for(var i=0;i<json.data.length;i++){
+                        if("first_times"==json.data[i].numberTimes){
+                            var firstTimes = json.data[i].times;
+                        }else if("second_times"==json.data[i].numberTimes){
+                            var secondTimes = json.data[i].times;
+                        }else if("third_times"==json.data[i].numberTimes){
+                            var thirdTimes = json.data[i].times;
+                        }else if("four_times"==json.data[i].numberTimes){
+                            var fourTimes = json.data[i].times;
+                        }
+                    }
+                    if(firstTimes==null){firstTimes=0}
+                    if(secondTimes==null){secondTimes=0}
+                    if(thirdTimes==null){thirdTimes=0}
+                    if(fourTimes==null){fourTimes=0}
+
                     var myChart1 = echarts.init(document.getElementById('taskRuntimeByFrequency'));
                     option1 = {
                         title: {
@@ -407,11 +420,22 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getTaskTimesList'), _cmd, function (json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
-                    // console.log("进入第四个box");
-                    var firstMinutes = json.data[0].firstMinutes;
-                    var secondMinutes = json.data[0].secondMinutes;
-                    var thirdMinutes = json.data[0].thirdMinutes;
-                    var fourMinutes = json.data[0].fourMinutes;
+                    for(var i=0;i<json.data.length;i++){
+                        if("first_minutes"==json.data[i].numberMinutes){
+                            var firstMinutes = json.data[i].minutes;
+                        }else if("second_minutes"==json.data[i].numberMinutes){
+                            var secondMinutes = json.data[i].minutes;
+                        }else if("third_minutes"==json.data[i].numberMinutes){
+                            var thirdMinutes = json.data[i].minutes;
+                        }else if("four_minutes"==json.data[i].numberMinutes){
+                            var fourMinutes = json.data[i].minutes;
+                        }
+                    }
+                    if(firstMinutes==null){firstMinutes=0}
+                    if(secondMinutes==null){secondMinutes=0}
+                    if(thirdMinutes==null){thirdMinutes=0}
+                    if(fourMinutes==null){fourMinutes=0}
+
                     var myChart1 = echarts.init(document.getElementById('taskRuntimeByTimes'));
                     option = {
                         title: {

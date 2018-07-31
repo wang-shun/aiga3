@@ -1,10 +1,18 @@
 package com.ai.aiga.view.controller.ArchTaskMonitoringControl;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.ai.aiga.domain.PTopCsfReportBymonth;
+import com.ai.aiga.service.ArchSrvManageSv;
 import com.ai.aiga.service.archmonitoringtask.dto.*;
+import com.ai.aiga.view.controller.archiQuesManage.dto.*;
 import io.swagger.models.auth.In;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,13 +22,15 @@ import com.ai.aiga.view.json.base.JsonBean;
 
 import io.swagger.annotations.Api;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @Api(value = "TaskMonitoringController", description = "平台任务监控")
 public class ArchTaskMonitoringController {
 
 	@Autowired
 	private ArchTaskMonitoringSv archTaskMonitoringSv;
-
 
 	//以下报告
 	@RequestMapping(path="/arch/infoReportText/queryByReport")
@@ -48,7 +58,85 @@ public class ArchTaskMonitoringController {
 	@RequestMapping(path="/arch/taskNumCount/queryByTime")
 	public @ResponseBody JsonBean queryTaskClassSuccess(ArchTaskMonitoringByTime condition2) throws ParseException{
 		JsonBean bean = new JsonBean();
-		bean.setData(archTaskMonitoringSv.queryTaskCount(condition2));
+		bean.setData(changeList(archTaskMonitoringSv.queryTaskCount(condition2)));
+		return bean;
+	}
+
+	private List<ArchTaskMonitoringByTime> changeList(List<ArchTaskMonitoringByTime> atmbt) {
+		List<ArchTaskMonitoringByTime> bean = new ArrayList<ArchTaskMonitoringByTime>();
+		//对象根据taskCode把数据放入n个数组，
+		String tempCheck[][] = new String[24][3];
+		String tempSession[][] = new String[24][3];
+		String tempReport[][] = new String[24][3];
+		String tempCollect[][] = new String[24][3];
+		for(int j=0;j<atmbt.size();j++){
+			int tempTime = atmbt.get(j).getStartTime();
+			String tempCode = atmbt.get(j).getCfgTaskTypeCode();
+			int tempCount =  atmbt.get(j).getTaskCount();
+			if("TASK_CHECK".equals(tempCode)){
+				tempCheck[tempTime][0] = tempCode;
+				tempCheck[tempTime][1] = tempTime+"";
+				tempCheck[tempTime][2] = tempCount+"";
+			}else if("TASK_SESSION".equals(tempCode)){
+				tempSession[tempTime][0] = tempCode;
+				tempSession[tempTime][1] = tempTime+"";
+				tempSession[tempTime][2] = tempCount+"";
+			}else if("TASK_REPORT".equals(tempCode)){
+				tempReport[tempTime][0] = tempCode;
+				tempReport[tempTime][1] = tempTime+"";
+				tempReport[tempTime][2] = tempCount+"";
+			}else if("TASK_COLLECT".equals(tempCode)){
+				tempCollect[tempTime][0] = tempCode;
+				tempCollect[tempTime][1] = tempTime+"";
+				tempCollect[tempTime][2] = tempCount+"";
+			}
+		}
+		//值为空时设为0
+		for(int i=0;i<24;i++){
+			if(tempCheck[i][0]==null){
+				tempCheck[i][0] = "TASK_CHECK";
+				tempCheck[i][1] = i+"";
+				tempCheck[i][2] = 0+"";
+			}
+			if(tempSession[i][0]==null){
+				tempSession[i][0] = "TASK_SESSION";
+				tempSession[i][1] = i+"";
+				tempSession[i][2] = 0+"";
+			}
+			if(tempReport[i][0]==null){
+				tempReport[i][0] = "TASK_REPORT";
+				tempReport[i][1] = i+"";
+				tempReport[i][2] = 0+"";
+			}
+			if(tempCollect[i][0]==null){
+				tempCollect[i][0] = "TASK_COLLECT";
+				tempCollect[i][1] = i+"";
+				tempCollect[i][2] = 0+"";
+			}
+		}
+
+		for(int i=0;i<24;i++){
+			System.out.println("collect----"+tempCollect[i][0]+" "+tempCollect[i][1]+" "+tempCollect[i][2]);
+		}
+
+		ArchTaskMonitoringByTime atmbts = null;
+		for(int i=0;i<24;i++){
+			//内容set后放入bean集合
+			atmbts = new ArchTaskMonitoringByTime();
+			int tempTime = Integer.parseInt(tempCheck[i][1]);
+			int tempCheckTotal = Integer.parseInt(tempCheck[i][2]);
+			int tempSessionTotal = Integer.parseInt(tempSession[i][2]);
+			int tempReportTotal = Integer.parseInt(tempReport[i][2]);
+			int tempCollectTotal = Integer.parseInt(tempCollect[i][2]);
+			int tempCount = tempCheckTotal+tempSessionTotal+tempReportTotal+tempCollectTotal;
+			atmbts.setStartTime(tempTime);
+			atmbts.setCheckTotal(tempCheckTotal);
+			atmbts.setSessionTotal(tempSessionTotal);
+			atmbts.setReportTotal(tempReportTotal);
+			atmbts.setCollectTotal(tempCollectTotal);
+			atmbts.setTaskTotal(tempCount);
+			bean.add(atmbts);
+		}
 		return bean;
 	}
 
@@ -146,7 +234,7 @@ public class ArchTaskMonitoringController {
 		}
 		return beanHints;
 	}
-
+	//12:30  ->   1230
 	public int changeDate(String time){
 		String [] strs = time.split(":");
 		String  str = strs[0]+""+strs[1];
@@ -190,6 +278,126 @@ public class ArchTaskMonitoringController {
 		}
 		return bean;
 	}
+
+//	@RequestMapping(path="/arch/tableList/exportTableList")
+//	public @ResponseBody JsonBean getExportTableList(HttpServletRequest request, HttpServletResponse response) throws ParseException, IOException {
+//		JsonBean bean = new JsonBean();
+//		if("failTaskList".equals(request.getParameter("value"))){
+////			PlatformOperateReportParams condition = new PlatformOperateReportParams();
+////			Date currentTime = new Date();
+////			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+////			String dateString = formatter.format(currentTime);
+////			condition.setSettMonth(request.getParameter("settMonth"));
+//
+//			List<> = ArchSrvManageSv.(condition);
+//
+//			HSSFWorkbook wb = export(map);
+//			response.setContentType("application/vnd.ms-excel");
+//			Date nowtime = new Date();
+//			DateFormat format=new SimpleDateFormat("yyyyMMdd");
+//			String time=format.format(nowtime);
+//
+//			response.setHeader("Content-disposition", "attachment;filename="+new String("一周内失败任务清单_".getBytes(),"iso-8859-1")+time+".xls");
+//			OutputStream ouputStream = response.getOutputStream();
+//			wb.write(ouputStream);
+//			ouputStream.flush();
+//			ouputStream.close();
+//		}else if("taskRunningFrequency".equals(request.getParameter("value"))){
+//
+//		}else if("taskRunInTime".equals(request.getParameter("value"))){
+//
+//		}
+//		return bean;
+//	}
+
+//	public HSSFWorkbook export(Map<String,List> map) {
+//		HSSFWorkbook wb = new HSSFWorkbook();
+//		List<HSSFSheet> sheetList = new ArrayList<HSSFSheet>();
+//		List<HSSFRow> rowList = new ArrayList<HSSFRow>();
+//		int[] index = new int[5];
+//		for(String excelSheetBase : PLATFORM_OPERATE_SHEETS) {
+//			HSSFSheet sheet = wb.createSheet(excelSheetBase);
+//			sheetList.add(sheet);
+//			HSSFRow row = sheet.createRow((int) 0);
+//			rowList.add(row);
+//		}
+//
+//		HSSFCellStyle style = wb.createCellStyle();
+//		style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//		for (int i = 0; i < rowList.size(); i++) {
+//			for(int j=0; j < PLATFORM_OPERATE_SHEET_HEADER[i].length; j++) {
+//				HSSFCell cell = rowList.get(i).createCell(j);
+//				cell.setCellValue(PLATFORM_OPERATE_SHEET_HEADER[i][j]);
+//				cell.setCellStyle(style);
+//			}
+//		}
+//		String key0 = archSrvManageSv.CSFSRV_INDEXIDS.substring(0, 4);
+//		String key1 = archSrvManageSv.TASKDISPATCH_INDEXIDS.substring(0, 4);
+//		String key2 = archSrvManageSv.FLOWDISPATCH_INDEXIDS.substring(0, 4);
+//		String key3 = archSrvManageSv.CACHECLOUD_INDEXIDS.substring(0, 4);
+//		String key4 = archSrvManageSv.CENTERMQ_INDEXIDS.substring(0, 4);
+//		for (Object data : map.get(key0)) {
+//			CenterCsfSrvReport bean = (CenterCsfSrvReport)data;
+//			HSSFRow row =sheetList.get(0).createRow(++index[0]);
+//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
+//			row.createCell(1).setCellValue(String.valueOf(bean.getDayCsfSrvNum().replace("null", "")));
+//			row.createCell(2).setCellValue(String.valueOf(bean.getTotalCsfNum().replace("null", "")));
+//			row.createCell(3).setCellValue(String.valueOf(bean.getActiveCsfNum().replace("null", "")));
+//			row.createCell(4).setCellValue(String.valueOf(bean.getCenterCsfNum().replace("null", "")));
+//			row.createCell(5).setCellValue(String.valueOf(bean.getCsfSrvChainRatio().replace("null", "")));
+//			row.createCell(6).setCellValue(String.valueOf(bean.getPredayCsfSuccessRate().replace("null", "")));
+//			row.createCell(7).setCellValue(String.valueOf(bean.getCsfSuccessRateChainRatio().replace("null", "")));
+//			row.createCell(8).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
+//		}
+//		for (Object data : map.get(key1)) {
+//			TaskDispatchReport bean = (TaskDispatchReport)data;
+//			HSSFRow row =sheetList.get(1).createRow(++index[1]);
+//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
+//			row.createCell(1).setCellValue(String.valueOf(bean.getPredayAddTaskNum().replace("null", "")));
+//			row.createCell(2).setCellValue(String.valueOf(bean.getResidentTaskNum().replace("null", "")));
+//			row.createCell(3).setCellValue(String.valueOf(bean.getNonresidentTaskNum().replace("null", "")));
+//			row.createCell(4).setCellValue(String.valueOf(bean.getBatchTaskNum().replace("null", "")));
+//			row.createCell(5).setCellValue(String.valueOf(bean.getPredayTaskTriggerNum().replace("null", "")));
+//			row.createCell(6).setCellValue(String.valueOf(bean.getChangeChainRatio().replace("null", "")));
+//			row.createCell(7).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
+//		}
+//		for (Object data : map.get(key2)) {
+//			FlowDispatchReport bean = (FlowDispatchReport)data;
+//			HSSFRow row =sheetList.get(2).createRow(++index[2]);
+//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
+//			row.createCell(1).setCellValue(String.valueOf(bean.getAddFlowConnectNum().replace("null", "")));
+//			row.createCell(2).setCellValue(String.valueOf(bean.getTotalFlowConnectNum().replace("null", "")));
+//			row.createCell(3).setCellValue(String.valueOf(bean.getPredayDispatchNum().replace("null", "")));
+//			row.createCell(4).setCellValue(String.valueOf(bean.getDispatchChainRatio().replace("null", "")));
+//			row.createCell(5).setCellValue(String.valueOf(bean.getDealAverageTime().replace("null", "")));
+//			row.createCell(6).setCellValue(String.valueOf(bean.getDealTimeChainRatio().replace("null", "")));
+//			row.createCell(7).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
+//		}
+//		for (Object data : map.get(key3)) {
+//			CacheCloudPlatformReport bean = (CacheCloudPlatformReport)data;
+//			HSSFRow row =sheetList.get(3).createRow(++index[3]);
+//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
+//			row.createCell(1).setCellValue(String.valueOf(bean.getCacheBlockIsZero().replace("null", "")));
+//			row.createCell(2).setCellValue(String.valueOf(bean.getCacheBlockGtTenM().replace("null", "")));
+//			row.createCell(3).setCellValue(String.valueOf(bean.getIncreaseCacheBlockNum().replace("null", "")));
+//			row.createCell(4).setCellValue(String.valueOf(bean.getTotalCacheBlockNum().replace("null", "")));
+//			row.createCell(5).setCellValue(String.valueOf(bean.getChangeChainRatio().replace("null", "")));
+//			row.createCell(6).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
+//		}
+//		for (Object data : map.get(key4)) {
+//			CenterMessageQueueReport bean = (CenterMessageQueueReport)data;
+//			HSSFRow row =sheetList.get(4).createRow(++index[4]);
+//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
+//			row.createCell(1).setCellValue(String.valueOf(bean.getPredayMqConsumeNum().replace("null", "")));
+//			row.createCell(2).setCellValue(String.valueOf(bean.getChangeNumChainRatio().replace("null", "")));
+//			row.createCell(3).setCellValue(String.valueOf(bean.getMessageConsumeSuccessRate().replace("null", "")));
+//			row.createCell(4).setCellValue(String.valueOf(bean.getSuccessRateChainRatio().replace("null", "")));
+//			row.createCell(5).setCellValue(String.valueOf(bean.getMessageCheckSameRate().replace("null", "")));
+//			row.createCell(6).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
+//		}
+//		return wb;
+//	}
+
 
 	//以下Top
 	@RequestMapping(path="/arch/TopListFirst/findTopListFirst")

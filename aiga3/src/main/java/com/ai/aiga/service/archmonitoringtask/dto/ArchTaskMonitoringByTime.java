@@ -9,19 +9,23 @@ public class ArchTaskMonitoringByTime implements Serializable {
 
     private Date startDate;
     private int startTime;//1天24个小时
-    private long checkTotal;
-    private long sessionTotal;
-    private long reportTotal;
-    private long collectTotal;
-    private long taskTotal;
+    private String cfgTaskTypeCode;
+    private int taskCount;
 
-    
+
+    private int checkTotal;
+    private int sessionTotal;
+    private int reportTotal;
+    private int collectTotal;
+    private int taskTotal;
 
     public ArchTaskMonitoringByTime() {}
 
-    public ArchTaskMonitoringByTime(Date startDate, int startTime, long checkTotal, long sessionTotal, long reportTotal, long collectTotal, long taskTotal) {
+    public ArchTaskMonitoringByTime(Date startDate, int startTime, String cfgTaskTypeCode, int taskCount, int checkTotal, int sessionTotal, int reportTotal, int collectTotal, int taskTotal) {
         this.startDate = startDate;
         this.startTime = startTime;
+        this.cfgTaskTypeCode = cfgTaskTypeCode;
+        this.taskCount = taskCount;
         this.checkTotal = checkTotal;
         this.sessionTotal = sessionTotal;
         this.reportTotal = reportTotal;
@@ -45,43 +49,59 @@ public class ArchTaskMonitoringByTime implements Serializable {
         this.startTime = startTime;
     }
 
-    public long getCheckTotal() {
+    public String getCfgTaskTypeCode() {
+        return cfgTaskTypeCode;
+    }
+
+    public void setCfgTaskTypeCode(String cfgTaskTypeCode) {
+        this.cfgTaskTypeCode = cfgTaskTypeCode;
+    }
+
+    public int getTaskCount() {
+        return taskCount;
+    }
+
+    public void setTaskCount(int taskCount) {
+        this.taskCount = taskCount;
+    }
+
+    public int getCheckTotal() {
         return checkTotal;
     }
 
-    public void setCheckTotal(long checkTotal) {
+    public void setCheckTotal(int checkTotal) {
         this.checkTotal = checkTotal;
     }
 
-    public long getSessionTotal() {
+    public int getSessionTotal() {
         return sessionTotal;
     }
 
-    public void setSessionTotal(long sessionTotal) {
+    public void setSessionTotal(int sessionTotal) {
         this.sessionTotal = sessionTotal;
     }
 
-    public long getReportTotal() {
+    public int getReportTotal() {
         return reportTotal;
     }
 
-    public void setReportTotal(long reportTotal) {
+    public void setReportTotal(int reportTotal) {
         this.reportTotal = reportTotal;
     }
 
-    public long getCollectTotal() {
+    public int getCollectTotal() {
         return collectTotal;
     }
 
-    public void setCollectTotal(long collectTotal) {
+    public void setCollectTotal(int collectTotal) {
         this.collectTotal = collectTotal;
     }
 
-    public long getTaskTotal() {
+    public int getTaskTotal() {
         return taskTotal;
     }
 
-    public void setTaskTotal(long taskTotal) {
+    public void setTaskTotal(int taskTotal) {
         this.taskTotal = taskTotal;
     }
 }

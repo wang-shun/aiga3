@@ -115,10 +115,6 @@ public class ArchTaskMonitoringController {
 			}
 		}
 
-		for(int i=0;i<24;i++){
-			System.out.println("collect----"+tempCollect[i][0]+" "+tempCollect[i][1]+" "+tempCollect[i][2]);
-		}
-
 		ArchTaskMonitoringByTime atmbts = null;
 		for(int i=0;i<24;i++){
 			//内容set后放入bean集合
@@ -137,6 +133,18 @@ public class ArchTaskMonitoringController {
 			atmbts.setTaskTotal(tempCount);
 			bean.add(atmbts);
 		}
+		Collections.sort(bean, new Comparator<ArchTaskMonitoringByTime>(){
+
+			public int compare(ArchTaskMonitoringByTime o1, ArchTaskMonitoringByTime o2) {
+				if(o1.getStartTime() > o2.getStartTime()){
+					return 1;
+				}
+				if(o1.getStartTime() == o2.getStartTime()){
+					return 0;
+				}
+				return -1;
+			}
+		});
 		return bean;
 	}
 

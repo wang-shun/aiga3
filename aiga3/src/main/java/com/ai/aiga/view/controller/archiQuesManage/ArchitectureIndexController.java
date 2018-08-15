@@ -1626,7 +1626,6 @@ public class ArchitectureIndexController extends BaseService {
 			return bean;
 		}
 		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
-		System.out.println("qqqqqqqqqqq"+months2);
 		if(months2.size()<=0){
 			bean.fail("结束时间小于开始时间！");
 			return bean;

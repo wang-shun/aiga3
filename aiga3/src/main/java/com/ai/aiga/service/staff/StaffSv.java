@@ -130,6 +130,69 @@ public class StaffSv extends BaseService {
 //
 //		return responses;
 	}
+	public Object findStaffA(StaffInfoRequest condition, Long organizeId, int pageNumber, int pageSize) {
+
+		StringBuilder nativeSql = new StringBuilder(
+				"select af.staff_id,af.code,af.name,af.state,af.bill_id"
+				+ " from aiga_staff af where 1=1 ");
+		
+		List<ParameterCondition> parameters = new ArrayList<ParameterCondition>();
+		
+		if(StringUtils.isNotBlank(condition.getCode())){
+			nativeSql.append(" and af.code like :code");
+			parameters.add(new ParameterCondition("code", "%" + condition.getCode() + "%"));
+		}
+		
+		if(StringUtils.isNotBlank(condition.getName())){
+			nativeSql.append(" and af.name like :name");
+			parameters.add(new ParameterCondition("name", "%" + condition.getName() + "%"));
+		}
+		
+		if(StringUtils.isNotBlank(condition.getBillId())){
+			nativeSql.append(" and af.bill_id like :billId");
+			parameters.add(new ParameterCondition("billId", "%" + condition.getBillId() + "%"));
+		}
+		
+		if(organizeId !=  null){
+			nativeSql.append(" and ar.organize_id = :organizeId");
+			parameters.add(new ParameterCondition("organizeId", organizeId));
+		}
+		
+		if (pageNumber <= 0) {
+			pageNumber = 0;
+		}
+
+		if (pageSize <= 0) {
+			pageSize = 1000;
+		}
+
+		Pageable pageable = new PageRequest(pageNumber, pageSize);
+		
+		return aigaStaffDao.searchByNativeSQL(nativeSql.toString(), parameters, SimpleStaff.class, pageable);
+		
+//		List<Object[]> list = null;
+//		if ((StringUtils.isNotBlank(code) && StringUtils.isNotBlank(name)) || StringUtils.isNotBlank(code)) {
+//			list = aigaStaffDao.findStaffByCode(code);
+//		} else {
+//			list = aigaStaffDao.findStaffByName(name);
+//		}
+//
+//		List<StaffListResponse> responses = new ArrayList<StaffListResponse>(list.size());
+//		for (int i = 0; i < list.size(); i++) {
+//			StaffListResponse bean = new StaffListResponse();
+//			Object[] object = (Object[]) list.get(i);
+//			bean.setStaffId(((BigDecimal) object[0]).longValue());
+//			bean.setCode((String) object[1]);
+//			bean.setName((String) object[2]);
+//			bean.setState(((BigDecimal) object[3]).intValue());
+//			bean.setOrganizeId(((BigDecimal) object[4]).longValue());
+//			bean.setOrganizeName((String) object[5]);
+//			bean.setOrganizeCode((String) object[6]);
+//			responses.add(bean);
+//		}
+//
+//		return responses;
+	}
 
 	public Object findStaff(StaffInfoRequest condition, Long organizeId, int pageNumber, int pageSize) {
 

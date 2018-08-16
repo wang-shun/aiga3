@@ -70,6 +70,20 @@ public class StaffController {
 	}	
 	/**
 	/*
+	 * 按条件查询员工信息  不含组织
+	 * */
+	@RequestMapping(path = "/aiga/staff/listA")
+	public @ResponseBody JsonBean listA(
+			@RequestParam(value = "page", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageNumber,
+			@RequestParam(value = "pageSize", defaultValue = BusiConstant.PAGE_DEFAULT + "") int pageSize,
+			StaffInfoRequest condition,
+			Long organizeId){
+		JsonBean bean = new JsonBean();
+		bean.setData(aigaStaffSv.findStaffA(condition, organizeId, pageNumber, pageSize));
+		return bean;
+	}
+	/**
+	/*
 	 * 按条件查询员工信息
 	 * */
 	@RequestMapping(path = "/aiga/staff/list")

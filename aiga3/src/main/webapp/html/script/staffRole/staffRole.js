@@ -6,7 +6,7 @@ define(function(require, exports, module) {
     //路径重命名
     var pathAlias = "staffRole/";
     // 查询所有员工
-    srvMap.add("getUserinfoList", pathAlias + "getUserinfoList.json", "aiga/staff/list");
+    srvMap.add("getUserinfoList", pathAlias + "getUserinfoList.json", "aiga/staff/listA");
     //查询所有岗位信息
     srvMap.add("getStaffRoleList", pathAlias + "getStaffRoleList.json", "sys/role/list");
     //根据当前员工ID调取已选择的岗位信息roleAuthorID,roleID
@@ -44,7 +44,7 @@ define(function(require, exports, module) {
         },
         _render: function() {
             // 查询所有员工
-            this.getUserinfoList();
+//            this.getUserinfoList();
             // 查询所有角色
             this.getStaffRoleList();
             this.saveStaffRole();

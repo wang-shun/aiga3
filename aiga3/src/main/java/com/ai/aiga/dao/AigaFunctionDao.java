@@ -14,7 +14,6 @@ public interface AigaFunctionDao extends JpaRepository<AigaFunction, Long>{
 	
 	@Query("select max(o.funSeq) from AigaFunction o where o.parentId = ?1")
 	Short getMaxFunseqByParentId(long parentId);
-
 	
 	List<AigaFunction> getByParentIdAndName(long parentId, String name);
 

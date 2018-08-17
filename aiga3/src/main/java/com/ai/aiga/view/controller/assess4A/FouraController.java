@@ -20,6 +20,8 @@ import com.ai.aiga.domain.AigaOrganize;
 import com.ai.aiga.domain.AigaStaff;
 import com.ai.aiga.domain.AigaStaffOrgRelat;
 import com.ai.aiga.domain.SysRole;
+import com.ai.aiga.exception.BusinessException;
+import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.AuthorSv;
 import com.ai.aiga.service.RoleSv;
 import com.ai.aiga.service.organize.OrganizeSv;
@@ -345,9 +347,10 @@ public class FouraController {
         	if(dealwith.equalsIgnoreCase("add")){
         		add_role_list = rolesv.findByName(role.getName());
         		if(add_role_list.size()>0){
-        			bean.fail("已经存在此角色名称！请修改角色名称！");
+        			BusinessException.throwBusinessException(ErrorCode.Parameter_exists,"该角色名称已存在,请修改名称后再次提交!");
         		}
         		rolesv.saveFouraRole(role);
+        		add_role_list = rolesv.findByName(role.getName());
         	}else if(dealwith.equalsIgnoreCase("update")){
         		SysRole role_roleId = rolesv.findOne(role.getRoleId());
         		role_roleId.setName(role.getName());
@@ -362,6 +365,10 @@ public class FouraController {
         }else if(entity_type.equalsIgnoreCase("ZJORG")){
         	//判断操作类型add/update/delete执行不同的操作
         	if(dealwith.equalsIgnoreCase("add")){
+        		add_org_list = organizesv.findByOrganizeName(orginaze.getOrganizeName());
+        		if(add_org_list.size()>0){
+        			BusinessException.throwBusinessException(ErrorCode.Parameter_exists,"该组织名称已存在,请修改名称后再次提交!");
+        		}
         		organizesv.saveFouraOrginaze(orginaze);
         		add_org_list = organizesv.findByOrganizeName(orginaze.getOrganizeName());
         	}else if(dealwith.equalsIgnoreCase("update")){

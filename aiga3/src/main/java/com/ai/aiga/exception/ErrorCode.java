@@ -10,6 +10,7 @@ public enum ErrorCode {
 	Parameter_com_null("com0003", "请求参数未传"),
 	Parameter_only("com0004", "请求参数 [{0}]已存在"),
 	Parameter_more_than_twentity("com0005", "请求参数超过20个"),
+	Parameter_exists("com0006", "请求参数已经存在！请修改参数名称！"),
 	
 
 	BAD_REQUEST("400", "无法找到您要的资源"), 

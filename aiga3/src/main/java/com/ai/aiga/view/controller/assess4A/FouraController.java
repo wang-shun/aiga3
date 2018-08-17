@@ -343,8 +343,11 @@ public class FouraController {
         if(entity_type.equalsIgnoreCase("ZJROLE")){
         	//判断操作类型add/update/delete执行不同的操作
         	if(dealwith.equalsIgnoreCase("add")){
-        		rolesv.saveFouraRole(role);
         		add_role_list = rolesv.findByName(role.getName());
+        		if(add_role_list.size()>0){
+        			bean.fail("已经存在此角色名称！请修改角色名称！");
+        		}
+        		rolesv.saveFouraRole(role);
         	}else if(dealwith.equalsIgnoreCase("update")){
         		SysRole role_roleId = rolesv.findOne(role.getRoleId());
         		role_roleId.setName(role.getName());

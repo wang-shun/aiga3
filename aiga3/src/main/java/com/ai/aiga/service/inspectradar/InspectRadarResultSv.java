@@ -13,6 +13,7 @@ import com.ai.aiga.domain.inspectradar.InspectRadarResult;
 import com.ai.aiga.exception.BusinessException;
 import com.ai.aiga.exception.ErrorCode;
 import com.ai.aiga.service.base.BaseService;
+import com.ai.aiga.service.inspectradar.dto.RecentRecord;
 
 @Service
 @Transactional
@@ -23,23 +24,23 @@ public class InspectRadarResultSv extends BaseService {
 	/*
 	 * 查询最近的巡检结果
 	 */
-	public InspectRadarResult recentRecord(Long sysId) {
+	public RecentRecord recentRecord(Long sysId) {
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 		String sql  = "SELECT * FROM (SELECT * FROM INSPECT_RADAR_RESULT  WHERE sys_id = :sysId ORDER BY create_time DESC ) WHERE ROWNUM<2";
 		params.add(new ParameterCondition("sysId", sysId));
-		List<InspectRadarResult> bean = inspectRadarResultDao.searchByNativeSQL(sql,params,InspectRadarResult.class);
+		List<RecentRecord> bean = inspectRadarResultDao.searchByNativeSQL(sql,params,RecentRecord.class);
 		return bean.size()>0?bean.get(0):null;
 	}
 	
 	public List<InspectRadarResult> historyRecord(Long sysId){
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
-		String[] cloumns = {"TOTAL_MARK","AQ_MARK","RL_MARK","JK_MARK","GKY_MARK","RXKY_MARK","PZ_MARK","RZ_MARK","FC_MARK"};
+		String[] cloumns = {"total_mark","aq_mark","rl_mark","jk_mark","gky_mark","rxky_mark","pz_mark","rz_mark","fc_mark"};
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT sys_id ");
+		sql.append("SELECT to_char(CREATE_TIME,'yyyy-mm-dd') as  CREATE_TIME");
 		for(String cloumn :cloumns) {
-			sql.append(", avg("+cloumns+") as "+cloumns);
+			sql.append(", avg("+cloumn+") as "+cloumn);
 		}
-		sql.append(",CREATE_TIME,SPONSOR where  FROM INSPECT_RADAR_RESULT t where sys_id = :sysId  group by to_char(CREATE_TIME,'yyyy-mm-dd')");
+		sql.append(" FROM INSPECT_RADAR_RESULT t where sys_id = :sysId  and sysdate-30 <= CREATE_TIME  group by to_char(CREATE_TIME,'yyyy-mm-dd')");
 		params.add(new ParameterCondition("sysId", sysId));
 		return inspectRadarResultDao.searchByNativeSQL(sql.toString(),params,InspectRadarResult.class);
 	}

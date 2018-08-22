@@ -19,7 +19,7 @@ define(function(require, exports, module) {
 	//查询接口
 	srvMap.add("dbConnectResourceState", "", "arch/session/connectresourcestate");
 	//查询接口
-	srvMap.add("connectresource7day", "", "arch/session/connectresource7day");
+	srvMap.add("connectresource77day", "", "arch/session/connectresource77day");
 	//查询接口
 	srvMap.add("selectdbname", "", "arch/session/selectdbname");
 
@@ -61,6 +61,7 @@ define(function(require, exports, module) {
 			if(cmd){
 				_cmd = cmd;
 			}
+			var sel_form = Page.findId('queryDataForm');	
 			var _dom = Page.findId('numberFluctuationList');
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 			var stime = _cmd.substring(11,21);
@@ -82,7 +83,9 @@ define(function(require, exports, module) {
 					var tablebtn = _dom.find("[name='content']");
 					tablebtn.html(template(json.data));
 	        		Utils.eventTrClickCallback(_dom);
+					var sel_state = sel_form.find("[name='state']").val();
 	        		//7------按钮
+	        		
 	        		tablebtn.find("[class='btn btn-primary btn-table-detail7']").off('click').on('click', function() {
 	        			var db = $(this).attr("data-db");
 	        			var time = $(this).attr("data-time");
@@ -93,14 +96,19 @@ define(function(require, exports, module) {
 						// -7 
 						date.setDate(date.getDate() - 7);
 						// 没有格式化的功能，只能一个一个取  // 因为js里month从0开始，所以要加1
-						var start = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate();
+						var add0month = parseInt(date.getMonth()) + 1;
+						if(add0month<9){
+							add0month = "0"+add0month;
+						}
+						var start = date.getFullYear() + '-' + add0month + '-' + date.getDate();
 						var _ggcmd = {
 							startMonth : start,
 							endMonth : time,
-							fromSysName : db
+							fromSysName : db,
+							state : sel_state
 						}
-	        			var _7cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&fromSysName="+_ggcmd.fromSysName;
-						Rose.ajax.postJson(srvMap.get("connectresource7day"), _7cmd, function(json, status) {
+	        			var _7cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&fromSysName="+_ggcmd.fromSysName+"&state="+_ggcmd.state;
+						Rose.ajax.postJson(srvMap.get("connectresource77day"), _7cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.hide();
 								self._graphSec(7,json);
@@ -125,14 +133,19 @@ define(function(require, exports, module) {
 						// -30
 						date.setDate(date.getDate() - 30);
 						// 没有格式化的功能，只能一个一个取  // 因为js里month从0开始，所以要加1
-						var start = date.getFullYear() + '-' + (parseInt(date.getMonth()) + 1) + '-' + date.getDate();
+						var add0month = parseInt(date.getMonth()) + 1;
+						if(add0month<9){
+							add0month = "0"+add0month;
+						}
+						var start = date.getFullYear() + '-' + add0month + '-' + date.getDate();
 						var _ggcmd = {
 							startMonth : start,
 							endMonth : time,
-							fromSysName : db
+							fromSysName : db,
+							state : sel_state
 						}
-	        			var _30cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&fromSysName="+_ggcmd.fromSysName;
-						Rose.ajax.postJson(srvMap.get("connectresource7day"), _30cmd, function(json, status) {
+	        			var _30cmd = "startMonth="+_ggcmd.startMonth+"&endMonth="+_ggcmd.endMonth+"&fromSysName="+_ggcmd.fromSysName+"&state="+_ggcmd.state;
+						Rose.ajax.postJson(srvMap.get("connectresource77day"), _30cmd, function(json, status) {
 							if(status) {
 								window.XMS.msgbox.hide();
 								self._graphSec(30,json);

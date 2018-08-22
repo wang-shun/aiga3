@@ -10,5 +10,6 @@ public class ArchSessionConnectResourceParams implements Serializable {
     private String endMonth;
     private String fromSysName;
     private String dbName;
-    
+    private String state;
+
 }

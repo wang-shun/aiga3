@@ -165,6 +165,77 @@ public class ArchSessionConnectResourceController extends BaseService {
 		return bean;
 	}
 	
+	@RequestMapping(path = "/arch/session/connectresource77day")
+	public @ResponseBody JsonBean connectresource77day(ArchSessionConnectResourceParams condition) throws ParseException {
+		JsonBean bean = new JsonBean();
+		ArchiChangeMessage output = new ArchiChangeMessage();
+		if(StringUtils.isBlank(condition.getStartMonth())) {
+			bean.fail("请输入开始时间！");
+			return bean;
+		}
+		if(StringUtils.isBlank(condition.getEndMonth())) {
+			bean.fail("请输入结束时间！");
+			return bean;
+		}
+		List<String>months2 = getDayBetween(condition.getStartMonth(),condition.getEndMonth());
+		if(months2.size()<=0){
+			bean.fail("结束时间小于开始时间！");
+			return bean;
+		}
+		output.setxAxis(months2);
+		final int constantValue = months2.size();
+		List<String>legendList = new ArrayList<String>();
+		List<ArchSessionConnectResourceShow>connectList = new ArrayList<ArchSessionConnectResourceShow>();
+		connectList = archSessionConnectResourceSv.listSessionConnectResource77day(condition);
+		List<ArchSessionConnectResourceShow>connectList2 = new ArrayList<ArchSessionConnectResourceShow>(connectList);       
+		List<ViewSeries>seriesList = new ArrayList<ViewSeries>();
+		List<String>fromSysNameList=new ArrayList<String>();
+		Iterator<ArchSessionConnectResourceShow>iter=connectList.iterator();
+		while(iter.hasNext()){
+			ArchSessionConnectResourceShow outt = iter.next();
+			String fromSysName = outt.getFromSysName();
+			if(!fromSysNameList.contains(fromSysName)){
+				fromSysNameList.add(fromSysName);
+				ViewSeries baseSeries = new ViewSeries();
+				baseSeries.setType("line");
+				String name = fromSysName;
+				baseSeries.setName(name);		
+				legendList.add(name);
+				//给对应的列赋值
+				int[] data = new int[constantValue];
+				int[] a =new int[constantValue];
+				for(int i=0;i<a.length;i++){
+					a[i]=1;
+				}					
+				Iterator<ArchSessionConnectResourceShow>iterator = connectList2.iterator();
+				while(iterator.hasNext()){
+					ArchSessionConnectResourceShow inn = iterator.next();
+					if(inn.getFromSysName().equals(name)) {
+						String SetMonths = inn.getSettMonth().trim();
+						for(int i=0;i<data.length;i++){
+							String newMonth = months2.get(i).trim();
+							String newDay = newMonth.replace("-", "");
+							if(SetMonths.equals(newDay)){
+								if(data[i]==0){
+									data[i]=(int)inn.getTotal();
+								}else{
+									data[i]+=(int)inn.getTotal();
+									a[i]++;
+								}
+								iterator.remove();
+							}
+						}
+					}					
+				}
+				baseSeries.setData(data);
+				seriesList.add(baseSeries);
+			}
+		};
+		output.setLegend(legendList);
+		output.setSeries(seriesList);
+		bean.setData(output);
+		return bean;
+	}
 
 	//根据Type查询静态数据
 	@RequestMapping(path = "/arch/session/selectdbname")

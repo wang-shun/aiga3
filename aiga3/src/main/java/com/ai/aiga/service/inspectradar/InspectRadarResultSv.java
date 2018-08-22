@@ -37,11 +37,11 @@ public class InspectRadarResultSv extends BaseService {
 		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
 		String[] cloumns = {"total_mark","aq_mark","rl_mark","jk_mark","gky_mark","rxky_mark","pz_mark","rz_mark","fc_mark"};
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT to_char(CREATE_TIME,'yyyy-mm-dd') as CREATE_TIME");
+		sql.append("SELECT to_char(CREATE_TIME,'yyyy-mm-dd') as create_date");
 		for(String cloumn :cloumns) {
-			sql.append(", avg("+cloumn+") as "+cloumn);
+			sql.append(", ROUND(avg("+cloumn+"),1) as "+cloumn);
 		}
-		sql.append(" FROM INSPECT_RADAR_RESULT t where sys_id = :sysId  and sysdate-30 <= CREATE_TIME  group by to_char(CREATE_TIME,'yyyy-mm-dd')");
+		sql.append(" FROM INSPECT_RADAR_RESULT  where sys_id = :sysId  and sysdate-30 <= CREATE_TIME  group by to_char(CREATE_TIME,'yyyy-mm-dd')");
 		params.add(new ParameterCondition("sysId", sysId));
 		return inspectRadarResultDao.searchByNativeSQL(sql.toString(),params,HistoryRecord.class);
 	}

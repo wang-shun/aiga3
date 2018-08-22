@@ -9,14 +9,14 @@ import lombok.Data;
 @SuppressWarnings("serial")
 @Data
 public class HistoryRecord implements Serializable{
-	private Date createTime;
-    private String totalMark;
-    private String aqMark;
-    private String rlMark;
-    private String jkMark;
-    private String gkyMark;
-    private String rxkyMark;
-    private String pzMark;
-    private String rzMark;
-    private String fcMark;
+	private String createDate;
+    private float totalMark;
+    private float aqMark;
+    private float rlMark;
+    private float jkMark;
+    private float gkyMark;
+    private float rxkyMark;
+    private float pzMark;
+    private float rzMark;
+    private float fcMark;
 }

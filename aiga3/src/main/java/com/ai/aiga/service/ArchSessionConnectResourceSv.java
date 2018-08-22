@@ -70,5 +70,32 @@ public class ArchSessionConnectResourceSv extends BaseService {
 		nativeSql.append(" order by a.db_name ");
 		return archSessionConnectResourceDao.searchByNativeSQL(nativeSql.toString(), params, ArchSessionConnectResourceShow.class);
 	}
-    
+	
+	public List<ArchSessionConnectResourceShow>listSessionConnectResource77day(ArchSessionConnectResourceParams condition){
+		condition.setStartMonth(condition.getStartMonth().replace("-", ""));
+		condition.setEndMonth(condition.getEndMonth().replace("-", ""));
+		StringBuilder nativeSql = new StringBuilder(
+				" SELECT a.from_sys_name, round(avg(a.total)) as total, a.db_name, substr(a.sett_month, 0, 8) as sett_month" +
+				" FROM aiam.arch_session_connect_resource a where 1=1 " );
+		List<ParameterCondition>params = new ArrayList<ParameterCondition>();
+		if (StringUtils.isNotBlank(condition.getEndMonth())) {
+			nativeSql.append("and substr(a.sett_month,0,8) <= :endMonth ");
+			params.add(new ParameterCondition("endMonth", condition.getEndMonth()));
+		}
+		if (StringUtils.isNotBlank(condition.getStartMonth())) {
+			nativeSql.append("and substr(a.sett_month,0,8) >= :startMonth ");
+			params.add(new ParameterCondition("startMonth", condition.getStartMonth()));
+		}
+		if (StringUtils.isNotBlank(condition.getFromSysName())) {
+			nativeSql.append("and a.from_sys_name = :fromSysName ");
+			params.add(new ParameterCondition("fromSysName", condition.getFromSysName()));
+		}
+		if (StringUtils.isNotBlank(condition.getFromSysName())) {
+			nativeSql.append("and a.db_name = :state ");
+			params.add(new ParameterCondition("state", condition.getState()));
+		}
+		nativeSql.append(" group by a.from_sys_name, a.db_name, substr(a.sett_month, 0, 8) ");
+		nativeSql.append(" order by sett_month ");
+		return archSessionConnectResourceDao.searchByNativeSQL(nativeSql.toString(), params, ArchSessionConnectResourceShow.class);
+	}
 }

@@ -344,40 +344,6 @@ public class ArchTaskMonitoringController {
 //			row.createCell(6).setCellValue(String.valueOf(bean.getChangeChainRatio().replace("null", "")));
 //			row.createCell(7).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
 //		}
-//		for (Object data : map.get(key2)) {
-//			FlowDispatchReport bean = (FlowDispatchReport)data;
-//			HSSFRow row =sheetList.get(2).createRow(++index[2]);
-//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
-//			row.createCell(1).setCellValue(String.valueOf(bean.getAddFlowConnectNum().replace("null", "")));
-//			row.createCell(2).setCellValue(String.valueOf(bean.getTotalFlowConnectNum().replace("null", "")));
-//			row.createCell(3).setCellValue(String.valueOf(bean.getPredayDispatchNum().replace("null", "")));
-//			row.createCell(4).setCellValue(String.valueOf(bean.getDispatchChainRatio().replace("null", "")));
-//			row.createCell(5).setCellValue(String.valueOf(bean.getDealAverageTime().replace("null", "")));
-//			row.createCell(6).setCellValue(String.valueOf(bean.getDealTimeChainRatio().replace("null", "")));
-//			row.createCell(7).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
-//		}
-//		for (Object data : map.get(key3)) {
-//			CacheCloudPlatformReport bean = (CacheCloudPlatformReport)data;
-//			HSSFRow row =sheetList.get(3).createRow(++index[3]);
-//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
-//			row.createCell(1).setCellValue(String.valueOf(bean.getCacheBlockIsZero().replace("null", "")));
-//			row.createCell(2).setCellValue(String.valueOf(bean.getCacheBlockGtTenM().replace("null", "")));
-//			row.createCell(3).setCellValue(String.valueOf(bean.getIncreaseCacheBlockNum().replace("null", "")));
-//			row.createCell(4).setCellValue(String.valueOf(bean.getTotalCacheBlockNum().replace("null", "")));
-//			row.createCell(5).setCellValue(String.valueOf(bean.getChangeChainRatio().replace("null", "")));
-//			row.createCell(6).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
-//		}
-//		for (Object data : map.get(key4)) {
-//			CenterMessageQueueReport bean = (CenterMessageQueueReport)data;
-//			HSSFRow row =sheetList.get(4).createRow(++index[4]);
-//			row.createCell(0).setCellValue(String.valueOf(bean.getKey1().replace("null", "")));
-//			row.createCell(1).setCellValue(String.valueOf(bean.getPredayMqConsumeNum().replace("null", "")));
-//			row.createCell(2).setCellValue(String.valueOf(bean.getChangeNumChainRatio().replace("null", "")));
-//			row.createCell(3).setCellValue(String.valueOf(bean.getMessageConsumeSuccessRate().replace("null", "")));
-//			row.createCell(4).setCellValue(String.valueOf(bean.getSuccessRateChainRatio().replace("null", "")));
-//			row.createCell(5).setCellValue(String.valueOf(bean.getMessageCheckSameRate().replace("null", "")));
-//			row.createCell(6).setCellValue(String.valueOf(bean.getSettMonth().replace("null", "")));
-//		}
 //		return wb;
 //	}
 

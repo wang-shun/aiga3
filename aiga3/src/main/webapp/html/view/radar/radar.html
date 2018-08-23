@@ -1,0 +1,156 @@
+<style type="text/css">
+    .select-label-word {
+        margin-top: 7px;
+        width: 70px;
+    }
+    .sName{
+        width:140px;
+        height:20px;
+        float: left;
+        margin-left:100px;
+        margin-top: 8px;
+        font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", "STHeitiSC-Light", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+        font-size: 14px;
+    }
+    .sValue{
+        width:200px;
+        height:20px;
+        float: left;
+        margin-top: 10px;
+    }
+</style>
+<div class="row" id="Page_radar">
+    <div class="col-md-12">
+        <div class="box box-solid">
+            <div class="box-header" >
+                <h3 class="box-title">选择系统</h3>
+            </div>
+            <div class="box-body" id="JS_selectSysGroup">
+                <div class="col-md-6" style="display: -webkit-inline-box;">
+                    <label class="select-label-word" style="margin-left: 15px;">三级系统:</label>
+                    <select name="sysName" data-url="getSelectList" data-idkey="sysId" data-namekey="name" style="margin-left: 10px;">
+                    </select>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" name="query" style="margin-left: 30px;">查询</button>
+                </div>
+                <!--<div class="col-md-4" style="display: -webkit-inline-box;">-->
+                    <!---->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" >
+        <div class="box" style="height:300px;">
+            <div class="box-header with-border">
+                <h3 class="box-title">系统信息</h3>
+            </div>
+            <div class="box-body" style="height: 100px">
+                <div class="row" id="JS_connectionPo">
+                    <div>
+                        <div class="sName" id="JS_sysName">系统名称：</div>
+                        <div class="sValue" id="JS_systemNameValue"></div>
+                    </div>
+                    <div>
+                        <div class="sName">分层分级：</div>
+                        <div class="sValue" id="JS_levelValue"></div>
+                    </div>
+                    <div>
+                        <div class="sName">所属一级域：</div>
+                        <div class="sValue" id="JS_firstDomainValue"></div>
+                    </div>
+                    <div>
+                        <div class="sName">所属二级域：</div>
+                        <div class="sValue" id="JS_secondDomainValue"></div>
+                    </div>
+                    <div>
+                        <div class="sName">等级信息：</div>
+                        <div class="sValue" id="JS_rankInfo"></div>
+                    </div>
+                    <div>
+                        <div class="sName">系统业务流程图:</div>
+                        <div class="sValue">
+                            <a type="button" class="btn btn-default" name="sysFlowChart" style="width:100px;padding:0px">下载</a>
+                        </div>
+                        <div class="sName">系统架构部署图:</div>
+                        <div class="sValue">
+                            <a type="button" class="btn btn-info" name="sysDeployemntChart" style="width:100px;padding:0px">下载</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" >
+        <div class="box" style="height:300px;">
+            <div class="box-header with-border">
+                <h3 class="box-title">八大军规得分</h3>
+            </div>
+            <div class="box-body">
+                <div  id="JS_eightRadarView" style="width:300px;height:250px;margin:0 auto">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="box" style="height:300px;" id="JS_historyScore">
+            <div class="box-header with-border">
+                <h3 class="box-title">系统得分</h3>
+            </div>
+            <div class="box-body" id="recentScore" style="width:360px;margin:0 auto;">
+                <canvas id="meter" width="320px" height="200px"></canvas>
+            </div>
+            <div class="box-footer" style="margin-top: 195px">
+                <div style="width:160px;margin:0 auto">
+                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" name="historyScore">
+                        系统历史得分曲线
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"  id="Page_hisScore" >
+    <div class="modal-dialog" role="document" style="width:830px;height:500px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">历史得分信息</h4>
+            </div>
+            <!--<div class="modal-body"  id="JS_hisEchartShow" style="width:600px;height:80px;margin:0 auto">-->
+            <!--</div>-->
+            <div class="modal-footer"  id="JS_historyEcharts" style="width:825px;height:300px;margin:0 auto">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="box" id="JS_t" style="height:300px;">
+    <div class="box-header" id="JS_monitorInfoViewThird">
+    </div>
+    <div class="box-body">
+    </div>
+</div>
+
+<script id="TPL_historyScoreShow" type="text/x-handlebars-template">
+    <div class="margin-top-20 col-md-12">
+        <div class="check-inline">
+            <input style="margin-left:40px;" type="checkbox" id="JS_totalMark" name="totalMark" value="totalMark" checked="checked"/><label style="width:45px;">总得分</label>
+            <input style="margin-left:40px;" type="checkbox" id="fcMark" name="fcMark" value="fcMark" checked="checked"/><label style="width:45px;">分层</label>
+            <input style="margin-left:40px;" type="checkbox" id="gkyMark" name="gkyMark" value="gkyMark" checked="checked"/><label style="width:45px;">高可用</label>
+            <input style="margin-left:40px;" type="checkbox" id="rlMark" name="rlMark" value="rlMark" checked="checked"/><label style="width:45px;">容量</label>
+            <input style="margin-left:40px;" type="checkbox" id="rxkyMark" name="rxkyMark" value="rxkyMark" checked="checked"/><label style="width:60px;">柔性可用</label>
+            <br/>
+            <input style="border:0; width:100px" type="text"/>
+            <input style="margin-left:40px;" type="checkbox" id="rzMark" name="rzMark" value="rzMark" checked="checked"/><label style="width:45px;">日志</label>
+            <input style="margin-left:40px;" type="checkbox" id="pzMark" name="pzMark" value="pzMark" checked="checked"/><label style="width:45px;">配置</label>
+            <input style="margin-left:40px;" type="checkbox" id="aqMark" name="aqMark" value="aqMark" checked="checked"/><label style="width:45px;">安全</label>
+            <input style="margin-left:40px;" type="checkbox" id="jkMark" name="jkMark" value="jkMark" checked="checked"/><label style="width:45px;">监控</label>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    seajs.use("script/radar/radar", function(init) {
+        init.init();
+    });
+</script>

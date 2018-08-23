@@ -52,7 +52,7 @@ public class InspectRadarRuleController {
 		} else {
 			bean.fail("未查询到配置文件");
 		}
-		bean.setData(inspectRadarRuleSv.sysList());
+//		bean.setData(inspectRadarRuleSv.sysList());
 		return bean;
 	}
 	

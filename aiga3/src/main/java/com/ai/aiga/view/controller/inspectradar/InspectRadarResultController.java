@@ -11,7 +11,7 @@ import com.ai.aiga.service.inspectradar.InspectRadarResultSv;
 import com.ai.aiga.view.json.base.JsonBean;
 
 @Controller
-@Api(value = "ArchiFirstController", description = "巡检雷达巡检结果相关api")
+@Api(value = "InspectRadarResultController", description = "巡检雷达巡检结果相关api")
 public class InspectRadarResultController {
 	@Autowired
 	private InspectRadarResultSv inspectRadarResultSv;

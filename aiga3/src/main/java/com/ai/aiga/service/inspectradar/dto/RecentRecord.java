@@ -1,12 +1,8 @@
 package com.ai.aiga.service.inspectradar.dto;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
-
 import lombok.Data;
 @Data
-public class RecentRecord implements Serializable{
+public class RecentRecord{
     private Long resultId;
     private Long sysId;
     private String totalMark;

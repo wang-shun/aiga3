@@ -61,6 +61,7 @@ define(function(require, exports, module) {
 			if(cmd){
 				_cmd = cmd;
 			}
+			
 			var sel_form = Page.findId('queryDataForm');	
 			var _dom = Page.findId('numberFluctuationList');
 			XMS.msgbox.show('数据加载中，请稍候...', 'loading');

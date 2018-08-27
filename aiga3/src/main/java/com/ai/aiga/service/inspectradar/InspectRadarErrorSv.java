@@ -1,5 +1,7 @@
 package com.ai.aiga.service.inspectradar;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,12 @@ import com.ai.aiga.service.base.BaseService;
 public class InspectRadarErrorSv extends BaseService {
 	@Autowired
 	private InspectRadarErrorDao inspectRadarErrorDao;
+	
+	public List<InspectRadarError> sysRecentError(Long sysId) {
+		String sql  = "SELECT T.* FROM inspect_radar_error t,(select max(create_time) as create_time from Inspect_radar_error) a where t.sys_id = "+sysId+" and t.create_time = a.create_time;";
+		List<InspectRadarError> bean = inspectRadarErrorDao.searchByNativeSQL(sql,InspectRadarError.class);
+		return bean;
+	}
 	
 	public void save(InspectRadarError inspectRadarError){
 		inspectRadarErrorDao.save(inspectRadarError);

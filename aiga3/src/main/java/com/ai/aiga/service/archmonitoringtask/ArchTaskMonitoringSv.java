@@ -842,30 +842,28 @@ public class ArchTaskMonitoringSv extends BaseService {
 		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
 		String dateQueryEnd = sdf.format(endTime);
 		StringBuilder nativeSql = new StringBuilder(
-				"select cfg_task_id, task_name,count_sum\n" +
-						"  from (                 select cfg_task_id, task_name, sum(count_sum) count_sum\n" +
-						"                   from (select a.cfg_task_id,\n" +
-						"                                b.task_name,\n" +
-						"                                count(1) count_sum\n" +
-						"                           from aiam.task_log a, aiam.cfg_task b\n" +
-						"                          where a.cfg_task_id = b.cfg_task_id\n" +
-						"                            and results not like '%uccess%'\n" +
-						"                            and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
-						"                            and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
-						"                          group by a.cfg_task_id, b.task_name\n" +
-						"                         union all\n" +
-						"                         select a.cfg_task_id,\n" +
-						"                                b.task_name,\n" +
-						"                                count(1) count_sum\n" +
-						"                           from aiam.task_log a, aiam.cfg_task b\n" +
-						"                          where a.cfg_task_id = b.cfg_task_id\n" +
-						"                            and results is null\n" +
-						"                            and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
-						"                            and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
-						"                          group by a.cfg_task_id, b.task_name)\n" +
-						"                  group by cfg_task_id, task_name\n" +
-						"                  order by count_sum desc\n" +
-						")\n" +
+
+				"select *\n" +
+						"  from (select cfg_task_id, task_name, sum(count_sum) count_sum\n" +
+						"          from (select a.cfg_task_id, b.task_name, count(1) count_sum\n" +
+						"                  from aiam.task_log a, aiam.cfg_task b\n" +
+						"                 where a.cfg_task_id = b.cfg_task_id\n" +
+						"                   and to_char(start_date, 'yyyy-mm-dd') between :endDate and\n" +
+						"                       :startDate\n" +
+						"                   and a.state = 'F'\n" +
+						"                   and results not like '%uccess%'\n" +
+						"                 group by a.cfg_task_id, b.task_name\n" +
+						"                union all\n" +
+						"                select a.cfg_task_id, b.task_name, count(1) count_sum\n" +
+						"                  from aiam.task_log a, aiam.cfg_task b\n" +
+						"                 where a.cfg_task_id = b.cfg_task_id\n" +
+						"                   and to_char(start_date, 'yyyy-mm-dd') between :endDate and\n" +
+						"                       :startDate\n" +
+						"                   and a.state = 'X'\n" +
+						"                   and results not like '%uccess%'\n" +
+						"                 group by a.cfg_task_id, b.task_name)\n" +
+						"         group by cfg_task_id, task_name\n" +
+						"         order by 3 desc)\n" +
 						" where rownum <= 10"
 
 		);
@@ -884,52 +882,61 @@ public class ArchTaskMonitoringSv extends BaseService {
 		long endTime = sdf.parse(dateQueryStart).getTime()-(1000 * 60 * 60 * 24*6);
 		String dateQueryEnd = sdf.format(endTime);
 		StringBuilder nativeSql = new StringBuilder(
-				"select cfg_task_id, task_name,fail_rate\n" +
-						"  from (select cfg_task_id,task_name,\n" +
-						"               sum(fail_sum) fail_sum,\n" +
-						"               sum(total_sum) total_sum,\n" +
-						"               decode(sum(total_sum),0,0,round(sum(fail_sum) / sum(total_sum), 2) * 100) fail_rate\n" +
-						"          from (select a.cfg_task_id,b.task_name, 0 fail_sum, count(1) total_sum\n" +
-						"                  from aiam.task_log a,aiam.cfg_task b\n" +
-						"                 where a.cfg_task_id=b.cfg_task_id\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') >= :endDate\n" +
-						"                   and to_char(start_date, 'YYYY-MM-DD') <= :startDate\n" +
-						"                   and a.cfg_task_id in (select cfg_task_id\n" +
-						"                                         from aiam.task_log\n" +
-						"                                        where results not like '%uccess%'\n" +
-						"                                          and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
-						"                                          and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
-						"                                        group by cfg_task_id\n" +
-						"                                       union\n" +
-						"                                       select cfg_task_id\n" +
-						"                                         from aiam.task_log\n" +
-						"                                        where results is null\n" +
-						"                                          and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
-						"                                          and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
-						"                                        group by cfg_task_id)\n" +
-						"                 group by a.cfg_task_id,b.task_name\n" +
-						"                union all\n" +
-						"                select cfg_task_id,task_name, sum(fail_sum) fail_sum, 0 total_sum\n" +
-						"                  from (select a.cfg_task_id,b.task_name, count(1) fail_sum\n" +
-						"                          from aiam.task_log a,aiam.cfg_task b\n" +
-						"                         where a.cfg_task_id=b.cfg_task_id\n" +
+						"select cfg_task_id, task_name, fail_rate\n" +
+						"  from (select cfg_task_id,\n" +
+						"               task_name,\n" +
+						"               decode(sum(count_sum),0,0,round(sum(fail_sum) / sum(count_sum), 2)) * 100 fail_rate\n" +
+						"          from (select a.cfg_task_id,\n" +
+						"                       b.task_name,\n" +
+						"                       count(1) count_sum,\n" +
+						"                       0 fail_sum\n" +
+						"                  from aiam.task_log a, aiam.cfg_task b\n" +
+						"                 where a.cfg_task_id = b.cfg_task_id\n" +
+						"                   and a.cfg_task_id in\n" +
+						"                       (select a.cfg_task_id\n" +
+						"                          from aiam.task_log a, aiam.cfg_task b\n" +
+						"                         where a.cfg_task_id = b.cfg_task_id\n" +
+						"                           and to_char(start_date, 'yyyymmdd') between\n" +
+						"                               '20180620' and '20180626'\n" +
+						"                           and a.state = 'F'\n" +
 						"                           and results not like '%uccess%'\n" +
-						"                           and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
-						"                           and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
-						"                         group by a.cfg_task_id,b.task_name\n" +
+						"                         group by a.cfg_task_id, b.task_name\n" +
+						"                        union\n" +
+						"                        select a.cfg_task_id\n" +
+						"                          from aiam.task_log a, aiam.cfg_task b\n" +
+						"                         where a.cfg_task_id = b.cfg_task_id\n" +
+						"                           and to_char(start_date, 'yyyymmdd') between\n" +
+						"                               '20180620' and '20180626'\n" +
+						"                           and a.state = 'X'\n" +
+						"                           and results not like '%uccess%'\n" +
+						"                         group by a.cfg_task_id, b.task_name)\n" +
+						"                 group by a.cfg_task_id, b.task_name\n" +
+						"                union all\n" +
+						"                select cfg_task_id,\n" +
+						"                       task_name,\n" +
+						"                       0 count_sum,\n" +
+						"                       sum(count_sum) fail_sum\n" +
+						"                  from (select a.cfg_task_id, b.task_name, count(1) count_sum\n" +
+						"                          from aiam.task_log a, aiam.cfg_task b\n" +
+						"                         where a.cfg_task_id = b.cfg_task_id\n" +
+						"                           and to_char(start_date, 'yyyy-mm-dd') between\n" +
+						"                               :endDate and :startDate\n" +
+						"                           and a.state = 'F'\n" +
+						"                           and results not like '%uccess%'\n" +
+						"                         group by a.cfg_task_id, b.task_name\n" +
 						"                        union all\n" +
-						"                        select a.cfg_task_id,b.task_name, count(1) fail_sum\n" +
-						"                          from aiam.task_log a,aiam.cfg_task b\n" +
-						"                         where a.cfg_task_id=b.cfg_task_id\n" +
-						"                           and results is null\n" +
-						"                           and to_char(start_date, 'YYYY-MM-DD') >=:endDate\n" +
-						"                           and to_char(start_date, 'YYYY-MM-DD') <=:startDate\n" +
-						"                         group by a.cfg_task_id,b.task_name)\n" +
-						"                 group by cfg_task_id,task_name)\n" +
-						"         group by cfg_task_id,task_name\n" +
-						"         order by fail_rate desc)\n" +
+						"                        select a.cfg_task_id, b.task_name, count(1) count_sum\n" +
+						"                          from aiam.task_log a, aiam.cfg_task b\n" +
+						"                         where a.cfg_task_id = b.cfg_task_id\n" +
+						"                           and to_char(start_date, 'yyyy-mm-dd') between\n" +
+						"                               :endDate and :startDate\n" +
+						"                           and a.state = 'X'\n" +
+						"                           and results not like '%uccess%'\n" +
+						"                         group by a.cfg_task_id, b.task_name)\n" +
+						"                 group by cfg_task_id, task_name)\n" +
+						"         group by cfg_task_id, task_name\n" +
+						"         order by 3 desc)\n" +
 						" where rownum <= 10"
-
 		);
 		params.add(new ParameterCondition("startDate", dateQueryStart));
 		params.add(new ParameterCondition("endDate", dateQueryEnd));

@@ -419,6 +419,7 @@ public class FouraController {
         return result;
     }
     
+    
 	//3 应用实体间关系(如：从帐号-角色/从账号-组织)变更接口
     @RequestMapping(path = "/archi/assess4A/UpdateFouraIntfAcctAuthorRelServices",produces="text/xml")
     public @ResponseBody String UpdateFouraIntfAcctAuthorRelServices(HttpServletRequest request, HttpServletResponse response) throws Exception{

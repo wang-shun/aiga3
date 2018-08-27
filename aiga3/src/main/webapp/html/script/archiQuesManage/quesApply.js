@@ -124,7 +124,9 @@ define(function(require, exports, module) {
 					for(var i=0;i<cache.datas.length;i++){
 						if(cache.datas[i].idThird==idThird){
 							var nameValue = cache.datas[i].name;
-							_dom.find("[name='belongProject']").val(nameValue);
+							var nameValue2 = cache.datas[i].idThird;
+							_dom.find("[name='belongProject2']").val(nameValue);
+							_dom.find("[name='belongProject']").val(nameValue2);
 							break;
 						}
 					};					

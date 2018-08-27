@@ -351,7 +351,23 @@ public class FouraController {
         	if(dealwith.equalsIgnoreCase("add")){
         		add_role_list = rolesv.findByName(role.getName());
         		if(add_role_list.size()>0){
-        			BusinessException.throwBusinessException(ErrorCode.Parameter_exists,"该角色名称已存在,请修改名称后再次提交!");
+        	        //DocumentHelper提供了创建Document对象的方法
+        	        org.dom4j.Document document = DocumentHelper.createDocument();
+        	        //添加根节点信息
+        	        Element rootElement = document.addElement("FOURAINTFINFO");
+        	        //这里可以继续添加子节点，还可以指定内容
+        	        Element valueelement = rootElement.addElement("RETURN_VALUE");
+        	        //只有在新增add的时候，才返回实体ID;
+        	        Element valueIdelementId = null;
+    	        	valueIdelementId = rootElement.addElement("RETURN_VALUE_ID"); 
+	        		valueIdelementId.setText(String.valueOf(add_role_list.get(0).getRoleId()));
+        	        Element descelement = rootElement.addElement("ERR_DESC");
+    	        	valueelement.setText("same name error exception error-code-00001");
+        	        descelement.setText("error");
+        	        //将document文档对象直接转换成字符串输出
+        	        String result = document.asXML();
+        	        System.out.println(result); 
+        	        return result;
         		}
         		rolesv.saveFouraRole(role);
         		add_role_list = rolesv.findByName(role.getName());
@@ -371,7 +387,23 @@ public class FouraController {
         	if(dealwith.equalsIgnoreCase("add")){
         		add_org_list = organizesv.findByOrganizeName(orginaze.getOrganizeName());
         		if(add_org_list.size()>0){
-        			BusinessException.throwBusinessException(ErrorCode.Parameter_exists,"该组织名称已存在,请修改名称后再次提交!");
+        	        //DocumentHelper提供了创建Document对象的方法
+        	        org.dom4j.Document document = DocumentHelper.createDocument();
+        	        //添加根节点信息
+        	        Element rootElement = document.addElement("FOURAINTFINFO");
+        	        //这里可以继续添加子节点，还可以指定内容
+        	        Element valueelement = rootElement.addElement("RETURN_VALUE");
+        	        //只有在新增add的时候，才返回实体ID;
+        	        Element valueIdelementId = null;
+    	        	valueIdelementId = rootElement.addElement("RETURN_VALUE_ID"); 
+	        		valueIdelementId.setText(String.valueOf(add_org_list.get(0).getOrganizeId()));
+        	        Element descelement = rootElement.addElement("ERR_DESC");
+    	        	valueelement.setText("same name error exception error-code-00001");
+        	        descelement.setText("error");
+        	        //将document文档对象直接转换成字符串输出
+        	        String result = document.asXML();
+        	        System.out.println(result); 
+        	        return result;
         		}
         		organizesv.saveFouraOrginaze(orginaze);
         		add_org_list = organizesv.findByOrganizeName(orginaze.getOrganizeName());

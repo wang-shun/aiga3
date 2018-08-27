@@ -16,7 +16,7 @@ define(function(require, exports, module) {
     //流程图、部署图下载
     srvMap.add("getFileId", "", "webservice/radar/sysFileInfo");
     srvMap.add("downloadFile","", "sys/changeplanonile/downloadFileBatch");
-    //系统recent综合评分
+    //系统得分
     srvMap.add("getRecentRecord", "", "webservice/radar/recentRecord");
     //历史得分信息弹出模态框，折线图
     srvMap.add("getHistoryRecord", "", "webservice/radar/historyRecord");
@@ -46,7 +46,7 @@ define(function(require, exports, module) {
             sysGroup.find("[name='query']").off('click').on('click', function () {
                 var sysId = sysGroup.find("[name='sysName']").val();
                 if (sysId==""){
-                    XMS.msgbox.show('查询内容不能为空！', 'error', 2000);
+                    XMS.msgbox.show('查询内容为空或Id不存在！', 'error', 2000);
                     return;
                 }
                 //系统信息
@@ -69,72 +69,65 @@ define(function(require, exports, module) {
 
                 if (status) {
 
+                    var totalMark = 0;
+                    var createDate = "****-**-**";
+                    var rlMark = 0;
+                    var gkyMark = 0;
+                    var rxkyMark = 0;
+                    var pzMark = 0;
+                    var rzMark = 0;
+                    var aqMark = 0;
+                    var fcMark = 0;
+                    var jkMark = 0;
+
                     if(json.data==null){
-                        XMS.msgbox.show('查询得分数据为空！', 'error', 3000);
-                        // createDate = "****-**-**";
-                        // totalMark = 0;
-                        // rlMark = 0;
-                        // gkyMark = 0;
-                        // rxkyMark = 0;
-                        // pzMark = 0;
-                        // aqMark = 0;
-                        // fcMark = 0;
-                        // jkMark = 0;
-                        return;
+                        _showRadar();
+                        _showRencentScore();
+                        return ;
                     }
 
-                    //加载雷达图
-                    if(json.data.totalMark==null){
-                        totalMark = 0;
-                    }else{
+                    //雷达图数据
+                    if(json.data.totalMark!=null){
                         totalMark = json.data.totalMark;
                     }
-                    if(json.data.createDate==null){
-                        createDate = "****-**-**";
-                    }else{
+                    if(json.data.createDate!=null){
                         createDate = json.data.createDate;
                     }
-                    if(json.data.rlMark==null){
-                        rlMark = 0;
-                    }else{
+                    if(json.data.rlMark!=null){
                         rlMark = json.data.rlMark;
                     }
-                    if(json.data.gkyMark==null){
-                        gkyMark = 0;
-                    }else{
+                    if(json.data.gkyMark!=null){
                         gkyMark = json.data.gkyMark;
                     }
-                    if(json.data.rxkyMark==null){
-                        rxkyMark = 0;
-                    }else{
+                    if(json.data.rxkyMark!=null){
                         rxkyMark = json.data.rxkyMark;
                     }
-                    if(json.data.pzMark==null){
-                        pzMark = 0;
-                    }else{
+                    if(json.data.pzMark!=null){
                         pzMark = json.data.pzMark;
                     }
-                    if(json.data.rzMark==null){
-                        rzMark = 0;
-                    }else{
+                    if(json.data.rzMark!=null){
                         rzMark = json.data.rzMark;
                     }
-                    if(json.data.aqMark==null){
-                        aqMark = 0;
-                    }else{
+                    if(json.data.aqMark!=null){
                         aqMark = json.data.aqMark;
                     }
-                    if(json.data.fcMark==null){
-                        fcMark = 0;
-                    }else{
+                    if(json.data.fcMark!=null){
                         fcMark = json.data.fcMark;
                     }
-                    if(json.data.jkMark==null){
-                        jkMark = 0;
-                    }else{
+                    if(json.data.jkMark!=null){
                         jkMark = json.data.jkMark;
                     }
 
+                    _showRadar();
+
+                    _showRencentScore();
+
+                }else{
+                    XMS.msgbox.show('返回接口信息失败！', 'error', 2000);
+                }
+
+                //雷达图
+                function _showRadar() {
                     var myChart = echarts.init(document.getElementById("JS_eightRadarView"));
                     option = {
                         backgroundColor: 'white',//背景色
@@ -174,8 +167,10 @@ define(function(require, exports, module) {
                         }]
                     };
                     myChart.setOption(option);
-                    // console.log("八大军规雷达图加载完毕");
+                }
 
+                //系统评分图
+                function _showRencentScore() {
                     Meter.setOptions({
                         element: 'meter',
                         centerPoint: {
@@ -198,7 +193,6 @@ define(function(require, exports, module) {
                             }]
                         }
                     }).init();
-                    // console.log("系统评分图加载完毕");
                 }
             });
 
@@ -206,15 +200,16 @@ define(function(require, exports, module) {
 
         // 系统信息
         _getSysInfo: function (sysId) {
-            var self = this;
+
             XMS.msgbox.show('数据加载中，请稍候...', 'loading');
 
             Rose.ajax.postJson(srvMap.get('getSystemInfo'), "onlysysId="+sysId, function (json, status) {
 
                 if (status) {
                     window.XMS.msgbox.hide();
-                    if(typeof(json.data.content[0])=='undefined'){
-                        XMS.msgbox.show('系统名称不存在！', 'error', 2000);
+                    if(json.data==null){
+                        //系统信息设为空
+                        _nullSysInfo();
                         return;
                     }
                     if(json.data.content.length>1){
@@ -227,37 +222,56 @@ define(function(require, exports, module) {
                     var belongLevel ;
                     var rankInfo ;
                     var tempStr = "信息待维护";
-                    if((firName = json.data.content[0].firName)==null){
+                    if(json.data.content[0].firName==null){
                         firName = tempStr;
                         _sysNullFontChange("JS_firstDomainValue");
+                    }else{
+                        firName = json.data.content[0].firName;
                     }
-                    if((secName = json.data.content[0].secName)==null){
+                    if(json.data.content[0].secName==null){
                         secName = tempStr;
                         _sysNullFontChange("JS_secondDomainValue");
+                    }else{
+                        secName = json.data.content[0].secName;
                     }
-                    if((name = json.data.content[0].name)==null){
+                    if(json.data.content[0].name==null){
                         name = tempStr;
                         _sysNullFontChange("JS_systemNameValue");
+                    }else{
+                        name = json.data.content[0].name;
                     }
-                    if((belongLevel = json.data.content[0].belongLevel)==null){
+                    if(json.data.content[0].belongLevel==null){
                         belongLevel = tempStr;
                         _sysNullFontChange("JS_levelValue");
+                    }else{
+                        belongLevel = json.data.content[0].belongLevel;
                     }
-                    if((rankInfo = json.data.content[0].rankInfo)==null){
+                    if(json.data.content[0].rankInfo==null){
                         rankInfo = tempStr;
                         _sysNullFontChange("JS_rankInfo");
+                    }else{
+                        rankInfo = json.data.content[0].rankInfo;
                     }
                     document.getElementById("JS_systemNameValue").innerText = name;
                     document.getElementById("JS_levelValue").innerText = belongLevel;
                     document.getElementById("JS_firstDomainValue").innerText = firName;
                     document.getElementById("JS_secondDomainValue").innerText = secName;
                     document.getElementById("JS_rankInfo").innerText = rankInfo;
-                    // console.log("系统信息加载完成")
                 }
+
                 //设置为空项字体变红
                 function _sysNullFontChange(fontId) {
                     var nullView = document.getElementById(fontId);
                     nullView.style.color="red";
+                }
+
+                //系统信息设为不显示
+                function _nullSysInfo() {
+                    document.getElementById("JS_systemNameValue").innerText = "";
+                    document.getElementById("JS_levelValue").innerText = "";
+                    document.getElementById("JS_firstDomainValue").innerText = "";
+                    document.getElementById("JS_secondDomainValue").innerText = "";
+                    document.getElementById("JS_rankInfo").innerText = "";
                 }
 
         });
@@ -291,10 +305,14 @@ define(function(require, exports, module) {
             Rose.ajax.postJson(srvMap.get('getFileId'), "sysId="+sysId, function (json, status) {
                 if (status) {
                     window.XMS.msgbox.hide();
+                    if(json.data==null){
+                        XMS.msgbox.show('下载图片Id返回为空！', 'error', 2000);
+                        return;
+                    }
                     processFileId = json.data.processFile;
                     deployFileId = json.data.deployFile;
                 }else{
-                    XMS.msgbox.show('getFileId接口返回失败！', 'error', 2000);
+                    XMS.msgbox.show('文件接口返回失败！', 'error', 2000);
                 }
             });
 
@@ -492,7 +510,7 @@ define(function(require, exports, module) {
                         //         }
                         // });
                     }else{
-                        XMS.msgbox.show('HistoryRecord接口返回失败！', 'error', 2000);
+                        XMS.msgbox.show('历史得分接口返回失败！', 'error', 2000);
                     }
                 });
             });
